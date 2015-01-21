@@ -399,6 +399,7 @@
     <Compile Include="Areas\Api\Models\Template.cs" />
     <Compile Include="Areas\Api\Models\TemplatePage.cs" />
     <Compile Include="Areas\Api\Models\Widget.cs" />
+    <Compile Include="Areas\Api\Controllers\PaperSheetBaseController.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
@@ -649,6 +650,9 @@
     </Content>
     <Content Include="Content\less\Products.css">
       <DependentUpon>Products.less</DependentUpon>
+    </Content>
+    <Content Include="Content\less\Store.css">
+      <DependentUpon>Store.less</DependentUpon>
     </Content>
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\jquery-ui.css" />
@@ -1449,6 +1453,13 @@
     <Content Include="Areas\Settings\Views\Home\PhraseLibrary.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_EditJobTitlePhraseLibrary.cshtml" />
     <Content Include="Content\less\Store.less" />
+    <Content Include="Content\less\Store.css.map">
+      <DependentUpon>Store.css</DependentUpon>
+    </Content>
+    <Content Include="Content\less\MainSite.css.map">
+      <DependentUpon>MainSite.css</DependentUpon>
+    </Content>
+    <Content Include="Areas\Stores\Views\Stores\_StoreProductCategoryDialog.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
@@ -2624,6 +2635,7 @@
     <Folder Include="Areas\Api\Views\Category\" />
     <Folder Include="Areas\Api\Views\CompanyContact\" />
     <Folder Include="Areas\Api\Views\CompanyProduct\" />
+    <Folder Include="Areas\Api\Views\PaperSheetBaseApi\" />
     <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
     <Folder Include="Areas\Products\Models\" />

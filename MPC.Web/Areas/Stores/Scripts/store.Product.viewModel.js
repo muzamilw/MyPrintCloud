@@ -23,6 +23,21 @@
                     states = ko.observableArray([]),
                     // Suppliers
                     suppliers = ko.observableArray([]),
+                     // Product Categories
+                    productCategories = ko.observableArray([]),
+                    // Parent Product Categories
+                    parentProductCategories = ko.computed(function () {
+                        if (!productCategories) {
+                            return [];
+                        }
+
+                        return productCategories.filter(function (productCategory) {
+                            //if (productCategory.parentCategoryId() == undefined) {
+                            //    return productCategory;
+                            //}
+                            return !productCategory.parentCategoryId;
+                        });
+                    }),
                     //New Added Products
                     newAddedProducts = ko.observableArray([]),
                     //Editted Products
@@ -190,7 +205,7 @@
                             newAddedProducts.remove(item);
                         }
                         //#endregion
-                       
+
                     });
                     confirmation.show();
                 },
@@ -450,6 +465,17 @@
                     ko.utils.arrayPushAll(suppliers(), itemsList);
                     suppliers.valueHasMutated();
                 },
+                // Map Product Categories
+                mapProductCategories = function (data) {
+                    var itemsList = [];
+                    _.each(data, function (item) {
+                        itemsList.push(storeProductModel.ProductCategory.Create(item));
+                    });
+
+                    // Push to Original Array
+                    ko.utils.arrayPushAll(productCategories(), itemsList);
+                    productCategories.valueHasMutated();
+                },
                 // Set Item Price Matrices to Current Item against selected Flag
                 setItemPriceMatricesToItem = function (itemPriceMatrices) {
                     if (!itemPriceMatrices || itemPriceMatrices.length === 0) {
@@ -484,6 +510,9 @@
 
                                 // Map Suppliers
                                 mapSuppliers(data.Suppliers);
+
+                                // Map Product Categories
+                                mapProductCategories(data.ProductCategories);
 
                                 // Assign countries & states to StateTaxConstructorParam
                                 itemStateTaxConstructorParams.countries = countries();
@@ -650,9 +679,9 @@
                         selectedProduct(data);
                     }
                 },
-                addNewAddedStoreProductId = function() {
-                        newAddedStoreProductId = newAddedStoreProductId - 1;
-                    },
+                addNewAddedStoreProductId = function () {
+                    newAddedStoreProductId = newAddedStoreProductId - 1;
+                },
                 saveProduct = function () {
                     //#region New Product Saving
                     if (selectedProduct().id() == undefined || selectedProduct().id() == 0) {
@@ -715,22 +744,22 @@
                     var result = false;
                     _.each(edittedProducts(), function (product) {
                         if (product.id() == selectedProduct().id()) {
-                            result= true;
+                            result = true;
                         }
                     });
                     return result;
                 },
                 //Reset Observables
-                resetObservables = function() {
-                        products.removeAll();
-                        edittedProducts.removeAll();
-                        newAddedProducts.removeAll();
-                        deletedproducts.removeAll();
+                resetObservables = function () {
+                    products.removeAll();
+                    edittedProducts.removeAll();
+                    newAddedProducts.removeAll();
+                    deletedproducts.removeAll();
                     isProductDetailsVisible(false);
                 },
                 //#region Maintaining Byte Arrays Function
                 //Product Category Thumbnail Files Loaded Callback
-                    
+
                     storeProductThumbnailFileCallback = function (file, data) {
                         selectedProduct().storeProductThumbnailFileBinary(data);
                         selectedProduct().storeProductThumbnailFileName(file.name);
@@ -738,19 +767,19 @@
                     fileCallback = function (file, data) {
                         uploadMultipleFiles(file, data);
                     },
-                    
+
                     storeProductPageBannerFileCallback = function (file, data) {
                         selectedProduct().storeProductPageBannerFileBinary(data);
                         selectedProduct().storeProductPageBannerFileName(file.name);
                     },
-                    
+
                     storeProductGridImageLayoutFileCallback = function (file, data) {
                         selectedProduct().storeProductGridImageLayoutFileBinary(data);
                         selectedProduct().storeProductGridImageLayoutFileName(file.name);
                     },
 
                     uploadMultipleFiles = function (file, data) {
-                        
+
                         if (selectedProduct().file1() == undefined) {
                             selectedProduct().file1(data);
                             selectedProduct().file1Name(file.name);
@@ -777,7 +806,7 @@
                             return;
                         }
                     },
-                    removeAllFilesData= function() {
+                    removeAllFilesData = function () {
                         selectedProduct().file1(undefined);
                         selectedProduct().file2(undefined);
                         selectedProduct().file3(undefined);
@@ -785,6 +814,81 @@
                         selectedProduct().file5(undefined);
                     },
                 //#endregion
+                    //#region  Product Categories
+                    //Get Category Child List Items
+                    getChildCategories = function (id, event) {
+                        dataservice.getProductCategoryChilds({
+                            id: id,
+                        }, {
+                            success: function (data) {
+                                if (data.ProductCategories != null) {
+                                    _.each(data.ProductCategories, function (productCategory) {
+                                        productCategory.ParentCategoryId = id;
+                                        var category = storeProductModel.ProductCategory.Create(productCategory);
+                                        if (selectedProduct()) {
+                                            var productCategoryItem = selectedProduct().productCategoryItems.find(function (pCatItem) {
+                                                return pCatItem.categoryId() === category.id;
+                                            });
+
+                                            if (productCategoryItem) {
+                                                category.isSelected(true);
+                                            }
+                                        }
+                                        productCategories.push(category);
+                                        ist.stores.view.appendChildCategory(event, category);
+                                    });
+                                }
+                            },
+                            error: function (response) {
+                                isLoadingStores(false);
+                                toastr.error("Error: Failed To load Categories " + response);
+                            }
+                        });
+                    },
+                     // open Product Category Dialog
+                    openProductCategoryDialog = function () {
+                        ist.stores.view.showProductCategoryDialog();
+                    },
+                    // open Product Category Dialog
+                    closeProductCategoryDialog = function () {
+                        ist.stores.view.hideProductCategoryDialog();
+                    },
+                    // Toggle Child Categories
+                    toggleChildCategories = function (data, event) {
+                        // If Child Categories exist then don't send call
+                        if (ist.stores.view.toggleChildCategories(event)) {
+                            return;
+                        }
+                        var categoryId = ist.stores.view.getCategoryIdFromElement(event);
+                        getChildCategories(categoryId, event);
+                    },
+                    // Update Product Categories to Selected Product
+                    updateProductCategories = function () {
+                        selectedProduct().updateProductCategoryItems(productCategories());
+                        ist.stores.view.hideProductCategoryDialog();
+                    },
+                    // update Checked state for category
+                    updateCheckedStateForCategory = function (data, event) {
+                        var categoryId = ist.stores.view.getCategoryIdFromElement(event);
+                        // get category by id
+                        var productCategory = productCategories.find(function (pcat) {
+                            return pcat.id === categoryId;
+                        });
+
+                        if (!productCategory) {
+                            return false;
+                        }
+
+                        if ($(event.target).is(':checked')) {
+                            productCategory.isSelected(true);
+                        }
+                        else {
+                            productCategory.isSelected(false);
+                        }
+
+                        return true;
+                    },
+                    //#endregion
                 //#endregion
                 //#region Initialize
 
@@ -825,6 +929,8 @@
                     costCentres: costCentres,
                     sectionFlags: sectionFlags,
                     suppliers: suppliers,
+                    parentProductCategories: parentProductCategories,
+                    productCategories: productCategories,
                     //#endregion Observables
                     //#region ObservableArrays Of client side list for one click save of store
                     newAddedStoreProductId: newAddedStoreProductId,
@@ -835,7 +941,7 @@
                     resetObservables: resetObservables,
                     fileCallback: fileCallback,
                     storeProductThumbnailFileCallback: storeProductThumbnailFileCallback,
-                    storeProductPageBannerFileCallback: storeProductPageBannerFileCallback ,
+                    storeProductPageBannerFileCallback: storeProductPageBannerFileCallback,
                     storeProductGridImageLayoutFileCallback: storeProductGridImageLayoutFileCallback,
                     removeAllFilesData: removeAllFilesData,
                     //#endregion
@@ -864,7 +970,13 @@
                     openStockItemDialog: openStockItemDialog,
                     closeStockItemDialog: closeStockItemDialog,
                     openItemAddonCostCentreDialog: openItemAddonCostCentreDialog,
-                    closeItemAddonCostCentreDialog: closeItemAddonCostCentreDialog
+                    closeItemAddonCostCentreDialog: closeItemAddonCostCentreDialog,
+                    getChildCategories: getChildCategories,
+                    openProductCategoryDialog: openProductCategoryDialog,
+                    closeProductCategoryDialog: closeProductCategoryDialog,
+                    toggleChildCategories: toggleChildCategories,
+                    updateProductCategories: updateProductCategories,
+                    updateCheckedStateForCategory: updateCheckedStateForCategory
                     // #endregion Utility Methods
                 };
             })()

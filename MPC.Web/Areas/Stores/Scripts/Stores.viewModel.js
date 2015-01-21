@@ -168,12 +168,12 @@ define("stores/stores.viewModel",
                         });
                     },
                      //Store Image Files Loaded Callback
-                    storeImageFilesLoadedCallback = function(file, data) {
+                    storeImageFilesLoadedCallback = function (file, data) {
                         selectedStore().image(data);
                         selectedStore().storeImageName(file.name);
                         //selectedProductCategoryForEditting().fileType(data.imageType);
                     },
-                //store Backgroud Image Upload Callback
+                    //store Backgroud Image Upload Callback
                      storeBackgroudImageUploadCallback = function (file, data) {
                          selectedStore().storeBackgroudImageImageSource(data);
                          selectedStore().storeBackgroudImageFileName(file.name);
@@ -415,10 +415,10 @@ define("stores/stores.viewModel",
                     onSaveCompanyCMYKColor = function () {
                         if (doBeforeSaveCompanyCMYKColor() && isSavingNew() == true) {
                             selectedStore().companyCMYKColors.splice(0, 0, selectedCompanyCMYKColor());
-                            
+                            view.hideCompanyCMYKColorDialog();
+                            isSavingNew(false);
                         }
-                        view.hideCompanyCMYKColorDialog();
-                        isSavingNew(false);
+
                     },
                     // #endregion ____________ C O M P A N Y    C M Y K   C O L O R  ___________________ 
 
@@ -1284,7 +1284,7 @@ define("stores/stores.viewModel",
                         selectedProductCategoryForEditting(productCategory);
 
                         isSavingNewProductCategory(true);
-                        view.showProductCategoryDialog();
+                        view.showStoreProductCategoryDialog();
                     },
                     //Delete Product Category
                     onDeleteProductCategory = function (productCategory) {
@@ -1323,7 +1323,7 @@ define("stores/stores.viewModel",
                                     if (data != null) {
                                         selectedProductCategoryForEditting(model.ProductCategory.Create(data));
                                         isSavingNewProductCategory(false);
-                                        view.showProductCategoryDialog();
+                                        view.showStoreProductCategoryDialog();
                                     }
                                     isLoadingStores(false);
                                 },
@@ -1353,7 +1353,7 @@ define("stores/stores.viewModel",
                                     if (data != null) {
                                         selectedProductCategoryForEditting(model.ProductCategory.Create(data));
                                         isSavingNewProductCategory(false);
-                                        view.showProductCategoryDialog();
+                                        view.showStoreProductCategoryDialog();
                                     }
                                     isLoadingStores(false);
                                 },
@@ -1375,12 +1375,12 @@ define("stores/stores.viewModel",
                         });
                         if (result != undefined) {
                             selectedProductCategoryForEditting(result);
-                            view.showProductCategoryDialog();
+                            view.showStoreProductCategoryDialog();
                         }
                     },
                     //On Close Product Category
                     onCloseProductCategory = function () {
-                        view.hideProductCategoryDialog();
+                        view.hideStoreProductCategoryDialog();
                         //resetProductCategoryCounter();
                         isSavingNewProductCategory(false);
                     },
@@ -1392,6 +1392,26 @@ define("stores/stores.viewModel",
                             flag = false;
                         }
                         return flag;
+                    },
+                    onSaveStoreProductCategory = function () {
+                        if (doBeforeSaveProductCategory()) {
+                            //dataService.saveStoreProductCategory()
+                            if (selectedProductCategoryForEditting().productCategoryId() === undefined) {
+                                //selectedProductCategoryForEditting().productCategoryId(data.ProductCategoryId);
+                                //Check Is New and Parent 
+                                if (isSavingNewProductCategory() === true && selectedProductCategoryForEditting().parentCategoryId() == undefined) {
+                                    $("#nestable2").append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
+                                }
+                                //Check Is New and Child
+                                if (isSavingNewProductCategory() === true) {
+
+                                }
+                            }
+                            //Check Is Updating and Parent is Changing
+                            if (COND) {
+
+                            }
+                        }
                     },
                     //On Save Product Category
                     onSaveProductCategory = function () {
@@ -1436,7 +1456,8 @@ define("stores/stores.viewModel",
                                             }
                                         });
                                     }
-                                } else if (selectedProductCategoryForEditting().productCategoryId() != undefined && selectedProductCategoryForEditting().productCategoryId() < 0) {
+                                }
+                                else if (selectedProductCategoryForEditting().productCategoryId() != undefined && selectedProductCategoryForEditting().productCategoryId() < 0) {
                                     _.each(newProductCategories(), function (item) {
                                         if (item.productCategoryId() == selectedProductCategoryForEditting().productCategoryId()) {
                                             newProductCategories.remove(item);
@@ -1446,7 +1467,7 @@ define("stores/stores.viewModel",
                                     });
                                 }
                             }
-                            view.hideProductCategoryDialog();
+                            view.hideStoreProductCategoryDialog();
                         }
                     },
                     //Product Category Thumbnail Files Loaded Callback
@@ -1662,7 +1683,7 @@ define("stores/stores.viewModel",
                                             selectedStore().companyId(data.CompanyId);
                                             stores.splice(0, 0, selectedStore());
                                         }
-                                        if (selectedStoreListView().companyId() == selectedStore().companyId()) {
+                                        if (selectedStoreListView() && selectedStoreListView().companyId() == selectedStore().companyId()) {
                                             _.each(stores(), function (store) {
                                                 if (store.companyId() == selectedStore().companyId()) {
                                                     store.name(selectedStore().name());
@@ -1677,8 +1698,8 @@ define("stores/stores.viewModel",
                                                 }
                                             });
                                         }
-                                        
-                                        
+
+
                                         //selectedStore().storeId(data.StoreId);
                                         isStoreEditorVisible(false);
                                         isEditorVisible(false);
@@ -1857,9 +1878,9 @@ define("stores/stores.viewModel",
                         });
                     },
                     //Get Base Data For New Company
-                    getBaseDataFornewCompany = function() {
+                    getBaseDataFornewCompany = function () {
                         dataservice.getBaseData({
-                            
+
                         }, {
                             success: function (data) {
                                 if (data != null) {
@@ -1876,7 +1897,7 @@ define("stores/stores.viewModel",
                                         var systemUser = new model.SystemUser.Create(item);
                                         systemUsers.push(systemUser);
                                     });
-                                   
+
                                     _.each(data.CompanyContactRoles, function (item) {
                                         var role = new model.Role.Create(item);
                                         roles.push(role);
@@ -1885,7 +1906,7 @@ define("stores/stores.viewModel",
                                         var registrationQuestion = new model.RegistrationQuestion.Create(item);
                                         registrationQuestions.push(registrationQuestion);
                                     });
-                                    
+
                                     _.each(data.PageCategories, function (item) {
                                         pageCategories.push(model.PageCategory.Create(item));
                                     });
@@ -2169,10 +2190,7 @@ define("stores/stores.viewModel",
                         view.hideCkEditorDialogDialog();
                     },
                     //#endregion
-                    test = ko.observable(),
-                    testt1 = function () {
 
-                    },
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
                 initialize = function (specifiedView) {
