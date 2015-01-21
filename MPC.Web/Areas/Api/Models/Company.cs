@@ -253,6 +253,66 @@ namespace MPC.MIS.Areas.Api.Models
         }
 
         #endregion
+
+        #region Sprite Image
+
+        /// <summary>
+        /// Default Sprite Source
+        /// </summary>
+        public string DefaultSpriteSource { get; set; }
+        /// <summary>
+        /// User Defined Sprite Source
+        /// </summary>
+        public string UserDefinedSpriteSource { get; set; }
+        /// <summary>
+        /// User Defined Sprite File Name
+        /// </summary>
+        public string UserDefinedSpriteFileName { get; set; }
+
+        /// <summary>
+        /// Default Sprite Image
+        /// </summary>
+        public byte[] DefaultSpriteImage { get; set; }
+
+        /// <summary>
+        /// Default Sprite Image Source
+        /// </summary>
+        public string DefaultSpriteImageSource
+        {
+            get
+            {
+                if (DefaultSpriteImage == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(DefaultSpriteImage);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
+
+        /// <summary>
+        /// User Defined Sprite Image
+        /// </summary>
+        public byte[] UserDefinedSpriteImage { get; set; }
+
+        /// <summary>
+        /// User Defined Sprite Image Source
+        /// </summary>
+        public string UserDefinedSpriteImageSource
+        {
+            get
+            {
+                if (UserDefinedSpriteImage == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(UserDefinedSpriteImage);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
+        #endregion
         #endregion
     }
 }

@@ -124,7 +124,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         specifiedStockNotificationManagerId1, specifiedStockNotificationManagerId2, specifiedisDisplayBanners, specifiedisStoreModePrivate, specifiedisTextWatermark,
         specifiedWatermarkText, specifiedisBrokerPaymentRequired, specifiedisBrokerCanAcceptPaymentOnline, specifiedcanUserPlaceOrderWithoutApproval,
         specifiedisIncludeVAT, specifiedincludeEmailBrokerArtworkOrderReport, specifiedincludeEmailBrokerArtworkOrderXML, specifiedincludeEmailBrokerArtworkOrderJobCard,
-        specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreImageFileBinary, specifiedStoreBackgroudImageSource, specifiedIsShowGoogleMap
+        specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreImageFileBinary, specifiedStoreBackgroudImageSource, specifiedIsShowGoogleMap,
+        specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName
     ) {
         var self,
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
@@ -205,6 +206,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             storeBackgroudImageImageSource = ko.observable(specifiedStoreBackgroudImageSource),
             //store Backgroud Image File Name
             storeBackgroudImageFileName = ko.observable(),
+            defaultSpriteImageSource = ko.observable(specifiedDefaultSpriteImageSource),
+            defaultSpriteImageFileName = ko.observable(),
+            userDefinedSpriteImageSource = ko.observable(specifiedUserDefinedSpriteImageSource),
+            userDefinedSpriteImageFileName = ko.observable(specifiedUserDefinedSpriteFileName),
             //Is Show Google Map
             isShowGoogleMap = ko.observable(specifiedIsShowGoogleMap != undefined ? specifiedIsShowGoogleMap.toString() : "1"),
             // Errors
@@ -376,6 +381,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 //#endregion
                 result.ImageName = source.storeImageName() === undefined ? null : source.storeImageName();
                 result.ImageBytes = source.image() === undefined ? null : source.image();
+                result.DefaultSpriteSource = source.defaultSpriteImageSource() === undefined ? null : source.defaultSpriteImageSource();
+                result.UserDefinedSpriteSource = source.userDefinedSpriteImageSource() === undefined ? null : source.userDefinedSpriteImageSource();
+                result.UserDefinedSpriteFileName = source.userDefinedSpriteImageFileName() === undefined ? null : source.userDefinedSpriteImageFileName();
                 result.CmsOffers = [];
                 return result;
             },
@@ -443,6 +451,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             storeBackgroudImageImageSource: storeBackgroudImageImageSource,
             storeBackgroudImageFileName: storeBackgroudImageFileName,
             isShowGoogleMap: isShowGoogleMap,
+            defaultSpriteImageSource: defaultSpriteImageSource,
+            defaultSpriteImageFileName: defaultSpriteImageFileName,
+            userDefinedSpriteImageSource: userDefinedSpriteImageSource,
+            userDefinedSpriteImageFileName: userDefinedSpriteImageFileName,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -565,7 +577,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.makeEmailBrokerArtworkOrderProductionReady,
             source.ImageSource,
             source.StoreBackgroudImageSource,
-            source.isShowGoogleMap
+            source.isShowGoogleMap,
+            source.DefaultSpriteImageSource,
+            source.UserDefinedSpriteImageSource,
+            source.UserDefinedSpriteFileName
         );
 
         store.companyType(CompanyType.Create(source.CompanyType));
