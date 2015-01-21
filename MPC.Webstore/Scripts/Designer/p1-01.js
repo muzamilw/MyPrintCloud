@@ -1,6 +1,30 @@
-﻿$('.imgUploader').change(function () {
-    var url = "a"
-    var files = $(".imgUploader").get(0).files;
+﻿$("#uploadImagesMB").click(function () {
+    $("#imageUploader").click();
+    //animatedcollapse.toggle('textPropertPanel');
+});
+
+
+         
+
+$('#imageUploader').change(function () {
+    var uploadPath = "Organisation" + ogranisationId + "/Templates/";
+    if (IsCalledFrom == "1" || IsCalledFrom == "2")
+    {
+        uploadPath = "Organisation" + ogranisationId + "/Templates/" + "UserImgs/" + ContactID;
+    }
+    else if (IsCalledFrom == "3" || IsCalledFrom == "4")
+    {
+        uploadPath = "Organisation" + ogranisationId + "/Templates/" + "UserImgs/Retail/" + ContactID;
+    }
+    else
+    {
+        uploadPath += "/" + tID;
+    }
+    var url = uploadPath;
+    while (url.indexOf('/') != -1)
+        url = url.replace("/", "__");
+    
+    var files = $("#imageUploader").get(0).files;
     if (files.length > 0) {
         var data = new FormData();
         for (i = 0; i < files.length; i++) {
@@ -10,15 +34,40 @@
       //  data.append("ItemID", "21");
         $.ajax({
             type: "POST",
-            url: "/designerAPI/Upload/fileupload/" +url,
+            url: "/api/Upload/" + url,
             contentType: false,
             processData: false,
             data: data,
             success: function (messages) {
                 for (i = 0; i < messages.length; i++) {
-                    alert(messages[i]);
-                    // save record service 
-
+                  //  alert(messages[i]);
+                    var panelType = 1;
+                    if (isBkPnlUploads) {
+                        panelType = 3;
+                    }
+                    $.getJSON("/designerapi/TemplateBackgroundImage/UploadImageRecord/" + messages[i] + "/" + tID + "/" + IsCalledFrom + "/" + ContactID + "/"+ogranisationId + "/" + panelType  + "/" + CustomerID ,
+                        function (result) {
+                            $("#progressbar").css("display", "none");
+                            $(".imageEditScreenContainer").css("display", "block");
+                            if (parseInt(result)) {
+                                k26(result, "");
+                            } else {
+                                pcL36("show", "#divImageDAM");
+                            }
+                            k27();
+                            isImgUpl = true;
+                            if (IsCalledFrom == 1 || IsCalledFrom == 2) {
+                                $("#ImgCarouselDiv").tabs("option", "active", 0);
+                                $("#BkImgContainer").tabs("option", "active", 0);
+                                $('#divGlobalImages').scrollTop();
+                                $('#divGlobalBackg').scrollTop();
+                            } else {
+                                $("#ImgCarouselDiv").tabs("option", "active", 2);
+                                $("#BkImgContainer").tabs("option", "active", 2);
+                                $('#divPersonalImages').scrollTop();
+                                $('#divPersonalBkg').scrollTop();
+                            }
+                        });
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
