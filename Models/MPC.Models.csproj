@@ -104,15 +104,19 @@
     <Compile Include="Common\CmsPageModel.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\ContactClaimValue.cs" />
+    <Compile Include="Common\CostCentreMatrix.cs" />
     <Compile Include="Common\CostCentreQuestions.cs" />
     <Compile Include="Common\CostCentreResults.cs" />
     <Compile Include="Common\DesignerDamImageWrapper.cs" />
     <Compile Include="Common\CostCentreResource.cs" />
+    <Compile Include="Common\DesignerPostSettings.cs" />
     <Compile Include="Common\ExecutionQueue.cs" />
     <Compile Include="Common\InlineTextStyles.cs" />
     <Compile Include="Common\FileTableCaption.cs" />
     <Compile Include="Common\MatchingSets.cs" />
+    <Compile Include="Common\CostCentersColumns.cs" />
     <Compile Include="Common\OrderDetail.cs" />
+    <Compile Include="Common\QuickText.cs" />
     <Compile Include="Common\SectionEnum.cs" />
     <Compile Include="Common\ItemFileType.cs" />
     <Compile Include="Common\CompanyClaimValue.cs" />
@@ -137,7 +141,9 @@
     <Compile Include="Common\StockCategoryByColumn.cs" />
     <Compile Include="Common\TemplateVariable.cs" />
     <Compile Include="Common\UserIdentityModel.cs" />
+    <Compile Include="Common\USTaxInfo.cs" />
     <Compile Include="DomainModels\Address.cs" />
+    <Compile Include="DomainModels\CmsOffer.cs" />
     <Compile Include="DomainModels\CompanyVariableIcon.cs" />
     <Compile Include="DomainModels\CostCentreAnswer.cs" />
     <Compile Include="DomainModels\CostcentreInstruction.cs" />
@@ -153,6 +159,7 @@
     <Compile Include="DomainModels\CustomCopy.cs" />
     <Compile Include="DomainModels\FavoriteDesign.cs" />
     <Compile Include="DomainModels\ImagePermission.cs" />
+    <Compile Include="DomainModels\ItemStockUpdateHistory.cs" />
     <Compile Include="DomainModels\Listing.cs" />
     <Compile Include="DomainModels\ListingAgent.cs" />
     <Compile Include="DomainModels\ListingConjunctionAgent.cs" />
@@ -309,6 +316,7 @@
     <Compile Include="RequestModels\GetPagedListRequest.cs" />
     <Compile Include="RequestModels\ItemSearchRequestModel.cs" />
     <Compile Include="RequestModels\InventorySearchRequestModel.cs" />
+    <Compile Include="RequestModels\CostCenterRequestModel.cs" />
     <Compile Include="RequestModels\PaperSheetRequestModel.cs" />
     <Compile Include="RequestModels\PaymentGatewayRequestModel.cs" />
     <Compile Include="RequestModels\PhraseLibrarySaveModel.cs" />
@@ -331,6 +339,7 @@
     <Compile Include="ResponseModels\LanguageEditor.cs" />
     <Compile Include="ResponseModels\MyCompanyDomainBaseReponse.cs" />
     <Compile Include="ResponseModels\MyOrganizationBaseResponse.cs" />
+    <Compile Include="ResponseModels\CostCentersResponse.cs" />
     <Compile Include="ResponseModels\PaperSheetResponse.cs" />
     <Compile Include="ResponseModels\PaperSheetResponseModel.cs" />
     <Compile Include="ResponseModels\MyOrganizationSaveResponse.cs" />

@@ -490,6 +490,16 @@ namespace MPC.Repository.BaseRepository
         public  DbSet<CostcentreWorkInstructionsChoice> CostcentreWorkInstructionsChoices { get; set; }
 
         /// <summary>
+        /// Cms Offer DbSet
+        /// </summary>
+        public DbSet<CmsOffer> CmsOffers { get; set; }
+
+        /// <summary>
+        /// Item Stock Update History DbSet
+        /// </summary>
+        public DbSet<ItemStockUpdateHistory> ItemStockUpdateHistories { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
         public long sp_cloneTemplate(long templateId, long submittedBy, string submittedByName)

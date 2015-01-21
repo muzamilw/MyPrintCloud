@@ -226,6 +226,18 @@
           <Property Name="SystemSiteId" Type="int" />
           <Property Name="UserDomainKey" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="CmsOffer">
+          <Key>
+            <PropertyRef Name="OfferId" />
+          </Key>
+          <Property Name="OfferId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemId" Type="int" />
+          <Property Name="OfferType" Type="int" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
+          <Property Name="ItemName" Type="varchar" MaxLength="100" />
+          <Property Name="SortOrder" Type="int" />
+          <Property Name="CompanyId" Type="bigint" />
+        </EntityType>
         <EntityType Name="CmsPage">
           <Key>
             <PropertyRef Name="PageId" />
@@ -425,6 +437,7 @@
           <Property Name="PickupAddressId" Type="bigint" />
           <Property Name="TaxLabel" Type="varchar" MaxLength="30" />
           <Property Name="isAddCropMarks" Type="bit" />
+          <Property Name="isCalculateTaxByService" Type="bit" />
         </EntityType>
         <EntityType Name="CompanyBanner">
           <Key>
@@ -1493,7 +1506,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="MetaKeywords" Type="nvarchar(max)" />
           <Property Name="MetaDescription" Type="nvarchar" MaxLength="500" />
           <Property Name="MetaTitle" Type="nvarchar" MaxLength="100" />
-          <Property Name="isTemplateDesignMode" Type="bit" />
+          <Property Name="isTemplateDesignMode" Type="int" />
           <Property Name="XeroAccessCode" Type="varchar" MaxLength="50" />
           <Property Name="DefaultItemTax" Type="float" />
           <Property Name="OrganisationId" Type="bigint" />
@@ -1503,6 +1516,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="DesignerCategoryId" Type="int" />
           <Property Name="Scalar" Type="float" />
           <Property Name="ZoomFactor" Type="float" />
+          <Property Name="isAddCropMarks" Type="bit" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -1747,6 +1761,20 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="StockLabel" Type="varchar" MaxLength="255" />
           <Property Name="CompanyId" Type="bigint" />
           <Property Name="ImageURL" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="ItemStockUpdateHistory">
+          <Key>
+            <PropertyRef Name="StockHistoryId" />
+          </Key>
+          <Property Name="StockHistoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemId" Type="int" />
+          <Property Name="LastAvailableQty" Type="int" />
+          <Property Name="LastModifiedQty" Type="int" />
+          <Property Name="LastOrderedQty" Type="int" />
+          <Property Name="ModifyEvent" Type="int" />
+          <Property Name="LastModifiedBy" Type="int" />
+          <Property Name="LastModifiedDate" Type="datetime" />
+          <Property Name="OrderID" Type="int" />
         </EntityType>
         <EntityType Name="ItemVDPPrice">
           <Key>
@@ -2474,7 +2502,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="ItemSizeWidth" Type="float" />
           <Property Name="ItemSizeDim" Type="int" />
           <Property Name="ItemUnitSize" Type="int" />
-          <Property Name="SupplierId" Type="int" />
+          <Property Name="SupplierId" Type="bigint" />
           <Property Name="CostPrice" Type="float" />
           <Property Name="CategoryId" Type="bigint" />
           <Property Name="SubCategoryId" Type="bigint" />
@@ -3230,6 +3258,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CmsOffer_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="CmsOffer" Type="Self.CmsOffer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="CmsOffer">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ColorPallete_Company">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="ColorPallete" Type="Self.ColorPallete" Multiplicity="*" />
@@ -3531,6 +3571,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="StockSubCategory">
               <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockItem_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="StockItem" Type="Self.StockItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="StockItem">
+              <PropertyRef Name="SupplierId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4330,6 +4382,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="CampaignImage" EntityType="Self.CampaignImage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CategoryTerritory" EntityType="Self.CategoryTerritory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChartOfAccount" EntityType="Self.ChartOfAccount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CmsOffer" EntityType="Self.CmsOffer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CmsPage" EntityType="Self.CmsPage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CmsPageTag" EntityType="Self.CmsPageTag" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CmsSkinPageWidget" EntityType="Self.CmsSkinPageWidget" Schema="dbo" store:Type="Tables" />
@@ -4387,6 +4440,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="ItemStateTax" EntityType="Self.ItemStateTax" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemStockControl" EntityType="Self.ItemStockControl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemStockOption" EntityType="Self.ItemStockOption" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ItemStockUpdateHistory" EntityType="Self.ItemStockUpdateHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemVDPPrice" EntityType="Self.ItemVDPPrice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemVideo" EntityType="Self.ItemVideo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LengthUnit" EntityType="Self.LengthUnit" Schema="dbo" store:Type="Tables" />
@@ -4685,6 +4739,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Template" EntitySet="Template" />
             <End Role="TemplatePage" EntitySet="TemplatePage" />
           </AssociationSet>
+          <AssociationSet Name="FK_CmsOffer_Company" Association="Self.FK_CmsOffer_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="CmsOffer" EntitySet="CmsOffer" />
+          </AssociationSet>
           <AssociationSet Name="FK_ColorPallete_Company" Association="Self.FK_ColorPallete_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="ColorPallete" EntitySet="ColorPallete" />
@@ -4784,6 +4842,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <AssociationSet Name="FK_StockCategory_StockSubCategory" Association="Self.FK_StockCategory_StockSubCategory">
             <End Role="StockCategory" EntitySet="StockCategory" />
             <End Role="StockSubCategory" EntitySet="StockSubCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockItem_Company" Association="Self.FK_StockItem_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="StockItem" EntitySet="StockItem" />
           </AssociationSet>
           <AssociationSet Name="FK_StockItem_ItemStockOption" Association="Self.FK_StockItem_ItemStockOption">
             <End Role="StockItem" EntitySet="StockItem" />
@@ -5603,6 +5665,16 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <Parameter Name="returnPrice" Mode="InOut" Type="Double" />
             <Parameter Name="PerQtyQty" Mode="InOut" Type="Double" />
           </FunctionImport>
+          <AssociationSet Name="FK_StockItem_Company" Association="DomainModels.FK_StockItem_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="StockItem" EntitySet="StockItems" />
+          </AssociationSet>
+          <EntitySet Name="CmsOffers" EntityType="DomainModels.CmsOffer" />
+          <AssociationSet Name="FK_CmsOffer_Company" Association="DomainModels.FK_CmsOffer_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="CmsOffer" EntitySet="CmsOffers" />
+          </AssociationSet>
+          <EntitySet Name="ItemStockUpdateHistories" EntityType="DomainModels.ItemStockUpdateHistory" />
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -5727,6 +5799,9 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="Items" Relationship="DomainModels.FK_Items_Company" FromRole="Company" ToRole="Item" />
           <Property Name="isAddCropMarks" Type="Boolean" />
           <NavigationProperty Name="ColorPalletes" Relationship="DomainModels.FK_ColorPallete_Company" FromRole="Company" ToRole="ColorPallete" />
+          <NavigationProperty Name="StockItems" Relationship="DomainModels.FK_StockItem_Company" FromRole="Company" ToRole="StockItem" />
+          <NavigationProperty Name="CmsOffers" Relationship="DomainModels.FK_CmsOffer_Company" FromRole="Company" ToRole="CmsOffer" />
+          <Property Name="isCalculateTaxByService" Type="Boolean" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -6194,7 +6269,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="ItemSizeWidth" Type="Double" />
           <Property Name="ItemSizeDim" Type="Int32" />
           <Property Name="ItemUnitSize" Type="Int32" />
-          <Property Name="SupplierId" Type="Int32" />
+          <Property Name="SupplierId" Type="Int64" />
           <Property Name="CostPrice" Type="Double" />
           <Property Name="CategoryId" Type="Int64" />
           <Property Name="SubCategoryId" Type="Int64" />
@@ -6255,6 +6330,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="isAllowBackOrder" Type="Boolean" />
           <NavigationProperty Name="SectionCostCentreDetails" Relationship="DomainModels.FK_tbl_section_costcentre_detail_tbl_stockitems" FromRole="StockItem" ToRole="SectionCostCentreDetail" />
           <NavigationProperty Name="ItemStockOptions" Relationship="DomainModels.FK_StockItem_ItemStockOption" FromRole="StockItem" ToRole="ItemStockOption" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_StockItem_Company" FromRole="StockItem" ToRole="Company" />
         </EntityType>
         <Association Name="FK_tbl_stockitems_tbl_stockcategories">
           <End Type="DomainModels.StockCategory" Role="StockCategory" Multiplicity="0..1" />
@@ -6972,7 +7048,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="MetaKeywords" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="MetaDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="MetaTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="IsTemplateDesignMode" Type="Boolean" />
+          <Property Name="IsTemplateDesignMode" Type="Int32" />
           <Property Name="XeroAccessCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DefaultItemTax" Type="Double" />
           <Property Name="OrganisationId" Type="Int64" />
@@ -7003,6 +7079,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="ItemProductDetails" Relationship="DomainModels.FK_ItemProductDetail_Items" FromRole="Item" ToRole="ItemProductDetail" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_Items_Company" FromRole="Item" ToRole="Company" />
           <NavigationProperty Name="FavoriteDesigns" Relationship="DomainModels.FK_tbl_FavoriteDesign_tbl_items" FromRole="Item" ToRole="FavoriteDesign" />
+          <Property Name="isAddCropMarks" Type="Boolean" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -10080,6 +10157,57 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StockItem_Company">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.StockItem" Role="StockItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="StockItem">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CmsOffer">
+          <Key>
+            <PropertyRef Name="OfferId" />
+          </Key>
+          <Property Name="OfferId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemId" Type="Int32" />
+          <Property Name="OfferType" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ItemName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SortOrder" Type="Int32" />
+          <Property Name="CompanyId" Type="Int64" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_CmsOffer_Company" FromRole="CmsOffer" ToRole="Company" />
+        </EntityType>
+        <Association Name="FK_CmsOffer_Company">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.CmsOffer" Role="CmsOffer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="CmsOffer">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ItemStockUpdateHistory">
+          <Key>
+            <PropertyRef Name="StockHistoryId" />
+          </Key>
+          <Property Name="StockHistoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemId" Type="Int32" />
+          <Property Name="LastAvailableQty" Type="Int32" />
+          <Property Name="LastModifiedQty" Type="Int32" />
+          <Property Name="LastOrderedQty" Type="Int32" />
+          <Property Name="ModifyEvent" Type="Int32" />
+          <Property Name="LastModifiedBy" Type="Int32" />
+          <Property Name="LastModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="OrderID" Type="Int32" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10089,6 +10217,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="DomainModels.Company">
               <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="isCalculateTaxByService" ColumnName="isCalculateTaxByService" />
                 <ScalarProperty Name="isAddCropMarks" ColumnName="isAddCropMarks" />
                 <ScalarProperty Name="StoreId" ColumnName="StoreId" />
                 <ScalarProperty Name="TaxLabel" ColumnName="TaxLabel" />
@@ -10989,6 +11118,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Items">
             <EntityTypeMapping TypeName="DomainModels.Item">
               <MappingFragment StoreEntitySet="Items">
+                <ScalarProperty Name="isAddCropMarks" ColumnName="isAddCropMarks" />
                 <ScalarProperty Name="ZoomFactor" ColumnName="ZoomFactor" />
                 <ScalarProperty Name="Scalar" ColumnName="Scalar" />
                 <ScalarProperty Name="DesignerCategoryId" ColumnName="DesignerCategoryId" />
@@ -13478,6 +13608,34 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_CostCentreExecution_get_StockPriceByCalculationType" FunctionName="DomainModels.Store.sp_CostCentreExecution_get_StockPriceByCalculationType" />
+          <EntitySetMapping Name="CmsOffers">
+            <EntityTypeMapping TypeName="DomainModels.CmsOffer">
+              <MappingFragment StoreEntitySet="CmsOffer">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="OfferType" ColumnName="OfferType" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="OfferId" ColumnName="OfferId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemStockUpdateHistories">
+            <EntityTypeMapping TypeName="DomainModels.ItemStockUpdateHistory">
+              <MappingFragment StoreEntitySet="ItemStockUpdateHistory">
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+                <ScalarProperty Name="ModifyEvent" ColumnName="ModifyEvent" />
+                <ScalarProperty Name="LastOrderedQty" ColumnName="LastOrderedQty" />
+                <ScalarProperty Name="LastModifiedQty" ColumnName="LastModifiedQty" />
+                <ScalarProperty Name="LastAvailableQty" ColumnName="LastAvailableQty" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="StockHistoryId" ColumnName="StockHistoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

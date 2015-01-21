@@ -49,6 +49,18 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="BrokerID"></param>
         /// <returns></returns>
         OrderDetail GetOrderReceipt(long orderID);
-       
+
+        List<State> GetStates();
+
+        List<Country> PopulateBillingCountryDropDown();
+
+        Country GetCountryByID(long CountryID);
+
+        //bool UpdateOrderWithDetailsToConfirmOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Address billingAdd, Address deliveryAdd, double grandOrderTotal,
+        //                                     string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde, long BrokerContactCompanyID);
+
+
+
+
     }
 }

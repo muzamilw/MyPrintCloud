@@ -1,5 +1,25 @@
-﻿
-
+﻿@model MPC.Webstore.ViewModels.ShopCartAddressSelectViewModel
+@using System.Linq;
+@using MPC.Models.Common;
+@using MPC.Webstore.Common;
+@using MPC.Models.DomainModels;
+@{
+    List<AddOnCostsCenter> AddsOnList = Model.SelectedItemsAddonsList;
+    string addson = string.Empty;
+    double _priceTotal = 0;
+    string lblPrice = string.Empty;
+    double deliveryCost = Model.DeliveryCost;
+    double SubTotal = 0;
+    double deliveryTotal = 0;
+    double deliveryCostTaxVal = Model.DeliveryCostTaxVal;
+    double deliveryTax = 0;
+    double VatTotal = 0;
+    double grosstotal = 0;
+    double GrandTotal = 0;
+    string IsDisable = string.Empty;
+    Address ShippingAddress = Model.BillingAddress;
+    Address BillingAddress = Model.BillingAddress;
+}
 <style>
     input[type="checkbox"] {
         display: none;
@@ -75,9 +95,20 @@
             </li>
 
         </ul>
-        <div id="MessgeToDisply" class="rounded_corners col-md-12 col-lg-12 col-xs-12" runat="server" visible="false">
-            <label ID="ltrlMessge" runat="server"></label>
-        </div>
+        @if (Model.LtrMessageToDisplay)
+        {
+           
+            <div id="MessgeToDisply" style="border:1px solid red;font-size:20px;font-weight:bold;text-align:left;color:red;padding:20px;" class="rounded_corners col-md-12 col-lg-12 col-xs-12" runat="server" visible="false">
+                <label id="ltrlMessge">@Model.LtrMessage</label>
+            </div>
+        }
+        else
+        {
+            <div id="MessgeToDisply" class="rounded_corners col-md-12 col-lg-12 col-xs-12">
+                <label id="ltrlMessge"></label>
+            </div>
+        }
+       
         <div class="signin_heading_div col-md-12 col-lg-12 col-xs-12">
             <label ID="lblCheckout" runat="server" Text="Checkout" CssClass="sign_in_heading"></label>
         </div>
@@ -85,549 +116,867 @@
             &nbsp;
         </div>
         <br />
-        <div id="maincntCheckout" class="check_out_right_div col-md-12 col-lg-12 col-xs-12">
-            <div class="clearBoth mainHeadingAveniorCheckout">
-                <label ID="Label2" runat="server"  >Special Instructions</label>
-            </div>
-
-            <div class="TTL_Checkout ckecoutWidthAvenior col-md-12 col-lg-12 col-xs-12">
-                <label ID="ltrlcontacttelnum" runat="server"  CssClass="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12 ">Contact Tel Number</label>
-
-                <input id="txtInstContactTelNumber" type="text" runat="server" class="AveniorTxtBoxCheckout col-md-2 col-lg-2 col-xs-12 "
-                       onblur="ChangeTelNumber();" />
-
-            </div>
-            <div class="clearBoth">
-            </div>
-
-            <div class="col-md-12 col-lg-12 col-xs-12 ckecoutWidthAvenior TTL_Checkout">
-                <label ID="ltrlnotes" runat="server" Text="Notes" CssClass="col-md-2 col-lg-2 col-xs-12 checkoutNoteslbl"></label>
-
-                <input type="text" inputmode="MultiLine" id="txtInstNotes" style="height:80px;" class="AveniorTxtBoxCheckout" onblur="ChangeNotesTxt();"/>
-                @*<asp:TextBox TextMode="MultiLine" ID="txtInstNotes" runat="server" Height="80px"
-                             CssClass="AveniorTxtBoxCheckout" Columns="10" onblur="ChangeNotesTxt();" />*@
-            </div>
-            <div class="clearBoth">
-            </div>
-
-            <div id="CorporateBox" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior" visible="false" runat="server">
-                <label ID="ltrlcheckoutfirstdiv" runat="server" class="col-md-2 col-lg-2 col-xs-12 smallCheckoutAvenior" Text="Your Ref / PO"></label>
-
-                <input id="txtYourRefNumber" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="50"
-                       onblur="ChangeRefPO();" />
-
-            </div>
-            <div id="NormalBox" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior" visible="false" runat="server">
-                <label ID="Label4" runat="server" CssClass="col-md-2 col-lg-2 col-xs-12 smallCheckoutAvenior">Your Ref / PO</label>
-
-                <input id="txtYourRefNumberRetail" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="50"
-                       onblur="ChangeRefPO();" />
-
-            </div>
-            <div class="clearBoth">
-                &nbsp;
-            </div>
-            <br />
-            <br />
-
-            <div class="clearBoth mainHeadingAveniorCheckout col-md-12 col-lg-12 col-xs-12">
-                <label ID="Label1" runat="server" >Choose Delivery Option</label>
-            </div>
-            <div>
-                <div class="clearBoth smallCheckoutAvenior float_left_simple">
-                    <label ID="Literal3" runat="server" Text=" "></label>
-                </div>
-                <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                    <label ID="Label3" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Choose Delivery</label>
-
-                    <section id="ddlDeliveyCostCenter" class="checkoutDropDown"></section>
-                    @*<asp:DropDownList ID="ddlDeliveyCostCenter" runat="server" CssClass="checkoutDropDown" />*@
-                </div>
-                <div class="clearBoth">
-                </div>
-
-                <div id="pickUpaddressContainer" runat="server" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                    <label ID="Label5" runat="server"  class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Pickup Address</label>
-
-                    <input type="text" inputmode="MultiLine" id="txtPickUpAddressDetail" style="height:80px;" class="AveniorTxtBoxCheckout" disabled>
-                    @*<asp:TextBox TextMode="MultiLine" ID="txtPickUpAddressDetail" runat="server" Height="80px"
-                                 CssClass="AveniorTxtBoxCheckout" Columns="10" Enabled="false" />*@
-
-                </div>
-
-            </div>
-            <div class="clearBoth">
-                &nbsp;
-            </div>
-            <br />
-            <br />
-            @*<%-- billing shipping address panel --%>*@
-            <div class="clearBoth mainHeadingAveniorCheckout col-md-12 col-lg-12 col-xs-12">
-                <label ID="Label6" runat="server">Shipping Address</label>
-            </div>
-            <div id="divDeliveryAddress">
-
-                <div id="ddshippingAdd" runat="server" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                    <label ID="ltrlchoosedeliveryadd" runat="server" class="col-md-2 col-lg-2 col-xs-12 smallCheckoutAvenior"> Choose Delivery Address</label>
-
-                    <select id="ddlDelivery" class="checkoutDropDown"></select>
-                    <asp:DropDownList ID="ddlDelivery" runat="server" AutoPostBack="true" CssClass="checkoutDropDown"
-                                      OnSelectedIndexChanged="ddlDelivery_SelectedIndexChanged" />
-                </div>
-                <div class="clearBoth">
-                </div>
-
-                <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                    <label ID="ltrlshippingname"  class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Shipping Name</label>
-
-                    <input id="txtShipAddressName" type="text" runat="server" class=" AveniorTxtBoxCheckout" maxlength="100" />
-                    <label ID="Label7" CssClass="tooltipCheckoutAvenior" runat="server">e.g. Office Address</label>
-
-                </div>
-
-                <div class="clearBoth">
-                </div>
-
-
-                <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                    <label ID="ltrladdline2nd" runat="server"  class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Address line 1</label>
-
-                    <input id="txtShipAddLine1" type="text" runat="server" class=" AveniorTxtBoxCheckout" maxlength="255"
-                           onblur="ChangeShippToAddLin1();" />
-
-                </div>
-                <div class="clearBoth">
-                </div>
-
-                <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                    <label ID="ltrladdressline2nd2" runat="server" CssClass="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Address line 2</label>
-
-
-                    <input id="txtShipAddressLine2" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="255"
-                           onblur="ChangeShippToAddLin2();" />
-                </div>
-                <div class="clearBoth">
-                </div>
-
-                <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                    <label ID="ltrlcity2" runat="server" Text="City" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12"></label>
-
-
-                    <input id="txtShipAddCity" type="text" runat="server" class=" AveniorTxtBoxCheckout" maxlength="100"
-                           onblur="ChangeShippToCity();" />
-
-                </div>
-                <div class="clearBoth">
-                </div>
-
-                <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                    <label ID="ltrlzipcodeP2" runat="server"  class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Zip Code / Post Code</label>
-
-                    <input id="txtShipPostCode" type="text" runat="server" class="AveniorTxtBoxCheckout float_left_simple" maxlength="30"
-                           onblur="ChangeShippToPostCode();" /><img id="lodingImg" runat="server" alt=""
-                                                                    src="~/images/wpLoader.gif" style="display: none; float: left; width: 20px; margin-top: 7px; margin-left: 0px;" />
-
-                </div>
-                <div class="clearBoth">
-                </div>
-
-                <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                    <label ID="ltrlcountry2" runat="server"  class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Country</label>
-                    <asp:DropDownList ID="ddShippingCountry" runat="server" CssClass="checkoutDropDown"
-                                      AutoPostBack="true" OnSelectedIndexChanged="ShippingDropDown_SelectedIndexChanged" />
-                </div>
-                <div class="clearBoth">
-                </div>
-
-                <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                    <label ID="lblStatedd" runat="server"  class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">State</label>
-                    <asp:DropDownList ID="ddShippingState" runat="server" CssClass="checkoutDropDown" />
-                </div>
-                <div class="clearBoth">
-                </div>
-                <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                    <label ID="ltrlcontactnum2" runat="server"  class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Contact Number</label>
-
-                    <input id="txtShipContact" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="60" />
-                </div>
-                <div class="clearBoth">
-                    &nbsp;
-                </div>
-
-            </div>
-
-        </div>
-        <div class="clearBoth">
-            &nbsp;
-        </div>
-        <br />
-        <br />
-        <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-            <input type="checkbox" checked="checked" onclick="BillingSameAsDeliveryScriptCheckBox" value="Bill items to the above shipping address" />
-            <asp:CheckBox ID="chkBoxDeliverySameAsBilling" Text="Bill items to the above shipping address" runat="server"
-                          Checked="true" onclick="BillingSameAsDeliveryScriptCheckBox();" OnCheckedChanged="chkBoxDeliverySameAsBilling_CheckedChanged" AutoPostBack="true" />
-        </div>
-        <div class="clear">
-        </div>
-        <br />
-        <br />
-        <br />
-
-        <div id="divBilling">
-            <div class="clearBoth mainHeadingAveniorCheckout col-md-12 col-lg-12 col-xs-12">
-                <label ID="Label8" runat="server" >Billing Address</label>
-            </div>
-
-            <div id="ddBillingAdd" runat="server" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                <label ID="lblBillingAddress" runat="server" class="col-md-2 col-lg-2 col-xs-12 smallCheckoutAvenior">Choose Billing Address</label>
-                <asp:DropDownList ID="ddlBilling" runat="server" AutoPostBack="true" CssClass="checkoutDropDown"
-                                  OnSelectedIndexChanged="ddlBilling_SelectedIndexChanged" />
-            </div>
-            <div class="clearBoth">
-            </div>
-
-
-            <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                <label ID="ltrlBillingname" runat="server"  CssClass="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Billing Name</label>
-
-                <input id="txtBillingName" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="100" />
-                <label ID="Label9" runat="server" class="tooltipCheckoutAvenior">e.g. Office Address</label>
-            </div>
-            <div class="clearBoth">
-            </div>
-
-
-            <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                <label ID="ltrladdressline1" runat="server" CssClass="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Address line 1</label>
-
-                <input id="txtAddressLine1" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="255"
-                       onblur="ChangeAddresLinne1();" />
-
-            </div>
-            <div class="clearBoth">
-            </div>
-
-
-            <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                <label ID="ltrladdressline2" runat="server"  class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Address line 2</label>
-
-                <input id="txtAddressLine2" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="255"
-                       onblur="ChangeAddresLinne2();" />
-            </div>
-            <div class="clearBoth">
-            </div>
-
-            <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                <label ID="ltrlcity" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">City</label>
-
-                <input id="txtCity" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="100"
-                       onblur="ChangeCityShippBill();" />
-
-            </div>
-            <div class="clearBoth">
-            </div>
-
-            <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-
-                <label ID="ltrlzipcodeP" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Zip Code / Post Code</label>
-
-                <input id="txtZipPostCode" type="text" runat="server" class="AveniorTxtBoxCheckout " maxlength="30"
-                       onblur="ChangePostCodeShippBill();" />
-
-            </div>
-            <div class="clearBoth">
-            </div>
-
-
-            <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                <label ID="ltrlcountry" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Country</label>
-                <asp:DropDownList ID="BillingCountryDropDown" AutoPostBack="true" runat="server" CssClass="checkoutDropDown" OnSelectedIndexChanged="BillingCountryDropDown_SelectedIndexChanged" />
-            </div>
-            <div class="clearBoth">
-            </div>
-            <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                <label ID="ltrlstate" runat="server"  class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Country</label>
-                <asp:DropDownList ID="ddBillingState" runat="server" CssClass="checkoutDropDown" />
-            </div>
-            <div class="clearBoth">
-            </div>
-            <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                <label ID="ltrlcontactnum" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Contact Number</label>
-
-                <input id="txtContactNumber" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="60" />
-            </div>
-
-
-        </div>
-        <div style="clear: both; font-size: 18px; color: rgb(179, 60, 18); font-family: 'Avenir Next LT W01 Demi', Helvetica, Arial, sans-serif; height: auto; width: 80%; text-align: left;">
-            Please make sure your shipping and billing addresses are correct. Addresses cannot be changed once an order is submitted and your order may be canceled if we cannot confirm either address.
-        </div>
-        <br />
-        <br />
-        <div class="check_out_third_div">
-            <div class="confirm_order_detail_div">
-                <div style="min-height: 290px">
-                    <asp:Panel ID="pnlConfirmOrder" runat="server">
-                        <div class="mainHeadingAveniorCheckout">
-                            <label ID="ltrlconfirmurorderdetails" runat="server">Confirm your order details...</label>
-                        </div>
-                        <br />
-                        <asp:GridView ID="grdViewShopCart" DataKeyNames="ItemID" runat="server" SkinID="grdViewCheckoutCartView" CellSpacing="2" CssClass="width100p"
-                                      OnRowDataBound="grdViewShopCart_RowDataBound">
-                            <columns>
-                                <asp:templatefield headertext="Quantity" headerstyle-horizontalalign="Left" itemstyle-horizontalalign="Left" itemstyle-cssclass="PaddingToCells">
-                                    <itemtemplate>
-                                        <asp:Label ID="lblTotalItemQuantity" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Qty1") %>'
-                                                   Font-Bold="true" CssClass="Fsize14" />
-                                    </itemtemplate>
-                                </asp:templatefield>
-                                <asp:templatefield headertext="Product Description" headerstyle-horizontalalign="Left" itemstyle-cssclass="PaddingToCells"
-                                                   itemstyle-horizontalalign="Left">
-                                    <itemtemplate>
-                                        <asp:Label ID="lblItemProductName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "ProductName")%>'
-                                                   Font-Bold="true" CssClass="Fsize14"></asp:Label>
-                                        <br />
-                                        <asp:Label ID="lblPapErName" runat="server"></asp:Label>
-                                        <br />
-                                        <asp:Label ID="lblAddons" runat="server"></asp:Label>
-                                        <asp:BulletedList CssClass="UList" ID="bltSelectedAddonList" runat="server" DisplayMode="Text"
-                                                          Visible="false">
-                                        </asp:BulletedList>
-                                    </itemtemplate>
-                                </asp:templatefield>
-                                <asp:templatefield headertext="Price" headerstyle-horizontalalign="Right" itemstyle-horizontalalign="Right" itemstyle-cssclass="PaddingToCells">
-                                    <itemtemplate>
-                                        <asp:Label ID="lblItemPrice" runat="server" CssClass="Fsize14" Text='<%# DataBinder.Eval(Container.DataItem, "Qty1BaseCharge1") %>' />
-                                    </itemtemplate>
-                                </asp:templatefield>
-                                <asp:templatefield visible="false" headertext="VAT" headerstyle-horizontalalign="Right"
-                                                   itemstyle-horizontalalign="Right">
-                                    <itemtemplate>
-                                        <asp:Label ID="lblVatStateTax" runat="server" />
-                                    </itemtemplate>
-                                </asp:templatefield>
-                                <asp:templatefield visible="false" headertext="Total" headerstyle-horizontalalign="Right"
-                                                   itemstyle-horizontalalign="Right">
-                                    <itemtemplate>
-                                        <asp:Label ID="lblTotalItemPrice" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Qty1GrossTotal") %>' />
-                                    </itemtemplate>
-                                </asp:templatefield>
-                            </columns>
-                        </asp:GridView>
-                        <br />
-                        <div id="PnalTotalBox" runat="server">
-                            <table border="0" cellpadding="3" cellspacing="0" width="100%" class="left_align">
-                                <tr>
-                                    <td width="30%">
-                                        &nbsp;
-                                    </td>
-                                    <td width="30%">
-                                        &nbsp;
-                                    </td>
-                                    <td width="20%" align="left" class="LightGrayLabels" id="tdSubtotal" runat="server">
-                                        <span id="spnsubtotal" runat="server">Sub Total:</span>
-                                    </td>
-                                    <td align="right" width="20%">
-                                        <label ID="lblSubTotal" Text="0" runat="server" class="Fsize15 colorBlack"
-                                                   Style="margin-right: 13px;" />
-                                    </td>
-                                </tr>
-                                <tr id="tblRowVoucher" runat="server">
-                                    <td width="30%" align="left">
-                                        &nbsp;
-                                    </td>
-                                    <td width="30%">
-                                        &nbsp;
-                                    </td>
-                                    <td width="20%" align="left">
-                                        <label ID="lblVoucherDiscPercentageDisplay" Style="font-family: 'Lato', Calibri, Arial, sans-serif; font-style: normal; font-weight: bold; font-size: 14px; line-height: 13px; color: rgb(102,102,102); color: #FB8D00 !important;"
-                                                    runat="server" >Discount:</label>
-                                    </td>
-                                    <td align="right" width="20%">
-                                        <label ID="lblVoucherCodeDiscAmount" Style="margin-right: 13px; color: #FB8D00 !important;"
-                                                   Text="0" runat="server" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="30%" align="left">
-                                        &nbsp;
-                                    </td>
-                                    <td width="30%">
-                                        &nbsp;
-                                    </td>
-                                    <td width="20%" align="left" class=" LightGrayLabels" id="tddelivery" runat="server">
-                                        <span id="spndelivery" runat="server">Delivery:</span>
-                                    </td>
-                                    <td align="right" width="20%">
-                                        <label ID="lblDeliveryCostCenter" Text="0" runat="server" class="LightGrayLabels"
-                                                   Style="margin-right: 13px;" />
-                                    </td>
-                                </tr>
-                                <tr id="rowVat" runat="server">
-                                    <td width="30%" align="left"></td>
-                                    <td width="30%"></td>
-                                    <td width="20%" align="left" class="LightGrayLabels">
-                                        <label ID="lblTaxLabel" runat="server"></label>
-                                    </td>
-                                    <td align="right" width="20%">
-                                        <label ID="lblVatTotal" Text="0" class="LightGrayLabels" runat="server" Style="margin-right: 13px;" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="30%">
-                                        &nbsp;
-                                    </td>
-                                    <td width="30%">
-                                        &nbsp;
-                                    </td>
-                                    <td width="20%" align="left" class="fontSyleBold Fsize15" id="tdgrandtotal" runat="server">
-                                        <span class="CartFonts colorBlack" id="spngrandtotal" runat="server">Total:</span>
-                                    </td>
-                                    <td align="right" width="20%">
-                                        <label class="CartFonts colorBlack Fsize15" ID="lblGrandTotal" Text="0" runat="server"
-                                                   Style="margin-right: 13px;" />
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </asp:Panel>
-                </div>
-                <div id="DivShippTo" class="black_sub_heading textAlignLeft paddingLeft10px" style="display: none;"
-                     runat="server">
-                    <label ID="ltrlShipTo" runat="server">Bill to & Ship to:</label>
-                </div>
-                <div id="innerContainerShippTo" class="textAlignLeft AddressesContainer" style="display: none;"
-                     runat="server">
-                    <label ID="lblShipToAddLin1" runat="server" class="lbAddressLinesWithPadding" />
-                    <label ID="lblShipToAddLin2" runat="server" class="lbAddressLines" /><br />
-                    <label ID="lblShipToCity" runat="server" class="lbAddressLinesWithPadding" /><br />
-                    <label ID="lblShipTostate" runat="server" class="lbAddressLinesWithPadding" />&nbsp;
-                    <label ID="lblShipToCountry" runat="server" class="lbAddressLines" />&nbsp;
-                    <label ID="lblShipToZipCode" runat="server" class="lbAddressLines" /><br />
-                </div>
-                <br />
-                <div id="BillTOShippTO" class="black_sub_heading textAlignLeft paddingLeft10px" runat="server">
-                    <label ID="ltrlBillShippTo" runat="server" >Bill to:</label>
-
-                </div>
-                <div id="BillTOShippTOContainer" class="textAlignLeft AddressesContainer" runat="server">
-                    <label ID="lblAddLine1BilSip" runat="server" class="lbAddressLinesWithPadding" />
-                    <label ID="lbladdLine2BilSip" runat="server" class="lbAddressLines" /><br />
-                    <label ID="lblCityBilSip" runat="server" class="lbAddressLinesWithPadding" /><br />
-                    <label ID="lblStateBilSip" runat="server" class="lbAddressLinesWithPadding" />&nbsp;
-                    <label ID="lblCountryBilSip" runat="server" class="lbAddressLines" />&nbsp;
-                    <label ID="lblPostCdeBilSip" runat="server" class="lbAddressLines" /><br />
-                </div>
-                <br />
-                <div class="textAlignLeft paddingLeft10px">
-                    <label ID="lblContactNotxt" runat="server" class="black_sub_heading">Contact No:</label>
-                    <label ID="lblContactNo" runat="server" class="ContactNumberlb" />
-                </div>
-                <br />
-                <div id="DivRefPO" style="display: none;" class="textAlignLeft paddingLeft10px">
-                    <label ID="lblRefPOtxt" runat="server" class="black_sub_heading">Your Ref/PO is:"</label><label ID="lblRefPo" runat="server" CssClass="POlb"></label>
-                </div>
-                <br />
-                <div id="DivSpclNotes" style="display: none;" class="textAlignLeft paddingLeft10px">
-                    <label ID="lblSpecialNoteTxt" runat="server" 
-                           Style="color: #C72965;" class="black_sub_heading">Special instructions(notes):</label><br />
-                    <br />
-                    <label ID="lblNotesDetail" runat="server" class="SpecialNotesContainer" />
-                </div>
-                <div class="pad10">
-                    <div class="float_right marginLeft directDepositcs">
-                        
-                        <asp:Button ID="btnDirectDeposit" CssClass="start_creating_btn_SApp rounded_corners5" UseSubmitBehavior="true"
-                                    runat="server" OnClick="btnDirectDeposit_Click" Visible="false" Text="Pay Via Direct Deposite"
-                                    ClientIDMode="Static" OnClientClick="return ValidateCheckout();" />
-                    </div>
-                </div>
-                <div class="clearBoth">
-                </div>
-                <div class="pad10">
-                    <div class="float_right marginLeft">
-
-                        <asp:Button ID="btnConfirmOrder" CssClass="start_creating_btn_SApp rounded_corners5" UseSubmitBehavior="true"
-                                    runat="server" OnClick="btnConfirmOrder_Click" Enabled="true" Text="Continue"
-                                    ClientIDMode="Static" OnClientClick="return ValidateCheckout();" />
-                    </div>
-                    <div class="float_right">
-                        <asp:Button Text="BACK TO SHOPPING" ID="btnShopCart" CssClass="btn_brown rounded_corners5"
-                                    runat="server" OnClick="btnShopCart_Click" CausesValidation="False" />
-                    </div>
-                    <div class="clearBoth">
-                        &nbsp;
-                    </div>
-                </div>
-            </div>
-            <br />
-            <br />
-        </div>
-        <div class="clearBoth">
-            &nbsp;
-        </div>
-        <div class="col-md-6 col-lg-6 col-xs-12 cntcheckoutSummary">
-
-            <div class="super_admin_message" id="DivretailMesg" runat="server" visible="false">
-                <label ID="ltrlSomeOmeCallU" runat="server"> Some one will call you</label>
-                <label ID="ltrlconfirmDetails" runat="server" >to reconfirm details.</label>
-            </div>
-            <div class="super_admin_message" id="divAdminMessage" runat="server" visible="false">
-                <label ID="ltrlorderwillbed" runat="server">Order will be delivered after</label>
-
-                <label ID="lblSupAdminName" runat="server"></label>
-
-                <label ID="ltrlapprovethisorder" runat="server"> approves this order.</label>
-            </div>
-            <div class="clearBoth">
-                &nbsp;
-            </div>
-            <div class="super_admin_message" runat="server" id="divWarnnigMEsg">
-                <label ID="ltrlWarnnigMEsg" runat="server"></label>
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-6 col-xs-12 cntcheckoutSummary">
-
-            <label ID="lblYourOrderPRoMesg" runat="server" CssClass="mainHeadingAveniorCheckout" Style="display: none; height: auto !important;">Your order being processed by:</label>
-            <div class="SelectedBroker nContainer rounded_corners" style="display: none;">
-                <table style="width: 100%;">
-                    <tr id="container" class="PostCodetableRow">
-                        <td class="tdBrokerLogo">
-                            <div class="CkOutBrokerLlogo MargnRght10">
-                                <img id="imgLogo" style="border: 0px; max-width: 180px; max-height: 70px;" class="brokerLogoImg" />
+                   @using (Html.BeginForm())
+                   {
+                    <div>
+                        <div id="maincntCheckout" class="check_out_right_div col-md-12 col-lg-12 col-xs-12">
+                            <div class="clearBoth mainHeadingAveniorCheckout">
+                                <label ID="Label2" runat="server">Special Instructions</label>
+                            </div>
+
+                            <div class="TTL_Checkout ckecoutWidthAvenior col-md-12 col-lg-12 col-xs-12">
+                                <label ID="ltrlcontacttelnum" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12 ">Contact Tel Number</label>
+
+                                @Html.TextBoxFor(model => model.ContactTel, new { id = "txtInstContactTelNumber", @class = "AveniorTxtBoxCheckout  col-md-2 col-lg-2 col-xs-12", onblur = "ChangeTelNumber();" })
+                                @*<input id="txtInstContactTelNumber" name="txtInstContactTelNumber" type="text" class="AveniorTxtBoxCheckout col-md-2 col-lg-2 col-xs-12 "
+                                       onblur="ChangeTelNumber();" value="@Model.ContactTel" />*@
+
+                            </div>
+                            <div class="clearBoth">
+                            </div>
+
+                            <div class="col-md-12 col-lg-12 col-xs-12 ckecoutWidthAvenior TTL_Checkout">
+                                <label id="ltrlnotes" class="col-md-2 col-lg-2 col-xs-12 checkoutNoteslbl">Notes</label>
+
+                                @Html.TextBoxFor(model => model.Notes, new { id = "txtInstNotes", @class = "AveniorTxtBoxCheckout", onblur = "ChangeNotesTxt();"})
+                                @*<input type="text" inputmode="MultiLine" id="txtInstNotes" name="txtInstNotes" style="height:80px;" class="AveniorTxtBoxCheckout" onblur="ChangeNotesTxt();" />*@
+                                @*<asp:TextBox TextMode="MultiLine" ID="txtInstNotes" runat="server" Height="80px"
+                CssClass="AveniorTxtBoxCheckout" Columns="10" onblur="ChangeNotesTxt();" />*@
+                            </div>
+                            <div class="clearBoth">
+                            </div>
+                            @if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                            {
+                                <div id="CorporateBox" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                    <label id="ltrlcheckoutfirstdiv" class="col-md-2 col-lg-2 col-xs-12 smallCheckoutAvenior">Your Ref / PO</label>
+                                    @Html.TextBoxFor(model => model.Notes, new { id = "txtInstNotes", @class = "AveniorTxtBoxCheckout", onblur = "ChangeNotesTxt();" })
+                                    <input id="txtYourRefNumber" name="txtYourRefNumber" type="text" class="AveniorTxtBoxCheckout" maxlength="50"
+                                           onblur="ChangeRefPO();" />
+
+                                </div>
+
+                            }
+                            else
+                            {
+                                <div id="NormalBox" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                    <label ID="Label4"  class="col-md-2 col-lg-2 col-xs-12 smallCheckoutAvenior">Your Ref / PO</label>
+
+                                    <input id="txtYourRefNumberRetail" name="txtYourRefNumberRetail" type="text" class="AveniorTxtBoxCheckout" maxlength="50"
+                                           onblur="ChangeRefPO();" />
+
+                                </div>
+                            }
+
+                            <div class="clearBoth">
+                                &nbsp;
+                            </div>
+                            <br />
+                            <br />
+
+                            <div class="clearBoth mainHeadingAveniorCheckout col-md-12 col-lg-12 col-xs-12">
+                                <label ID="Label1" runat="server">Choose Delivery Option</label>
                             </div>
                             <div>
-                                <label ID="BrokerAddLine1" runat="server" Style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px;" />
-                                <label ID="BrokerAddLine2" runat="server" Style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px;" /><br />
-                                <label ID="BrokerTown" runat="server" Style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: bold; font-weight: normal; font-size: 14px;" />,
-                                <label ID="BrokerState" runat="server" Style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: bold; font-weight: normal; font-size: 14px;" />,
-                                <label ID="BrokerCountry" runat="server" Style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: bold; font-weight: normal; font-size: 14px;" /><br />
-                                <label ID="BrokerFax" runat="server" Style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: bold; font-weight: normal; font-size: 14px;" />
-                                <br />
-                                <br />
-                                <div class="SearchPostCodeTeleImg" runat="server" id="telephoneIcon">
+                                <div class="clearBoth smallCheckoutAvenior float_left_simple">
+                                    <label ID="Literal3" runat="server" Text=" "></label>
                                 </div>
-                                <div id="BrokerTeleNo" class="srchpstcodeTel">
+                                <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                    <label ID="Label3" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Choose Delivery</label>
+
+                                    <select id="ddlDeliveyCostCenter" class="checkoutDropDown">
+
+                    @{
+                              MPC.Models.DomainModels.Item record = ViewBag.Item;
+
+                              if (Model.DeliveryCostCenters != null && Model.DeliveryCostCenters.Count > 0)
+                              {
+                                  foreach (var costcenter in Model.DeliveryCostCenters as List<MPC.Models.DomainModels.CostCentre>)
+                                  {
+                                      //  if(country.co)
+                                      if (record != null)
+                                      {
+                                          if (@costcenter.Name == record.ProductName)
+                                          {
+                                              <option value="@costcenter.CostCentreId" selected>@costcenter.Name</option>
+                                          }
+                                          else
+                                          {
+                                              <option value="-1" selected>Select a delivery option</option>
+                                              <option value="@costcenter.CostCentreId">@costcenter.Name</option>
+                                          }
+                                      }
+                                      else
+                                      {
+                                          <option value="-1" selected>Select a delivery option</option>
+                                          <option value="@costcenter.CostCentreId">@costcenter.Name</option>
+                                      }
+
+
+                                  }
+                              }
+                              else
+                              {
+                                  <option value="-1" selected>Select a delivery option</option>
+                              }
+
+
+                      }
+
+
+                      </select>
+
+
+                                    @*<asp:DropDownList ID="ddlDeliveyCostCenter" runat="server" CssClass="checkoutDropDown" />*@
+                                </div>
+                                <div class="clearBoth">
+                                </div>
+
+                                <div id="pickUpaddressContainer" runat="server" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                    <label ID="Label5" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Pickup Address</label>
+
+                                    <input type="text" inputmode="MultiLine" id="txtPickUpAddressDetail" style="height:80px;" class="AveniorTxtBoxCheckout" value="@Model.PickUpAddress" disabled>
+                                    @*<asp:TextBox TextMode="MultiLine" ID="txtPickUpAddressDetail" runat="server" Height="80px"
+                    CssClass="AveniorTxtBoxCheckout" Columns="10" Enabled="false" />*@
+
+                                </div>
+
+                            </div>
+                            <div class="clearBoth">
+                                &nbsp;
+                            </div>
+                            <br />
+                            <br />
+                            @*<%--  shipping address panel --%>*@
+                            <div class="clearBoth mainHeadingAveniorCheckout col-md-12 col-lg-12 col-xs-12">
+                                <label ID="Label6" runat="server">Shipping Address</label>
+                            </div>
+                            <div id="divDeliveryAddress">
+
+                                <div id="ddshippingAdd" runat="server" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                    <label ID="ltrlchoosedeliveryadd" runat="server" class="col-md-2 col-lg-2 col-xs-12 smallCheckoutAvenior"> Choose Delivery Address</label>
+
+
+                                    @*<asp:DropDownList ID="ddlDelivery" runat="server" AutoPostBack="true" CssClass="checkoutDropDown"
+                    OnSelectedIndexChanged="ddlDelivery_SelectedIndexChanged" />*@
+
+                                    <select id="ddlDelivery" class="checkoutDropDown">
+                                        @if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                                        {
+                                            <option value="-1">Add New Address</option>
+                                        }
+
+                                            @foreach (var add in Model.ShippingAddresses as List<Address>)
+                                            {
+                                                <option value="@add.AddressId">@add.AddressName</option>
+
+
+                                            }
+
+
+
+
+                                    </select>
+                                    @*@Html.DropDownListFor(s => s.selectedShippAddress, ViewBag.listitem as SelectList, new { @class="checkoutDropDown" });*@
+                                      @Html.DropDownListFor(model => model.SelectedDeliveryAddress, (IEnumerable<SelectListItem>)@ViewBag.listitemShipping, new { @class = "checkoutDropDown" })
+                                </div>
+                                <div class="clearBoth">
+                                </div>
+
+                                <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                    <label id="ltrlshippingname" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Shipping Name</label>
+
+                                    <input id="txtShipAddressName" name="txtShipAddressName" type="text" runat="server" class=" AveniorTxtBoxCheckout" maxlength="100" value="@ShippingAddress.AddressName" />
+                                    <label ID="Label7" CssClass="tooltipCheckoutAvenior" runat="server">e.g. Office Address</label>
+
+                                </div>
+
+                                <div class="clearBoth">
+                                </div>
+
+
+                                <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                    <label ID="ltrladdline2nd" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Address line 1</label>
+
+                                    <input id="txtShipAddLine1" name="txtShipAddLine1" type="text" runat="server" class=" AveniorTxtBoxCheckout" maxlength="255" value="@ShippingAddress.Address1"
+                                           onblur="ChangeShippToAddLin1();" />
+
+                                </div>
+                                <div class="clearBoth">
+                                </div>
+
+                                <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                    <label ID="ltrladdressline2nd2" runat="server" CssClass="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Address line 2</label>
+
+
+                                    <input id="txtShipAddressLine2" name="txtShipAddressLine2" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="255" value="@ShippingAddress.Address2"
+                                           onblur="ChangeShippToAddLin2();" />
+                                </div>
+                                <div class="clearBoth">
+                                </div>
+
+                                <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                    <label ID="ltrlcity2" runat="server" Text="City" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12"></label>
+
+
+                                    <input id="txtShipAddCity" name="txtShipAddCity" type="text" runat="server" class=" AveniorTxtBoxCheckout" maxlength="100" value="@ShippingAddress.City"
+                                           onblur="ChangeShippToCity();" />
+
+                                </div>
+                                <div class="clearBoth">
+                                </div>
+
+                                <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                    <label ID="ltrlzipcodeP2" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Zip Code / Post Code</label>
+
+                                    <input id="txtShipPostCode" name="txtShipPostCode" type="text" runat="server" class="AveniorTxtBoxCheckout float_left_simple" maxlength="30" value="@ShippingAddress.PostCode"
+                                           onblur="ChangeShippToPostCode();" /><img id="lodingImg" runat="server" alt=""
+                                                                                    src="~/images/wpLoader.gif" style="display: none; float: left; width: 20px; margin-top: 7px; margin-left: 0px;" />
+
+                                </div>
+                                <div class="clearBoth">
+                                </div>
+
+                                <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                    <label id="ltrlcountry2" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Country</label>
+                                    @*<asp:DropDownList ID="ddShippingCountry" runat="server" CssClass="checkoutDropDown"
+                    AutoPostBack="true" OnSelectedIndexChanged="ShippingDropDown_SelectedIndexChanged" />*@
+                                    <select id="ddShippingCountry" class="checkoutDropDown">
+                                        <option value="-1" selected>Select Country</option>
+                                    @if (Model.Countries != null && Model.Countries.Count > 0)
+                                    {
+                                        foreach (var country in Model.Countries as List<MPC.Models.DomainModels.Country>)
+                                        {
+                                            if (country.CountryId == ShippingAddress.CountryId)
+                                            {
+                                                <option value="@country.CountryId" selected>@country.CountryName</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@country.CountryId">@country.CountryName</option>
+                                            }
+
+                                        }
+
+                                    }
+
+                                  </select>
+                                    @*@Html.DropDownList("Country",ViewData["Countries"] as  List< MPC.Models.DomainModels.)*@
+                                </div>
+                                <div class="clearBoth">
+                                </div>
+
+                                <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                    <label ID="lblStatedd" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">State</label>
+                                    <asp:DropDownList ID="ddShippingState" runat="server" CssClass="checkoutDropDown" />
+                                    <select id="ddShippingState" class="checkoutDropDown">
+                                        <option value="-1" selected>Select State</option>
+                                        @if (Model.States != null && Model.States.Count > 0)
+                                        {
+                                            foreach (var state in Model.States as List<MPC.Models.DomainModels.State>)
+                                            {
+                                                if (state.StateId == ShippingAddress.StateId)
+                                                {
+                                                    <option value="@state.StateId" selected>@state.StateName</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@state.StateId">@state.StateName</option>
+                                                }
+
+                                            }
+                                        }
+
+
+                                    </select>
+                                </div>
+                                <div class="clearBoth">
+                                </div>
+                                <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                    <label ID="ltrlcontactnum2" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Contact Number</label>
+
+                                    <input id="txtShipContact" name="txtShipContact" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="60" value="@ShippingAddress.Tel1" />
+                                </div>
+                                <div class="clearBoth">
+                                    &nbsp;
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <br />
+                        <br />
+                        <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                            <input type="checkbox" id="chkBoxDeliverySameAsBilling" checked="checked" onclick="BillingSameAsDeliveryScriptCheckBox();" value="Bill items to the above shipping address" />
+                            @*<asp:CheckBox ID="chkBoxDeliverySameAsBilling" Text="Bill items to the above shipping address" runat="server"
+            Checked="true" onclick="BillingSameAsDeliveryScriptCheckBox();" OnCheckedChanged="chkBoxDeliverySameAsBilling_CheckedChanged" AutoPostBack="true" />*@
+                        </div>
+                        <div class="clear">
+                        </div>
+                        <br />
+                        <br />
+                        <br />
+
+                        <div id="divBilling">
+                            <div class="clearBoth mainHeadingAveniorCheckout col-md-12 col-lg-12 col-xs-12">
+                                <label ID="Label8" runat="server">Billing Address</label>
+                            </div>
+                            @if (Model.IsUserRole != null)
+                            {
+                                if (Model.IsUserRole)
+                                {
+                                    if (Model.isStoreModePrivate)
+                                    {
+                                        if (BillingAddress.isPrivate != true)
+                                        {
+                                            IsDisable = "disabled";
+                                        }
+                                        else
+                                        {
+                                            IsDisable = "";
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        IsDisable = "";
+                                    }
+
+                                }
+                                else
+                                {
+                                    IsDisable = "";
+                                }
+
+
+                            }
+                            else
+                            {
+                                IsDisable = "";
+                            }
+                            <div id="ddBillingAdd" runat="server" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                <label ID="lblBillingAddress" runat="server" class="col-md-2 col-lg-2 col-xs-12 smallCheckoutAvenior">Choose Billing Address</label>
+                                @*<asp:DropDownList ID="ddlBilling" runat="server" AutoPostBack="true" CssClass="checkoutDropDown"
+                OnSelectedIndexChanged="ddlBilling_SelectedIndexChanged" />*@
+                                <select id="ddlBilling" class="checkoutDropDown">
+                    @if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                    {
+                        <option value="-1">Add New Address</option>
+                    }
+                    @if (Model.BillingAddresses != null && Model.BillingAddresses.Count > 0)
+                    {
+                        foreach (var add in Model.BillingAddresses as List<Address>)
+                        {
+                            if (add.AddressId == BillingAddress.AddressId)
+                            {
+                                <option value="@add.AddressId" selected>@add.AddressName</option>
+                            }
+                            else
+                            {
+                                <option value="@add.AddressId">@add.AddressName</option>
+                            }
+                        }
+                    }
+
+                </select>
+
+                                @Html.DropDownList("ddlBilling", (SelectList)@ViewBag.listitemShipping, " -- Add New Address -- ")
+                                @Html.DropDownListFor(model => model.SelectedDeliveryAddress, (IEnumerable<SelectListItem>)@ViewBag.listitemShipping, new { @class = "checkoutDropDown" }) 
+                            </div>
+                            <div class="clearBoth">
+                            </div>
+
+
+                            <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                <label ID="ltrlBillingname" runat="server" CssClass="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Billing Name</label>
+
+                                <input id="txtBillingName" name="txtBillingName" disabled="@IsDisable" type="text" class="AveniorTxtBoxCheckout" maxlength="100" value="@BillingAddress.AddressName" />
+                                <label ID="Label9" runat="server" class="tooltipCheckoutAvenior">e.g. Office Address</label>
+                            </div>
+                            <div class="clearBoth">
+                            </div>
+
+
+                            <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                <label ID="ltrladdressline1" runat="server" CssClass="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Address line 1</label>
+
+                                <input id="txtAddressLine1" name="txtAddressLine1" type="text" disabled="@IsDisable" class="AveniorTxtBoxCheckout" maxlength="255" value="@BillingAddress.Address1"
+                                       onblur="ChangeAddresLinne1();" />
+
+                            </div>
+                            <div class="clearBoth">
+                            </div>
+
+
+                            <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                <label ID="ltrladdressline2" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Address line 2</label>
+
+                                <input id="txtAddressLine2" name="txtAddressLine2" type="text" disabled="@IsDisable" class="AveniorTxtBoxCheckout" maxlength="255"
+                                       onblur="ChangeAddresLinne2();" value="@BillingAddress.Address2">
+                            </div>
+                            <div class="clearBoth">
+                            </div>
+
+                            <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                <label ID="ltrlcity" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">City</label>
+
+                                <input id="txtCity" name="txtCity" type="text" disabled="@IsDisable" class="AveniorTxtBoxCheckout" maxlength="100"
+                                       onblur="ChangeCityShippBill();" value="@BillingAddress.City" />
+
+                            </div>
+                            <div class="clearBoth">
+                            </div>
+
+                            <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+
+                                <label ID="ltrlzipcodeP" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Zip Code / Post Code</label>
+
+                                <input id="txtZipPostCode" name="txtZipPostCode" type="text" disabled="@IsDisable" class="AveniorTxtBoxCheckout " value="@BillingAddress.PostCode" maxlength="30"
+                                       onblur="ChangePostCodeShippBill();" />
+
+                            </div>
+                            <div class="clearBoth">
+                            </div>
+
+
+                            <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                <label ID="ltrlcountry" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Country</label>
+                                <select id="BillingCountryDropDown" class="checkoutDropDown">
+
+                    <option value="-1" selected>Select Country</option>
+                    @if (Model.Countries != null && Model.Countries.Count > 0)
+                    {
+                        foreach (var country in Model.Countries as List<MPC.Models.DomainModels.Country>)
+                        {
+                            if (country.CountryId == BillingAddress.CountryId)
+                            {
+                                <option value="@country.CountryId" selected>@country.CountryName</option>
+                            }
+                            else
+                            {
+
+                                <option value="@country.CountryId">@country.CountryName</option>
+                            }
+
+
+                        }
+                    }
+
+
+                </select>
+                                @* <asp:DropDownList ID="BillingCountryDropDown" AutoPostBack="true" runat="server" CssClass="checkoutDropDown" OnSelectedIndexChanged="BillingCountryDropDown_SelectedIndexChanged" />*@
+                            </div>
+                            <div class="clearBoth">
+                            </div>
+                            <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                <label id="ltrlstate" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">State</label>
+
+                                <select id="ddBillingState" class="checkoutDropDown">
+                    <option value="-1" selected>Select State</option>
+                    @if (Model.States != null && Model.States.Count > 0)
+                    {
+                        foreach (var state in Model.States as List<MPC.Models.DomainModels.State>)
+                        {
+                            if (state.StateId == BillingAddress.StateId)
+                            {
+                                <option value="@state.StateId" selected>@state.StateName</option>
+                            }
+                            else
+                            {
+                                <option value="@state.StateId">@state.StateName</option>
+                            }
+
+                        }
+                    }
+
+                </select>
+                            </div>
+                            <div class="clearBoth">
+                            </div>
+                            <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                <label id="ltrlcontactnum" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Contact Number</label>
+
+                                <input id="txtContactNumber" name="txtContactNumber" disabled="@IsDisable" type="text" class="AveniorTxtBoxCheckout" maxlength="60" value="@BillingAddress.Tel1">
+                            </div>
+
+
+                        </div>
+                        <div style="clear: both; font-size: 18px; color: rgb(179, 60, 18); font-family: 'Avenir Next LT W01 Demi', Helvetica, Arial, sans-serif; height: auto; width: 80%; text-align: left;">
+                            Please make sure your shipping and billing addresses are correct. Addresses cannot be changed once an order is submitted and your order may be canceled if we cannot confirm either address.
+                        </div>
+                        <br />
+                        <br />
+                        <div class="check_out_third_div">
+                            <div class="confirm_order_detail_div">
+                                <div style="min-height: 290px">
+                                    @if (Model.shopcart.CartItemsList != null && Model.shopcart.CartItemsList.Count > 0)
+                                    {
+                                        <div id="pnlConfirmOrder">
+                                            <div class="mainHeadingAveniorCheckout">
+                                                <label ID="ltrlconfirmurorderdetails" runat="server">Confirm your order details...</label>
+                                            </div>
+                                            <br />
+                                            <table class="width100p" cellspacing="0" cellpadding="15" id="MainContent_grdViewShopCart" style="width:100%;border-collapse:collapse;">
+                                                <tbody>
+                                                    <tr class="gridViewCheckoutHeaderStyle">
+                                                        <th align="left" scope="col">Quantity</th>
+                                                        <th align="left" scope="col">Product Description</th>
+                                                        @if (UserCookieManager.ShowPriceOnWebstore)
+                                                        {
+                                                            <th align="right" scope="col">Price</th>
+                                                        }
+                                                        @*else
+                                                            {
+                                                                <th align="right" style="color:rgb(61, 61, 61) !important;" scope="col">Price</th>
+                                                            }*@
+
+                                                    </tr>
+
+                                            @if (Model.ProductItems != null && Model.ProductItems.Count > 0)
+                                            {
+                                                foreach (var shopcart in Model.ProductItems as List<ProductItem>)
+                                                {
+                                                    VatTotal += shopcart.Qty1Tax1Value ?? 0;
+                                                    <tr class="gridViewCheckoutRowStyle" align="top">
+                                                        <td class="PaddingToCells" align="left">
+                                                            <span id="lblTotalItemQuantity" class="Fsize14" style="font-weight:bold;">@shopcart.Qty1</span>
+                                                        </td>
+                                                        <td class="PaddingToCells" align="left">
+                                                            <span id="lblItemProductName" class="Fsize14" style="font-weight:bold;">@shopcart.ProductName</span>
+                                                            <br>
+                                                            <span id="lblPapErName">@shopcart.PaperType</span>
+                                                            <br>
+                                                            @{
+                                                    AddsOnList = AddsOnList.Where(addon => addon.ItemID == shopcart.ItemID).ToList();
+                                                    foreach (var add in AddsOnList)
+                                                    {
+                                                        addson = addson + add.AddOnName + ", ";
+                                                    }
+                                                            }
+                                                            <span id="lblAddons">addson</span>
+
+                                                        </td>
+                                                        @if (UserCookieManager.ShowPriceOnWebstore)
+                                                        {
+                                                            <td class="PaddingToCells" align="right">
+                                                                @{
+                                                            lblPrice = Convert.ToString(shopcart.Qty1BaseCharge1 ?? 0);
+
+                                                            _priceTotal += Convert.ToDouble(lblPrice);
+
+                                                            lblPrice = Utils.FormatDecimalValueToTwoDecimal(lblPrice, ViewBag.Currency);
+
+                                                                }
+                                                                <span id="lblItemPrice" class="Fsize14">@lblPrice</span>
+                                                            </td>
+                                                        }
+
+
+                                                    </tr>
+
+
+                                                }
+                                            }
+                                                  
+                                                </tbody>
+                                            </table>
+
+                                            <br />
+                                            @if (Model.shopcart.CartItemsList != null && Model.shopcart.CartItemsList.Count > 0)
+                                            {
+                                                if (UserCookieManager.ShowPriceOnWebstore)
+                                                {
+                                                    <div id="PnalTotalBox" runat="server">
+                                                        <table border="0" cellpadding="3" cellspacing="0" width="100%" class="left_align">
+                                                            <tr>
+                                                                <td width="30%">
+                                                                    &nbsp;
+                                                                </td>
+                                                                <td width="30%">
+                                                                    &nbsp;
+                                                                </td>
+                                                                <td width="20%" align="left" class="LightGrayLabels" id="tdSubtotal" runat="server">
+                                                                    <span id="spnsubtotal">Sub Total:</span>
+                                                                </td>
+                                                                @{
+                                                                string price = Convert.ToString(_priceTotal);
+                                                                string Sub = Utils.FormatDecimalValueToTwoDecimal(price, ViewBag.Currency);
+                                                                SubTotal = Convert.ToDouble(Sub);
+                                                                }
+
+                                                                <td align="right" width="20%">
+                                                                    <label id="lblSubTotal" class="Fsize15 colorBlack"
+                                                                           style="margin-right: 13px;">@SubTotal</label>
+                                                                    </td>
+                                                                </tr>
+                                                                @if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
+                                                                {
+                                                                    <tr id="tblRowVoucher" runat="server" style="display:none;">
+                                                                        <td width="30%" align="left">
+                                                                            &nbsp;
+                                                                        </td>
+                                                                        <td width="30%">
+                                                                            &nbsp;
+                                                                        </td>
+                                                                        <td width="20%" align="left">
+                                                                            <label ID="lblVoucherDiscPercentageDisplay" Style="font-family: 'Lato', Calibri, Arial, sans-serif; font-style: normal; font-weight: bold; font-size: 14px; line-height: 13px; color: rgb(102,102,102); color: #FB8D00 !important;"
+                                                                                   runat="server">Discount:</label>
+                                                                        </td>
+                                                                        <td align="right" width="20%">
+                                                                            <label ID="lblVoucherCodeDiscAmount" Style="margin-right: 13px; color: #FB8D00 !important;"
+                                                                                   Text="0" runat="server" />
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+
+                                                                <tr>
+                                                                    <td width="30%" align="left">
+                                                                        &nbsp;
+                                                                    </td>
+                                                                    <td width="30%">
+                                                                        &nbsp;
+                                                                    </td>
+                                                                    <td width="20%" align="left" class=" LightGrayLabels" id="tddelivery" runat="server">
+                                                                        <span id="spndelivery" runat="server">Delivery:</span>
+                                                                    </td>
+                                                                    @if (deliveryCost > 0)
+                                                                    {
+                                                                        string dc = Convert.ToString(deliveryCost);
+
+                                                                        string delivery = Utils.FormatDecimalValueToTwoDecimal(dc, ViewBag.Currency);
+                                                                        deliveryTotal = Convert.ToDouble(delivery);
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        string delivery = Utils.FormatDecimalValueToTwoDecimal("0", ViewBag.Currency);
+
+                                                                        deliveryTotal = Convert.ToDouble(delivery);
+                                                                    }
+                                                                    <td align="right" width="20%">
+                                                                        <label ID="lblDeliveryCostCenter" Text="0" runat="server" class="LightGrayLabels"
+                                                                               Style="margin-right: 13px;">@deliveryTotal</label>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr id="rowVat" runat="server">
+                                                                        <td width="30%" align="left"></td>
+                                                                        <td width="30%"></td>
+                                                                        <td width="20%" align="left" class="LightGrayLabels">
+                                                                            <label id="lblTaxLabel">@Model.TaxLabel</label>
+                                                                        </td>
+                                                                        <td align="right" width="20%">
+                                                                            @if (deliveryCostTaxVal > 0)
+                                                                            {
+                                                                                string dct = Convert.ToString(deliveryCostTaxVal);
+
+                                                                                string dTax = Utils.FormatDecimalValueToTwoDecimal(dct, Model.Currency);
+                                                                                deliveryTax = Convert.ToDouble(dTax);
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                string vat = Convert.ToString(VatTotal);
+
+                                                                                string dTax = Utils.FormatDecimalValueToTwoDecimal(vat, Model.Currency);
+                                                                                deliveryTax = Convert.ToDouble(dTax);
+                                                                            }
+                                                                            <label id="lblVatTotal" class="LightGrayLabels" style="margin-right: 13px;">@deliveryTax</label>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td width="30%">
+                                                                            &nbsp;
+                                                                        </td>
+                                                                        <td width="30%">
+                                                                            &nbsp;
+                                                                        </td>
+                                                                        <td width="20%" align="left" class="fontSyleBold Fsize15" id="tdgrandtotal" runat="server">
+                                                                            <span class="CartFonts colorBlack" id="spngrandtotal">Total:</span>
+                                                                        </td>
+                                                                        <td align="right" width="20%">
+                                                                            @if (deliveryCost > 0)
+                                                                            {
+                                                                                grosstotal = _priceTotal + (deliveryCostTaxVal + VatTotal) + deliveryCost;
+                                                                                string gross = Convert.ToString(grosstotal);
+                                                                                string GT = Utils.FormatDecimalValueToTwoDecimal(gross, Model.Currency);
+                                                                                GrandTotal = Convert.ToDouble(GT);
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                grosstotal = _priceTotal + VatTotal;
+                                                                                string gross = Convert.ToString(grosstotal);
+                                                                                string GT = Utils.FormatDecimalValueToTwoDecimal(gross, Model.Currency);
+                                                                                GrandTotal = Convert.ToDouble(GT);
+
+                                                                            }
+                                                                            <label class="CartFonts colorBlack Fsize15" id="lblGrandTotal"
+                                                                                   style="margin-right: 13px;">@GrandTotal</label>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                }
+
+                                            }
+
+                                        </div>
+                                    }
+
+                                </div>
+                                <div id="DivShippTo" class="black_sub_heading textAlignLeft paddingLeft10px" style="display: none;"
+                                     runat="server">
+                                    <label ID="ltrlShipTo" runat="server">Bill to & Ship to:</label>
+                                </div>
+                                <div id="innerContainerShippTo" class="textAlignLeft AddressesContainer" style="display: none;">
+                                    <label id="lblShipToAddLin1" class="lbAddressLinesWithPadding">@ShippingAddress.Address1</label>
+                                    <label id="lblShipToAddLin2" class="lbAddressLines">@ShippingAddress.Address2</label><br />
+                                    <label id="lblShipToCity" class="lbAddressLinesWithPadding">@ShippingAddress.City</label><br />
+                                    <label id="lblShipTostate" class="lbAddressLinesWithPadding">@ShippingAddress.State</label>&nbsp;
+                                    <label id="lblShipToCountry" class="lbAddressLines">@ShippingAddress.Country</label>  &nbsp;
+                                    <label id="lblShipToZipCode" class="lbAddressLines">@ShippingAddress.PostCode</label> <br />
+                                </div>
+                                <br />
+                                <div id="BillTOShippTO" class="black_sub_heading textAlignLeft paddingLeft10px" runat="server">
+                                    <label ID="ltrlBillShippTo" runat="server">Bill to:</label>
+
+                                </div>
+                                <div id="BillTOShippTOContainer" class="textAlignLeft AddressesContainer" runat="server">
+                                    <label id="lblAddLine1BilSip" class="lbAddressLinesWithPadding">@BillingAddress.Address1</label>
+                                    <label id="lbladdLine2BilSip" class="lbAddressLines">@BillingAddress.Address2</label><br />
+                                    <label id="lblCityBilSip" class="lbAddressLinesWithPadding">@BillingAddress.City</label><br />
+                                    <label id="lblStateBilSip" class="lbAddressLinesWithPadding">@BillingAddress.State</label>&nbsp;
+                                    <label id="lblCountryBilSip" class="lbAddressLines">@BillingAddress.Country</label>&nbsp;
+                                    <label id="lblPostCdeBilSip" class="lbAddressLines">@BillingAddress.PostCode</label><br />
+                                </div>
+                                <br />
+                                <div class="textAlignLeft paddingLeft10px">
+                                    <label ID="lblContactNotxt" runat="server" class="black_sub_heading">Contact No:</label>
+                                    <label ID="lblContactNo" runat="server" class="ContactNumberlb">@Model.ContactTel</label>
+                                </div>
+                                <br />
+                                <div id="DivRefPO" style="display: none;" class="textAlignLeft paddingLeft10px">
+                                    <label ID="lblRefPOtxt" runat="server" class="black_sub_heading">Your Ref/PO is:"</label><label ID="lblRefPo" runat="server" CssClass="POlb"></label>
+                                </div>
+                                <br />
+                                <div id="DivSpclNotes" style="display: none;" class="textAlignLeft paddingLeft10px">
+                                    <label ID="lblSpecialNoteTxt" runat="server"
+                                           Style="color: #C72965;" class="black_sub_heading">Special instructions(notes):</label><br />
+                                    <br />
+                                    <label ID="lblNotesDetail" runat="server" class="SpecialNotesContainer" />
+                                </div>
+                                <div class="pad10">
+                                    <div class="float_right marginLeft directDepositcs">
+
+                                        <asp:Button ID="btnDirectDeposit" CssClass="start_creating_btn_SApp rounded_corners5" UseSubmitBehavior="true"
+                                                    runat="server" OnClick="btnDirectDeposit_Click" Visible="false" Text="Pay Via Direct Deposite"
+                                                    ClientIDMode="Static" OnClientClick="return ValidateCheckout();" />
+                                    </div>
+                                </div>
+                                <div class="clearBoth">
+                                </div>
+                                <div class="pad10">
+                                    <div class="float_right marginLeft">
+                                        @if (Model.shopcart.CartItemsList != null && Model.shopcart.CartItemsList.Count > 0)
+                                        {
+                                            @*<asp:Button ID="btnConfirmOrder" CssClass="start_creating_btn_SApp rounded_corners5" UseSubmitBehavior="true"
+                                                runat="server" OnClick="btnConfirmOrder_Click" Enabled="true" Text="Continue"
+                                                ClientIDMode="Static" OnClientClick="return ValidateCheckout();" />*@
+                                            <input type="submit" class="start_creating_btn_SApp rounded_corners5" onclick="return ValidateCheckout();" value="Continue" />
+                                        }
+                                    </div>
+                                    <div class="float_right">
+                                        <asp:Button Text="BACK TO SHOPPING" ID="btnShopCart" CssClass="btn_brown rounded_corners5"
+                                                    runat="server" OnClick="btnShopCart_Click" CausesValidation="False" />
+                                    </div>
+                                    <div class="clearBoth">
+                                        &nbsp;
+                                    </div>
                                 </div>
                             </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="errorMesgBroker nContainer rounded_corners" style="display: none;">
-            </div>
-        </div>
+                            <br />
+                            <br />
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xs-12 cntcheckoutSummary">
+                            @if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
+                            {
+                                <div class="super_admin_message" id="DivretailMesg" runat="server" visible="false">
+                                    <label ID="ltrlSomeOmeCallU" runat="server"> Some one will call you</label>
+                                    <label ID="ltrlconfirmDetails" runat="server">to reconfirm details.</label>
+                                </div>
+                            }
 
-        <div class="textAlignCenter">
-            <label ID="lblMsg" runat="server" Text="Your Cart is empty!" Visible="false" >Your Cart is empty!</label>
-            <label ID="lblStatus" runat="server" Text="" class="errorMessage" Visible="false" ></label>
-        </div>
-        <asp:HiddenField ID="txthdnDeliveryAddressID" runat="server" Value="0" />
-        <asp:HiddenField ID="txthdnBillingAddressID" runat="server" Value="0" />
+                            @if (Model.HasAdminMessage == true)
+                            {
+                                <div class="super_admin_message" id="divAdminMessage" runat="server" visible="false">
+                                    <label ID="ltrlorderwillbed" runat="server">Order will be delivered after</label>
+
+                                    <label id="lblSupAdminName">@Model.AdminName</label>
+
+                                    <label ID="ltrlapprovethisorder" runat="server"> approves this order.</label>
+                                </div>
+                            }
+
+                            <div class="clearBoth">
+                                &nbsp;
+                            </div>
+                            <div class="super_admin_message" id="divWarnnigMEsg">
+                                <label id="ltrlWarnnigMEsg">@Model.Warning</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xs-12 cntcheckoutSummary">
+
+                            <label ID="lblYourOrderPRoMesg" runat="server" CssClass="mainHeadingAveniorCheckout" Style="display: none; height: auto !important;">Your order being processed by:</label>
+                            <div class="SelectedBroker nContainer rounded_corners" style="display: none;">
+                                <table style="width: 100%;">
+                                    <tr id="container" class="PostCodetableRow">
+                                        <td class="tdBrokerLogo">
+                                            <div class="CkOutBrokerLlogo MargnRght10">
+                                                <img id="imgLogo" style="border: 0px; max-width: 180px; max-height: 70px;" class="brokerLogoImg" />
+                                            </div>
+                                            <div>
+                                                <label ID="BrokerAddLine1" runat="server" Style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px;" />
+                                                <label ID="BrokerAddLine2" runat="server" Style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px;" /><br />
+                                                <label ID="BrokerTown" runat="server" Style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: bold; font-weight: normal; font-size: 14px;" />,
+                                                <label ID="BrokerState" runat="server" Style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: bold; font-weight: normal; font-size: 14px;" />,
+                                                <label ID="BrokerCountry" runat="server" Style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: bold; font-weight: normal; font-size: 14px;" /><br />
+                                                <label ID="BrokerFax" runat="server" Style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: bold; font-weight: normal; font-size: 14px;" />
+                                                <br />
+                                                <br />
+                                                <div class="SearchPostCodeTeleImg" runat="server" id="telephoneIcon">
+                                                </div>
+                                                <div id="BrokerTeleNo" class="srchpstcodeTel">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="errorMesgBroker nContainer rounded_corners" style="display: none;">
+                            </div>
+                        </div>
+
+                        <div class="textAlignCenter">
+                            @*<label ID="lblMsg" runat="server" Text="Your Cart is empty!" Visible="false" >Your Cart is empty!</label>*@
+                            <label ID="lblStatus" runat="server" Text="" class="errorMessage" Visible="false"></label>
+                        </div>
+                        <input type="hidden" value="@BillingAddress.AddressId" id="txthdnBillingAddressID" />
+                        <input type="hidden" value="@BillingAddress.IsDefaultShippingAddress" id="txthdnBillingDefaultShippingAddress" />
+                        <input type="hidden" value="@ShippingAddress.AddressId" id="txthdnDeliveryAddressID" />
+                        <input type="hidden" value="@ShippingAddress.IsDefaultShippingAddress" name="txthdnDeliveryDefaultShippingAddress" id="txthdnDeliveryDefaultShippingAddress" />
+                        <input type="hidden" value="@ShippingAddress.IsDefaultAddress" id="txthdnDeliveryDefaultAddress" />
+                        <input type="hidden" value="@GrandTotal" name="hfGrandTotal" id="hfGrandTotal" />
+                        <input type="hidden" value="True" id="hfchkBoxDeliverySameAsBilling" />
+
+                    </div>
+                   }
+        
         <asp:HiddenField ID="txthdnBillingDefaultAddress" runat="server" Value="false" />
-        <asp:HiddenField ID="txthdnBillingDefaultShippingAddress" runat="server" Value="false" />
-        <asp:HiddenField ID="txthdnDeliveryDefaultAddress" runat="server" Value="false" />
-        <asp:HiddenField ID="txthdnDeliveryDefaultShippingAddress" runat="server" Value="false" />
+      
+   
+       
         <asp:HiddenField ID="txtVoucherDiscountRate" runat="server" Value="0" />
         <asp:HiddenField ID="hfIsCorporate" runat="server" />
         <asp:HiddenField ID="hfBrokerContactCompany" runat="server" Value="0" />
@@ -654,26 +1003,26 @@
     $(document).ready(function () {
         window.onkeydown = keydown;
         initialize();
-        var ShipTO = '<%=Resources.MyResource.ltrlShipTo %>';
+        var ShipTO = 'Resources.MyResource.ltrlShipTo %>';
 
-        if ($("#<%=chkBoxDeliverySameAsBilling.ClientID %>")[0].checked == true) {
+        if ($("#chkBoxDeliverySameAsBilling")[0].checked == true) {
 
-
+            $('#chkBoxDeliverySameAsBilling').val('True');
             $('#divBilling').css('display', 'none');
-            $('#<%=BillTOShippTO.ClientID %>').css('display', 'none');
-            $('#<%=BillTOShippTOContainer.ClientID %>').css('display', 'none');
-            $('#<%=DivShippTo.ClientID %>').css('display', 'block');
-            $('#<%=innerContainerShippTo.ClientID %>').css('display', 'block');
+            $('#BillTOShippTO').css('display', 'none');
+            $('#BillTOShippTOContainer').css('display', 'none');
+            $('#DivShippTo').css('display', 'block');
+            $('#innerContainerShippTo').css('display', 'block');
         }
         else {
-
+            $('#chkBoxDeliverySameAsBilling').val('False');
             $('#divDeliveryAddress').css('display', 'block');
-            $('#<%=DivShippTo.ClientID %>').css('display', 'block');
-            $('#<%=innerContainerShippTo.ClientID %>').css('display', 'block');
-            $("#<%=ltrlShipTo.ClientID %>").html("Ship to:");
+            $('#DivShippTo').css('display', 'block');
+            $('#innerContainerShippTo').css('display', 'block');
+            $("#ltrlShipTo").html("Ship to:");
         }
-        LoadBrokerByPostCode();
-        if ($("#<%= hfPageIsValid.ClientID %>").val() == "0") {
+       // LoadBrokerByPostCode();
+        if ($("# hfPageIsValid").val() == "0") {
             ValidateCheckout();
         }
 
@@ -716,53 +1065,53 @@
 
     function initialize() {
 
-        ddlBilling = $("#" + "<%=ddlBilling.ClientID %>");
-        ddlDelivery = $("#" + "<%=ddlDelivery.ClientID %>");
+        ddlBilling = $("#ddlBilling");
+        ddlDelivery = $("#ddlDelivery");
 
-        txtBillingName = $("#" + "<%=txtBillingName.ClientID %>");
-        txtAddressLine1 = $("#" + "<%=txtAddressLine1.ClientID %>")
-        txtAddressLine2 = $("#" + "<%=txtAddressLine2.ClientID %>");
-        txtCity = $("#" + "<%=txtCity.ClientID %>");
+        txtBillingName = $("#txtBillingName");
+        txtAddressLine1 = $("#txtAddressLine1")
+        txtAddressLine2 = $("#txtAddressLine2");
+        txtCity = $("#txtCity.ClientID");
 
-        txtZipPostCode = $("#" + "<%=txtZipPostCode.ClientID %>");
+        txtZipPostCode = $("#txtZipPostCode");
 
-        txtContactNumber = $("#" + "<%=txtContactNumber.ClientID %>");
+        txtContactNumber = $("#txtContactNumber");
 
     }
 
 
     function SetNewControlValues() {
-        ddlBilling.val($("#" + "<%=ddlDelivery.ClientID %>").val());
-        txtBillingName.val($("#" + "<%=txtShipAddressName.ClientID %>").val());
-        txtAddressLine1.val($("#" + "<%=txtShipAddLine1.ClientID %>").val());
-        txtAddressLine2.val($("#" + "<%=txtShipAddressLine2.ClientID %>").val());
-        txtCity.val($("#" + "<%=txtShipAddCity.ClientID %>").val());
+        ddlBilling.val($("#ddlDelivery").val());
+        txtBillingName.val($("#txtShipAddressName").val());
+        txtAddressLine1.val($("#txtShipAddLine1").val());
+        txtAddressLine2.val($("#txtShipAddressLine2").val());
+        txtCity.val($("#txtShipAddCity.ClientID").val());
 
-        txtZipPostCode.val($("#" + "<%=txtShipPostCode.ClientID %>").val());
+        txtZipPostCode.val($("#txtShipPostCode").val());
 
-        txtContactNumber.val($("#" + "<%=txtShipContact.ClientID %>").val());
+        txtContactNumber.val($("#txtShipContact").val());
 
     }
     function EnableTextBoxes() {
 
-        $("#<%= txtBillingName.ClientID %>").prop("disabled", "");
-        $("#<%= txtAddressLine1.ClientID %>").prop("disabled", "");
-        $("#<%= txtAddressLine2.ClientID %>").prop("disabled", "");
-        $("#<%= txtCity.ClientID %>").prop("disabled", "");
+        $("#txtBillingName").prop("disabled", "");
+        $("#txtAddressLine1").prop("disabled", "");
+        $("#txtAddressLine2").prop("disabled", "");
+        $("#txtCity").prop("disabled", "");
 
-        $("#<%= txtZipPostCode.ClientID %>").prop("disabled", "");
-        $("#<%= txtContactNumber.ClientID %>").prop("disabled", "");
+        $("#txtZipPostCode").prop("disabled", "");
+        $("#txtContactNumber").prop("disabled", "");
     }
     function BillingSameAsDeliveryScriptCheckBox() {
-
-        var ShipTO = '<%=Resources.MyResource.ltrlShipTo %>';
-        var BillShippTO = '<%=Resources.MyResource.lnkBillShipto %>';
-        if ($("#" + "<%=chkBoxDeliverySameAsBilling.ClientID %>")[0].checked == true) {
+       
+        var ShipTO = 'Resources.MyResource.ltrlShipTo %>';
+        var BillShippTO = 'Resources.MyResource.lnkBillShipto %>';
+        if ($("#chkBoxDeliverySameAsBilling")[0].checked == true) {
             //  alert("c");
             //   $("#MainContent_chkBoxDeliverySameAsBilling").attr("checked", "checked");
-            $('#<%=BillTOShippTO.ClientID %>').css('display', 'none');
-            $('#<%=BillTOShippTOContainer.ClientID %>').css('display', 'none');
-            $("#<%=ltrlShipTo.ClientID %>").html(BillShippTO);
+            $('#BillTOShippTO').css('display', 'none');
+            $('#BillTOShippTOContainer').css('display', 'none');
+            $("#ltrlShipTo").html(BillShippTO);
             SetNewControlValues();
 
 
@@ -771,19 +1120,19 @@
         else {
             //
             // $("#MainContent_chkBoxDeliverySameAsBilling").removeattr("checked");
-            if ($("#<%= hfIsDefaultBilling.ClientID %>").val() != "1") {
+            if ($("#hfIsDefaultBilling").val() != "1") {
                 EnableTextBoxes();
             }
-            var ShipTO = '<%=ShipToTxt %>';
-            $('#<%=BillTOShippTO.ClientID %>').css('display', 'block');
-            $('#<%=BillTOShippTOContainer.ClientID %>').css('display', 'block');
-            $("#<%=ltrlShipTo.ClientID %>").html(ShipTO + "");
-            $("#<%=lblAddLine1BilSip.ClientID %>").html("");
-            $("#<%=lbladdLine2BilSip.ClientID %>").html("");
-            $("#<%=lblCityBilSip.ClientID %>").html("");
-            $("#<%=lblStateBilSip.ClientID %>").html("");
-            $("#<%=lblCountryBilSip.ClientID %>").html("");
-            $("#<%=lblPostCdeBilSip.ClientID %>").html("");
+            var ShipTO = 'ShipToTxt';
+            $('#BillTOShippTO').css('display', 'block');
+            $('#BillTOShippTOContainer').css('display', 'block');
+            $("#ltrlShipTo").html(ShipTO + "");
+            $("#lblAddLine1BilSip").html("");
+            $("#lbladdLine2BilSip").html("");
+            $("#lblCityBilSip").html("");
+            $("#lblStateBilSip").html("");
+            $("#lblCountryBilSip").html("");
+            $("#lblPostCdeBilSip").html("");
             //                //Set Selected Value to add new Mode
 
             if (ddlBilling.val() != "0") {
@@ -798,9 +1147,9 @@
                 //txtCountry.val("");
                 //txtContactNumber.val("");
                 //reset hidden fields as well
-                //$("#" + "<%=txthdnBillingAddressID.ClientID %>").val("0");
-                // $("#" + "<%=txthdnBillingDefaultAddress.ClientID %>").val("false");
-                // $("#" + "<%=txthdnBillingDefaultShippingAddress.ClientID %>").val("false");
+                //$("#" + "txthdnBillingAddressID").val("0");
+                // $("#" + "txthdnBillingDefaultAddress").val("false");
+                // $("#" + "txthdnBillingDefaultShippingAddress").val("false");
 
                 $('#divBilling').css('display', 'block');
             } else {
@@ -829,77 +1178,77 @@
 
 
     function ChangeAddresLinne1() {
-        var val = $('#<%=txtAddressLine1.ClientID %>').val();
-        $('#<%=lblAddLine1BilSip.ClientID %>').html(val);
+        var val = $('#txtAddressLine1').val();
+        $('#lblAddLine1BilSip').html(val);
     }
 
     function ChangeCountryShippBill() {
         // set from drop down
     }
     function ChangePostCodeShippBill() {
-        var val = $('#<%=txtZipPostCode.ClientID %>').val();
-        $('#<%=lblPostCdeBilSip.ClientID %>').html(val);
+        var val = $('#txtZipPostCode').val();
+        $('#lblPostCdeBilSip').html(val);
     }
     function ChangestateShippBill() {
         // get value from drop down
     }
     function ChangeCityShippBill() {
-        var val = $('#<%=txtCity.ClientID %>').val();
-        $('#<%=lblCityBilSip.ClientID %>').html(val);
+        var val = $('#txtCity').val();
+        $('#lblCityBilSip').html(val);
     }
     function ChangeAddresLinne2() {
-        var val = $('#<%=txtAddressLine2.ClientID %>').val();
-        $('#<%=lbladdLine2BilSip.ClientID %>').html(val);
+        var val = $('#txtAddressLine2').val();
+        $('#lbladdLine2BilSip').html(val);
     }
 
 
     function ChangeShippToAddLin1() {
-        var val = $('#<%=txtShipAddLine1.ClientID %>').val();
-        $('#<%=lblShipToAddLin1.ClientID %>').html(val);
+        var val = $('#txtShipAddLine1').val();
+        $('#lblShipToAddLin1').html(val);
     }
 
     function ChangeShippToAddLin2() {
-        var val = $('#<%=txtShipAddressLine2.ClientID %>').val();
-        $('#<%=lblShipToAddLin2.ClientID %>').html(val);
+        var val = $('#txtShipAddressLine2').val();
+        $('#lblShipToAddLin2').html(val);
     }
     function ChangeShippToCity() {
-        var val = $('#<%=txtShipAddCity.ClientID %>').val();
-        $('#<%=lblShipToCity.ClientID %>').html(val);
+        var val = $('#txtShipAddCity').val();
+        $('#lblShipToCity').html(val);
     }
     function ChangeShippToState() {
         // get state from drop down
     }
     function ChangeShippToPostCode() {
-        var val = $('#<%=txtShipPostCode.ClientID %>').val();
-        $('#<%=lblShipToZipCode.ClientID %>').html(val);
-        var ISPinkCard = '<%=IsPinkCards %>';
+        var val = $('#txtShipPostCode').val();
+        $('#lblShipToZipCode').html(val);
+        var ISPinkCard = 'IsPinkCards %>';
         if (ISPinkCard == 1) {
-            var PostCode = $("#<%=txtShipPostCode.ClientID %>").val();
+            var PostCode = $("#txtShipPostCode").val();
             if (PostCode == '') {
             } else {
-                $('#<%=lodingImg.ClientID %>').css("display", "block");
+                $('#lodingImg').css("display", "block");
                 $.ajax({
 
                     url: "../services/Webstore.svc/GetNearestBrokerStoreByPostCode?PostCode=" + PostCode,
 
                     success: function (data) {
-                        $('#<%=lblYourOrderPRoMesg.ClientID %>').css("display", "block");
+                        $('#lblYourOrderPRoMesg').css("display", "block");
                         if (data == null) {
                             $('.SelectedBroker').css("display", "block");
                             $('.SelectedBroker').html("No results found.");
                         } else {
-                            $('#<%=hfBrokerContactCompany.ClientID %>').val(data.ContactCompanyID);
+                            $('#hfBrokerContactCompany').val(data.ContactCompanyID);
                             $('.brokerLogoImg').attr('src', data.Logo + "");
-                            $('#<%=BrokerAddLine1.ClientID %>').text(data.Address1);
-                            $('#<%=BrokerAddLine2.ClientID %>').text(data.Address2);
-                            $('#<%=BrokerTown.ClientID %>').text(data.City);
-                            $('#<%=BrokerState.ClientID %>').text(data.State);
-                            $('#<%=BrokerCountry.ClientID %>').text(data.Country);
+                            $('#BrokerAddLine1').text(data.Address1);
+                            $('#BrokerAddLine2').text(data.Address2);
+                            $('#BrokerTown').text(data.City);
+                            $('#BrokerState').text(data.State);
+                            $('#BrokerCountry').text(data.Country);
                             $("#BrokerTeleNo").html(data.HomeContact);
                             $('.SelectedBroker').css("display", "block");
                         }
 
-                        $('#<%=lodingImg.ClientID %>').css("display", "none");
+                        $('#lodingImg').css("display", "none");
                     }
                 });
             }
@@ -909,46 +1258,46 @@
         //set country text from drop down
     }
     function ChangeTelNumber() {
-        var val = $('#<%=txtInstContactTelNumber.ClientID %>').val();
-        $('#<%=lblContactNo.ClientID %>').html(val);
+        var val = $('#txtInstContactTelNumber').val();
+        $('#lblContactNo').html(val);
     }
     function ChangeRefPO() {
-        var val = $('#<%=txtYourRefNumber.ClientID %>').val();
+        var val = $('#txtYourRefNumber').val();
         if (val == "") {
             $('#DivRefPO').css('display', 'none');
-            $('#<%=lblRefPo.ClientID %>').html("");
+            $('#lblRefPo').html("");
         }
         else {
             $('#DivRefPO').css('display', 'block');
-            $('#<%=lblRefPo.ClientID %>').html(val);
+            $('#lblRefPo').html(val);
         }
 
-        var val = $('#<%=txtYourRefNumberRetail.ClientID %>').val();
+        var val = $('#txtYourRefNumberRetail').val();
         if (val == "") {
             $('#DivRefPO').css('display', 'none');
-            $('#<%=lblRefPo.ClientID %>').html("");
+            $('#lblRefPo').html("");
         }
         else {
             $('#DivRefPO').css('display', 'block');
-            $('#<%=lblRefPo.ClientID %>').html(val);
+            $('#lblRefPo').html(val);
         }
 
     }
     function ChangeNotesTxt() {
-        var val = $('#<%=txtInstNotes.ClientID %>').val();
+        var val = $('#txtInstNotes').val();
         if (val == "") {
             $('#DivSpclNotes').css('display', 'none');
-            $('#<%=lblNotesDetail.ClientID %>').html("");
+            $('#lblNotesDetail').html("");
         }
         else {
             $('#DivSpclNotes').css('display', 'block');
-            $('#<%=lblNotesDetail.ClientID %>').html(val);
+            $('#lblNotesDetail').html(val);
         }
 
     }
 
 
-    $("#<%=txtShipPostCode.ClientID %>").keydown(function (e) {
+    $("#txtShipPostCode").keydown(function (e) {
         if (e.which == 13) {
 
             LoadBrokerByPostCode();
@@ -961,96 +1310,96 @@
     function ValidateShippingAddressCheckout() {
         var isDataFilled = 0;
 
-        if ($("#<%= txtInstContactTelNumber.ClientID %>").val() == "") {
+        if ($("#txtInstContactTelNumber").val() == "") {
             isDataFilled = 1;
             $('.EContactTelNo').css("display", "block");
-            $("#<%= txtInstContactTelNumber.ClientID %>").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
+            $("#txtInstContactTelNumber").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
         } else {
             $('.EContactTelNo').css("display", "none");
-            $("#<%= txtInstContactTelNumber.ClientID %>").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+            $("#txtInstContactTelNumber").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
         }
 
-        if ($("#<%= txtYourRefNumber.ClientID %>").val() == "") {
+        if ($("#txtYourRefNumber").val() == "") {
             isDataFilled = 1;
             $('.ECorporateRefNo').css("display", "block");
-            $("#<%= txtYourRefNumber.ClientID %>").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
+            $("#txtYourRefNumber").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
         } else {
             $('.ECorporateRefNo').css("display", "none");
-            $("#<%= txtYourRefNumber.ClientID %>").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+            $("#txtYourRefNumber").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
         }
 
-        if ($("#<%= txtShipAddressName.ClientID %>").val() == "") {
+        if ($("#txtShipAddressName").val() == "") {
             isDataFilled = 1;
             $('.EShipAddresNameNo').css("display", "block");
-            $("#<%= txtShipAddressName.ClientID %>").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
+            $("#txtShipAddressName").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
         } else {
             $('.EShipAddresNameNo').css("display", "none");
-            $("#<%= txtShipAddressName.ClientID %>").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+            $("#txtShipAddressName").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
         }
 
-        if ($("#<%= txtShipAddLine1.ClientID %>").val() == "") {
+        if ($("#txtShipAddLine1").val() == "") {
             isDataFilled = 1;
             $('.EShipAddres1').css("display", "block");
-            $("#<%= txtShipAddLine1.ClientID %>").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
+            $("#txtShipAddLine1").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
         } else {
             $('.EShipAddres1').css("display", "none");
-            $("#<%= txtShipAddLine1.ClientID %>").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+            $("#txtShipAddLine1").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
         }
-        if ($("#<%= txtShipAddCity.ClientID %>").val() == "") {
+        if ($("#txtShipAddCity").val() == "") {
             isDataFilled = 1;
             $('.EShipAddresCity').css("display", "block");
-            $("#<%= txtShipAddCity.ClientID %>").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
+            $("#txtShipAddCity").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
         } else {
             $('.EShipAddresCity').css("display", "none");
-            $("#<%= txtShipAddCity.ClientID %>").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+            $("#txtShipAddCity").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
         }
 
-        if ($("#<%= ddShippingCountry.ClientID %>").val() == -1) {
+        if ($("#ddShippingCountry").val() == -1) {
             isDataFilled = 1;
-            $("#<%= ddShippingCountry.ClientID %>").css("border", "1px solid #b33c12");
+            $("#ddShippingCountry").css("border", "1px solid #b33c12");
         } else {
-            $("#<%= ddShippingCountry.ClientID %>").css("border", "1px solid #c1c6cc");
+            $("#ddShippingCountry").css("border", "1px solid #c1c6cc");
         }
 
-        if ($("#<%= ddlDeliveyCostCenter.ClientID %>").val() == -1) {
+        if ($("#ddlDeliveyCostCenter").val() == -1) {
             isDataFilled = 1;
-            $("#<%= ddlDeliveyCostCenter.ClientID %>").css("border", "1px solid #b33c12");
+            $("#ddlDeliveyCostCenter").css("border", "1px solid #b33c12");
         } else {
-            $("#<%= ddlDeliveyCostCenter.ClientID %>").css("border", "1px solid #c1c6cc");
+            $("#ddlDeliveyCostCenter").css("border", "1px solid #c1c6cc");
         }
 
 
 
-        if ($("#<%= ddShippingState.ClientID %>").val() == -1) {
+        if ($("#ddShippingState").val() == -1) {
             isDataFilled = 1;
-            $("#<%= ddShippingState.ClientID %>").css("border", "1px solid #b33c12");
+            $("#ddShippingState").css("border", "1px solid #b33c12");
         } else {
-            $("#<%= ddShippingState.ClientID %>").css("border", "1px solid #c1c6cc");
+            $("#ddShippingState").css("border", "1px solid #c1c6cc");
         }
 
 
-        if ($("#<%= ddBillingState.ClientID %>").val() == -1) {
+        if ($("#ddBillingState").val() == -1) {
             isDataFilled = 1;
-            $("#<%= ddBillingState.ClientID %>").css("border", "1px solid #b33c12");
+            $("#ddBillingState").css("border", "1px solid #b33c12");
         } else {
-            $("#<%= ddBillingState.ClientID %>").css("border", "1px solid #c1c6cc");
+            $("#ddBillingState").css("border", "1px solid #c1c6cc");
         }
 
-        if ($("#<%= BillingCountryDropDown.ClientID %>").val() == -1) {
+        if ($("#BillingCountryDropDown").val() == -1) {
             isDataFilled = 1;
-            $("#<%= BillingCountryDropDown.ClientID %>").css("border", "1px solid #b33c12");
+            $("#BillingCountryDropDown").css("border", "1px solid #b33c12");
         } else {
-            $("#<%= BillingCountryDropDown.ClientID %>").css("border", "1px solid #c1c6cc");
+            $("#BillingCountryDropDown").css("border", "1px solid #c1c6cc");
         }
 
 
-        if ($("#<%= txtShipPostCode.ClientID %>").val() == "") {
+        if ($("#txtShipPostCode").val() == "") {
             isDataFilled = 1;
             $('.EShipAddresPostCode').css("display", "block");
-            $("#<%= txtShipPostCode.ClientID %>").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
+            $("#txtShipPostCode").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
         } else {
             $('.EShipAddresPostCode').css("display", "none");
-            $("#<%= txtShipPostCode.ClientID %>").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+            $("#txtShipPostCode").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
         }
 
 
@@ -1060,52 +1409,52 @@
     function ValidateBillingAddressCheckout() {
         var isDataFilled = 0;
 
-        if ($("#<%= txtBillingName.ClientID %>").val() == "") {
+        if ($("#txtBillingName").val() == "") {
             isDataFilled = 1;
             $('.EBillAddresName').css("display", "block");
-            $("#<%= txtBillingName.ClientID %>").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
+            $("#txtBillingName").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
         } else {
             $('.EBillAddresName').css("display", "none");
-            $("#<%= txtBillingName.ClientID %>").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+            $("#txtBillingName").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
         }
 
-        if ($("#<%= txtAddressLine1.ClientID %>").val() == "") {
+        if ($("#txtAddressLine1").val() == "") {
             isDataFilled = 1;
             $('.EBillAddres1').css("display", "block");
-            $("#<%= txtAddressLine1.ClientID %>").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
+            $("#txtAddressLine1").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
         } else {
             $('.EBillAddres1').css("display", "none");
-            $("#<%= txtAddressLine1.ClientID %>").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+            $("#txtAddressLine1").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
         }
 
-        if ($("#<%= txtCity.ClientID %>").val() == "") {
+        if ($("#txtCity").val() == "") {
             isDataFilled = 1;
             $('.EBillAddresCity').css("display", "block");
-            $("#<%= txtCity.ClientID %>").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
+            $("#txtCity").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
         } else {
             $('.EBillAddresCity').css("display", "none");
-            $("#<%= txtCity.ClientID %>").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+            $("#txtCity").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
         }
 
-        if ($("#<%= txtZipPostCode.ClientID %>").val() == "") {
+        if ($("#txtZipPostCode").val() == "") {
             isDataFilled = 1;
             $('.EBillAddresZipCode').css("display", "block");
-            $("#<%= txtZipPostCode.ClientID %>").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
+            $("#txtZipPostCode").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
         } else {
             $('.EBillAddresZipCode').css("display", "none");
-            $("#<%= txtZipPostCode.ClientID %>").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+            $("#txtZipPostCode").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
         }
-        if ($("#<%= BillingCountryDropDown.ClientID %>").val() == -1) {
+        if ($("#BillingCountryDropDown").val() == -1) {
             isDataFilled = 1;
-            $("#<%= BillingCountryDropDown.ClientID %>").css("border", "1px solid #b33c12");
+            $("#BillingCountryDropDown").css("border", "1px solid #b33c12");
         } else {
-            $("#<%= BillingCountryDropDown.ClientID %>").css("border", "1px solid #c1c6cc");
+            $("#BillingCountryDropDown").css("border", "1px solid #c1c6cc");
         }
-        if ($("#<%= ddBillingState.ClientID %>").val() == -1) {
+        if ($("#ddBillingState").val() == -1) {
             isDataFilled = 1;
-            $("#<%= ddBillingState.ClientID %>").css("border", "1px solid #b33c12");
+            $("#ddBillingState").css("border", "1px solid #b33c12");
         } else {
-            $("#<%= ddBillingState.ClientID %>").css("border", "1px solid #c1c6cc");
+            $("#ddBillingState").css("border", "1px solid #c1c6cc");
         }
         return isDataFilled;
     }
@@ -1116,39 +1465,39 @@
 
         var isContainBlanksInShipping = ValidateShippingAddressCheckout();
 
-        if ($("#<%=chkBoxDeliverySameAsBilling.ClientID %>")[0].checked == true) {
+        if ($("#chkBoxDeliverySameAsBilling")[0].checked == true) {
             if (isContainBlanksInShipping == 1) {
-                $("#<%= hfPageIsValid.ClientID %>").val(0);
+                $("#hfPageIsValid").val(0);
                 isValid = false;
                 event.preventDefault();
                 $('html, body').animate({
                     scrollTop: $("#maincntCheckout").offset().top
                 }, 500);
             } else {
-                $("#<%= hfPageIsValid.ClientID %>").val(1);
+                $("#hfPageIsValid").val(1);
                 isValid = true;
             }
         } else {
             var iContainsBlankInBilling = ValidateBillingAddressCheckout();
 
             if (iContainsBlankInBilling == 1) {
-                $("#<%= hfPageIsValid.ClientID %>").val(0);
+                $("#hfPageIsValid").val(0);
                 isValid = false;
                 event.preventDefault();
                 $('html, body').animate({
                     scrollTop: $("#maincntCheckout").offset().top
                 }, 500);
             } else if (isContainBlanksInShipping == 1) {
-                $("#<%= hfPageIsValid.ClientID %>").val(0);
+                $("#hfPageIsValid").val(0);
                 isValid = false;
                 event.preventDefault();
                 $('html, body').animate({
                     scrollTop: $("#maincntCheckout").offset().top
                 }, 500);
             } else {
-                $("#<%= hfPageIsValid.ClientID %>").val(1);
+                $("#hfPageIsValid").val(1);
                 isValid = true;
-                showProgress();
+                
             }
         }
 
@@ -1157,30 +1506,27 @@
             if (event.keyCode == 13) { //if this is enter key
                 event.preventDefault();
                 isValid = false;
-                $("#<%= hfPageIsValid.ClientID %>").val(0);
+                $("#hfPageIsValid").val(0);
             } else {
-                $("#<%= hfPageIsValid.ClientID %>").val(1);
+                $("#hfPageIsValid").val(1);
             }
         }
-        if (isValid == false) {
-
-        } else {
-            showProgress();
-        }
+        
+        alert(isValid);
         return isValid;
     }
     function LoadBrokerByPostCode() {
-        var ISPinkCard = '<%=IsPinkCards %>';
+        var ISPinkCard = 'IsPinkCards %>';
         if (ISPinkCard == 1) {
-            var PostCode = $("#<%=txtShipPostCode.ClientID %>").val();
-            $('#<%=lodingImg.ClientID %>').css("display", "block");
+            var PostCode = $("#txtShipPostCode").val();
+            $('#lodingImg').css("display", "block");
 
             $.ajax({
 
                 url: "../services/Webstore.svc/GetNearestBrokerStoreByPostCode?PostCode=" + PostCode,
 
                 success: function (data) {
-                    $('#<%=lblYourOrderPRoMesg.ClientID %>').css("display", "block");
+                    $('#lblYourOrderPRoMesg').css("display", "block");
 
                     if (data.ContactCompanyID == undefined) {
                         $('.errorMesgBroker').css("display", "block");
@@ -1188,27 +1534,31 @@
                         $('.errorMesgBroker').html("No results found.");
 
                     } else {
-                        $('#<%=hfBrokerContactCompany.ClientID %>').val(data.ContactCompanyID);
+                        $('#hfBrokerContactCompany').val(data.ContactCompanyID);
 
                         $('.brokerLogoImg').attr('src', data.Logo + "");
-                        $('#<%=BrokerAddLine1.ClientID %>').text(data.Address1);
-                        $('#<%=BrokerAddLine2.ClientID %>').text(data.Address2);
-                        $('#<%=BrokerTown.ClientID %>').text(data.City);
-                        $('#<%=BrokerState.ClientID %>').text(data.State);
-                        $('#<%=BrokerCountry.ClientID %>').text(data.Country);
+                        $('#BrokerAddLine1').text(data.Address1);
+                        $('#BrokerAddLine2').text(data.Address2);
+                        $('#BrokerTown').text(data.City);
+                        $('#BrokerState').text(data.State);
+                        $('#BrokerCountry').text(data.Country);
                         $("#BrokerTeleNo").html(data.HomeContact);
                         $('.SelectedBroker').css("display", "block");
                         $('.errorMesgBroker').css("display", "none");
                     }
 
-                    $('#<%=lodingImg.ClientID %>').css("display", "none");
+                    $('#lodingImg').css("display", "none");
                 }
             });
 
         }
-        $('#<%=hfBrokerContactCompany.ClientID %>').val(0);
+        $('#hfBrokerContactCompany').val(0);
     }
 
+    function DisableEnableBillingAddressControlls()
+    {
+
+    }
 </script>
 
 }

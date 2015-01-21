@@ -20,7 +20,7 @@ define("stores/stores.view",
                 hideRaveReviewDialog = function () {
                     $("#rave").modal("hide");
                 },
-                showCompanyTerritoryDialog = function () { //
+                showCompanyTerritoryDialog = function () { 
                     $("#myTerritorySetModal").modal("show");
                 },
                 // Hide Activity the dialog
@@ -124,6 +124,14 @@ define("stores/stores.view",
                 // hide Payment Gateway Dialog 
                 hidePaymentGatewayDialog = function () {
                     $("#myPaymentGatewayModal").modal("hide");
+                },
+                // show item sFor Widgets Dialog
+                showItemsForWidgetsDialog = function () {
+                    $("#itemsForWidgetsDialog").modal("show");
+                },
+                // hide items For Widgets Dialog
+                hideItemsForWidgetsDialog = function () {
+                    $("#itemsForWidgetsDialog").modal("hide");
                 },
                 // Show/Hide Child Categories
                 toggleChildCategories = function (event) {
@@ -429,6 +437,8 @@ define("stores/stores.view",
                 hideCkEditorDialogDialog: hideCkEditorDialogDialog,
                 toggleChildCategories: toggleChildCategories,
                 getCategoryIdFromliElement: getCategoryIdFromliElement,
+                showItemsForWidgetsDialog: showItemsForWidgetsDialog,
+                hideItemsForWidgetsDialog: hideItemsForWidgetsDialog,
                 getCategoryIdFromElement: getCategoryIdFromElement,
                 appendChildCategory: appendChildCategory,
                 updateInputCheckedStates: updateInputCheckedStates,

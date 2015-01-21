@@ -26436,3 +26436,27 @@ label {
 display: block;
 font-size: 13px;
 }
+.checkoutDropDown
+{
+
+
+    margin: 0;
+border: 1px solid #ccc5b9;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+-webkit-border-radius: 4px;
+border-radius: 4px;
+background-color: white;
+font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
+color: #66615b;
+font-size: 18px;
+width: 500px;
+outline: none !important;
+-webkit-transition: background-color;
+-moz-transition: background-color;
+-o-transition: background-color;
+-ms-transition: background-color;
+transition: background-color;
+margin-bottom: 10px;
+}

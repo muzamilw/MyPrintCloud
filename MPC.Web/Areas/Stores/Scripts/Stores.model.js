@@ -124,7 +124,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         specifiedStockNotificationManagerId1, specifiedStockNotificationManagerId2, specifiedisDisplayBanners, specifiedisStoreModePrivate, specifiedisTextWatermark,
         specifiedWatermarkText, specifiedisBrokerPaymentRequired, specifiedisBrokerCanAcceptPaymentOnline, specifiedcanUserPlaceOrderWithoutApproval,
         specifiedisIncludeVAT, specifiedincludeEmailBrokerArtworkOrderReport, specifiedincludeEmailBrokerArtworkOrderXML, specifiedincludeEmailBrokerArtworkOrderJobCard,
-        specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreImageFileBinary, specifiedStoreBackgroudImageSource
+        specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreImageFileBinary, specifiedStoreBackgroudImageSource, specifiedIsShowGoogleMap,
+        specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName
     ) {
         var self,
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
@@ -205,6 +206,12 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             storeBackgroudImageImageSource = ko.observable(specifiedStoreBackgroudImageSource),
             //store Backgroud Image File Name
             storeBackgroudImageFileName = ko.observable(),
+            defaultSpriteImageSource = ko.observable(specifiedDefaultSpriteImageSource),
+            defaultSpriteImageFileName = ko.observable(),
+            userDefinedSpriteImageSource = ko.observable(specifiedUserDefinedSpriteImageSource),
+            userDefinedSpriteImageFileName = ko.observable(specifiedUserDefinedSpriteFileName),
+            //Is Show Google Map
+            isShowGoogleMap = ko.observable(specifiedIsShowGoogleMap != undefined ? specifiedIsShowGoogleMap.toString() : "1"),
             // Errors
             errors = ko.validation.group({
                 companyId: companyId,
@@ -273,6 +280,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 isDisplayBanners: isDisplayBanners,
                 storeBackgroudImageImageSource: storeBackgroudImageImageSource,
                 storeBackgroudImageFileName: storeBackgroudImageFileName,
+                isShowGoogleMap: isShowGoogleMap,
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -311,6 +319,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.StockNotificationManagerId2 = source.stockNotificationManagerId2();
                 result.isStoreModePrivate = source.isStoreModePrivate();
                 result.isTextWatermark = source.isTextWatermark();
+                result.isShowGoogleMap = source.isShowGoogleMap();
                 result.WatermarkText = source.watermarkText();
                 result.isBrokerPaymentRequired = source.isBrokerPaymentRequired();
                 result.isBrokerCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline();
@@ -372,6 +381,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 //#endregion
                 result.ImageName = source.storeImageName() === undefined ? null : source.storeImageName();
                 result.ImageBytes = source.image() === undefined ? null : source.image();
+                result.DefaultSpriteSource = source.defaultSpriteImageSource() === undefined ? null : source.defaultSpriteImageSource();
+                result.UserDefinedSpriteSource = source.userDefinedSpriteImageSource() === undefined ? null : source.userDefinedSpriteImageSource();
+                result.UserDefinedSpriteFileName = source.userDefinedSpriteImageFileName() === undefined ? null : source.userDefinedSpriteImageFileName();
+                result.CmsOffers = [];
                 return result;
             },
             // Reset
@@ -437,6 +450,11 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             products: products,
             storeBackgroudImageImageSource: storeBackgroudImageImageSource,
             storeBackgroudImageFileName: storeBackgroudImageFileName,
+            isShowGoogleMap: isShowGoogleMap,
+            defaultSpriteImageSource: defaultSpriteImageSource,
+            defaultSpriteImageFileName: defaultSpriteImageFileName,
+            userDefinedSpriteImageSource: userDefinedSpriteImageSource,
+            userDefinedSpriteImageFileName: userDefinedSpriteImageFileName,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -558,7 +576,11 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.includeEmailBrokerArtworkOrderJobCard,
             source.makeEmailBrokerArtworkOrderProductionReady,
             source.ImageSource,
-            source.StoreBackgroudImageSource
+            source.StoreBackgroudImageSource,
+            source.isShowGoogleMap,
+            source.DefaultSpriteImageSource,
+            source.UserDefinedSpriteImageSource,
+            source.UserDefinedSpriteFileName
         );
 
         store.companyType(CompanyType.Create(source.CompanyType));
@@ -3292,6 +3314,73 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     };
     // #endregion ______________________P R O D U C T   C A T E G O R Y  _________________________________
 
+    // #region ______________ Item For Widgets _________________
+
+    // ReSharper disable once InconsistentNaming
+    var ItemForWidgets = function (specifiedItemId, specifiedProductName) {
+        var self,
+            id = ko.observable(specifiedItemId),
+            productName = ko.observable(specifiedProductName),
+            isInSelectedList = ko.observable(false);
+
+        self = {
+            id: id,
+            productName: productName,
+            isInSelectedList: isInSelectedList,
+        };
+        return self;
+    };
+    ItemForWidgets.Create = function (source) {
+        return new ItemForWidgets(
+            source.ItemId,
+            source.ProductName);
+    };
+
+    // #endregion ______________ Item For Widgets _________________
+
+    // #region ______________ CMS Offer _________________
+
+    // ReSharper disable once InconsistentNaming
+    var CmsOffer = function (specifiedOfferId, specifiedItemId, specifiedOfferType, specifiedItemName, specifiedSortOrder) {
+        var self,
+            id = ko.observable(specifiedOfferId),
+            itemId = ko.observable(specifiedItemId),
+            offerType = ko.observable(specifiedOfferType),
+            itemName = ko.observable(specifiedItemName),
+           sortOrder = ko.observable(specifiedSortOrder),
+           companyId = ko.observable(),
+        //Convert To Server
+        convertToServerData = function () {
+            return {
+                PageWidgetId: id() === undefined ? 0 : id(),
+                ItemId: itemId(),
+                OfferType: offerType(),
+                ItemName: itemName(),
+                SortOrder: sortOrder(),
+                CompanyId: companyId(),
+            };
+        };
+        self = {
+            id: id,
+            itemId: itemId,
+            offerType: offerType,
+            itemName: itemName,
+            sortOrder: sortOrder,
+            companyId: companyId,
+            convertToServerData: convertToServerData,
+        };
+        return self;
+    };
+    CmsOffer.Create = function (source) {
+        return new CmsOffer(
+            source.OfferId,
+            source.ItemId,
+            source.OfferType,
+            source.ItemName,
+            source.SortOrder);
+    };
+
+    // #endregion ______________ Item For Widgets _________________
     return {
         StoreListView: StoreListView,
         Store: Store,
@@ -3319,5 +3408,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         CmsSkingPageWidget: CmsSkingPageWidget,
         CmsPageWithWidgetList: CmsPageWithWidgetList,
         CmsSkinPageWidgetParam: CmsSkinPageWidgetParam,
+        ItemForWidgets: ItemForWidgets,
+        CmsOffer: CmsOffer,
     };
 });

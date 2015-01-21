@@ -17,7 +17,11 @@ namespace MPC.Models.Common
         TemporaryCustomer = 53,
         SalesCustomer = 57
     }
-
+    public enum CostCenterTypes
+    {
+        SystemCostCentres = 1,
+        Delivery = 11
+    }
     public enum HashAlgos
     {
         MD5,
@@ -186,6 +190,14 @@ namespace MPC.Models.Common
         PerPack = 2
     }
 
+    public enum ContactCompanyUserRoles
+    {
+        Administrator = 1,
+        Manager = 2,
+        User = 3
+    }
+
+
     public enum CostCentreExecutionMode : int
     {
         PromptMode = 1,
@@ -254,5 +266,16 @@ namespace MPC.Models.Common
         BooleanQuestion = 2,
         MultipleChoiceQuestion = 3,
 
+    }
+    public enum ClientStatus : int
+    {
+        inProgress = 38,
+        completed = 37
+    }
+    public enum StockLogEvents
+    {
+        Ordered = 2,
+        ReachedThresholdLevel = 3,
+        BackOrder = 4
     }
 }

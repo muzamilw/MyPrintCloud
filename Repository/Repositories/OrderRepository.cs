@@ -186,7 +186,7 @@ namespace MPC.Repository.Repositories
         public ShoppingCart GetShopCartOrderAndDetails(long orderID, OrderStatus orderStatus)
         {
             Estimate tblOrder = null;
-            ShoppingCart shopCart = null;
+            ShoppingCart shopCart = new ShoppingCart();
             short orderStsID = Convert.ToInt16(orderStatus);
 
             try
@@ -196,6 +196,11 @@ namespace MPC.Repository.Repositories
                 tblOrder = db.Estimates.Where(estm => estm.EstimateId == Orderid && estm.StatusId == orderStsID).FirstOrDefault();
                 if (tblOrder != null)
                 {
+                    if (tblOrder.BillingAddressId != null)
+                        shopCart.BillingAddressID = (long)tblOrder.BillingAddressId;
+                    else
+                        shopCart.BillingAddressID = 0;
+                    shopCart.ShippingAddressID = tblOrder.AddressId;
                     shopCart = ExtractShoppingCart(tblOrder);
                     
                 }
@@ -916,5 +921,290 @@ namespace MPC.Repository.Repositories
             return userOrder;
 
         }
+
+        //public bool UpdateOrderWithDetailsToConfirmOrder(int orderID, int loggedInContactID, OrderStatus orderStatus, Address billingAdd,Address deliveryAdd, double grandOrderTotal,
+        //                                     string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde, long BrokerContactCompanyID,Estimate order,Prefix prefix)
+        //{
+        //    bool result = false;
+        //    Estimate tblOrder = null;
+        //    Company mdlCustomer = null;
+
+        //    DbTransaction dbTrans = null;
+         
+        //    Company oBrokerCompany = null;
+
+
+
+        //    try
+        //    {
+        //        Address billingAddress = billingAdd;
+        //        Address deliveryAddress = deliveryAdd;
+
+        //        short orderStatusID = (short)orderStatus;
+
+                
+        //       // tblOrder = db.Estimates.Where(estm => estm.EstimateId == orderID).FirstOrDefault();
+
+        //        if (order != null)
+        //        {
+        //            using (var dbContextTransaction = db.Database.BeginTransaction())
+        //            {
+        //               // AddressManager.UpdateAddress(dbContext, billingAddress, deliveryAddress, tblOrder.ContactCompanyID);
+        //                if (billingAddress == null)// means they both are same
+        //                    billingAddress = deliveryAddress;
+
+        //                //update order status
+        //                tblOrder.StatusId = orderStatusID;
+        //                UpdateNewOrderData(tblOrder, Convert.ToInt32(tblOrder.DeliveryCompletionTime), loggedInContactID); // sets end and start delivery data                    
+        //                tblOrder.UserNotes = specialInsNotes;
+        //                tblOrder.CustomerPO = yourReferenceNumber;
+        //                tblOrder.AddressId = (int)deliveryAddress.AddressId;
+        //                tblOrder.BillingAddressId = (int)billingAddress.AddressId;
+        //                tblOrder.Estimate_Total = grandOrderTotal; //OrderManager.GetOrderGrossTotalAndCreateDeliverySchedule(tblOrder);  
+        //                tblOrder.IsOfficialOrder = 1;
+        //                tblOrder.IsCreditApproved = 1;
+        //                tblOrder.CreationDate = DateTime.Now;
+        //                tblOrder.ContactId = loggedInContactID;
+                        
+        //                tblOrder.ClientStatus = Convert.ToInt16(ClientStatus.inProgress);
+
+        //                //if (prefix != null)
+        //                //{
+        //                //    tblOrder.Order_Code = prefix.OrderPrefix + "-001-" + prefix.OrderNext.ToString();
+        //                //    prefix.OrderNext = prefix.OrderNext + 1;
+        //                //}
+
+                       
+
+        //                // Order created date will be the date order actually placed
+        //                tblOrder.Order_Date = DateTime.Now;
+
+
+        //                if (CurrntStoreMde == StoreMode.Retail)
+        //                {
+        //                    //Update Customer Status as well if he is not a customer, he may be a prospect
+        //                    mdlCustomer = new Company
+        //                    {
+        //                        CompanyId = tblOrder.CompanyId,
+        //                        IsCustomer = 1,
+        //                        TypeId = (int)CompanyTypes.SalesCustomer // from dummy to real customer 
+        //                    };
+        //                    //Update Customer
+        //                    UpdateCustomer(mdlCustomer);
+        //                }
+
+
+        //                UpdateContactTelNo(loggedInContactID, specialInsTel);
+
+        //                //Update Item Status form shop cart to not progress
+        //                OrderManager.UpdateOrderedItems(dbContext, orderStatus, tblOrder, ProductManager.ItemStatuses.NotProgressedToJob, CurrntStoreMde); // and Delete the items which are not of part
+
+        //                //Job Scheduling
+        //                //Update the order address id      
+        //                // we are commenting this function because delivery information will not handle by webstore decision changed on 17/12/2012
+        //                //OrderManager.CreateItemShippingJobSchedule(dbContext, tblOrder, deliveryAddress.AddressID);
+
+        //                if (db.SaveChanges() > 0)
+        //                {
+
+        //                    result = true;
+        //                }
+        //                else
+        //                    throw new Exception("no changes made");
+
+
+        //            }
+                   
+
+        //            //Update the Address 
+                    
+        //        }
+        //        else
+        //            throw new Exception("Order information not found");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    finally
+        //    {
+
+        //        if (result)
+        //            DALUtility.CommitTransaction(dbTrans, dbContext);
+        //        else
+        //            DALUtility.RollBackTransaction(dbTrans, dbContext);
+
+
+        //        dbContext = null;
+        //        dbTrans = null;
+        //    }
+
+        //    return result;
+        //}
+        //private void UpdateOrderedItems(OrderStatus orderStatus, Estimate tblOrder, ItemStatuses itemStatus, StoreMode Mode)
+        //{
+
+        //    tblOrder.Items.ToList().ForEach(item =>
+        //    {
+        //        if (item.IsOrderedItem.HasValue && item.IsOrderedItem.Value)
+        //        {
+
+        //            if (orderStatus != OrderStatus.ShoppingCart)
+        //                item.StatusId = (short)itemStatus;
+
+        //            ProductManager.updateStockAndSendNotification(Convert.ToInt32(item.RefItemId), Mode, Convert.ToInt32(tblOrder.CompanyId), Convert.ToInt32(item.Qty1), Convert.ToInt32(tblOrder.ContactId), Convert.ToInt32(item.ItemId), Convert.ToInt32(tblOrder.EstimateId));
+
+        //        }
+        //        else
+        //        {//Delete the non included items
+        //            bool result = false;
+        //            List<Model.ArtWorkAttatchment> itemAttatchments = null;
+        //            Web2Print.DAL.Templates clonedTempldateFiles = null;
+
+        //            result = ProductManager.RemoveCloneItem(item.ItemID, out itemAttatchments, out clonedTempldateFiles);
+        //            if (result)
+        //            {
+        //                BLL.ProductManager.RemoveItemAttacmentPhysically(itemAttatchments); // file removing physicslly
+        //                BLL.ProductManager.RemoveItemTemplateFilesPhysically(clonedTempldateFiles); // file removing
+        //            }
+
+        //            //dbContext.tbl_items.DeleteObject(item);
+        //        }
+
+        //    });
+        //}
+
+
+        //public void updateStockAndSendNotification(long itemID, StoreMode Mode, long companyId, long orderedQty, long contactId, long orderedItemid, long OrderId)
+        //{
+
+        //    Item tblRefItemProduct = null;
+        //    ItemStockControl tblItemStock = null;
+        //    Organisation companySite = null;
+        //    if (itemID > 0)
+        //    {
+
+        //        tblRefItemProduct = db.Items.Where(i => i.ItemId == itemID).FirstOrDefault();
+        //        if (tblRefItemProduct.IsStockControl == true)
+        //        {
+                   
+
+        //                //companySite = db.tbl_company_sites.FirstOrDefault();
+        //                tblItemStock = db.ItemStockControls.Where(i => i.ItemId == itemID).FirstOrDefault();
+        //                int currentStock = tblItemStock.InStock;
+        //                int lastModified = tblItemStock.InStock = tblItemStock.InStock - orderedQty;
+        //                if (tblItemStock.InStock < 0)
+        //                {
+        //                    tblItemStock.InStock = 0;
+        //                }
+        //                tbl_itemStockUpdateHistory stockLog = new tbl_itemStockUpdateHistory();
+        //                stockLog.ItemID = itemID;
+        //                stockLog.LastAvailableQty = currentStock;
+        //                stockLog.LastOrderedQty = orderedQty;
+        //                stockLog.LastModifiedQty = lastModified;
+        //                stockLog.LastModifiedDate = DateTime.Now;
+        //                stockLog.OrderID = OrderId;
+        //                if (lastModified <= 0 && tblItemStock.isAllowBackOrder == true)
+        //                {
+        //                    stockLog.ModifyEvent = Convert.ToInt32(StockLogEvents.BackOrder);
+        //                }
+        //                else if (lastModified <= tblItemStock.ThresholdLevel)
+        //                {
+        //                    stockLog.ModifyEvent = Convert.ToInt32(StockLogEvents.ReachedThresholdLevel);
+        //                }
+        //                else
+        //                {
+        //                    stockLog.ModifyEvent = Convert.ToInt32(StockLogEvents.Ordered);
+        //                }
+
+        //                context.tbl_itemStockUpdateHistory.AddObject(stockLog);
+        //                context.SaveChanges();
+        //            }
+
+
+        //            if (tblItemStock != null)
+        //            {
+        //                if (tblItemStock.InStock < tblItemStock.ThresholdLevel || tblItemStock.ThresholdLevel == null)
+        //                {
+        //                    EmailManager emailmgr = new EmailManager();
+        //                    int ManagerID = 0;
+        //                    List<int> MgrIds = new List<int>();
+        //                    MgrIds.Add(Convert.ToInt32(companySite.StockNotificationManagerID1));
+        //                    MgrIds.Add(Convert.ToInt32(companySite.StockNotificationManagerID2));
+
+        //                    // send emails to the managers
+        //                    if (tblItemStock.isAllowBackOrder == true)
+        //                    {
+        //                        if (Mode == StoreMode.Corp)
+        //                        {
+        //                            ManagerID = ContactManager.GetBrokerByRole(companyId, (int)Roles.Manager);
+        //                            emailmgr.stockNotificationToManagers(MgrIds, companyId, companySite, StoreMode.Corp, ManagerID, itemID, (int)EmailEvents.BackOrder_Notifiaction_To_Manager, contactId, orderedItemid);
+        //                        }
+        //                        else
+        //                        {
+        //                            emailmgr.stockNotificationToManagers(MgrIds, companyId, companySite, StoreMode.Retail, companyId, itemID, (int)EmailEvents.BackOrder_Notifiaction_To_Manager, contactId, orderedItemid);
+
+        //                        }
+        //                    }
+
+        //                    if (Mode == StoreMode.Corp)
+        //                    {
+        //                        ManagerID = ContactManager.GetBrokerByRole(companyId, (int)Roles.Manager);
+        //                        emailmgr.stockNotificationToManagers(MgrIds, companyId, companySite, StoreMode.Corp, ManagerID, itemID, (int)EmailEvents.ThresholdLevelReached_Notification_To_Manager, contactId, orderedItemid);
+        //                    }
+                         
+        //                    else
+        //                    {
+        //                        emailmgr.stockNotificationToManagers(MgrIds, companyId, companySite, StoreMode.Retail, companyId, itemID, (int)EmailEvents.ThresholdLevelReached_Notification_To_Manager, contactId, orderedItemid);
+
+        //                    }
+        //                }
+        //            }
+                
+        //    }
+        //}
+        //public bool UpdateCustomer(Company modelCustomer)
+        //{
+        //    Company tblContactCompany = null;
+        //    tblContactCompany = db.Companies.Where(customer => customer.CompanyId == modelCustomer.CompanyId).FirstOrDefault();
+
+        //    return UpdateCustomer(tblContactCompany, modelCustomer);
+        //}
+
+        //public bool UpdateCustomer(Company tblContactCompany, Company modelCustomer)
+        //{
+
+        //    if (tblContactCompany != null)
+        //    {
+        //        if (tblContactCompany.IsCustomer != (short)modelCustomer.IsCustomer)
+        //            tblContactCompany.IsCustomer = (short)modelCustomer.IsCustomer;
+
+        //        if (tblContactCompany.TypeId != modelCustomer.TypeId && modelCustomer.TypeId > 0)
+        //            tblContactCompany.TypeId = modelCustomer.TypeId;
+
+        //    }
+
+        //    return true;
+        //}
+        //public bool UpdateContactTelNo(long contactId, string Mobile)
+        //{
+        //    CompanyContact res = db.CompanyContacts.Where(i => i.ContactId == contactId).FirstOrDefault();
+        //    if (res != null)
+        //    {
+        //        res.Mobile = Mobile;
+
+        //        return true;
+
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
+
+
+
+       
+
     }
 }

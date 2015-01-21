@@ -16198,7 +16198,7 @@ fabric.Image.fromURL = function (url, callback, imgOptions) {
         if (img != null) {
             callback(new fabric.Image(img, imgOptions));
         } else {  // added by saqib to handle the not found image 
-            fabric.Image.fromURL("./assets/failure1.png", callback, imgOptions);
+            fabric.Image.fromURL("/Content/Designer/assets-v2/failure1.png", callback, imgOptions);
         }
     }, null, imgOptions && imgOptions.crossOrigin);
 };

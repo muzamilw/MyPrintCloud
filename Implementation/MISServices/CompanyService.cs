@@ -678,20 +678,139 @@ namespace MPC.Implementation.MISServices
             UpdateColorPallete(companySavingModel.Company, companyDbVersion);
             if (companyToBeUpdated.Image != null)
             {
-                companySavingModel.Company.Image = SaveCompanyProfileImage(companySavingModel.Company);    
+                companySavingModel.Company.Image = SaveCompanyProfileImage(companySavingModel.Company);
             }
             companyRepository.Update(companyToBeUpdated);
             companyRepository.Update(companySavingModel.Company);
             SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
+            UpdateCmsOffers(companySavingModel.Company, companyDbVersion);
             companyRepository.SaveChanges();
             //Update products
             UpdateProductsOfUpdatingCompany(companySavingModel);
             //Save Files
             companyToBeUpdated.ProductCategories = productCategories;
             SaveFilesOfProductCategories(companyToBeUpdated);
-            
+            SaveSpriteImage(companySavingModel.Company);
 
             return companySavingModel.Company;
+        }
+
+        private void SaveSpriteImage(Company company)
+        {
+            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Organisations/Organisation" + companyRepository.OrganisationId + "/Store" + company.CompanyId + "/Sprites");
+
+            //Save Default Sprite File
+            if (company.DefaultSpriteSource != null)
+            {
+                string base64 = company.DefaultSpriteSource.Substring(company.DefaultSpriteSource.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                string savePath = directoryPath + "\\" + company.CompanyId + "_sprite.backup.png";
+                if (!File.Exists(savePath))
+                {
+                    File.WriteAllBytes(savePath, data);
+                }
+
+            }
+
+            //Delete already existing sprite file
+            if (directoryPath != null && Directory.Exists(directoryPath))
+            {
+                DirectoryInfo dir = new DirectoryInfo(directoryPath);
+                FileInfo[] Files = dir.GetFiles();
+                foreach (FileInfo file in Files)
+                {
+                    if (file.Name != "" && file.Name != company.CompanyId + "_sprite.backup.png")
+                    {
+                        string deleteFilePath = directoryPath + "\\" + file.Name;
+                        if (File.Exists(deleteFilePath))
+                        {
+                            File.Delete(deleteFilePath);
+                        }
+                    }
+                }
+            }
+
+            //Save user Defined Sprite File
+            if (company.UserDefinedSpriteSource != null)
+            {
+                string base64 = company.UserDefinedSpriteSource.Substring(company.UserDefinedSpriteSource.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                string savePath = directoryPath + "\\" + company.CompanyId + "_sprite." + company.UserDefinedSpriteFileName;
+
+
+                File.WriteAllBytes(savePath, data);
+            }
+        }
+
+        private void UpdateCmsOffers(Company company, Company companyDbVersion)
+        {
+            #region Update Cms Offer
+
+            if (company.CmsOffers != null)
+            {
+                foreach (var cmsOffer in company.CmsOffers)
+                {
+                    if (companyDbVersion.CmsOffers == null)
+                    {
+                        List<CmsOffer> cmsOffers = new List<CmsOffer>();
+                        companyDbVersion.CmsOffers = cmsOffers;
+
+                    }
+                    //Update
+                    if (cmsOffer.OfferId > 0)
+                    {
+                        CmsOffer cmsOfferDbVesrion = companyDbVersion.CmsOffers.FirstOrDefault(c => c.OfferId == cmsOffer.OfferId);
+                        if (cmsOfferDbVesrion != null)
+                        {
+                            cmsOfferDbVesrion.SortOrder = cmsOffer.SortOrder;
+                            cmsOfferDbVesrion.ItemName = cmsOffer.ItemName;
+                        }
+                    }
+                    else
+                    {
+                        //New Added
+                        cmsOffer.CompanyId = company.CompanyId;
+                        companyDbVersion.CmsOffers.Add(cmsOffer);
+                    }
+                }
+            }
+            #endregion
+
+            #region Delete Cms Offer
+            List<CmsOffer> missingCmsOffers = new List<CmsOffer>();
+            if (companyDbVersion.CmsOffers != null)
+            {
+                foreach (var offerDbItem in companyDbVersion.CmsOffers)
+                {
+                    if (company.CmsOffers != null && company.CmsOffers.All(c => c.OfferId != offerDbItem.OfferId))
+                    {
+                        missingCmsOffers.Add(offerDbItem);
+                    }
+                    else if (company.CmsOffers == null)
+                    {
+                        missingCmsOffers.Add(offerDbItem);
+                    }
+                }
+
+                foreach (var misiingItem in missingCmsOffers)
+                {
+                    companyDbVersion.CmsOffers.Remove(misiingItem);
+                }
+            }
+
+            #endregion
         }
 
         private void SaveStoreBackgroundImage(Company company, Company companyDbVersion)
@@ -726,31 +845,34 @@ namespace MPC.Implementation.MISServices
         }
         private void UpdateColorPallete(Company company, Company companyDbVersion)
         {
-
-
-            foreach (var colorPalleteItem in company.ColorPalletes)
+            if (company.ColorPalletes != null)
             {
-                if (companyDbVersion.ColorPalletes == null)
-                {
-                    List<ColorPallete> colorPalletes = new List<ColorPallete>();
-                    companyDbVersion.ColorPalletes = colorPalletes;
 
-                }
-                if (colorPalleteItem.PalleteId == 0)
+                foreach (var colorPalleteItem in company.ColorPalletes)
                 {
-                    companyDbVersion.ColorPalletes.Add(colorPalleteItem);
-                }
-                else
-                {
-                    ColorPallete colorPallete = companyDbVersion.ColorPalletes.FirstOrDefault(c => c.PalleteId == colorPalleteItem.PalleteId);
-                    if (colorPallete != null)
+                    if (companyDbVersion.ColorPalletes == null)
                     {
-                        colorPallete.Color1 = colorPalleteItem.Color1;
-                        colorPallete.Color2 = colorPalleteItem.Color2;
-                        colorPallete.Color3 = colorPalleteItem.Color3;
-                        colorPallete.Color4 = colorPalleteItem.Color4;
-                        colorPallete.Color5 = colorPalleteItem.Color5;
-                        colorPallete.Color6 = colorPalleteItem.Color6;
+                        List<ColorPallete> colorPalletes = new List<ColorPallete>();
+                        companyDbVersion.ColorPalletes = colorPalletes;
+
+                    }
+                    if (colorPalleteItem.PalleteId == 0)
+                    {
+                        companyDbVersion.ColorPalletes.Add(colorPalleteItem);
+                    }
+                    else
+                    {
+                        ColorPallete colorPallete =
+                            companyDbVersion.ColorPalletes.FirstOrDefault(c => c.PalleteId == colorPalleteItem.PalleteId);
+                        if (colorPallete != null)
+                        {
+                            colorPallete.Color1 = colorPalleteItem.Color1;
+                            colorPallete.Color2 = colorPalleteItem.Color2;
+                            colorPallete.Color3 = colorPalleteItem.Color3;
+                            colorPallete.Color4 = colorPalleteItem.Color4;
+                            colorPallete.Color5 = colorPalleteItem.Color5;
+                            colorPallete.Color6 = colorPalleteItem.Color6;
+                        }
                     }
                 }
             }
@@ -1530,15 +1652,15 @@ namespace MPC.Implementation.MISServices
                 string directoryPath =
                    System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Stores/Organisation" +
                                                                  itemRepository.OrganisationId + "/Company" +
-                                                                 companyContact.CompanyId + "/CompanyContacts/CompanyContact" +companyContact.ContactId);
+                                                                 companyContact.CompanyId + "/CompanyContacts/CompanyContact" + companyContact.ContactId);
 
                 if (directoryPath != null && !Directory.Exists(directoryPath))
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string savePath = directoryPath + "\\"  + "_" + companyContact.FileName;
+                string savePath = directoryPath + "\\" + "_" + companyContact.FileName;
                 File.WriteAllBytes(savePath, data);
-                
+
                 return savePath;
             }
             return null;
@@ -1640,6 +1762,14 @@ namespace MPC.Implementation.MISServices
         #endregion
 
         #region Public
+
+        /// <summary>
+        /// Get Items For Widgets
+        /// </summary>
+        public List<Item> GetItemsForWidgets()
+        {
+            return itemRepository.GetItemsForWidgets();
+        }
 
         public CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request)
         {

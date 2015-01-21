@@ -225,7 +225,7 @@ namespace MPC.Repository.Repositories
                         tblISectionCostCenteresCloned.ItemSectionId = tblItemSectionCloned.ItemSectionId;
                         db.SectionCostcentres.Add(tblISectionCostCenteresCloned);
                     }
-                    
+
                 }
                 else // add web order section Cost center to item
                 {
@@ -949,12 +949,12 @@ namespace MPC.Repository.Repositories
                     for (int i = 0; i < selectedAddonsList.Count; i++)
                     {
                         AddOnCostsCenter addonCostCenter = selectedAddonsList[i];
-                       
+
                         SelectedtblISectionCostCenteres = this.PopulateTblSectionCostCenteres(addonCostCenter);
                         SelectedtblISectionCostCenteres.IsOptionalExtra = 1; //1 tells that it is the Additional AddOn 
-                        
+
                         SelectedtblItemSectionOne.SectionCostcentres.Add(SelectedtblISectionCostCenteres);
-                        
+
                     }
                 }
             }
@@ -1375,36 +1375,36 @@ namespace MPC.Repository.Repositories
         // Get Related Items List
         public List<ProductItem> GetRelatedItemsList()
         {
-          
-                var query = from productsList in db.GetCategoryProducts
-                            join tblRelItems in db.ItemRelatedItems on productsList.ItemId
-                            equals tblRelItems.ItemId into tblRelatedGroupJoin
-                            where productsList.IsPublished == true && productsList.EstimateId == null && productsList.IsEnabled == true
 
-                            from JTble in tblRelatedGroupJoin.DefaultIfEmpty()
-                            select new ProductItem
-                            {
-                                ItemID = productsList.ItemId,
-                                RelatedItemID = JTble.RelatedItemId.HasValue ? JTble.RelatedItemId.Value : 0,
-                                EstimateID = productsList.EstimateId,
-                                ProductName = productsList.ProductName,
-                                ProductCategoryName = productsList.ProductCategoryName,
-                                ProductCategoryID = productsList.ProductCategoryId,
-                                MinPrice = productsList.MinPrice,
-                                ImagePath = productsList.ImagePath,
-                                ThumbnailPath = productsList.ThumbnailPath,
-                                IconPath = productsList.IconPath,
-                                IsEnabled = productsList.IsEnabled,
-                                IsSpecialItem = productsList.IsSpecialItem,
-                                IsPopular = productsList.IsPopular,
-                                IsFeatured = productsList.IsFeatured,
-                                IsPromotional = productsList.IsPromotional,
-                                IsPublished = productsList.IsPublished,
-                                ProductSpecification = productsList.ProductSpecification,
-                                CompleteSpecification = productsList.CompleteSpecification,
-                                 ProductType = productsList.ProductType
-                            };
-                return query.ToList<ProductItem>();
+            var query = from productsList in db.GetCategoryProducts
+                        join tblRelItems in db.ItemRelatedItems on productsList.ItemId
+                        equals tblRelItems.ItemId into tblRelatedGroupJoin
+                        where productsList.IsPublished == true && productsList.EstimateId == null && productsList.IsEnabled == true
+
+                        from JTble in tblRelatedGroupJoin.DefaultIfEmpty()
+                        select new ProductItem
+                        {
+                            ItemID = productsList.ItemId,
+                            RelatedItemID = JTble.RelatedItemId.HasValue ? JTble.RelatedItemId.Value : 0,
+                            EstimateID = productsList.EstimateId,
+                            ProductName = productsList.ProductName,
+                            ProductCategoryName = productsList.ProductCategoryName,
+                            ProductCategoryID = productsList.ProductCategoryId,
+                            MinPrice = productsList.MinPrice,
+                            ImagePath = productsList.ImagePath,
+                            ThumbnailPath = productsList.ThumbnailPath,
+                            IconPath = productsList.IconPath,
+                            IsEnabled = productsList.IsEnabled,
+                            IsSpecialItem = productsList.IsSpecialItem,
+                            IsPopular = productsList.IsPopular,
+                            IsFeatured = productsList.IsFeatured,
+                            IsPromotional = productsList.IsPromotional,
+                            IsPublished = productsList.IsPublished,
+                            ProductSpecification = productsList.ProductSpecification,
+                            CompleteSpecification = productsList.CompleteSpecification,
+                            ProductType = productsList.ProductType
+                        };
+            return query.ToList<ProductItem>();
         }
 
         /// <summary>
@@ -1440,15 +1440,15 @@ namespace MPC.Repository.Repositories
 
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
-         
-           
+
+
         }
-       
-        
+
+
         public bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0)
         {
             bool result = false;
@@ -1521,7 +1521,7 @@ namespace MPC.Repository.Repositories
                 //}
                 //else
                 //{
-                    FirstItemSection.Qty1MarkUpID = 1;
+                FirstItemSection.Qty1MarkUpID = 1;
                 //}
 
                 bool isNewSectionCostCenter = false;
@@ -1539,8 +1539,8 @@ namespace MPC.Repository.Repositories
                     //}
                     //else
                     //{
-                        sectionCC.Qty1MarkUpID = 1;
-                   // }
+                    sectionCC.Qty1MarkUpID = 1;
+                    // }
 
                     isNewSectionCostCenter = true;
                 }
@@ -1567,14 +1567,14 @@ namespace MPC.Repository.Repositories
         }
         private double GetTaxPercentage(double netTotal, double TaxRate)
         {
-            return  (netTotal * TaxRate) / 100;
+            return (netTotal * TaxRate) / 100;
         }
 
         public Item GetClonedItemByOrderId(long OrderId, long ReferenceItemId)
         {
             return db.Items.Where(i => i.EstimateId == OrderId && i.RefItemId == ReferenceItemId && i.IsOrderedItem == false).FirstOrDefault();
         }
- 
+
 
         /// <summary>
         /// Get Minimum product value
@@ -1583,49 +1583,49 @@ namespace MPC.Repository.Repositories
         {
             return db.GetMinimumProductValue(itemId);
         }
-        
+
         public List<ProductItem> GetRelatedItemsByItemID(long ItemID)
         {
-          try
-          {
-              var query = from productsList in db.GetCategoryProducts
-                          join tblRelItems in db.ItemRelatedItems on productsList.ItemId equals tblRelItems.RelatedItemId
-                          join r in db.Items on tblRelItems.ItemId equals r.ItemId   //into tblRelatedGroupJoin
-                          where r.ItemId == ItemID
+            try
+            {
+                var query = from productsList in db.GetCategoryProducts
+                            join tblRelItems in db.ItemRelatedItems on productsList.ItemId equals tblRelItems.RelatedItemId
+                            join r in db.Items on tblRelItems.ItemId equals r.ItemId   //into tblRelatedGroupJoin
+                            where r.ItemId == ItemID
 
-                          //from JTble in tblRelatedGroupJoin.DefaultIfEmpty()
-                          select new ProductItem
-                          {
-                              ItemID = productsList.ItemId,
-                              //  RelatedItemID = JTble.RelatedItemID.HasValue ? JTble.RelatedItemID.Value : 0,
-                              EstimateID = productsList.EstimateId,
-                              ProductName = productsList.ProductName,
-                              ProductCategoryName = productsList.ProductCategoryName,
-                              ProductCategoryID = productsList.ProductCategoryId,
-                              MinPrice = productsList.MinPrice,
-                              ImagePath = productsList.ImagePath,
-                              ThumbnailPath = productsList.ThumbnailPath,
-                              IconPath = productsList.IconPath,
-                              IsEnabled = productsList.IsEnabled,
-                              IsSpecialItem = productsList.IsSpecialItem,
-                              IsPopular = productsList.IsPopular,
-                              IsFeatured = productsList.IsFeatured,
-                              IsPromotional = productsList.IsPromotional,
-                              IsPublished = productsList.IsPublished,
-                              ProductSpecification = productsList.ProductSpecification,
-                              CompleteSpecification = productsList.CompleteSpecification,
-                              //TipsAndHints = productsList.ti,
-                              ProductType = productsList.ProductType
-                          };
+                            //from JTble in tblRelatedGroupJoin.DefaultIfEmpty()
+                            select new ProductItem
+                            {
+                                ItemID = productsList.ItemId,
+                                //  RelatedItemID = JTble.RelatedItemID.HasValue ? JTble.RelatedItemID.Value : 0,
+                                EstimateID = productsList.EstimateId,
+                                ProductName = productsList.ProductName,
+                                ProductCategoryName = productsList.ProductCategoryName,
+                                ProductCategoryID = productsList.ProductCategoryId,
+                                MinPrice = productsList.MinPrice,
+                                ImagePath = productsList.ImagePath,
+                                ThumbnailPath = productsList.ThumbnailPath,
+                                IconPath = productsList.IconPath,
+                                IsEnabled = productsList.IsEnabled,
+                                IsSpecialItem = productsList.IsSpecialItem,
+                                IsPopular = productsList.IsPopular,
+                                IsFeatured = productsList.IsFeatured,
+                                IsPromotional = productsList.IsPromotional,
+                                IsPublished = productsList.IsPublished,
+                                ProductSpecification = productsList.ProductSpecification,
+                                CompleteSpecification = productsList.CompleteSpecification,
+                                //TipsAndHints = productsList.ti,
+                                ProductType = productsList.ProductType
+                            };
 
 
-              return query.ToList<ProductItem>();
+                return query.ToList<ProductItem>();
 
-          }
-          catch(Exception ex)
-          {
-              throw ex;
-          }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -1639,13 +1639,13 @@ namespace MPC.Repository.Repositories
                 return db.SectionFlags.Where(i => i.SectionId == 81 && i.isDefault == true).Select(o => o.SectionFlagId).FirstOrDefault();
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
-            
-                
-            
+
+
+
         }
 
         public List<ItemImage> getItemImagesByItemID(long ItemID)
@@ -1654,7 +1654,7 @@ namespace MPC.Repository.Repositories
             {
                 return db.ItemImages.Where(g => g.ItemId == ItemID).ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -1851,7 +1851,26 @@ namespace MPC.Repository.Repositories
             clonedTemplateToRemoveList = clonedTemplateList;
             return true;
         }
-    
+
+        public Item GetItemByOrderID(long OrderID)
+        {
+            try
+            {
+                return db.Items.Where(c => c.EstimateId == OrderID && c.ItemType == (int)ItemTypes.Delivery).FirstOrDefault();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+      /// <summary>
+        /// Get Items For Widgets 
+        /// </summary>
+        public List<Item> GetItemsForWidgets()
+        {
+            return DbSet.Where(i => i.IsPublished.HasValue && i.OrganisationId == OrganisationId).ToList();
+        }
+
         #endregion
     }
 }

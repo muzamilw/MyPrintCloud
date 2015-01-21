@@ -172,7 +172,8 @@ namespace MPC.Webstore.Controllers
                 {
                     sOrderID = Convert.ToInt32(OrderID);
                 }
-                if(_myClaimHelper.isUserLoggedIn())
+                bool login = true;
+                if (login)//_myClaimHelper.isUserLoggedIn()
                 {
                     if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
                     {
@@ -196,18 +197,14 @@ namespace MPC.Webstore.Controllers
                     
 
 
-                    deliveryCompletionTime = Request.Form["numberOfDaysAddedTodelivery"].ToString();
+                    deliveryCompletionTime = Request.Form["numberOfDaysAddedTodelivery"];
 
                     if (!string.IsNullOrEmpty(deliveryCompletionTime))
                     {
-                        DeliveryTime = Convert.ToInt32(deliveryCompletionTime);
+                        DeliveryTime = 0;// Convert.ToInt32(deliveryCompletionTime);
                     }
                   
-                    if (!string.IsNullOrEmpty(deliveryCompletionTime))
-                    {
-                        DeliveryTime = Convert.ToInt32(deliveryCompletionTime);
-                    }
-                   
+                  
                     if(UserCookieManager.StoreMode == (int)StoreMode.Corp)
                     {
                         result = _OrderService.UpdateOrderWithDetails(sOrderID, _myClaimHelper.loginContactID(), grandOrderTotal, DeliveryTime, StoreMode.Corp);
@@ -220,8 +217,11 @@ namespace MPC.Webstore.Controllers
 
                     if (result)
                     {
-                        string URL = "ShopCartAddSelect/"+ sOrderID;
-                        return View(URL);
+                        //string URL = "PartialViews/ShopCartAddressSelect/"+ sOrderID;
+
+                        //return RedirectToAction("Index", "ShopCartAddressSelect", new { OrderID = sOrderID });
+                        Response.Redirect("/ShopCartAddressSelect/" + sOrderID);
+                        return null;
                     }
                     else
                     {

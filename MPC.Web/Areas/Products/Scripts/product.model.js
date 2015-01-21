@@ -22,6 +22,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedJobDescription9, specifiedJobDescriptionTitle10, specifiedJobDescription10, specifiedGridImage, specifiedImagePath, specifiedFile1,
         specifiedFile2, specifiedFile3, specifiedFile4, specifiedFile5, specifiedFlagId, specifiedIsQtyRanged, specifiedPackagingWeight,
         specifiedDefaultItemTax, specifiedSupplierId, specifiedSupplierId2, specifiedEstimateProductionTime, specifiedItemProductDetail,
+        specifiedIsTemplateDesignMode, specifiedDesignerCategoryId, specifiedScalar, specifiedZoomFactor, specifiedIsCMYK, specifiedTemplateType,
         callbacks, constructorParams) {
         // ReSharper restore InconsistentNaming
         var // Unique key
@@ -253,6 +254,95 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             internalSupplierId2 = ko.observable(specifiedSupplierId2 || undefined),
             // Estimate Production Time
             estimateProductionTime = ko.observable(specifiedEstimateProductionTime || undefined),
+            // Is Template Design Mode
+            isTemplateDesignMode = ko.observable(specifiedIsTemplateDesignMode || 1),
+            // Is TemplateDesignMode for ui
+            isTemplateDesignModeUi = ko.computed({
+                read: function () {
+                    return '' + isTemplateDesignMode();
+                },
+                write: function (value) {
+                    if (!value) {
+                        return;
+                    }
+
+                    var templateDesignMode = parseInt(value);
+                    if (templateDesignMode === isTemplateDesignMode()) {
+                        return;
+                    }
+
+                    isTemplateDesignMode(templateDesignMode);
+                }
+            }),
+            // Is Template Design Mode
+            isCmyk = ko.observable(specifiedIsCMYK || 2),
+            // Is Cmyk for ui
+            isCmykUi = ko.computed({
+                read: function () {
+                    return '' + isCmyk();
+                },
+                write: function (value) {
+                    if (!value) {
+                        return;
+                    }
+
+                    var cmyk = parseInt(value);
+                    if (cmyk === isCmyk()) {
+                        return;
+                    }
+
+                    if (template()) {
+                        if (cmyk === 2) {
+                            template().isSpotTemplate(1);
+                        }
+                        else if(cmyk === 1) {
+                            template().isSpotTemplate(0);
+                        }
+                    }
+
+                    isCmyk(cmyk);
+                }
+            }),
+            // Scalar
+            scalar = ko.observable(specifiedScalar || undefined),
+            // Zoom Factor
+            zoomFactor = ko.observable(specifiedZoomFactor || undefined),
+            // Designer Category Id
+            designerCategoryId = ko.observable(specifiedDesignerCategoryId || undefined),
+            // Template Type
+            templateType = ko.observable(specifiedTemplateType || 1),
+            // Template Type Ui
+            templateTypeUi = ko.computed({
+                read: function () {
+                    return '' + templateType();
+                },
+                write: function (value) {
+                    if (!value) {
+                        return;
+                    }
+
+                    var tempType = parseInt(value);
+
+                    if (tempType === templateType()) {
+                        return;
+                    }
+
+                    if (tempType === 2) {
+                        // Changing from option 1 to 2
+                        // Ask if want to keep old template objects or not
+                        if (id() && (specifiedTemplateType === 1)) {
+                            // Set Mode to 1 if yes else set to 2 // Mode will be passed to generateTemplateFromPDF function                                
+                            // that will decide whether to delete old template or not
+
+                        }
+                    }
+
+                    templateType(tempType);
+                    if (template()) {
+                        template().isCreatedManual(tempType);
+                    }
+                }
+            }),
             // Item Product Detail
             itemProductDetail = ko.observable(ItemProductDetail.Create(specifiedItemProductDetail || { ItemId: id() })),
             // Item Vdp Prices
@@ -701,13 +791,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (selectedCategories.length > 0) {
                         _.each(selectedCategories, function (productCategory) {
                             var productCategoryItemObj = productCategoryItems.find(function (productCategoryItem) {
-                                return productCategoryItem.categoryId() === productCategory.id && !productCategoryItemObj.isSelected();
+                                return productCategoryItem.categoryId() === productCategory.id;
                             });
 
                             // Exists Already
                             if (productCategoryItemObj) {
-                                // set it to true
-                                productCategoryItemObj.isSelected(true);
+                                if (!productCategoryItemObj.isSelected()) {
+                                    // set it to true
+                                    productCategoryItemObj.isSelected(true);
+                                }
                             }
                             else {
                                 // Add New
@@ -724,13 +816,18 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (unselectedCategories.length > 0) {
                         _.each(unselectedCategories, function (productCategory) {
                             var productCategoryItemObj = productCategoryItems.find(function (productCategoryItem) {
-                                return productCategoryItem.categoryId() === productCategory.id && productCategoryItem.id() && productCategoryItemObj.isSelected();
+                                return productCategoryItem.categoryId() === productCategory.id && productCategoryItem.isSelected();
                             });
 
                             // Exists Already
                             if (productCategoryItemObj) {
-                                // set it to false
-                                productCategoryItemObj.isSelected(false);
+                                if (!productCategoryItemObj.id()) { // If New Product Category Item
+                                    productCategoryItems.remove(productCategoryItemObj);
+                                }
+                                else {
+                                    // set it to false
+                                    productCategoryItemObj.isSelected(false);
+                                }
                             }
                         });
                     }
@@ -911,6 +1008,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 file3: file3,
                 file4: file4,
                 file5: file5,
+                isTemplateDesignMode: isTemplateDesignMode,
+                isCmyk: isCmyk,
+                scalar: scalar,
+                zoomFactor: zoomFactor,
+                designerCategoryId: designerCategoryId,
+                templateType: templateType,
                 itemProductDetail: itemProductDetail,
                 itemVdpPrices: itemVdpPrices,
                 itemVideos: itemVideos,
@@ -1136,6 +1239,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             supplierId: supplierId,
             supplierId2: supplierId2,
             estimateProductionTime: estimateProductionTime,
+            isTemplateDesignModeUi: isTemplateDesignModeUi,
+            isCmykUi: isCmykUi,
+            scalar: scalar,
+            zoomFactor: zoomFactor,
+            DesignerCategoryId: designerCategoryId,
+            templateTypeUi: templateTypeUi,
             itemProductDetail: itemProductDetail,
             itemVideos: itemVideos,
             itemRelatedItems: itemRelatedItems,
@@ -1369,7 +1478,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Template Entity
     // ReSharper disable InconsistentNaming
-    Template = function (specifiedId, specifiedPdfTemplateWidth, specifiedPdfTemplateHeight) {
+    Template = function (specifiedId, specifiedPdfTemplateWidth, specifiedPdfTemplateHeight, specifiedIsCreatedManual, specifiedIsSpotTemplate) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
@@ -1377,8 +1486,24 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             pdfTemplateWidth = ko.observable(specifiedPdfTemplateWidth || undefined),
             // Pdf Template Height
             pdfTemplateHeight = ko.observable(specifiedPdfTemplateHeight || undefined),
+            // Is Created Manual
+            isCreatedManual = ko.observable(specifiedIsCreatedManual || 1),
+            // Can Start Designer Empty
+            canStartDesignerEmpty = ko.computed(function() {
+                return isCreatedManual() === 3;
+            }),
+            // Is Spot Template
+            isSpotTemplate = ko.observable(specifiedIsSpotTemplate || undefined),
+            // File Source
+            fileSource = ko.observable(),
+            // File Name
+            fileName = ko.observable(),
             // Template Pages
             templatePages = ko.observableArray([]),
+            // Can add Template Pages
+            canAddTemplatePages = ko.computed(function () {
+                return isCreatedManual() === 1 || (isCreatedManual() === 2 && !fileSource());
+            }),
             // Add Template Page
             addTemplatePage = function () {
                 templatePages.push(TemplatePage.Create({ ProductId: id() }));
@@ -1403,6 +1528,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     templatePages.splice(i, 2, array[i + 1], array[i]);
                 }
             },
+            // On Select File
+            onSelectFile = function(data, file) {
+                fileSource(data);
+                fileName(file.name);
+            },
             // Errors
             errors = ko.validation.group({
             }),
@@ -1417,6 +1547,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             dirtyFlag = new ko.dirtyFlag({
                 pdfTemplateWidth: pdfTemplateWidth,
                 pdfTemplateHeight: pdfTemplateHeight,
+                isCreatedManual: isCreatedManual,
+                isSpotTemplate: isSpotTemplate,
                 templatePages: templatePages
             }),
             // Has Changes
@@ -1451,6 +1583,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             id: id,
             pdfTemplateWidth: pdfTemplateWidth,
             pdfTemplateHeight: pdfTemplateHeight,
+            isCreatedManual: isCreatedManual,
+            canStartDesignerEmpty: canStartDesignerEmpty,
+            isSpotTemplate: isSpotTemplate,
+            canAddTemplatePages: canAddTemplatePages,
+            fileSource: fileSource,
+            fileName: fileName,
+            onSelectFile: onSelectFile,
             templatePages: templatePages,
             addTemplatePage: addTemplatePage,
             removeTemplatePage: removeTemplatePage,
@@ -2342,7 +2481,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Template Factory
     Template.Create = function (source) {
-        var template = new Template(source.ProductId, source.PdfTemplateWidth, source.PdfTemplateHeight, source.ItemId);
+        var template = new Template(source.ProductId, source.PdfTemplateWidth, source.PdfTemplateHeight, source.IsCreatedManual, source.IsSpotTemplate);
 
         // Map Template Pages if any
         if (source.TemplatePages != null) {
@@ -2444,7 +2583,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.JobDescription7, source.JobDescriptionTitle8, source.JobDescription8, source.JobDescriptionTitle9, source.JobDescription9,
             source.JobDescriptionTitle10, source.JobDescription10, source.GridImageSource, source.ImagePathImageSource, source.File1BytesSource, source.File2BytesSource,
             source.File3BytesSource, source.File4BytesSource, source.File5BytesSource, source.FlagId, source.IsQtyRanged, source.PackagingWeight, source.DefaultItemTax,
-            source.SupplierId, source.SupplierId2, source.EstimateProductionTime, source.ItemProductDetail, callbacks, constructorParams);
+            source.SupplierId, source.SupplierId2, source.EstimateProductionTime, source.ItemProductDetail, source.IsTemplateDesignMode, source.DesignerCategoryId,
+            source.Scalar, source.ZoomFactor, source.IsCMYK, source.TemplateType, callbacks, constructorParams);
 
         // Map Item Vdp Prices if any
         if (source.ItemVdpPrices && source.ItemVdpPrices.length > 0) {

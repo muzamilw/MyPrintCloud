@@ -37,8 +37,9 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ICampaignRepository _campaignRepository;
         private readonly IItemRepository _itemRepository;
         private readonly IMarkupRepository _markupRepository;
+        private readonly ICompanyTerritoryRepository _CompanyTerritoryRepository;
+        private readonly IStateRepository _StateRepository;
         private readonly ICountryRepository _countryRepository;
-        private readonly IStateRepository _stateRepository;
         private readonly IFavoriteDesignRepository _favoriteRepository;
        
 
@@ -57,7 +58,7 @@ namespace MPC.Implementation.WebStoreServices
          ICompanyBannerRepository companyBannerRepository, IProductCategoryRepository productCategoryRepository, ICmsPageRepository cmspageRepository,
             IPageCategoryRepository pageCategoryRepository, ICompanyContactRepository companyContactRepository, ICurrencyRepository currencyRepository
             , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository,IItemRepository itemRepository, IAddressRepository addressRepository,IMarkupRepository markuprepository
-            , ICountryRepository countryRepository, IStateRepository stateRepository, IFavoriteDesignRepository favoriteRepository)
+            , ICountryRepository countryRepository, IStateRepository stateRepository, IFavoriteDesignRepository favoriteRepository, IStateRepository StateRepository, ICompanyTerritoryRepository CompanyTerritoryRepository)
         {
             this._CompanyRepository = companyRepository;
             this._widgetRepository = widgetRepository;
@@ -73,8 +74,9 @@ namespace MPC.Implementation.WebStoreServices
             this._itemRepository = itemRepository;
             this._markupRepository = markuprepository;
             this._addressRepository = addressRepository;
+            this._CompanyTerritoryRepository = CompanyTerritoryRepository;
+            this._StateRepository = StateRepository;
             this._countryRepository = countryRepository;
-            this._stateRepository = stateRepository;
             this._favoriteRepository = favoriteRepository;
         }
 
@@ -434,10 +436,7 @@ namespace MPC.Implementation.WebStoreServices
             return _countryRepository.GetCountryNameById(CountryId);
         }
 
-        public string GetStateNameById(long StateId)
-        {
-            return _stateRepository.GetStateNameById(StateId);
-        }
+       
 
         /// <summary>
         /// Gets the count of users register against a company by its id
@@ -579,6 +578,121 @@ namespace MPC.Implementation.WebStoreServices
         public CompanyContact GetRetailUser(string email, string password)
         {
             return _CompanyContactRepository.GetRetailUser(email, password);
+        }
+        public Address GetAddressByID(long AddressID)
+        {
+            try
+            {
+                return _addressRepository.GetAddressByID(AddressID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CompanyContact GetCorporateAdmin(long contactCompanyId)
+        {
+            try
+            {
+                return _CompanyContactRepository.GetCorporateAdmin(contactCompanyId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<Address> GetAddressByCompanyID(long companyID)
+        {
+            try
+            {
+                return _addressRepository.GetAddressByCompanyID(companyID);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public  CompanyTerritory GetTerritoryById(long territoryId)
+        {
+            try
+            {
+                return _CompanyTerritoryRepository.GetTerritoryById(territoryId);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<Address> GetAdressesByContactID(long contactID)
+        {
+            try
+            {
+                return _addressRepository.GetAdressesByContactID(contactID);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+
+            }
+        }
+        public List<Address> GetBillingAndShippingAddresses(long TerritoryID)
+        {
+            try
+            {
+                return _addressRepository.GetBillingAndShippingAddresses(TerritoryID);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<Address> GetContactCompanyAddressesList(long customerID)
+        {
+            try
+            {
+                return _addressRepository.GetContactCompanyAddressesList(customerID);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public State GetStateFromStateID(long StateID)
+        {
+            try
+            {
+                return _StateRepository.GetStateFromStateID(StateID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string GetStateNameById(long StateId)
+        {
+            try
+            {
+                return _StateRepository.GetStateNameById(StateId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public long GetContactTerritoryID(long CID)
+        {
+            try
+            {
+               return _CompanyContactRepository.GetContactTerritoryID(CID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         #endregion
     }

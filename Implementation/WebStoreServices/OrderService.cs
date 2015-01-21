@@ -15,6 +15,9 @@ namespace MPC.Implementation.WebStoreServices
     public class OrderService : IOrderService
     {
         public readonly IOrderRepository _OrderRepository;
+        public readonly IAddressRepository _AddressRepository;
+        public readonly ICountryRepository _CountryRepository;
+        public readonly IStateRepository _StateRepository;
         private readonly IWebstoreClaimsHelperService _myClaimHelper;
         private readonly ICompanyService _myCompanyService;
         private readonly ICompanyContactRepository _myCompanyContact;
@@ -25,15 +28,16 @@ namespace MPC.Implementation.WebStoreServices
         /// <summary>
         ///  Constructor
         /// </summary>
-        public OrderService(IOrderRepository OrderRepository,IWebstoreClaimsHelperService myClaimHelper,ICompanyService myCompanyService,ICompanyContactRepository myCompanyContact,IPrefixRepository prefixRepository
-            )
+        public OrderService(IOrderRepository OrderRepository, IWebstoreClaimsHelperService myClaimHelper, ICompanyService myCompanyService, ICompanyContactRepository myCompanyContact, IPrefixRepository prefixRepository, ICountryRepository CountryRepository, IStateRepository StateRepository, IAddressRepository AddressRepository)
         {
             this._OrderRepository = OrderRepository;
             this._myClaimHelper = myClaimHelper;
             this._myCompanyService = myCompanyService;
             this._myCompanyContact = myCompanyContact;
             this._prefixRepository = prefixRepository;
-           
+            this._CountryRepository = CountryRepository;
+            this._StateRepository = StateRepository;
+            this._AddressRepository = AddressRepository;
         }
 
 
@@ -277,15 +281,63 @@ namespace MPC.Implementation.WebStoreServices
 
            return result;
        }
-        /// <summary>
-        /// Get order, items, addresses details by order id
-        /// </summary>
-        /// <param name="orderID"></param>
-        /// <param name="BrokerID"></param>
-        /// <returns></returns>
-       public OrderDetail GetOrderReceipt(long orderID)
+       public List<State> GetStates()
+       {
+           try
+           {
+               return _StateRepository.GetStates();
+           }
+           catch(Exception ex)
+           {
+               throw ex;
+           }
+       }
+         public OrderDetail GetOrderReceipt(long orderID)
        {
            return _OrderRepository.GetOrderReceipt(orderID);
        }
+       public List<Country> PopulateBillingCountryDropDown()
+       {
+           try
+           {
+               return _CountryRepository.PopulateBillingCountryDropDown();
+           }
+           catch (Exception ex)
+           {
+               throw ex;
+           }
+       }
+        public Country GetCountryByID(long CountryID)
+        {
+            try
+            {
+                return _CountryRepository.GetCountryByID(CountryID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        //public bool UpdateOrderWithDetailsToConfirmOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Address billingAdd, Address deliveryAdd, double grandOrderTotal,
+        //                                     string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde, long BrokerContactCompanyID)
+        //{
+        //    try
+        //    {
+        //         Estimate order =  _OrderRepository.GetOrderByID(orderID);
+        //        if(order != null)
+        //        {
+        //            _AddressRepository.UpdateAddress(billingAdd, deliveryAdd, order.CompanyId);
+        //            Prefix prefix =  _prefixRepository.GetDefaultPrefix();
+        //            _OrderRepository.UpdateOrderWithDetailsToConfirmOrder(orderID, loggedInContactID, orderStatus, billingAdd, deliveryAdd, grandOrderTotal, yourReferenceNumber, specialInsTel, specialInsNotes, isCorpFlow, CurrntStoreMde, BrokerContactCompanyID, order, prefix);
+        //        }
+                 
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
     }
 }
