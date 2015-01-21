@@ -497,6 +497,7 @@
     <Content Include="Scripts\Designer\pc1.js" />
     <Content Include="Scripts\Designer\pc2.js" />
     <Content Include="Scripts\Designer\pc3.js" />
+    <Content Include="Scripts\Designer\p1-01.js" />
     <Content Include="Scripts\Designer\pcf01-35.js" />
     <Content Include="Scripts\Designer\pcf01-v2.js" />
     <Content Include="Scripts\Designer\pvcc1.js" />
