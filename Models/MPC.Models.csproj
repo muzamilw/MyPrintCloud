@@ -116,6 +116,7 @@
     <Compile Include="Common\MatchingSets.cs" />
     <Compile Include="Common\CostCentersColumns.cs" />
     <Compile Include="Common\OrderDetail.cs" />
+    <Compile Include="Common\QuickText.cs" />
     <Compile Include="Common\SectionEnum.cs" />
     <Compile Include="Common\ItemFileType.cs" />
     <Compile Include="Common\CompanyClaimValue.cs" />
