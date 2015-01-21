@@ -1,6 +1,4 @@
-﻿/*
-    Module with the view model for the My Organization.
-*/
+﻿
 define("paperSheet/paperSheet.viewModel",
     ["jquery", "amplify", "ko", "paperSheet/paperSheet.dataservice", "paperSheet/paperSheet.model", "common/confirmation.viewModel", "common/pagination"],
     function ($, amplify, ko, dataservice, model, confirmation, pagination) {
@@ -12,6 +10,8 @@ define("paperSheet/paperSheet.viewModel",
                     view,
                     //Paper Sheets
                     paperSheets = ko.observableArray([]),
+                    //height and weight unit
+                    unit = ko.observable(),
                     //Is Loading Paper Sheet
                     isLoadingPaperSheet = ko.observable(false),
                     //Sort On
@@ -74,7 +74,7 @@ define("paperSheet/paperSheet.viewModel",
                     getPaperSheets = function () {
                         isLoadingPaperSheet(true);
                         dataservice.getPaperSheets({
-                            PaperSheetFilterText: searchFilter(),
+                            SearchString: searchFilter(),
                             PageSize: pager().pageSize(),
                             PageNo: pager().currentPage(),
                             SortBy: sortOn(),
@@ -126,7 +126,7 @@ define("paperSheet/paperSheet.viewModel",
                                 toastr.success("Successfully save.");
                             },
                             error: function (response) {
-                                    toastr.error("Failed to save." + response);
+                                toastr.error("Failed to save." + response);
                             }
                         });
                     },
@@ -168,11 +168,44 @@ define("paperSheet/paperSheet.viewModel",
                             editorViewModel.revertItem();
                         }
                     },
+                     resetFilterSection = function () {
+                         searchFilter(undefined);
+                         getPaperSheets();
+                     },
+                    
+                    // Get Base Data
+                    getBaseData = function () {
+                        dataservice.getBaseData({
+                            success: function (data) {
+                                if (data) {
+
+                                }
+                            },
+                            error: function (response) {
+                                
+                            }
+                        });
+                    },
+                    // On Close Editor
+                    onClosePaperSheet = function () {
+                        if (selectedPaperSheet().hasChanges()) {
+                            confirmation.messageText("Do you want to save changes?");
+                            confirmation.afterProceed(savePaperSheet);
+                            confirmation.afterCancel(function () {
+                                selectedPaperSheet().reset();
+                                view.hidePaperSheetDialog();
+                            });
+                            confirmation.show();
+                            return;
+                        }
+                        view.hidePaperSheetDialog();
+                    },
                 //Initialize
                 initialize = function (specifiedView) {
                     view = specifiedView;
                     ko.applyBindings(view.viewModel, view.bindingRoot);
                     pager(pagination.Pagination({ PageSize: 10 }, paperSheets, getPaperSheets));
+                    getBaseData();
                     getPaperSheets();
                 };
 
@@ -196,8 +229,12 @@ define("paperSheet/paperSheet.viewModel",
                     openEditDialog: openEditDialog,
                     closeEditDialog: closeEditDialog,
                     searchFilter: searchFilter,
+                    resetFilterSection: resetFilterSection,
                     editorViewModel: editorViewModel,
                     onEditItem: onEditItem,
+                    unit: unit,
+                    getBaseData: getBaseData,
+                    onClosePaperSheet: onClosePaperSheet,
                     initialize: initialize,
                 };
             })()

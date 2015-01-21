@@ -18,5 +18,6 @@ namespace MPC.Interfaces.Repository
         List<sp_GetTemplateImages_Result> getImages(int isCalledFrom, int imageSetType, long productId, long contactCompanyId, long contactId, long territoryId, int pageNumber, string SearchKeyword, out int imageCount);
         TemplateBackgroundImage getImage(long imgID);
         TemplateBackgroundImage UpdateImage(long imageID, string imgTitle, string imgDescription, string imgKeywords, int imType);
+        long insertImageRecord(List<TemplateBackgroundImage> listImages);
     }
 }

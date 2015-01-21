@@ -47,7 +47,9 @@
                                 <li><a href="#tab-widgets" data-toggle="tab">Themes & Widgets</a></li>
                                 <li><a href="#tab-SEO" data-toggle="tab">SEO & Rave Reviews</a></li>
                                 <li><a href="#tab-territory" data-toggle="tab">Users & Addresses</a></li>
+                                <!--ko if: $root.selectedStore() != undefined && $root.selectedStore().companyId()!== undefined -->
                                 <li><a data-bind="click: $root.getProducts" href="#tab-products" data-toggle="tab">Products</a></li>
+                                <!--/ko -->
                                 <li><a href="#tab-mailseries" data-toggle="tab">Emails</a></li>
                                 <li><a href="#tab-approvalPolicies" data-toggle="tab">Store Workflow</a></li>
                                 <li><a href="#tab-pageeditor" data-toggle="tab">Store Layout</a></li>
@@ -1145,19 +1147,28 @@
                                                 </div>
 
                                                 <div class="col-lg-6">
-                                                    <div id="dropzone1" class="dropzonepl">
-                                                        <form id="demo-upload1" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
-                                                            <div class="dz-default dz-message">
-                                                                <span>Drop file here to upload</span>
-                                                            </div>
-                                                        </form>
+                                                    @*<div id="dropzone1" class="dropzonepl">
+                                                            <form id="demo-upload1" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
+                                                                <div class="dz-default dz-message">
+                                                                    <span>Drop file here to upload</span>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <span class="help-block text-right"></span>*@
+                                                    <div class="col-lg-2">
+                                                        <div class="fileUpload btn btn-primary">
+                                                            <span>....</span>
+                                                            <input type="file" class="upload" id="image_files" data-bind="files: { onLoaded: $root.spriteImageLoadedCallback, fileFilter: 'image.*'}" />
+                                                        </div>
                                                     </div>
-                                                    <span class="help-block text-right"></span>
+                                                    <div class="col-lg-5">
+                                                        <button class="btn btn-primary btn-lg" data-bind="click:$root.restoreSpriteImage">Restore</button>
+                                                    </div>
                                                 </div>
-
                                             </div>
 
-                                            <img src="~/Content/themes/Centaurus/img/samples/Sprite.png" alt="" style="border: dotted; border-width: 1px;" class="img-responsive center-block" />
+                                            <img alt="" style="border: dotted; border-width: 1px;" class="img-responsive center-block" data-bind="attr: { src: userDefinedSpriteImageSource }" />
+                                            @*<img src="~/Content/themes/Centaurus/img/samples/Sprite.png" alt="" style="border: dotted; border-width: 1px;" class="img-responsive center-block" />*@
 
                                         </div>
                                     </div>
@@ -2260,9 +2271,9 @@
                     </div>
                     <div class="details">
                         <div class="name">
-                            <a data-toggle="modal" href="#" data-bind="text: firstName "></a>
+                            <a data-toggle="modal" href="#" data-bind="text: firstName , validationToolTip:firstName"></a>
                         </div>
-                        <div class="time online" data-bind="text: email ">
+                        <div class="time online" data-bind="text: email, validationToolTip:email ">
 
                         </div>
                     </div>
@@ -2367,6 +2378,8 @@
 @Html.Partial("Company/_ProductsFilter")
 @Html.Partial("Company/_ChooseUsIcon")
 @Html.Partial("~/Areas/Stores/Views/Shared/_ProductCategoryDetail.cshtml")
+
+
 @section Scripts {
 
     @*

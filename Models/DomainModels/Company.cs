@@ -163,6 +163,22 @@ namespace MPC.Models.DomainModels
         /// </summary>
         [NotMapped]
         public string StoreBackgroudImageFileName { get; set; }
+
+        /// <summary>
+        /// Default Sprite Source
+        /// </summary>
+        [NotMapped]
+        public string DefaultSpriteSource { get; set; }
+        /// <summary>
+        /// User Defined Sprite Source
+        /// </summary>
+        [NotMapped]
+        public string UserDefinedSpriteSource { get; set; }
+        /// <summary>
+        /// User Defined Sprite File Name
+        /// </summary>
+        [NotMapped]
+        public string UserDefinedSpriteFileName { get; set; }
         #endregion
     }
 }

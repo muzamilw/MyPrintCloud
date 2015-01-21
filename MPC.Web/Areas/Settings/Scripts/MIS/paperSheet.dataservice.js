@@ -37,6 +37,12 @@ define("paperSheet/paperSheet.dataservice", function () {
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'Put'
                     });
+                    // Define request to get base data
+                    amplify.request.define('getBaseData', 'ajax', {
+                        url: ist.siteUrl + '/Api/PaperSheetBase',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
             },
@@ -70,6 +76,15 @@ define("paperSheet/paperSheet.dataservice", function () {
                     data: param
                 });
             },
+            // Get base data
+            getBaseData = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getBaseData',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
         // Save paper Sheet
         savePaperSheet = function (param, callbacks) {
             initialize();
@@ -86,6 +101,7 @@ define("paperSheet/paperSheet.dataservice", function () {
             deletePaperSheet: deletePaperSheet,
             saveNewPaperSheet: saveNewPaperSheet,
             savePaperSheet: savePaperSheet,
+            getBaseData: getBaseData
         };
     })();
 

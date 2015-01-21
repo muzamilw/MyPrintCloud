@@ -95,6 +95,11 @@ namespace MPC.Repository.Repositories
             return db.TemplateFonts.ToList();
 
         }
+        public  void InsertFontFile(TemplateFont objFont)
+        {
+            db.TemplateFonts.Add(objFont);
+            db.SaveChanges();
+        }
         #endregion
     }
 }

@@ -179,6 +179,32 @@ namespace MPC.Repository.Repositories
             }
             return img;
         }
+
+        public long insertImageRecord(List<TemplateBackgroundImage> listImages)
+        {
+            TemplateBackgroundImage bgImg = null;
+            long result = 0;
+            foreach(var images in listImages)
+            {
+               bgImg  = new TemplateBackgroundImage();
+                bgImg.Name = images.Name;
+                bgImg.ImageName = images.ImageName;
+                bgImg.ProductId = images.ProductId;
+
+                bgImg.ImageWidth = images.ImageWidth;
+                bgImg.ImageHeight = images.ImageHeight;
+
+                bgImg.ImageType = images.ImageType;
+                bgImg.ImageTitle = images.ImageTitle;
+                bgImg.UploadedFrom = images.UploadedFrom;
+                bgImg.ContactCompanyId = images.ContactCompanyId;
+                bgImg.ContactId = images.ContactId;
+                db.TemplateBackgroundImages.Add(bgImg);
+                db.SaveChanges();
+            }
+            result = bgImg.Id ;
+            return result;
+        }
         #endregion
     }
 }

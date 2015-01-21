@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Web;
 using MPC.MIS.Areas.Api.Models;
 using ApiModels = MPC.MIS.Areas.Api.Models;
 using DomainResponseModel = MPC.Models.ResponseModels;
@@ -25,6 +26,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             if (source.StoreBackgroundImage != null && File.Exists(source.StoreBackgroundImage))
             {
                 storeBackgroundImageBytes = source.StoreBackgroundImage != null ? File.ReadAllBytes(source.StoreBackgroundImage) : null;
+            }
+            byte[] defaultSpriteBytes = null;
+            string defaultSpritePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Organisations/Organisation" + source.OrganisationId + "/Store" + source.CompanyId + "/Sprites" + "\\" + source.CompanyId + "_sprite.backup.png");
+            if (File.Exists(defaultSpritePath))
+            {
+                defaultSpriteBytes = File.ReadAllBytes(defaultSpritePath);
             }
 
             return new Company
@@ -112,12 +119,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                     source.CompanyContacts != null ? source.CompanyContacts.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFrom()).ToList() : null,
                 PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Take(10).Select(x => x.CreateFrom()).ToList() : null,
-                ProductCategoriesListView = source.ProductCategories != null ? source.ProductCategories.Take(10).Where(x => x.ParentCategoryId == null).Select(x => x.ListViewModelCreateFrom()).ToList() : null,
+                ProductCategoriesListView = source.ProductCategories != null ? source.ProductCategories.Where(x => x.ParentCategoryId == null).Select(x => x.ListViewModelCreateFrom()).ToList() : null,
                 CmsPagesDropDownList = source.CmsPages != null ? source.CmsPages.Select(x => x.CreateFromForDropDown()).ToList() : null,
                 ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null,
                 StoreBackgroudImage = storeBackgroundImageBytes,
-                CmsOffers = source.CmsOffers != null ? source.CmsOffers.Select(c => c.CreateFrom()).ToList() : null
-                //Items = source.produ
+                DefaultSpriteImage = defaultSpriteBytes,
+                UserDefinedSpriteImage = GetUserDefinedSpriteImage(source),
+                UserDefinedSpriteFileName = GetUserDefinedSpriteImageName(source)
             };
         }
 
@@ -217,7 +225,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null,
                 StoreBackgroudImageImageSource = source.StoreBackgroudImageImageSource,
                 StoreBackgroudImageFileName = source.StoreBackgroudImageFileName,
-                CmsOffers = source.CmsOffers != null ? source.CmsOffers.Select(c => c.CreateFrom()).ToList() : null
+                CmsOffers = source.CmsOffers != null ? source.CmsOffers.Select(c => c.CreateFrom()).ToList() : null,
+                DefaultSpriteSource = source.DefaultSpriteSource,
+                UserDefinedSpriteSource = source.UserDefinedSpriteSource,
+                UserDefinedSpriteFileName = source.UserDefinedSpriteFileName,
             };
 
             return company;
@@ -307,7 +318,45 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 }
             };
 
-        #endregion
+
         }
+
+        private static byte[] GetUserDefinedSpriteImage(DomainModels.Company company)
+        {
+            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Organisations/Organisation" + company.OrganisationId + "/Store" + company.CompanyId + "/Sprites");
+            if (directoryPath != null && Directory.Exists(directoryPath))
+            {
+                DirectoryInfo dir = new DirectoryInfo(directoryPath);
+                FileInfo[] Files = dir.GetFiles();
+                foreach (FileInfo file in Files)
+                {
+                    if (file.Name != "" && file.Name != company.CompanyId + "_sprite.backup.png")
+                    {
+                        if (File.Exists(directoryPath + "\\" + file.Name))
+                            return File.ReadAllBytes(directoryPath + "\\" + file.Name);
+                    }
+                }
+            }
+            return null;
+        }
+        private static string GetUserDefinedSpriteImageName(DomainModels.Company company)
+        {
+            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Organisations/Organisation" + company.OrganisationId + "/Store" + company.CompanyId + "/Sprites");
+            if (directoryPath != null && Directory.Exists(directoryPath))
+            {
+                DirectoryInfo dir = new DirectoryInfo(directoryPath);
+                FileInfo[] Files = dir.GetFiles();
+                foreach (FileInfo file in Files)
+                {
+                    if (file.Name != "" && file.Name != company.CompanyId + "_sprite.backup.png")
+                    {
+                        if (File.Exists(directoryPath + "\\" + file.Name))
+                            return file.Name;
+                    }
+                }
+            }
+            return null;
+        }
+        #endregion
     }
 }
