@@ -313,7 +313,7 @@ namespace MPC.Implementation.WebStoreServices
                     string destPath = results[0] + "_thumb" + ext;
                     GenerateThumbNail(sourcePath, destPath, 98);
                 }
-                NewImgPath = "./MPC_Content/Designer/Organisation" + organisationID.ToString() + "/Templates/" + TemplateID.ToString() + "/" + fileName[fileName.Length - 1];
+                NewImgPath = "/MPC_Content/Designer/Organisation" + organisationID.ToString() + "/Templates/" + TemplateID.ToString() + "/" + fileName[fileName.Length - 1];
                 int ImageWidth = 0,ImageHeight = 0;
                 if (!Path.GetExtension(fileName[fileName.Length - 1]).Contains("svg"))
                 {

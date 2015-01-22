@@ -3336,6 +3336,7 @@ function k32(imID, Tid, eleID) {
 
 }
 function k32_load(DT) {
+    alert(DT);
     var p = DT.split(tID + "/");
     var i = p[p.length - 1];
     var bkImgURL = p;
