@@ -1989,6 +1989,7 @@ function j8(src) {
 
 }
 function j9(e, url1, id) {
+    alert(url1);
     var D1AO = canvas.getActiveObject();
     if (D1AO) {
         if (D1AO.type === 'image') {
@@ -2034,12 +2035,12 @@ function j9(e, url1, id) {
                     }
                     svcCall2(n, tID, imgtype);
                 } else {
-                    parts = src.split("Designer/Products/");
+                    parts = src.split("MPC_Content/");
                     var imgName = parts[parts.length - 1];
                     while (imgName.indexOf('%20') != -1)
                         imgName = imgName.replace("%20", " ");
 
-                    var path = "./Designer/Products/" + imgName;
+                    var path = imgName;
                     j8(path);
                 }
             }
@@ -2839,10 +2840,12 @@ function k16(TempImgType, ImC, Caller) {
 
                     $.each(DT.objsBackground, function (j, IT) {
                         LiImgs.push(IT);
-                        var url = "/" + IT.BackgroundImageRelativePath;
+                        var url = "/MPC_Content/" + IT.BackgroundImageRelativePath;
+                        var funcUrl = "/" + IT.BackgroundImageRelativePath;
                         if (IsCalledFrom == 3) {
                             if (TempImgType == 6 || TempImgType == 7 || TempImgType == 13 || TempImgType == 14 || TempImgType == 18 || TempImgType == 19 || TempImgType == 20) {
                                 url = "http://designerv2.myprintcloud.com/" + IT.BackgroundImageRelativePath;
+                                funcUrl = "http://designerv2.myprintcloud.com/" + IT.BackgroundImageRelativePath;
                             }
                         }
                         var title = IT.ID;
@@ -2889,7 +2892,7 @@ function k16(TempImgType, ImC, Caller) {
 
                         }
                         $("#" + title).click(function (event) {
-                            j9(event, url, title);
+                            j9(event, funcUrl, title);
                         });
                     });
                     var he21 = $("." + strName + " li").length;
@@ -3336,7 +3339,6 @@ function k32(imID, Tid, eleID) {
 
 }
 function k32_load(DT) {
-    alert(DT);
     var p = DT.split(tID + "/");
     var i = p[p.length - 1];
     var bkImgURL = p;

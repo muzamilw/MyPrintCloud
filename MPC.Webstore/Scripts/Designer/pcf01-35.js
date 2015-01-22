@@ -222,48 +222,8 @@ function d1ToCanvasCC(src, IW, IH) {
             imgtype = 4;
         }
         StartLoader("Downloading image to your design, please wait....");
-        $.getJSON("services/imageSvc/DownloadImg/" + n + "," + tID + "," + imgtype,
-		function (DT) {
-		    // src = DT;
-		    StopLoader();
-		    D1NIO = fabric.util.object.clone(TO[0]);
-		    D1NIO.ObjectID = --NCI;
-		    D1NIO.ColorHex = "#000000";
-		    D1NIO.IsBold = false;
-		    D1NIO.IsItalic = false;
-		    D1NIO.ProductPageId = SP;
-		    D1NIO.MaxWidth = 100;
-		    D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
-		    D1NIO.PositionX = 0;
-		    D1NIO.PositionY = 0;
-		    D1NIO.ObjectType = 3;
-
-		    D1NIO.MaxHeight = IH;
-		    D1NIO.Height = IH;
-		    D1NIO.MaxWidth = IW;
-		    D1NIO.Width = IW;
-
-		    if (IH < 50) {
-		        D1NIO.MaxHeight = 50;
-		        D1NIO.Height = 50;
-		    }
-		    else if (IW < 50) {
-		        D1NIO.MaxWidth = 50;
-		        D1NIO.Width = 50;
-		    }
-		    D1NIO.ContentString = DT;
-		    D1NIO.DisplayOrder = TO.length + 1;
-		    d1(canvas, D1NIO, true);
-		    var OBS = canvas.getObjects();
-
-		    D1NIO.DisplayOrderPdf = OBS.length;
-		    canvas.renderAll();
-		    TO.push(D1NIO);
-		    k27();
-		    lAObj = D1NIO.ObjectID;
-		    //  $("#ImgCarouselDiv").tabs("option", "active", 1); 
-		    // $("#BkImgContainer").tabs("option", "active", 1);
-		});
+        svcCall4_img(n, tID, imgtype);
+  
     } else {
         D1NIO = fabric.util.object.clone(TO[0]);
         D1NIO.ObjectID = --NCI;
@@ -300,6 +260,47 @@ function d1ToCanvasCC(src, IW, IH) {
         TO.push(D1NIO);
     }
 
+}
+function k35_load(DT) {
+    // src = DT;
+    StopLoader();
+    D1NIO = fabric.util.object.clone(TO[0]);
+    D1NIO.ObjectID = --NCI;
+    D1NIO.ColorHex = "#000000";
+    D1NIO.IsBold = false;
+    D1NIO.IsItalic = false;
+    D1NIO.ProductPageId = SP;
+    D1NIO.MaxWidth = 100;
+    D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
+    D1NIO.PositionX = 0;
+    D1NIO.PositionY = 0;
+    D1NIO.ObjectType = 3;
+
+    D1NIO.MaxHeight = IH;
+    D1NIO.Height = IH;
+    D1NIO.MaxWidth = IW;
+    D1NIO.Width = IW;
+
+    if (IH < 50) {
+        D1NIO.MaxHeight = 50;
+        D1NIO.Height = 50;
+    }
+    else if (IW < 50) {
+        D1NIO.MaxWidth = 50;
+        D1NIO.Width = 50;
+    }
+    D1NIO.ContentString = DT;
+    D1NIO.DisplayOrder = TO.length + 1;
+    d1(canvas, D1NIO, true);
+    var OBS = canvas.getObjects();
+
+    D1NIO.DisplayOrderPdf = OBS.length;
+    canvas.renderAll();
+    TO.push(D1NIO);
+    k27();
+    lAObj = D1NIO.ObjectID;
+    //  $("#ImgCarouselDiv").tabs("option", "active", 1); 
+    // $("#BkImgContainer").tabs("option", "active", 1);
 }
 function d8(mode, dheight, title) {
     IsDesignModified = false;
