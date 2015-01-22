@@ -617,7 +617,7 @@ function d1(cCanvas, IO, isCenter) {
     if (IO.MaxHeight == 0) {
         IO.MaxHeight = 50;
     }
-    fabric.Image.fromURL(IO.ContentString, function (IOL) {
+    fabric.Image.fromURL("/MPC_Content/" + IO.ContentString, function (IOL) {
         IOL.set({
             left: (IO.PositionX + IO.MaxWidth / 2) * dfZ1l,
             top: (IO.PositionY + IO.MaxHeight / 2) * dfZ1l,
