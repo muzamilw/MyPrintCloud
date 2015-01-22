@@ -166,5 +166,15 @@ namespace MPC.Interfaces.WebStoreServices
         CompanyContact GetRetailUser(string email, string password);
 
         long GetContactTerritoryID(long CID);
+
+        long GetContactAddressID(long cID);
+
+        string GetStateCodeById(long stateId);
+
+        string GetCountryCodeById(long countryId);
+
+        long SystemWeight(long OrganisationID);
+
+        long SystemLength(long OrganisationID);
     }
 }

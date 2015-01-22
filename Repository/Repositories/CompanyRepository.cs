@@ -402,5 +402,51 @@ namespace MPC.Repository.Repositories
             }
             return hash;
         }
+
+        public long SystemWeight(long OrganisationID)
+        {
+          
+            try
+            {
+                long Weightunit = 0;
+
+
+//                select * from WeightUnit as wu
+//inner join organisation as org on wu.id = org.SystemWeightUnit
+
+//                 var query = from systemWeight in db.sy
+//                            join resource in db.CostcentreResources on sysUser.SystemUserId equals resource.ResourceId
+//                            where resource.CostCentreId == CostcentreID
+//                            select new CostCentreResource()
+//                            {
+//                                ResourceId = resource.ResourceId ?? 0,
+//                                UserName = sysUser.UserName
+//                            };
+
+                return Weightunit;
+                //return db.Organisations.Where(s => s.OrganisationId == OrganisationID).Select(s => s.SystemWeightUnit ?? 0).FirstOrDefault();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+
+            }
+
+            
+            
+        }
+        public long SystemLength(long OrganisationID)
+        {
+            try
+            {
+                return db.Organisations.Where(o => o.OrganisationId == OrganisationID).Select(s => s.SystemLengthUnit ?? 0).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        
+        }
     }
 }

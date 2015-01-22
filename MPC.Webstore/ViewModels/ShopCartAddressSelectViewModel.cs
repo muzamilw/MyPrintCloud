@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace MPC.Webstore.ViewModels
 {
@@ -15,23 +16,39 @@ namespace MPC.Webstore.ViewModels
 
         public Address BillingAddress { get; set; }
 
-        public List<State> States { get; set; }
+        public SelectList DDBillingStates { get; set; }
+
+        public SelectList DDShippingStates { get; set; }
+
+        public List<State> BillingStates { get; set; }
+
+        public List<State> ShippingStates { get; set; }
+
+
+        public SelectList DDBillingCountries { get; set; }
+
+        public SelectList DDShippingCountries { get; set; }
 
         public List<CostCentre> DeliveryCostCenters { get; set; }
+        public SelectList DDDeliveryCostCenters { get; set; }
 
-        public List<Country> Countries { get; set; }
-      
+        public List<Country> BillingCountries { get; set; }
 
-        List<Address> _ShippingAddresses = null;
-        public List<Address> ShippingAddresses
-        {
-            get { return _ShippingAddresses; }
-            set { _ShippingAddresses = value; }
-        }
+        public List<Country> ShippingCountries { get; set; }
+
+        
+
+
+        public List<Address> ShippingAddresses { get; set; }
+        public SelectList DDShippingAddresses { get; set; }
+   
 
         public List<AddOnCostsCenter> SelectedItemsAddonsList { get; set; }
+        public SelectList DDBillingAddresses { get; set; }
+
         public List<Address> BillingAddresses { get; set; }
 
+        
         public List<ProductItem> ProductItems { get; set; }
 
         public string ContactTel { get; set; }
@@ -78,9 +95,26 @@ namespace MPC.Webstore.ViewModels
 
         public long SelectedBillingAddress { get; set; }
 
+        public long SelectedDeliveryCountry { get; set; }
+
+        public long SelectedBillingCountry { get; set; }
+
+        public long SelectedDeliveryState { get; set;}
+
+        public long SelectedBillingState { get; set; }
+
+        public long SelectedCostCentre { get; set; }
+
+
         public string LtrMessage { get; set; }
 
         public bool LtrMessageToDisplay { get; set; }
+
+        public string RefNumRetail { get; set; }
+
+        public double GrandTotal { get; set; }
+
+        public string chkBoxDeliverySameAsBilling { get; set; }
 
 
 

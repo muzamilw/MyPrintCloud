@@ -142,6 +142,7 @@
     <Compile Include="Common\TemplateVariable.cs" />
     <Compile Include="Common\UserIdentityModel.cs" />
     <Compile Include="Common\USTaxInfo.cs" />
+    <Compile Include="Common\Utility.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CmsOffer.cs" />
     <Compile Include="DomainModels\CompanyVariableIcon.cs" />

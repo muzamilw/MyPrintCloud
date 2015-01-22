@@ -38,6 +38,8 @@ namespace MPC.Interfaces.WebStoreServices
         CostCentre GetCostCentreSummaryByID(long CostCentreID);
 
         CostCentre GetSystemCostCentre(long SystemTypeID, long OrganisationID);
+
+        CostCentre GetCostCentersByID(long costCenterID);
     }
 
 

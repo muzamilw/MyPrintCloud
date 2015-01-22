@@ -694,6 +694,65 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
+        public long GetContactAddressID(long cID)
+        {
+            try
+            {
+                return _CompanyContactRepository.GetContactAddressID(cID);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public string GetStateCodeById(long stateId)
+        {
+            try
+            {
+                return _StateRepository.GetStateCodeById(stateId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public string GetCountryCodeById(long countryId)
+        {
+            try
+            {
+                return _countryRepository.GetCountryCodeById(countryId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public long SystemWeight(long OrganisationID)
+        {
+            try
+            {
+                return _CompanyRepository.SystemWeight(OrganisationID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public long SystemLength(long OrganisationID)
+        {
+            try
+            {
+                return _CompanyRepository.SystemLength(OrganisationID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         #endregion
     }
 
