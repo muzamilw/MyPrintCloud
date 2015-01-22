@@ -3388,49 +3388,49 @@ function l4(caller) {
             var imURL = "";
             var mode = IT.ImageLogoType;
             if (mode == 1) {
-                imURL = "assets/presets/preset5_2.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset5_2.png";
             } else if (mode == 2) {
-                imURL = "assets/presets/preset5_1.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset5_1.png";
             } else if (mode == 3) {
-                imURL = "assets/presets/preset5.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset5.png";
             } else if (mode == 4) {
-                imURL = "assets/presets/preset4.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset4.png";
             } else if (mode == 5) {
-                imURL = "assets/presets/preset3.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset3.png";
             } else if (mode == 6) {
-                imURL = "assets/presets/preset2.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset2.png";
             } else if (mode == 7) {
-                imURL = "assets/presets/preset1.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset1.png";
             } else if (mode == 8) {
-                imURL = "assets/presets/preset6.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset6.png";
             } else if (mode == 9) {
-                imURL = "assets/presets/preset7.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset7.png";
             } else if (mode == 10) {
-                imURL = "assets/presets/preset8.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset8.png";
             } else if (mode == 11) {
-                imURL = "assets/presets/preset9.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset9.png";
             } else if (mode == 12) {
-                imURL = "assets/presets/preset10.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset10.png";
             } else if (mode == 13) {
-                imURL = "assets/presets/preset10_1.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset10_1.png";
             } else if (mode == 14) {
-                imURL = "assets/presets/preset10_2.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset10_2.png";
             } else if (mode == 15) {
-                imURL = "assets/presets/presets14.png";
+                imURL = "/Content/Designer/assets-v2/presets/presets14.png";
             } else if (mode == 16) {
-                imURL = "assets/presets/presets-15.png";
+                imURL = "/Content/Designer/assets-v2/presets/presets-15.png";
             } else if (mode == 17) {
-                imURL = "assets/presets/presets16.png";
+                imURL = "/Content/Designer/assets-v2/presets/presets16.png";
             } else if (mode == 18) {
-                imURL = "assets/presets/presets11.png";
+                imURL = "/Content/Designer/assets-v2/presets/presets11.png";
             } else if (mode == 19) {
-                imURL = "assets/presets/presets12.png";
+                imURL = "/Content/Designer/assets-v2/presets/presets12.png";
             } else if (mode == 20) {
-                imURL = "assets/presets/presets-13.png";
+                imURL = "/Content/Designer/assets-v2/presets/presets-13.png";
             }
             html += '<button id="btnPreset' + IT.LayoutID + '" class="' + ClName + '" title="Left Presets" onClick="l5(' + IT.LayoutID + ')" style="background-image:url(' + imURL + ')  " ></button>';
             var id = "#btnPreset" + IT.LayoutID;
-            $(id).css("background-image", '../assets/sprite.png');
+            $(id).css("background-image", '/Content/Designer/assets-v2/sprite.png');
         });
         $(".divLayoutBtnContainer").html(html);
         //if (IsCalledFrom == 1) {

@@ -1729,11 +1729,11 @@ function i7() {
 
                     html += i9(ite.ObjectID, 'Image Object', ite.type, ite.getSrc(), iLock);
                 } else if (ite.type == "text" || ite.type == "i-text") {
-                    html += i9(ite.ObjectID, ite.text, ite.type, "./assets/txtObject.png", iLock);
+                    html += i9(ite.ObjectID, ite.text, ite.type, "./Content/Designer/assets-v2/txtObject.png", iLock);
                 } else if (ite.type == "ellipse") {
-                    html += i9(ite.ObjectID, 'Ellipse Object', ite.type, "./assets/circleObject.png", iLock);
+                    html += i9(ite.ObjectID, 'Ellipse Object', ite.type, "./Content/Designer/assets-v2/circleObject.png", iLock);
                 } else {
-                    html += i9(ite.ObjectID, 'Shape Object', ite.type, "./assets/rectObject.png", iLock);
+                    html += i9(ite.ObjectID, 'Shape Object', ite.type, "./Content/Designer/assets-v2/rectObject.png", iLock);
                 }
 
             }
@@ -2058,45 +2058,45 @@ function l6(array, attr) {
 function l8(mode) {
 
     if (mode == 1) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset5_2.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset5_2.png");
     } else if (mode == 2) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset5_1.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset5_1.png");
     } else if (mode == 3) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset5.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset5.png");
     } else if (mode == 4) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset4.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset4.png");
     } else if (mode == 5) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset3.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset3.png");
     } else if (mode == 6) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset2.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset2.png");
     } else if (mode == 7) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset1.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset1.png");
     } else if (mode == 8) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset6.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset6.png");
     } else if (mode == 9) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset7.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset7.png");
     } else if (mode == 10) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset8.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset8.png");
     } else if (mode == 11) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset9.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset9.png");
     } else if (mode == 12) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset10.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset10.png");
     } else if (mode == 13) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset10_1.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset10_1.png");
     } else if (mode == 14) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset10_2.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset10_2.png");
     } else if (mode == 15) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/presets14.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/presets14.png");
     } else if (mode == 16) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/presets-15.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/presets-15.png");
     } else if (mode == 17) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/presets16.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/presets16.png");
     } else if (mode == 18) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/presets11.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/presets11.png");
     } else if (mode == 19) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/presets12.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/presets12.png");
     } else if (mode == 20) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/presets-13.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/presets-13.png");
     }
 }
 function pcL01(mode) {
