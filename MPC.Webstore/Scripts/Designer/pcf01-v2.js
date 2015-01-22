@@ -1383,7 +1383,7 @@ function fu02() {
 
 function fu04_callBack(DT) {
     Template = DT;
-    //tID = Template.ProductID;
+    tID = Template.ProductId;
     $("#txtTemplateTitle").val(Template.ProductName);
     $.each(Template.TemplatePages, function (i, IT) {
         TP.push(IT);
@@ -2839,7 +2839,7 @@ function k16(TempImgType, ImC, Caller) {
 
                     $.each(DT.objsBackground, function (j, IT) {
                         LiImgs.push(IT);
-                        var url = "./" + IT.BackgroundImageRelativePath;
+                        var url = "/" + IT.BackgroundImageRelativePath;
                         if (IsCalledFrom == 3) {
                             if (TempImgType == 6 || TempImgType == 7 || TempImgType == 13 || TempImgType == 14 || TempImgType == 18 || TempImgType == 19 || TempImgType == 20) {
                                 url = "http://designerv2.myprintcloud.com/" + IT.BackgroundImageRelativePath;
@@ -2858,18 +2858,22 @@ function k16(TempImgType, ImC, Caller) {
                         if (url.indexOf('.svg') == -1) {
                             var p = url.split('.');
                             for (var z = 0; z <= p.length - 2; z++) {
-                                if (p[z] != "") {
-                                    if (z == 0 && IsCalledFrom == 3) {
-                                        urlThumbnail += p[z];
-                                    } else {
-                                        urlThumbnail += "." + p[z];
-                                    }
+                                    if (p[z] != "") {
+                                        if (IsCalledFrom == 3) {
+                                            if (z == 0) {
+                                                urlThumbnail += p[z];
+                                            } else {
+                                                urlThumbnail += "." + p[z];
+                                            }
+                                        } else {
+                                            urlThumbnail += p[z];
+                                        }
                                 }
                             }
                             urlThumbnail += "_thumb." + p[p.length - 1];
                         } else {
                             urlThumbnail = url;
-                        }
+                        } 
                         if (ImIsEditable) {
 
                             var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#">' + '<img  src="' + urlThumbnail +

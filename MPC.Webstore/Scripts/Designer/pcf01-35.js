@@ -763,8 +763,10 @@ function fu12(mode, title) {
     $.each(TPOs, function (i, IT) {
         IT.$id = it2;
         it2++;
-        IT.EntityKey.$id = it3;
-        it3++;
+        if (IT.EntityKey) {
+            IT.EntityKey.$id = it3;
+            it3++;
+        }
         if (IT.BackgroundFileName.indexOf('Designer/Products/') != -1) {
             var p = IT.BackgroundFileName.split('Designer/Products/');
             IT.BackgroundFileName = p[p.length - 1];
@@ -778,6 +780,7 @@ function fu12(mode, title) {
         orderCode: orderCode,
         CustomerName: CustomerName,
         objPages: TPOs,
+        organisationId: ogranisationId,
         isRoundCornerrs: IsBCRoundCorners
     }
     var jsonObjects = JSON.stringify(obSt, null, 2);
@@ -792,13 +795,13 @@ function fu12(mode, title) {
         type: "POST",
         url: to,
         data: jsonObjects,
-        contentType: "application/json;",
-        dataType: "json",
+        contentType: "application/json",
+
         async: true,
         complete: function (httpresp, returnstatus) {
-            if (returnstatus == "success") {
 
-                if (httpresp.responseText == '"true"') {
+            if (returnstatus == "success") {
+                if (httpresp.responseText == '"True"') {
                     d8(mode, dheight, title);
                 }
                 else {
