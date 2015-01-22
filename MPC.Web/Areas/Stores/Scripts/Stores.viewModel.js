@@ -2005,7 +2005,7 @@ define("stores/stores.viewModel",
                                     selectedStore().userDefinedSpriteImageSource(data.DefaultSpriteImageSource);
                                     selectedStore().userDefinedSpriteImageFileName("default.jpg");
                                     selectedStore().defaultSpriteImageSource(data.DefaultSpriteImageSource);
-
+                                    selectedStore().customCSS(data.DefaultCompanyCss);
                                 }
                                 isLoadingStores(false);
                             },
@@ -2600,6 +2600,7 @@ define("stores/stores.viewModel",
                     productPriorityRadioOption: productPriorityRadioOption,
                     restoreSpriteImage: restoreSpriteImage,
                     spriteImageLoadedCallback: spriteImageLoadedCallback,
+                  
                 };
             })()
         };

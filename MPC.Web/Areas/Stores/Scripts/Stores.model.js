@@ -125,7 +125,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         specifiedWatermarkText, specifiedisBrokerPaymentRequired, specifiedisBrokerCanAcceptPaymentOnline, specifiedcanUserPlaceOrderWithoutApproval,
         specifiedisIncludeVAT, specifiedincludeEmailBrokerArtworkOrderReport, specifiedincludeEmailBrokerArtworkOrderXML, specifiedincludeEmailBrokerArtworkOrderJobCard,
         specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreImageFileBinary, specifiedStoreBackgroudImageSource, specifiedIsShowGoogleMap,
-        specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName
+        specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName, specifiedCustomCSS
     ) {
         var self,
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
@@ -212,6 +212,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             userDefinedSpriteImageFileName = ko.observable(specifiedUserDefinedSpriteFileName),
             //Is Show Google Map
             isShowGoogleMap = ko.observable(specifiedIsShowGoogleMap != undefined ? specifiedIsShowGoogleMap.toString() : "1"),
+            customCSS = ko.observable(specifiedCustomCSS),
             // Errors
             errors = ko.validation.group({
                 companyId: companyId,
@@ -281,6 +282,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 storeBackgroudImageImageSource: storeBackgroudImageImageSource,
                 storeBackgroudImageFileName: storeBackgroudImageFileName,
                 isShowGoogleMap: isShowGoogleMap,
+                customCSS: customCSS,
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -331,6 +333,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady();
                 result.isDisplayBanners = source.isDisplayBanners();
                 result.CompanyType = source.companyType() != undefined ? CompanyType().convertToServerData(source.companyType()) : null;
+                result.CustomCSS = source.customCSS();
                 result.RaveReviews = [];
                 result.PaymentGateways = [];
                 result.CompanyContacts = [];
@@ -455,6 +458,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             defaultSpriteImageFileName: defaultSpriteImageFileName,
             userDefinedSpriteImageSource: userDefinedSpriteImageSource,
             userDefinedSpriteImageFileName: userDefinedSpriteImageFileName,
+            customCSS: customCSS,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -580,7 +584,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.isShowGoogleMap,
             source.DefaultSpriteImageSource,
             source.UserDefinedSpriteImageSource,
-            source.UserDefinedSpriteFileName
+            source.UserDefinedSpriteFileName,
+            source.CustomCSS
         );
 
         store.companyType(CompanyType.Create(source.CompanyType));
@@ -1869,7 +1874,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             homeExtension1 = ko.observable(specifiedHomeExtension1),
             homeExtension2 = ko.observable(specifiedHomeExtension2),
             mobile = ko.observable(specifiedMobile),
-            email = ko.observable(specifiedEmail).extend({required: true}),
+            email = ko.observable(specifiedEmail).extend({ required: true }),
             fAX = ko.observable(specifiedFAX),
             jobTitle = ko.observable(specifiedJobTitle),
             dOB = ko.observable(specifiedDOB),

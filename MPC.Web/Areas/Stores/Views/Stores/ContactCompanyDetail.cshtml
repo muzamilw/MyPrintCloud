@@ -1091,39 +1091,9 @@
                                     <div class="col-md-12">
                                         <h3 class="group-header">CSS Editor</h3>
                                         <div class="col-md-9">
-                                            <textarea class="form-control" id="txtCSSEditor" rows="45"></textarea>
-                                            <pre id="editor">
-                                                        ul.topHeaderList li a:hover
-                                                        {
-                                                            text-decoration: none;
-                                                            color: Orange;
-                                                        }
-                                                        .H4B
-                                                        {
-                                                            margin-top: -7px;
-                                                        }
-                                                        .white
-                                                        {
-                                                            color: White !important;
-                                                        }
-                                                        ul.navM
-                                                        {
-                                                            /* font-weight: bold;*/
-                                                            float: left;
-                                                            list-style: none;
-                                                        }
-                                                        .navM li
-                                                        {
-                                                            float: left;
-                                                            position: relative;
-                                                            list-style-type: none;
-                                                            margin-right: 15px;
-                                                        }
-                                                        .navM a
-                                                        {
-                                                            display: block;
-                                                            float: left;
-                                                        }</pre>
+                                            <div style="height: 500px;" class="row">
+                                                <div id="editor" style="width: 650px;height: 500px;" data-bind="ace: customCSS, aceOptions: { mode: 'css', theme: 'clouds' }"></div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="clearfix">
