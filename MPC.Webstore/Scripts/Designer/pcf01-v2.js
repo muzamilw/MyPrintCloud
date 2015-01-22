@@ -745,13 +745,13 @@ function d5(pageID, isloading) {
             if (IT.BackgroundFileName != "") {
 
                 if (IT.BackGroundType == 3) {
-                    if (IT.BackgroundFileName.indexOf('Designer/Products/') == -1) {
-                        IT.BackgroundFileName = "./Designer/Products/" + IT.BackgroundFileName;
+                    if (IT.BackgroundFileName.indexOf('MPC_Content/Designer/') == -1) {
+                        IT.BackgroundFileName = "/MPC_Content/Designer/" + productionFolderPath + IT.BackgroundFileName;
                     }
                 }
                 if (IT.BackGroundType == 1) {
-                    if (IT.BackgroundFileName.indexOf('Designer/Products/') == -1) {
-                        IT.BackgroundFileName = "./Designer/Products/" + IT.BackgroundFileName;
+                    if (IT.BackgroundFileName.indexOf('MPC_Content/Designer/') == -1) {
+                        IT.BackgroundFileName = "/MPC_Content/Designer/" + productionFolderPath + IT.BackgroundFileName;
                     }
                 }
                 var bk = IT.BackgroundFileName + "?r=" + CzRnd;
@@ -3336,7 +3336,7 @@ function k32(imID, Tid, eleID) {
 
 }
 function k32_load(DT) {
-    var p = DT.split(Tid + "/");
+    var p = DT.split(tID + "/");
     var i = p[p.length - 1];
     var bkImgURL = p;
     StopLoader();
@@ -3356,7 +3356,7 @@ function k32_load(DT) {
     $.each(TP, function (op, IT) {
         if (IT.ProductPageID == SP) {
             // $("#ImgCarouselDiv").tabs("option", "active", 1); //open template background images tab
-            IT.BackgroundFileName = Tid + "/" + i;
+            IT.BackgroundFileName = tID + "/" + i;
             IT.BackGroundType = 3;
             return;
         }
