@@ -124,6 +124,20 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
 
         }
+
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        // string filepath, long productID, int uploaded from,contactId,organisationId,imageSetType,contactCompanyId
+        public HttpResponseMessage UploadImageRecord(string parameter1,long parameter2, int parameter3, long parameter4, int parameter5, int parameter6, long parameter7)
+        {
+            var result = templateBackgroundImages.InsertUploadedImageRecord(parameter1, parameter2, parameter3, parameter4, parameter5, parameter6, parameter7);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
+
+        }
         #endregion
     }
 }

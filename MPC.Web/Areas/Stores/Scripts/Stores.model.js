@@ -124,7 +124,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         specifiedStockNotificationManagerId1, specifiedStockNotificationManagerId2, specifiedisDisplayBanners, specifiedisStoreModePrivate, specifiedisTextWatermark,
         specifiedWatermarkText, specifiedisBrokerPaymentRequired, specifiedisBrokerCanAcceptPaymentOnline, specifiedcanUserPlaceOrderWithoutApproval,
         specifiedisIncludeVAT, specifiedincludeEmailBrokerArtworkOrderReport, specifiedincludeEmailBrokerArtworkOrderXML, specifiedincludeEmailBrokerArtworkOrderJobCard,
-        specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreImageFileBinary, specifiedStoreBackgroudImageSource, specifiedIsShowGoogleMap
+        specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreImageFileBinary, specifiedStoreBackgroudImageSource, specifiedIsShowGoogleMap,
+        specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName
     ) {
         var self,
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
@@ -205,6 +206,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             storeBackgroudImageImageSource = ko.observable(specifiedStoreBackgroudImageSource),
             //store Backgroud Image File Name
             storeBackgroudImageFileName = ko.observable(),
+            defaultSpriteImageSource = ko.observable(specifiedDefaultSpriteImageSource),
+            defaultSpriteImageFileName = ko.observable(),
+            userDefinedSpriteImageSource = ko.observable(specifiedUserDefinedSpriteImageSource),
+            userDefinedSpriteImageFileName = ko.observable(specifiedUserDefinedSpriteFileName),
             //Is Show Google Map
             isShowGoogleMap = ko.observable(specifiedIsShowGoogleMap != undefined ? specifiedIsShowGoogleMap.toString() : "1"),
             // Errors
@@ -376,6 +381,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 //#endregion
                 result.ImageName = source.storeImageName() === undefined ? null : source.storeImageName();
                 result.ImageBytes = source.image() === undefined ? null : source.image();
+                result.DefaultSpriteSource = source.defaultSpriteImageSource() === undefined ? null : source.defaultSpriteImageSource();
+                result.UserDefinedSpriteSource = source.userDefinedSpriteImageSource() === undefined ? null : source.userDefinedSpriteImageSource();
+                result.UserDefinedSpriteFileName = source.userDefinedSpriteImageFileName() === undefined ? null : source.userDefinedSpriteImageFileName();
                 result.CmsOffers = [];
                 return result;
             },
@@ -443,6 +451,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             storeBackgroudImageImageSource: storeBackgroudImageImageSource,
             storeBackgroudImageFileName: storeBackgroudImageFileName,
             isShowGoogleMap: isShowGoogleMap,
+            defaultSpriteImageSource: defaultSpriteImageSource,
+            defaultSpriteImageFileName: defaultSpriteImageFileName,
+            userDefinedSpriteImageSource: userDefinedSpriteImageSource,
+            userDefinedSpriteImageFileName: userDefinedSpriteImageFileName,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -565,7 +577,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.makeEmailBrokerArtworkOrderProductionReady,
             source.ImageSource,
             source.StoreBackgroudImageSource,
-            source.isShowGoogleMap
+            source.isShowGoogleMap,
+            source.DefaultSpriteImageSource,
+            source.UserDefinedSpriteImageSource,
+            source.UserDefinedSpriteFileName
         );
 
         store.companyType(CompanyType.Create(source.CompanyType));
@@ -1845,7 +1860,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             contactId = ko.observable(specifiedContactId),
             addressId = ko.observable(specifiedAddressId),
             companyId = ko.observable(specifiedCompanyId),
-            firstName = ko.observable(specifiedFirstName),
+            firstName = ko.observable(specifiedFirstName).extend({ required: true }),
             middleName = ko.observable(specifiedMiddleName),
             lastName = ko.observable(specifiedLastName),
             title = ko.observable(specifiedTitle),
@@ -1854,7 +1869,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             homeExtension1 = ko.observable(specifiedHomeExtension1),
             homeExtension2 = ko.observable(specifiedHomeExtension2),
             mobile = ko.observable(specifiedMobile),
-            email = ko.observable(specifiedEmail),
+            email = ko.observable(specifiedEmail).extend({required: true}),
             fAX = ko.observable(specifiedFAX),
             jobTitle = ko.observable(specifiedJobTitle),
             dOB = ko.observable(specifiedDOB),
@@ -1929,7 +1944,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             fileName = ko.observable(),
             // Errors
             errors = ko.validation.group({
-
+                firstName: firstName,
+                email: email
             }),
             // Is Valid 
             isValid = ko.computed(function () {

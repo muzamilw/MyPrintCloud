@@ -8,6 +8,7 @@ using MPC.Models.DomainModels;
 using MPC.Interfaces.WebStoreServices;
 using Newtonsoft.Json;
 using System.Net.Http.Formatting;
+using MPC.Models.Common;
 namespace MPC.Webstore.Areas.DesignerApi.Controllers
 {
     public class TemplateSPController : ApiController
@@ -43,6 +44,17 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             return Request.CreateResponse(HttpStatusCode.OK, template, formatter);
         }
+        [HttpPost]
+        public HttpResponseMessage Preview([FromBody]  QuickText obj)
+        {
+            var result = templateService.UpdateQuickTextTemplateSelection(obj);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
+        }
+
         //public List<TemplatePages> GetTemplatePages(int TemplateID) // moved to template page controller new function name = GetTemplatePagesSP
         //public List<TemplateColorStyles> GetColorStyle(int ProductId) // moved to TemplateColorStyleController
         //public bool DeleteTemplate(int ProductID, out int CategoryID)// moved to templates service in implementation project
