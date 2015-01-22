@@ -17,6 +17,8 @@ using System.Web;
 
 namespace MPC.Implementation.WebStoreServices
 {
+
+  
     public class CostCentreService : ICostCentreService
     {
         private readonly ICostCentreRepository _CostCentreRepository;
@@ -136,8 +138,8 @@ namespace MPC.Implementation.WebStoreServices
             int SetupTime = 0;
             double MinCost = 0.0d;
             double DefaultProfitMargin = 0.0d;
-
-            string sCostPlant = TokenParse("EstimatedPlantCost = {SystemVariable, ID=\"1\",Name=\"Number of unique Inks used on Side 1\"} ");  //* {question, ID=\"13\",caption=\"How many boxes\"}
+            string sCostPlant = "_CostCentreService.ExecuteQuestion(ParamsArray, \"13\", CostCentreID)";
+            //string sCostPlant = TokenParse("EstimatedPlantCost = {SystemVariable, ID=\"1\",Name=\"Number of unique Inks used on Side 1\"} ");  //* {question, ID=\"13\",caption=\"How many boxes\"}
     //="EstimatedPlantCost =  BLL.CostCentres.CostCentreExecution.ExecuteVariable(ParamsArray ,"1")  *  BLL.CostCentres.CostCentreExecution.ExecuteQuestion(ParamsArray,"13",CostCentreID) ";
             string sCostLabour ="EstimatedLabourCost = 0";
             string sCostStock ="EstimatedMaterialCost = 0";
@@ -255,6 +257,7 @@ namespace MPC.Implementation.WebStoreServices
                 oSource += "imports MPC.Models.DomainModels" + Environment.NewLine;
                 oSource += "imports MPC.Models.Common" + Environment.NewLine;
                 oSource += "Imports System.Reflection" + Environment.NewLine;
+                oSource += "Imports Microsoft.Practices.Unity" + Environment.NewLine;
                 oSource += "Imports ICostCentreService = MPC.Interfaces.WebStoreServices.ICostCentreService" + Environment.NewLine;
                 oSource += "Namespace UserCostCentres" + Environment.NewLine;
 
@@ -343,7 +346,7 @@ namespace MPC.Implementation.WebStoreServices
 
                 oCostCentre.CompleteCode = sCode.ToString();
 
-                _CostCentreRepository.Update(oCostCentre);
+                _CostCentreRepository.UpdateCostCentre(oCostCentre);
 
             }
 
@@ -1819,40 +1822,43 @@ namespace MPC.Implementation.WebStoreServices
 
 
 
-        public double ExecuteResource(ref object[] oParamsArray, long ResourceID, string ReturnValue)
-        {
-            double functionReturnValue = 0;
+        //public double ExecuteResource(ref object[] oParamsArray, long ResourceID, string ReturnValue)
+        //{
+        //    double functionReturnValue = 0;
 
-            try
-            {
-                CostCentreExecutionMode ExecutionMode = (CostCentreExecutionMode)oParamsArray[1];
+        //    try
+        //    {
+        //        CostCentreExecutionMode ExecutionMode = (CostCentreExecutionMode)oParamsArray[1];
 
-                // If execution mode is for populating the Queue then return 0
-                if (ExecutionMode == CostCentreExecutionMode.PromptMode)
-                {
-                    return 0;
+        //        // If execution mode is for populating the Queue then return 0
+        //        if (ExecutionMode == CostCentreExecutionMode.PromptMode)
+        //        {
+        //            return 0;
 
-                    //if its execution mode then
+        //            //if its execution mode then
 
-                }
-                else if (ExecutionMode == CostCentreExecutionMode.ExecuteMode)
-                {
-                    if (ReturnValue == "costperhour")
-                    {
-                        functionReturnValue = _CostCentreRepository.ExecuteUserResource(ResourceID, ResourceReturnType.CostPerHour);
-                    }
-                    else
-                    {
-                        functionReturnValue = 0;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("ExecuteResource", ex);
-            }
-            return functionReturnValue;
-        }
+        //        }
+        //        else if (ExecutionMode == CostCentreExecutionMode.ExecuteMode)
+        //        {
+        //            if (ReturnValue == "costperhour")
+        //            {
+        //                MPC.Repository.Repositories.CostCentre obj = new MPC.Repository.Repositories.CostCentre();
+
+        //                functionReturnValue = obj.TestConnection(); // _CostCentreRepository.ExecuteUserResource(ResourceID, ResourceReturnType.CostPerHour);
+        //                obj = null;
+        //            }
+        //            else
+        //            {
+        //                functionReturnValue = 0;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("ExecuteResource", ex);
+        //    }
+        //    return functionReturnValue;
+        //}
 
 
         public double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, out double Price ,out double PerQtyQty)
@@ -1960,7 +1966,7 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     //populate the question in the executionQueue
                     //loading the Questions Information for populating in the Queue
-                    CostCentreQuestions ovariable = _CostCentreQuestionRepository.LoadQuestion(Convert.ToInt32(QuestionID));
+                    CostCentreQuestion ovariable = _CostCentreQuestionRepository.LoadQuestion(Convert.ToInt32(QuestionID));
                     QuestionItem = new QuestionQueueItem(QuestionID, ovariable.QuestionString, CostCentreID, ovariable.Type.Value, ovariable.QuestionString, ovariable.DefaultAnswer, "", false, 0, 0, 0, 0, 0, ovariable.AnswerCollection);
                     QuestionQueue.Add(QuestionItem);
                     ovariable = null;
@@ -2098,6 +2104,10 @@ namespace MPC.Implementation.WebStoreServices
                
             
 
+        }
+        public string test() 
+        {
+            return "Hello";
         }
     }  
 

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace MPC.Repository.Repositories
 {
+    [Serializable()]
     public class CostCentreQuestionRepository : BaseRepository<CostCentreQuestion>, ICostCentreQuestionRepository
     {
         public CostCentreQuestionRepository(IUnityContainer container)
@@ -39,11 +40,11 @@ namespace MPC.Repository.Repositories
         /// <param name="QuestionID">QuestionID</param>
         /// <param name="oConnection">DB Connection</param>
         /// <returns>Question</returns>
-        public CostCentreQuestions LoadQuestion(int QuestionID)
+        public CostCentreQuestion LoadQuestion(int QuestionID)
         {
             try
             {
-                CostCentreQuestions QuestionObj = new CostCentreQuestions();
+                CostCentreQuestion QuestionObj = new CostCentreQuestion();
                 //querying the DB to retrieve the Question information
                 CostCentreQuestion oQuestion = db.CostCentreQuestions.Where(q => q.Id == QuestionID).FirstOrDefault();
                 //if Question information was found
@@ -56,10 +57,10 @@ namespace MPC.Repository.Repositories
                     QuestionObj.Type = oQuestion.Type;
                     //now here we are going to load possible answers againt the Question into the Question object
                     //if question contains
-                    if (oQuestion.Type == (int)QuestionType.MultipleChoiceQuestion)
-                    {
-                        QuestionObj.AnswerCollection = LoadAnswer(QuestionID);
-                    }
+                    //if (oQuestion.Type == (int)QuestionType.MultipleChoiceQuestion)
+                    //{
+                    //    QuestionObj.AnswerCollection = LoadAnswer(QuestionID);
+                    //}
                 }
 
                 //finally returning the populated Question object
