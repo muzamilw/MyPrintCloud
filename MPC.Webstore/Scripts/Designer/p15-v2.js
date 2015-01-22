@@ -182,7 +182,7 @@ function svcCall4(n, tID, imgtype) {
         });
 }
 function svcCall4_img(n, tID, imgtype) {
-    n = "MPC_Content" + n;
+   // n = "MPC_Content" + n;
     $.getJSON("/designerapi/TemplateBackgroundImage/DownloadImageLocally/" + n + "/" + tID + "/" + imgtype + "/" + ogranisationId,
         function (DT) {
             k35_load(DT);

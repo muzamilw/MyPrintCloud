@@ -1989,7 +1989,6 @@ function j8(src) {
 
 }
 function j9(e, url1, id) {
-    alert(url1);
     var D1AO = canvas.getActiveObject();
     if (D1AO) {
         if (D1AO.type === 'image') {
@@ -2841,11 +2840,15 @@ function k16(TempImgType, ImC, Caller) {
                     $.each(DT.objsBackground, function (j, IT) {
                         LiImgs.push(IT);
                         var url = "/MPC_Content/" + IT.BackgroundImageRelativePath;
-                        var funcUrl = "/" + IT.BackgroundImageRelativePath;
+                        var funcUrl = "/MPC_Content" + IT.BackgroundImageRelativePath;
+
                         if (IsCalledFrom == 3) {
                             if (TempImgType == 6 || TempImgType == 7 || TempImgType == 13 || TempImgType == 14 || TempImgType == 18 || TempImgType == 19 || TempImgType == 20) {
                                 url = "http://designerv2.myprintcloud.com/" + IT.BackgroundImageRelativePath;
                                 funcUrl = "http://designerv2.myprintcloud.com/" + IT.BackgroundImageRelativePath;
+                            } else if (TempImgType == 1)
+                            {
+                                funcUrl = "/" + IT.BackgroundImageRelativePath;
                             }
                         }
                         var title = IT.ID;
