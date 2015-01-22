@@ -903,7 +903,7 @@ function e0(caller) {
     D1CZL = 0;
 }
 function e6() {
-    pcL36('hide', '#PreviewerContainer');
+    pcL36('hide', '#PreviewerContainerDesigner');
     $('.opaqueLayer').css("display", "none");
     $('.opaqueLayer').css("background-color", "transparent");
 
@@ -2104,14 +2104,14 @@ function k0() {
         $(".sliderframeMsg").css("display", "none");
     }
     if (IsBC) {
-        $('#PreviewerContainer').css("width", "800px");
+        $('#PreviewerContainerDesigner').css("width", "800px");
         $('#Previewer').css("width", "776px");
         $('#sliderFrame').css("width", "740px");
         $('#slider').css("width", "542px");
         $('#previewProofing').css("width", "760px");
-        $('#PreviewerContainer').css("height", "562px");
-        $('#PreviewerContainer').css("left", (($(window).width() - $('#PreviewerContainer').width()) / 2) + "px");
-        $('#PreviewerContainer').css("top", (($(window).height() - $('#PreviewerContainer').height()) / 2) + "px");
+        $('#PreviewerContainerDesigner').css("height", "562px");
+        $('#PreviewerContainerDesigner').css("left", (($(window).width() - $('#PreviewerContainerDesigner').width()) / 2) + "px");
+        $('#PreviewerContainerDesigner').css("top", (($(window).height() - $('#PreviewerContainerDesigner').height()) / 2) + "px");
         $('.sliderLine').css("width", "744px");
         $('#Previewer').css("height", ((500 - 46)) + "px");
         if (IsCalledFrom == 3 || IsCalledFrom == 4) {
@@ -2130,7 +2130,7 @@ function k0() {
         $('.previewerTitle').css("padding-bottom", "7px");
     } else {
         if ($(window).width() > 1200 && (IsCalledFrom == 1 || IsCalledFrom == 3)) {
-            $('#PreviewerContainer').css("width", "1200px");
+            $('#PreviewerContainerDesigner').css("width", "1200px");
             $('#Previewer').css("width", "1176px");
             $('#sliderFrame').css("width", "1140px");
             $('#slider').css("width", "942px");
@@ -2138,8 +2138,8 @@ function k0() {
             $('#previewProofing').css("width", "1160px");
             $('.divTxtProofing').css("margin-left", "208px");
         }
-        $('#PreviewerContainer').css("left", (($(window).width() - $('#PreviewerContainer').width()) / 2) + "px");
-        $('#PreviewerContainer').css("height", (($(window).height() - 28)) + "px");
+        $('#PreviewerContainerDesigner').css("left", (($(window).width() - $('#PreviewerContainerDesigner').width()) / 2) + "px");
+        $('#PreviewerContainerDesigner').css("height", (($(window).height() - 28)) + "px");
         $('#Previewer').css("height", (($(window).height() - 131)) + "px");
         if (IsCalledFrom == 3 || IsCalledFrom == 4) {
             $('#sliderFrame').css("height", $('#Previewer').height() - 50 - 40 + "px");
@@ -2171,7 +2171,7 @@ function k0() {
 
         $(".PreviewerDownloadPDFCorp").css("top", "200px");
         $(".PreviewerDownloadPDFCorp").text("Click here to download high resolution PDF file.");
-        $(".PreviewerDownloadPDFCorp").css("right", $("#PreviewerContainer").width() / 2 - 319 + "px");
+        $(".PreviewerDownloadPDFCorp").css("right", $("#PreviewerContainerDesigner").width() / 2 - 319 + "px");
     }
     if (IsCalledFrom == 3 || IsCalledFrom == 4) {
         $("#slider").css("cursor", "pointer");
@@ -3567,7 +3567,7 @@ function pcL28_find(id) {
 
 }
 function pcL36(mode, arrayControls) {  // panels logic do here 
-    //var notInPanel = " #quickText , #DivPersonalizeTemplate , #DivToolTip , #DivAdvanceColorPanel ,  #divPositioningPanel , #DivControlPanel1 , #divBCMenu , #btnShowMoreOptions , #divPopupUpdateTxt , #divVariableContainer , #PreviewerContainer , #divPresetEditor ";
+    //var notInPanel = " #quickText , #DivPersonalizeTemplate , #DivToolTip , #DivAdvanceColorPanel ,  #divPositioningPanel , #DivControlPanel1 , #divBCMenu , #btnShowMoreOptions , #divPopupUpdateTxt , #divVariableContainer , #PreviewerContainerDesigner , #divPresetEditor ";
     var controls = "";
     controls += ' #DivAlignObjs ,#divTxtPropPanelRetail ,#divImgPropPanelRetail ,#DivColorPickerDraggable ,#DivAdvanceColorPanel';
     //controls += '#addText , #addImage , #divImageDAM , #divImageEditScreen , #DivLayersPanel , #UploadImage , #ImagePropertyPanel , #ShapePropertyPanel ';

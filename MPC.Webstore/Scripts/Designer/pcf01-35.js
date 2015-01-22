@@ -283,7 +283,7 @@ function d8(mode, dheight, title) {
         }
         $('.opaqueLayer').css("display", "block");
         $('.opaqueLayer').css("background-color", "#333537");
-        pcL36('show', "#PreviewerContainer");
+        pcL36('show', "#PreviewerContainerDesigner");
 
 
         $("#loadingMsg").html("Saving Content, Please wait..");
