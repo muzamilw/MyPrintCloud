@@ -34,7 +34,7 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     path = objFonts.FontPath;
                     if(path.Contains("Organisation" + OrganisationID.ToString() + "/WebFonts/")) {
-                        path.Replace("Organisation" + OrganisationID.ToString() + "/WebFonts/", "");
+                        path = path.Replace("Organisation" + OrganisationID.ToString() + "/WebFonts/", "");
                     }
                 }
                 var drURL = "MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/WebFonts/" ;

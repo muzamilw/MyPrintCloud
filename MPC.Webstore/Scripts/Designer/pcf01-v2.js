@@ -79,17 +79,17 @@ function downloadJSAtOnload(name) {
 
 function a0(fontName, fontFileName) {
     var path = "";
-    path = "/DesignEngine/";
+    path = "/";
     var html = "";
-    //if (jQuery.browser.msie) {
-    //    html = '<style> @font-face { font-family: ' + fontName + '; src: url(' + path + fontFileName + ".woff" + ') format("woff");  font-weight: normal; font-style: normal;}</style>';
-    //} else if (jQuery.browser.Chrome) {
-    //    html = '<style> @font-face { font-family: ' + fontName + '; src: url(' + path + fontFileName + ".woff" + ') format("woff");  font-weight: normal; font-style: normal;}</style>';
-    //} else if (jQuery.browser.Safari || jQuery.browser.opera || jQuery.browser.mozilla) {
-    //    html = '<style> @font-face { font-family: ' + fontName + '; src:  url(' + path + fontFileName + ".ttf" + ') format("truetype");  font-weight: normal; font-style: normal;}</style>';
-    //} else {
+    if ($.browser.msie) {
+        html = '<style> @font-face { font-family: ' + fontName + '; src: url(' + path + fontFileName + ".woff" + ') format("woff");  font-weight: normal; font-style: normal;}</style>';
+    } else if ($.browser.Chrome) {
+        html = '<style> @font-face { font-family: ' + fontName + '; src: url(' + path + fontFileName + ".woff" + ') format("woff");  font-weight: normal; font-style: normal;}</style>';
+    } else if ($.browser.Safari || $.browser.opera || $.browser.mozilla) {
+        html = '<style> @font-face { font-family: ' + fontName + '; src:  url(' + path + fontFileName + ".ttf" + ') format("truetype");  font-weight: normal; font-style: normal;}</style>';
+    } else {
         html = '<style> @font-face { font-family: ' + fontName + '; src: url(' + path + fontFileName + ".eot" + '); src: url(' + path + fontFileName + ".eot?#iefix" + ') format(" embedded-opentype"), url(' + path + fontFileName + ".woff" + ') format("woff"),  url(' + path + fontFileName + ".ttf" + ') format("truetype");  font-weight: normal; font-style: normal;}</style>';
-    //}
+    }
     $('head').append(html);
 }
 
@@ -1844,19 +1844,19 @@ function fu16() {
 function h8(FN, FF, FP) {
     var p = "";
     p = "/";
-    //if (jQuery.browser.msie) {
-//        T0FN.push(FN);
-//        n = p + FF + ".woff";
-//        T0FU.push(n);
-////} else if (jQuery.browser.Chrome) {
-//        T0FN.push(FN);
-//        n = p + FF + ".woff";
-//        T0FU.push(n);
-//  //  } else if (jQuery.browser.Safari || jQuery.browser.opera || jQuery.browser.mozilla) {
-//        T0FN.push(FN);
-//        n = p + FF + ".ttf";
-//        T0FU.push(n);
-    //} else {
+    if ($.browser.msie) {
+        T0FN.push(FN);
+        n = p + FF + ".woff";
+        T0FU.push(n);
+    } else if ($.browser.Chrome) {
+        T0FN.push(FN);
+        n = p + FF + ".woff";
+        T0FU.push(n);
+    } else if ($.browser.Safari || $.browser.opera || $.browser.mozilla) {
+        T0FN.push(FN);
+        n = p + FF + ".ttf";
+        T0FU.push(n);
+    } else {
         T0FN.push(FN);
         n = p + FF + ".eot";
         T0FU.push(n);
@@ -1868,7 +1868,7 @@ function h8(FN, FF, FP) {
         T0FN.push(FN);
         n = p + FF + ".ttf";
         T0FU.push(n);
-    //}
+    }
 
 }
 function h9() {
@@ -2151,14 +2151,16 @@ function k0() {
             $('#thumbs').css("height", $('#Previewer').height() - 33 + "px");
         }
     }
+    var stPath = "/MPC_Content/Designer/Organisation" + ogranisationId + "/Templates/" + tID;
     $.each(TP, function (i, IT) {
-        $("#slider").append('<img src="designer/products/' + tID + '/p' + IT.PageNo + '.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
-        $("#thumbs").append(' <div id="thumbPage' + IT.ProductPageID + '" class="thumb"><div class="frame"><img src="designer/products/' + tID + '/p' + IT.PageNo + '.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + '</p></div><div style="clear:both;"></div></div>');
+        
+        $("#slider").append('<img src="' + stPath + '/p' + IT.PageNo + '.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
+        $("#thumbs").append(' <div id="thumbPage' + IT.ProductPageID + '" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + '.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + '</p></div><div style="clear:both;"></div></div>');
 
     });
     $.each(TP, function (i, IT) {
-        $("#slider").append('<img class="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" src="designer/products/' + tID + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
-        $("#thumbs").append(' <div id="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="designer/products/' + tID + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + ' - Overlay Layer</p></div><div style="clear:both;"></div></div>');
+        $("#slider").append('<img class="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
+        $("#thumbs").append(' <div id="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + ' - Overlay Layer</p></div><div style="clear:both;"></div></div>');
     });
     if (IsCalledFrom == 1 || IsCalledFrom == 2) {
         $('#previewProofing').css("display", "none");

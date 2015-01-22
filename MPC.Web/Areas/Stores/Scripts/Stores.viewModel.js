@@ -110,13 +110,13 @@ define("stores/stores.viewModel",
                 templateToUse = function (store) {
                     return (store === selectedStore() ? 'itemStoreTemplate' : 'itemStoreTemplate');
                 },
-                app = sammy(function () {
-                    //this.get("#/byId/:raMainId", function () {
-                    this.get(":url", function () {
-                        //load(this.params["raMainId"]);
-                        toastr.success(this.params["url"]);
-                    });
-                }),
+                //app = sammy(function () {
+                //    //this.get("#/byId/:raMainId", function () {
+                //    this.get(":url", function () {
+                //        //load(this.params["raMainId"]);
+                //        toastr.success(this.params["url"]);
+                //    });
+                //}),
                      
                     // Select Company Domain
                     selectCompanyDomain = function (companyDomain) {
@@ -2048,7 +2048,7 @@ define("stores/stores.viewModel",
                                     selectedStore().userDefinedSpriteImageSource(data.DefaultSpriteImageSource);
                                     selectedStore().userDefinedSpriteImageFileName("default.jpg");
                                     selectedStore().defaultSpriteImageSource(data.DefaultSpriteImageSource);
-
+                                    selectedStore().customCSS(data.DefaultCompanyCss);
                                 }
                                 isLoadingStores(false);
                             },
