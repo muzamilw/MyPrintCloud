@@ -1843,7 +1843,7 @@ function fu16() {
 }
 function h8(FN, FF, FP) {
     var p = "";
-    p = "/DesignEngine/";
+    p = "/";
     //if (jQuery.browser.msie) {
 //        T0FN.push(FN);
 //        n = p + FF + ".woff";
@@ -3517,7 +3517,7 @@ function m0_i9(oId, oName, OType, iURL, index1) {
     } else if (index1 == -1) {
         btnHtml = ' <button class="btnMoveLayerUp" ></button>';
     }
-    btnHtml += ' <button class="button editTxtBtn" >Edit</button>'
+    btnHtml += ' <button class="buttonDesigner editTxtBtn" >Edit</button>'
     if (cid == oId) {
         var innerHtml = "";
         html = '<li id="selobj_' + oId + '" class="ui-state-default uiOldSmothness" style="padding:5px;"><span class="selectedObjectID">' + oId + '</span>  <img class="layerImg" src="' + iURL + '" alt="Image" onclick="j1(' + oId + ')" /> <span class="spanLyrObjTxtContainer" onclick="j1(' + oId + ')">' + oName + '</span>' + btnHtml + ' <br /></li>';;//'<li id="selobj_' + oId + '" class="ui-state-default"></li>';
