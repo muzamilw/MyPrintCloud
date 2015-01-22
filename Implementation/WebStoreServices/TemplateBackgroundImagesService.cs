@@ -354,7 +354,7 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     if (objBackground.ImageName != null && objBackground.ImageName != "")
                     {
-                        objBackground.BackgroundImageRelativePath = "MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/" + objBackground.ImageName;
+                        objBackground.BackgroundImageRelativePath = "/Designer/Organisation" + OrganisationID.ToString() + "/Templates/" + objBackground.ImageName;
                     }
 
                 }

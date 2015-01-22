@@ -2,8 +2,8 @@
     Module with the view model for the Store.
 */
 define("stores/stores.viewModel",
-    ["jquery", "amplify", "ko", "stores/stores.dataservice", "stores/stores.model", "common/confirmation.viewModel", "common/pagination", "stores/store.Product.viewModel"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination, storeProductsViewModel) {
+    ["jquery", "amplify", "ko", "stores/stores.dataservice", "stores/stores.model", "common/confirmation.viewModel", "common/pagination", "stores/store.Product.viewModel", "sammy"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, storeProductsViewModel, sammy) {
         var ist = window.ist || {};
         ist.stores = {
             viewModel: (function () {
@@ -16,6 +16,8 @@ define("stores/stores.viewModel",
                     selectedCurrentPageCopy = ko.observable(),
                     //Active Widget (use for dynamic controll)
                     selectedWidget = ko.observable(),
+                    //Active Company Domain
+                    selectedCompanyDomainItem = ko.observable(),
                     //New Added fake Id counter
                     newAddedWidgetIdCounter = ko.observable(0),
                     //Store Image
@@ -108,7 +110,47 @@ define("stores/stores.viewModel",
                 templateToUse = function (store) {
                     return (store === selectedStore() ? 'itemStoreTemplate' : 'itemStoreTemplate');
                 },
+                app = sammy(function () {
+                    //this.get("#/byId/:raMainId", function () {
+                    this.get(":url", function () {
+                        //load(this.params["raMainId"]);
+                        toastr.success(this.params["url"]);
+                    });
+                }),
+                     
+                    // Select Company Domain
+                    selectCompanyDomain = function (companyDomain) {
+                        if (selectedCompanyDomainItem() !== companyDomain) {
+                            selectedCompanyDomainItem(companyDomain);
+                        }
+                    },
+                    // Template Chooser
+                    templateToUseCompanyDomain = function (companyDomain) {
+                        if (selectedStore().companyDomains.length > 0) {
+                            
+                        }
+                        return (companyDomain === selectedCompanyDomainItem() ? 'editCompanyDomainTemplate' : 'itemCompanyDomainTemplate');
+                    },
+                    //Delete Company Domain
+                    onDeleteCompanyDomainItem = function (companyDomain) {
+                        selectedStore().companyDomains.remove(companyDomain);
+                    },
+                    //Create New Company Domain
+                    createCompanyDomainItem = function () {
 
+                        //if (selectedStore().companyDomains().length > 0) {
+                            var companyDomain = new model.CompanyDomain();
+                            selectedCompanyDomainItem(companyDomain);
+                            selectedStore().companyDomains.splice(0, 0, companyDomain);
+                        //}
+                        
+                        //if (costItem !== undefined && costItem !== null && !costItem.isValid()) {
+                        //    costItem.errors.showAllMessages();
+                        //    selectedCostItem(costItem);
+                        //    flag = false;
+                        //}
+                        
+                    },
                 //#region _____________________  S T O R E ____________________
 
                 //getItemsForWidgets
@@ -240,6 +282,7 @@ define("stores/stores.viewModel",
                 },
                 //Create Stock Sub Category
                 onCreateNewRaveReview = function () {
+                    app.run();
                     var raveReview = new model.RaveReview();
                     selectedRaveReview(raveReview);
                     view.showRaveReviewDialog();
@@ -2600,6 +2643,11 @@ define("stores/stores.viewModel",
                     productPriorityRadioOption: productPriorityRadioOption,
                     restoreSpriteImage: restoreSpriteImage,
                     spriteImageLoadedCallback: spriteImageLoadedCallback,
+                    templateToUseCompanyDomain: templateToUseCompanyDomain,
+                    selectedCompanyDomainItem: selectedCompanyDomainItem,
+                    selectCompanyDomain: selectCompanyDomain,
+                    onDeleteCompanyDomainItem: onDeleteCompanyDomainItem,
+                    createCompanyDomainItem: createCompanyDomainItem
                 };
             })()
         };
