@@ -71,6 +71,7 @@
     <Compile Include="MISServices\ICompanyService.cs" />
     <Compile Include="MISServices\IItemService.cs" />
     <Compile Include="MISServices\IInventoryService.cs" />
+    <Compile Include="MISServices\ICostCentersService.cs" />
     <Compile Include="MISServices\IPhraseLibraryService.cs" />
     <Compile Include="MISServices\IPrefixService.cs" />
     <Compile Include="MISServices\IStockCategoryService.cs" />

@@ -123,6 +123,9 @@ namespace MPC.Models.DomainModels
         public long? StoreId { get; set; }
 
         public bool? isAddCropMarks { get; set; }
+
+        public bool? isCalculateTaxByService { get; set; }
+
         [NotMapped]
         public string ImageName { get; set; }
 
@@ -146,6 +149,7 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<ColorPallete> ColorPalletes { get; set; }
         public virtual ICollection<StockItem> StockItems { get; set; }
         public virtual ICollection<CmsOffer> CmsOffers { get; set; }
+        public virtual ICollection<MediaLibrary> MediaLibraries { get; set; }
 
         #region Additional Properties
         /// <summary>
@@ -159,6 +163,22 @@ namespace MPC.Models.DomainModels
         /// </summary>
         [NotMapped]
         public string StoreBackgroudImageFileName { get; set; }
+
+        /// <summary>
+        /// Default Sprite Source
+        /// </summary>
+        [NotMapped]
+        public string DefaultSpriteSource { get; set; }
+        /// <summary>
+        /// User Defined Sprite Source
+        /// </summary>
+        [NotMapped]
+        public string UserDefinedSpriteSource { get; set; }
+        /// <summary>
+        /// User Defined Sprite File Name
+        /// </summary>
+        [NotMapped]
+        public string UserDefinedSpriteFileName { get; set; }
         #endregion
     }
 }

@@ -20,6 +20,12 @@ namespace MPC.Webstore
                 routeTemplate: "APIControllers/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional, action = "Login" }
             );
+
+            config.Routes.MapHttpRoute(
+                name: "DefaultApiWithoutController",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
             // addded by saqib to get json service in json from instead of xml 
             GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
         }

@@ -268,6 +268,7 @@
     <Compile Include="Areas\DesignerApi\Controllers\TemplateObjectController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplatePageController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateSPController.cs" />
+    <Compile Include="Areas\DesignerApi\Controllers\UploadController.cs" />
     <Compile Include="Areas\DesignerApi\DesignerApiAreaRegistration.cs" />
     <Compile Include="Areas\Designer\Controllers\DesignerController.cs" />
     <Compile Include="Areas\Designer\DesignerAreaRegistration.cs" />
@@ -331,6 +332,7 @@
     <Compile Include="ViewModels\MatchingSetViewModel.cs" />
     <Compile Include="ViewModels\ProductPriceMatrixViewModel.cs" />
     <Compile Include="ViewModels\RelatedItemViewModel.cs" />
+    <Compile Include="ViewModels\ShopCartAddressSelectViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -477,23 +479,6 @@
     <Content Include="Areas\Designer\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Designer\Views\Designer\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\Designer\a12\a66.css" />
-    <Content Include="Scripts\Designer\a12\a99.swf" />
-    <Content Include="Scripts\Designer\a12\aj1.js" />
-    <Content Include="Scripts\Designer\a12\aj12.js" />
-    <Content Include="Scripts\Designer\a12\aj21-v2.js" />
-    <Content Include="Scripts\Designer\a12\aj21.js" />
-    <Content Include="Scripts\Designer\a12\aj23.js" />
-    <Content Include="Scripts\Designer\a12\aj4.js" />
-    <Content Include="Scripts\Designer\a12\aj9.js" />
-    <Content Include="Scripts\Designer\a12\Images\backgrounds.gif" />
-    <Content Include="Scripts\Designer\a12\Images\buttons-disabled.png" />
-    <Content Include="Scripts\Designer\a12\Images\buttons.png" />
-    <Content Include="Scripts\Designer\a12\Images\delete.gif" />
-    <Content Include="Scripts\Designer\a12\Images\done.gif" />
-    <Content Include="Scripts\Designer\a12\Images\error.gif" />
-    <Content Include="Scripts\Designer\a12\Images\throbber.gif" />
-    <Content Include="Scripts\Designer\a12\Images\transp50.png" />
     <Content Include="Scripts\Designer\jCanvaScript.1.5.14.min.js" />
     <Content Include="Scripts\Designer\jCanvasLoader.js" />
     <Content Include="Scripts\Designer\p1.js" />
@@ -513,6 +498,7 @@
     <Content Include="Scripts\Designer\pc1.js" />
     <Content Include="Scripts\Designer\pc2.js" />
     <Content Include="Scripts\Designer\pc3.js" />
+    <Content Include="Scripts\Designer\p1-01.js" />
     <Content Include="Scripts\Designer\pcf01-35.js" />
     <Content Include="Scripts\Designer\pcf01-v2.js" />
     <Content Include="Scripts\Designer\pvcc1.js" />

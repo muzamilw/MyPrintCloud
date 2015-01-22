@@ -379,6 +379,11 @@ namespace MPC.Models.DomainModels
         public int? DesignerCategoryId { get; set; }
         public double? Scalar { get; set; }
         public double? ZoomFactor { get; set; }
+        public bool? isAddCropMarks { get; set; }
+        public double? ItemLength { get; set; }
+        public double? ItemWidth { get; set; }
+        public double? ItemHeight { get; set; }
+        public double? ItemWeight { get; set; }
 
         [NotMapped]
         public double MinPrice { get; set; }

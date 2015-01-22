@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using MPC.Models.DomainModels;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MPC.MIS.Areas.Api.Models
 {
@@ -19,6 +19,28 @@ namespace MPC.MIS.Areas.Api.Models
         public IEnumerable<Widget> Widgets { get; set; }
         public IEnumerable<CmsPageDropDown> CmsPageDropDownList { get; set; }
 
+
+        /// <summary>
+        /// Default Sprite Image
+        /// </summary>
+        public byte[] DefaultSpriteImage { get; set; }
+
+        /// <summary>
+        /// Default Sprite Image Source
+        /// </summary>
+        public string DefaultSpriteImageSource
+        {
+            get
+            {
+                if (DefaultSpriteImage == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(DefaultSpriteImage);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
         // public IEnumerable<Department> Departments { get; set; }
         // public IEnumerable<AccountManager> AccountManagers { get; set; }
     }

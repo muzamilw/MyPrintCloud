@@ -56,14 +56,22 @@ namespace MPC.Repository.Repositories
         /// </summary>
         /// <param name="productID"></param>
         /// <returns></returns>
-        public Template GetTemplate(long productID)
+        /// 
+        public Template GetTemplate(long productID,bool loadPages)
         {
             db.Configuration.LazyLoadingEnabled = false;
-            var template = db.Templates.Include("TemplatePages").Where(g => g.ProductId == productID).SingleOrDefault();
+            Template template = null;
+            if (loadPages)
+            {
+                template = db.Templates.Include("TemplatePages").Where(g => g.ProductId == productID).SingleOrDefault();
+            } else
+            {
+                template = db.Templates.Where(g => g.ProductId == productID).SingleOrDefault();
+            }
             return template;
 
         }
-
+      
          // returns list of pages and objects along with template called while generating template pdf;
         public Template GetTemplate(long productID, out List<TemplatePage> listPages, out List<TemplateObject> listTemplateObjs)
         {
@@ -670,7 +678,7 @@ namespace MPC.Repository.Repositories
         public void populateTemplateInfo(long templateID, Item ItemRecc,out Template template,out List<TemplatePage> tempPages)
         {
             Template temp = new Template();
-            template = GetTemplate(templateID);
+            template = GetTemplate(templateID, false);
             tempPages = GetTemplatePagesByTemplateID(templateID);
             //using (GlobalTemplateDesigner.TemplateSvcSPClient pSc = new GlobalTemplateDesigner.TemplateSvcSPClient())
             //{

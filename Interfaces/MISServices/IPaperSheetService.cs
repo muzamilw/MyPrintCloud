@@ -41,5 +41,11 @@ namespace MPC.Interfaces.MISServices
         /// <param name="Id"></param>
         /// <returns></returns>
         PaperSize GetPaperSheetById(int id);
+
+        /// <summary>
+        /// Get Base Data
+        /// </summary>
+        /// <returns></returns>
+        int? GetBaseData();
     }
 }

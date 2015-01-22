@@ -175,15 +175,11 @@
 
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
-
-
-
                                                 <label for="txtSortOrder" class="control-label text-right tooltip-float"></label>
-
                                             </div>
                                             <div class="col-lg-6" style="padding-left:0px;">
-                                                <div class="col-xs-5" style="padding-left:0px;">
-                                                    <a data-toggle="modal" href="#selectCAT" style="margin-left:4px;">
+                                                <div class="col-xs-7" style="padding-left:0px;">
+                                                    <a href="#" style="margin-left:4px;" data-bind="click: $parent.openProductCategoryDialog">
                                                         <i class="fa fa-lg"></i>&nbsp;Select Categories
                                                     </a>
                                                 </div>
@@ -2577,6 +2573,7 @@
     @Html.Partial("~/Areas/Stores/Views/Stores/_StoreProductRelatedProductDialog.cshtml")
     @Html.Partial("~/Areas/Stores/Views/Stores/_StoreProductStockDialog.cshtml")
     @Html.Partial("~/Areas/Stores/Views/Stores/_StockProductItemAddonCostCentre.cshtml")
+    @Html.Partial("~/Areas/Stores/Views/Stores/_StoreProductCategoryDialog.cshtml")
     @*@Html.Partial("_AddVideo")*@
     @*@Html.Partial("_RelatedProductDialog")*@
     @*@Html.Partial("_StockDialog")*@

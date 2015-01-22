@@ -39,5 +39,8 @@ namespace MPC.Interfaces.WebStoreServices
         void populateTemplateInfo(long templateID, Item ItemRecc, out Template template, out List<TemplatePage> tempPages);
 
         string GenerateProof(DesignerPostSettings data);
+        QuickText GetContactQuickTextFields(long CustomerID, long ContactID);
+
+        bool UpdateQuickTextTemplateSelection(QuickText objQText);
     }
 }

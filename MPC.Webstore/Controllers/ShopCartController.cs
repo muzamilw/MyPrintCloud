@@ -217,9 +217,11 @@ namespace MPC.Webstore.Controllers
 
                     if (result)
                     {
-                        string URL = "PartialViews/ShopCartAddressSelect/"+ sOrderID;
+                        //string URL = "PartialViews/ShopCartAddressSelect/"+ sOrderID;
 
-                        return RedirectToAction("Index", "ShopCartAddressSelect", new { OrderID = sOrderID });
+                        //return RedirectToAction("Index", "ShopCartAddressSelect", new { OrderID = sOrderID });
+                        Response.Redirect("/ShopCartAddressSelect/" + sOrderID);
+                        return null;
                     }
                     else
                     {

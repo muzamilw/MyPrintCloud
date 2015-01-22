@@ -20,11 +20,12 @@
                             <i class="fa fa-plus-circle fa-lg"></i>Add Paper Sheet
                         </a>
                     </div>
-                    <div class="filter-block pull-right">
-                    </div>
                 </div>
+                <!-- ko template: { name: 'filterTemplate' } -->
+                <!-- /ko -->
             </div>
         </div>
+
         <div class="row">
             <div class="col-lg-12">
                 <div class="main-box no-header clearfix">
@@ -34,7 +35,7 @@
                                 <thead>
                                     <tr class="">
                                         <th class="col-lg-6"><span id="0">Name</span></th>
-                                        <th class ="col-lg-2"><span id="1">Height</span></thclass>
+                                        <th class="col-lg-2"><span id="1">Height</span></thclass>
                                         <th class="col-lg-2"><span id="2">Width</span></th>
                                         <th class="col-lg-2"><span id="3"></span></th>
                                     </tr>
@@ -51,8 +52,9 @@
                         </div>
                     </div>
                 </div>
+
                 <div id="pagerDiv">
-                   
+
                     <!-- ko with: pager -->
                     @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                     <!-- /ko -->
@@ -85,8 +87,29 @@
             </td>
         </tr>
     </script>
+    @* Filter Template *@
+    <script id="filterTemplate" type="text/html">
+        <div class="filter-body">
+            <div class="filter-block pull-left">
+                <div class="pull-left spanfilterlbl">
+                    Search &nbsp;
+                </div>
+                <div class="form-group pull-left">
+                    <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">   
+                    <i class="fa fa-search search-icon"></i>
+                </div>
+
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-primary" data-bind="click:$root.getPaperSheets">Search</button>  
+                    <button type="reset" class="btn btn-default" data-bind="click:$root.resetFilterSection">Reset</button>  
+                </div>
+            </div>
+            <div class="clearfix">
+            </div>
+        </div>
+    </script>
     @Html.Partial("~/Areas/Settings/Views/Shared/_PaperSheetDialog.cshtml")
-    
+
 </div>
 @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
 

@@ -2,7 +2,7 @@
     View for the tariff Type. Used to keep the viewmodel clear of UI related logic
 */
 define("stores/stores.view",
-    ["jquery", "stores/stores.viewModel"], function ($, storesViewModel) {
+    ["jquery", "stores/stores.viewModel", "stores/store.Product.viewModel"], function ($, storesViewModel, storeProductViewModel) {
 
         var ist = window.ist || {};
 
@@ -20,7 +20,7 @@ define("stores/stores.view",
                 hideRaveReviewDialog = function () {
                     $("#rave").modal("hide");
                 },
-                showCompanyTerritoryDialog = function () { //
+                showCompanyTerritoryDialog = function () { 
                     $("#myTerritorySetModal").modal("show");
                 },
                 // Hide Activity the dialog
@@ -101,12 +101,20 @@ define("stores/stores.view",
                 hideCkEditorDialogDialog = function () {
                     $("#ckEditorDialog").modal("hide");
                 },
-                // Show Product Category Dialog
+                // Show Product Category dialog
                 showProductCategoryDialog = function () {
+                    $("#storeProductCategoryDialog").modal("show");
+                },
+                // Hide Product Category dialog
+                hideProductCategoryDialog = function () {
+                    $("#storeProductCategoryDialog").modal("hide");
+                },
+                // Show Product Category dialog
+                showStoreProductCategoryDialog = function () {
                     $("#myProductCategoryModal").modal("show");
                 },
-                // Hide Product Category Dialog
-                hideProductCategoryDialog = function () {
+                // Hide Product Category dialog
+                hideStoreProductCategoryDialog = function () {
                     $("#myProductCategoryModal").modal("hide");
                 },
                 // show Payment Gateway Dialog
@@ -117,7 +125,119 @@ define("stores/stores.view",
                 hidePaymentGatewayDialog = function () {
                     $("#myPaymentGatewayModal").modal("hide");
                 },
-                
+                // show item sFor Widgets Dialog
+                showItemsForWidgetsDialog = function () {
+                    $("#itemsForWidgetsDialog").modal("show");
+                },
+                // hide items For Widgets Dialog
+                hideItemsForWidgetsDialog = function () {
+                    $("#itemsForWidgetsDialog").modal("hide");
+                },
+                // Show/Hide Child Categories
+                toggleChildCategories = function (event) {
+
+                    if (!event) {
+                        return false;
+                    }
+
+                    var targetElement = $(event.target);
+                    if (!targetElement) {
+                        return false;
+                    }
+
+                    var childList = targetElement.closest('li').children('ol');
+                    if (childList.length === 0) {
+                        return false;
+                    }
+
+                    // Toggle Child List
+                    if (childList.is(':hidden')) {
+                        childList.show();
+                    }
+                    else {
+                        childList.hide();
+                    }
+
+                    return true;
+                },
+                // Get Category Id From li
+                getCategoryIdFromliElement = function (categoryliElement) {
+                    var categoryliId = categoryliElement.id.split("-");
+                    if (!categoryliId || categoryliId.length < 2) {
+                        return null;
+                    }
+
+                    var categoryId = categoryliId[1];
+                    if (!categoryId) {
+                        return null;
+                    }
+
+                    return parseInt(categoryId);
+                },
+                // Get Category Id from Binding li Element
+                getCategoryIdFromElement = function (event) {
+                    if (!event || !event.target) {
+                        return null;
+                    }
+
+                    var categoryliElement = $(event.target).closest('li')[0];
+                    if (!categoryliElement) {
+                        return null;
+                    }
+
+                    return getCategoryIdFromliElement(categoryliElement);
+                },
+                // Append Child Category to list
+                appendChildCategory = function (event, category) {
+                    if (!event) {
+                        return;
+                    }
+
+                    var targetElement = $(event.target).closest('li');
+                    if (!targetElement) {
+                        return;
+                    }
+
+                    var inputElement = category.isSelected() ?
+                        '<input type="checkbox" checked="checked" data-bind="click: $root.updateCheckedStateForCategory"  />' :
+                        '<input type="checkbox" data-bind="click: $root.updateCheckedStateForCategory" />';
+
+                    var childCategoryHtml = '<ol class="dd-list"> ' +
+                        '<li class="dd-item dd-item-list" id="liElement-' + category.id + '"> ' +
+                        '<div class="dd-handle-list" data-bind="click: $root.toggleChildCategories"><i class="fa fa-bars"></i></div>' +
+                        '<div class="dd-handle">' +
+                        '<span>' + category.name + '</span>' +
+                        '<div class="nested-links"> ' +
+                        inputElement +
+                        '</div></div></li></ol>';
+
+                    targetElement.append(childCategoryHtml);
+
+                    ko.applyBindings(ist.storeProduct.viewModel, $("#liElement-" + category.id)[0]);
+                },
+                // Update Input Checked States
+                updateInputCheckedStates = function () {
+                    $.each($("#productCategoryDialogCategories").find("input:checkbox"), function (index, inputElement) {
+                        var categoryliElement = $(inputElement).closest('li')[0];
+                        if (categoryliElement) {
+                            var categoryId = getCategoryIdFromliElement(categoryliElement);
+                            if (categoryId) {
+                                var category = ist.storeProduct.viewModel.productCategories.find(function (productCategory) {
+                                    return productCategory.id === categoryId;
+                                });
+
+                                if (category) {
+                                    if (category.isSelected()) {
+                                        $(inputElement).prop('checked', true);
+                                    }
+                                    else {
+                                        $(inputElement).prop('checked', false);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                },
                 //#region Store Product Tab Functions
                 // Change View - List/Grid View
                 changeView = function (element) {
@@ -315,6 +435,15 @@ define("stores/stores.view",
                 showCkEditorDialogDialog: showCkEditorDialogDialog,
                 hideProductCategoryDialog: hideProductCategoryDialog,
                 hideCkEditorDialogDialog: hideCkEditorDialogDialog,
+                toggleChildCategories: toggleChildCategories,
+                getCategoryIdFromliElement: getCategoryIdFromliElement,
+                showItemsForWidgetsDialog: showItemsForWidgetsDialog,
+                hideItemsForWidgetsDialog: hideItemsForWidgetsDialog,
+                getCategoryIdFromElement: getCategoryIdFromElement,
+                appendChildCategory: appendChildCategory,
+                updateInputCheckedStates: updateInputCheckedStates,
+                showStoreProductCategoryDialog: showStoreProductCategoryDialog,
+                hideStoreProductCategoryDialog: hideStoreProductCategoryDialog,
                 //#region Store Product Tab Functions
                 changeView: changeView,
                 showVideoDialog: showVideoDialog,
