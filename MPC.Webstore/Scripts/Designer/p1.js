@@ -27,7 +27,7 @@ $.widget('oal.fontSelector', {
         for (_j = 0, _len2 = fonts.length; _j < _len2; _j++) {
             font = fonts[_j];
             _ref2 = font, font = _ref2[0], label = _ref2[1];
-         //   this.element.before("<link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=" + font + ":400,700,400italic,700italic'></link>");
+            //   this.element.before("<link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=" + font + ":400,700,400italic,700italic'></link>");
             fontEl = $("<li style=\"font-family: '" + font + "'\">" + label + "</li>");
             fontEl.data('font', font);
             if (font === this.selected) {
@@ -36,7 +36,7 @@ $.widget('oal.fontSelector', {
             }
             this.list.append(fontEl);
         }
-        
+
         this.dropdown.append(this.list);
         this.element.after(this.dropdown);
         return $('div.fontSelector .handle').click(function () {
@@ -86,6 +86,8 @@ $.widget('oal.fontSelector', {
                         _results.push(void 0);
                     }
                 }
+
+                _this._setOption("close", "true");
                 pcL04(1);
                 return _results;
             });
