@@ -122,7 +122,8 @@
                                                 </div>
 
                                             </div>
-                                            <div class="form-group" data-bind="visible: type() == 'Corporate' || type() == 3">
+                                            <div class="form-group">
+                                                @*data-bind="visible: type() == 'Corporate' || type() == 3"*@
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
@@ -197,6 +198,33 @@
                                                     <span class="help-block text-right"></span>
                                                 </div>
 
+                                            </div>
+
+                                            <div class="col-md-6 form-horizontal">
+                                                <div class="form-group">
+                                                    <label class="control-label h5 col-sm-6"><b>Company Domain</b></label>
+                                                </div>
+                                                <div class="filter-block pull-right">
+                                                    <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.createCompanyDomainItem">
+                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
+                                                    </a>
+                                                </div>
+                                                <div class="clearfix">
+                                                    <div class="table-responsive">
+                                                        <table id="costTablle" class="table table-striped table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th> <span>Domain Name </span></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <!-- ko template: { name: $root.templateToUseCompanyDomain , foreach: companyDomains() } -->
+                                                                <!-- /ko -->
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <br />
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-4 col-sm-4">
@@ -2314,7 +2342,36 @@
                 </div>
             </li>
         </script>
-
+        @**For Company Domains*@
+        <script id="deleteCompanyDomainItemTemplate" type="text/html">
+            <a href="#" class="table-link danger" data-bind="click: $root.onDeleteCompanyDomainItem" title="Delete">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+        </script>
+        <script id="editCompanyDomainTemplate" type="text/html">
+            <tr data-bind="css: { selectedRow: $data === $root.selectedCompanyDomainItem() }">
+                <td>
+                    <input type="text" />
+                    @*<input style="width: 70px;height:23px;" type="text" data-bind="value: domain, validationTooltip: domain" />*@
+                </td>
+                <td>
+                    <!-- ko template: { name: 'deleteCompanyDomainItemTemplate' } -->
+                    <!-- /ko -->
+                </td>
+            </tr>
+        </script>
+        <script id="itemCompanyDomainTemplate" type="text/html">
+            <tr data-bind="click: $root.selectCompanyDomain, css: { selectedRow: $data === $root.selectedCompanyDomainItem() }">
+                <td><span data-bind="text: domain"></span></td>
+                <td>
+                    <!-- ko template: { name: 'deleteCompanyDomainItemTemplate' } -->
+                    <!-- /ko -->
+                </td>
+            </tr>
+        </script>
     </form>
 
 

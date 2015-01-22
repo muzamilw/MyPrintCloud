@@ -313,7 +313,7 @@ namespace MPC.Implementation.WebStoreServices
                     string destPath = results[0] + "_thumb" + ext;
                     GenerateThumbNail(sourcePath, destPath, 98);
                 }
-                NewImgPath = "./MPC_Content/Designer/Organisation" + organisationID.ToString() + "/Templates/" + TemplateID.ToString() + "/" + fileName[fileName.Length - 1];
+                NewImgPath = "/Designer/Organisation" + organisationID.ToString() + "/Templates/" + TemplateID.ToString() + "/" + fileName[fileName.Length - 1];
                 int ImageWidth = 0,ImageHeight = 0;
                 if (!Path.GetExtension(fileName[fileName.Length - 1]).Contains("svg"))
                 {
@@ -354,7 +354,7 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     if (objBackground.ImageName != null && objBackground.ImageName != "")
                     {
-                        objBackground.BackgroundImageRelativePath = "MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/" + objBackground.ImageName;
+                        objBackground.BackgroundImageRelativePath = "/Designer/Organisation" + OrganisationID.ToString() + "/Templates/" + objBackground.ImageName;
                     }
 
                 }
