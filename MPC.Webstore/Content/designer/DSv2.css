@@ -1,4 +1,6 @@
-﻿@font-face {
+﻿.test {
+}
+@font-face {
     font-family: 'icomoon';
     src: url('../assets-v2/fonts/icomoon.eot');
     src: url('../assets-v2/fonts/icomoon.eot?#iefix') format('embedded-opentype'),url('../assets-v2/fonts/icomoon.svg#icomoon') format('svg'),url('../assets-v2/fonts/icomoon.woff') format('woff'),url('../assets-v2/fonts/icomoon.ttf') format('truetype');
@@ -11,6 +13,8 @@ article, blockquote, body, dd, dl, dt, fieldset, figure, form, h1, h2, h3, h4, h
     border: 0 none #FFFFFF;
     padding: 0;
 }
+
+
 
 body {
     width: 100%;
