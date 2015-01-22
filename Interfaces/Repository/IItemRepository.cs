@@ -65,5 +65,8 @@ namespace MPC.Interfaces.Repository
         /// <param name="clonedTemplateToRemoveList"></param>
         /// <returns></returns>
         long UpdateTemporaryCustomerOrderWithRealCustomer(long TemporaryCustomerID, long realCustomerID, long realContactID, long replacedOrderdID, out List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved, out List<Template> clonedTemplateToRemoveList);
+
+        List<usp_GetRealEstateProducts_Result> GetRealEstateProductsByCompanyID(long CompanyId);
+
     }
 }

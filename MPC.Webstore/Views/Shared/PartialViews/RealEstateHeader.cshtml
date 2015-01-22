@@ -54,7 +54,7 @@
                                 <img src="~/Content/Images/my-jobs.png" width="30" height="30" />
                             </td>
                             <td style="padding-left: 20px;">
-                                <label id="lblJobs" style="font-family: PT Sans; font-size: 15px; color:#666666;">Jobs</label>
+                                <label id="lblJobs" style="font-family: PT Sans; font-size: 15px; color:#666666;">My Jobs</label>
                             </td>
                         </tr>
                     </table>
@@ -68,8 +68,8 @@
                             <td style="padding-left: 20px;">
                                 <img src="~/Content/Images/logout.png" width="30" height="30" />
                             </td>
-                            <td style="padding-left: 20px;">
-                                <label id="lblLogout" style="font-family: PT Sans; font-size: 15px; color:#666666;">Jobs</label>
+                            <td style="padding-left: 20px;font-family: PT Sans; font-size: 15px; color:#666666;">
+                                @Html.ActionLink( "Sign Out", "LogOut", "LoginBar", null, new { @onclick = "ShowLoader();" })
                             </td>
                         </tr>
                     </table>
@@ -84,7 +84,7 @@
 
         <div class="HeaderBarRight-Div" align="right">
             <div class="HeaderBarRight-ChildDiv">
-                <input type="text" name="txtSearch" style="font-family: PT Sans; width: 280px; height:20px; background-color: #F8CABA; color: black; padding-left: 10px;">
+                <input type="text" name="txtSearch" placeholder="Search" style="font-family: PT Sans; width: 95%; height:27px; background-color: #F8CABA; color: black; padding-left: 10px;">
             </div>
         </div>
     </div>

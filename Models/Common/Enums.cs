@@ -107,7 +107,8 @@ namespace MPC.Models.Common
         TemplateProductWithImage = 2,
         TemplateProductWithBanner = 3,
         FinishedGoodWithBanner = 4,
-        InventoryItem = 5
+        InventoryItem = 5,
+        RealEstate = 6
     }
 
     public enum ItemStatuses

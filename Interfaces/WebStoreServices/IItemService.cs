@@ -100,5 +100,8 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="clonedTemplateToRemoveList"></param>
         /// <returns></returns>
         long PostLoginCustomerAndCardChanges(long OrderId, long CompanyId, long ContactId, long TemporaryCompanyId, long OrganisationId);
+
+        List<usp_GetRealEstateProducts_Result> GetRealEstateProductsByCompanyID(long CompanyId);
+
     }
 }
