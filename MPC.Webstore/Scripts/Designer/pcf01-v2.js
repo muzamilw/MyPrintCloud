@@ -3345,19 +3345,8 @@ function k32_load(DT) {
     var p = DT.split(tID + "/");
     var i = p[p.length - 1];
     var bkImgURL = p;
-    StopLoader();
-    canvas.backgroundColor = "#ffffff";
-    canvas.setBackgroundImage(DT, canvas.renderAll.bind(canvas), {
-        left: 0,
-        top: 0,
-        height: canvas.getHeight(),
-        width: canvas.getWidth(),
-        maxWidth: canvas.getWidth(),
-        maxHeight: canvas.getHeight(),
-        originX: 'left',
-        originY: 'top'
-    }); StopLoader();
-    canvas.renderAll();
+    
+
     k27();
     $.each(TP, function (op, IT) {
         if (IT.ProductPageID == SP) {
@@ -3367,6 +3356,7 @@ function k32_load(DT) {
             return;
         }
     });
+    d5(SP); StopLoader();
 }
 function l4(caller) {
     if (llData.length > 0 || IsCalledFrom == 1) {
