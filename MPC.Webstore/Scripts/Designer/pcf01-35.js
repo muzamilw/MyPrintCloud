@@ -28,47 +28,7 @@ function d1ToCanvas(src, x, y, IW, IH) {
         if (isBKpnl) {
             imgtype = 4;
         } StartLoader("Downloading image to your design, please wait....");
-        $.getJSON("services/imageSvc/DownloadImg/" + n + "," + tID + "," + imgtype,
-		function (DT) {
-		    // src = DT;
-		    StopLoader();
-		    D1NIO = fabric.util.object.clone(TO[0]);
-		    D1NIO.ObjectID = --NCI;
-		    D1NIO.ColorHex = "#000000";
-		    D1NIO.IsBold = false;
-		    D1NIO.IsItalic = false;
-		    D1NIO.ProductPageId = SP;
-		    D1NIO.MaxWidth = 100;
-		    D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
-		    D1NIO.PositionX = x;
-		    D1NIO.PositionY = y;
-		    D1NIO.ObjectType = 3;
-		    lAObj = D1NIO.ObjectID;
-		    D1NIO.MaxHeight = IH;
-		    D1NIO.Height = IH;
-		    D1NIO.MaxWidth = IW;
-		    D1NIO.Width = IW;
-
-		    if (IH == 0) {
-		        D1NIO.MaxHeight = 50;
-		        D1NIO.Height = 50;
-		    }
-		    else if (IW == 0) {
-		        D1NIO.MaxWidth = 50;
-		        D1NIO.Width = 50;
-		    }
-		    D1NIO.ContentString = DT;
-		    D1NIO.DisplayOrder = TO.length + 1;
-		    d1(canvas, D1NIO);
-		    var OBS = canvas.getObjects();
-
-		    D1NIO.DisplayOrderPdf = OBS.length;
-		    canvas.renderAll();
-		    TO.push(D1NIO);
-		    k27();
-		    $("#ImgCarouselDiv").tabs("option", "active", 1);
-		    $("#BkImgContainer").tabs("option", "active", 1);
-		});
+        svcCall4_img(n, tID, imgtype);
     } else {
         D1NIO = fabric.util.object.clone(TO[0]);
         D1NIO.ObjectID = --NCI;
@@ -124,52 +84,7 @@ function d1SvgToCCC(src, IW, IH) {
         if (isBKpnl) {
             imgtype = 4;
         } StartLoader("Downloading image to your design, please wait....");
-        $.getJSON("services/imageSvc/DownloadImg/" + n + "," + tID + "," + imgtype,
-		function (DT) {
-		    // src = DT;
-		    StopLoader();
-		    D1NIO = fabric.util.object.clone(TO[0]);
-		    D1NIO.ObjectID = --NCI;
-		    D1NIO.ColorHex = "#000000";
-		    D1NIO.ColorC = 0;
-		    D1NIO.ColorM = 0;
-		    D1NIO.ColorY = 0;
-		    D1NIO.ColorK = 100;
-		    D1NIO.IsBold = false;
-		    D1NIO.IsItalic = false;
-		    D1NIO.ProductPageId = SP;
-		    D1NIO.MaxWidth = 100;
-		    D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
-		    D1NIO.PositionX = 0;
-		    D1NIO.PositionY = 0;
-		    D1NIO.ObjectType = 9;
-
-		    D1NIO.MaxHeight = 100;
-		    D1NIO.Height = 100;
-		    D1NIO.MaxWidth = 100;
-		    D1NIO.Width = 100;
-
-		    //if (IH == 0) {
-		    //    D1NIO.MaxHeight = 50;
-		    //    D1NIO.Height = 50;
-		    //}
-		    //else if (IW == 0) {
-		    //    D1NIO.MaxWidth = 50;
-		    //    D1NIO.Width = 50;
-		    //}
-		    D1NIO.ContentString = DT;
-		    D1NIO.DisplayOrder = TO.length + 1;
-		    d1Svg(canvas, D1NIO, true);
-		    var OBS = canvas.getObjects();
-
-		    D1NIO.DisplayOrderPdf = OBS.length;
-		    canvas.renderAll();
-		    TO.push(D1NIO);
-		    lAObj = D1NIO.ObjectID;
-		    k27();
-		    $("#ImgCarouselDiv").tabs("option", "active", 1);
-		    $("#BkImgContainer").tabs("option", "active", 1);
-		});
+        svcCall4_img(n, tID, imgtype);
     } else {
         D1NIO = fabric.util.object.clone(TO[0]);
         D1NIO.ObjectID = --NCI;
