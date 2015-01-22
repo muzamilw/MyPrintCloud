@@ -281,6 +281,7 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CategoryHeaderController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\OrderConfirmationController.cs" />
     <Compile Include="Controllers\ProductDetailController.cs" />
     <Compile Include="Controllers\DomainController.cs" />
     <Compile Include="Controllers\AllProductsController.cs" />
@@ -598,13 +599,14 @@
     <Content Include="Views\Shared\PartialViews\ShopCartAddressSelect.cshtml" />
     <Content Include="Views\Shared\PartialViews\Dashboard.cshtml" />
     <Content Include="Views\Shared\PartialViews\Receipt.cshtml" />
+    <Content Include="Views\Shared\PartialViews\OrderConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\DesignerApi\Models\" />
     <Folder Include="Areas\DesignerApi\Views\Shared\" />
     <Folder Include="Areas\Designer\Models\" />
-    <Folder Include="Views\Receipt\" />
+    <Folder Include="Views\OrderConfirmation\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

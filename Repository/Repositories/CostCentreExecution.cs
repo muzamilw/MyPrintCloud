@@ -2,6 +2,8 @@
 using MPC.Models.DomainModels;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Objects;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -12,53 +14,18 @@ namespace MPC.Repository.Repositories
     public class CostCentreExecution
     {
 
-        public double TestConnection(long ResourceID)
-        {
-            try
-            {
-                string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPC;server=www.myprintcloud.com,9998; user id=mpcmissa; password=p@ssw0rd@mis2o14;";
-               
-                string queryString = "select CostPerHour from SystemUser where SystemUserId = " + ResourceID;
-
-                double result = 0;
-                //
-                // In a using statement, acquire the SqlConnection as a resource.
-                //
-                using (SqlConnection con = new SqlConnection(connectionString))
-                {
-                    //
-                    // Open the SqlConnection.
-                    //
-                    SqlCommand command = new SqlCommand(queryString, con);
-                    con.Open();
-                    SqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
-                    {
-
-                        result = Convert.ToDouble(reader[0]);
-                    }
-                    reader.Close();
-                    return result;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("", ex);
-            }
-        }
 
         public CostCentreQuestion LoadQuestion(int QuestionID)
         {
             try
             {
-               
+
                 CostCentreQuestion QuestionObj = new CostCentreQuestion();
 
                 string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPC;server=www.myprintcloud.com,9998; user id=mpcmissa; password=p@ssw0rd@mis2o14;";
 
                 string queryString = "select * from CostCentreQuestion where Id = " + QuestionID;
-                
+
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
                     //
@@ -82,25 +49,25 @@ namespace MPC.Repository.Repositories
                             string AnsqueryString = "select * from CostCentreAnswer where QuestionId = " + QuestionID;
                             command = new SqlCommand(AnsqueryString, con);
                             reader = command.ExecuteReader();
-                             while (reader.Read())
-                             {
-                                 CCObj = new CostCentreAnswer();
+                            while (reader.Read())
+                            {
+                                CCObj = new CostCentreAnswer();
 
-                                 CCObj.Id = reader.GetInt32(0);
+                                CCObj.Id = reader.GetInt32(0);
 
-                                 CCObj.QuestionId = reader.GetInt32(1);
+                                CCObj.QuestionId = reader.GetInt32(1);
 
-                                 CCObj.AnswerString = reader.GetDouble(2);
+                                CCObj.AnswerString = reader.GetDouble(2);
 
-                                 AnsObj.Add(CCObj);
-                             }
-                             QuestionObj.AnswerCollection = AnsObj.ToList();
+                                AnsObj.Add(CCObj);
+                            }
+                            QuestionObj.AnswerCollection = AnsObj.ToList();
                         }
                     }
                     reader.Close();
                     return QuestionObj;
                 }
-               
+
             }
             catch (Exception ex)
             {
@@ -113,89 +80,275 @@ namespace MPC.Repository.Repositories
         /// </summary>
         /// <param name="MatrixID"></param>
         /// <returns></returns>
-        //public CostCentreMatrix GetMatrix(int MatrixID)
-        //{
-        //    try
-        //    {
+        public CostCentreMatrix GetMatrix(int MatrixID)
+        {
+            try
+            {
 
-        //        string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPC;server=www.myprintcloud.com,9998; user id=mpcmissa; password=p@ssw0rd@mis2o14;";
+                string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPC;server=www.myprintcloud.com,9998; user id=mpcmissa; password=p@ssw0rd@mis2o14;";
 
-        //        string queryString = "select * from CostCentreQuestion where Id = " + QuestionID;
+                string queryString = "select * from CostCentreMatrix where MatrixId = " + MatrixID;
 
-        //        using (SqlConnection con = new SqlConnection(connectionString))
-        //        {
-        //            //
-        //            // Open the SqlConnection.
-        //            //
-        //            SqlCommand command = new SqlCommand(queryString, con);
-        //            con.Open();
-        //            SqlDataReader reader = command.ExecuteReader();
-        //            while (reader.Read())
-        //            {
-        //                QuestionObj.Id = reader.GetInt32(0);
+                CostCentreMatrix oMatrix = new CostCentreMatrix();
 
-        //                QuestionObj.QuestionString = reader.GetString(1);
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    //
+                    // Open the SqlConnection.
+                    //
+                    SqlCommand command = new SqlCommand(queryString, con);
+                    con.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        oMatrix.MatrixId = reader.GetInt32(0);
 
-        //                QuestionObj.Type = reader.GetInt16(2);
+                        oMatrix.Name = reader.GetString(1);
+                        oMatrix.Description = reader.GetString(2);
+                        oMatrix.RowsCount = reader.GetInt32(3);
+                        oMatrix.ColumnsCount = reader.GetInt32(4);
+                        oMatrix.CompanyId = reader.GetInt32(5);
+                        oMatrix.SystemSiteId = reader.GetInt32(6);
 
-        //                if (QuestionObj.Type == (int)QuestionType.MultipleChoiceQuestion)
-        //                {
-        //                    List<CostCentreAnswer> AnsObj = new List<CostCentreAnswer>();
-        //                    CostCentreAnswer CCObj = null;
-        //                    string AnsqueryString = "select * from CostCentreAnswer where QuestionId = " + QuestionID;
-        //                    command = new SqlCommand(AnsqueryString, con);
-        //                    reader = command.ExecuteReader();
-        //                    while (reader.Read())
-        //                    {
-        //                        CCObj = new CostCentreAnswer();
+                    }
+                    reader.Close();
+                    List<CostCentreMatrixDetail> matrixDetail = new List<CostCentreMatrixDetail>();
+                    CostCentreMatrixDetail oDetail = null;
+                    string matrixDetailString = "select * from CostCentreMatrixDetail where MatrixId = " + MatrixID;
+                    command = new SqlCommand(matrixDetailString, con);
+                    reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        oDetail = new CostCentreMatrixDetail();
 
-        //                        CCObj.Id = reader.GetInt32(0);
+                        oDetail.Id = reader.GetInt64(0);
 
-        //                        CCObj.QuestionId = reader.GetInt32(1);
+                        oDetail.MatrixId = reader.GetInt32(1);
 
-        //                        CCObj.AnswerString = reader.GetDouble(2);
+                        oDetail.Value = reader.GetString(2);
 
-        //                        AnsObj.Add(CCObj);
-        //                    }
-        //                    QuestionObj.AnswerCollection = AnsObj.ToList();
-        //                }
-        //            }
-        //            reader.Close();
-        //            return QuestionObj;
-        //        }
-               
-        //        CostCentreMatrix oMatrix = db.CostCentreMatrices.Where(m => m.MatrixId == MatrixID).FirstOrDefault();
-
-        //        if (oMatrix != null)
-        //        {
-        //            oMatrix.items = GetMatrixDetail(MatrixID);
-        //        }
-
-        //        return oMatrix;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("GetMatrix", ex);
-        //    }
-        //}
+                        matrixDetail.Add(oDetail);
+                    }
+                    oMatrix.items = matrixDetail.ToList();
+                    return oMatrix;
+                }
 
 
-        ///// <summary>
-        ///// Get matrix layout only
-        ///// </summary>
-        ///// <param name="MatrixID"></param>
-        ///// <returns></returns>
-        //public List<CostCentreMatrixDetail> GetMatrixDetail(int MatrixID)
-        //{
-        //    try
-        //    {
-        //        return db.CostCentreMatrixDetails.Where(d => d.MatrixId == MatrixID).OrderBy(i => i.Id).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetMatrix", ex);
+            }
+        }
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("GetMatrixDetail", ex);
-        //    }
-        //}
+        public double ExecuteUserResource(long ResourceID, ResourceReturnType oCostPerHour)
+        {
+            try
+            {
+                if (oCostPerHour == ResourceReturnType.CostPerHour)
+                {
+                    string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPC;server=www.myprintcloud.com,9998; user id=mpcmissa; password=p@ssw0rd@mis2o14;";
+
+                    string queryString = "select CostPerHour from SystemUser where SystemUserId = " + ResourceID;
+
+                    double result = 0;
+                    //
+                    // In a using statement, acquire the SqlConnection as a resource.
+                    //
+                    using (SqlConnection con = new SqlConnection(connectionString))
+                    {
+                        //
+                        // Open the SqlConnection.
+                        //
+                        SqlCommand command = new SqlCommand(queryString, con);
+                        con.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+                        while (reader.Read())
+                        {
+
+                            result = Convert.ToDouble(reader.GetDouble(14));
+                        }
+                        reader.Close();
+                        return result;
+                    }
+
+                }
+                else
+                    return 0;
+
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("", ex);
+            }
+
+        }
+
+        public double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, out double Price, out double PerQtyQty)
+        {
+            try
+            {
+                ObjectParameter paramPrice = new ObjectParameter("Price", typeof(float));
+                ObjectParameter paramQty = new ObjectParameter("PerQtyQty", typeof(float));
+
+
+                string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPC;server=www.myprintcloud.com,9998; user id=mpcmissa; password=p@ssw0rd@mis2o14;";
+
+                double result = 0;
+                //
+                // In a using statement, acquire the SqlConnection as a resource.
+                //
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    //
+                    // Open the SqlConnection.
+                    //
+
+                    SqlCommand command = new SqlCommand("sp_CostCentreExecution_get_StockPriceByCalculationType", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@StockID", StockID));
+                    command.Parameters.Add(new SqlParameter("@CalculationType", (int)StockPriceType));
+                    command.Parameters.Add(new SqlParameter("@returnPrice", paramPrice));
+                    command.Parameters.Add(new SqlParameter("@PerQtyQty", paramQty));
+                    con.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+
+                        paramPrice = (ObjectParameter)reader["returnPrice"];
+                        paramQty = (ObjectParameter)reader["PerQtyQty"];
+                    }
+                    reader.Close();
+                    Price = Convert.ToDouble(paramPrice);
+                    PerQtyQty = Convert.ToDouble(paramQty);
+                    return Price;
+                }
+
+
+                //db.sp_CostCentreExecution_get_StockPriceByCalculationType(StockID, (int)StockPriceType, paramPrice, paramQty);
+                //Price = Convert.ToDouble(paramPrice);
+                //PerQtyQty = Convert.ToDouble(paramQty);
+                //return Price;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ExecuteUserStockItem", ex);
+            }
+        }
+
+
+        /// <summary>
+        /// Function which returns the required Variable object
+        /// </summary>
+        /// <param name="VariableId">VariableID</param>
+        /// <param name="oConnection">Open DB connection</param>
+        /// <returns>Variable</returns>
+        public CostCentreVariable LoadVariable(int VariableId)
+        {
+            try
+            {
+                CostCentreVariable oVariable = new CostCentreVariable();
+
+                string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPC;server=www.myprintcloud.com,9998; user id=mpcmissa; password=p@ssw0rd@mis2o14;";
+
+                string queryString = "select * from CostCentreVariable where VarId = " + VariableId;
+
+                //
+                // In a using statement, acquire the SqlConnection as a resource.
+                //
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    //
+                    // Open the SqlConnection.
+                    //
+                    SqlCommand command = new SqlCommand(queryString, con);
+                    con.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        oVariable.VarId = reader.GetInt32(0);
+                        oVariable.VariableValue = reader.GetDouble(12);
+                        oVariable.VariableDescription = reader.GetString(11);
+                        oVariable.Type = reader.GetInt16(9);
+                        oVariable.SystemSiteId = reader.GetInt32(13);
+                        oVariable.RefTableName = reader.GetString(3);
+                        oVariable.RefFieldName = reader.GetString(4);
+                        oVariable.PropertyType = reader.GetInt32(10);
+                        oVariable.Name = reader.GetString(2);
+                        oVariable.IsCriteriaUsed = reader.GetString(8);
+                        oVariable.CriteriaFieldName = reader.GetString(5);
+                        oVariable.Criteria = reader.GetString(6);
+                        oVariable.CategoryId = reader.GetInt32(7);
+                    }
+                    reader.Close();
+                    return oVariable;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("", ex);
+            }
+        }
+
+        /// <summary>
+        /// Executes a variable with criteria defined in it
+        /// </summary>
+        /// <param name="Variable">VVariable object</param>
+        /// <param name="oConnection">DB Connection</param>
+        /// <returns>double</returns>
+        public double ExecUserVariable(CostCentreVariable oVariable)
+        {
+            string sSqlString = null;
+            double dResult = 0;
+
+            try
+            {
+                    string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPC;server=www.myprintcloud.com,9998; user id=mpcmissa; password=p@ssw0rd@mis2o14;";
+
+                    string queryString = "";
+
+                    if (Convert.ToBoolean(oVariable.IsCriteriaUsed) == true)
+                    {
+                        queryString = "select * from " + oVariable.RefTableName + " where " + oVariable.CriteriaFieldName + "= " + oVariable.Criteria + "";
+
+
+                    }
+                    else
+                    {
+                        sSqlString = "select * from " + oVariable.RefTableName;
+                    }
+
+                    double result = 0;
+                    //
+                    // In a using statement, acquire the SqlConnection as a resource.
+                    //
+                    using (SqlConnection con = new SqlConnection(connectionString))
+                    {
+                        //
+                        // Open the SqlConnection.
+                        //
+                        SqlCommand command = new SqlCommand(queryString, con);
+                        con.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+                        while (reader.Read())
+                        {
+
+                            result = Convert.ToDouble(reader.GetString(4));
+                            break;
+                        }
+                        reader.Close();
+                        return result;
+                    }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("", ex);
+            }
+        }
     }
 }

@@ -186,7 +186,6 @@ namespace MPC.Webstore.Controllers
 
                     CostCentreCostResult oResult = _oRemoteObject.returnCost(ref _CostCentreParamsArray);
 
-                    //var result =  _oRemoteObject.test(ref _CostCentreParamsArray);
 
                     ViewBag.result = oResult.TotalCost.ToString();
 

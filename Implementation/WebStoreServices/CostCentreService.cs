@@ -129,6 +129,8 @@ namespace MPC.Implementation.WebStoreServices
 
         public void SaveCostCentre(long _CostCentreID, long OrganisationId, string OrganisationName)
         {
+            
+
 
             //creating a costcentre code file and updating it and compile it.
             bool  IsNewCostCentre = false;
@@ -138,8 +140,9 @@ namespace MPC.Implementation.WebStoreServices
             int SetupTime = 0;
             double MinCost = 0.0d;
             double DefaultProfitMargin = 0.0d;
-            string sCostPlant = "_CostCentreService.ExecuteQuestion(ParamsArray, \"13\", CostCentreID)";
-            //string sCostPlant = TokenParse("EstimatedPlantCost = {SystemVariable, ID=\"1\",Name=\"Number of unique Inks used on Side 1\"} ");  //* {question, ID=\"13\",caption=\"How many boxes\"}
+         //   string sCostPlant = "_CostCentreService.ExecuteQuestion(ParamsArray, \"13\", CostCentreID)";
+              
+            string sCostPlant = TokenParse("EstimatedPlantCost = {SystemVariable, ID=\"1\",Name=\"Number of unique Inks used on Side 1\"} * {question, ID=\"13\",caption=\"How many boxes\"} * {matrix, ID=\"19\",Name=\"Super Formula Matrix\"} * {question, ID=\"34\",caption=\"How many sections to fold?\"}"); 
     //="EstimatedPlantCost =  BLL.CostCentres.CostCentreExecution.ExecuteVariable(ParamsArray ,"1")  *  BLL.CostCentres.CostCentreExecution.ExecuteQuestion(ParamsArray,"13",CostCentreID) ";
             string sCostLabour ="EstimatedLabourCost = 0";
             string sCostStock ="EstimatedMaterialCost = 0";
