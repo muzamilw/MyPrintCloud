@@ -1843,7 +1843,7 @@ function fu16() {
 }
 function h8(FN, FF, FP) {
     var p = "";
-    p = "/DesignEngine/";
+    p = "/";
     //if (jQuery.browser.msie) {
 //        T0FN.push(FN);
 //        n = p + FF + ".woff";
@@ -3345,19 +3345,8 @@ function k32_load(DT) {
     var p = DT.split(tID + "/");
     var i = p[p.length - 1];
     var bkImgURL = p;
-    StopLoader();
-    canvas.backgroundColor = "#ffffff";
-    canvas.setBackgroundImage(DT, canvas.renderAll.bind(canvas), {
-        left: 0,
-        top: 0,
-        height: canvas.getHeight(),
-        width: canvas.getWidth(),
-        maxWidth: canvas.getWidth(),
-        maxHeight: canvas.getHeight(),
-        originX: 'left',
-        originY: 'top'
-    }); StopLoader();
-    canvas.renderAll();
+    
+
     k27();
     $.each(TP, function (op, IT) {
         if (IT.ProductPageID == SP) {
@@ -3367,6 +3356,7 @@ function k32_load(DT) {
             return;
         }
     });
+    d5(SP); StopLoader();
 }
 function l4(caller) {
     if (llData.length > 0 || IsCalledFrom == 1) {
@@ -3527,7 +3517,7 @@ function m0_i9(oId, oName, OType, iURL, index1) {
     } else if (index1 == -1) {
         btnHtml = ' <button class="btnMoveLayerUp" ></button>';
     }
-    btnHtml += ' <button class="button editTxtBtn" >Edit</button>'
+    btnHtml += ' <button class="buttonDesigner editTxtBtn" >Edit</button>'
     if (cid == oId) {
         var innerHtml = "";
         html = '<li id="selobj_' + oId + '" class="ui-state-default uiOldSmothness" style="padding:5px;"><span class="selectedObjectID">' + oId + '</span>  <img class="layerImg" src="' + iURL + '" alt="Image" onclick="j1(' + oId + ')" /> <span class="spanLyrObjTxtContainer" onclick="j1(' + oId + ')">' + oName + '</span>' + btnHtml + ' <br /></li>';;//'<li id="selobj_' + oId + '" class="ui-state-default"></li>';
