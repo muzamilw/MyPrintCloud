@@ -29,7 +29,7 @@ namespace MPC.Repository.Repositories
         {
 
             return db.ProductCategories.Where(
-                p => p.CompanyId == companyId && (p.ParentCategoryId == null || p.ParentCategoryId == 0)).ToList();
+                p => p.CompanyId == companyId && p.OrganisationId == OrganisationId && (p.ParentCategoryId == null || p.ParentCategoryId == 0)).ToList();
            
         }
 

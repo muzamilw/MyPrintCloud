@@ -1860,7 +1860,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             contactId = ko.observable(specifiedContactId),
             addressId = ko.observable(specifiedAddressId),
             companyId = ko.observable(specifiedCompanyId),
-            firstName = ko.observable(specifiedFirstName),
+            firstName = ko.observable(specifiedFirstName).extend({ required: true }),
             middleName = ko.observable(specifiedMiddleName),
             lastName = ko.observable(specifiedLastName),
             title = ko.observable(specifiedTitle),
@@ -1869,7 +1869,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             homeExtension1 = ko.observable(specifiedHomeExtension1),
             homeExtension2 = ko.observable(specifiedHomeExtension2),
             mobile = ko.observable(specifiedMobile),
-            email = ko.observable(specifiedEmail),
+            email = ko.observable(specifiedEmail).extend({required: true}),
             fAX = ko.observable(specifiedFAX),
             jobTitle = ko.observable(specifiedJobTitle),
             dOB = ko.observable(specifiedDOB),
@@ -1944,7 +1944,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             fileName = ko.observable(),
             // Errors
             errors = ko.validation.group({
-
+                firstName: firstName,
+                email: email
             }),
             // Is Valid 
             isValid = ko.computed(function () {

@@ -47,7 +47,9 @@
                                 <li><a href="#tab-widgets" data-toggle="tab">Themes & Widgets</a></li>
                                 <li><a href="#tab-SEO" data-toggle="tab">SEO & Rave Reviews</a></li>
                                 <li><a href="#tab-territory" data-toggle="tab">Users & Addresses</a></li>
+                                <!--ko if: $root.selectedStore() != undefined && $root.selectedStore().companyId()!== undefined -->
                                 <li><a data-bind="click: $root.getProducts" href="#tab-products" data-toggle="tab">Products</a></li>
+                                <!--/ko -->
                                 <li><a href="#tab-mailseries" data-toggle="tab">Emails</a></li>
                                 <li><a href="#tab-approvalPolicies" data-toggle="tab">Store Workflow</a></li>
                                 <li><a href="#tab-pageeditor" data-toggle="tab">Store Layout</a></li>
@@ -2269,9 +2271,9 @@
                     </div>
                     <div class="details">
                         <div class="name">
-                            <a data-toggle="modal" href="#" data-bind="text: firstName "></a>
+                            <a data-toggle="modal" href="#" data-bind="text: firstName , validationToolTip:firstName"></a>
                         </div>
-                        <div class="time online" data-bind="text: email ">
+                        <div class="time online" data-bind="text: email, validationToolTip:email ">
 
                         </div>
                     </div>
@@ -2376,6 +2378,8 @@
 @Html.Partial("Company/_ProductsFilter")
 @Html.Partial("Company/_ChooseUsIcon")
 @Html.Partial("~/Areas/Stores/Views/Shared/_ProductCategoryDetail.cshtml")
+
+
 @section Scripts {
 
     @*

@@ -61,9 +61,10 @@ namespace MPC.Repository.Repositories
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
+            bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
             Expression<Func<PaperSize, bool>> query =
                 paperSize =>
-                    (string.IsNullOrEmpty(request.SearchString));
+                    (isStringSpecified && paperSize.Name.Contains(request.SearchString) || !isStringSpecified);
 
             var rowCount = DbSet.Count(query);
             var paperSheets= request.IsAsc
@@ -84,6 +85,7 @@ namespace MPC.Repository.Repositories
             };
             return paperSheetResponse;
         }
+         
         #endregion
     }
 }
