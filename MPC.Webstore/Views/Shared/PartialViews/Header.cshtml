@@ -9,18 +9,19 @@
                 <a href='@ViewBag.DefaultUrl'>
                     <img src="@Html.GetAppBasePath()@Model.Image" class="pink_company_top_logo LOgo_ImgeP" />
                 </a>
-                <a class="MLF top_header" target="_blank" href="http://www.myprintcloud.com/">Powered by&nbsp; MyPrintCloud</a>
+                <a id="lbl_PoweredBy" class="MLF top_header" target="_blank" href="http://www.myprintcloud.com/">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_PoweredBy", UserCookieManager.StoreId))</a>
 
             </div>
             <div style="float: right; padding-right: 0px; padding-left: 0px;" class="col-md-9 col-lg-9 col-xs-12 col-sm-8 cntrightMenu">
 
                 <div id="divTopHeaderMenu" class="TopHeaderMenu float_left_simple">
-                    @if (Model.IsCustomer != 3)
-                    {
-                        <a href="/AllProducts" class="iconHover" onclick="ShowLoader();">All Products</a><a id="A1" class="piplineClr">&nbsp;|&nbsp;</a>
-                        <a id="lnkRequestQuote" style="cursor: pointer;" class="iconHover" onclick="ShowLoader();">Request a Quote</a><a id="rfqPipeline" class="piplineClr">&nbsp;|&nbsp;</a>
-                        <a href="/ContactUs" class="iconHover" onclick="ShowLoader();">Contact Us</a>
-                    }
+                                    @if (Model.IsCustomer != 3)
+                                    {
+
+                                        <a id="lnk_AllProducts" href="/AllProducts" class="iconHover" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnk_AllProducts", UserCookieManager.StoreId))</a><a id="A1" class="piplineClr">&nbsp;|&nbsp;</a>
+                        <a id="lnk_RequestQuote" style="cursor: pointer;" class="iconHover" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnk_RequestQuote", UserCookieManager.StoreId))</a><a id="rfqPipeline" class="piplineClr">&nbsp;|&nbsp;</a>
+                        <a id="lnk_ContactUs" href="/ContactUs" class="iconHover" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnk_ContactUs", UserCookieManager.StoreId))</a>
+                }
 
 
                 </div>
@@ -45,13 +46,13 @@
             <div id="collapsedMenu" style="display: none;" class="containerCollapsedMenu col-md-12 col-lg-12 col-xs-12 col-sm-12">
                 <ul id="ulCollapseMenu" style="">
                     <li>
-                        <asp:hyperlink id="pullDownMenuAllPro" navigateurl="~/Allproducts.aspx">All Products</asp:hyperlink>
+                        <asp:hyperlink id="lnk_AllProducts" navigateurl="~/Allproducts.aspx">@Html.Raw(Html.GetKeyValueFromResourceFile("lnk_AllProducts", UserCookieManager.StoreId))</asp:hyperlink>
                     </li>
                     <li>
-                        <a id="pullDownMenuRFQ" style="cursor: pointer;">Request a Quote</a>
+                        <a id="lnk_RequestQuote" style="cursor: pointer;">@Html.Raw(Html.GetKeyValueFromResourceFile("lnk_RequestQuote", UserCookieManager.StoreId))</a>
                     </li>
                     <li>
-                        <asp:hyperlink id="pullDownMenuCU" navigateurl="~/ContactUs.aspx">Contact Us</asp:hyperlink>
+                        <asp:hyperlink id="lnk_ContactUs" navigateurl="~/ContactUs.aspx">>@Html.Raw(Html.GetKeyValueFromResourceFile("lnk_ContactUs", UserCookieManager.StoreId))</asp:hyperlink>
 
                     </li>
                 </ul>

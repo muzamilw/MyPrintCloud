@@ -1,7 +1,8 @@
-﻿<div class="container content_area">
+﻿@using MPC.Webstore.Common;
+<div class="container content_area">
     <div class="row left_right_padding">
         <div id="BCTitle" class="signin_heading_div col-md-12 col-lg-12 col-xs-12">
-            <label id="lblORderManagment" class="sign_in_heading">get from resource file</label>
+            <label id="lbl_OrderManagement" class="sign_in_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_OrderManagement", UserCookieManager.StoreId))</label>
         </div>
         <div class="clearboth">
         </div>
@@ -37,7 +38,7 @@
         </div>
         @if (ViewData["rptStorePreferences"] != null) { 
         <div class="signin_heading_div col-md-12 col-lg-12 col-xs-12">
-            <label id="Label2" class="sign_in_heading">Store Preferences</label>
+            <label id="lbl_StorePrefrence" class="sign_in_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_StorePrefrence", UserCookieManager.StoreId))</label>
         </div>
         <div id="SPDIV" class="white-container-lightgrey-border rounded_corners">
             <div id="Store_Pre_Left_Panel" class="padding50">
@@ -72,7 +73,7 @@
         @if (ViewData["rptRetailDashboardItem"] != "")
         {
             <div class="signin_heading_div col-md-12 col-lg-12 col-xs-12">
-                <label id="lblTitle" class="sign_in_heading">Dashboard</label>
+                <label id="lbl_HeadingTitle" class="sign_in_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_HeadingTitle", UserCookieManager.StoreId))</label>
             </div>
             <div id="cntDashboardItems" class="white-container-lightgrey-border rounded_corners">
                 <div class="padding50">

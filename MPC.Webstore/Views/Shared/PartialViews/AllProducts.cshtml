@@ -1,11 +1,13 @@
 ﻿@using MPC.Webstore.Common;
 @{
+   
+    
     int counter = 0;
     
 }
 <div class="container content_area">
     <h1 class="allprodHead">
-        <label>All Products
+        <label id="lbl_AllProducts">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_AllProducts", UserCookieManager.StoreId))
             
         </label>
     </h1>

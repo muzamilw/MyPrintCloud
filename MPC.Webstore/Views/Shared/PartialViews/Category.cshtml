@@ -47,8 +47,7 @@
             @if (ViewData["ProductCategory"] != null)
             {
 
-                <label ID="lblCategoryHeader" class="product_detail_sub_heading custom_color floatleft clearBoth MarginBottom30px"
-                         >Select a product category below</label>
+                <label ID="lbl_ProductCategory" class="product_detail_sub_heading custom_color floatleft clearBoth MarginBottom30px">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_ProductCategory", UserCookieManager.StoreId))</label>
             }
         </div>
         <div class="cntParentCategDesc col-md-12 col-lg-12 col-xs-12">
@@ -99,8 +98,7 @@
                   { 
                     <div id="pnlAllProductTopLevel" class="padd_bottom_30 floatleft clear">
                         <div class="col-md-12 col-lg-12 col-xs-12">
-                            <label ID="lblProductHeader"  class="product_detail_sub_heading custom_color floatleft clear marginBtm10"
-                                       >Select a product below</label>
+                            <label id="lbl_ProductHeading" class="product_detail_sub_heading custom_color floatleft clear marginBtm10">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_ProductHeading", UserCookieManager.StoreId))</label>
                         </div>
                         <div class="clearBoth">
                             &nbsp;
@@ -316,7 +314,7 @@
                       
 
                         <div id="PopupProofScreen" hidden="hidden" class="FileUploaderPopup_Mesgbox  rounded_corners">
-                            <label ID="Label2"  class="left_align FileUploadHeaderText_PopUp float_left_simple MesgBoxClass lblPopupCorpHeading">Proof</label>
+                            <label ID="lbl_Proof"  class="left_align FileUploadHeaderText_PopUp float_left_simple MesgBoxClass lblPopupCorpHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Proof", UserCookieManager.StoreId))</label>
                             <div id="Div1" onclick="hidePopup2()" class="MesgBoxBtnsDisplay rounded_corners5">
                                 Close
                             </div>
@@ -332,8 +330,8 @@
                             <div id="previewProofing">
                                 <div class="divTxtProofing">
                                     <div class="ConfirmPopupProof">
-                                        <label>
-                                            Confirm spelling and details
+                                        <label id="lbl_spelling_Details">
+                                           @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_spelling_Details", UserCookieManager.StoreId))
                                         </label>
                                         <input id="chkCheckSpelling" name="chkCheckSpelling" class="simpleText regular-checkbox"
                                                type="checkbox" />

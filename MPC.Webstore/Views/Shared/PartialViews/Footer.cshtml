@@ -1,7 +1,6 @@
 ﻿@model MPC.Webstore.Models.Company
 @using MPC.Webstore.Common;
 @using MPC.Models.Common;
-@using System;
 <div class="clearBoth">
 
     <div id="FooterContainer" class="PDTCWB">
@@ -17,7 +16,7 @@
                         </div>
                         <div class="txtAlignLeft col-md-6 col-sm-6 col-xs-12 col-lg-6 payment_sec NoPadding">
                             <div class="copyTerms">
-                                <label>  CopyRight 2015</label>
+                                <label id="lbl_CopyRightMessage">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_CopyRightMessage", UserCookieManager.StoreId))</label>
                                 <a class="small_gray_hyperlink S6FooterMLCs hyperTermCond"
                                    href="/pages/@SecondryPagesInfo.TermsAndConditions/@Convert.ToInt32(SecondryPagesInfo.TermsAndConditions)" onclick="ShowLoader();">Terms And Conditions</a>
                             </div>
