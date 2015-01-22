@@ -500,6 +500,11 @@ namespace MPC.Repository.BaseRepository
         public DbSet<ItemStockUpdateHistory> ItemStockUpdateHistories { get; set; }
 
         /// <summary>
+        /// Media Library DbSet
+        /// </summary>
+        public DbSet<MediaLibrary> MediaLibraries { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
         public long sp_cloneTemplate(long templateId, long submittedBy, string submittedByName)

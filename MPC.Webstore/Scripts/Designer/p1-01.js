@@ -1,6 +1,6 @@
 ﻿$("#uploadImagesMB").click(function () {
-    // $("#imageUploader").click();
-    $("#fontUploader").click();
+     $("#imageUploader").click();
+   // $("#fontUploader").click();
     //animatedcollapse.toggle('textPropertPanel');
 });
 

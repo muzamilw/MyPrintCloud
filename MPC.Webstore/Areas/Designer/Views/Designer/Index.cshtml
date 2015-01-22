@@ -21,25 +21,25 @@
 
         <span id="selectedTab"><span></span><span></span></span>
         <menu class="mainLeftMenu">
-
-            <li class="search on" style="display:none;"><a>Images</a></li>
+            <li class="search on" style="display: none;"><a>Images</a></li>
             <li id="Template" class="layout"><a>Templates</a></li>
             <li id="Quick" class="QuickTxt"><a>Quick</a></li>
             <li id="btnAdd" class="text btnAdd"><a>Add</a></li>
             <li id="backgrounds" class="backgrounds"><a>Bkgrounds</a></li>
-            <li id="uploads" class="uploads" style="display:none;"><a>Uploads</a></li>
+            <li id="uploads" class="uploads" style="display: none;"><a>Uploads</a></li>
             <li id="layersPanel" class="layersPanel"><a>Layers</a></li>
-            <li class="layoutsPanel" style="display:none;"><a>Layouts</a></li>
+            <li id="layoutsPanel" class="layoutsPanel" style="display: none;"><a>Layouts</a></li>
         </menu>
 
         <section class="content mainContainer">
-            <section id="resultsSearch" class="results infinite">  </section>
+            <section id="resultsSearch" class="results infinite"></section>
 
             <section id="resultsLayout" class="results infinite twoCol">
                 <section class="layer  resultLayoutsScroller ">
-                    <div class="inner">
+                    <div class="innerDesigner">
                         <div class="searchGroup hasContent templateListULSG">
-                            <ul class="gallery infoPanelGallery templateGallery laidOut templateListUL"></ul>
+                            <div class="gallery infoPanelGallery templateGallery templateListUL">
+                            </div>
 
                         </div>
                     </div>
@@ -48,27 +48,26 @@
             </section>
             <section id="resultsQText" class="results infinite">
                 <section class="layer scrollPane">
-                    <div class="inner">
+                    <div class="innerDesigner">
                         <ul class=" textControls">
                             <li><a class="add QuickTextTitle ThemeColor" style="" data-style="title">Update your Quick text Profile</a></li>
                         </ul>
                         <div class="QuickTextFields textControls">
-
                         </div>
 
                     </div>
                 </section>
 
             </section>
-            <section id="resultsText" class="results infinite">
-                <section class="layer scrollPaneImgDam infinite">
-                    <div class="inner browseCategories ">
+            <section id="pnlAddMain" class="pnlAddMain results">
+                
+                <section class="layer scrollPaneImgDam">
+                    <div class="innerDesigner browseCategories ">
                         <div class="AddBrowserCategories">
-                            <ul class="gallery photoGallery albumGallery categories laidOut UlAddMain" style="height: 258px;">
+                            <ul class="gallery photoGallery albumGallery categories laidOut UlAddMain TempUlAddMain" id="TempUlAddMain" style="height: 258px;">
                                 <li style="width: 109px; left: 0px; top: 0px;" class="AddBLr1c1">
                                     <a title="Upload Images" id="uploadImagesMB">
                                         <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
-                                        @*<%--<img src="assets-v2/upload_folder_thumbnail.png" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />--%>*@
                                         <img src="" id="uploadImage" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />
                                         <span class="text">Upload</span>
                                     </a>
@@ -88,17 +87,24 @@
                                     </a>
                                 </li>
                                 <li style="width: 109px; left: 0px; top: 129px;" class="AddBLr1c3">
-                                    <a title="Add Images" class="CustomRectangleObj">
+                                    <a title="Add Images" class="btnAShapes">
                                         <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
-                                        <img src="assets-v2/btn-rect-main.png" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />
-                                        <span class="text">Rectangle</span>
+                                        <img src="~/Content/Designer/assets-v2/shapes.png" width="200" height="200" class="ShapesDisplay" alt="Folder thumbnail" style="height: 81px;" />
+                                        <span class="text">Shapes</span>
                                     </a>
                                 </li>
                                 <li style="width: 109px; left: 109px; top: 129px;" class="AddBLr1c3">
-                                    <a title="Add Images" class="CustomCircleObj">
+                                    <a title="CRM" class="btnACRM">
                                         <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
-                                        <img src="assets-v2/btn-Circle-main.png" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />
-                                        <span class="text">Circle</span>
+                                        <img src="~/Content/Designer/assets-v2/crm.png" width="200" height="200" class="" alt="Folder thumbnail" style="height: 81px;" />
+                                        <span class="text">CRM</span>
+                                    </a>
+                                </li>
+                                <li style="width: 109px; left: 218px; top: 129px;" class="AddBLr1c3">
+                                    <a title="Text List" class="btnATextList">
+                                        <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
+                                        <img src="~/Content/Designer/assets-v2/addlist.png" width="200" height="200" class="" alt="Folder thumbnail" style="height: 81px;" />
+                                        <span class="text">Text List</span>
                                     </a>
                                 </li>
                             </ul>
@@ -106,14 +112,15 @@
                         <section class="ImagesScrollContainer">
                             <section class="UploadsContainer AddPanels disappearing Addr1c1">
                                 <div class="inlineFolderPointer" style="left: 84.5px;"></div>
-                                <div class="inlineFolderGroup searchGroup hasContent" style=" border-bottom:none;">
+                                <div class="inlineFolderGroup searchGroup hasContent" style="border-bottom: none;">
                                     <ul class="gallery infoPanelGallery photoGallery  " id="Ul1"></ul>
                                 </div>
                             </section>
                             <section class="Textcontainer AddPanels disappearing Addr1c2">
-                                <div class="inlineFolderPointer" style="left: 193.5px;"></div>
-                                <div class="inlineFolderGroup searchGroup hasContent" style="border-bottom:none;">
+
+                                <div class="inlineFolderGroup searchGroup hasContent" style="border-bottom: none;">
                                     <button class="btnBackFromTxt bkbtnIphone">Add</button>
+                                    Back to Add
 
                                     <ul class=" textControls">
                                         <li class="ThemeColor">
@@ -124,15 +131,13 @@
                                             <a class=" SampleBtn btntxt" id="btnAddheading">Add heading</a>
                                             <a class=" SampleBtn btntxt" id="btnAddSubtitle">Add as subtitle</a>
                                             <a class=" SampleBtn btntxt" id="btnaddbody">Add as body</a>
-                                            @*<%--<a id="btnAddTxt" title="Save" style="width: 299px;" class="SampleBtn"><span class="onText">Add to canvas</span> </a>--%>*@
-                                        </li>
                                     </ul>
                                 </div>
                             </section>
                             <section class="ImagesContainer AddPanels disappearing Addr1c3">
                                 <div class="inlineFolderPointe r " style="left: 302.5px;"></div>
                                 <section class=" ">
-                                    <div class="inner">
+                                    <div class="innerDesigner">
                                         <div class="inlineFolderGroup searchGroup hasContent browseCategories ImgsBrowserCategories " style="overflow: visible; border-bottom: none;">
                                             <div class="ulImagesSecTop">
                                                 <button class="btnBackFromImgs bkbtnIphone">Add</button>Back to Add
@@ -163,17 +168,16 @@
                                             </div>
                                             <section class="ImagesScrollContainer  ">
                                                 <section class="freeImgsContainer ImgPanels disappearing Imr1c1">
-                                                    @*<%--<div class="inlineFolderPointer" style="left: 84.5px;"></div>--%>*@
-                                                    <div class="inlineFolderGroup searchGroup hasContent" style="border-top:none; padding-top:0px;">
+                                                    <div class="inlineFolderGroup searchGroup hasContent" style="border-top: none; padding-top: 0px;">
                                                         <button class="btnBackGlImgs bkbtnIphone">Images</button>
+                                                        Back to Images
                                                         <input type="text" placeholder="Search 1,000,000 images…" autocomplete="off" id="inputSearchTImg" class="searchBtn" />
                                                         <ul class="gallery infoPanelGallery photoGallery listDamImages divGlobImgContainer" id="divGlobImgContainer"></ul>
                                                     </div>
                                                 </section>
                                                 <section class="illustrationsContainer ImgPanels disappearing Imr1c2">
-                                                    @*<%--  <div class="inlineFolderPointer" style="left: 193.5px;"></div>--%>*@
-                                                    <div class="inlineFolderGroup searchGroup hasContent" style="border-top:none; padding-top:0px;">
-                                                        <button class="btnBackMyImg  bkbtnIphone">Images</button>
+                                                    <div class="inlineFolderGroup searchGroup hasContent" style="border-top: none; padding-top: 0px;">
+                                                        <button class="btnBackMyImg  bkbtnIphone">Images</button>Back to Images
                                                         <section class="uploadButtonAndMessage">
                                                             <button class="button buttonBlock fileUploadButton" id="uploadImages">Upload your own images / logos</button><p>Recommended 300 dpi CMYK JPeg or PDF files.</p>
                                                         </section>
@@ -181,9 +185,8 @@
                                                     </div>
                                                 </section>
                                                 <section class="framesContainer ImgPanels disappearing Imr1c3">
-                                                    @*<%--<div class="inlineFolderPointer" style="left: 302.5px;"></div>--%>*@
-                                                    <div class="inlineFolderGroup searchGroup hasContent" style="border-top:none; padding-top:0px;">
-                                                        <button class="btnBackMyLogos bkbtnIphone">Images</button>
+                                                    <div class="inlineFolderGroup searchGroup hasContent" style="border-top: none; padding-top: 0px;">
+                                                        <button class="btnBackMyLogos bkbtnIphone">Images</button>Back to Images
                                                         <section class="uploadButtonAndMessage">
                                                             <button class="button buttonBlock fileUploadButton" id="uploadLogos">Upload your own logos</button><p>Recommended 300 dpi CMYK JPeg or PDF files.</p>
                                                         </section>
@@ -202,13 +205,41 @@
                                             </ul>
                                             <section class="ImagesScrollContainer ">
                                                 <section class="templateImagesContainer ImgPanels disappearing Imr3c1">
-                                                    @*<%--<div class="inlineFolderPointer" style="left: 84.5px;"></div>--%>*@
-                                                    <div class="inlineFolderGroup searchGroup hasContent" style="border-top:none; padding-top:0px;">
-                                                        <button class="btnBackTimgs bkbtnIphone">Images</button>
+
+                                                    <div class="inlineFolderGroup searchGroup hasContent" style="border-top: none; padding-top: 0px;">
+                                                        <button class="btnBackTimgs bkbtnIphone">Images</button>Back to Images
                                                         <ul id="Ul5" class="gallery infoPanelGallery photoGallery listDamImages divTempImgContainer"></ul>
                                                     </div>
                                                 </section>
                                             </section>
+                                        </div>
+                                    </div>
+                                </section>
+                            </section>
+                            <section id="idShapesPanel" class="ImagesContainer AddPanels disappearing Addr1c4">
+                                <div class="inlineFolderPointe r " style="left: 302.5px;"></div>
+                                <section class=" ">
+                                    <div class="innerDesigner">
+                                        <div class="inlineFolderGroup searchGroup hasContent browseCategories ImgsBrowserCategories " style="overflow: visible; border-bottom: none;">
+                                            <div class="ulImagesSecTop">
+                                                <button class="btnBackFromShapes bkbtnIphone">Add</button>Back to Add
+                                                <ul class="gallery photoGallery albumGallery categories laidOut ulImagesSecTop" style="height: 129px;">
+                                                    <li style="width: 109px; left: 0px;" class="AddBLr1c3">
+                                                        <a title="Add Images" class="CustomRectangleObj">
+                                                            <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
+                                                            <img id="btnAddRectangle" src="" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />
+                                                            <span class="text">Rectangle</span>
+                                                        </a>
+                                                    </li>
+                                                    <li style="width: 109px; left: 109px;" class="AddBLr1c3">
+                                                        <a title="Add Images" class="CustomCircleObj">
+                                                            <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
+                                                            <img id="btnAddCircle" src="" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />
+                                                            <span class="text">Circle</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </section>
@@ -221,53 +252,50 @@
             </section>
             <section id="resultsBackground" class="results infinite">
                 <section class="layer bkDamScroller">
-                    <div class="inner">
-
+                    <div class="innerDesigner">
                         <div class="browseCategories bKimgBrowseCategories">
                             <ul class="gallery photoGallery albumGallery categories laidOut bkMainPanels" style="height: 129px;">
                                 <li style="width: 109px; left: 0px; top: 0px;" class="bkr1c1">
                                     <a title="Free Backgrounds" class="freeBackgrounds">
                                         <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
-                                        <img src="assets-v2/grids.png" width="200" height="200" alt="Upload folder thumbnail" style="height: 81px;" /><span class="text">Free Backgrounds</span>
+                                        <img id="FreeBackgrounds" src="" width="200" height="200" alt="Upload folder thumbnail" style="height: 81px;" /><span class="text">Free Backgrounds</span>
                                     </a>
                                 </li>
                                 <li style="width: 109px; left: 109px; top: 0px;" class="bkr1c2">
                                     <a title="My Backgrounds" class="myBackgrounds">
                                         <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
-                                        <img src="assets-v2/technology.jpg" width="200" height="200" alt="Facebook folder thumbnail" style="height: 81px;" /><span class="text">My Backgrounds</span>
+                                        <img id="IdMyBackgrounds" src="" width="200" height="200" alt="Facebook folder thumbnail" style="height: 81px;" /><span class="text">My Backgrounds</span>
                                     </a>
                                 </li>
                                 <li style="width: 109px; left: 218px; top: 0px;" class="bkr1c3">
                                     <a title="Template Backgrounds" class="templateBackgrounds">
                                         <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
-                                        <img src="assets-v2/frames.png" width="200" height="200" alt="Facebook folder thumbnail" style="height: 81px;" /><span class="text">Template Backgrounds</span>
+                                        <img id="IdTemplateBackgrounds" src="" width="200" height="200" alt="Facebook folder thumbnail" style="height: 81px;" /><span class="text">Template Backgrounds</span>
                                     </a>
                                 </li>
                             </ul>
                             <section class="ImagesScrollContainer">
-                                <section class="freeBkImgsContainer BkImgPanels disappearing bkImr1c1 ">
-
-                                    <button class="btnBkBkimgs bkbtnIphone">Backgrounds</button>
+                                <section class="freeBkImgsContainer BkImgPanels disappearing bkImr1c1">
+                                    <button class="btnBkBkimgs bkbtnIphone">Backgrounds</button>Back to Backgrounds
                                     <br />
-                                    <div class="inlineFolderGroup searchGroup hasContent" style="border-top:none; padding-top:0px;">
+                                    <div class="inlineFolderGroup searchGroup hasContent" style="border-top: none; padding-top: 0px;">
 
-                                        <ul class="gallery infoPanelGallery photoGallery listDamImages divGlobBkImgContainer" id="divGlobBkImgContainer"> </ul>
+                                        <ul class="gallery infoPanelGallery photoGallery listDamImages listDambkimages divGlobBkImgContainer" id="divGlobBkImgContainer"></ul>
                                     </div>
                                 </section>
                                 <section class="myBkImgsContainer BkImgPanels disappearing bkImr1c2">
-
-                                    <button class="btnBkmyBk bkbtnIphone">Backgrounds</button>
+                                    <button class="btnBkmyBk bkbtnIphone">Backgrounds</button>Back to Backgrounds
                                     <br />
-                                    <div class="inlineFolderGroup searchGroup hasContent" style="border-top:none; padding-top:0px;">
-                                        <ul class="gallery infoPanelGallery photoGallery listDamImages divPersBkImgContainer" id="divPersBkImgContainer"></ul>
+                                    <div class="inlineFolderGroup searchGroup hasContent" style="border-top: none; padding-top: 0px;">
+                                        <ul class="gallery infoPanelGallery photoGallery listDamImages listDambkimages divPersBkImgContainer" id="divPersBkImgContainer"></ul>
                                     </div>
                                 </section>
                                 <section class="tempBackgroundImages BkImgPanels disappearing bkImr1c3">
 
-                                    <button class="btnBkTempBk bkbtnIphone">Backgrounds</button>
+                                    <button class="btnBkTempBk bkbtnIphone">Backgrounds</button>Back to Backgrounds
                                     <br />
-                                    <div class="inlineFolderGroup searchGroup hasContent" style="border-top:none; padding-top:0px;">
-                                        <ul class="gallery infoPanelGallery photoGallery listDamImages divTempBkImgContainer" id="divTempBkImgContainer"></ul>
+                                    <div class="inlineFolderGroup searchGroup hasContent" style="border-top: none; padding-top: 0px;">
+                                        <ul class="gallery infoPanelGallery photoGallery listDamImages listDambkimages divTempBkImgContainer" id="divTempBkImgContainer"></ul>
                                     </div>
                                 </section>
                             </section>
@@ -275,25 +303,26 @@
                                 <li style="width: 109px; left: 0px; top: 0px;" class="bkr2c1">
                                     <a title="Background colours" class="BkColors">
                                         <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
-                                        <img src="assets-v2/bkColor.jpg" width="200" height="200" alt="Background colours" style="height: 81px;" /><span class="text">Background  colours</span>
+                                        <img id="IdBackgroundcolours" src="" width="200" height="200" alt="Background colours" style="height: 81px;" /><span class="text">Background  colours</span>
                                     </a>
                                 </li>
                                 <li style="width: 109px; left: 109px; top: 0px;" class="bkr2c2">
                                     <a title="Upload Backgrounds" class="" id="uploadBackgroundMn">
                                         <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
-                                        <img src="assets-v2/upload_folder_thumbnail.png" width="200" height="200" alt="Upload Backgrounds" style="height: 81px;" /><span class="text">Upload Backgrounds</span>
+                                        <img id="IdUploadBackgrounds" src="" width="200" height="200" alt="Upload Backgrounds" style="height: 81px;" /><span class="text">Upload Backgrounds</span>
                                     </a>
                                 </li>
                                 <li style="width: 109px; left: 218px; top: 0px;" class="bkr2c3">
                                     <a title="Clear Backgrounds" class="" id="clearBackground">
                                         <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
-                                        <img src="assets-v2/white.jpg" width="200" height="200" alt="Clear Backgrounds" style="height: 81px;" /><span class="text">Clear Background</span>
+                                        <img id="ClearBackground" src="~/Content/Designer/assets-v2/white.jpg" width="200" height="200" alt="Clear Backgrounds" style="height: 81px;" /><span class="text">Clear Background</span>
                                     </a>
                                 </li>
                             </ul>
-                            <section class="freeBkImgsContainer BkImgPanels disappearing bkImr2c1 ">
-                                <div class="inlineFolderPointer" style="left: 84.5px;"></div>
-                                <section class="ImagesScrollContainer">
+                            
+                            <section class="ImagesScrollContainer">
+                                <section class="freeBkImgsContainer BkImgPanels disappearing bkImr2c1 ">
+                                    <div class="inlineFolderPointer" style="left: 84.5px;"></div>
                                     <div class="inlineFolderGroup searchGroup hasContent" style="">
                                         <div class="">
                                             <div class="paletteToolbarWrapper static" style="display: block;">
@@ -341,16 +370,14 @@
             </section>
             <section id="resultsUpload" class="results infinite">
                 <section class="layer upDamScroller">
-                    <div class="inner">
-
-
+                    <div class="innerDesigner">
                     </div>
                 </section>
 
             </section>
             <section id="imageDetail" class="results infinite">
                 <section class="layer  scrollPane ">
-                    <div class="inner">
+                    <div class="innerDesigner">
                         <div class="searchGroup hasContent templateListULSG">
                             <div class="ImageContainer">
                                 <p><a class="add QuickTextTitle ThemeColor" style="" data-style="title">Image Information</a></p>
@@ -392,9 +419,11 @@
                                     <br />
                                 </div>
 
-                                <div class="pnlImgBank" style="text-align:center;">
+                                <div class="pnlImgBank" style="text-align: center;">
                                     <button id="btnUpdateImgProp" class="button">Update</button>
-                                    <button id="btnDeleteImg" class="button">Delete</button> <br /><br />
+                                    <button id="btnDeleteImg" class="button">Delete</button>
+                                    <br />
+                                    <br />
                                     <p><a class="add QuickTextTitle ThemeColor returnToLib" style="" data-style="title">Return to Library</a></p>
 
                                 </div>
@@ -405,9 +434,10 @@
                     </div>
                 </section>
             </section>
-            <section id="sectionLayers" class="results infinite">
+            <section id="sectionLayers" class="results">
+
                 <section class="layer scrollPane">
-                    <div class="inner">
+                    <div class="innerDesigner">
                         <ul class="textControls">
                             <li><a class=" QuickTextTitle ThemeColor" id="a1" style="font-size: 159%;">Manage template layers</a></li>
                         </ul>
@@ -422,109 +452,158 @@
             </section>
             <section id="sectionPropertyPanels" class="results infinite">
                 <section class="layer  scrollPane ">
-                    <div class="inner">
+             
+                    <div class="innerDesigner">
                         <div class="searchGroup hasContent templateListULSG">
                             <div id="objPropertyPanel" class="ImageContainer">
                                 <div class="textPropertyPanel1">
-                                    <div class="propertyPanelControlDiv imgthumbPreviewSlider" style="padding-left: 72px;">
-                                        <img id="imgThumbPreview" height="60px" />
+                                    <div class="propertyPanelControlDiv imgthumbPreviewSlider" style="padding-left: 110px;">
+                                        <img id="imgThumbPreview" height="80px" />
 
                                     </div>
-
-                                    <div class="propertyPanelControlDiv">
-                                        <p class="largeText RotateLbl3" id="P2">
-                                            Scale
-                                        </p>
-                                        <button id="BtnImgScaleIN" title="Scale in"></button>
-                                        <button id="BtnImgScaleOut" title="Scale out"></button>
-                                    </div>
-                                    <div class="propertyPanelControlDiv">
-                                        <div class="imgtool">
-                                            <p class="largeText RotateLbl3" id="LbImgCrop">
-                                                Crop
-                                            </p>
-                                            <button id="BtnCropImg" title="Crop object" style="display:none;"></button>
-                                            <button id="BtnCropImg2" title="Crop object"></button>
-                                        </div><div class="shapeTools">
-                                            <p id="AddColorShapeLbl" class="largeText RotateLbl3">
-                                                Colour
-                                            </p>
-                                            <button id="AddColorShape" class="" title="Colour picker"></button>
-                                        </div>
-                                    </div>
-                                    <div class="propertyPanelControlDiv">
-                                        <br />
-                                    </div>
-                                </div>
-                                <div class="textPropertyPanel2">
-                                    <div class="propertyPanelControlDiv">
-
-                                        <span class="marginRight5 largeText">W </span>
-                                        <input name="inputObjectWidth" id="inputObjectWidth" class="width28 zindex100" />
-                                        <span class="marginLeft15 marginRight7 largeText">H</span>
-                                        <input name="inputObjectHeight" id="inputObjectHeight" class="width28 zindex100" />
-                                    </div>
-                                    <div class="propertyPanelControlDiv largeText" style="padding-bottom: 0px;padding-top: 20px;">
-                                        <span style="margin-left: 4px;">To front </span><span style="margin-left: 23px;">
-                                            +
-                                        </span><span style="margin-left: 36px;">- </span><span style="margin-left: 22px;">
-                                            To
-                                            back
-                                        </span>
-                                    </div>
-                                    <div class="propertyPanelControlDiv" style="padding-top: 20px;">
-                                        <button id="BtnImageArrangeOrdr1" title="Bring object to front"></button>
-                                        <button id="BtnImageArrangeOrdr2" title="Bring object a step front"></button>
-                                        <button id="BtnImageArrangeOrdr3" title="Send object a step back"></button>
-                                        <button id="BtnImageArrangeOrdr4" title="Send object to back"></button>
-
-                                    </div>
-                                    <div class="propertyPanelControlDiv" style="padding-top: 20px;">
-                                        <label style="width:60px">Opacity</label>  <div class="inputObjectAlphaSlider"></div>
-                                    </div>
-                                    <div class="propertyPanelControlDiv" style="padding-top: 20px;">
-                                        <label style="width:60px">Rotate</label>  <div class="rotateSlider" style="margin-left: 22px;"></div>
-                                    </div>
-                                    <div class="DivBlockWithNoHeight vertLine" style="width: 313px;"></div>
-                                    <div class="propertyPanelControlDiv">
-                                        <div class="divTxtAlignmentControls">
-                                            <button id="btnImgCanvasAlignLeft" class="btnCj1" title=""></button>
-                                            <button id="BtnImgCanvasAlignCenter" class="btnCj2" title=""></button>
-                                            <button id="BtnImgCanvasAlignMiddle" class="btnCj5" title=""></button>
-                                            <button id="BtnImgCanvasAlignRight" class="btnCj3" title=""></button>
-                                        </div>
-                                        <div class="divTxtPositioningCotnrols">
-                                            <span class="marginLeft15 marginRight5" style="margin-right: 25px;">X </span>
-                                            <input name="inputPositionX" id="inputPositionX" class="width28 zindex100" />
-                                            <br />
-                                            <br />
-                                            <span class="marginLeft15 marginRight5" style="margin-right: 25px;">Y </span>
-                                            <input name="inputPositionY" id="inputPositionY" class="width28 zindex100" />
-
-                                        </div>
-                                        <div class="clearBoth">
-                                        </div>
-                                    </div>
-                                    <div class="DivBlockWithNoHeight vertLine" style="width: 313px;margin-top: 10px;"></div>
-                                    <div class="propertyPanelControlDiv" style="width:303px; text-align:center;">
+                                    <div class="propertyPanelControlDiv" style="width: 303px; text-align: center;">
                                         <button id="btnReplaceImage" title="Delete Object" class="button  imgthumbPreviewSliderBtn">
                                             Replace Image
                                         </button>
-                                        <button id="btnDeleteImage" title="Delete Object" class="button  " style="width:127px;">
-                                            Remove
+                                        <button id="BtnCropImg" title="Crop object" class="button" style="display: none; width: 127px;">
+                                            Crop Image
                                         </button>
-                                        <p style="text-align: center;margin-top: 12px;">
-                                            <a class="add QuickTextTitle ThemeColor returnToLayers" style="" data-style="title">Return to Layers</a>
-                                        </p>
+                                        <button id="BtnCropImg2" title="Crop object" class="button" >
+                                            Crop Image
+                                        </button>
                                     </div>
+                                    <div class="DivBlockWithNoHeight vertLine"></div>
+
+                                    <div class="textPropertyPanel2" style="padding-top: 20px;">
+                                        <div class="propertyPanelControlDiv">
+                                            <button id="AddColorShape" class="BtnChngeClr" title="Colour picker">
+                                                Color
+                                            </button>
+                                            <div class="inputObjectAlphaSlider"></div>
+                                            <button id="BtnImgRotateRight" class="BtnRotateRight" title="Rotate Right"></button>
+
+                                            <button id="BtnImgRotateLeft" class="BtnRotateLeft" title="Rotate Left"></button>
+                                        </div>
+
+                                        <div class="propertyPanelControlDiv" style="margin-top: 30px">
+
+                                            <div class="divTxtAlignmentControls">
+
+                                                <label class="textLabel">Align to Canvas</label>
+                                                <button id="btnImgCanvasAlignLeft" class="btnCj1" title=""></button>
+                                                <button id="BtnImgCanvasAlignCenter" class="btnCj2" title=""></button>
+                                                <button id="BtnImgCanvasAlignMiddle" class="btnCj5" title=""></button>
+                                                <button id="BtnImgCanvasAlignRight" class="btnCj3" title=""></button>
+                                            </div>
+
+                                        </div>
+                                        <div class="DivBlockWithNoHeight vertLine"></div>
+                                    </div>
+
+
+
+
+
+                                    <div class="propertyPanelControlDiv">
+                                        <div class="PostionPanelLabel">
+                                            <span class="lblcheckbox">Position</span>
+                                        </div>
+                                        <div class="PostionPanelLabel">
+                                            <span class="lblcheckbox" id="lblArrangeOrderiImg">Box Size</span>
+                                        </div>
+                                        <div class="PostionPanelLabel">
+                                            <div class="lblcheckbox" id="">Lock Position </div>
+                                        </div>
+                                    </div>
+                                    <div class="propertyPanelControlDiv">
+                                        <div class="margin10" style="padding-bottom: 10px">
+                                            <div class="lbltextButtonControl">
+
+                                                <span class="paddingright5">X</span>
+                                                <input name="inputPositionXTxt" id="inputPositionX" class="width28 zindex100" />
+
+                                            </div>
+                                            <div class="lbltextButtonControl">
+                                                <span class="paddingright5">W </span>
+                                                <input name="inputPositionYTxt" id="inputPositionY" class="width28 zindex100" />
+
+                                            </div>
+                                        </div>
+                                        <div class="margin10">
+                                            <div class="lbltextButtonControl" style="float: left;">
+
+                                                <span class="paddingright5">Y</span>
+                                                <input name="inputObjectWidthTxt" id="inputObjectWidth" class="width28 zindex100" />
+                                            </div>
+                                            <div class="lbltextButtonControl" style="float: left;">
+
+                                                <span class="paddingright5" style="padding-left: 4px;">H</span>
+                                                <input name="inputObjectHeightTxt" id="inputObjectHeight" class="width28 zindex100" />
+
+
+                                            </div>
+                                        </div>
+                                        <div class="PostionPanelLabel">
+                                            <div class="lbltextButtonControl">
+                                                <div class="onoffswitch" style="top: -20px; margin-left: -2px">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="LockPositionImg" checked="">
+                                                    <label class="onoffswitch-label" for="LockPositionImg" id="lblLockPositionImg">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="DivBlockWithNoHeight vertLine"></div>
+
+                                    <div class="propertyPanelControlDiv" style="padding-bottom: 5px">
+                                        <div class="lblchckboxControl" id="">Make Overlay Layer  </div>
+                                        <div class="onoffswitch" style="right: -100px">
+                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxOverlayImg" checked="">
+                                            <label class="onoffswitch-label" for="chkboxOverlayImg">
+                                                <div class="onoffswitch-inner"></div>
+                                                <div class="onoffswitch-switch"></div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="propertyPanelControlDiv">
+                                        <div class="lblchckboxControl" id="">Print Object On PDF </div>
+                                        <div class="onoffswitch" style="right: -100px">
+                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnPrintImage" checked="">
+                                            <label class="onoffswitch-label" for="BtnPrintImage" id="lblBtnPrintImage">
+                                                <div class="onoffswitch-inner"></div>
+                                                <div class="onoffswitch-switch"></div>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="DivBlockWithNoHeight vertLine"></div>
+
+                                    <div class="propertyPanelControlDiv" style="padding-bottom: 5px">
+                                        <div class="lblchckboxControl" id="">Allow End User to CHANGE Formatting </div>
+                                        <div class="onoffswitch" style="right: -9px">
+                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="LockImgProperties" checked="">
+                                            <label class="onoffswitch-label" for="LockImgProperties" id="lblLockImgProperties">
+                                                <div class="onoffswitch-inner"></div>
+                                                <div class="onoffswitch-switch"></div>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="textPropertyPanel2">
+                                    <div class="propertyPanelControlDiv">
+                                    </div>
+
                                 </div>
                             </div>
                             <div id="textPropertyPanel" class="ImageContainer">
                                 <div class="textPropertyPanel1">
-                                    <div class="propertyPanelControlDiv">
-                                        <label class="largeText  lbtTxtArea" for="EditTXtArea">
-                                            Dobule click text object on canvas to modify text.
-                                        </label>
+                                    <div class="propertyPanelControlDiv" style="padding-top: 10px;">
+
 
                                         <label class="largeText  lblEditTxtTxt" for="">
                                         </label>
@@ -533,95 +612,240 @@
                                         <select id="BtnSelectFonts" title="Select Font" class="styledBorder">
                                             <option value="(select)">(select)</option>
                                         </select>
-                                    </div>
-                                    <div class="propertyPanelControlDiv" style="padding-top: 25px;">
-                                        <img src="assets/increase_font.png" class="iconsPropPanel imgCharHeight" />
-                                        <input id="BtnFontSize" style="" class="inputCharSpacing zindex100" />/>
-                                        <img src="assets/lineHeight.png" class="iconsPropPanel imgLineHeight" />
-                                        <input name="txtLineHeight" id="txtLineHeight" class="inputCharSpacing zindex100" />
-                                        <img src="assets/imgCharSpace.png" class="iconsPropPanel imgLineHeight" />
-                                        <input name="inputcharSpacing" id="inputcharSpacing" class="inputCharSpacing zindex100" />
 
 
                                     </div>
-                                    <div class="propertyPanelControlDiv" style="padding-top: 20px;">
-                                        <button id="BtnBoldTxt" class="" title="Bold"></button>
-                                        <button id="BtnItalicTxt" title="Italic"></button>
-                                        <button id="BtnChngeClr" class="BtnColorPicker" title="Colour picker"></button>
-                                        <button id="BtnJustifyTxt1" title="Justify text left"></button>
-                                        <button id="BtnJustifyTxt2" title="Justify text center"></button>
-                                        <button id="BtnJustifyTxt3" title="Justify text right"></button>
+                                    <div class="propertyPanelControlDiv" style="padding-top: 14px;">
+                                        <img id="BtnBoldTxt" class="fontawesomeIcons" src="~/Content/Designer/assets-v2/bold.png" title="Bold" />
+                                        <img id="BtnItalicTxt" class="fontawesomeIcons" src="~/Content/Designer/assets-v2/italic.png" title="Italic" />
+                                        <img id="BtnUnderlineTxt" class="fontawesomeIcons" src="~/Content/Designer/assets-v2/underline.png" title="Underline" />
+                                        <img id="BtnBulletedLstTxt" class="fontawesomeIcons" src="~/Content/Designer/assets-v2/list.png" title="Bulleted List" />
+                                        <span class="selectFontSize">
+                                            <input id="BtnFontSize" style="" class="inputCharSpacing zindex100" />
+                                        </span>
+                                        <span>
+                                            <button id="BtnIntrnationalkybrd" title="international keyboard selection">
+                                                <div class="XLText">UK </div>
+                                                <div class="smallText">Keyboard </div>
+                                            </button>
+                                        </span>
+
+
+                                    </div>
+                                    <div class="propertyPanelControlDiv">
+                                        <img id="BtnJustifyTxt1" title="Justify text left" class="fontawesomeIcons" src="~/Content/Designer/assets-v2/align1.png" />
+
+                                        <img id="BtnJustifyTxt2" title="Justify text center" class="fontawesomeIcons" src="~/Content/Designer/assets-v2/align2.png" />
+
+                                        <img id="BtnJustifyTxt3" title="Justify text right" class="fontawesomeIcons" src="~/Content/Designer/assets-v2/align3.png" />
+
+                                        <img src="~/Content/Designer/assets-v2/imgCharSpace.png" class="iconsPropPanel imgLineHeight" />
+                                        <input name="inputcharSpacing" id="inputcharSpacing" class="textButtonControl inputCharSpacing zindex100" />
+                                    </div>
+                                    <div class="propertyPanelControlDiv">
+                                        <img id="BtnValignTxt1" title="Align top" class="fontawesomeIcons" src="~/Content/Designer/assets-v2/valign3.png" />
+
+                                        <img id="BtnValignTxt2" title="Align center" class="fontawesomeIcons" src="~/Content/Designer/assets-v2/valign2.png" />
+
+                                        <img id="BtnValignTxt3" title="Align Bottom" class="fontawesomeIcons" src="~/Content/Designer/assets-v2/valign1.png" />
+
+                                        <img src="~/Content/Designer/assets-v2/lineHeight.png" class="iconsPropPanel imgLineHeight" style="padding-left: 2px;" />
+                                        <input name="txtLineHeight" id="txtLineHeight" class="textButtonControl inputCharSpacing zindex100" />
+
+                                        <button id="BtnChngeClr" class="BtnColorPicker BtnChngeClr" title="Colour picker">
+                                            Color
+                                        </button>
+                                    </div>
+
+                                    <div class="propertyPanelControlDiv" style="margin-top: 18px;">
+
+
+                                        <button id="BtnVarification" title="Upload Font" class="button">
+                                            Send CRM Verification
+                                        </button>
+                                        <button id="BtnRotateTxtRight" class="BtnRotateRight" title="Rotate Right"></button>
+                                        <button id="BtnRotateTxtLft" class="BtnRotateLeft" title="Rotate Left"></button>
 
                                     </div>
 
 
                                 </div>
-                                <div class="textPropertyPanel2" style="padding-top: 20px;">
-                                    <div class="propertyPanelControlDiv">
-                                        <span class="largeText RotateLbl3" id="lblArrangeOrderTxt">Layer</span> <span class="marginLeft15 marginRight5 largeText"
-                                                                                                                      style="margin-left: 47px;">Width</span>
-                                        <input name="inputObjectWidthTxt" id="inputObjectWidthTxt" class="width28 zindex100" />
-                                        <span class="marginLeft15 marginRight7 largeText">Height</span>
-                                        <input name="inputObjectHeightTxt" id="inputObjectHeightTxt" class="width28 zindex100" />
-                                    </div>
-                                    <div class="propertyPanelControlDiv largeText" style="padding-bottom: 0px;padding-top: 20px;">
-                                        <span style="margin-left: 4px;" id="lblTxtArrange4">To front </span><span style="margin-left: 23px;">
-                                            +
-                                        </span><span style="margin-left: 36px;">- </span><span style="margin-left: 22px;" id="lblTxtArrange1">
-                                            To
-                                            back
-                                        </span>
-                                    </div>
-                                    <div class="propertyPanelControlDiv" style="padding-top: 20px;">
-                                        <button id="BtnTxtarrangeOrder1" title="Bring text to front"></button>
-                                        <button id="BtnTxtarrangeOrder2" title="Bring text a step front"></button>
-                                        <button id="BtnTxtarrangeOrder3" title="Send text a step back"></button>
-                                        <button id="BtnTxtarrangeOrder4" title="Send text to back"></button>
 
-                                    </div>
-                                    <div class="propertyPanelControlDiv" style="padding-top: 20px;">
-                                        <label>Rotate</label>  <div class="rotateSliderTxt"></div>
-                                    </div>
-                                    <div class="DivBlockWithNoHeight vertLine" style="width: 313px;"></div>
+
+                                <div class="textPropertyPanel2" style="padding-top: 13px;">
+
+
                                     <div class="propertyPanelControlDiv">
+
                                         <div class="divTxtAlignmentControls">
+                                            <label class="textLabel">Align to Canvas</label>
                                             <button id="BtnTxtCanvasAlignLeft" class="btnCj1" title=""></button>
                                             <button id="BtnTxtCanvasAlignCenter" class="btnCj2" title=""></button>
                                             <button id="BtnTxtCanvasAlignMiddle" class="btnCj5" title=""></button>
                                             <button id="BtnTxtCanvasAlignRight" class="btnCj3" title=""></button>
                                         </div>
-                                        <div class="divTxtPositioningCotnrols">
-                                            <span class="marginLeft15 marginRight5" style="margin-right: 25px;">X </span>
-                                            <input name="inputPositionXTxt" id="inputPositionXTxt" class="width28 zindex100" />
-                                            <br />
-                                            <br />
-                                            <span class="marginLeft15 marginRight5" style="margin-right: 25px;">Y </span>
-                                            <input name="inputPositionYTxt" id="inputPositionYTxt" class="width28 zindex100" />
 
+                                    </div>
+
+                                    <div class="DivBlockWithNoHeight vertLine"></div>
+                                </div>
+                                <div class="propertyPanelControlDiv">
+
+                                    <div class="PostionPanelLabel">
+                                        <span class="lblcheckbox">Position</span>
+                                    </div>
+                                    <div class="PostionPanelLabel">
+                                        <span class="lblcheckbox" id="lblArrangeOrderTxt">Box Size</span>
+                                    </div>
+                                    <div class="PostionPanelLabel">
+                                        <div class="lblcheckbox" id="">Lock Position </div>
+                                    </div>
+                                </div>
+                                <div class="propertyPanelControlDiv">
+                                    <div class="margin10" style="padding-bottom: 10px">
+                                        <div class="lbltextButtonControl">
+
+                                            <span class="paddingright5">X</span>
+                                            <input name="inputPositionXTxt" id="inputPositionXTxt" class="textButtonControl zindex100" />
                                         </div>
-                                        <div class="clearBoth">
+                                        <div class="lbltextButtonControl">
+                                            <span class="paddingright5">W </span>
+                                            <input name="inputObjectWidthTxt" id="inputObjectWidthTxt" class="textButtonControl zindex100" />
                                         </div>
                                     </div>
-                                    <div class="DivBlockWithNoHeight vertLine" style="width: 313px;margin-top: 10px;"></div>
-                                    <div class="propertyPanelControlDiv" style="width:303px;">
+                                    <div class="margin10">
+                                        <div class="lbltextButtonControl" style="float: left;">
 
-                                        <button id="BtnDeleteTxtObj" title="Delete text" class="button buttonBlock ">
-                                            Remove
-                                        </button>
-                                        <p style="text-align: center;margin-top: 12px;">
-                                            <a class="add QuickTextTitle ThemeColor returnToLayers" style="" data-style="title">Return to Layers</a>
-                                        </p>
+                                            <span class="paddingright5">Y</span>
+                                            <input name="inputPositionYTxt" id="inputPositionYTxt" class="textButtonControl zindex100" />
+                                        </div>
+                                        <div class="lbltextButtonControl" style="float: left;">
+
+                                            <span class="paddingright5" style="padding-left: 4px;">H</span>
+                                            <input name="inputObjectHeightTxt" id="inputObjectHeightTxt" class="textButtonControl zindex100" />
+
+
+                                        </div>
+                                    </div>
+                                    <div class="PostionPanelLabel">
+                                        <div class="lbltextButtonControl">
+                                            <div class="onoffswitch" style="top: -20px; margin-left: 3px;">
+                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnLockTxtPosition" checked="">
+                                                <label class="onoffswitch-label" for="BtnLockTxtPosition">
+                                                    <div class="onoffswitch-inner"></div>
+                                                    <div class="onoffswitch-switch"></div>
+                                                </label>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="DivBlockWithNoHeight vertLine"></div>
+                                <div class="propertyPanelControlDiv" style="padding-bottom: 5px">
+                                    <div class="lblchckboxControl" id="">Make Overlay Layer  </div>
+                                    <div class="onoffswitch" style="right: -100px">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxOverlayTxt" checked="">
+                                        <label class="onoffswitch-label" for="chkboxOverlayTxt">
+                                            <div class="onoffswitch-inner"></div>
+                                            <div class="onoffswitch-switch"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="propertyPanelControlDiv">
+                                    <div class="lblchckboxControl" id="">Print Object On PDF </div>
+                                    <div class="onoffswitch" style="right: -99px">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnPrintObj" checked="">
+                                        <label class="onoffswitch-label" for="BtnPrintObj">
+                                            <div class="onoffswitch-inner"></div>
+                                            <div class="onoffswitch-switch"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="DivBlockWithNoHeight vertLine"></div>
+                                <div class="propertyPanelControlDiv" style="padding-bottom: 5px">
+                                    <div class="lblchckboxControl" id="">Allow End User to CHANGE Formatting </div>
+                                    <div class="onoffswitch" style="right: -9px">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnAllowOnlyTxtChange" checked="">
+                                        <label class="onoffswitch-label" for="BtnAllowOnlyTxtChange">
+                                            <div class="onoffswitch-inner"></div>
+                                            <div class="onoffswitch-switch"></div>
+                                        </label>
                                     </div>
                                 </div>
 
+                                <div class="propertyPanelControlDiv" style="padding-bottom: 5px">
+                                    <div class="lblchckboxControl" id="">Allow End User to EDIT text </div>
+                                    <div class="onoffswitch" style="right: -65px">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnLockEditing" checked="">
+                                        <label class="onoffswitch-label" for="BtnLockEditing">
+                                            <div class="onoffswitch-inner"></div>
+                                            <div class="onoffswitch-switch"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="propertyPanelControlDiv">
+                                    <div class="lblchckboxControl" id="">Auto Shrink Text to fit in Text Box </div>
+                                    <div class="onoffswitch" style="right: -38px">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxAutoShrink" checked="">
+                                        <label class="onoffswitch-label" for="chkboxAutoShrink">
+                                            <div class="onoffswitch-inner"></div>
+                                            <div class="onoffswitch-switch"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="DivBlockWithNoHeight vertLine"></div>
+                                <div class="propertyPanelControlDiv" style="padding-bottom: 5px">
+                                    <div class="lblchckboxControl" id="">Text Input Mask </div>
+                                    <div class="onoffswitch" style="right: -121px">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxTxtInputMask" checked="">
+                                        <label class="onoffswitch-label" for="chkboxTxtInputMask">
+                                            <div class="onoffswitch-inner"></div>
+                                            <div class="onoffswitch-switch"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="propertyPanelControlDiv" style="padding-bottom: 5px">
+                                    <div class="lblchckboxControl" id="">Value in This Mandatory </div>
+                                    <div class="onoffswitch" style="right: -83px">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxTxtInputMandatory" checked="">
+                                        <label class="onoffswitch-label" for="chkboxTxtInputMandatory">
+                                            <div class="onoffswitch-inner"></div>
+                                            <div class="onoffswitch-switch"></div>
+                                        </label>
+                                    </div>
+                                </div>
+
+
+                                <div class="propertyPanelControlDiv">
+                                    <div class="lblchckboxControl" id=""># Number &#64; Letters -Or Type Mandatory Characters </div>
+                                    <div>
+                                        <input type="text" id="txtInputMskCntrl" />
+                                    </div>
+                                </div>
+                                <div class="CaseModeSlider"></div>
+                                <div>
+                                    <div class="lblCaseModeSlider" id="">Normal </div>
+                                    <div class="lblCaseModeSlider" id="">Upper Case </div>
+                                    <div class="lblCaseModeSlider" id="">Lower Case </div>
+                                    <div class="lblCaseModeSlider" id="">Sentence Format </div>
+
+                                </div>
+
+
+
                             </div>
+
+
                         </div>
+
                     </div>
+
                 </section>
             </section>
             <section id="sectionLayouts" class="results infinite">
                 <section class="layer scrollPane">
-                    <div class="inner">
+                    <div class="innerDesigner">
                         <ul class=" textControls">
                             <li><a class=" QuickTextTitle ThemeColor" style="" data-style="title">Layouts</a></li>
                         </ul>
@@ -631,46 +855,91 @@
 
             </section>
         </section>
+        <div id="FrontBackOptionPanal" style="display: none">
+            <section id="FrontBackOptionPanalSection" class="TextObjectPropertyPanal">
+
+                <div class="TextObjectPropertyPanel">
+
+                    <div>
+                        <button id="BtnDeleteTxtObj" class="RemoveButton">Remove </button>
+                    </div>
+                    <div>
+                        <button id="BtnTxtarrangeOrder1" title="Bring text to front" class="">To Front</button>
+                    </div>
+                    <div>
+                        <button id="BtnTxtarrangeOrder2" title="Bring text a step front" class="">+ </button>
+                    </div>
+                    <div>
+                        <button id="BtnTxtarrangeOrder3" title="Send text a step back" class="">- </button>
+                    </div>
+                    <div>
+                        <button id="BtnTxtarrangeOrder4" title="Send text to back" class="">To Back</button>
+                    </div>
+                    <div>
+                        <button id="" class="HelpButton">Help</button>
+                    </div>
+
+                </div>
+
+            </section>
+            <span></span>
+            <%--<span></span>--%>
+        </div>
+
     </section>
     <section id="canvaDocument" class="scrollPane2 multiPage" style="left: 430px;">
 
-        <section id="canvasSection" class="page selected on" style="width: 326.9368785071841px; height: 462.4056858483221px; top: 103px; left: 20px;">
+        <section id="canvasSection" class="page selected on" style="width: 326.9368785071841px; height: 462.4056858483221px; top: 136px; left: 20px;">
             <canvas id="canvas">
                 Your browser does not support the canvas.Please upgrade to latest browser supporting HTML5.
             </canvas>
 
         </section>
-
     </section>
 
     <section id="editorControls">
         <a id="editorLogo" href="#" class=""><span id="editorLogoImage">Proof</span></a>
-        <div>
-            <menu id="Menu1" class="documentMenu documentCopyPaste">
-                <li id="documentMenuCopy"><button class="button" id="btnMenuCopy" title="Copy"></button></li>
-                <li id="documentMenuPaste"><button class="button" id="btnMenuPaste" title="Paste"></button></li>
-                <li id="Li1" class="zoomBtns" style="margin-top:10px"><button class="button" id="zoomIn" title="Zoom In">+</button></li>
-                <li id="Li2" class="zoomBtns"><button class="button" id="zoomOut" title="Zoom out">-</button></li>
 
-            </menu>
-        </div>
         <div id="documentTitleAndMenu" class="">
             <menu id="mainTopMenu" class="documentMenu">
-                <li id="documentMenuUndo"><button class="button" id="BtnUndo" title="Undo"></button></li>
-                <li id="documentMenuRedo"><button class="button" id="BtnRedo" title="Redo"></button></li>
-                <li id="documentMenuGuides"><button class="button" id="BtnGuides" title="Show / Hide Trim Line"></button></li>
+                <li id="Li2" class="zoomBtns">
+                    <button class="button" id="zoomOut" title="Zoom out">-</button>
+                </li>
+                <li class="listText">Zoom</li>
+                <li id="Li1" class="zoomBtns" style="margin-right: 25px;">
+                    <button class="button" id="zoomIn" title="Zoom In">+</button>
+                </li>
+
+                <li id="documentMenuCopy">
+                    <button class="button" id="btnMenuCopy" title="Copy"></button>
+                </li>
+                <li id="documentMenuPaste">
+                    <button class="button" id="btnMenuPaste" title="Paste"></button>
+                </li>
+                <li id="documentMenuUndo">
+                    <button class="button" id="BtnUndo" title="Undo"></button>
+                </li>
+                <li id="documentMenuRedo">
+                    <button class="button" id="BtnRedo" title="Redo"></button>
+                </li>
+                <li id="documentMenuGuides">
+                    <button class="button" id="BtnGuides" title="Show / Hide Trim Line"></button>
+                </li>
             </menu>
-            <menu id="documentMenu" class="documentMenu dark">
+            <menu id="documentMenu" class="documentMenu dark" style="top: 70px!important">
                 <span class="marker" style="left: 0px; width: 72px;"></span>
             </menu>
 
+        </div>
+        <section id="documentTitleName" class="">
             <h1 id="documentTitle" spellcheck="false" title="Click to rename your design">
                 <input type="text" value="Untitled design" style="width: 300px;" id="txtTemplateTitle" />
             </h1>
-        </div>
+            <div class="dimentionsContainer">
+                <span class="dimentionsBC"></span>
+            </div>
 
-        <a id="documentMenuHelp" href="/" target="_blank" class="">Need help?</a>
-        <section id="zoomer" class=""></section>
+        </section>
 
     </section>
 
@@ -681,7 +950,7 @@
         <h2>Preparing your Template…</h2>
         <div class="content">
             <div class="exporting">
-                <div class="progress"><span class="progressValue" style="width: 1%;"><span class="text">95%</span><span class="inner"></span></span></div>
+                <div class="progress"><span class="progressValue" style="width: 1%;"><span class="text">95%</span><span class="innerDesigner"></span></span></div>
                 <p id="paraLoaderMsg">You can add different layouts to your design, you can also add images, text content,  background colour and image to your design. </p>
             </div>
         </div>
@@ -761,7 +1030,7 @@
     <div id="DivColorPickerDraggable" class="DivColorPickerDraggable">
         <div class="paletteToolbarWrapper upwards" style="height: 224px; display: block;">
             <menu class="paletteToolbar ">
-                <div class="inner ColorOptionContainer">
+                <div class="innerDesigner ColorOptionContainer">
                     <menu></menu>
 
 
@@ -835,7 +1104,7 @@
             <button id="BtnAlignObjMiddle"></button>
             <button id="BtnAlignObjBottom"></button>
         </div>
-        <div id="divRetailColorGroup" class="propertyPanelControlDiv" style="display:none;">
+        <div id="divRetailColorGroup" class="propertyPanelControlDiv" style="display: none;">
             <div class="ColorPallet" style="background-color: rgb(2, 3, 2); border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-left-radius: 7px; border-bottom-right-radius: 7px;" onclick="f2(0,0,0,100,&quot;#020302&quot;,&quot;null&quot;);"></div>
             <div class="ColorPallet" style="background-color: rgb(158, 40, 14); border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-left-radius: 7px; border-bottom-right-radius: 7px;" onclick="f2(0,90,100,40,&quot;#9E280E&quot;,&quot;40&quot;);"></div>
             <div class="ColorPallet" style="background-color: rgb(138, 113, 60); border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-left-radius: 7px; border-bottom-right-radius: 7px;" onclick="f2(30,40,80,30,&quot;#8A713C&quot;,&quot;null&quot;);"></div>
@@ -845,7 +1114,7 @@
         </div>
     </div>
 
-    <img id="placeHolderTxt" src="assets/placeholderTxt.png" />
+    <img id="placeHolderTxt" src="~/Content/Designer/assets-v2/placeholderTxt.png" />
     <div id="divBkCropTool" class="divBkCropTool">
     </div>
     <div class="NewCropToolCotainer" id="NewCropToolCotainer">
@@ -867,8 +1136,8 @@
 </section>
 <section class="proofsContainer">
     <div id="DivShadow" class="opaqueLayer"></div>
-    <div id="LargePreviewer" class="LargePreviewer" title="Full Size Image" style="display:none">
-        @*<iframe id="LargePreviewerIframe" class="LargePreviewerIframe" src="Previewer.aspx"></iframe>*@
+    <div id="LargePreviewer" class="LargePreviewer" title="Full Size Image">
+        <iframe id="LargePreviewerIframe" class="LargePreviewerIframe" src="Previewer.aspx"></iframe>
     </div>
     <div id="PreviewerContainer" class="ui-corner-all propertyPanel">
         <a class="PreviewerDownloadPDF" onclick="k9()" target="_blank">Download PDF </a>
@@ -922,9 +1191,8 @@
         <span class="g1"></span>
 
     </div>
-    <form id="form1" runat="server" class="imageUploadForm" style="display:none;">
-        @*<asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true">
-        </asp:ScriptManager>*@
+    <form id="form1" runat="server" class="imageUploadForm" style="display: none;">
+
         <div id="uploader">
             <p class="textWhite">
                 You browser doesn't have Flash, Silverlight or HTML5 support.
@@ -936,9 +1204,9 @@
     </form>
 </section>
 
-
 <input id="getCopied" style="position:absolute;left:-115px;top:-25px;height:20px;width:100px;" />
-
+<input id="imageUploader" name="imageUploader" type="file" style="position:absolute;left:-115px;top:-25px;height:20px;width:100px;" accept="application/pdf, image/*" />
+<input id="fontUploader" name="fontUploader" type="file" multiple="multiple" accept=".eot,.ttf,.woff" style="position:absolute;left:-115px;top:-25px;height:20px;width:100px;" />
 @*@Scripts.Render("~/bundles/designerScripts")*@
 
 <script src="~/Scripts/Designer/p71.js"></script>
@@ -948,9 +1216,9 @@
 <script src="~/Scripts/Designer/pc2.js"></script>
 <script src="~/Scripts/Designer/pc3.js"></script>
 @*<script src="~/Scripts/Designer/a12/aj9.js" type="text/javascript"></script>
-<script src="~/Scripts/Designer/a12/aj21-v2.js" type="text/javascript"></script>
-<script src="~/Scripts/Designer/a12/aj12.js" type="text/javascript"></script>
-<script src="~/Scripts/Designer/a12/aj1.js" type="text/javascript"></script>*@
+    <script src="~/Scripts/Designer/a12/aj21-v2.js" type="text/javascript"></script>
+    <script src="~/Scripts/Designer/a12/aj12.js" type="text/javascript"></script>
+    <script src="~/Scripts/Designer/a12/aj1.js" type="text/javascript"></script>*@
 <script src="~/Scripts/Designer/p101.js" type="text/javascript"></script>
 <script src="~/Scripts/Designer/p1.js"></script>
 <script src="~/Scripts/Designer/p10-v2.js" type="text/javascript"></script>

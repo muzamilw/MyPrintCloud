@@ -141,17 +141,18 @@ var lAObj = 0;
 var spPanel = "";
 var spBkPanel = "";
 var previewUrl = "/designerapi/Template/Preview/";
+var productionFolderPath = "";
 function buildParams() {
   
-    printCropMarks = locVars[locVars.length - 3];
-    printWaterMarks = locVars[locVars.length - 2];
-    CustomerName =parseInt(  locVars[locVars.length - 7]);
-    tID = parseInt(locVars[locVars.length - 9]);
-    IsCalledFrom =parseInt(  locVars[locVars.length - 5]);
-    IsEmbedded = locVars[locVars.length - 1];
-    CustomerID = parseInt( locVars[locVars.length - 7]);
-    ContactID =parseInt(  locVars[locVars.length - 6]);
-    ogranisationId = parseInt( locVars[locVars.length - 4]);
-    cIDv2 =parseInt( locVars[locVars.length - 10]);
-  
+	printCropMarks = locVars[locVars.length - 3];
+	printWaterMarks = locVars[locVars.length - 2];
+	CustomerName =parseInt(  locVars[locVars.length - 7]);
+	tID = parseInt(locVars[locVars.length - 9]);
+	IsCalledFrom =parseInt(  locVars[locVars.length - 5]);
+	IsEmbedded = locVars[locVars.length - 1];
+	CustomerID = parseInt( locVars[locVars.length - 7]);
+	ContactID =parseInt(  locVars[locVars.length - 6]);
+	ogranisationId = parseInt( locVars[locVars.length - 4]);
+	cIDv2 =parseInt( locVars[locVars.length - 10]);
+	productionFolderPath = "Organisation" + ogranisationId + "/Templates/" ;
 }
