@@ -1317,7 +1317,7 @@ body:not(.compactHeader) .documentMenu {
     top: 60px;
 }
 
-button, .button {
+button, .buttonDesigner {
     cursor: pointer;
 }
 
@@ -4401,7 +4401,7 @@ h2 + .gallery {
     text-align: center;
 }
 
-.button {
+.buttonDesigner {
     background-color: #99c432;
     border: 2px solid transparent;
     border-radius: 5px;
@@ -4427,7 +4427,7 @@ h2 + .gallery {
     user-select: none;
 }
 
-    .button.disabled, .button.disabled:active, .button.disabled:focus, .button.disabled:hover, .button:disabled, .button:disabled:hover {
+    .buttonDesigner.disabled, .buttonDesigner.disabled:active, .buttonDesigner.disabled:focus, .buttonDesigner.disabled:hover, .buttonDesigner:disabled, .buttonDesigner:disabled:hover {
         background-color: #ccc;
         border-color: #ccc;
         color: #999;
@@ -4435,20 +4435,20 @@ h2 + .gallery {
         pointer-events: none;
     }
 
-    .button:active, .button:focus {
+    .buttonDesigner:active, .buttonDesigner:focus {
         border-color: #83a82b;
     }
 
-    .button:hover {
+    .buttonDesigner:hover {
         background-color: #a5d92b;
     }
 
-    .button::-moz-focus-inner {
+    .buttonDesigner::-moz-focus-inner {
         border: 0;
         padding: 0;
     }
 
-    .button:visited {
+    .buttonDesigner:visited {
         color: #fff;
     }
 
