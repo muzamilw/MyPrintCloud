@@ -28,7 +28,7 @@ var T0FU = [];
 var D1SF = 1.2;
 var D1CS = 1;
 var D1CZL = 0; var LIFT = true; var TIC = 0; var TotalImgLoaded = 0; var canvas;
-var highlightEditableText = true; var IsInputSelected = false;
+var highlightEditableText = false; var IsInputSelected = false;
 var isBkPnlUploads = false;
 var TempOB = [];
 //old vars
