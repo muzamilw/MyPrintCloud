@@ -22,7 +22,7 @@ border-radius: 5px;
      
         
 
-#slider
+#sliderDesigner
 {
     float: right;
     width: 744px;
@@ -38,7 +38,7 @@ border-radius: 5px;
     -khtml-border-radius: 5px;
     border-radius: 5px;
 }
-#slider img {
+#sliderDesigner img {
 	position:absolute;
 	border:none;
 	visibility:hidden;
@@ -46,7 +46,7 @@ border-radius: 5px;
 }
 
 /* the link style (if an image is wrapped in a link) */
-#slider a.imgLink {
+#sliderDesigner a.imgLink {
 	z-index:2;
 	display:none;position:absolute;
 	top:0px;left:0px;border:0;padding:0;margin:0;
@@ -83,7 +83,7 @@ div.mc-caption a {
 }
 
 
-/* ------ built-in navigation bullets wrapper that is relative to the #slider ------*/
+/* ------ built-in navigation bullets wrapper that is relative to the #sliderDesigner ------*/
 div.navBulletsWrapper  {
 	display:none;
 }
@@ -142,7 +142,7 @@ div.navBulletsWrapper  {
 
 
 /* --------- Others ------- */
-#slider 
+#sliderDesigner 
 {
 	transform: translate3d(0,0,0);
     -ms-transform:translate3d(0,0,0);

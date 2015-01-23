@@ -756,7 +756,8 @@ $(".btnBackGlImgs").click(function (event) {
     pcL29_pcRestore(4); spPanel = ".btnBackFromImgs ";
 });
 $(".btnQuickText").click(function (event) {
-    $("#resultsQText").css("left", "-400px");
+    //$(".stage3").css("width", "20px");
+    //$("#resultsQText").css("display", "none");
     
 });
 $(".btnIllustrations").click(function (event) {
@@ -1069,7 +1070,9 @@ $(".returnToLib").click(function (event) {
     } else if (imgLoaderSection == 2) {
         $(".text").click();
     } else {
-        $(".text").click();
+        $('.btnAdd').click();
+        $('.btnAFrames').click();
+        $(".btnIllustrations").click();
     }
 });
 $(".returnToLayers").click(function (event) {
