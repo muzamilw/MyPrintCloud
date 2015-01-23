@@ -66,6 +66,7 @@ namespace MPC.Implementation.MISServices
         private readonly IStateRepository stateRepository;
         private readonly ISectionFlagRepository sectionFlagRepository;
         private readonly IItemProductDetailRepository itemProductDetailRepository;
+        private readonly ICompanyDomainRepository companyDomainRepository;
 
         #endregion
 
@@ -238,6 +239,60 @@ namespace MPC.Implementation.MISServices
                 foreach (var companyCMYKColorsItem in company.CompanyCMYKColors)
                 {
                     companyCmykColorRepository.Update(companyCMYKColorsItem);
+                }
+            }
+            #endregion
+            return company;
+        }
+        private Company UpdateCompanyDomain(Company company)
+        {
+            var companyDbVersion = companyRepository.Find(company.CompanyId);
+            #region Company Domain
+            //Add Company Domain
+            if (company.CompanyDomains != null)
+            {
+                foreach (var item in company.CompanyDomains)
+                {
+                    if (companyDbVersion.CompanyDomains.All(x => x.CompanyDomainId != item.CompanyDomainId && x.CompanyId != item.CompanyId))
+                    {
+                        item.CompanyId = company.CompanyId;
+                        companyDbVersion.CompanyDomains.Add(item);
+                    }
+                }
+            }
+            //find missing items
+
+            List<CompanyDomain> missingCompanyDomains = new List<CompanyDomain>();
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            if (companyDbVersion.CompanyDomains != null)
+            {
+
+
+                foreach (CompanyDomain dbversionCompanyDomain in companyDbVersion.CompanyDomains)
+                {
+                    if (company.CompanyDomains != null && company.CompanyDomains.All(x => x.CompanyDomainId != dbversionCompanyDomain.CompanyDomainId && x.CompanyId != dbversionCompanyDomain.CompanyDomainId))
+                    {
+                        missingCompanyDomains.Add(dbversionCompanyDomain);
+                    }
+                }
+
+                //remove missing items
+                foreach (CompanyDomain missingCompanyDomain in missingCompanyDomains)
+                {
+
+                    CompanyDomain dbVersionMissingItem = companyDbVersion.CompanyDomains.First(x => x.CompanyDomainId == missingCompanyDomain.CompanyDomainId && x.CompanyId == missingCompanyDomain.CompanyId);
+                   
+                    companyDbVersion.CompanyDomains.Remove(dbVersionMissingItem);
+                    companyDomainRepository.Delete(dbVersionMissingItem);
+                    
+                }
+            }
+            if (company.CompanyDomains != null)
+            {
+                //updating Company Domains
+                foreach (var companyDomain in company.CompanyDomains)
+                {
+                    companyDomainRepository.Update(companyDomain);
                 }
             }
             #endregion
@@ -667,6 +722,8 @@ namespace MPC.Implementation.MISServices
             var companyToBeUpdated = UpdateRaveReviewsOfUpdatingCompany(companySavingModel.Company);
             companyToBeUpdated = UpdatePaymentGatewaysOfUpdatingCompany(companyToBeUpdated);
             companyToBeUpdated = UpdateCmykColorsOfUpdatingCompany(companyToBeUpdated);
+            companyToBeUpdated = UpdateCompanyDomain(companyToBeUpdated);
+            //
             BannersUpdate(companySavingModel.Company, companyDbVersion);
             UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
             UpdateAddressOfUpdatingCompany(companySavingModel);
@@ -1715,7 +1772,8 @@ namespace MPC.Implementation.MISServices
         ICountryRepository countryRepository,
         IStateRepository stateRepository,
         ISectionFlagRepository sectionFlagRepository,
-        IItemProductDetailRepository itemProductDetailRepository)
+        IItemProductDetailRepository itemProductDetailRepository,
+            ICompanyDomainRepository companyDomainRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
@@ -1757,6 +1815,7 @@ namespace MPC.Implementation.MISServices
             this.stateRepository = stateRepository;
             this.sectionFlagRepository = sectionFlagRepository;
             this.itemProductDetailRepository = itemProductDetailRepository;
+            this.companyDomainRepository = companyDomainRepository;
 
         }
         #endregion

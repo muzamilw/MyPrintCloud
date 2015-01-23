@@ -58,66 +58,66 @@ define("stores/stores.viewModel",
                     productPriorityRadioOption = ko.observable("1"),
                     //#endregion
 
-                //#region ________ O B S E R V A B L E S   A R R A Y S___________
-                //stores List
-                stores = ko.observableArray([]),
-                //system Users
-                systemUsers = ko.observableArray([]),
-                //Tab User And Addressed, Addresses Section Company Territories Filter
-                addressCompanyTerritoriesFilter = ko.observableArray([]),
-                contactCompanyTerritoriesFilter = ko.observableArray([]),
-                //Addresses to be used in store users shipping and billing address
-                allCompanyAddressesList = ko.observableArray([]),
-                //Company Banners
-                companyBanners = ko.observableArray([]),
-                //Cms Pages For Store Layout DropDown
-                cmsPagesForStoreLayout = ko.observableArray([]),
-                //Roles
-                roles = ko.observableArray([]),
-                //RegistrationQuestions
-                registrationQuestions = ko.observableArray([]),
-                //Filetered Company Bannens List
-                filteredCompanyBanners = ko.observableArray([]),
-                //Company Banner Set List
-                companyBannerSetList = ko.observableArray([]),
-                //Page Categories
-                pageCategories = ko.observableArray([]),
-                //Payment Methods
-                paymentMethods = ko.observableArray([]),
-                //Email Events
-                emailEvents = ko.observableArray([]),
-                //Emails
-                emails = ko.observableArray([]),
-                //Widgets List
-                widgets = ko.observableArray([]),
-                //Page Skin Widgets
-                pageSkinWidgets = ko.observableArray([]),
-                //All widgets list for pages (on page change added to it all widget list )
-                allPagesWidgets = ko.observableArray([]),
-                //parent Categories Used in Products Add/Edit
-                parentCategories = ko.observableArray([]),
+                    //#region ________ O B S E R V A B L E S   A R R A Y S___________
+                    //stores List
+                    stores = ko.observableArray([]),
+                    //system Users
+                    systemUsers = ko.observableArray([]),
+                    //Tab User And Addressed, Addresses Section Company Territories Filter
+                    addressCompanyTerritoriesFilter = ko.observableArray([]),
+                    contactCompanyTerritoriesFilter = ko.observableArray([]),
+                    //Addresses to be used in store users shipping and billing address
+                    allCompanyAddressesList = ko.observableArray([]),
+                    //Company Banners
+                    companyBanners = ko.observableArray([]),
+                    //Cms Pages For Store Layout DropDown
+                    cmsPagesForStoreLayout = ko.observableArray([]),
+                    //Roles
+                    roles = ko.observableArray([]),
+                    //RegistrationQuestions
+                    registrationQuestions = ko.observableArray([]),
+                    //Filetered Company Bannens List
+                    filteredCompanyBanners = ko.observableArray([]),
+                    //Company Banner Set List
+                    companyBannerSetList = ko.observableArray([]),
+                    //Page Categories
+                    pageCategories = ko.observableArray([]),
+                    //Payment Methods
+                    paymentMethods = ko.observableArray([]),
+                    //Email Events
+                    emailEvents = ko.observableArray([]),
+                    //Emails
+                    emails = ko.observableArray([]),
+                    //Widgets List
+                    widgets = ko.observableArray([]),
+                    //Page Skin Widgets
+                    pageSkinWidgets = ko.observableArray([]),
+                    //All widgets list for pages (on page change added to it all widget list )
+                    allPagesWidgets = ko.observableArray([]),
+                    //parent Categories Used in Products Add/Edit
+                    parentCategories = ko.observableArray([]),
 
-                selectedWidgetsList = ko.observableArray([]),
+                    selectedWidgetsList = ko.observableArray([]),
 
-                //#endregion
+                    //#endregion
 
-                // Editor View Model
-                editorViewModel = new ist.ViewModel(model.StoreListView),
-                //Selected store
-                selectedStoreListView = editorViewModel.itemForEditing,
+                    // Editor View Model
+                    editorViewModel = new ist.ViewModel(model.StoreListView),
+                    //Selected store
+                    selectedStoreListView = editorViewModel.itemForEditing,
 
-                //Template To Use
-                templateToUse = function (store) {
-                    return (store === selectedStore() ? 'itemStoreTemplate' : 'itemStoreTemplate');
-                },
-                app = sammy(function () {
-                    //this.get("#/byId/:raMainId", function () {
-                    this.get(":url", function () {
-                        //load(this.params["raMainId"]);
-                        toastr.success(this.params["url"]);
-                    });
-                }),
-                     
+                    //Template To Use
+                    templateToUse = function (store) {
+                        return (store === selectedStore() ? 'itemStoreTemplate' : 'itemStoreTemplate');
+                    },
+                    app = sammy(function () {
+                        //this.get("#/byId/:raMainId", function () {
+                        this.get(":url", function () {
+                            //load(this.params["raMainId"]);
+                            toastr.success(this.params["url"]);
+                        });
+                    }),
+
                     // Select Company Domain
                     selectCompanyDomain = function (companyDomain) {
                         if (selectedCompanyDomainItem() !== companyDomain) {
@@ -126,31 +126,52 @@ define("stores/stores.viewModel",
                     },
                     // Template Chooser
                     templateToUseCompanyDomain = function (companyDomain) {
-                        if (selectedStore().companyDomains.length > 0) {
-                            
+
+                        if (selectedStore().companyDomains().length > 0 && selectedStore().companyDomains()[selectedStore().companyDomains().length - 1] == companyDomain) {
+                            return 'itemCompanyDomainTemplate';
                         }
                         return (companyDomain === selectedCompanyDomainItem() ? 'editCompanyDomainTemplate' : 'itemCompanyDomainTemplate');
                     },
                     //Delete Company Domain
                     onDeleteCompanyDomainItem = function (companyDomain) {
+                        if (selectedStore().companyDomains().length > 0 && selectedStore().companyDomains()[selectedStore().companyDomains().length - 1] == companyDomain) {
+                            return;
+                        }
                         selectedStore().companyDomains.remove(companyDomain);
                     },
                     //Create New Company Domain
                     createCompanyDomainItem = function () {
 
                         //if (selectedStore().companyDomains().length > 0) {
-                            var companyDomain = new model.CompanyDomain();
-                            selectedCompanyDomainItem(companyDomain);
-                            selectedStore().companyDomains.splice(0, 0, companyDomain);
+                        var companyDomain = new model.CompanyDomain();
+                        selectedCompanyDomainItem(companyDomain);
+                        selectedStore().companyDomains.splice(0, 0, companyDomain);
                         //}
-                        
+
                         //if (costItem !== undefined && costItem !== null && !costItem.isValid()) {
                         //    costItem.errors.showAllMessages();
                         //    selectedCostItem(costItem);
                         //    flag = false;
                         //}
-                        
+
                     },
+                    //Function to maintain check that first company domain is correct as Web Access Code
+                    maintainCompanyDomain = ko.computed(function () {
+                        if (selectedStore() && selectedStore().webAccessCode() != undefined) {
+                            if (selectedStore().companyDomains().length == 0) {
+                                selectedStore().companyDomains.splice(0, 0, new model.CompanyDomain());
+                                //todo :- sammy key work
+                                selectedStore().companyDomains()[0].domain(selectedStore().webAccessCode());
+                            }
+                            else if (selectedStore().companyDomains().length > 0) {
+                                _.each(selectedStore().companyDomains(), function (companyDomain) {
+                                    if (companyDomain.isMandatoryDomain()) {
+                                        companyDomain.domain(selectedStore().webAccessCode());
+                                    }
+                                });
+                            }
+                        }
+                    });
                 //#region _____________________  S T O R E ____________________
 
                 //getItemsForWidgets
@@ -254,13 +275,13 @@ define("stores/stores.viewModel",
                         selectedStore().storeImageName(file.name);
                         //selectedProductCategoryForEditting().fileType(data.imageType);
                     },
-                    //store Backgroud Image Upload Callback
+                //store Backgroud Image Upload Callback
                  storeBackgroudImageUploadCallback = function (file, data) {
                      selectedStore().storeBackgroudImageImageSource(data);
                      selectedStore().storeBackgroudImageFileName(file.name);
                  },
 
-                 //Restore sprite Image
+                //Restore sprite Image
                  restoreSpriteImage = function () {
                      selectedStore().userDefinedSpriteImageSource(selectedStore().defaultSpriteImageSource());
                      selectedStore().userDefinedSpriteImageFileName("default.jpg");
@@ -2647,7 +2668,8 @@ define("stores/stores.viewModel",
                     selectedCompanyDomainItem: selectedCompanyDomainItem,
                     selectCompanyDomain: selectCompanyDomain,
                     onDeleteCompanyDomainItem: onDeleteCompanyDomainItem,
-                    createCompanyDomainItem: createCompanyDomainItem
+                    createCompanyDomainItem: createCompanyDomainItem,
+                    maintainCompanyDomain: maintainCompanyDomain
                 };
             })()
         };
