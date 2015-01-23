@@ -1784,10 +1784,17 @@ namespace MPC.Implementation.WebStoreServices
         }
 
         // called from designer, all the units are converted to pixel before sending  // added by saqib ali
-        public Template GetTemplateInDesigner(long productID)
+        public Template GetTemplateInDesigner(long productID,long categoryIdv2,double  height, double width)
         {
-            var product = _templateRepository.GetTemplate(productID, true);
-
+            Template product = null;
+            if (productID == 0)
+            {
+                product = _templateRepository.CreateTemplate(productID, categoryIdv2, height, width);
+            }
+            else
+            {
+                product = _templateRepository.GetTemplate(productID, true);
+            }
             product.PDFTemplateHeight = DesignerUtils.PointToPixel(product.PDFTemplateHeight.Value);
             product.PDFTemplateWidth = DesignerUtils.PointToPixel(product.PDFTemplateWidth.Value);
             product.CuttingMargin = DesignerUtils.PointToPixel(product.CuttingMargin.Value);

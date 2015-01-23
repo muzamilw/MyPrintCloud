@@ -641,17 +641,16 @@ function fu11() {
         // StartLoader();   dont need to start or stop loader because it is just a save operation
         var jsonObjects = JSON.stringify(QTD, null, 2);
         var to;
-        to = "../services/Webstore.svc/update/";
+        to = "/designerapi/Template/SaveQuickText/";
         var options = {
             type: "POST",
             url: to,
             data: jsonObjects,
-            contentType: "text/plain;",
-            dataType: "json",
+            contentType: "application/json",
             async: true,
             success: function (response) {
             },
-            error: function (msg) { alert("Error : " + msg); }
+            error: function (msg) { alert("Error occured "); console.log(msg); }
         };
         var returnText = $.ajax(options).responseText;
         // StopLoader();

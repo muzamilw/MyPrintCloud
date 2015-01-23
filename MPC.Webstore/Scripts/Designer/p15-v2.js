@@ -94,8 +94,8 @@ function fu03() {
    });
 }
 function fu04() {
-    //$.getJSON("services/TemplateSvc/TemplateV2/" + tID + "," + cID + "," + TempHMM + "," + TempWMM,
-    $.getJSON("/designerapi/Template/GetTemplate/" + tID ,
+    $.getJSON("/designerapi/Template/GetTemplate/" + tID + "/" + cID + "/" + TempHMM + "/" + TempWMM,
+    //$.getJSON("/designerapi/Template/GetTemplate/" + tID ,
    function (DT) {
        DT.ProductID = DT.ProductId;
        $.each(DT.TemplatePages, function (i, IT) {

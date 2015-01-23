@@ -22,7 +22,7 @@ $('#imageUploader').change(function () {
     {
         uploadPath += "/" + tID;
     }
-    var url = uploadPath;
+    var url = "Designer/" + uploadPath;
     while (url.indexOf('/') != -1)
         url = url.replace("/", "__");
     
@@ -86,7 +86,8 @@ $('#fontUploader').change(function () {
         return false;
     }
     StartLoader();
-    var url = "Organisation" + ogranisationId + "/WebFonts/" + CustomerID;
+    var url = "Designer/" + "Organisation" + ogranisationId + "/WebFonts/" + CustomerID;
+
     while (url.indexOf('/') != -1)
         url = url.replace("/", "__");
     var files = $("#fontUploader").get(0).files;
