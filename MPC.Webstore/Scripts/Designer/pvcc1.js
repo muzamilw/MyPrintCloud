@@ -8,7 +8,7 @@ var cIDv2 = 0;
 var tID = 0;
 var temp;
 var CustomerID = 0;
-var ogranisationId = 0;
+var organisationId = 0;
 var printCropMarks = false;
 var printWaterMarks = false;
 var orderCode = null;
@@ -141,17 +141,20 @@ var lAObj = 0;
 var spPanel = "";
 var spBkPanel = "";
 var previewUrl = "/designerapi/Template/Preview/";
+var productionFolderPath = "";
 function buildParams() {
   
-    printCropMarks = locVars[locVars.length - 3];
-    printWaterMarks = locVars[locVars.length - 2];
-    CustomerName =parseInt(  locVars[locVars.length - 7]);
-    tID = parseInt(locVars[locVars.length - 9]);
-    IsCalledFrom =parseInt(  locVars[locVars.length - 5]);
-    IsEmbedded = locVars[locVars.length - 1];
-    CustomerID = parseInt( locVars[locVars.length - 7]);
-    ContactID =parseInt(  locVars[locVars.length - 6]);
-    ogranisationId = parseInt( locVars[locVars.length - 4]);
-    cIDv2 =parseInt( locVars[locVars.length - 10]);
-  
+	printCropMarks = locVars[locVars.length - 3];
+	printWaterMarks = locVars[locVars.length - 2];
+	CustomerName =parseInt(  locVars[locVars.length - 7]);
+	tID = parseInt(locVars[locVars.length - 9]);
+	IsCalledFrom =parseInt(  locVars[locVars.length - 5]);
+	IsEmbedded = locVars[locVars.length - 1];
+	CustomerID = parseInt( locVars[locVars.length - 7]);
+	ContactID =parseInt(  locVars[locVars.length - 6]);
+	organisationId = parseInt( locVars[locVars.length - 4]);
+	cIDv2 =parseInt( locVars[locVars.length - 10]);
+	productionFolderPath = "Organisation" + organisationId + "/Templates/";
+	ItemId = parseInt(locVars[locVars.length - 8]);
+	//alert(ItemId);
 }

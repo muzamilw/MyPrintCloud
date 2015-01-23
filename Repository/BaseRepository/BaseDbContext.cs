@@ -13,6 +13,7 @@ namespace MPC.Repository.BaseRepository
     /// <summary>
     /// Base Db Context. Implements Identity Db Context over Application User
     /// </summary>
+     [Serializable()]
     public sealed class BaseDbContext : DbContext
     {
         #region Private
@@ -498,6 +499,11 @@ namespace MPC.Repository.BaseRepository
         /// Item Stock Update History DbSet
         /// </summary>
         public DbSet<ItemStockUpdateHistory> ItemStockUpdateHistories { get; set; }
+
+        /// <summary>
+        /// Media Library DbSet
+        /// </summary>
+        public DbSet<MediaLibrary> MediaLibraries { get; set; }
 
         /// <summary>
         /// Clone Template Stored Procedure

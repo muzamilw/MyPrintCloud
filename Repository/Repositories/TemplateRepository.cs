@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using MPC.Models.Common;
 using System.IO;
+using MPC.Common;
 namespace MPC.Repository.Repositories
 {
     /// <summary>
@@ -56,14 +57,22 @@ namespace MPC.Repository.Repositories
         /// </summary>
         /// <param name="productID"></param>
         /// <returns></returns>
-        public Template GetTemplate(long productID)
+        /// 
+        public Template GetTemplate(long productID,bool loadPages)
         {
             db.Configuration.LazyLoadingEnabled = false;
-            var template = db.Templates.Include("TemplatePages").Where(g => g.ProductId == productID).SingleOrDefault();
+            Template template = null;
+            if (loadPages)
+            {
+                template = db.Templates.Include("TemplatePages").Where(g => g.ProductId == productID).SingleOrDefault();
+            } else
+            {
+                template = db.Templates.Where(g => g.ProductId == productID).SingleOrDefault();
+            }
             return template;
 
         }
-
+      
          // returns list of pages and objects along with template called while generating template pdf;
         public Template GetTemplate(long productID, out List<TemplatePage> listPages, out List<TemplateObject> listTemplateObjs)
         {
@@ -533,6 +542,41 @@ namespace MPC.Repository.Repositories
                 }
             }
         }
+        //called from designer for retail store // added by saqib ali 
+        public Template CreateTemplate(long productID,long categoryIdv2,double height,double width)
+        {
+            Template result = null;
+            if (productID == 0)
+            {
+                Template oTemplate = new Template();
+                oTemplate.Status = 1;
+                oTemplate.ProductName = "Untitled design";
+                oTemplate.ProductId = 0;
+                oTemplate.ProductCategoryId = categoryIdv2;
+                oTemplate.CuttingMargin = (DesignerUtils.MMToPoint(5));
+                oTemplate.PDFTemplateHeight =(DesignerUtils.MMToPoint(height));
+                oTemplate.PDFTemplateWidth = (DesignerUtils.MMToPoint(width));
+                db.Templates.Add(oTemplate);
+                db.SaveChanges();
+
+                TemplatePage tpage = new TemplatePage();
+                tpage.Orientation = 1;
+                tpage.PageType = 1;
+                tpage.PageNo = 1;
+                tpage.ProductId = oTemplate.ProductId;
+                tpage.BackGroundType = 2;
+                tpage.ColorC = 0;
+                tpage.ColorK = 0;
+                tpage.ColorM = 0;
+                tpage.ColorY = 0;
+                tpage.PageName = "Front";
+                db.TemplatePages.Add(tpage);
+                db.SaveChanges();
+                result = db.Templates.Include("TemplatePages").Where(g => g.ProductId == oTemplate.ProductId).SingleOrDefault();
+
+            }
+            return result;
+        }
         
         public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID, List<ProductCategoriesView> PCview)
         {
@@ -670,7 +714,7 @@ namespace MPC.Repository.Repositories
         public void populateTemplateInfo(long templateID, Item ItemRecc,out Template template,out List<TemplatePage> tempPages)
         {
             Template temp = new Template();
-            template = GetTemplate(templateID);
+            template = GetTemplate(templateID, false);
             tempPages = GetTemplatePagesByTemplateID(templateID);
             //using (GlobalTemplateDesigner.TemplateSvcSPClient pSc = new GlobalTemplateDesigner.TemplateSvcSPClient())
             //{

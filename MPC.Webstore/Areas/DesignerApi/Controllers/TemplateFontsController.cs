@@ -44,9 +44,10 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         }
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public HttpResponseMessage testSpFunction(long parameter1, long parameter2)
+        //customerID,organisationId,fontName,font display name;
+        public HttpResponseMessage uploadFontRecord(long parameter1, long parameter2,string parameter3,string parameter4)
         {
-             templateFontSvc.DeleteTemplateFonts(parameter1, parameter2);
+            templateFontSvc.InsertFontFile(parameter1, parameter2, parameter3, parameter4);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;
@@ -54,6 +55,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, "", formatter);
 
         }
+
         #endregion
     }
 }

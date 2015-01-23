@@ -13,7 +13,7 @@ namespace MPC.Interfaces.WebStoreServices
     {
         Template GetTemplate(long productID);
 
-        Template GetTemplateInDesigner(long productID);
+        Template GetTemplateInDesigner(long productID, long categoryIdv2, double height, double width, long organisationId);
 
         List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID);
         string GetTemplateNameByTemplateID(long tempID);
@@ -39,5 +39,8 @@ namespace MPC.Interfaces.WebStoreServices
         void populateTemplateInfo(long templateID, Item ItemRecc, out Template template, out List<TemplatePage> tempPages);
 
         string GenerateProof(DesignerPostSettings data);
+        QuickText GetContactQuickTextFields(long CustomerID, long ContactID);
+
+        bool UpdateQuickTextTemplateSelection(QuickText objQText);
     }
 }

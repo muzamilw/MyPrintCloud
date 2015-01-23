@@ -156,7 +156,7 @@ namespace MPC.Models.Common
 
     };
 
-    [Serializable]
+  
     public enum UploadFileTypes : int
     {
         Artwork,
@@ -266,5 +266,16 @@ namespace MPC.Models.Common
         BooleanQuestion = 2,
         MultipleChoiceQuestion = 3,
 
+    }
+    public enum ClientStatus : int
+    {
+        inProgress = 38,
+        completed = 37
+    }
+    public enum StockLogEvents
+    {
+        Ordered = 2,
+        ReachedThresholdLevel = 3,
+        BackOrder = 4
     }
 }

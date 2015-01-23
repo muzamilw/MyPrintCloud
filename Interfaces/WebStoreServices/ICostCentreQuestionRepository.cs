@@ -12,7 +12,7 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface ICostCentreQuestionRepository
     {
-        CostCentreQuestions LoadQuestion(int QuestionID);
+        CostCentreQuestion LoadQuestion(int QuestionID);
 
         List<CostCentreAnswer> LoadAnswer(int QuestionID);
     }

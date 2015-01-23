@@ -33,27 +33,28 @@ namespace MPC.Implementation.MISServices
 
         public CostCentre Add(CostCentre costcenter)
         {
-            _costCenterRepository.Add(costcenter);
-            _costCenterRepository.SaveChanges();
+           // _costCenterRepository.Add(costcenter);
+          //  _costCenterRepository.SaveChanges();
             return costcenter;
         }
 
         public CostCentre Update(CostCentre costcenter)
         {
-            _costCenterRepository.Update(costcenter);
-            _costCenterRepository.SaveChanges();
+           // _costCenterRepository.Update(costcenter);
+           // _costCenterRepository.SaveChanges();
             return costcenter;
         }
-        public bool Delete(int costcenterId)
+        public bool Delete(long costcenterId)
         {
-            _costCenterRepository.Delete(GetCostCentreById(costcenterId));
-            _costCenterRepository.SaveChanges();
+          //  _costCenterRepository.Delete(GetCostCentreById(costcenterId));
+          //  _costCenterRepository.SaveChanges();
             return true;
         }
 
-        public CostCentre GetCostCentreById(int id)
+        public CostCentre GetCostCentreById(long id)
         {
-            return _costCenterRepository.Find(id);
+            return null;
+          //  return _costCenterRepository.Find(id);
         }
         public CostCentersResponse GetUserDefinedCostCenters(CostCenterRequestModel request)
         {

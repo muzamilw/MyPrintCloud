@@ -105,7 +105,7 @@
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\ContactClaimValue.cs" />
     <Compile Include="Common\CostCentreMatrix.cs" />
-    <Compile Include="Common\CostCentreQuestions.cs" />
+    <Compile Include="Common\CostCentreQuestion.cs" />
     <Compile Include="Common\CostCentreResults.cs" />
     <Compile Include="Common\DesignerDamImageWrapper.cs" />
     <Compile Include="Common\CostCentreResource.cs" />
@@ -168,6 +168,7 @@
     <Compile Include="DomainModels\ListingLink.cs" />
     <Compile Include="DomainModels\ListingOFI.cs" />
     <Compile Include="DomainModels\ListingVendor.cs" />
+    <Compile Include="DomainModels\MediaLibrary.cs" />
     <Compile Include="DomainModels\Phrase.cs" />
     <Compile Include="DomainModels\PhraseField.cs" />
     <Compile Include="DomainModels\ProductCategoriesView.cs" />

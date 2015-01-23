@@ -33,6 +33,9 @@ namespace MPC.Implementation.WebStoreServices
                 if (objFonts.FontPath != null)
                 {
                     path = objFonts.FontPath;
+                    if(path.Contains("Organisation" + OrganisationID.ToString() + "/WebFonts/")) {
+                        path = path.Replace("Organisation" + OrganisationID.ToString() + "/WebFonts/", "");
+                    }
                 }
                 var drURL = "MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/WebFonts/" ;
 
@@ -62,7 +65,31 @@ namespace MPC.Implementation.WebStoreServices
         {
            return _templateFontRepository.GetFontList();
         }
+        public void InsertFontFile(long customerId, long organisationId, string FontName,string fontDisplayName)
+        {
+            try
+            {
+                string path = "Organisation" + organisationId + "/WebFonts/" + customerId + "/";
+                string fileNameWithoutExt = System.IO.Path.GetFileNameWithoutExtension(FontName);
+                var FontObj = new TemplateFont();
+                FontObj.FontName = fontDisplayName;
+                FontObj.FontFile = fileNameWithoutExt;
+                FontObj.FontDisplayName = fontDisplayName;
+                FontObj.CustomerId = customerId;
+                FontObj.IsPrivateFont = true;
+                FontObj.IsEnable = true;
+                FontObj.FontPath = path;
+                _templateFontRepository.InsertFontFile(FontObj);
 
+
+                
+            }
+            catch (Exception ex)
+            {
+                //AppCommon.LogException(ex);
+                throw ex;
+            }
+        }
         #endregion
     }
 }

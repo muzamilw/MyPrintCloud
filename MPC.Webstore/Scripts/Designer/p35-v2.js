@@ -1,13 +1,13 @@
 ﻿$(".search").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
     $("#objectPanel").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage1");
-   
+
     if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
     }
     canvas.discardActiveObject();
-   
+
 });
 $(".layout").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
@@ -39,11 +39,11 @@ $("#btnAdd").click(function (event) {
         $("#FrontBackOptionPanal").css("display", "none");
     }
     if (canvas._activeObject) {
-        if (canvas._activeObject.type == "text" || canvas._activeObject.type == "i-text") {
+        if (canvas._activeObject.type != "image") {
             canvas.discardActiveObject();
         }
-        
-}
+
+    }
     //var D1AO = canvas.getActiveObject();
     //var D1AG = canvas.getActiveGroup();
     //if (D1AG) canvas.discardActiveGroup();
@@ -97,7 +97,7 @@ $("#BtnCopyObjImgRetail").click(function (event) {
 });
 $("#btnDelImgRetail").click(function () {
     pcL21();
-   
+
 });
 $("#BtnImgScaleINRetail").click(function (event) {
     pcL14();
@@ -270,7 +270,7 @@ $("#LockPositionImg").click(function () {
 $("#LockImgProperties").click(function () {
 
     var thisCheck = $(this);
-   
+
     var D1AO = canvas.getActiveObject();
     if (thisCheck.is(':checked')) {
         D1AO.IsTextEditable = true;
@@ -362,10 +362,10 @@ function g1_(D1AO) {
         $("#inputPositionX").spinner("option", "disabled", true);
         $("#inputPositionY").spinner("option", "disabled", true);
 
-         //=============
-     
+        //=============
+
     }
- 
+
     //if ((IsEmbedded && (IsCalledFrom == 4)) || (IsEmbedded && (IsCalledFrom == 3))) {
     //    $("#LockPositionImg").css("visibility", "hidden");
     //    $("#lblLockPositionImg").css("visibility", "hidden");
@@ -374,7 +374,7 @@ function g1_(D1AO) {
     //    $("#BtnPrintImage").css("display", "none");
     //    $("#lblBtnPrintImage").css("display", "none");
     //    $("#objPropertyPanel").css("height", "330px");
-       
+
     //}
 }
 
@@ -382,8 +382,7 @@ function g1(D1AO) {
     $("#BtnSearchTxt").removeAttr("disabled");
     if (IsCalledFrom == 3) {
         $("#BtnSelectFontsRetail").fontSelector('option', 'font', D1AO.get('fontFamily'));
-    } else
-    {
+    } else {
         $("#BtnSelectFonts").fontSelector('option', 'font', D1AO.get('fontFamily'));
     }
     $("#BtnFontSize").val(k13(D1AO.get('fontSize')));
@@ -624,7 +623,7 @@ $("#BtnImageArrangeOrdr1Retail").click(function () {
 //}
 //document.getElementById('btnDeleteTxt').onclick = function (ev) {
 //    pcL03();
-  
+
 //}
 //document.getElementById('BtnBoldTxtRetail').onclick = function (ev) {
 //    pcL05();
@@ -722,7 +721,7 @@ $(".freeBackgrounds").click(function (event) {
     fu13(2, 2, 1, 1);
     pcL29_pcMove(7);
     spBkPanel = ".btnBkBkimgs";
-}); 
+});
 $(".btnBkBkimgs").click(function (event) {
     fu13(2, 2, 1, 1);
     pcL29_pcRestore(7); spBkPanel = "";
@@ -739,7 +738,7 @@ $(".myBackgrounds").click(function (event) {
     fu13(2, 2, 1, 2);
     pcL29_pcMove(7);
     spBkPanel = ".btnBkmyBk";
-}); 
+});
 $(".templateBackgrounds").click(function (event) {
     fu13(2, 2, 1, 3);
     pcL29_pcMove(7); spBkPanel = ".btnBkTempBk";
@@ -804,7 +803,7 @@ $(".btnAtext").click(function (event) {
     fu13(2, 4, 1, 2);
     pcL29_pcMove(1);
     spPanel = ".btnBackFromTxt";
-    
+
 });
 $(".btnBackFromImgs").click(function (event) {
     fu13(2, 4, 1, 3);
@@ -813,7 +812,7 @@ $(".btnBackFromImgs").click(function (event) {
 $(".btnBackFromTxt").click(function (event) {
     fu13(2, 4, 1, 2);
     pcL29_pcRestore(1);
-    
+
 });
 $(".btnBackFromShapes").click(function (event) {
     fu13(2, 4, 1, 4);
@@ -823,9 +822,9 @@ $(".btnAFrames").click(function (event) {
     fu13(2, 4, 1, 3);
     pcL29_pcMove(2);
 
-        spPanel = ".btnBackFromImgs";
+    spPanel = ".btnBackFromImgs";
 
-    
+
 });
 //$(".btnAShapes").click(function (event) {
 //    pcL29_pcMove(1);
@@ -834,12 +833,12 @@ $(".btnAFrames").click(function (event) {
 //    //setTimeout(function () {
 //    //    fu13(2, 5, 1, 4);
 //    //}, 20);
-    
+
 //});
 $(".btnAShapes").click(function (event) {
     fu13(2, 4, 1, 4);
     pcL29_pcMove(1);
-        spPanel = ".btnBackFromShapes";
+    spPanel = ".btnBackFromShapes";
 
 });
 
@@ -912,11 +911,11 @@ $('#btnReplaceImage').click(function () {
     //pcL29_pcMove(2);
     $('.btnAdd').click();
     $('.btnAFrames').click();
-    
+
 });
 $('#editorLogo').click(function () {
     StartLoader("Saving and generating preview, Please wait...");
- //   parent.Next(); // webstore caller function
+    //   parent.Next(); // webstore caller function
     fu12("preview", $("#txtTemplateTitle").val());
     return false;
 });
@@ -938,9 +937,9 @@ $('#BtnRedo').click(function (event) {
 
 });
 $("#btnNextProofing").click(function (event) {
-    
+
     var email1 = $("input[name=userEmail1]").val();
-    var email2 = $("input[name=userEmail2]").val(); 
+    var email2 = $("input[name=userEmail2]").val();
     var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     if (email1 != "") {
         if (!filter.test(email1)) {
@@ -955,13 +954,27 @@ $("#btnNextProofing").click(function (event) {
         }
     }
     $(".loadingLayer").css("z-index", "10000001");
-    $(".firstLoadingMsg").css("display", "none"); 
+    $(".firstLoadingMsg").css("display", "none");
     if ($("#chkCheckSpelling").is(':checked')) {
         StartLoader("Saving your design, please wait...");
-        parent.email1 = email1;
-        parent.email2 = email2;
-        parent.IsRoundedCorners = IsBCRoundCorners;
-        parent.SaveAttachments();
+
+        //var emailParameters = "";
+        //if (email1 != "") {
+        //    emailParameters += "&pE1=" + email1;
+        //}
+        //if (email2 != "") {
+        //    emailParameters += "&pE2=" + email2;
+        //}
+        //emailParameters += "&IsRC=" + IsRoundedCorners;
+        var designerName = $('#txtTemplateTitle').val();
+        alert(designerName);
+        while (designerName.indexOf('/') != -1)
+            designerName = designerName.replace("/", "__");
+        $.getJSON("/designerapi/Template/SaveDesignAttachments/" + tID + "/" + ItemId + "/" + CustomerID + "/" + designerName + "/designer/" + organisationId,
+          function (DT) {
+              alert(DT);
+              window.location.href = dt// + "&CategoryId=" + CategoryId + "&ProductName=" + document.getElementById('txtDesignName').value + emailParameters;
+          });
     } else {
         alert(ssMsg);
         return false;
@@ -1029,13 +1042,13 @@ $("#btnUpdateImgProp").click(function (event) {
     $.getJSON("services/imageSvcDam/" + imgSelected + "," + imType + "," + title + "," + desc + "," + keywords,
 	function (DT) {
 	    StopLoader();
-	   if (IsCalledFrom == 3) {
+	    if (IsCalledFrom == 3) {
 	        if (imType == 15 || imType == 1) {
 	            k27();
 	        }
 	    }
 	    if (imgLoaderSection == 1) {
-	            $(".search").click();
+	        $(".search").click();
 	    } else if (imgLoaderSection == 2) {
 	        $(".backgrounds").click();
 	    } else {
@@ -1073,10 +1086,10 @@ $("#btnDeleteImg").click(function (event) {
 
 $('#inputSearchTImg').bind('keyup', function (e) {
     if (e.keyCode === 13) {
-        k22(); 
-        k25Ills(); 
-        k25Frames(); 
-        k25Banners(); 
+        k22();
+        k25Ills();
+        k25Frames();
+        k25Banners();
         k22Sh();
         k22Log();
         k19();
@@ -1088,10 +1101,10 @@ $('#inputSearchTImg').bind('keyup', function (e) {
 });
 $('#inputSearchTBkg').bind('keyup', function (e) {
     if (e.keyCode === 13) {
-        k19Bk(); 
-        k19Bk(); 
-        k25Bk(); 
-     
+        k19Bk();
+        k19Bk();
+        k25Bk();
+
         if (!isBkPaCl) {
             $(".freeBackgrounds").click();
         }
@@ -1100,8 +1113,8 @@ $('#inputSearchTBkg').bind('keyup', function (e) {
 });
 $('#inputSearchPImg').bind('keyup', function (e) {
     if (e.keyCode === 13) {
-        k25(); 
-        k22LogP(); 
+        k25();
+        k22LogP();
         if (!isUpPaCl) {
             $(".yourUploads").click();
         }
@@ -1132,14 +1145,14 @@ $('body').keyup(function (event) {
 
 });
 
-$("#uploadImages , #uploadImagesMB, #uploadLogos").click(function (event) {
-    isBKpnl = false;
-    $("#uploadBackground").click();
-});
-$("#uploadBackgroundMn").click(function (event) {
-    isBKpnl = true;
-     $("#uploadBackground").click();
-});
+//$("#uploadImages , #uploadImagesMB, #uploadLogos").click(function (event) {
+//    isBKpnl = false;
+//    $("#uploadBackground").click();
+//});
+//$("#uploadBackgroundMn").click(function (event) {
+//    isBKpnl = true;
+//    $("#uploadBackground").click();
+//});
 
 $("#BtnAlignObjCenter").click(function (ev) {
     if (canvas.getActiveGroup()) {
@@ -1430,7 +1443,7 @@ $("#BtnBoldTxt").click(function (ev) {
     pcL05();
 });
 $("#BtnBulletedLstTxt").click(function (ev) {
-   
+
 });
 $("#BtnJustifyTxt1").click(function (ev) {
     pcL07();
@@ -1724,7 +1737,7 @@ $('#btnDeleteImage').click(function (event) {
 });
 //var removeSelectedEl = document.getElementById('btnDeleteImage');
 //removeSelectedEl.onclick = function () {
-   
+
 //};
 $("#clearBackground").click(function (event) {
     $(".bKimgBrowseCategories").removeClass("folderExpanded"); $(".bKimgBrowseCategories ul li").removeClass("folderExpanded");

@@ -13,6 +13,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using MPC.Common;
 using MPC.Models.Common;
+using System.Web;
 
 namespace MPC.Implementation.WebStoreServices
 {
@@ -312,7 +313,7 @@ namespace MPC.Implementation.WebStoreServices
                     string destPath = results[0] + "_thumb" + ext;
                     GenerateThumbNail(sourcePath, destPath, 98);
                 }
-                NewImgPath = "./MPC_Content/Designer/Organisation" + organisationID.ToString() + "/Templates/" + TemplateID.ToString() + "/" + fileName[fileName.Length - 1];
+                NewImgPath = "/Designer/Organisation" + organisationID.ToString() + "/Templates/" + TemplateID.ToString() + "/" + fileName[fileName.Length - 1];
                 int ImageWidth = 0,ImageHeight = 0;
                 if (!Path.GetExtension(fileName[fileName.Length - 1]).Contains("svg"))
                 {
@@ -353,7 +354,7 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     if (objBackground.ImageName != null && objBackground.ImageName != "")
                     {
-                        objBackground.BackgroundImageRelativePath = "MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/" + objBackground.ImageName;
+                        objBackground.BackgroundImageRelativePath = "/Designer/Organisation" + OrganisationID.ToString() + "/Templates/" + objBackground.ImageName;
                     }
 
                 }
@@ -401,6 +402,174 @@ namespace MPC.Implementation.WebStoreServices
             imgTitle = imgTitle.Replace("__", ",");
             imgDescription = imgDescription.Replace("__", ",");
             return _templateImagesRepository.UpdateImage(imageID, imgTitle, imgDescription, imgKeywords, imType);
+        }
+
+        public string InsertUploadedImageRecord(string imageName, long productId, int uploadedFrom, long contactId, long organisationId, int imageType, long contactCompanyID)
+        {
+            var result = "false";
+            System.Drawing.Image objImage = null;
+            // fileName = fileID;
+            try
+            {
+
+                bool isPdfBackground = false;
+                // string product = idOfObject1; productId
+                string ext = System.IO.Path.GetExtension(imageName);
+                //fileID += ext;
+                imageName = imageName.Replace("%20", " ");
+                bool isUploadedPDF = false; int bkPagesCount = 0;
+                List<TemplateBackgroundImage> uploadedPdfRecords = null;
+
+                if (productId != 0)
+                {
+                   // int productid = Convert.ToInt32(product);
+                    int ImageWidth = 0;
+                    int ImageHeight = 0;
+
+                    string imgpath =  "Organisation" + organisationId + "/Templates/";
+
+
+                    if (uploadedFrom == 1 || uploadedFrom == 2)
+                    {
+                        imgpath = "Organisation" + organisationId + "/Templates/" + "UserImgs/" + contactId; ;
+                    }
+                    else if (uploadedFrom == 3|| uploadedFrom == 4)
+                    {
+                        imgpath = "Organisation" + organisationId + "/Templates/" + "UserImgs/Retail/" + contactId;
+                    }
+                    string uploadPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + imgpath);
+
+                    if (!System.IO.Directory.Exists(uploadPath))
+                    {
+                        System.IO.Directory.CreateDirectory(uploadPath);
+                    }
+
+                    string RootPath = imgpath;
+                    imgpath += "/" + imageName;
+                    uploadPath += "/" + imageName;
+                   // string uploadPath = HttpContext.Current.Server.MapPath(imgpath);
+
+                    if (Path.GetExtension(uploadPath).Contains("pdf"))
+                    {
+                        //if (Convert.ToInt32(imageType) == 3)
+                        //{
+                        //    bkPagesCount = obj.generatePdfAsBackgroundDesigner(uploadPath, productId);
+                        //    isPdfBackground = true;
+                        //    result = "uploadedPDFBK";
+                        //}
+                        //else
+                        //{
+                        //    uploadedPdfRecords = obj.CovertPdfToBackgroundDesigner(uploadPath, productId, RootPath);
+                        //    isUploadedPDF = true;
+                        //}
+                    }
+
+                    string UploadPathForPDF = productId + "/";
+                    string Imname = productId + "/" + imageName;
+                    if (uploadedFrom == 1 || uploadedFrom == 2)
+                    {
+                        Imname = "UserImgs/" + contactId.ToString() + "/" + imageName;
+                        UploadPathForPDF = "UserImgs/" + contactId.ToString() + "/";
+                    }
+                    else if (uploadedFrom == 3 || uploadedFrom == 4)
+                    {
+                        Imname = "UserImgs/Retail/" + contactId.ToString() + "/" + imageName;
+                        UploadPathForPDF = "UserImgs/Retail/" + contactId.ToString() + "/";
+                    }
+                    List<TemplateBackgroundImage> listImages = new List<TemplateBackgroundImage>();
+                    if (isUploadedPDF)
+                    {
+                        foreach (TemplateBackgroundImage obj in uploadedPdfRecords)
+                        {
+                            var bgImg = new TemplateBackgroundImage();
+                            bgImg.Name = UploadPathForPDF + obj.Name;
+                            bgImg.ImageName = UploadPathForPDF + obj.Name;
+                            bgImg.ProductId = productId;
+
+                            bgImg.ImageWidth = obj.ImageWidth;
+                            bgImg.ImageHeight = obj.ImageHeight;
+
+                            bgImg.ImageType = Convert.ToInt32(imageType);
+                            bgImg.ImageTitle = imageName;
+                            bgImg.UploadedFrom = Convert.ToInt32(uploadedFrom);
+                            bgImg.ContactCompanyId = Convert.ToInt32(contactCompanyID);
+                            bgImg.ContactId = Convert.ToInt32(contactId);
+                            listImages.Add(bgImg);
+                            // result = bgImg.ID.ToString();
+                            result = "IsUploadedPDF";
+                            // generate thumbnail 
+                            string imgExt = Path.GetExtension(obj.Name);
+                            string sourcePath = HttpContext.Current.Server.MapPath("Designer/Products/" + UploadPathForPDF + obj.Name);
+                            //string ext = Path.GetExtension(uploadPath);
+                            string[] results = sourcePath.Split(new string[] { imgExt }, StringSplitOptions.None);
+                            string res = results[0];
+                            string destPath = res + "_thumb" + imgExt;
+                            GenerateThumbNail(sourcePath, destPath, 98);
+
+                        }
+                    }
+                    else
+                    {
+                        if (!Path.GetExtension(uploadPath).Contains("svg"))
+                        {
+                            using (objImage = System.Drawing.Image.FromFile(uploadPath))
+                            {
+                                float res = objImage.HorizontalResolution;
+                                if (res < 96)
+                                {
+                                    result = imageName;
+                                }
+                                ImageWidth = objImage.Width;
+                                ImageHeight = objImage.Height;
+                            }
+                        }
+                        var bgImg = new TemplateBackgroundImage();
+                        bgImg.Name = Imname;
+                        bgImg.ImageName = Imname;
+                        bgImg.ProductId = productId;
+
+                        bgImg.ImageWidth = ImageWidth;
+                        bgImg.ImageHeight = ImageHeight;
+
+                        bgImg.ImageType = Convert.ToInt32(imageType);
+                        bgImg.ImageTitle = imageName;
+                        bgImg.UploadedFrom = Convert.ToInt32(uploadedFrom);
+                        bgImg.ContactCompanyId = Convert.ToInt32(contactCompanyID);
+                        bgImg.ContactId = Convert.ToInt32(contactId);
+
+
+                        listImages.Add(bgImg);
+                      //  result = bgImg.ID.ToString();
+
+                        // generate thumbnail 
+                        if (!ext.Contains("svg"))
+                        {
+                           // Services.imageSvc objSvc = new Services.imageSvc();
+                            string sourcePath = uploadPath;
+                            //string ext = Path.GetExtension(uploadPath);
+                            string[] results = sourcePath.Split(new string[] { ext }, StringSplitOptions.None);
+                            string destPath = results[0] + "_thumb" + ext;
+                            GenerateThumbNail(sourcePath, destPath, 98);
+                        }
+                    }
+                    result =  _templateImagesRepository.insertImageRecord(listImages).ToString();
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                //AppCommon.LogException(ex);
+                throw ex;
+            }
+            finally
+            {
+                if (objImage != null)
+                {
+                    objImage.Dispose();
+                }
+
+            }
+            return result;
         }
         #endregion
     }

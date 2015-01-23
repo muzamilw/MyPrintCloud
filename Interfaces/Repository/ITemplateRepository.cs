@@ -9,7 +9,7 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface ITemplateRepository : IBaseRepository<Template, int>
     {
-        Template GetTemplate(long productID);
+        Template GetTemplate(long productID, bool loadPages);
 
         List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID, List<ProductCategoriesView> PCview);
         Template GetTemplate(long productID, out List<TemplatePage> listPages, out List<TemplateObject> listTemplateObjs);
@@ -26,5 +26,6 @@ namespace MPC.Interfaces.Repository
         long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName, out List<TemplatePage> objPages, long OrganisationID, out List<TemplateBackgroundImage> objImages);
         long SaveTemplateLocally(Template oTemplate, List<TemplatePage> oTemplatePages, List<TemplateObject> oTemplateObjects, List<TemplateBackgroundImage> oTemplateImages, List<TemplateFont> oTemplateFonts, long organisationID, out List<TemplateFont> fontsToDownload, int mode, long localTemplateID);
         void SaveTemplate(long productID, List<TemplatePage> listPages, List<TemplateObject> listObjects);
+        Template CreateTemplate(long productID,long categoryIdv2,double height,double width);
     }
 }

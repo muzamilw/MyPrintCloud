@@ -4,6 +4,7 @@ using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -522,27 +523,27 @@ namespace MPC.Implementation.WebStoreServices
 
                 bool bFileExists = false;
                 string FilePath = string.Empty;
-                if (oObject.ObjectType == 8 || oObject.ObjectType == 12)
-                {
-                    //logoPath = ""; //since path is already in filenm
-                   /// string[] vals;
-                    //FilePath = "";
-                    //if (oObject.ContentString.Contains("MPC_Content/"))
-                    //{
-                    //    vals = oObject.ContentString.Split(new string[] { "StoredImages/" }, StringSplitOptions.None);
-                    //    FilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/../StoredImages/" + vals[vals.Length - 1]);
-                    //}
-                    FilePath = logoPath + oObject.ContentString;
-                    bFileExists = System.IO.File.Exists(FilePath);
+                //if (oObject.ObjectType == 8 || oObject.ObjectType == 12)  // now place holders will be copied to template folder
+                //{
+                //    //logoPath = ""; //since path is already in filenm
+                //   /// string[] vals;
+                //    //FilePath = "";
+                //    //if (oObject.ContentString.Contains("MPC_Content/"))
+                //    //{
+                //    //    vals = oObject.ContentString.Split(new string[] { "StoredImages/" }, StringSplitOptions.None);
+                //    //    FilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/../StoredImages/" + vals[vals.Length - 1]);
+                //    //}
+                //    FilePath = logoPath + oObject.ContentString;
+                //    bFileExists = System.IO.File.Exists(FilePath);
 
-                }
-                else
-                {
+                //}
+                //else
+                //{
                     if (oObject.ContentString != "")
                         FilePath = oObject.ContentString;
                     FilePath = logoPath + "/" + FilePath;
                     bFileExists = System.IO.File.Exists(FilePath);
-                }
+               // }
                 //  else
                 //     filNm = oobject.LogoName;
 
@@ -619,26 +620,26 @@ namespace MPC.Implementation.WebStoreServices
                 oPdf.PageNumber = PageNo;
                 bool bFileExists = false;
                 string FilePath = string.Empty;
-                if (oObject.ObjectType == 8 || oObject.ObjectType == 12)
-                {
-                    //logoPath = "";
-                    //string[] vals;
-                    //FilePath = "";
-                    //if (oObject.ContentString.Contains("StoredImages/"))
-                    //{
-                    //    vals = oObject.ContentString.Split(new string[] { "StoredImages/" }, StringSplitOptions.None);
-                    //    FilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/../StoredImages/" + vals[vals.Length - 1]);
-                    //}
-                    FilePath = logoPath + oObject.ContentString;
-                    bFileExists = System.IO.File.Exists(FilePath);
-                }
-                else
-                {
+                //if (oObject.ObjectType == 8 || oObject.ObjectType == 12)
+                //{
+                //    //logoPath = "";
+                //    //string[] vals;
+                //    //FilePath = "";
+                //    //if (oObject.ContentString.Contains("StoredImages/"))
+                //    //{
+                //    //    vals = oObject.ContentString.Split(new string[] { "StoredImages/" }, StringSplitOptions.None);
+                //    //    FilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/../StoredImages/" + vals[vals.Length - 1]);
+                //    //}
+                //    FilePath = logoPath + oObject.ContentString;
+                //    bFileExists = System.IO.File.Exists(FilePath);
+                //}
+                //else
+                //{
                     if (oObject.ContentString != "")
                         FilePath = oObject.ContentString;
                     FilePath = logoPath + "/" + FilePath;
                     bFileExists = System.IO.File.Exists(FilePath);
-                }
+                //}
                 if (bFileExists)
                 {
                     img = new Bitmap(System.Drawing.Image.FromFile(FilePath, true));
@@ -1496,6 +1497,10 @@ namespace MPC.Implementation.WebStoreServices
         public readonly IProductCategoryRepository _ProductCategoryRepository;
         public readonly ITemplateBackgroundImagesService _templateBackgroundImagesService;
         public readonly ITemplateFontsService _templateFontService;
+        public readonly ICompanyRepository _companyRepository;
+        public readonly ICompanyContactRepository _contactRepository;
+        public readonly IOrganisationRepository _organisationRepository;
+        public readonly ITemplatePageService _templatePageService;
         // it will convert pdf to template pages and will preserve template objects and images 
         private bool CovertPdfToBackground(string physicalPath, long ProductID, long OrganisationID)
         {
@@ -1715,6 +1720,10 @@ namespace MPC.Implementation.WebStoreServices
 
                 string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/");
                 string fontsUrl = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/WebFonts/");
+                if(!Directory.Exists(drURL + productID ))
+                {
+                    Directory.CreateDirectory(drURL + productID);
+                }
                 List<TemplatePage> oTemplatePages = new List<TemplatePage>();
                 List<TemplateObject> oTemplateObjects = new List<TemplateObject>();
                 Template objProduct = _templateRepository.GetTemplate(productID, out oTemplatePages, out oTemplateObjects);
@@ -1748,13 +1757,16 @@ namespace MPC.Implementation.WebStoreServices
         
         #endregion
         #region constructor
-        public TemplateService(ITemplateRepository templateRepository, IProductCategoryRepository ProductCategoryRepository,ITemplateBackgroundImagesService templateBackgroundImages,ITemplateFontsService templateFontSvc)
+        public TemplateService(ITemplateRepository templateRepository, IProductCategoryRepository ProductCategoryRepository,ITemplateBackgroundImagesService templateBackgroundImages,ITemplateFontsService templateFontSvc,ICompanyRepository companyRepository, ICompanyContactRepository contactRepostiory,IOrganisationRepository organisationRepository,ITemplatePageService templatePageService)
         {
             this._templateRepository = templateRepository;
             this._ProductCategoryRepository = ProductCategoryRepository;
             this._templateBackgroundImagesService = templateBackgroundImages;
             this._templateFontService = templateFontSvc;
-
+            this._companyRepository = companyRepository;
+            this._contactRepository = contactRepostiory;
+            this._organisationRepository = organisationRepository;
+            this._templatePageService = templatePageService;
         }
         #endregion
 
@@ -1767,7 +1779,7 @@ namespace MPC.Implementation.WebStoreServices
         /// <returns></returns>
         public Template GetTemplate(long productID)
         {
-            var product= _templateRepository.GetTemplate(productID);
+            var product= _templateRepository.GetTemplate(productID,true);
             if (product.Orientation == 2) //rotating the canvas in case of vert orientation
             {
                 double tmp = product.PDFTemplateHeight.Value;
@@ -1778,10 +1790,18 @@ namespace MPC.Implementation.WebStoreServices
         }
 
         // called from designer, all the units are converted to pixel before sending  // added by saqib ali
-        public Template GetTemplateInDesigner(long productID)
+        public Template GetTemplateInDesigner(long productID,long categoryIdv2,double  height, double width,long organisationId)
         {
-            var product = _templateRepository.GetTemplate(productID);
-
+            Template product = null;
+            if (productID == 0)
+            {
+                product = _templateRepository.CreateTemplate(productID, categoryIdv2, height, width);
+               // _templatePageService.CreateBlankBackgroundPDFs(product.ProductId,Convert.ToDouble( product.PDFTemplateHeight),Convert.ToDouble( product.PDFTemplateWidth), 1, organisationId);
+            }
+            else
+            {
+                product = _templateRepository.GetTemplate(productID, true);
+            }
             product.PDFTemplateHeight = DesignerUtils.PointToPixel(product.PDFTemplateHeight.Value);
             product.PDFTemplateWidth = DesignerUtils.PointToPixel(product.PDFTemplateWidth.Value);
             product.CuttingMargin = DesignerUtils.PointToPixel(product.CuttingMargin.Value);
@@ -2264,17 +2284,117 @@ namespace MPC.Implementation.WebStoreServices
             List<TemplateObject> lstTemplatesObjects = objSettings.objects;
             return SaveTemplate(lstTemplatesObjects, objSettings.objPages, objSettings.organisationId, objSettings.printCropMarks, objSettings.printWaterMarks, objSettings.isRoundCornerrs);
         }
+
+        public QuickText GetContactQuickTextFields(long CustomerID, long ContactID)
+        {
+
+            QuickText oQuickText = null;
+            CompanyContact  oContact = _contactRepository.GetContactByID(ContactID);
+            if (oContact != null)
+            {
+
+                oQuickText = new QuickText();
+                oQuickText.Address1 = oContact.quickAddress1 ?? string.Empty;
+
+                oQuickText.Company = oContact.quickCompanyName ?? string.Empty;
+                oQuickText.CompanyMessage = oContact.quickCompMessage ?? string.Empty;
+                oQuickText.Email = oContact.quickEmail ?? string.Empty;
+                oQuickText.Fax = oContact.quickFax ?? string.Empty;
+                oQuickText.Name = oContact.quickFullName ?? string.Empty;
+                oQuickText.Telephone = oContact.quickPhone ?? string.Empty;
+                oQuickText.Title = oContact.quickTitle ?? string.Empty;
+                oQuickText.Website = oContact.quickWebsite ?? string.Empty;
+                //  oQuickText.LogoPath = curCustomer.Image ?? string.Empty;
+                oQuickText.CustomerID = CustomerID;
+                oQuickText.ContactID = ContactID;
+
+                oQuickText.MobileNumber = oContact.quickMobileNumber ?? string.Empty;
+                oQuickText.FacebookID = oContact.quickFacebookId ?? string.Empty;
+                oQuickText.TwitterID = oContact.quickTwitterId ?? string.Empty;
+                oQuickText.LinkedInID = oContact.quickLinkedInId ?? string.Empty;
+                oQuickText.OtherId = oContact.quickOtherId ?? string.Empty;
+
+            }
+            else
+                oQuickText = new QuickText();
+
+
+           return oQuickText;
+
+        }
+        public bool UpdateQuickTextTemplateSelection( QuickText objQText)
+        {
+            return _contactRepository.updateQuikcTextInfo(objQText.ContactID, objQText);
+
+        }
+
+        //public string GetConvertedSizeWithUnits(double heightInMM, double widthInMM, long productId,long organisationID)
+        //{
+
+        //    double h = Math.Round(Convert.ToDouble(heightInMM), 0);
+        //    double w = Math.Round(Convert.ToDouble(widthInMM), 0);
+        //    double height = h;
+        //    double width = w;
+        //    double scaledHeight = h;
+        //    double scaledWidth = w;
+        //    string resultDimentions = w.ToString() + " w *  " + h.ToString() + " h mm"; // current height or width 
+        //    var organisation = _organisationRepository.GetOrganizatiobByID(organisationID);
+        //    var template = _templateRepository.GetTemplate(productId, true);
+        //    //  string resultDisplaySize = "";
+        //    if (template != null)
+        //    {
+        //        scaledHeight = Convert.ToDouble(template.ScaleFactor);
+        //        scaledWidth = Convert.ToDouble(template.ScaleFactor);
+        //        if (scaledHeight == 0)
+        //        {
+        //            scaledHeight = 1;
+        //        }
+        //        if (scaledWidth == 0)
+        //        {
+        //            scaledWidth = 1;
+        //        }
+        //    }
+
+
+        //    if (organisation.SystemLengthUnit == 1)
+        //        {
+        //            scaledHeight *= height;
+        //            scaledWidth *= width;
+        //            resultDimentions = scaledWidth.ToString() + " w *  " + scaledHeight.ToString() + " h mm";
+        //            // double height = Utils.ConvertLength(Convert.ToDouble(heightInMM), Utils.LengthUnits.mm, BLL.Utils.LengthUnits.mm);
+        //        }
+        //    else if (organisation.SystemLengthUnit == 2)
+        //        {
+        //            height = DesignerUtils.ConvertLength(Convert.ToDouble(heightInMM), Util.LengthUnits.mm, BLL.Util.LengthUnits.cm);
+        //            width = Util.ConvertLength(Convert.ToDouble(widthInMM), Util.LengthUnits.mm, BLL.Util.LengthUnits.cm);
+        //            height = Math.Round(height, 3);
+        //            width = Math.Round(width, 3);
+        //            scaledHeight *= height;
+        //            scaledWidth *= width;
+        //            resultDimentions = scaledWidth + " w *  " + scaledHeight + " h cm";
+        //            //  resultDisplaySize = zoomedWidth.ToString() + " w *  " + zoomedHeight.ToString() + " h cm";
+        //        }
+        //    else if (organisation.SystemLengthUnit == 3)
+        //        {
+        //            height = Util.ConvertLength(Convert.ToDouble(heightInMM), Util.LengthUnits.mm, BLL.Util.LengthUnits.inch);
+        //            width = Util.ConvertLength(Convert.ToDouble(widthInMM), Util.LengthUnits.mm, BLL.Util.LengthUnits.inch);
+        //            height = Math.Round(height, 3);
+        //            width = Math.Round(width, 3);
+        //            scaledHeight *= height;
+        //            scaledWidth *= width;
+        //            resultDimentions = scaledWidth + " w *  " + scaledHeight + " h inch";
+        //            // resultDisplaySize = zoomedWidth.ToString() + " w *  " + zoomedHeight.ToString() + " h inch";
+        //        }
+
+
+
+            
+        //    //resultDimentions = "Size : " + resultDimentions;
+        //    resultDimentions = "" + resultDimentions;
+        //    resultDimentions = "PDF Canvas Size : <br />" + resultDimentions + "<br />";
+        //    return resultDimentions;
+        //}
         #endregion
     }
-    //public class Settings
-    //{
-    //    public bool printCropMarks = false;
-    //    public bool printWaterMarks = false;
-    //    public List<TemplateObject> objects = null;
-    //    public string orderCode = null;
-    //    public string CustomerName = null;
-    //    public List<TemplatePage> objPages = null;
-    //    public bool isRoundCornerrs = false;
-    //    public int organisationId = 0;
-    //}
+
 }

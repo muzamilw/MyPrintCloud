@@ -683,6 +683,29 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
+        public long GetContactTerritoryID(long CID)
+        {
+            try
+            {
+               return _CompanyContactRepository.GetContactTerritoryID(CID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<Address> GetContactCompanyAddressesList(long BillingAddressId, long ShippingAddressid, long PickUpAddressId)
+        {
+            try
+            {
+                return _addressRepository.GetContactCompanyAddressesList(BillingAddressId, ShippingAddressid, PickUpAddressId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
     }
 

@@ -307,16 +307,26 @@ define("product/product.view",
                 // Show Basic Details Tab when Product Detail Opens up
                 showBasicDetailsTab = function() {
                     var liElement = $('a[href=#tab-ProdNameAndImages]');
-                    var liDetailsPageandSection = $('a[href=#tab-ProductDetailSection]');
-                    if (!liElement || !liDetailsPageandSection) {
+                    var productNameAndImagesTab = $('#tab-ProdNameAndImages');
+                    if (!liElement) {
                         return;
                     }
 
                     // Show Basic Details
-                    setTimeout(function () {
-                        liDetailsPageandSection.click();
-                        liElement.click();
-                    }, 1000);
+                    liElement.click();
+
+                    if (!productNameAndImagesTab) {
+                        return;
+                    }
+
+                    if (!productNameAndImagesTab.hasClass('in')) {
+                        productNameAndImagesTab.addClass('in');
+                    }
+
+                    if (!productNameAndImagesTab.hasClass('active')) {
+                        productNameAndImagesTab.addClass('active');
+                    }
+
                 },
                 // Initialize
                 initialize = function () {
