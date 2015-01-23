@@ -152,6 +152,7 @@
     <Compile Include="WebStoreServices\ICostCentreQuestionRepository.cs" />
     <Compile Include="WebStoreServices\ICostCentreService.cs" />
     <Compile Include="WebStoreServices\ICostCentreVariableRepository.cs" />
+    <Compile Include="WebStoreServices\IExecutionService.cs" />
     <Compile Include="WebStoreServices\IImagePermissionsService.cs" />
     <Compile Include="WebStoreServices\IListingService.cs" />
     <Compile Include="WebStoreServices\IMyCompanyDomainService.cs" />

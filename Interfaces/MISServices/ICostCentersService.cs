@@ -10,8 +10,8 @@ namespace MPC.Interfaces.MISServices
         IEnumerable<CostCentre> GetAll(CostCenterRequestModel request);
         CostCentre Add(CostCentre costcentre);
         CostCentre Update(CostCentre costcentre);
-        bool Delete(int costcentreId);
-        CostCentre GetCostCentreById(int id);
+        bool Delete(long costcentreId);
+        CostCentre GetCostCentreById(long id);
         CostCentersResponse GetUserDefinedCostCenters(CostCenterRequestModel request);
     }
 }
