@@ -2151,7 +2151,7 @@ function k0() {
             $('#thumbs').css("height", $('#Previewer').height() - 33 + "px");
         }
     }
-    var stPath = "/MPC_Content/Designer/Organisation" + ogranisationId + "/Templates/" + tID;
+    var stPath = "/MPC_Content/Designer/Organisation" + organisationId + "/Templates/" + tID;
     $.each(TP, function (i, IT) {
         
         $("#slider").append('<img src="' + stPath + '/p' + IT.PageNo + '.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
@@ -2751,7 +2751,7 @@ function k16(TempImgType, ImC, Caller) {
     jsonPath += "Services/imageSvcDam/" + IsCalledFrom + "," + TempImgType + "," + tID + "," + CustomerID + "," + ContactID + "," + Territory + "," + ImC + "," + searchTerm
     // int isCalledFrom, int imageSetType, long productId, long contactCompanyID, long contactID, long territoryId, int pageNumner, string SearchKeyword, long OrganisationID
     if (!isV2Servce) {
-        jsonPath = "/designerAPI/TemplateBackgroundImage/getImages/" + IsCalledFrom + "/" + TempImgType + "/" + tID + "/" + CustomerID + "/" + ContactID + "/" + Territory + "/" + ImC + "/" + searchTerm + "/"+ogranisationId;
+        jsonPath = "/designerAPI/TemplateBackgroundImage/getImages/" + IsCalledFrom + "/" + TempImgType + "/" + tID + "/" + CustomerID + "/" + ContactID + "/" + Territory + "/" + ImC + "/" + searchTerm + "/"+organisationId;
     }
    
     oldHtml = $("." + strName).html() + "";

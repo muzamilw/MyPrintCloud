@@ -1500,6 +1500,7 @@ namespace MPC.Implementation.WebStoreServices
         public readonly ICompanyRepository _companyRepository;
         public readonly ICompanyContactRepository _contactRepository;
         public readonly IOrganisationRepository _organisationRepository;
+        public readonly ITemplatePageService _templatePageService;
         // it will convert pdf to template pages and will preserve template objects and images 
         private bool CovertPdfToBackground(string physicalPath, long ProductID, long OrganisationID)
         {
@@ -1752,7 +1753,7 @@ namespace MPC.Implementation.WebStoreServices
         
         #endregion
         #region constructor
-        public TemplateService(ITemplateRepository templateRepository, IProductCategoryRepository ProductCategoryRepository,ITemplateBackgroundImagesService templateBackgroundImages,ITemplateFontsService templateFontSvc,ICompanyRepository companyRepository, ICompanyContactRepository contactRepostiory,IOrganisationRepository organisationRepository)
+        public TemplateService(ITemplateRepository templateRepository, IProductCategoryRepository ProductCategoryRepository,ITemplateBackgroundImagesService templateBackgroundImages,ITemplateFontsService templateFontSvc,ICompanyRepository companyRepository, ICompanyContactRepository contactRepostiory,IOrganisationRepository organisationRepository,ITemplatePageService templatePageService)
         {
             this._templateRepository = templateRepository;
             this._ProductCategoryRepository = ProductCategoryRepository;
@@ -1761,6 +1762,7 @@ namespace MPC.Implementation.WebStoreServices
             this._companyRepository = companyRepository;
             this._contactRepository = contactRepostiory;
             this._organisationRepository = organisationRepository;
+            this._templatePageService = templatePageService;
         }
         #endregion
 
@@ -1784,12 +1786,13 @@ namespace MPC.Implementation.WebStoreServices
         }
 
         // called from designer, all the units are converted to pixel before sending  // added by saqib ali
-        public Template GetTemplateInDesigner(long productID,long categoryIdv2,double  height, double width)
+        public Template GetTemplateInDesigner(long productID,long categoryIdv2,double  height, double width,long organisationId)
         {
             Template product = null;
             if (productID == 0)
             {
                 product = _templateRepository.CreateTemplate(productID, categoryIdv2, height, width);
+                _templatePageService.CreateBlankBackgroundPDFs(product.ProductId,Convert.ToDouble( product.PDFTemplateHeight),Convert.ToDouble( product.PDFTemplateWidth), 1, organisationId);
             }
             else
             {

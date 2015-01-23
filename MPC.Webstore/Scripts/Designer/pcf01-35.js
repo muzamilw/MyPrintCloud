@@ -695,7 +695,7 @@ function fu12(mode, title) {
         orderCode: orderCode,
         CustomerName: CustomerName,
         objPages: TPOs,
-        organisationId: ogranisationId,
+        organisationId: organisationId,
         isRoundCornerrs: IsBCRoundCorners
     }
     var jsonObjects = JSON.stringify(obSt, null, 2);
