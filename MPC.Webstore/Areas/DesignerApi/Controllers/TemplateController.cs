@@ -41,9 +41,10 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public HttpResponseMessage GetTemplate(long id)
+        /// templateid, categoryIDv2,tempHMM,tempWMM
+        public HttpResponseMessage GetTemplate(long parameter1, long parameter2, double parameter3, double parameter4)
         {
-            var template = templateService.GetTemplateInDesigner(id);
+            var template = templateService.GetTemplateInDesigner(parameter1,parameter2,parameter3,parameter4);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;
