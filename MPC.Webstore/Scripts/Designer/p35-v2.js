@@ -961,10 +961,24 @@ $("#btnNextProofing").click(function (event) {
     $(".firstLoadingMsg").css("display", "none");
     if ($("#chkCheckSpelling").is(':checked')) {
         StartLoader("Saving your design, please wait...");
-        parent.email1 = email1;
-        parent.email2 = email2;
-        parent.IsRoundedCorners = IsBCRoundCorners;
-        parent.SaveAttachments();
+
+        //var emailParameters = "";
+        //if (email1 != "") {
+        //    emailParameters += "&pE1=" + email1;
+        //}
+        //if (email2 != "") {
+        //    emailParameters += "&pE2=" + email2;
+        //}
+        //emailParameters += "&IsRC=" + IsRoundedCorners;
+        var designerName = $('#txtTemplateTitle').val();
+        alert(designerName);
+        while (designerName.indexOf('/') != -1)
+            designerName = designerName.replace("/", "__");
+        $.getJSON("/designerapi/Template/SaveDesignAttachments/" + tID + "/" + ItemId + "/" + CustomerID + "/" + designerName + "/designer/" + organisationId,
+          function (DT) {
+              alert(DT);
+              window.location.href = dt// + "&CategoryId=" + CategoryId + "&ProductName=" + document.getElementById('txtDesignName').value + emailParameters;
+          });
     } else {
         alert(ssMsg);
         return false;

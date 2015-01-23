@@ -154,5 +154,7 @@ function buildParams() {
 	ContactID =parseInt(  locVars[locVars.length - 6]);
 	organisationId = parseInt( locVars[locVars.length - 4]);
 	cIDv2 =parseInt( locVars[locVars.length - 10]);
-	productionFolderPath = "Organisation" + organisationId + "/Templates/" ;
+	productionFolderPath = "Organisation" + organisationId + "/Templates/";
+	ItemId = parseInt(locVars[locVars.length - 8]);
+	//alert(ItemId);
 }

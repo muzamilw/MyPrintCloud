@@ -1871,17 +1871,14 @@ namespace MPC.Repository.Repositories
             return DbSet.Where(i => i.IsPublished.HasValue && i.OrganisationId == OrganisationId).ToList();
         }
 
-        public string SaveDesignAttachments(long templateID, long itemID, long customerID, string DesignName, string UICulture, string caller)
+        public string SaveDesignAttachments(long templateID, long itemID, long customerID, string DesignName, string caller,long organisationId)
         {
             try
             {
-                // need to discuss with saqib
+                
                 List<TemplatePage> oPages = null;
-                //using (TemplateDesignerV2Entities db = new TemplateDesignerV2Entities())
-                //{
-                //    db.ContextOptions.LazyLoadingEnabled = false;
-                //    oPages = db.TemplatePages.Where(g => g.ProductID == TemplateID && (g.IsPrintable == true || g.IsPrintable == null)).ToList();
-                //}
+                db.Configuration.LazyLoadingEnabled = false;
+                oPages = db.TemplatePages.Where(g => g.ProductId == templateID && (g.IsPrintable == true || g.IsPrintable == null)).ToList();
 
                 UpdateItemName(itemID, DesignName);
 
@@ -1890,9 +1887,15 @@ namespace MPC.Repository.Repositories
                 db.Configuration.LazyLoadingEnabled = false;
 
                 var Item = db.Items.Where(i => i.ItemId == itemID).FirstOrDefault();
+                // save template if item doesnot contain templateId
+                if(Item.TemplateId == null || Item.TemplateId == 0)
+                {
+                    Item.TemplateId = templateID;
+                    db.SaveChanges();
+                }
                 var Order = db.Estimates.Where(order => order.EstimateId == Item.EstimateId && order.isEstimate == false).FirstOrDefault();
-              
-                string DesignerPath = System.Web.HttpContext.Current.Server.MapPath("~/designengine/designer/products/");
+                string DesignerPath = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + organisationId.ToString() + "/Templates/");
+               // string DesignerPath = System.Web.HttpContext.Current.Server.MapPath("~/designengine/designer/products/");
 
                 if (oLstAttachments.Count == 0)  //no attachments already exist, hence a new entry in attachments is required
                 {
@@ -2025,7 +2028,7 @@ namespace MPC.Repository.Repositories
 
                 }
 
-                return "/ProductOptions?ItemId=" + itemID.ToString();
+                return "/ProductOptions/0/" + itemID.ToString() + "/Template/" + templateID.ToString() ;
 
 
 

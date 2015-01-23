@@ -682,9 +682,11 @@ function fu12(mode, title) {
             IT.EntityKey.$id = it3;
             it3++;
         }
-        if (IT.BackgroundFileName.indexOf(productionFolderPath) != -1) {
-            var p = IT.BackgroundFileName.split(productionFolderPath);
-            IT.BackgroundFileName = p[p.length - 1];
+        if (IT.BackgroundFileName != null) {
+            if (IT.BackgroundFileName.indexOf(productionFolderPath) != -1) {
+                var p = IT.BackgroundFileName.split(productionFolderPath);
+                IT.BackgroundFileName = p[p.length - 1];
+            }
         }
     });
     //saving the objects first
