@@ -1231,6 +1231,7 @@
     <Content Include="Scripts\Ace\lib\ace\ace.js" />
     <Content Include="Scripts\Ace\lib\ace\mode-css.js" />
     <Content Include="Scripts\Ace\lib\ace\theme-clouds.js" />
+    <Content Include="Scripts\Ace\lib\ace\theme-twilight.js" />
     <Content Include="Scripts\Ace\lib\ace\worker-css.js" />
     <Content Include="Scripts\knockout-ace.js" />
     <Content Include="Scripts\Ace\ace.js" />
