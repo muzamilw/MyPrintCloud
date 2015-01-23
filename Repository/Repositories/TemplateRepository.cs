@@ -564,8 +564,13 @@ namespace MPC.Repository.Repositories
                 tpage.PageType = 1;
                 tpage.PageNo = 1;
                 tpage.ProductId = oTemplate.ProductId;
-                tpage.BackGroundType = 1;
+                tpage.BackGroundType = 2;
+                tpage.ColorC = 0;
+                tpage.ColorK = 0;
+                tpage.ColorM = 0;
+                tpage.ColorY = 0;
                 tpage.PageName = "Front";
+                db.TemplatePages.Add(tpage);
                 db.SaveChanges();
                 result = db.Templates.Include("TemplatePages").Where(g => g.ProductId == oTemplate.ProductId).SingleOrDefault();
 

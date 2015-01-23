@@ -1720,6 +1720,10 @@ namespace MPC.Implementation.WebStoreServices
 
                 string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/");
                 string fontsUrl = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/WebFonts/");
+                if(!Directory.Exists(drURL + productID ))
+                {
+                    Directory.CreateDirectory(drURL + productID);
+                }
                 List<TemplatePage> oTemplatePages = new List<TemplatePage>();
                 List<TemplateObject> oTemplateObjects = new List<TemplateObject>();
                 Template objProduct = _templateRepository.GetTemplate(productID, out oTemplatePages, out oTemplateObjects);
@@ -1792,7 +1796,7 @@ namespace MPC.Implementation.WebStoreServices
             if (productID == 0)
             {
                 product = _templateRepository.CreateTemplate(productID, categoryIdv2, height, width);
-                _templatePageService.CreateBlankBackgroundPDFs(product.ProductId,Convert.ToDouble( product.PDFTemplateHeight),Convert.ToDouble( product.PDFTemplateWidth), 1, organisationId);
+               // _templatePageService.CreateBlankBackgroundPDFs(product.ProductId,Convert.ToDouble( product.PDFTemplateHeight),Convert.ToDouble( product.PDFTemplateWidth), 1, organisationId);
             }
             else
             {
