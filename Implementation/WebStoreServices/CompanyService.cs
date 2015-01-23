@@ -216,9 +216,9 @@ namespace MPC.Implementation.WebStoreServices
             return _CompanyRepository.GetStoreIdFromDomain(domain);
         }
 
-        public List<ProductCategory> GetCompanyParentCategoriesById(long companyId)
+        public List<ProductCategory> GetCompanyParentCategoriesById(long companyId, long OrganisationId)
         {
-            return _productCategoryRepository.GetParentCategoriesByStoreId(companyId);
+            return _productCategoryRepository.GetParentCategoriesByStoreId(companyId, OrganisationId);
         }
 
         public CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request)
@@ -311,9 +311,9 @@ namespace MPC.Implementation.WebStoreServices
             return _productCategoryRepository.GetAllParentCorporateCatalogByTerritory(customerId, ContactId);
         }
 
-        public List<ProductCategory> GetStoreParentCategories(long companyId)
+        public List<ProductCategory> GetStoreParentCategories(long companyId, long OrganisationId)
         {
-            return _productCategoryRepository.GetParentCategoriesByStoreId(companyId);
+            return _productCategoryRepository.GetParentCategoriesByStoreId(companyId, OrganisationId);
         }
         public List<ProductCategory> GetAllCategories(long companyId) 
         {

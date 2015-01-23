@@ -138,6 +138,8 @@ namespace MPC.Webstore.Controllers
 
             ViewBag.ClonedItemId = clonedItem.ItemId;
 
+            ViewBag.ClonedItem = clonedItem;
+
             DefaultSettings(ItemId);
 
             return View("PartialViews/ProductOptions");
@@ -377,6 +379,9 @@ namespace MPC.Webstore.Controllers
                 ViewBag.ItemStock = null;
             }
             ViewBag.DesignServiceUrl = Utils.GetAppBasePath();
+
+            ViewBag.Order = _orderService.GetOrderByID(UserCookieManager.OrderId);
+
             PriceMatrixObjectList = null;
             AddonObjectList = null;
 

@@ -192,6 +192,8 @@ namespace MPC.Webstore.Common
             }
         }
 
+      
+
     }
     public static class CommonHtmlExtensions
     {
@@ -210,6 +212,13 @@ namespace MPC.Webstore.Common
         public static string GetKeyValueFromResourceFile(this HtmlHelper htmlHelper, string Key, long StoreId)
         {
             return Utils.GetKeyValueFromResourceFile(Key, StoreId);
+        }
+
+        public static string GetAttachmentFileName(this HtmlHelper htmlHelper, string ProductCode, string OrderCode, string ItemCode, string SideCode, string extension, DateTime OrderCreationDate)
+        {
+            string FileName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") + OrderCreationDate.Day.ToString() + "-" + ProductCode + "-" + OrderCode + "-" + ItemCode + "-" + SideCode + extension;
+
+            return FileName;
         }
     //    static Assembly FindGlobalResAssembly()
     //    {

@@ -102,6 +102,7 @@ namespace MPC.Interfaces.WebStoreServices
         long PostLoginCustomerAndCardChanges(long OrderId, long CompanyId, long ContactId, long TemporaryCompanyId, long OrganisationId);
 
         Item GetItemByOrderID(long OrderID);
+        void GenerateThumbnailForPdf(string url, bool insertCuttingMargin);
 
     }
 }
