@@ -239,7 +239,7 @@ function d8(mode, dheight, title) {
                 }
             });
         }
-        $('#slider  img').each(function (i) {
+        $('#sliderDesigner  img').each(function (i) {
             var s = $(this).attr('src');
             var p = s.split("?");
             var i = p[0];
@@ -258,15 +258,15 @@ function d8(mode, dheight, title) {
             }
         }
 
-        if ($('#slider') != undefined) {
-            var s = $('#slider').css('background-image');
+        if ($('#sliderDesigner') != undefined) {
+            var s = $('#sliderDesigner').css('background-image');
             if (s != undefined) {
                 var p = s.split("?");
                 if (s.indexOf("asset") == -1) {
                     var temp = p[0].split("http://");
                     var i = 'url("http://' + temp[1];
                     i += '?r=' + ra + '")';
-                    $('#slider').css('background-image', i);
+                    $('#sliderDesigner').css('background-image', i);
                 }
             }
         }
@@ -804,16 +804,9 @@ function fu13(op, type, r, c) {
         var box = $('#idShapesPanel');
         if (box.hasClass('hidden')) {
             box.removeClass('hidden');
-            //$(".idShapesPanel").addClass("MovePanel");
-            //setTimeout(function () {
-            //    box.addClass('hidden');
-            //}, 20);
-        } else {
+       } else {
             box.addClass('hidden');
-            //box.addClass('visuallyhidden');
-            //setTimeout(function () {
-            //    box.addClass('hidden');
-            //}, 20);
+          
         }
 
 
@@ -2660,18 +2653,3 @@ function pcL29_pcRestore(type) {
     }
 
 }
-
-function removeElement(event) {
-
-    if (event.animationName === 'disapear') {
-
-        //  event.target.parentNode.removeChild(event.target);
-        event.target.classList.add("hidden");
-
-        //   $(".TempUlAddMain").css("display", "none")
-        fu13(2, 5, 1, 4);
-    }
-}
-
-document.body.addEventListener('animationend', removeElement);
-document.body.addEventListener('webkitAnimationEnd', removeElement);

@@ -1109,7 +1109,7 @@ namespace MPC.Implementation.WebStoreServices
             oPdf.Transform.Reset();
         }
         //generate pdf function
-        private byte[] generatePDF(Template objProduct, TemplatePage objProductPage, List<TemplateObject> listTemplateObjects ,string ProductFolderPath, string fontPath, bool IsDrawBGText, bool IsDrawHiddenObjects, bool drawCuttingMargins, bool drawWaterMark, out bool hasOverlayObject, bool isoverLayMode, long OrganisationID)
+        private byte[] generatePDF(Template objProduct, TemplatePage objProductPage, List<TemplateObject> listTemplateObjects ,string ProductFolderPath, string fontPath, bool IsDrawBGText, bool IsDrawHiddenObjects, bool drawCuttingMargins, bool drawWaterMark, out bool hasOverlayObject, bool isoverLayMode, long OrganisationID,double bleedareaSize)
         {
             Doc doc = new Doc();
             try
@@ -1327,10 +1327,14 @@ namespace MPC.Implementation.WebStoreServices
                         doc.SetInfo(doc.Page, "/ArtBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(ArtBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(ArtBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(ArtBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(ArtBoxSize)).ToString());
 
                     }
-                    if (System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"] != null)
-                    {
-                        BleedBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"]);
-                        doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(BleedBoxSize)).ToString());
+                    //if (System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"] != null)
+                    //{
+                    //    BleedBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"]);
+                    //    doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(BleedBoxSize)).ToString());
+                    //}
+                    if(bleedareaSize != 0 ){
+                         
+                        doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(bleedareaSize)).ToString());
                     }
                     int FontID = 0;
                     var pFont = FontsList.Where(g => g.FontName == "Arial Black").FirstOrDefault();
@@ -1712,7 +1716,7 @@ namespace MPC.Implementation.WebStoreServices
             return result;
         }
         // generate template pdf file called from MIS and webstore 
-        private bool GenerateTemplatePdf(long productID, long OrganisationID, bool printCropMarks, bool printWaterMarks, bool isroundCorners, bool isDrawHiddenObjs)
+        private bool GenerateTemplatePdf(long productID, long OrganisationID, bool printCropMarks, bool printWaterMarks, bool isroundCorners, bool isDrawHiddenObjs,double bleedareaSize)
         {
             bool result = false;
             try
@@ -1730,7 +1734,7 @@ namespace MPC.Implementation.WebStoreServices
                     foreach (TemplatePage objPage in oTemplatePages)
                     {
                         bool hasOverlayObject = false;
-                        byte[] PDFFile = generatePDF(objProduct, objPage, oTemplateObjects, drURL, fontsUrl, false, isDrawHiddenObjs, printCropMarks, printWaterMarks, out hasOverlayObject, false, OrganisationID);
+                        byte[] PDFFile = generatePDF(objProduct, objPage, oTemplateObjects, drURL, fontsUrl, false, isDrawHiddenObjs, printCropMarks, printWaterMarks, out hasOverlayObject, false, OrganisationID,bleedareaSize);
                         //writing the PDF to FS
                         System.IO.File.WriteAllBytes(drURL + productID + "/p" + objPage.PageNo + ".pdf", PDFFile);
                         //generate and write overlay image to FS 
@@ -1738,7 +1742,7 @@ namespace MPC.Implementation.WebStoreServices
                         if (hasOverlayObject)
                         {
                             // generate overlay PDF 
-                            byte[] overlayPDFFile = generatePDF(objProduct, objPage, oTemplateObjects, drURL, fontsUrl, false, isDrawHiddenObjs, printCropMarks, printWaterMarks, out hasOverlayObject, true, OrganisationID);
+                            byte[] overlayPDFFile = generatePDF(objProduct, objPage, oTemplateObjects, drURL, fontsUrl, false, isDrawHiddenObjs, printCropMarks, printWaterMarks, out hasOverlayObject, true, OrganisationID,bleedareaSize);
                             // writing overlay pdf to FS 
                             System.IO.File.WriteAllBytes(drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", overlayPDFFile);
                             // generate and write overlay image to FS 
@@ -2008,12 +2012,12 @@ namespace MPC.Implementation.WebStoreServices
         // called from webstore and MIS to generate pdf file of the template.// added by saqib ali
         public void processTemplatePDF(long TemplateID, long OrganisationID, bool printCropMarks, bool printWaterMarks, bool isroundCorners)
         {
-            GenerateTemplatePdf(TemplateID, OrganisationID, printCropMarks, printWaterMarks, isroundCorners,true);
+            GenerateTemplatePdf(TemplateID, OrganisationID, printCropMarks, printWaterMarks, isroundCorners,true,0);
         }
         // called from MIS and webstore to regenerate template PDF files  // added by saqib ali
         public void regeneratePDFs(long productID,long OrganisationID, bool printCuttingMargins)
         {
-            GenerateTemplatePdf(productID, OrganisationID, printCuttingMargins, false, false, false);
+            GenerateTemplatePdf(productID, OrganisationID, printCuttingMargins, false, false, false,0);
 
         }
         // called from webstore to save template locally // added by saqib ali // not tested yet
@@ -2114,7 +2118,7 @@ namespace MPC.Implementation.WebStoreServices
         }
 
         // called from designer while generating proof  // added by saqib ali // not tested yet
-        public string SaveTemplate(List<TemplateObject> lstTemplatesObjects,List<TemplatePage> lstTemplatePages,long organisationID,bool printCropMarks,bool printWaterMarks,bool isRoundCorners)
+        public string SaveTemplate(List<TemplateObject> lstTemplatesObjects,List<TemplatePage> lstTemplatePages,long organisationID,bool printCropMarks,bool printWaterMarks,bool isRoundCorners, double bleedAreaSize)
         {
             try
             {
@@ -2163,7 +2167,7 @@ namespace MPC.Implementation.WebStoreServices
                      }
                 }
                 _templateRepository.SaveTemplate(productID, lstTemplatePages, lstTemplatesObjects);
-               bool result=  GenerateTemplatePdf(productID, organisationID, printCropMarks, printWaterMarks, isRoundCorners, true);
+               bool result=  GenerateTemplatePdf(productID, organisationID, printCropMarks, printWaterMarks, isRoundCorners, true,bleedAreaSize);
                return result.ToString();
             }
             catch (Exception ex)
@@ -2272,7 +2276,7 @@ namespace MPC.Implementation.WebStoreServices
             }
         }
 
-        public string GenerateProof(DesignerPostSettings objSettings)
+        public string GenerateProof(DesignerPostSettings objSettings, double bleedAreaSize)
         {
            // StreamReader reader = new StreamReader(data);
         //    string res = reader.ReadToEnd();
@@ -2282,7 +2286,7 @@ namespace MPC.Implementation.WebStoreServices
           //  Settings objSettings = JsonConvert.DeserializeObject<Settings>(data);
             //List<TemplateObjects> lstTemplatesObjects = JsonConvert.DeserializeObject<List<TemplateObjects>>(res);
             List<TemplateObject> lstTemplatesObjects = objSettings.objects;
-            return SaveTemplate(lstTemplatesObjects, objSettings.objPages, objSettings.organisationId, objSettings.printCropMarks, objSettings.printWaterMarks, objSettings.isRoundCornerrs);
+            return SaveTemplate(lstTemplatesObjects, objSettings.objPages, objSettings.organisationId, objSettings.printCropMarks, objSettings.printWaterMarks, objSettings.isRoundCornerrs,bleedAreaSize);
         }
 
         public QuickText GetContactQuickTextFields(long CustomerID, long ContactID)

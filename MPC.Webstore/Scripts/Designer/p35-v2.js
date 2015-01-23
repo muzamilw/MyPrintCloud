@@ -755,6 +755,11 @@ $(".btnBackGlImgs").click(function (event) {
     fu13(2, 1, 1, 1);
     pcL29_pcRestore(4); spPanel = ".btnBackFromImgs ";
 });
+$(".btnQuickText").click(function (event) {
+    //$(".stage3").css("width", "20px");
+    //$("#resultsQText").css("display", "none");
+    
+});
 $(".btnIllustrations").click(function (event) {
     fu13(2, 1, 1, 2);
     pcL29_pcMove(4); spPanel = ".btnBackFromImgs , .btnBackMyImg";
@@ -1065,7 +1070,9 @@ $(".returnToLib").click(function (event) {
     } else if (imgLoaderSection == 2) {
         $(".text").click();
     } else {
-        $(".text").click();
+        $('.btnAdd').click();
+        $('.btnAFrames').click();
+        $(".btnIllustrations").click();
     }
 });
 $(".returnToLayers").click(function (event) {
