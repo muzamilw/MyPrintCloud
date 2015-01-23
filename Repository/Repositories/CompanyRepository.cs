@@ -166,104 +166,128 @@ namespace MPC.Repository.Repositories
         }
         public long CreateCustomer(string CompanyName, bool isEmailSubscriber, bool isNewsLetterSubscriber, CompanyTypes customerType, string RegWithSocialMedia, long OrganisationId, CompanyContact contact = null)
         {
-            Address Contactaddress = null;
+             bool isCreateTemporaryCompany = true;
+            if ((int)customerType == (int)CompanyTypes.TemporaryCustomer)
+            {
+                Company ContactCompany = db.Companies.Where(c => c.TypeId == (int)customerType && c.OrganisationId == OrganisationId).FirstOrDefault();
+                if (ContactCompany != null)
+                {
+                    isCreateTemporaryCompany = false;
+                    return ContactCompany.CompanyId;
+                }
+                else 
+                {
+                    isCreateTemporaryCompany = true;
+                }
 
             CompanyContact ContactPerson = null;
-
-            long customerID = 0;
-
-
-            Company ContactCompany = new Company();
-
-            ContactCompany.isArchived = false;
-
-            ContactCompany.AccountNumber = "123";
-
-            ContactCompany.AccountOpenDate = DateTime.Now;
-
-            ContactCompany.Name = CompanyName;
-
-            ContactCompany.TypeId = (int)customerType;
-
-            ContactCompany.Status = 0;
-
-            if (contact != null && !string.IsNullOrEmpty(contact.Mobile))
-                ContactCompany.PhoneNo = contact.Mobile;
-
-            ContactCompany.CreationDate = DateTime.Now;
-
-            ContactCompany.CreditLimit = 0;
-
-            ContactCompany.IsCustomer = 0; //prospect
-
-
-            Markup OrgMarkup = db.Markups.Where(m => m.OrganisationId == OrganisationId && m.IsDefault == true).FirstOrDefault();
-
-            if (OrgMarkup != null)
-            {
-                ContactCompany.DefaultMarkUpId = (int)OrgMarkup.MarkUpId;
-            }
-            else
-            {
-                ContactCompany.DefaultMarkUpId = 0;
             }
 
-
-            //Create Customer
-            db.Companies.Add(ContactCompany);
-
-            //Create Billing Address and Delivery Address and mark them default billing and shipping
-            Contactaddress = PopulateAddressObject(0, ContactCompany.CompanyId, true, true);
-            db.Addesses.Add(Contactaddress);
-
-            //Create Contact
-            ContactPerson = PopulateContactsObject(ContactCompany.CompanyId, Contactaddress.AddressId, true);
-            ContactPerson.isArchived = false;
-
-            if (contact != null)
+            if (isCreateTemporaryCompany)
             {
-                ContactPerson.FirstName = contact.FirstName;
-                ContactPerson.LastName = contact.LastName;
-                ContactPerson.Email = contact.Email;
-                ContactPerson.Mobile = contact.Mobile;
-                ContactPerson.Password = ComputeHashSHA1(contact.Password);
-                ContactPerson.QuestionId = 1;
-                ContactPerson.SecretAnswer = "";
-                ContactPerson.ClaimIdentifer = contact.ClaimIdentifer;
-                ContactPerson.AuthentifiedBy = contact.AuthentifiedBy;
-                //Quick Text Fields
-                ContactPerson.quickAddress1 = contact.quickAddress1;
-                ContactPerson.quickAddress2 = contact.quickAddress2;
-                ContactPerson.quickAddress3 = contact.quickAddress3;
-                ContactPerson.quickCompanyName = contact.quickCompanyName;
-                ContactPerson.quickCompMessage = contact.quickCompMessage;
-                ContactPerson.quickEmail = contact.quickEmail;
-                ContactPerson.quickFax = contact.quickFax;
-                ContactPerson.quickFullName = contact.quickFullName;
-                ContactPerson.quickPhone = contact.quickPhone;
-                ContactPerson.quickTitle = contact.quickTitle;
-                ContactPerson.quickWebsite = contact.quickWebsite;
-                if (!string.IsNullOrEmpty(RegWithSocialMedia))
+                Address Contactaddress = null;
+
+                CompanyContact ContactPerson = null;
+
+                long customerID = 0;
+
+
+                Company ContactCompany = new Company();
+
+                ContactCompany.isArchived = false;
+
+                ContactCompany.AccountNumber = "123";
+
+                ContactCompany.AccountOpenDate = DateTime.Now;
+
+                ContactCompany.Name = CompanyName;
+
+                ContactCompany.TypeId = (int)customerType;
+
+                ContactCompany.Status = 0;
+
+                if (contact != null && !string.IsNullOrEmpty(contact.Mobile))
+                    ContactCompany.PhoneNo = contact.Mobile;
+
+                ContactCompany.CreationDate = DateTime.Now;
+
+                ContactCompany.CreditLimit = 0;
+
+                ContactCompany.IsCustomer = 0; //prospect
+
+
+                Markup OrgMarkup = db.Markups.Where(m => m.OrganisationId == OrganisationId && m.IsDefault == true).FirstOrDefault();
+
+                if (OrgMarkup != null)
                 {
-                    ContactPerson.twitterScreenName = RegWithSocialMedia;
+                    ContactCompany.DefaultMarkUpId = (int)OrgMarkup.MarkUpId;
+                }
+                else
+                {
+                    ContactCompany.DefaultMarkUpId = 0;
                 }
 
 
-            }
+                //Create Customer
+                db.Companies.Add(ContactCompany);
 
-            db.CompanyContacts.Add(ContactPerson);
+                //Create Billing Address and Delivery Address and mark them default billing and shipping
+                Contactaddress = PopulateAddressObject(0, ContactCompany.CompanyId, true, true);
+                db.Addesses.Add(Contactaddress);
 
-            if (db.SaveChanges() > 0)
-            {
-                customerID = ContactCompany.CompanyId; // customer id
+                //Create Contact
+                ContactPerson = PopulateContactsObject(ContactCompany.CompanyId, Contactaddress.AddressId, true);
+                ContactPerson.isArchived = false;
+
                 if (contact != null)
                 {
-                    contact.ContactId = ContactPerson.ContactId;
-                    contact.CompanyId = customerID;
-                }
-            }
+                    ContactPerson.FirstName = contact.FirstName;
+                    ContactPerson.LastName = contact.LastName;
+                    ContactPerson.Email = contact.Email;
+                    ContactPerson.Mobile = contact.Mobile;
+                    ContactPerson.Password = ComputeHashSHA1(contact.Password);
+                    ContactPerson.QuestionId = 1;
+                    ContactPerson.SecretAnswer = "";
+                    ContactPerson.ClaimIdentifer = contact.ClaimIdentifer;
+                    ContactPerson.AuthentifiedBy = contact.AuthentifiedBy;
+                    //Quick Text Fields
+                    ContactPerson.quickAddress1 = contact.quickAddress1;
+                    ContactPerson.quickAddress2 = contact.quickAddress2;
+                    ContactPerson.quickAddress3 = contact.quickAddress3;
+                    ContactPerson.quickCompanyName = contact.quickCompanyName;
+                    ContactPerson.quickCompMessage = contact.quickCompMessage;
+                    ContactPerson.quickEmail = contact.quickEmail;
+                    ContactPerson.quickFax = contact.quickFax;
+                    ContactPerson.quickFullName = contact.quickFullName;
+                    ContactPerson.quickPhone = contact.quickPhone;
+                    ContactPerson.quickTitle = contact.quickTitle;
+                    ContactPerson.quickWebsite = contact.quickWebsite;
+                    if (!string.IsNullOrEmpty(RegWithSocialMedia))
+                    {
+                        ContactPerson.twitterScreenName = RegWithSocialMedia;
+                    }
 
-            return customerID;
+
+                }
+
+                db.CompanyContacts.Add(ContactPerson);
+
+                if (db.SaveChanges() > 0)
+                {
+                    customerID = ContactCompany.CompanyId; // customer id
+                    if (contact != null)
+                    {
+                        contact.ContactId = ContactPerson.ContactId;
+                        contact.CompanyId = customerID;
+                    }
+                }
+
+                return customerID;
+            }
+            else 
+            {
+                return 0;
+            }
         }
         private CompanyContact PopulateContactsObject(long customerID, long addressID, bool isDefaultContact)
         {

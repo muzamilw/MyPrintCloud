@@ -9,7 +9,7 @@ namespace MPC.Interfaces.Repository
 {
     public interface IProductCategoryRepository : IBaseRepository<ProductCategory, long>
     {
-        List<ProductCategory> GetParentCategoriesByStoreId(long companyId);
+        List<ProductCategory> GetParentCategoriesByStoreId(long companyId, long OrganisationId);
 
         List<ProductCategory> GetAllParentCorporateCatalog(int customerId);
 

@@ -419,7 +419,8 @@ namespace MPC.Repository.Repositories
 
         public CompanyContact GetContactByID(Int64 ContactID)
         {
-            return db.CompanyContacts.FirstOrDefault();
+            db.Configuration.LazyLoadingEnabled = false;
+            return db.CompanyContacts.Where(c => c.ContactId == ContactID).FirstOrDefault();
         }
         public CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName)
         {

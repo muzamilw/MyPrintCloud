@@ -755,6 +755,11 @@ $(".btnBackGlImgs").click(function (event) {
     fu13(2, 1, 1, 1);
     pcL29_pcRestore(4); spPanel = ".btnBackFromImgs ";
 });
+$(".btnQuickText").click(function (event) {
+    //$(".stage3").css("width", "20px");
+    //$("#resultsQText").css("display", "none");
+    
+});
 $(".btnIllustrations").click(function (event) {
     fu13(2, 1, 1, 2);
     pcL29_pcMove(4); spPanel = ".btnBackFromImgs , .btnBackMyImg";
@@ -957,10 +962,24 @@ $("#btnNextProofing").click(function (event) {
     $(".firstLoadingMsg").css("display", "none");
     if ($("#chkCheckSpelling").is(':checked')) {
         StartLoader("Saving your design, please wait...");
-        parent.email1 = email1;
-        parent.email2 = email2;
-        parent.IsRoundedCorners = IsBCRoundCorners;
-        parent.SaveAttachments();
+
+        //var emailParameters = "";
+        //if (email1 != "") {
+        //    emailParameters += "&pE1=" + email1;
+        //}
+        //if (email2 != "") {
+        //    emailParameters += "&pE2=" + email2;
+        //}
+        //emailParameters += "&IsRC=" + IsRoundedCorners;
+        var designerName = $('#txtTemplateTitle').val();
+        alert(designerName);
+        while (designerName.indexOf('/') != -1)
+            designerName = designerName.replace("/", "__");
+        $.getJSON("/designerapi/Template/SaveDesignAttachments/" + tID + "/" + ItemId + "/" + CustomerID + "/" + designerName + "/designer/" + organisationId,
+          function (DT) {
+              alert(DT);
+              window.location.href = dt// + "&CategoryId=" + CategoryId + "&ProductName=" + document.getElementById('txtDesignName').value + emailParameters;
+          });
     } else {
         alert(ssMsg);
         return false;
@@ -1051,7 +1070,9 @@ $(".returnToLib").click(function (event) {
     } else if (imgLoaderSection == 2) {
         $(".text").click();
     } else {
-        $(".text").click();
+        $('.btnAdd').click();
+        $('.btnAFrames').click();
+        $(".btnIllustrations").click();
     }
 });
 $(".returnToLayers").click(function (event) {

@@ -2,8 +2,8 @@
     Module with the view model for the Store.
 */
 define("stores/stores.viewModel",
-    ["jquery", "amplify", "ko", "stores/stores.dataservice", "stores/stores.model", "common/confirmation.viewModel", "common/pagination", "stores/store.Product.viewModel"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination, storeProductsViewModel) {
+    ["jquery", "amplify", "ko", "stores/stores.dataservice", "stores/stores.model", "common/confirmation.viewModel", "common/pagination", "stores/store.Product.viewModel", "sammy"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, storeProductsViewModel, sammy) {
         var ist = window.ist || {};
         ist.stores = {
             viewModel: (function () {
@@ -16,6 +16,8 @@ define("stores/stores.viewModel",
                     selectedCurrentPageCopy = ko.observable(),
                     //Active Widget (use for dynamic controll)
                     selectedWidget = ko.observable(),
+                    //Active Company Domain
+                    selectedCompanyDomainItem = ko.observable(),
                     //New Added fake Id counter
                     newAddedWidgetIdCounter = ko.observable(0),
                     //Store Image
@@ -54,6 +56,7 @@ define("stores/stores.viewModel",
                     selectedOfferType = ko.observable(),
                     //Product Priority Radio Option
                     productPriorityRadioOption = ko.observable("1"),
+
                     //#endregion
 
                 //#region ________ O B S E R V A B L E S   A R R A Y S___________
@@ -108,7 +111,47 @@ define("stores/stores.viewModel",
                 templateToUse = function (store) {
                     return (store === selectedStore() ? 'itemStoreTemplate' : 'itemStoreTemplate');
                 },
+                //app = sammy(function () {
+                //    //this.get("#/byId/:raMainId", function () {
+                //    this.get(":url", function () {
+                //        //load(this.params["raMainId"]);
+                //        toastr.success(this.params["url"]);
+                //    });
+                //}),
 
+                    // Select Company Domain
+                    selectCompanyDomain = function (companyDomain) {
+                        if (selectedCompanyDomainItem() !== companyDomain) {
+                            selectedCompanyDomainItem(companyDomain);
+                        }
+                    },
+                    // Template Chooser
+                    templateToUseCompanyDomain = function (companyDomain) {
+                        if (selectedStore().companyDomains.length > 0) {
+
+                        }
+                        return (companyDomain === selectedCompanyDomainItem() ? 'editCompanyDomainTemplate' : 'itemCompanyDomainTemplate');
+                    },
+                    //Delete Company Domain
+                    onDeleteCompanyDomainItem = function (companyDomain) {
+                        selectedStore().companyDomains.remove(companyDomain);
+                    },
+                    //Create New Company Domain
+                    createCompanyDomainItem = function () {
+
+                        //if (selectedStore().companyDomains().length > 0) {
+                        var companyDomain = new model.CompanyDomain();
+                        selectedCompanyDomainItem(companyDomain);
+                        selectedStore().companyDomains.splice(0, 0, companyDomain);
+                        //}
+
+                        //if (costItem !== undefined && costItem !== null && !costItem.isValid()) {
+                        //    costItem.errors.showAllMessages();
+                        //    selectedCostItem(costItem);
+                        //    flag = false;
+                        //}
+
+                    },
                 //#region _____________________  S T O R E ____________________
 
                 //getItemsForWidgets
@@ -159,7 +202,7 @@ define("stores/stores.viewModel",
                     if (itemsForWidgets().length === 0) {
                         getItemsForWidgets();
                     }
-
+                    newUploadedMediaFile(model.MediaLibrary());
                 },
                 //To Show/Hide Edit Section
                 isStoreEditorVisible = ko.observable(false),
@@ -240,6 +283,7 @@ define("stores/stores.viewModel",
                 },
                 //Create Stock Sub Category
                 onCreateNewRaveReview = function () {
+                    app.run();
                     var raveReview = new model.RaveReview();
                     selectedRaveReview(raveReview);
                     view.showRaveReviewDialog();
@@ -1739,6 +1783,13 @@ define("stores/stores.viewModel",
                             });
                         }
                         //#endregion
+
+                        //#region Media Library
+                        _.each(selectedStore().mediaLibraries(), function (item) {
+                            storeToSave.MediaLibraries.push(item.convertToServerData());
+                        });
+                        //endregion
+
                         dataservice.saveStore(
                             storeToSave, {
                                 success: function (data) {
@@ -1856,13 +1907,16 @@ define("stores/stores.viewModel",
                                     productPriorityRadioOption("2");
                                 }
 
-
+                                //Media Library
+                                _.each(data.Company.MediaLibraries, function (item) {
+                                    selectedStore().mediaLibraries.push(model.MediaLibrary.Create(item));
+                                });
                             }
                             allPagesWidgets.removeAll();
                             pageSkinWidgets.removeAll();
                             selectedCurrentPageId(undefined);
                             selectedCurrentPageCopy(undefined);
-
+                            newUploadedMediaFile(model.MediaLibrary());
                             isLoadingStores(false);
                         },
                         error: function (response) {
@@ -2005,7 +2059,7 @@ define("stores/stores.viewModel",
                                     selectedStore().userDefinedSpriteImageSource(data.DefaultSpriteImageSource);
                                     selectedStore().userDefinedSpriteImageFileName("default.jpg");
                                     selectedStore().defaultSpriteImageSource(data.DefaultSpriteImageSource);
-
+                                    selectedStore().customCSS(data.DefaultCompanyCss);
                                 }
                                 isLoadingStores(false);
                             },
@@ -2348,6 +2402,28 @@ define("stores/stores.viewModel",
                 },
                 //#endregion
 
+                //#region ________ MEDIA LIBRARY___________
+
+                //New Uploaded Media File
+                newUploadedMediaFile = ko.observable(model.MediaLibrary()),
+                //Media Library File Loaded Call back
+                mediaLibraryFileLoadedCallback = function (file, data) {
+                    var mediaLibrary = model.MediaLibrary();
+                    mediaLibrary.fileSource(data);
+                    mediaLibrary.fileName(file.name);
+                    mediaLibrary.fileType(file.type);
+                    mediaLibrary.companyId(selectedStore().companyId());
+                    newUploadedMediaFile(mediaLibrary);
+                    selectedStore().mediaLibraries.push(newUploadedMediaFile());
+                },
+                //#endregion
+
+                showMediaLibraryDialog = function () {
+                    view.showMediaGalleryDialog();
+                },
+                hideMediaLibraryDialog = function () {
+                    view.hideMediaGalleryDialog();
+                },
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
                 initialize = function (specifiedView) {
@@ -2600,6 +2676,15 @@ define("stores/stores.viewModel",
                     productPriorityRadioOption: productPriorityRadioOption,
                     restoreSpriteImage: restoreSpriteImage,
                     spriteImageLoadedCallback: spriteImageLoadedCallback,
+                    templateToUseCompanyDomain: templateToUseCompanyDomain,
+                    selectedCompanyDomainItem: selectedCompanyDomainItem,
+                    selectCompanyDomain: selectCompanyDomain,
+                    onDeleteCompanyDomainItem: onDeleteCompanyDomainItem,
+                    createCompanyDomainItem: createCompanyDomainItem,
+                    newUploadedMediaFile: newUploadedMediaFile,
+                    mediaLibraryFileLoadedCallback: mediaLibraryFileLoadedCallback,
+                    showMediaLibraryDialog: showMediaLibraryDialog,
+                    hideMediaLibraryDialog: hideMediaLibraryDialog,
                 };
             })()
         };

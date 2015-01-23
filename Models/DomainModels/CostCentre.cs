@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace MPC.Models.DomainModels
 {
+    [Serializable()]
     public class CostCentre
     {
         public long CostCentreId { get; set; }

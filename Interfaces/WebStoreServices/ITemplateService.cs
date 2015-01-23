@@ -13,7 +13,7 @@ namespace MPC.Interfaces.WebStoreServices
     {
         Template GetTemplate(long productID);
 
-        Template GetTemplateInDesigner(long productID);
+        Template GetTemplateInDesigner(long productID, long categoryIdv2, double height, double width, long organisationId);
 
         List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID);
         string GetTemplateNameByTemplateID(long tempID);
@@ -27,7 +27,7 @@ namespace MPC.Interfaces.WebStoreServices
         long CloneTemplateByTemplateID(long TempID);
         void regeneratePDFs(long productID,long OrganisationID, bool printCuttingMargins);
         long MergeRetailTemplate(int RemoteTemplateID, long LocalTempalteID, long organisationId);
-        string SaveTemplate(List<TemplateObject> lstTemplatesObjects, List<TemplatePage> lstTemplatePages, long organisationID, bool printCropMarks, bool printWaterMarks, bool isRoundCorners);
+        string SaveTemplate(List<TemplateObject> lstTemplatesObjects, List<TemplatePage> lstTemplatePages, long organisationID, bool printCropMarks, bool printWaterMarks, bool isRoundCorners,double bleedAreaSize);
         long SaveTemplateLocally(Template oTemplate, List<TemplatePage> oTemplatePages, List<TemplateObject> oTemplateObjects, List<TemplateBackgroundImage> oTemplateImages, List<TemplateFont> oTemplateFonts, string RemoteUrlBasePath, string BasePath,  long organisationID,int mode, long localTemplateID);
         /// <summary>
         /// To populate the template information base on template id and item rec by zohaib 10/1/2015
@@ -38,7 +38,7 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="tempPages"></param>
         void populateTemplateInfo(long templateID, Item ItemRecc, out Template template, out List<TemplatePage> tempPages);
 
-        string GenerateProof(DesignerPostSettings data);
+        string GenerateProof(DesignerPostSettings data,double bleedAreaSize);
         QuickText GetContactQuickTextFields(long CustomerID, long ContactID);
 
         bool UpdateQuickTextTemplateSelection(QuickText objQText);

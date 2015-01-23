@@ -508,7 +508,7 @@ namespace MPC.Repository.Repositories
 
             try
             {
-
+                db.Configuration.LazyLoadingEnabled = false;
                 return db.Estimates.Where(order => order.EstimateId == orderId && order.isEstimate == false).FirstOrDefault();
 
             }

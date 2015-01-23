@@ -58,7 +58,7 @@ namespace MPC.Webstore.Controllers
             else
             {
                 ViewBag.DefaultUrl = "/";
-                lstParentCategories = _myCompanyService.GetStoreParentCategories(UserCookieManager.StoreId);
+                lstParentCategories = _myCompanyService.GetStoreParentCategories(UserCookieManager.StoreId, UserCookieManager.OrganisationID);
             }
 
             return PartialView("PartialViews/CategoryHeader", lstParentCategories);

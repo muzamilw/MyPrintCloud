@@ -10,6 +10,11 @@ using System.Text;
 using System.Threading.Tasks;
 using MPC.Models.DomainModels;
 using System.Web;
+using WebSupergoo.ABCpdf8;
+using System.IO;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 
 
 namespace MPC.Implementation.WebStoreServices
@@ -447,6 +452,97 @@ namespace MPC.Implementation.WebStoreServices
             {
                 throw ex;
             }
+        }
+
+        public  void GenerateThumbnailForPdf( string url, bool insertCuttingMargin)
+        {
+            using (Doc theDoc = new Doc())
+            {
+                theDoc.Read(url);
+                theDoc.PageNumber = 1;
+                theDoc.Rect.String = theDoc.CropBox.String;
+                double cuttingMargin = 14.173228345;
+                if (insertCuttingMargin)
+                {
+                    theDoc.Rect.Inset(cuttingMargin, cuttingMargin);
+                }
+
+                Stream oImgstream = new MemoryStream();
+
+                theDoc.Rendering.DotsPerInch = 300;
+                theDoc.Rendering.Save("tmp.png", oImgstream);
+
+                theDoc.Clear();
+                theDoc.Dispose();
+
+                CreatAndSaveThumnail(oImgstream, url);
+
+            }
+        }
+        public string SaveDesignAttachments(long templateID, long itemID, long customerID, string DesignName, string caller, long organisationId)
+        {
+            return _ItemRepository.SaveDesignAttachments(templateID, itemID, customerID, DesignName, caller, organisationId);
+        }
+        public bool CreatAndSaveThumnail(Stream oImgstream,string sideThumbnailPath)
+        {
+            try
+            {
+                string orgPath = sideThumbnailPath;
+                string baseAddress = sideThumbnailPath.Substring(0, sideThumbnailPath.LastIndexOf('\\'));
+                sideThumbnailPath = Path.GetFileNameWithoutExtension(sideThumbnailPath) + "Thumb.png";
+
+                sideThumbnailPath = baseAddress + "\\" + sideThumbnailPath;
+
+                Image origImage = null;
+                if (oImgstream != null)
+                {
+                    origImage = Image.FromStream(oImgstream);
+                }
+                else
+                {
+                    origImage = Image.FromFile(orgPath);
+                }
+                
+
+                float WidthPer, HeightPer;
+
+                int NewWidth, NewHeight;
+                int ThumbnailSizeWidth = 400;
+                int ThumbnailSizeHeight = 400;
+
+                if (origImage.Width > origImage.Height)
+                {
+                    NewWidth = ThumbnailSizeWidth;
+                    WidthPer = (float)ThumbnailSizeWidth / origImage.Width;
+                    NewHeight = Convert.ToInt32(origImage.Height * WidthPer);
+                }
+                else
+                {
+                    NewHeight = ThumbnailSizeHeight;
+                    HeightPer = (float)ThumbnailSizeHeight / origImage.Height;
+                    NewWidth = Convert.ToInt32(origImage.Width * HeightPer);
+                }
+
+                Bitmap origThumbnail = new Bitmap(NewWidth, NewHeight, origImage.PixelFormat);
+                Graphics oGraphic = Graphics.FromImage(origThumbnail);
+                oGraphic.CompositingQuality = CompositingQuality.HighQuality;
+                oGraphic.SmoothingMode = SmoothingMode.HighQuality;
+                oGraphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                Rectangle oRectangle = new Rectangle(0, 0, NewWidth, NewHeight);
+                oGraphic.DrawImage(origImage, oRectangle);
+
+
+                origThumbnail.Save(sideThumbnailPath, ImageFormat.Png);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        public List<ItemAttachment> SaveArtworkAttachments(List<ItemAttachment> attachmentList)
+        {
+            return _itemAtachement.SaveArtworkAttachments(attachmentList);
         }
         public List<Item> GetItemsByOrderID(long OrderID)
         {

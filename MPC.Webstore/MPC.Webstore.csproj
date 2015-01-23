@@ -260,6 +260,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\DesignerApi\Controllers\AttachmentUploaderController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\ImagePermissionController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateBackgroundImageController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateColorStylesController.cs" />
@@ -281,6 +282,7 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CategoryHeaderController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\OrderConfirmationController.cs" />
     <Compile Include="Controllers\ProductDetailController.cs" />
     <Compile Include="Controllers\DomainController.cs" />
     <Compile Include="Controllers\AllProductsController.cs" />
@@ -337,8 +339,51 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Designer\assets-v2\addlist.png" />
+    <Content Include="Content\Designer\assets-v2\align1.png" />
+    <Content Include="Content\Designer\assets-v2\align2.png" />
+    <Content Include="Content\Designer\assets-v2\align3.png" />
     <Content Include="Content\Designer\assets-v2\back.png" />
+    <Content Include="Content\Designer\assets-v2\bckground.png" />
+    <Content Include="Content\Designer\assets-v2\bold.png" />
+    <Content Include="Content\Designer\assets-v2\checkbox_sprite.png" />
+    <Content Include="Content\Designer\assets-v2\checkbox_sprite.svg" />
+    <Content Include="Content\Designer\assets-v2\circleObject.png" />
+    <Content Include="Content\Designer\assets-v2\crm.png" />
     <Content Include="Content\Designer\assets-v2\failure1.png" />
+    <Content Include="Content\Designer\assets-v2\imgCharSpace.png" />
+    <Content Include="Content\Designer\assets-v2\italic.png" />
+    <Content Include="Content\Designer\assets-v2\lineHeight.png" />
+    <Content Include="Content\Designer\assets-v2\list.png" />
+    <Content Include="Content\Designer\assets-v2\placeholderTxt.png" />
+    <Content Include="Content\Designer\assets-v2\presets\preset1.png" />
+    <Content Include="Content\Designer\assets-v2\presets\preset10.png" />
+    <Content Include="Content\Designer\assets-v2\presets\preset10_1.png" />
+    <Content Include="Content\Designer\assets-v2\presets\preset10_2.png" />
+    <Content Include="Content\Designer\assets-v2\presets\preset2.png" />
+    <Content Include="Content\Designer\assets-v2\presets\preset3.png" />
+    <Content Include="Content\Designer\assets-v2\presets\preset4.png" />
+    <Content Include="Content\Designer\assets-v2\presets\preset5.png" />
+    <Content Include="Content\Designer\assets-v2\presets\preset5_1.png" />
+    <Content Include="Content\Designer\assets-v2\presets\preset5_2.png" />
+    <Content Include="Content\Designer\assets-v2\presets\preset6.png" />
+    <Content Include="Content\Designer\assets-v2\presets\preset7.png" />
+    <Content Include="Content\Designer\assets-v2\presets\preset8.png" />
+    <Content Include="Content\Designer\assets-v2\presets\preset9.png" />
+    <Content Include="Content\Designer\assets-v2\presets\presets-13.png" />
+    <Content Include="Content\Designer\assets-v2\presets\presets-15.png" />
+    <Content Include="Content\Designer\assets-v2\presets\presets11.png" />
+    <Content Include="Content\Designer\assets-v2\presets\presets12.png" />
+    <Content Include="Content\Designer\assets-v2\presets\presets14.png" />
+    <Content Include="Content\Designer\assets-v2\presets\presets16.png" />
+    <Content Include="Content\Designer\assets-v2\rectObject.png" />
+    <Content Include="Content\Designer\assets-v2\sprite1.png" />
+    <Content Include="Content\Designer\assets-v2\txtObject.png" />
+    <Content Include="Content\Designer\assets-v2\underline.png" />
+    <Content Include="Content\Designer\assets-v2\uploadfont.png" />
+    <Content Include="Content\Designer\assets-v2\valign1.png" />
+    <Content Include="Content\Designer\assets-v2\valign2.png" />
+    <Content Include="Content\Designer\assets-v2\valign3.png" />
     <Content Include="Content\Images\fancybox_loading.gif" />
     <Content Include="Content\Designer\assets-v2\bkColor.jpg" />
     <Content Include="Content\Designer\assets-v2\bleed_area.png" />
@@ -598,13 +643,14 @@
     <Content Include="Views\Shared\PartialViews\ShopCartAddressSelect.cshtml" />
     <Content Include="Views\Shared\PartialViews\Dashboard.cshtml" />
     <Content Include="Views\Shared\PartialViews\Receipt.cshtml" />
+    <Content Include="Views\Shared\PartialViews\OrderConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\DesignerApi\Models\" />
     <Folder Include="Areas\DesignerApi\Views\Shared\" />
     <Folder Include="Areas\Designer\Models\" />
-    <Folder Include="Views\Receipt\" />
+    <Folder Include="Views\OrderConfirmation\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -687,7 +733,9 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>30630</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://mpc</IISUrl>
+          <IISUrl>http://mpc/</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://mpc/about</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

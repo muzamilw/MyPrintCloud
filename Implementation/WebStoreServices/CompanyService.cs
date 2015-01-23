@@ -41,7 +41,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IStateRepository _StateRepository;
         private readonly ICountryRepository _countryRepository;
         private readonly IFavoriteDesignRepository _favoriteRepository;
-       
+
 
         private string pageTitle = string.Empty;
         private string MetaKeywords = string.Empty;
@@ -57,7 +57,7 @@ namespace MPC.Implementation.WebStoreServices
         public CompanyService(ICompanyRepository companyRepository, ICmsSkinPageWidgetRepository widgetRepository,
          ICompanyBannerRepository companyBannerRepository, IProductCategoryRepository productCategoryRepository, ICmsPageRepository cmspageRepository,
             IPageCategoryRepository pageCategoryRepository, ICompanyContactRepository companyContactRepository, ICurrencyRepository currencyRepository
-            , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository,IItemRepository itemRepository, IAddressRepository addressRepository,IMarkupRepository markuprepository
+            , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository, IItemRepository itemRepository, IAddressRepository addressRepository, IMarkupRepository markuprepository
             , ICountryRepository countryRepository, IStateRepository stateRepository, IFavoriteDesignRepository favoriteRepository, IStateRepository StateRepository, ICompanyTerritoryRepository CompanyTerritoryRepository)
         {
             this._CompanyRepository = companyRepository;
@@ -92,13 +92,13 @@ namespace MPC.Implementation.WebStoreServices
 
         public MyCompanyDomainBaseReponse GetStoreFromCache(long companyId)
         {
-            
+
 
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
             CacheItemPolicy policy = null;
 
-             MyCompanyDomainBaseReponse responseObject = cache.Get(CacheKeyName) as MyCompanyDomainBaseReponse;
+            MyCompanyDomainBaseReponse responseObject = cache.Get(CacheKeyName) as MyCompanyDomainBaseReponse;
 
             policy = new CacheItemPolicy();
             policy.Priority = CacheItemPriority.NotRemovable;
@@ -118,7 +118,7 @@ namespace MPC.Implementation.WebStoreServices
                 Company oCompany = GetCompanyByCompanyID(companyId);
 
                 CacheEntryRemovedCallback callback = null;
-         
+
                 MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
                 oStore.Company = oCompany;
                 oStore.Organisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
@@ -216,9 +216,9 @@ namespace MPC.Implementation.WebStoreServices
             return _CompanyRepository.GetStoreIdFromDomain(domain);
         }
 
-        public List<ProductCategory> GetCompanyParentCategoriesById(long companyId)
+        public List<ProductCategory> GetCompanyParentCategoriesById(long companyId, long OrganisationId)
         {
-            return _productCategoryRepository.GetParentCategoriesByStoreId(companyId);
+            return _productCategoryRepository.GetParentCategoriesByStoreId(companyId, OrganisationId);
         }
 
         public CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request)
@@ -242,10 +242,10 @@ namespace MPC.Implementation.WebStoreServices
 
         public long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID)
         {
-            return _CompanyContactRepository.CreateContact(Contact, Name, OrganizationID, CustomerType, TwitterScreanName,SaleAndOrderManagerID,StoreID);
+            return _CompanyContactRepository.CreateContact(Contact, Name, OrganizationID, CustomerType, TwitterScreanName, SaleAndOrderManagerID, StoreID);
         }
 
-       
+
 
         public Company GetCompanyByCompanyID(Int64 CompanyID)
         {
@@ -263,8 +263,8 @@ namespace MPC.Implementation.WebStoreServices
         }
         public CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName)
         {
-        
-            return _CompanyContactRepository.CreateCorporateContact(CustomerId, regContact,TwitterScreenName);
+
+            return _CompanyContactRepository.CreateCorporateContact(CustomerId, regContact, TwitterScreenName);
         }
 
         public string GetUiCulture(long organisationId)
@@ -311,16 +311,16 @@ namespace MPC.Implementation.WebStoreServices
             return _productCategoryRepository.GetAllParentCorporateCatalogByTerritory(customerId, ContactId);
         }
 
-        public List<ProductCategory> GetStoreParentCategories(long companyId)
+        public List<ProductCategory> GetStoreParentCategories(long companyId, long OrganisationId)
         {
-            return _productCategoryRepository.GetParentCategoriesByStoreId(companyId);
+            return _productCategoryRepository.GetParentCategoriesByStoreId(companyId, OrganisationId);
         }
-        public List<ProductCategory> GetAllCategories(long companyId) 
+        public List<ProductCategory> GetAllCategories(long companyId)
         {
             return _productCategoryRepository.GetAllCategoriesByStoreId(companyId);
         }
 
-        public CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId) 
+        public CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId)
         {
             return _CompanyContactRepository.GetCorporateUser(email, password, companyId);
         }
@@ -338,14 +338,18 @@ namespace MPC.Implementation.WebStoreServices
         public List<ProductCategory> GetAllChildCorporateCatalogByTerritory(int customerId, int ContactId, int ParentCatId)
         {
             return _productCategoryRepository.GetAllChildCorporateCatalogByTerritory(customerId, ContactId, ParentCatId);
-            
+
         }
 
 
         public string[] CreatePageMetaTags(string MetaTitle, string metaDesc, string metaKeyword, StoreMode mode, string StoreName, Address address = null)
         {
-                
 
+            this.pageTitle = "";
+            this.MetaKeywords = "";
+            this.MetaDEsc = "";
+            if (address != null)
+            {
                 this.pageTitle = MetaTitle + " - " + StoreName + ", " + address.City + ", " + address.State;
                 this.MetaKeywords = metaKeyword + ", " + address.City + ", " + address.State + ", " + address.Country + "," + address.PostCode;
 
@@ -360,7 +364,9 @@ namespace MPC.Implementation.WebStoreServices
                         this.MetaDEsc = metaDesc + " - " + StoreName + ", " + address.City + ", " + address.State;
                     }
                 }
-                return new[] { pageTitle, MetaKeywords, MetaDEsc };
+            }
+
+            return new[] { pageTitle, MetaKeywords, MetaDEsc };
         }
 
         public Address GetDefaultAddressByStoreID(Int64 StoreID)
@@ -414,7 +420,7 @@ namespace MPC.Implementation.WebStoreServices
         public Organisation getOrganisatonByID(int OID)
         {
             return _organisationRepository.GetOrganizatiobByID(OID);
-            
+
         }
         public string GetContactMobile(long CID)
         {
@@ -426,17 +432,17 @@ namespace MPC.Implementation.WebStoreServices
             return _cmsPageRepositary.getPageByID(PageID);
         }
 
-        public bool canContactPlaceOrder(long contactID,out bool hasWebAccess)
+        public bool canContactPlaceOrder(long contactID, out bool hasWebAccess)
         {
-            return _CompanyContactRepository.canContactPlaceOrder(contactID,out hasWebAccess);
+            return _CompanyContactRepository.canContactPlaceOrder(contactID, out hasWebAccess);
         }
 
-        public string GetCountryNameById(long CountryId) 
+        public string GetCountryNameById(long CountryId)
         {
             return _countryRepository.GetCountryNameById(CountryId);
         }
 
-       
+
 
         /// <summary>
         /// Gets the count of users register against a company by its id
@@ -609,18 +615,18 @@ namespace MPC.Implementation.WebStoreServices
             {
                 return _addressRepository.GetAddressByCompanyID(companyID);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public  CompanyTerritory GetTerritoryById(long territoryId)
+        public CompanyTerritory GetTerritoryById(long territoryId)
         {
             try
             {
                 return _CompanyTerritoryRepository.GetTerritoryById(territoryId);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -631,7 +637,7 @@ namespace MPC.Implementation.WebStoreServices
             {
                 return _addressRepository.GetAdressesByContactID(contactID);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
 
@@ -643,7 +649,7 @@ namespace MPC.Implementation.WebStoreServices
             {
                 return _addressRepository.GetBillingAndShippingAddresses(TerritoryID);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -687,13 +693,24 @@ namespace MPC.Implementation.WebStoreServices
         {
             try
             {
-               return _CompanyContactRepository.GetContactTerritoryID(CID);
+                return _CompanyContactRepository.GetContactTerritoryID(CID);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
+  	 public List<Address> GetContactCompanyAddressesList(long BillingAddressId, long ShippingAddressid, long PickUpAddressId)
+        {
+            try
+            {
+                return _addressRepository.GetContactCompanyAddressesList(BillingAddressId, ShippingAddressid, PickUpAddressId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }        
         public long GetContactAddressID(long cID)
         {
             try
@@ -716,6 +733,16 @@ namespace MPC.Implementation.WebStoreServices
             {
                 throw ex;
             }
+        }
+         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <returns></returns>
+
+        public long GetContactIdByCompanyId(long CompanyId)
+        {
+            return _CompanyContactRepository.GetContactIdByCustomrID(CompanyId);
         }
         public string GetCountryCodeById(long countryId)
         {
@@ -756,5 +783,5 @@ namespace MPC.Implementation.WebStoreServices
         #endregion
     }
 
-    
+
 }

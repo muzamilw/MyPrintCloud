@@ -61,13 +61,13 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         List<Item> GetItemsForWidgets();
          Item GetItemByOrderID(long OrderID);
-         List<Item> GetItemsByOrderID(long OrderID);
+          List<Item> GetItemsByOrderID(long OrderID);
+         string SaveDesignAttachments(long templateID, long itemID, long customerID, string DesignName, string caller, long organisationId);
 
          List<Item> GetListOfDeliveryItemByOrderID(long OID);
 
          bool RemoveListOfDeliveryItemCostCenter(long OrderId);
 
          bool AddUpdateItemFordeliveryCostCenter(long orderId, long DeliveryCostCenterId, double DeliveryCost, long customerID, string DeliveryName, StoreMode Mode, bool isDeliveryTaxable, bool IstaxONService, double GetServiceTAX, double TaxRate);
-
     }
 }

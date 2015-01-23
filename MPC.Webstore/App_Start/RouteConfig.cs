@@ -29,6 +29,8 @@ namespace MPC.Webstore
                  , "store/{name}"
                  , new { controller = "Domain", action = "Index", name = "" });
 
+    
+
             routes.MapRoute(
              "AllProducts",
              "AllProducts",

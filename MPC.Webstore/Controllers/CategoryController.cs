@@ -326,20 +326,20 @@ namespace MPC.Webstore.Controllers
             MyCompanyDomainBaseResponse companyBaseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
             MyCompanyDomainBaseResponse organisationBaseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
             long ContactID = _myClaimHelper.loginContactID();
-
+            long CompanyID = _myClaimHelper.loginContactCompanyID();
             if (UserCookieManager.OrderId == 0)
             {
                 long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
 
                 // create new order
 
-                long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, organisationBaseResponse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, _myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), ref TemporaryRetailCompanyId);
+                long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, organisationBaseResponse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
                 if (OrderID > 0)
                 {
 
                     UserCookieManager.OrderId = OrderID;
-                
-                    Item item = _IItemService.CloneItem(id, 0, OrderID, UserCookieManager.StoreId, 0, 0, null, false, false, ContactID);
+
+                    Item item = _IItemService.CloneItem(id, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID);
 
                     if (item != null)
                     {
@@ -352,7 +352,30 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-                Item item = _IItemService.CloneItem(id, 0, UserCookieManager.OrderId, UserCookieManager.StoreId, 0, 0, null, false, false, ContactID);
+                if (UserCookieManager.TemporaryCompanyId == 0 && UserCookieManager.StoreMode == (int)StoreMode.Retail && ContactID == 0)
+                {
+                    long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
+
+                    // create new order
+
+                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, organisationBaseResponse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    if (OrderID > 0)
+                    {
+                        UserCookieManager.OrderId = OrderID;
+                    }
+                    if (TemporaryRetailCompanyId != 0)
+                    {
+                        UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
+                        ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
+                    }
+                    CompanyID = TemporaryRetailCompanyId;
+                }
+                else if (UserCookieManager.TemporaryCompanyId > 0 && UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                {
+                    CompanyID = UserCookieManager.TemporaryCompanyId;
+                    ContactID = _myCompanyService.GetContactIdByCompanyId(CompanyID);
+                }
+                Item item = _IItemService.CloneItem(id, 0, UserCookieManager.OrderId, CompanyID, 0, 0, null, false, false, ContactID);
 
                 if (item != null)
                 {
@@ -383,7 +406,7 @@ namespace MPC.Webstore.Controllers
             ProductName = _IItemService.specialCharactersEncoder(ProductName);
             //Designer/productName/CategoryIDv2/TemplateID/ItemID/companyID/cotnactID/printCropMarks/printWaterMarks/isCalledFrom/IsEmbedded;
             bool printCropMarks = true;
-            string URL = "~/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + (int)companyBaseResponse.Company.CompanyId + "/" + ContactID + "/" + printCropMarks + "/" + printWaterMark + "/" + isCalledFrom + "/" + isEmbedded;
+            string URL = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + UserCookieManager.OrganisationID + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
 
             // ItemID ok
             // TemplateID ok
@@ -393,7 +416,8 @@ namespace MPC.Webstore.Controllers
             // contactid // ask from iqra about retail and corporate
             // companyID // ask from iqra
             // isembaded ook
-            return View(URL);
+            Response.Redirect(URL);
+            return null;
         }
 
         private void SetPageMEtaTitle(string CatName, string CatDes, string Keywords, string Title, MyCompanyDomainBaseResponse baseResponse)

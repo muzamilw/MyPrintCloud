@@ -257,6 +257,7 @@
     <Compile Include="Areas\Api\Controllers\SectionsForPhraseLibraryController.cs" />
     <Compile Include="Areas\Api\ModelMappers\CmsOfferMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ColorPalleteMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MediaLibraryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductCategoryItemMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PhraseFieldMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PhraseMapper.cs" />
@@ -373,6 +374,7 @@
     <Compile Include="Areas\Api\Models\ItemStateTax.cs" />
     <Compile Include="Areas\Api\Models\ItemStockOption.cs" />
     <Compile Include="Areas\Api\Models\ItemVideo.cs" />
+    <Compile Include="Areas\Api\Models\MediaLibrary.cs" />
     <Compile Include="Areas\Api\Models\PageCategory.cs" />
     <Compile Include="Areas\Api\Models\PageCategoryDropDown.cs" />
     <Compile Include="Areas\Api\Models\PaymentGateway.cs" />
@@ -900,6 +902,7 @@
     <Content Include="Images\orderedList7.png" />
     <Content Include="Images\orderedList8.png" />
     <Content Include="Images\orderedList9.png" />
+    <Content Include="MPC_Content\DefaultCss\Default_CompanyStyles.css" />
     <Content Include="MPC_Content\DefaultSprite\sprite.bakup.png" />
     <Content Include="RichTextEditor\adapters\jquery.js" />
     <Content Include="RichTextEditor\build-config.js" />
@@ -1227,6 +1230,12 @@
     <Content Include="RichTextEditor\skins\moono\images\lock.png" />
     <Content Include="RichTextEditor\skins\moono\images\refresh.png" />
     <Content Include="RichTextEditor\styles.js" />
+    <Content Include="Scripts\Ace\lib\ace\ace.js" />
+    <Content Include="Scripts\Ace\lib\ace\mode-css.js" />
+    <Content Include="Scripts\Ace\lib\ace\theme-clouds.js" />
+    <Content Include="Scripts\Ace\lib\ace\theme-twilight.js" />
+    <Content Include="Scripts\Ace\lib\ace\worker-css.js" />
+    <Content Include="Scripts\knockout-ace.js" />
     <Content Include="Scripts\Ace\ace.js" />
     <Content Include="Scripts\Ace\colorpicker.js" />
     <Content Include="Scripts\Ace\mode-css.js" />

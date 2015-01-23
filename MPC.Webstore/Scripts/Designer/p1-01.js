@@ -9,20 +9,20 @@
 
 $('#imageUploader').change(function () {
     StartLoader();
-    var uploadPath = "Organisation" + ogranisationId + "/Templates/";
+    var uploadPath = "Organisation" + organisationId + "/Templates/";
     if (IsCalledFrom == "1" || IsCalledFrom == "2")
     {
-        uploadPath = "Organisation" + ogranisationId + "/Templates/" + "UserImgs/" + ContactID;
+        uploadPath = "Organisation" + organisationId + "/Templates/" + "UserImgs/" + ContactID;
     }
     else if (IsCalledFrom == "3" || IsCalledFrom == "4")
     {
-        uploadPath = "Organisation" + ogranisationId + "/Templates/" + "UserImgs/Retail/" + ContactID;
+        uploadPath = "Organisation" + organisationId + "/Templates/" + "UserImgs/Retail/" + ContactID;
     }
     else
     {
         uploadPath += "/" + tID;
     }
-    var url = uploadPath;
+    var url = "Designer/" + uploadPath;
     while (url.indexOf('/') != -1)
         url = url.replace("/", "__");
     
@@ -47,7 +47,7 @@ $('#imageUploader').change(function () {
                     if (isBkPnlUploads) {
                         panelType = 3;
                     }
-                    $.getJSON("/designerapi/TemplateBackgroundImage/UploadImageRecord/" + messages[i] + "/" + tID + "/" + IsCalledFrom + "/" + ContactID + "/"+ogranisationId + "/" + panelType  + "/" + CustomerID ,
+                    $.getJSON("/designerapi/TemplateBackgroundImage/UploadImageRecord/" + messages[i] + "/" + tID + "/" + IsCalledFrom + "/" + ContactID + "/"+organisationId + "/" + panelType  + "/" + CustomerID ,
                         function (result) {
                             $("#progressbar").css("display", "none");
                             $(".imageEditScreenContainer").css("display", "block");
@@ -86,7 +86,8 @@ $('#fontUploader').change(function () {
         return false;
     }
     StartLoader();
-    var url = "Organisation" + ogranisationId + "/WebFonts/" + CustomerID;
+    var url = "Designer/" + "Organisation" + organisationId + "/WebFonts/" + CustomerID;
+
     while (url.indexOf('/') != -1)
         url = url.replace("/", "__");
     var files = $("#fontUploader").get(0).files;
@@ -111,7 +112,7 @@ $('#fontUploader').change(function () {
                     var ext1 = messages[0].substr(messages[0].lastIndexOf('.') + 1);
                     var fontfile = messages[0];
                     fontfile = fontfile.replace('.' + ext1, '')
-                    $.get("/designerapi/TemplateFonts/uploadFontRecord/" + CustomerID + "/" + ogranisationId + "/" + fontfile + "/" + fontDisplayName,
+                    $.get("/designerapi/TemplateFonts/uploadFontRecord/" + CustomerID + "/" + organisationId + "/" + fontfile + "/" + fontDisplayName,
                       function (DT) {
                           var ext1 = messages[0].substr(messages[0].lastIndexOf('.') + 1);
                           var fontName = messages[0];
@@ -193,7 +194,7 @@ function VarifyFontNames(font1, font2, font3) {
 function UpdateFontToUI(fontName, fontFileName) {
     var Tc1 = CustomerID;
     var Cty;
-    var path = "/MPC_Content/Designer/Organisation" + ogranisationId + "/WebFonts/" + CustomerID
+    var path = "/MPC_Content/Designer/Organisation" + organisationId + "/WebFonts/" + CustomerID
     if (IsCalledFrom == 1) {
         Tc1 = -1;
     }

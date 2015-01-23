@@ -44,16 +44,6 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             return Request.CreateResponse(HttpStatusCode.OK, template, formatter);
         }
-        [HttpPost]
-        public HttpResponseMessage Preview([FromBody]  QuickText obj)
-        {
-            var result = templateService.UpdateQuickTextTemplateSelection(obj);
-            var formatter = new JsonMediaTypeFormatter();
-            var json = formatter.SerializerSettings;
-            json.Formatting = Newtonsoft.Json.Formatting.Indented;
-            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
-        }
 
         //public List<TemplatePages> GetTemplatePages(int TemplateID) // moved to template page controller new function name = GetTemplatePagesSP
         //public List<TemplateColorStyles> GetColorStyle(int ProductId) // moved to TemplateColorStyleController
