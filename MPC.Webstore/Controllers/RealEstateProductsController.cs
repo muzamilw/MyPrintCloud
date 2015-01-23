@@ -19,13 +19,13 @@ namespace MPC.Webstore.Controllers
             this._IItemService = IItemService;      
         }
         // GET: RealEstateProducts
-        public ActionResult Index()
+        public ActionResult Index(int listingId)
         {
             List<usp_GetRealEstateProducts_Result> lstRealEstateProducts = _IItemService.GetRealEstateProductsByCompanyID(UserCookieManager.StoreId);
 
             ViewData["RealEstateProducts"] = lstRealEstateProducts;
 
-            return View("PartialViews/RealEstateProducts");
+            return View("PartialViews/RealEstateProducts", listingId);
         }
     }
 }

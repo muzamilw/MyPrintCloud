@@ -36,8 +36,13 @@ namespace MPC.Webstore
           );
             routes.MapRoute(
              "RealEstateProducts",
-             "RealEstateProducts",
-             new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+             "RealEstateProducts/{listingId}",
+             new { controller = "Home", action = "Index", listingId = "" }
+          );
+            routes.MapRoute(
+             "RealEstateSmartForm",
+             "RealEstateSmartForm/{listingId}/{itemId}",
+             new { controller = "Home", action = "Index", listingId = "", itemId = "" }
           );
             routes.MapRoute(
             "Dashboard",

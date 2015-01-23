@@ -28,7 +28,7 @@
             @foreach (var listing in ViewData["Listings"] as List<MPC.Webstore.Controllers.RealEstateItemController.RealEstateListing>)
             {
                 <li>
-                    <a id="hlItemUrl" href="/RealEstateProducts" onclick="ShowLoader();">
+                    <a id="hlItemUrl" href="/RealEstateProducts/@listing.ListingProperty.ListingId" onclick="ShowLoader();">
                         <div style="height: 120px;">
                             <img id="imgBanner" src="@listing.ListingImageURL" style="height: 100px; width: 150px;" />
                         </div>

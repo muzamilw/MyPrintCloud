@@ -298,6 +298,7 @@
     <Compile Include="Controllers\RealEstateHeaderController.cs" />
     <Compile Include="Controllers\RealEstateItemController.cs" />
     <Compile Include="Controllers\RealEstateProductsController.cs" />
+    <Compile Include="Controllers\RealEstateSmartFormController.cs" />
     <Compile Include="Controllers\ReceiptController.cs" />
     <Compile Include="Controllers\SecondaryPagesController.cs" />
     <Compile Include="Controllers\ShopCartAddressSelectController.cs" />
@@ -619,6 +620,7 @@
     <Content Include="Views\Shared\PartialViews\Receipt.cshtml" />
     <Content Include="Views\Shared\PartialViews\RealEstateFooter.cshtml" />
     <Content Include="Views\Shared\PartialViews\RealEstateProducts.cshtml" />
+    <Content Include="Views\Shared\PartialViews\RealEstateSmartForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -627,6 +629,7 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Views\RealEstateFooter\" />
     <Folder Include="Views\RealEstateProducts\" />
+    <Folder Include="Views\RealEstateSmartForm\" />
     <Folder Include="Views\Receipt\" />
   </ItemGroup>
   <ItemGroup>

@@ -1,27 +1,30 @@
-﻿@using MPC.Webstore.Common;
-
-@foreach (var cat in ViewData["RealEstateProducts"] as List<MPC.Models.DomainModels.usp_GetRealEstateProducts_Result>)
-{
-    <div id="Maincontainer" class="CAT_Body rounded_corners">
-        <div class="LCLB">
-            @{
+﻿@Model int
+@using MPC.Webstore.Common;
 
 
-                <a id="hlCategory" href="#">
-                    <div class="PDTC_CAT FI_CAT">
-                        @{
-
-                            <img id="imgThumbnail" class="CAT_ThumbnailPath" src='@Html.GetAppBasePath()@cat.ThumbnailPath' />
-                        }
-                    </div>
-                </a>
-            }
-        </div>
-        <div class="product_detail_image_heading_CAT">
-            <label id="lblProductName">@cat.ProductName</label>
-        </div>
-        <div class="topcat_desc_CAT">
-            <label id="lblDescription1">@cat.ProductCode</label>
-        </div>
+<div class="container content_area">
+    <div class="left_right_padding row">
+        @foreach (var cat in ViewData["RealEstateProducts"] as List<MPC.Models.DomainModels.usp_GetRealEstateProducts_Result>)
+        {
+            <div id="Maincontainer" class="CAT_Body rounded_corners">
+                <div class="LCLB">
+                    @{
+                        <a id="hlCategory" href="/RealEstateSmartForm/@Model/@cat.ItemId">
+                            <div class="PDTC_CAT FI_CAT">
+                                @{
+                                    <img id="imgThumbnail" class="CAT_ThumbnailPath" src='@Html.GetAppBasePath()@cat.ThumbnailPath' />
+                                }
+                            </div>
+                        </a>
+                    }
+                </div>
+                <div class="product_detail_image_heading_CAT">
+                    <label id="lblProductName">@cat.ProductName</label>
+                </div>
+                <div class="topcat_desc_CAT">
+                    <label id="lblDescription1">@cat.ProductCode</label>
+                </div>
+            </div>
+        }
     </div>
-}
+</div>
