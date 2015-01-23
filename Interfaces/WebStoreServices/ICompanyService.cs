@@ -173,8 +173,8 @@ namespace MPC.Interfaces.WebStoreServices
 
         string GetCountryCodeById(long countryId);
 
-        long SystemWeight(long OrganisationID);
+        string SystemWeight(long OrganisationID);
 
-        long SystemLength(long OrganisationID);
+        string SystemLength(long OrganisationID);
     }
 }

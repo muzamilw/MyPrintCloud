@@ -91,7 +91,7 @@ namespace MPC.Webstore.ViewModels
         public long CountryID { get; set; }
         public long StateID { get; set; }
 
-        public long SelectedDeliveryAddress { get; set; }
+        public int SelectedDeliveryAddress { get; set; }
 
         public long SelectedBillingAddress { get; set; }
 
@@ -115,6 +115,10 @@ namespace MPC.Webstore.ViewModels
         public double GrandTotal { get; set; }
 
         public string chkBoxDeliverySameAsBilling { get; set; }
+
+        public string PostBackCallFrom { get; set; }
+
+        public long OrderId { get; set; }
 
 
 

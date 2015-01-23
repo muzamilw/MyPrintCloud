@@ -403,28 +403,19 @@ namespace MPC.Repository.Repositories
             return hash;
         }
 
-        public long SystemWeight(long OrganisationID)
+        public string SystemWeight(long OrganisationID)
         {
           
             try
             {
-                long Weightunit = 0;
+               
+                var qry =  from systemWeight in db.WeightUnits
+                            join organisation in db.Organisations on systemWeight.Id equals organisation.SystemWeightUnit
+                            where organisation.OrganisationId == OrganisationID
+                            select systemWeight.UnitName;
 
-
-//                select * from WeightUnit as wu
-//inner join organisation as org on wu.id = org.SystemWeightUnit
-
-//                 var query = from systemWeight in db.sy
-//                            join resource in db.CostcentreResources on sysUser.SystemUserId equals resource.ResourceId
-//                            where resource.CostCentreId == CostcentreID
-//                            select new CostCentreResource()
-//                            {
-//                                ResourceId = resource.ResourceId ?? 0,
-//                                UserName = sysUser.UserName
-//                            };
-
-                return Weightunit;
-                //return db.Organisations.Where(s => s.OrganisationId == OrganisationID).Select(s => s.SystemWeightUnit ?? 0).FirstOrDefault();
+                return qry.ToString();
+                
             }
             catch(Exception ex)
             {
@@ -435,11 +426,19 @@ namespace MPC.Repository.Repositories
             
             
         }
-        public long SystemLength(long OrganisationID)
+        public string SystemLength(long OrganisationID)
         {
             try
             {
-                return db.Organisations.Where(o => o.OrganisationId == OrganisationID).Select(s => s.SystemLengthUnit ?? 0).FirstOrDefault();
+
+                var qry = from systemLength in db.LengthUnits
+                          join organisation in db.Organisations on systemLength.Id equals organisation.SystemLengthUnit
+                          where organisation.OrganisationId == OrganisationID
+                          select systemLength.UnitName;
+
+                return qry.ToString();
+
+              //  return db.Organisations.Where(o => o.OrganisationId == OrganisationID).Select(s => s.SystemLengthUnit ?? 0).FirstOrDefault();
             }
             catch (Exception ex)
             {

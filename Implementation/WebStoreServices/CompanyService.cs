@@ -729,7 +729,7 @@ namespace MPC.Implementation.WebStoreServices
             }
         }
 
-        public long SystemWeight(long OrganisationID)
+        public string SystemWeight(long OrganisationID)
         {
             try
             {
@@ -741,7 +741,7 @@ namespace MPC.Implementation.WebStoreServices
             }
         }
 
-        public long SystemLength(long OrganisationID)
+        public string SystemLength(long OrganisationID)
         {
             try
             {

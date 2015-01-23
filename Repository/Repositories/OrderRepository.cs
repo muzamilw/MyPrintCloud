@@ -194,7 +194,7 @@ namespace MPC.Repository.Repositories
 
             try
             {
-                int Orderid = Convert.ToInt32(orderID);
+                long Orderid = orderID;
 
                 tblOrder = db.Estimates.Where(estm => estm.EstimateId == Orderid && estm.StatusId == orderStsID).FirstOrDefault();
                 if (tblOrder != null)
@@ -257,7 +257,7 @@ namespace MPC.Repository.Repositories
                 shopCart.DeliveryCostCenterID = (tblEstimate.DeliveryCostCenterId.HasValue && tblEstimate.DeliveryCostCenterId.Value > 0) ? tblEstimate.DeliveryCostCenterId.Value : 0;
                 shopCart.DeliveryCost = (tblEstimate.DeliveryCost.HasValue && tblEstimate.DeliveryCost.Value > 0) ? tblEstimate.DeliveryCost.Value : 0;
                 //5. get delivery item 
-                Item DeliveryItemOfOrder = GetDeliveryOrderItem(Convert.ToInt32(tblEstimate.EstimateId));
+                Item DeliveryItemOfOrder = GetDeliveryOrderItem(tblEstimate.EstimateId);
                 if (DeliveryItemOfOrder != null)
                 {
                     shopCart.DeliveryTaxValue = DeliveryItemOfOrder.Qty1Tax1Value ?? 0;
@@ -489,7 +489,7 @@ namespace MPC.Repository.Repositories
         }
 
 
-        public Item GetDeliveryOrderItem(int OrderId)
+        public Item GetDeliveryOrderItem(long OrderId)
         {
             try
             {
@@ -1000,9 +1000,9 @@ namespace MPC.Repository.Repositories
                 short orderStatusID = (short)orderStatus;
 
 
-                // tblOrder = db.Estimates.Where(estm => estm.EstimateId == orderID).FirstOrDefault();
+                 tblOrder = db.Estimates.Where(estm => estm.EstimateId == orderID).FirstOrDefault();
 
-                if (order != null)
+                 if (tblOrder != null)
                 {
                     
                       
@@ -1070,19 +1070,23 @@ namespace MPC.Repository.Repositories
                         // we are commenting this function because delivery information will not handle by webstore decision changed on 17/12/2012
                         //OrderManager.CreateItemShippingJobSchedule(dbContext, tblOrder, deliveryAddress.AddressID);
 
-                        if (db.SaveChanges() > 0)
-                        {
+                        db.SaveChanges();
+                        dbContextTransaction.Commit();
+                        result = true;
 
-                            result = true;
+                        //if (db.SaveChanges() > 0)
+                        //{
+
+                        //    result = true;
                           
-                            dbContextTransaction.Commit();
+                        //    dbContextTransaction.Commit();
                  
-                        }
-                        else
-                        {
-                            dbContextTransaction.Rollback();
-                            throw new Exception("no changes made");
-                        }
+                        //}
+                        //else
+                        //{
+                        //    dbContextTransaction.Rollback();
+                        //    //throw new Exception("no changes made");
+                        //}
                             
 
 
@@ -1092,6 +1096,7 @@ namespace MPC.Repository.Repositories
                 catch (Exception ex)
                 {
                    dbContextTransaction.Rollback();
+                   throw ex;
                 }
 
             }
@@ -1124,7 +1129,8 @@ namespace MPC.Repository.Repositories
                         
                        
                         RemoveItemAttacmentPhysically(itemAttatchments); // file removing physicslly
-                        DeleteTemplateFiles(clonedTempldateFiles.ProductId,org.OrganisationId); // file removing
+                        if (clonedTempldateFiles != null)
+                             DeleteTemplateFiles(clonedTempldateFiles.ProductId,org.OrganisationId); // file removing
                     }
 
                     //dbContext.tbl_items.DeleteObject(item);
@@ -1240,8 +1246,13 @@ namespace MPC.Repository.Repositories
 
 
                     //Remove the Templates if he has designed any
-                    if (!ValidateIfTemplateIDIsAlreadyBooked(tblItem.ItemId, tblItem.TemplateId))
-                        clonedTemplate = RemoveTemplates(tblItem.TemplateId);
+                    if (tblItem.TemplateId != null && tblItem.TemplateId > 0)
+                    {
+                        if (!ValidateIfTemplateIDIsAlreadyBooked(tblItem.ItemId, tblItem.TemplateId))
+                            clonedTemplate = RemoveTemplates(tblItem.TemplateId);
+                    }
+                        
+                    
 
                     //Section cost centeres
                     tblItem.ItemSections.ToList().ForEach(itemSection => itemSection.SectionCostcentres.ToList().ForEach(sectCost => db.SectionCostcentres.Remove(sectCost)));

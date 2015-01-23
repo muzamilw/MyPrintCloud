@@ -38,9 +38,9 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         IEnumerable<Company> GetAllSuppliers();
 
-        long SystemWeight(long OrganisationID);
+        string SystemWeight(long OrganisationID);
 
-        long SystemLength(long OrganisationID);
+        string SystemLength(long OrganisationID);
 
     }
 }
