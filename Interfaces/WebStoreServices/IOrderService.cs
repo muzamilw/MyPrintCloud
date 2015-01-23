@@ -60,7 +60,7 @@ namespace MPC.Interfaces.WebStoreServices
         //                                     string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde, long BrokerContactCompanyID);
 
 
-
+        bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode);
 
     }
 }

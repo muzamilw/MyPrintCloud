@@ -62,5 +62,7 @@ namespace MPC.Interfaces.Repository
         List<Item> GetItemsForWidgets();
          Item GetItemByOrderID(long OrderID);
          string SaveDesignAttachments(long templateID, long itemID, long customerID, string DesignName, string caller, long organisationId);
+         Item GetClonedItemById(long itemId);
+         long GetFirstItemIdByOrderId(long orderId);
     }
 }

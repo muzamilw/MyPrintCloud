@@ -834,6 +834,27 @@ namespace MPC.Repository.Repositories
             }
             return result;
         }
+
+        /// <summary>
+        /// get contact list by role and company id
+        /// </summary>
+        /// <param name="CompanyID"></param>
+        /// <param name="Role"></param>
+        /// <returns></returns>
+        public long GetContactIdByRole(long CompanyID, int Role)
+        {
+         
+                List<CompanyContact> ListOfAdmins = db.CompanyContacts.Where(i => i.CompanyId == CompanyID && i.ContactRoleId == Role).ToList();
+                if (ListOfAdmins.Count > 0)
+                {
+                    return ListOfAdmins[0].ContactId;
+                }
+                else
+                {
+                    return 0;
+                }
+            
+        }
     }
 }
 

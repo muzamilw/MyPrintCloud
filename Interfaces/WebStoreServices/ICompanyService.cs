@@ -173,5 +173,7 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="CompanyId"></param>
         /// <returns></returns>
         long GetContactIdByCompanyId(long CompanyId);
+
+        long GetContactIdByRole(long CompanyID, int Role);
     }
 }

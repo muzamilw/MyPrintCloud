@@ -1203,7 +1203,26 @@ namespace MPC.Repository.Repositories
         //}
 
 
+        /// <summary>
+        /// return order with updated status
+        /// </summary>
+        /// <param name="OrderID"></param>
+        /// <param name="orderStatus"></param>
+        /// <param name="currentStoreMode"></param>
+        /// <returns></returns>
+        public bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode)
+        {
+                Estimate tblOrder = db.Estimates.Where(estm => estm.EstimateId == OrderID).FirstOrDefault();
 
+                tblOrder.StatusId = (short)orderStatus;
+
+                //OrderManager.UpdateOrderedItems(context, orderStatus, tblOrder, ProductManager.ItemStatuses.NotProgressedToJob, currentStoreMode); // and Delete the items which are not of part
+
+                db.SaveChanges();
+                
+                    return true;
+               
+        }
        
 
     }

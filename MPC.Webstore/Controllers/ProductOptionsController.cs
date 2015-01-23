@@ -88,6 +88,8 @@ namespace MPC.Webstore.Controllers
         {
             Item clonedItem = null;
 
+            long referenceItemId = 0;
+
             if (ItemMode == "UploadDesign")
             {
                 if (UserCookieManager.OrderId == 0)
@@ -114,11 +116,11 @@ namespace MPC.Webstore.Controllers
                     }
                 }
                 ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments.ToList();
-
+                referenceItemId = Convert.ToInt64(ItemId);
             }
-            else if (ItemMode == "Modify")// template case
+            else if (ItemMode == "Modify")// modify item case
             {
-                clonedItem = _myItemService.GetItemById(Convert.ToInt64(ItemId));
+                clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
                 if (!string.IsNullOrEmpty(TemplateId))
                 {
                     BindTemplatesList(Convert.ToInt64(TemplateId));
@@ -131,11 +133,14 @@ namespace MPC.Webstore.Controllers
                 ViewBag.SelectedStockItemId = clonedItem.ItemSections.FirstOrDefault().StockItemID1;
                 ViewBag.SelectedQuantity = clonedItem.Qty1;
 
+                referenceItemId = clonedItem.RefItemId ?? 0;
+
             }
             else if (!string.IsNullOrEmpty(TemplateId))// template case
             {
-                clonedItem = _myItemService.GetItemById(Convert.ToInt64(ItemId));
+                clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
                 BindTemplatesList(Convert.ToInt64(TemplateId));
+                referenceItemId = clonedItem.RefItemId ?? 0;
             }
 
             ViewBag.ClonedItemId = clonedItem.ItemId;
@@ -144,7 +149,7 @@ namespace MPC.Webstore.Controllers
 
             ViewBag.AttachmentCount = clonedItem.ItemAttachments.Count;
 
-            DefaultSettings(ItemId);
+            DefaultSettings(referenceItemId);
 
             return View("PartialViews/ProductOptions");
         }
@@ -207,7 +212,7 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-                DefaultSettings(ReferenceItemId);
+                DefaultSettings(Convert.ToInt64(ReferenceItemId));
 
                 return View("PartialViews/ProductOptions");
             }
@@ -215,7 +220,7 @@ namespace MPC.Webstore.Controllers
 
         }
 
-        private void DefaultSettings(string ReferenceItemId)
+        private void DefaultSettings(long ReferenceItemId)
         {
             List<ProductPriceMatrixViewModel> PriceMatrixObjectList = null;
 

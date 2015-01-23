@@ -186,18 +186,18 @@
                             {
 
                                 <div class="LGBC BD_PCS rounded_corners">
-                                <asp:hyperlink id="hlSide1">
+                                <a id="hlSide1">
                                 <div class="PDTC_LP FI_PCS">
                                 <img class="full_img_ThumbnailPath_LP" />
 
                                 </div>
-                                </asp:hyperlink>
+                                </a>
                                 <div class="confirm_design LGBC" style="display: none;">
                                 <label id="lblFront" class="ProdtPricedisplayNoneCs DisplayNoneCSS6">templateItem.PageName</label>
                                 </div>
                                 <div class="modify_button_container" style="position: absolute; padding: 0px; margin-top: -27px;">
                                 <div>
-                                @Html.ActionLink("Modify", "ModifyTemplate", "ProductOptions", new { ItemId = ViewBag.ClonedItemId, TemplateId = templateItem.ProductId, ProductName = templateItem.Template.ProductName, CategoryId = templateItem.Template.ProductCategoryId }, new { @class = "btn_brown_small" })
+                                @Html.ActionLink("Modify", "ModifyTemplate", "ProductOptions", new { ItemId = ViewBag.ClonedItemId}, new { @class = "btn_brown_small" })
 
                                 </div>
                                 </div>

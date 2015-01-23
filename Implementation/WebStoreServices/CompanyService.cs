@@ -722,6 +722,16 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _CompanyContactRepository.GetContactIdByCustomrID(CompanyId);
         }
+        /// <summary>
+        /// get contact list by role and company id
+        /// </summary>
+        /// <param name="CompanyID"></param>
+        /// <param name="Role"></param>
+        /// <returns></returns>
+        public long GetContactIdByRole(long CompanyID, int Role)
+        {
+            return _CompanyContactRepository.GetContactIdByRole(CompanyID, Role);
+        }
         #endregion
     }
 
