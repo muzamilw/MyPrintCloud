@@ -65,5 +65,12 @@ namespace MPC.Webstore.Controllers
 
 
         }
+
+        [HttpPost]
+        public ActionResult Index(string btnDirectDeposit, string btnPlaceOrderUsingCreditCard, string btnPlaceOrder)
+        {
+            Response.Redirect("/Receipt");
+            return null;
+        }
     }
 }
