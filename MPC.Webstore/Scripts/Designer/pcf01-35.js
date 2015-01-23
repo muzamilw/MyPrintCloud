@@ -804,16 +804,9 @@ function fu13(op, type, r, c) {
         var box = $('#idShapesPanel');
         if (box.hasClass('hidden')) {
             box.removeClass('hidden');
-            //$(".idShapesPanel").addClass("MovePanel");
-            //setTimeout(function () {
-            //    box.addClass('hidden');
-            //}, 20);
-        } else {
+       } else {
             box.addClass('hidden');
-            //box.addClass('visuallyhidden');
-            //setTimeout(function () {
-            //    box.addClass('hidden');
-            //}, 20);
+          
         }
 
 
@@ -2660,18 +2653,3 @@ function pcL29_pcRestore(type) {
     }
 
 }
-
-function removeElement(event) {
-
-    if (event.animationName === 'disapear') {
-
-        //  event.target.parentNode.removeChild(event.target);
-        event.target.classList.add("hidden");
-
-        //   $(".TempUlAddMain").css("display", "none")
-        fu13(2, 5, 1, 4);
-    }
-}
-
-document.body.addEventListener('animationend', removeElement);
-document.body.addEventListener('webkitAnimationEnd', removeElement);

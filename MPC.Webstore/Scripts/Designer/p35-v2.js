@@ -755,6 +755,10 @@ $(".btnBackGlImgs").click(function (event) {
     fu13(2, 1, 1, 1);
     pcL29_pcRestore(4); spPanel = ".btnBackFromImgs ";
 });
+$(".btnQuickText").click(function (event) {
+    $("#resultsQText").css("left", "-400px");
+    
+});
 $(".btnIllustrations").click(function (event) {
     fu13(2, 1, 1, 2);
     pcL29_pcMove(4); spPanel = ".btnBackFromImgs , .btnBackMyImg";

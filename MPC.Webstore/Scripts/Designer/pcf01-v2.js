@@ -1497,7 +1497,7 @@ function fu05_SvcCallback(xdata) {
         HM += '<div class="QtextData"><label class="lblQData" id ="lblQ' + id + '" >' + ITOD.Name + '</label><br/><input id="txtQ' + id + '" maxlength="500" class="qTextInput" style=""></div>';
 
     });
-    HM += '<div class="clear"></div><div><a id="BtnQuickTextSave" title="Save" style=" width: 299px;margin:auto;" class="SampleBtn"><span class="onText">Save</span> </a> </div>'
+    HM += '<div class="clear"></div><div><a id="BtnQuickTextSave" title="Save" style=" width: 299px;margin-top:20px;padding-top:8px" class="buttonDesigner"><span class="onText">Save</span> </a> </div>'
     $(".QuickTextFields").append(HM);
     $.each(AQTD, function (i, ITOD) {
         var id = ITOD.Name.split(' ').join('');
@@ -2105,25 +2105,25 @@ function k0() {
     }
     if (IsBC) {
         $('#PreviewerContainerDesigner').css("width", "800px");
-        $('#Previewer').css("width", "776px");
+        $('#PreviewerDesigner').css("width", "776px");
         $('#sliderFrame').css("width", "740px");
         $('#slider').css("width", "542px");
-        $('#previewProofing').css("width", "760px");
+        $('#previewProofingDesigner').css("width", "760px");
         $('#PreviewerContainerDesigner').css("height", "562px");
         $('#PreviewerContainerDesigner').css("left", (($(window).width() - $('#PreviewerContainerDesigner').width()) / 2) + "px");
         $('#PreviewerContainerDesigner').css("top", (($(window).height() - $('#PreviewerContainerDesigner').height()) / 2) + "px");
         $('.sliderLine').css("width", "744px");
-        $('#Previewer').css("height", ((500 - 46)) + "px");
+        $('#PreviewerDesigner').css("height", ((500 - 46)) + "px");
         if (IsCalledFrom == 3 || IsCalledFrom == 4) {
-            $('#sliderFrame').css("height", $('#Previewer').height() - 50 - 40 + "px");
-            $('#slider').css("height", $('#Previewer').height() - 50 - 40 + "px");
-            $('#thumbs').css("height", $('#Previewer').height() - 50 - 40 + "px");
+            $('#sliderFrame').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+            $('#slider').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+            $('#thumbs').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
         } else {
-            $('#sliderFrame').css("height", $('#Previewer').height() - 33 + "px");
-            $('#slider').css("height", $('#Previewer').height() - 33 + "px");
-            $('#thumbs').css("height", $('#Previewer').height() - 33 + "px");
+            $('#sliderFrame').css("height", $('#PreviewerDesigner').height() - 33 + "px");
+            $('#slider').css("height", $('#PreviewerDesigner').height() - 33 + "px");
+            $('#thumbs').css("height", $('#PreviewerDesigner').height() - 33 + "px");
         }
-        $('.divTxtProofing').css("width", "624px");
+        $('.divTxtProofingDesigner').css("width", "624px");
         $('.btnBlueProofing').css("width", "108px");
         $('.previewerTitle').css("padding-left", "7px");
         $('.previewerTitle').css("padding-top", "7px");
@@ -2131,24 +2131,24 @@ function k0() {
     } else {
         if ($(window).width() > 1200 && (IsCalledFrom == 1 || IsCalledFrom == 3)) {
             $('#PreviewerContainerDesigner').css("width", "1200px");
-            $('#Previewer').css("width", "1176px");
+            $('#PreviewerDesigner').css("width", "1176px");
             $('#sliderFrame').css("width", "1140px");
             $('#slider').css("width", "942px");
             $('.sliderLine').css("width", "1144px");
-            $('#previewProofing').css("width", "1160px");
-            $('.divTxtProofing').css("margin-left", "208px");
+            $('#previewProofingDesigner').css("width", "1160px");
+            $('.divTxtProofingDesigner').css("margin-left", "208px");
         }
         $('#PreviewerContainerDesigner').css("left", (($(window).width() - $('#PreviewerContainerDesigner').width()) / 2) + "px");
         $('#PreviewerContainerDesigner').css("height", (($(window).height() - 28)) + "px");
-        $('#Previewer').css("height", (($(window).height() - 131)) + "px");
+        $('#PreviewerDesigner').css("height", (($(window).height() - 131)) + "px");
         if (IsCalledFrom == 3 || IsCalledFrom == 4) {
-            $('#sliderFrame').css("height", $('#Previewer').height() - 50 - 40 + "px");
-            $('#slider').css("height", $('#Previewer').height() - 50 - 40 + "px");
-            $('#thumbs').css("height", $('#Previewer').height() - 50 - 40 + "px");
+            $('#sliderFrame').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+            $('#slider').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+            $('#thumbs').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
         } else {
-            $('#sliderFrame').css("height", $('#Previewer').height() - 33 + "px");
-            $('#slider').css("height", $('#Previewer').height() - 33 + "px");
-            $('#thumbs').css("height", $('#Previewer').height() - 33 + "px");
+            $('#sliderFrame').css("height", $('#PreviewerDesigner').height() - 33 + "px");
+            $('#slider').css("height", $('#PreviewerDesigner').height() - 33 + "px");
+            $('#thumbs').css("height", $('#PreviewerDesigner').height() - 33 + "px");
         }
     }
     var stPath = "/MPC_Content/Designer/Organisation" + organisationId + "/Templates/" + tID;
@@ -2163,7 +2163,7 @@ function k0() {
         $("#thumbs").append(' <div id="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + ' - Overlay Layer</p></div><div style="clear:both;"></div></div>');
     });
     if (IsCalledFrom == 1 || IsCalledFrom == 2) {
-        $('#previewProofing').css("display", "none");
+        $('#previewProofingDesigner').css("display", "none");
     }
     if (IsCalledFrom == 2) {
         $("#slider").css("visibility", "hidden");

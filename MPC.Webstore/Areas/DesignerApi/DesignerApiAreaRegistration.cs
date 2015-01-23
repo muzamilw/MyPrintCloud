@@ -18,7 +18,7 @@ namespace MPC.Webstore.Areas.DesignerApi
             context.Routes.MapHttpRoute(
                name: "DesignerApiDefault",
                routeTemplate: AreaName + "/{controller}/{action}/{id}",
-               defaults: new { id = RouteParameter.Optional }
+               defaults: new { id = UrlParameter.Optional }
             );
             context.Routes.MapHttpRoute(
              name: "DesignerApiDefault_MultiParams",

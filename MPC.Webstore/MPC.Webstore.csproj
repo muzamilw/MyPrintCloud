@@ -345,6 +345,8 @@
     <Content Include="Content\Designer\assets-v2\back.png" />
     <Content Include="Content\Designer\assets-v2\bckground.png" />
     <Content Include="Content\Designer\assets-v2\bold.png" />
+    <Content Include="Content\Designer\assets-v2\checkbox_sprite.png" />
+    <Content Include="Content\Designer\assets-v2\checkbox_sprite.svg" />
     <Content Include="Content\Designer\assets-v2\circleObject.png" />
     <Content Include="Content\Designer\assets-v2\crm.png" />
     <Content Include="Content\Designer\assets-v2\failure1.png" />
