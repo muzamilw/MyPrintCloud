@@ -485,13 +485,15 @@
         }
         function RedirectToConfirmSelect(TempID,CategoryID,ItemID)
         {
+           
             if(TempID == 0)
             {
-                window.location.href = "/ProductOptions/" + CategoryID + "/" + ItemID;
+                window.location.href = "/ProductOptions/" + CategoryID + "/" + ItemID + "/Modify";
             }
             else
             {
-                window.location.href = "/ProductOptions/" + TempID + "/" + CategoryID + "/" + ItemID;
+                alert("inn");
+                window.location.href = "/ProductOptions" + "/" + CategoryID + "/" + ItemID + "/Modify/" + TempID;
             }
 
         }

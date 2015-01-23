@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MPC.Models.DomainModels;
+using System.IO;
 
 namespace MPC.Interfaces.WebStoreServices
 {
@@ -102,6 +103,9 @@ namespace MPC.Interfaces.WebStoreServices
         long PostLoginCustomerAndCardChanges(long OrderId, long CompanyId, long ContactId, long TemporaryCompanyId, long OrganisationId);
 
         Item GetItemByOrderID(long OrderID);
+        void GenerateThumbnailForPdf(string url, bool insertCuttingMargin);
         string SaveDesignAttachments(long templateID, long itemID, long customerID, string DesignName, string caller, long organisationId);
+        List<ItemAttachment> SaveArtworkAttachments(List<ItemAttachment> attachmentList);
+        bool CreatAndSaveThumnail(Stream oImgstream, string sideThumbnailPath);
     }
 }

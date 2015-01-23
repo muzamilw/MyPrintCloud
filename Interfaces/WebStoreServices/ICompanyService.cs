@@ -14,7 +14,7 @@ namespace MPC.Interfaces.WebStoreServices
     {
         MyCompanyDomainBaseReponse GetStoreFromCache(long companyId);
         long GetStoreIdFromDomain(string domain);
-        List<ProductCategory> GetCompanyParentCategoriesById(long companyId);
+        List<ProductCategory> GetCompanyParentCategoriesById(long companyId, long OrganisationId);
         CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request);
         CompanyContact GetUserByEmailAndPassword(string email, string password);
 
@@ -45,7 +45,7 @@ namespace MPC.Interfaces.WebStoreServices
         List<ProductCategory> GetAllParentCorporateCatalogByTerritory(int customerId, int ContactId);
         List<ProductCategory> GetAllParentCorporateCatalog(int customerId);
 
-        List<ProductCategory> GetStoreParentCategories(long companyId);
+        List<ProductCategory> GetStoreParentCategories(long companyId, long OrganisationId);
         List<ProductCategory> GetAllCategories(long companyId);
         CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId);
 
@@ -167,5 +167,11 @@ namespace MPC.Interfaces.WebStoreServices
 
         long GetContactTerritoryID(long CID);
         List<Address> GetContactCompanyAddressesList(long BillingAddressId, long ShippingAddressid, long PickUpAddressId);
+        /// <summary>
+        /// get the contactid 
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <returns></returns>
+        long GetContactIdByCompanyId(long CompanyId);
     }
 }

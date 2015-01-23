@@ -113,6 +113,8 @@ namespace MPC.Webstore.Controllers
                         clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, UserCookieManager.OrderId, UserCookieManager.StoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID());
                     }
                 }
+                ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments.ToList();
+
             }
             else if (ItemMode == "Modify")// template case
             {
@@ -137,6 +139,10 @@ namespace MPC.Webstore.Controllers
             }
 
             ViewBag.ClonedItemId = clonedItem.ItemId;
+
+            ViewBag.ClonedItem = clonedItem;
+
+            ViewBag.AttachmentCount = clonedItem.ItemAttachments.Count;
 
             DefaultSettings(ItemId);
 
@@ -377,6 +383,9 @@ namespace MPC.Webstore.Controllers
                 ViewBag.ItemStock = null;
             }
             ViewBag.DesignServiceUrl = Utils.GetAppBasePath();
+
+            ViewBag.Order = _orderService.GetOrderByID(UserCookieManager.OrderId);
+
             PriceMatrixObjectList = null;
             AddonObjectList = null;
 
