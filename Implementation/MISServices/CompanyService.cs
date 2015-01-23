@@ -691,8 +691,21 @@ namespace MPC.Implementation.MISServices
             companyToBeUpdated.ProductCategories = productCategories;
             SaveFilesOfProductCategories(companyToBeUpdated);
             SaveSpriteImage(companySavingModel.Company);
+            SaveCompanyCss(companySavingModel.Company);
 
             return companySavingModel.Company;
+        }
+
+        private void SaveCompanyCss(Company company)
+        {
+            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Stores/Store" + company.CompanyId);
+            if (directoryPath != null && !Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            string savePath = directoryPath + "\\" + company.CompanyId + "_CompanyStyles.css";
+            File.WriteAllText(savePath, company.CustomCSS);
         }
 
         private void SaveSpriteImage(Company company)

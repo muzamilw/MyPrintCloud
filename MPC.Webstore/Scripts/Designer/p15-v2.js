@@ -68,7 +68,7 @@ function b3_1(caller) {
         var catID = Template.ProductCategoryID;
         var svcURL = "services/layoutsvc/";
         if (IsCalledFrom == 3) {
-          //  catID = cIDv2;
+            catID = cIDv2;
             svcURL = V2Url + "services/layoutsvc/";
         }
         $.getJSON(svcURL + catID,
@@ -94,8 +94,8 @@ function fu03() {
    });
 }
 function fu04() {
-    //$.getJSON("services/TemplateSvc/TemplateV2/" + tID + "," + cID + "," + TempHMM + "," + TempWMM,
-    $.getJSON("/designerapi/Template/GetTemplate/" + tID ,
+    $.getJSON("/designerapi/Template/GetTemplate/" + tID + "/" + cID + "/" + TempHMM + "/" + TempWMM,
+    //$.getJSON("/designerapi/Template/GetTemplate/" + tID ,
    function (DT) {
        DT.ProductID = DT.ProductId;
        $.each(DT.TemplatePages, function (i, IT) {
@@ -139,7 +139,7 @@ function fu05() {
     //ContactID = parent.ContactID;
     $(".QuickTextFields").html("");
     //  $(".QuickTextFields").append('<li><a class="add addTxtSubtitle ThemeColor" style="" data-style="title">Update your Quick text Profile</a></li>');
-    $.getJSON("../services/Webstore.svc/getquicktext?Customerid=" + CustomerID + "&contactid=" + ContactID,
+    $.getJSON("/designerapi/template/getQuickText/" + CustomerID + "/" + ContactID,
         function (xdata) {
             fu05_SvcCallback(xdata);
         });
@@ -181,7 +181,13 @@ function svcCall4(n, tID, imgtype) {
             k32_load(DT);
         });
 }
-
+function svcCall4_img(n, tID, imgtype) {
+   // n = "MPC_Content" + n;
+    $.getJSON("/designerapi/TemplateBackgroundImage/DownloadImageLocally/" + n + "/" + tID + "/" + imgtype + "/" + ogranisationId,
+        function (DT) {
+            k35_load(DT);
+        });
+}
 function fu06() {
     //CustomerID = parent.CustomerID;
     //ContactID = parent.ContactID;

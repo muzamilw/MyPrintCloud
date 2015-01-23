@@ -23,7 +23,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                 id = id.Replace("__", "/");
                 if (Request.Content.IsMimeMultipartContent())
                 {
-                    string uploadPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/"+ id);
+                    string uploadPath = HttpContext.Current.Server.MapPath("~/MPC_Content/"+ id);
                     if (!Directory.Exists(uploadPath))
                         Directory.CreateDirectory(uploadPath);
                     MyStreamProvider streamProvider = new MyStreamProvider(uploadPath);

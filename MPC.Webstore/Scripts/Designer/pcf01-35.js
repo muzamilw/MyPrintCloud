@@ -28,47 +28,7 @@ function d1ToCanvas(src, x, y, IW, IH) {
         if (isBKpnl) {
             imgtype = 4;
         } StartLoader("Downloading image to your design, please wait....");
-        $.getJSON("services/imageSvc/DownloadImg/" + n + "," + tID + "," + imgtype,
-		function (DT) {
-		    // src = DT;
-		    StopLoader();
-		    D1NIO = fabric.util.object.clone(TO[0]);
-		    D1NIO.ObjectID = --NCI;
-		    D1NIO.ColorHex = "#000000";
-		    D1NIO.IsBold = false;
-		    D1NIO.IsItalic = false;
-		    D1NIO.ProductPageId = SP;
-		    D1NIO.MaxWidth = 100;
-		    D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
-		    D1NIO.PositionX = x;
-		    D1NIO.PositionY = y;
-		    D1NIO.ObjectType = 3;
-		    lAObj = D1NIO.ObjectID;
-		    D1NIO.MaxHeight = IH;
-		    D1NIO.Height = IH;
-		    D1NIO.MaxWidth = IW;
-		    D1NIO.Width = IW;
-
-		    if (IH == 0) {
-		        D1NIO.MaxHeight = 50;
-		        D1NIO.Height = 50;
-		    }
-		    else if (IW == 0) {
-		        D1NIO.MaxWidth = 50;
-		        D1NIO.Width = 50;
-		    }
-		    D1NIO.ContentString = DT;
-		    D1NIO.DisplayOrder = TO.length + 1;
-		    d1(canvas, D1NIO);
-		    var OBS = canvas.getObjects();
-
-		    D1NIO.DisplayOrderPdf = OBS.length;
-		    canvas.renderAll();
-		    TO.push(D1NIO);
-		    k27();
-		    $("#ImgCarouselDiv").tabs("option", "active", 1);
-		    $("#BkImgContainer").tabs("option", "active", 1);
-		});
+        svcCall4_img(n, tID, imgtype);
     } else {
         D1NIO = fabric.util.object.clone(TO[0]);
         D1NIO.ObjectID = --NCI;
@@ -124,52 +84,7 @@ function d1SvgToCCC(src, IW, IH) {
         if (isBKpnl) {
             imgtype = 4;
         } StartLoader("Downloading image to your design, please wait....");
-        $.getJSON("services/imageSvc/DownloadImg/" + n + "," + tID + "," + imgtype,
-		function (DT) {
-		    // src = DT;
-		    StopLoader();
-		    D1NIO = fabric.util.object.clone(TO[0]);
-		    D1NIO.ObjectID = --NCI;
-		    D1NIO.ColorHex = "#000000";
-		    D1NIO.ColorC = 0;
-		    D1NIO.ColorM = 0;
-		    D1NIO.ColorY = 0;
-		    D1NIO.ColorK = 100;
-		    D1NIO.IsBold = false;
-		    D1NIO.IsItalic = false;
-		    D1NIO.ProductPageId = SP;
-		    D1NIO.MaxWidth = 100;
-		    D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
-		    D1NIO.PositionX = 0;
-		    D1NIO.PositionY = 0;
-		    D1NIO.ObjectType = 9;
-
-		    D1NIO.MaxHeight = 100;
-		    D1NIO.Height = 100;
-		    D1NIO.MaxWidth = 100;
-		    D1NIO.Width = 100;
-
-		    //if (IH == 0) {
-		    //    D1NIO.MaxHeight = 50;
-		    //    D1NIO.Height = 50;
-		    //}
-		    //else if (IW == 0) {
-		    //    D1NIO.MaxWidth = 50;
-		    //    D1NIO.Width = 50;
-		    //}
-		    D1NIO.ContentString = DT;
-		    D1NIO.DisplayOrder = TO.length + 1;
-		    d1Svg(canvas, D1NIO, true);
-		    var OBS = canvas.getObjects();
-
-		    D1NIO.DisplayOrderPdf = OBS.length;
-		    canvas.renderAll();
-		    TO.push(D1NIO);
-		    lAObj = D1NIO.ObjectID;
-		    k27();
-		    $("#ImgCarouselDiv").tabs("option", "active", 1);
-		    $("#BkImgContainer").tabs("option", "active", 1);
-		});
+        svcCall4_img(n, tID, imgtype);
     } else {
         D1NIO = fabric.util.object.clone(TO[0]);
         D1NIO.ObjectID = --NCI;
@@ -222,48 +137,8 @@ function d1ToCanvasCC(src, IW, IH) {
             imgtype = 4;
         }
         StartLoader("Downloading image to your design, please wait....");
-        $.getJSON("services/imageSvc/DownloadImg/" + n + "," + tID + "," + imgtype,
-		function (DT) {
-		    // src = DT;
-		    StopLoader();
-		    D1NIO = fabric.util.object.clone(TO[0]);
-		    D1NIO.ObjectID = --NCI;
-		    D1NIO.ColorHex = "#000000";
-		    D1NIO.IsBold = false;
-		    D1NIO.IsItalic = false;
-		    D1NIO.ProductPageId = SP;
-		    D1NIO.MaxWidth = 100;
-		    D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
-		    D1NIO.PositionX = 0;
-		    D1NIO.PositionY = 0;
-		    D1NIO.ObjectType = 3;
-
-		    D1NIO.MaxHeight = IH;
-		    D1NIO.Height = IH;
-		    D1NIO.MaxWidth = IW;
-		    D1NIO.Width = IW;
-
-		    if (IH < 50) {
-		        D1NIO.MaxHeight = 50;
-		        D1NIO.Height = 50;
-		    }
-		    else if (IW < 50) {
-		        D1NIO.MaxWidth = 50;
-		        D1NIO.Width = 50;
-		    }
-		    D1NIO.ContentString = DT;
-		    D1NIO.DisplayOrder = TO.length + 1;
-		    d1(canvas, D1NIO, true);
-		    var OBS = canvas.getObjects();
-
-		    D1NIO.DisplayOrderPdf = OBS.length;
-		    canvas.renderAll();
-		    TO.push(D1NIO);
-		    k27();
-		    lAObj = D1NIO.ObjectID;
-		    //  $("#ImgCarouselDiv").tabs("option", "active", 1); 
-		    // $("#BkImgContainer").tabs("option", "active", 1);
-		});
+        svcCall4_img(n, tID, imgtype);
+  
     } else {
         D1NIO = fabric.util.object.clone(TO[0]);
         D1NIO.ObjectID = --NCI;
@@ -300,6 +175,47 @@ function d1ToCanvasCC(src, IW, IH) {
         TO.push(D1NIO);
     }
 
+}
+function k35_load(DT) {
+    // src = DT;
+    StopLoader();
+    D1NIO = fabric.util.object.clone(TO[0]);
+    D1NIO.ObjectID = --NCI;
+    D1NIO.ColorHex = "#000000";
+    D1NIO.IsBold = false;
+    D1NIO.IsItalic = false;
+    D1NIO.ProductPageId = SP;
+    D1NIO.MaxWidth = 100;
+    D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
+    D1NIO.PositionX = 0;
+    D1NIO.PositionY = 0;
+    D1NIO.ObjectType = 3;
+
+    D1NIO.MaxHeight = IH;
+    D1NIO.Height = IH;
+    D1NIO.MaxWidth = IW;
+    D1NIO.Width = IW;
+
+    if (IH < 50) {
+        D1NIO.MaxHeight = 50;
+        D1NIO.Height = 50;
+    }
+    else if (IW < 50) {
+        D1NIO.MaxWidth = 50;
+        D1NIO.Width = 50;
+    }
+    D1NIO.ContentString = DT;
+    D1NIO.DisplayOrder = TO.length + 1;
+    d1(canvas, D1NIO, true);
+    var OBS = canvas.getObjects();
+
+    D1NIO.DisplayOrderPdf = OBS.length;
+    canvas.renderAll();
+    TO.push(D1NIO);
+    k27();
+    lAObj = D1NIO.ObjectID;
+    //  $("#ImgCarouselDiv").tabs("option", "active", 1); 
+    // $("#BkImgContainer").tabs("option", "active", 1);
 }
 function d8(mode, dheight, title) {
     IsDesignModified = false;
@@ -367,7 +283,7 @@ function d8(mode, dheight, title) {
         }
         $('.opaqueLayer').css("display", "block");
         $('.opaqueLayer').css("background-color", "#333537");
-        pcL36('show', "#PreviewerContainer");
+        pcL36('show', "#PreviewerContainerDesigner");
 
 
         $("#loadingMsg").html("Saving Content, Please wait..");
@@ -725,17 +641,16 @@ function fu11() {
         // StartLoader();   dont need to start or stop loader because it is just a save operation
         var jsonObjects = JSON.stringify(QTD, null, 2);
         var to;
-        to = "../services/Webstore.svc/update/";
+        to = "/designerapi/Template/SaveQuickText/";
         var options = {
             type: "POST",
             url: to,
             data: jsonObjects,
-            contentType: "text/plain;",
-            dataType: "json",
+            contentType: "application/json",
             async: true,
             success: function (response) {
             },
-            error: function (msg) { alert("Error : " + msg); }
+            error: function (msg) { alert("Error occured "); console.log(msg); }
         };
         var returnText = $.ajax(options).responseText;
         // StopLoader();
@@ -1728,11 +1643,11 @@ function i7() {
 
                     html += i9(ite.ObjectID, 'Image Object', ite.type, ite.getSrc(), iLock);
                 } else if (ite.type == "text" || ite.type == "i-text") {
-                    html += i9(ite.ObjectID, ite.text, ite.type, "./assets/txtObject.png", iLock);
+                    html += i9(ite.ObjectID, ite.text, ite.type, "./Content/Designer/assets-v2/txtObject.png", iLock);
                 } else if (ite.type == "ellipse") {
-                    html += i9(ite.ObjectID, 'Ellipse Object', ite.type, "./assets/circleObject.png", iLock);
+                    html += i9(ite.ObjectID, 'Ellipse Object', ite.type, "./Content/Designer/assets-v2/circleObject.png", iLock);
                 } else {
-                    html += i9(ite.ObjectID, 'Shape Object', ite.type, "./assets/rectObject.png", iLock);
+                    html += i9(ite.ObjectID, 'Shape Object', ite.type, "./Content/Designer/assets-v2/rectObject.png", iLock);
                 }
 
             }
@@ -2057,45 +1972,45 @@ function l6(array, attr) {
 function l8(mode) {
 
     if (mode == 1) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset5_2.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset5_2.png");
     } else if (mode == 2) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset5_1.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset5_1.png");
     } else if (mode == 3) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset5.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset5.png");
     } else if (mode == 4) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset4.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset4.png");
     } else if (mode == 5) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset3.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset3.png");
     } else if (mode == 6) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset2.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset2.png");
     } else if (mode == 7) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset1.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset1.png");
     } else if (mode == 8) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset6.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset6.png");
     } else if (mode == 9) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset7.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset7.png");
     } else if (mode == 10) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset8.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset8.png");
     } else if (mode == 11) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset9.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset9.png");
     } else if (mode == 12) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset10.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset10.png");
     } else if (mode == 13) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset10_1.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset10_1.png");
     } else if (mode == 14) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/preset10_2.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/preset10_2.png");
     } else if (mode == 15) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/presets14.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/presets14.png");
     } else if (mode == 16) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/presets-15.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/presets-15.png");
     } else if (mode == 17) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/presets16.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/presets16.png");
     } else if (mode == 18) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/presets11.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/presets11.png");
     } else if (mode == 19) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/presets12.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/presets12.png");
     } else if (mode == 20) {
-        $("#imgPreviewPreset").prop("src", "assets/presets/presets-13.png");
+        $("#imgPreviewPreset").prop("src", "/Content/Designer/assets-v2/presets/presets-13.png");
     }
 }
 function pcL01(mode) {
