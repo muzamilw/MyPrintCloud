@@ -3776,6 +3776,7 @@ if it's not present, don't show loader */
 
 .sliderLineBtm {
     margin-left: 21px !important;
+    display:inline-block;
 }
 
 #previewProofingDesigner {
