@@ -2028,7 +2028,7 @@ namespace MPC.Repository.Repositories
 
                 }
 
-                return "/ProductOptions?ItemId=" + itemID.ToString();
+                return "/ProductOptions/0/" + itemID.ToString() + "/Template/" + templateID.ToString() ;
 
 
 

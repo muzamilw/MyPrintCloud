@@ -136,8 +136,5 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         }
         #endregion
     }
-    public class Settings
-    {
-       
-    }
+ 
 }
