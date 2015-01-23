@@ -2586,11 +2586,11 @@ function TempFinO2(n, no) {
 function pcL29_pcMove(type) {
     if (type == 1) {
         // add text 
-        $("#pnlAddMain").css("top", "-280px");
+        $("#pnlAddMain").css("top", "-400px");
         //$(".UlAddMain").css("display", "none");
     } else if (type == 2) {
         // add image main panel  
-        $("#pnlAddMain").css("top", "-280px");
+        $("#pnlAddMain").css("top", "-400px");
         //  $("#pnlAddMain").css("top", "-160px");
         // $(".UlAddMain").css("display", "none");
     } else if (type == 3) {
