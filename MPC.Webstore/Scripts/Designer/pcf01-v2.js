@@ -99,12 +99,15 @@ function b1(selectId, value, text, id) {
 }
 
 function b4(imgSrc) {
+
     IW = 150;
     IH = 150;
     var he = Template.PDFTemplateHeight;
     var wd = Template.PDFTemplateWidth;
     $.each(LiImgs, function (i, IT) {
-        if (imgSrc.indexOf(IT.BackgroundImageRelativePath) != -1) {
+        
+        if (imgSrc.indexOf(IT.ImageName) != -1) {
+            console.log(IT);
             IW = IT.ImageWidth;
             IH = IT.ImageHeight;
             if (parseInt(IW) < 50) {
@@ -114,13 +117,13 @@ function b4(imgSrc) {
                 IH = 50;
             }
             if (IW > wd) {
-                wd = wd / 2;
+                wd = wd-50;
                 ratio = wd / IW;
                 IH = IH * ratio;
                 IW = IW * ratio;
             }
             if (IH > he) {
-                he = he / 2;
+                he = he -50 ;
                 ratio = he / IH;
                 IW = IW * ratio;
             }
