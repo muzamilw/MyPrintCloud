@@ -682,9 +682,11 @@ function fu12(mode, title) {
             IT.EntityKey.$id = it3;
             it3++;
         }
-        if (IT.BackgroundFileName.indexOf(productionFolderPath) != -1) {
-            var p = IT.BackgroundFileName.split(productionFolderPath);
-            IT.BackgroundFileName = p[p.length - 1];
+        if (IT.BackgroundFileName != null) {
+            if (IT.BackgroundFileName.indexOf(productionFolderPath) != -1) {
+                var p = IT.BackgroundFileName.split(productionFolderPath);
+                IT.BackgroundFileName = p[p.length - 1];
+            }
         }
     });
     //saving the objects first
@@ -695,7 +697,7 @@ function fu12(mode, title) {
         orderCode: orderCode,
         CustomerName: CustomerName,
         objPages: TPOs,
-        organisationId: ogranisationId,
+        organisationId: organisationId,
         isRoundCornerrs: IsBCRoundCorners
     }
     var jsonObjects = JSON.stringify(obSt, null, 2);
@@ -2586,11 +2588,11 @@ function TempFinO2(n, no) {
 function pcL29_pcMove(type) {
     if (type == 1) {
         // add text 
-        $("#pnlAddMain").css("top", "-280px");
+        $("#pnlAddMain").css("top", "-400px");
         //$(".UlAddMain").css("display", "none");
     } else if (type == 2) {
         // add image main panel  
-        $("#pnlAddMain").css("top", "-280px");
+        $("#pnlAddMain").css("top", "-400px");
         //  $("#pnlAddMain").css("top", "-160px");
         // $(".UlAddMain").css("display", "none");
     } else if (type == 3) {

@@ -20,7 +20,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         #region Private
 
         private readonly ITemplateService templateService;
-
+        private readonly IItemService itemService;
         #endregion
         #region Constructor
 
@@ -28,9 +28,10 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         /// Constructor
         /// </summary>
         /// <param name="companyService"></param>
-        public TemplateController(ITemplateService templateService)
+        public TemplateController(ITemplateService templateService,IItemService itemService)
         {
             this.templateService = templateService;
+            this.itemService = itemService;
         }
 
         #endregion
@@ -41,10 +42,10 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// templateid, categoryIDv2,tempHMM,tempWMM
-        public HttpResponseMessage GetTemplate(long parameter1, long parameter2, double parameter3, double parameter4)
+        /// templateid, categoryIDv2,tempHMM,tempWMM,organisationId
+        public HttpResponseMessage GetTemplate(long parameter1, long parameter2, double parameter3, double parameter4,long parameter5)
         {
-            var template = templateService.GetTemplateInDesigner(parameter1,parameter2,parameter3,parameter4);
+            var template = templateService.GetTemplateInDesigner(parameter1, parameter2, parameter3, parameter4, parameter5);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;
@@ -121,10 +122,19 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         //public Stream GetCategoryV2(string CategoryIDStr)  // called from v2 service
         //public Stream GetProductV2(string TemplateID,string CategoryIDStr,string heightStr, string widthStr) // called from v2 service
         //public Stream GetCatListV2(string CategoryIDStr, string pageNoStr, string pageSizeStr) // called from v2 service
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        //templateid,itemid,customerId,displayName,caller,organisationId
+        public HttpResponseMessage SaveDesignAttachments(long parameter1,long parameter2,long parameter3,string parameter4,string parameter5,long parameter6)
+        {
+            var result = itemService.SaveDesignAttachments(parameter1, parameter2, parameter3, parameter4, parameter5, parameter6);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
+        }
         #endregion
     }
-    public class Settings
-    {
-       
-    }
+ 
 }

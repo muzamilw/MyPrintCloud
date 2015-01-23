@@ -28,8 +28,8 @@ namespace MPC.Webstore
             );
             config.Routes.MapHttpRoute(
                name: "defaultAttachmentUploader",
-               routeTemplate: "api/{controller}/{id}/{name}",
-               defaults: new { id = RouteParameter.Optional, name = RouteParameter.Optional }
+               routeTemplate: "api/{controller}/{id}/{name}/{ItemId}/{ContactId}/{CompanyId}",
+               defaults: new { id = RouteParameter.Optional, name = RouteParameter.Optional, ItemId = RouteParameter.Optional, ContactId = RouteParameter.Optional, CompanyId = RouteParameter.Optional }
            );
 
             // addded by saqib to get json service in json from instead of xml 

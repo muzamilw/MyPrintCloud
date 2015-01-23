@@ -378,6 +378,7 @@
     <Content Include="Content\Designer\assets-v2\sprite1.png" />
     <Content Include="Content\Designer\assets-v2\txtObject.png" />
     <Content Include="Content\Designer\assets-v2\underline.png" />
+    <Content Include="Content\Designer\assets-v2\uploadfont.png" />
     <Content Include="Content\Designer\assets-v2\valign1.png" />
     <Content Include="Content\Designer\assets-v2\valign2.png" />
     <Content Include="Content\Designer\assets-v2\valign3.png" />
