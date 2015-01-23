@@ -204,6 +204,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             companyDomains = ko.observableArray([]),
             //Products
             products = ko.observableArray([]),
+            //Media Libraries
+            mediaLibraries = ko.observableArray([]),
             //store Backgroud Image Image Source
             storeBackgroudImageImageSource = ko.observable(specifiedStoreBackgroudImageSource),
             //store Backgroud Image File Name
@@ -395,6 +397,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.UserDefinedSpriteSource = source.userDefinedSpriteImageSource() === undefined ? null : source.userDefinedSpriteImageSource();
                 result.UserDefinedSpriteFileName = source.userDefinedSpriteImageFileName() === undefined ? null : source.userDefinedSpriteImageFileName();
                 result.CmsOffers = [];
+                result.MediaLibraries = [];
                 return result;
             },
             // Reset
@@ -467,6 +470,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             userDefinedSpriteImageFileName: userDefinedSpriteImageFileName,
             customCSS: customCSS,
             companyDomains: companyDomains,
+            mediaLibraries: mediaLibraries,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -3350,7 +3354,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     };
 
     // #endregion ______________ Item For Widgets _________________
-    
+
     //#region ___________________C O M P A N Y   D O M A I N ______________________________
 
     // ReSharper disable once InconsistentNaming
@@ -3359,7 +3363,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             companyDomainId = ko.observable(specifiedCompanyDomainId || 0),
             // Domain
             domain = ko.observable(specifiedDomain || undefined).extend({ required: true }),
-            
+
             errors = ko.validation.group({
                 domain: domain
             }),
@@ -3442,7 +3446,54 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.SortOrder);
     };
 
-    // #endregion ______________ Item For Widgets _________________
+    // #endregion ______________ CMS Offer _________________
+
+    // #region ______________ Media Library _________________
+
+    // ReSharper disable once InconsistentNaming
+    var MediaLibrary = function (specifiedMediaId, specifiedFilePath, specifiedFileName, specifiedFileType, specifiedCompanyId, specifiedImageSource) {
+        var self,
+            id = ko.observable(specifiedMediaId),
+            filePath = ko.observable(specifiedFilePath),
+            fileName = ko.observable(specifiedFileName),
+            fileType = ko.observable(specifiedFileType),
+            companyId = ko.observable(specifiedCompanyId),
+            fileSource = ko.observable(specifiedImageSource),
+
+        //Convert To Server
+        convertToServerData = function () {
+            return {
+                MediaId: id() === undefined ? 0 : id(),
+                FilePath: filePath(),
+                FileName: fileName(),
+                FileType: fileType(),
+                CompanyId: companyId(),
+                FileSource: fileSource(),
+            };
+        };
+        self = {
+            id: id,
+            filePath: filePath,
+            fileName: fileName,
+            fileType: fileType,
+            companyId: companyId,
+            fileSource: fileSource,
+            convertToServerData: convertToServerData,
+        };
+        return self;
+    };
+    MediaLibrary.Create = function (source) {
+        return new MediaLibrary(
+            source.MediaId,
+            source.FilePath,
+            source.FileName,
+            source.FileType,
+            source.CompanyId,
+        source.ImageSource);
+    };
+
+    // #endregion ______________ MediaLibrary _________________
+
     return {
         StoreListView: StoreListView,
         Store: Store,
@@ -3472,6 +3523,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         CmsSkinPageWidgetParam: CmsSkinPageWidgetParam,
         ItemForWidgets: ItemForWidgets,
         CmsOffer: CmsOffer,
-        CompanyDomain: CompanyDomain
+        CompanyDomain: CompanyDomain,
+        MediaLibrary: MediaLibrary,
     };
 });
