@@ -383,7 +383,7 @@ namespace MPC.Webstore.Controllers
             ProductName = _IItemService.specialCharactersEncoder(ProductName);
             //Designer/productName/CategoryIDv2/TemplateID/ItemID/companyID/cotnactID/printCropMarks/printWaterMarks/isCalledFrom/IsEmbedded;
             bool printCropMarks = true;
-            string URL = "~/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + (int)companyBaseResponse.Company.CompanyId + "/" + ContactID + "/" + printCropMarks + "/" + printWaterMark + "/" + isCalledFrom + "/" + isEmbedded;
+            string URL = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + UserCookieManager.StoreId + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.OrganisationID + "/" + printCropMarks + "/" + printWaterMark  + "/" + isEmbedded;
 
             // ItemID ok
             // TemplateID ok
@@ -393,7 +393,8 @@ namespace MPC.Webstore.Controllers
             // contactid // ask from iqra about retail and corporate
             // companyID // ask from iqra
             // isembaded ook
-            return View(URL);
+            Response.Redirect(URL);
+            return null;
         }
 
         private void SetPageMEtaTitle(string CatName, string CatDes, string Keywords, string Title, MyCompanyDomainBaseResponse baseResponse)
