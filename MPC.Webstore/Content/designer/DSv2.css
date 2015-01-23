@@ -1317,6 +1317,7 @@ body:not(.compactHeader) .documentMenu {
     top: 60px;
 }
 
+
 button, .buttonDesigner {
     cursor: pointer;
 }
@@ -3777,7 +3778,7 @@ if it's not present, don't show loader */
     margin-left: 21px !important;
 }
 
-#previewProofing {
+#previewProofingDesigner {
     width: 964px;
     height: 55px;
     margin: auto;
@@ -3789,7 +3790,7 @@ if it's not present, don't show loader */
     border-radius: 5px;
 }
 
-.divTxtProofing {
+.divTxtProofingDesigner {
     width: 812px;
     height: 42px;
     font-size: 14px;
@@ -3803,7 +3804,7 @@ if it's not present, don't show loader */
     font-size: 16px;
 }
 
-.ConfirmPopupProof {
+.ConfirmPopupProofDesigner {
     float: right;
     margin-top: 8px;
     margin-right: 10px;
@@ -3812,6 +3813,7 @@ if it's not present, don't show loader */
 .lblChkSpellings {
     vertical-align: super;
     font-size: 19px;
+    display:inline;
 }
 
 .regular-checkbox-new {
@@ -3828,8 +3830,8 @@ if it's not present, don't show loader */
         display: inline-block !important;
         padding: 6px 0 6px 45px;
         line-height: 25px;
-        background-image: url('../assets/checkbox_sprite.png');
-        background-image: none,url('../assets/checkbox_sprite.svg');
+        background-image: url('assets-v2/checkbox_sprite.png');
+        background-image: none,url('assets-v2/checkbox_sprite.svg');
         background-position: -108px 0;
         background-repeat: no-repeat;
         -webkit-background-size: 143px 143px;
