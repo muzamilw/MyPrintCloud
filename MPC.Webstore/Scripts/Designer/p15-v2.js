@@ -80,7 +80,7 @@ function b3_1(caller) {
 }
 
 function b8_svc(imageID, productID) {
-    $.get("/designerapi/TemplateBackgroundImage/DeleteProductBackgroundImage/" + productID + "/" + imageID + "/" + ogranisationId,
+    $.get("/designerapi/TemplateBackgroundImage/DeleteProductBackgroundImage/" + productID + "/" + imageID + "/" + organisationId,
         function (DT) {
             b8_svc_CallBack(DT);
         });
@@ -94,7 +94,7 @@ function fu03() {
    });
 }
 function fu04() {
-    $.getJSON("/designerapi/Template/GetTemplate/" + tID + "/" + cID + "/" + TempHMM + "/" + TempWMM,
+    $.getJSON("/designerapi/Template/GetTemplate/" + tID + "/" + cID + "/" + TempHMM + "/" + TempWMM + "/" + organisationId,
     //$.getJSON("/designerapi/Template/GetTemplate/" + tID ,
    function (DT) {
        DT.ProductID = DT.ProductId;
@@ -156,34 +156,34 @@ function fu09() {
  });
 }
 function svcCall1(ca, gtID) {
-    $.getJSON("/designerapi/Template/mergeTemplate/" + gtID + "/" + tID + "/" + ogranisationId,
+    $.getJSON("/designerapi/Template/mergeTemplate/" + gtID + "/" + tID + "/" + organisationId,
           function (xdata) {
               fu04();
 
           });
 }
 function svcCall2(n, tID, imgtype) {
-    $.getJSON("/designerapi/TemplateBackgroundImage/DownloadImageLocally/" + n + "/" + tID + "/" + imgtype + "/" + ogranisationId,
+    $.getJSON("/designerapi/TemplateBackgroundImage/DownloadImageLocally/" + n + "/" + tID + "/" + imgtype + "/" + organisationId,
     function (DT) {
         j9_21(DT);
     });
 }
 function svcCall3(imToLoad) {
-    $.getJSON("/designerapi/TemplateBackgroundImage/getImage/" + imToLoad + "/" + ogranisationId,
+    $.getJSON("/designerapi/TemplateBackgroundImage/getImage/" + imToLoad + "/" + organisationId,
       function (DT) {
           k26_Dt(DT);
       });
 }
 
 function svcCall4(n, tID, imgtype) {
-    $.getJSON("/designerapi/TemplateBackgroundImage/DownloadImageLocally/" + n + "/" + tID + "/" + imgtype + "/" + ogranisationId,
+    $.getJSON("/designerapi/TemplateBackgroundImage/DownloadImageLocally/" + n + "/" + tID + "/" + imgtype + "/" + organisationId,
         function (DT) {
             k32_load(DT);
         });
 }
 function svcCall4_img(n, tID, imgtype) {
    // n = "MPC_Content" + n;
-    $.getJSON("/designerapi/TemplateBackgroundImage/DownloadImageLocally/" + n + "/" + tID + "/" + imgtype + "/" + ogranisationId,
+    $.getJSON("/designerapi/TemplateBackgroundImage/DownloadImageLocally/" + n + "/" + tID + "/" + imgtype + "/" + organisationId,
         function (DT) {
             k35_load(DT);
         });
@@ -197,7 +197,7 @@ function fu06() {
         fname = 'BtnSelectFonts';
     }
     $('#' + fname).html(str);
-    $.getJSON("/designerapi/TemplateFonts/GetFontsList/" + tID + "/" + CustomerID + "/" + ogranisationId,
+    $.getJSON("/designerapi/TemplateFonts/GetFontsList/" + tID + "/" + CustomerID + "/" + organisationId,
         function (DT) {
             fu06_SvcCallback(DT, fname);
         });

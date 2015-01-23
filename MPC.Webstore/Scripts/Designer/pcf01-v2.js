@@ -1497,7 +1497,7 @@ function fu05_SvcCallback(xdata) {
         HM += '<div class="QtextData"><label class="lblQData" id ="lblQ' + id + '" >' + ITOD.Name + '</label><br/><input id="txtQ' + id + '" maxlength="500" class="qTextInput" style=""></div>';
 
     });
-    HM += '<div class="clear"></div><div><a id="BtnQuickTextSave" title="Save" style=" width: 299px;margin:auto;" class="SampleBtn"><span class="onText">Save</span> </a> </div>'
+    HM += '<div class="clear"></div><div><a id="BtnQuickTextSave" title="Save" style=" width: 299px;margin-top:20px;padding-top:8px" class="buttonDesigner"><span class="onText">Save</span> </a> </div>'
     $(".QuickTextFields").append(HM);
     $.each(AQTD, function (i, ITOD) {
         var id = ITOD.Name.split(' ').join('');
@@ -2099,31 +2099,32 @@ function j9_21(DT) {
     j8(path);
 }
 function k0() {
-    $("#sliderFrame").html('<p class="sliderframeMsg">Click on image below to see higher resolution preview.</p><div id="slider">  </div> <div id="thumbs"></div> <div style="clear:both;height:0;"></div>');
+   // $("#sliderFrame").html('<p class="sliderframeMsg">Click on image below to see higher resolution preview.</p><div id="slider">  </div> <div id="thumbs"></div> <div style="clear:both;height:0;"></div>');
+    $("#sliderFrame").html('<div id="sliderDesigner">  </div> <div id="thumbs"></div> <div style="clear:both;height:0;"></div>');
     if (IsCalledFrom == 1 || IsCalledFrom == 2) {
         $(".sliderframeMsg").css("display", "none");
     }
     if (IsBC) {
         $('#PreviewerContainerDesigner').css("width", "800px");
-        $('#Previewer').css("width", "776px");
+        $('#PreviewerDesigner').css("width", "776px");
         $('#sliderFrame').css("width", "740px");
-        $('#slider').css("width", "542px");
-        $('#previewProofing').css("width", "760px");
+        $('#sliderDesigner').css("width", "542px");
+        $('#previewProofingDesigner').css("width", "760px");
         $('#PreviewerContainerDesigner').css("height", "562px");
         $('#PreviewerContainerDesigner').css("left", (($(window).width() - $('#PreviewerContainerDesigner').width()) / 2) + "px");
         $('#PreviewerContainerDesigner').css("top", (($(window).height() - $('#PreviewerContainerDesigner').height()) / 2) + "px");
         $('.sliderLine').css("width", "744px");
-        $('#Previewer').css("height", ((500 - 46)) + "px");
+        $('#PreviewerDesigner').css("height", ((500 - 46)) + "px");
         if (IsCalledFrom == 3 || IsCalledFrom == 4) {
-            $('#sliderFrame').css("height", $('#Previewer').height() - 50 - 40 + "px");
-            $('#slider').css("height", $('#Previewer').height() - 50 - 40 + "px");
-            $('#thumbs').css("height", $('#Previewer').height() - 50 - 40 + "px");
+            $('#sliderFrame').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+            $('#sliderDesigner').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+            $('#thumbs').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
         } else {
-            $('#sliderFrame').css("height", $('#Previewer').height() - 33 + "px");
-            $('#slider').css("height", $('#Previewer').height() - 33 + "px");
-            $('#thumbs').css("height", $('#Previewer').height() - 33 + "px");
+            $('#sliderFrame').css("height", $('#PreviewerDesigner').height() - 33 + "px");
+            $('#sliderDesigner').css("height", $('#PreviewerDesigner').height() - 33 + "px");
+            $('#thumbs').css("height", $('#PreviewerDesigner').height() - 33 + "px");
         }
-        $('.divTxtProofing').css("width", "624px");
+        $('.divTxtProofingDesigner').css("width", "624px");
         $('.btnBlueProofing').css("width", "108px");
         $('.previewerTitle').css("padding-left", "7px");
         $('.previewerTitle').css("padding-top", "7px");
@@ -2131,86 +2132,86 @@ function k0() {
     } else {
         if ($(window).width() > 1200 && (IsCalledFrom == 1 || IsCalledFrom == 3)) {
             $('#PreviewerContainerDesigner').css("width", "1200px");
-            $('#Previewer').css("width", "1176px");
+            $('#PreviewerDesigner').css("width", "1176px");
             $('#sliderFrame').css("width", "1140px");
-            $('#slider').css("width", "942px");
+            $('#sliderDesigner').css("width", "942px");
             $('.sliderLine').css("width", "1144px");
-            $('#previewProofing').css("width", "1160px");
-            $('.divTxtProofing').css("margin-left", "208px");
+            $('#previewProofingDesigner').css("width", "1160px");
+            $('.divTxtProofingDesigner').css("margin-left", "208px");
         }
         $('#PreviewerContainerDesigner').css("left", (($(window).width() - $('#PreviewerContainerDesigner').width()) / 2) + "px");
         $('#PreviewerContainerDesigner').css("height", (($(window).height() - 28)) + "px");
-        $('#Previewer').css("height", (($(window).height() - 131)) + "px");
+        $('#PreviewerDesigner').css("height", (($(window).height() - 131)) + "px");
         if (IsCalledFrom == 3 || IsCalledFrom == 4) {
-            $('#sliderFrame').css("height", $('#Previewer').height() - 50 - 40 + "px");
-            $('#slider').css("height", $('#Previewer').height() - 50 - 40 + "px");
-            $('#thumbs').css("height", $('#Previewer').height() - 50 - 40 + "px");
+            $('#sliderFrame').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+            $('#sliderDesigner').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+            $('#thumbs').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
         } else {
-            $('#sliderFrame').css("height", $('#Previewer').height() - 33 + "px");
-            $('#slider').css("height", $('#Previewer').height() - 33 + "px");
-            $('#thumbs').css("height", $('#Previewer').height() - 33 + "px");
+            $('#sliderFrame').css("height", $('#PreviewerDesigner').height() - 33 + "px");
+            $('#sliderDesigner').css("height", $('#PreviewerDesigner').height() - 33 + "px");
+            $('#thumbs').css("height", $('#PreviewerDesigner').height() - 33 + "px");
         }
     }
-    var stPath = "/MPC_Content/Designer/Organisation" + ogranisationId + "/Templates/" + tID;
+    var stPath = "/MPC_Content/Designer/Organisation" + organisationId + "/Templates/" + tID;
     $.each(TP, function (i, IT) {
         
-        $("#slider").append('<img src="' + stPath + '/p' + IT.PageNo + '.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
+        $("#sliderDesigner").append('<img src="' + stPath + '/p' + IT.PageNo + '.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
         $("#thumbs").append(' <div id="thumbPage' + IT.ProductPageID + '" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + '.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + '</p></div><div style="clear:both;"></div></div>');
 
     });
     $.each(TP, function (i, IT) {
-        $("#slider").append('<img class="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
+        $("#sliderDesigner").append('<img class="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
         $("#thumbs").append(' <div id="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + ' - Overlay Layer</p></div><div style="clear:both;"></div></div>');
     });
     if (IsCalledFrom == 1 || IsCalledFrom == 2) {
-        $('#previewProofing').css("display", "none");
+        $('#previewProofingDesigner').css("display", "none");
     }
     if (IsCalledFrom == 2) {
-        $("#slider").css("visibility", "hidden");
+        $("#sliderDesigner").css("visibility", "hidden");
         $(".PreviewerDownloadPDF").removeClass("PreviewerDownloadPDF").addClass("PreviewerDownloadPDFCorp");
 
         $(".PreviewerDownloadPDFCorp").css("top", "200px");
         $(".PreviewerDownloadPDFCorp").text("Click here to download high resolution PDF file.");
         $(".PreviewerDownloadPDFCorp").css("right", $("#PreviewerContainerDesigner").width() / 2 - 319 + "px");
     }
-    if (IsCalledFrom == 3 || IsCalledFrom == 4) {
-        $("#slider").css("cursor", "pointer");
-        $("#slider").click(function () {
-            var s = $('#slider').css('background-image');
-            if (s != undefined) {
-                var p = s.split("/");
-                var i = p[p.length - 1];
-                var im = i.split("?");
-                var img = new Image();
-                StartLoader("Loading content please wait..");
-                img.onload = function () {
-                    StopLoader();
-                    //var src = "Previewer.aspx?tId=" + tID + "&pID=" + im[0];
-                    //$("#LargePreviewerIframe").attr("src", src);
-                    var width = this.width + 30;
-                    var height = this.height + 50;
-                    $(".LargePreviewerIframe").css("width", width - 30);
-                    $(".LargePreviewerIframe").css("height", height - 40);
-                    if (this.width > $(window).width()) {
-                        width = $(window).width() - 50;
-                    }
-                    if (this.height > $(window).height()) {
-                        height = $(window).height() - 80;
-                        $(".LargePreviewerIframe").css("height", height - 40);
-                        $(".LargePreviewerIframe").css("width", width - 10);
-                    }
-                    $(".LargePreviewer").dialog("option", "height", height);
-                    $(".LargePreviewer").dialog("option", "width", width);
+    //if (IsCalledFrom == 3 || IsCalledFrom == 4) {
+    //    $("#sliderDesigner").css("cursor", "pointer");
+    //    $("#sliderDesigner").click(function () {
+    //        var s = $('#sliderDesigner').css('background-image');
+    //        if (s != undefined) {
+    //            var p = s.split("/");
+    //            var i = p[p.length - 1];
+    //            var im = i.split("?");
+    //            var img = new Image();
+    //            StartLoader("Loading content please wait..");
+    //            img.onload = function () {
+    //                StopLoader();
+    //                //var src = "Previewer.aspx?tId=" + tID + "&pID=" + im[0];
+    //                //$("#LargePreviewerIframe").attr("src", src);
+    //                var width = this.width + 30;
+    //                var height = this.height + 50;
+    //                $(".LargePreviewerIframe").css("width", width - 30);
+    //                $(".LargePreviewerIframe").css("height", height - 40);
+    //                if (this.width > $(window).width()) {
+    //                    width = $(window).width() - 50;
+    //                }
+    //                if (this.height > $(window).height()) {
+    //                    height = $(window).height() - 80;
+    //                    $(".LargePreviewerIframe").css("height", height - 40);
+    //                    $(".LargePreviewerIframe").css("width", width - 10);
+    //                }
+    //                $(".LargePreviewer").dialog("option", "height", height);
+    //                $(".LargePreviewer").dialog("option", "width", width);
 
-                    $("#DivShadow").css("z-Index", "100002");
-                    $("#DivShadow").css("display", "block");
+    //                $("#DivShadow").css("z-Index", "100002");
+    //                $("#DivShadow").css("display", "block");
 
-                    $("#LargePreviewer").dialog("open");
-                }
-                img.src = "designer/products/" + tID + "/" + im[0];
-            }
-        });
-    }
+    //                $("#LargePreviewer").dialog("open");
+    //            }
+    //            img.src = "designer/products/" + tID + "/" + im[0];
+    //        }
+    //    });
+    //}
 }
 function k4() {
     var D1AO = canvas.getActiveObject();
@@ -2470,8 +2471,8 @@ function k8() {
     }
 }
 function k9() {
-    if ($('#slider') != undefined) {
-        var s = $('#slider').css('background-image');
+    if ($('#sliderDesigner') != undefined) {
+        var s = $('#sliderDesigner').css('background-image');
         if (s != undefined) {
             var p = s.split("?");
             if (s.indexOf("asset") == -1) {
@@ -2751,7 +2752,7 @@ function k16(TempImgType, ImC, Caller) {
     jsonPath += "Services/imageSvcDam/" + IsCalledFrom + "," + TempImgType + "," + tID + "," + CustomerID + "," + ContactID + "," + Territory + "," + ImC + "," + searchTerm
     // int isCalledFrom, int imageSetType, long productId, long contactCompanyID, long contactID, long territoryId, int pageNumner, string SearchKeyword, long OrganisationID
     if (!isV2Servce) {
-        jsonPath = "/designerAPI/TemplateBackgroundImage/getImages/" + IsCalledFrom + "/" + TempImgType + "/" + tID + "/" + CustomerID + "/" + ContactID + "/" + Territory + "/" + ImC + "/" + searchTerm + "/"+ogranisationId;
+        jsonPath = "/designerAPI/TemplateBackgroundImage/getImages/" + IsCalledFrom + "/" + TempImgType + "/" + tID + "/" + CustomerID + "/" + ContactID + "/" + Territory + "/" + ImC + "/" + searchTerm + "/"+organisationId;
     }
    
     oldHtml = $("." + strName).html() + "";

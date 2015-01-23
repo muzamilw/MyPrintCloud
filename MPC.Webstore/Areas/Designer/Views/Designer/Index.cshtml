@@ -49,6 +49,10 @@
             <section id="resultsQText" class="results infinite">
                 <section class="layer scrollPane">
                     <div class="innerDesigner">
+                        
+                        <button class="btnQuickText bkbtnIphone">Collapse</button>
+                        Collapse 
+
                         <ul class=" textControls">
                             <li><a class="add QuickTextTitle ThemeColor" style="" data-style="title">Update your Quick text Profile</a></li>
                         </ul>
@@ -64,7 +68,7 @@
                 <section class="layer scrollPaneImgDam">
                     <div class="innerDesigner browseCategories ">
                         <div class="AddBrowserCategories">
-                            <ul class="gallery photoGallery albumGallery categories laidOut UlAddMain TempUlAddMain" id="TempUlAddMain" style="height: 258px;">
+                            <ul class="gallery photoGallery albumGallery categories laidOut UlAddMain TempUlAddMain" id="TempUlAddMain" style="height: 380px;">
                                 <li style="width: 109px; left: 0px; top: 0px;" class="AddBLr1c1">
                                     <a title="Upload Images" id="uploadImagesMB">
                                         <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
@@ -105,6 +109,14 @@
                                         <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
                                         <img src="~/Content/Designer/assets-v2/addlist.png" width="200" height="200" class="" alt="Folder thumbnail" style="height: 81px;" />
                                         <span class="text">Text List</span>
+                                    </a>
+                                </li>
+                           
+                                <li style="width: 109px; left: 0px; top: 258px;" class="AddBLr1c3">
+                                    <a title="Upload Font" class="btnAUploadFont">
+                                        <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
+                                        <img src="~/Content/Designer/assets-v2/uploadfont.png" width="200" height="200" class="" alt="Folder thumbnail" style="height: 81px;" />
+                                        <span class="text">Upload Font</span>
                                     </a>
                                 </li>
                             </ul>
@@ -1149,20 +1161,20 @@
         </div>
         <div class="sliderLine">
         </div>
-        <div id="Previewer" class="ui-corner-all">
+        <div id="PreviewerDesigner" class="ui-corner-all">
             <div id="sliderFrame">
             </div>
             <div class="sliderLine sliderLineBtm">
             </div>
-            <div id="previewProofing">
-                <div class="divTxtProofing">
-                    <div class="ConfirmPopupProof">
-                        <label class="lblChkSpellings" runat="server" id="lblConfirmSpellings">
+            <div id="previewProofingDesigner">
+                <div class="divTxtProofingDesigner">
+                    <div class="ConfirmPopupProofDesigner">
+                        <label class="lblChkSpellings" runat="server" id="lblConfirmSpellings" style="vertical-align:super">
                             Confirm spelling and details
                         </label>
                         <input id="chkCheckSpelling" name="chkCheckSpelling" runat="server" class="regular-checkbox-new"
                                type="checkbox" />
-                        <label for="chkCheckSpelling" style="display: inline;">
+                        <label for="chkCheckSpelling" style="display: inline; height:35px">
                         </label>
                     </div>
                     <div style="margin-top: 17px;">
@@ -1180,7 +1192,7 @@
         </div>
     </div>
 
-    <div class="searchLoaderHolder on">
+    @*<div class="searchLoaderHolder on">
         <span class="g1"></span>
         <span class="g1"></span>
         <span class="g1"></span>
@@ -1190,7 +1202,25 @@
         <span class="g2 on"></span>
         <span class="g1"></span>
 
-    </div>
+    </div>*@
+    <div id="floatingBarsG" class="searchLoaderHolder on">
+        <div class="blockG" id="rotateG_01">
+        </div>
+        <div class="blockG" id="rotateG_02">
+        </div>
+        <div class="blockG" id="rotateG_03">
+        </div>
+        <div class="blockG" id="rotateG_04">
+        </div>
+        <div class="blockG" id="rotateG_05">
+        </div>
+        <div class="blockG" id="rotateG_06">
+        </div>
+        <div class="blockG" id="rotateG_07">
+        </div>
+        <div class="blockG" id="rotateG_08">
+        </div>
+    </div> 
     <form id="form1" runat="server" class="imageUploadForm" style="display: none;">
 
         <div id="uploader">

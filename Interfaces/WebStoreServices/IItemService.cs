@@ -102,6 +102,6 @@ namespace MPC.Interfaces.WebStoreServices
         long PostLoginCustomerAndCardChanges(long OrderId, long CompanyId, long ContactId, long TemporaryCompanyId, long OrganisationId);
 
         Item GetItemByOrderID(long OrderID);
-
+        string SaveDesignAttachments(long templateID, long itemID, long customerID, string DesignName, string caller, long organisationId);
     }
 }
