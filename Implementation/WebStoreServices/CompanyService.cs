@@ -694,6 +694,18 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
+
+        public List<Address> GetContactCompanyAddressesList(long BillingAddressId, long ShippingAddressid, long PickUpAddressId)
+        {
+            try
+            {
+                return _addressRepository.GetContactCompanyAddressesList(BillingAddressId, ShippingAddressid, PickUpAddressId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
     }
 

@@ -79,17 +79,17 @@ function downloadJSAtOnload(name) {
 
 function a0(fontName, fontFileName) {
     var path = "";
-    path = "/DesignEngine/";
+    path = "/";
     var html = "";
-    //if (jQuery.browser.msie) {
-    //    html = '<style> @font-face { font-family: ' + fontName + '; src: url(' + path + fontFileName + ".woff" + ') format("woff");  font-weight: normal; font-style: normal;}</style>';
-    //} else if (jQuery.browser.Chrome) {
-    //    html = '<style> @font-face { font-family: ' + fontName + '; src: url(' + path + fontFileName + ".woff" + ') format("woff");  font-weight: normal; font-style: normal;}</style>';
-    //} else if (jQuery.browser.Safari || jQuery.browser.opera || jQuery.browser.mozilla) {
-    //    html = '<style> @font-face { font-family: ' + fontName + '; src:  url(' + path + fontFileName + ".ttf" + ') format("truetype");  font-weight: normal; font-style: normal;}</style>';
-    //} else {
+    if ($.browser.msie) {
+        html = '<style> @font-face { font-family: ' + fontName + '; src: url(' + path + fontFileName + ".woff" + ') format("woff");  font-weight: normal; font-style: normal;}</style>';
+    } else if ($.browser.Chrome) {
+        html = '<style> @font-face { font-family: ' + fontName + '; src: url(' + path + fontFileName + ".woff" + ') format("woff");  font-weight: normal; font-style: normal;}</style>';
+    } else if ($.browser.Safari || $.browser.opera || $.browser.mozilla) {
+        html = '<style> @font-face { font-family: ' + fontName + '; src:  url(' + path + fontFileName + ".ttf" + ') format("truetype");  font-weight: normal; font-style: normal;}</style>';
+    } else {
         html = '<style> @font-face { font-family: ' + fontName + '; src: url(' + path + fontFileName + ".eot" + '); src: url(' + path + fontFileName + ".eot?#iefix" + ') format(" embedded-opentype"), url(' + path + fontFileName + ".woff" + ') format("woff"),  url(' + path + fontFileName + ".ttf" + ') format("truetype");  font-weight: normal; font-style: normal;}</style>';
-    //}
+    }
     $('head').append(html);
 }
 
@@ -903,7 +903,7 @@ function e0(caller) {
     D1CZL = 0;
 }
 function e6() {
-    pcL36('hide', '#PreviewerContainer');
+    pcL36('hide', '#PreviewerContainerDesigner');
     $('.opaqueLayer').css("display", "none");
     $('.opaqueLayer').css("background-color", "transparent");
 
@@ -1844,19 +1844,19 @@ function fu16() {
 function h8(FN, FF, FP) {
     var p = "";
     p = "/";
-    //if (jQuery.browser.msie) {
-//        T0FN.push(FN);
-//        n = p + FF + ".woff";
-//        T0FU.push(n);
-////} else if (jQuery.browser.Chrome) {
-//        T0FN.push(FN);
-//        n = p + FF + ".woff";
-//        T0FU.push(n);
-//  //  } else if (jQuery.browser.Safari || jQuery.browser.opera || jQuery.browser.mozilla) {
-//        T0FN.push(FN);
-//        n = p + FF + ".ttf";
-//        T0FU.push(n);
-    //} else {
+    if ($.browser.msie) {
+        T0FN.push(FN);
+        n = p + FF + ".woff";
+        T0FU.push(n);
+    } else if ($.browser.Chrome) {
+        T0FN.push(FN);
+        n = p + FF + ".woff";
+        T0FU.push(n);
+    } else if ($.browser.Safari || $.browser.opera || $.browser.mozilla) {
+        T0FN.push(FN);
+        n = p + FF + ".ttf";
+        T0FU.push(n);
+    } else {
         T0FN.push(FN);
         n = p + FF + ".eot";
         T0FU.push(n);
@@ -1868,7 +1868,7 @@ function h8(FN, FF, FP) {
         T0FN.push(FN);
         n = p + FF + ".ttf";
         T0FU.push(n);
-    //}
+    }
 
 }
 function h9() {
@@ -2104,14 +2104,14 @@ function k0() {
         $(".sliderframeMsg").css("display", "none");
     }
     if (IsBC) {
-        $('#PreviewerContainer').css("width", "800px");
+        $('#PreviewerContainerDesigner').css("width", "800px");
         $('#Previewer').css("width", "776px");
         $('#sliderFrame').css("width", "740px");
         $('#slider').css("width", "542px");
         $('#previewProofing').css("width", "760px");
-        $('#PreviewerContainer').css("height", "562px");
-        $('#PreviewerContainer').css("left", (($(window).width() - $('#PreviewerContainer').width()) / 2) + "px");
-        $('#PreviewerContainer').css("top", (($(window).height() - $('#PreviewerContainer').height()) / 2) + "px");
+        $('#PreviewerContainerDesigner').css("height", "562px");
+        $('#PreviewerContainerDesigner').css("left", (($(window).width() - $('#PreviewerContainerDesigner').width()) / 2) + "px");
+        $('#PreviewerContainerDesigner').css("top", (($(window).height() - $('#PreviewerContainerDesigner').height()) / 2) + "px");
         $('.sliderLine').css("width", "744px");
         $('#Previewer').css("height", ((500 - 46)) + "px");
         if (IsCalledFrom == 3 || IsCalledFrom == 4) {
@@ -2130,7 +2130,7 @@ function k0() {
         $('.previewerTitle').css("padding-bottom", "7px");
     } else {
         if ($(window).width() > 1200 && (IsCalledFrom == 1 || IsCalledFrom == 3)) {
-            $('#PreviewerContainer').css("width", "1200px");
+            $('#PreviewerContainerDesigner').css("width", "1200px");
             $('#Previewer').css("width", "1176px");
             $('#sliderFrame').css("width", "1140px");
             $('#slider').css("width", "942px");
@@ -2138,8 +2138,8 @@ function k0() {
             $('#previewProofing').css("width", "1160px");
             $('.divTxtProofing').css("margin-left", "208px");
         }
-        $('#PreviewerContainer').css("left", (($(window).width() - $('#PreviewerContainer').width()) / 2) + "px");
-        $('#PreviewerContainer').css("height", (($(window).height() - 28)) + "px");
+        $('#PreviewerContainerDesigner').css("left", (($(window).width() - $('#PreviewerContainerDesigner').width()) / 2) + "px");
+        $('#PreviewerContainerDesigner').css("height", (($(window).height() - 28)) + "px");
         $('#Previewer').css("height", (($(window).height() - 131)) + "px");
         if (IsCalledFrom == 3 || IsCalledFrom == 4) {
             $('#sliderFrame').css("height", $('#Previewer').height() - 50 - 40 + "px");
@@ -2151,14 +2151,16 @@ function k0() {
             $('#thumbs').css("height", $('#Previewer').height() - 33 + "px");
         }
     }
+    var stPath = "/MPC_Content/Designer/Organisation" + ogranisationId + "/Templates/" + tID;
     $.each(TP, function (i, IT) {
-        $("#slider").append('<img src="designer/products/' + tID + '/p' + IT.PageNo + '.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
-        $("#thumbs").append(' <div id="thumbPage' + IT.ProductPageID + '" class="thumb"><div class="frame"><img src="designer/products/' + tID + '/p' + IT.PageNo + '.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + '</p></div><div style="clear:both;"></div></div>');
+        
+        $("#slider").append('<img src="' + stPath + '/p' + IT.PageNo + '.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
+        $("#thumbs").append(' <div id="thumbPage' + IT.ProductPageID + '" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + '.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + '</p></div><div style="clear:both;"></div></div>');
 
     });
     $.each(TP, function (i, IT) {
-        $("#slider").append('<img class="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" src="designer/products/' + tID + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
-        $("#thumbs").append(' <div id="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="designer/products/' + tID + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + ' - Overlay Layer</p></div><div style="clear:both;"></div></div>');
+        $("#slider").append('<img class="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
+        $("#thumbs").append(' <div id="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + ' - Overlay Layer</p></div><div style="clear:both;"></div></div>');
     });
     if (IsCalledFrom == 1 || IsCalledFrom == 2) {
         $('#previewProofing').css("display", "none");
@@ -2169,7 +2171,7 @@ function k0() {
 
         $(".PreviewerDownloadPDFCorp").css("top", "200px");
         $(".PreviewerDownloadPDFCorp").text("Click here to download high resolution PDF file.");
-        $(".PreviewerDownloadPDFCorp").css("right", $("#PreviewerContainer").width() / 2 - 319 + "px");
+        $(".PreviewerDownloadPDFCorp").css("right", $("#PreviewerContainerDesigner").width() / 2 - 319 + "px");
     }
     if (IsCalledFrom == 3 || IsCalledFrom == 4) {
         $("#slider").css("cursor", "pointer");
@@ -3565,7 +3567,7 @@ function pcL28_find(id) {
 
 }
 function pcL36(mode, arrayControls) {  // panels logic do here 
-    //var notInPanel = " #quickText , #DivPersonalizeTemplate , #DivToolTip , #DivAdvanceColorPanel ,  #divPositioningPanel , #DivControlPanel1 , #divBCMenu , #btnShowMoreOptions , #divPopupUpdateTxt , #divVariableContainer , #PreviewerContainer , #divPresetEditor ";
+    //var notInPanel = " #quickText , #DivPersonalizeTemplate , #DivToolTip , #DivAdvanceColorPanel ,  #divPositioningPanel , #DivControlPanel1 , #divBCMenu , #btnShowMoreOptions , #divPopupUpdateTxt , #divVariableContainer , #PreviewerContainerDesigner , #divPresetEditor ";
     var controls = "";
     controls += ' #DivAlignObjs ,#divTxtPropPanelRetail ,#divImgPropPanelRetail ,#DivColorPickerDraggable ,#DivAdvanceColorPanel';
     //controls += '#addText , #addImage , #divImageDAM , #divImageEditScreen , #DivLayersPanel , #UploadImage , #ImagePropertyPanel , #ShapePropertyPanel ';

@@ -9,7 +9,7 @@ namespace MPC.Models.DomainModels
     /// <summary>
     /// Cost Centre Question Domain Model
     /// </summary>
-    public class CostCentreQuestion
+    public partial class CostCentreQuestion
     {
         public int Id { get; set; }
         public string QuestionString { get; set; }

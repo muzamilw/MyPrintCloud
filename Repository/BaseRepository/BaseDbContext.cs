@@ -13,6 +13,7 @@ namespace MPC.Repository.BaseRepository
     /// <summary>
     /// Base Db Context. Implements Identity Db Context over Application User
     /// </summary>
+     [Serializable()]
     public sealed class BaseDbContext : DbContext
     {
         #region Private
