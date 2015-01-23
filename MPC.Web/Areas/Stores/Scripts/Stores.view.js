@@ -289,6 +289,14 @@ define("stores/stores.view",
                 hideItemAddonCostCentreDialog = function () {
                     $("#itemAddonCostCentreDialog").modal("hide");
                 },
+                  // Show Media Gallery the dialog
+                showMediaGalleryDialog = function () {
+                    $("#myMediaGalleryModal").modal("show");
+                },
+                // Hide Media Gallery the dialog
+                hideMediaGalleryDialog = function () {
+                    $("#myMediaGalleryModal").modal("hide");
+                },
                 // Initiate Dropzone events 
                 initiateDropzoneEvents = function (element, itemId, itemImageType, imageCaption, filePath) {
 
@@ -444,6 +452,8 @@ define("stores/stores.view",
                 updateInputCheckedStates: updateInputCheckedStates,
                 showStoreProductCategoryDialog: showStoreProductCategoryDialog,
                 hideStoreProductCategoryDialog: hideStoreProductCategoryDialog,
+                showMediaGalleryDialog: showMediaGalleryDialog,
+                hideMediaGalleryDialog: hideMediaGalleryDialog,
                 //#region Store Product Tab Functions
                 changeView: changeView,
                 showVideoDialog: showVideoDialog,

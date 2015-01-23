@@ -142,6 +142,8 @@ namespace MPC.MIS.Areas.Api.Models
         /// </summary>
         public List<CmsOffer> CmsOffers { get; set; }
 
+        public List<MediaLibrary> MediaLibraries { get; set; }
+
         #region CMS Pages
 
         public List<CmsPage> NewAddedCmsPages { get; set; }
@@ -194,6 +196,7 @@ namespace MPC.MIS.Areas.Api.Models
         public ICollection<Item> Deletedproducts { get; set; }
 
         #endregion
+
 
         #endregion
 
