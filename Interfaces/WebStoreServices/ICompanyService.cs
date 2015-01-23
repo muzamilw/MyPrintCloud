@@ -167,5 +167,11 @@ namespace MPC.Interfaces.WebStoreServices
 
         long GetContactTerritoryID(long CID);
         List<Address> GetContactCompanyAddressesList(long BillingAddressId, long ShippingAddressid, long PickUpAddressId);
+        /// <summary>
+        /// get the contactid 
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <returns></returns>
+        long GetContactIdByCompanyId(long CompanyId);
     }
 }

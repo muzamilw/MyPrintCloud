@@ -1903,7 +1903,7 @@ namespace MPC.Repository.Repositories
                     //special working for attaching the PDF
                     List<ArtWorkAttatchment> uplodedArtWorkList = new List<ArtWorkAttatchment>();
                     ArtWorkAttatchment attatcment = null;
-                    string folderPath = "";//Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
+                    string folderPath = "/mpc_content/Attachments/Organisation" + organisationId + "/" + customerID ;//Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
                     string virtualFolderPth = "";
                     if (caller == "webstore")
                     {
