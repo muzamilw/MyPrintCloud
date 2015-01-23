@@ -102,6 +102,16 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
 
         }
+        [HttpPost]
+        public HttpResponseMessage SaveQuickText([FromBody]  QuickText obj)
+        {
+            var result = templateService.UpdateQuickTextTemplateSelection(obj);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
+        }
 
         // public string preview(Stream data)
         //    public string update(Stream data)// not used in new designer 
