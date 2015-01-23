@@ -166,5 +166,6 @@ namespace MPC.Interfaces.WebStoreServices
         CompanyContact GetRetailUser(string email, string password);
 
         long GetContactTerritoryID(long CID);
+        List<Address> GetContactCompanyAddressesList(long BillingAddressId, long ShippingAddressid, long PickUpAddressId);
     }
 }

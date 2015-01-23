@@ -11,7 +11,7 @@ namespace MPC.Models.Common
 {
 
 
-
+  [Serializable()]
     public class QuestionQueueItem 
     {
 
@@ -167,9 +167,8 @@ namespace MPC.Models.Common
 
     }
 
-        
 
-[Serializable()]
+     [Serializable()]
 public class CostCentreQueueItem
 {
 
@@ -342,9 +341,8 @@ public class CostCentreQueueItem
 
 }
 
-    
 
-[Serializable()]
+     [Serializable()]
 public class StockQueueItem
 {
 
@@ -438,9 +436,7 @@ public class StockQueueItem
 }
 
 
-    
-
-[Serializable()]
+     [Serializable()]
 public class InputQueueItem
 {
 
