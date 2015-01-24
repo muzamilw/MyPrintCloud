@@ -31,7 +31,7 @@ $(window).scroll(function () {
     canvas.calcOffset();
 });
 
-$("#canvaDocument").scroll(function () {
+$("#canvasDocument").scroll(function () {
 
     canvas.calcOffset();
 });

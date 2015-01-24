@@ -347,7 +347,7 @@ function e3() {
     $("#zoomText").html(Math.floor(D1CS * 100) + "%");
     $(".page").css("height", ((Template.PDFTemplateHeight * dfZ1l) + 20) + "px");
     $(".page").css("width", ((Template.PDFTemplateWidth * dfZ1l) + 0) + "px");
-    var val = $("#canvaDocument").width() - $(".page").width();
+    var val = $("#canvasDocument").width() - $(".page").width();
     val = val / 2;
     if (val < 0) val = 20;
     $(".page").css("left", val + "px");
@@ -392,7 +392,7 @@ function e5() {
     $("#zoomText").html(Math.floor(D1CS * 100) + "%");
     $(".page").css("height", ((Template.PDFTemplateHeight * dfZ1l) + 20) + "px");
     $(".page").css("width", ((Template.PDFTemplateWidth * dfZ1l) + 0) + "px");
-    var val = $("#canvaDocument").width() - $(".page").width();
+    var val = $("#canvasDocument").width() - $(".page").width();
     val = val / 2;
     if (val < 0) val = 20;
     $(".page").css("left", val + "px");
