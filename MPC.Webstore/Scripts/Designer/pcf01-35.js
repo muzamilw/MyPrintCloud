@@ -178,7 +178,7 @@ function d1ToCanvasCC(src, IW, IH) {
 }
 function k35_load(DT) {
     // src = DT;
-    StopLoader();
+   // StopLoader();
     D1NIO = fabric.util.object.clone(TO[0]);
     D1NIO.ObjectID = --NCI;
     D1NIO.ColorHex = "#000000";
@@ -1284,7 +1284,7 @@ function g2_1(e) {
 
     k4();
     var tp = $("#selectedTab").css("top");
-    $("#objectPanel").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage9");
+    $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage9");
     $(".stage6 #selectedTab").css("top", tp);
     $("#FrontBackOptionPanal").css("display", "block");
     $("#FrontBackOptionPanalSection").addClass("showRightPropertyPanel");

@@ -156,5 +156,32 @@ function buildParams() {
 	cIDv2 =parseInt( locVars[locVars.length - 10]);
 	productionFolderPath = "Organisation" + organisationId + "/Templates/";
 	ItemId = parseInt(locVars[locVars.length - 8]);
-	//alert(ItemId);
+    //alert(ItemId);
+	LoadBasicTemplateSettings();
+	$("#txtTemplateTitle").val(locVars[locVars.length - 11]);
+}
+function LoadBasicTemplateSettings() {
+    if (cIDv2 == 0)
+    {
+        $("#Template").css("visibility", "hidden");
+        $("#btnAdd").click();
+    }
+    if(IsCalledFrom == 2)
+    {
+        //corp admin
+     
+    } else if (IsCalledFrom == 3 || IsCalledFrom == 4)
+    {
+        //corp and retail end users 
+        
+        $(".adminControl").css("display", "none");
+    } 
+}
+function restrictControls() {
+    $("#btnAdd").css("visibility", "hidden"); 
+    $("#Quick").click();
+    $("#btnMenuCopy").css("visibility", "hidden");
+    $("#btnMenuPaste").css("visibility", "hidden");
+    $("#backgrounds").css("visibility", "hidden");
+    $("#layersPanel").css("visibility", "hidden");
 }

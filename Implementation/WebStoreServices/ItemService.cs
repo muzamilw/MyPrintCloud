@@ -585,5 +585,54 @@ namespace MPC.Implementation.WebStoreServices
 
 
         }
+        public List<Item> GetItemsByOrderID(long OrderID)
+        {
+            try
+            {
+                return _ItemRepository.GetItemsByOrderID(OrderID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<Item> GetListOfDeliveryItemByOrderID(long OID)
+        {
+            try
+            {
+               return _ItemRepository.GetListOfDeliveryItemByOrderID(OID);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool RemoveListOfDeliveryItemCostCenter(long OrderId)
+        {
+            try
+            {
+                return _ItemRepository.RemoveListOfDeliveryItemCostCenter(OrderId);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool AddUpdateItemFordeliveryCostCenter(long orderId, long DeliveryCostCenterId, double DeliveryCost, long customerID, string DeliveryName, StoreMode Mode, bool isDeliveryTaxable, bool IstaxONService, double GetServiceTAX, double TaxRate)
+        {
+             try
+            {
+                return _ItemRepository.AddUpdateItemFordeliveryCostCenter(orderId,DeliveryCostCenterId,DeliveryCost,customerID,DeliveryName,Mode,isDeliveryTaxable,IstaxONService,GetServiceTAX,TaxRate);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+  
+
     }
 }

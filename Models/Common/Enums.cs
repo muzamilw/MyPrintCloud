@@ -278,4 +278,10 @@ namespace MPC.Models.Common
         ReachedThresholdLevel = 3,
         BackOrder = 4
     }
+    public enum DeliveryCarriers
+    {
+        Fedex = 1,
+        UPS = 2,
+        Other = 3
+    }
 }

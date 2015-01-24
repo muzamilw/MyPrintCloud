@@ -166,7 +166,14 @@ namespace MPC.Interfaces.WebStoreServices
         CompanyContact GetRetailUser(string email, string password);
 
         long GetContactTerritoryID(long CID);
-        List<Address> GetContactCompanyAddressesList(long BillingAddressId, long ShippingAddressid, long PickUpAddressId);
+
+        long GetContactAddressID(long cID);
+
+        string GetStateCodeById(long stateId);
+
+        string GetCountryCodeById(long countryId);
+        
+         List<Address> GetContactCompanyAddressesList(long BillingAddressId, long ShippingAddressid, long PickUpAddressId);
         /// <summary>
         /// get the contactid 
         /// </summary>
@@ -175,5 +182,8 @@ namespace MPC.Interfaces.WebStoreServices
         long GetContactIdByCompanyId(long CompanyId);
 
         long GetContactIdByRole(long CompanyID, int Role);
+        string SystemWeight(long OrganisationID);
+
+        string SystemLength(long OrganisationID);
     }
 }

@@ -700,8 +700,7 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
-
-        public List<Address> GetContactCompanyAddressesList(long BillingAddressId, long ShippingAddressid, long PickUpAddressId)
+  	 public List<Address> GetContactCompanyAddressesList(long BillingAddressId, long ShippingAddressid, long PickUpAddressId)
         {
             try
             {
@@ -711,8 +710,31 @@ namespace MPC.Implementation.WebStoreServices
             {
                 throw ex;
             }
+        }        
+        public long GetContactAddressID(long cID)
+        {
+            try
+            {
+                return _CompanyContactRepository.GetContactAddressID(cID);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
-        /// <summary>
+        public string GetStateCodeById(long stateId)
+        {
+            try
+            {
+                return _StateRepository.GetStateCodeById(stateId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+         /// <summary>
         /// 
         /// </summary>
         /// <param name="CompanyId"></param>
@@ -722,6 +744,16 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _CompanyContactRepository.GetContactIdByCustomrID(CompanyId);
         }
+        public string GetCountryCodeById(long countryId)
+        {
+            try
+            {
+                return _countryRepository.GetCountryCodeById(countryId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         /// <summary>
         /// get contact list by role and company id
         /// </summary>
@@ -732,6 +764,32 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _CompanyContactRepository.GetContactIdByRole(CompanyID, Role);
         }
+        }
+
+        public string SystemWeight(long OrganisationID)
+        {
+            try
+            {
+                return _CompanyRepository.SystemWeight(OrganisationID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string SystemLength(long OrganisationID)
+        {
+            try
+            {
+                return _CompanyRepository.SystemLength(OrganisationID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         #endregion
     }
 

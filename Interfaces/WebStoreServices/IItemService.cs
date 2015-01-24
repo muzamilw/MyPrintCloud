@@ -104,6 +104,9 @@ namespace MPC.Interfaces.WebStoreServices
 
         Item GetItemByOrderID(long OrderID);
         void GenerateThumbnailForPdf(string url, bool insertCuttingMargin);
+        List<Item> GetItemsByOrderID(long OrderID);
+
+        List<Item> GetListOfDeliveryItemByOrderID(long OID);
         string SaveDesignAttachments(long templateID, long itemID, long customerID, string DesignName, string caller, long organisationId);
         List<ItemAttachment> SaveArtworkAttachments(List<ItemAttachment> attachmentList);
         bool CreatAndSaveThumnail(Stream oImgstream, string sideThumbnailPath);
@@ -111,5 +114,10 @@ namespace MPC.Interfaces.WebStoreServices
         PaymentGateway GetPaymentGatewayRecord(long CompanyId);
         long GetFirstItemIdByOrderId(long orderId);
         long AddPrePayment(PrePayment prePayment);
+
+        bool RemoveListOfDeliveryItemCostCenter(long OrderId);
+
+        bool AddUpdateItemFordeliveryCostCenter(long orderId, long DeliveryCostCenterId, double DeliveryCost, long customerID, string DeliveryName, StoreMode Mode, bool isDeliveryTaxable, bool IstaxONService, double GetServiceTAX, double TaxRate);
+
     }
 }

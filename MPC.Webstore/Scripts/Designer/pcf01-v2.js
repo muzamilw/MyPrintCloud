@@ -99,31 +99,29 @@ function b1(selectId, value, text, id) {
 }
 
 function b4(imgSrc) {
+
     IW = 150;
     IH = 150;
     var he = Template.PDFTemplateHeight;
     var wd = Template.PDFTemplateWidth;
     $.each(LiImgs, function (i, IT) {
-        if (imgSrc.indexOf(IT.BackgroundImageRelativePath) != -1) {
+        
+        if (imgSrc.indexOf(IT.ImageName) != -1) {
+            console.log(IT);
             IW = IT.ImageWidth;
             IH = IT.ImageHeight;
-            if (parseInt(IW) < 50) {
-                IW = 50;
-            }
-            if (parseInt(IH) < 50) {
-                IH = 50;
-            }
-            if (IW > wd) {
-                wd = wd / 2;
-                ratio = wd / IW;
+            if (he > wd)
+            {
+                ratio = (wd - 50) / IW;
+                IW = wd - 50;
                 IH = IH * ratio;
+            } else
+            {
+                ratio = (he - 50) / IH;
+                IH = he - 50;
                 IW = IW * ratio;
             }
-            if (IH > he) {
-                he = he / 2;
-                ratio = he / IH;
-                IW = IW * ratio;
-            }
+         
             return;
         }
     });
@@ -1384,7 +1382,7 @@ function fu02() {
 function fu04_callBack(DT) {
     Template = DT;
     tID = Template.ProductId;
-    $("#txtTemplateTitle").val(Template.ProductName);
+  //  $("#txtTemplateTitle").val(Template.ProductName);
     $.each(Template.TemplatePages, function (i, IT) {
         TP.push(IT);
     });
@@ -1635,7 +1633,7 @@ function fu09_SvcCallBack(DT) {
     }
 }
 function fu09_1(DT) {
-
+    console.log(DT);
     $.each(DT, function (key, val) {
         for (var line in val) {
             //tcRowCount++;
@@ -1644,7 +1642,7 @@ function fu09_1(DT) {
             //}
             //var top = tcImThh;
             //var left = tcLltemp * 200
-
+            
             var html = '<span class="templateGallerylist"><a title="' + val[line] + '" onClick="fu10(this,' + line + ')">' +
                   '<img src="' + V2Url + '/designer/products/' + line + '/TemplateThumbnail1.jpg' + '" class="imgs' + line + '"> </a></span>'
 
@@ -3171,7 +3169,7 @@ function k26(id, n, m) {
     imgLoaderSection = m;
     var imToLoad = parseInt(id);
     var tp = $("#selectedTab").css("top");
-    $("#objectPanel").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage8").removeClass("stage7").addClass("stage7");
+    $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage8").removeClass("stage7").addClass("stage7");
 
     //   $(".stage7 #selectedTab").css("top", tp);
     $(".ImageContainer").css("display", "none");

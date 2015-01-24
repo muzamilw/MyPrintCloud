@@ -51,9 +51,16 @@ namespace MPC.Interfaces.Repository
         /// <returns></returns>
         OrderDetail GetOrderReceipt(long orderID);
 
-        //bool UpdateOrderWithDetailsToConfirmOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Address billingAdd, Address deliveryAdd, double grandOrderTotal,
-        //                                     string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde, long BrokerContactCompanyID, Estimate order, Prefix prefix);
+        void updateTaxInCloneItemForServic(long orderId, double TaxValue, StoreMode Mode);
+
 
         bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode);
+        bool UpdateOrderWithDetailsToConfirmOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Address billingAdd, Address deliveryAdd, double grandOrderTotal,
+                                             string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde, long BrokerContactCompanyID, Estimate order, Prefix prefix);
+
+        double UpdateORderGrandTotal(long OrderID);
+
+        bool SaveDilveryCostCenter(long orderId, CostCentre ChangedCostCenter);
+
     }
 }
