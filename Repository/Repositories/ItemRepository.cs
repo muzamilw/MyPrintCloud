@@ -1356,22 +1356,50 @@ namespace MPC.Repository.Repositories
 
                 if (tblTemplate != null)
                 {
-                    //color Style
-                    tblTemplate.TemplateColorStyles.ToList().ForEach(tempColorStyle => db.TemplateColorStyles.Remove(tempColorStyle));
-
+                    if (tblTemplate.TemplateColorStyles != null)
+                    {
+                        if (tblTemplate.TemplateColorStyles.Count > 0)
+                        {
+                            tblTemplate.TemplateColorStyles.ToList().ForEach(tempColorStyle => db.TemplateColorStyles.Remove(tempColorStyle));
+                        }
+                    }
                     //backgourd
-                    tblTemplate.TemplateBackgroundImages.ToList().ForEach(tempBGImages => db.TemplateBackgroundImages.Remove(tempBGImages));
+                    if (tblTemplate.TemplateBackgroundImages != null)
+                    {
+                        if (tblTemplate.TemplateBackgroundImages.Count > 0)
+                        {
+                            tblTemplate.TemplateBackgroundImages.ToList().ForEach(tempBGImages => db.TemplateBackgroundImages.Remove(tempBGImages));
+                        }
 
+
+                    }
                     //font
-                    tblTemplate.TemplateFonts.ToList().ForEach(tempFonts => db.TemplateFonts.Remove(tempFonts));
+                    if (tblTemplate.TemplateFonts != null)
+                    {
+                        if (tblTemplate.TemplateFonts.Count > 0)
+                        {
+                            tblTemplate.TemplateFonts.ToList().ForEach(tempFonts => db.TemplateFonts.Remove(tempFonts));
+                        }
 
-
+                    }
                     //object
-                    tblTemplate.TemplateObjects.ToList().ForEach(tempObj => db.TemplateObjects.Remove(tempObj));
+                    if (tblTemplate.TemplateObjects != null)
+                    {
+                        if (tblTemplate.TemplateObjects.Count > 0)
+                        {
+                            tblTemplate.TemplateObjects.ToList().ForEach(tempObj => db.TemplateObjects.Remove(tempObj));
+                        }
 
+                    }
                     //Page
-                    tblTemplate.TemplatePages.ToList().ForEach(tempPage => db.TemplatePages.Remove(tempPage));
+                    if (tblTemplate.TemplatePages != null)
+                    {
+                        if (tblTemplate.TemplatePages.Count > 0)
+                        {
+                            tblTemplate.TemplatePages.ToList().ForEach(tempPage => db.TemplatePages.Remove(tempPage));
+                        }
 
+                    }
 
                     // the template to remove the files in web.ui
                     clonedTemplate = Clone<Template>(tblTemplate);
