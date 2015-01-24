@@ -524,6 +524,7 @@
     <Content Include="Areas\Designer\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Designer\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Designer\Views\Designer\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\MPCPublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Designer\jCanvaScript.1.5.14.min.js" />
     <Content Include="Scripts\Designer\jCanvasLoader.js" />
