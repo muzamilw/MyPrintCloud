@@ -978,7 +978,7 @@ $("#btnNextProofing").click(function (event) {
         //}
         //emailParameters += "&IsRC=" + IsRoundedCorners;
         var designerName = $('#txtTemplateTitle').val();
-        alert(designerName);
+   
         while (designerName.indexOf('/') != -1)
             designerName = designerName.replace("/", "__");
         while (designerName.indexOf('&') != -1)
