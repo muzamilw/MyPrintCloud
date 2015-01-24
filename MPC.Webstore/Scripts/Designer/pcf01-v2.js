@@ -733,13 +733,13 @@ function d5(pageID, isloading) {
             }
             $(".page").css("height", ((Template.PDFTemplateHeight * dfZ1l) + 20) + "px");
             $(".page").css("width", ((Template.PDFTemplateWidth * dfZ1l) + 0) + "px");
-            var val = $("#canvaDocument").width() - $(".page").width();
+            var val = $("#canvasDocument").width() - $(".page").width();
             val = val / 2;
             if (val < 0) val = 20;
             $(".page").css("left", val + "px");
-            //$(".page").css("left", (($("#canvaDocument").width() - $(".page").width()) / 2) + "px");
+            //$(".page").css("left", (($("#canvasDocument").width() - $(".page").width()) / 2) + "px");
             //$("#addNewPage").css("top", (Template.PDFTemplateHeight + 150) + "px");
-            //$("#addNewPage ").css("left", (($("#canvaDocument").width() - $("#addNewPage").width()) / 2) + "px");
+            //$("#addNewPage ").css("left", (($("#canvasDocument").width() - $("#addNewPage").width()) / 2) + "px");
             if (IT.BackgroundFileName != "") {
 
                 if (IT.BackGroundType == 3) {
@@ -1121,7 +1121,7 @@ function fu02UI() {
     $(".LargePreviewer").dialog("option", "draggable", false);
     $(".LargePreviewerIframe").css("width", $(window).width() - 70);
     $(".LargePreviewerIframe").css("height", $(window).height() - 80);
-    $("#canvaDocument").scroll(function () {
+    $("#canvasDocument").scroll(function () {
         canvas.calcOffset();
     });
     $(".add").draggable({
@@ -1352,7 +1352,7 @@ function fu02() {
     canvas.on('object:out', function (e) {
         if (e.TG.IsQuickText == true && e.TG.type == 'image') {
             $("#placeHolderTxt").css("visibility", "hidden");
-        }
+        } 
     });
 
     //    canvas.observe('mouse:down', onMouseDown);
@@ -1376,6 +1376,7 @@ function fu02() {
         pcL36('hide', '#divImgPropPanelRetail , #divTxtPropPanelRetail ,#DivColorPickerDraggable ');
         $("#sortableLayers li").removeClass("selectedItemLayers");
 
+
     });
 }
 
@@ -1396,8 +1397,26 @@ function fu04_callBack(DT) {
     fu04_01();
     fu14();
     b3_1();
+    b3_lDimensions();
 }
-
+function b3_lDimensions() {
+    var w = Template.PDFTemplateWidth;
+    var h = Template.PDFTemplateHeight;
+    h = h / 96 * 72;
+    w = w / 96 * 72;
+    h = h / 2.834645669;
+    w = w / 2.834645669;
+    w = w.toFixed(3);
+    h = h.toFixed(3);
+    h = h - 10;
+    w = w - 10;
+ //   w = w * Template.ScaleFactor;
+  //  h = h * Template.ScaleFactor;
+    //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
+    $(".dimentionsBC").html("Trim size -" + " " + w + " (w) *  " + h + " (h) mm");
+  //  $(".dimentionsBC").append("<br /><span class='spanZoomContainer'> Zoom - " + D1CS * 100 + " % </span>");
+ //   $(".zoomToolBar").html(" Zoom " + Math.floor(D1CS * 100) + " % ");
+}
 function fu05_svcCall(DT) {
     $.each(DT, function (i, IT) {
         fu05_ClHtml(IT.ColorC, IT.ColorM, IT.ColorY, IT.ColorK, IT.SpotColor, IT.IsColorActive, IT.PelleteID);
@@ -1568,7 +1587,7 @@ function fu06_SvcCallback(DT, fname) {
     }).bind('slimscrolling', function (e, pos) {
         canvas.calcOffset();
     });
-    $("#canvaDocument").css("width", $(window).width() - 430);
+    $("#canvasDocument").css("width", $(window).width() - 430);
     d5(TP[0].ProductPageID, true);
 }
 function fu07() {
@@ -1633,7 +1652,7 @@ function fu09_SvcCallBack(DT) {
     }
 }
 function fu09_1(DT) {
-    console.log(DT);
+
     $.each(DT, function (key, val) {
         for (var line in val) {
             //tcRowCount++;

@@ -17,6 +17,7 @@
     double GrossTotal = 0;
     string VatTotal = string.Empty;
     string subtotal = string.Empty;
+    var ThumnbString = "Thumb.png";
 }
 
 <div class="container content_area">
@@ -88,7 +89,7 @@
                                              string ext = System.IO.Path.GetExtension(prod.Attatchment.FileName);
                                              if (ext == ".xlsx" || ext == ".xls" || ext == ".csv")
                                              {
-                                                 string completeImgPath = Html.GetAppBasePath() + prod.ThumbnailPath;
+                                                 string completeImgPath = Html.GetAppBasePath() + prod.Attatchment.FolderPath + prod.Attatchment.FileName + ThumnbString;
                                                  pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
                                                  imgToShowURL = completeImgPath;
                                              }
@@ -103,20 +104,20 @@
                                                  //  string completeImgPath = ResolveUrl(GetSideThumbnail(FolderPathOfAttachment, model.Attatchment.FileName));
 
                                                  pdfLinkBtn = "";// completeImgPath;//ImageDisplayScript(completeImgPath);
-                                                 imgToShowURL = "";// completeImgPath;
+                                                 imgToShowURL = Html.GetAppBasePath() + FolderPathOfAttachment + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
                                              }
                                          }
                                          else
                                          {
                                              if (prod.ProductType == (int)ProductType.FinishedGoodWithBanner || prod.ProductType == (int)ProductType.FinishedGoodWithImageRotator)
                                              {
-                                                 string completeImgPath = Html.GetAppBasePath() + prod.ThumbnailPath;
+                                                 string completeImgPath = Html.GetAppBasePath() + prod.Attatchment.FolderPath + prod.Attatchment.FileName + ThumnbString;
                                                  pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
                                                  imgToShowURL = completeImgPath;
                                              }
                                          }
                                                     }
-                                                    <a id="lnkPdfFile" href=@pdfLinkBtn><img id="imgToShow" class="image_stretcher" src="@imgToShowURL"></a>
+                                                    <a id="lnkPdfFile" href=@pdfLinkBtn><img id="imgToShow" class="image_stretcher" src="@imgToShowURL" /></a>
                                                 </div>
                                                 <div class="BtnTemplateModifyContainer">
                                                     @if (prod.ProductType == (int)ProductType.TemplateProductWithBanner || prod.ProductType == (int)ProductType.TemplateProductWithImage)
@@ -215,25 +216,13 @@
                                 <div class="cntsubHeadings">
                                     <label id="ltrlsubtotal" class=" LightGrayLabels displayClear">Sub Total</label>
 
-                                    <label id="ltrlDelivery" class="LightGrayLabels displayClear">Delivery</label>
-
-                                    @if (ViewBag.isIncludeVAT)
-                                    {
-                                        <label id="lblTaxLabel" class="LightGrayLabels displayClear"></label>
-                                    }
-
-                                    <label id="lblTotalpayable" class="colorBlack total_payable">Total Payable</label>
+                                   
                                 </div>
                                 <div class="cnttotals" id="cntRightPricing1">
 
                                     <label id="lblSubTotal" class="Fsize14 colorBlack displayClear">@subtotal</label>
 
-                                    <label id="lblDeliveryCostCenter" class="LightGrayLabels displayClear">@Model.DeliveryCost</label>
-                                    @if (ViewBag.isIncludeVAT)
-                                    {
-                                        <label id="lblVatTotal" class="LightGrayLabels displayClear">@VatTotal</label>
-                                    }
-                                    <label id="lblGrandTotal" class="colorBlack total_payable" style="float: right;">@GrossTotal</label>
+                                  
                                 </div>
                                 <div class="clearBoth">
                                 </div>

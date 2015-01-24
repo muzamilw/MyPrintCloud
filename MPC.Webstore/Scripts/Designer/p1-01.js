@@ -1,10 +1,12 @@
-﻿$("#uploadImagesMB").click(function () {
+﻿$("#uploadImagesMB ,#IdUploadBackgrounds").click(function () {
      $("#imageUploader").click();
    // $("#fontUploader").click();
     //animatedcollapse.toggle('textPropertPanel');
 });
 
-
+$(".btnAUploadFont").click(function () {
+    $("#fontUploader").click();
+});
          
 
 $('#imageUploader').change(function () {
