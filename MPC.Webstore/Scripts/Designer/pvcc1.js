@@ -158,7 +158,10 @@ function buildParams() {
 	ItemId = parseInt(locVars[locVars.length - 8]);
     //alert(ItemId);
 	LoadBasicTemplateSettings();
-	$("#txtTemplateTitle").val(locVars[locVars.length - 11]);
+	var tempName = locVars[locVars.length - 11];
+	while (tempName.indexOf('%20') != -1)
+	    tempName = tempName.replace("%20", " ");
+	$("#txtTemplateTitle").val(tempName);
 }
 function LoadBasicTemplateSettings() {
     if (cIDv2 == 0)
@@ -172,8 +175,6 @@ function LoadBasicTemplateSettings() {
      
     } else if (IsCalledFrom == 3 || IsCalledFrom == 4)
     {
-        //corp and retail end users 
-        
         $(".adminControl").css("display", "none");
     } 
 }

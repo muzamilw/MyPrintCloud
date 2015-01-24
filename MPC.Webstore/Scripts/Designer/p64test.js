@@ -10318,7 +10318,7 @@ cloneWithoutData: function (callback) {
     * @type Boolean
     * @default
     */
-    hasRotatingPoint: false,
+    hasRotatingPoint: true,
 
     /**
     * Offset for object's controlling rotating point (when enabled via `hasRotatingPoint`)
