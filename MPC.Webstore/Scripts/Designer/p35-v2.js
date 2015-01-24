@@ -981,10 +981,22 @@ $("#btnNextProofing").click(function (event) {
         alert(designerName);
         while (designerName.indexOf('/') != -1)
             designerName = designerName.replace("/", "__");
+        while (designerName.indexOf('&') != -1)
+            designerName = designerName.replace("&", "__");
+
+        while (designerName.indexOf(' ') != -1)
+            designerName = designerName.replace(" ", "-");
+        while (designerName.indexOf(';') != -1)
+            designerName = designerName.replace(";", "-");
+        while (designerName.indexOf('&#34;') != -1)
+            designerName = designerName.replace("&#34;", "-");
+        while (designerName.indexOf('+') != -1)
+            designerName = designerName.replace("+", "-");
+      
+       
         $.getJSON("/designerapi/Template/SaveDesignAttachments/" + tID + "/" + ItemId + "/" + CustomerID + "/" + designerName + "/designer/" + organisationId,
           function (DT) {
-              alert(DT);
-              window.location.href = dt// + "&CategoryId=" + CategoryId + "&ProductName=" + document.getElementById('txtDesignName').value + emailParameters;
+              window.location.href = DT;// + "&CategoryId=" + CategoryId + "&ProductName=" + document.getElementById('txtDesignName').value + emailParameters;
           });
     } else {
         alert(ssMsg);

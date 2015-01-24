@@ -134,7 +134,7 @@
                     @if (ViewData["Templates"] == null)
                     {
                         <div class="rptContainers">
-                            @if (ViewData["ArtworkAttachments"] == null)
+                            @if (ViewBag.AttachmentCount == 0)
                             {
                             <div onclick="return ShowArtworkPanel();" class="artworkarrow">
                                 <img id="ImgArrow" alt="" src="~/images/artwork_arrow_icons.png" style="width: 60px;" /><br />
@@ -181,23 +181,23 @@
                     else
                     {
                         <div class="rptContainers">
-                            @foreach (var templateItem in ViewData["Templates"] as List<MPC.Models.DomainModels.TemplatePage>
+                            @foreach (var templateItem in ViewData["Templates"] as List<MPC.Webstore.Models.TemplateViewData>
                 )
                             {
 
                                 <div class="LGBC BD_PCS rounded_corners">
-                                <asp:hyperlink id="hlSide1">
+                                <a id="hlSide1">
                                 <div class="PDTC_LP FI_PCS">
-                                <img class="full_img_ThumbnailPath_LP" />
+                                <img class="full_img_ThumbnailPath_LP" src="@templateItem.FolderPath@templateItem.FileName@imagePath" />
 
                                 </div>
-                                </asp:hyperlink>
+                                </a>
                                 <div class="confirm_design LGBC" style="display: none;">
-                                <label id="lblFront" class="ProdtPricedisplayNoneCs DisplayNoneCSS6">templateItem.PageName</label>
+                                <label id="lblFront" class="ProdtPricedisplayNoneCs DisplayNoneCSS6"></label>
                                 </div>
                                 <div class="modify_button_container" style="position: absolute; padding: 0px; margin-top: -27px;">
                                 <div>
-                                @Html.ActionLink("Modify", "ModifyTemplate", "ProductOptions", new { ItemId = ViewBag.ClonedItemId, TemplateId = templateItem.ProductId, ProductName = templateItem.Template.ProductName, CategoryId = templateItem.Template.ProductCategoryId }, new { @class = "btn_brown_small" })
+                                @Html.ActionLink("Modify", "ModifyTemplate", "ProductOptions", null, new { @class = "btn_brown_small", @onclick = "RediredToDesigner(" + templateItem.TemplateName + "," + templateItem.ItemId + ","+ templateItem.CustomerId +"," + templateItem.ContactId +","+ templateItem.isCalledFrom +","+ templateItem.OrganisationID +","+ templateItem.printCropMarks +","+ templateItem.printWaterMark +","+ templateItem.isEmbedded +"," + templateItem.CategoryId +");" })
 
                                 </div>
                                 </div>
@@ -717,6 +717,8 @@
         if (isPriceSelected == 0) {
             ShowPopUp("Message", "Please check your details to proceed.");
             return false;
+        }else{
+            ShowLoader();
         }
     }
 
@@ -1251,7 +1253,7 @@
         var monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"];
         var FileName = yyyy + monthNames[mm] + dd;
-        FileName = FileName.concat("-", '@ViewBag.ClonedItem.ProductCode', "-", '@ViewBag.Order.Order_Code', "-", '@ViewBag.ClonedItem.ItemCode', "-", '' + sideOFImage + '');
+        FileName = FileName.concat("-", '@ViewBag.ClonedItem.ProductCode', "-", '@ViewBag.Order.Order_Code', "-", '@ViewBag.ClonedItem.ItemCode', "-", '' + sideOFImage);
         var url = "/mpc_content/Attachments/Organisation";
         url = url.concat('@UserCookieManager.OrganisationID', "/", '@UserCookieManager.StoreId', "/");
 
@@ -1273,16 +1275,16 @@
                 processData: false,
                 data: data,
                 success: function (messages) {
-                    if(messages == "Success"){
-                        sideOFImage = parseInt(sideOFImage) + 1;
-                        $("#uploadedImageSide").val(sideOFImage);
-                        if(messages[0] == "Artwork not uploaded"){
-                            alert(messages[0]);
-                        }else{
-                            window.location.reload();
-                        }
-                       
+                   
+                    sideOFImage = parseInt(sideOFImage) + 1;
+                    $("#uploadedImageSide").val(sideOFImage);
+                    if(messages[0] == "Artwork not uploaded"){
+                        alert(messages[0]);
+                    }else{
+                        window.location.reload(true);
                     }
+                       
+                
                    
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -1296,6 +1298,10 @@
 
     }
 
+        function RediredToDesigner(ProductName, TemplateID, ItemID, CompanyID, ContactID, isCalledFrom, OrganisationID, printCropMarks, printWaterMark, isEmbedded,TempDesignerID){
+            var URL = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + UserCookieManager.OrganisationID + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
+            alert(URL);
+        }
 
 </script>
 }

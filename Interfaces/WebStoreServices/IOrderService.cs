@@ -67,7 +67,7 @@ namespace MPC.Interfaces.WebStoreServices
         bool SaveDilveryCostCenter(long orderId, CostCentre ChangedCostCenter);
 
        
-
+        bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode);
 
     }
 }

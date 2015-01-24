@@ -32,6 +32,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IItemAttachmentRepository _itemAtachement;
         private readonly IFavoriteDesignRepository _favoriteDesign;
         private readonly ITemplateService _templateService;
+        private readonly IPaymentGatewayRepository _paymentRepository;
         #region Constructor
 
         /// <summary>
@@ -39,7 +40,8 @@ namespace MPC.Implementation.WebStoreServices
         /// </summary>
         public ItemService(IItemRepository ItemRepository, IItemStockOptionRepository StockOptions, ISectionFlagRepository SectionFlagRepository, ICompanyRepository CompanyRepository
             , IItemStockControlRepository StockRepository, IItemAddOnCostCentreRepository AddOnRepository, IProductCategoryRepository ProductCategoryRepository
-            , IItemAttachmentRepository itemAtachement, IFavoriteDesignRepository FavoriteDesign, ITemplateService templateService)
+            , IItemAttachmentRepository itemAtachement, IFavoriteDesignRepository FavoriteDesign, ITemplateService templateService
+            ,IPaymentGatewayRepository paymentRepository)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -51,6 +53,7 @@ namespace MPC.Implementation.WebStoreServices
             this._itemAtachement = itemAtachement;
             this._favoriteDesign = FavoriteDesign;
             this._templateService = templateService;
+            this._paymentRepository = paymentRepository;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -543,6 +546,44 @@ namespace MPC.Implementation.WebStoreServices
         public List<ItemAttachment> SaveArtworkAttachments(List<ItemAttachment> attachmentList)
         {
             return _itemAtachement.SaveArtworkAttachments(attachmentList);
+        }
+        /// <summary>
+        /// gets the cloned item
+        /// </summary>
+        /// <param name="ItemId"></param>
+        /// <returns></returns>
+        public Item GetClonedItemById(long ItemId)
+        {
+            return _ItemRepository.GetClonedItemById(ItemId);
+        }
+        /// <summary>
+        /// returns the active payment gateway
+        /// </summary>
+        /// <returns></returns>
+        public PaymentGateway GetPaymentGatewayRecord(long CompanyId)
+        {
+
+            return _paymentRepository.GetPaymentGatewayRecord(CompanyId);
+
+
+        }
+        public long GetFirstItemIdByOrderId(long orderId)
+        {
+
+            return _ItemRepository.GetFirstItemIdByOrderId(orderId);
+
+
+        }
+                 /// <summary>
+        /// add payment
+        /// </summary>
+        /// <returns></returns>
+        public long AddPrePayment(PrePayment prePayment)
+        {
+
+            return _paymentRepository.AddPrePayment(prePayment);
+
+
         }
         public List<Item> GetItemsByOrderID(long OrderID)
         {

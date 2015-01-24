@@ -63,6 +63,8 @@ namespace MPC.Interfaces.Repository
          Item GetItemByOrderID(long OrderID);
           List<Item> GetItemsByOrderID(long OrderID);
          string SaveDesignAttachments(long templateID, long itemID, long customerID, string DesignName, string caller, long organisationId);
+         Item GetClonedItemById(long itemId);
+         long GetFirstItemIdByOrderId(long orderId);
 
          List<Item> GetListOfDeliveryItemByOrderID(long OID);
 

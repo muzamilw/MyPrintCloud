@@ -1585,6 +1585,7 @@ namespace MPC.Repository.Repositories
                         Delevery = Convert.ToDouble(item.Qty1NetTotal);
                         DeliveryTaxValue = Convert.ToDouble(item.Qty1GrossTotal - item.Qty1NetTotal);
 
+       
                     }
                     else
                     {
@@ -1630,7 +1631,26 @@ namespace MPC.Repository.Repositories
                 throw e;
             }
         }
-   
+        /// <summary>
+        /// return order with updated status
+        /// </summary>
+        /// <param name="OrderID"></param>
+        /// <param name="orderStatus"></param>
+        /// <param name="currentStoreMode"></param>
+        /// <returns></returns>
+        public bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode)
+        {
+            Estimate tblOrder = db.Estimates.Where(estm => estm.EstimateId == OrderID).FirstOrDefault();
+
+            tblOrder.StatusId = (short)orderStatus;
+
+            //OrderManager.UpdateOrderedItems(context, orderStatus, tblOrder, ProductManager.ItemStatuses.NotProgressedToJob, currentStoreMode); // and Delete the items which are not of part
+
+            db.SaveChanges();
+
+            return true;
+
+        }
 
     }
 }
