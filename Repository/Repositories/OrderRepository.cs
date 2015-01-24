@@ -1247,16 +1247,20 @@ namespace MPC.Repository.Repositories
                 {
                  
                     itemAttatchments = new List<ArtWorkAttatchment>();
-
-                    //Delete Attachments                       
-                    tblItem.ItemAttachments.ToList().ForEach(att =>
+                    if (tblItem.ItemAttachments != null )
                     {
-                        db.ItemAttachments.Remove(att); // remove
+                        if (tblItem.ItemAttachments.Count > 0)
+                        {
+                            //Delete Attachments                       
+                            tblItem.ItemAttachments.ToList().ForEach(att =>
+                            {
+                                db.ItemAttachments.Remove(att); // remove
 
-                        //if (att.FileType == ".pdf")
-                        itemAttatchments.Add(PopulateUploadedAttactchment(att)); // gathers attatments list as well.
-                    });
-
+                                //if (att.FileType == ".pdf")
+                                itemAttatchments.Add(PopulateUploadedAttactchment(att)); // gathers attatments list as well.
+                            });
+                        }
+                    }
 
                     //Remove the Templates if he has designed any
                     if (tblItem.TemplateId != null && tblItem.TemplateId > 0)
@@ -1264,18 +1268,20 @@ namespace MPC.Repository.Repositories
                         if (!ValidateIfTemplateIDIsAlreadyBooked(tblItem.ItemId, tblItem.TemplateId))
                             clonedTemplate = RemoveTemplates(tblItem.TemplateId);
                     }
-                        
-                    
 
-                    //Section cost centeres
-                    tblItem.ItemSections.ToList().ForEach(itemSection => itemSection.SectionCostcentres.ToList().ForEach(sectCost => db.SectionCostcentres.Remove(sectCost)));
+                    if (tblItem.ItemSections != null)
+                    {
 
 
-                    //Item Section
-                    tblItem.ItemSections.ToList().ForEach(itemsect => db.ItemSections.Remove(itemsect));
+                        //Section cost centeres
+                        tblItem.ItemSections.ToList().ForEach(itemSection => itemSection.SectionCostcentres.ToList().ForEach(sectCost => db.SectionCostcentres.Remove(sectCost)));
 
 
+                        //Item Section
+                        tblItem.ItemSections.ToList().ForEach(itemsect => db.ItemSections.Remove(itemsect));
 
+
+                    }
                     //Finally the item
                     db.Items.Remove(tblItem);
                     result = true;

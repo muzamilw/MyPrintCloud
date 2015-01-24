@@ -794,8 +794,8 @@
                                     <label id="lblShipToAddLin1" class="lbAddressLinesWithPadding">@ShippingAddress.Address1</label>
                                     <label id="lblShipToAddLin2" class="lbAddressLines">@ShippingAddress.Address2</label><br />
                                     <label id="lblShipToCity" class="lbAddressLinesWithPadding">@ShippingAddress.City</label><br />
-                                    <label id="lblShipTostate" class="lbAddressLinesWithPadding">@ShippingAddress.State</label>&nbsp;
-                                    <label id="lblShipToCountry" class="lbAddressLines">@ShippingAddress.Country</label>  &nbsp;
+                                    <label id="lblShipTostate" class="lbAddressLinesWithPadding">@ShippingAddress.State.StateName</label>&nbsp;
+                                    <label id="lblShipToCountry" class="lbAddressLines">@ShippingAddress.Country.CountryName</label>  &nbsp;
                                     <label id="lblShipToZipCode" class="lbAddressLines">@ShippingAddress.PostCode</label> <br />
                                 </div>
                                 <br />
@@ -807,8 +807,8 @@
                                     <label id="lblAddLine1BilSip" class="lbAddressLinesWithPadding">@BillingAddress.Address1</label>
                                     <label id="lbladdLine2BilSip" class="lbAddressLines">@BillingAddress.Address2</label><br />
                                     <label id="lblCityBilSip" class="lbAddressLinesWithPadding">@BillingAddress.City</label><br />
-                                    <label id="lblStateBilSip" class="lbAddressLinesWithPadding">@BillingAddress.State</label>&nbsp;
-                                    <label id="lblCountryBilSip" class="lbAddressLines">@BillingAddress.Country</label>&nbsp;
+                                    <label id="lblStateBilSip" class="lbAddressLinesWithPadding">@BillingAddress.State.StateName</label>&nbsp;
+                                    <label id="lblCountryBilSip" class="lbAddressLines">@BillingAddress.Country.CountryName</label>&nbsp;
                                     <label id="lblPostCdeBilSip" class="lbAddressLines">@BillingAddress.PostCode</label><br />
                                 </div>
                                 <br />
@@ -1070,14 +1070,14 @@
     }
     function BillingSameAsDeliveryScriptCheckBox() {
 
-        var ShipTO = 'Resources.MyResource.ltrlShipTo %>';
-        var BillShippTO = 'Resources.MyResource.lnkBillShipto %>';
+       // var ShipTO = 'Resources.MyResource.ltrlShipTo %>';
+      //  var BillShippTO = 'Resources.MyResource.lnkBillShipto %>';
         if ($("#chkBoxDeliverySameAsBilling")[0].checked == true) {
             //  alert("c");
             //   $("#MainContent_chkBoxDeliverySameAsBilling").attr("checked", "checked");
             $('#BillTOShippTO').css('display', 'none');
             $('#BillTOShippTOContainer').css('display', 'none');
-            $("#ltrlShipTo").html(BillShippTO);
+           // $("#ltrlShipTo").html(BillShippTO);
             SetNewControlValues();
 
 
