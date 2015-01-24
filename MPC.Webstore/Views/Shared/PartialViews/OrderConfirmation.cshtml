@@ -1,10 +1,21 @@
 ﻿@model MPC.Models.Common.ShoppingCart
-           @{
+@using MPC.Webstore.Common;
+@using MPC.Models.Common;
+@{
                double GrossTotal = 0;
                string VatTotal = string.Empty;
                string subtotal = string.Empty;
                var AddressList = ViewData["OrderAddresses"] as MPC.Models.DomainModels.Address;
-           }
+               string EstimateDispatchTime = string.Empty;
+               double _priceTotal = 0;
+               double _vatTotal = 0;
+               double _grandTotal = 0;
+               decimal noOfCostCentreProdDays = 0;
+               decimal _numOfProductionDays = 0;
+               decimal numberOfDaysAddedTodelivery = 0;
+               decimal ProductProductionTime = 0;
+
+}
     <div class="container content_area">
         <div class="row left_right_padding">
             <div id="MessgeToDisply" class="rounded_corners col-md-12 col-lg-12 col-xs-12" style="display:none;">
@@ -81,7 +92,7 @@
                                             <th align="center" scope="col">&nbsp;</th>
                                             <th align="left" scope="col">lblProductTxt</th>
                                             <th align="left" scope="col">lblQuantityHeaderTxt</th>
-                                            @if (ViewBag.IsShowPrices)
+                                            @if (ViewBag.IsShowPrices == true)
                                             {
                                                 <th align="left" scope="col">Price</th>
                                             }
@@ -311,7 +322,7 @@
                                 </div>
                                 
                             }
-                            else if ((ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(Roles.Adminstrator) || ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(Roles.Manager)) || (ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(Roles.User) && ViewBag.LoginUser.canUserPlaceOrderWithoutApproval == true))
+                            else if ((ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.Adminstrator) || ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.Manager)) || (ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.User) && ViewBag.LoginUser.canUserPlaceOrderWithoutApproval == true))
                             {
                                 <div class="pad10">
                                     <div class="float_right marginLeft">

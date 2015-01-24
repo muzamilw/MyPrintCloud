@@ -84,7 +84,7 @@ namespace MPC.Webstore.Controllers
 				if (!_myClaimHelper.isUserLoggedIn())
 				{
 					// Annonymous user cann't view it.
-					RedirectToAction("Index", "Home");
+                    Response.Redirect("/Login");
 
 				}
 
@@ -344,7 +344,12 @@ namespace MPC.Webstore.Controllers
 								}
 								Address shippingAddress = customerAddresses.Where(addr => addr.AddressId == ShippingID).FirstOrDefault();
 								// Is billing and Shipping are same ??
-								if (shippingAddress != null)
+							    if(shippingAddress == null)
+                                {
+                                    shippingAddress = customerAddresses.FirstOrDefault();
+                                }
+
+                                if (shippingAddress != null)
 								{
 									
 									AddressSelectModel.ShippingAddress = shippingAddress;
@@ -354,6 +359,7 @@ namespace MPC.Webstore.Controllers
 								   // SetShippingAddresControls(shippingAddress);
 								  //  SetEnabilityShippingAddressControls(shippingAddress);
 								}
+                               
 
 								if (billingAddress != null && shippingAddress != null && billingAddress.AddressId == shippingAddress.AddressId)
 								{
@@ -423,7 +429,12 @@ namespace MPC.Webstore.Controllers
 
 								}
 								Address shippingAddress = customerAddresses.Where(addr => addr.AddressId == ContactShippingID).FirstOrDefault();
-								// Is billing and Shipping are same ??
+								
+                                if(shippingAddress == null)
+                                {
+                                    shippingAddress = customerAddresses.FirstOrDefault();
+                                }
+                               // Is billing and Shipping are same ??
 								if (shippingAddress != null)
 								{
 									

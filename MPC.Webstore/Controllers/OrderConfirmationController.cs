@@ -36,17 +36,19 @@ namespace MPC.Webstore.Controllers
         // GET: OrderConfirmation
         public ActionResult Index(string OrderId)
         {
+            MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
             long OrderID = Convert.ToInt64(OrderId);
             if (OrderID > 0)
             {
                 ShoppingCart shopCart = _OrderService.GetShopCartOrderAndDetails(OrderID, OrderStatus.ShoppingCart);
                 if (shopCart != null)
                 {
-
+                    
+                    CompanyContact oContact = _myCompanyService.GetContactByID(_myClaimHelper.loginContactRoleID());
+                    ViewBag.LoginUser = oContact;
                     if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
                     {
-                        CompanyContact oContact = _myCompanyService.GetContactByID(_myClaimHelper.loginContactRoleID());
-                        ViewBag.LoginUser = oContact;
+                        
 
                         ViewData["OrderAddresses"] = _myCompanyService.GetContactCompanyAddressesList(shopCart.BillingAddressID, shopCart.ShippingAddressID, oContact.AddressId);
                     }
@@ -55,6 +57,20 @@ namespace MPC.Webstore.Controllers
                         ViewData["OrderAddresses"] = _myCompanyService.GetContactCompanyAddressesList(shopCart.BillingAddressID, shopCart.ShippingAddressID, 0);
 
                     }
+
+                    if (baseResponseCompany.Company.ShowPrices ?? true)
+                    {
+                        ViewBag.IsShowPrices = true;
+                        //do nothing because pricing are already visible.
+                    }
+                    else
+                    {
+                        ViewBag.IsShowPrices = false;
+                        //  cntRightPricing1.Visible = false;
+                    }
+
+
+
                     return View("PartialViews/OrderConfirmation", shopCart);
                 }
                 else
