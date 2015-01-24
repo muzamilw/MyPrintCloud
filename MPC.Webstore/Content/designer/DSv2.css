@@ -649,7 +649,7 @@ padding: 0px 22px 0px 50px  !important;
             height: 30px;
         }
 
-#canvaDocument {
+#canvasDocument {
     position: absolute;
     left: 33.333%;
     right: -18px;
@@ -661,7 +661,7 @@ padding: 0px 22px 0px 50px  !important;
     -webkit-backface-visibility: hidden;
 }
 
-    #canvaDocument > .inner {
+    #canvasDocument > .inner {
         position: absolute;
         left: 0;
         top: 0;
@@ -2034,7 +2034,7 @@ html:not(.touch) .SampleBtn {
     background-color: #000 !important;
 }
 
-#canvaDocument:hover {
+#canvasDocument:hover {
     overflow-x: scroll !important;
 }
 
@@ -6540,3 +6540,13 @@ label
 {
     font-size: 12px;
 }
+ .customPaddingForScroll
+ {
+     margin-top:10px;
+     margin-bottom:16px;
+ }
+
+ .DivCarouselImgContainerStyle2
+ {
+     margin-bottom:5px;
+ }

@@ -733,13 +733,13 @@ function d5(pageID, isloading) {
             }
             $(".page").css("height", ((Template.PDFTemplateHeight * dfZ1l) + 20) + "px");
             $(".page").css("width", ((Template.PDFTemplateWidth * dfZ1l) + 0) + "px");
-            var val = $("#canvaDocument").width() - $(".page").width();
+            var val = $("#canvasDocument").width() - $(".page").width();
             val = val / 2;
             if (val < 0) val = 20;
             $(".page").css("left", val + "px");
-            //$(".page").css("left", (($("#canvaDocument").width() - $(".page").width()) / 2) + "px");
+            //$(".page").css("left", (($("#canvasDocument").width() - $(".page").width()) / 2) + "px");
             //$("#addNewPage").css("top", (Template.PDFTemplateHeight + 150) + "px");
-            //$("#addNewPage ").css("left", (($("#canvaDocument").width() - $("#addNewPage").width()) / 2) + "px");
+            //$("#addNewPage ").css("left", (($("#canvasDocument").width() - $("#addNewPage").width()) / 2) + "px");
             if (IT.BackgroundFileName != "") {
 
                 if (IT.BackGroundType == 3) {
@@ -1121,7 +1121,7 @@ function fu02UI() {
     $(".LargePreviewer").dialog("option", "draggable", false);
     $(".LargePreviewerIframe").css("width", $(window).width() - 70);
     $(".LargePreviewerIframe").css("height", $(window).height() - 80);
-    $("#canvaDocument").scroll(function () {
+    $("#canvasDocument").scroll(function () {
         canvas.calcOffset();
     });
     $(".add").draggable({
@@ -1352,7 +1352,7 @@ function fu02() {
     canvas.on('object:out', function (e) {
         if (e.TG.IsQuickText == true && e.TG.type == 'image') {
             $("#placeHolderTxt").css("visibility", "hidden");
-        }
+        } 
     });
 
     //    canvas.observe('mouse:down', onMouseDown);
@@ -1375,6 +1375,7 @@ function fu02() {
     canvas.observe('selection:cleared', function (e) {
         pcL36('hide', '#divImgPropPanelRetail , #divTxtPropPanelRetail ,#DivColorPickerDraggable ');
         $("#sortableLayers li").removeClass("selectedItemLayers");
+
 
     });
 }
@@ -1586,7 +1587,7 @@ function fu06_SvcCallback(DT, fname) {
     }).bind('slimscrolling', function (e, pos) {
         canvas.calcOffset();
     });
-    $("#canvaDocument").css("width", $(window).width() - 430);
+    $("#canvasDocument").css("width", $(window).width() - 430);
     d5(TP[0].ProductPageID, true);
 }
 function fu07() {
