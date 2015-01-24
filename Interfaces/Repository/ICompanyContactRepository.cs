@@ -88,6 +88,7 @@ namespace MPC.Interfaces.Repository
         long GetContactTerritoryID(long CID);
         bool updateQuikcTextInfo(long contactId, QuickText objQuickText);
 
+        long GetContactIdByRole(long CompanyID, int Role);
         long GetContactAddressID(long cID);
     }
 }

@@ -329,17 +329,36 @@ namespace MPC.Webstore.Controllers
             long CompanyID = _myClaimHelper.loginContactCompanyID();
             if (UserCookieManager.OrderId == 0)
             {
-                long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
+                long TemporaryRetailCompanyId = 0;
+                if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                {
+                    TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
+                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, organisationBaseResponse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    if (OrderID > 0)
+                    {
+                        UserCookieManager.OrderId = OrderID;
+                    }
+                    if (TemporaryRetailCompanyId != 0)
+                    {
+                        UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
+                        ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
+                    }
+                    CompanyID = TemporaryRetailCompanyId;
+
+                }
+                else 
+                {
+                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, organisationBaseResponse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    if (OrderID > 0)
+                    {
+                        UserCookieManager.OrderId = OrderID;
+                    }
+                }
 
                 // create new order
 
-                long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, organisationBaseResponse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
-                if (OrderID > 0)
-                {
 
-                    UserCookieManager.OrderId = OrderID;
-
-                    Item item = _IItemService.CloneItem(id, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID);
+                Item item = _IItemService.CloneItem(id, 0, UserCookieManager.OrderId, CompanyID, 0, 0, null, false, false, ContactID);
 
                     if (item != null)
                     {
@@ -348,7 +367,7 @@ namespace MPC.Webstore.Controllers
                         TempDesignerID = item.DesignerCategoryId ?? 0;
                         ProductName = item.ProductName;
                     }
-                }
+                
             }
             else
             {
@@ -382,7 +401,7 @@ namespace MPC.Webstore.Controllers
                     ItemID = item.ItemId;
                     TemplateID = item.TemplateId ?? 0;
                     TempDesignerID = item.DesignerCategoryId ?? 0;
-                    ProductName = item.ProductName;
+                    ProductName = Utils.specialCharactersEncoder(item.ProductName);
                 }
             }
 

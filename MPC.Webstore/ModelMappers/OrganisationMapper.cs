@@ -34,7 +34,8 @@ namespace MPC.Webstore.ModelMappers
                 Fax = source.Fax,
                 VATRegNumber = source.VATRegNumber,
                 BleedAreaSize = source.BleedAreaSize,
-                ShowBleedArea = source.ShowBleedArea
+                ShowBleedArea = source.ShowBleedArea,
+               
             };
         }
 

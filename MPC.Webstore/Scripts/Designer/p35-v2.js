@@ -1,6 +1,10 @@
-﻿$(".search").click(function (event) {
+﻿$(".collapseDesignerMenu").click(function (event) {
+    $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage0");
+
+});
+$(".search").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
-    $("#objectPanel").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage1");
+    $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage1");
 
     if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
@@ -11,7 +15,7 @@
 });
 $(".layout").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
-    $("#objectPanel").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage2");
+    $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage2");
     if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
@@ -21,19 +25,20 @@ $(".layout").click(function (event) {
 $(".QuickTxt").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
     canvas.discardActiveObject();
-    $("#objectPanel").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage3");
+    $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage3");
     if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
     }
 });
 $("#btnAdd").click(function (event) {
+    isBKpnl = false;
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
     if (spPanel != "") {
         $(spPanel).click();
         spPanel = "";
     }
-    $("#objectPanel").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage4");
+    $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage4");
     if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
@@ -52,11 +57,12 @@ $("#btnAdd").click(function (event) {
 $(".backgrounds").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
     isBkPnlUploads = true;
+    isBKpnl = true;
     if (spBkPanel != "") {
         $(spBkPanel).click();
         spBkPanel = "";
     }
-    $("#objectPanel").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage5");
+    $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage5");
     if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
@@ -66,13 +72,13 @@ $(".backgrounds").click(function (event) {
 $(".uploads").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
     isBkPnlUploads = false;
-    $("#objectPanel").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage6");
+    $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage6");
 });
 $(".layersPanel").click(function (event) {
     m0();
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
     isBkPnlUploads = true;
-    $("#objectPanel").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage8");
+    $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage8");
     if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
@@ -81,7 +87,7 @@ $(".layersPanel").click(function (event) {
 });
 $(".layoutsPanel").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
-    $("#objectPanel").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage10");
+    $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage10");
     l2_temp();
     if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
@@ -924,13 +930,13 @@ $('#editorLogo').click(function () {
     fu12("preview", $("#txtTemplateTitle").val());
     return false;
 });
-$('.mainLeftMenu li').click(function () {
-    if ($(this).attr("class").indexOf("backgrounds") != 1) {
-        isBKpnl = true;
-    } else {
-        isBKpnl = false;
-    }
-});
+//$('.mainLeftMenu li').click(function () {
+//    if ($(this).attr("class").indexOf("backgrounds") != 1) {
+//        isBKpnl = true; alert();
+//    } else {
+//        isBKpnl = false;
+//    }
+//});
 $('#BtnUndo').click(function (event) {
     if (canvas.getActiveGroup()) canvas.discardActiveGroup();
     if (canvas.getActiveObject()) canvas.discardActiveObject();
@@ -975,10 +981,22 @@ $("#btnNextProofing").click(function (event) {
         alert(designerName);
         while (designerName.indexOf('/') != -1)
             designerName = designerName.replace("/", "__");
+        while (designerName.indexOf('&') != -1)
+            designerName = designerName.replace("&", "__");
+
+        while (designerName.indexOf(' ') != -1)
+            designerName = designerName.replace(" ", "-");
+        while (designerName.indexOf(';') != -1)
+            designerName = designerName.replace(";", "-");
+        while (designerName.indexOf('&#34;') != -1)
+            designerName = designerName.replace("&#34;", "-");
+        while (designerName.indexOf('+') != -1)
+            designerName = designerName.replace("+", "-");
+      
+       
         $.getJSON("/designerapi/Template/SaveDesignAttachments/" + tID + "/" + ItemId + "/" + CustomerID + "/" + designerName + "/designer/" + organisationId,
           function (DT) {
-              alert(DT);
-              window.location.href = dt// + "&CategoryId=" + CategoryId + "&ProductName=" + document.getElementById('txtDesignName').value + emailParameters;
+              window.location.href = DT;// + "&CategoryId=" + CategoryId + "&ProductName=" + document.getElementById('txtDesignName').value + emailParameters;
           });
     } else {
         alert(ssMsg);

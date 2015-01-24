@@ -354,6 +354,10 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
+        public bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode)
+        {
+             return _OrderRepository.UpdateOrderAndCartStatus(OrderID, orderStatus, currentStoreMode);
+        }
         public double UpdateORderGrandTotal(long OrderID)
         {
             try

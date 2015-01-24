@@ -103,6 +103,9 @@ function fu04() {
            IT.ProductPageID = IT.ProductPageId;
        });
        fu04_callBack(DT);
+       if (DT.IsCorporateEditable == false) {
+           restrictControls();
+       }
    });
 
 }

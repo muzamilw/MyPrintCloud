@@ -181,6 +181,7 @@ namespace MPC.Interfaces.WebStoreServices
         /// <returns></returns>
         long GetContactIdByCompanyId(long CompanyId);
 
+        long GetContactIdByRole(long CompanyID, int Role);
         string SystemWeight(long OrganisationID);
 
         string SystemLength(long OrganisationID);

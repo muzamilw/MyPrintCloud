@@ -2263,7 +2263,7 @@ namespace MPC.Repository.Repositories
                     //special working for attaching the PDF
                     List<ArtWorkAttatchment> uplodedArtWorkList = new List<ArtWorkAttatchment>();
                     ArtWorkAttatchment attatcment = null;
-                    string folderPath = "/mpc_content/Attachments/Organisation" + organisationId + "/" + customerID ;//Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
+                    string folderPath = "/mpc_content/Attachments/Organisation" + organisationId + "/" + customerID + "/" ;//Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
                     string virtualFolderPth = "";
                     if (caller == "webstore")
                     {
@@ -2271,7 +2271,7 @@ namespace MPC.Repository.Repositories
                     }
                     else
                     {
-                        virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("../" + folderPath);
+                        virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("/" + folderPath);
                     }
 
 
@@ -2285,13 +2285,13 @@ namespace MPC.Repository.Repositories
                     {
                         //saving Page1  or Side 1 
                         //string fileName = ItemID.ToString() + " Side" + item.PageNo + ".pdf";
+                        DateTime OrderCreationDate = Order.CreationDate ?? DateTime.Now;
+                        string fileName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") + OrderCreationDate.Day.ToString() + "-" + Item.ProductCode + "-" + Order.Order_Code + "-" + Item.ItemCode + "-" + "Side" + item.PageNo.ToString(); //GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString(), virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
+                        string overlayName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") + OrderCreationDate.Day.ToString() + "-" + Item.ProductCode + "-" + Order.Order_Code + "-" + Item.ItemCode + "-" + "Side" + item.PageNo.ToString() + "overlay";//GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString() + "overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
 
-                        string fileName = GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString(), virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
-                        string overlayName = GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString() + "overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
 
-
-                        string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
-                        string overlayCompleteAddress = System.IO.Path.Combine(virtualFolderPth, overlayName);
+                        string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName + ".pdf");
+                        string overlayCompleteAddress = System.IO.Path.Combine(virtualFolderPth, overlayName + ".pdf");
 
                         //copying file from original location to attachments location
                         System.IO.File.Copy(DesignerPath + item.ProductId.ToString() + "/p" + item.PageNo + ".pdf", fileCompleteAddress, true);
@@ -2329,8 +2329,10 @@ namespace MPC.Repository.Repositories
                 }
                 else// attachment alredy exists hence we need to updat the existing artwork.
                 {
-                    string folderPath = "";// Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
-                    string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("../" + folderPath);
+                    string folderPath = "/mpc_content/Attachments/Organisation" + organisationId + "/" + customerID;// Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
+                    string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("/" + folderPath);
+                    if (!System.IO.Directory.Exists(virtualFolderPth))
+                        System.IO.Directory.CreateDirectory(virtualFolderPth);
                     int index = 0;
                     foreach (var oPage in oPages)
                     {
@@ -2562,6 +2564,48 @@ namespace MPC.Repository.Repositories
             };
 
             return attchment;
+
+        }
+        /// <summary>
+        /// gets the cloned item by id
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
+        public Item GetClonedItemById(long itemId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            return db.Items.Include("ItemAttachments").Where(i => i.ItemId == itemId && i.EstimateId != null).FirstOrDefault();
+            //return db.Items.Include("ItemPriceMatrices").Include("ItemSections").Where(i => i.IsPublished == true && i.ItemId == itemId && i.EstimateId == null).FirstOrDefault();
+
+        }
+        /// <summary>
+        /// get first item of a order to resolve the quantity and price variables in email
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public long GetFirstItemIdByOrderId(long orderId)
+        {
+
+            try
+            {
+
+                List<Item> itemsList =  (from r in db.Items
+                    where r.EstimateId == orderId && (r.ItemType == null || r.ItemType != 2)
+                    select r).ToList();
+                if (itemsList != null && itemsList.Count > 0)
+                {
+                    return Convert.ToInt64(itemsList[0].ItemId);
+                }
+                else
+                {
+                    return 0;
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
         }
         #endregion
