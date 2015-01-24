@@ -754,6 +754,7 @@ namespace MPC.Implementation.WebStoreServices
             {
                 throw ex;
             }
+        }
         /// <summary>
         /// get contact list by role and company id
         /// </summary>
@@ -764,7 +765,7 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _CompanyContactRepository.GetContactIdByRole(CompanyID, Role);
         }
-        }
+        
 
         public string SystemWeight(long OrganisationID)
         {
