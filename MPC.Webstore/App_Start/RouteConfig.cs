@@ -93,6 +93,12 @@ namespace MPC.Webstore
            "ShopCart/{optionalOrderId}",
            new { controller = "Home", action = "Index", optionalOrderId = UrlParameter.Optional }
              );
+
+            routes.MapRoute(
+               "Receipt",
+               "Receipt/{OrderID}",
+               new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional}
+                 );
          
                   routes.MapRoute(
            "ShopCartAddressSelect",

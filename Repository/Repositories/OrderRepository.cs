@@ -199,12 +199,13 @@ namespace MPC.Repository.Repositories
                 tblOrder = db.Estimates.Where(estm => estm.EstimateId == Orderid && estm.StatusId == orderStsID).FirstOrDefault();
                 if (tblOrder != null)
                 {
+                   
+                    shopCart = ExtractShoppingCart(tblOrder);
                     if (tblOrder.BillingAddressId != null)
                         shopCart.BillingAddressID = (long)tblOrder.BillingAddressId;
                     else
                         shopCart.BillingAddressID = 0;
                     shopCart.ShippingAddressID = tblOrder.AddressId;
-                    shopCart = ExtractShoppingCart(tblOrder);
                     
                 }
 
@@ -914,8 +915,14 @@ namespace MPC.Repository.Repositories
                             
                         };
                         //order details or shopping details
-                        
-                        userOrder.ItemDetail = this.ExtractShoppingCart(Order);
+                        ShoppingCart shopCart = this.ExtractShoppingCart(Order);
+                        if(shopCart != null)
+                        {
+                            userOrder.ProductsList = shopCart.CartItemsList;
+                            userOrder.DeliveryCost = shopCart.DeliveryCost;
+                            userOrder.DeliveryCostTaxValue = shopCart.DeliveryTaxValue;
+                        }
+                       
                         userOrder.BillingAdress = db.Addesses.Where(i => i.AddressId == Order.BillingAddressId).FirstOrDefault();
                         userOrder.ShippingAddress = db.Addesses.Where(i => i.AddressId == Order.AddressId).FirstOrDefault();
                         userOrder.DeliveryMethod = db.CostCentres.Where(c => c.CostCentreId == Order.DeliveryCostCenterId).Select(n => n.Name).FirstOrDefault();

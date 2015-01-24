@@ -43,8 +43,8 @@ namespace MPC.Webstore.Controllers
                 ShoppingCart shopCart = _OrderService.GetShopCartOrderAndDetails(OrderID, OrderStatus.ShoppingCart);
                 if (shopCart != null)
                 {
-                    
-                    CompanyContact oContact = _myCompanyService.GetContactByID(_myClaimHelper.loginContactRoleID());
+                    long CID = _myClaimHelper.loginContactID();
+                    CompanyContact oContact = _myCompanyService.GetContactByID(CID);
                     ViewBag.LoginUser = oContact;
                     if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
                     {
