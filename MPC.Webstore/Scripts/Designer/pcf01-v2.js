@@ -1352,7 +1352,7 @@ function fu02() {
     canvas.on('object:out', function (e) {
         if (e.TG.IsQuickText == true && e.TG.type == 'image') {
             $("#placeHolderTxt").css("visibility", "hidden");
-        }
+        } 
     });
 
     //    canvas.observe('mouse:down', onMouseDown);
@@ -1375,6 +1375,7 @@ function fu02() {
     canvas.observe('selection:cleared', function (e) {
         pcL36('hide', '#divImgPropPanelRetail , #divTxtPropPanelRetail ,#DivColorPickerDraggable ');
         $("#sortableLayers li").removeClass("selectedItemLayers");
+
 
     });
 }

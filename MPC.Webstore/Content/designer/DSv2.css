@@ -6540,3 +6540,13 @@ label
 {
     font-size: 12px;
 }
+ .customPaddingForScroll
+ {
+     margin-top:10px;
+     margin-bottom:16px;
+ }
+
+ .DivCarouselImgContainerStyle2
+ {
+     margin-bottom:5px;
+ }
