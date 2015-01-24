@@ -166,12 +166,23 @@ namespace MPC.Interfaces.WebStoreServices
         CompanyContact GetRetailUser(string email, string password);
 
         long GetContactTerritoryID(long CID);
-        List<Address> GetContactCompanyAddressesList(long BillingAddressId, long ShippingAddressid, long PickUpAddressId);
+
+        long GetContactAddressID(long cID);
+
+        string GetStateCodeById(long stateId);
+
+        string GetCountryCodeById(long countryId);
+        
+         List<Address> GetContactCompanyAddressesList(long BillingAddressId, long ShippingAddressid, long PickUpAddressId);
         /// <summary>
         /// get the contactid 
         /// </summary>
         /// <param name="CompanyId"></param>
         /// <returns></returns>
         long GetContactIdByCompanyId(long CompanyId);
+
+        string SystemWeight(long OrganisationID);
+
+        string SystemLength(long OrganisationID);
     }
 }

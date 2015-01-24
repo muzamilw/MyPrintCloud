@@ -215,6 +215,8 @@ namespace MPC.Repository.Repositories
             tblAddress.PostCode = address.PostCode;
             tblAddress.Tel1 = address.Tel1;
             tblAddress.Country = address.Country;
+            tblAddress.CountryId = address.CountryId;
+            tblAddress.StateId = address.StateId;
             tblAddress.CompanyId = address.CompanyId > 0 ? address.CompanyId : tblAddress.CompanyId;
             if (tblAddress.AddressId == 0)
             {
@@ -225,6 +227,10 @@ namespace MPC.Repository.Repositories
             tblAddress.IsDefaultAddress = address.IsDefaultAddress;
             tblAddress.IsDefaultShippingAddress = address.IsDefaultShippingAddress;
         }
+
+
+      
+
 
         /// <summary>
         /// Get addresses list billing, shipping and pickup address

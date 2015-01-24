@@ -2104,8 +2104,22 @@ namespace MPC.Implementation.WebStoreServices
            {
                throw ex;
            }
-               
-            
+
+
+
+        }
+
+
+        public CostCentre GetCostCentersByID(long costCenterID)
+        {
+            try
+            {
+                return _CostCentreRepository.GetCostCentersByID(costCenterID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
         }
         public string test() 

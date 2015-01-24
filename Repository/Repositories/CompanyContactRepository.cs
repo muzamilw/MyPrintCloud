@@ -834,6 +834,19 @@ namespace MPC.Repository.Repositories
             }
             return result;
         }
+        public long GetContactAddressID(long cID)
+        {
+            try
+            {
+               return db.CompanyContacts.Where(c => c.ContactId == cID).Select(s => s.AddressId).FirstOrDefault();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
     }
 }
 

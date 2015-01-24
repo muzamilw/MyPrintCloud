@@ -1114,6 +1114,35 @@ namespace MPC.Repository.Repositories
                     where Attachment.ItemId == itemID
                     select Attachment).ToList();
         }
+        public List<ArtWorkAttatchment> GetItemAttactchments(long itemID, string fileExtionsion, UploadFileTypes uploadedFileType)
+        {
+
+            string uploadFiType = uploadedFileType.ToString();
+            List<ArtWorkAttatchment> itemAttactchments = new List<ArtWorkAttatchment>();
+
+            db.Configuration.LazyLoadingEnabled = false;
+            var query = from Attachment in db.ItemAttachments
+                        where Attachment.ItemId == itemID &&
+                              string.Compare(Attachment.Type, uploadFiType, true) == 0 &&
+                              string.Compare(Attachment.FileType, fileExtionsion, true) == 0
+                        select new ArtWorkAttatchment()
+                        {
+                            FileName = Attachment.FileName,
+                            FileTitle = Attachment.FileTitle,
+                            FileExtention = Attachment.FileType,
+                            FolderPath = Attachment.FolderPath,
+                        };
+
+            itemAttactchments = query.ToList<ArtWorkAttatchment>();
+
+
+
+            if (itemAttactchments != null && itemAttactchments.Count > 0)
+                itemAttactchments.ForEach(att => att.UploadFileType = uploadedFileType);
+
+
+            return itemAttactchments;
+        }
         public static string GetTemplateAttachmentFileName(string ProductCode, string OrderCode, string ItemCode, string SideCode, string VirtualFolderPath, string extension, DateTime CreationDate)
         {
             string FileName = CreationDate.Year.ToString() + CreationDate.ToString("MMMM") + CreationDate.Day.ToString() + "-" + ProductCode + "-" + OrderCode + "-" + ItemCode + "-" + SideCode + extension;
@@ -1871,6 +1900,324 @@ namespace MPC.Repository.Repositories
             return DbSet.Where(i => i.IsPublished.HasValue && i.OrganisationId == OrganisationId).ToList();
         }
 
+        public List<Item> GetItemsByOrderID(long OrderID)
+        {
+            try
+            {
+                return db.Items.Where(i => i.EstimateId == OrderID).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<Item> GetListOfDeliveryItemByOrderID(long OID)
+        {
+            
+            return db.Items.Where(i => i.EstimateId == OID && i.ItemType == (int)ItemTypes.Delivery).ToList();
+           
+        }
+
+
+        public bool RemoveListOfDeliveryItemCostCenter(long OrderId)
+        {
+           
+                List<Item> DItem = db.Items.Where(i => i.EstimateId == OrderId && i.ItemType == (int)ItemTypes.Delivery).ToList();
+
+                foreach (var item in DItem)
+                {
+                    db.Items.Remove(item);
+                }
+
+                if (db.SaveChanges() > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+          
+        }
+
+        //}
+
+        public bool AddUpdateItemFordeliveryCostCenter(long orderId, long DeliveryCostCenterId, double DeliveryCost, long customerID, string DeliveryName, StoreMode Mode,bool isDeliveryTaxable, bool IstaxONService,double GetServiceTAX,double TaxRate)
+        {
+
+
+           ItemSection NewtblItemSection = null;
+            SectionCostcentre NewtblISectionCostCenteres = null;
+            Item newItem = null;
+
+            Organisation organisation = null;
+           // CompanySiteManager compSiteManager = new CompanySiteManager();
+
+            double netTotal = 0;
+            double grossTotal = 0;
+
+            long OID = db.Companies.Where(c => c.CompanyId == customerID).Select(s => s.OrganisationId ?? 0).FirstOrDefault();
+            organisation = db.Organisations.Where(o => o.OrganisationId == OID).FirstOrDefault();
+                Item Record = db.Items.Where(c => c.EstimateId == orderId && c.ItemType == (int)ItemTypes.Delivery).FirstOrDefault();
+                if (Record != null)
+                {
+                   
+
+                    netTotal = DeliveryCost;
+
+                    if (Mode == StoreMode.Corp)
+                    {
+                        if (IstaxONService == true)
+                        {
+                            if (isDeliveryTaxable)
+                            {
+                                Record.Tax1 = 0;
+                                grossTotal = Math.Round(ServiceGrossTotalCalculation(netTotal, GetServiceTAX), 2);
+                                Record.Qty1Tax1Value = Math.Round(ServiceTotalTaxCalculation(netTotal, GetServiceTAX), 2);
+                            }
+                            else
+                            {
+                                grossTotal = GrossTotalCalculation(netTotal, 0);
+                                Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
+                            }
+                        }
+                        else
+                        {
+                            if (isDeliveryTaxable == true)
+                            {
+                               
+                                grossTotal = GrossTotalCalculation(netTotal, TaxRate);
+                                Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, Convert.ToInt32(TaxRate));
+
+                            }
+                            else
+                            {
+                                grossTotal = GrossTotalCalculation(netTotal, 0);
+                                Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
+                            }
+
+                        }
+
+                    }
+                    else
+                    {
+                        if (IstaxONService == true)
+                        {
+                            if (isDeliveryTaxable)
+                            {
+                                Record.Tax1 = 0;
+                                grossTotal = Math.Round(ServiceGrossTotalCalculation(netTotal, GetServiceTAX), 2);
+                                Record.Qty1Tax1Value = Math.Round(ServiceTotalTaxCalculation(netTotal, GetServiceTAX), 2);
+                            }
+                            else
+                            {
+                                Record.Tax1 = 0;
+                                grossTotal = GrossTotalCalculation(netTotal, 0);
+                                Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
+                            }
+                        }
+                        else
+                        {
+                            if (isDeliveryTaxable)
+                            {
+                                Record.Tax1 = 0;
+                                grossTotal = GrossTotalCalculation(netTotal, TaxRate);
+                                Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, TaxRate);
+                            }
+                            else
+                            {
+                                Record.Tax1 = 0;
+                                grossTotal = GrossTotalCalculation(netTotal, 0);
+                                Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
+                            }
+                        }
+
+                    }
+
+
+                    //******************existing item*********************
+
+                    Record.IsPublished = false;
+                    Record.ProductName = DeliveryName;
+                    Record.EstimateId = orderId; //orderid
+                    Record.CompanyId = customerID; //customerid
+                    Record.ItemType = (int)ItemTypes.Delivery;
+                    Record.Qty1BaseCharge1 = netTotal;
+                    Record.Qty1NetTotal = netTotal;
+                    Record.Qty1GrossTotal = grossTotal;
+                    Record.InvoiceId = null;
+                    Record.IsOrderedItem = true;
+
+                    Markup zeroMarkup = db.Markups.Where(m => m.MarkUpRate == 0).FirstOrDefault();
+
+
+
+                    //*****************Existing item Sections and cost Centeres*********************************
+                    ItemSection ExistingItemSect = db.ItemSections.Where(i => i.ItemId == Record.ItemId).FirstOrDefault();
+                    ExistingItemSect.SectionName = DeliveryName;
+                    ExistingItemSect.BaseCharge1 = DeliveryCost;
+
+
+                    //*****************Existing Section Cost Centeres*********************************
+                    SectionCostcentre ExistingSectCostCentre = db.SectionCostcentres.Where(e => e.ItemSectionId == ExistingItemSect.ItemSectionId).FirstOrDefault();
+
+                    if (zeroMarkup != null)
+                    {
+                        ExistingSectCostCentre.Qty1MarkUpID = (int)zeroMarkup.MarkUpId;
+                    }
+                    else
+                    {
+                        ExistingSectCostCentre.Qty1MarkUpID = 1;
+                    }
+                    ExistingSectCostCentre.CostCentreId = DeliveryCostCenterId;
+                    ExistingSectCostCentre.Qty1Charge = DeliveryCost;
+                    ExistingSectCostCentre.Qty1NetTotal = DeliveryCost;
+                    if (db.SaveChanges() > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                   
+                    newItem = new Item();
+                    netTotal = DeliveryCost;
+                    if (Mode == StoreMode.Corp)
+                    {
+                        if (IstaxONService == true)
+                        {
+                            if (isDeliveryTaxable)
+                            {
+                                grossTotal = ServiceGrossTotalCalculation(netTotal, GetServiceTAX);
+                                newItem.Qty1Tax1Value = ServiceTotalTaxCalculation(netTotal, GetServiceTAX);
+                            }
+                            else
+                            {
+                                grossTotal = GrossTotalCalculation(netTotal, 0);
+                                newItem.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
+                            }
+
+                        }
+                        else
+                        {
+                            if (isDeliveryTaxable)
+                            {
+                               
+                                if (TaxRate != null && TaxRate > 0)
+                                {
+                                    grossTotal = GrossTotalCalculation(netTotal, TaxRate);
+                                    newItem.Qty1Tax1Value = calculateTaxPercentage(netTotal, Convert.ToInt32(TaxRate));
+                                }
+                                else
+                                {
+                                    grossTotal = GrossTotalCalculation(netTotal, 0);
+                                    newItem.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
+                                }
+
+                            }
+                            else
+                            {
+                                grossTotal = GrossTotalCalculation(netTotal, 0);
+                                newItem.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        if (IstaxONService == true)
+                        {
+                            if (isDeliveryTaxable)
+                            {
+                                grossTotal = ServiceGrossTotalCalculation(netTotal, GetServiceTAX);
+                                newItem.Qty1Tax1Value = ServiceTotalTaxCalculation(netTotal, GetServiceTAX);
+                            }
+                            else
+                            {
+                                grossTotal = ServiceGrossTotalCalculation(netTotal, 0);
+                                newItem.Qty1Tax1Value = ServiceTotalTaxCalculation(netTotal, 0);
+
+                            }
+                        }
+                        else
+                        {
+                            if (isDeliveryTaxable)
+                            {
+                                grossTotal = GrossTotalCalculation(netTotal, TaxRate);
+                                newItem.Qty1Tax1Value = calculateTaxPercentage(netTotal, (int)TaxRate);
+                            }
+                            else
+                            {
+                                grossTotal = GrossTotalCalculation(netTotal, 0);
+                                newItem.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
+
+                            }
+                        }
+
+                    }
+
+                    //******************new item*********************
+
+
+
+                    newItem.IsPublished = false;
+                    newItem.ProductName = DeliveryName;
+                    newItem.EstimateId = orderId; //orderid
+                    newItem.CompanyId = customerID; //customerid
+                    newItem.ItemType = (int)ItemTypes.Delivery;
+                    newItem.Qty1BaseCharge1 = netTotal;
+                    newItem.Qty1NetTotal = netTotal;
+                    newItem.Qty1GrossTotal = grossTotal;
+                    newItem.InvoiceId = null;
+                    newItem.IsOrderedItem = true;
+                    Markup zeroMarkup = db.Markups.Where(m => m.MarkUpRate == 0).FirstOrDefault();
+
+
+
+                    //*****************NEw item Sections and cost Centeres*********************************
+                    NewtblItemSection = new ItemSection();
+                    NewtblItemSection.ItemId = newItem.ItemId;
+                    NewtblItemSection.SectionName = DeliveryName;
+                    NewtblItemSection.BaseCharge1 = DeliveryCost;
+
+                    //dbContext.tbl_item_sections.AddObject(NewtblItemSection); //ContextAdded
+
+                    //*****************Section Cost Centeres*********************************
+                    NewtblISectionCostCenteres = new SectionCostcentre();
+
+                    if (zeroMarkup != null)
+                    {
+                        NewtblISectionCostCenteres.Qty1MarkUpID = (int)zeroMarkup.MarkUpId;
+                    }
+                    else
+                    {
+                        NewtblISectionCostCenteres.Qty1MarkUpID = 1;
+                    }
+
+                    NewtblISectionCostCenteres.CostCentreId = DeliveryCostCenterId;
+                    NewtblISectionCostCenteres.ItemSectionId = NewtblItemSection.ItemSectionId;
+                    NewtblISectionCostCenteres.Qty1Charge = DeliveryCost;
+                    NewtblISectionCostCenteres.Qty1NetTotal = DeliveryCost;
+                    NewtblItemSection.SectionCostcentres.Add(NewtblISectionCostCenteres);
+                    newItem.ItemSections.Add(NewtblItemSection);
+                    db.Items.Add(newItem);
+
+                    if (db.SaveChanges() > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            
+        }
         public string SaveDesignAttachments(long templateID, long itemID, long customerID, string DesignName, string caller,long organisationId)
         {
             try
@@ -2041,13 +2388,40 @@ namespace MPC.Repository.Repositories
 
 
         }
+        public static double ServiceGrossTotalCalculation(double QuantityBastotal, double Taxvalue)
+        {
+            double gross = QuantityBastotal + ServiceTotalTaxCalculation(QuantityBastotal, Taxvalue);
+            return gross;
+        }
+        public static double ServiceTotalTaxCalculation(double QuantityBastotal, double Taxvalue)
+        {
+            double Quantity1Taxvalue = QuantityBastotal * Taxvalue;
+            return Quantity1Taxvalue;
 
-        /// <summary>
-        /// update the product name
-        /// </summary>
-        /// <param name="ItemID"></param>
-        /// <param name="ProductName"></param>
-        /// <returns></returns>
+        }
+        public static double GrossTotalCalculationDelivery(double netTotal, double stateTaxValue)
+        {
+            double stateTaxPice = 0;
+
+            stateTaxPice = netTotal + CalculatePercentageDelivery(netTotal, stateTaxValue);
+
+            return stateTaxPice;
+
+        }
+        public static double CalculatePercentageDelivery(double itemValue, double percentageValue)
+        {
+            double percentValue = 0;
+
+            percentValue = itemValue * (percentageValue / 100);
+
+            return percentValue;
+        }
+
+        public static double calculateTaxPercentage(double netTotal, double MarkupRate)
+        {
+            double PercentageVal = (netTotal * MarkupRate) / 100;
+            return PercentageVal;
+        }
         private bool UpdateItemName(long ItemID, string ProductName)
         {
             db.Configuration.LazyLoadingEnabled = false;
@@ -2057,136 +2431,6 @@ namespace MPC.Repository.Repositories
 
             db.SaveChanges();
             return true;
-        }
-
-        public List<ArtWorkAttatchment> GetItemAttactchments(long itemID, string fileExtionsion, UploadFileTypes uploadedFileType)
-        {
-
-            string uploadFiType = uploadedFileType.ToString();
-            List<ArtWorkAttatchment> itemAttactchments = new List<ArtWorkAttatchment>();
-
-            db.Configuration.LazyLoadingEnabled = false;
-                var query = from Attachment in db.ItemAttachments
-                            where Attachment.ItemId == itemID &&
-                                  string.Compare(Attachment.Type, uploadFiType, true) == 0 &&
-                                  string.Compare(Attachment.FileType, fileExtionsion, true) == 0
-                            select new ArtWorkAttatchment()
-                            {
-                                FileName = Attachment.FileName,
-                                FileTitle = Attachment.FileTitle,
-                                FileExtention = Attachment.FileType,
-                                FolderPath = Attachment.FolderPath,
-                            };
-
-                itemAttactchments = query.ToList<ArtWorkAttatchment>();
-            
-
-
-            if (itemAttactchments != null && itemAttactchments.Count > 0)
-                itemAttactchments.ForEach(att => att.UploadFileType = uploadedFileType);
-
-
-            return itemAttactchments;
-        }
-        public bool CreateUploadYourArtWork(long itemID, long customerID, List<ArtWorkAttatchment> yourDesignList)
-        {
-            bool result = false;
-
-            db.Configuration.LazyLoadingEnabled = false;
-
-            Company customer = db.Companies.Include("CompanyContacts").Where(c => c.CompanyId == customerID).FirstOrDefault();
-            ItemAttachment tblAttatch = null;
-            long contactID = 0;
-            CompanyContact contact = null;
-
-            try
-            {
-                if (yourDesignList.Count > 0)
-                {
-                    if (customer != null && customer.CompanyContacts.ToList().Count > 0)
-                    {
-                        contact = customer.CompanyContacts.ToList()[0];
-                        contactID = contact.ContactId;
-                    }
-
-                        string folderPath = string.Empty;
-                        //Create Additional cost Centeres
-                        foreach (ArtWorkAttatchment attatchment in yourDesignList)
-                        {
-                            folderPath = attatchment.FolderPath.Replace("\\", "//").Replace("//", "/");
-
-                            tblAttatch = this.PopulateAttachment(itemID, customerID, contactID, attatchment.FileTitle, attatchment.FileName, attatchment.UploadFileType, attatchment.FileExtention, folderPath);
-                            db.ItemAttachments.Add(tblAttatch);
-                        }
-
-                        db.SaveChanges();
-                        result = true;
-                    
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            return result;
-        }
-
-        private ItemAttachment PopulateAttachment(long itemID, long customerID, long contactId, string fileTitle, string fileName, UploadFileTypes type, string fileExtention, string folderPath)
-        {
-            ItemAttachment attchment = new ItemAttachment
-            {
-                ItemId = itemID,
-                FileTitle = fileTitle,
-                FileType = fileExtention,
-                Type = type.ToString(),
-                FileName = fileName,
-                FolderPath = folderPath,
-                CompanyId = customerID,
-                ContactId = contactId,
-                IsApproved = 1,
-                UploadDate = DateTime.Now,
-                UploadTime = DateTime.Now,
-                isFromCustomer = 1
-
-            };
-
-            return attchment;
-
-        }
-
-        /// <summary>
-        /// Updates the item.
-        /// </summary>
-        /// <param name="itemID">The item ID.</param>
-        /// <param name="templateID">The template ID.</param>
-        /// <returns></returns>
-        public bool UpdateTemplateIdInItem(long itemID, long templateID)
-        {
-            bool result = false;
-            Item tblItemProduct = null;
-
-            try
-            {
-                db.Configuration.LazyLoadingEnabled = false;
-                    tblItemProduct = db.Items.Where(item => item.ItemId == itemID).FirstOrDefault();
-
-                    if (tblItemProduct != null)
-                    {
-
-                        tblItemProduct.TemplateId =  templateID > 0 ? templateID : tblItemProduct.TemplateId;
-
-                        result = db.SaveChanges() > 0 ? true : false;
-                    }
-            }
-            catch (Exception)
-            {
-                result = false;
-                throw;
-            }
-
-            return result;
-
         }
 
         public void GenerateThumbnailForPdf(string sideThumbnailPath, bool insertCuttingMargin)
@@ -2213,6 +2457,99 @@ namespace MPC.Repository.Repositories
                 CreatAndSaveThumnail(oImgstream, sideThumbnailPath);
 
             }
+        }
+
+        public bool CreateUploadYourArtWork(long itemID, long customerID, List<ArtWorkAttatchment> yourDesignList)
+        {
+            bool result = false;
+
+            db.Configuration.LazyLoadingEnabled = false;
+
+            Company customer = db.Companies.Include("CompanyContacts").Where(c => c.CompanyId == customerID).FirstOrDefault();
+            ItemAttachment tblAttatch = null;
+            long contactID = 0;
+            CompanyContact contact = null;
+
+            try
+            {
+                if (yourDesignList.Count > 0)
+                {
+                    if (customer != null && customer.CompanyContacts.ToList().Count > 0)
+                    {
+                        contact = customer.CompanyContacts.ToList()[0];
+                        contactID = contact.ContactId;
+                    }
+
+                    string folderPath = string.Empty;
+                    //Create Additional cost Centeres
+                    foreach (ArtWorkAttatchment attatchment in yourDesignList)
+                    {
+                        folderPath = attatchment.FolderPath.Replace("\\", "//").Replace("//", "/");
+
+                        tblAttatch = this.PopulateAttachment(itemID, customerID, contactID, attatchment.FileTitle, attatchment.FileName, attatchment.UploadFileType, attatchment.FileExtention, folderPath);
+                        db.ItemAttachments.Add(tblAttatch);
+                    }
+
+                    db.SaveChanges();
+                    result = true;
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return result;
+        }
+        public bool UpdateTemplateIdInItem(long itemID, long templateID)
+        {
+            bool result = false;
+            Item tblItemProduct = null;
+
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                tblItemProduct = db.Items.Where(item => item.ItemId == itemID).FirstOrDefault();
+
+                if (tblItemProduct != null)
+                {
+
+                    tblItemProduct.TemplateId = templateID > 0 ? templateID : tblItemProduct.TemplateId;
+
+                    result = db.SaveChanges() > 0 ? true : false;
+                }
+            }
+            catch (Exception)
+            {
+                result = false;
+                throw;
+            }
+
+            return result;
+
+        }
+        private ItemAttachment PopulateAttachment(long itemID, long customerID, long contactId, string fileTitle, string fileName, UploadFileTypes type, string fileExtention, string folderPath)
+        {
+            ItemAttachment attchment = new ItemAttachment
+            {
+                ItemId = itemID,
+                FileTitle = fileTitle,
+                FileType = fileExtention,
+                Type = type.ToString(),
+                FileName = fileName,
+                FolderPath = folderPath,
+                CompanyId = customerID,
+                ContactId = contactId,
+                IsApproved = 1,
+                UploadDate = DateTime.Now,
+                UploadTime = DateTime.Now,
+                isFromCustomer = 1
+
+            };
+
+            return attchment;
+
         }
         #endregion
     }

@@ -426,5 +426,50 @@ namespace MPC.Repository.Repositories
             }
             return hash;
         }
+
+        public string SystemWeight(long OrganisationID)
+        {
+          
+            try
+            {
+               
+                var qry =  from systemWeight in db.WeightUnits
+                            join organisation in db.Organisations on systemWeight.Id equals organisation.SystemWeightUnit
+                            where organisation.OrganisationId == OrganisationID
+                            select systemWeight.UnitName;
+
+                return qry.ToString();
+                
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+
+            }
+
+            
+            
+        }
+        public string SystemLength(long OrganisationID)
+        {
+            try
+            {
+
+                var qry = from systemLength in db.LengthUnits
+                          join organisation in db.Organisations on systemLength.Id equals organisation.SystemLengthUnit
+                          where organisation.OrganisationId == OrganisationID
+                          select systemLength.UnitName;
+
+                return qry.ToString();
+
+              //  return db.Organisations.Where(o => o.OrganisationId == OrganisationID).Select(s => s.SystemLengthUnit ?? 0).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        
+        }
     }
 }
