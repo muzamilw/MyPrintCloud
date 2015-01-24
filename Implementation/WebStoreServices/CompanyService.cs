@@ -129,7 +129,9 @@ namespace MPC.Implementation.WebStoreServices
                 oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
                 oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oCompany.OrganisationId));
                 oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
+                oStore.StoreDetaultAddress = GetDefaultAddressByStoreID(companyId);
                 stores.Add(oCompany.CompanyId, oStore);
+                
 
 
                 cache.Set(CacheKeyName, stores, policy);
@@ -362,6 +364,22 @@ namespace MPC.Implementation.WebStoreServices
                     else
                     {
                         this.MetaDEsc = metaDesc + " - " + StoreName + ", " + address.City + ", " + address.State;
+                    }
+                }
+            }
+            else 
+            {
+                this.pageTitle = MetaTitle;
+                this.MetaKeywords = metaKeyword;
+                if (!string.IsNullOrEmpty(metaDesc))
+                {
+                    if (metaDesc.Length > 156)
+                    {
+                        this.MetaDEsc = metaDesc.Substring(0, 156);
+                    }
+                    else
+                    {
+                        this.MetaDEsc = metaDesc + " - " + StoreName;
                     }
                 }
             }

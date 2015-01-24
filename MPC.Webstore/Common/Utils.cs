@@ -120,14 +120,14 @@ namespace MPC.Webstore.Common
         {
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
-          
-            Dictionary<long, MyCompanyDomainBaseReponse> stores = cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>;
+
+            MyCompanyDomainBaseReponse stores = (cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>)[StoreId];
 
             XmlDocument resxFile = null;
 
             if (stores != null)
             {
-                resxFile = stores[StoreId].ResourceFile;
+                resxFile = stores.ResourceFile;
             }
             
             if (resxFile != null) 

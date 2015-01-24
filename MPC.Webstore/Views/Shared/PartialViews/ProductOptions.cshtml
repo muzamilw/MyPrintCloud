@@ -115,18 +115,25 @@
 
         </div>
         <div class="signin_heading_div float_left_simple UploadContainerCs">
-            <label id="ltrlUpFlH" class="textAlignLeft float_left_simple">Upload artwork design</label>
-            <div class="FormatContainer">
-                <div class="float_left_simple Fsize12 lbFormat">
-                    Permitted Format
-                </div>
-                <div>
-                    <img id="imgpdf" alt="" src="~/images/pdfFormat.PNG" class="float_left_simple FormatedImgs" />
-                    <img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" />
-                    <img id="imgjpg" alt="" src="~/images/jpgFormat.PNG" class="float_left_simple FormatedImgs" />
-                    <img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" />
-                </div>
-            </div>
+                @if (ViewData["Templates"] == null)
+                {
+                    <label id="ltrlUpFlH" class="textAlignLeft float_left_simple Fsize19">Upload artwork design</label>
+                        <div class="FormatContainer">
+                            <div class="float_left_simple Fsize12 lbFormat">
+                                Permitted Format
+                            </div>
+                            <div>
+                                <img id="imgpdf" alt="" src="~/images/pdfFormat.PNG" class="float_left_simple FormatedImgs" />
+                                <img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" />
+                                <img id="imgjpg" alt="" src="~/images/jpgFormat.PNG" class="float_left_simple FormatedImgs" />
+                                <img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" />
+                            </div>
+                        </div>
+                }
+                else
+                {
+                    <label id="ltrlUpFlH" class="textAlignLeft float_left_simple Fsize19">Proof</label>
+                }
             <div class="float_left_simple LGBC rounded_corners paddingLeft5px H4B
                      UplodArkworkContainer">
                 <div class="white_background rounded_corners padding10 SidesContainerCS">
@@ -181,8 +188,7 @@
                     else
                     {
                         <div class="rptContainers">
-                            @foreach (var templateItem in ViewData["Templates"] as List<MPC.Webstore.Models.TemplateViewData>
-                )
+                            @foreach (var templateItem in ViewData["Templates"] as List<MPC.Webstore.Models.TemplateViewData>)
                             {
 
                                 <div class="LGBC BD_PCS rounded_corners">
@@ -285,11 +291,11 @@
                     <label id="lblTotlTxt" class="float_left_simple">Total</label>
                     @if (MPC.Webstore.Common.UserCookieManager.isIncludeTax == true)
                     {
-                        <label id="lblTaxLabel" class="Fsize13 spacer10pxtop float_right marginLeft">inc. VAT</label>
+                        @*<label id="lblTaxLabel" class="Fsize13 float_right marginLeft">inc. VAT</label>*@
                     }
                     else
                     {
-                        <label id="lblTaxLabel" class="Fsize13 spacer10pxtop float_right marginLeft">ex. VAT</label>
+                        @*<label id="lblTaxLabel" class="Fsize13 float_right marginLeft">ex. VAT</label>*@
                     }
 
                     <label id="lblGrossTotal" class="float_right">$0</label>

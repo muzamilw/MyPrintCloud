@@ -390,7 +390,7 @@ ul.navM  li.selectedLava a
 }
 .spclColor
 {
-	color: rgb(102,102,102);
+	color: white;
 }
 .match_set_padding
 {
@@ -424,7 +424,7 @@ ul.navM  li.selectedLava a
 	height: 40px;
 	 color: white;
 	float: right;
-	margin-top: -1px;
+	margin-top: 10px;
 	margin-right: -5px;
    /* display: block;
 	float: right;
@@ -1796,7 +1796,7 @@ background-position: -303px -492px;
 background: #74B846;
 }
 .SidesContainerCS
-{width: 678px;
+{width: 693px;
 	margin-top: 5px;
 	margin-bottom: 5px;
 	vertical-align: top;
@@ -2571,7 +2571,7 @@ margin-right: 5px;
 }
 .divStk
 {
-	width: 700px;
+	width: 690px;
 	
 	vertical-align: top;
 	float: left;
@@ -5002,7 +5002,10 @@ height:100%;
 
 .tblBorderTdWidth
 {
-	min-width: 20px; /*width: 65%;*/
+	min-width: 20px; 
+    float: right;
+margin-right: 10px;
+margin-top: 7px;
 }
 
 .tblAlterNatingBackGroundColor
@@ -6411,11 +6414,14 @@ width:500px;
 
 .LandingPageQty
 {
-	width: 47px;
-	text-align: left !important;
-	padding-top: 5px;
-   /* font-weight: bold;*/
-	font-size: 14px;
+width: 47px;
+text-align: left !important;
+padding-top: 5px;
+/* font-weight: bold; */
+font-size: 14px;
+color: black;
+float: left;
+margin-left: 5px;
 }
 /* weekly emails*/
 .topDiv
@@ -6902,6 +6908,7 @@ img
 	position: absolute;
 	margin-top: 20px;
 	color: transparent;
+    opacity:0;
 }
 .widhtCP_CSLogo
 {
@@ -8608,15 +8615,15 @@ padding-left: 5px;
 .PinkBtnMyAccS6
 {
 	background: url('Images/sprite.png') -277px -542px;
-	background-repeat: repeat-x;
-	width: 150px;
-	padding-top: 5px;
-	padding-left:5px;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	-khtml-border-radius: 5px;
-	border-radius: 5px;
-	margin-top: -8px;
+background-repeat: repeat-x;
+width: 150px;
+padding-top: 3px;
+padding-left: 5px;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+-khtml-border-radius: 5px;
+border-radius: 5px;
+margin-top: -8px;
 }
 .Height200PXS6
 {
@@ -10168,24 +10175,14 @@ z-index: 100000;
 	font-size: 14px;
 	margin-left: 5px;
 }
+
 .lnkSignInCs
 {
 	text-transform: none;
 	font-size: 15px !important;
 	color:White !important;
-	margin-left:16px;
-}
-.lnkSignInCs:hover
-{
-	text-transform: none;
-	font-size: 15px !important;
-	color:White !important;
-}
-.lnkSignInCs:link
-{
-	text-transform: none;
-	font-size: 15px !important;
-	color:White !important;
+    margin-left: 27px;
+margin-top: 0px;
 }
 /*scroll bar styles */
 
@@ -10220,7 +10217,7 @@ z-index: 100000;
 }
 .GreyBackS6
 {
-	background-color: transparent !important; 
+	background-color: rgb(102,102,102) !important; 
 }
 .btnSubscribe
 {
@@ -10309,7 +10306,7 @@ z-index: 100000;
 {
 	margin-top:10px;
 	background-color: #f3f3f3;
-	width:268px;
+	width:248px;
 	padding: 5px;
 }
 
@@ -10735,12 +10732,14 @@ padding: 20px;
 }
 .boxCatDes
 {
-    min-height: 78px;
+min-height: 78px;
 display: inline;
 float: left;
-width:272px;
+width: 220px;
 }
-
+.boxCatDes > p.marginall5 {
+    width:222px !important;
+}
 .p_dl_s_box_60 
 {
 width: 1000px;
@@ -12928,7 +12927,7 @@ margin-top: 5px;
 
 .productStockDesc
 {
-   width: 230px;
+   width: 218px;
 margin-left: 0px;
 padding: 10px;
 background-color: #f3f3f3;
@@ -13251,7 +13250,7 @@ margin-top:50px !important;
 
 .grossTotaldiv
 {
-width: 249px;
+width: 207px;
 margin-left: 2px !important;
 font-size: 20px;
 font-weight: bold;
@@ -15841,25 +15840,7 @@ z-index: 100000;
 	font-size: 14px;
 	margin-left: 5px;
 }
-.lnkSignInCs
-{
-	text-transform: none;
-	font-size: 15px !important;
-	color:White !important;
-	margin-left:16px;
-}
-.lnkSignInCs:hover
-{
-	text-transform: none;
-	font-size: 15px !important;
-	color:White !important;
-}
-.lnkSignInCs:link
-{
-	text-transform: none;
-	font-size: 15px !important;
-	color:White !important;
-}
+
 /*scroll bar styles */
 
 ::-webkit-scrollbar {
@@ -16404,13 +16385,7 @@ padding: 20px;
 .footer_sub_height .float_left_simple {
    margin-left:-10px;
 }
-.boxCatDes
-{
-    min-height: 78px;
-display: inline;
-float: left;
-width:272px;
-}
+
 
 .p_dl_s_box_60 
 {
@@ -19192,4 +19167,16 @@ border-radius: 5px;
 label {
 display: block;
 font-size: 13px;
+}
+.lightgray {
+ background-color: #eeeeee;
+}
+.white {
+ background-color: #ffffff;
+}
+#lblTotlTxt {
+font-size:20px;
+}
+#lblGrossTotal {
+font-size:20px;
 }

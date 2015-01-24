@@ -299,6 +299,10 @@ namespace MPC.Webstore.Controllers
 
 
                 }
+                else 
+                {
+                    productList = null;
+                }
 
                 ViewData["Products"] = productList;
 
