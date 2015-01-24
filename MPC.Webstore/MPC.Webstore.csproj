@@ -343,6 +343,7 @@
     <Content Include="Content\Designer\assets-v2\align1.png" />
     <Content Include="Content\Designer\assets-v2\align2.png" />
     <Content Include="Content\Designer\assets-v2\align3.png" />
+    <Content Include="Content\Designer\assets-v2\back-hover.png" />
     <Content Include="Content\Designer\assets-v2\back.png" />
     <Content Include="Content\Designer\assets-v2\bckground.png" />
     <Content Include="Content\Designer\assets-v2\bold.png" />

@@ -158,6 +158,7 @@ function buildParams() {
 	ItemId = parseInt(locVars[locVars.length - 8]);
     //alert(ItemId);
 	LoadBasicTemplateSettings();
+	$("#txtTemplateTitle").val(locVars[locVars.length - 11]);
 }
 function LoadBasicTemplateSettings() {
     if (cIDv2 == 0)
