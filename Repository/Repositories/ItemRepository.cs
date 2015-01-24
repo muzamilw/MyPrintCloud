@@ -176,15 +176,28 @@ namespace MPC.Repository.Repositories
 
             newItem.Qty1GrossTotal = 0;
 
+            newItem.ProductType = 0;
+
             newItem.InvoiceId = null;
 
             newItem.EstimateProductionTime = ActualItem.EstimateProductionTime;
 
             newItem.DefaultItemTax = ActualItem.DefaultItemTax;
 
+            newItem.DesignerCategoryId = ActualItem.DesignerCategoryId;
             if (isCopyProduct)
             {
                 newItem.IsOrderedItem = true;
+                newItem.Qty1 = ActualItem.Qty1; //qty
+
+                newItem.Qty1BaseCharge1 = ActualItem.Qty1BaseCharge1; //productSelection.PriceTotal + productSelection.AddonTotal; //item price
+
+                newItem.Qty1Tax1Value = ActualItem.Qty1Tax1Value; // say vat
+
+                newItem.Qty1NetTotal = ActualItem.Qty1NetTotal;
+
+                newItem.Qty1GrossTotal = ActualItem.Qty1GrossTotal;
+                newItem.ProductType = ActualItem.ProductType;
             }
             else
             {
@@ -193,7 +206,7 @@ namespace MPC.Repository.Repositories
                 newItem.RefItemId = (int)itemID;
             }
 
-            newItem.ProductType = 0;
+      
 
             // Default Mark up rate will be always 0 ...
             // when updating clone item we are getting markups from organisation ask sir naveed to change needed here also 

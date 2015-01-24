@@ -50,10 +50,11 @@ function ShowPopUpMarketingBrief(Type, Message,ProductName,ItemID) {
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
 }
-function ConfirmDeleteItemPopUP(htmlRemove)
+function ConfirmDeleteItemPopUP(ItemID,OrderID)
 {
-
-    var container = htmlRemove; //'<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" class="btn btn-primary" onclick=ConfirmRemove("' + Path + '");  >Yes</button><button type="button" onclick=HideMessagePopUp(); class="btn btn-primary">No</button></div></div></div>';
+    alert();
+    var Path = "/ShopCart/RemoveProduct/" + ItemID + "/" + OrderID;
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" class="btn btn-primary" onclick=ConfirmRemove("' + Path + '");  >Yes</button><button type="button" onclick=HideMessagePopUp(); class="btn btn-primary">No</button></div></div></div>';
 
     var bws = getBrowserHeight();
     var shadow = document.getElementById("innerLayer");
