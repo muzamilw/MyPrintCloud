@@ -5,7 +5,7 @@
 
 }
 <div class="row" id="CostCentersBinding">
-    <div class="col-lg-12">
+    <div class="col-lg-12" data-bind="visible: !isEditorVisible()">
         <div class="row">
             <div class="col-lg-12">
                 <ol class="breadcrumb">
@@ -16,7 +16,7 @@
                 <div class="clearfix">
                     <h1 class="pull-left">Cost Centers</h1>
                     <div class="pull-right top-page-ui">
-                        <a class="btn btn-primary" data-bind="click: $root.createNewCostCenter">
+                        <a class="btn btn-primary" data-bind="click: $root.showCostCenterDetail">
                             <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Cost Center
                         </a>
                     </div>
@@ -67,20 +67,20 @@
             </a>
         </script>
         <script id="itemCostCenterTemplate" type="text/html">
-            <tr data-bind="click: $root.selectCostCenter, css: { selectedRow: $data === $root.selectedCostCenter}">                                
+            <tr data-bind="click: $root.selectItem, css: { selectedRow: $data === $root.selectedCostCenter}">
                 <td>
                     <a href="#" data-bind="text: name,click : $root.onEditItem"></a>
                 </td>
                 <td data-bind="text: description"></td>
                 <td data-bind="text: typeName"></td>
                 @*<td>
-                    <!-- ko if: isDisabled() == 1 -->
-                    <span class="label label-danger">DeActive</span>
-                    <!-- /ko -->
-                    <!-- ko if: isDisabled() != 1 -->
-                    <span class="label label-success">Active</span>
-                    <!-- /ko -->
-                </td>*@
+                        <!-- ko if: isDisabled() == 1 -->
+                        <span class="label label-danger">DeActive</span>
+                        <!-- /ko -->
+                        <!-- ko if: isDisabled() != 1 -->
+                        <span class="label label-success">Active</span>
+                        <!-- /ko -->
+                    </td>*@
 
                 <td id="actionColumn">
                     <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
@@ -110,8 +110,7 @@
             </div>
         </script>
     </div>
-
-    @Html.Partial("_CostCenterDetail")
+    @Html.Partial("~/Areas/Settings/Views/MIS/CostCenterDetail.cshtml")
 
 </div>
 <!-- ko stopBinding: true -->
