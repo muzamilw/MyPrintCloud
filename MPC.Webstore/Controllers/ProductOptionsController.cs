@@ -440,6 +440,7 @@ namespace MPC.Webstore.Controllers
                 objTemplate.FolderPath = attach.FolderPath;
                 objTemplate.OrganisationID = UserCookieManager.OrganisationID;
                 objTemplate.CategoryId = DesignerCategoryId;
+                objTemplate.printWaterMark = true;
                 if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
                     objTemplate.isCalledFrom = 4;
                 else
@@ -451,9 +452,13 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    objTemplate.printWaterMark = false;
+                    
                     objTemplate.isEmbedded = false;
+                    objTemplate.printWaterMark = false;
                 }
+                
+                objTemplate.printCropMarks = true;
+
                 Templates.Add(objTemplate);
             }
 

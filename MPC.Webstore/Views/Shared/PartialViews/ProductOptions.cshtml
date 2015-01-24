@@ -122,9 +122,9 @@
                 </div>
                 <div>
                     <img id="imgpdf" alt="" src="~/images/pdfFormat.PNG" class="float_left_simple FormatedImgs" />
-                    @*<img id="imgpng"  alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" />*@<img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" />
+                    <img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" />
                     <img id="imgjpg" alt="" src="~/images/jpgFormat.PNG" class="float_left_simple FormatedImgs" />
-                    @*<img id="imggif"  alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" />*@<img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" /><img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" />
+                    <img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" />
                 </div>
             </div>
             <div class="float_left_simple LGBC rounded_corners paddingLeft5px H4B
@@ -197,8 +197,8 @@
                                 </div>
                                 <div class="modify_button_container" style="position: absolute; padding: 0px; margin-top: -27px;">
                                 <div>
-                                @Html.ActionLink("Modify", "ModifyTemplate", "ProductOptions", null, new { @class = "btn_brown_small", @onclick = "RediredToDesigner(" + templateItem.TemplateName + "," + templateItem.ItemId + ","+ templateItem.CustomerId +"," + templateItem.ContactId +","+ templateItem.isCalledFrom +","+ templateItem.OrganisationID +","+ templateItem.printCropMarks +","+ templateItem.printWaterMark +","+ templateItem.isEmbedded +"," + templateItem.CategoryId +");" })
-
+                                    <input type="button" class="btn_brown_small" value="Modify" onclick="RediredToDesigner('@templateItem.TemplateName' , @templateItem.ItemId , @templateItem.CustomerId , @templateItem.ContactId , @templateItem.isCalledFrom , @templateItem.OrganisationID , @templateItem.printCropMarks , @templateItem.printWaterMark , @templateItem.isEmbedded , @templateItem.CategoryId);" />
+                              
                                 </div>
                                 </div>
                                 </div>
