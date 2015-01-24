@@ -183,9 +183,9 @@ namespace MPC.Webstore.Controllers
 
 
 
-                    _campaignService.emailBodyGenerator(RegistrationCampaign, cep, loginUser, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
+                    //_campaignService.emailBodyGenerator(RegistrationCampaign, cep, loginUser, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
 
-                    _campaignService.SendEmailToSalesManager((int)Events.NewRegistrationToSalesManager, (int)loginUser.ContactId, (int)loginUser.CompanyId, 0, 0, 0, 0, StoreMode.Retail, loginUserCompany, EmailOFSM);
+                   // _campaignService.SendEmailToSalesManager((int)Events.NewRegistrationToSalesManager, (int)loginUser.ContactId, (int)loginUser.CompanyId, 0, 0, 0, 0, StoreMode.Retail, loginUserCompany, EmailOFSM);
 
                     if (OrderId > 0)
                     {

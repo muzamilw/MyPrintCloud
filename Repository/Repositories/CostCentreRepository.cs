@@ -649,6 +649,18 @@ namespace MPC.Repository.Repositories
                 CostCenters = costCenters
             };
         }
+        public CostCentre GetCostCentersByID(long costCenterID)
+        {
+
+
+            var query = from tblCostCenter in db.CostCentres
+                        where tblCostCenter.CostCentreId == costCenterID && tblCostCenter.isPublished == true
+                        select tblCostCenter;
+
+                return query.ToList().FirstOrDefault();
+            
+
+        }
         #endregion
 
         #region "CostCentre Template"

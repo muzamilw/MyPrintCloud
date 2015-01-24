@@ -260,6 +260,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\DesignerApi\Controllers\AttachmentUploaderController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\ImagePermissionController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateBackgroundImageController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateColorStylesController.cs" />
@@ -342,6 +343,7 @@
     <Content Include="Content\Designer\assets-v2\align1.png" />
     <Content Include="Content\Designer\assets-v2\align2.png" />
     <Content Include="Content\Designer\assets-v2\align3.png" />
+    <Content Include="Content\Designer\assets-v2\back-hover.png" />
     <Content Include="Content\Designer\assets-v2\back.png" />
     <Content Include="Content\Designer\assets-v2\bckground.png" />
     <Content Include="Content\Designer\assets-v2\bold.png" />
@@ -522,6 +524,7 @@
     <Content Include="Areas\Designer\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Designer\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Designer\Views\Designer\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\MPCPublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Designer\jCanvaScript.1.5.14.min.js" />
     <Content Include="Scripts\Designer\jCanvasLoader.js" />

@@ -25,7 +25,7 @@ namespace MPC.Repository.Repositories
         }
 
 
-        public List<ProductCategory> GetParentCategoriesByStoreId(long companyId)
+        public List<ProductCategory> GetParentCategoriesByStoreId(long companyId, long OrganisationId)
         {
 
             return db.ProductCategories.Where(

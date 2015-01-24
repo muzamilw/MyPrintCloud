@@ -178,7 +178,7 @@ function d1ToCanvasCC(src, IW, IH) {
 }
 function k35_load(DT) {
     // src = DT;
-    StopLoader();
+   // StopLoader();
     D1NIO = fabric.util.object.clone(TO[0]);
     D1NIO.ObjectID = --NCI;
     D1NIO.ColorHex = "#000000";
@@ -239,7 +239,7 @@ function d8(mode, dheight, title) {
                 }
             });
         }
-        $('#slider  img').each(function (i) {
+        $('#sliderDesigner  img').each(function (i) {
             var s = $(this).attr('src');
             var p = s.split("?");
             var i = p[0];
@@ -258,15 +258,15 @@ function d8(mode, dheight, title) {
             }
         }
 
-        if ($('#slider') != undefined) {
-            var s = $('#slider').css('background-image');
+        if ($('#sliderDesigner') != undefined) {
+            var s = $('#sliderDesigner').css('background-image');
             if (s != undefined) {
                 var p = s.split("?");
                 if (s.indexOf("asset") == -1) {
                     var temp = p[0].split("http://");
                     var i = 'url("http://' + temp[1];
                     i += '?r=' + ra + '")';
-                    $('#slider').css('background-image', i);
+                    $('#sliderDesigner').css('background-image', i);
                 }
             }
         }
@@ -347,7 +347,7 @@ function e3() {
     $("#zoomText").html(Math.floor(D1CS * 100) + "%");
     $(".page").css("height", ((Template.PDFTemplateHeight * dfZ1l) + 20) + "px");
     $(".page").css("width", ((Template.PDFTemplateWidth * dfZ1l) + 0) + "px");
-    var val = $("#canvaDocument").width() - $(".page").width();
+    var val = $("#canvasDocument").width() - $(".page").width();
     val = val / 2;
     if (val < 0) val = 20;
     $(".page").css("left", val + "px");
@@ -392,7 +392,7 @@ function e5() {
     $("#zoomText").html(Math.floor(D1CS * 100) + "%");
     $(".page").css("height", ((Template.PDFTemplateHeight * dfZ1l) + 20) + "px");
     $(".page").css("width", ((Template.PDFTemplateWidth * dfZ1l) + 0) + "px");
-    var val = $("#canvaDocument").width() - $(".page").width();
+    var val = $("#canvasDocument").width() - $(".page").width();
     val = val / 2;
     if (val < 0) val = 20;
     $(".page").css("left", val + "px");
@@ -1284,7 +1284,7 @@ function g2_1(e) {
 
     k4();
     var tp = $("#selectedTab").css("top");
-    $("#objectPanel").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage9");
+    $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage9");
     $(".stage6 #selectedTab").css("top", tp);
     $("#FrontBackOptionPanal").css("display", "block");
     $("#FrontBackOptionPanalSection").addClass("showRightPropertyPanel");

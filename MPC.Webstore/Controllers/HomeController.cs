@@ -23,6 +23,7 @@ using MPC.Interfaces.Common;
 using System.Reflection;
 using MPC.Models.DomainModels;
 using MPC.WebBase.UnityConfiguration;
+using System.Runtime.Caching;
 
 
 
@@ -81,31 +82,56 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index()
         {
 
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+
+            ViewBag.StyleSheet = "/mpc_content/Stores/Store" + UserCookieManager.StoreId + "/" + UserCookieManager.StoreId + "_CompanyStyles.css";  
+
             SetUserClaim();
 
-            List<MPC.Webstore.Models.CmsSkinPageWidget> model = null;
+            List<MPC.Models.DomainModels.CmsSkinPageWidget> model = null;
 
             string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
 
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse stores = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
 
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromWiget();
 
-            model = GetWidgetsByPageName(baseResponse.SystemPages, pageRouteValue.Split('/')[0], baseResponse.CmsSkinPageWidgets);
+            model = GetWidgetsByPageName(stores.SystemPages, pageRouteValue.Split('/')[0], stores.CmsSkinPageWidgets, stores.StoreDetaultAddress, stores.Company.Name);
 
             return View(model);
         }
 
-        public List<MPC.Webstore.Models.CmsSkinPageWidget> GetWidgetsByPageName(List<MPC.Webstore.Models.CmsPageModel> pageList, string pageName, List<MPC.Webstore.Models.CmsSkinPageWidget> allPageWidgets)
+        public List<MPC.Models.DomainModels.CmsSkinPageWidget> GetWidgetsByPageName(List<MPC.Models.Common.CmsPageModel> pageList, string pageName, List<MPC.Models.DomainModels.CmsSkinPageWidget> allPageWidgets, MPC.Models.DomainModels.Address DefaultAddress, string CompanyName)
         {
             if (!string.IsNullOrEmpty(pageName))
             {
-                long pageId = pageList.Where(p => p.PageName == pageName).Select(id => id.PageId).FirstOrDefault();
-                return allPageWidgets.Where(widget => widget.PageId == pageId).OrderBy(s => s.Sequence).ToList();
+                MPC.Models.Common.CmsPageModel Page = pageList.Where(p => p.PageName == pageName).FirstOrDefault();
+                
+                SetPageMEtaTitle(Page, DefaultAddress, CompanyName);
+                
+                return allPageWidgets.Where(widget => widget.PageId == Page.PageId).OrderBy(s => s.Sequence).ToList();
             }
             else
             {
                 return allPageWidgets.Where(widget => widget.PageId == 1).OrderBy(s => s.Sequence).ToList();
             }
+        }
+        
+        /// <summary>
+        /// Binds the SEO tags to the page, page tags are in the laypout view
+        /// </summary>
+        /// <param name="CatName"></param>
+        /// <param name="CatDes"></param>
+        /// <param name="Keywords"></param>
+        /// <param name="Title"></param>
+        /// <param name="baseResponse"></param>
+        private void SetPageMEtaTitle(MPC.Models.Common.CmsPageModel oPage, MPC.Models.DomainModels.Address DefaultAddress, string CompanyName)
+        {
+            string[] MetaTags = _myCompanyService.CreatePageMetaTags(oPage.PageTitle, oPage.Meta_DescriptionContent, oPage.Meta_KeywordContent, StoreMode.Retail, CompanyName, DefaultAddress);
+
+            ViewBag.MetaTitle = MetaTags[0];
+            ViewBag.MetaKeywords = MetaTags[1];
+            ViewBag.MetaDescription = MetaTags[2];
         }
 
 
@@ -349,4 +375,5 @@ namespace MPC.Webstore.Controllers
 
 
     }
+
 }

@@ -31,7 +31,7 @@ $(window).scroll(function () {
     canvas.calcOffset();
 });
 
-$("#canvaDocument").scroll(function () {
+$("#canvasDocument").scroll(function () {
 
     canvas.calcOffset();
 });
@@ -103,6 +103,9 @@ function fu04() {
            IT.ProductPageID = IT.ProductPageId;
        });
        fu04_callBack(DT);
+       if (DT.IsCorporateEditable == false) {
+           restrictControls();
+       }
    });
 
 }

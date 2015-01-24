@@ -299,6 +299,10 @@ namespace MPC.Webstore.Controllers
 
 
                 }
+                else 
+                {
+                    productList = null;
+                }
 
                 ViewData["Products"] = productList;
 
@@ -326,20 +330,39 @@ namespace MPC.Webstore.Controllers
             MyCompanyDomainBaseResponse companyBaseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
             MyCompanyDomainBaseResponse organisationBaseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
             long ContactID = _myClaimHelper.loginContactID();
-
+            long CompanyID = _myClaimHelper.loginContactCompanyID();
             if (UserCookieManager.OrderId == 0)
             {
-                long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
+                long TemporaryRetailCompanyId = 0;
+                if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                {
+                    TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
+                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, organisationBaseResponse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    if (OrderID > 0)
+                    {
+                        UserCookieManager.OrderId = OrderID;
+                    }
+                    if (TemporaryRetailCompanyId != 0)
+                    {
+                        UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
+                        ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
+                    }
+                    CompanyID = TemporaryRetailCompanyId;
+
+                }
+                else 
+                {
+                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, organisationBaseResponse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    if (OrderID > 0)
+                    {
+                        UserCookieManager.OrderId = OrderID;
+                    }
+                }
 
                 // create new order
 
-                long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, organisationBaseResponse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, _myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), ref TemporaryRetailCompanyId);
-                if (OrderID > 0)
-                {
 
-                    UserCookieManager.OrderId = OrderID;
-                
-                    Item item = _IItemService.CloneItem(id, 0, OrderID, UserCookieManager.StoreId, 0, 0, null, false, false, ContactID);
+                Item item = _IItemService.CloneItem(id, 0, UserCookieManager.OrderId, CompanyID, 0, 0, null, false, false, ContactID);
 
                     if (item != null)
                     {
@@ -348,18 +371,41 @@ namespace MPC.Webstore.Controllers
                         TempDesignerID = item.DesignerCategoryId ?? 0;
                         ProductName = item.ProductName;
                     }
-                }
+                
             }
             else
             {
-                Item item = _IItemService.CloneItem(id, 0, UserCookieManager.OrderId, UserCookieManager.StoreId, 0, 0, null, false, false, ContactID);
+                if (UserCookieManager.TemporaryCompanyId == 0 && UserCookieManager.StoreMode == (int)StoreMode.Retail && ContactID == 0)
+                {
+                    long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
+
+                    // create new order
+
+                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, organisationBaseResponse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    if (OrderID > 0)
+                    {
+                        UserCookieManager.OrderId = OrderID;
+                    }
+                    if (TemporaryRetailCompanyId != 0)
+                    {
+                        UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
+                        ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
+                    }
+                    CompanyID = TemporaryRetailCompanyId;
+                }
+                else if (UserCookieManager.TemporaryCompanyId > 0 && UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                {
+                    CompanyID = UserCookieManager.TemporaryCompanyId;
+                    ContactID = _myCompanyService.GetContactIdByCompanyId(CompanyID);
+                }
+                Item item = _IItemService.CloneItem(id, 0, UserCookieManager.OrderId, CompanyID, 0, 0, null, false, false, ContactID);
 
                 if (item != null)
                 {
                     ItemID = item.ItemId;
                     TemplateID = item.TemplateId ?? 0;
                     TempDesignerID = item.DesignerCategoryId ?? 0;
-                    ProductName = item.ProductName;
+                    ProductName = Utils.specialCharactersEncoder(item.ProductName);
                 }
             }
 
@@ -383,7 +429,7 @@ namespace MPC.Webstore.Controllers
             ProductName = _IItemService.specialCharactersEncoder(ProductName);
             //Designer/productName/CategoryIDv2/TemplateID/ItemID/companyID/cotnactID/printCropMarks/printWaterMarks/isCalledFrom/IsEmbedded;
             bool printCropMarks = true;
-            string URL = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + UserCookieManager.StoreId + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.OrganisationID + "/" + printCropMarks + "/" + printWaterMark  + "/" + isEmbedded;
+            string URL = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + UserCookieManager.OrganisationID + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
 
             // ItemID ok
             // TemplateID ok

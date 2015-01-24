@@ -33,12 +33,33 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index(string OrderId)
         {
             MyCompanyDomainBaseResponse baseResponseOrganisation = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
+            MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+            MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
+
+            if (baseResponseCompany.Company.ShowPrices ?? true)
+            {
+                ViewBag.IsShowPrices = true;
+                //do nothing because pricing are already visible.
+            }
+            else
+            {
+                ViewBag.IsShowPrices = false;
+                //  cntRightPricing1.Visible = false;
+            }
+            if(!string.IsNullOrEmpty(baseResponseCurrency.Currency))
+            {
+                ViewBag.Currency = baseResponseCurrency.Currency;
+            }
+            else
+            {
+                ViewBag.Currency = "";
+            }
 
            OrderDetail order =  _OrderService.GetOrderReceipt(Convert.ToInt64(OrderId));
 
            ViewBag.Organisation = baseResponseOrganisation.Organisation;
 
-            return View();
+           return View("PartialViews/Receipt", order);
         }
 
         
