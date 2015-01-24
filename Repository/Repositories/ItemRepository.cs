@@ -141,7 +141,7 @@ namespace MPC.Repository.Repositories
 
         public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID)
         {
-            Template clonedTemplate = new Template();
+            Template clonedTemplate = null;
 
             ItemSection tblItemSectionCloned = new ItemSection();
 
@@ -252,6 +252,7 @@ namespace MPC.Repository.Repositories
 
             if (newItem.TemplateId.HasValue && newItem.TemplateId.Value > 0)
             {
+                clonedTemplate = new Template();
                 if (newItem.TemplateType == 1 || newItem.TemplateType == 2)
                 {
                     long result = db.sp_cloneTemplate((int)newItem.TemplateId.Value, 0, "");
