@@ -1396,8 +1396,26 @@ function fu04_callBack(DT) {
     fu04_01();
     fu14();
     b3_1();
+    b3_lDimensions();
 }
-
+function b3_lDimensions() {
+    var w = Template.PDFTemplateWidth;
+    var h = Template.PDFTemplateHeight;
+    h = h / 96 * 72;
+    w = w / 96 * 72;
+    h = h / 2.834645669;
+    w = w / 2.834645669;
+    w = w.toFixed(3);
+    h = h.toFixed(3);
+    h = h - 10;
+    w = w - 10;
+ //   w = w * Template.ScaleFactor;
+  //  h = h * Template.ScaleFactor;
+    //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
+    $(".dimentionsBC").html("Trim size -" + " " + w + " (w) *  " + h + " (h) mm");
+  //  $(".dimentionsBC").append("<br /><span class='spanZoomContainer'> Zoom - " + D1CS * 100 + " % </span>");
+ //   $(".zoomToolBar").html(" Zoom " + Math.floor(D1CS * 100) + " % ");
+}
 function fu05_svcCall(DT) {
     $.each(DT, function (i, IT) {
         fu05_ClHtml(IT.ColorC, IT.ColorM, IT.ColorY, IT.ColorK, IT.SpotColor, IT.IsColorActive, IT.PelleteID);
@@ -1633,7 +1651,7 @@ function fu09_SvcCallBack(DT) {
     }
 }
 function fu09_1(DT) {
-    console.log(DT);
+
     $.each(DT, function (key, val) {
         for (var line in val) {
             //tcRowCount++;
