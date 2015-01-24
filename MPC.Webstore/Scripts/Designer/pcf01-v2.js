@@ -1633,7 +1633,7 @@ function fu09_SvcCallBack(DT) {
     }
 }
 function fu09_1(DT) {
-
+    console.log(DT);
     $.each(DT, function (key, val) {
         for (var line in val) {
             //tcRowCount++;
@@ -1642,7 +1642,7 @@ function fu09_1(DT) {
             //}
             //var top = tcImThh;
             //var left = tcLltemp * 200
-
+            
             var html = '<span class="templateGallerylist"><a title="' + val[line] + '" onClick="fu10(this,' + line + ')">' +
                   '<img src="' + V2Url + '/designer/products/' + line + '/TemplateThumbnail1.jpg' + '" class="imgs' + line + '"> </a></span>'
 
@@ -3169,7 +3169,7 @@ function k26(id, n, m) {
     imgLoaderSection = m;
     var imToLoad = parseInt(id);
     var tp = $("#selectedTab").css("top");
-    $("#objectPanel").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage8").removeClass("stage7").addClass("stage7");
+    $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage8").removeClass("stage7").addClass("stage7");
 
     //   $(".stage7 #selectedTab").css("top", tp);
     $(".ImageContainer").css("display", "none");
