@@ -61,17 +61,17 @@
 
                         <div id="ShopingCartDisplay">
 
-                            <button id="Button1" onclick="return EmailProofClick()" class="start_creating_btn_EmailProof float_right rounded_corners5"></button>
+                            <button id="Button1" style="display:none;" onclick="return EmailProofClick()" class="start_creating_btn_EmailProof float_right rounded_corners5"></button>
 
                             <table cellspacing="0" cellpadding="15" id="grdViewShopCart" style="width:100%;border-collapse:collapse;">
                                 <tbody>
                                     <tr class="gridViewHeaderStyle">
                                         <th align="center" scope="col">&nbsp;</th>
-                                        <th align="left" scope="col">lblProductTxt</th>
-                                        <th align="left" scope="col">lblQuantityHeaderTxt</th>
+                                        <th align="left" scope="col">Product</th>
+                                        <th align="left" scope="col">Quantity</th>
                                         @if (ViewBag.IsShowPrices)
                                         {
-                                            <th align="left" scope="col">Price</th>
+                                            <th align="right" scope="col">Price</th>
                                         }
                                         <th align="left" scope="col" style="color: white !important; border: none; background-color: white !important;">&nbsp;</th>
                                     </tr>
@@ -121,11 +121,11 @@
                                                 <div class="BtnTemplateModifyContainer">
                                                     @if (prod.ProductType == (int)ProductType.TemplateProductWithBanner || prod.ProductType == (int)ProductType.TemplateProductWithImage)
                                                     {
-                                                        <input type="submit" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('@prod.TemplateID','@prod.ProductCategoryID','@prod.ItemID');" value="Modify" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
+                                                        <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('@prod.TemplateID','@prod.ProductCategoryID','@prod.ItemID');" value="Modify" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
                                                     }
                                                     else
                                                     {
-                                                        <input type="submit" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('0','@prod.ProductCategoryID','@prod.ItemID');" value="Modify" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
+                                                        <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('0','@prod.ProductCategoryID','@prod.ItemID');" value="Modify" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
                                                     }
                                                 </div>
                                             </td>
@@ -191,10 +191,10 @@
                                             }
 
                                             <td align="left" style="width:20%;">
-
-                                                <a id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="ConfirmDeleteItem('@prod.ItemID');">lblRemove</a>
+                                                @Html.ActionLink("Remove Product", "RemoveProduct", "ShopCart", new { ItemID = prod.ItemID, OrderID = UserCookieManager.OrderId }, new { @class = "silver_back_button", onclick = "ShowLoader();" })
+                                                @*<a id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="ConfirmDeleteItem('@prod.ItemID');">lblRemove</a>*@
                                                 <br>
-                                                @Html.ActionLink("btnCopyincarttxt", "CopyProduct", "ShopCart", new { ItemID = prod.ItemID, OrderID = UserCookieManager.OrderId }, new { @class = "silver_back_button" })
+                                                @Html.ActionLink("Copy Product", "CopyProduct", "ShopCart", new { ItemID = prod.ItemID, OrderID = UserCookieManager.OrderId }, new { @class = "silver_back_button", onclick="ShowLoader();" })
 
                                             </td>
                                         </tr>
@@ -485,9 +485,10 @@
         }
         function RedirectToConfirmSelect(TempID,CategoryID,ItemID)
         {
-           
+            
             if(TempID == 0)
             {
+                alert("/ProductOptions/" + CategoryID + "/" + ItemID + "/Modify");
                 window.location.href = "/ProductOptions/" + CategoryID + "/" + ItemID + "/Modify";
             }
             else
@@ -495,7 +496,7 @@
                 alert("inn");
                 window.location.href = "/ProductOptions" + "/" + CategoryID + "/" + ItemID + "/Modify/" + TempID;
             }
-
+            return false;
         }
         function ContinueShopping()
         {
@@ -509,14 +510,14 @@
         {
             window.location.href = "/ShopCart/RemoveDiscountVoucherCode/OrderID="+ OrderID;
         }
-        function ConfirmDeleteItem(ItemID)
+        function ConfirmDeleteItem(ItemID,OrderID)
         {
-            $("#RemoveProductDiv1").css("display", "block");
-            $("hfIsItemID").val(ItemID);
-            $("hfIsCallFrom").val("Delete");
-            var html = $("div.RemoveProductDiv").html();
-            alert(html);
-            ConfirmDeleteItemPopUP(html);
+            //$("#RemoveProductDiv1").css("display", "block");
+            //$("hfIsItemID").val(ItemID);
+            //$("hfIsCallFrom").val("Delete");
+            //var html = $("div.RemoveProductDiv").html();
+            //alert(html);
+            ConfirmDeleteItemPopUP(ItemID,OrderID);
 
         }
     </script>

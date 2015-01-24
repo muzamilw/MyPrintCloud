@@ -18,7 +18,7 @@
     double grosstotal = 0;
     double GrandTotal = 0;
     string IsDisable = string.Empty;
-    Address ShippingAddress = Model.BillingAddress;
+    Address ShippingAddress = Model.ShippingAddress;
     Address BillingAddress = Model.BillingAddress;
     Address FilterShippingAddress = new Address();
     Address FilterBillingAddress = new Address();
@@ -787,9 +787,8 @@
                                     }
 
                                 </div>
-                                <div id="DivShippTo" class="black_sub_heading textAlignLeft paddingLeft10px" style="display: none;"
-                                     runat="server">
-                                    <label ID="ltrlShipTo" runat="server">Bill to & Ship to:</label>
+                                <div id="DivShippTo" class="black_sub_heading textAlignLeft paddingLeft10px" style="display: none;">
+                                    <label ID="ltrlShipTo" >Bill to & Ship to:</label>
                                 </div>
                                 <div id="innerContainerShippTo" class="textAlignLeft AddressesContainer" style="display: none;">
                                     <label id="lblShipToAddLin1" class="lbAddressLinesWithPadding">@ShippingAddress.Address1</label>
@@ -814,19 +813,19 @@
                                 </div>
                                 <br />
                                 <div class="textAlignLeft paddingLeft10px">
-                                    <label ID="lblContactNotxt" runat="server" class="black_sub_heading">Contact No:</label>
-                                    <label ID="lblContactNo" runat="server" class="ContactNumberlb">@Model.ContactTel</label>
+                                    <label ID="lblContactNotxt" class="black_sub_heading">Contact No:</label>
+                                    <label ID="lblContactNo" class="ContactNumberlb">@Model.ContactTel</label>
                                 </div>
                                 <br />
                                 <div id="DivRefPO" style="display: none;" class="textAlignLeft paddingLeft10px">
-                                    <label ID="lblRefPOtxt" runat="server" class="black_sub_heading">Your Ref/PO is:"</label><label ID="lblRefPo" runat="server" class="POlb"></label>
+                                    <label ID="lblRefPOtxt"  class="black_sub_heading">Your Ref/PO is:"</label><label ID="lblRefPo" runat="server" class="POlb"></label>
                                 </div>
                                 <br />
                                 <div id="DivSpclNotes" style="display: none;" class="textAlignLeft paddingLeft10px">
-                                    <label ID="lblSpecialNoteTxt" runat="server"
+                                    <label ID="lblSpecialNoteTxt" 
                                            Style="color: #C72965;" class="black_sub_heading">Special instructions(notes):</label><br />
                                     <br />
-                                    <label ID="lblNotesDetail" runat="server" class="SpecialNotesContainer" />
+                                    <label ID="lblNotesDetail" class="SpecialNotesContainer" />
                                 </div>
                                 <div class="pad10">
                                     <div class="float_right marginLeft directDepositcs">
@@ -867,20 +866,20 @@
                         <div class="col-md-6 col-lg-6 col-xs-12 cntcheckoutSummary">
                             @if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
                             {
-                                <div class="super_admin_message" id="DivretailMesg" runat="server" visible="false">
-                                    <label ID="ltrlSomeOmeCallU" runat="server"> Some one will call you</label>
-                                    <label ID="ltrlconfirmDetails" runat="server">to reconfirm details.</label>
+                                <div class="super_admin_message" id="DivretailMesg" visible="false">
+                                    <label ID="ltrlSomeOmeCallU"> Some one will call you</label>
+                                    <label ID="ltrlconfirmDetails">to reconfirm details.</label>
                                 </div>
                             }
 
                             @if (Model.HasAdminMessage == true)
                             {
                                 <div class="super_admin_message" id="divAdminMessage" runat="server" visible="false">
-                                    <label ID="ltrlorderwillbed" runat="server">Order will be delivered after</label>
+                                    <label ID="ltrlorderwillbed">Order will be delivered after</label>
 
                                     <label id="lblSupAdminName">@Model.AdminName</label>
 
-                                    <label ID="ltrlapprovethisorder" runat="server"> approves this order.</label>
+                                    <label ID="ltrlapprovethisorder" > approves this order.</label>
                                 </div>
                             }
 

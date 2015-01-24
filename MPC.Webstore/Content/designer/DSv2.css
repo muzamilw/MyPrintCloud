@@ -6531,3 +6531,12 @@ label
  margin-bottom: 0px; 
  font-weight: normal; 
 }
+.dimentionsContainer
+{
+    color: #7f7c7c;
+    margin-top: 15px;text-align: right;margin-right: 1.2em;
+    /*display: none;*/
+}.dimentionsBC
+{
+    font-size: 12px;
+}

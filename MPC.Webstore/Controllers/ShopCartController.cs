@@ -172,8 +172,8 @@ namespace MPC.Webstore.Controllers
                 {
                     sOrderID = Convert.ToInt32(OrderID);
                 }
-                bool login = true;
-                if (login)//_myClaimHelper.isUserLoggedIn()
+              //  bool login = true;
+                if (_myClaimHelper.isUserLoggedIn())//
                 {
                     if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
                     {
@@ -237,7 +237,8 @@ namespace MPC.Webstore.Controllers
                     }
 
 
-                   return RedirectToAction("Login");
+                    Response.Redirect("/Login");
+                    return null;
                    
                 }
 
@@ -336,9 +337,9 @@ namespace MPC.Webstore.Controllers
             MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
 
 
-            MyCompanyDomainBaseResponse baseResponeOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.OrganisationID).CreateFromOrganisation();
+            MyCompanyDomainBaseResponse baseResponeOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
 
-            newCloneditem = _ItemService.CloneItem(ItemID, 0, 0, 0, 0, 0, null, false, true, _myClaimHelper.loginContactID());
+            newCloneditem = _ItemService.CloneItem(ItemID, 0, OrderID, 0, 0, 0, null, false, true, _myClaimHelper.loginContactID());
 
             Estimate objOrder = _OrderService.GetOrderByID(OrderID);
             _ItemService.CopyAttachments(ItemID, newCloneditem, objOrder.Order_Code, true, objOrder.CreationDate ?? DateTime.Now);
@@ -377,7 +378,7 @@ namespace MPC.Webstore.Controllers
             Template clonedTempldateFiles = null;
             MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
             MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-            MyCompanyDomainBaseResponse baseResponseOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.OrganisationID).CreateFromOrganisation();
+            MyCompanyDomainBaseResponse baseResponseOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
 
             result = _ItemService.RemoveCloneItem(ItemID, out itemAttatchments, out clonedTempldateFiles);
 
