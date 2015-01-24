@@ -1903,7 +1903,7 @@ namespace MPC.Repository.Repositories
                     //special working for attaching the PDF
                     List<ArtWorkAttatchment> uplodedArtWorkList = new List<ArtWorkAttatchment>();
                     ArtWorkAttatchment attatcment = null;
-                    string folderPath = "/mpc_content/Attachments/Organisation" + organisationId + "/" + customerID ;//Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
+                    string folderPath = "/mpc_content/Attachments/Organisation" + organisationId + "/" + customerID + "/" ;//Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
                     string virtualFolderPth = "";
                     if (caller == "webstore")
                     {
@@ -1925,13 +1925,13 @@ namespace MPC.Repository.Repositories
                     {
                         //saving Page1  or Side 1 
                         //string fileName = ItemID.ToString() + " Side" + item.PageNo + ".pdf";
+                        DateTime OrderCreationDate = Order.CreationDate ?? DateTime.Now;
+                        string fileName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") + OrderCreationDate.Day.ToString() + "-" + Item.ProductCode + "-" + Order.Order_Code + "-" + Item.ItemCode + "-" + "Side" + item.PageNo.ToString(); //GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString(), virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
+                        string overlayName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") + OrderCreationDate.Day.ToString() + "-" + Item.ProductCode + "-" + Order.Order_Code + "-" + Item.ItemCode + "-" + "Side" + item.PageNo.ToString() + "overlay";//GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString() + "overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
 
-                        string fileName = GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString(), virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
-                        string overlayName = GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString() + "overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
 
-
-                        string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
-                        string overlayCompleteAddress = System.IO.Path.Combine(virtualFolderPth, overlayName);
+                        string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName + ".pdf");
+                        string overlayCompleteAddress = System.IO.Path.Combine(virtualFolderPth, overlayName + ".pdf");
 
                         //copying file from original location to attachments location
                         System.IO.File.Copy(DesignerPath + item.ProductId.ToString() + "/p" + item.PageNo + ".pdf", fileCompleteAddress, true);

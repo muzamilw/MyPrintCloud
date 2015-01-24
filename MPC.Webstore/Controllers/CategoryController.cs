@@ -382,7 +382,7 @@ namespace MPC.Webstore.Controllers
                     ItemID = item.ItemId;
                     TemplateID = item.TemplateId ?? 0;
                     TempDesignerID = item.DesignerCategoryId ?? 0;
-                    ProductName = item.ProductName;
+                    ProductName = Utils.specialCharactersEncoder(item.ProductName);
                 }
             }
 

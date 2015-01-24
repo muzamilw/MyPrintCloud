@@ -977,6 +977,17 @@ $("#btnNextProofing").click(function (event) {
             designerName = designerName.replace("/", "__");
         while (designerName.indexOf('&') != -1)
             designerName = designerName.replace("&", "__");
+
+        while (designerName.indexOf(' ') != -1)
+            designerName = designerName.replace(" ", "-");
+        while (designerName.indexOf(';') != -1)
+            designerName = designerName.replace(";", "-");
+        while (designerName.indexOf('&#34;') != -1)
+            designerName = designerName.replace("&#34;", "-");
+        while (designerName.indexOf('+') != -1)
+            designerName = designerName.replace("+", "-");
+      
+       
         $.getJSON("/designerapi/Template/SaveDesignAttachments/" + tID + "/" + ItemId + "/" + CustomerID + "/" + designerName + "/designer/" + organisationId,
           function (DT) {
               window.location.href = DT;// + "&CategoryId=" + CategoryId + "&ProductName=" + document.getElementById('txtDesignName').value + emailParameters;

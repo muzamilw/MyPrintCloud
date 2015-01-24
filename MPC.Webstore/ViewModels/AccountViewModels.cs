@@ -231,4 +231,21 @@ namespace MPC.Webstore.Models
         public bool? IsDeleteAccount { get; set; }
     }
 
+
+    public class TemplateViewData 
+    {
+        public long TemplateId { get; set; }
+        public string TemplateName { get; set; }
+        public string FolderPath { get; set; }
+        public string FileName { get; set; }
+        public long CustomerId { get; set; }
+        public long ContactId { get; set; }
+        public long ItemId { get; set; }
+        public int CategoryId { get; set; }
+        public int isCalledFrom { get; set; }
+        public long OrganisationID { get; set; }
+        public bool printCropMarks { get; set; }
+        public bool printWaterMark { get; set; }
+        public bool isEmbedded { get; set; }
+    }
 }

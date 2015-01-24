@@ -32,7 +32,7 @@ namespace MPC.Webstore.Controllers
 
         private readonly IWebstoreClaimsHelperService _myClaimHelper;
 
-        private readonly ITemplatePageService _templatePages;
+        private readonly ITemplateService _template;
 
         #endregion
 
@@ -43,7 +43,7 @@ namespace MPC.Webstore.Controllers
         /// </summary>
         public ProductOptionsController(IItemService myItemService, ICompanyService myCompanyService,
             IWebstoreClaimsHelperService webstoreAuthorizationChecker, IOrderService orderService, IWebstoreClaimsHelperService myClaimHelper
-            , ITemplatePageService templatePages)
+            , ITemplateService template)
         {
             if (myItemService == null)
             {
@@ -70,7 +70,7 @@ namespace MPC.Webstore.Controllers
                 throw new ArgumentNullException("myClaimHelper");
             }
 
-            if (templatePages == null)
+            if (template == null)
             {
                 throw new ArgumentNullException("templatePages");
             }
@@ -79,7 +79,7 @@ namespace MPC.Webstore.Controllers
             this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
             this._orderService = orderService;
             this._myClaimHelper = myClaimHelper;
-            this._templatePages = templatePages;
+            this._template = template;
         }
 
         #endregion
@@ -103,31 +103,40 @@ namespace MPC.Webstore.Controllers
                     {
                         UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
                         UserCookieManager.OrderId = OrderID;
-                        clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, OrderID, UserCookieManager.StoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID());
+                        // gets the item from reference item id in case of upload design when user process the item but not add the item in cart
+                        clonedItem = _myItemService.GetExisitingClonedItemInOrder(UserCookieManager.OrderId, Convert.ToInt64(ItemId));
+
+                        if (clonedItem == null)
+                        {
+                            clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, OrderID, UserCookieManager.StoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID());
+                        }
                     }
                 }
                 else
                 {
                     // gets the item from reference item id in case of upload design when user process the item but not add the item in cart
-                    clonedItem = _myItemService.GetExisitingClonedItemInOrder(UserCookieManager.OrderId, Convert.ToInt64(ItemId));
+                   clonedItem = _myItemService.GetExisitingClonedItemInOrder(UserCookieManager.OrderId, Convert.ToInt64(ItemId));
+                   
                     if (clonedItem == null)
                     {
                         clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, UserCookieManager.OrderId, UserCookieManager.StoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID());
                     }
                 }
-                ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments.ToList();
+                ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList();
                 referenceItemId = Convert.ToInt64(ItemId);
+                ViewData["Templates"] = null;
             }
             else if (ItemMode == "Modify")// modify item case
             {
                 clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
                 if (!string.IsNullOrEmpty(TemplateId))
                 {
-                    BindTemplatesList(Convert.ToInt64(TemplateId));
+                    BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), clonedItem.DesignerCategoryId ?? 0);
                 }
-                else 
+                else
                 {
-                    BindArtworkAttachmentsList(Convert.ToInt64(ItemId));
+                    ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList();
+                    ViewData["Templates"] = null;
                 }
 
                 ViewBag.SelectedStockItemId = clonedItem.ItemSections.FirstOrDefault().StockItemID1;
@@ -139,7 +148,7 @@ namespace MPC.Webstore.Controllers
             else if (!string.IsNullOrEmpty(TemplateId))// template case
             {
                 clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
-                BindTemplatesList(Convert.ToInt64(TemplateId));
+                BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), Convert.ToInt32(clonedItem.DesignerCategoryId));
                 referenceItemId = clonedItem.RefItemId ?? 0;
             }
 
@@ -147,7 +156,7 @@ namespace MPC.Webstore.Controllers
 
             ViewBag.ClonedItem = clonedItem;
 
-            ViewBag.AttachmentCount = clonedItem.ItemAttachments.Count;
+            ViewBag.AttachmentCount = clonedItem.ItemAttachments == null ? 0 : clonedItem.ItemAttachments.Count;
 
             DefaultSettings(referenceItemId);
 
@@ -396,22 +405,67 @@ namespace MPC.Webstore.Controllers
 
             ViewBag.Item = referenceItem;
         }
-        private void BindTemplatesList(long TemplateId) 
+        private void BindTemplatesList(long TemplateId, List<ItemAttachment> attachmentList, long ItemId, int DesignerCategoryId) 
         {
-            List<TemplatePage> TemplatePagesList = _templatePages.GetTemplatePages(TemplateId).ToList();
-            if (TemplatePagesList != null && TemplatePagesList.Count > 2)
+            List<TemplateViewData> Templates = new List<TemplateViewData>();
+            Template Template = _template.GetTemplate(TemplateId);// _templatePages.GetTemplatePages(TemplateId).ToList();
+           if(attachmentList != null && attachmentList.Count > 2)
+           {
+                attachmentList = attachmentList.Take(2).ToList();
+           }
+
+
+            TemplateViewData objTemplate = null;
+            foreach(var attach in attachmentList)
             {
-                TemplatePagesList = TemplatePagesList.Take(2).ToList();
+                objTemplate = new TemplateViewData();
+                if (UserCookieManager.StoreMode == (int)StoreMode.Retail && _myClaimHelper.isUserLoggedIn() == false)
+                {
+                    if (UserCookieManager.TemporaryCompanyId > 0)
+                    {
+                        objTemplate.ContactId = UserCookieManager.TemporaryCompanyId;
+                        objTemplate.CustomerId = _myCompanyService.GetContactIdByCompanyId(UserCookieManager.TemporaryCompanyId);
+                    }
+                }
+                else 
+                {
+                    objTemplate.ContactId = _myClaimHelper.loginContactID();
+                    objTemplate.CustomerId = _myClaimHelper.loginContactCompanyID();
+                }
+              
+                objTemplate.TemplateId = Template.ProductId;
+                objTemplate.TemplateName = Utils.specialCharactersEncoder(Template.ProductName);
+                objTemplate.ItemId = ItemId;
+                objTemplate.FileName = attach.FileName;
+                objTemplate.FolderPath = attach.FolderPath;
+                objTemplate.OrganisationID = UserCookieManager.OrganisationID;
+                objTemplate.CategoryId = DesignerCategoryId;
+                if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                    objTemplate.isCalledFrom = 4;
+                else
+                    objTemplate.isCalledFrom = 3;
+
+                if (UserCookieManager.StoreMode == (int)StoreMode.Corp || UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                {
+                    objTemplate.isEmbedded = true;
+                }
+                else
+                {
+                    objTemplate.printWaterMark = false;
+                    objTemplate.isEmbedded = false;
+                }
+                Templates.Add(objTemplate);
             }
 
-            ViewData["Templates"] = TemplatePagesList.ToList();
-            TemplatePagesList = null;
+            ViewData["Templates"] = Templates.ToList();
+            Template = null;
+            Templates = null;
         }
         private void BindArtworkAttachmentsList(long ItemId)
         {
 
             ViewData["ArtworkAttachments"] = _myItemService.GetArtwork(Convert.ToInt64(ItemId)).ToList();
-            
+
         }
     }
 }
