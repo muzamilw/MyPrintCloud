@@ -1302,7 +1302,10 @@ namespace MPC.Repository.Repositories
 
             if (templateID.HasValue && templateID.Value > 0)
             {
-                Template tblTemplate = db.Templates.Where(template => template.ProductId == templateID.Value).FirstOrDefault();
+                Template tblTemplate = db.Templates.Include("TemplatePages").Include("TemplateColorStyles")
+                    .Include("TemplateBackgroundImages")
+                    .Include("TemplateFonts").Include("TemplateObjects")
+                    .Where(template => template.ProductId == templateID.Value).FirstOrDefault();
 
                 if (tblTemplate != null)
                 {
