@@ -1,10 +1,21 @@
 ﻿@model MPC.Models.Common.ShoppingCart
-           @{
+@using MPC.Webstore.Common;
+@using MPC.Models.Common;
+@{
                double GrossTotal = 0;
                string VatTotal = string.Empty;
                string subtotal = string.Empty;
-               var AddressList = ViewData["OrderAddresses"] as MPC.Models.DomainModels.Address;
-           }
+               var AddressList = ViewData["OrderAddresses"] as List<MPC.Models.DomainModels.Address>;
+               string EstimateDispatchTime = string.Empty;
+               double _priceTotal = 0;
+               double _vatTotal = 0;
+               double _grandTotal = 0;
+               decimal noOfCostCentreProdDays = 0;
+               decimal _numOfProductionDays = 0;
+               decimal numberOfDaysAddedTodelivery = 0;
+               decimal ProductProductionTime = 0;
+
+}
     <div class="container content_area">
         <div class="row left_right_padding">
             <div id="MessgeToDisply" class="rounded_corners col-md-12 col-lg-12 col-xs-12" style="display:none;">
@@ -17,55 +28,63 @@
             </h2>
 
             <div class="white-container-lightgrey-border textAlignLeft rounded_corners">
+            @if (AddressList[2] != null)
+            {
                 <div class="col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt" style="line-height: 30px;">
-                    <span  style="" class="shopReceiptBillToHeading">PickUpAddress :</span><br />
-                    <label id="PickupAddressName" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">AddressList[2].AddressName</label><br />
-                    <label id="pickUpAddressLine1" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">AddressList[2].Addressline1</label><br />
-                    <label id="pickUpAddress2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">AddressList[2].Addressline2</label><br />
-                    <label id="pickUpAddressCity" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">AddressList[2].City</label>
-                    <label id="pickUpAddressState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">AddressList[2].State</label>
-                    <label id="pickUPAddressCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">AddressList[2].Country</label><br />
+                    <span style="" class="shopReceiptBillToHeading">PickUpAddress :</span><br />
+                    <label id="PickupAddressName" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].AddressName</label><br />
+                    <label id="pickUpAddressLine1" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].Address1</label><br />
+                    <label id="pickUpAddress2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].Address2</label><br />
+                    <label id="pickUpAddressCity" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].City</label>
+                    <label id="pickUpAddressState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].State.StateName</label>
+                    <label id="pickUPAddressCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].Country.CountryName</label><br />
 
-                    <label id="pickUpAddressZip" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">AddressList[2].PostCode</label><br />
+                    <label id="pickUpAddressZip" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].PostCode</label><br />
                     <span>
-                        <label  >Tel:</label>
+                        <label>Tel:</label>
                     </span>
-                    <label id="pickUpAddressContact" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px;">AddressList[2].Tel</label>
+                    <label id="pickUpAddressContact" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px;">@AddressList[2].Tel1</label>
                 </div>
+            }
+             @if (AddressList[1] != null)
+            {
                 <div class="col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt" style="line-height: 30px;">
                     <span id="Span1"  style="" class="shopReceiptBillToHeading">Billing Address :</span><br />
-                    <label id="AddressName" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">AddressList[2].AddressName</label><br />
-                    <label id="AddressLine" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">AddressList[2].Addressline1</label><br />
-                    <label id="Addressline2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">AddressList[2].Addressline2</label><br />
-                    <label id="lblBCity" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">AddressList[2].City</label>
-                    <label id="lblBState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">AddressList[2].State</label>
-                    <label id="lblBCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">AddressList[2].Country</label><br />
-                    <label id="lblBZipCode" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">AddressList[2].PostCode</label><br />
+                    <label id="AddressName" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].AddressName</label><br />
+                    <label id="AddressLine" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].Address1</label><br />
+                    <label id="Addressline2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].Address2</label><br />
+                    <label id="lblBCity" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].City</label>
+                    <label id="lblBState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].State.StateName</label>
+                    <label id="lblBCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].Country.CountryName</label><br />
+                    <label id="lblBZipCode" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].PostCode</label><br />
 
 
                     <span>
                         <label ID="lrtlBTel" >Tel:</label>
                     </span>
-                    <label id="lblBTel" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px;">AddressList[2].Tel</label>
+                    <label id="lblBTel" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px;">@AddressList[1].Tel1</label>
                 </div>
+             }
+             @if (AddressList[0] != null)
+            {
                 <div class="col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt" style="line-height: 30px;">
                     <span id="Span2"  style="" class="shopReceiptBillToHeading">Shipping Address:</span><br />
-                    <label id="ShippingAddressName" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">AddressList[2].AddressName</label><br />
-                    <label id="shippingAddressline1" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">AddressList[2].Addressline1</label><br />
-                    <label id="shippingAddressline2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">AddressList[2].Addressline2</label><br />
-                    <label id="shippingCity" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">AddressList[2].City</label>
-                    <label id="shippingState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">AddressList[2].State</label>
-                    <label id="shippingCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">AddressList[2].Country</label><br />
-                    <label id="shippingZipCode" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">AddressList[2].PostCode</label><br />
+                    <label id="ShippingAddressName" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].AddressName</label><br />
+                    <label id="shippingAddressline1" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].Address1</label><br />
+                    <label id="shippingAddressline2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].Address2</label><br />
+                    <label id="shippingCity" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].City</label>
+                    <label id="shippingState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].State.StateName</label>
+                    <label id="shippingCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].Country.CountryName</label><br />
+                    <label id="shippingZipCode" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].PostCode</label><br />
 
 
                     <span>
                         <label ID="Literal2">Tel:</label>
                     </span>
-                    <label ID="shippingTel"  Style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px;" >AddressList[2].Tel</label>
+                    <label ID="shippingTel"  Style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px;" >@AddressList[0].Tel1</label>
                 </div>
 
-
+             }
 
                 <div class="check_out_third_div">
                     <div class="confirm_order_detail_div">
@@ -79,11 +98,11 @@
                                     <tbody>
                                         <tr class="gridViewHeaderStyle">
                                             <th align="center" scope="col">&nbsp;</th>
-                                            <th align="left" scope="col">lblProductTxt</th>
-                                            <th align="left" scope="col">lblQuantityHeaderTxt</th>
-                                            @if (ViewBag.IsShowPrices)
+                                            <th align="left" scope="col">Products</th>
+                                            <th align="left" scope="col">Quantity</th>
+                                            @if (ViewBag.IsShowPrices == true)
                                             {
-                                                <th align="left" scope="col">Price</th>
+                                                <th align="right" scope="col">Price</th>
                                             }
                                             <th align="left" scope="col" style="color: white !important; border: none; background-color: white !important;">&nbsp;</th>
                                         </tr>
@@ -204,9 +223,9 @@
 
                                                 <td align="left" style="width:20%;">
 
-                                                    <a id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="ConfirmDeleteItem('@prod.ItemID');">lblRemove</a>
+                                                   
                                                     <br>
-                                                    @Html.ActionLink("btnCopyincarttxt", "CopyProduct", "ShopCart", new { ItemID = prod.ItemID, OrderID = UserCookieManager.OrderId }, new { @class = "silver_back_button" })
+                                                  
 
                                                 </td>
                                             </tr>
@@ -303,7 +322,9 @@
 
                                     </div>
                                     <div class="float_right">
-                                        <a href="/" class="btn_brown rounded_corners5">BACK TO SHOPPING</a>
+                                        <input type="button" value="BACK TO SHOPPING" id="btnShopCart" class="btn_brown rounded_corners5"
+                                               onclick="BackToShopping('@UserCookieManager.OrderId');" />
+                                        @*<a href="/" class="btn_brown rounded_corners5">BACK TO SHOPPING</a>*@
                                     </div>
                                     <div class="clearBoth">
                                         &nbsp;
@@ -311,7 +332,7 @@
                                 </div>
                                 
                             }
-                            else if ((ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(Roles.Adminstrator) || ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(Roles.Manager)) || (ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(Roles.User) && ViewBag.LoginUser.canUserPlaceOrderWithoutApproval == true))
+                            else if ((ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.Adminstrator) || ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.Manager)) || (ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.User) && ViewBag.LoginUser.canUserPlaceOrderWithoutApproval == true))
                             {
                                 <div class="pad10">
                                     <div class="float_right marginLeft">
@@ -319,7 +340,9 @@
                                        
                                     </div>
                                     <div class="float_right">
-                                        <a href="/" class="btn_brown rounded_corners5">BACK TO SHOPPING</a>
+                                        <input type="button" value="BACK TO SHOPPING" id="btnShopCart" class="btn_brown rounded_corners5"
+                                               onclick="BackToShopping('@UserCookieManager.OrderId');" />
+                                        @*<a href="/" class="btn_brown rounded_corners5">BACK TO SHOPPING</a>*@
                                     </div>
                                     <div class="clearBoth">
                                         &nbsp;
@@ -334,7 +357,9 @@
 
                                     </div>
                                     <div class="float_right">
-                                        <a href="/" class="btn_brown rounded_corners5">BACK TO SHOPPING</a>
+                                        <input type="button" value="BACK TO SHOPPING" id="btnShopCart" class="btn_brown rounded_corners5"
+                                               onclick="BackToShopping('@UserCookieManager.OrderId');" />
+                                      @*  <a href="/" class="btn_brown rounded_corners5">BACK TO SHOPPING</a>*@
                                     </div>
                                     <div class="clearBoth">
                                         &nbsp;
@@ -352,5 +377,8 @@
     function setButtonType(Type) {
 
         $("#setButtonType").val(Type);
+    }
+    function BackToShopping(OrderId) {
+        window.location.href = "/ShopCart/" + OrderId;
     }
 </script>

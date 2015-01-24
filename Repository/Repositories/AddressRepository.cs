@@ -248,6 +248,10 @@ namespace MPC.Repository.Repositories
             {
                 oAddressList.Add(db.Addesses.Where(estm => estm.AddressId == PickUpAddressId).FirstOrDefault());
             }
+            else
+            {
+                oAddressList.Add(null);
+            }
             return oAddressList;
         }
     }
