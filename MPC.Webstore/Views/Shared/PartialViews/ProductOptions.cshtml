@@ -847,13 +847,14 @@
         price = parseFloat($('#' + selectedStockNo).attr("title"));
 
         $("#VMJsonMatrix").val(JSON.stringify(JsonData));
-
+        
+        $("#VMQuantityOrdered").val($(".dropdownQtyListClass").find(":selected").text());
         this.displayTotalPrice(price, calculateAddOns());
     }
 
     $(".dropdownQtyListClass").change(function () {
 
-        $("#VMQuantityOrdered").val($(this).find(":selected").val());
+        
         CalculatePriceBaseOnSelectedQuantity($(this).find(":selected").index());
     });
 

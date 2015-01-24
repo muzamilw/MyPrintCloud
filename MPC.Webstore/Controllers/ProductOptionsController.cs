@@ -115,8 +115,8 @@ namespace MPC.Webstore.Controllers
                 else
                 {
                     // gets the item from reference item id in case of upload design when user process the item but not add the item in cart
-                   clonedItem = _myItemService.GetExisitingClonedItemInOrder(UserCookieManager.OrderId, Convert.ToInt64(ItemId));
-                   
+                    clonedItem = _myItemService.GetExisitingClonedItemInOrder(UserCookieManager.OrderId, Convert.ToInt64(ItemId));
+
                     if (clonedItem == null)
                     {
                         clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, UserCookieManager.OrderId, UserCookieManager.StoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID());
@@ -169,31 +169,35 @@ namespace MPC.Webstore.Controllers
             if (!string.IsNullOrEmpty(cartObject.ItemPrice) || !string.IsNullOrEmpty(cartObject.JsonPriceMatrix) || !string.IsNullOrEmpty(cartObject.StockId))
             {
                 MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-
-                List<AddOnCostCenterViewModel> selectedAddOnsList = JsonConvert.DeserializeObject<List<AddOnCostCenterViewModel>>(cartObject.JsonAddOnsPrice);
-
-                List<AddOnCostsCenter> ccObjectList = new List<AddOnCostsCenter>();
-
-                AddOnCostsCenter ccObject = null;
-
-                foreach (var addOn in selectedAddOnsList)
+                List<AddOnCostsCenter> ccObjectList = null;
+                if (cartObject.JsonAddOnsPrice != null)
                 {
-                    ccObject = new AddOnCostsCenter();
-                    ccObject.CostCenterID = addOn.CostCenterId;
-                    if (addOn.Type == 2) //per quantity
+                    List<AddOnCostCenterViewModel> selectedAddOnsList = JsonConvert.DeserializeObject<List<AddOnCostCenterViewModel>>(cartObject.JsonAddOnsPrice);
+
+                    ccObjectList = new List<AddOnCostsCenter>();
+
+                    AddOnCostsCenter ccObject = null;
+
+                    foreach (var addOn in selectedAddOnsList)
                     {
-                        ccObject.Qty1NetTotal = (Convert.ToDouble(cartObject.QuantityOrdered) * addOn.ActualPrice) + addOn.SetupCost;
-                        if (ccObject.Qty1NetTotal < addOn.MinimumCost && addOn.MinimumCost != 0)
+                        ccObject = new AddOnCostsCenter();
+                        ccObject.CostCenterID = addOn.CostCenterId;
+                        if (addOn.Type == 2) //per quantity
                         {
-                            ccObject.Qty1NetTotal = addOn.MinimumCost;
+                            ccObject.Qty1NetTotal = (Convert.ToDouble(cartObject.QuantityOrdered) * addOn.ActualPrice) + addOn.SetupCost;
+                            if (ccObject.Qty1NetTotal < addOn.MinimumCost && addOn.MinimumCost != 0)
+                            {
+                                ccObject.Qty1NetTotal = addOn.MinimumCost;
+                            }
                         }
+                        else
+                        {
+                            ccObject.Qty1NetTotal = addOn.ActualPrice;
+                        }
+                        ccObjectList.Add(ccObject);
                     }
-                    else
-                    {
-                        ccObject.Qty1NetTotal = addOn.ActualPrice;
-                    }
-                    ccObjectList.Add(ccObject);
                 }
+
 
 
                 if (true) // upload design
@@ -211,9 +215,6 @@ namespace MPC.Webstore.Controllers
                 {
                     _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.StoreMode, Convert.ToInt64(baseResponseCompany.Company.OrganisationId), baseResponseCompany.Company.TaxRate ?? 0);
                 }
-                selectedAddOnsList = null;
-                ccObjectList = null;
-                ccObject = null;
                 Response.Redirect("/ShopCart/" + UserCookieManager.OrderId);
 
                 return null;
@@ -405,18 +406,18 @@ namespace MPC.Webstore.Controllers
 
             ViewBag.Item = referenceItem;
         }
-        private void BindTemplatesList(long TemplateId, List<ItemAttachment> attachmentList, long ItemId, int DesignerCategoryId) 
+        private void BindTemplatesList(long TemplateId, List<ItemAttachment> attachmentList, long ItemId, int DesignerCategoryId)
         {
             List<TemplateViewData> Templates = new List<TemplateViewData>();
             Template Template = _template.GetTemplate(TemplateId);// _templatePages.GetTemplatePages(TemplateId).ToList();
-           if(attachmentList != null && attachmentList.Count > 2)
-           {
+            if (attachmentList != null && attachmentList.Count > 2)
+            {
                 attachmentList = attachmentList.Take(2).ToList();
-           }
+            }
 
 
             TemplateViewData objTemplate = null;
-            foreach(var attach in attachmentList)
+            foreach (var attach in attachmentList)
             {
                 objTemplate = new TemplateViewData();
                 if (UserCookieManager.StoreMode == (int)StoreMode.Retail && _myClaimHelper.isUserLoggedIn() == false)
@@ -427,12 +428,12 @@ namespace MPC.Webstore.Controllers
                         objTemplate.CustomerId = _myCompanyService.GetContactIdByCompanyId(UserCookieManager.TemporaryCompanyId);
                     }
                 }
-                else 
+                else
                 {
                     objTemplate.ContactId = _myClaimHelper.loginContactID();
                     objTemplate.CustomerId = _myClaimHelper.loginContactCompanyID();
                 }
-              
+
                 objTemplate.TemplateId = Template.ProductId;
                 objTemplate.TemplateName = Utils.specialCharactersEncoder(Template.ProductName);
                 objTemplate.ItemId = ItemId;
@@ -452,11 +453,11 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    
+
                     objTemplate.isEmbedded = false;
                     objTemplate.printWaterMark = false;
                 }
-                
+
                 objTemplate.printCropMarks = true;
 
                 Templates.Add(objTemplate);

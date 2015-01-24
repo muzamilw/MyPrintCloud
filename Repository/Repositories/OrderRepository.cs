@@ -376,10 +376,7 @@ namespace MPC.Repository.Repositories
             ArtWorkAttatchment artWorkAttatchment = null;
             ItemAttachment tblItemAttchment = null;
 
-            //if (tblItem != null) 
-            //{ //he uploaded his desgn
-            if (tblItemAttchment != null)
-            {
+           
                 if (tblItem != null && tblItem.ItemAttachments.Count > 0)
                 {
                     //Find the pdf he loaded
@@ -408,8 +405,7 @@ namespace MPC.Repository.Repositories
                     }
 
                 }
-            }
-            //}
+            
 
             artWorkAttatchment = artWorkAttatchment ?? new ArtWorkAttatchment();
 
