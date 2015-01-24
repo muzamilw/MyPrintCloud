@@ -189,8 +189,11 @@ namespace MPC.Webstore.Controllers
 
 					//string Mobile = _myCompanyService.GetContactMobile(_myClaimHelper.loginContactID()); //SessionParameters.CustomerContact.Mobile;
 					CompanyContact contact = _myCompanyService.GetContactByID(_myClaimHelper.loginContactID());
-					
-					AddressSelectModel.ContactTel = contact.Mobile;
+
+                    if (contact != null)
+                        AddressSelectModel.ContactTel = contact.Mobile;
+                    else
+                        AddressSelectModel.ContactTel = "";
 				   
 					// Bind Company Addresses
 					if (UserCookieManager.StoreMode == (int)StoreMode.Corp)

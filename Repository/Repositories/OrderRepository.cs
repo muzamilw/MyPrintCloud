@@ -424,26 +424,31 @@ namespace MPC.Repository.Repositories
             List<SectionCostcentre> tblSectionCostList = null;
 
             //FirstSection
-            tblItemFirstSection = tblItem.ItemSections.Where(itmSect => itmSect.SectionNo.HasValue && itmSect.SectionNo.Value == 1).FirstOrDefault();
-            if (tblItemFirstSection != null)
+            if(tblItem.ItemSections != null && tblItem.ItemSections.Count > 0)
             {
-                tblSectionCostList = tblItemFirstSection.SectionCostcentres.Where(sectCostCenter => sectCostCenter.IsOptionalExtra == 1).ToList();
+                tblItemFirstSection = tblItem.ItemSections.Where(itmSect => itmSect.SectionNo.HasValue && itmSect.SectionNo.Value == 1).FirstOrDefault();
+                if (tblItemFirstSection != null)
+                {
+                    tblSectionCostList = tblItemFirstSection.SectionCostcentres.Where(sectCostCenter => sectCostCenter.IsOptionalExtra == 1).ToList();
 
-                tblSectionCostList.ForEach(
-                    sectCostCenter =>
-                    {
-                        AddOnCostsCenter addonCostCenter = new AddOnCostsCenter
+                    tblSectionCostList.ForEach(
+                        sectCostCenter =>
                         {
-                            AddOnName = sectCostCenter.CostCentre.Name,
-                            CostCenterID = (int)sectCostCenter.CostCentreId,
-                            ItemID = (int)tblItemFirstSection.ItemId,
-                            EstimateProductionTime = sectCostCenter.CostCentre.EstimateProductionTime ?? 0
-                        };
+                            AddOnCostsCenter addonCostCenter = new AddOnCostsCenter
+                            {
+                                AddOnName = sectCostCenter.CostCentre.Name,
+                                CostCenterID = (int)sectCostCenter.CostCentreId,
+                                ItemID = (int)tblItemFirstSection.ItemId,
+                                EstimateProductionTime = sectCostCenter.CostCentre.EstimateProductionTime ?? 0
+                            };
 
-                        itemAddOnsList.Add(addonCostCenter); // cost center of particular item
-                    });
+                            itemAddOnsList.Add(addonCostCenter); // cost center of particular item
+                        });
+
+                }
 
             }
+           
 
             return itemAddOnsList;
         }
@@ -457,31 +462,36 @@ namespace MPC.Repository.Repositories
 
             if (tblOrder != null)
             {
-                tblContactCompanyAddList = tblOrder.Company.Addresses.ToList();
-
-                if (tblContactCompanyAddList != null && tblContactCompanyAddList.Count > 0)
+                if (tblOrder.Company != null)
                 {
-                    companyAddresesList = new List<Address>();
-                    tblContactCompanyAddList.ForEach(tblAdressRow =>
-                    {
-                        modeAddress = new Address
-                        {
-                            AddressId = tblAdressRow.AddressId,
-                            Address1 = tblAdressRow.Address1,
-                            Address2 = tblAdressRow.Address2,
-                            AddressName = tblAdressRow.AddressName,
-                            IsDefaultAddress = (tblAdressRow.IsDefaultAddress.HasValue && tblAdressRow.IsDefaultAddress.Value) ? true : false,
-                            IsDefaultShippingAddress = (tblAdressRow.IsDefaultShippingAddress.HasValue && tblAdressRow.IsDefaultShippingAddress.Value) ? true : false,
-                            City = tblAdressRow.City,
-                            Tel1 = tblAdressRow.Tel1,
-                            State = tblAdressRow.State,
-                            PostCode = tblAdressRow.PostCode,
-                            Country = tblAdressRow.Country,
-                        };
+                    tblContactCompanyAddList = tblOrder.Company.Addresses.ToList();
 
-                        companyAddresesList.Add(modeAddress);
-                    });
+                    if (tblContactCompanyAddList != null && tblContactCompanyAddList.Count > 0)
+                    {
+                        companyAddresesList = new List<Address>();
+                        tblContactCompanyAddList.ForEach(tblAdressRow =>
+                        {
+                            modeAddress = new Address
+                            {
+                                AddressId = tblAdressRow.AddressId,
+                                Address1 = tblAdressRow.Address1,
+                                Address2 = tblAdressRow.Address2,
+                                AddressName = tblAdressRow.AddressName,
+                                IsDefaultAddress = (tblAdressRow.IsDefaultAddress.HasValue && tblAdressRow.IsDefaultAddress.Value) ? true : false,
+                                IsDefaultShippingAddress = (tblAdressRow.IsDefaultShippingAddress.HasValue && tblAdressRow.IsDefaultShippingAddress.Value) ? true : false,
+                                City = tblAdressRow.City,
+                                Tel1 = tblAdressRow.Tel1,
+                                State = tblAdressRow.State,
+                                PostCode = tblAdressRow.PostCode,
+                                Country = tblAdressRow.Country,
+                            };
+
+                            companyAddresesList.Add(modeAddress);
+                        });
+                    }
                 }
+
+               
             }
 
 
