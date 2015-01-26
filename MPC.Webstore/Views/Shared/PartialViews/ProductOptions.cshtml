@@ -145,7 +145,7 @@
                             @if (ViewBag.AttachmentCount == 0)
                             {
                             <div onclick="return ShowArtworkPanel();" class="artworkarrow">
-                                <img id="ImgArrow" alt="" src="~/images/artwork_arrow_icons.png" style="width: 60px;" /><br />
+                                <img id="ImgArrow" alt="" src="/Content/Images/artwork_arrow_icons.png" style="width: 60px;" /><br />
                                 <label id="lbl_SupplyArtWork" style="font-size: 16px; font-weight: bold;">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkSupplyartwork", UserCookieManager.StoreId))</label><br />
                                 <label id="lbl_AddMultipleFiles" style="font-size: 13px;">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkAddmultiplefiles", UserCookieManager.StoreId))</label>
                             </div>
@@ -226,7 +226,7 @@
         </div>
 
     </div>
-    <div class="float_left_simple PriceTableCs col-md-4 col-lg-4 col-xs-12">
+    <div class="float_left_simple PriceTableCs col-md-3 col-lg-3 col-xs-12">
         <div class="LGBC rounded_corners Pad5px">
             <div id="lbl_SelectQuantity" class="SelectQtyContainer">
                 @Html.Raw(Html.GetKeyValueFromResourceFile("lblSelectQuantity", UserCookieManager.StoreId))
@@ -372,7 +372,7 @@
                     <div class="width50p">
                         @if (ViewBag.Item.IsQtyRanged == true)
                         {
-                            <div class="Fsize13 divtxtalgn float_left_simple ddwidth50 marginRight" style="margin-left: -40px;">
+                            <div class="Fsize13 divtxtalgn float_left_simple ddwidth50 marginRight" style="margin-left: -49px;">
                                 <label id="lbl_From">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfrom", UserCookieManager.StoreId))</label>
                             </div>
                             <div class="Fsize13 divtxtalgn float_left_simple">
@@ -516,7 +516,7 @@
                 <label id="lbl_CategroyCode" class="marginall5">@Html.Raw(Html.GetKeyValueFromResourceFile("lblCategroyCode", UserCookieManager.StoreId))</label>
                 <br />
                 <p class="marginall5" style="width: 243px;">
-                    <label>@ViewBag.Item.WebDescription</label>
+                    <label style="font-weight:normal;">@ViewBag.Item.WebDescription</label>
                 </p>
                 <br />
             </div>

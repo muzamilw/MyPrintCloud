@@ -6552,7 +6552,6 @@ label
  }
  .portraitTemplate
  {
-     width:100px;
-     width: 105px;
-margin: auto;
+     width: 105px !important;
+margin: auto !important;
  }
