@@ -1478,6 +1478,7 @@
     <Content Include="Content\less\Inventory.less" />
     <Content Include="Areas\Stores\Views\Stores\_ItemsForWidgetDialog.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_StoreProductCategoryDialog.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\LookupMethods.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
