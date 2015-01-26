@@ -33,7 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ABCpdf">
+    <Reference Include="ABCpdf, Version=9.1.2.3, Culture=neutral, PublicKeyToken=a7a0b3f5184f2169, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MPC.Common\ExternalDlls\ABCpdf.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Core">
@@ -164,6 +165,7 @@
     <Compile Include="MISServices\MyOrganizationService.cs" />
     <Compile Include="WebStoreServices\CompanyBannerService.cs" />
     <Compile Include="WebStoreServices\CostCentreService.cs" />
+    <Compile Include="WebStoreServices\ExecutionService.cs" />
     <Compile Include="WebStoreServices\ImagePermissionService.cs" />
     <Compile Include="WebStoreServices\ItemService.cs" />
     <Compile Include="WebStoreServices\ListingService.cs" />

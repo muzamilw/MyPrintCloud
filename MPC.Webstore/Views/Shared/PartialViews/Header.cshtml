@@ -1,4 +1,4 @@
-﻿@model MPC.Webstore.Models.Company
+﻿@model MPC.Models.DomainModels.Company
 @using MPC.Webstore.Common;
 @{ Layout = null;}
 
@@ -29,6 +29,7 @@
                     <div class="TeleImg" id="telephoneIcon">
                     </div>
                     <div id="lblPoneNumber" class="lblPhoneNo">
+                        @Model.PhoneNo
                     </div>
                 </div>
                 <div id="cntresponsiveMenu">

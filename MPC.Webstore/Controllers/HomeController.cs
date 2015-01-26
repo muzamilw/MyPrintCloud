@@ -22,6 +22,8 @@ using MPC.Models.Common;
 using MPC.Interfaces.Common;
 using System.Reflection;
 using MPC.Models.DomainModels;
+using MPC.WebBase.UnityConfiguration;
+using System.Runtime.Caching;
 
 
 
@@ -35,7 +37,7 @@ namespace MPC.Webstore.Controllers
 
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
 
-        private readonly ICostCentreService _CostCentreService;
+        private ICostCentreService _CostCentreService;
 
         #endregion
         [Dependency]
@@ -80,96 +82,151 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index()
         {
 
-            SetUserClaim();
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            ViewBag.StyleSheet = "/mpc_content/Stores/Store" + UserCookieManager.StoreId + "/" + UserCookieManager.StoreId + "_CompanyStyles.css";  
 
-            List<MPC.Webstore.Models.CmsSkinPageWidget> model = null;
+            SetUserClaim(StoreBaseResopnse.Organisation.OrganisationId);
+
+            List<MPC.Models.DomainModels.CmsSkinPageWidget> model = null;
 
             string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
 
+         
 
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromWiget();
 
-            model = GetWidgetsByPageName(baseResponse.SystemPages, pageRouteValue.Split('/')[0], baseResponse.CmsSkinPageWidgets);
+            model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse.Company.Name);
 
+            StoreBaseResopnse = null;
             return View(model);
         }
 
-        public List<MPC.Webstore.Models.CmsSkinPageWidget> GetWidgetsByPageName(List<MPC.Webstore.Models.CmsPageModel> pageList, string pageName, List<MPC.Webstore.Models.CmsSkinPageWidget> allPageWidgets)
+        public List<MPC.Models.DomainModels.CmsSkinPageWidget> GetWidgetsByPageName(List<MPC.Models.Common.CmsPageModel> pageList, string pageName, List<MPC.Models.DomainModels.CmsSkinPageWidget> allPageWidgets, MPC.Models.DomainModels.Address DefaultAddress, string CompanyName)
         {
             if (!string.IsNullOrEmpty(pageName))
             {
-                long pageId = pageList.Where(p => p.PageName == pageName).Select(id => id.PageId).FirstOrDefault();
-                return allPageWidgets.Where(widget => widget.PageId == pageId).OrderBy(s => s.Sequence).ToList();
+                MPC.Models.Common.CmsPageModel Page = pageList.Where(p => p.PageName == pageName).FirstOrDefault();
+                
+                SetPageMEtaTitle(Page, DefaultAddress, CompanyName);
+                
+                return allPageWidgets.Where(widget => widget.PageId == Page.PageId).OrderBy(s => s.Sequence).ToList();
             }
             else
             {
                 return allPageWidgets.Where(widget => widget.PageId == 1).OrderBy(s => s.Sequence).ToList();
             }
         }
-
-        public ActionResult About()
+                /// <summary>
+        /// Binds the SEO tags to the page, page tags are in the laypout view
+        /// </summary>
+        /// <param name="CatName"></param>
+        /// <param name="CatDes"></param>
+        /// <param name="Keywords"></param>
+        /// <param name="Title"></param>
+        /// <param name="baseResponse"></param>
+        private void SetPageMEtaTitle(MPC.Models.Common.CmsPageModel oPage, MPC.Models.DomainModels.Address DefaultAddress, string CompanyName)
         {
-            
-           
+            string[] MetaTags = _myCompanyService.CreatePageMetaTags(oPage.PageTitle == null ? "" : oPage.PageTitle, oPage.Meta_DescriptionContent == null ? "" : oPage.Meta_DescriptionContent, oPage.Meta_KeywordContent == null ? "" : oPage.Meta_KeywordContent, StoreMode.Retail, CompanyName, DefaultAddress);
 
-            //_CostCentreService.SaveCostCentre(335, 1, "Test");
-            string OrganizationName = "Test";
-            AppDomainSetup _AppDomainSetup = new AppDomainSetup();
-            AppDomain _AppDomain;
-
-            object _oLocalObject;
-            ICostCentreLoader _oRemoteObject;
-
-            object[] _CostCentreParamsArray = new object[12];
-
-            _AppDomainSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
-            _AppDomainSetup.PrivateBinPath = Path.GetDirectoryName((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).LocalPath);
+            ViewBag.MetaTitle = MetaTags[0];
+            ViewBag.MetaKeywords = MetaTags[1];
+            ViewBag.MetaDescription = MetaTags[2];
+        }
 
 
-            _AppDomain = AppDomain.CreateDomain("CostCentresDomain", null, _AppDomainSetup);
-            //Me._AppDomain.InitializeLifetimeService()
+        public ActionResult Compile()
+        {
+            _CostCentreService.SaveCostCentre(335, 1, "Test");
 
-            List<CostCentreQueueItem> CostCentreQueue = new List<CostCentreQueueItem>();
+            return Content("Cost Centre compiled");
+        }
 
+        public ActionResult About(string mode)
+        {
+            if (mode == "compile")
+            {
+                _CostCentreService.SaveCostCentre(335, 1, "Test");
 
-            //Me._CostCentreLaoderFactory = CType(Me._AppDomain.CreateInstance(Common.g_GlobalData.AppSettings.ApplicationStartupPath + "\Infinity.Model.dll", "Infinity.Model.CostCentres.CostCentreLoaderFactory").Unwrap(), Model.CostCentres.CostCentreLoaderFactory)
-            CostCentreLoaderFactory _CostCentreLaoderFactory = (CostCentreLoaderFactory)_AppDomain.CreateInstance("MPC.Interfaces", "MPC.Interfaces.WebStoreServices.CostCentreLoaderFactory").Unwrap();
-            _CostCentreLaoderFactory.InitializeLifetimeService();
+                return Content("Cost Centre compiled");
+            }
+            else
+            {
+                AppDomain _AppDomain = null;
 
-           
-            //_CostCentreParamsArray(0) = Common.g_GlobalData;
-            //GlobalData
-            _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
-            //this mode will load the questionqueue
-            _CostCentreParamsArray[2] = new List<QuestionQueueItem>();
-            //QuestionQueue / Execution Queue
-            _CostCentreParamsArray[3] = CostCentreQueue;
-            //CostCentreQueue
-            _CostCentreParamsArray[4] = 1;
-            //MultipleQuantities
-            _CostCentreParamsArray[5] = 1;
-            //CurrentQuantity
-            _CostCentreParamsArray[6] = new List<StockQueueItem>();
-            //StockQueue
-            _CostCentreParamsArray[7] = new List<InputQueueItem>();
-            //InputQueue
-            _CostCentreParamsArray[8] = new ItemSection(); //this._CurrentItemDTO.ItemSection(this._CurrentCostCentreIndex);
-            _CostCentreParamsArray[9] = 1;
+                try
+                {
+
+                    string OrganizationName = "Test";
+                    AppDomainSetup _AppDomainSetup = new AppDomainSetup();
 
 
-            CostCentre oCostCentre = _CostCentreService.GetCostCentreByID(335);
+                    object _oLocalObject;
+                    ICostCentreLoader _oRemoteObject;
 
-            CostCentreQueue.Add( new CostCentreQueueItem(oCostCentre.CostCentreId, oCostCentre.Name,  1, oCostCentre.CodeFileName, null, oCostCentre.SetupSpoilage, oCostCentre.RunningSpoilage));
+                    object[] _CostCentreParamsArray = new object[12];
+
+                    _AppDomainSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
+                    _AppDomainSetup.PrivateBinPath = Path.GetDirectoryName((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).LocalPath);
+
+
+                    _AppDomain = AppDomain.CreateDomain("CostCentresDomain", null, _AppDomainSetup);
+                    //Me._AppDomain.InitializeLifetimeService()
+
+                    List<CostCentreQueueItem> CostCentreQueue = new List<CostCentreQueueItem>();
+
+
+                    //Me._CostCentreLaoderFactory = CType(Me._AppDomain.CreateInstance(Common.g_GlobalData.AppSettings.ApplicationStartupPath + "\Infinity.Model.dll", "Infinity.Model.CostCentres.CostCentreLoaderFactory").Unwrap(), Model.CostCentres.CostCentreLoaderFactory)
+                    CostCentreLoaderFactory _CostCentreLaoderFactory = (CostCentreLoaderFactory)_AppDomain.CreateInstance("MPC.Interfaces", "MPC.Interfaces.WebStoreServices.CostCentreLoaderFactory").Unwrap();
+                    _CostCentreLaoderFactory.InitializeLifetimeService();
+
+
+                    //_CostCentreParamsArray(0) = Common.g_GlobalData;
+                    //GlobalData
+                    _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
+                    //this mode will load the questionqueue
+                    _CostCentreParamsArray[2] = new List<QuestionQueueItem>();
+                    //QuestionQueue / Execution Queue
+                    _CostCentreParamsArray[3] = CostCentreQueue;
+                    //CostCentreQueue
+                    _CostCentreParamsArray[4] = 1;
+                    //MultipleQuantities
+                    _CostCentreParamsArray[5] = 1;
+                    //CurrentQuantity
+                    _CostCentreParamsArray[6] = new List<StockQueueItem>();
+                    //StockQueue
+                    _CostCentreParamsArray[7] = new List<InputQueueItem>();
+                    //InputQueue
+                    _CostCentreParamsArray[8] = new ItemSection(); //this._CurrentItemDTO.ItemSection(this._CurrentCostCentreIndex);
+                    _CostCentreParamsArray[9] = 1;
+
+
+                    CostCentre oCostCentre = _CostCentreService.GetCostCentreByID(335);
+
+                    CostCentreQueue.Add(new CostCentreQueueItem(oCostCentre.CostCentreId, oCostCentre.Name, 1, oCostCentre.CodeFileName, null, oCostCentre.SetupSpoilage, oCostCentre.RunningSpoilage));
 
 
 
-            _oLocalObject = _CostCentreLaoderFactory.Create(ControllerContext.HttpContext.Server.MapPath("/") + "\\ccAssembly\\" + OrganizationName + "UserCostCentres.dll", "UserCostCentres." + oCostCentre.CodeFileName, null);
-            _oRemoteObject = (ICostCentreLoader)_oLocalObject;
+                    _oLocalObject = _CostCentreLaoderFactory.Create(ControllerContext.HttpContext.Server.MapPath("/") + "\\ccAssembly\\" + OrganizationName + "UserCostCentres.dll", "UserCostCentres." + oCostCentre.CodeFileName, null);
+                    _oRemoteObject = (ICostCentreLoader)_oLocalObject;
 
-            _oRemoteObject.returnCost(ref _CostCentreParamsArray);
+                    CostCentreCostResult oResult = _oRemoteObject.returnCost(ref _CostCentreParamsArray);
 
-            AppDomain.Unload(_AppDomain);
-            return View();
+
+                    ViewBag.result = oResult.TotalCost.ToString();
+
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    AppDomain.Unload(_AppDomain);
+                }
+
+                return View();
+            }
         }
 
         public ActionResult Error()
@@ -278,13 +335,13 @@ namespace MPC.Webstore.Controllers
             return View();
         }
 
-        private void SetUserClaim()
+        private void SetUserClaim(long OrganisationID)
         {
             if (UserCookieManager.isRegisterClaims == 1)
             {
                 // login 
 
-                MPC.Models.DomainModels.CompanyContact loginUser = _myCompanyService.GetContactByEmail(UserCookieManager.Email);
+                MPC.Models.DomainModels.CompanyContact loginUser = _myCompanyService.GetContactByEmail(UserCookieManager.Email,OrganisationID);
 
                 ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
 
@@ -315,5 +372,8 @@ namespace MPC.Webstore.Controllers
                 }
             }
         }
+
+
     }
+
 }

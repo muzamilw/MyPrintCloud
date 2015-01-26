@@ -14,13 +14,13 @@ namespace MPC.Interfaces.WebStoreServices
     {
         MyCompanyDomainBaseReponse GetStoreFromCache(long companyId);
         long GetStoreIdFromDomain(string domain);
-        List<ProductCategory> GetCompanyParentCategoriesById(long companyId);
+        List<ProductCategory> GetCompanyParentCategoriesById(long companyId, long OrganisationId);
         CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request);
         CompanyContact GetUserByEmailAndPassword(string email, string password);
 
         CompanyContact GetContactByFirstName(string FName);
 
-        CompanyContact GetContactByEmail(string Email);
+        CompanyContact GetContactByEmail(string Email, long OID);
 
         long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID);
 
@@ -34,7 +34,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         string GetUiCulture(long organisationId);
 
-        CompanyContact GetContactByEmailAndMode(string Email, int Type, int customerID);
+        CompanyContact GetContactByEmailAndMode(string Email, int Type, long customerID);
 
         string GeneratePasswordHash(string plainText);
 
@@ -45,21 +45,21 @@ namespace MPC.Interfaces.WebStoreServices
         List<ProductCategory> GetAllParentCorporateCatalogByTerritory(int customerId, int ContactId);
         List<ProductCategory> GetAllParentCorporateCatalog(int customerId);
 
-        List<ProductCategory> GetStoreParentCategories(long companyId);
+        List<ProductCategory> GetStoreParentCategories(long companyId, long OrganisationId);
         List<ProductCategory> GetAllCategories(long companyId);
         CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId);
 
-        ProductCategory GetCategoryById(int categoryId);
+        ProductCategory GetCategoryById(long categoryId);
 
-        List<ProductCategory> GetChildCategories(int categoryId);
+        List<ProductCategory> GetChildCategories(long categoryId);
 
-        List<ProductCategory> GetAllChildCorporateCatalogByTerritory(int customerId, int ContactId, int ParentCatId);
+        List<ProductCategory> GetAllChildCorporateCatalogByTerritory(long customerId, long ContactId, long ParentCatId);
 
         string[] CreatePageMetaTags(string MetaTitle, string metaDesc, string metaKeyword, StoreMode mode,string StoreName, Address address = null);
 
         Address GetDefaultAddressByStoreID(Int64 StoreID);
 
-        List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(int ProductCategoryID);
+        List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(long ProductCategoryID);
         void GetStoreFromCache(long companyId, bool clearcache);
 
         ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId);
@@ -164,5 +164,26 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="password"></param>
         /// <returns></returns>
         CompanyContact GetRetailUser(string email, string password);
+
+        long GetContactTerritoryID(long CID);
+
+        long GetContactAddressID(long cID);
+
+        string GetStateCodeById(long stateId);
+
+        string GetCountryCodeById(long countryId);
+        
+         List<Address> GetContactCompanyAddressesList(long BillingAddressId, long ShippingAddressid, long PickUpAddressId);
+        /// <summary>
+        /// get the contactid 
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <returns></returns>
+        long GetContactIdByCompanyId(long CompanyId);
+
+        long GetContactIdByRole(long CompanyID, int Role);
+        string SystemWeight(long OrganisationID);
+
+        string SystemLength(long OrganisationID);
     }
 }

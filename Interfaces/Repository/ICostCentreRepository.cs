@@ -9,7 +9,7 @@ namespace MPC.Interfaces.Repository
     /// <summary>
     /// Cost Centre Repository Interface
     /// </summary>
-    public interface ICostCentreRepository : IBaseRepository<CostCentre, long>
+    public interface ICostCentreRepository 
     {
         /// <summary>
         /// Get All Cost Centres that are not system defined
@@ -55,5 +55,7 @@ namespace MPC.Interfaces.Repository
         List<CostCentre> GetDeliveryCostCentersList();
 
         List<CostCentre> GetCorporateDeliveryCostCentersList(long CompanyID);
+
+        CostCentre GetCostCentersByID(long costCenterID);
     }
 }

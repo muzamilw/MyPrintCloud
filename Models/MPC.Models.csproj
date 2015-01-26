@@ -105,7 +105,7 @@
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\ContactClaimValue.cs" />
     <Compile Include="Common\CostCentreMatrix.cs" />
-    <Compile Include="Common\CostCentreQuestions.cs" />
+    <Compile Include="Common\CostCentreQuestion.cs" />
     <Compile Include="Common\CostCentreResults.cs" />
     <Compile Include="Common\DesignerDamImageWrapper.cs" />
     <Compile Include="Common\CostCentreResource.cs" />
@@ -116,6 +116,7 @@
     <Compile Include="Common\MatchingSets.cs" />
     <Compile Include="Common\CostCentersColumns.cs" />
     <Compile Include="Common\OrderDetail.cs" />
+    <Compile Include="Common\QuickText.cs" />
     <Compile Include="Common\SectionEnum.cs" />
     <Compile Include="Common\ItemFileType.cs" />
     <Compile Include="Common\CompanyClaimValue.cs" />
@@ -140,6 +141,8 @@
     <Compile Include="Common\StockCategoryByColumn.cs" />
     <Compile Include="Common\TemplateVariable.cs" />
     <Compile Include="Common\UserIdentityModel.cs" />
+    <Compile Include="Common\USTaxInfo.cs" />
+    <Compile Include="Common\Utility.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CmsOffer.cs" />
     <Compile Include="DomainModels\CompanyVariableIcon.cs" />
@@ -166,6 +169,7 @@
     <Compile Include="DomainModels\ListingLink.cs" />
     <Compile Include="DomainModels\ListingOFI.cs" />
     <Compile Include="DomainModels\ListingVendor.cs" />
+    <Compile Include="DomainModels\MediaLibrary.cs" />
     <Compile Include="DomainModels\Phrase.cs" />
     <Compile Include="DomainModels\PhraseField.cs" />
     <Compile Include="DomainModels\ProductCategoriesView.cs" />

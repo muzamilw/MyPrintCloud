@@ -4,25 +4,7 @@
 @using MPC.Models.Common;
 @using MPC.Webstore.Common;
 
-@section metatags
-{
-    @if (ViewBag.MetaTitle != null)
-    {
-        <meta name="title" content="@ViewBag.MetaTitle" />
 
-
-    }
-    @if (ViewBag.MetaDescription != null)
-    {
-        <meta name="description" content="@ViewBag.MetaDescription" />
-
-    }
-
-    @if (ViewBag.MetaKeywords != null)
-    {
-        <meta name="keywords" content="@ViewBag.MetaKeywords" />
-    }
-}
 @section scripts {
     <script src="~/Scripts/PopUp.js"></script>
 

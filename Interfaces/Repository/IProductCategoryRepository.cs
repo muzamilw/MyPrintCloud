@@ -9,7 +9,7 @@ namespace MPC.Interfaces.Repository
 {
     public interface IProductCategoryRepository : IBaseRepository<ProductCategory, long>
     {
-        List<ProductCategory> GetParentCategoriesByStoreId(long companyId);
+        List<ProductCategory> GetParentCategoriesByStoreId(long companyId, long OrganisationId);
 
         List<ProductCategory> GetAllParentCorporateCatalog(int customerId);
 
@@ -17,11 +17,11 @@ namespace MPC.Interfaces.Repository
 
         List<ProductCategory> GetAllCategoriesByStoreId(long companyId);
 
-        ProductCategory GetCategoryById(int categoryId);
+        ProductCategory GetCategoryById(long categoryId);
 
-        List<ProductCategory> GetChildCategories(int categoryId);
+        List<ProductCategory> GetChildCategories(long categoryId);
 
-        List<ProductCategory> GetAllChildCorporateCatalogByTerritory(int customerId, int ContactId, int ParentCatId);
+        List<ProductCategory> GetAllChildCorporateCatalogByTerritory(long customerId, long ContactId, long ParentCatId);
 
         List<ProductCategoriesView> GetMappedCategoryNames(bool isClearCache, int companyID);
 

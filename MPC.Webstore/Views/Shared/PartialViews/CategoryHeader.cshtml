@@ -20,7 +20,7 @@
                     <li>
                         @foreach (var category in Model)
                         {
-                            <a class="float_left_simple Fsize15 CategoryMenuColor marginRght" href="/Category/@category.CategoryName/@category.ProductCategoryId">@category.CategoryName</a>
+                            <a class="float_left_simple Fsize15 CategoryMenuColor marginRght" href="/Category/@category.CategoryName/@category.ProductCategoryId" onclick="ShowLoader();">@category.CategoryName</a>
 
                         }
 

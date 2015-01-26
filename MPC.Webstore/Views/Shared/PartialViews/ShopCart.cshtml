@@ -17,6 +17,7 @@
     double GrossTotal = 0;
     string VatTotal = string.Empty;
     string subtotal = string.Empty;
+    var ThumnbString = "Thumb.png";
 }
 
 <div class="container content_area">
@@ -62,7 +63,7 @@
 
                         <div id="ShopingCartDisplay">
 
-                            <button id="Button1" onclick="return EmailProofClick()" class="start_creating_btn_EmailProof float_right rounded_corners5"></button>
+                            <button id="Button1" style="display:none;" onclick="return EmailProofClick()" class="start_creating_btn_EmailProof float_right rounded_corners5"></button>
 
                             <table cellspacing="0" cellpadding="15" id="grdViewShopCart" style="width:100%;border-collapse:collapse;">
                                 <tbody>
@@ -89,7 +90,7 @@
                                              string ext = System.IO.Path.GetExtension(prod.Attatchment.FileName);
                                              if (ext == ".xlsx" || ext == ".xls" || ext == ".csv")
                                              {
-                                                 string completeImgPath = Html.GetAppBasePath() + prod.ThumbnailPath;
+                                                 string completeImgPath = Html.GetAppBasePath() + prod.Attatchment.FolderPath + prod.Attatchment.FileName + ThumnbString;
                                                  pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
                                                  imgToShowURL = completeImgPath;
                                              }
@@ -104,29 +105,29 @@
                                                  //  string completeImgPath = ResolveUrl(GetSideThumbnail(FolderPathOfAttachment, model.Attatchment.FileName));
 
                                                  pdfLinkBtn = "";// completeImgPath;//ImageDisplayScript(completeImgPath);
-                                                 imgToShowURL = "";// completeImgPath;
+                                                 imgToShowURL = Html.GetAppBasePath() + FolderPathOfAttachment + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
                                              }
                                          }
                                          else
                                          {
                                              if (prod.ProductType == (int)ProductType.FinishedGoodWithBanner || prod.ProductType == (int)ProductType.FinishedGoodWithImageRotator)
                                              {
-                                                 string completeImgPath = Html.GetAppBasePath() + prod.ThumbnailPath;
+                                                 string completeImgPath = Html.GetAppBasePath() + prod.Attatchment.FolderPath + prod.Attatchment.FileName + ThumnbString;
                                                  pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
                                                  imgToShowURL = completeImgPath;
                                              }
                                          }
                                                     }
-                                                    <a id="lnkPdfFile" href=@pdfLinkBtn><img id="imgToShow" class="image_stretcher" src="@imgToShowURL"></a>
+                                                    <a id="lnkPdfFile" href=@pdfLinkBtn><img id="imgToShow" class="image_stretcher" src="@imgToShowURL" /></a>
                                                 </div>
                                                 <div class="BtnTemplateModifyContainer">
                                                     @if (prod.ProductType == (int)ProductType.TemplateProductWithBanner || prod.ProductType == (int)ProductType.TemplateProductWithImage)
                                                     {
-                                                        <input type="submit" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('@prod.TemplateID','@prod.ProductCategoryID','@prod.ItemID');" value="Modify" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
+                                                        <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('@prod.TemplateID','@prod.ProductCategoryID','@prod.ItemID');" value="Modify" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
                                                     }
                                                     else
                                                     {
-                                                        <input type="submit" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('0','@prod.ProductCategoryID','@prod.ItemID');" value="Modify" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
+                                                        <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('0','@prod.ProductCategoryID','@prod.ItemID');" value="Modify" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
                                                     }
                                                 </div>
                                             </td>
@@ -192,10 +193,10 @@
                                             }
 
                                             <td align="left" style="width:20%;">
-
+                                                @Html.ActionLink("Remove Product", "RemoveProduct", "ShopCart", new { ItemID = prod.ItemID, OrderID = UserCookieManager.OrderId }, new { @class = "silver_back_button", onclick = "ShowLoader();" })
                                                 <a id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="ConfirmDeleteItem('@prod.ItemID');">Remove</a>
                                                 <br>
-                                                @Html.ActionLink("btnCopyincarttxt", "CopyProduct", "ShopCart", new { ItemID = prod.ItemID, OrderID = UserCookieManager.OrderId }, new { @class = "silver_back_button" })
+                                                @Html.ActionLink("Copy Product", "CopyProduct", "ShopCart", new { ItemID = prod.ItemID, OrderID = UserCookieManager.OrderId }, new { @class = "silver_back_button", onclick="ShowLoader();" })
 
                                             </td>
                                         </tr>
@@ -216,25 +217,13 @@
                                 <div class="cntsubHeadings">
                                     <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.StoreId))</label>
 
-                                    <label id="lbl_Delivery_Text" class="LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("spndilevry", UserCookieManager.StoreId))</label>
-
-                                    @if (ViewBag.isIncludeVAT)
-                                    {
-                                        <label id="lblTaxLabel" class="LightGrayLabels displayClear"></label>
-                                    }
-
-                                    <label id="lbl_Total" class="colorBlack total_payable">@Html.Raw(Html.GetKeyValueFromResourceFile("spngrandtotal", UserCookieManager.StoreId))</label>
+                                   
                                 </div>
                                 <div class="cnttotals" id="cntRightPricing1">
 
                                     <label id="lblSubTotal" class="Fsize14 colorBlack displayClear">@subtotal</label>
 
-                                    <label id="lblDeliveryCostCenter" class="LightGrayLabels displayClear">@Model.DeliveryCost</label>
-                                    @if (ViewBag.isIncludeVAT)
-                                    {
-                                        <label id="lblVatTotal" class="LightGrayLabels displayClear">@VatTotal</label>
-                                    }
-                                    <label id="lblGrandTotal" class="colorBlack total_payable" style="float: right;">@GrossTotal</label>
+                                  
                                 </div>
                                 <div class="clearBoth">
                                 </div>
@@ -484,15 +473,18 @@
         }
         function RedirectToConfirmSelect(TempID,CategoryID,ItemID)
         {
+            
             if(TempID == 0)
             {
-                window.location.href = "/ProductOptions/" + CategoryID + "/" + ItemID;
+                alert("/ProductOptions/" + CategoryID + "/" + ItemID + "/Modify");
+                window.location.href = "/ProductOptions/" + CategoryID + "/" + ItemID + "/Modify";
             }
             else
             {
-                window.location.href = "/ProductOptions/" + TempID + "/" + CategoryID + "/" + ItemID;
+                alert("inn");
+                window.location.href = "/ProductOptions" + "/" + CategoryID + "/" + ItemID + "/Modify/" + TempID;
             }
-
+            return false;
         }
         function ContinueShopping()
         {
@@ -506,14 +498,14 @@
         {
             window.location.href = "/ShopCart/RemoveDiscountVoucherCode/OrderID="+ OrderID;
         }
-        function ConfirmDeleteItem(ItemID)
+        function ConfirmDeleteItem(ItemID,OrderID)
         {
-            $("#RemoveProductDiv1").css("display", "block");
-            $("hfIsItemID").val(ItemID);
-            $("hfIsCallFrom").val("Delete");
-            var html = $("div.RemoveProductDiv").html();
-            alert(html);
-            ConfirmDeleteItemPopUP(html);
+            //$("#RemoveProductDiv1").css("display", "block");
+            //$("hfIsItemID").val(ItemID);
+            //$("hfIsCallFrom").val("Delete");
+            //var html = $("div.RemoveProductDiv").html();
+            //alert(html);
+            ConfirmDeleteItemPopUP(ItemID,OrderID);
 
         }
     </script>

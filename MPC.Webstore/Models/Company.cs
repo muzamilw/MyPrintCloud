@@ -108,6 +108,8 @@ namespace MPC.Webstore.Models
 
         public long? PickupAddressId { get; set; }
         public string TaxLabel { get; set; }
+
+        public bool? isCalculateTaxByService { get; set; }
         public virtual ICollection<CompanyDomain> CompanyDomains { get; set; }
         public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }
         public virtual ICollection<ProductCategory> ProductCategories { get; set; }

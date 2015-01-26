@@ -11,12 +11,13 @@
                             &nbsp;
                         </div>
                         <div class="footer_portion themeFontColor">
-                            @foreach (var item in ViewData["PageCategory"] as List<MPC.Webstore.Models.PageCategory>)
+                            @foreach (var item in ViewData["PageCategory"] as List<MPC.Models.DomainModels.PageCategory>)
                             {
                                 <div class="footer_left_portion_division float_left_simple">
                                     <label id="catName" class="heading_small_orange" style="font-size: 14px !important;font-weight:bolder !important;color:white !important;">@item.CategoryName</label>
-
-                                    @foreach (var page in ViewData["CmsPage"] as List<MPC.Webstore.Models.CmsPageModel>)
+                                @if (ViewData["CmsPage"] != null)
+                                {
+                                    foreach (var page in ViewData["CmsPage"] as List<MPC.Models.Common.CmsPageModel>)
                                     {
                                         if (page.CategoryId == item.CategoryId)
                                         {
@@ -27,6 +28,8 @@
                                             </ul>
                                         }
                                     }
+                                }
+                                    
                                 </div>
                             }
                         </div>

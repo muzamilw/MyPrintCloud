@@ -1,44 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Collections;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using System.Web;
+using System.IO;
+using System.Net.Http.Headers;
 
 namespace MPC.Webstore.Areas.DesignerApi.Controllers
 {
     public class UploadController : ApiController
     {
         //parameter1 = filepath
-        public async Task<List<string>> PostAsync(string parameter1)
+        public async Task<List<string>> PostAsync(string id)
         {
             try
             {
-                parameter1 = parameter1.Replace("__", "/");
+                id = id.Replace("__", "/");
                 if (Request.Content.IsMimeMultipartContent())
                 {
-                    string uploadPath = HttpContext.Current.Server.MapPath("~/MPC_Content/" + parameter1);
-
-
+                    string uploadPath = HttpContext.Current.Server.MapPath("~/MPC_Content/"+ id);
+                    if (!Directory.Exists(uploadPath))
+                        Directory.CreateDirectory(uploadPath);
                     MyStreamProvider streamProvider = new MyStreamProvider(uploadPath);
-                    //  string _idOfObject1 = HttpRequest.Content.Headers["IDofObject1"].ToString();
-                    //string _idOfObject2 = Request.Content.Headers.GetValues("IDofObject2").ToString(); ;// Headers["IDofObject2"].ToString();
                     await Request.Content.ReadAsMultipartAsync(streamProvider);
-                   // string _param1 = streamProvider.FormData["pid"];
-                  //  string _param2 = streamProvider.FormData["ItemID"];
                     List<string> messages = new List<string>();
                     foreach (var file in streamProvider.FileData)
                     {
                         FileInfo fi = new FileInfo(file.LocalFileName);
-                        messages.Add(fi.FullName );
-                        //string srcPath = uploadPath + "/" + fi.Name;
-                        //string desPath = uploadPath + "/new/" + fi.Name;
-                        //File.Copy(srcPath, desPath, true);
-                        //File.Delete(srcPath);
+                        messages.Add( fi.Name);
 
                     }
 

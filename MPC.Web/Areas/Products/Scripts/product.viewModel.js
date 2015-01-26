@@ -154,6 +154,8 @@ define("product/product.viewModel",
                     },
                     // Open Editor
                     openProductEditor = function () {
+                        // Show Basic Details Tab
+                        view.showBasicDetailsTab();
                         // Show Details
                         isProductDetailsVisible(true);
                         // Set Product Category true/false for popup
@@ -171,8 +173,6 @@ define("product/product.viewModel",
                         });
                         // Update Input Checked States in Bindings
                         view.updateInputCheckedStates();
-                        // Show Basic Details Tab
-                        view.showBasicDetailsTab();
                     },
                     // On Close Editor
                     onCloseProductEditor = function () {

@@ -57,5 +57,7 @@ namespace MPC.Models.ResponseModels
         public Organisation Organisation { get; set; }
 
         public XmlDocument ResourceFile { get; set; }
+
+        public Address StoreDetaultAddress { get; set; }
     }
 }

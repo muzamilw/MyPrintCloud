@@ -684,15 +684,141 @@ namespace MPC.Implementation.MISServices
             companyRepository.Update(companySavingModel.Company);
             SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
             UpdateCmsOffers(companySavingModel.Company, companyDbVersion);
+            UpdateMediaLibrary(companySavingModel.Company, companyDbVersion);
             companyRepository.SaveChanges();
             //Update products
             UpdateProductsOfUpdatingCompany(companySavingModel);
             //Save Files
             companyToBeUpdated.ProductCategories = productCategories;
             SaveFilesOfProductCategories(companyToBeUpdated);
-
-
+            SaveSpriteImage(companySavingModel.Company);
+            SaveCompanyCss(companySavingModel.Company);
+            UpdateMediaLibraryFilePath(companySavingModel.Company, companyDbVersion);
             return companySavingModel.Company;
+        }
+
+        private void UpdateMediaLibraryFilePath(Company company, Company companyDbVersion)
+        {
+            if (company.MediaLibraries != null)
+            {
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Media/Store" + company.CompanyId);
+
+                foreach (var item in company.MediaLibraries)
+                {
+                    if (item.FilePath == string.Empty)
+                    {
+                        if (item.FileSource != null)
+                        {
+                            string base64 = item.FileSource.Substring(item.FileSource.IndexOf(',') + 1);
+                            base64 = base64.Trim('\0');
+                            byte[] data = Convert.FromBase64String(base64);
+
+                            if (directoryPath != null && !Directory.Exists(directoryPath))
+                            {
+                                Directory.CreateDirectory(directoryPath);
+                            }
+                            string savePath = directoryPath + "\\" + item.MediaId + "_" + item.FileName;
+                            if (!File.Exists(savePath))
+                            {
+                                File.WriteAllBytes(savePath, data);
+                                MediaLibrary mediaLibraryDbVersion =
+                                    companyDbVersion.MediaLibraries.FirstOrDefault(m => m.MediaId == item.MediaId);
+                                if (mediaLibraryDbVersion != null)
+                                {
+                                    mediaLibraryDbVersion.FilePath = savePath;
+                                }
+                            }
+                        }
+                    }
+                }
+                companyRepository.SaveChanges();
+            }
+        }
+
+        private void UpdateMediaLibrary(Company company, Company companyDbVersion)
+        {
+            if (company.MediaLibraries != null)
+            {
+                foreach (var item in company.MediaLibraries)
+                {
+                    //New Added Files
+                    if (item.MediaId == 0)
+                    {
+                        companyDbVersion.MediaLibraries.Add(item);
+                    }
+                }
+            }
+        }
+
+        private void SaveCompanyCss(Company company)
+        {
+            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Stores/Store" + company.CompanyId);
+            if (directoryPath != null && !Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            string savePath = directoryPath + "\\" + company.CompanyId + "_CompanyStyles.css";
+            File.WriteAllText(savePath, company.CustomCSS);
+        }
+
+        private void SaveSpriteImage(Company company)
+        {
+            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Organisations/Organisation" + companyRepository.OrganisationId + "/Store" + company.CompanyId + "/Sprites");
+
+            //Save Default Sprite File
+            if (company.DefaultSpriteSource != null)
+            {
+                string base64 = company.DefaultSpriteSource.Substring(company.DefaultSpriteSource.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                string savePath = directoryPath + "\\" + company.CompanyId + "_sprite.backup.png";
+                if (!File.Exists(savePath))
+                {
+                    File.WriteAllBytes(savePath, data);
+                }
+
+            }
+
+            //Delete already existing sprite file
+            if (directoryPath != null && Directory.Exists(directoryPath))
+            {
+                DirectoryInfo dir = new DirectoryInfo(directoryPath);
+                FileInfo[] Files = dir.GetFiles();
+                foreach (FileInfo file in Files)
+                {
+                    if (file.Name != "" && file.Name != company.CompanyId + "_sprite.backup.png")
+                    {
+                        string deleteFilePath = directoryPath + "\\" + file.Name;
+                        if (File.Exists(deleteFilePath))
+                        {
+                            File.Delete(deleteFilePath);
+                        }
+                    }
+                }
+            }
+
+            //Save user Defined Sprite File
+            if (company.UserDefinedSpriteSource != null)
+            {
+                string base64 = company.UserDefinedSpriteSource.Substring(company.UserDefinedSpriteSource.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                string savePath = directoryPath + "\\" + company.CompanyId + "_sprite." + company.UserDefinedSpriteFileName;
+
+
+                File.WriteAllBytes(savePath, data);
+            }
         }
 
         private void UpdateCmsOffers(Company company, Company companyDbVersion)

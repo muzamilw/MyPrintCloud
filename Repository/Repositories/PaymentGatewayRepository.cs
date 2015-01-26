@@ -61,5 +61,40 @@ namespace MPC.Repository.Repositories
                 PaymentGateways = paymentGateways
             };
         }
+
+
+        /// <summary>
+        /// returns the active payment gateway
+        /// </summary>
+        /// <returns></returns>
+        public PaymentGateway GetPaymentGatewayRecord(long CompanyId)
+        {
+            
+                return (from res in db.PaymentGateways
+                        where res.isActive == true && res.CompanyId == CompanyId
+                        select res).FirstOrDefault();
+          
+
+        }
+        /// <summary>
+        /// add payment 
+        /// </summary>
+        /// <param name="prePayment"></param>
+        /// <returns></returns>
+        public long AddPrePayment(PrePayment prePayment)
+        {
+            try
+            {
+               
+                    db.PrePayments.Add(prePayment);
+                    db.SaveChanges();
+                    return prePayment.PrePaymentId;
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

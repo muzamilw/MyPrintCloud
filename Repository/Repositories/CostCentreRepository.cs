@@ -12,6 +12,7 @@ using System.Data;
 using MPC.Models.Common;
 using System.Data.SqlClient;
 using System.Data.Entity.Core.Objects;
+using System.Linq.Expressions;
 
 namespace MPC.Repository.Repositories
 {
@@ -21,6 +22,14 @@ namespace MPC.Repository.Repositories
     public class CostCentreRepository : BaseRepository<CostCentre>, ICostCentreRepository
     {
         #region privte
+        #region Private
+        private readonly Dictionary<CostCentersColumns, Func<CostCentre, object>> OrderByClause = new Dictionary<CostCentersColumns, Func<CostCentre, object>>
+                    {
+                        {CostCentersColumns.Name, d => d.Name},
+                        {CostCentersColumns.Type, d => d.Type},
+                        
+                    };
+        #endregion
         #endregion
 
         #region Constructor
@@ -617,12 +626,40 @@ namespace MPC.Repository.Repositories
 
         public CostCentersResponse GetUserDefinedCostCenters(CostCenterRequestModel request)
         {
-            var cclist = db.CostCentres.Where(c => c.Type != 1 && c.IsDisabled == 0 && c.OrganisationId == OrganisationId).ToList();
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            Expression<Func<CostCentre, bool>> query =
+                oCostCenter => oCostCenter.Type != 1 && oCostCenter.IsDisabled == 0 && oCostCenter.OrganisationId == OrganisationId;
+
+            var rowCount = DbSet.Count(query);
+            var costCenters = request.IsAsc
+                ? DbSet.Where(query)
+                    .OrderBy(OrderByClause[request.CostCenterOrderBy])
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList()
+                : DbSet.Where(query)
+                    .OrderByDescending(OrderByClause[request.CostCenterOrderBy])
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList();
             return new CostCentersResponse
             {
-                RowCount = cclist.Count(),
-                CostCenters = cclist
+                RowCount = rowCount,
+                CostCenters = costCenters
             };
+        }
+        public CostCentre GetCostCentersByID(long costCenterID)
+        {
+
+
+            var query = from tblCostCenter in db.CostCentres
+                        where tblCostCenter.CostCentreId == costCenterID && tblCostCenter.isPublished == true
+                        select tblCostCenter;
+
+                return query.ToList().FirstOrDefault();
+            
+
         }
         #endregion
 
@@ -744,20 +781,11 @@ namespace MPC.Repository.Repositories
         public List<CostCentre> GetDeliveryCostCentersList()
         {
 
-           
-                var query = from tblCostCenter in db.CostCentres
-                            where tblCostCenter.Type == (int)CostCenterTypes.Delivery && tblCostCenter.isPublished == true && tblCostCenter.IsDisabled == 0
-                            orderby tblCostCenter.MinimumCost
-                            select new CostCentre()
-                            {
-                                CostCentreId = tblCostCenter.CostCentreId,
-                                CompletionTime = tblCostCenter.CompletionTime,
-                                MinimumCost = tblCostCenter.MinimumCost,
-                                Description = tblCostCenter.Description,
-                                Name = tblCostCenter.Name,
-                                SetupCost = tblCostCenter.DeliveryCharges ?? 0,
-                                EstimateProductionTime = tblCostCenter.EstimateProductionTime
-                            };
+
+            var query = from tblCostCenter in db.CostCentres
+                        where tblCostCenter.Type == (int)CostCenterTypes.Delivery && tblCostCenter.isPublished == true && tblCostCenter.IsDisabled == 0
+                        orderby tblCostCenter.MinimumCost
+                        select tblCostCenter;
 
 
                 return query.ToList();

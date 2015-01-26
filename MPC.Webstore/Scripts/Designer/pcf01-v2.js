@@ -5,30 +5,30 @@
         msg = "You can add different layouts to your design, you can also add images, text content,  background colour and image to your design.";
     }
     $("#paraLoaderMsg").text(msg);
-    $("#MainLoader").css("display","block");
-    $(".progressValue").css("width","1%");
+    $("#MainLoader").css("display", "block");
+    $(".progressValue").css("width", "1%");
     $(".dialog").css("top", ($(window).height() - $(".dialog").height()) / 2 + "px");
-    var2 = setInterval((function () { 
+    var2 = setInterval((function () {
         var3 += 1;
         if (var3 <= 95) {
             $(".progressValue").css("width", var3 + "%");
         }
-      
+
     }), 25);
 }
 function StopLoader() {
     var3 = 99;
     loaderLoading = false;
     $(".progressValue").css("width", 100 + "%");
-    $(".progressValue").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',   
+    $(".progressValue").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',
     function (e) {
-       if (!loaderLoading) {
+        if (!loaderLoading) {
             $("#MainLoader").css("display", "none");
             clearInterval(var2);
         }
     });
-   
-    
+
+
 }
 function startInlineLoader(divID) {
     if (divID == 1) {
@@ -66,7 +66,7 @@ function startInlineLoader(divID) {
     }), 500);
 }
 function stopInlineLoader() {
-    $(".searchLoaderHolder").css("display", "none"); 
+    $(".searchLoaderHolder").css("display", "none");
     $(".searchLoaderHolder").appendTo((".mainContainer"));
     clearInterval(var1);
 }
@@ -79,17 +79,17 @@ function downloadJSAtOnload(name) {
 
 function a0(fontName, fontFileName) {
     var path = "";
-    path = "/DesignEngine/";
+    path = "/";
     var html = "";
-   // if (jQuery.browser.msie) {
+    if ($.browser.msie) {
         html = '<style> @font-face { font-family: ' + fontName + '; src: url(' + path + fontFileName + ".woff" + ') format("woff");  font-weight: normal; font-style: normal;}</style>';
-    //} else if (jQuery.browser.Chrome) {
+    } else if ($.browser.Chrome) {
         html = '<style> @font-face { font-family: ' + fontName + '; src: url(' + path + fontFileName + ".woff" + ') format("woff");  font-weight: normal; font-style: normal;}</style>';
-   // } else if (jQuery.browser.Safari || jQuery.browser.opera || jQuery.browser.mozilla) {
+    } else if ($.browser.Safari || $.browser.opera || $.browser.mozilla) {
         html = '<style> @font-face { font-family: ' + fontName + '; src:  url(' + path + fontFileName + ".ttf" + ') format("truetype");  font-weight: normal; font-style: normal;}</style>';
-   // } else {
+    } else {
         html = '<style> @font-face { font-family: ' + fontName + '; src: url(' + path + fontFileName + ".eot" + '); src: url(' + path + fontFileName + ".eot?#iefix" + ') format(" embedded-opentype"), url(' + path + fontFileName + ".woff" + ') format("woff"),  url(' + path + fontFileName + ".ttf" + ') format("truetype");  font-weight: normal; font-style: normal;}</style>';
-   // }
+    }
     $('head').append(html);
 }
 
@@ -99,31 +99,29 @@ function b1(selectId, value, text, id) {
 }
 
 function b4(imgSrc) {
+
     IW = 150;
     IH = 150;
     var he = Template.PDFTemplateHeight;
     var wd = Template.PDFTemplateWidth;
     $.each(LiImgs, function (i, IT) {
-        if (imgSrc.indexOf(IT.BackgroundImageRelativePath) != -1) {
+        
+        if (imgSrc.indexOf(IT.ImageName) != -1) {
+            console.log(IT);
             IW = IT.ImageWidth;
             IH = IT.ImageHeight;
-            if (parseInt(IW) < 50) {
-                IW = 50;
-            }
-            if (parseInt(IH) < 50) {
-                IH = 50;
-            }
-            if (IW > wd) {
-                wd = wd / 2;
-                ratio = wd / IW;
+            if (he > wd)
+            {
+                ratio = (wd - 50) / IW;
+                IW = wd - 50;
                 IH = IH * ratio;
+            } else
+            {
+                ratio = (he - 50) / IH;
+                IH = he - 50;
                 IW = IW * ratio;
             }
-            if (IH > he) {
-                he = he / 2;
-                ratio = he / IH;
-                IW = IW * ratio;
-            }
+         
             return;
         }
     });
@@ -158,7 +156,7 @@ function c0(cCanvas, TOC) {
     if (TOC.IsBold)
         hWeight = "bold";
     var textStyles = [];
-    
+
     if (TOC.textStyles != null && TOC.textStyles != undefined && TOC.textStyles != "") {
         var textStylesTemp = JSON.parse(TOC.textStyles);
         $.each(textStylesTemp, function (i, IT) {
@@ -193,7 +191,7 @@ function c0(cCanvas, TOC) {
                 value = IT.fontStyle;
                 style[styleName] = value;
             }
-            
+
             fabric.util.object.extend(textStyles[IT.characterIndex], style);
         });
     }
@@ -317,7 +315,7 @@ function c2_01(OPT) {
                     IT.CircleRadiusX = OPT.get('rx') * orgSx;
                     IT.CircleRadiusY = OPT.get('ry') * orgSy;
                     IT.PositionX = orgLeft - (OPT.width * orgSx) / 2;
-                    IT.PositionY = orgTop - (OPT.height * orgSy)/ 2;
+                    IT.PositionY = orgTop - (OPT.height * orgSy) / 2;
                 }
                 if (OPT.type == "image") {
                     IT.ClippedInfo = OPT.ImageClippedInfo;
@@ -421,11 +419,11 @@ function c7(PageID) {
 }
 function c8(cCanvas, CO) {
     var COL = new fabric.Ellipse({
-        left: (CO.PositionX + CO.MaxWidth / 2)* dfZ1l,
-        top: (CO.PositionY + CO.MaxHeight / 2)* dfZ1l,
+        left: (CO.PositionX + CO.MaxWidth / 2) * dfZ1l,
+        top: (CO.PositionY + CO.MaxHeight / 2) * dfZ1l,
         fill: CO.ColorHex,
-        rx: (CO.CircleRadiusX)* dfZ1l,
-        ry: (CO.CircleRadiusY)* dfZ1l,
+        rx: (CO.CircleRadiusX) * dfZ1l,
+        ry: (CO.CircleRadiusY) * dfZ1l,
         opacity: CO.Opacity
 
     })
@@ -461,11 +459,11 @@ function c8(cCanvas, CO) {
 }
 function c9(cCanvas, RO) {
     var ROL = new fabric.Rect({
-        left: (RO.PositionX + RO.MaxWidth / 2)* dfZ1l,
-        top: (RO.PositionY + RO.MaxHeight / 2)* dfZ1l,
+        left: (RO.PositionX + RO.MaxWidth / 2) * dfZ1l,
+        top: (RO.PositionY + RO.MaxHeight / 2) * dfZ1l,
         fill: RO.ColorHex,
-        width: (RO.MaxWidth)* dfZ1l,
-        height: (RO.MaxHeight)* dfZ1l,
+        width: (RO.MaxWidth) * dfZ1l,
+        height: (RO.MaxHeight) * dfZ1l,
         opacity: 1
     });
     ROL.setAngle(RO.RotationAngle);
@@ -504,16 +502,16 @@ function d1SvgOl(cCanvas, IO) {
 
         var loadedObject = fabric.util.groupSVGElements(objects, options);
         loadedObject.set({
-            left: (IO.PositionX + IO.MaxWidth / 2)* dfZ1l,
-            top: (IO.PositionY + IO.MaxHeight / 2)* dfZ1l,
+            left: (IO.PositionX + IO.MaxWidth / 2) * dfZ1l,
+            top: (IO.PositionY + IO.MaxHeight / 2) * dfZ1l,
             angle: IO.RotationAngle
         });
         loadedObject.maxWidth = IO.MaxWidth;
         loadedObject.maxHeight = IO.MaxHeight;
         loadedObject.ObjectID = IO.ObjectID;
         loadedObject.fill = IO.ColorHex;
-        loadedObject.scaleX = (loadedObject.maxWidth / loadedObject.width)* dfZ1l;
-        loadedObject.scaleY = (loadedObject.maxHeight / loadedObject.height)* dfZ1l;
+        loadedObject.scaleX = (loadedObject.maxWidth / loadedObject.width) * dfZ1l;
+        loadedObject.scaleY = (loadedObject.maxHeight / loadedObject.height) * dfZ1l;
         loadedObject.setAngle(IO.RotationAngle);
         loadedObject.IsPositionLocked = IO.IsPositionLocked;
         loadedObject.IsOverlayObject = IO.IsOverlayObject;
@@ -617,17 +615,17 @@ function d1(cCanvas, IO, isCenter) {
     if (IO.MaxHeight == 0) {
         IO.MaxHeight = 50;
     }
-    fabric.Image.fromURL(IO.ContentString, function (IOL) {
+    fabric.Image.fromURL("/MPC_Content/" + IO.ContentString, function (IOL) {
         IOL.set({
-            left: (IO.PositionX + IO.MaxWidth / 2)* dfZ1l,
-            top: (IO.PositionY + IO.MaxHeight / 2)* dfZ1l,
+            left: (IO.PositionX + IO.MaxWidth / 2) * dfZ1l,
+            top: (IO.PositionY + IO.MaxHeight / 2) * dfZ1l,
             angle: IO.RotationAngle
         });
         IOL.maxWidth = IO.MaxWidth;
         IOL.maxHeight = IO.MaxHeight;
         IOL.ObjectID = IO.ObjectID;
-        IOL.scaleX = (IOL.maxWidth / IOL.width)* dfZ1l;
-        IOL.scaleY = (IOL.maxHeight / IOL.height)* dfZ1l;
+        IOL.scaleX = (IOL.maxWidth / IOL.width) * dfZ1l;
+        IOL.scaleY = (IOL.maxHeight / IOL.height) * dfZ1l;
         IOL.setAngle(IO.RotationAngle);
         IOL.IsPositionLocked = IO.IsPositionLocked;
         IOL.IsOverlayObject = IO.IsOverlayObject;
@@ -724,34 +722,53 @@ function d5(pageID, isloading) {
                 canvas.renderAll(); //StopLoader();
             });
             canvas.backgroundColor = "#ffffff";
-            
+            console.log(IT.Height + " " + IT.Width);
             if (IT.Orientation == 1) {
-                canvas.setHeight(Template.PDFTemplateHeight * dfZ1l);
-                canvas.setWidth(Template.PDFTemplateWidth * dfZ1l);
+                if (IT.Height != null && IT.Height != 0) {
+                    canvas.setHeight(IT.Height * dfZ1l);
+                } else {
+                    canvas.setHeight(Template.PDFTemplateHeight * dfZ1l);
+                }
+                if (IT.Width != null && IT.Width != 0) {
+                    canvas.setWidth(IT.Width * dfZ1l);
+                } else {
+                    canvas.setWidth(Template.PDFTemplateWidth * dfZ1l);
+                }
+                
             }
             else {
-                canvas.setHeight(Template.PDFTemplateWidth * dfZ1l);
-                canvas.setWidth(Template.PDFTemplateHeight * dfZ1l);
+                if (IT.Width != null && IT.Width != 0) {
+                    canvas.setHeight(IT.Width * dfZ1l);
+                } else {
+                    canvas.setHeight(Template.PDFTemplateWidth * dfZ1l);
+                }
+                if (IT.Height != null && IT.Height != 0) {
+                    canvas.setWidth(IT.Height * dfZ1l);
+                } else {
+                    canvas.setWidth(Template.PDFTemplateHeight * dfZ1l);
+                }
+                
+                
             }
             $(".page").css("height", ((Template.PDFTemplateHeight * dfZ1l) + 20) + "px");
             $(".page").css("width", ((Template.PDFTemplateWidth * dfZ1l) + 0) + "px");
-            var val = $("#canvaDocument").width() - $(".page").width();
+            var val = $("#canvasDocument").width() - $(".page").width();
             val = val / 2;
             if (val < 0) val = 20;
             $(".page").css("left", val + "px");
-            //$(".page").css("left", (($("#canvaDocument").width() - $(".page").width()) / 2) + "px");
+            //$(".page").css("left", (($("#canvasDocument").width() - $(".page").width()) / 2) + "px");
             //$("#addNewPage").css("top", (Template.PDFTemplateHeight + 150) + "px");
-            //$("#addNewPage ").css("left", (($("#canvaDocument").width() - $("#addNewPage").width()) / 2) + "px");
+            //$("#addNewPage ").css("left", (($("#canvasDocument").width() - $("#addNewPage").width()) / 2) + "px");
             if (IT.BackgroundFileName != "") {
-               
+
                 if (IT.BackGroundType == 3) {
-                    if (IT.BackgroundFileName.indexOf('Designer/Products/') == -1) {
-                        IT.BackgroundFileName = "./Designer/Products/" + IT.BackgroundFileName;
+                    if (IT.BackgroundFileName.indexOf('MPC_Content/Designer/') == -1) {
+                        IT.BackgroundFileName = "/MPC_Content/Designer/" + productionFolderPath + IT.BackgroundFileName;
                     }
                 }
                 if (IT.BackGroundType == 1) {
-                    if (IT.BackgroundFileName.indexOf('Designer/Products/') == -1) {
-                        IT.BackgroundFileName = "./Designer/Products/" + IT.BackgroundFileName;
+                    if (IT.BackgroundFileName.indexOf('MPC_Content/Designer/') == -1) {
+                        IT.BackgroundFileName = "/MPC_Content/Designer/" + productionFolderPath + IT.BackgroundFileName;
                     }
                 }
                 var bk = IT.BackgroundFileName + "?r=" + CzRnd;
@@ -903,7 +920,7 @@ function e0(caller) {
     D1CZL = 0;
 }
 function e6() {
-    pcL36('hide', '#PreviewerContainer');
+    pcL36('hide', '#PreviewerContainerDesigner');
     $('.opaqueLayer').css("display", "none");
     $('.opaqueLayer').css("background-color", "transparent");
 
@@ -933,6 +950,7 @@ function fu02UI() {
             width: newWidth
         })
     }, function () {
+
         $el = $('.selectedItem');
         leftPos = $el.position().left;
         newWidth = $el.width();
@@ -961,34 +979,34 @@ function fu02UI() {
         var winHeight = $("#resultsSearch").height();
         if (isImgPaCl) {
             if (selCat == "11") {
-                val +=265;
-                if (val > winHeight) { 
+                val += 265;
+                if (val > winHeight) {
                     k21();
                 }
             } else if (selCat == "12") {
                 val += 265;
                 if (val > winHeight) {
-                 //   k24ilus();
+                    //   k24ilus();
                 }
             } else if (selCat == "13") {
                 val += 265;
                 if (val > winHeight) {
-                   // k24frames();
+                    // k24frames();
                 }
             } else if (selCat == "21") {
                 val += 135;
                 if (val > winHeight) {
-                  //  k24banners();
+                    //  k24banners();
                 }
             } else if (selCat == "22") {
                 val += 135;
                 if (val > winHeight) {
-                 //   k21Sh();
+                    //   k21Sh();
                 }
             } else if (selCat == "23") {
                 val += 135;
                 if (val > winHeight) {
-                 //   k21Log();
+                    //   k21Log();
                 }
             } else if (selCat = "31") {
                 val += 15;
@@ -997,8 +1015,8 @@ function fu02UI() {
                 }
             }
         }
-     
-       
+
+
     });
     $('.bkDamScroller').slimscroll({
         height: height
@@ -1010,9 +1028,9 @@ function fu02UI() {
                 } else if (SelBkCat == "12") {
                     k24Bk();
                 } else if (SelBkCat == "13") {
-                    k17Bk(); 
+                    k17Bk();
                 }
-            } 
+            }
         }
     });
     $('#divTempBkImgContainer').css("height", "540px !important");
@@ -1026,7 +1044,7 @@ function fu02UI() {
                 } else if (SelUpCat == "12") {
                     k21PLog();
                 }
-            } 
+            }
         }
     });
     $("#BtnFontSizeRetail").spinner({
@@ -1071,11 +1089,11 @@ function fu02UI() {
     $(".CaseModeSlider").slider({
         range: "min",
         value: 1,
-        step:33,
+        step: 33,
         min: 1,
         max: 100,
         slide: function (event, ui) {
-             k7_Case_Force(ui.value);
+            k7_Case_Force(ui.value);
 
         }
     });
@@ -1085,7 +1103,7 @@ function fu02UI() {
         value: 0,
         min: 0,
         max: 360,
-        step:5,
+        step: 5,
         slide: function (event, ui) {
             k7_rotate_retail(ui.value);
 
@@ -1122,7 +1140,7 @@ function fu02UI() {
     $(".LargePreviewer").dialog("option", "draggable", false);
     $(".LargePreviewerIframe").css("width", $(window).width() - 70);
     $(".LargePreviewerIframe").css("height", $(window).height() - 80);
-    $("#canvaDocument").scroll(function () {
+    $("#canvasDocument").scroll(function () {
         canvas.calcOffset();
     });
     $(".add").draggable({
@@ -1199,8 +1217,8 @@ function fu02UI() {
                 var pos = canvas.getPointer(event);
                 var draggable = ui.draggable.attr('id');
                 //if (draggable == "QuickTxtAllFields") {
-                  //  e0(); // l3
-                  //  g9(draggable, pos.x, pos.y);
+                //  e0(); // l3
+                //  g9(draggable, pos.x, pos.y);
                 //} else
                 if (draggable == "addTxtHeading") {
                     g0(pos.x, pos.y, false, "", "", "", "Add text", 26.67, true);
@@ -1209,7 +1227,7 @@ function fu02UI() {
                 } else if (draggable == "addTxtBody") {
                     g0(pos.x, pos.y, false, "", "", "", "Add a little bit of body text", 13.33, false);
                 }
-              
+
             }
         }
     });
@@ -1295,14 +1313,14 @@ function fu02UI() {
     }
 }
 function fu02() {
-  //  cID = parseInt(fu01('c'));
-  //  cIDv2 = parseInt(fu01('cv2'));
-  //  tID = parseInt(fu01('t'));
- //   printCM = (fu01('cm'));
- //   printWM = (fu01('wm'));
-  //  CustomerID = parseInt(fu01('CustomerID'));
-  //  ContactID = parseInt(fu01('ContactID'));
- //   ItemId = parseInt(fu01('ItemId'));
+    //cID = parseInt(fu01('c'));
+    //cIDv2 = parseInt(fu01('cv2'));
+    //tID = parseInt(fu01('t'));
+    //printCM = (fu01('cm'));
+    //printWM = (fu01('wm'));
+    //CustomerID = parseInt(fu01('CustomerID'));
+    //ContactID = parseInt(fu01('ContactID'));
+    //ItemId = parseInt(fu01('ItemId'));
     fu09();// called for retail store only
     if (tID == 0) {
         fu03();
@@ -1343,8 +1361,8 @@ function fu02() {
             $("#placeHolderTxt").css("visibility", "visible")
             var width = 51;//$("#placeHolderTxt").width() / 2;
             var height = 23;// $("#placeHolderTxt").height() / 2;
-            $("#placeHolderTxt").css("left", ($(window).width() / 2 - canvas.getWidth() / 2 + 212+ e.TG.left - width) + "px");
-            $("#placeHolderTxt").css("top", ( e.TG.top +103 - height/2) + "px");
+            $("#placeHolderTxt").css("left", ($(window).width() / 2 - canvas.getWidth() / 2 + 212 + e.TG.left - width) + "px");
+            $("#placeHolderTxt").css("top", (e.TG.top + 103 - height / 2) + "px");
         } else {
             $("#placeHolderTxt").css("visibility", "hidden");
         }
@@ -1353,7 +1371,7 @@ function fu02() {
     canvas.on('object:out', function (e) {
         if (e.TG.IsQuickText == true && e.TG.type == 'image') {
             $("#placeHolderTxt").css("visibility", "hidden");
-        }
+        } 
     });
 
     //    canvas.observe('mouse:down', onMouseDown);
@@ -1377,13 +1395,14 @@ function fu02() {
         pcL36('hide', '#divImgPropPanelRetail , #divTxtPropPanelRetail ,#DivColorPickerDraggable ');
         $("#sortableLayers li").removeClass("selectedItemLayers");
 
+
     });
 }
 
 function fu04_callBack(DT) {
     Template = DT;
     tID = Template.ProductId;
-    $("#txtTemplateTitle").val(Template.ProductName);
+  //  $("#txtTemplateTitle").val(Template.ProductName);
     $.each(Template.TemplatePages, function (i, IT) {
         TP.push(IT);
     });
@@ -1397,8 +1416,26 @@ function fu04_callBack(DT) {
     fu04_01();
     fu14();
     b3_1();
+    b3_lDimensions();
 }
-
+function b3_lDimensions() {
+    var w = Template.PDFTemplateWidth;
+    var h = Template.PDFTemplateHeight;
+    h = h / 96 * 72;
+    w = w / 96 * 72;
+    h = h / 2.834645669;
+    w = w / 2.834645669;
+    w = w.toFixed(3);
+    h = h.toFixed(3);
+    h = h - 10;
+    w = w - 10;
+ //   w = w * Template.ScaleFactor;
+  //  h = h * Template.ScaleFactor;
+    //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
+    $(".dimentionsBC").html("Trim size -" + " " + w + " (w) *  " + h + " (h) mm");
+  //  $(".dimentionsBC").append("<br /><span class='spanZoomContainer'> Zoom - " + D1CS * 100 + " % </span>");
+ //   $(".zoomToolBar").html(" Zoom " + Math.floor(D1CS * 100) + " % ");
+}
 function fu05_svcCall(DT) {
     $.each(DT, function (i, IT) {
         fu05_ClHtml(IT.ColorC, IT.ColorM, IT.ColorY, IT.ColorK, IT.SpotColor, IT.IsColorActive, IT.PelleteID);
@@ -1496,7 +1533,7 @@ function fu05_SvcCallback(xdata) {
         HM += '<div class="QtextData"><label class="lblQData" id ="lblQ' + id + '" >' + ITOD.Name + '</label><br/><input id="txtQ' + id + '" maxlength="500" class="qTextInput" style=""></div>';
 
     });
-    HM += '<div class="clear"></div><div><a id="BtnQuickTextSave" title="Save" style=" width: 299px;margin:auto;" class="SampleBtn"><span class="onText">Save</span> </a> </div>'
+    HM += '<div class="clear"></div><div><a id="BtnQuickTextSave" title="Save" style=" width: 299px;margin-top:20px;padding-top:8px" class="buttonDesigner"><span class="onText">Save</span> </a> </div>'
     $(".QuickTextFields").append(HM);
     $.each(AQTD, function (i, ITOD) {
         var id = ITOD.Name.split(' ').join('');
@@ -1539,7 +1576,7 @@ function fu05_SvcCallback(xdata) {
         fu11();
     });
 }
-function fu06_SvcCallback(DT,fname) {
+function fu06_SvcCallback(DT, fname) {
     $.each(DT, function (i, IT) {
         b1(fname, IT.FontName, IT.FontName);
         a0(IT.FontName, IT.FontFile, IT.FontPath);
@@ -1569,7 +1606,7 @@ function fu06_SvcCallback(DT,fname) {
     }).bind('slimscrolling', function (e, pos) {
         canvas.calcOffset();
     });
-    $("#canvaDocument").css("width", $(window).width() - 430);
+    $("#canvasDocument").css("width", $(window).width() - 430);
     d5(TP[0].ProductPageID, true);
 }
 function fu07() {
@@ -1607,27 +1644,9 @@ function fu09_SvcCallBack(DT) {
     if (DT != "") {
         tcListCc++;
         // load image size 
-        if (tcListCc == 1) {
-            for (var line in DT[0]) {
-                var html = '<span id="demotestcsss" class="templateGallerylist"><a  >' +
-                              '<img src="' + V2Url + '/designer/products/' + line + '/TemplateThumbnail1.jpg' + '" class="imgsdtsss"> </a></span>'
 
-                $(".templateListUL").append(html);
-                $("img.imgsdtsss").load(function () {
-                    var height = $(this).height();
-                    tcImHh = height + 10;
-                    //  tcImThh = tcImHh;
-                    tcRowCount = 0;
-                    fu09_1(DT); $("#demotestcsss").remove();
-                }).error(function () {
-                    tcRowCount = 0;
-                    fu09_1(DT); $("#demotestcsss").remove();
-                });
-
-            }
-        } else {
             fu09_1(DT);
-        }
+        
     } else {
         tcAllcc = true;
         stopInlineLoader();
@@ -1635,36 +1654,38 @@ function fu09_SvcCallBack(DT) {
 }
 function fu09_1(DT) {
 
-    $.each(DT, function (key, val) {
-        for (var line in val) {
-            tcRowCount++;
-            if (tcRowCount % 2 !=0 &&   tcRowCount != 1) {
-                tcImThh += tcImHh;
-            }
-            var top = tcImThh;
-            var left = tcLltemp * 200
-          
-            var html = '<span class="templateGallerylist"><a title="' + val[line] + '" onClick="fu10(this,' + line + ')">' +
-                  '<img src="' + V2Url + '/designer/products/' + line + '/TemplateThumbnail1.jpg' + '" class="imgs' + line + '"> </a></span>'
-
-         $(".templateListUL").append(html);
-            tcLltemp++;
-            //tcRowCount = tcRowCount + 0.50;
-            var csHe = tcImThh + tcImHh + 10;
-            $(".resultLayoutsScroller .inner").css("height", csHe + "px");
+    $.each(DT, function (key, item) {
+     
+        var className = "landscapeTemplate";
+        if (item.PageOrientation == 1 && (item.PDFTemplateHeight > item.PDFTemplateWidth)) {// portrait height > width
+           
         }
+        else if (item.PageOrientation == 1 && (item.PDFTemplateHeight <= item.PDFTemplateWidth)) {// portrait height < width
+            className = "portraitTemplate";
+        }
+        else if (item.PageOrientation == 2 && (item.PDFTemplateHeight > item.PDFTemplateWidth)) {// landscap height > width
+            className = "portraitTemplate";
+        }
+        else if (item.PageOrientation == 2 && (item.PDFTemplateHeight <= item.PDFTemplateWidth)) {// landscap height > width
+        }
+        var html = '<span class="templateGallerylist"><a title="' + item.ProductName + '" onClick="fu10(this,' + item.ProductID + ')" class="'+className+'">' +
+                  '<img src="' + V2Url + '/designer/products/' + item.ProductID + '/TemplateThumbnail1.jpg' + '" class="imgs' + item.ProductID + '"> </a></span>'
+
+            $(".templateListUL").append(html);
+
+     
 
     });
     stopInlineLoader(); tcAllcc = false;
 }
-function fu10(ca,gtID) {
-     $(".templateListUL .on").removeClass("on");
-     $(ca).parent().addClass("on");
-     StartLoader("Downloading images and text objects for your design., please wait....");
-     TP = [];
-     TO = [];
-     isloadingNew = true;
-     svcCall1(ca, gtID);
+function fu10(ca, gtID) {
+    $(".templateListUL .on").removeClass("on");
+    $(ca).parent().addClass("on");
+    StartLoader("Downloading images and text objects for your design., please wait....");
+    TP = [];
+    TO = [];
+    isloadingNew = true;
+    svcCall1(ca, gtID);
 }
 function fu14() {
     k16(1, TeImC, "Loader");
@@ -1673,7 +1694,7 @@ function fu14() {
         k16(2, GlImC, "Loader");
         k16(3, GlImCBk, "Loader");
         k16(17, GlLogCn, "Loader");
-      //  k16(16, GlShpCn, "Loader");
+        //  k16(16, GlShpCn, "Loader");
         if (IsCalledFrom == 4) {
             k16(4, UsImC, "Loader");
             k16(5, UsImCBk, "Loader");
@@ -1689,26 +1710,26 @@ function fu14() {
             k16(9, UsImCBk, "Loader");
             k16(7, GlImCBk, "Loader");
             k16(15, GlLogCnP, "Loader");
-         //   k16(14, GlLogCn, "Loader");
-          //  k16(13, GlShpCn, "Loader");
+            //   k16(14, GlLogCn, "Loader");
+            //  k16(13, GlShpCn, "Loader");
 
-          //  k16(18, GlLogCnP, "Loader");
-         //   k16(19, GlLogCn, "Loader");
-         //   k16(20, GlShpCn, "Loader");
-         }
+            //  k16(18, GlLogCnP, "Loader");
+            //   k16(19, GlLogCn, "Loader");
+            //   k16(20, GlShpCn, "Loader");
+        }
         if (IsCalledFrom == 1) {
             if (CustomerID != -999) {
-             k16(10, GlImC, "Loader");
+                k16(10, GlImC, "Loader");
                 k16(11, GlImCBk, "Loader");
             } else {
-               k16(6, GlImC, "Loader");
+                k16(6, GlImC, "Loader");
                 k16(7, GlImCBk, "Loader");
-              //  k16(14, GlLogCn, "Loader");
-             //   k16(13, GlShpCn, "Loader");
-            //    k16(18, GlLogCnP, "Loader");
-            //    k16(19, GlLogCn, "Loader");
-            //    k16(20, GlShpCn, "Loader");
-              }
+                //  k16(14, GlLogCn, "Loader");
+                //   k16(13, GlShpCn, "Loader");
+                //    k16(18, GlLogCnP, "Loader");
+                //    k16(19, GlLogCn, "Loader");
+                //    k16(20, GlShpCn, "Loader");
+            }
         }
     }
 }
@@ -1842,20 +1863,20 @@ function fu16() {
 }
 function h8(FN, FF, FP) {
     var p = "";
-    p = "/DesignEngine/";
-  //  if (JQueryBrowser.browser.msie) {
-      //  T0FN.push(FN);
-      //  n = p + FF + ".woff";
-     //   T0FU.push(n);
-  //  } else if (jQuery.browser.Chrome) {
-     //   T0FN.push(FN);
-      //  n = p + FF + ".woff";
-      //  T0FU.push(n);
-  //  } else if (jQuery.browser.Safari || jQuery.browser.opera || jQuery.browser.mozilla) {
-      //  T0FN.push(FN);
-     //   n = p + FF + ".ttf";
-    //    T0FU.push(n);
-   // } else {
+    p = "/";
+    if ($.browser.msie) {
+        T0FN.push(FN);
+        n = p + FF + ".woff";
+        T0FU.push(n);
+    } else if ($.browser.Chrome) {
+        T0FN.push(FN);
+        n = p + FF + ".woff";
+        T0FU.push(n);
+    } else if ($.browser.Safari || $.browser.opera || $.browser.mozilla) {
+        T0FN.push(FN);
+        n = p + FF + ".ttf";
+        T0FU.push(n);
+    } else {
         T0FN.push(FN);
         n = p + FF + ".eot";
         T0FU.push(n);
@@ -1867,7 +1888,7 @@ function h8(FN, FF, FP) {
         T0FN.push(FN);
         n = p + FF + ".ttf";
         T0FU.push(n);
-   // }
+    }
 
 }
 function h9() {
@@ -2033,12 +2054,12 @@ function j9(e, url1, id) {
                     }
                     svcCall2(n, tID, imgtype);
                 } else {
-                    parts = src.split("Designer/Products/");
+                    parts = src.split("MPC_Content/");
                     var imgName = parts[parts.length - 1];
                     while (imgName.indexOf('%20') != -1)
                         imgName = imgName.replace("%20", " ");
 
-                    var path = "./Designer/Products/" + imgName;
+                    var path = imgName;
                     j8(path);
                 }
             }
@@ -2072,7 +2093,7 @@ function j9(e, url1, id) {
             }
             src = url;
         }
-        if ($(srcElement).attr('class').indexOf("bkImg") != -1 ) {
+        if ($(srcElement).attr('class').indexOf("bkImg") != -1) {
             var id = $(srcElement).attr('id');
             k32(id, tID, src);
         } else {
@@ -2098,116 +2119,119 @@ function j9_21(DT) {
     j8(path);
 }
 function k0() {
-    $("#sliderFrame").html('<p class="sliderframeMsg">Click on image below to see higher resolution preview.</p><div id="slider">  </div> <div id="thumbs"></div> <div style="clear:both;height:0;"></div>');
+   // $("#sliderFrame").html('<p class="sliderframeMsg">Click on image below to see higher resolution preview.</p><div id="slider">  </div> <div id="thumbs"></div> <div style="clear:both;height:0;"></div>');
+    $("#sliderFrame").html('<div id="sliderDesigner">  </div> <div id="thumbs"></div> <div style="clear:both;height:0;"></div>');
     if (IsCalledFrom == 1 || IsCalledFrom == 2) {
         $(".sliderframeMsg").css("display", "none");
     }
     if (IsBC) {
-        $('#PreviewerContainer').css("width", "800px");
-        $('#Previewer').css("width", "776px");
+        $('#PreviewerContainerDesigner').css("width", "800px");
+        $('#PreviewerDesigner').css("width", "776px");
         $('#sliderFrame').css("width", "740px");
-        $('#slider').css("width", "542px");
-        $('#previewProofing').css("width", "760px");
-        $('#PreviewerContainer').css("height", "562px");
-        $('#PreviewerContainer').css("left", (($(window).width() - $('#PreviewerContainer').width()) / 2) + "px");
-        $('#PreviewerContainer').css("top", (($(window).height() - $('#PreviewerContainer').height()) / 2) + "px");
+        $('#sliderDesigner').css("width", "542px");
+        $('#previewProofingDesigner').css("width", "760px");
+        $('#PreviewerContainerDesigner').css("height", "562px");
+        $('#PreviewerContainerDesigner').css("left", (($(window).width() - $('#PreviewerContainerDesigner').width()) / 2) + "px");
+        $('#PreviewerContainerDesigner').css("top", (($(window).height() - $('#PreviewerContainerDesigner').height()) / 2) + "px");
         $('.sliderLine').css("width", "744px");
-        $('#Previewer').css("height", ((500 - 46)) + "px");
+        $('#PreviewerDesigner').css("height", ((500 - 46)) + "px");
         if (IsCalledFrom == 3 || IsCalledFrom == 4) {
-            $('#sliderFrame').css("height", $('#Previewer').height() - 50 - 40 + "px");
-            $('#slider').css("height", $('#Previewer').height() - 50 - 40 + "px");
-            $('#thumbs').css("height", $('#Previewer').height() - 50 - 40 + "px");
+            $('#sliderFrame').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+            $('#sliderDesigner').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+            $('#thumbs').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
         } else {
-            $('#sliderFrame').css("height", $('#Previewer').height() - 33 + "px");
-            $('#slider').css("height", $('#Previewer').height() - 33 + "px");
-            $('#thumbs').css("height", $('#Previewer').height() - 33 + "px");
+            $('#sliderFrame').css("height", $('#PreviewerDesigner').height() - 33 + "px");
+            $('#sliderDesigner').css("height", $('#PreviewerDesigner').height() - 33 + "px");
+            $('#thumbs').css("height", $('#PreviewerDesigner').height() - 33 + "px");
         }
-        $('.divTxtProofing').css("width", "624px");
+        $('.divTxtProofingDesigner').css("width", "624px");
         $('.btnBlueProofing').css("width", "108px");
         $('.previewerTitle').css("padding-left", "7px");
         $('.previewerTitle').css("padding-top", "7px");
         $('.previewerTitle').css("padding-bottom", "7px");
     } else {
         if ($(window).width() > 1200 && (IsCalledFrom == 1 || IsCalledFrom == 3)) {
-            $('#PreviewerContainer').css("width", "1200px");
-            $('#Previewer').css("width", "1176px");
+            $('#PreviewerContainerDesigner').css("width", "1200px");
+            $('#PreviewerDesigner').css("width", "1176px");
             $('#sliderFrame').css("width", "1140px");
-            $('#slider').css("width", "942px");
+            $('#sliderDesigner').css("width", "942px");
             $('.sliderLine').css("width", "1144px");
-            $('#previewProofing').css("width", "1160px");
-            $('.divTxtProofing').css("margin-left", "208px");
+            $('#previewProofingDesigner').css("width", "1160px");
+            $('.divTxtProofingDesigner').css("margin-left", "208px");
         }
-        $('#PreviewerContainer').css("left", (($(window).width() - $('#PreviewerContainer').width()) / 2) + "px");
-        $('#PreviewerContainer').css("height", (($(window).height() - 28)) + "px");
-        $('#Previewer').css("height", (($(window).height() - 131)) + "px");
+        $('#PreviewerContainerDesigner').css("left", (($(window).width() - $('#PreviewerContainerDesigner').width()) / 2) + "px");
+        $('#PreviewerContainerDesigner').css("height", (($(window).height() - 28)) + "px");
+        $('#PreviewerDesigner').css("height", (($(window).height() - 131)) + "px");
         if (IsCalledFrom == 3 || IsCalledFrom == 4) {
-            $('#sliderFrame').css("height", $('#Previewer').height() - 50 - 40 + "px");
-            $('#slider').css("height", $('#Previewer').height() - 50 - 40 + "px");
-            $('#thumbs').css("height", $('#Previewer').height() - 50 - 40 + "px");
+            $('#sliderFrame').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+            $('#sliderDesigner').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+            $('#thumbs').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
         } else {
-            $('#sliderFrame').css("height", $('#Previewer').height() - 33 + "px");
-            $('#slider').css("height", $('#Previewer').height() - 33 + "px");
-            $('#thumbs').css("height", $('#Previewer').height() - 33 + "px");
+            $('#sliderFrame').css("height", $('#PreviewerDesigner').height() - 33 + "px");
+            $('#sliderDesigner').css("height", $('#PreviewerDesigner').height() - 33 + "px");
+            $('#thumbs').css("height", $('#PreviewerDesigner').height() - 33 + "px");
         }
     }
+    var stPath = "/MPC_Content/Designer/Organisation" + organisationId + "/Templates/" + tID;
     $.each(TP, function (i, IT) {
-        $("#slider").append('<img src="designer/products/' + tID + '/p' + IT.PageNo + '.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
-        $("#thumbs").append(' <div id="thumbPage' + IT.ProductPageID + '" class="thumb"><div class="frame"><img src="designer/products/' + tID + '/p' + IT.PageNo + '.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + '</p></div><div style="clear:both;"></div></div>');
+        
+        $("#sliderDesigner").append('<img src="' + stPath + '/p' + IT.PageNo + '.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
+        $("#thumbs").append(' <div id="thumbPage' + IT.ProductPageID + '" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + '.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + '</p></div><div style="clear:both;"></div></div>');
 
     });
     $.each(TP, function (i, IT) {
-        $("#slider").append('<img class="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" src="designer/products/' + tID + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
-        $("#thumbs").append(' <div id="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="designer/products/' + tID + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + ' - Overlay Layer</p></div><div style="clear:both;"></div></div>');
+        $("#sliderDesigner").append('<img class="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
+        $("#thumbs").append(' <div id="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + ' - Overlay Layer</p></div><div style="clear:both;"></div></div>');
     });
     if (IsCalledFrom == 1 || IsCalledFrom == 2) {
-        $('#previewProofing').css("display", "none");
+        $('#previewProofingDesigner').css("display", "none");
     }
     if (IsCalledFrom == 2) {
-        $("#slider").css("visibility", "hidden");
+        $("#sliderDesigner").css("visibility", "hidden");
         $(".PreviewerDownloadPDF").removeClass("PreviewerDownloadPDF").addClass("PreviewerDownloadPDFCorp");
 
         $(".PreviewerDownloadPDFCorp").css("top", "200px");
         $(".PreviewerDownloadPDFCorp").text("Click here to download high resolution PDF file.");
-        $(".PreviewerDownloadPDFCorp").css("right", $("#PreviewerContainer").width() / 2 - 319 + "px");
+        $(".PreviewerDownloadPDFCorp").css("right", $("#PreviewerContainerDesigner").width() / 2 - 319 + "px");
     }
-    if (IsCalledFrom == 3 || IsCalledFrom == 4) {
-        $("#slider").css("cursor", "pointer");
-        $("#slider").click(function () {
-            var s = $('#slider').css('background-image');
-            if (s != undefined) {
-                var p = s.split("/");
-                var i = p[p.length - 1];
-                var im = i.split("?");
-                var img = new Image();
-                StartLoader("Loading content please wait..");
-                img.onload = function () {
-                    StopLoader();
-                    var src = "Previewer.aspx?tId=" + tID + "&pID=" + im[0];
-                    $("#LargePreviewerIframe").attr("src", src);
-                    var width = this.width + 30;
-                    var height = this.height + 50;
-                    $(".LargePreviewerIframe").css("width", width - 30);
-                    $(".LargePreviewerIframe").css("height", height - 40);
-                    if (this.width > $(window).width()) {
-                        width = $(window).width() - 50;
-                    }
-                    if (this.height > $(window).height()) {
-                        height = $(window).height() - 80;
-                        $(".LargePreviewerIframe").css("height", height - 40);
-                        $(".LargePreviewerIframe").css("width", width - 10);
-                    }
-                    $(".LargePreviewer").dialog("option", "height", height);
-                    $(".LargePreviewer").dialog("option", "width", width);
+    //if (IsCalledFrom == 3 || IsCalledFrom == 4) {
+    //    $("#sliderDesigner").css("cursor", "pointer");
+    //    $("#sliderDesigner").click(function () {
+    //        var s = $('#sliderDesigner').css('background-image');
+    //        if (s != undefined) {
+    //            var p = s.split("/");
+    //            var i = p[p.length - 1];
+    //            var im = i.split("?");
+    //            var img = new Image();
+    //            StartLoader("Loading content please wait..");
+    //            img.onload = function () {
+    //                StopLoader();
+    //                //var src = "Previewer.aspx?tId=" + tID + "&pID=" + im[0];
+    //                //$("#LargePreviewerIframe").attr("src", src);
+    //                var width = this.width + 30;
+    //                var height = this.height + 50;
+    //                $(".LargePreviewerIframe").css("width", width - 30);
+    //                $(".LargePreviewerIframe").css("height", height - 40);
+    //                if (this.width > $(window).width()) {
+    //                    width = $(window).width() - 50;
+    //                }
+    //                if (this.height > $(window).height()) {
+    //                    height = $(window).height() - 80;
+    //                    $(".LargePreviewerIframe").css("height", height - 40);
+    //                    $(".LargePreviewerIframe").css("width", width - 10);
+    //                }
+    //                $(".LargePreviewer").dialog("option", "height", height);
+    //                $(".LargePreviewer").dialog("option", "width", width);
 
-                    $("#DivShadow").css("z-Index", "100002");
-                    $("#DivShadow").css("display", "block");
+    //                $("#DivShadow").css("z-Index", "100002");
+    //                $("#DivShadow").css("display", "block");
 
-                    $("#LargePreviewer").dialog("open");
-                }
-                img.src = "designer/products/" + tID + "/" + im[0];
-            }
-        });
-    }
+    //                $("#LargePreviewer").dialog("open");
+    //            }
+    //            img.src = "designer/products/" + tID + "/" + im[0];
+    //        }
+    //    });
+    //}
 }
 function k4() {
     var D1AO = canvas.getActiveObject();
@@ -2402,15 +2426,42 @@ function k7_Case_Force(val) {
         } else {
             selectedObject.textCase = 3;
         }
-        
-       
-      //  pcL22_Sub(selectedObject);
+
+
+        //  pcL22_Sub(selectedObject);
+        changeCase();
         canvas.renderAll();
     }
-    
-    //  c2(D1AO);
-   // canvas.renderAll();
 
+    //  c2(D1AO);
+    // canvas.renderAll();
+
+}
+function changeCase() {
+    var selectedObject = canvas.getActiveObject();
+    var text = selectedObject.text;
+    if (selectedObject.textCase == 1) {
+        text = text.toLowerCase();
+    } else if (selectedObject.textCase == 2) {
+        text = text.toUpperCase();
+    } else if (selectedObject.textCase == 3) {
+
+        text = text.toLowerCase();
+        var sntncForSentncCase = text.split(".");
+        var TextTemp = '';
+        for (var sen = 0; sen < sntncForSentncCase.length; sen++) {
+            if (sntncForSentncCase.length == 1) {
+                TextTemp = TextTemp + sntncForSentncCase[sen].substr(0, 1).toUpperCase() + sntncForSentncCase[sen].substr(1);
+            } else {
+                sntncForSentncCase[sen] = sntncForSentncCase[sen].trim();
+                TextTemp = TextTemp + sntncForSentncCase[sen].substr(0, 1).toUpperCase() + sntncForSentncCase[sen].substr(1) + '. ';
+            }
+
+        }
+
+        text = TextTemp;
+    }
+    selectedObject.text = text;
 }
 function k7_rotate_retail(val) {
     var D1AO = canvas.getActiveObject();
@@ -2440,8 +2491,8 @@ function k8() {
     }
 }
 function k9() {
-    if ($('#slider') != undefined) {
-        var s = $('#slider').css('background-image');
+    if ($('#sliderDesigner') != undefined) {
+        var s = $('#sliderDesigner').css('background-image');
         if (s != undefined) {
             var p = s.split("?");
             if (s.indexOf("asset") == -1) {
@@ -2520,6 +2571,7 @@ function k15() {
 }
 function k16(TempImgType, ImC, Caller) {
     var loaderType = 1;
+    var isV2Servce = false;
     var isBackground = false;
     var oldHtml = "";
     var strName = "";
@@ -2534,6 +2586,7 @@ function k16(TempImgType, ImC, Caller) {
     } else if (IsCalledFrom == 3) {
         if (TempImgType == 6 || TempImgType == 7 || TempImgType == 13 || TempImgType == 14 || TempImgType == 18 || TempImgType == 19 || TempImgType == 20) {
             jsonPath += V2Url;
+            isV2Servce = true;
         }
     } else if (IsCalledFrom == 4) {
         // change terrritory
@@ -2717,12 +2770,17 @@ function k16(TempImgType, ImC, Caller) {
         }
     }
     jsonPath += "Services/imageSvcDam/" + IsCalledFrom + "," + TempImgType + "," + tID + "," + CustomerID + "," + ContactID + "," + Territory + "," + ImC + "," + searchTerm
+    // int isCalledFrom, int imageSetType, long productId, long contactCompanyID, long contactID, long territoryId, int pageNumner, string SearchKeyword, long OrganisationID
+    if (!isV2Servce) {
+        jsonPath = "/designerAPI/TemplateBackgroundImage/getImages/" + IsCalledFrom + "/" + TempImgType + "/" + tID + "/" + CustomerID + "/" + ContactID + "/" + Territory + "/" + ImC + "/" + searchTerm + "/"+organisationId;
+    }
+   
     oldHtml = $("." + strName).html() + "";
     $.getJSON(jsonPath,
             function (DT) {
                 // alert(DT);
                 if (Caller != "Loader") {
-                   stopInlineLoader();
+                    stopInlineLoader();
                 }
                 if (DT.objsBackground == "") {
                     if (oldHtml.indexOf("allImgsLoadedMessage") == -1) {
@@ -2794,20 +2852,26 @@ function k16(TempImgType, ImC, Caller) {
                         }
                         $("." + strName + " .allImgsLoadedMessage").remove();
                         $("." + strName).append("<p class='allImgsLoadedMessage'>No more images matches your search criteria. </p>");
-                      //  $(".btn" + strName).css("display", "none"); if button added for load more images
+                        //  $(".btn" + strName).css("display", "none"); if button added for load more images
 
                     }
                 }
                 else {
                     // $(".imCount" + strName).html(DT.ImageCount + " Images found.");
                     //    $(".imCount" + strName).html("Drag an image to canvas.");
-                    
+
                     $.each(DT.objsBackground, function (j, IT) {
-                        LiImgs.push(IT); 
-                        var url = "./" + IT.BackgroundImageRelativePath;
+                        LiImgs.push(IT);
+                        var url = "/MPC_Content/" + IT.BackgroundImageRelativePath;
+                        var funcUrl = "/MPC_Content" + IT.BackgroundImageRelativePath;
+
                         if (IsCalledFrom == 3) {
                             if (TempImgType == 6 || TempImgType == 7 || TempImgType == 13 || TempImgType == 14 || TempImgType == 18 || TempImgType == 19 || TempImgType == 20) {
                                 url = "http://designerv2.myprintcloud.com/" + IT.BackgroundImageRelativePath;
+                                funcUrl = "http://designerv2.myprintcloud.com/" + IT.BackgroundImageRelativePath;
+                            } else if (TempImgType == 1)
+                            {
+                                funcUrl = "/" + IT.BackgroundImageRelativePath;
                             }
                         }
                         var title = IT.ID;
@@ -2823,20 +2887,24 @@ function k16(TempImgType, ImC, Caller) {
                         if (url.indexOf('.svg') == -1) {
                             var p = url.split('.');
                             for (var z = 0; z <= p.length - 2; z++) {
-                                if (p[z] != "") {
-                                    if (z == 0 && IsCalledFrom == 3) {
-                                        urlThumbnail += p[z];
-                                    } else {
-                                        urlThumbnail += "." + p[z];
-                                    }
+                                    if (p[z] != "") {
+                                        if (IsCalledFrom == 3) {
+                                            if (z == 0) {
+                                                urlThumbnail += p[z];
+                                            } else {
+                                                urlThumbnail += "." + p[z];
+                                            }
+                                        } else {
+                                            urlThumbnail += p[z];
+                                        }
                                 }
                             }
                             urlThumbnail += "_thumb." + p[p.length - 1];
                         } else {
                             urlThumbnail = url;
-                        }
+                        } 
                         if (ImIsEditable) {
-                            
+
                             var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#">' + '<img  src="' + urlThumbnail +
                               '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" id = "' + title + '" alt="' + url + '">'// + '<span class="info btnRemoveImg"><span class=" moreInfo ">✖</span></span>'
                               + bkContainer + '<span class="info">' + '<span class="moreInfo" title="Show more info" onclick=k26(' + title + "," + index + "," + loaderType + ')>i</span>' +
@@ -2844,19 +2912,19 @@ function k16(TempImgType, ImC, Caller) {
                             $("." + strName).append(ahtml);
                         } else {
                             var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#">' + '<img  src="' + urlThumbnail +
-                              '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" id = "' + title + '" alt="' + url + '">' + bkContainer +'</a></li>';
+                              '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" id = "' + title + '" alt="' + url + '">' + bkContainer + '</a></li>';
 
                             $("." + strName).append(ahtml);
 
                         }
                         $("#" + title).click(function (event) {
-                            j9(event, url, title);
+                            j9(event, funcUrl, title);
                         });
                     });
                     var he21 = $("." + strName + " li").length;
                     he21 = (he21 / 4) * ($("." + strName + " li").height() + 2);
                     if (isBackground)
-                        he21 +=10;
+                        he21 += 10;
                     $("." + strName).css("height", he21 + "px");
                     var clss = $(".searchLoaderHolder").parent().attr("class");
                     if (clss.indexOf("templateImagesContainer") != -1 || clss.indexOf("tempBackgroundImages") != -1 || clss.indexOf("freeImgsContainer") != -1 || clss.indexOf("freeBkImgsContainer") != -1 || clss.indexOf("shapesContainer") != -1 || clss.indexOf("logosContainer") != -1 || clss.indexOf("yourLogosContainer") != -1 || clss.indexOf("illustrationsContainer") != -1 || clss.indexOf("framesContainer") != -1 || clss.indexOf("bannersContainer") != -1 || clss.indexOf("myBkImgsContainer") != -1 || clss.indexOf("yourImagesContainer") != -1) {
@@ -2950,18 +3018,18 @@ function k21Sh() {
     startInlineLoader(25);
     GlShpCn += 1;
     if (IsCalledFrom == 1 || IsCalledFrom == 3) {
-      //  k16(13, GlShpCn, "fun");
+        //  k16(13, GlShpCn, "fun");
     } else {
-      //  k16(16, GlShpCn, "fun");
+        //  k16(16, GlShpCn, "fun");
     }
 }
 function k21Log() {
     startInlineLoader(26);
     GlLogCn += 1;
     if (IsCalledFrom == 1 || IsCalledFrom == 3) {
-       // k16(14, GlLogCn, "fun");
+        // k16(14, GlLogCn, "fun");
     } else {
-      //  k16(17, GlLogCn, "fun");
+        //  k16(17, GlLogCn, "fun");
     }
 }
 function k21PLog() {
@@ -2970,7 +3038,7 @@ function k21PLog() {
     k16(15, GlLogCnP, "fun");
 }
 function k22() {
-   // StartLoader();
+    // StartLoader();
     GlImC = 1;
     $(".divGlobImgContainer").html("");
     $(".btndivGlobImgContainer").css("display", "block");
@@ -2987,9 +3055,9 @@ function k22Log() {
     $(".divLogosContainer").html("");
     $(".btndivLogosContainer").css("display", "block");
     if (IsCalledFrom == 1 || IsCalledFrom == 3) {
-    //    k16(14, GlLogCn, "fun");
+        //    k16(14, GlLogCn, "fun");
     } else {
-      //  k16(17, GlLogCn, "fun");
+        //  k16(17, GlLogCn, "fun");
     }//
 }
 function k22Sh() {
@@ -2998,14 +3066,14 @@ function k22Sh() {
     $(".divShapesContainer").html("");
     $(".btndivShapesContainer").css("display", "block");
     if (IsCalledFrom == 1 || IsCalledFrom == 3) {
-      //  k16(13, GlShpCn, "fun");
+        //  k16(13, GlShpCn, "fun");
     } else {
-      //  k16(16, GlShpCn, "fun");
+        //  k16(16, GlShpCn, "fun");
     }
 
 }
 function k22LogP() {
-   // StartLoader();
+    // StartLoader();
     GlLogCnP = 1;
     $(".divPLogosContainer").html("");
     $(".btndivPLogosContainer").css("display", "block");
@@ -3018,7 +3086,7 @@ function k24ilus() {
     k16(18, GlIlsC, "fun");
 }
 function k22Bk() {
-   // StartLoader();
+    // StartLoader();
     GlImCBk = 1;
     $(".divGlobBkImgContainer").html("");
     $(".btndivGlobBkImgContainer").css("display", "block");
@@ -3067,7 +3135,7 @@ function k24() {
     }
 }
 function k25() {
-   // StartLoader();
+    // StartLoader();
     UsImC = 1;
     $(".divPersImgContainer").html("");
     $(".btndivPersImgContainer").css("display", "block");
@@ -3082,7 +3150,7 @@ function k25() {
     }
 }
 function k25Bk() {
-   // StartLoader();
+    // StartLoader();
     UsImCBk = 1;
     $(".divPersBkImgContainer").html("");
     $(".divPersBkImgContainer").css("display", "block");
@@ -3097,35 +3165,35 @@ function k25Bk() {
     }
 }
 function k25Ills() {
-   // StartLoader();
+    // StartLoader();
     GlIllsEx = 1;
     $(".divIllustrationContainer").html("");
     $(".btndivIllustrationContainer").css("display", "block");
     k16(18, GlIlsC, "fun");
 }
 function k25Frames() {
-   // StartLoader();
+    // StartLoader();
     GlframC = 1;
     $(".divFramesContainer").html("");
     $(".btndivFramesContainer").css("display", "block");
     k16(19, GlframC, "fun");
 }
 function k25Banners() {
- //   StartLoader();
+    //   StartLoader();
     GlBanC = 1;
     $(".divBannersContainer").html("");
     $(".btndivBannersContainer").css("display", "block");
     k16(20, GlBanC, "fun");
 }
-function k26(id, n,m) {
+function k26(id, n, m) {
     //StartLoader("Loading image please wait..");
     imgSelected = id;
     imgLoaderSection = m;
     var imToLoad = parseInt(id);
     var tp = $("#selectedTab").css("top");
-    $("#objectPanel").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage8").removeClass("stage7").addClass("stage7");
-   
- //   $(".stage7 #selectedTab").css("top", tp);
+    $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage8").removeClass("stage7").addClass("stage7");
+
+    //   $(".stage7 #selectedTab").css("top", tp);
     $(".ImageContainer").css("display", "none");
     $("#progressbar").css("display", "none");
     svcCall3(imToLoad);
@@ -3136,7 +3204,7 @@ function k26_Dt(DT) {
     $("#InputImgTitle").val(DT.ImageTitle);
     $("#InputImgDescription").val(DT.ImageDescription);
     $("#InputImgKeywords").val(DT.ImageKeywords);
-    $("#ImgDAMDetail").attr("src", "./" + DT.BackgroundImageRelativePath);
+    $("#ImgDAMDetail").attr("src", "/" + DT.BackgroundImageRelativePath);
     // image set type 12 = global logos
     // image set type 13 = global shapes/icons
     $("#radioImagePicture").prop('checked', true);
@@ -3171,15 +3239,15 @@ function k27() {
     k25Bk();
     k22Bk();
     k19Bk();
-  //  k22Log();
-  //  k22Sh();
+    //  k22Log();
+    //  k22Sh();
     if (IsCalledFrom == 3) {
         k22LogP();
     }
     if (IsCalledFrom == 1 || IsCalledFrom == 3) {
-      //  k25Ills();
-      //  k25Frames();
-      //  k25Banners();
+        //  k25Ills();
+        //  k25Frames();
+        //  k25Banners();
     }
 }
 function k31(cCanvas, IO) {
@@ -3192,16 +3260,16 @@ function k31(cCanvas, IO) {
     }
     fabric.Image.fromURL(IO.ContentString, function (IOL) {
         IOL.set({
-            left: (IO.PositionX + IO.MaxWidth / 2)* dfZ1l,
-            top: (IO.PositionY + IO.MaxHeight / 2)* dfZ1l,
+            left: (IO.PositionX + IO.MaxWidth / 2) * dfZ1l,
+            top: (IO.PositionY + IO.MaxHeight / 2) * dfZ1l,
             angle: IO.RotationAngle
         });
         IOL.ImageClippedInfo = IO.ClippedInfo;
         IOL.maxWidth = IO.MaxWidth;
         IOL.maxHeight = IO.MaxHeight;
         IOL.ObjectID = IO.ObjectID;
-        IOL.scaleX = (IOL.maxWidth / IOL.width)* dfZ1l;
-        IOL.scaleY = (IOL.maxHeight / IOL.height)* dfZ1l;
+        IOL.scaleX = (IOL.maxWidth / IOL.width) * dfZ1l;
+        IOL.scaleY = (IOL.maxHeight / IOL.height) * dfZ1l;
         IOL.setAngle(IO.RotationAngle);
         IOL.setOpacity(IO.Opacity);
         if (IsCalledFrom == 1 || IsCalledFrom == 2) {
@@ -3262,7 +3330,7 @@ function k32(imID, Tid, eleID) {
         n = n.replace("%20", " ");
     while (n.indexOf('./') != -1)
         n = n.replace("./", "");
-    
+
     if (eleID.indexOf('UserImgs') != -1) {
         var imgtype = 2;
         if (isBKpnl) {
@@ -3297,31 +3365,21 @@ function k32(imID, Tid, eleID) {
 
 }
 function k32_load(DT) {
-    var p = DT.split(Tid + "/");
+    var p = DT.split(tID + "/");
     var i = p[p.length - 1];
     var bkImgURL = p;
-    StopLoader();
-    canvas.backgroundColor = "#ffffff";
-    canvas.setBackgroundImage(DT, canvas.renderAll.bind(canvas), {
-        left: 0,
-        top: 0,
-        height: canvas.getHeight(),
-        width: canvas.getWidth(),
-        maxWidth: canvas.getWidth(),
-        maxHeight: canvas.getHeight(),
-        originX: 'left',
-        originY: 'top'
-    }); StopLoader();
-    canvas.renderAll();
+    
+
     k27();
     $.each(TP, function (op, IT) {
         if (IT.ProductPageID == SP) {
             // $("#ImgCarouselDiv").tabs("option", "active", 1); //open template background images tab
-            IT.BackgroundFileName = Tid + "/" + i;
+            IT.BackgroundFileName = tID + "/" + i;
             IT.BackGroundType = 3;
             return;
         }
     });
+    d5(SP); StopLoader();
 }
 function l4(caller) {
     if (llData.length > 0 || IsCalledFrom == 1) {
@@ -3342,7 +3400,7 @@ function l4(caller) {
                 PortCount++;
             }
             BtnCount++;
-            if (PortCount == 1 ||BtnCount == 6) {
+            if (PortCount == 1 || BtnCount == 6) {
                 html += "<br /><br />";
 
                 BtnCount = 0;
@@ -3353,49 +3411,49 @@ function l4(caller) {
             var imURL = "";
             var mode = IT.ImageLogoType;
             if (mode == 1) {
-                imURL = "assets/presets/preset5_2.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset5_2.png";
             } else if (mode == 2) {
-                imURL = "assets/presets/preset5_1.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset5_1.png";
             } else if (mode == 3) {
-                imURL =  "assets/presets/preset5.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset5.png";
             } else if (mode == 4) {
-                imURL =  "assets/presets/preset4.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset4.png";
             } else if (mode == 5) {
-                imURL =  "assets/presets/preset3.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset3.png";
             } else if (mode == 6) {
-                imURL =  "assets/presets/preset2.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset2.png";
             } else if (mode == 7) {
-                imURL =  "assets/presets/preset1.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset1.png";
             } else if (mode == 8) {
-                imURL =  "assets/presets/preset6.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset6.png";
             } else if (mode == 9) {
-                imURL =  "assets/presets/preset7.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset7.png";
             } else if (mode == 10) {
-                imURL =  "assets/presets/preset8.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset8.png";
             } else if (mode == 11) {
-                imURL =  "assets/presets/preset9.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset9.png";
             } else if (mode == 12) {
-                imURL = "assets/presets/preset10.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset10.png";
             } else if (mode == 13) {
-                imURL = "assets/presets/preset10_1.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset10_1.png";
             } else if (mode == 14) {
-                imURL = "assets/presets/preset10_2.png";
+                imURL = "/Content/Designer/assets-v2/presets/preset10_2.png";
             } else if (mode == 15) {
-                imURL = "assets/presets/presets14.png";
+                imURL = "/Content/Designer/assets-v2/presets/presets14.png";
             } else if (mode == 16) {
-                imURL = "assets/presets/presets-15.png";
+                imURL = "/Content/Designer/assets-v2/presets/presets-15.png";
             } else if (mode == 17) {
-                imURL = "assets/presets/presets16.png";
+                imURL = "/Content/Designer/assets-v2/presets/presets16.png";
             } else if (mode == 18) {
-                imURL = "assets/presets/presets11.png";
+                imURL = "/Content/Designer/assets-v2/presets/presets11.png";
             } else if (mode == 19) {
-                imURL = "assets/presets/presets12.png";
+                imURL = "/Content/Designer/assets-v2/presets/presets12.png";
             } else if (mode == 20) {
-                imURL = "assets/presets/presets-13.png";
+                imURL = "/Content/Designer/assets-v2/presets/presets-13.png";
             }
             html += '<button id="btnPreset' + IT.LayoutID + '" class="' + ClName + '" title="Left Presets" onClick="l5(' + IT.LayoutID + ')" style="background-image:url(' + imURL + ')  " ></button>';
             var id = "#btnPreset" + IT.LayoutID;
-            $(id).css("background-image", '../assets/sprite.png');
+            $(id).css("background-image", '/Content/Designer/assets-v2/sprite.png');
         });
         $(".divLayoutBtnContainer").html(html);
         //if (IsCalledFrom == 1) {
@@ -3422,14 +3480,14 @@ function m0_prePop() {
                 if (ite.type == "image") {
                     html += m0_i9(ite.ObjectID, 'Image Object', ite.type, ite.getSrc(), index1);
                 } else if (ite.type == "text" || ite.type == "i-text") {
-                    html += m0_i9(ite.ObjectID, ite.text, ite.type, "./assets/txtObject.png", index1);
+                    html += m0_i9(ite.ObjectID, ite.text, ite.type, "/Content/Designer/assets-v2/txtObject.png", index1);
                 } else if (ite.type == "ellipse") {
-                    html += m0_i9(ite.ObjectID, 'Ellipse Object', ite.type, "./assets/circleObject.png", index1);
+                    html += m0_i9(ite.ObjectID, 'Ellipse Object', ite.type, "/Content/Designer/assets-v2/circleObject.png", index1);
                 } else {
-                    html += m0_i9(ite.ObjectID, 'Shape Object', ite.type, "./assets/rectObject.png", index1);
+                    html += m0_i9(ite.ObjectID, 'Shape Object', ite.type, "/Content/Designer/assets-v2/rectObject.png", index1);
                 }
                 index1 += 1;
-               
+
             }
         });
 
@@ -3451,14 +3509,14 @@ function m0_prePop() {
         pcL27_find(id);
         m0_prePop();
         $("#sortableLayers li").removeClass("selectedItemLayers");
-        $("#selobj_" + id).addClass("selectedItemLayers"); 
+        $("#selobj_" + id).addClass("selectedItemLayers");
     });
     $(".btnMoveLayerDown").click(function () {
         var id = $(this).parent().children(".selectedObjectID").text();
         pcL28_find(id);
         m0_prePop();
         $("#sortableLayers li").removeClass("selectedItemLayers");
-        $("#selobj_" + id).addClass("selectedItemLayers"); 
+        $("#selobj_" + id).addClass("selectedItemLayers");
     });
     $(".editTxtBtn").click(function () {
         var id = $(this).parent().children(".selectedObjectID").text();
@@ -3482,7 +3540,7 @@ function m0_i9(oId, oName, OType, iURL, index1) {
     } else if (index1 == -1) {
         btnHtml = ' <button class="btnMoveLayerUp" ></button>';
     }
-    btnHtml += ' <button class="button editTxtBtn" >Edit</button>'
+    btnHtml += ' <button class="buttonDesigner editTxtBtn" >Edit</button>'
     if (cid == oId) {
         var innerHtml = "";
         html = '<li id="selobj_' + oId + '" class="ui-state-default uiOldSmothness" style="padding:5px;"><span class="selectedObjectID">' + oId + '</span>  <img class="layerImg" src="' + iURL + '" alt="Image" onclick="j1(' + oId + ')" /> <span class="spanLyrObjTxtContainer" onclick="j1(' + oId + ')">' + oName + '</span>' + btnHtml + ' <br /></li>';;//'<li id="selobj_' + oId + '" class="ui-state-default"></li>';
@@ -3530,12 +3588,12 @@ function pcL28_find(id) {
 
 }
 function pcL36(mode, arrayControls) {  // panels logic do here 
-    //var notInPanel = " #quickText , #DivPersonalizeTemplate , #DivToolTip , #DivAdvanceColorPanel ,  #divPositioningPanel , #DivControlPanel1 , #divBCMenu , #btnShowMoreOptions , #divPopupUpdateTxt , #divVariableContainer , #PreviewerContainer , #divPresetEditor ";
+    //var notInPanel = " #quickText , #DivPersonalizeTemplate , #DivToolTip , #DivAdvanceColorPanel ,  #divPositioningPanel , #DivControlPanel1 , #divBCMenu , #btnShowMoreOptions , #divPopupUpdateTxt , #divVariableContainer , #PreviewerContainerDesigner , #divPresetEditor ";
     var controls = "";
     controls += ' #DivAlignObjs ,#divTxtPropPanelRetail ,#divImgPropPanelRetail ,#DivColorPickerDraggable ,#DivAdvanceColorPanel';
     //controls += '#addText , #addImage , #divImageDAM , #divImageEditScreen , #DivLayersPanel , #UploadImage , #ImagePropertyPanel , #ShapePropertyPanel ';
     //controls += ' , #textPropertPanel , #quickTextFormPanel , #DivUploadFont , #DivColorPallet ';
-   // arrayControls += ', #divEditObj ';
+    // arrayControls += ', #divEditObj ';
     var closeControls = true;
     //var p = arrayControls.split(" , ");
     //$.each(p, function (i, item) {
@@ -3543,9 +3601,9 @@ function pcL36(mode, arrayControls) {  // panels logic do here
     //        closeControls = true;
     //    }
     //});
-   // if (closeControls && mode != "hide") {
-      
-  //  }
+    // if (closeControls && mode != "hide") {
+
+    //  }
     if (mode == "show") {
         $(controls).css("display", "none");
         $(controls).css("opacity", "0");

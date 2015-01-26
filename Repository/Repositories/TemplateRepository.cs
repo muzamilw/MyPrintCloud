@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using MPC.Models.Common;
 using System.IO;
+using MPC.Common;
 namespace MPC.Repository.Repositories
 {
     /// <summary>
@@ -56,14 +57,22 @@ namespace MPC.Repository.Repositories
         /// </summary>
         /// <param name="productID"></param>
         /// <returns></returns>
-        public Template GetTemplate(long productID)
+        /// 
+        public Template GetTemplate(long productID,bool loadPages)
         {
             db.Configuration.LazyLoadingEnabled = false;
-            var template = db.Templates.Include("TemplatePages").Where(g => g.ProductId == productID).SingleOrDefault();
+            Template template = null;
+            if (loadPages)
+            {
+                template = db.Templates.Include("TemplatePages").Where(g => g.ProductId == productID).SingleOrDefault();
+            } else
+            {
+                template = db.Templates.Where(g => g.ProductId == productID).SingleOrDefault();
+            }
             return template;
 
         }
-
+      
          // returns list of pages and objects along with template called while generating template pdf;
         public Template GetTemplate(long productID, out List<TemplatePage> listPages, out List<TemplateObject> listTemplateObjs)
         {
@@ -120,7 +129,39 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+        // update template height and width , called while uploading pdf as background // added by saqib ali
+        public bool updateTemplate(long productID, double pdfWidth, double pdfHeight)
+        {
+            bool result = false;
+            Template objTemplate = db.Templates.Where(g => g.ProductId == productID).SingleOrDefault();
+            if (objTemplate != null)
+            {
+                objTemplate.PDFTemplateWidth = pdfWidth;
+                objTemplate.PDFTemplateHeight = pdfHeight;
+                objTemplate.CuttingMargin = 14.173228345;
+              
+                db.SaveChanges();
+                result = true;
+            }
 
+            return result;
+        }
+        // update template pages called from designer while uploading pdf as background
+        public bool updateTemplatePages(int count,long productId)
+        {
+            foreach (var tempPage in db.TemplatePages.Where(g => g.ProductId == productId).ToList())
+            {
+                if (tempPage.PageNo <= count)
+                {
+                    tempPage.BackGroundType = 1;
+                    tempPage.BackgroundFileName = productId.ToString() + "/Side" + tempPage.PageNo.ToString() + ".pdf";
+                    tempPage.PageType = 1;  // pageType(1 = without color 2 = with color )  Color C  Color M  Color Y Color K   
+                }
+            }
+
+            db.SaveChanges();
+            return true;
+        }
         // update template height and width and add new template pages, called while uploading pdf as template from MIS // added by saqib
         public bool updateTemplate(long productID, double pdfWidth, double pdfHeight, List<TemplatePage> listPages)
         { 
@@ -533,6 +574,46 @@ namespace MPC.Repository.Repositories
                 }
             }
         }
+        //called from designer for retail store // added by saqib ali 
+        public Template CreateTemplate(long productID,long categoryIdv2,double height,double width,long itemId)
+        {
+            Template result = null;
+            if (productID == 0)
+            {
+                Template oTemplate = new Template();
+                oTemplate.Status = 1;
+                oTemplate.ProductName = "Untitled design";
+                oTemplate.ProductId = 0;
+               // oTemplate.ProductCategoryId = categoryIdv2;
+                oTemplate.CuttingMargin = (DesignerUtils.MMToPoint(5));
+                oTemplate.PDFTemplateHeight =(DesignerUtils.MMToPoint(height));
+                oTemplate.PDFTemplateWidth = (DesignerUtils.MMToPoint(width));
+                db.Templates.Add(oTemplate);
+                db.SaveChanges();
+
+                TemplatePage tpage = new TemplatePage();
+                tpage.Orientation = 1;
+                tpage.PageType = 1;
+                tpage.PageNo = 1;
+                tpage.ProductId = oTemplate.ProductId;
+                tpage.BackGroundType = 2;
+                tpage.ColorC = 0;
+                tpage.ColorK = 0;
+                tpage.ColorM = 0;
+                tpage.ColorY = 0;
+                tpage.PageName = "Front";
+                db.TemplatePages.Add(tpage);
+                var item = db.Items.Where(g => g.ItemId == itemId).SingleOrDefault();
+                if(item != null)
+                {
+                    item.TemplateId = oTemplate.ProductId;
+                }
+                db.SaveChanges();
+                result = db.Templates.Include("TemplatePages").Where(g => g.ProductId == oTemplate.ProductId).SingleOrDefault();
+
+            }
+            return result;
+        }
         
         public List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID, List<ProductCategoriesView> PCview)
         {
@@ -670,7 +751,7 @@ namespace MPC.Repository.Repositories
         public void populateTemplateInfo(long templateID, Item ItemRecc,out Template template,out List<TemplatePage> tempPages)
         {
             Template temp = new Template();
-            template = GetTemplate(templateID);
+            template = GetTemplate(templateID, false);
             tempPages = GetTemplatePagesByTemplateID(templateID);
             //using (GlobalTemplateDesigner.TemplateSvcSPClient pSc = new GlobalTemplateDesigner.TemplateSvcSPClient())
             //{
