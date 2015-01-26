@@ -6,6 +6,8 @@ using MPC.Webstore.Common;
 using MPC.Webstore.ModelMappers;
 using MPC.Webstore.Models;
 using MPC.Models.DomainModels;
+using System.Runtime.Caching;
+using System.Collections.Generic;
 
 namespace MPC.Webstore.Controllers
 {
@@ -33,17 +35,21 @@ namespace MPC.Webstore.Controllers
         // GET: ContactUs
         public ActionResult Index()
         {
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
 
-            ViewBag.Organisation = baseResponse.Organisation;
-            string country = baseResponse.Organisation.Country != null
-                                                                ? baseResponse.Organisation.Country.CountryName
+           // MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+
+            ViewBag.Organisation = StoreBaseResopnse.Organisation;
+            string country = StoreBaseResopnse.Organisation.Country != null
+                                                                ? StoreBaseResopnse.Organisation.Country.CountryName
                                                                 : string.Empty;
-            string state = baseResponse.Organisation.State != null
-                ? baseResponse.Organisation.State.StateName
+            string state = StoreBaseResopnse.Organisation.State != null
+                ? StoreBaseResopnse.Organisation.State.StateName
                 : string.Empty;
-            string MapInfoWindow = baseResponse.Organisation.OrganisationName + "<br>" + baseResponse.Organisation.Address1 + baseResponse.Organisation.Address2 + "<br>" + baseResponse.Organisation.City + "," + state + "," + baseResponse.Organisation.ZipCode;
-            ViewBag.googleMapScript = @"<script> var isGeoCode = true; var addressline = '" + baseResponse.Organisation.Address1 + "," + baseResponse.Organisation.Address2 + "," + baseResponse.Organisation.City + "," + country + "," + baseResponse.Organisation.ZipCode + "';var info='" + MapInfoWindow + "';</script>";
+            string MapInfoWindow = StoreBaseResopnse.Organisation.OrganisationName + "<br>" + StoreBaseResopnse.Organisation.Address1 + StoreBaseResopnse.Organisation.Address2 + "<br>" + StoreBaseResopnse.Organisation.City + "," + state + "," + StoreBaseResopnse.Organisation.ZipCode;
+            ViewBag.googleMapScript = @"<script> var isGeoCode = true; var addressline = '" + StoreBaseResopnse.Organisation.Address1 + "," + StoreBaseResopnse.Organisation.Address2 + "," + StoreBaseResopnse.Organisation.City + "," + country + "," + StoreBaseResopnse.Organisation.ZipCode + "';var info='" + MapInfoWindow + "';</script>";
             return PartialView("PartialViews/ContactUs");
         }
 

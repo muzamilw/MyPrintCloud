@@ -557,7 +557,7 @@ namespace MPC.Repository.Repositories
             };
         }
 
-        public CompanyContact GetContactByEmailAndMode(string Email, int Type, int customerID)
+        public CompanyContact GetContactByEmailAndMode(string Email, int Type, long customerID)
         {
             var query = (from c in db.CompanyContacts
                          join cc in db.Companies on c.CompanyId equals cc.CompanyId

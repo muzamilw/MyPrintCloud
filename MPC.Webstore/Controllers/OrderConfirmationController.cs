@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MPC.Webstore.ModelMappers;
+using System.Runtime.Caching;
 namespace MPC.Webstore.Controllers
 {
     public class OrderConfirmationController : Controller
@@ -36,7 +37,11 @@ namespace MPC.Webstore.Controllers
         // GET: OrderConfirmation
         public ActionResult Index(string OrderId)
         {
-            MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+           // MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
             long OrderID = Convert.ToInt64(OrderId);
             if (OrderID > 0)
             {
@@ -58,7 +63,7 @@ namespace MPC.Webstore.Controllers
 
                     }
 
-                    if (baseResponseCompany.Company.ShowPrices ?? true)
+                    if (StoreBaseResopnse.Company.ShowPrices ?? true)
                     {
                         ViewBag.IsShowPrices = true;
                         //do nothing because pricing are already visible.
@@ -70,7 +75,7 @@ namespace MPC.Webstore.Controllers
                     }
 
 
-
+                    StoreBaseResopnse = null;
                     return View("PartialViews/OrderConfirmation", shopCart);
                 }
                 else

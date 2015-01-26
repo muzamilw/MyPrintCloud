@@ -93,11 +93,12 @@ namespace MPC.Webstore.Controllers
 
             string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse stores = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
 
 
-            model = GetWidgetsByPageName(stores.SystemPages, pageRouteValue.Split('/')[0], stores.CmsSkinPageWidgets, stores.StoreDetaultAddress, stores.Company.Name);
+            model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse.Company.Name);
 
+            StoreBaseResopnse = null;
             return View(model);
         }
 

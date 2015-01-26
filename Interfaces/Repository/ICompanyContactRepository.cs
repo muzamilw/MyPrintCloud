@@ -21,7 +21,7 @@ namespace MPC.Interfaces.Repository
         Models.ResponseModels.CompanyContactResponse GetCompanyContacts(
             Models.RequestModels.CompanyContactRequestModel request);
 
-        CompanyContact GetContactByEmailAndMode(string Email, int Type, int customerID);
+        CompanyContact GetContactByEmailAndMode(string Email, int Type, long customerID);
 
         string GeneratePasswordHash(string plainText);
 
