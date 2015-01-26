@@ -296,6 +296,7 @@
     <Compile Include="Controllers\RealEstateBannerController.cs" />
     <Compile Include="Controllers\RealEstateFooterController.cs" />
     <Compile Include="Controllers\RealEstateHeaderController.cs" />
+    <Compile Include="Controllers\RealEstateImageSliderController.cs" />
     <Compile Include="Controllers\RealEstateItemController.cs" />
     <Compile Include="Controllers\RealEstateProductsController.cs" />
     <Compile Include="Controllers\RealEstateSmartFormController.cs" />
@@ -436,6 +437,8 @@
     <Content Include="Content\Images\Listing-prev-horizoltal.png" />
     <Content Include="Content\Images\logout.png" />
     <Content Include="Content\Images\my-jobs.png" />
+    <Content Include="Content\Images\next-horizontal.png" />
+    <Content Include="Content\Images\prev-horizontal.png" />
     <Content Include="Content\Images\ProfileImage.png" />
     <Content Include="Content\Images\RealEstateLogo.png" />
     <Content Include="Content\Images\Settings.png" />
@@ -468,6 +471,7 @@
     <Content Include="Content\Designer\jquery-sunny\images\ui-icons_ffe180_256x240.png" />
     <Content Include="Content\Designer\jquery-sunny\jquery-ui-1.10.4.custom.min.css" />
     <Content Include="Content\RealEstate_StyleSheet.css" />
+    <Content Include="Content\SamrtFormCarousel.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -621,6 +625,7 @@
     <Content Include="Views\Shared\PartialViews\RealEstateFooter.cshtml" />
     <Content Include="Views\Shared\PartialViews\RealEstateProducts.cshtml" />
     <Content Include="Views\Shared\PartialViews\RealEstateSmartForm.cshtml" />
+    <Content Include="Views\Shared\PartialViews\RealEstateImageSlider.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -628,6 +633,7 @@
     <Folder Include="Areas\DesignerApi\Views\Shared\" />
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Views\RealEstateFooter\" />
+    <Folder Include="Views\RealEstateImageSlider\" />
     <Folder Include="Views\RealEstateProducts\" />
     <Folder Include="Views\RealEstateSmartForm\" />
     <Folder Include="Views\Receipt\" />

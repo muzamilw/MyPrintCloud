@@ -1,0 +1,26 @@
+﻿@Model Images
+
+
+
+
+<div class="content_area  featuredProductsCarousel">
+    <ul id="mycarousel" class="jcarousel-skin-tango">
+        @foreach (var listing in Model as List<string>)
+        {
+            <li style="width: 250px; padding-right: 10px;">
+                <div>
+                    <img src="@listing" alt="" style="height: 250px; width: 250px;" />
+                </div>
+            </li>
+        }
+    </ul>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#mycarousel').jcarousel();
+        });
+    </script>
+}

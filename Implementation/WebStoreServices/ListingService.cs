@@ -12,8 +12,8 @@ namespace MPC.Implementation.WebStoreServices
     public class ListingService : IListingService
     {
         private readonly IListingRepository _ListingRepository;
-
-
+        
+        
         /// <summary>
         ///  Constructor
         /// </summary>
@@ -68,6 +68,15 @@ namespace MPC.Implementation.WebStoreServices
         public List<ListingVendor> GetListingVendorsByListingId(long listingId)
         {
             return _ListingRepository.GetListingVendorsByListingId(listingId);
+        }
+        public List<VariableSection> GetSectionsNameBySectionIDs(List<FieldVariable> fieldVariabes)
+        {
+            return _ListingRepository.GetSectionsNameBySectionIDs(fieldVariabes);
+        }
+
+        public List<FieldVariable> GetVariablesListWithValues(long listingId, long itemId, out List<MPC.Models.Common.TemplateVariable> lstVariableAndValue, out List<MPC.Models.Common.TemplateVariable> lstGeneralVariables, out List<string> lstListingImages, out List<VariableSection> lstSectionsName)
+        {
+            return _ListingRepository.GetVariablesListWithValues(listingId, itemId, out lstVariableAndValue, out lstGeneralVariables, out lstListingImages, out lstSectionsName);
         }
     }
 }

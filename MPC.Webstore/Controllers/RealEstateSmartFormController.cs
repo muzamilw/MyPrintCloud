@@ -10,6 +10,29 @@ namespace MPC.Webstore.Controllers
 {
     public class RealEstateSmartFormController : Controller
     {
+        public class SectionControls
+        {
+            private List<MPC.Models.Common.TemplateVariable> _controls;
+            public string SectionName { get; set; }
+            public List<MPC.Models.Common.TemplateVariable> Controls
+            {
+                get
+                {
+                    if (_controls == null)
+                    {
+                        _controls = new List<MPC.Models.Common.TemplateVariable>();
+
+                    }
+
+                    return _controls;
+                }
+                set
+                {
+                    _controls = value;
+                }
+            }
+        }
+
         #region Private
 
         private readonly IListingService _myListingService;
@@ -35,16 +58,34 @@ namespace MPC.Webstore.Controllers
         // GET: RealEstateSmartForm
         public ActionResult Index(long listingId, long itemId)
         {
-            Listing listing = _myListingService.GetListingByListingId(listingId);
-            List<ListingOFI> listingOFIs = _myListingService.GetListingOFIsByListingId(listingId);
-            List<ListingImage> listingImages = _myListingService.GetListingImagesByListingId(listingId);
-            List<ListingFloorPlan> listingFloorPlans = _myListingService.GetListingFloorPlansByListingId(listingId);
-            List<ListingLink> listingLinks = _myListingService.GetListingLinksByListingId(listingId);
-            List<ListingAgent> listingAgents = _myListingService.GetListingAgentsByListingId(listingId);
-            List<ListingConjunctionAgent> listingConAgents = _myListingService.GetListingConjunctionalAgentsByListingId(listingId);
-            List<ListingVendor> listingVendors = _myListingService.GetListingVendorsByListingId(listingId);
+            List<MPC.Models.Common.TemplateVariable> lstVariableAndValue = new List<MPC.Models.Common.TemplateVariable>();
+            List<MPC.Models.Common.TemplateVariable> lstGeneralVariable = new List<MPC.Models.Common.TemplateVariable>();
+            List<string> lstListingImages = new List<string>();
+            List<VariableSection> lstSections = new List<VariableSection>();
+            List<FieldVariable> lstVariablesData = _myListingService.GetVariablesListWithValues(listingId, itemId, out lstVariableAndValue, out lstGeneralVariable, out lstListingImages, out lstSections);
 
-            List<FieldVariable> lstFieldVariables = _myListingService.GeyFieldVariablesByItemID(itemId);
+            //ViewData["VariablesAndValue"] = lstVariableAndValue;
+            ViewData["ListingImages"] = lstListingImages;
+
+            List<SectionControls> lstControls = new List<SectionControls>();
+
+            foreach (var item in lstSections)
+            {
+                SectionControls objSectionControl = new SectionControls();
+                objSectionControl.SectionName = item.SectionName;
+
+                List<FieldVariable> lstFieldVariables = lstVariablesData.Where(i => i.VariableSectionId == item.VariableSectionId).ToList();
+
+                foreach (FieldVariable objFieldVariable in lstFieldVariables)
+                {
+                    MPC.Models.Common.TemplateVariable objTempVar = lstVariableAndValue.Where(i => i.Name == objFieldVariable.VariableName).FirstOrDefault();
+                    objSectionControl.Controls.Add(objTempVar);
+                }
+
+                lstControls.Add(objSectionControl);
+            }
+
+            ViewData["ControlsList"] = lstControls;
 
             return View("PartialViews/RealEstateSmartForm");
         }
