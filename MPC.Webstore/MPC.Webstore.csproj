@@ -386,6 +386,7 @@
     <Content Include="Content\Designer\assets-v2\valign1.png" />
     <Content Include="Content\Designer\assets-v2\valign2.png" />
     <Content Include="Content\Designer\assets-v2\valign3.png" />
+    <Content Include="Content\Images\artwork_arrow_icons.png" />
     <Content Include="Content\Images\fancybox_loading.gif" />
     <Content Include="Content\Designer\assets-v2\bkColor.jpg" />
     <Content Include="Content\Designer\assets-v2\bleed_area.png" />

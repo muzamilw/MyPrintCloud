@@ -142,7 +142,7 @@ namespace MPC.Implementation.WebStoreServices
             double DefaultProfitMargin = 0.0d;
          //   string sCostPlant = "_CostCentreService.ExecuteQuestion(ParamsArray, \"13\", CostCentreID)";
               
-            string sCostPlant = TokenParse("EstimatedPlantCost = {SystemVariable, ID=\"1\",Name=\"Number of unique Inks used on Side 1\"} * {question, ID=\"13\",caption=\"How many boxes\"} * {matrix, ID=\"19\",Name=\"Super Formula Matrix\"} * {question, ID=\"34\",caption=\"How many sections to fold?\"}"); 
+            string sCostPlant = TokenParse("EstimatedPlantCost = {SystemVariable, ID=\"1\",Name=\"Number of unique Inks used on Side 1\"} * {question, ID=\"13\",caption=\"How many boxes\"} * {matrix, ID=\"19\",Name=\"Super Formula Matrix\"} * {question, ID=\"34\",caption=\"How many sections to fold?\"} * {question, ID=\"51\",caption=\"Multiple Options\"}"); 
     //="EstimatedPlantCost =  BLL.CostCentres.CostCentreExecution.ExecuteVariable(ParamsArray ,"1")  *  BLL.CostCentres.CostCentreExecution.ExecuteQuestion(ParamsArray,"13",CostCentreID) ";
             string sCostLabour ="EstimatedLabourCost = 0";
             string sCostStock ="EstimatedMaterialCost = 0";
@@ -1970,7 +1970,7 @@ namespace MPC.Implementation.WebStoreServices
                     //populate the question in the executionQueue
                     //loading the Questions Information for populating in the Queue
                     CostCentreQuestion ovariable = _CostCentreQuestionRepository.LoadQuestion(Convert.ToInt32(QuestionID));
-                    QuestionItem = new QuestionQueueItem(QuestionID, ovariable.QuestionString, CostCentreID, ovariable.Type.Value, ovariable.QuestionString, ovariable.DefaultAnswer, "", false, 0, 0, 0, 0, 0, ovariable.AnswerCollection);
+                    QuestionItem = new QuestionQueueItem(QuestionID, ovariable.QuestionString, CostCentreID, ovariable.Type.Value, ovariable.QuestionString, ovariable.DefaultAnswer, "", false, 0, 0, 0, 0, 0, 0,0,ovariable.AnswerCollection);
                     QuestionQueue.Add(QuestionItem);
                     ovariable = null;
 
@@ -2077,7 +2077,7 @@ namespace MPC.Implementation.WebStoreServices
                     //populate the question in the executionQueue
                     //loading the Questions Information for populating in the Queue
                     CostCentreMatrix oMatrix = _CostCentreMatrixRepository.GetMatrix(MatrixID);
-                   QuestionItem = new QuestionQueueItem(MatrixID, oMatrix.Name, CostCentreID, 4, oMatrix.Description, "", "", false,0);
+                   QuestionItem = new QuestionQueueItem(MatrixID, oMatrix.Name, CostCentreID, 4, oMatrix.Description, "", "", false,0,0,0,0,0, oMatrix.RowsCount, oMatrix.ColumnsCount);
                    QuestionQueue.Add(QuestionItem);
                     oMatrix = null;
                   

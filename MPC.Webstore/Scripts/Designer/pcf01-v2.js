@@ -1644,27 +1644,9 @@ function fu09_SvcCallBack(DT) {
     if (DT != "") {
         tcListCc++;
         // load image size 
-        if (tcListCc == 1) {
-            for (var line in DT[0]) {
-                var html = '<span id="demotestcsss" class="templateGallerylist"><a  >' +
-                              '<img src="' + V2Url + '/designer/products/' + line + '/TemplateThumbnail1.jpg' + '" class="imgsdtsss"> </a></span>'
 
-                $(".templateListUL").append(html);
-                $("img.imgsdtsss").load(function () {
-                    var height = $(this).height();
-                    tcImHh = height + 10;
-                    //  tcImThh = tcImHh;
-                    tcRowCount = 0;
-                    fu09_1(DT); $("#demotestcsss").remove();
-                }).error(function () {
-                    tcRowCount = 0;
-                    fu09_1(DT); $("#demotestcsss").remove();
-                });
-
-            }
-        } else {
             fu09_1(DT);
-        }
+        
     } else {
         tcAllcc = true;
         stopInlineLoader();
@@ -1672,24 +1654,27 @@ function fu09_SvcCallBack(DT) {
 }
 function fu09_1(DT) {
 
-    $.each(DT, function (key, val) {
-        for (var line in val) {
-            //tcRowCount++;
-            //if (tcRowCount % 2 !=0 &&   tcRowCount != 1) {
-            //    tcImThh += tcImHh;
-            //}
-            //var top = tcImThh;
-            //var left = tcLltemp * 200
-            
-            var html = '<span class="templateGallerylist"><a title="' + val[line] + '" onClick="fu10(this,' + line + ')">' +
-                  '<img src="' + V2Url + '/designer/products/' + line + '/TemplateThumbnail1.jpg' + '" class="imgs' + line + '"> </a></span>'
+    $.each(DT, function (key, item) {
+     
+        var className = "landscapeTemplate";
+        if (item.Orientation == 1 && (item.PDFTemplateHeight > item.PDFTemplateWidth)) {// portrait height > width
+            className = "portraitTemplate";
+        }
+        else if (item.Orientation == 1 && (item.PDFTemplateHeight <= item.PDFTemplateWidth)) {// portrait height < width
+          //  className = "";
+        }
+        else if (item.Orientation == 2 && (item.PDFTemplateHeight > item.PDFTemplateWidth)) {// landscap height > width
+          //  className = "";
+        }
+        else if (item.Orientation == 2 && (item.PDFTemplateHeight <= item.PDFTemplateWidth)) {// landscap height > width
+            className = "portraitTemplate";
+        }
+        var html = '<span class="templateGallerylist"><a title="' + item.ProductName + '" onClick="fu10(this,' + item.ProductID + ')" class="'+className+'">' +
+                  '<img src="' + V2Url + '/designer/products/' + item.ProductID + '/TemplateThumbnail1.jpg' + '" class="imgs' + item.ProductID + '"> </a></span>'
 
             $(".templateListUL").append(html);
-            // tcLltemp++;
-            //tcRowCount = tcRowCount + 0.50;
-            //var csHe = tcImThh + tcImHh + 10;
-            //$(".resultLayoutsScroller .inner").css("height", csHe + "px");
-        }
+
+     
 
     });
     stopInlineLoader(); tcAllcc = false;

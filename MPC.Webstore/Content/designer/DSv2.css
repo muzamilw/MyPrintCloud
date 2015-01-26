@@ -6550,3 +6550,8 @@ label
  {
      margin-bottom:5px;
  }
+ .portraitTemplate
+ {
+     width: 105px !important;
+margin: auto !important;
+ }
