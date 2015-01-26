@@ -240,6 +240,12 @@
         <EntityTypeShape EntityType="DomainModels.ItemStockUpdateHistory" Width="1.5" PointX="35.375" PointY="12.875" />
         <EntityTypeShape EntityType="DomainModels.MediaLibrary" Width="1.5" PointX="3" PointY="43.375" />
         <AssociationConnector Association="DomainModels.FK_MediaLibrary_Company" />
+        <EntityTypeShape EntityType="DomainModels.LookupMethod" Width="1.5" PointX="27.375" PointY="35.875" />
+        <EntityTypeShape EntityType="DomainModels.Machine" Width="1.5" PointX="35.375" PointY="17.5" />
+        <EntityTypeShape EntityType="DomainModels.MachineInkCoverage" Width="1.5" PointX="37.625" PointY="21.75" />
+        <EntityTypeShape EntityType="DomainModels.MachineResource" Width="1.5" PointX="37.625" PointY="24.5" />
+        <AssociationConnector Association="DomainModels.FK_tbl_machines_tbl_machine_ink_coverage" />
+        <AssociationConnector Association="DomainModels.FK_tbl_machines_tbl_machine_resource" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

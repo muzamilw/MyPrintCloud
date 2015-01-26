@@ -169,6 +169,10 @@
     <Compile Include="DomainModels\ListingLink.cs" />
     <Compile Include="DomainModels\ListingOFI.cs" />
     <Compile Include="DomainModels\ListingVendor.cs" />
+    <Compile Include="DomainModels\LookupMethod.cs" />
+    <Compile Include="DomainModels\Machine.cs" />
+    <Compile Include="DomainModels\MachineInkCoverage.cs" />
+    <Compile Include="DomainModels\MachineResource.cs" />
     <Compile Include="DomainModels\MediaLibrary.cs" />
     <Compile Include="DomainModels\Phrase.cs" />
     <Compile Include="DomainModels\PhraseField.cs" />
