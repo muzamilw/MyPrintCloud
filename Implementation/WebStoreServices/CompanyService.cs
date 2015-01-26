@@ -240,9 +240,9 @@ namespace MPC.Implementation.WebStoreServices
             return _CompanyContactRepository.GetContactByFirstName(FName);
         }
 
-        public CompanyContact GetContactByEmail(string Email)
+        public CompanyContact GetContactByEmail(string Email,long OrganisationID)
         {
-            return _CompanyContactRepository.GetContactByEmail(Email);
+            return _CompanyContactRepository.GetContactByEmail(Email,OrganisationID);
         }
 
         public long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID)

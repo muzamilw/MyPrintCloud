@@ -88,7 +88,7 @@ namespace MPC.Webstore.Controllers
 
                 if (!string.IsNullOrEmpty(Email))
                 {
-                    user = _myCompanyService.GetContactByEmail(Email);
+                    user = _myCompanyService.GetContactByEmail(Email,StoreBaseResopnse.Organisation.OrganisationId);
                 }
                 else
                 {

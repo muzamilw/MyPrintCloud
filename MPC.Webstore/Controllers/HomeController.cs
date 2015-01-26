@@ -84,16 +84,16 @@ namespace MPC.Webstore.Controllers
 
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
-
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
             ViewBag.StyleSheet = "/mpc_content/Stores/Store" + UserCookieManager.StoreId + "/" + UserCookieManager.StoreId + "_CompanyStyles.css";  
 
-            SetUserClaim();
+            SetUserClaim(StoreBaseResopnse.Organisation.OrganisationId);
 
             List<MPC.Models.DomainModels.CmsSkinPageWidget> model = null;
 
             string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+         
 
 
             model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse.Company.Name);
@@ -117,8 +117,7 @@ namespace MPC.Webstore.Controllers
                 return allPageWidgets.Where(widget => widget.PageId == 1).OrderBy(s => s.Sequence).ToList();
             }
         }
-        
-        /// <summary>
+                /// <summary>
         /// Binds the SEO tags to the page, page tags are in the laypout view
         /// </summary>
         /// <param name="CatName"></param>
@@ -336,13 +335,13 @@ namespace MPC.Webstore.Controllers
             return View();
         }
 
-        private void SetUserClaim()
+        private void SetUserClaim(long OrganisationID)
         {
             if (UserCookieManager.isRegisterClaims == 1)
             {
                 // login 
 
-                MPC.Models.DomainModels.CompanyContact loginUser = _myCompanyService.GetContactByEmail(UserCookieManager.Email);
+                MPC.Models.DomainModels.CompanyContact loginUser = _myCompanyService.GetContactByEmail(UserCookieManager.Email,OrganisationID);
 
                 ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
 

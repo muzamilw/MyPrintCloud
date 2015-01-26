@@ -11,6 +11,7 @@ using MPC.Models.Common;
 using MPC.Webstore.ResponseModels;
 using MPC.Webstore.ModelMappers;
 using System.Runtime.Caching;
+using MPC.ExceptionHandling;
 namespace MPC.Webstore.Controllers
 {
     public class SignUpController : Controller
@@ -64,53 +65,68 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index(RegisterViewModel model)
         {
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
 
-            if (ModelState.IsValid)
+            try
             {
-                string isSocial = Request.Form["hfIsSocial"];
-                string ReturnURL = Request.Form["hfReturnURL"];
-                if (_myCompanyService.GetContactByEmail(model.Email) != null)
+                
+                if (ModelState.IsValid)
                 {
-                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.StoreId) + model.Email;
-                    return View("PartialViews/SignUp");
-                }
-                else if (isSocial == "1")
-                {
-                    if (_myCompanyService.GetContactByFirstName(model.FirstName) != null)
+
+                    string isSocial = Request.Form["hfIsSocial"];
+                    string ReturnURL = Request.Form["hfReturnURL"];
+                    if (_myCompanyService.GetContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId) != null)
                     {
                         ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.StoreId) + model.Email;
-                        return View();
+                        return View("PartialViews/SignUp");
+                    }
+                    else if (isSocial == "1")
+                    {
+                        if (_myCompanyService.GetContactByFirstName(model.FirstName) != null)
+                        {
+                            ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.StoreId) + model.Email;
+                            return View();
+                        }
+                        else
+                        {
+                            SetRegisterCustomer(model);
+                            if (ReturnURL == "Social")
+                                return RedirectToAction("Index", "Home");
+                            else
+                            {
+
+                                ControllerContext.HttpContext.Response.Redirect(ReturnURL);
+                                return null;
+                            }
+                        }
                     }
                     else
                     {
+
                         SetRegisterCustomer(model);
-                        if (ReturnURL == "Social")
+                        if (string.IsNullOrEmpty(model.ReturnURL))
                             return RedirectToAction("Index", "Home");
                         else
                         {
-
-                            ControllerContext.HttpContext.Response.Redirect(ReturnURL);
+                            ControllerContext.HttpContext.Response.Redirect(model.ReturnURL);
                             return null;
                         }
                     }
                 }
                 else
                 {
-
-                    SetRegisterCustomer(model);
-                    if (string.IsNullOrEmpty(model.ReturnURL))
-                        return RedirectToAction("Index", "Home");
-                    else
-                    {
-                        ControllerContext.HttpContext.Response.Redirect(model.ReturnURL);
-                        return null;
-                    }
+                    return View("PartialViews/Login");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                return View("PartialViews/Login");
+
+                throw new MPCException(ex.ToString(), StoreBaseResopnse.Organisation.OrganisationId);
             }
+
+           
 
         }
 
@@ -157,7 +173,7 @@ namespace MPC.Webstore.Controllers
 
                     MPC.Models.DomainModels.Company loginUserCompany = _myCompanyService.GetCompanyByCompanyID(CompanyID);
 
-                    CompanyContact loginUser = _myCompanyService.GetContactByEmail(model.Email);
+                    CompanyContact loginUser = _myCompanyService.GetContactByEmail(model.Email,OID);
 
                    // cep.StoreID = company.StoreId ?? 0;
 
