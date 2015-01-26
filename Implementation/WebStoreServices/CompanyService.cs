@@ -82,7 +82,6 @@ namespace MPC.Implementation.WebStoreServices
 
         #endregion
 
-
         #region Public
         /// <summary>
         /// Resolves the Company/Stores by the companyid and organizationid
@@ -93,7 +92,6 @@ namespace MPC.Implementation.WebStoreServices
         public MyCompanyDomainBaseReponse GetStoreFromCache(long companyId)
         {
             
-
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
             CacheItemPolicy policy = null;

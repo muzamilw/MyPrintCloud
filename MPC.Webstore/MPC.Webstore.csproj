@@ -280,6 +280,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CategoryHeaderController.cs" />
+    <Compile Include="Controllers\ContactDetailController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\OrderConfirmationController.cs" />
     <Compile Include="Controllers\ProductDetailController.cs" />
@@ -641,12 +642,14 @@
     <Content Include="Views\Shared\PartialViews\Dashboard.cshtml" />
     <Content Include="Views\Shared\PartialViews\Receipt.cshtml" />
     <Content Include="Views\Shared\PartialViews\OrderConfirmation.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ContactDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\DesignerApi\Models\" />
     <Folder Include="Areas\DesignerApi\Views\Shared\" />
     <Folder Include="Areas\Designer\Models\" />
+    <Folder Include="Views\ContactDetail\" />
     <Folder Include="Views\OrderConfirmation\" />
   </ItemGroup>
   <ItemGroup>
