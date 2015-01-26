@@ -1,10 +1,15 @@
-﻿$("#uploadImagesMB").click(function () {
+﻿$("#uploadImagesMB ,#IdUploadBackgrounds").click(function () {
      $("#imageUploader").click();
    // $("#fontUploader").click();
     //animatedcollapse.toggle('textPropertPanel');
 });
-
-
+$("#uploadImages, #uploadLogos").click(function (event) {
+        isBKpnl = false;
+        $("#imageUploader").click();
+    });
+$(".btnAUploadFont").click(function () {
+    $("#fontUploader").click();
+});
          
 
 $('#imageUploader').change(function () {
@@ -49,27 +54,31 @@ $('#imageUploader').change(function () {
                     }
                     $.getJSON("/designerapi/TemplateBackgroundImage/UploadImageRecord/" + messages[i] + "/" + tID + "/" + IsCalledFrom + "/" + ContactID + "/"+organisationId + "/" + panelType  + "/" + CustomerID ,
                         function (result) {
-                            $("#progressbar").css("display", "none");
-                            $(".imageEditScreenContainer").css("display", "block");
-                            if (parseInt(result)) {
-                                k26(result, "");
+                            if (result != "uploadedPDFBK") {
+                                $("#progressbar").css("display", "none");
+                                $(".imageEditScreenContainer").css("display", "block");
+                                if (parseInt(result)) {
+                                    k26(result, "");
+                                } else {
+                                    pcL36("show", "#divImageDAM");
+                                }
+                                k27();
+                                isImgUpl = true;
+                                if (IsCalledFrom == 1 || IsCalledFrom == 2) {
+                                    $("#ImgCarouselDiv").tabs("option", "active", 0);
+                                    $("#BkImgContainer").tabs("option", "active", 0);
+                                    $('#divGlobalImages').scrollTop();
+                                    $('#divGlobalBackg').scrollTop();
+                                } else {
+                                    $("#ImgCarouselDiv").tabs("option", "active", 2);
+                                    $("#BkImgContainer").tabs("option", "active", 2);
+                                    $('#divPersonalImages').scrollTop();
+                                    $('#divPersonalBkg').scrollTop();
+                                }
+                                StopLoader();
                             } else {
-                                pcL36("show", "#divImageDAM");
+                                Arc_1();
                             }
-                            k27();
-                            isImgUpl = true;
-                            if (IsCalledFrom == 1 || IsCalledFrom == 2) {
-                                $("#ImgCarouselDiv").tabs("option", "active", 0);
-                                $("#BkImgContainer").tabs("option", "active", 0);
-                                $('#divGlobalImages').scrollTop();
-                                $('#divGlobalBackg').scrollTop();
-                            } else {
-                                $("#ImgCarouselDiv").tabs("option", "active", 2);
-                                $("#BkImgContainer").tabs("option", "active", 2);
-                                $('#divPersonalImages').scrollTop();
-                                $('#divPersonalBkg').scrollTop();
-                            }
-                            StopLoader();
                         });
                 }
             },
@@ -203,4 +212,18 @@ function UpdateFontToUI(fontName, fontFileName) {
     $('head').append(html);
     var html1 = '<option  id = ' + fontFileName + ' value="' + fontName + '" >' + fontName + '</option>';
     $('#' + "BtnSelectFonts").append(html1);
+}
+function Arc_1() {
+    StartLoader("Updating template please wait...");
+    $.getJSON("/designerapi/Template/GetTemplate/" + tID + "/" + cID + "/" + TempHMM + "/" + TempWMM + "/" + organisationId + "/" + ItemId,
+   //$.getJSON("/designerapi/Template/GetTemplate/" + tID ,
+  function (DT) {
+      DT.ProductID = DT.ProductId;
+      $.each(DT.TemplatePages, function (i, IT) {
+          IT.ProductID = IT.ProductId;
+          IT.ProductPageID = IT.ProductPageId;
+      });
+      StopLoader();
+  });
+
 }

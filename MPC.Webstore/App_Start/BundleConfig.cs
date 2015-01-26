@@ -49,7 +49,8 @@ namespace MPC.Webstore
 
 
             bundles.Add(new StyleBundle("~/Content/CSS").Include(
-                      "~/Content/bootstrap.css"
+                      "~/Content/bootstrap.min.css"
+
                       ));
 
             bundles.Add(new StyleBundle("~/Content/jquery.rating").Include(

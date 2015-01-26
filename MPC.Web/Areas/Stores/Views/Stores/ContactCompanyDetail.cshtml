@@ -828,9 +828,9 @@
                                                     <img data-bind="attr: { src: storeBackgroudImageImageSource }" width="400" height="300" />
                                                 </div>
                                                 <div class="col-lg-1">
-                                                    <div class="fileUpload btn btn-primary">
+                                                    <div class="fileUpload btn btn-primary" data-bind="click:$root.showMediaLibraryDialog">
                                                         <span>....</span>
-                                                        <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeBackgroudImageUploadCallback, fileFilter: 'image.*'}" />
+                                                        @*<input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeBackgroudImageUploadCallback, fileFilter: 'image.*'}" />*@
                                                     </div>
                                                 </div>
 
@@ -991,20 +991,24 @@
                                                         </a>
 
                                                     </div>
-
                                                     <label for="txtCompanyName" class="control-label text-right tooltip-float">Upload media files</label>
-
                                                 </div>
 
                                                 <div class="col-lg-6">
-                                                    <div id="dropzone">
-                                                        <form id="demo-upload" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
-                                                            <div class="dz-default dz-message">
-                                                                <span>Drop files here to upload</span>
+                                                    <div class="col-lg-8">
+                                                        <div id="dropzone">
+                                                            <div id="demo-upload" style="min-height: 200px; width: 250px;">
+                                                                <img data-bind="attr: { src: $root.newUploadedMediaFile().fileSource }" style="min-height: 200px; width: 250px;" />
                                                             </div>
-                                                        </form>
+                                                        </div>
+                                                        <span class="help-block text-right"></span>
                                                     </div>
-                                                    <span class="help-block text-right"></span>
+                                                    <div class="col-lg-1">
+                                                        <div class="fileUpload btn btn-primary">
+                                                            <span>....</span>
+                                                            <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.mediaLibraryFileLoadedCallback, fileFilter: 'image.*'}" />
+                                                        </div>
+                                                    </div>
                                                 </div>
 
                                             </div>
@@ -1012,38 +1016,8 @@
                                             <div class="main-box-body">
                                                 <div id="gallery-photos-lightbox">
                                                     <ul class="clearfix gallery-photos">
-                                                        <li class="col-md-3 col-sm-3 col-xs-6">
-                                                            <a href="#" class="photo-box image-link" style="background-image: url('~/Content/themes/Centaurus/img/samples/hdr/small/img_8.jpg');"></a>
-                                                            <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
-                                                        </li>
-                                                        <li class="col-md-3 col-sm-3 col-xs-6">
-                                                            <a href="#" class="photo-box image-link" style="background-image: url('~/Content/themes/Centaurus/img/samples/hdr/small/img_2.jpg');"></a>
-                                                            <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
-                                                        </li>
-                                                        <li class="col-md-3 col-sm-3 col-xs-6">
-                                                            <a href="#" class="photo-box image-link" style="background-image: url('~/Content/themes/Centaurus/img/samples/hdr/small/img_3.jpg');"></a>
-                                                            <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
-                                                        </li>
-                                                        <li class="col-md-3 col-sm-3 col-xs-6">
-                                                            <a href="#" class="photo-box image-link" style="background-image: url('/Content/themes/Centaurus/img/samples/hdr/small/img_4.jpg');"></a>
-                                                            <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
-                                                        </li>
-                                                        <li class="col-md-3 col-sm-3 col-xs-6">
-                                                            <a href="#" class="photo-box image-link" style="background-image: url('/Content/themes/Centaurus/img/samples/hdr/small/img_5.jpg');"></a>
-                                                            <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
-                                                        </li>
-                                                        <li class="col-md-3 col-sm-3 col-xs-6">
-                                                            <a href="#" class="photo-box image-link" style="background-image: url('/Content/themes/Centaurus/img/samples/hdr/small/img_6.jpg');"></a>
-                                                            <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
-                                                        </li>
-                                                        <li class="col-md-3 col-sm-3 col-xs-6">
-                                                            <a href="#" class="photo-box image-link" style="background-image: url('/Content/themes/Centaurus/img/samples/hdr/small/img_7.jpg');"></a>
-                                                            <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
-                                                        </li>
-                                                        <li class="col-md-3 col-sm-3 col-xs-6">
-                                                            <a href="#" class="photo-box image-link" style="background-image: url('/Content/themes/Centaurus/img/samples/hdr/small/img_1.jpg');"></a>
-                                                            <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
-                                                        </li>
+                                                        <!-- ko template: { name: 'mediaLibraryItemTemplate' , foreach: mediaLibraries  } -->
+                                                        <!-- /ko -->
                                                     </ul>
                                                 </div>
                                             </div>
@@ -1103,7 +1077,6 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-
                                                                 <!-- ko template: { name: 'bannerItemTemplate' , foreach: $root.filteredCompanyBanners  } -->
                                                                 <!-- /ko -->
                                                             </tbody>
@@ -1119,8 +1092,8 @@
                                     <div class="col-md-12">
                                         <h3 class="group-header">CSS Editor</h3>
                                         <div class="col-md-9">
-                                            <div style="height: 500px;" class="row">
-                                                <div id="editor" style="width: 650px;height: 500px;" data-bind="ace: customCSS, aceOptions: { mode: 'css', theme: 'clouds' }"></div>
+                                            <div style="height: 530px;background: #d0d1d7">
+                                                <div id="editor" style="width: 747px;height: 500px;margin :13px 10px 10px 22px" data-bind="ace: customCSS, aceOptions: { mode: 'css', theme: 'twilight' }"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -2885,6 +2858,14 @@
             </div>
         </div>
 
+    </li>
+</script>
+
+<script id="mediaLibraryItemTemplate" type="text/html">
+    <li class="col-md-3 col-sm-3 col-xs-6">
+        @*<a href="#" class="photo-box image-link" style="background-image: url('/Content/themes/Centaurus/img/samples/hdr/small/img_6.jpg');"></a>*@
+        <div class="photo-box image-link" data-bind="style:{backgroundImage:' url('+fileSource()+')'}"></div>
+        <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
     </li>
 </script>
 

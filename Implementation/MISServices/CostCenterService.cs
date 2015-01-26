@@ -53,8 +53,7 @@ namespace MPC.Implementation.MISServices
 
         public CostCentre GetCostCentreById(long id)
         {
-            return null;
-          //  return _costCenterRepository.Find(id);
+             return _costCenterRepository.GetCostCentreByID(id);
         }
         public CostCentersResponse GetUserDefinedCostCenters(CostCenterRequestModel request)
         {

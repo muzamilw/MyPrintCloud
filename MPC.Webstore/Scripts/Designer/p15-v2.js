@@ -31,7 +31,7 @@ $(window).scroll(function () {
     canvas.calcOffset();
 });
 
-$("#canvaDocument").scroll(function () {
+$("#canvasDocument").scroll(function () {
 
     canvas.calcOffset();
 });
@@ -94,7 +94,7 @@ function fu03() {
    });
 }
 function fu04() {
-    $.getJSON("/designerapi/Template/GetTemplate/" + tID + "/" + cID + "/" + TempHMM + "/" + TempWMM + "/" + organisationId,
+    $.getJSON("/designerapi/Template/GetTemplate/" + tID + "/" + cID + "/" + TempHMM + "/" + TempWMM + "/" + organisationId + "/" + ItemId,
     //$.getJSON("/designerapi/Template/GetTemplate/" + tID ,
    function (DT) {
        DT.ProductID = DT.ProductId;
@@ -103,6 +103,9 @@ function fu04() {
            IT.ProductPageID = IT.ProductPageId;
        });
        fu04_callBack(DT);
+       if (DT.IsCorporateEditable == false) {
+           restrictControls();
+       }
    });
 
 }

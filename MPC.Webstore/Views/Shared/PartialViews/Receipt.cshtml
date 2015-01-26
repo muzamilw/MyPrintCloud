@@ -1,7 +1,12 @@
 ﻿@model MPC.Models.Common.OrderDetail
+@using MPC.Webstore.Common;
+@using MPC.Models.Common;
            @{
-               var _vatTotal = 0;
-               var _itemTotal = 0;
+               double _vatTotal = 0;
+               double _itemTotal = 0;
+               double DeliveryTaxValue = 0;
+               string ImageSource = string.Empty;
+                var ThumnbString = "Thumb.png";
            }
 <div id="page" class="container content_area" style="margin: auto; border: 0px solid orange; margin-top: 20px;">
 
@@ -118,10 +123,10 @@
                 <label id="lblBAddressLine1" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Address1</label><br />
                 <label id="lblAddressLine2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Address2</label><br />
                 <label id="lblBcity" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.City</label>
-                <label id="lblBState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.State</label>
+                <label id="lblBState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.State.StateName</label>
                 <label id="lblBZipCode" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.PostCode</label><br />
 
-                <label id="lblBCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Country</label><br />
+                <label id="lblBCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Country.CountryName</label><br />
                 <span>
                     <label id="lrtlBTel">Tel:</label>
                 </span>
@@ -133,9 +138,9 @@
                 <label id="lblSAddLine1" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Address1</label><br />
                 <label id="lblSAddreLine2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Address2</label><br />
                 <label id="lblSCity" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.City</label>
-                <label id="lblSState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.State</label>
+                <label id="lblSState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.State.StateName</label>
                 <label id="lblSZipCode" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.PostCode</label><br />
-                <label id="lblSCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Country</label><br />
+                <label id="lblSCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Country.CountryName</label><br />
                 <label id="ltlShiTel">Tel:</label>
                 <label id="lblSTel" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Tel1</label>
             </div>
@@ -159,6 +164,10 @@
                 <span id="spnitemordered">Items Ordered:</span>
             </div>
             <div style="padding-bottom: 20px;" class="col-md-12 col-lg-12 col-xs-12">
+             
+
+
+
                 <table cellspacing="0" cellpadding="5" id="MainContent_grdViewShopCart" style="width:100%;border-collapse:collapse;">
                     <tbody>
                         <tr class="gridViewWithoutHeaderStyle">
@@ -166,13 +175,50 @@
                             <th align="left" scope="col">&nbsp;</th>
                             <th align="left" scope="col">&nbsp;</th>
                         </tr>
-                        @foreach (var item in Model.ItemDetail as List<MPC.Models.Common.ShoppingCart>)
+                        @foreach (var item in Model.ProductsList as List<MPC.Models.Common.ProductItem>)
                         {
-                            _vatTotal = _vatTotal + item.Qty1Tax1Value;
-                            _itemTotal = _itemTotal + item.Qty1BaseCharge1;
-                            <tr class="gridViewWithoutHeaderRowStyle" valign="top">
+                            _vatTotal = _vatTotal + item.Qty1Tax1Value ?? 0;
+                            _itemTotal = _itemTotal + item.Qty1BaseCharge1 ?? 0;
+                            //DeliveryTaxValue += DeliveryTaxValue + item.
+                            <tr class="gridViewWithoutHeaderRowStyle" align="top">
                                 <td align="center" style="width:32%;">
-                                    <img src="" style="width: 40%;">
+                                    @if (item.Attatchment != null)
+                                    {
+                                        if (!string.IsNullOrWhiteSpace(item.Attatchment.FileName))
+                                        {
+                                             string ext = System.IO.Path.GetExtension(item.Attatchment.FileName);
+                                             if (ext == ".xlsx" || ext == ".xls" || ext == ".csv")
+                                             {
+                                                 string completeImgPath = Html.GetAppBasePath() + item.Attatchment.FolderPath + item.Attatchment.FileName + ThumnbString;
+                                                 ImageSource = completeImgPath;
+                                             }
+                                             else
+                                             {
+                                                 string FolderPathOfAttachment = item.Attatchment.FolderPath;
+                                                 if (FolderPathOfAttachment.Contains("Production") == true)
+                                                 {
+                                                     FolderPathOfAttachment = FolderPathOfAttachment.Replace("Production", "Attachments");
+                                                 }
+                                                
+
+                                                
+                                                 ImageSource = Html.GetAppBasePath() + FolderPathOfAttachment + item.Attatchment.FileName + ThumnbString;
+                                                
+                                                 
+                                             }
+                                        }
+                                        else
+                                        {
+                                            if (item.ProductType == (int)ProductType.FinishedGoodWithBanner || item.ProductType == (int)ProductType.FinishedGoodWithImageRotator)
+                                            {
+                                                string completeImgPath = Html.GetAppBasePath() + item.Attatchment.FolderPath + item.Attatchment.FileName + ThumnbString;
+                                                ImageSource = completeImgPath;
+                                            }
+                                               
+                                        }
+                                    }
+                 
+                                    <img src="@ImageSource" style="width: 40%;">
                                 </td>
                                 <td style="width:43%;">
                                     <div>
@@ -195,7 +241,10 @@
 
                                 </td>
                                 <td align="left">
-                                    <span id="MainContent_grdViewShopCart_lblItemPrice_0">@item.Qty1BaseCharge1</span>
+                                     @if (ViewBag.IsShowPrices)
+                                     {
+                                         <span id="MainContent_grdViewShopCart_lblItemPrice_0">@item.Qty1BaseCharge1</span>
+                                     }
                                 </td>
                             </tr>
                         }
@@ -214,7 +263,9 @@
                             <span id="spnsubtotal">Sub Total:</span>
                         </td>
                         <td class="srForthtd">
-                            <label id="lblSubTotal" style="font-size: 17px; color: Black;" >@_itemTotal</label>
+                           
+                                <label id="lblSubTotal" style="font-size: 17px; color: Black;">@Utils.FormatDecimalValueToTwoDecimal(_itemTotal.ToString(), ViewBag.Currency)</label>
+                    
                         </td>
                     </tr>
                     <tr>
@@ -224,7 +275,14 @@
                             <span id="spndilevry">Delivery:</span>
                         </td>
                         <td>
-                            <label id="lblDeliveryCostCenter" >@Model.DeliveryCost</label>
+                            @if (Model.DeliveryCost > 0)
+                            {
+                                <label id="lblDeliveryCostCenter" >@Utils.FormatDecimalValueToTwoDecimal(Model.DeliveryCost.ToString(), ViewBag.Currency)</label>
+                            }
+                            else
+                            {
+                                <label id="lblDeliveryCostCenter">@Utils.FormatDecimalValueToTwoDecimal("0", ViewBag.Currency)</label>
+                            }
                         </td>
                     </tr>
                     <tr id="rowVat">
@@ -234,7 +292,16 @@
                             <label id="lblTaxLabelTotal"></label>
                         </td>
                         <td width="20%">
-                            <label id="lblVatTotal" >@_vatTotal + @item.DeliveryTaxValue</label>
+                            @if (Model.DeliveryCost > 0)
+                            {
+                                double total = _vatTotal + Model.DeliveryCostTaxValue;
+                                 <label id="lblVatTotal" >@Utils.FormatDecimalValueToTwoDecimal(total.ToString(), ViewBag.Currency)</label>
+                            }
+                            else
+                            {
+                              
+                                <label id="lblVatTotal">@Utils.FormatDecimalValueToTwoDecimal(_vatTotal.ToString(), ViewBag.Currency)</label>
+                            }
                         </td>
                     </tr>
                     <tr>
@@ -244,8 +311,17 @@
                             <span id="spntotal" style="font-weight: bold; color: Black; font-size: 17px;">Total:</span>
                         </td>
                         <td>
-                            <label style="font-weight: bold; font-size: 17px; color: Black;" id="lblGrandTotal"
-                                   ></label>
+                            @if (Model.DeliveryCost > 0)
+                            {
+                                double grossTotal = _itemTotal + (Model.DeliveryCostTaxValue + _vatTotal) + Model.DeliveryCost;
+                                <label style="font-weight: bold; font-size: 17px; color: Black;" id="lblGrandTotal">@Utils.FormatDecimalValueToTwoDecimal(grossTotal.ToString(), ViewBag.Currency)</label>
+                            }
+                            else
+                            {
+                                double grossTotal = _itemTotal + _vatTotal;
+                                <label style="font-weight: bold; font-size: 17px; color: Black;" id="lblGrandTotal">@Utils.FormatDecimalValueToTwoDecimal(grossTotal.ToString(), ViewBag.Currency);</label>
+                            }
+                            
                         </td>
                     </tr>
                 </table>

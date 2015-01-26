@@ -129,7 +129,39 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+        // update template height and width , called while uploading pdf as background // added by saqib ali
+        public bool updateTemplate(long productID, double pdfWidth, double pdfHeight)
+        {
+            bool result = false;
+            Template objTemplate = db.Templates.Where(g => g.ProductId == productID).SingleOrDefault();
+            if (objTemplate != null)
+            {
+                objTemplate.PDFTemplateWidth = pdfWidth;
+                objTemplate.PDFTemplateHeight = pdfHeight;
+                objTemplate.CuttingMargin = 14.173228345;
+              
+                db.SaveChanges();
+                result = true;
+            }
 
+            return result;
+        }
+        // update template pages called from designer while uploading pdf as background
+        public bool updateTemplatePages(int count,long productId)
+        {
+            foreach (var tempPage in db.TemplatePages.Where(g => g.ProductId == productId).ToList())
+            {
+                if (tempPage.PageNo <= count)
+                {
+                    tempPage.BackGroundType = 1;
+                    tempPage.BackgroundFileName = productId.ToString() + "/Side" + tempPage.PageNo.ToString() + ".pdf";
+                    tempPage.PageType = 1;  // pageType(1 = without color 2 = with color )  Color C  Color M  Color Y Color K   
+                }
+            }
+
+            db.SaveChanges();
+            return true;
+        }
         // update template height and width and add new template pages, called while uploading pdf as template from MIS // added by saqib
         public bool updateTemplate(long productID, double pdfWidth, double pdfHeight, List<TemplatePage> listPages)
         { 
@@ -543,7 +575,7 @@ namespace MPC.Repository.Repositories
             }
         }
         //called from designer for retail store // added by saqib ali 
-        public Template CreateTemplate(long productID,long categoryIdv2,double height,double width)
+        public Template CreateTemplate(long productID,long categoryIdv2,double height,double width,long itemId)
         {
             Template result = null;
             if (productID == 0)
@@ -552,7 +584,7 @@ namespace MPC.Repository.Repositories
                 oTemplate.Status = 1;
                 oTemplate.ProductName = "Untitled design";
                 oTemplate.ProductId = 0;
-                oTemplate.ProductCategoryId = categoryIdv2;
+               // oTemplate.ProductCategoryId = categoryIdv2;
                 oTemplate.CuttingMargin = (DesignerUtils.MMToPoint(5));
                 oTemplate.PDFTemplateHeight =(DesignerUtils.MMToPoint(height));
                 oTemplate.PDFTemplateWidth = (DesignerUtils.MMToPoint(width));
@@ -571,6 +603,11 @@ namespace MPC.Repository.Repositories
                 tpage.ColorY = 0;
                 tpage.PageName = "Front";
                 db.TemplatePages.Add(tpage);
+                var item = db.Items.Where(g => g.ItemId == itemId).SingleOrDefault();
+                if(item != null)
+                {
+                    item.TemplateId = oTemplate.ProductId;
+                }
                 db.SaveChanges();
                 result = db.Templates.Include("TemplatePages").Where(g => g.ProductId == oTemplate.ProductId).SingleOrDefault();
 

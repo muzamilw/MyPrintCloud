@@ -33,6 +33,9 @@ namespace MPC.Webstore.ModelMappers
                 Email = source.Email,
                 Fax = source.Fax,
                 VATRegNumber = source.VATRegNumber,
+                BleedAreaSize = source.BleedAreaSize,
+                ShowBleedArea = source.ShowBleedArea,
+               
             };
         }
 
@@ -61,6 +64,8 @@ namespace MPC.Webstore.ModelMappers
                 Email = source.Email,
                 Fax = source.Fax,
                 VATRegNumber = source.VATRegNumber,
+                BleedAreaSize = source.BleedAreaSize,
+                ShowBleedArea = source.ShowBleedArea
             };
         }
 

@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using MPC.Models.Common;
 using MPC.Webstore.ResponseModels;
 using MPC.Webstore.ModelMappers;
+using System.Runtime.Caching;
 namespace MPC.Webstore.Controllers
 {
     public class SignUpController : Controller
@@ -115,6 +116,9 @@ namespace MPC.Webstore.Controllers
 
         private void SetRegisterCustomer(RegisterViewModel model)
         {
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+
             CampaignEmailParams cep = new CampaignEmailParams();
 
             CompanyContact contact = new CompanyContact();
@@ -134,20 +138,19 @@ namespace MPC.Webstore.Controllers
             if (isSocial == "1")
                 TwitterScreenName = model.FirstName;
 
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-           MyCompanyDomainBaseResponse baseResponseOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
 
-            if(baseResponseOrg.Organisation != null)
+            if (StoreBaseResopnse.Organisation != null)
             {
-                OID = baseResponseOrg.Organisation.OrganisationId;
+                OID = StoreBaseResopnse.Organisation.OrganisationId;
             }
 
-            MyCompanyDomainBaseResponse baseResponseOrganisation = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
 
 
-            if (baseResponse.Company.IsCustomer == (int)StoreMode.Retail)
+
+            if (StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Retail)
             {
-                CompanyID = _myCompanyService.CreateCustomer(model.FirstName, true, true, CompanyTypes.SalesCustomer, TwitterScreenName, Convert.ToInt64(baseResponse.Company.OrganisationId), contact);
+                CompanyID = _myCompanyService.CreateCustomer(model.FirstName, true, true, CompanyTypes.SalesCustomer, TwitterScreenName, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), contact);
 
                 if (CompanyID > 0)
                 {
@@ -183,9 +186,9 @@ namespace MPC.Webstore.Controllers
 
 
 
-                    _campaignService.emailBodyGenerator(RegistrationCampaign, cep, loginUser, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
+                    //_campaignService.emailBodyGenerator(RegistrationCampaign, cep, loginUser, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
 
-                    _campaignService.SendEmailToSalesManager((int)Events.NewRegistrationToSalesManager, (int)loginUser.ContactId, (int)loginUser.CompanyId, 0, 0, 0, 0, StoreMode.Retail, loginUserCompany, EmailOFSM);
+                   // _campaignService.SendEmailToSalesManager((int)Events.NewRegistrationToSalesManager, (int)loginUser.ContactId, (int)loginUser.CompanyId, 0, 0, 0, 0, StoreMode.Retail, loginUserCompany, EmailOFSM);
 
                     if (OrderId > 0)
                     {
@@ -206,7 +209,7 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-                int cid = (int)baseResponse.Company.CompanyId;
+                int cid = (int)StoreBaseResopnse.Company.CompanyId;
 
                 CompanyContact CorpContact = _myCompanyService.CreateCorporateContact(cid, contact, TwitterScreenName);
 
@@ -226,15 +229,15 @@ namespace MPC.Webstore.Controllers
 
                 Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.CorpUserRegistration);
 
-                SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(Convert.ToInt32(baseResponse.Company.SalesAndOrderManagerId1));
+                SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(Convert.ToInt32(StoreBaseResopnse.Company.SalesAndOrderManagerId1));
 
-                _campaignService.emailBodyGenerator(RegistrationCampaign, cep, CorpContact, StoreMode.Corp, (int)baseResponse.Company.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
+                _campaignService.emailBodyGenerator(RegistrationCampaign, cep, CorpContact, StoreMode.Corp, (int)StoreBaseResopnse.Company.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
 
-                int OrganisationId = (int)baseResponse.Company.OrganisationId;
+                int OrganisationId = (int)StoreBaseResopnse.Company.OrganisationId;
                 _campaignService.SendPendingCorporateUserRegistrationEmailToAdmins((int)CorpContact.ContactId, (int)corpContact.CompanyId, OrganisationId);
 
             }
-
+            StoreBaseResopnse = null;
         }
 
         //public void PostLoginCustomerAndCardChanges(out long replacedWithOrderID)

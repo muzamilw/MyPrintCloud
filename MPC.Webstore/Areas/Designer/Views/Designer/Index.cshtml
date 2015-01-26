@@ -29,6 +29,7 @@
             <li id="uploads" class="uploads" style="display: none;"><a>Uploads</a></li>
             <li id="layersPanel" class="layersPanel"><a>Layers</a></li>
             <li id="layoutsPanel" class="layoutsPanel" style="display: none;"><a>Layouts</a></li>
+            <li id="collapseDesignerMenu" class="collapseDesignerMenu " style="position:absolute;bottom:10px;"><a>Collapse</a></li>
         </menu>
 
         <section class="content mainContainer">
@@ -49,6 +50,9 @@
             <section id="resultsQText" class="results infinite">
                 <section class="layer scrollPane">
                     <div class="innerDesigner">
+                        
+                    
+
                         <ul class=" textControls">
                             <li><a class="add QuickTextTitle ThemeColor" style="" data-style="title">Update your Quick text Profile</a></li>
                         </ul>
@@ -109,7 +113,7 @@
                                 </li>
                            
                                 <li style="width: 109px; left: 0px; top: 258px;" class="AddBLr1c3">
-                                    <a title="Upload Font" class="btnAUploadFont">
+                                    <a title="Upload Font" id="" class="btnAUploadFont">
                                         <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
                                         <img src="~/Content/Designer/assets-v2/uploadfont.png" width="200" height="200" class="" alt="Folder thumbnail" style="height: 81px;" />
                                         <span class="text">Upload Font</span>
@@ -284,7 +288,7 @@
                             </ul>
                             <section class="ImagesScrollContainer">
                                 <section class="freeBkImgsContainer BkImgPanels disappearing bkImr1c1">
-                                    <button class="btnBkBkimgs bkbtnIphone">Backgrounds</button>Back to Backgrounds
+                                    <button class="btnBkBkimgs bkbtnIphone customPaddingForScroll">Backgrounds</button>Back to Backgrounds
                                     <br />
                                     <div class="inlineFolderGroup searchGroup hasContent" style="border-top: none; padding-top: 0px;">
 
@@ -292,7 +296,7 @@
                                     </div>
                                 </section>
                                 <section class="myBkImgsContainer BkImgPanels disappearing bkImr1c2">
-                                    <button class="btnBkmyBk bkbtnIphone">Backgrounds</button>Back to Backgrounds
+                                    <button class="btnBkmyBk bkbtnIphone customPaddingForScroll">Backgrounds</button>Back to Backgrounds
                                     <br />
                                     <div class="inlineFolderGroup searchGroup hasContent" style="border-top: none; padding-top: 0px;">
                                         <ul class="gallery infoPanelGallery photoGallery listDamImages listDambkimages divPersBkImgContainer" id="divPersBkImgContainer"></ul>
@@ -300,7 +304,7 @@
                                 </section>
                                 <section class="tempBackgroundImages BkImgPanels disappearing bkImr1c3">
 
-                                    <button class="btnBkTempBk bkbtnIphone">Backgrounds</button>Back to Backgrounds
+                                    <button class="btnBkTempBk bkbtnIphone customPaddingForScroll">Backgrounds</button>Back to Backgrounds
                                     <br />
                                     <div class="inlineFolderGroup searchGroup hasContent" style="border-top: none; padding-top: 0px;">
                                         <ul class="gallery infoPanelGallery photoGallery listDamImages listDambkimages divTempBkImgContainer" id="divTempBkImgContainer"></ul>
@@ -464,8 +468,8 @@
                     <div class="innerDesigner">
                         <div class="searchGroup hasContent templateListULSG">
                             <div id="objPropertyPanel" class="ImageContainer">
-                                <div class="textPropertyPanel1">
-                                    <div class="propertyPanelControlDiv imgthumbPreviewSlider" style="padding-left: 110px;">
+                                <div class="textPropertyPanel1" style="">
+                                    <div class="propertyPanelControlDiv imgthumbPreviewSlider" style="text-align:center;">
                                         <img id="imgThumbPreview" height="80px" />
 
                                     </div>
@@ -514,7 +518,7 @@
 
                                     <div class="propertyPanelControlDiv">
                                         <div class="PostionPanelLabel">
-                                            <span class="lblcheckbox">Position</span>
+                                            <span class="lblcheckbox adminControl">Position</span>
                                         </div>
                                         <div class="PostionPanelLabel">
                                             <span class="lblcheckbox" id="lblArrangeOrderiImg">Box Size</span>
@@ -527,12 +531,12 @@
                                         <div class="margin10" style="padding-bottom: 10px">
                                             <div class="lbltextButtonControl">
 
-                                                <span class="paddingright5">X</span>
+                                                <span class="paddingright5" style="padding-right: 8px;">X</span>
                                                 <input name="inputPositionXTxt" id="inputPositionX" class="width28 zindex100" />
 
                                             </div>
                                             <div class="lbltextButtonControl">
-                                                <span class="paddingright5">W </span>
+                                                <span class="paddingright5" style="padding-right: 8px;">Y </span>
                                                 <input name="inputPositionYTxt" id="inputPositionY" class="width28 zindex100" />
 
                                             </div>
@@ -540,7 +544,7 @@
                                         <div class="margin10">
                                             <div class="lbltextButtonControl" style="float: left;">
 
-                                                <span class="paddingright5">Y</span>
+                                                <span class="paddingright5">W</span>
                                                 <input name="inputObjectWidthTxt" id="inputObjectWidth" class="width28 zindex100" />
                                             </div>
                                             <div class="lbltextButtonControl" style="float: left;">
@@ -555,7 +559,7 @@
                                             <div class="lbltextButtonControl">
                                                 <div class="onoffswitch" style="top: -20px; margin-left: -5px">
                                                     <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="LockPositionImg" checked="">
-                                                    <label class="onoffswitch-label" for="LockPositionImg" id="lblLockPositionImg">
+                                                    <label class="onoffswitch-label adminControl" for="LockPositionImg" id="lblLockPositionImg">
                                                         <div class="onoffswitch-inner"></div>
                                                         <div class="onoffswitch-switch"></div>
                                                     </label>
@@ -567,7 +571,7 @@
                                     </div>
                                     <div class="DivBlockWithNoHeight vertLine"></div>
 
-                                    <div class="propertyPanelControlDiv" style="padding-bottom: 5px">
+                                    <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
                                         <div class="lblchckboxControl" id="">Make Overlay Layer  </div>
                                         <div class="onoffswitch" style="right: -100px">
                                             <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxOverlayImg" checked="">
@@ -577,7 +581,7 @@
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="propertyPanelControlDiv">
+                                    <div class="propertyPanelControlDiv adminControl">
                                         <div class="lblchckboxControl" id="">Print Object On PDF </div>
                                         <div class="onoffswitch" style="right: -100px">
                                             <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnPrintImage" checked="">
@@ -588,9 +592,9 @@
                                         </div>
                                     </div>
 
-                                    <div class="DivBlockWithNoHeight vertLine"></div>
+                                    <div class="DivBlockWithNoHeight vertLine adminControl"></div>
 
-                                    <div class="propertyPanelControlDiv" style="padding-bottom: 5px">
+                                    <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
                                         <div class="lblchckboxControl" id="">Allow End User to CHANGE Formatting </div>
                                         <div class="onoffswitch" style="right: -9px">
                                             <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="LockImgProperties" checked="">
@@ -706,7 +710,7 @@
                                         <span class="lblcheckbox" id="lblArrangeOrderTxt">Box Size</span>
                                     </div>
                                     <div class="PostionPanelLabel">
-                                        <div class="lblcheckbox" id="">Lock Position </div>
+                                        <div class="lblcheckbox adminControl" id="">Lock Position </div>
                                     </div>
                                 </div>
                                 <div class="propertyPanelControlDiv">
@@ -739,7 +743,7 @@
                                         <div class="lbltextButtonControl">
                                             <div class="onoffswitch" style="top: -20px; margin-left: 1px;">
                                                 <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnLockTxtPosition" checked="">
-                                                <label class="onoffswitch-label" for="BtnLockTxtPosition">
+                                                <label class="onoffswitch-label adminControl" for="BtnLockTxtPosition">
                                                     <div class="onoffswitch-inner"></div>
                                                     <div class="onoffswitch-switch"></div>
                                                 </label>
@@ -750,7 +754,7 @@
                                     </div>
                                 </div>
                                 <div class="DivBlockWithNoHeight vertLine"></div>
-                                <div class="propertyPanelControlDiv" style="padding-bottom: 5px">
+                                <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
                                     <div class="lblchckboxControl" id="">Make Overlay Layer  </div>
                                     <div class="onoffswitch" style="right: -100px">
                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxOverlayTxt" checked="">
@@ -760,7 +764,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="propertyPanelControlDiv">
+                                <div class="propertyPanelControlDiv adminControl">
                                     <div class="lblchckboxControl" id="">Print Object On PDF </div>
                                     <div class="onoffswitch" style="right: -100px">
                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnPrintObj" checked="">
@@ -771,7 +775,7 @@
                                     </div>
                                 </div>
                                 <div class="DivBlockWithNoHeight vertLine"></div>
-                                <div class="propertyPanelControlDiv" style="padding-bottom: 5px">
+                                <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
                                     <div class="lblchckboxControl" id="">Allow End User to CHANGE Formatting </div>
                                     <div class="onoffswitch" style="right: -9px">
                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnAllowOnlyTxtChange" checked="">
@@ -782,7 +786,7 @@
                                     </div>
                                 </div>
 
-                                <div class="propertyPanelControlDiv" style="padding-bottom: 5px">
+                                <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
                                     <div class="lblchckboxControl" id="">Allow End User to EDIT text </div>
                                     <div class="onoffswitch" style="right: -65px">
                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnLockEditing" checked="">
@@ -792,7 +796,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="propertyPanelControlDiv">
+                                <div class="propertyPanelControlDiv adminControl">
                                     <div class="lblchckboxControl" id="">Auto Shrink Text to fit in Text Box </div>
                                     <div class="onoffswitch" style="right: -38px">
                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxAutoShrink" checked="">
@@ -802,8 +806,8 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="DivBlockWithNoHeight vertLine"></div>
-                                <div class="propertyPanelControlDiv" style="padding-bottom: 5px">
+                                <div class="DivBlockWithNoHeight vertLine adminControl"></div>
+                                <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
                                     <div class="lblchckboxControl" id="">Text Input Mask </div>
                                     <div class="onoffswitch" style="right: -121px">
                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxTxtInputMask" checked="">
@@ -813,8 +817,8 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="propertyPanelControlDiv" style="padding-bottom: 5px">
-                                    <div class="lblchckboxControl" id="">Value in This Mandatory </div>
+                                <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
+                                    <div class="lblchckboxControl adminControl" id="">Value in This Mandatory </div>
                                     <div class="onoffswitch" style="right: -83px">
                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxTxtInputMandatory" checked="">
                                         <label class="onoffswitch-label" for="chkboxTxtInputMandatory">
@@ -825,14 +829,14 @@
                                 </div>
 
 
-                                <div class="propertyPanelControlDiv">
+                                <div class="propertyPanelControlDiv adminControl">
                                     <div class="lblchckboxControl" id=""># Number &#64; Letters -Or Type Mandatory Characters </div>
                                     <div>
                                         <input type="text" id="txtInputMskCntrl" />
                                     </div>
                                 </div>
-                                <div class="CaseModeSlider"></div>
-                                <div>
+                                <div class="CaseModeSlider adminControl"></div>
+                                <div class="adminControl">
                                     <div class="lblCaseModeSlider" id="">Normal </div>
                                     <div class="lblCaseModeSlider" id="">Upper Case </div>
                                     <div class="lblCaseModeSlider" id="">Lower Case </div>
@@ -890,12 +894,12 @@
                 </div>
 
             </section>
-            <span></span>
-            <%--<span></span>--%>
+            @*<span></span>*@
+          
         </div>
 
     </section>
-    <section id="canvaDocument" class="scrollPane2 multiPage" style="left: 430px;">
+    <section id="canvasDocument" class="scrollPane2 multiPage" style="left: 430px;">
 
         <section id="canvasSection" class="page selected on" style="width: 326.9368785071841px; height: 462.4056858483221px; top: 136px; left: 20px;">
             <canvas id="canvas">
@@ -1157,20 +1161,20 @@
         </div>
         <div class="sliderLine">
         </div>
-        <div id="Previewer" class="ui-corner-all">
+        <div id="PreviewerDesigner" class="ui-corner-all">
             <div id="sliderFrame">
             </div>
             <div class="sliderLine sliderLineBtm">
             </div>
-            <div id="previewProofing">
-                <div class="divTxtProofing">
-                    <div class="ConfirmPopupProof">
-                        <label class="lblChkSpellings" runat="server" id="lblConfirmSpellings">
+            <div id="previewProofingDesigner">
+                <div class="divTxtProofingDesigner">
+                    <div class="ConfirmPopupProofDesigner">
+                        <label class="lblChkSpellings" runat="server" id="lblConfirmSpellings" style="vertical-align:super">
                             Confirm spelling and details
                         </label>
                         <input id="chkCheckSpelling" name="chkCheckSpelling" runat="server" class="regular-checkbox-new"
                                type="checkbox" />
-                        <label for="chkCheckSpelling" style="display: inline;">
+                        <label for="chkCheckSpelling" style="display: inline; height:35px">
                         </label>
                     </div>
                     <div style="margin-top: 17px;">

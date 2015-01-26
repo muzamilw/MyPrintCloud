@@ -8,5 +8,10 @@ namespace MPC.Interfaces.Repository
     public interface IItemAttachmentRepository : IBaseRepository<ItemAttachment, long>
     {
         List<ItemAttachment> GetArtworkAttachments(long ItemId);
+        /// <summary>
+        /// save attachment list in data base after uploading file
+        /// </summary>
+        /// <param name="attachmentList"></param>
+        List<ItemAttachment> SaveArtworkAttachments(List<ItemAttachment> attachmentList);
     }
 }

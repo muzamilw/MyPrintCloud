@@ -2,7 +2,6 @@
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Webstore.Common;
-using MPC.Webstore.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using MPC.Webstore.ModelMappers;
 using MPC.Webstore.ViewModels;
+using System.Runtime.Caching;
 
 namespace MPC.Webstore.Controllers
 {
@@ -47,6 +47,8 @@ namespace MPC.Webstore.Controllers
         // GET: Category
         public ActionResult Index(string name, string id)
         {
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
             List<ProductPriceMatrixViewModel> ProductPriceMatrix = new List<ProductPriceMatrixViewModel>();
             string StockLabel = string.Empty;
             string Quantity = string.Empty;
@@ -56,20 +58,20 @@ namespace MPC.Webstore.Controllers
             double TaxRate = 0;
             bool includeVAT = false;
             List<ItemStockOptionList> StockOptions = new List<ItemStockOptionList>();
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+           // MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
 
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+          //  MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
+            includeVAT = StoreBaseResopnse.Company.isIncludeVAT ?? false;
+            TaxRate = StoreBaseResopnse.Company.TaxRate ?? 0;
 
-            MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
-            includeVAT = baseResponse.Company.isIncludeVAT ?? false;
-            TaxRate = baseResponse.Company.TaxRate ?? 0;
-
-            int CategoryID = Convert.ToInt32(id);
+            long CategoryID = Convert.ToInt64(id);
             ProductCategory Category = _myCompanyService.GetCategoryById(CategoryID);
 
             if (Category != null)
             {
 
-                SetPageMEtaTitle(Category.CategoryName, Category.MetaDescription, Category.MetaKeywords, Category.MetaTitle, baseResponse);
+               // SetPageMEtaTitle(Category.CategoryName, Category.MetaDescription, Category.MetaKeywords, Category.MetaTitle,StoreBaseResopnse);
 
                 List<ProductCategory> subCategoryList = new List<ProductCategory>();
 
@@ -149,11 +151,11 @@ namespace MPC.Webstore.Controllers
                                     {
                                         if (product.DefaultItemTax != null)
                                         {
-                                            Price = baseResponseCurrency.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), Convert.ToDouble(product.DefaultItemTax))));
+                                            Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), Convert.ToDouble(product.DefaultItemTax))));
                                         }
                                         else
                                         {
-                                            Price = baseResponseCurrency.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), TaxRate)));
+                                            Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), TaxRate)));
 
                                         }
 
@@ -162,7 +164,7 @@ namespace MPC.Webstore.Controllers
                                     else
                                     {
 
-                                        Price = baseResponseCurrency.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(matrixlist[0].PricePaperType1.ToString());
+                                        Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(matrixlist[0].PricePaperType1.ToString());
 
                                     }
                                 }
@@ -170,12 +172,12 @@ namespace MPC.Webstore.Controllers
                                 {// corp
                                     if (includeVAT)
                                     {
-                                        Price = baseResponseCurrency.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), TaxRate)));
+                                        Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), TaxRate)));
 
                                     }
                                     else
                                     {
-                                        Price = baseResponseCurrency.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(matrixlist[0].PricePaperType1.ToString());
+                                        Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(matrixlist[0].PricePaperType1.ToString());
 
                                     }
 
@@ -262,7 +264,7 @@ namespace MPC.Webstore.Controllers
                                     //{
                                     //    SecPricetr.Visible = false;
                                     //}
-                                    Price = baseResponseCurrency.Currency + Price;
+                                    Price = StoreBaseResopnse.Currency + Price;
 
                                     ProductPriceMatrixViewModel ppm = new ProductPriceMatrixViewModel();
                                     ppm.Quantity = Quantity;
@@ -299,6 +301,10 @@ namespace MPC.Webstore.Controllers
 
 
                 }
+                else 
+                {
+                    productList = null;
+                }
 
                 ViewData["Products"] = productList;
 
@@ -314,6 +320,8 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult CloneItem(long id)
         {
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
             long ItemID = 0;
             long TemplateID = 0;
             bool isCorp = true;
@@ -323,23 +331,43 @@ namespace MPC.Webstore.Controllers
                 isCorp = false;
             int TempDesignerID = 0;
             string ProductName = string.Empty;
-            MyCompanyDomainBaseResponse companyBaseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-            MyCompanyDomainBaseResponse organisationBaseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
-            long ContactID = _myClaimHelper.loginContactID();
 
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+
+            long ContactID = _myClaimHelper.loginContactID();
+            long CompanyID = _myClaimHelper.loginContactCompanyID();
             if (UserCookieManager.OrderId == 0)
             {
-                long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
+                long TemporaryRetailCompanyId = 0;
+                if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                {
+                    TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
+                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    if (OrderID > 0)
+                    {
+                        UserCookieManager.OrderId = OrderID;
+                    }
+                    if (TemporaryRetailCompanyId != 0)
+                    {
+                        UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
+                        ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
+                    }
+                    CompanyID = TemporaryRetailCompanyId;
+
+                }
+                else 
+                {
+                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    if (OrderID > 0)
+                    {
+                        UserCookieManager.OrderId = OrderID;
+                    }
+                }
 
                 // create new order
 
-                long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, organisationBaseResponse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, _myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), ref TemporaryRetailCompanyId);
-                if (OrderID > 0)
-                {
 
-                    UserCookieManager.OrderId = OrderID;
-                
-                    Item item = _IItemService.CloneItem(id, 0, OrderID, UserCookieManager.StoreId, 0, 0, null, false, false, ContactID);
+                Item item = _IItemService.CloneItem(id, 0, UserCookieManager.OrderId, CompanyID, 0, 0, null, false, false, ContactID, StoreBaseResopnse.Organisation.OrganisationId);
 
                     if (item != null)
                     {
@@ -348,18 +376,41 @@ namespace MPC.Webstore.Controllers
                         TempDesignerID = item.DesignerCategoryId ?? 0;
                         ProductName = item.ProductName;
                     }
-                }
+                
             }
             else
             {
-                Item item = _IItemService.CloneItem(id, 0, UserCookieManager.OrderId, UserCookieManager.StoreId, 0, 0, null, false, false, ContactID);
+                if (UserCookieManager.TemporaryCompanyId == 0 && UserCookieManager.StoreMode == (int)StoreMode.Retail && ContactID == 0)
+                {
+                    long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
+
+                    // create new order
+
+                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    if (OrderID > 0)
+                    {
+                        UserCookieManager.OrderId = OrderID;
+                    }
+                    if (TemporaryRetailCompanyId != 0)
+                    {
+                        UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
+                        ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
+                    }
+                    CompanyID = TemporaryRetailCompanyId;
+                }
+                else if (UserCookieManager.TemporaryCompanyId > 0 && UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                {
+                    CompanyID = UserCookieManager.TemporaryCompanyId;
+                    ContactID = _myCompanyService.GetContactIdByCompanyId(CompanyID);
+                }
+                Item item = _IItemService.CloneItem(id, 0, UserCookieManager.OrderId, CompanyID, 0, 0, null, false, false, ContactID, StoreBaseResopnse.Organisation.OrganisationId);
 
                 if (item != null)
                 {
                     ItemID = item.ItemId;
                     TemplateID = item.TemplateId ?? 0;
                     TempDesignerID = item.DesignerCategoryId ?? 0;
-                    ProductName = item.ProductName;
+                    ProductName = Utils.specialCharactersEncoder(item.ProductName);
                 }
             }
 
@@ -383,7 +434,7 @@ namespace MPC.Webstore.Controllers
             ProductName = _IItemService.specialCharactersEncoder(ProductName);
             //Designer/productName/CategoryIDv2/TemplateID/ItemID/companyID/cotnactID/printCropMarks/printWaterMarks/isCalledFrom/IsEmbedded;
             bool printCropMarks = true;
-            string URL = "~/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + (int)companyBaseResponse.Company.CompanyId + "/" + ContactID + "/" + printCropMarks + "/" + printWaterMark + "/" + isCalledFrom + "/" + isEmbedded;
+            string URL = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + UserCookieManager.OrganisationID + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
 
             // ItemID ok
             // TemplateID ok
@@ -393,20 +444,21 @@ namespace MPC.Webstore.Controllers
             // contactid // ask from iqra about retail and corporate
             // companyID // ask from iqra
             // isembaded ook
-            return View(URL);
+            Response.Redirect(URL);
+            return null;
         }
 
-        private void SetPageMEtaTitle(string CatName, string CatDes, string Keywords, string Title, MyCompanyDomainBaseResponse baseResponse)
-        {
+        //private void SetPageMEtaTitle(string CatName, string CatDes, string Keywords, string Title,  MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponse)
+        //{
 
-            Address DefaultAddress = _myCompanyService.GetDefaultAddressByStoreID(UserCookieManager.StoreId);
+        //    Address DefaultAddress = _myCompanyService.GetDefaultAddressByStoreID(UserCookieManager.StoreId);
+       
+        //    string[] MetaTags = _myCompanyService.CreatePageMetaTags(Title, CatDes, Keywords, StoreMode.Retail, baseResponse.Company.Name, DefaultAddress);
 
-            string[] MetaTags = _myCompanyService.CreatePageMetaTags(Title, CatDes, Keywords, StoreMode.Retail, baseResponse.Company.Name, DefaultAddress);
-
-            ViewBag.MetaTitle = MetaTags[0];
-            ViewBag.MetaKeywords = MetaTags[1];
-            ViewBag.MetaDescription = MetaTags[2];
-        }
+        //    ViewBag.MetaTitle = MetaTags[0];
+        //    ViewBag.MetaKeywords = MetaTags[1];
+        //    ViewBag.MetaDescription = MetaTags[2];
+        //}
         private void BindCategoryData(List<ProductCategory> productCatList)
         {
             if (productCatList != null)

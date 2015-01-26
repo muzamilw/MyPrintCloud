@@ -41,44 +41,43 @@ namespace MPC.Webstore.Controllers
         {
             AddressViewModel oAddress = null;
 
-            // gets cached page categories and secondary pages of company id
-            MyCompanyDomainBaseResponse basePageResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromSecondaryPages();
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
 
-            // gets the organisation to set the default address detail in footer 
-            MyCompanyDomainBaseResponse baseOrganisationResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
 
-            // gets the company detail to check display secondary pages or not
-            MyCompanyDomainBaseResponse baseCompanyResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
 
-            if (baseCompanyResponse.Company.isDisplaySecondaryPages == true)
+
+
+            if (StoreBaseResopnse.Company.isDisplaySecondaryPages == true)
             {
                 ViewBag.Display = "1";
 
-                ViewData["PageCategory"] = basePageResponse.PageCategories;
-                ViewData["CmsPage"] = basePageResponse.SecondaryPages;
+                ViewData["PageCategory"] = StoreBaseResopnse.PageCategories;
+                ViewData["CmsPage"] = StoreBaseResopnse.SecondaryPages;
 
-                if (baseOrganisationResponse.Organisation != null)
+                if (StoreBaseResopnse.Organisation != null)
                 {
                     oAddress = new AddressViewModel();
-                    oAddress.Address1 = baseOrganisationResponse.Organisation.Address1;
-                    oAddress.Address2 = baseOrganisationResponse.Organisation.Address2;
+                    oAddress.Address1 = StoreBaseResopnse.Organisation.Address1;
+                    oAddress.Address2 = StoreBaseResopnse.Organisation.Address2;
 
-                    oAddress.City = baseOrganisationResponse.Organisation.City;
-                    oAddress.State = _myCompanyService.GetStateNameById(baseOrganisationResponse.Organisation.StateId ?? 0);
-                    oAddress.Country = _myCompanyService.GetCountryNameById(baseOrganisationResponse.Organisation.CountryId ?? 0);
-                    oAddress.ZipCode = baseOrganisationResponse.Organisation.ZipCode;
+                    oAddress.City = StoreBaseResopnse.Organisation.City;
+                    oAddress.State = _myCompanyService.GetStateNameById(StoreBaseResopnse.Organisation.StateId ?? 0);
+                    oAddress.Country = _myCompanyService.GetCountryNameById(StoreBaseResopnse.Organisation.CountryId ?? 0);
+                    oAddress.ZipCode = StoreBaseResopnse.Organisation.ZipCode;
 
-                    if (!string.IsNullOrEmpty(baseOrganisationResponse.Organisation.Tel))
+                    if (!string.IsNullOrEmpty(StoreBaseResopnse.Organisation.Tel))
                     {
-                        oAddress.Tel = "Tel: " + baseOrganisationResponse.Organisation.Tel;
+                        oAddress.Tel = "Tel: " + StoreBaseResopnse.Organisation.Tel;
                     }
-                    if (!string.IsNullOrEmpty(baseOrganisationResponse.Organisation.Fax))
+                    if (!string.IsNullOrEmpty(StoreBaseResopnse.Organisation.Fax))
                     {
-                        oAddress.Fax = "Fax: " + baseOrganisationResponse.Organisation.Fax;
+                        oAddress.Fax = "Fax: " + StoreBaseResopnse.Organisation.Fax;
                     }
-                    if (!string.IsNullOrEmpty(baseOrganisationResponse.Organisation.Email))
+                    if (!string.IsNullOrEmpty(StoreBaseResopnse.Organisation.Email))
                     {
-                        oAddress.Email = "Email: " + baseOrganisationResponse.Organisation.Email;
+                        oAddress.Email = "Email: " + StoreBaseResopnse.Organisation.Email;
                     }
                 }
             }

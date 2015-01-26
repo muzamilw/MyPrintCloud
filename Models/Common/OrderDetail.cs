@@ -38,6 +38,13 @@ namespace MPC.Models.Common
                 //Order Complete Details
         public ShoppingCart ItemDetail { get; set; }
 
+        public  List<ProductItem> ProductsList { get; set; }
+
         public string DeliveryMethod { get; set; }
+
+        public string Currency { get; set; }
+
+        public double DeliveryCost { get; set; }
+        public double DeliveryCostTaxValue { get; set; }
     }
 }

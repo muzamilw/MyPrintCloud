@@ -131,7 +131,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StoreBackgroudImage = storeBackgroundImageBytes,
                 DefaultSpriteImage = defaultSpriteBytes,
                 UserDefinedSpriteImage = GetUserDefinedSpriteImage(source),
-                UserDefinedSpriteFileName = GetUserDefinedSpriteImageName(source)
+                UserDefinedSpriteFileName = GetUserDefinedSpriteImageName(source),
+                MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null
             };
         }
 
@@ -236,6 +237,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 DefaultSpriteSource = source.DefaultSpriteSource,
                 UserDefinedSpriteSource = source.UserDefinedSpriteSource,
                 UserDefinedSpriteFileName = source.UserDefinedSpriteFileName,
+                MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null
             };
 
             return company;

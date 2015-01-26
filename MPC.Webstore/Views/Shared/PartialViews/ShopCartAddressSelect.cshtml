@@ -3,6 +3,7 @@
 @using MPC.Models.Common;
 @using MPC.Webstore.Common;
 @using MPC.Models.DomainModels;
+
 @{
     List<AddOnCostsCenter> AddsOnList = Model.SelectedItemsAddonsList;
     string addson = string.Empty;
@@ -17,63 +18,16 @@
     double grosstotal = 0;
     double GrandTotal = 0;
     string IsDisable = string.Empty;
-    Address ShippingAddress = Model.BillingAddress;
+    Address ShippingAddress = Model.ShippingAddress;
     Address BillingAddress = Model.BillingAddress;
+    Address FilterShippingAddress = new Address();
+    Address FilterBillingAddress = new Address();
+    Country FilterCountries = new Country();
+    State FilterState = new State();
+    string check = string.Empty;
+
+    //ViewBag.shippingAddress = Model.ShippingAddresses;
 }
-<style>
-    input[type="checkbox"] {
-        display: none;
-        outline: none !important;
-        -webkit-transition: background-color;
-        -moz-transition: background-color;
-        -o-transition: background-color;
-        -ms-transition: background-color;
-        transition: background-color;
-    }
-
-        input[type="checkbox"] + label {
-            display: inline-block !important;
-            padding: 6px 0 6px 45px;
-            line-height: 25px;
-            background-image: url("//cdn.shopify.com/s/files/1/0245/8513/t/7/assets/checkbox_sprite.png?4214");
-            background-image: none,url("//cdn.shopify.com/s/files/1/0245/8513/t/7/assets/checkbox_sprite.svg?4214");
-            background-position: -108px 0;
-            background-repeat: no-repeat;
-            -webkit-background-size: 143px 143px;
-            -moz-background-size: 143px 143px;
-            background-size: 143px 143px;
-            overflow: visible;
-            outline: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            cursor: pointer;
-            cursor: pointer;
-            color: #66615b;
-            outline: none !important;
-            font-size: 17px;
-        }
-
-            input[type="checkbox"]:hover + label, input[type="checkbox"] + label:hover, input[type="checkbox"]:hover + label:hover {
-                background-position: -72px -36px;
-                color: #403d39;
-            }
-
-        input[type="checkbox"]:checked + label {
-            background-position: -36px -72px;
-            color: #403d39;
-        }
-
-            input[type="checkbox"]:checked:hover + label, input[type="checkbox"]:checked + label:hover, input[type="checkbox"]:checked:hover + label:hover {
-                background-position: 0 -108px;
-                color: #403d39;
-            }
-
-    .rounded_corners5 {
-        margin-bottom: 0px;
-    }
-</style>
 
 <div class="container content_area">
 
@@ -110,7 +64,7 @@
         }
        
         <div class="signin_heading_div col-md-12 col-lg-12 col-xs-12">
-            <label ID="lblCheckout" runat="server" Text="Checkout" CssClass="sign_in_heading"></label>
+            <label ID="lblCheckout" runat="server" Text="Checkout" class="sign_in_heading"></label>
         </div>
         <div class="clearBoth">
             &nbsp;
@@ -149,7 +103,7 @@
                             {
                                 <div id="CorporateBox" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                                     <label id="ltrlcheckoutfirstdiv" class="col-md-2 col-lg-2 col-xs-12 smallCheckoutAvenior">Your Ref / PO</label>
-                                    @Html.TextBoxFor(model => model.Notes, new { id = "txtInstNotes", @class = "AveniorTxtBoxCheckout", onblur = "ChangeNotesTxt();" })
+                                    @Html.TextBoxFor(model => model.RefNumber, new { id = "txtYourRefNumber", @class = "AveniorTxtBoxCheckout",maxlength=50, onblur = "ChangeRefPO();" })
                                     <input id="txtYourRefNumber" name="txtYourRefNumber" type="text" class="AveniorTxtBoxCheckout" maxlength="50"
                                            onblur="ChangeRefPO();" />
 
@@ -160,9 +114,9 @@
                             {
                                 <div id="NormalBox" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                                     <label ID="Label4"  class="col-md-2 col-lg-2 col-xs-12 smallCheckoutAvenior">Your Ref / PO</label>
-
-                                    <input id="txtYourRefNumberRetail" name="txtYourRefNumberRetail" type="text" class="AveniorTxtBoxCheckout" maxlength="50"
-                                           onblur="ChangeRefPO();" />
+                                    @Html.TextBoxFor(model => model.RefNumRetail, new { id = "txtYourRefNumberRetail", @class = "AveniorTxtBoxCheckout", maxlength = 50, onblur = "ChangeRefPO();" })
+                                    @*<input id="txtYourRefNumberRetail" name="txtYourRefNumberRetail" type="text" class="AveniorTxtBoxCheckout" maxlength="50"
+                                           onblur="ChangeRefPO();" />*@
 
                                 </div>
                             }
@@ -183,7 +137,7 @@
                                 <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                                     <label ID="Label3" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Choose Delivery</label>
 
-                                    <select id="ddlDeliveyCostCenter" class="checkoutDropDown">
+                                    @*<select id="ddlDeliveyCostCenter" class="checkoutDropDown">
 
                     @{
                               MPC.Models.DomainModels.Item record = ViewBag.Item;
@@ -223,18 +177,18 @@
                       }
 
 
-                      </select>
+                      </select>*@
+                                @Html.DropDownListFor(model => model.SelectedCostCentre, (IEnumerable<SelectListItem>)@Model.DDDeliveryCostCenters, " -- Select a delivery option -- ", new { @class = "checkoutDropDown", @id = "ddlDeliveyCostCenter" }) 
 
-
-                                    @*<asp:DropDownList ID="ddlDeliveyCostCenter" runat="server" CssClass="checkoutDropDown" />*@
+                                   
                                 </div>
                                 <div class="clearBoth">
                                 </div>
 
                                 <div id="pickUpaddressContainer" runat="server" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                                    <label ID="Label5" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Pickup Address</label>
-
-                                    <input type="text" inputmode="MultiLine" id="txtPickUpAddressDetail" style="height:80px;" class="AveniorTxtBoxCheckout" value="@Model.PickUpAddress" disabled>
+                                    <label ID="Label5"  class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Pickup Address</label>
+                                    @Html.TextBoxFor(model => model.PickUpAddress, new { id = "txtPickUpAddressDetail", @class = "AveniorTxtBoxCheckout", onblur = "ChangeNotesTxt();", style="height:80px;",TextMode = "MultiLine",  disabled = "true" })
+                                   @* <input type="text" inputmode="MultiLine" id="txtPickUpAddressDetail" style="height:80px;" class="AveniorTxtBoxCheckout" value="@Model.PickUpAddress" disabled>*@
                                     @*<asp:TextBox TextMode="MultiLine" ID="txtPickUpAddressDetail" runat="server" Height="80px"
                     CssClass="AveniorTxtBoxCheckout" Columns="10" Enabled="false" />*@
 
@@ -252,14 +206,14 @@
                             </div>
                             <div id="divDeliveryAddress">
 
-                                <div id="ddshippingAdd" runat="server" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                                    <label ID="ltrlchoosedeliveryadd" runat="server" class="col-md-2 col-lg-2 col-xs-12 smallCheckoutAvenior"> Choose Delivery Address</label>
+                                <div id="ddshippingAdd"  class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                    <label ID="ltrlchoosedeliveryadd" class="col-md-2 col-lg-2 col-xs-12 smallCheckoutAvenior"> Choose Delivery Address</label>
 
 
                                     @*<asp:DropDownList ID="ddlDelivery" runat="server" AutoPostBack="true" CssClass="checkoutDropDown"
                     OnSelectedIndexChanged="ddlDelivery_SelectedIndexChanged" />*@
 
-                                    <select id="ddlDelivery" class="checkoutDropDown">
+                                    @*<select id="ddlDelivery" class="checkoutDropDown">
                                         @if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
                                         {
                                             <option value="-1">Add New Address</option>
@@ -275,18 +229,18 @@
 
 
 
-                                    </select>
-                                    @*@Html.DropDownListFor(s => s.selectedShippAddress, ViewBag.listitem as SelectList, new { @class="checkoutDropDown" });*@
-                                      @Html.DropDownListFor(model => model.SelectedDeliveryAddress, (IEnumerable<SelectListItem>)@ViewBag.listitemShipping, new { @class = "checkoutDropDown" })
+                                    </select>*@
+                                   
+                                      @Html.DropDownListFor(model => model.SelectedDeliveryAddress, (IEnumerable<SelectListItem>)@Model.DDShippingAddresses, " -- Add New Address -- ", new { @class = "checkoutDropDown", @id = "ddlDelivery", @onchange = "OnChangeShippingAddress();" }) 
                                 </div>
                                 <div class="clearBoth">
                                 </div>
 
                                 <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                                     <label id="ltrlshippingname" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Shipping Name</label>
-
-                                    <input id="txtShipAddressName" name="txtShipAddressName" type="text" runat="server" class=" AveniorTxtBoxCheckout" maxlength="100" value="@ShippingAddress.AddressName" />
-                                    <label ID="Label7" CssClass="tooltipCheckoutAvenior" runat="server">e.g. Office Address</label>
+                                    @Html.TextBoxFor(model => model.ShippingAddress.AddressName, new { id = "txtShipAddressName", @class = "AveniorTxtBoxCheckout", maxlength = 100 })
+                                   @* <input id="txtShipAddressName" name="txtShipAddressName" type="text" runat="server" class=" AveniorTxtBoxCheckout" maxlength="100" value="@ShippingAddress.AddressName" />*@
+                                    <label ID="Label7" class="tooltipCheckoutAvenior" runat="server">e.g. Office Address</label>
 
                                 </div>
 
@@ -296,41 +250,42 @@
 
                                 <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                                     <label ID="ltrladdline2nd" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Address line 1</label>
-
-                                    <input id="txtShipAddLine1" name="txtShipAddLine1" type="text" runat="server" class=" AveniorTxtBoxCheckout" maxlength="255" value="@ShippingAddress.Address1"
-                                           onblur="ChangeShippToAddLin1();" />
-
-                                </div>
-                                <div class="clearBoth">
-                                </div>
-
-                                <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                                    <label ID="ltrladdressline2nd2" runat="server" CssClass="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Address line 2</label>
-
-
-                                    <input id="txtShipAddressLine2" name="txtShipAddressLine2" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="255" value="@ShippingAddress.Address2"
-                                           onblur="ChangeShippToAddLin2();" />
-                                </div>
-                                <div class="clearBoth">
-                                </div>
-
-                                <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                                    <label ID="ltrlcity2" runat="server" Text="City" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12"></label>
-
-
-                                    <input id="txtShipAddCity" name="txtShipAddCity" type="text" runat="server" class=" AveniorTxtBoxCheckout" maxlength="100" value="@ShippingAddress.City"
-                                           onblur="ChangeShippToCity();" />
+                                    @Html.TextBoxFor(model => model.ShippingAddress.Address1, new { id = "txtShipAddLine1", @class = "AveniorTxtBoxCheckout", maxlength = 255, onblur="ChangeShippToAddLin1();" })
+                                    @*<input id="txtShipAddLine1" name="txtShipAddLine1" type="text" runat="server" class=" AveniorTxtBoxCheckout" maxlength="255" value="@ShippingAddress.Address1"
+                                           onblur="ChangeShippToAddLin1();" />*@
 
                                 </div>
                                 <div class="clearBoth">
                                 </div>
 
                                 <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                                    <label ID="ltrlzipcodeP2" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Zip Code / Post Code</label>
+                                    <label ID="ltrladdressline2nd2" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Address line 2</label>
 
-                                    <input id="txtShipPostCode" name="txtShipPostCode" type="text" runat="server" class="AveniorTxtBoxCheckout float_left_simple" maxlength="30" value="@ShippingAddress.PostCode"
-                                           onblur="ChangeShippToPostCode();" /><img id="lodingImg" runat="server" alt=""
-                                                                                    src="~/images/wpLoader.gif" style="display: none; float: left; width: 20px; margin-top: 7px; margin-left: 0px;" />
+                                    @Html.TextBoxFor(model => model.ShippingAddress.Address2, new { id = "txtShipAddressLine2", @class = "AveniorTxtBoxCheckout", maxlength = 255, onblur = "ChangeShippToAddLin2();" })
+                                    @*<input id="txtShipAddressLine2" name="txtShipAddressLine2" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="255" value="@ShippingAddress.Address2"
+                                           onblur="ChangeShippToAddLin2();" />*@
+                                </div>
+                                <div class="clearBoth">
+                                </div>
+
+                                <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                    <label ID="ltrlcity2" Text="City" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12"></label>
+
+                                    @Html.TextBoxFor(model => model.ShippingAddress.City, new { id = "txtShipAddCity", @class = "AveniorTxtBoxCheckout", maxlength = 100, onblur = "ChangeShippToCity();" })
+                                    @*<input id="txtShipAddCity" name="txtShipAddCity" type="text" runat="server" class=" AveniorTxtBoxCheckout" maxlength="100" value="@ShippingAddress.City"
+                                           onblur="ChangeShippToCity();" />*@
+
+                                </div>
+                                <div class="clearBoth">
+                                </div>
+
+                                <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                                    <label ID="ltrlzipcodeP2"  class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Zip Code / Post Code</label>
+
+                                    @Html.TextBoxFor(model => model.ShippingAddress.PostCode, new { id = "txtShipPostCode", @class = "AveniorTxtBoxCheckout", maxlength = 30, onblur = "ChangeShippToPostCode();" })
+                                    @*<input id="txtShipPostCode" name="txtShipPostCode" type="text" runat="server" class="AveniorTxtBoxCheckout float_left_simple" maxlength="30" value="@ShippingAddress.PostCode"
+                                           onblur="ChangeShippToPostCode();" />*@
+                                    <img id="lodingImg"  alt=""  src="~/images/wpLoader.gif" style="display: none; float: left; width: 20px; margin-top: 7px; margin-left: 0px;" />
 
                                 </div>
                                 <div class="clearBoth">
@@ -338,9 +293,8 @@
 
                                 <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                                     <label id="ltrlcountry2" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Country</label>
-                                    @*<asp:DropDownList ID="ddShippingCountry" runat="server" CssClass="checkoutDropDown"
-                    AutoPostBack="true" OnSelectedIndexChanged="ShippingDropDown_SelectedIndexChanged" />*@
-                                    <select id="ddShippingCountry" class="checkoutDropDown">
+                                   
+                                    @*<select id="ddShippingCountry" class="checkoutDropDown">
                                         <option value="-1" selected>Select Country</option>
                                     @if (Model.Countries != null && Model.Countries.Count > 0)
                                     {
@@ -359,16 +313,16 @@
 
                                     }
 
-                                  </select>
-                                    @*@Html.DropDownList("Country",ViewData["Countries"] as  List< MPC.Models.DomainModels.)*@
+                                  </select>*@
+                                    @Html.DropDownListFor(model => model.SelectedDeliveryCountry, (IEnumerable<SelectListItem>)@Model.DDShippingCountries, " -- Select Country -- ", new { @class = "checkoutDropDown", @id = "ddShippingCountry", onchange="OnChangeDeliveryCountry();"}) 
                                 </div>
                                 <div class="clearBoth">
                                 </div>
 
                                 <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                                     <label ID="lblStatedd" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">State</label>
-                                    <asp:DropDownList ID="ddShippingState" runat="server" CssClass="checkoutDropDown" />
-                                    <select id="ddShippingState" class="checkoutDropDown">
+                                    
+                                    @*<select id="ddShippingState" class="checkoutDropDown">
                                         <option value="-1" selected>Select State</option>
                                         @if (Model.States != null && Model.States.Count > 0)
                                         {
@@ -387,14 +341,17 @@
                                         }
 
 
-                                    </select>
+                                    </select>*@
+
+                                    @Html.DropDownListFor(model => model.SelectedDeliveryState, (IEnumerable<SelectListItem>)@Model.DDShippingStates, " -- Select State -- ", new { @class = "checkoutDropDown", @id = "ddShippingState" })
+                                    
                                 </div>
                                 <div class="clearBoth">
                                 </div>
                                 <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                                     <label ID="ltrlcontactnum2" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Contact Number</label>
-
-                                    <input id="txtShipContact" name="txtShipContact" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="60" value="@ShippingAddress.Tel1" />
+                                    @Html.TextBoxFor(model => model.ShippingAddress.Tel1, new { id = "txtShipContact", @class = "AveniorTxtBoxCheckout", maxlength = 60 })
+                                    @*<input id="txtShipContact" name="txtShipContact" type="text" runat="server" class="AveniorTxtBoxCheckout" maxlength="60" value="@ShippingAddress.Tel1" />*@
                                 </div>
                                 <div class="clearBoth">
                                     &nbsp;
@@ -409,7 +366,8 @@
                         <br />
                         <br />
                         <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                            <input type="checkbox" id="chkBoxDeliverySameAsBilling" checked="checked" onclick="BillingSameAsDeliveryScriptCheckBox();" value="Bill items to the above shipping address" />
+                            <input type="checkbox" id="chkBoxDeliverySameAsBilling" checked="checked" onclick="BillingSameAsDeliveryScriptCheckBox();" value="Bill items to the above shipping address" >
+                            <label id="lblCheckBox">Bill items to the above shipping address</label>
                             @*<asp:CheckBox ID="chkBoxDeliverySameAsBilling" Text="Bill items to the above shipping address" runat="server"
             Checked="true" onclick="BillingSameAsDeliveryScriptCheckBox();" OnCheckedChanged="chkBoxDeliverySameAsBilling_CheckedChanged" AutoPostBack="true" />*@
                         </div>
@@ -460,50 +418,50 @@
                                 <label ID="lblBillingAddress" runat="server" class="col-md-2 col-lg-2 col-xs-12 smallCheckoutAvenior">Choose Billing Address</label>
                                 @*<asp:DropDownList ID="ddlBilling" runat="server" AutoPostBack="true" CssClass="checkoutDropDown"
                 OnSelectedIndexChanged="ddlBilling_SelectedIndexChanged" />*@
-                                <select id="ddlBilling" class="checkoutDropDown">
-                    @if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
-                    {
-                        <option value="-1">Add New Address</option>
-                    }
-                    @if (Model.BillingAddresses != null && Model.BillingAddresses.Count > 0)
-                    {
-                        foreach (var add in Model.BillingAddresses as List<Address>)
-                        {
-                            if (add.AddressId == BillingAddress.AddressId)
-                            {
-                                <option value="@add.AddressId" selected>@add.AddressName</option>
-                            }
-                            else
-                            {
-                                <option value="@add.AddressId">@add.AddressName</option>
-                            }
-                        }
-                    }
+                                @*<select id="ddlBilling"onchange="" class="checkoutDropDown">
+                                        @if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                                        {
+                                            <option value="-1">Add New Address</option>
+                                        }
+                                        @if (Model.BillingAddresses != null && Model.BillingAddresses.Count > 0)
+                                        {
+                                            foreach (var add in Model.BillingAddresses as List<Address>)
+                                            {
+                                                if (add.AddressId == BillingAddress.AddressId)
+                                                {
+                                                    <option value="@add.AddressId" selected>@add.AddressName</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@add.AddressId">@add.AddressName</option>
+                                                }
+                                            }
+                                        }
 
-                </select>
+                                    </select>*@
 
-                                @Html.DropDownList("ddlBilling", (SelectList)@ViewBag.listitemShipping, " -- Add New Address -- ")
-                                @Html.DropDownListFor(model => model.SelectedDeliveryAddress, (IEnumerable<SelectListItem>)@ViewBag.listitemShipping, new { @class = "checkoutDropDown" }) 
+                                
+                                @Html.DropDownListFor(model => model.SelectedBillingAddress, (IEnumerable<SelectListItem>)Model.DDBillingAddresses, " -- Add New Address -- ", new { @class = "checkoutDropDown", @id = "ddlBilling", onchange = "OnChangeBillingAddress();" }) 
                             </div>
                             <div class="clearBoth">
                             </div>
 
 
                             <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                                <label ID="ltrlBillingname" runat="server" CssClass="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Billing Name</label>
-
-                                <input id="txtBillingName" name="txtBillingName" disabled="@IsDisable" type="text" class="AveniorTxtBoxCheckout" maxlength="100" value="@BillingAddress.AddressName" />
-                                <label ID="Label9" runat="server" class="tooltipCheckoutAvenior">e.g. Office Address</label>
+                                <label ID="ltrlBillingname"  class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Billing Name</label>
+                                @Html.TextBoxFor(model => model.BillingAddress.AddressName, new { id = "txtBillingName", @class = "AveniorTxtBoxCheckout", maxlength = 100, disabled = IsDisable })
+                                @*<input id="txtBillingName" name="txtBillingName" disabled="@IsDisable" type="text" class="AveniorTxtBoxCheckout" maxlength="100" value="@BillingAddress.AddressName" />*@
+                                <label ID="Label9"  class="tooltipCheckoutAvenior">e.g. Office Address</label>
                             </div>
                             <div class="clearBoth">
                             </div>
 
 
                             <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                                <label ID="ltrladdressline1" runat="server" CssClass="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Address line 1</label>
-
-                                <input id="txtAddressLine1" name="txtAddressLine1" type="text" disabled="@IsDisable" class="AveniorTxtBoxCheckout" maxlength="255" value="@BillingAddress.Address1"
-                                       onblur="ChangeAddresLinne1();" />
+                                <label ID="ltrladdressline1" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Address line 1</label>
+                                @Html.TextBoxFor(model => model.BillingAddress.Address1, new { id = "txtAddressLine1", @class = "AveniorTxtBoxCheckout", maxlength = 255, disabled=IsDisable })
+                                @*<input id="txtAddressLine1" name="txtAddressLine1" type="text" disabled="@IsDisable" class="AveniorTxtBoxCheckout" maxlength="255" value="@BillingAddress.Address1"
+                                       onblur="ChangeAddresLinne1();" />*@
 
                             </div>
                             <div class="clearBoth">
@@ -511,19 +469,19 @@
 
 
                             <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                                <label ID="ltrladdressline2" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Address line 2</label>
-
-                                <input id="txtAddressLine2" name="txtAddressLine2" type="text" disabled="@IsDisable" class="AveniorTxtBoxCheckout" maxlength="255"
-                                       onblur="ChangeAddresLinne2();" value="@BillingAddress.Address2">
+                                <label ID="ltrladdressline2" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Address line 2</label>
+                                @Html.TextBoxFor(model => model.BillingAddress.Address2, new { id = "txtAddressLine2", @class = "AveniorTxtBoxCheckout", maxlength = 255, disabled = IsDisable })
+                                @*<input id="txtAddressLine2" name="txtAddressLine2" type="text" disabled="@IsDisable" class="AveniorTxtBoxCheckout" maxlength="255"
+                                       onblur="ChangeAddresLinne2();" value="@BillingAddress.Address2">*@
                             </div>
                             <div class="clearBoth">
                             </div>
 
                             <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                                <label ID="ltrlcity" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">City</label>
-
-                                <input id="txtCity" name="txtCity" type="text" disabled="@IsDisable" class="AveniorTxtBoxCheckout" maxlength="100"
-                                       onblur="ChangeCityShippBill();" value="@BillingAddress.City" />
+                                <label ID="ltrlcity"  class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">City</label>
+                                @Html.TextBoxFor(model => model.BillingAddress.City, new { id = "txtCity", @class = "AveniorTxtBoxCheckout", maxlength = 100, disabled = IsDisable, onblur="ChangeCityShippBill();" })
+                                @*<input id="txtCity" name="txtCity" type="text" disabled="@IsDisable" class="AveniorTxtBoxCheckout" maxlength="100"
+                                       onblur="ChangeCityShippBill();" value="@BillingAddress.City" />*@
 
                             </div>
                             <div class="clearBoth">
@@ -531,10 +489,10 @@
 
                             <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
 
-                                <label ID="ltrlzipcodeP" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Zip Code / Post Code</label>
-
-                                <input id="txtZipPostCode" name="txtZipPostCode" type="text" disabled="@IsDisable" class="AveniorTxtBoxCheckout " value="@BillingAddress.PostCode" maxlength="30"
-                                       onblur="ChangePostCodeShippBill();" />
+                                <label ID="ltrlzipcodeP" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Zip Code / Post Code</label>
+                                @Html.TextBoxFor(model => model.BillingAddress.PostCode, new { id = "txtZipPostCode", @class = "AveniorTxtBoxCheckout", maxlength = 30, disabled = IsDisable, onblur = "ChangePostCodeShippBill();" })
+                                @*<input id="txtZipPostCode" name="txtZipPostCode" type="text" disabled="@IsDisable" class="AveniorTxtBoxCheckout " value="@BillingAddress.PostCode" maxlength="30"
+                                       onblur="ChangePostCodeShippBill();" />*@
 
                             </div>
                             <div class="clearBoth">
@@ -542,38 +500,41 @@
 
 
                             <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                                <label ID="ltrlcountry" runat="server" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Country</label>
-                                <select id="BillingCountryDropDown" class="checkoutDropDown">
+                                <label ID="ltrlcountry"  class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Country</label>
+                                @*<select id="BillingCountryDropDown" class="checkoutDropDown">
 
-                    <option value="-1" selected>Select Country</option>
-                    @if (Model.Countries != null && Model.Countries.Count > 0)
-                    {
-                        foreach (var country in Model.Countries as List<MPC.Models.DomainModels.Country>)
-                        {
-                            if (country.CountryId == BillingAddress.CountryId)
-                            {
-                                <option value="@country.CountryId" selected>@country.CountryName</option>
-                            }
-                            else
-                            {
+                                        <option value="-1" selected>Select Country</option>
+                                        @if (Model.Countries != null && Model.Countries.Count > 0)
+                                        {
+                                            foreach (var country in Model.Countries as List<MPC.Models.DomainModels.Country>)
+                                            {
+                                                if (country.CountryId == BillingAddress.CountryId)
+                                                {
+                                                    <option value="@country.CountryId" selected>@country.CountryName</option>
+                                                }
+                                                else
+                                                {
 
-                                <option value="@country.CountryId">@country.CountryName</option>
-                            }
-
-
-                        }
-                    }
+                                                    <option value="@country.CountryId">@country.CountryName</option>
+                                                }
 
 
-                </select>
-                                @* <asp:DropDownList ID="BillingCountryDropDown" AutoPostBack="true" runat="server" CssClass="checkoutDropDown" OnSelectedIndexChanged="BillingCountryDropDown_SelectedIndexChanged" />*@
+                                            }
+                                        }
+
+
+                                    </select>*@
+                               
+                                @Html.DropDownListFor(model => model.SelectedBillingCountry, (IEnumerable<SelectListItem>)@Model.DDBillingCountries, " -- Select Country -- ", new { @class = "checkoutDropDown", @id = "BillingCountryDropDown", onchange="OnChangeBillingCountry();" })
+                                
+                                
                             </div>
                             <div class="clearBoth">
                             </div>
                             <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                                 <label id="ltrlstate" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">State</label>
 
-                                <select id="ddBillingState" class="checkoutDropDown">
+                                @*<select id="ddBillingState" class="checkoutDropDown">
                     <option value="-1" selected>Select State</option>
                     @if (Model.States != null && Model.States.Count > 0)
                     {
@@ -591,14 +552,16 @@
                         }
                     }
 
-                </select>
+                </select>*@
+
+                                @Html.DropDownListFor(model => model.SelectedBillingState, (IEnumerable<SelectListItem>)@Model.DDBillingStates, " -- Select State -- ", new { @class = "checkoutDropDown", @id = "ddBillingState" })
                             </div>
                             <div class="clearBoth">
                             </div>
                             <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                                 <label id="ltrlcontactnum" class="smallCheckoutAvenior col-md-2 col-lg-2 col-xs-12">Contact Number</label>
-
-                                <input id="txtContactNumber" name="txtContactNumber" disabled="@IsDisable" type="text" class="AveniorTxtBoxCheckout" maxlength="60" value="@BillingAddress.Tel1">
+                                @Html.TextBoxFor(model => model.BillingAddress.Tel1, new { id = "txtContactNumber", @class = "AveniorTxtBoxCheckout", maxlength = 60, disabled = IsDisable, onblur = "ChangeCityShippBill();" })
+                               @* <input id="txtContactNumber" name="txtContactNumber" disabled="@IsDisable" type="text" class="AveniorTxtBoxCheckout" maxlength="60" value="@BillingAddress.Tel1">*@
                             </div>
 
 
@@ -800,6 +763,7 @@
                                                                                 string gross = Convert.ToString(grosstotal);
                                                                                 string GT = Utils.FormatDecimalValueToTwoDecimal(gross, Model.Currency);
                                                                                 GrandTotal = Convert.ToDouble(GT);
+                                                                                Model.GrandTotal = GrandTotal;
                                                                             }
                                                                             else
                                                                             {
@@ -807,7 +771,7 @@
                                                                                 string gross = Convert.ToString(grosstotal);
                                                                                 string GT = Utils.FormatDecimalValueToTwoDecimal(gross, Model.Currency);
                                                                                 GrandTotal = Convert.ToDouble(GT);
-
+                                                                                Model.GrandTotal = GrandTotal;
                                                                             }
                                                                             <label class="CartFonts colorBlack Fsize15" id="lblGrandTotal"
                                                                                    style="margin-right: 13px;">@GrandTotal</label>
@@ -823,16 +787,15 @@
                                     }
 
                                 </div>
-                                <div id="DivShippTo" class="black_sub_heading textAlignLeft paddingLeft10px" style="display: none;"
-                                     runat="server">
-                                    <label ID="ltrlShipTo" runat="server">Bill to & Ship to:</label>
+                                <div id="DivShippTo" class="black_sub_heading textAlignLeft paddingLeft10px" style="display: none;">
+                                    <label ID="ltrlShipTo" >Bill to & Ship to:</label>
                                 </div>
                                 <div id="innerContainerShippTo" class="textAlignLeft AddressesContainer" style="display: none;">
                                     <label id="lblShipToAddLin1" class="lbAddressLinesWithPadding">@ShippingAddress.Address1</label>
                                     <label id="lblShipToAddLin2" class="lbAddressLines">@ShippingAddress.Address2</label><br />
                                     <label id="lblShipToCity" class="lbAddressLinesWithPadding">@ShippingAddress.City</label><br />
-                                    <label id="lblShipTostate" class="lbAddressLinesWithPadding">@ShippingAddress.State</label>&nbsp;
-                                    <label id="lblShipToCountry" class="lbAddressLines">@ShippingAddress.Country</label>  &nbsp;
+                                    <label id="lblShipTostate" class="lbAddressLinesWithPadding">@ShippingAddress.State.StateName</label>&nbsp;
+                                    <label id="lblShipToCountry" class="lbAddressLines">@ShippingAddress.Country.CountryName</label>  &nbsp;
                                     <label id="lblShipToZipCode" class="lbAddressLines">@ShippingAddress.PostCode</label> <br />
                                 </div>
                                 <br />
@@ -844,25 +807,25 @@
                                     <label id="lblAddLine1BilSip" class="lbAddressLinesWithPadding">@BillingAddress.Address1</label>
                                     <label id="lbladdLine2BilSip" class="lbAddressLines">@BillingAddress.Address2</label><br />
                                     <label id="lblCityBilSip" class="lbAddressLinesWithPadding">@BillingAddress.City</label><br />
-                                    <label id="lblStateBilSip" class="lbAddressLinesWithPadding">@BillingAddress.State</label>&nbsp;
-                                    <label id="lblCountryBilSip" class="lbAddressLines">@BillingAddress.Country</label>&nbsp;
+                                    <label id="lblStateBilSip" class="lbAddressLinesWithPadding">@BillingAddress.State.StateName</label>&nbsp;
+                                    <label id="lblCountryBilSip" class="lbAddressLines">@BillingAddress.Country.CountryName</label>&nbsp;
                                     <label id="lblPostCdeBilSip" class="lbAddressLines">@BillingAddress.PostCode</label><br />
                                 </div>
                                 <br />
                                 <div class="textAlignLeft paddingLeft10px">
-                                    <label ID="lblContactNotxt" runat="server" class="black_sub_heading">Contact No:</label>
-                                    <label ID="lblContactNo" runat="server" class="ContactNumberlb">@Model.ContactTel</label>
+                                    <label ID="lblContactNotxt" class="black_sub_heading">Contact No:</label>
+                                    <label ID="lblContactNo" class="ContactNumberlb">@Model.ContactTel</label>
                                 </div>
                                 <br />
                                 <div id="DivRefPO" style="display: none;" class="textAlignLeft paddingLeft10px">
-                                    <label ID="lblRefPOtxt" runat="server" class="black_sub_heading">Your Ref/PO is:"</label><label ID="lblRefPo" runat="server" CssClass="POlb"></label>
+                                    <label ID="lblRefPOtxt"  class="black_sub_heading">Your Ref/PO is:"</label><label ID="lblRefPo" runat="server" class="POlb"></label>
                                 </div>
                                 <br />
                                 <div id="DivSpclNotes" style="display: none;" class="textAlignLeft paddingLeft10px">
-                                    <label ID="lblSpecialNoteTxt" runat="server"
+                                    <label ID="lblSpecialNoteTxt" 
                                            Style="color: #C72965;" class="black_sub_heading">Special instructions(notes):</label><br />
                                     <br />
-                                    <label ID="lblNotesDetail" runat="server" class="SpecialNotesContainer" />
+                                    <label ID="lblNotesDetail" class="SpecialNotesContainer" />
                                 </div>
                                 <div class="pad10">
                                     <div class="float_right marginLeft directDepositcs">
@@ -882,11 +845,12 @@
                                                 runat="server" OnClick="btnConfirmOrder_Click" Enabled="true" Text="Continue"
                                                 ClientIDMode="Static" OnClientClick="return ValidateCheckout();" />*@
                                             <input type="submit" class="start_creating_btn_SApp rounded_corners5" onclick="return ValidateCheckout();" value="Continue" />
+                                            
                                         }
                                     </div>
                                     <div class="float_right">
-                                        <asp:Button Text="BACK TO SHOPPING" ID="btnShopCart" CssClass="btn_brown rounded_corners5"
-                                                    runat="server" OnClick="btnShopCart_Click" CausesValidation="False" />
+                                     
+                                        <button id="btnShopCart" onclick="BackToShopping('@Model.OrderId');" class="btn_brown rounded_corners5">BACK TO SHOPPING</button>
                                     </div>
                                     <div class="clearBoth">
                                         &nbsp;
@@ -902,20 +866,20 @@
                         <div class="col-md-6 col-lg-6 col-xs-12 cntcheckoutSummary">
                             @if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
                             {
-                                <div class="super_admin_message" id="DivretailMesg" runat="server" visible="false">
-                                    <label ID="ltrlSomeOmeCallU" runat="server"> Some one will call you</label>
-                                    <label ID="ltrlconfirmDetails" runat="server">to reconfirm details.</label>
+                                <div class="super_admin_message" id="DivretailMesg" visible="false">
+                                    <label ID="ltrlSomeOmeCallU"> Some one will call you</label>
+                                    <label ID="ltrlconfirmDetails">to reconfirm details.</label>
                                 </div>
                             }
 
                             @if (Model.HasAdminMessage == true)
                             {
                                 <div class="super_admin_message" id="divAdminMessage" runat="server" visible="false">
-                                    <label ID="ltrlorderwillbed" runat="server">Order will be delivered after</label>
+                                    <label ID="ltrlorderwillbed">Order will be delivered after</label>
 
                                     <label id="lblSupAdminName">@Model.AdminName</label>
 
-                                    <label ID="ltrlapprovethisorder" runat="server"> approves this order.</label>
+                                    <label ID="ltrlapprovethisorder" > approves this order.</label>
                                 </div>
                             }
 
@@ -928,7 +892,7 @@
                         </div>
                         <div class="col-md-6 col-lg-6 col-xs-12 cntcheckoutSummary">
 
-                            <label ID="lblYourOrderPRoMesg" runat="server" CssClass="mainHeadingAveniorCheckout" Style="display: none; height: auto !important;">Your order being processed by:</label>
+                            <label ID="lblYourOrderPRoMesg" runat="server" class="mainHeadingAveniorCheckout" Style="display: none; height: auto !important;">Your order being processed by:</label>
                             <div class="SelectedBroker nContainer rounded_corners" style="display: none;">
                                 <table style="width: 100%;">
                                     <tr id="container" class="PostCodetableRow">
@@ -968,7 +932,9 @@
                         <input type="hidden" value="@ShippingAddress.IsDefaultShippingAddress" name="txthdnDeliveryDefaultShippingAddress" id="txthdnDeliveryDefaultShippingAddress" />
                         <input type="hidden" value="@ShippingAddress.IsDefaultAddress" id="txthdnDeliveryDefaultAddress" />
                         <input type="hidden" value="@GrandTotal" name="hfGrandTotal" id="hfGrandTotal" />
-                        <input type="hidden" value="True" id="hfchkBoxDeliverySameAsBilling" />
+                        <input type="hidden" value="@Model.chkBoxDeliverySameAsBilling" id="hfchkBoxDeliverySameAsBilling" />
+                        <input type="hidden" value="Continue" name="hfPostBackCallFrom" id="hfPostBackCallFrom" />
+                        <input type="hidden" value=@Html.Raw(Json.Encode(ViewBag.shippingAddress)) id="JsonAddressContainer" />
 
                     </div>
                    }
@@ -1021,7 +987,7 @@
             $('#innerContainerShippTo').css('display', 'block');
             $("#ltrlShipTo").html("Ship to:");
         }
-       // LoadBrokerByPostCode();
+        // LoadBrokerByPostCode();
         if ($("# hfPageIsValid").val() == "0") {
             ValidateCheckout();
         }
@@ -1052,7 +1018,7 @@
     //<%-- Billing Address--%>
 
 
-        var txtBillingName = null;
+    var txtBillingName = null;
     var txtAddressLine1 = null;
     var txtAddressLine2 = null;
     var txtCity = null;
@@ -1103,15 +1069,15 @@
         $("#txtContactNumber").prop("disabled", "");
     }
     function BillingSameAsDeliveryScriptCheckBox() {
-       
-        var ShipTO = 'Resources.MyResource.ltrlShipTo %>';
-        var BillShippTO = 'Resources.MyResource.lnkBillShipto %>';
+
+       // var ShipTO = 'Resources.MyResource.ltrlShipTo %>';
+      //  var BillShippTO = 'Resources.MyResource.lnkBillShipto %>';
         if ($("#chkBoxDeliverySameAsBilling")[0].checked == true) {
             //  alert("c");
             //   $("#MainContent_chkBoxDeliverySameAsBilling").attr("checked", "checked");
             $('#BillTOShippTO').css('display', 'none');
             $('#BillTOShippTOContainer').css('display', 'none');
-            $("#ltrlShipTo").html(BillShippTO);
+           // $("#ltrlShipTo").html(BillShippTO);
             SetNewControlValues();
 
 
@@ -1155,6 +1121,12 @@
             } else {
                 $('#divBilling').css('display', 'block');
             }
+
+            $('#ddlBilling option').each(function () {
+                if ($(this).val() == $("#ddShippingCountry").val()) {
+                    $(this).css('display', 'none');
+                }
+            });
 
         }
 
@@ -1354,14 +1326,16 @@
             $("#txtShipAddCity").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
         }
 
-        if ($("#ddShippingCountry").val() == -1) {
+        if ($("#ddShippingCountry").val() == 0) {
             isDataFilled = 1;
             $("#ddShippingCountry").css("border", "1px solid #b33c12");
         } else {
             $("#ddShippingCountry").css("border", "1px solid #c1c6cc");
         }
 
-        if ($("#ddlDeliveyCostCenter").val() == -1) {
+
+
+        if ($("#ddlDeliveyCostCenter").val() == 0) {
             isDataFilled = 1;
             $("#ddlDeliveyCostCenter").css("border", "1px solid #b33c12");
         } else {
@@ -1370,7 +1344,7 @@
 
 
 
-        if ($("#ddShippingState").val() == -1) {
+        if ($("#ddShippingState").val() == 0) {
             isDataFilled = 1;
             $("#ddShippingState").css("border", "1px solid #b33c12");
         } else {
@@ -1378,14 +1352,14 @@
         }
 
 
-        if ($("#ddBillingState").val() == -1) {
+        if ($("#ddBillingState").val() == 0) {
             isDataFilled = 1;
             $("#ddBillingState").css("border", "1px solid #b33c12");
         } else {
             $("#ddBillingState").css("border", "1px solid #c1c6cc");
         }
 
-        if ($("#BillingCountryDropDown").val() == -1) {
+        if ($("#BillingCountryDropDown").val() == 0) {
             isDataFilled = 1;
             $("#BillingCountryDropDown").css("border", "1px solid #b33c12");
         } else {
@@ -1444,13 +1418,13 @@
             $('.EBillAddresZipCode').css("display", "none");
             $("#txtZipPostCode").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
         }
-        if ($("#BillingCountryDropDown").val() == -1) {
+        if ($("#BillingCountryDropDown").val() == 0) {
             isDataFilled = 1;
             $("#BillingCountryDropDown").css("border", "1px solid #b33c12");
         } else {
             $("#BillingCountryDropDown").css("border", "1px solid #c1c6cc");
         }
-        if ($("#ddBillingState").val() == -1) {
+        if ($("#ddBillingState").val() == 0) {
             isDataFilled = 1;
             $("#ddBillingState").css("border", "1px solid #b33c12");
         } else {
@@ -1497,7 +1471,7 @@
             } else {
                 $("#hfPageIsValid").val(1);
                 isValid = true;
-                
+
             }
         }
 
@@ -1511,8 +1485,7 @@
                 $("#hfPageIsValid").val(1);
             }
         }
-        
-        alert(isValid);
+
         return isValid;
     }
     function LoadBrokerByPostCode() {
@@ -1558,6 +1531,188 @@
     function DisableEnableBillingAddressControlls()
     {
 
+    }
+
+    function OnChangeShippingAddress()
+    {
+
+        var addressId = $('#ddlDelivery').val();
+        var jsonData = (@Html.Raw(Json.Encode(Model.ShippingAddresses))) ;
+        // $.parseJSON($('#JsonAddressContainer').val());console.log(jsonData);
+
+        if(jsonData != null)
+        {
+            for(var i = 0; i <jsonData.length;i++)
+            {
+                var cAdrres = jsonData[i];
+                if(cAdrres.AddressId == addressId)
+                {
+                    $('#txtShipAddressName').val(cAdrres.AddressName);
+                    $('#txtShipAddLine1').val(cAdrres.Address1);
+                    $('#txtShipAddressLine2').val(cAdrres.Address2);
+                    $('#txtShipAddCity').val(cAdrres.City);
+                    $('#txtShipPostCode').val(cAdrres.PostCode);
+                    $('#txtShipContact').val(cAdrres.Tel1);
+                    $('#txthdnDeliveryAddressID').val(cAdrres.AddressID);
+                    $('#txthdnDeliveryDefaultShippingAddress').val(cAdrres.IsDefaultShippingAddress);
+                    $('#txthdnDeliveryDefaultAddress').val(cAdrres.IsDefaultAddress);
+                    $('#ddShippingCountry').val(cAdrres.CountryId);
+                    $('#ddShippingState').val(cAdrres.StateId);
+
+
+
+                    $('#lblShipToAddLin1').text(cAdrres.Address1);
+                    $('#lblShipToAddLin2').text(cAdrres.Address2);
+                    $('#lblShipToCity').text(cAdrres.City);
+                    $('#lblShipTostate').text(cAdrres.Tel2);
+                    $('#lblShipToCountry').text(cAdrres.FAO);
+                    $('#lblShipToZipCode').text(cAdrres.PostCode);
+                    break;
+                }
+                else
+                {
+                    $('#txtShipAddressName').val("");
+                    $('#txtShipAddLine1').val("");
+                    $('#txtShipAddressLine2').val("");
+                    $('#txtShipAddCity').val("");
+                    $('#txtShipPostCode').val("");
+                    $('#txtShipContact').val("");
+                    $('#txthdnDeliveryAddressID').val("0");
+                    $('#txthdnDeliveryDefaultAddress').val("false");
+                    $('#txthdnDeliveryDefaultShippingAddress').val("false");
+
+                    $("#txtShipAddressName").prop("disabled", "");
+                    $("#txtShipAddLine1").prop("disabled", "");
+                    $("#txtShipAddressLine2").prop("disabled", "");
+                    $("#txtShipAddCity").prop("disabled", "");
+                    $("#txtShipPostCode").prop("disabled", "");
+                    $("#ddShippingState").prop("disabled", "");
+                    $("#ddShippingCountry").prop("disabled", "");
+                    $("#txtShipContact").prop("disabled", "");
+                }
+
+            }
+        }
+    //   $('#BtnPost').click();
+    }
+    function OnChangeBillingAddress()
+    {
+
+        var addressId = $('#ddlBilling').val();
+        var jsonData = (@Html.Raw(Json.Encode(Model.BillingAddresses))) ;
+        // $.parseJSON($('#JsonAddressContainer').val());console.log(jsonData);
+
+        if(jsonData != null)
+        {
+            for(var i = 0; i <jsonData.length;i++)
+            {
+                var cAdrres = jsonData[i];
+                if(cAdrres.AddressId == addressId)
+                {
+                    $('#txtBillingName').val(cAdrres.AddressName);
+                    $('#txtAddressLine1').val(cAdrres.Address1);
+                    $('#txtAddressLine2').val(cAdrres.Address2);
+                    $('#txtCity').val(cAdrres.City);
+                    $('#txtZipPostCode').val(cAdrres.PostCode);
+                    $('#txtContactNumber').val(cAdrres.Tel1);
+                    $('#txthdnBillingAddressID').val(cAdrres.AddressID);
+                    $('#txthdnBillingDefaultShippingAddress').val(cAdrres.IsDefaultShippingAddress);
+                    $('#txthdnBillingDefaultAddress').val(cAdrres.IsDefaultAddress);
+                    $('#ddShippingCountry').val(cAdrres.CountryId);
+                    $('#ddShippingState').val(cAdrres.StateId);
+
+
+
+                    $('#lblAddLine1BilSip').text(cAdrres.Address1);
+                    $('#lbladdLine2BilSip').text(cAdrres.Address2);
+                    $('#lblCityBilSip').text(cAdrres.City);
+                    $('#lblStateBilSip').text(cAdrres.Tel2);
+                    $('#lblCountryBilSip').text(cAdrres.FAO);
+                    $('#lblPostCdeBilSip').text(cAdrres.PostCode);
+                    break;
+                }
+                else // add new billing address
+                {
+                    $('#txtBillingName').val("");
+                    $('#txtAddressLine1').val("");
+                    $('#txtAddressLine2').val("");
+                    $('#txtCity').val("");
+                    $('#txtZipPostCode').val("");
+                    $('#txtContactNumber').val("");
+                    $('#txthdnBillingAddressID').val("0");
+                    $('#txthdnBillingDefaultShippingAddress').val("false");
+                    $('#txthdnBillingDefaultAddress').val("false");
+
+                    $("#txtBillingName").prop("disabled", "");
+                    $("#txtAddressLine1").prop("disabled", "");
+                    $("#txtAddressLine2").prop("disabled", "");
+                    $("#txtCity").prop("disabled", "");
+                    $("#ddBillingState").prop("disabled", "");
+                    $("#txtZipPostCode").prop("disabled", "");
+                    $("#BillingCountryDropDown").prop("disabled", "");
+                    $("#txtContactNumber").prop("disabled", "");
+                }
+
+            }
+        }
+    }
+
+    function BackToShopping(OrderId)
+    {
+        window.location.href = "/ShopCart/" + OrderId;
+    }
+    function OnChangeDeliveryCountry()
+    {
+        var ShippingCountryId = $('#ddShippingCountry').val();
+        var jsonData = (@Html.Raw(Json.Encode(Model.ShippingStates))) ;
+        // $.parseJSON($('#JsonAddressContainer').val());console.log(jsonData);
+        $('#ddShippingState option').css("display","none");
+        if(jsonData != null)
+        {
+            for(var i = 0; i <jsonData.length;i++)
+            {
+                var cState = jsonData[i];
+                if(cState.CountryId == ShippingCountryId) {
+                    $('#ddShippingState option').each(function () {
+                        if($(this).val() == cState.StateId)
+                        {
+                            $(this).css("display","block");
+                        }
+                    });
+                }
+
+
+               
+
+            }
+        }
+    }
+    function OnChangeBillingCountry()
+    {
+        var BillingCountryId = $('#BillingCountryDropDown').val();
+        var jsonData = (@Html.Raw(Json.Encode(Model.BillingStates))) ;
+        // $.parseJSON($('#JsonAddressContainer').val());console.log(jsonData);
+        $('#ddBillingState option').css("display","none");
+        if(jsonData != null)
+        {
+            for(var i = 0; i <jsonData.length;i++)
+            {
+                var cAdrres = jsonData[i];
+                if(cAdrres.CountryId == BillingCountryId) { 
+                    $('#ddBillingState option').each(function () {
+                       
+                        if($(this).val() == cAdrres.StateId)
+                        {
+                            $(this).css("display","block");
+                        }
+                    });
+                }
+
+
+               
+
+            }
+        }
     }
 </script>
 
