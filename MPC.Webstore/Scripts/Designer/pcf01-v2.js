@@ -1657,16 +1657,17 @@ function fu09_1(DT) {
     $.each(DT, function (key, item) {
      
         var className = "landscapeTemplate";
-        if (item.PageOrientation == 1 && (item.PDFTemplateHeight > item.PDFTemplateWidth)) {// portrait height > width
-           
-        }
-        else if (item.PageOrientation == 1 && (item.PDFTemplateHeight <= item.PDFTemplateWidth)) {// portrait height < width
+        if (item.Orientation == 1 && (item.PDFTemplateHeight > item.PDFTemplateWidth)) {// portrait height > width
             className = "portraitTemplate";
         }
-        else if (item.PageOrientation == 2 && (item.PDFTemplateHeight > item.PDFTemplateWidth)) {// landscap height > width
-            className = "portraitTemplate";
+        else if (item.Orientation == 1 && (item.PDFTemplateHeight <= item.PDFTemplateWidth)) {// portrait height < width
+          //  className = "";
         }
-        else if (item.PageOrientation == 2 && (item.PDFTemplateHeight <= item.PDFTemplateWidth)) {// landscap height > width
+        else if (item.Orientation == 2 && (item.PDFTemplateHeight > item.PDFTemplateWidth)) {// landscap height > width
+          //  className = "";
+        }
+        else if (item.Orientation == 2 && (item.PDFTemplateHeight <= item.PDFTemplateWidth)) {// landscap height > width
+            className = "portraitTemplate";
         }
         var html = '<span class="templateGallerylist"><a title="' + item.ProductName + '" onClick="fu10(this,' + item.ProductID + ')" class="'+className+'">' +
                   '<img src="' + V2Url + '/designer/products/' + item.ProductID + '/TemplateThumbnail1.jpg' + '" class="imgs' + item.ProductID + '"> </a></span>'
