@@ -41,6 +41,11 @@ namespace MPC.MIS.Areas.Api.Models
                 return string.Format("data:{0};base64,{1}", "image/jpg", base64);
             }
         }
+
+        /// <summary>
+        /// Default Company Css
+        /// </summary>
+        public string DefaultCompanyCss { get; set; }
         // public IEnumerable<Department> Departments { get; set; }
         // public IEnumerable<AccountManager> AccountManagers { get; set; }
     }

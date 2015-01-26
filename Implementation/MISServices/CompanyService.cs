@@ -189,9 +189,9 @@ namespace MPC.Implementation.MISServices
             #endregion
             return company;
         }
-        private Company UpdateCmykColorsOfUpdatingCompany(Company company)
+        private Company UpdateCmykColorsOfUpdatingCompany(Company company, Company companyDbVersion)
         {
-            var companyDbVersion = companyRepository.Find(company.CompanyId);
+            //var companyDbVersion = companyRepository.Find(company.CompanyId);
             #region CMYK Colors Items
             //Add  CMYK Colors
             if (company.CompanyCMYKColors != null)
@@ -352,6 +352,7 @@ namespace MPC.Implementation.MISServices
                     var addressToDelete = addressRepository.Find(address.AddressId);
                     addressRepository.Delete(addressToDelete);
                 }
+            addressRepository.SaveChanges();
         }
         private void SaveProductCategoryThumbNailImage(ProductCategory productCategory)
         {
@@ -710,6 +711,7 @@ namespace MPC.Implementation.MISServices
                     companyContactRepository.Delete(companyContactTodelete);
                 }
             }
+            companyContactRepository.SaveChanges();
         }
 
         /// <summary>
@@ -721,7 +723,7 @@ namespace MPC.Implementation.MISServices
             companySavingModel.Company.OrganisationId = companyRepository.OrganisationId;
             var companyToBeUpdated = UpdateRaveReviewsOfUpdatingCompany(companySavingModel.Company);
             companyToBeUpdated = UpdatePaymentGatewaysOfUpdatingCompany(companyToBeUpdated);
-            companyToBeUpdated = UpdateCmykColorsOfUpdatingCompany(companyToBeUpdated);
+            companyToBeUpdated = UpdateCmykColorsOfUpdatingCompany(companyToBeUpdated, companyDbVersion);
             companyToBeUpdated = UpdateCompanyDomain(companyToBeUpdated);
             //
             BannersUpdate(companySavingModel.Company, companyDbVersion);
@@ -748,8 +750,21 @@ namespace MPC.Implementation.MISServices
             companyToBeUpdated.ProductCategories = productCategories;
             SaveFilesOfProductCategories(companyToBeUpdated);
             SaveSpriteImage(companySavingModel.Company);
+            SaveCompanyCss(companySavingModel.Company);
 
             return companySavingModel.Company;
+        }
+
+        private void SaveCompanyCss(Company company)
+        {
+            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Stores/Store" + company.CompanyId);
+            if (directoryPath != null && !Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            string savePath = directoryPath + "\\" + company.CompanyId + "_CompanyStyles.css";
+            File.WriteAllText(savePath, company.CustomCSS);
         }
 
         private void SaveSpriteImage(Company company)

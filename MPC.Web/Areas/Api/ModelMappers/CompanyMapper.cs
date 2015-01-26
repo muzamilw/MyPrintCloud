@@ -33,6 +33,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 defaultSpriteBytes = File.ReadAllBytes(defaultSpritePath);
             }
+            string defaultCss = string.Empty;
+            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/Stores/Store" + source.CompanyId + "/" + source.CompanyId + "_CompanyStyles.css")))
+            {
+                defaultCss = File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/Stores/Store" + source.CompanyId + "/" + source.CompanyId + "_CompanyStyles.css"));
+            }
 
             return new Company
             {
@@ -51,6 +56,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 AccountManagerId = source.AccountManagerId,
                 Status = source.Status,
                 IsCustomer = source.IsCustomer,
+                CustomCSS = defaultCss,
                 Notes = source.Notes,
                 IsDisabled = source.IsDisabled,
                 AccountBalance = source.AccountBalance,
@@ -145,6 +151,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CreditReference = source.CreditReference,
                 CreditLimit = source.CreditLimit,
                 Terms = source.Terms,
+                CustomCSS = source.CustomCSS,
                 TypeId = 52,
                 DefaultNominalCode = source.DefaultNominalCode,
                 DefaultMarkUpId = source.DefaultMarkUpId,
@@ -239,9 +246,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static ApiModels.SupplierForInventory CreateFromForInventory(this DomainModels.Company source)
+        public static SupplierForInventory CreateFromForInventory(this DomainModels.Company source)
         {
-            return new ApiModels.SupplierForInventory
+            return new SupplierForInventory
             {
                 Name = source.Name,
                 SupplierId = source.CompanyId,

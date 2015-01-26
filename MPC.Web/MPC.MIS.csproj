@@ -902,6 +902,7 @@
     <Content Include="Images\orderedList7.png" />
     <Content Include="Images\orderedList8.png" />
     <Content Include="Images\orderedList9.png" />
+    <Content Include="MPC_Content\DefaultCss\Default_CompanyStyles.css" />
     <Content Include="MPC_Content\DefaultSprite\sprite.bakup.png" />
     <Content Include="RichTextEditor\adapters\jquery.js" />
     <Content Include="RichTextEditor\build-config.js" />
@@ -1229,6 +1230,11 @@
     <Content Include="RichTextEditor\skins\moono\images\lock.png" />
     <Content Include="RichTextEditor\skins\moono\images\refresh.png" />
     <Content Include="RichTextEditor\styles.js" />
+    <Content Include="Scripts\Ace\lib\ace\ace.js" />
+    <Content Include="Scripts\Ace\lib\ace\mode-css.js" />
+    <Content Include="Scripts\Ace\lib\ace\theme-clouds.js" />
+    <Content Include="Scripts\Ace\lib\ace\worker-css.js" />
+    <Content Include="Scripts\knockout-ace.js" />
     <Content Include="Scripts\Ace\ace.js" />
     <Content Include="Scripts\Ace\colorpicker.js" />
     <Content Include="Scripts\Ace\mode-css.js" />

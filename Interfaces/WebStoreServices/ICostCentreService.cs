@@ -27,7 +27,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         double ExecuteVariable(ref object[] oParamsArray, int VariableID);
 
-        double ExecuteResource(ref object[] oParamsArray, long ResourceID, string ReturnValue);
+       // double ExecuteResource(ref object[] oParamsArray, long ResourceID, string ReturnValue);
 
         double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, out double Price, out double PerQtyQty);
         double ExecuteQuestion(ref object[] oParamsArray, int QuestionID, long CostCentreID);
@@ -38,6 +38,7 @@ namespace MPC.Interfaces.WebStoreServices
         CostCentre GetCostCentreSummaryByID(long CostCentreID);
 
         CostCentre GetSystemCostCentre(long SystemTypeID, long OrganisationID);
+        string test();
     }
 
 
@@ -59,6 +60,9 @@ namespace MPC.Interfaces.WebStoreServices
             try
             {
                 return (ICostCentreLoader)Activator.CreateInstanceFrom(assemblyFile, typeName, false, bfi, null, constructArgs, null, null, null).Unwrap();
+
+
+                //return (ICostCentreLoader)Activator.CreateInstanceFrom(.Unwrap();
             }
             catch (Exception ex)
             {

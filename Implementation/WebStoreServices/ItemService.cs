@@ -448,5 +448,9 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
+        public string SaveDesignAttachments(long templateID, long itemID, long customerID, string DesignName, string caller, long organisationId)
+        {
+            return _ItemRepository.SaveDesignAttachments(templateID, itemID, customerID, DesignName, caller, organisationId);
+        }
     }
 }

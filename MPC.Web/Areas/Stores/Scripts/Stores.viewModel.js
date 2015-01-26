@@ -2,177 +2,183 @@
     Module with the view model for the Store.
 */
 define("stores/stores.viewModel",
-    ["jquery", "amplify", "ko", "stores/stores.dataservice", "stores/stores.model", "common/confirmation.viewModel", "common/pagination", "stores/store.Product.viewModel", "sammy"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination, storeProductsViewModel, sammy) {
+    ["jquery", "amplify", "ko", "stores/stores.dataservice", "stores/stores.model", "common/confirmation.viewModel", "common/pagination", "stores/store.Product.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, storeProductsViewModel) {
         var ist = window.ist || {};
         ist.stores = {
             viewModel: (function () {
                 var //View
                     view,
-                    //#region ________ O B S E R V A B L E S ___________
-                    filteredCompanySetId = ko.observable(),
-                    //selected Current Page Id In Layout Page Tab
-                    selectedCurrentPageId = ko.observable(),
-                    selectedCurrentPageCopy = ko.observable(),
-                    //Active Widget (use for dynamic controll)
-                    selectedWidget = ko.observable(),
-                    //Active Company Domain
-                    selectedCompanyDomainItem = ko.observable(),
-                    //New Added fake Id counter
-                    newAddedWidgetIdCounter = ko.observable(0),
-                    //Store Image
-                    storeImage = ko.observable(),
-                    //On Added new widget id calculate
-                    // ReSharper disable once UnusedLocals
-                    newAddedWidgetIdCount = ko.observable(-1),
-                    //Is Loading stores
-                    isLoadingStores = ko.observable(false),
-                    //Is Editorial View Visible
-                    isEditorVisible = ko.observable(false),
-                    //Sort On
-                    sortOn = ko.observable(1),
-                    //Sort In Ascending
-                    sortIsAsc = ko.observable(true),
-                    //Pager
-                    pager = ko.observable(),
-                    //Search Filter
-                    searchFilter = ko.observable(),
-                    //selectedStore
-                    selectedStore = ko.observable(new model.Store),
-                    //Selected Address
-                    selectedCompanyContact = ko.observable(),
-                    //Make Edittable
-                    makeEditable = ko.observable(false),
-                    selectedWidget = ko.observable(),
-                    //Items with isPublished true for widgets in Themes And Widget Tab
-                    itemsForWidgets = ko.observableArray([]),
-                    //selected tems List For Widgets
-                    selectedItemsForOfferList = ko.observableArray([]),
-                    //selected tem For Widgets For Move To add
-                    selectedItemForAdd = ko.observable(),
-                    //selected tem For Remove
-                    selectedItemForRemove = ko.observable(),
-                    //Active offer Type
-                    selectedOfferType = ko.observable(),
-                    //Product Priority Radio Option
-                    productPriorityRadioOption = ko.observable("1"),
+                //#region ________ O B S E R V A B L E S ________________________
+                filteredCompanySetId = ko.observable(),
+                //selected Current Page Id In Layout Page Tab
+                selectedCurrentPageId = ko.observable(),
+                selectedCurrentPageCopy = ko.observable(),
+                //Active Widget (use for dynamic controll)
+                selectedWidget = ko.observable(),
+                //Active Company Domain
+                selectedCompanyDomainItem = ko.observable(),
+                //New Added fake Id counter
+                newAddedWidgetIdCounter = ko.observable(0),
+                //Store Image
+                storeImage = ko.observable(),
+                //On Added new widget id calculate
+                // ReSharper disable once UnusedLocals
+                newAddedWidgetIdCount = ko.observable(-1),
+                //Is Loading stores
+                isLoadingStores = ko.observable(false),
+                //Is Editorial View Visible
+                isEditorVisible = ko.observable(false),
+                //Sort On
+                sortOn = ko.observable(1),
+                //Sort In Ascending
+                sortIsAsc = ko.observable(true),
+                //Pager
+                pager = ko.observable(),
+                //Search Filter
+                searchFilter = ko.observable(),
+                //selectedStore
+                selectedStore = ko.observable(new model.Store),
+                //Selected Address
+                selectedCompanyContact = ko.observable(),
+                //Make Edittable
+                makeEditable = ko.observable(false),
+                selectedWidget = ko.observable(),
+                //Items with isPublished true for widgets in Themes And Widget Tab
+                itemsForWidgets = ko.observableArray([]),
+                //selected tems List For Widgets
+                selectedItemsForOfferList = ko.observableArray([]),
+                //selected tem For Widgets For Move To add
+                selectedItemForAdd = ko.observable(),
+                //selected tem For Remove
+                selectedItemForRemove = ko.observable(),
+                //Active offer Type
+                selectedOfferType = ko.observable(),
+                //Product Priority Radio Option
+                productPriorityRadioOption = ko.observable("1"),
+                //#endregion
+
+                //#region ________ O B S E R V A B L E S   A R R A Y S___________
+                //stores List
+                stores = ko.observableArray([]),
+                //system Users
+                systemUsers = ko.observableArray([]),
+                //Tab User And Addressed, Addresses Section Company Territories Filter
+                addressCompanyTerritoriesFilter = ko.observableArray([]),
+                contactCompanyTerritoriesFilter = ko.observableArray([]),
+                //Addresses to be used in store users shipping and billing address
+                allCompanyAddressesList = ko.observableArray([]),
+                //Company Banners
+                companyBanners = ko.observableArray([]),
+                //Cms Pages For Store Layout DropDown
+                cmsPagesForStoreLayout = ko.observableArray([]),
+                //Roles
+                roles = ko.observableArray([]),
+                //RegistrationQuestions
+                registrationQuestions = ko.observableArray([]),
+                //Filetered Company Bannens List
+                filteredCompanyBanners = ko.observableArray([]),
+                //Company Banner Set List
+                companyBannerSetList = ko.observableArray([]),
+                //Page Categories
+                pageCategories = ko.observableArray([]),
+                //Payment Methods
+                paymentMethods = ko.observableArray([]),
+                //Email Events
+                emailEvents = ko.observableArray([]),
+                //Emails
+                emails = ko.observableArray([]),
+                //Widgets List
+                widgets = ko.observableArray([]),
+                //Page Skin Widgets
+                pageSkinWidgets = ko.observableArray([]),
+                //All widgets list for pages (on page change added to it all widget list )
+                allPagesWidgets = ko.observableArray([]),
+                //parent Categories Used in Products Add/Edit
+                parentCategories = ko.observableArray([]),
+
+                selectedWidgetsList = ko.observableArray([]),
+
+                //#endregion
+
+                //#region _________E D I T O R I AL   V I E W    M O D E L_______
+                  
+                // Editor View Model
+                editorViewModel = new ist.ViewModel(model.StoreListView),
+                //Selected store
+                selectedStoreListView = editorViewModel.itemForEditing,
                     //#endregion
 
-                    //#region ________ O B S E R V A B L E S   A R R A Y S___________
-                    //stores List
-                    stores = ko.observableArray([]),
-                    //system Users
-                    systemUsers = ko.observableArray([]),
-                    //Tab User And Addressed, Addresses Section Company Territories Filter
-                    addressCompanyTerritoriesFilter = ko.observableArray([]),
-                    contactCompanyTerritoriesFilter = ko.observableArray([]),
-                    //Addresses to be used in store users shipping and billing address
-                    allCompanyAddressesList = ko.observableArray([]),
-                    //Company Banners
-                    companyBanners = ko.observableArray([]),
-                    //Cms Pages For Store Layout DropDown
-                    cmsPagesForStoreLayout = ko.observableArray([]),
-                    //Roles
-                    roles = ko.observableArray([]),
-                    //RegistrationQuestions
-                    registrationQuestions = ko.observableArray([]),
-                    //Filetered Company Bannens List
-                    filteredCompanyBanners = ko.observableArray([]),
-                    //Company Banner Set List
-                    companyBannerSetList = ko.observableArray([]),
-                    //Page Categories
-                    pageCategories = ko.observableArray([]),
-                    //Payment Methods
-                    paymentMethods = ko.observableArray([]),
-                    //Email Events
-                    emailEvents = ko.observableArray([]),
-                    //Emails
-                    emails = ko.observableArray([]),
-                    //Widgets List
-                    widgets = ko.observableArray([]),
-                    //Page Skin Widgets
-                    pageSkinWidgets = ko.observableArray([]),
-                    //All widgets list for pages (on page change added to it all widget list )
-                    allPagesWidgets = ko.observableArray([]),
-                    //parent Categories Used in Products Add/Edit
-                    parentCategories = ko.observableArray([]),
+                //#region _________C O M P A N Y   D O M A I N___________________
+                    
+                //Template To Use
+                templateToUse = function (store) {
+                    return (store === selectedStore() ? 'itemStoreTemplate' : 'itemStoreTemplate');
+                },
+                //app = sammy(function () {
+                //    //this.get("#/byId/:raMainId", function () {
+                //    this.get(":url", function () {
+                //        //load(this.params["raMainId"]);
+                //        toastr.success(this.params["url"]);
+                //    });
+                //}),
 
-                    selectedWidgetsList = ko.observableArray([]),
-
-                    //#endregion
-
-                    // Editor View Model
-                    editorViewModel = new ist.ViewModel(model.StoreListView),
-                    //Selected store
-                    selectedStoreListView = editorViewModel.itemForEditing,
-
-                    //Template To Use
-                    templateToUse = function (store) {
-                        return (store === selectedStore() ? 'itemStoreTemplate' : 'itemStoreTemplate');
-                    },
-                    app = sammy(function () {
-                        //this.get("#/byId/:raMainId", function () {
-                        this.get(":url", function () {
-                            //load(this.params["raMainId"]);
-                            toastr.success(this.params["url"]);
-                        });
-                    }),
-
-                    // Select Company Domain
-                    selectCompanyDomain = function (companyDomain) {
-                        if (selectedCompanyDomainItem() !== companyDomain) {
-                            selectedCompanyDomainItem(companyDomain);
-                        }
-                    },
-                    // Template Chooser
-                    templateToUseCompanyDomain = function (companyDomain) {
-
-                        if (selectedStore().companyDomains().length > 0 && selectedStore().companyDomains()[selectedStore().companyDomains().length - 1] == companyDomain) {
-                            return 'itemCompanyDomainTemplate';
-                        }
-                        return (companyDomain === selectedCompanyDomainItem() ? 'editCompanyDomainTemplate' : 'itemCompanyDomainTemplate');
-                    },
-                    //Delete Company Domain
-                    onDeleteCompanyDomainItem = function (companyDomain) {
-                        if (selectedStore().companyDomains().length > 0 && selectedStore().companyDomains()[selectedStore().companyDomains().length - 1] == companyDomain) {
-                            return;
-                        }
-                        selectedStore().companyDomains.remove(companyDomain);
-                    },
-                    //Create New Company Domain
-                    createCompanyDomainItem = function () {
-
-                        //if (selectedStore().companyDomains().length > 0) {
-                        var companyDomain = new model.CompanyDomain();
+                // Select Company Domain
+                selectCompanyDomain = function (companyDomain) {
+                    if (selectedCompanyDomainItem() !== companyDomain) {
                         selectedCompanyDomainItem(companyDomain);
-                        selectedStore().companyDomains.splice(0, 0, companyDomain);
-                        //}
+                    }
+                },
+                // Template Chooser
+                templateToUseCompanyDomain = function (companyDomain) {
 
-                        //if (costItem !== undefined && costItem !== null && !costItem.isValid()) {
-                        //    costItem.errors.showAllMessages();
-                        //    selectedCostItem(costItem);
-                        //    flag = false;
-                        //}
+                    if (selectedStore().companyDomains().length > 0 && selectedStore().companyDomains()[selectedStore().companyDomains().length - 1] == companyDomain) {
+                        return 'itemCompanyDomainTemplate';
+                    }
+                    return (companyDomain === selectedCompanyDomainItem() ? 'editCompanyDomainTemplate' : 'itemCompanyDomainTemplate');
+                },
+                //Delete Company Domain
+                onDeleteCompanyDomainItem = function (companyDomain) {
+                    if (selectedStore().companyDomains().length > 0 && selectedStore().companyDomains()[selectedStore().companyDomains().length - 1] == companyDomain) {
+                        return;
+                    }
+                    selectedStore().companyDomains.remove(companyDomain);
+                },
+                //Create New Company Domain
+                createCompanyDomainItem = function () {
 
-                    },
-                    //Function to maintain check that first company domain is correct as Web Access Code
-                    maintainCompanyDomain = ko.computed(function () {
-                        if (selectedStore() && selectedStore().webAccessCode() != undefined) {
-                            if (selectedStore().companyDomains().length == 0) {
-                                selectedStore().companyDomains.splice(0, 0, new model.CompanyDomain());
-                                //todo :- sammy key work
-                                selectedStore().companyDomains()[0].domain(selectedStore().webAccessCode());
-                            }
-                            else if (selectedStore().companyDomains().length > 0) {
-                                _.each(selectedStore().companyDomains(), function (companyDomain) {
-                                    if (companyDomain.isMandatoryDomain()) {
-                                        companyDomain.domain(selectedStore().webAccessCode());
-                                    }
-                                });
-                            }
+                    //if (selectedStore().companyDomains().length > 0) {
+                    var companyDomain = new model.CompanyDomain();
+                    selectedCompanyDomainItem(companyDomain);
+                    selectedStore().companyDomains.splice(0, 0, companyDomain);
+                    //}
+
+                    //if (costItem !== undefined && costItem !== null && !costItem.isValid()) {
+                    //    costItem.errors.showAllMessages();
+                    //    selectedCostItem(costItem);
+                    //    flag = false;
+                    //}
+
+                },
+                //Function to maintain check that first company domain is correct as Web Access Code
+                maintainCompanyDomain = ko.computed(function () {
+                    if (selectedStore() && selectedStore().webAccessCode() != undefined) {
+                        if (selectedStore().companyDomains().length == 0) {
+                            selectedStore().companyDomains.splice(0, 0, new model.CompanyDomain());
+                            selectedStore().companyDomains()[0].domain(window.location.host +'/'+selectedStore().webAccessCode()+'/login');
                         }
-                    });
-                //#region _____________________  S T O R E ____________________
+                        else if (selectedStore().companyDomains().length > 0) {
+                            _.each(selectedStore().companyDomains(), function (companyDomain) {
+                                if (companyDomain.isMandatoryDomain()) {
+                                    companyDomain.domain(window.location.host + '/' + selectedStore().webAccessCode() + '/login');
+                                }
+                            });
+                        }
+                    }
+                }),
+            //#endregion
+
+                //#region _________S T O R E ____________________________________
 
                 //getItemsForWidgets
                 getItemsForWidgets = function (callBack) {
@@ -292,8 +298,7 @@ define("stores/stores.viewModel",
                 },
                 //#endregion _____________________  S T O R E ____________________
 
-
-                // #region ____________________ R A V E   R E V I E W _______________
+                // #region _________R A V E   R E V I E W_________________________
 
                 //Selected Rave Review
                 selectedRaveReview = ko.observable(),
@@ -354,7 +359,7 @@ define("stores/stores.viewModel",
                 },
                 // #endregion ______________ RAVE REVIEW  _______________
 
-                // #region ____________________ C O M P A N Y   T E R R I T O R Y __________________
+                // #region _________C O M P A N Y   T E R R I T O R Y ____________
 
                 //Selected CompanyTerritory
                 selectedCompanyTerritory = ko.observable(),
@@ -470,7 +475,7 @@ define("stores/stores.viewModel",
                 },
                 // #endregion __________________ C O M P A N Y   T E R R I T O R Y __________________
 
-                // #region ____________________ C O M P A N Y    C M Y K   C O L O R  ___________________ 
+                // #region _________C O M P A N Y    C M Y K   C O L O R  ________
 
                 //Selected Company CMYK Color
                 // ReSharper disable InconsistentNaming
@@ -535,7 +540,7 @@ define("stores/stores.viewModel",
                 },
                 // #endregion ____________ C O M P A N Y    C M Y K   C O L O R  ___________________ 
 
-                //#region ____________ COMPANY BANNER AND COMPANY BANNER SET __________
+                //#region _________COMPANY BANNER AND COMPANY BANNER SET ________
                 bannerEditorViewModel = new ist.ViewModel(model.CompanyBanner),
                 selectedCompanyBanner = bannerEditorViewModel.itemForEditing,
                 selectedCompanyBannerSet = ko.observable(),
@@ -663,7 +668,7 @@ define("stores/stores.viewModel",
                 },
                 //#endregion 
 
-                //#region ___________________ EMAIL ____________________
+                //#region _________EMAIL ______________________________________
                 selectedEmail = ko.observable(),
                 //Create One Time Marketing Email
                 onCreateOneTimeMarketingEmail = function () {
@@ -720,7 +725,7 @@ define("stores/stores.viewModel",
                 },
                 //#endregion
 
-                // #region _________________ A D D R E S S E S __________________________
+                // #region _________A D D R E S S E S __________________________
 
                 //Selected Address
                 selectedAddress = ko.observable(),
@@ -902,7 +907,7 @@ define("stores/stores.viewModel",
                 },
                 // #endregion
 
-                //#region ___________________Secondry Page ___________________
+                //#region _________Secondry Page ________________________________
                 selectedSecondaryPage = ko.observable(),
                 selectedPageCategory = ko.observable(),
                 newAddedSecondaryPage = ko.observableArray([]),
@@ -1121,8 +1126,7 @@ define("stores/stores.viewModel",
                 },
                 //#endregion
 
-
-                // #region _______________  C O M P A N  Y   C O N T A C T _________________
+                // #region _________C O M P A N  Y   C O N T A C T _________________
 
                 //companyContactFilter
                 companyContactFilter = ko.observable(),
@@ -1249,7 +1253,7 @@ define("stores/stores.viewModel",
                 },
                 // #endregion
 
-                // #region __________________ P A Y M E N T    G A T E W A Y __________________
+                // #region _________P A Y M E N T    G A T E W A Y _________________
 
                 isAccessCodeSectionVisible = ko.observable(false),
                 paymentMethodName = ko.observable(),
@@ -1315,7 +1319,7 @@ define("stores/stores.viewModel",
                 }),
                 // #endregion
 
-                // #region _______________   P R O D U C T    C A T E G O R Y _______________
+                // #region _________P R O D U C T    C A T E G O R Y _______________
 
                 //Product Category Counter To represent id's of new saving product categories
                 productCategoryCounter = -1,
@@ -1435,6 +1439,7 @@ define("stores/stores.viewModel",
 
                                 if (data != null) {
                                     selectedProductCategoryForEditting(model.ProductCategory.Create(data));
+                                    updateParentCategoryList(selectedProductCategoryForEditting().productCategoryId());
                                     isSavingNewProductCategory(false);
                                     view.showStoreProductCategoryDialog();
                                 }
@@ -1465,6 +1470,7 @@ define("stores/stores.viewModel",
 
                                 if (data != null) {
                                     selectedProductCategoryForEditting(model.ProductCategory.Create(data));
+                                    updateParentCategoryList(selectedProductCategoryForEditting().productCategoryId());
                                     isSavingNewProductCategory(false);
                                     view.showStoreProductCategoryDialog();
                                 }
@@ -1506,7 +1512,8 @@ define("stores/stores.viewModel",
                     }
                     return flag;
                 },
-                    onSaveStoreProductCategory = function () {
+                //on Save Store Product Category
+                onSaveStoreProductCategory = function () {
                         if (doBeforeSaveProductCategory()) {
                             //dataService.saveStoreProductCategory()
                             if (selectedProductCategoryForEditting().productCategoryId() === undefined) {
@@ -1525,9 +1532,72 @@ define("stores/stores.viewModel",
 
                             }
                         }
-                    },
+                },
                 //On Save Product Category
-                onSaveProductCategory = function () {
+                onSaveProductCategory = function() {
+                   
+                    if (doBeforeSaveProductCategory()) {
+                        selectedProductCategoryForEditting().companyId(selectedStore().companyId());
+                        dataservice.saveProductCategory(
+                            selectedProductCategoryForEditting().convertToServerData()
+                            //productCategory: model.ProductCategory().convertToServerData(selectedProductCategoryForEditting())
+                        , {
+                            success: function (data) {
+
+                                if (data.ParentCategoryId == null) {
+                                    //if saving product is editting
+                                    if (selectedProductCategoryForEditting().productCategoryId() > 0) {
+                                        _.each(selectedStore().productCategories(), function(item) {
+                                            if (item.productCategoryId() == selectedProductCategoryForEditting().productCategoryId()) {
+                                                item.categoryName(selectedProductCategoryForEditting().categoryName());
+                                                toastr.success("Category Updated Successfully");
+                                            }
+                                        });
+                                    }
+                                    //Creating new Product category
+                                    else {
+                                        selectedStore().productCategories.splice(0, 0, model.ProductCategory.Create(data));
+                                        toastr.success("Category Added Successfully");
+                                    }
+                                    isLoadingStores(false);
+                                    view.hideStoreProductCategoryDialog();
+                                }
+                                else {
+                                    var flagAlreadyExist = false;
+
+                                    newProductCategories.push(model.ProductCategory.Create(data));
+                                    selectedProductCategoryForEditting(model.ProductCategory.Create(data));
+                                    
+                                    if ($("#" + selectedProductCategoryForEditting().productCategoryId()).length > 0) {
+                                        flagAlreadyExist = true;
+                                        $("#" + selectedProductCategoryForEditting().productCategoryId()).remove();
+                                    }
+                                    //$("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
+                                    $("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
+                                    //if (!flagAlreadyExist) {
+                                        ko.applyBindings(view.viewModel, $("#" + selectedProductCategoryForEditting().productCategoryId())[0]);
+                                    //}
+                                }
+                                var category = {
+                                    productCategoryId: data.ProductCategoryId,
+                                    categoryName: data.CategoryName,
+                                    parentCategoryId: data.ParentCategoryId
+                                };
+                                parentCategories.push(category);
+
+                                isLoadingStores(false);
+                                view.hideStoreProductCategoryDialog();
+                            },
+                            error: function (response) {
+                                isLoadingStores(false);
+                                toastr.error("Error: Failed To load Categories " + response);
+                            }
+                        });
+                    }
+                    
+                },
+                //On Save Product Category
+                onSaveProductCategoryOld = function () {
                     //Saving New Record
                     if (doBeforeSaveProductCategory()) {
                         if (selectedProductCategoryForEditting().productCategoryId() === undefined && isSavingNewProductCategory() === true && selectedProductCategoryForEditting().parentCategoryId() == undefined) {
@@ -1538,7 +1608,7 @@ define("stores/stores.viewModel",
                             addProductCategoryCounter();
                         }
                         if (selectedProductCategoryForEditting().productCategoryId() === undefined && isSavingNewProductCategory() === true) {
-                            //selectedStore().companyTerritories.splice(0, 0, selectedCompanyTerritory());
+                            
                             selectedProductCategoryForEditting().productCategoryId(productCategoryCounter);
                             newProductCategories.push(selectedProductCategoryForEditting());
                             $("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
@@ -1595,6 +1665,40 @@ define("stores/stores.viewModel",
                     selectedProductCategoryForEditting().productCategoryImageName(file.name);
                     //selectedProductCategoryForEditting().fileType(data.imageType);
                 },
+                //new start
+                //Populate Parent Categories List
+
+                populatedParentCategoriesList = ko.observableArray([]),
+                categoriesToRemoveForParentCategoriesDropdown = ko.observableArray([]),
+
+                populateParentCategoriesListItems = function (categoryId) {
+                    _.each(parentCategories(), function (productCategory) {
+                        if (productCategory.parentCategoryId == categoryId) {
+                            categoriesToRemoveForParentCategoriesDropdown.splice(0, 0, productCategory);
+                            populateParentCategoriesListItems(parseInt(productCategory.productCategoryId));
+                        }
+                    });
+                },
+                updateParentCategoryList = function (categoryId) {
+
+                    populatedParentCategoriesList.removeAll();
+                    categoriesToRemoveForParentCategoriesDropdown.removeAll();
+                    populateParentCategoriesListItems(categoryId);
+                    
+                    //putting all list of categories
+                    _.each(parentCategories(), function (productCategory) {
+                        if (selectedProductCategoryForEditting().productCategoryId() !== productCategory.productCategoryId) {
+                            populatedParentCategoriesList.splice(0, 0, productCategory);
+                        }
+                    });
+                    //removing child categories
+                    _.each(categoriesToRemoveForParentCategoriesDropdown(), function(productCategory) {
+                        populatedParentCategoriesList.remove(productCategory);
+                    });
+                    
+                    populatedParentCategoriesList.reverse();
+                },
+                //new end
                 //Populate Parent Categories
                 populateParentCategories = ko.computed(function () {
 
@@ -1615,7 +1719,7 @@ define("stores/stores.viewModel",
 
                 // #endregion
 
-                //#region ______________ U T I L I T Y   F U N C T I O N S_____________________
+                //#region _________U T I L I T Y   F U N C T I O N S__________________
 
                 //Do Before Save
                 doBeforeSave = function () {
@@ -2069,7 +2173,7 @@ define("stores/stores.viewModel",
                                     selectedStore().userDefinedSpriteImageSource(data.DefaultSpriteImageSource);
                                     selectedStore().userDefinedSpriteImageFileName("default.jpg");
                                     selectedStore().defaultSpriteImageSource(data.DefaultSpriteImageSource);
-
+                                    selectedStore().customCSS(data.DefaultCompanyCss);
                                 }
                                 isLoadingStores(false);
                             },
@@ -2123,7 +2227,7 @@ define("stores/stores.viewModel",
                 },
                 //#endregion
 
-                //#region _______________ P R O D U C T S ______________________
+                //#region _________P R O D U C T S ______________________
                 isProductTabVisited = ko.observable(false),
                 getProducts = function () {
                     if (!isProductTabVisited()) {
@@ -2133,7 +2237,7 @@ define("stores/stores.viewModel",
                 },
                 //#endregion 
 
-                // #region _______________  LAYOUT WIDGET _________________
+                // #region_________LAYOUT WIDGET _________________
 
 
                 selectWidget = function (widget) {
@@ -2339,7 +2443,7 @@ define("stores/stores.viewModel",
                 },
                 //#endregion
 
-                //#region _______________  WIDGETS IN Themes & Widgets Tab _________________
+                //#region _________WIDGETS IN Themes & Widgets Tab _________________
                 //Open Dialog from Featured Product Row
                 openItemsForWidgetsDialogFromFeatured = function () {
                     selectedOfferType(1);
@@ -2422,7 +2526,8 @@ define("stores/stores.viewModel",
                     getStores();
                     view.initializeForm();
                 };
-
+                //#region _________R E T U R N_____________________
+                
                 return {
                     //storeProduct: storeProduct,
                     MultipleImageFilesLoadedCallback: MultipleImageFilesLoadedCallback,
@@ -2669,8 +2774,10 @@ define("stores/stores.viewModel",
                     selectCompanyDomain: selectCompanyDomain,
                     onDeleteCompanyDomainItem: onDeleteCompanyDomainItem,
                     createCompanyDomainItem: createCompanyDomainItem,
-                    maintainCompanyDomain: maintainCompanyDomain
+                    maintainCompanyDomain: maintainCompanyDomain,
+                    populatedParentCategoriesList: populatedParentCategoriesList,
                 };
+                //#endregion
             })()
         };
         return ist.stores.viewModel;

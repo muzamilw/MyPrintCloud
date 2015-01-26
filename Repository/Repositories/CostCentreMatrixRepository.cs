@@ -10,6 +10,7 @@ using MPC.Models.Common;
 
 namespace MPC.Repository.Repositories
 {
+    [Serializable()]
     public class CostCentreMatrixRepository : BaseRepository<CostCentreMatrix>, ICostCentreMatrixRepository
     {
         

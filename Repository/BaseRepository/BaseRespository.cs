@@ -19,6 +19,8 @@ namespace MPC.Repository.BaseRepository
     /// <summary>
     /// Base Repository
     /// </summary>
+    /// 
+    [Serializable()]
     public abstract class BaseRepository<TDomainClass> : IBaseRepository<TDomainClass, long>
        where TDomainClass : class
     {

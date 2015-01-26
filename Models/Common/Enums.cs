@@ -156,7 +156,7 @@ namespace MPC.Models.Common
 
     };
 
-    [Serializable]
+  
     public enum UploadFileTypes : int
     {
         Artwork,

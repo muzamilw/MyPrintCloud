@@ -61,6 +61,6 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         List<Item> GetItemsForWidgets();
          Item GetItemByOrderID(long OrderID);
-
+         string SaveDesignAttachments(long templateID, long itemID, long customerID, string DesignName, string caller, long organisationId);
     }
 }
