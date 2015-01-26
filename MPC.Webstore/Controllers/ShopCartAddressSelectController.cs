@@ -716,9 +716,7 @@ namespace MPC.Webstore.Controllers
         {
             try
             {
-                string RequestFrom = Request.Form["hfPostBackCallFrom"];
-                if (RequestFrom == "Continue")
-                {
+               
                     MyCompanyDomainBaseResponse baseresponseOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
                     MyCompanyDomainBaseResponse baseresponseComp = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
                     List<Address> customerAddresses = new List<Address>();
@@ -1002,10 +1000,21 @@ namespace MPC.Webstore.Controllers
                     PopulateShipperCountryDropDown(country,model);
 
                    PopulateStateDropDown(model);
-                    ConfirmOrder(1, addLine1, city, PostCode, baseresponseComp, model, baseresponseOrg);
-                }
-                
-                return View("PartialViews/ShopCartAddressSelect", model);
+                   bool Result =   ConfirmOrder(1, addLine1, city, PostCode, baseresponseComp, model, baseresponseOrg);
+                    if(Result)
+                    {
+                        Response.Redirect("/OrderConfirmation/" + UserCookieManager.OrderId);
+                        return null;
+                    }
+                    else
+                    {
+                        model.LtrMessageToDisplay = true;
+                        model.LtrMessage = "Error occurred while updating order.";
+
+                        return View("PartialViews/ShopCartAddressSelect", model);
+                    }
+              
+              
             }
             catch (Exception ex)
             {
@@ -1014,7 +1023,7 @@ namespace MPC.Webstore.Controllers
            
         }
 
-        private void ConfirmOrder(int modOverride, string AddLine1, string city, string PostCode, MyCompanyDomainBaseResponse baseresponseComp, ShopCartAddressSelectViewModel model, MyCompanyDomainBaseResponse baseresponseOrg)
+        private bool ConfirmOrder(int modOverride, string AddLine1, string city, string PostCode, MyCompanyDomainBaseResponse baseresponseComp, ShopCartAddressSelectViewModel model, MyCompanyDomainBaseResponse baseresponseOrg)
         {
 
             bool isPageValid = true;
@@ -1028,7 +1037,7 @@ namespace MPC.Webstore.Controllers
 
                 Double ServiceTaxRate = GetTAXRateFromService(AddLine1, city, PostCode, model);
 
-                
+
 
                 bool result = false;
 
@@ -1040,8 +1049,8 @@ namespace MPC.Webstore.Controllers
                 string specialTelNumber = null;
                 Address billingAdd = null;
                 Address deliveryAdd = null;
-                
-              //  OrderManager oMgr = new OrderManager();
+
+                //  OrderManager oMgr = new OrderManager();
                 CompanyContact user = _myCompanyService.GetContactByID(_myClaimHelper.loginContactID());
                 if (user != null)
                 {
@@ -1049,53 +1058,53 @@ namespace MPC.Webstore.Controllers
                     {
                         //yourRefNumber = Request.Form["txtYourRefNumber"];
                         yourRefNumber = model.RefNumber;
-                       
+
                     }
                     else
                     {
                         //yourRefNumber = Request.Form["txtYourRefNumberRetail"];
                         yourRefNumber = model.RefNumRetail;
                     }
-                    if(!string.IsNullOrEmpty(yourRefNumber))
+                    if (!string.IsNullOrEmpty(yourRefNumber))
                     {
                         yourRefNumber = yourRefNumber.Trim();
                     }
-                    
-                //	specialTelNumber = Request.Form["txtInstContactTelNumber"];
+
+                    //	specialTelNumber = Request.Form["txtInstContactTelNumber"];
                     specialTelNumber = model.ContactTel;
                     //notes = Request.Form["txtInstNotes"];
                     notes = model.Notes;
-                    if(!string.IsNullOrEmpty(notes))
+                    if (!string.IsNullOrEmpty(notes))
                         notes = notes.Trim();
                     //string total =   Request.Form["hfGrandTotal"];
                     double total = model.GrandTotal;
                     grandOrderTotal = total;
 
-                    PrepareAddrssesToSave(out billingAdd, out deliveryAdd,baseresponseComp,model);
+                    PrepareAddrssesToSave(out billingAdd, out deliveryAdd, baseresponseComp, model);
 
                     if (true)
                     {
 
                         try
                         {
-                            if (UpdateDeliveryCostCenterInOrder(model,baseresponseOrg,baseresponseComp))
+                            if (UpdateDeliveryCostCenterInOrder(model, baseresponseOrg, baseresponseComp))
                             {
                                 if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
                                 {
                                     if (baseresponseComp.Company.isCalculateTaxByService == true)
                                     {
 
-                                        double TaxRate = GetTAXRateFromService(AddLine1, city, PostCode,model);
+                                        double TaxRate = GetTAXRateFromService(AddLine1, city, PostCode, model);
 
                                         //double TaxRate = 0.04;
-                                        if(UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                                        if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
                                             _IOrderService.updateTaxInCloneItemForServic(UserCookieManager.OrderId, TaxRate, StoreMode.Corp);
                                         else
                                             _IOrderService.updateTaxInCloneItemForServic(UserCookieManager.OrderId, TaxRate, StoreMode.Retail);
 
                                     }
                                     if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
-                                         result = _IOrderService.UpdateOrderWithDetailsToConfirmOrder(UserCookieManager.OrderId,_myClaimHelper.loginContactID(), OrderStatus.ShoppingCart, billingAdd, deliveryAdd, _IOrderService.UpdateORderGrandTotal(UserCookieManager.OrderId), yourRefNumber, specialTelNumber, notes, true, StoreMode.Corp, 0);
+                                        result = _IOrderService.UpdateOrderWithDetailsToConfirmOrder(UserCookieManager.OrderId, _myClaimHelper.loginContactID(), OrderStatus.ShoppingCart, billingAdd, deliveryAdd, _IOrderService.UpdateORderGrandTotal(UserCookieManager.OrderId), yourRefNumber, specialTelNumber, notes, true, StoreMode.Corp, 0);
                                     else
                                         result = _IOrderService.UpdateOrderWithDetailsToConfirmOrder(UserCookieManager.OrderId, _myClaimHelper.loginContactID(), OrderStatus.ShoppingCart, billingAdd, deliveryAdd, _IOrderService.UpdateORderGrandTotal(UserCookieManager.OrderId), yourRefNumber, specialTelNumber, notes, true, StoreMode.Retail, 0);
                                 }
@@ -1105,11 +1114,11 @@ namespace MPC.Webstore.Controllers
                                     {
                                         try
                                         {
-                                            double TaxRate = GetTAXRateFromService(AddLine1, city, PostCode,model);
+                                            double TaxRate = GetTAXRateFromService(AddLine1, city, PostCode, model);
 
                                             // double TaxRate = 0.04;
                                             if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
-                                                 _IOrderService.updateTaxInCloneItemForServic(UserCookieManager.OrderId, TaxRate, StoreMode.Corp);
+                                                _IOrderService.updateTaxInCloneItemForServic(UserCookieManager.OrderId, TaxRate, StoreMode.Corp);
                                             else
                                                 _IOrderService.updateTaxInCloneItemForServic(UserCookieManager.OrderId, TaxRate, StoreMode.Retail);
                                         }
@@ -1122,42 +1131,46 @@ namespace MPC.Webstore.Controllers
                                         }
                                     }
                                     if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
-                                         result = _IOrderService.UpdateOrderWithDetailsToConfirmOrder(UserCookieManager.OrderId, _myClaimHelper.loginContactID(), OrderStatus.ShoppingCart, billingAdd, deliveryAdd, _IOrderService.UpdateORderGrandTotal(UserCookieManager.OrderId), yourRefNumber, specialTelNumber, notes, true, StoreMode.Corp, 0);
+                                        result = _IOrderService.UpdateOrderWithDetailsToConfirmOrder(UserCookieManager.OrderId, _myClaimHelper.loginContactID(), OrderStatus.ShoppingCart, billingAdd, deliveryAdd, _IOrderService.UpdateORderGrandTotal(UserCookieManager.OrderId), yourRefNumber, specialTelNumber, notes, true, StoreMode.Corp, 0);
                                     else
                                         result = _IOrderService.UpdateOrderWithDetailsToConfirmOrder(UserCookieManager.OrderId, _myClaimHelper.loginContactID(), OrderStatus.ShoppingCart, billingAdd, deliveryAdd, _IOrderService.UpdateORderGrandTotal(UserCookieManager.OrderId), yourRefNumber, specialTelNumber, notes, true, StoreMode.Retail, 0);
                                 }
-                                if (result)
-                                {
-                                    Response.Redirect("/OrderConfirmation/" + UserCookieManager.OrderId);
-                                   
-                                }
-                                else
-                                {
-                                    model.LtrMessageToDisplay = true;
-                                    model.LtrMessage = "Error occurred while updating order.";
-                                  
 
-                                }
+                              
+
                             }
+                            return result;
                         }
                         catch (Exception ex)
                         {
                             model.LtrMessageToDisplay = true;
-
+                            return false;
 
                             model.LtrMessage = "Error occurred while updating order in catch block.";
-                           
+
                             throw new MPCException(ex.ToString(), baseresponseOrg.Organisation.OrganisationId);
 
 
                         }
 
                     }
-
-                    
+                    else
+                    {
+                        return false;
                     }
 
+
                 }
+                else
+                {
+                    return false;
+                }
+
+            }
+            else
+            {
+                return false;
+            }
                 
             }
 
