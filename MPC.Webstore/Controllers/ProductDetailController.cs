@@ -13,6 +13,7 @@ using MPC.Webstore.ViewModels;
 using System.Web.Configuration;
 using MPC.ExceptionHandling;
 using System.Globalization;
+using System.Runtime.Caching;
 
 namespace MPC.Webstore.Controllers
 {
@@ -45,17 +46,19 @@ namespace MPC.Webstore.Controllers
         {
             try
             {
-                
+                string CacheKeyName = "CompanyBaseResponse";
+                ObjectCache cache = MemoryCache.Default;
+
                 double minimumPrice = 0;
                 long ReferenceItemID;
                 bool IsShowPrices;
-                MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-                
-                MyCompanyDomainBaseResponse baseresponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
-                MyCompanyDomainBaseResponse baseresponseOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
-                organisationID = baseresponseOrg.Organisation.OrganisationId;
 
-                if (baseResponseCompany.Company.ShowPrices == true)
+                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+
+              
+                organisationID = StoreBaseResopnse.Organisation.OrganisationId;
+
+                if (StoreBaseResopnse.Company.ShowPrices == true)
                 {
                     ViewBag.IsShowPrices = true;
                     IsShowPrices = true;
@@ -76,7 +79,7 @@ namespace MPC.Webstore.Controllers
                     {
                         ViewBag.TemplateID = TemplateID;
                         long TempID = TemplateID;
-                        SetLastItemTemplateMatchingSets(ItemRecord, baseresponseOrg, baseresponseCurrency, baseResponseCompany, TempID);
+                        SetLastItemTemplateMatchingSets(ItemRecord, StoreBaseResopnse,TempID);
                         PopulateTemplateObject(TempID, ItemRecord, ItemID);
                     }
                     else
@@ -100,13 +103,13 @@ namespace MPC.Webstore.Controllers
 
                     ViewBag.hfCategoryId = CategoryID;
 
-                    SetPageMEtaTitle(ItemRecord.ProductName, ItemRecord.MetaDescription, ItemRecord.MetaKeywords, ItemRecord.MetaTitle, baseResponseCompany);
+                   // SetPageMEtaTitle(ItemRecord.ProductName, ItemRecord.MetaDescription, ItemRecord.MetaKeywords, ItemRecord.MetaTitle,StoreBaseResopnse);
 
                     string CurrentProductCategoryName = string.Empty;
                     //Findout the minimum price
                     minimumPrice = _IItemService.FindMinimumPriceOfProduct(ItemRecord.ItemId);
                     string cateName = _IItemService.GetImmidiateParentCategory(ItemRecord.ItemId, out CurrentProductCategoryName);
-                    string currency = baseresponseCurrency.Currency;
+                    string currency = StoreBaseResopnse.Currency;
                     //Sets Heading
                     SetHeadings(CurrentProductCategoryName, ItemRecord.ProductName, cateName, minimumPrice.ToString(), ItemRecord.ProductCode, ItemRecord.WebDescription, ItemRecord.ItemId, currency);
 
@@ -122,7 +125,7 @@ namespace MPC.Webstore.Controllers
                     if (ItemRecord.ItemPriceMatrices.Count > 0)
                     {
                         ReferenceItemID = ItemRecord.ItemId;
-                        BindPriceMatrixData(ItemRecord.ItemPriceMatrices.Where(i => i.SupplierId == null).ToList(), mode, baseResponseCompany, ItemRecord);
+                        BindPriceMatrixData(ItemRecord.ItemPriceMatrices.Where(i => i.SupplierId == null).ToList(), mode, StoreBaseResopnse, ItemRecord);
                     }
                     if (stockOption != null)
                     {
@@ -174,7 +177,7 @@ namespace MPC.Webstore.Controllers
                     //HandleCorporateScenario(curProduct);
 
 
-                    LoadRelatedItems(ItemID, ItemRecord.ProductName, baseresponseCurrency, IsShowPrices);
+                    LoadRelatedItems(ItemID, ItemRecord.ProductName, StoreBaseResopnse, IsShowPrices);
 
 
 
@@ -221,7 +224,7 @@ namespace MPC.Webstore.Controllers
         /// <param name="baseresponseOrg"></param>
         /// <param name="baseresponseCurrency"></param>
         /// <param name="baseresponseCompany"></param>
-        private void SetLastItemTemplateMatchingSets(Item Product, MyCompanyDomainBaseResponse baseresponseOrg, MyCompanyDomainBaseResponse baseresponseCurrency, MyCompanyDomainBaseResponse baseresponseCompany,long tempID)
+        private void SetLastItemTemplateMatchingSets(Item Product, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseresponse,long tempID)
         {
 
             MatchingSetViewModel MSViewModel = new MatchingSetViewModel();
@@ -238,7 +241,7 @@ namespace MPC.Webstore.Controllers
                         if (!string.IsNullOrEmpty(TemplateName))
                         {
 
-                            List<MatchingSets> res = _ITemplateService.BindTemplatesList(TemplateName, 1, baseresponseOrg.Organisation.OrganisationId, (int)_myClaimHelper.loginContactCompanyID());
+                            List<MatchingSets> res = _ITemplateService.BindTemplatesList(TemplateName, 1, baseresponse.Organisation.OrganisationId, (int)_myClaimHelper.loginContactCompanyID());
 
                             int isCalledFrom = 0;
                             if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
@@ -263,7 +266,7 @@ namespace MPC.Webstore.Controllers
                             }
 
                             bool isShowPrices;
-                            if (baseresponseCompany.Company.ShowPrices ?? true)
+                            if (baseresponse.Company.ShowPrices ?? true)
                             {
                                 isShowPrices = true;
                             }
@@ -301,7 +304,7 @@ namespace MPC.Webstore.Controllers
                                 MSViewModel.MatchingSetsList = res;
                                 MSViewModel.MappedCategoriesName = mappedCatList;
                                 MSViewModel.IsIncludeVAT = isIncludeVAT;
-                                MSViewModel.Currency = baseresponseCurrency.Currency;
+                                MSViewModel.Currency = baseresponse.Currency;
                                 MSViewModel.IsShowPrices = isShowPrices;
                                 ViewData["MSViewModel"] = MSViewModel;
                             }
@@ -517,7 +520,7 @@ namespace MPC.Webstore.Controllers
         /// </summary>
         /// <param name="tblItemsPriceMatrix"></param>
         /// <param name="mode"></param>
-        private void BindPriceMatrixData(List<ItemPriceMatrix> tblItemsPriceMatrix, bool mode, MyCompanyDomainBaseResponse baseResponse, Item productItem)
+        private void BindPriceMatrixData(List<ItemPriceMatrix> tblItemsPriceMatrix, bool mode,MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponse, Item productItem)
         {
             if (_myClaimHelper.isUserLoggedIn())
             {
@@ -722,7 +725,7 @@ namespace MPC.Webstore.Controllers
 
       
 
-        public void LoadRelatedItems(long ItemID, string sProductName, MyCompanyDomainBaseResponse baseResponseCurrency, bool IsShowPrices)
+        public void LoadRelatedItems(long ItemID, string sProductName, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponseCurrency, bool IsShowPrices)
         {
             List<ProductItem> allRelatedItemsList = null;
            

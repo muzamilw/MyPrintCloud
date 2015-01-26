@@ -38,9 +38,14 @@ namespace MPC.Webstore.Controllers
      
         public ActionResult Index()
         {
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromBanner();
-
-            return PartialView("PartialViews/Banner", baseResponse.Banners);
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+            
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            
+          
+            return PartialView("PartialViews/Banner", StoreBaseResopnse.Banners);
+   
         }
     }
 }

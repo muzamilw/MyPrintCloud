@@ -82,7 +82,6 @@ namespace MPC.Implementation.WebStoreServices
 
         #endregion
 
-
         #region Public
         /// <summary>
         /// Resolves the Company/Stores by the companyid and organizationid
@@ -92,7 +91,6 @@ namespace MPC.Implementation.WebStoreServices
 
         public MyCompanyDomainBaseReponse GetStoreFromCache(long companyId)
         {
-
 
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
@@ -240,9 +238,9 @@ namespace MPC.Implementation.WebStoreServices
             return _CompanyContactRepository.GetContactByFirstName(FName);
         }
 
-        public CompanyContact GetContactByEmail(string Email)
+        public CompanyContact GetContactByEmail(string Email,long OrganisationID)
         {
-            return _CompanyContactRepository.GetContactByEmail(Email);
+            return _CompanyContactRepository.GetContactByEmail(Email,OrganisationID);
         }
 
         public long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID)
@@ -278,7 +276,7 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
-        public CompanyContact GetContactByEmailAndMode(string Email, int Type, int customerID)
+        public CompanyContact GetContactByEmailAndMode(string Email, int Type, long customerID)
         {
             return _CompanyContactRepository.GetContactByEmailAndMode(Email, Type, customerID);
         }
@@ -330,17 +328,17 @@ namespace MPC.Implementation.WebStoreServices
             return _CompanyContactRepository.GetCorporateUser(email, password, companyId);
         }
 
-        public ProductCategory GetCategoryById(int categoryId)
+        public ProductCategory GetCategoryById(long categoryId)
         {
             return _productCategoryRepository.GetCategoryById(categoryId);
         }
 
-        public List<ProductCategory> GetChildCategories(int categoryId)
+        public List<ProductCategory> GetChildCategories(long categoryId)
         {
             return _productCategoryRepository.GetChildCategories(categoryId);
         }
 
-        public List<ProductCategory> GetAllChildCorporateCatalogByTerritory(int customerId, int ContactId, int ParentCatId)
+        public List<ProductCategory> GetAllChildCorporateCatalogByTerritory(long customerId, long ContactId, long ParentCatId)
         {
             return _productCategoryRepository.GetAllChildCorporateCatalogByTerritory(customerId, ContactId, ParentCatId);
 
@@ -395,7 +393,7 @@ namespace MPC.Implementation.WebStoreServices
             return _addressRepository.GetDefaultAddressByStoreID(StoreID);
         }
 
-        public List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(int ProductCategoryID)
+        public List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(long ProductCategoryID)
         {
             return _itemRepository.GetRetailOrCorpPublishedProducts(ProductCategoryID);
         }
