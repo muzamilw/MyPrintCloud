@@ -71,7 +71,7 @@ namespace MPC.Webstore.Controllers
             if (Category != null)
             {
 
-               // SetPageMEtaTitle(Category.CategoryName, Category.MetaDescription, Category.MetaKeywords, Category.MetaTitle,StoreBaseResopnse);
+                //SetPageMEtaTitle(Category.CategoryName, Category.MetaDescription, Category.MetaKeywords, Category.MetaTitle, baseResponse);
 
                 List<ProductCategory> subCategoryList = new List<ProductCategory>();
 

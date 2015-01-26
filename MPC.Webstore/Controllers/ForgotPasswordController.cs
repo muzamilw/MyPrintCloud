@@ -66,7 +66,7 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-                curUser = _myCompanyService.GetContactByEmail(Email);
+                curUser = _myCompanyService.GetContactByEmail(Email,StoreBaseResopnse.Organisation.OrganisationId);
             }
             SendEmail(Email, StoreBaseResopnse);
             StoreBaseResopnse = null;
@@ -88,7 +88,7 @@ namespace MPC.Webstore.Controllers
                     _myCompanyService.UpdateUserPassword((int)curUser.ContactId, encryptedPass);
                     objtCEP.ContactId = (int)curUser.ContactId;
                     Campaign ForgotPasswordCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.ForgotPassword);
-                    CompanyContact CustomerEmailAcc = _myCompanyService.GetContactByEmail(Email);
+                    CompanyContact CustomerEmailAcc = _myCompanyService.GetContactByEmail(Email,companyDomain.Organisation.OrganisationId);
                     bool result = false;
                    
                     objtCEP.SalesManagerContactID = CustomerEmailAcc.ContactId;

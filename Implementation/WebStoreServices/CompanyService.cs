@@ -82,7 +82,6 @@ namespace MPC.Implementation.WebStoreServices
 
         #endregion
 
-
         #region Public
         /// <summary>
         /// Resolves the Company/Stores by the companyid and organizationid
@@ -92,7 +91,6 @@ namespace MPC.Implementation.WebStoreServices
 
         public MyCompanyDomainBaseReponse GetStoreFromCache(long companyId)
         {
-
 
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
@@ -240,9 +238,9 @@ namespace MPC.Implementation.WebStoreServices
             return _CompanyContactRepository.GetContactByFirstName(FName);
         }
 
-        public CompanyContact GetContactByEmail(string Email)
+        public CompanyContact GetContactByEmail(string Email,long OrganisationID)
         {
-            return _CompanyContactRepository.GetContactByEmail(Email);
+            return _CompanyContactRepository.GetContactByEmail(Email,OrganisationID);
         }
 
         public long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID)

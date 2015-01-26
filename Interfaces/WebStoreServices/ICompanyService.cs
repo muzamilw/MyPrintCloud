@@ -20,7 +20,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         CompanyContact GetContactByFirstName(string FName);
 
-        CompanyContact GetContactByEmail(string Email);
+        CompanyContact GetContactByEmail(string Email, long OID);
 
         long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID);
 

@@ -134,9 +134,9 @@ namespace MPC.Webstore.Common
             {
                 XmlNode loRoot = resxFile.SelectSingleNode("root/data[@name='" + key + "']/value");
 
-                if (loRoot.LastChild != null)
+                if (loRoot != null)
                 {
-                    return (loRoot.LastChild).InnerXml;
+                    return (loRoot).InnerXml;
                 }
                 else
                 {
