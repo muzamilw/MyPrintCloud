@@ -56,28 +56,28 @@ namespace MPC.Webstore.Controllers
                 ViewData["PageCategory"] = StoreBaseResopnse.PageCategories;
                 ViewData["CmsPage"] = StoreBaseResopnse.SecondaryPages;
 
-                if (StoreBaseResopnse.Organisation != null)
+                if (StoreBaseResopnse.StoreDetaultAddress != null)
                 {
                     oAddress = new AddressViewModel();
-                    oAddress.Address1 = StoreBaseResopnse.Organisation.Address1;
-                    oAddress.Address2 = StoreBaseResopnse.Organisation.Address2;
+                    oAddress.Address1 = StoreBaseResopnse.StoreDetaultAddress.Address1;
+                    oAddress.Address2 = StoreBaseResopnse.StoreDetaultAddress.Address2;
 
-                    oAddress.City = StoreBaseResopnse.Organisation.City;
-                    oAddress.State = _myCompanyService.GetStateNameById(StoreBaseResopnse.Organisation.StateId ?? 0);
-                    oAddress.Country = _myCompanyService.GetCountryNameById(StoreBaseResopnse.Organisation.CountryId ?? 0);
-                    oAddress.ZipCode = StoreBaseResopnse.Organisation.ZipCode;
+                    oAddress.City = StoreBaseResopnse.StoreDetaultAddress.City;
+                    oAddress.State = _myCompanyService.GetStateNameById(StoreBaseResopnse.StoreDetaultAddress.StateId ?? 0);
+                    oAddress.Country = _myCompanyService.GetCountryNameById(StoreBaseResopnse.StoreDetaultAddress.CountryId ?? 0);
+                    oAddress.ZipCode = StoreBaseResopnse.StoreDetaultAddress.PostCode;
 
-                    if (!string.IsNullOrEmpty(StoreBaseResopnse.Organisation.Tel))
+                    if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Tel1))
                     {
-                        oAddress.Tel = "Tel: " + StoreBaseResopnse.Organisation.Tel;
+                        oAddress.Tel = "Tel: " + StoreBaseResopnse.StoreDetaultAddress.Tel1;
                     }
-                    if (!string.IsNullOrEmpty(StoreBaseResopnse.Organisation.Fax))
+                    if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Fax))
                     {
-                        oAddress.Fax = "Fax: " + StoreBaseResopnse.Organisation.Fax;
+                        oAddress.Fax = "Fax: " + StoreBaseResopnse.StoreDetaultAddress.Fax;
                     }
-                    if (!string.IsNullOrEmpty(StoreBaseResopnse.Organisation.Email))
+                    if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Email))
                     {
-                        oAddress.Email = "Email: " + StoreBaseResopnse.Organisation.Email;
+                        oAddress.Email = "Email: " + StoreBaseResopnse.StoreDetaultAddress.Email;
                     }
                 }
             }

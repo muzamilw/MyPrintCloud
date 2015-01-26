@@ -13852,12 +13852,13 @@ ul.LogBar li a
 
 .tooltipCheckoutAvenior
 {
-    font-size: 14px;
+    font-size: 12px;
     color: #66615b;
     text-shadow: none;
     font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
-    margin-top: 26px;
-    text-align: left;
+  margin-top: 15px;
+text-align: left;
+margin-left: 5px;
 }
 
 .cnttxtBox
@@ -26381,4 +26382,7 @@ background: #4D4D4D !important;
 .md-modal {
 
 background:white;
+}
+a:hover {
+text-decoration:none !important;
 }
