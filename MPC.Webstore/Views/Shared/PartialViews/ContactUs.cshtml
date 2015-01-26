@@ -16,16 +16,16 @@
                                 &nbsp;
                             </div>
                             <div class="float_left cntContactImagetxt">
-                                @if (ViewBag.Organisation.Tel != null)
+                                @if (ViewBag.DefaultAddress.Tel1!=null)
                                 {
                                     <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.StoreId))</label>
-                                    <label>@ViewBag.Organisation.Tel</label><br />
+                                    <label>@ViewBag.DefaultAddress.Tel1</label><br />
                                 }
 
-                                @if (ViewBag.Organisation.Fax != null)
+                                @if (ViewBag.DefaultAddress.Fax != null)
                                 {
                                     <label id="lblFax">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfax", UserCookieManager.StoreId))</label>
-                                    <label>@ViewBag.Organisation.Fax</label><br />
+                                    <label>@ViewBag.DefaultAddress.Fax</label><br />
                                 }
                             </div>
                             <br />
@@ -37,7 +37,7 @@
                             </div>
                             <div class="float_left cntEmailImageCntctUS">
                                 <label id="lbl_Email">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.StoreId))</label>
-                                <label>@ViewBag.Organisation.Email</label><br />
+                                <label>@ViewBag.DefaultAddress.Email</label><br />
                             </div>
                             <div class="dashboard_vertical_item_separator">
                                 &nbsp;
@@ -46,14 +46,14 @@
                                 &nbsp;
                             </div>
                             <div class="float_left cntAddressContactUS">
-                                <label id="lblCompanyName">@ViewBag.Organisation.OrganisationName</label>
+                                <label id="lblCompanyName">@ViewBag.DefaultAddress.AddressName</label>
                                 <br />
-                                <label id="lblAddressLine1">@ViewBag.Organisation.Address1</label><br />
-                                <label id="lblAddressLine2">@ViewBag.Organisation.Address2</label>
-                                <label id="LblCity">@ViewBag.Organisation.City</label>
-                                <label id="lblState">@ViewBag.Organisation.State</label><br />
-                                <label id="lblCountry">@ViewBag.Organisation.Country</label><br />
-                                <label id="lblZipCode">@ViewBag.Organisation.ZipCode</label>
+                                <label id="lblAddressLine1">@ViewBag.DefaultAddress.Address1</label><br />
+                                <label id="lblAddressLine2">@ViewBag.DefaultAddress.Address2</label>
+                                <label id="LblCity">@ViewBag.DefaultAddress.City</label>
+                                <label id="lblState">@ViewBag.DefaultAddress.State</label><br />
+                                <label id="lblCountry">@ViewBag.DefaultAddress.Country</label><br />
+                                <label id="lblZipCode">@ViewBag.DefaultAddress.PostCode</label>
                             </div>
                         </td>
                         <td valign="top" align="right">

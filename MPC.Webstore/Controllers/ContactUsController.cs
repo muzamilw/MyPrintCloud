@@ -41,21 +41,23 @@ namespace MPC.Webstore.Controllers
            // MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
 
-            ViewBag.Organisation = StoreBaseResopnse.Organisation;
-            string country = StoreBaseResopnse.Organisation.Country != null
-                                                                ? StoreBaseResopnse.Organisation.Country.CountryName
+            ViewBag.DefaultAddress = StoreBaseResopnse.StoreDetaultAddress;
+            string country = StoreBaseResopnse.StoreDetaultAddress.Country != null
+                                                                ? StoreBaseResopnse.StoreDetaultAddress.Country.CountryName
                                                                 : string.Empty;
-            string state = StoreBaseResopnse.Organisation.State != null
-                ? StoreBaseResopnse.Organisation.State.StateName
+            string state = StoreBaseResopnse.StoreDetaultAddress.State != null
+                ? StoreBaseResopnse.StoreDetaultAddress.State.StateName
                 : string.Empty;
-            string MapInfoWindow = StoreBaseResopnse.Organisation.OrganisationName + "<br>" + StoreBaseResopnse.Organisation.Address1 + StoreBaseResopnse.Organisation.Address2 + "<br>" + StoreBaseResopnse.Organisation.City + "," + state + "," + StoreBaseResopnse.Organisation.ZipCode;
-            ViewBag.googleMapScript = @"<script> var isGeoCode = true; var addressline = '" + StoreBaseResopnse.Organisation.Address1 + "," + StoreBaseResopnse.Organisation.Address2 + "," + StoreBaseResopnse.Organisation.City + "," + country + "," + StoreBaseResopnse.Organisation.ZipCode + "';var info='" + MapInfoWindow + "';</script>";
+            string MapInfoWindow = StoreBaseResopnse.StoreDetaultAddress.AddressName + "<br>" + StoreBaseResopnse.StoreDetaultAddress.Address1 + StoreBaseResopnse.StoreDetaultAddress.Address2 + "<br>" + StoreBaseResopnse.StoreDetaultAddress.City + "," + state + "," + StoreBaseResopnse.StoreDetaultAddress.PostCode;
+            ViewBag.googleMapScript = @"<script> var isGeoCode = true; var addressline = '" + StoreBaseResopnse.StoreDetaultAddress.Address1 + "," + StoreBaseResopnse.StoreDetaultAddress.Address2 + "," + StoreBaseResopnse.StoreDetaultAddress.City + "," + country + "," + StoreBaseResopnse.StoreDetaultAddress.PostCode + "';var info='" + MapInfoWindow + "';</script>";
             return PartialView("PartialViews/ContactUs");
         }
 
         [HttpPost]
         public ActionResult Index(ContactViewModel model)
         {
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
             try
             {
                 string smtpUser = null;
@@ -63,25 +65,25 @@ namespace MPC.Webstore.Controllers
                 string smtpPassword = null;
                 string fromName = null;
                 string fromEmail = null;
-                MyCompanyDomainBaseResponse organisationResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
-                MyCompanyDomainBaseResponse companyResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-                ViewBag.Organisation = organisationResponse.Organisation;
+                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+                ViewBag.Organisation = StoreBaseResopnse.StoreDetaultAddress;
                 string MesgBody = "";
-                if (organisationResponse.Organisation != null)
+                if (StoreBaseResopnse.Organisation != null)
                 {
-                    smtpUser = organisationResponse.Organisation.SmtpUserName;
-                    smtpserver = organisationResponse.Organisation.SmtpServer;
-                    smtpPassword = organisationResponse.Organisation.SmtpPassword;
-                    fromName = organisationResponse.Organisation.OrganisationName;
-                    fromEmail = organisationResponse.Organisation.Email;
+                    //organisationResponse
+                    smtpUser = StoreBaseResopnse.Organisation.SmtpUserName;
+                    smtpserver = StoreBaseResopnse.Organisation.SmtpServer;
+                    smtpPassword = StoreBaseResopnse.Organisation.SmtpPassword;
+                    fromName = StoreBaseResopnse.Organisation.OrganisationName;
+                    fromEmail = StoreBaseResopnse.Organisation.Email;
+                                
                 }
-
 
                 string StoreName = string.Empty;
 
-                SystemUser salesManager = _myCompanyService.GetSystemUserById(Convert.ToInt64(companyResponse.Company.SalesAndOrderManagerId1));
+                SystemUser salesManager = _myCompanyService.GetSystemUserById(Convert.ToInt64(StoreBaseResopnse.Company.SalesAndOrderManagerId1));
 
-                StoreName = organisationResponse.Organisation.OrganisationName;
+                StoreName = StoreBaseResopnse.StoreDetaultAddress.AddressName;
 
 
                 MesgBody += "Dear " + salesManager.FullName + ",<br>";
