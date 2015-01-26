@@ -150,13 +150,15 @@ namespace MPC.Implementation.WebStoreServices
 
 
                     oStore.Company = oCompany;
+                    oStore.Organisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
                     oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
                     oStore.Banners = _companyBannerRepository.GetCompanyBannersById(oCompany.CompanyId);
                     oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
                     oStore.SecondaryPages = AllPages.Where(s => s.CompanyId == oCompany.CompanyId).ToList();
                     oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
                     oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oCompany.OrganisationId));
-
+                    oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
+                    oStore.StoreDetaultAddress = GetDefaultAddressByStoreID(companyId);
                     stores.Add(oCompany.CompanyId, oStore);
                     cache.Set(CacheKeyName, stores, policy);
                     return stores[oCompany.CompanyId];
@@ -200,7 +202,7 @@ namespace MPC.Implementation.WebStoreServices
 
                 MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
                 oStore.Company = oCompany;
-                oStore.Organisation = _organisationRepository.GetOrganizatiobByID((int)oCompany.OrganisationId);
+                oStore.Organisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
                 oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
                 oStore.Banners = _companyBannerRepository.GetCompanyBannersById(oCompany.CompanyId);
                 oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
@@ -208,6 +210,7 @@ namespace MPC.Implementation.WebStoreServices
                 oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
                 oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oCompany.OrganisationId));
                 oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
+                oStore.StoreDetaultAddress = GetDefaultAddressByStoreID(companyId);
                 stores.Add(oCompany.CompanyId, oStore);
                 cache.Set(CacheKeyName, stores, policy);
             }

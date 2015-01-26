@@ -128,7 +128,7 @@ namespace MPC.Webstore.Controllers
         /// <param name="baseResponse"></param>
         private void SetPageMEtaTitle(MPC.Models.Common.CmsPageModel oPage, MPC.Models.DomainModels.Address DefaultAddress, string CompanyName)
         {
-            string[] MetaTags = _myCompanyService.CreatePageMetaTags(oPage.PageTitle, oPage.Meta_DescriptionContent, oPage.Meta_KeywordContent, StoreMode.Retail, CompanyName, DefaultAddress);
+            string[] MetaTags = _myCompanyService.CreatePageMetaTags(oPage.PageTitle == null ? "" : oPage.PageTitle, oPage.Meta_DescriptionContent == null ? "" : oPage.Meta_DescriptionContent, oPage.Meta_KeywordContent == null ? "" : oPage.Meta_KeywordContent, StoreMode.Retail, CompanyName, DefaultAddress);
 
             ViewBag.MetaTitle = MetaTags[0];
             ViewBag.MetaKeywords = MetaTags[1];

@@ -12,6 +12,7 @@ using System.Data;
 using MPC.Models.Common;
 using System.Data.SqlClient;
 using System.Data.Entity.Core.Objects;
+using System.Linq.Expressions;
 
 namespace MPC.Repository.Repositories
 {
@@ -21,6 +22,14 @@ namespace MPC.Repository.Repositories
     public class CostCentreRepository : BaseRepository<CostCentre>, ICostCentreRepository
     {
         #region privte
+        #region Private
+        private readonly Dictionary<CostCentersColumns, Func<CostCentre, object>> OrderByClause = new Dictionary<CostCentersColumns, Func<CostCentre, object>>
+                    {
+                        {CostCentersColumns.Name, d => d.Name},
+                        {CostCentersColumns.Type, d => d.Type},
+                        
+                    };
+        #endregion
         #endregion
 
         #region Constructor
@@ -617,11 +626,27 @@ namespace MPC.Repository.Repositories
 
         public CostCentersResponse GetUserDefinedCostCenters(CostCenterRequestModel request)
         {
-            var cclist = db.CostCentres.Where(c => c.Type != 1 && c.IsDisabled == 0 && c.OrganisationId == OrganisationId).ToList();
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            Expression<Func<CostCentre, bool>> query =
+                oCostCenter => oCostCenter.Type != 1 && oCostCenter.IsDisabled == 0 && oCostCenter.OrganisationId == OrganisationId;
+
+            var rowCount = DbSet.Count(query);
+            var costCenters = request.IsAsc
+                ? DbSet.Where(query)
+                    .OrderBy(OrderByClause[request.CostCenterOrderBy])
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList()
+                : DbSet.Where(query)
+                    .OrderByDescending(OrderByClause[request.CostCenterOrderBy])
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList();
             return new CostCentersResponse
             {
-                RowCount = cclist.Count(),
-                CostCenters = cclist
+                RowCount = rowCount,
+                CostCenters = costCenters
             };
         }
         public CostCentre GetCostCentersByID(long costCenterID)
