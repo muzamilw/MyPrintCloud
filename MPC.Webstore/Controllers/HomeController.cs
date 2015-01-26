@@ -81,13 +81,15 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult Index()
         {
+            SetUserClaim(UserCookieManager.OrganisationID);
+
 
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
-            ViewBag.StyleSheet = "/mpc_content/Stores/Store" + UserCookieManager.StoreId + "/" + UserCookieManager.StoreId + "_CompanyStyles.css";  
+            ViewBag.StyleSheet = "/mpc_content/Stores/assets/" + UserCookieManager.StoreId + "/Site.css";  
 
-            SetUserClaim(StoreBaseResopnse.Organisation.OrganisationId);
+           
 
             List<MPC.Models.DomainModels.CmsSkinPageWidget> model = null;
 
