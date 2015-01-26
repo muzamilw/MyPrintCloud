@@ -21,8 +21,8 @@
         </div>
         <div class="StocksDelivryContainer col-md-8 col-lg-8 col-xs-12 col-sm-12">
             <div id="divStockOptions" class="float_left_simple LGBC rounded_corners width730" style="padding: 5px;">
-                <div class="SelectQtyContainer textAlignLeft">
-                    Options
+                <div id="lbl_Options" class="SelectQtyContainer textAlignLeft">
+                   @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOrderOpt", UserCookieManager.StoreId))
                 </div>
                 <div class="white_background rounded_corners divStk">
                     <div class="float_left_simple Width100Percent">
@@ -75,7 +75,7 @@
                         </div>
                         <br />
                         <div class="marginLeft Fsize19 template_designing margnTop10 LandPage-Heading-Cs">
-                            <label>Refining Options</label>
+                            <label id="lbl_RefiningOptions">@Html.Raw(Html.GetKeyValueFromResourceFile("lblRefinngOpt", UserCookieManager.StoreId))</label>
                         </div>
                         <div class="width365pxM250p">
                             @foreach (var costcenter in ViewData["CostCenters"] as List<MPC.Models.Common.AddOnCostsCenter>)
@@ -115,12 +115,13 @@
 
         </div>
         <div class="signin_heading_div float_left_simple UploadContainerCs">
+            <label id="lbl_UploadArtWork" class="textAlignLeft float_left_simple">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadArtWork", UserCookieManager.StoreId))</label>
                 @if (ViewData["Templates"] == null)
                 {
                     <label id="ltrlUpFlH" class="textAlignLeft float_left_simple Fsize19">Upload artwork design</label>
                         <div class="FormatContainer">
-                            <div class="float_left_simple Fsize12 lbFormat">
-                                Permitted Format
+                <div id="lbl_PremittedFormat" class="float_left_simple Fsize12 lbFormat">
+                    @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_PremittedFormat", UserCookieManager.StoreId))
                             </div>
                             <div>
                                 <img id="imgpdf" alt="" src="~/images/pdfFormat.PNG" class="float_left_simple FormatedImgs" />
@@ -145,9 +146,8 @@
                             {
                             <div onclick="return ShowArtworkPanel();" class="artworkarrow">
                                 <img id="ImgArrow" alt="" src="/Content/Images/artwork_arrow_icons.png" style="width: 60px;" /><br />
-                                <label style="font-size: 16px;
-                                        font-weight: bold;">Supply your own artwork</label><br />
-                                <label style="font-size: 13px;">Add multiple files</label>
+                                <label id="lbl_SupplyArtWork" style="font-size: 16px; font-weight: bold;">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkSupplyartwork", UserCookieManager.StoreId))</label><br />
+                                <label id="lbl_AddMultipleFiles" style="font-size: 13px;">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkAddmultiplefiles", UserCookieManager.StoreId))</label>
                             </div>
                             <div class="clearBoth">
                                 &nbsp;
@@ -189,6 +189,8 @@
                     {
                         <div class="rptContainers">
                             @foreach (var templateItem in ViewData["Templates"] as List<MPC.Webstore.Models.TemplateViewData>)
+                            @foreach (var templateItem in ViewData["Templates"] as List<MPC.Models.DomainModels.TemplatePage>
+                )
                             {
 
                                 <div class="LGBC BD_PCS rounded_corners">
@@ -211,8 +213,8 @@
                             }
                         </div>
                         <div id="MoreSidesCont" class="ViewTemSidesCS" style="display:none;">
-                            <label id="ViewMore">View more sides</label><br />
-                            <label id="imDesgMode">in designer mode</label>
+                            <label id="lbl_ViewMore">@Html.Raw(Html.GetKeyValueFromResourceFile("lblViewMore", UserCookieManager.StoreId))</label><br />
+                            <label id="lbl_DesignerMode">@Html.Raw(Html.GetKeyValueFromResourceFile("lblDesignerMode", UserCookieManager.StoreId))</label>
                         </div>
                     }
 
@@ -226,8 +228,8 @@
     </div>
     <div class="float_left_simple PriceTableCs col-md-3 col-lg-3 col-xs-12">
         <div class="LGBC rounded_corners Pad5px">
-            <div class="SelectQtyContainer">
-                Select your quantity
+            <div id="lbl_SelectQuantity" class="SelectQtyContainer">
+                @Html.Raw(Html.GetKeyValueFromResourceFile("lblSelectQuantity", UserCookieManager.StoreId))
             </div>
             <div class="white_background rounded_corners padding10">
                 <div class="textAlignLeft Mleft10 gallery">
@@ -288,7 +290,7 @@
                     &nbsp;
                 </div>
                 <div class="float_left_simple grossTotaldiv">
-                    <label id="lblTotlTxt" class="float_left_simple">Total</label>
+                    <label id="lbl_Total" class="float_left_simple">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTotal", UserCookieManager.StoreId))</label>
                     @if (MPC.Webstore.Common.UserCookieManager.isIncludeTax == true)
                     {
                         @*<label id="lblTaxLabel" class="Fsize13 float_right marginLeft">inc. VAT</label>*@
@@ -298,7 +300,7 @@
                         @*<label id="lblTaxLabel" class="Fsize13 float_right marginLeft">ex. VAT</label>*@
                     }
 
-                    <label id="lblGrossTotal" class="float_right">$0</label>
+                    <label id="lbl_GrossTotal" class="float_right">@Html.Raw(Html.GetKeyValueFromResourceFile("lblGrossTotal", UserCookieManager.StoreId))</label>
 
                 </div>
                 @if (ViewBag.IsStockControl == true)
@@ -308,11 +310,11 @@
                     { <div class="InStockContainer" style="background:red; color:white;">
                         @if (ViewBag.isAllowBackOrder ?? false) // back ordering allowed
                         {
-                            <label>Back ordering allowed</label>
+                            <label id="lbl_BAckOrder">@Html.Raw(Html.GetKeyValueFromResourceFile("lblBackOrder", UserCookieManager.StoreId))</label>
                         }
                         else
                         {
-                            <label>item out of stock</label>
+                            <label id="lbl_OutOfStock">@Html.Raw(Html.GetKeyValueFromResourceFile("lblItemOutOfStock", UserCookieManager.StoreId))</label>
                         }
                     </div>
                     }
@@ -355,7 +357,7 @@
                 </div>
                 <div id="priceToggle" onclick="MatrixToggle();" style="cursor: pointer; color: #b6d682;
                             font-size: 13px; float: left; margin-top: 15px; margin-bottom: 10px;">
-                    <label id="toggleHeading">Show price table</label>
+                    <label id="lbl_ShowPriceTable">@Html.Raw(Html.GetKeyValueFromResourceFile("ShowPriceMatrix", UserCookieManager.StoreId))</label>
                 </div>
                 <div class="clearBoth">
                     &nbsp;
@@ -364,24 +366,24 @@
                     @if (ViewBag.Item.IsQtyRanged == true)
                     {
                         <div class="confirm_design divtxtalgn MLR">
-                            <label>Quantity</label>
+                            <label id="lbl_Quantity">@Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.StoreId))</label>
                         </div>
                         <br />}
                     <div class="width50p">
                         @if (ViewBag.Item.IsQtyRanged == true)
                         {
                             <div class="Fsize13 divtxtalgn float_left_simple ddwidth50 marginRight" style="margin-left: -49px;">
-                                <label>From</label>
+                                <label id="lbl_From">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfrom", UserCookieManager.StoreId))</label>
                             </div>
                             <div class="Fsize13 divtxtalgn float_left_simple">
 
-                                <label>To</label>
+                                <label id="lbl_To">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlTo", UserCookieManager.StoreId))</label>
                             </div>
                         }
                         else
                         {
                             <div class="Fsize13 divtxtalgn_CS width70pixel float_left_simple">
-                                <label>Quantity</label>
+                                <label id="lbl_Quanity">@Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.StoreId))</label>
                             </div>
                         }
 
@@ -509,9 +511,9 @@
         <div style="background: white; padding: 10px; text-align: left;" class="rounded_corners">
             <div class="boxCatDes">
                 <div class="mrginBtm">
-                    <label class="marginall5 ProductDetailH2">Specifications</label>
+                    <label id="lbl_Specifications" class="marginall5 ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("lblSpecifications", UserCookieManager.StoreId))</label>
                 </div>
-                <label class="marginall5" style="font-weight:normal;">Category Code</label>
+                <label id="lbl_CategroyCode" class="marginall5">@Html.Raw(Html.GetKeyValueFromResourceFile("lblCategroyCode", UserCookieManager.StoreId))</label>
                 <br />
                 <p class="marginall5" style="width: 243px;">
                     <label style="font-weight:normal;">@ViewBag.Item.WebDescription</label>
@@ -537,12 +539,14 @@
     <div id="PnlUploaderLeftContainer">
         @if (!string.IsNullOrEmpty(ViewBag.Item.File1) || !string.IsNullOrEmpty(ViewBag.Item.File2) || !string.IsNullOrEmpty(ViewBag.Item.File3) || !string.IsNullOrEmpty(ViewBag.Item.File4))
         {
-            <div id="PnlUploaderDownloadExampleHeading" class="DownloadExmContainer">
-                Download templates
+            <div id="lbl_DownloadTemplates" class="DownloadExmContainer">
+               @Html.Raw(Html.GetKeyValueFromResourceFile("lblDownloadTemplate", UserCookieManager.StoreId))
             </div>
-            <div id="PnlUploaderDownloadExmpleDesc" class="DExmlbl">
-                Download templates as a starting reference to creating and uploading your own designs.
+            <div id="lbl_CreateUploadTemplates" class="DExmlbl">
+                @Html.Raw(Html.GetKeyValueFromResourceFile("lblDEmple", UserCookieManager.StoreId))
+              
             </div>
+            
             <div id="PnlUploaderDownloadIcons" style="text-align: left;">
                 @if (!string.IsNullOrEmpty(ViewBag.Item.File1))
                 {
@@ -575,7 +579,7 @@
         {
             <div id="formatDesignContainer">
                 <div class="DesgnFormatelbl">
-                    <label id="GridDsgnForSizes" class="Fsize13">Design sizes & format</label>
+                    <label id="lbl_DesignSize_Format" class="Fsize13">@Html.Raw(Html.GetKeyValueFromResourceFile("lblDesignSizeFormat", UserCookieManager.StoreId))</label>
                 </div>
                 <div class="white_background rounded_corners left_align">
                     <img id="designFormateimg" src="@ViewBag.Item.GridImage" />
@@ -584,66 +588,66 @@
         }
 
         <div class="guidlinContainer">
-            <label id="UpFileGuidlbl" class="Fsize13">Upload file guidelines</label>
+            <label id="lbl_UploadFileGudelines" class="Fsize13">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines", UserCookieManager.StoreId))</label>
         </div>
 
         <div style="float:left; width:420px;">
             <div class="clearBoth">&nbsp;</div>
             <div class="GLHeadingContainer float_left_simple">
-                <label id="lblGL1Heading" class="GLHeading">Heading</label>
+                <label id="lbl_UploadFileGudelines_Heading" class="GLHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblGL1Heading", UserCookieManager.StoreId))</label>
             </div>
             <div class="GLHeadDescContainer float_left_simple">
 
-                <label id="ltrlGL1Desc">1Desc</label>
+                <label id="lbl_UploadFileGudelines_Description1">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlGL1Desc", UserCookieManager.StoreId))</label>
             </div>
             <div class="clearBoth">&nbsp;</div>
             <div class="GLHeadingContainer float_left_simple">
-                <label id="lblGL2Heading" class="GLHeading">GL2Heading</label>
+                <label id="lbl_UploadFileGudelines_Heading2" class="GLHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblGL2Heading", UserCookieManager.StoreId))</label>
             </div>
             <div class="GLHeadDescContainer float_left_simple">
-                <label id="ltrlGL2Desc">GL2Desc</label>
+                <label id="lbl_UploadFileGudelines_Description2">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlGL2Desc", UserCookieManager.StoreId))</label>
             </div>
             <div class="clearBoth">&nbsp;</div>
             <div class="GLHeadingContainer float_left_simple">
-                <label id="lblGL3Heading" class="GLHeading">3Heading</label>
+                <label id="lbl_UploadFileGudelines_Heading3" class="GLHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblGL3Heading", UserCookieManager.StoreId))</label>
             </div>
             <div class="GLHeadDescContainer float_left_simple">
-                <label id="ltrlGL3Desc">3Desc</label>
+                <label id="lbl_UploadFileGudelines_Description3">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlGL3Desc", UserCookieManager.StoreId))</label>
             </div>
             <div class="clearBoth">&nbsp;</div>
             <div class="GLHeadingContainer float_left_simple">
-                <label id="lblGL4Heading" class="GLHeading">4Heading</label>
+                <label id="lbl_UploadFileGudelines_Heading4" class="GLHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblGL4Heading", UserCookieManager.StoreId))</label>
             </div>
             <div class="GLHeadDescContainer float_left_simple">
-                <label id="ltrlGL4Desc">4Desc</label>
+                <label id="lbl_UploadFileGudelines_Description4">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlGL4Desc", UserCookieManager.StoreId))</label>
             </div>
             <div class="clearBoth">&nbsp;</div>
             <div class="GLHeadingContainer float_left_simple">
-                <label id="lblGL5Heading" class="GLHeading">5Heading</label>
+                <label id="lbl_UploadFileGudelines_Heading5" class="GLHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblGL5Heading", UserCookieManager.StoreId))</label>
             </div>
             <div class="GLHeadDescContainer float_left_simple" style="width: 318px;">
-                <label id="ltrlGL5Desc">5Desc</label>
+                <label id="lbl_UploadFileGudelines_Description5">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlGL5Desc", UserCookieManager.StoreId))</label>
             </div>
             <div class="clearBoth">&nbsp;</div>
             <div class="GLHeadingContainer float_left_simple">
-                <label id="lblGL6Heading" class="GLHeading">6Heading</label>
+                <label id="lbl_UploadFileGudelines_Heading6" class="GLHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblGL6Heading", UserCookieManager.StoreId))</label>
             </div>
             <div class="GLHeadDescContainer float_left_simple">
-                <label id="ltrlGL6Desc">6Desc</label>
+                <label id="lbl_UploadFileGudelines_Description6">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlGL6Desc", UserCookieManager.StoreId))</label>
             </div>
             <div class="clearBoth">&nbsp;</div>
             <div class="GLHeadingContainer float_left_simple">
-                <label id="lblGL7Heading" class="GLHeading">7Heading</label>
+                <label id="lbl_UploadFileGudelines_Heading7" class="GLHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblGL7Heading", UserCookieManager.StoreId))</label>
             </div>
             <div class="GLHeadDescContainer float_left_simple">
-                <label id="ltrlGL7Desc">7Desc</label>
+                <label id="lbl_UploadFileGudelines_Description7">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlGL7Desc", UserCookieManager.StoreId))</label>
             </div>
             <div class="clearBoth">&nbsp;</div>
             <div class="GLHeadingContainer float_left_simple">
-                <label id="lblGL8Heading" class="GLHeading">8Heading</label>
+                <label id="lbl_UploadFileGudelines_Heading8" class="GLHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblGL8Heading", UserCookieManager.StoreId))</label>
             </div>
             <div class="GLHeadDescContainer float_left_simple">
-                <label id="ltrlGL8Desc">8Desc</label>
+                <label id="lbl_UploadFileGudelines_Description8">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlGL8Desc", UserCookieManager.StoreId))</label>
             </div>
             <div class="clearBoth">&nbsp;</div>
 
@@ -653,8 +657,8 @@
             <input type="file" name="FileName" id="imageUploader" style="width:240px" />
             <input type="button" value="Upload" class="Uplod_PCS rounded_corners5" id="btnOpenUploadDailog" onclick="openDailog();" />
 
-            <div id="allowedFormateslbl" class="float_left_simple Fsize12" style="width: 175px; text-align: left; margin-bottom: 5px; margin-top: 10px;">
-                Permitted formats
+            <div id="lbl_PremittedFormat" class="float_left_simple Fsize12" style="width: 175px; text-align: left; margin-bottom: 5px; margin-top: 10px;">
+                @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_PremittedFormat", UserCookieManager.StoreId))
             </div>
             <div id="allowedFormatesContainer">
                 <img id="imgPdf" alt="" src="~/images/pdfFormat.PNG" class="float_left_simple"
@@ -663,17 +667,17 @@
                      width="35" style="margin-right: 5px;" />
             </div>
             <div class="clearBoth">&nbsp;</div>
-            <div id="Recommandedtxt">
-                Recommended
+            <div id="lbl_Recommended">
+                @Html.Raw(Html.GetKeyValueFromResourceFile("Recommandedtxt", UserCookieManager.StoreId))
             </div>
-            <div id="PdfFormatInfo">
-                PDFs format with embeded 300 dpi
+            <div id="lbl_RecommandedFormat">
+                @Html.Raw(Html.GetKeyValueFromResourceFile("PdfFormatInfo", UserCookieManager.StoreId))
             </div>
-            <div id="MaxFileSize">
-                MAX file size 10MB
+            <div id="lbl_MAXSize">
+                @Html.Raw(Html.GetKeyValueFromResourceFile("MaxFileSize", UserCookieManager.StoreId))
             </div>
-            <div id="logoImgsize">
-                images/ logos must be greater than 333 x 223 pixels
+            <div id="lbl_RecommandedResulation">
+                @Html.Raw(Html.GetKeyValueFromResourceFile("logoImgsize", UserCookieManager.StoreId))
             </div>
         </div>
         <div class="clearBoth">&nbsp;</div>

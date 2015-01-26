@@ -18,12 +18,12 @@
                         <a href="/Signup"><i class="fa fa-unlock usercolorSize"></i></a>
                     </li>
                     <li class="sub PinkBtnMyAccS6">
-                        <a id="lnkLogin" href="/Login" class="lnkSignInCs" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.StoreId)) SignIn/Register</a>
+                        <a id="lnk_SignInRegisteration" href="/Login" class="lnkSignInCs" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkLogin", UserCookieManager.StoreId))</a>
                     </li>
                     <li class="ZeroRightMargin BlackBtnCS">
                         <a href="/ShopCart" onclick="ShowLoader();" class="top_sub_section_links hyperlinkCart ">
                             <i class="fa fa-shopping-cart cartcolorSize classicthemeLoginMenu"></i>
-                            <span class="carttxtcolorSize classicthemeLoginMenu">Shopping cart</span>
+                            <span id="lbl_ShoppingCart" class="carttxtcolorSize classicthemeLoginMenu">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleShopCart", UserCookieManager.StoreId))<</span>
                             <div class="lblCartCounter" id="lblCartCount">
                             </div>
                         </a>

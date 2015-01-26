@@ -41,16 +41,16 @@
     </div>
     <div class="activeCampaigns" style="z-index: 1; position: relative;">
         <div>
-            <label class="campaignsHeading">Active Campaigns</label>
+            <label id="lbl_ActiveCompaigns" class="campaignsHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblActiveCompaigns", UserCookieManager.StoreId))</label>
         </div>
         <div style="padding-top:15px;">
             <img src="~/Content/Images/SmartFormCart.png" /><br />
         </div>
         <div style="padding-top:20px;" class="campaignsLabel">
-            <label>You have </label>
-            <label>-</label>
-            <label> items  |  </label>
-            <a href="#">Check out</a>
+            <label id="lbl_Youhave">@Html.Raw(Html.GetKeyValueFromResourceFile("lblYouhave", UserCookieManager.StoreId))</label>
+            
+            <label id="lbl_items">@Html.Raw(Html.GetKeyValueFromResourceFile("lblitems", UserCookieManager.StoreId))</label>
+            <a id="lbl_CeheckOut" href="#">@Html.Raw(Html.GetKeyValueFromResourceFile("lblCeheckOut", UserCookieManager.StoreId))</a>
         </div>
     </div>
 </div>

@@ -1,7 +1,6 @@
 ﻿@model MPC.Models.DomainModels.Company
 @using MPC.Webstore.Common;
 @using MPC.Models.Common;
-@using System;
 <div class="clearBoth">
 
     <div id="FooterContainer" class="PDTCWB">
@@ -17,15 +16,15 @@
                         </div>
                         <div class="txtAlignLeft col-md-6 col-sm-6 col-xs-12 col-lg-6 payment_sec NoPadding">
                             <div class="copyTerms">
-                                <label>  CopyRight 2015</label>
-                                <a class="small_gray_hyperlink S6FooterMLCs hyperTermCond"
-                                   href="/pages/@SecondryPagesInfo.TermsAndConditions/@Convert.ToInt32(SecondryPagesInfo.TermsAndConditions)" onclick="ShowLoader();">Terms And Conditions</a>
+                                <label id="lbl_CopyRightMessage">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcopyrite", UserCookieManager.StoreId))</label>
+                                <a id="lnkTermsCondtions" class="small_gray_hyperlink S6FooterMLCs hyperTermCond"
+                                   href="/pages/@SecondryPagesInfo.TermsAndConditions/@Convert.ToInt32(SecondryPagesInfo.TermsAndConditions)" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkTermsCondtions", UserCookieManager.StoreId))</a>
                             </div>
 
                             <div class="powerPrivacy">
                                 <a id="hlPweredBy" href="http://www.myprintcloud.com/"
                                    class="poweredby"></a>
-                                <a id="hlPrivacyPolicy" href="/pages/@SecondryPagesInfo.PrivacyPolicy/@Convert.ToInt32(SecondryPagesInfo.PrivacyPolicy)" class="small_gray_hyperlink hyPrivacyP" onclick="ShowLoader();">Privacy Policy</a>
+                                <a id="lnkPrivacyPolicy" href="/pages/@SecondryPagesInfo.PrivacyPolicy/@Convert.ToInt32(SecondryPagesInfo.PrivacyPolicy)" class="small_gray_hyperlink hyPrivacyP" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkPrivacyPolicy", UserCookieManager.StoreId))</a>
                             </div>
                         </div>
                         <div class="txtAlignLeft col-xs-12 col-md-3 col-sm-4  col-lg-3 social_icons" id="pnlFollowUs">

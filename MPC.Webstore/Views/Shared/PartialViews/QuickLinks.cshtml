@@ -1,4 +1,5 @@
 ﻿@model MPC.Webstore.Models.AddressViewModel
+@using MPC.Webstore.Common;
 @if (ViewBag.Display == "1")
 {
     <div id="Footer">
@@ -34,7 +35,7 @@
                         </div>
                         <div class="footer_portion themeFontColor">
                             <div class="footer_left_portion_division float_left_simple">
-                                <label id="catName" class="heading_small_orange" style="font-size: 14px !important;font-weight:bolder !important;color:white !important;">Contact Info</label>
+                                <label id="lbl_ContactInformation" class="heading_small_orange" style="font-size: 14px !important;font-weight:bolder !important;color:white !important;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUserProfile", UserCookieManager.StoreId))</label>
 
                                 <ul class="uSecPageList  themeFontColor">
                                     <li>
