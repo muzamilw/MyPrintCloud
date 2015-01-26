@@ -12,6 +12,7 @@ using MPC.Models.DomainModels;
 using System.Text;
 using MPC.Webstore.Models;
 using MPC.Webstore.Common;
+using System.Runtime.Caching;
 
 namespace MPC.Webstore.Controllers
 {
@@ -51,25 +52,28 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index(ForgotPasswordViewModel model)
         {
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
             string Email = model.Email;
 
             long storeId = Convert.ToInt64(Session["storeId"]);
 
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-
-            if (baseResponse.Company.IsCustomer == (int)StoreMode.Corp)
+          //  MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            if (StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp)
             {
-                curUser =  _myCompanyService.GetContactByEmailAndMode(Email, Convert.ToInt32(CustomerTypes.Corporate), (int)baseResponse.Company.CompanyId);
+                curUser = _myCompanyService.GetContactByEmailAndMode(Email, Convert.ToInt32(CustomerTypes.Corporate),StoreBaseResopnse.Company.CompanyId);
             }
             else
             {
-                curUser = _myCompanyService.GetContactByEmail(Email);
+                curUser = _myCompanyService.GetContactByEmail(Email,StoreBaseResopnse.Organisation.OrganisationId);
             }
-            SendEmail(Email,baseResponse); 
+            SendEmail(Email, StoreBaseResopnse);
+            StoreBaseResopnse = null;
             return View("PartialViews/ForgotPassword");
         }
 
-        private void SendEmail(string Email, MyCompanyDomainBaseResponse companyDomain)
+        private void SendEmail(string Email, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse companyDomain)
         {
           
             CampaignEmailParams objtCEP = new CampaignEmailParams();
@@ -84,7 +88,7 @@ namespace MPC.Webstore.Controllers
                     _myCompanyService.UpdateUserPassword((int)curUser.ContactId, encryptedPass);
                     objtCEP.ContactId = (int)curUser.ContactId;
                     Campaign ForgotPasswordCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.ForgotPassword);
-                    CompanyContact CustomerEmailAcc = _myCompanyService.GetContactByEmail(Email);
+                    CompanyContact CustomerEmailAcc = _myCompanyService.GetContactByEmail(Email,companyDomain.Organisation.OrganisationId);
                     bool result = false;
                    
                     objtCEP.SalesManagerContactID = CustomerEmailAcc.ContactId;

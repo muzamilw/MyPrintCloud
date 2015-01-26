@@ -101,7 +101,7 @@ namespace MPC.Repository.Repositories
 
             return new ItemSearchResponse { Items = items, TotalCount = DbSet.Count(query) };
         }
-        public List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(int ProductCategoryID)
+        public List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(long ProductCategoryID)
         {
 
             List<GetCategoryProduct> recordds = db.GetCategoryProducts.Where(g => g.IsPublished == true && g.EstimateId == null && g.ProductCategoryId == ProductCategoryID).OrderBy(g => g.ProductName).ToList();
@@ -139,7 +139,7 @@ namespace MPC.Repository.Repositories
             return db.ItemPriceMatrices.Where(i => i.ItemId == ItemId && i.SupplierId == null).ToList();
         }
 
-        public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID)
+        public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID,long OrganisationID)
         {
             Template clonedTemplate = null;
 
@@ -284,6 +284,7 @@ namespace MPC.Repository.Repositories
                 }
 
             }
+        
 
             // add section of 20 type cost center which is web order cost center
 
@@ -295,7 +296,7 @@ namespace MPC.Repository.Repositories
                     newItem.TemplateId = clonedTemplate.ProductId;
                     TemplateID = clonedTemplate.ProductId;
 
-                    //  CopyTemplatePaths(clonedTemplate);
+                      CopyTemplatePaths(clonedTemplate,OrganisationID);
                 }
 
                 SaveAdditionalAddonsOrUpdateStockItemType(SelectedAddOnsList, newItem.ItemId, StockID, isCopyProduct); // additional addon required the newly inserted cloneditem
@@ -392,7 +393,7 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public int CopyTemplatePaths(Template clonedTemplate)
+        public int CopyTemplatePaths(Template clonedTemplate, long OrganisationID)
         {
             int result = 0;
 
@@ -400,10 +401,11 @@ namespace MPC.Repository.Repositories
             {
                 result = (int)clonedTemplate.ProductId;
 
-                string BasePath = System.Web.HttpContext.Current.Server.MapPath("~/DesignEngine/Designer/Products/");
+              //  string BasePath = System.Web.HttpContext.Current.Server.MapPath("~/DesignEngine/Designer/Products/");
+                string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/");
                 //result = dbContext.sp_cloneTemplate(ProductID, SubmittedBy, SubmittedByName).First().Value;
 
-                string targetFolder = System.Web.HttpContext.Current.Server.MapPath("~/DesignEngine/Designer/Products/" + result.ToString());
+                string targetFolder = drURL + result.ToString();
                 if (!System.IO.Directory.Exists(targetFolder))
                 {
                     System.IO.Directory.CreateDirectory(targetFolder);
@@ -424,16 +426,16 @@ namespace MPC.Repository.Repositories
                         if (oTemplatePage.BackGroundType == 1) //additional background copy function
                         {
                             string oldproductid = oTemplatePage.BackgroundFileName.Substring(0, oTemplatePage.BackgroundFileName.IndexOf("/"));
-                            if (File.Exists(BasePath + oldproductid + "/" + "templatImgBk" + oTemplatePage.PageNo + ".jpg"))
+                            if (File.Exists(drURL + oldproductid + "/" + "templatImgBk" + oTemplatePage.PageNo + ".jpg"))
                             {
 
 
-                                File.Copy(Path.Combine(BasePath, oldproductid + "/" + "templatImgBk" + oTemplatePage.PageNo + ".jpg"), BasePath + result.ToString() + "/" + "templatImgBk" + oTemplatePage.PageNo + ".jpg");
+                                File.Copy(Path.Combine(drURL, oldproductid + "/" + "templatImgBk" + oTemplatePage.PageNo + ".jpg"), drURL + result.ToString() + "/" + "templatImgBk" + oTemplatePage.PageNo + ".jpg");
 
                             }
                         }
 
-                        File.Copy(Path.Combine(BasePath, oTemplatePage.BackgroundFileName), BasePath + result.ToString() + "/" + oTemplatePage.BackgroundFileName.Substring(oTemplatePage.BackgroundFileName.IndexOf("/"), oTemplatePage.BackgroundFileName.Length - oTemplatePage.BackgroundFileName.IndexOf("/")));
+                        File.Copy(drURL +  oTemplatePage.BackgroundFileName, drURL + result.ToString() + "/" + oTemplatePage.BackgroundFileName.Substring(oTemplatePage.BackgroundFileName.IndexOf("/"), oTemplatePage.BackgroundFileName.Length - oTemplatePage.BackgroundFileName.IndexOf("/")));
                         oTemplatePage.BackgroundFileName = result.ToString() + "/" + oTemplatePage.BackgroundFileName.Substring(oTemplatePage.BackgroundFileName.IndexOf("/"), oTemplatePage.BackgroundFileName.Length - oTemplatePage.BackgroundFileName.IndexOf("/"));
 
                     }
@@ -443,9 +445,9 @@ namespace MPC.Repository.Repositories
                 //skip concatinating the path if its a placeholder, cuz place holder is kept in a different path and doesnt need to be copied.
                 oTemplate.TemplateObjects.Where(tempObject => tempObject.ObjectType == 3 && tempObject.IsQuickText != true).ToList().ForEach(item =>
                 {
-
-                    string filepath = item.ContentString.Substring(item.ContentString.IndexOf("Designer/Products/") + "Designer/Products/".Length, item.ContentString.Length - (item.ContentString.IndexOf("Designer/Products/") + "Designer/Products/".Length));
-                    item.ContentString = "Designer/Products/" + result.ToString() + filepath.Substring(filepath.IndexOf("/"), filepath.Length - filepath.IndexOf("/"));
+                    
+                    string filepath = item.ContentString.Substring(item.ContentString.IndexOf("/Designer/Organisation" + OrganisationID.ToString() +"/Templates/") + ("/Designer/Organisation" + OrganisationID.ToString() + "/Templates/").Length, item.ContentString.Length - ((item.ContentString.IndexOf("/Designer/Organisation" + OrganisationID.ToString() + "/Templates/") + "/Designer/Organisation" + OrganisationID.ToString() + "/Templates/").Length));
+                    item.ContentString = "Designer/Organisation" + OrganisationID.ToString() + "/Templates/" + result.ToString() + filepath.Substring(filepath.IndexOf("/"), filepath.Length - filepath.IndexOf("/"));
 
                 });
                 //foreach (var item in dbContext.TemplateObjects.Where(g => g.ProductID == result && g.ObjectType == 3))
@@ -465,7 +467,7 @@ namespace MPC.Repository.Repositories
                 oTemplate.TemplateBackgroundImages.ToList().ForEach(item =>
                 {
 
-                    string filePath = System.Web.HttpContext.Current.Server.MapPath("~/DesignEngine/Designer/Products/" + item.ImageName);
+                    string filePath = drURL + item.ImageName;
                     string filename;
 
                     string ext = Path.GetExtension(item.ImageName);
@@ -475,12 +477,12 @@ namespace MPC.Repository.Repositories
                     {
                         string[] results = item.ImageName.Split(new string[] { ext }, StringSplitOptions.None);
                         string destPath = results[0] + "_thumb" + ext;
-                        string ThumbPath = System.Web.HttpContext.Current.Server.MapPath("~/DesignEngine/Designer/Products/" + destPath);
+                        string ThumbPath = drURL + destPath;
                         FileInfo oFileThumb = new FileInfo(ThumbPath);
                         if (oFileThumb.Exists)
                         {
                             string oThumbName = oFileThumb.Name;
-                            oFileThumb.CopyTo(System.Web.HttpContext.Current.Server.MapPath("~/DesignEngine/Designer/Products/" + result.ToString() + "/" + oThumbName), true);
+                            oFileThumb.CopyTo(drURL + result.ToString() + "/" + oThumbName, true);
                         }
                         //  objSvc.GenerateThumbNail(sourcePath, destPath, 98);
                     }
@@ -491,7 +493,7 @@ namespace MPC.Repository.Repositories
                     if (oFile.Exists)
                     {
                         filename = oFile.Name;
-                        item.ImageName = result.ToString() + "/" + oFile.CopyTo(System.Web.HttpContext.Current.Server.MapPath("~/DesignEngine/Designer/Products/" + result.ToString() + "/" + filename), true).Name;
+                        item.ImageName = result.ToString() + "/" + oFile.CopyTo(drURL + result.ToString() + "/" + filename, true).Name;
                     }
 
 

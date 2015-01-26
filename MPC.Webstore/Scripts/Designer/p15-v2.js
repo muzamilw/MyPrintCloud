@@ -94,7 +94,7 @@ function fu03() {
    });
 }
 function fu04() {
-    $.getJSON("/designerapi/Template/GetTemplate/" + tID + "/" + cID + "/" + TempHMM + "/" + TempWMM + "/" + organisationId,
+    $.getJSON("/designerapi/Template/GetTemplate/" + tID + "/" + cID + "/" + TempHMM + "/" + TempWMM + "/" + organisationId + "/" + ItemId,
     //$.getJSON("/designerapi/Template/GetTemplate/" + tID ,
    function (DT) {
        DT.ProductID = DT.ProductId;

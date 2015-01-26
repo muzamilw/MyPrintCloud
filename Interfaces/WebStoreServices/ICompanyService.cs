@@ -20,7 +20,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         CompanyContact GetContactByFirstName(string FName);
 
-        CompanyContact GetContactByEmail(string Email);
+        CompanyContact GetContactByEmail(string Email, long OID);
 
         long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID);
 
@@ -34,7 +34,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         string GetUiCulture(long organisationId);
 
-        CompanyContact GetContactByEmailAndMode(string Email, int Type, int customerID);
+        CompanyContact GetContactByEmailAndMode(string Email, int Type, long customerID);
 
         string GeneratePasswordHash(string plainText);
 
@@ -49,17 +49,17 @@ namespace MPC.Interfaces.WebStoreServices
         List<ProductCategory> GetAllCategories(long companyId);
         CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId);
 
-        ProductCategory GetCategoryById(int categoryId);
+        ProductCategory GetCategoryById(long categoryId);
 
-        List<ProductCategory> GetChildCategories(int categoryId);
+        List<ProductCategory> GetChildCategories(long categoryId);
 
-        List<ProductCategory> GetAllChildCorporateCatalogByTerritory(int customerId, int ContactId, int ParentCatId);
+        List<ProductCategory> GetAllChildCorporateCatalogByTerritory(long customerId, long ContactId, long ParentCatId);
 
         string[] CreatePageMetaTags(string MetaTitle, string metaDesc, string metaKeyword, StoreMode mode,string StoreName, Address address = null);
 
         Address GetDefaultAddressByStoreID(Int64 StoreID);
 
-        List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(int ProductCategoryID);
+        List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(long ProductCategoryID);
         void GetStoreFromCache(long companyId, bool clearcache);
 
         ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId);

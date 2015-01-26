@@ -41,13 +41,16 @@ namespace MPC.Webstore.Controllers
         // GET: News
         public ActionResult Index()
         {
-            Company model = null;
+            MPC.Models.DomainModels.Company model = null;
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+         //   MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
 
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
 
-            if (baseResponse.Company != null)
+            if (StoreBaseResopnse.Company != null)
             {
-                model = baseResponse.Company;
+                model = StoreBaseResopnse.Company;
             }
 
             if (UserCookieManager.StoreMode == (int)StoreMode.Corp && _myClaimHelper.loginContactID() == 0)
