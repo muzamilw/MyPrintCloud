@@ -138,7 +138,7 @@ namespace MPC.Implementation.WebStoreServices
                      MPC.Repository.Repositories.CostCentreExecution obj = new MPC.Repository.Repositories.CostCentreExecution();
                      CostCentreQuestion ovariable = obj.LoadQuestion(Convert.ToInt32(QuestionID));
 
-                     QuestionItem = new QuestionQueueItem(QuestionID, ovariable.QuestionString, CostCentreID, ovariable.Type.Value, ovariable.QuestionString, ovariable.DefaultAnswer, "", false, 0, 0, 0, 0, 0, ovariable.AnswerCollection);
+                     QuestionItem = new QuestionQueueItem(QuestionID, ovariable.QuestionString, CostCentreID, ovariable.Type.Value, ovariable.QuestionString, ovariable.DefaultAnswer, "", false, 0, 0, 0, 0, 0, 0,0,ovariable.AnswerCollection);
                      
                      if (QuestionQueue != null) 
                      {
@@ -243,7 +243,7 @@ namespace MPC.Implementation.WebStoreServices
                      //loading the Questions Information for populating in the Queue
                      MPC.Repository.Repositories.CostCentreExecution obj = new MPC.Repository.Repositories.CostCentreExecution();
                      CostCentreMatrix oMatrix = obj.GetMatrix(MatrixID);
-                     QuestionItem = new QuestionQueueItem(MatrixID, oMatrix.Name, CostCentreID, 4, oMatrix.Description, "", "", false, 0);
+                     QuestionItem = new QuestionQueueItem(MatrixID, oMatrix.Name, CostCentreID, 4, oMatrix.Description, "", "", false, 0,0,0,0,0,oMatrix.RowsCount,oMatrix.ColumnsCount);
                      QuestionQueue.Add(QuestionItem);
                      oMatrix = null;
 
