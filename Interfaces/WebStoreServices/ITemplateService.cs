@@ -13,7 +13,7 @@ namespace MPC.Interfaces.WebStoreServices
     {
         Template GetTemplate(long productID);
 
-        Template GetTemplateInDesigner(long productID, long categoryIdv2, double height, double width, long organisationId);
+        Template GetTemplateInDesigner(long productID, long categoryIdv2, double height, double width, long organisationId, long itemId);
 
         List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID);
         string GetTemplateNameByTemplateID(long tempID);

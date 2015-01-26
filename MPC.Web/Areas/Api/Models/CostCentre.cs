@@ -12,7 +12,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string Name { get; set; }
         public int Type { get; set; }
         public string TypeName { get; set; }
-
+        public string Description { get; set; }
         public int? CreatedBy { get; set; }
         public string LockedBy { get; set; }
         public string LastModifiedBy { get; set; }
@@ -135,5 +135,6 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? isFromMIS { get; set; }
         public string XeroAccessCode { get; set; }
         public long? OrganisationId { get; set; }
+       
     }
 }

@@ -56,7 +56,7 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-                lstParentCategories = _myCompanyService.GetStoreParentCategories(UserCookieManager.StoreId);
+                lstParentCategories = _myCompanyService.GetStoreParentCategories(UserCookieManager.StoreId, UserCookieManager.OrganisationID);
             }
 
             return PartialView("PartialViews/ParentCategories", lstParentCategories);

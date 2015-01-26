@@ -99,31 +99,29 @@ function b1(selectId, value, text, id) {
 }
 
 function b4(imgSrc) {
+
     IW = 150;
     IH = 150;
     var he = Template.PDFTemplateHeight;
     var wd = Template.PDFTemplateWidth;
     $.each(LiImgs, function (i, IT) {
-        if (imgSrc.indexOf(IT.BackgroundImageRelativePath) != -1) {
+        
+        if (imgSrc.indexOf(IT.ImageName) != -1) {
+            console.log(IT);
             IW = IT.ImageWidth;
             IH = IT.ImageHeight;
-            if (parseInt(IW) < 50) {
-                IW = 50;
-            }
-            if (parseInt(IH) < 50) {
-                IH = 50;
-            }
-            if (IW > wd) {
-                wd = wd / 2;
-                ratio = wd / IW;
+            if (he > wd)
+            {
+                ratio = (wd - 50) / IW;
+                IW = wd - 50;
                 IH = IH * ratio;
+            } else
+            {
+                ratio = (he - 50) / IH;
+                IH = he - 50;
                 IW = IW * ratio;
             }
-            if (IH > he) {
-                he = he / 2;
-                ratio = he / IH;
-                IW = IW * ratio;
-            }
+         
             return;
         }
     });
@@ -724,24 +722,43 @@ function d5(pageID, isloading) {
                 canvas.renderAll(); //StopLoader();
             });
             canvas.backgroundColor = "#ffffff";
-
+            console.log(IT.Height + " " + IT.Width);
             if (IT.Orientation == 1) {
-                canvas.setHeight(Template.PDFTemplateHeight * dfZ1l);
-                canvas.setWidth(Template.PDFTemplateWidth * dfZ1l);
+                if (IT.Height != null && IT.Height != 0) {
+                    canvas.setHeight(IT.Height * dfZ1l);
+                } else {
+                    canvas.setHeight(Template.PDFTemplateHeight * dfZ1l);
+                }
+                if (IT.Width != null && IT.Width != 0) {
+                    canvas.setWidth(IT.Width * dfZ1l);
+                } else {
+                    canvas.setWidth(Template.PDFTemplateWidth * dfZ1l);
+                }
+                
             }
             else {
-                canvas.setHeight(Template.PDFTemplateWidth * dfZ1l);
-                canvas.setWidth(Template.PDFTemplateHeight * dfZ1l);
+                if (IT.Width != null && IT.Width != 0) {
+                    canvas.setHeight(IT.Width * dfZ1l);
+                } else {
+                    canvas.setHeight(Template.PDFTemplateWidth * dfZ1l);
+                }
+                if (IT.Height != null && IT.Height != 0) {
+                    canvas.setWidth(IT.Height * dfZ1l);
+                } else {
+                    canvas.setWidth(Template.PDFTemplateHeight * dfZ1l);
+                }
+                
+                
             }
             $(".page").css("height", ((Template.PDFTemplateHeight * dfZ1l) + 20) + "px");
             $(".page").css("width", ((Template.PDFTemplateWidth * dfZ1l) + 0) + "px");
-            var val = $("#canvaDocument").width() - $(".page").width();
+            var val = $("#canvasDocument").width() - $(".page").width();
             val = val / 2;
             if (val < 0) val = 20;
             $(".page").css("left", val + "px");
-            //$(".page").css("left", (($("#canvaDocument").width() - $(".page").width()) / 2) + "px");
+            //$(".page").css("left", (($("#canvasDocument").width() - $(".page").width()) / 2) + "px");
             //$("#addNewPage").css("top", (Template.PDFTemplateHeight + 150) + "px");
-            //$("#addNewPage ").css("left", (($("#canvaDocument").width() - $("#addNewPage").width()) / 2) + "px");
+            //$("#addNewPage ").css("left", (($("#canvasDocument").width() - $("#addNewPage").width()) / 2) + "px");
             if (IT.BackgroundFileName != "") {
 
                 if (IT.BackGroundType == 3) {
@@ -1123,7 +1140,7 @@ function fu02UI() {
     $(".LargePreviewer").dialog("option", "draggable", false);
     $(".LargePreviewerIframe").css("width", $(window).width() - 70);
     $(".LargePreviewerIframe").css("height", $(window).height() - 80);
-    $("#canvaDocument").scroll(function () {
+    $("#canvasDocument").scroll(function () {
         canvas.calcOffset();
     });
     $(".add").draggable({
@@ -1354,7 +1371,7 @@ function fu02() {
     canvas.on('object:out', function (e) {
         if (e.TG.IsQuickText == true && e.TG.type == 'image') {
             $("#placeHolderTxt").css("visibility", "hidden");
-        }
+        } 
     });
 
     //    canvas.observe('mouse:down', onMouseDown);
@@ -1378,13 +1395,14 @@ function fu02() {
         pcL36('hide', '#divImgPropPanelRetail , #divTxtPropPanelRetail ,#DivColorPickerDraggable ');
         $("#sortableLayers li").removeClass("selectedItemLayers");
 
+
     });
 }
 
 function fu04_callBack(DT) {
     Template = DT;
     tID = Template.ProductId;
-    $("#txtTemplateTitle").val(Template.ProductName);
+  //  $("#txtTemplateTitle").val(Template.ProductName);
     $.each(Template.TemplatePages, function (i, IT) {
         TP.push(IT);
     });
@@ -1398,8 +1416,26 @@ function fu04_callBack(DT) {
     fu04_01();
     fu14();
     b3_1();
+    b3_lDimensions();
 }
-
+function b3_lDimensions() {
+    var w = Template.PDFTemplateWidth;
+    var h = Template.PDFTemplateHeight;
+    h = h / 96 * 72;
+    w = w / 96 * 72;
+    h = h / 2.834645669;
+    w = w / 2.834645669;
+    w = w.toFixed(3);
+    h = h.toFixed(3);
+    h = h - 10;
+    w = w - 10;
+ //   w = w * Template.ScaleFactor;
+  //  h = h * Template.ScaleFactor;
+    //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
+    $(".dimentionsBC").html("Trim size -" + " " + w + " (w) *  " + h + " (h) mm");
+  //  $(".dimentionsBC").append("<br /><span class='spanZoomContainer'> Zoom - " + D1CS * 100 + " % </span>");
+ //   $(".zoomToolBar").html(" Zoom " + Math.floor(D1CS * 100) + " % ");
+}
 function fu05_svcCall(DT) {
     $.each(DT, function (i, IT) {
         fu05_ClHtml(IT.ColorC, IT.ColorM, IT.ColorY, IT.ColorK, IT.SpotColor, IT.IsColorActive, IT.PelleteID);
@@ -1570,7 +1606,7 @@ function fu06_SvcCallback(DT, fname) {
     }).bind('slimscrolling', function (e, pos) {
         canvas.calcOffset();
     });
-    $("#canvaDocument").css("width", $(window).width() - 430);
+    $("#canvasDocument").css("width", $(window).width() - 430);
     d5(TP[0].ProductPageID, true);
 }
 function fu07() {
@@ -1608,27 +1644,9 @@ function fu09_SvcCallBack(DT) {
     if (DT != "") {
         tcListCc++;
         // load image size 
-        if (tcListCc == 1) {
-            for (var line in DT[0]) {
-                var html = '<span id="demotestcsss" class="templateGallerylist"><a  >' +
-                              '<img src="' + V2Url + '/designer/products/' + line + '/TemplateThumbnail1.jpg' + '" class="imgsdtsss"> </a></span>'
 
-                $(".templateListUL").append(html);
-                $("img.imgsdtsss").load(function () {
-                    var height = $(this).height();
-                    tcImHh = height + 10;
-                    //  tcImThh = tcImHh;
-                    tcRowCount = 0;
-                    fu09_1(DT); $("#demotestcsss").remove();
-                }).error(function () {
-                    tcRowCount = 0;
-                    fu09_1(DT); $("#demotestcsss").remove();
-                });
-
-            }
-        } else {
             fu09_1(DT);
-        }
+        
     } else {
         tcAllcc = true;
         stopInlineLoader();
@@ -1636,24 +1654,27 @@ function fu09_SvcCallBack(DT) {
 }
 function fu09_1(DT) {
 
-    $.each(DT, function (key, val) {
-        for (var line in val) {
-            //tcRowCount++;
-            //if (tcRowCount % 2 !=0 &&   tcRowCount != 1) {
-            //    tcImThh += tcImHh;
-            //}
-            //var top = tcImThh;
-            //var left = tcLltemp * 200
-
-            var html = '<span class="templateGallerylist"><a title="' + val[line] + '" onClick="fu10(this,' + line + ')">' +
-                  '<img src="' + V2Url + '/designer/products/' + line + '/TemplateThumbnail1.jpg' + '" class="imgs' + line + '"> </a></span>'
+    $.each(DT, function (key, item) {
+     
+        var className = "landscapeTemplate";
+        if (item.Orientation == 1 && (item.PDFTemplateHeight > item.PDFTemplateWidth)) {// portrait height > width
+            className = "portraitTemplate";
+        }
+        else if (item.Orientation == 1 && (item.PDFTemplateHeight <= item.PDFTemplateWidth)) {// portrait height < width
+          //  className = "";
+        }
+        else if (item.Orientation == 2 && (item.PDFTemplateHeight > item.PDFTemplateWidth)) {// landscap height > width
+          //  className = "";
+        }
+        else if (item.Orientation == 2 && (item.PDFTemplateHeight <= item.PDFTemplateWidth)) {// landscap height > width
+            className = "portraitTemplate";
+        }
+        var html = '<span class="templateGallerylist"><a title="' + item.ProductName + '" onClick="fu10(this,' + item.ProductID + ')" class="'+className+'">' +
+                  '<img src="' + V2Url + '/designer/products/' + item.ProductID + '/TemplateThumbnail1.jpg' + '" class="imgs' + item.ProductID + '"> </a></span>'
 
             $(".templateListUL").append(html);
-            // tcLltemp++;
-            //tcRowCount = tcRowCount + 0.50;
-            //var csHe = tcImThh + tcImHh + 10;
-            //$(".resultLayoutsScroller .inner").css("height", csHe + "px");
-        }
+
+     
 
     });
     stopInlineLoader(); tcAllcc = false;
@@ -3171,7 +3192,7 @@ function k26(id, n, m) {
     imgLoaderSection = m;
     var imToLoad = parseInt(id);
     var tp = $("#selectedTab").css("top");
-    $("#objectPanel").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage8").removeClass("stage7").addClass("stage7");
+    $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage8").removeClass("stage7").addClass("stage7");
 
     //   $(".stage7 #selectedTab").css("top", tp);
     $(".ImageContainer").css("display", "none");

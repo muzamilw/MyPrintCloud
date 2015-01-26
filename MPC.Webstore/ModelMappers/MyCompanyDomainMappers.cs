@@ -44,17 +44,9 @@ namespace MPC.Webstore.ModelMappers
                 Organisation = source.Organisation.CreateFrom()
             };
         }
-        public static ApiResponse.MyCompanyDomainBaseResponse CreateFromWiget(this DomainResponse.MyCompanyDomainBaseReponse source)
-        {
-            return new ApiResponse.MyCompanyDomainBaseResponse
-            {
-                
-                CmsSkinPageWidgets = source.CmsSkinPageWidgets.Select(cpw => cpw.CreateFrom()).ToList(),
-                
-                SystemPages = source.SystemPages.Select(page => page.CreateFrom()).ToList(),
-               
-            };
-        }
+
+
+      
 
         public static ApiResponse.MyCompanyDomainBaseResponse CreateFromBanner(this DomainResponse.MyCompanyDomainBaseReponse source)
         {

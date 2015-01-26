@@ -7,7 +7,7 @@
 @if (Model != null)
 {
     <div id="PageBanner">
-        
+
         <img id="imgPageBanner" src="@Html.GetAppBasePath()@Model.PageBanner" />
     </div>
     <div id="SecondryPageMainContent">
@@ -19,7 +19,7 @@
                             <label id="ltlHeading">@Model.PageName</label>
                         </h1>
                         <div class="paddingLeft10px">
-                            <label id="lblPageContents">@Model.PageHTML</label>
+                            <label id="lblPageContents">@Html.Raw(Model.PageHTML)</label>
                         </div>
                     </div>
                 </div>
@@ -31,4 +31,5 @@
     </div>
 
 }
+
 

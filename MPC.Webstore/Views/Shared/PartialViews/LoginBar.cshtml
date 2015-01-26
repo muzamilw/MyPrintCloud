@@ -13,17 +13,17 @@
         {
             <div id="loginbarCon" class="login_bar float_right col-sm-6 col-md-6 col-lg-6 col-xs-12" style="padding-right: 0px !important;">
                 <ul id="menu-my-account" class="navM">
-                    <li style="margin-right: 0px !important;">
-                        <a href="/Login.aspx"><i class="fa fa-user usercolorSize"></i></a>
-                        <a href="/Signup.aspx"><i class="fa fa-unlock usercolorSize"></i></a>
+                    <li style="margin-right: 0px !important;" class="classicthemeLoginMenu">
+                        <a href="/Login"><i class="fa fa-user usercolorSize"></i></a>
+                        <a href="/Signup"><i class="fa fa-unlock usercolorSize"></i></a>
                     </li>
                     <li class="sub PinkBtnMyAccS6">
-                        <a id="lnkLogin" href="/Login" class="lnkSignInCs" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.StoreId)) SignIn/Register</a>
+                        <a id="lnk_SignInRegisteration" href="/Login" class="lnkSignInCs" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkLogin", UserCookieManager.StoreId))</a>
                     </li>
                     <li class="ZeroRightMargin BlackBtnCS">
-                        <a href="/ShopCart" class="top_sub_section_links hyperlinkCart ">
+                        <a href="/ShopCart" onclick="ShowLoader();" class="top_sub_section_links hyperlinkCart ">
                             <i class="fa fa-shopping-cart cartcolorSize classicthemeLoginMenu"></i>
-                            <span class="carttxtcolorSize classicthemeLoginMenu">@Html.Raw(Html.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.StoreId))<</span>
+                            <span id="lbl_ShoppingCart" class="carttxtcolorSize classicthemeLoginMenu">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleShopCart", UserCookieManager.StoreId))</span>
                             <div class="lblCartCounter" id="lblCartCount">
                             </div>
                         </a>
@@ -44,14 +44,14 @@
                     <li class="liMarginRight">
 
                         <div class="ProfileSetingbtn">
-                            <a href="/Dashboard" class="top_sub_section_links hyperlinkCart">
+                            <a href="/Dashboard" class="top_sub_section_links hyperlinkCart" onclick="ShowLoader();">
 
                             </a>
                         </div>
                     </li>
                     <li class="liMarginRight">
                         <div class="SavedDesignBtn">
-                            <a href="#" class="top_sub_section_links hyperlinkCart">
+                            <a href="#" class="top_sub_section_links hyperlinkCart" onclick="ShowLoader();">
                                 <div class="lblSDCounter" id="lblSavedDesignCount">
                                 </div>
                             </a>
@@ -60,7 +60,7 @@
                     <li class="liMarginRight">
 
                         <div class="CartBtn">
-                            <a href="/ShopCart" class="top_sub_section_links hyperlinkCart">
+                            <a href="/ShopCart" class="top_sub_section_links hyperlinkCart" onclick="ShowLoader();">
                                 <div class="lblItemsCartCounter" id="lblCartCounter">
                                 </div>
                             </a>

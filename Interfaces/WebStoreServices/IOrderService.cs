@@ -56,11 +56,18 @@ namespace MPC.Interfaces.WebStoreServices
 
         Country GetCountryByID(long CountryID);
 
-        //bool UpdateOrderWithDetailsToConfirmOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Address billingAdd, Address deliveryAdd, double grandOrderTotal,
-        //                                     string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde, long BrokerContactCompanyID);
+        void updateTaxInCloneItemForServic(long orderId, double TaxValue, StoreMode Mode);
 
 
+        bool UpdateOrderWithDetailsToConfirmOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Address billingAdd, Address deliveryAdd, double grandOrderTotal,
+                                             string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde, long BrokerContactCompanyID);
 
+        double UpdateORderGrandTotal(long OrderID);
+
+        bool SaveDilveryCostCenter(long orderId, CostCentre ChangedCostCenter);
+
+       
+        bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode);
 
     }
 }

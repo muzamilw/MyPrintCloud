@@ -1478,6 +1478,7 @@
     <Content Include="Content\less\Inventory.less" />
     <Content Include="Areas\Stores\Views\Stores\_ItemsForWidgetDialog.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_StoreProductCategoryDialog.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\LookupMethods.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
@@ -1515,9 +1516,6 @@
     <Content Include="Scripts\jquery-2.1.0.js" />
     <Content Include="Scripts\jquery-2.1.0.min.js" />
     <Content Include="Scripts\jquery-2.1.0.min.map" />
-    <Content Include="Scripts\jquery-ui-1.10.4.min.js.map">
-      <DependentUpon>jquery-ui-1.10.4.min.js</DependentUpon>
-    </Content>
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.10.4.js" />
     <Content Include="Scripts\jquery-ui-1.10.4.min.js" />

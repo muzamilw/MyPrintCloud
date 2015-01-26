@@ -22,8 +22,8 @@ define("costcenter/costcenter.viewModel",
                     pager = ko.observable(),
                     //Search Filter
                     searchFilter = ko.observable(),
-                    editorViewModel = new ist.ViewModel(model.CostCenter),
-                    selectedCostCenter = editorViewModel.itemForEditing,
+                    isEditorVisible = ko.observable(),
+                    selectedCostCenter = ko.observable(),
                     templateToUse = function(ocostCenter) {
                         return (ocostCenter === selectedCostCenter() ? 'editCostCenterTemplate' : 'itemCostCenterTemplate');
                     },
@@ -142,9 +142,23 @@ define("costcenter/costcenter.viewModel",
                         });
                     },
                     //On Edit Click Of Cost Center
-                    onEditItem = function(item) {
-                        editorViewModel.selectItem(item);
-                        openEditDialog();
+                    onEditItem = function (oCostCenter) {
+                        errorList.removeAll();
+                       // selectedCostCenter(oCostCenter);
+                        dataservice.getCostCentreById({
+                            id: oCostCenter.costCentreId(),
+                        }, {
+                            success: function (data) {
+                                if (data != null) {
+                                    selectedCostCenter(model.costCenterClientMapper(data));
+                                    selectedCostCenter().reset();
+                                    showCostCenterDetail();
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to load Detail . Error: ");
+                            }
+                        });
                     },
                     openEditDialog = function() {
                         view.showCostCenterDialog();
@@ -152,13 +166,23 @@ define("costcenter/costcenter.viewModel",
                     closeEditDialog = function () {
                         if (selectedCostCenter() != undefined) {
                             if (selectedCostCenter().costCenterId() > 0) {
+                                isEditorVisible(false);
                                 view.hideCostCenterDialog();
                             } else {
+                                isEditorVisible(false);
                                 view.hideCostCenterDialog();
                                 costCentersList.remove(selectedCostCenter());
                             }
                             editorViewModel.revertItem();
                         }
+                    },
+                    // close CostCenter Editor
+                    closeCostCenterDetail = function () {
+                        isEditorVisible(false);
+                    },
+                    // Show CostCenter Editor
+                    showCostCenterDetail = function () {
+                        isEditorVisible(true);
                     },
                     // #region Observables
                     // Initialize the view model
@@ -190,9 +214,11 @@ define("costcenter/costcenter.viewModel",
                     openEditDialog: openEditDialog,
                     closeEditDialog: closeEditDialog,
                     searchFilter: searchFilter,
-                    editorViewModel: editorViewModel,
                     onEditItem: onEditItem,
                     initialize: initialize,
+                    isEditorVisible: isEditorVisible,
+                    closeCostCenterDetail: closeCostCenterDetail,
+                    showCostCenterDetail: showCostCenterDetail
                 };
             })()
         };

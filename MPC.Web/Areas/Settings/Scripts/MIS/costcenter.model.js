@@ -7,6 +7,7 @@
             name = ko.observable(),
             description = ko.observable().extend({ required: true }),
             type = ko.observable().extend({ required: true }),
+            typeName = ko.observable(),
             createdBy = ko.observable(),
             lockedBy = ko.observable().extend({ required: true }),
             lastModifiedBy = ko.observable().extend({ required: true }),
@@ -116,7 +117,8 @@
             costCentreId: costCentreId,
             name: name,
         description:description,
-        type:type,
+        type: type,
+        typeName:typeName,
         createdBy:createdBy,
         lockedBy:lockedBy,
         lastModifiedBy:lastModifiedBy,
@@ -219,6 +221,7 @@
         oCostCenter.name(source.Name);
         oCostCenter.description(source.Description);
         oCostCenter.type(source.Type);
+        oCostCenter.typeName(source.TypeName);
         oCostCenter.createdBy(source.createdBy);
         oCostCenter.lockedBy(source.LockedBy);
         oCostCenter.lastModifiedBy(source.LastModifiedBy);

@@ -17,6 +17,7 @@ using MPC.Webstore.ModelMappers;
 using MPC.Webstore.ResponseModels;
 using System.Runtime;
 using MPC.Models.Common;
+using System.Runtime.Caching;
 namespace MPC.Webstore.Controllers
 {
     public class LoginController : Controller
@@ -60,9 +61,13 @@ namespace MPC.Webstore.Controllers
         // GET: Login
         public ActionResult Index(string FirstName, string LastName, string Email, string ReturnURL)
         {
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
 
-            if ((baseResponse.Company.IsCustomer == (int)CustomerTypes.Corporate && baseResponse.Company.isAllowRegistrationFromWeb == true) || (baseResponse.Company.IsCustomer == 1))
+           
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+
+            if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate && StoreBaseResopnse.Company.isAllowRegistrationFromWeb == true) || (StoreBaseResopnse.Company.IsCustomer == 1))
             {
                 ViewBag.AllowRegisteration = 1;
             }
@@ -74,7 +79,7 @@ namespace MPC.Webstore.Controllers
                 ViewBag.ReturnURL = "Social";
             else  
                 ViewBag.ReturnURL = ReturnURL;
-       
+            StoreBaseResopnse = null;
             if (!string.IsNullOrEmpty(FirstName))
             {
                 string returnUrl = string.Empty;
@@ -83,7 +88,7 @@ namespace MPC.Webstore.Controllers
 
                 if (!string.IsNullOrEmpty(Email))
                 {
-                    user = _myCompanyService.GetContactByEmail(Email);
+                    user = _myCompanyService.GetContactByEmail(Email,StoreBaseResopnse.Organisation.OrganisationId);
                 }
                 else
                 {
@@ -111,15 +116,15 @@ namespace MPC.Webstore.Controllers
         {
 
             string returnUrl = string.Empty;
-
-           
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
 
             if (ModelState.IsValid)
             {
                 CompanyContact user =  null;
-                 MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-
-                 if ((baseResponse.Company.IsCustomer == (int)CustomerTypes.Corporate))
+                 //MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+                 MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+                 if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate))
                  {
                      user = _myCompanyService.GetCorporateUserByEmailAndPassword(model.Email, model.Password, UserCookieManager.StoreId);
                  }
@@ -128,7 +133,7 @@ namespace MPC.Webstore.Controllers
                      user = _myCompanyService.GetRetailUser(model.Email, model.Password);
                  }
 
-                 
+                 StoreBaseResopnse = null;
                 if (user != null)
                 {
                     if (model.KeepMeLoggedIn)

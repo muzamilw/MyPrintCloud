@@ -12,18 +12,18 @@ namespace MPC.Models.Common
         public long ContactId { get; set; }
         public long CompanyId { get; set; }
         public int EstimateID { get; set; }
-        public int ItemID { get; set; }
+        public long ItemID { get; set; }
         public int BrokerID { get; set; }
         public Int64 StoreID { get; set; }
         public Int64 SalesManagerContactID { get; set; }
         public int ApprovarID { get; set; }
         public int BrokerContactID { get; set; }
         public int SystemUserID { get; set; }
-        public int CorporateManagerID { get; set; }
+        public long CorporateManagerID { get; set; }
         public int RegistrationID { get; set; }
         public int SubscriberID { get; set; }
         public int MarketingID { get; set; }
-        public int CompanySiteID { get; set; }
+        public long CompanySiteID { get; set; }
         public int InquiryID { get; set; }
         public int orderedItemID { get; set; }
         public int ID { get; set; }// report notes id

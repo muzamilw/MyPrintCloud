@@ -319,25 +319,67 @@ namespace MPC.Implementation.WebStoreServices
             }
         }
 
-        //public bool UpdateOrderWithDetailsToConfirmOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Address billingAdd, Address deliveryAdd, double grandOrderTotal,
-        //                                     string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde, long BrokerContactCompanyID)
-        //{
-        //    try
-        //    {
-        //         Estimate order =  _OrderRepository.GetOrderByID(orderID);
-        //        if(order != null)
-        //        {
-        //            _AddressRepository.UpdateAddress(billingAdd, deliveryAdd, order.CompanyId);
-        //            Prefix prefix =  _prefixRepository.GetDefaultPrefix();
-        //            _OrderRepository.UpdateOrderWithDetailsToConfirmOrder(orderID, loggedInContactID, orderStatus, billingAdd, deliveryAdd, grandOrderTotal, yourReferenceNumber, specialInsTel, specialInsNotes, isCorpFlow, CurrntStoreMde, BrokerContactCompanyID, order, prefix);
-        //        }
-                 
+        public void updateTaxInCloneItemForServic(long orderId, double TaxValue, StoreMode Mode)
+        {
+            try
+            {
+                _OrderRepository.updateTaxInCloneItemForServic(orderId, TaxValue, Mode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool UpdateOrderWithDetailsToConfirmOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Address billingAdd, Address deliveryAdd, double grandOrderTotal,
+                                             string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde, long BrokerContactCompanyID)
+        {
+            try
+            {
+                Estimate Objorder = _OrderRepository.GetOrderByID(orderID);
+                if (Objorder != null)
+                {
+                    _AddressRepository.UpdateAddress(billingAdd, deliveryAdd, Objorder.CompanyId);
+                    Prefix prefix = _prefixRepository.GetDefaultPrefix();
+                    return _OrderRepository.UpdateOrderWithDetailsToConfirmOrder(orderID, loggedInContactID, orderStatus, billingAdd, deliveryAdd, grandOrderTotal, yourReferenceNumber, specialInsTel, specialInsNotes, isCorpFlow, CurrntStoreMde, BrokerContactCompanyID, Objorder, prefix);
+                }
+                else
+                {
+                    return false;
+                }
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode)
+        {
+             return _OrderRepository.UpdateOrderAndCartStatus(OrderID, orderStatus, currentStoreMode);
+        }
+        public double UpdateORderGrandTotal(long OrderID)
+        {
+            try
+            {
+                return _OrderRepository.UpdateORderGrandTotal(OrderID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool SaveDilveryCostCenter(long orderId, CostCentre ChangedCostCenter)
+        {
+            try
+            {
+                return _OrderRepository.SaveDilveryCostCenter(orderId, ChangedCostCenter);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }
