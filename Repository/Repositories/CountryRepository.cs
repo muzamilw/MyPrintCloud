@@ -75,6 +75,23 @@ namespace MPC.Repository.Repositories
         {
             return db.Countries.Where(s => s.CountryId == CountryId).Select(n => n.CountryName).FirstOrDefault();
         }
+        public string GetCountryCodeById(long countryId)
+        {
+
+            try
+            {
+               
+                    return db.Countries.Where(a => a.CountryId == countryId).Select(c => c.CountryCode).FirstOrDefault();
+
+               
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         #endregion
     }
 }

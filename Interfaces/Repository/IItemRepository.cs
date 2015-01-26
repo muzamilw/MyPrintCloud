@@ -17,12 +17,12 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         ItemSearchResponse GetItems(ItemSearchRequestModel request);
 
-        List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(int ProductCategoryID);
+        List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(long ProductCategoryID);
 
         ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId);
 
         List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId);
-        Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID);
+        Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID);
 
         Item GetItemById(long RefitemId);
 
@@ -61,6 +61,15 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         List<Item> GetItemsForWidgets();
          Item GetItemByOrderID(long OrderID);
+          List<Item> GetItemsByOrderID(long OrderID);
          string SaveDesignAttachments(long templateID, long itemID, long customerID, string DesignName, string caller, long organisationId);
+         Item GetClonedItemById(long itemId);
+         long GetFirstItemIdByOrderId(long orderId);
+
+         List<Item> GetListOfDeliveryItemByOrderID(long OID);
+
+         bool RemoveListOfDeliveryItemCostCenter(long OrderId);
+
+         bool AddUpdateItemFordeliveryCostCenter(long orderId, long DeliveryCostCenterId, double DeliveryCost, long customerID, string DeliveryName, StoreMode Mode, bool isDeliveryTaxable, bool IstaxONService, double GetServiceTAX, double TaxRate);
     }
 }

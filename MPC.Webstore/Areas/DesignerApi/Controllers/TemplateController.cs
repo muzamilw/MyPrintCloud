@@ -12,6 +12,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Web.Http;
+using MPC.Webstore.ModelMappers;
 
 namespace MPC.Webstore.Areas.DesignerApi.Controllers
 {
@@ -21,6 +22,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
 
         private readonly ITemplateService templateService;
         private readonly IItemService itemService;
+        private readonly ICompanyService _myCompanyService;
         #endregion
         #region Constructor
 
@@ -28,9 +30,10 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         /// Constructor
         /// </summary>
         /// <param name="companyService"></param>
-        public TemplateController(ITemplateService templateService,IItemService itemService)
+        public TemplateController(ITemplateService templateService, IItemService itemService, ICompanyService myCompanyService)
         {
             this.templateService = templateService;
+            this._myCompanyService = myCompanyService;
             this.itemService = itemService;
         }
 
@@ -42,10 +45,10 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// templateid, categoryIDv2,tempHMM,tempWMM,organisationId
-        public HttpResponseMessage GetTemplate(long parameter1, long parameter2, double parameter3, double parameter4,long parameter5)
+        /// templateid, categoryIDv2,tempHMM,tempWMM,organisationId,itemId
+        public HttpResponseMessage GetTemplate(long parameter1, long parameter2, double parameter3, double parameter4,long parameter5,long parameter6)
         {
-            var template = templateService.GetTemplateInDesigner(parameter1, parameter2, parameter3, parameter4, parameter5);
+            var template = templateService.GetTemplateInDesigner(parameter1, parameter2, parameter3, parameter4, parameter5, parameter6);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;
@@ -84,7 +87,17 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         [HttpPost]
         public HttpResponseMessage Preview([FromBody]  DesignerPostSettings obj)
         {
-            var result = templateService.GenerateProof(obj);
+            double bleedAreaSize = 0;
+            MyCompanyDomainBaseResponse response = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
+            if(response != null)
+            {
+                var org = response.Organisation;
+                if(org != null && org.BleedAreaSize != null)
+                {
+                    bleedAreaSize = org.BleedAreaSize.Value;
+                }
+            }
+            var result = templateService.GenerateProof(obj,bleedAreaSize);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;

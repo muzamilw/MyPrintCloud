@@ -25,7 +25,7 @@ namespace MPC.Repository.Repositories
         }
 
 
-        public List<ProductCategory> GetParentCategoriesByStoreId(long companyId)
+        public List<ProductCategory> GetParentCategoriesByStoreId(long companyId, long OrganisationId)
         {
 
             return db.ProductCategories.Where(
@@ -63,7 +63,7 @@ namespace MPC.Repository.Repositories
                 p => p.CompanyId == companyId && (p.isArchived == false || p.isArchived == null) && p.isPublished == true && p.isEnabled == true ).ToList();
         }
 
-        public ProductCategory GetCategoryById(int categoryId)
+        public ProductCategory GetCategoryById(long categoryId)
         {
             List<ProductCategory> LstCategories = this.GetPublicCategories(); //get all the categories
             ProductCategory objCategory = LstCategories.Find(category => category.ProductCategoryId == categoryId);
@@ -76,7 +76,7 @@ namespace MPC.Repository.Repositories
         
         }
 
-        public List<ProductCategory> GetChildCategories(int categoryId)
+        public List<ProductCategory> GetChildCategories(long categoryId)
         {
            
                 List<ProductCategory> childCategoresList =  db.ProductCategories.Where(category => category.ParentCategoryId.HasValue && category.ParentCategoryId.Value == categoryId && category.isArchived == false && category.isEnabled == true && category.isPublished == true).ToList();
@@ -85,7 +85,7 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public List<ProductCategory> GetAllChildCorporateCatalogByTerritory(int customerId, int ContactId, int ParentCatId)
+        public List<ProductCategory> GetAllChildCorporateCatalogByTerritory(long customerId, long ContactId, long ParentCatId)
         {
                 var query = (from product in db.ProductCategories
                              join CT in db.CategoryTerritories on product.ParentCategoryId equals CT.ProductCategoryId

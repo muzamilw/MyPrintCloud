@@ -20,7 +20,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Width = source.Width,
                 Height = source.Height,
                 PageName = source.PageName,
-                PageNo = source.PageNo
+                PageNo = source.PageNo,
+                Orientation = source.Orientation
             };
         }
 
@@ -36,7 +37,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Width = source.Width,
                 Height = source.Height,
                 PageName = source.PageName,
-                PageNo = source.PageNo
+                PageNo = source.PageNo,
+                Orientation = source.Orientation
             };
         }
 

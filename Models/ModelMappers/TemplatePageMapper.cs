@@ -29,6 +29,7 @@ namespace MPC.Models.ModelMappers
             target.Height = source.Height;
             target.PageName = source.PageName;
             target.PageNo = source.PageNo;
+            target.Orientation = source.Orientation;
         }
 
         #endregion

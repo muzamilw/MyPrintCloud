@@ -258,6 +258,7 @@
     <Compile Include="Areas\Api\ModelMappers\CmsOfferMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ColorPalleteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyDomainMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MediaLibraryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductCategoryItemMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PhraseFieldMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PhraseMapper.cs" />
@@ -375,6 +376,7 @@
     <Compile Include="Areas\Api\Models\ItemStateTax.cs" />
     <Compile Include="Areas\Api\Models\ItemStockOption.cs" />
     <Compile Include="Areas\Api\Models\ItemVideo.cs" />
+    <Compile Include="Areas\Api\Models\MediaLibrary.cs" />
     <Compile Include="Areas\Api\Models\PageCategory.cs" />
     <Compile Include="Areas\Api\Models\PageCategoryDropDown.cs" />
     <Compile Include="Areas\Api\Models\PaymentGateway.cs" />
@@ -1233,6 +1235,7 @@
     <Content Include="Scripts\Ace\lib\ace\ace.js" />
     <Content Include="Scripts\Ace\lib\ace\mode-css.js" />
     <Content Include="Scripts\Ace\lib\ace\theme-clouds.js" />
+    <Content Include="Scripts\Ace\lib\ace\theme-twilight.js" />
     <Content Include="Scripts\Ace\lib\ace\worker-css.js" />
     <Content Include="Scripts\knockout-ace.js" />
     <Content Include="Scripts\Ace\ace.js" />
@@ -1477,6 +1480,7 @@
     <Content Include="Content\less\Inventory.less" />
     <Content Include="Areas\Stores\Views\Stores\_ItemsForWidgetDialog.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_StoreProductCategoryDialog.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\LookupMethods.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
@@ -1514,9 +1518,6 @@
     <Content Include="Scripts\jquery-2.1.0.js" />
     <Content Include="Scripts\jquery-2.1.0.min.js" />
     <Content Include="Scripts\jquery-2.1.0.min.map" />
-    <Content Include="Scripts\jquery-ui-1.10.4.min.js.map">
-      <DependentUpon>jquery-ui-1.10.4.min.js</DependentUpon>
-    </Content>
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.10.4.js" />
     <Content Include="Scripts\jquery-ui-1.10.4.min.js" />
@@ -2668,16 +2669,14 @@
     <Folder Include="Content\themes\base\minified\images\" />
     <Folder Include="Models\" />
     <Folder Include="MPC_Content\Artworks\" />
+    <Folder Include="MPC_Content\Assets\" />
     <Folder Include="MPC_Content\Attachments\" />
     <Folder Include="MPC_Content\Categories\" />
-    <Folder Include="MPC_Content\CompanyBanners\" />
     <Folder Include="MPC_Content\CostCentres\" />
     <Folder Include="MPC_Content\Designer\" />
     <Folder Include="MPC_Content\Media\" />
     <Folder Include="MPC_Content\Organisations\" />
     <Folder Include="MPC_Content\Products\" />
-    <Folder Include="MPC_Content\SecondaryPages\" />
-    <Folder Include="MPC_Content\Stores\" />
     <Folder Include="Reports\" />
     <Folder Include="Scripts\Plugins\forms\tiny_mce\plugins\spellchecker\classes\utils\" />
     <Folder Include="Scripts\Plugins\forms\tiny_mce\plugins\spellchecker\includes\" />

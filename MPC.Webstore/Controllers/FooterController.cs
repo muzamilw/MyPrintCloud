@@ -12,7 +12,6 @@ using System.Web.Mvc;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
 using MPC.Webstore.Common;
-using MPC.Webstore.Models;
 using MPC.Models.Common;
 using MPC.Webstore.ResponseModels;
 using MPC.Webstore.ModelMappers;
@@ -44,15 +43,19 @@ namespace MPC.Webstore.Controllers
         // GET: Footer
         public ActionResult Index()
         {
-            MPC.Webstore.Models.Company model = null;
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+            MPC.Models.DomainModels.Company model = null;
 
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-            
-            if (baseResponse.Company != null)
+          //  MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+
+
+            if (StoreBaseResopnse.Company != null)
             {
-                model = baseResponse.Company;
+                model = StoreBaseResopnse.Company;
             }
-            long storeId = Convert.ToInt64(Session["storeId"]);
+            StoreBaseResopnse = null;
 
             //MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(storeId).CreateFromCompany();
 

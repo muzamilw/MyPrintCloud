@@ -742,6 +742,15 @@
     <script src="~/Content/themes/Centaurus/js/jquery.nestable.js"></script>
     <script src="~/Content/themes/Centaurus/js/jquery.nouislider.js"></script>
     @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+    var ist = window.ist;
+    @{
+        <text>
+    ist.siteUrl = '@(System.Configuration.ConfigurationManager.AppSettings["SiteURL"].ToString())';    
+    </text>
+    }
+    </script>
+
 </body>
 </html>
 

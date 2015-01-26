@@ -10,6 +10,7 @@ using MPC.Models.DomainModels;
 using MPC.Webstore.ResponseModels;
 using MPC.Webstore.ModelMappers;
 using MPC.Webstore.ViewModels;
+using System.Runtime.Caching;
 namespace MPC.Webstore.Controllers
 {
     public class ShopCartController : Controller
@@ -40,7 +41,9 @@ namespace MPC.Webstore.Controllers
         {
             long OrderId = 0;
             ShoppingCart shopCart = null;
-
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
             if (string.IsNullOrEmpty(optionalOrderId)) // check if parameter have order id
             {
                 if (UserCookieManager.OrderId == 0) // cookie contains order id
@@ -66,12 +69,11 @@ namespace MPC.Webstore.Controllers
             {
                 List<CostCentre> deliveryCostCentersList = null;
 
-                MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
-                MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-                MyCompanyDomainBaseResponse baseResponseOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
+              
 
+               
 
-                ViewBag.Currency = baseResponseCurrency.Currency;
+                ViewBag.Currency = StoreBaseResopnse.Currency;
 
 
                 int status = (int)OrderStatus.ShoppingCart;
@@ -104,12 +106,12 @@ namespace MPC.Webstore.Controllers
 
                 if (shopCart != null)
                 {
-                    BindGridView(shopCart, baseResponseCurrency, baseResponseCompany.Company.ShowPrices ?? false);
+                    BindGridView(shopCart, StoreBaseResopnse, StoreBaseResopnse.Company.ShowPrices ?? false);
 
                 }
                 ViewBag.OrderID = OrderId;
-                if (baseResponseCompany.Company.TaxRate != null)
-                    ViewBag.TaxRate = baseResponseCompany.Company.TaxRate;
+                if (StoreBaseResopnse.Company.TaxRate != null)
+                    ViewBag.TaxRate = StoreBaseResopnse.Company.TaxRate;
                 else
                     ViewBag.TaxRate = "N/A";
 
@@ -118,7 +120,7 @@ namespace MPC.Webstore.Controllers
                 //  MatchingSet1.Visible = false;
                 // no Redeem Voucher options AT ALL for corporate customers
 
-                if (baseResponseCompany.Company.ShowPrices ?? true)
+                if (StoreBaseResopnse.Company.ShowPrices ?? true)
                 {
                     ViewBag.IsShowPrices = true;
                     //do nothing because pricing are already visible.
@@ -130,10 +132,10 @@ namespace MPC.Webstore.Controllers
                 }
 
                 if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
-                    SetLastItemTemplateMatchingSets(shopCart, baseResponseOrg, baseResponseCurrency, baseResponseCompany);
+                    SetLastItemTemplateMatchingSets(shopCart, StoreBaseResopnse);
 
 
-                if (baseResponseCompany.Company.isIncludeVAT.Value == false)
+                if (StoreBaseResopnse.Company.isIncludeVAT.Value == false)
                 {
                     ViewBag.isIncludeVAT = false;
                 }
@@ -143,14 +145,15 @@ namespace MPC.Webstore.Controllers
                 }
             }
 
-
+            StoreBaseResopnse = null;
             return View("PartialViews/ShopCart", shopCart);
         }
         [HttpPost]
         public ActionResult Index()
         {
-
-            MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
             string IsCallFrom = Request.Form["hfIsCallFrom"];
             ShoppingCart shopCart = null;
             if(IsCallFrom == "Checkout")// to redirect add select page if login successfull
@@ -172,8 +175,8 @@ namespace MPC.Webstore.Controllers
                 {
                     sOrderID = Convert.ToInt32(OrderID);
                 }
-                bool login = true;
-                if (login)//_myClaimHelper.isUserLoggedIn()
+              //  bool login = true;
+                if (_myClaimHelper.isUserLoggedIn())//
                 {
                     if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
                     {
@@ -217,6 +220,7 @@ namespace MPC.Webstore.Controllers
 
                     if (result)
                     {
+                        StoreBaseResopnse = null;
                         //string URL = "PartialViews/ShopCartAddressSelect/"+ sOrderID;
 
                         //return RedirectToAction("Index", "ShopCartAddressSelect", new { OrderID = sOrderID });
@@ -233,18 +237,19 @@ namespace MPC.Webstore.Controllers
                 {
                     if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
                     {
-                        ValidateOrderForCorporateLogin(sOrderID, IsPlaceOrder,baseResponseCompany,hasWebAccess); // rediret user to the corp login page.
+                        ValidateOrderForCorporateLogin(sOrderID, IsPlaceOrder,StoreBaseResopnse,hasWebAccess); // rediret user to the corp login page.
                     }
 
-
-                   return RedirectToAction("Login");
+                    StoreBaseResopnse = null;
+                    Response.Redirect("/Login");
+                    return null;
                    
                 }
 
             }
             else
             {
-                
+                StoreBaseResopnse = null;
                 return View("PartialViews/ShopCart", shopCart);
 
             }
@@ -264,7 +269,7 @@ namespace MPC.Webstore.Controllers
         }
 
 
-        public void ValidateOrderForCorporateLogin(long orderID,bool isPlaceOrder,MyCompanyDomainBaseResponse baseResponse,bool isWebAccess)
+        public void ValidateOrderForCorporateLogin(long orderID,bool isPlaceOrder,MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponse,bool isWebAccess)
         {
             long CustomerID = 0;
             bool result = _OrderService.ValidateOrderForCorporateLogin(orderID, isPlaceOrder, baseResponse.Company.IsCustomer, isWebAccess,out CustomerID);
@@ -282,7 +287,7 @@ namespace MPC.Webstore.Controllers
 
       
 
-        private void BindGridView(ShoppingCart shopCart, MyCompanyDomainBaseResponse baseResponseCurrency, bool IsShowPrices)
+        private void BindGridView(ShoppingCart shopCart, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponse, bool IsShowPrices)
         {
             List<ProductItem> itemsList = null;
 
@@ -291,7 +296,7 @@ namespace MPC.Webstore.Controllers
                 itemsList = shopCart.CartItemsList;
                 if (itemsList != null && itemsList.Count > 0)
                 {
-                    BindGriViewWithProductItemList(itemsList, baseResponseCurrency, IsShowPrices);
+                    BindGriViewWithProductItemList(itemsList, baseResponse, IsShowPrices);
                     return;
                 }
             }
@@ -300,7 +305,7 @@ namespace MPC.Webstore.Controllers
         }
 
 
-        private void BindGriViewWithProductItemList(List<ProductItem> itemsList, MyCompanyDomainBaseResponse baseResponseCurrency, bool IsShowPrices)
+        private void BindGriViewWithProductItemList(List<ProductItem> itemsList, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponse, bool IsShowPrices)
         {
             if (itemsList != null && itemsList.Count > 0)
             {
@@ -321,7 +326,7 @@ namespace MPC.Webstore.Controllers
             // if store is not corp then related items
             if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
             {
-                LoadRelatedItems(itemsList, baseResponseCurrency, IsShowPrices);
+                LoadRelatedItems(itemsList, baseResponse, IsShowPrices);
 
             }
             #endregion
@@ -331,19 +336,17 @@ namespace MPC.Webstore.Controllers
         public ActionResult CopyProduct(int ItemID, int OrderID)
         {
             Item newCloneditem = null;
+             string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
 
-            MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
-            MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
 
-
-            MyCompanyDomainBaseResponse baseResponeOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.OrganisationID).CreateFromOrganisation();
-
-            newCloneditem = _ItemService.CloneItem(ItemID, 0, 0, 0, 0, 0, null, false, true, _myClaimHelper.loginContactID());
+            newCloneditem = _ItemService.CloneItem(ItemID, 0, OrderID, 0, 0, 0, null, false, true, _myClaimHelper.loginContactID(),StoreBaseResopnse.Organisation.OrganisationId);
 
             Estimate objOrder = _OrderService.GetOrderByID(OrderID);
             _ItemService.CopyAttachments(ItemID, newCloneditem, objOrder.Order_Code, true, objOrder.CreationDate ?? DateTime.Now);
 
-            if (baseResponseCompany.Company.ShowPrices ?? true)
+            if (StoreBaseResopnse.Company.ShowPrices ?? true)
             {
                 ViewBag.IsShowPrices = true;
                 //do nothing because pricing are already visible.
@@ -354,7 +357,7 @@ namespace MPC.Webstore.Controllers
                 //  cntRightPricing1.Visible = false;
             }
 
-            if (baseResponseCompany.Company.isIncludeVAT.Value == false)
+            if (StoreBaseResopnse.Company.isIncludeVAT.Value == false)
             {
                 ViewBag.isIncludeVAT = false;
             }
@@ -364,9 +367,11 @@ namespace MPC.Webstore.Controllers
             }
             ShoppingCart shopCart = LoadShoppingCart(OrderID);
 
-            BindGridView(shopCart, baseResponseCurrency, baseResponseCompany.Company.ShowPrices ?? false);
+            BindGridView(shopCart, StoreBaseResopnse, StoreBaseResopnse.Company.ShowPrices ?? false);
             if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
-                SetLastItemTemplateMatchingSets(shopCart, baseResponeOrg, baseResponseCurrency, baseResponseCompany);
+                SetLastItemTemplateMatchingSets(shopCart, StoreBaseResopnse);
+
+            StoreBaseResopnse = null;
             return View("PartialViews/ShopCart", shopCart);
         }
 
@@ -375,9 +380,10 @@ namespace MPC.Webstore.Controllers
             bool result = false;
             List<ArtWorkAttatchment> itemAttatchments = null;
             Template clonedTempldateFiles = null;
-            MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
-            MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-            MyCompanyDomainBaseResponse baseResponseOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.OrganisationID).CreateFromOrganisation();
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
 
             result = _ItemService.RemoveCloneItem(ItemID, out itemAttatchments, out clonedTempldateFiles);
 
@@ -393,7 +399,7 @@ namespace MPC.Webstore.Controllers
 
 
             }
-            if (baseResponseCompany.Company.ShowPrices ?? true)
+            if (StoreBaseResopnse.Company.ShowPrices ?? true)
             {
                 ViewBag.IsShowPrices = true;
                 //do nothing because pricing are already visible.
@@ -406,7 +412,7 @@ namespace MPC.Webstore.Controllers
 
 
 
-            if (baseResponseCompany.Company.isIncludeVAT.Value == false)
+            if (StoreBaseResopnse.Company.isIncludeVAT.Value == false)
             {
                 ViewBag.isIncludeVAT = false;
             }
@@ -416,15 +422,19 @@ namespace MPC.Webstore.Controllers
             }
 
             ShoppingCart shopCart = LoadShoppingCart(OrderID);
-            BindGridView(shopCart, baseResponseCurrency, baseResponseCompany.Company.ShowPrices ?? false);
+            BindGridView(shopCart, StoreBaseResopnse, StoreBaseResopnse.Company.ShowPrices ?? false);
             if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
-                SetLastItemTemplateMatchingSets(shopCart, baseResponseOrg, baseResponseCurrency, baseResponseCompany);
+                SetLastItemTemplateMatchingSets(shopCart, StoreBaseResopnse);
+
+            StoreBaseResopnse = null;
             return View("PartialViews/ShopCart", shopCart);
         }
         public ActionResult ApplyDiscountVoucherCode(string DiscountVoucher, int OrderID)
         {
-            MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
-            MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
 
             string voucherCode = DiscountVoucher.Trim();
             double voucherDiscRate = 0;
@@ -465,7 +475,7 @@ namespace MPC.Webstore.Controllers
                         voucherDiscountedAmount = _OrderService.PerformVoucherdiscountOnEachItem(OrderID, OrderStatus.ShoppingCart, UserCookieManager.TaxRate, VDiscountRate, StoreMode.Retail);
 
                     }
-                    ViewBag.DiscAmount = Utils.FormatDecimalValueToTwoDecimal(voucherDiscountedAmount.ToString(), baseResponseCurrency.Currency);
+                    ViewBag.DiscAmount = Utils.FormatDecimalValueToTwoDecimal(voucherDiscountedAmount.ToString(), StoreBaseResopnse.Currency);
 
 
 
@@ -474,7 +484,7 @@ namespace MPC.Webstore.Controllers
                 {
                     // voucher invalid case
 
-                    if (baseResponseCompany.Company.ShowPrices ?? true)
+                    if (StoreBaseResopnse.Company.ShowPrices ?? true)
                     {
                         ViewBag.IsShowPrices = true;
                         //do nothing because pricing are already visible.
@@ -491,7 +501,7 @@ namespace MPC.Webstore.Controllers
 
 
 
-                    if (baseResponseCompany.Company.isIncludeVAT.Value == false)
+                    if (StoreBaseResopnse.Company.isIncludeVAT.Value == false)
                     {
                         ViewBag.isIncludeVAT = false;
                     }
@@ -500,19 +510,25 @@ namespace MPC.Webstore.Controllers
                         ViewBag.isIncludeVAT = true;
                     }
                     shopCart = LoadShoppingCart(OrderID);
-                    BindGridView(shopCart, baseResponseCurrency, baseResponseCompany.Company.ShowPrices ?? false);
+                    BindGridView(shopCart, StoreBaseResopnse, StoreBaseResopnse.Company.ShowPrices ?? false);
 
 
                 }
 
             }
+            StoreBaseResopnse = null;
             return View("PartialView/ShopCart", shopCart);
         }
 
         public ActionResult RemoveDiscountVoucherCode(int OrderID)
         {
-            MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
-            MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+          
+
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+
             ShoppingCart shopCart = null;
             Estimate RecordOfOrderIfDiscuntApplied = _OrderService.CheckDiscountApplied(OrderID);
             if (RecordOfOrderIfDiscuntApplied.DiscountVoucherID.HasValue)
@@ -528,8 +544,8 @@ namespace MPC.Webstore.Controllers
                 _OrderService.ResetOrderVoucherCode(OrderID);
             }
 
-            BindGridView(LoadShoppingCart(OrderID), baseResponseCurrency, baseResponseCompany.Company.ShowPrices ?? false);
-            if (baseResponseCompany.Company.ShowPrices ?? true)
+            BindGridView(LoadShoppingCart(OrderID), StoreBaseResopnse, StoreBaseResopnse.Company.ShowPrices ?? false);
+            if (StoreBaseResopnse.Company.ShowPrices ?? true)
             {
                 ViewBag.IsShowPrices = true;
                 //do nothing because pricing are already visible.
@@ -545,7 +561,7 @@ namespace MPC.Webstore.Controllers
 
 
 
-            if (baseResponseCompany.Company.isIncludeVAT.Value == false)
+            if (StoreBaseResopnse.Company.isIncludeVAT.Value == false)
             {
                 ViewBag.isIncludeVAT = false;
             }
@@ -554,11 +570,13 @@ namespace MPC.Webstore.Controllers
                 ViewBag.isIncludeVAT = true;
             }
             shopCart = LoadShoppingCart(OrderID);
-            BindGridView(shopCart, baseResponseCurrency, baseResponseCompany.Company.ShowPrices ?? false);
+            BindGridView(shopCart, StoreBaseResopnse, StoreBaseResopnse.Company.ShowPrices ?? false);
+
+            StoreBaseResopnse = null;
             return View("PartialViews/ShopCart", shopCart);
         }
 
-        private void SetLastItemTemplateMatchingSets(ShoppingCart shopCart, MyCompanyDomainBaseResponse baseresponseOrg, MyCompanyDomainBaseResponse baseresponseCurrency, MyCompanyDomainBaseResponse baseresponseCompany)
+        private void SetLastItemTemplateMatchingSets(ShoppingCart shopCart, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponse)
         {
 
             MatchingSetViewModel MSViewModel = new MatchingSetViewModel();
@@ -576,7 +594,7 @@ namespace MPC.Webstore.Controllers
                         if (!string.IsNullOrEmpty(TemplateName))
                         {
 
-                            List<MatchingSets> res = _TemplateService.BindTemplatesList(TemplateName, 1, baseresponseOrg.Organisation.OrganisationId, (int)_myClaimHelper.loginContactCompanyID());
+                            List<MatchingSets> res = _TemplateService.BindTemplatesList(TemplateName, 1, baseResponse.Organisation.OrganisationId, (int)_myClaimHelper.loginContactCompanyID());
 
                             int isCalledFrom = 0;
                             if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
@@ -601,7 +619,7 @@ namespace MPC.Webstore.Controllers
                             }
 
                             bool isShowPrices;
-                            if (baseresponseCompany.Company.ShowPrices ?? true)
+                            if (baseResponse.Company.ShowPrices ?? true)
                             {
                                 isShowPrices = true;
                             }
@@ -639,7 +657,7 @@ namespace MPC.Webstore.Controllers
                                 MSViewModel.MatchingSetsList = res;
                                 MSViewModel.MappedCategoriesName = mappedCatList;
                                 MSViewModel.IsIncludeVAT = isIncludeVAT;
-                                MSViewModel.Currency = baseresponseCurrency.Currency;
+                                MSViewModel.Currency = baseResponse.Currency;
                                 MSViewModel.IsShowPrices = isShowPrices;
                                 ViewData["MSViewModel"] = MSViewModel;
                             }
@@ -666,7 +684,7 @@ namespace MPC.Webstore.Controllers
 
 
         #region RelatedItems
-        public void LoadRelatedItems(List<ProductItem> itemsList, MyCompanyDomainBaseResponse baseResponseCurrency, bool IsShowPrices)
+        public void LoadRelatedItems(List<ProductItem> itemsList, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponse, bool IsShowPrices)
         {
 
             List<ProductItem> allRelatedItemsList = new List<ProductItem>();
@@ -686,7 +704,7 @@ namespace MPC.Webstore.Controllers
             if (allRelatedItemsList.Count > 0)
             {
                 RIviewModel.ProductName = itemsList[0].ProductName;
-                RIviewModel.CurrencySymbol = baseResponseCurrency.Currency;
+                RIviewModel.CurrencySymbol = baseResponse.Currency;
                 RIviewModel.isShowPrices = IsShowPrices;
                 ViewData["RIViewModel"] = RIviewModel;
 

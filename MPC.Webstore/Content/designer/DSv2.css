@@ -457,7 +457,18 @@ line-height: 38px;
     transform: translateY(33%);
     opacity: 0;
 }
-
+.stage0 {
+    max-width: 00px !important;
+width: 00px !important;
+min-width: 00px !important;
+padding: 0px 22px 0px 50px  !important;
+}
+.stage0 .content {
+    padding: 0px 0px 0px 0px !important;
+}
+.stage0 #selectedTab {
+    top: -70px;
+}
 .results {
     position: absolute;
     left: 0;
@@ -638,7 +649,7 @@ line-height: 38px;
             height: 30px;
         }
 
-#canvaDocument {
+#canvasDocument {
     position: absolute;
     left: 33.333%;
     right: -18px;
@@ -650,7 +661,7 @@ line-height: 38px;
     -webkit-backface-visibility: hidden;
 }
 
-    #canvaDocument > .inner {
+    #canvasDocument > .inner {
         position: absolute;
         left: 0;
         top: 0;
@@ -1316,6 +1327,7 @@ body:not(.compactHeader) .documentMenu {
     padding-top: 19px;
     top: 60px;
 }
+
 
 button, .buttonDesigner {
     cursor: pointer;
@@ -2022,7 +2034,7 @@ html:not(.touch) .SampleBtn {
     background-color: #000 !important;
 }
 
-#canvaDocument:hover {
+#canvasDocument:hover {
     overflow-x: scroll !important;
 }
 
@@ -3775,9 +3787,10 @@ if it's not present, don't show loader */
 
 .sliderLineBtm {
     margin-left: 21px !important;
+    display:inline-block;
 }
 
-#previewProofing {
+#previewProofingDesigner {
     width: 964px;
     height: 55px;
     margin: auto;
@@ -3789,7 +3802,7 @@ if it's not present, don't show loader */
     border-radius: 5px;
 }
 
-.divTxtProofing {
+.divTxtProofingDesigner {
     width: 812px;
     height: 42px;
     font-size: 14px;
@@ -3803,7 +3816,7 @@ if it's not present, don't show loader */
     font-size: 16px;
 }
 
-.ConfirmPopupProof {
+.ConfirmPopupProofDesigner {
     float: right;
     margin-top: 8px;
     margin-right: 10px;
@@ -3812,6 +3825,7 @@ if it's not present, don't show loader */
 .lblChkSpellings {
     vertical-align: super;
     font-size: 19px;
+    display:inline;
 }
 
 .regular-checkbox-new {
@@ -3828,8 +3842,8 @@ if it's not present, don't show loader */
         display: inline-block !important;
         padding: 6px 0 6px 45px;
         line-height: 25px;
-        background-image: url('../assets/checkbox_sprite.png');
-        background-image: none,url('../assets/checkbox_sprite.svg');
+        background-image: url('assets-v2/checkbox_sprite.png');
+        background-image: none,url('assets-v2/checkbox_sprite.svg');
         background-position: -108px 0;
         background-repeat: no-repeat;
         -webkit-background-size: 143px 143px;
@@ -5824,12 +5838,23 @@ margin-left:1px;
     height: 53px;
     background: url('assets-v2/sprite.png') -339px -329px;
 }
-
-    #layoutsPanel a:hover {
+#layoutsPanel a:hover {
         left: 0px;
         height: 53px;
         background: url('assets-v2/sprite.png') -403px -329px;
-    }   
+}   
+#collapseDesignerMenu {
+    margin-top: 18px;
+    left: 0px;
+    height: 53px;
+  background: url('assets-v2/back.png');
+background-repeat: no-repeat;background-position-x: 14px;
+}
+#collapseDesignerMenu a:hover {
+        left: 0px;
+        height: 53px;
+        background: url('assets-v2/back-hover.png') ;background-repeat: no-repeat;background-position-x: 14px;
+}  
 #uploadImage {
     width: 105%;
     background: url('assets-v2/sprite.png') -24px 364px;
@@ -6501,3 +6526,32 @@ background-color:#000000}
 background-color:#FFFFFF}
 
 }
+label
+{
+ margin-bottom: 0px; 
+ font-weight: normal; 
+}
+.dimentionsContainer
+{
+    color: #7f7c7c;
+    margin-top: 15px;text-align: right;margin-right: 1.2em;
+    /*display: none;*/
+}.dimentionsBC
+{
+    font-size: 12px;
+}
+ .customPaddingForScroll
+ {
+     margin-top:10px;
+     margin-bottom:16px;
+ }
+
+ .DivCarouselImgContainerStyle2
+ {
+     margin-bottom:5px;
+ }
+ .portraitTemplate
+ {
+     width: 105px !important;
+margin: auto !important;
+ }

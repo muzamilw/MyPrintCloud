@@ -144,6 +144,8 @@ namespace MPC.MIS.Areas.Api.Models
         public List<CmsOffer> CmsOffers { get; set; }
         public List<CompanyDomain> CompanyDomains { get; set; }
 
+        public List<MediaLibrary> MediaLibraries { get; set; }
+
         #region CMS Pages
 
         public List<CmsPage> NewAddedCmsPages { get; set; }
@@ -197,6 +199,7 @@ namespace MPC.MIS.Areas.Api.Models
 
         #endregion
 
+
         #endregion
 
         #region Public Image Source
@@ -222,15 +225,7 @@ namespace MPC.MIS.Areas.Api.Models
         #endregion
 
         #region Backgroud Image
-        /// <summary>
-        /// Store Backgroud Image Image Source
-        /// </summary>
-        public string StoreBackgroudImageImageSource { get; set; }
-
-        /// <summary>
-        /// Store Backgroud Image File Name
-        /// </summary>
-        public string StoreBackgroudImageFileName { get; set; }
+        public string StoreBackgroundFile { get; set; }
 
         /// <summary>
         /// Store Backgroud Image Bytes
