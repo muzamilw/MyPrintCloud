@@ -39,7 +39,7 @@ namespace MPC.Webstore.Controllers
 
             CmsPage SPage = _myCompanyService.getPageByID(PageID);
 
-            return View("/PartialViews/pages",SPage);
+            return PartialView("PartialViews/pages", SPage);
         }
     }
 }

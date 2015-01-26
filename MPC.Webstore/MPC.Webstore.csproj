@@ -640,12 +640,12 @@
     <Content Include="Views\Shared\PartialViews\ProductDetail.cshtml" />
     <Content Include="Views\Shared\PartialViews\RealEstateItem.cshtml" />
     <Content Include="Views\Shared\PartialViews\RealEstateHeader.cshtml" />
-    <Content Include="Views\Shared\PartialViews\pages.cshtml" />
     <Content Include="Views\Shared\PartialViews\RealEstateBanner.cshtml" />
     <Content Include="Views\Shared\PartialViews\ShopCartAddressSelect.cshtml" />
     <Content Include="Views\Shared\PartialViews\Dashboard.cshtml" />
     <Content Include="Views\Shared\PartialViews\Receipt.cshtml" />
     <Content Include="Views\Shared\PartialViews\OrderConfirmation.cshtml" />
+    <Content Include="Views\Shared\PartialViews\pages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
