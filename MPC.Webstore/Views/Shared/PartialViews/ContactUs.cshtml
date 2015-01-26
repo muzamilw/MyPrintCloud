@@ -18,13 +18,13 @@
                             <div class="float_left cntContactImagetxt">
                                 @if (ViewBag.Organisation.Tel != null)
                                 {
-                                    <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Tel", UserCookieManager.StoreId))</label>
+                                    <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.StoreId))</label>
                                     <label>@ViewBag.Organisation.Tel</label><br />
                                 }
 
                                 @if (ViewBag.Organisation.Fax != null)
                                 {
-                                    <label id="lbl_Fax">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Fax", UserCookieManager.StoreId))</label>
+                                    <label id="lblFax">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfax", UserCookieManager.StoreId))</label>
                                     <label>@ViewBag.Organisation.Fax</label><br />
                                 }
                             </div>
@@ -36,7 +36,7 @@
                                 &nbsp;
                             </div>
                             <div class="float_left cntEmailImageCntctUS">
-                                <label id="lbl_Email">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Email", UserCookieManager.StoreId))</label>
+                                <label id="lbl_Email">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.StoreId))</label>
                                 <label>@ViewBag.Organisation.Email</label><br />
                             </div>
                             <div class="dashboard_vertical_item_separator">
@@ -71,7 +71,7 @@
 
         <div id="contactusform" class="white-container-lightgrey-border textAlignLeft rounded_corners">
             <div class="get_in_touch_heading">
-                <label id="lbl_GetInTouch">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_GetInTouch", UserCookieManager.StoreId))</label>
+                <label id="lbl_GetInTouch">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgetintouch", UserCookieManager.StoreId))</label>
             </div>
             @ViewBag.Message
             <div class="get_in_touch_sub_padding">
@@ -81,12 +81,12 @@
                     <table width="100%" cellpadding="5" cellspacing="5">
                         <tr>
                             <td>
-                                <label id="lbl_Person_Name">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Person_Name", UserCookieManager.StoreId))</label>
+                                <label id="lbl_Person_Name">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlname", UserCookieManager.StoreId))</label>
                             </td>
                             <td>
-                                <div style="display:none"><label id="lbl_Enquiry_Nature">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Enquiry_Nature", UserCookieManager.StoreId))</label></div>
+                                <div style="display:none"><label id="lbl_Enquiry_Nature">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlnoi", UserCookieManager.StoreId))</label></div>
 
-                                <label id="lbl_Enquiry">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Enquiry", UserCookieManager.StoreId))</label>
+                                <label id="lbl_Enquiry">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlenquiry", UserCookieManager.StoreId))</label>
                             </td>
                         </tr>
                         <tr>
@@ -111,7 +111,7 @@
                         <tr>
                             <td>
 
-                                <label id="lbl_CompanyName">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_CompanyName", UserCookieManager.StoreId))</label>
+                                <label id="lbl_CompanyName">@Html.Raw(Html.GetKeyValueFromResourceFile("divcompanyname", UserCookieManager.StoreId))</label>
                                 <asp:literal id="ltrlcompany" text=""></asp:literal>
                             </td>
 

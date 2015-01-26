@@ -60,13 +60,13 @@
 
 											 <button id="btnEditThisDesign" value="Design Now"
 												class="start_creating_btn_prodDetail_orng rounded_corners5 marginBtm10 padding0imp"
-												onclick="btnEditThisDesign_Click" >Design Now</button>
+												onclick="btnEditThisDesign_Click" >@Html.Raw(Html.GetKeyValueFromResourceFile("btnDesignNow", UserCookieManager.StoreId))</button>
 										}
 										else
 										{
 											<button id="btnEditThisDesign" value="Design Now"
 													class="start_creating_btn_prodDetail_orng rounded_corners5 marginBtm10 padding0imp"
-													 disabled onclick="btnEditThisDesign_Click" >Design Now</button>
+													 disabled onclick="btnEditThisDesign_Click" >@Html.Raw(Html.GetKeyValueFromResourceFile("btnDesignNow", UserCookieManager.StoreId))</button>
 										}
 
 										@*@if (ViewBag.Count > 0)
@@ -95,7 +95,7 @@
 								{
 								<div id="finishedGoodSpecs" class="box_specFinisedGood">
 									<div class="mrginBtm">
-										<label id="lbl_Specifications" class="marginall5 ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Specifications", UserCookieManager.StoreId))</label>
+										<label id="lbl_Specifications" class="marginall5 ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOpt1", UserCookieManager.StoreId))</label>
 									</div>
 									<label id="lblCategoryCode2" class="marginall5">@ViewBag.lblCategoryCode2</label>
 									<br />
@@ -106,7 +106,7 @@
 									@if (ViewData["CostCentersList"] != null)
 									{
 										<label id="lbl_RefiningOptions" class="marginall5 ProductDetailH2">
-											@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_RefiningOptions", UserCookieManager.StoreId))
+											@Html.Raw(Html.GetKeyValueFromResourceFile("lblRefinngOpt", UserCookieManager.StoreId))
 										</label>
 									}
 									<div class="marginall5 ProductDetailRefOptions">
@@ -134,12 +134,12 @@
 										if (ViewBag.isAllowBackOrder)
 										{
 											<button id="btnUploadDesign" value="ADD TO CART"
-													class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" onclick="UploadDesign('@ViewBag.btnUploadDesignPath'); " >ADD TO CART</button>
+													class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" onclick="UploadDesign('@ViewBag.btnUploadDesignPath'); " >@Html.Raw(Html.GetKeyValueFromResourceFile("lnkADDTOCART", UserCookieManager.StoreId))</button>
                                         }
                                         else
                                         {
                                             <button id="btnUploadDesign" value="ADD TO CART"
-                                                    class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" disabled onclick="UploadDesign('@ViewBag.btnUploadDesignPath'); ">ADD TO CART</button>
+                                                    class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" disabled onclick="UploadDesign('@ViewBag.btnUploadDesignPath'); ">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkADDTOCART", UserCookieManager.StoreId))</button>
                                         }
                                         //  @Resources.MyResource.lnkADDTOCART replace with this language file
                                     }
@@ -149,12 +149,12 @@
                                         if (ViewBag.isAllowBackOrder)
                                         {
 											<button id="btnUploadDesign" value="Upload files"
-													class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" onclick="UploadDesign('@ViewBag.btnUploadDesignPath'); ">Upload files</button>
+													class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" onclick="UploadDesign('@ViewBag.btnUploadDesignPath'); ">@Html.Raw(Html.GetKeyValueFromResourceFile("front", UserCookieManager.StoreId))</button>
 										}
 										else
 										{
 											<button id="btnUploadDesign" value="Upload files"
-													class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" disabled onclick="UploadDesign('@ViewBag.btnUploadDesignPath'); ">Upload files</button>
+													class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" disabled onclick="UploadDesign('@ViewBag.btnUploadDesignPath'); ">@Html.Raw(Html.GetKeyValueFromResourceFile("front", UserCookieManager.StoreId))</button>
 										}
 					            }
 								
@@ -228,7 +228,7 @@
 								 {
 
 									 <div id="ProductrightContainter" class="col-md-2 col-lg-3 col-xs-12 col-sm-4 deatilTemplateInfocnt">
-								<label id="lbl_TemplateName">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_TemplateName", UserCookieManager.StoreId))</label><br />
+								<label id="lbl_TemplateName">@Html.Raw(Html.GetKeyValueFromResourceFile("templateName", UserCookieManager.StoreId))</label><br />
 								<label id="lblTemplateName">@ViewBag.TemplateName</label><br />
 								<br />
 								<select class="ratingDisabled input keepwhitespace" id="ratingControlUser" >
@@ -245,7 +245,7 @@
 									&nbsp;
 								</div>
 								<p class="spanMarkCount spanFavouriteItem margin0-sm" id="lbl_UnMark_Favourite" >
-									@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_UnMark_Favourite", UserCookieManager.StoreId))
+									@Html.Raw(Html.GetKeyValueFromResourceFile("lblUnMarkFavourite", UserCookieManager.StoreId))
 								</p>
 								}
 								else
@@ -255,7 +255,7 @@
 								</div>
                             
                                     <p class="spanMarkCount spanFavouriteItem margin0-sm" id="lbl_Mark_Favourite">
-                                @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Mark_Favourite", UserCookieManager.StoreId))
+                                @Html.Raw(Html.GetKeyValueFromResourceFile("lblMarkFavourite", UserCookieManager.StoreId))
                                      </p>
 
                                 }
@@ -266,8 +266,8 @@
 									{
 								<div class="font11px"  id="divLetUsDes" style="margin-top: 30px;">
 									<br />
-									<label ID="lbl_LetsDesign"  class="product_detail_sub_heading colorBlack">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_LetsDesign", UserCookieManager.StoreId))</label><br />
-									<label ID="lbl_LetsDesign_Message" >@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_LetsDesign_Message", UserCookieManager.StoreId))</label>
+									<label ID="lbl_LetsDesign"  class="product_detail_sub_heading colorBlack">@Html.Raw(Html.GetKeyValueFromResourceFile("lblpopIn", UserCookieManager.StoreId))</label><br />
+									<label ID="lbl_LetsDesign_Message" >@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlSeendesignn", UserCookieManager.StoreId))</label>
 									<br />
 									<br />
 								</div>
@@ -334,7 +334,7 @@
 
 								<div class="box_catCode">
 									<div class="mrginBtm">
-                                        <label ID="lbl_Specifications" class="marginall5 ProductDetailH2" runat="server">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Specifications", UserCookieManager.StoreId))</label>
+                                        <label ID="lbl_Specifications" class="marginall5 ProductDetailH2" runat="server">@Html.Raw(Html.GetKeyValueFromResourceFile("lblSpecifications", UserCookieManager.StoreId))</label>
 									</div>
 									<label id="lblCategoryCode" class="marginall5">@ViewBag.lblCategoryCode</label>
 									<br />
@@ -345,7 +345,7 @@
 									@if (ViewData["CostCentersList"] != null)
                                     {
                                         <label id="lbl_RefiningOptions" class="marginall5 ProductDetailH2">
-                                            @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_RefiningOptions", UserCookieManager.StoreId))
+                                            @Html.Raw(Html.GetKeyValueFromResourceFile("lblRefinngOpt", UserCookieManager.StoreId))
                                         </label>
                                     }
 									<div class="marginall5 ProductDetailRefOptions">
@@ -375,7 +375,7 @@
 												<div class="paddingTop2px">
 													&nbsp;
 												</div>
-												<label id="lbl_From">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_From", UserCookieManager.StoreId))</label>
+												<label id="lbl_From">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfrom", UserCookieManager.StoreId))</label>
 												<br />
 												<label id="lblFromMinPrice" style="font-weight:bold;font-size:16px;">@ViewBag.lblFromMinPrice</label>
 											</div>
@@ -393,7 +393,7 @@
 								if (!string.IsNullOrEmpty(Model.TipsAndHints))
 								{
 								<div id="handyInfoFinisedGood" class="white_background rounded_corners" style="padding: 10px;">
-									<label id="lbl_HandyInformation" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_HandyInformation", UserCookieManager.StoreId))</label>
+									<label id="lbl_HandyInformation" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnIdeas", UserCookieManager.StoreId))</label>
 									<div class="rounded_corners paddingLeft10px paddingBottom10px handyInfocnt">
 										<br />
 										<label id="lblHintsandTips2" class="show_as_it_is">@Model.TipsAndHints.Replace("\r\n", replaceWith).Replace("\n", replaceWith).Replace("\r", replaceWith);</label>
@@ -416,7 +416,7 @@
 											<tr>
 												<td valign="top" class="width45p">
 													<div class="mrginBtm" style="text-align:left;">
-														<label ID="lbl_Product_SelectOption" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Product_SelectOption", UserCookieManager.StoreId))</label>
+														<label ID="lbl_Product_SelectOption" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProdSelectOption", UserCookieManager.StoreId))</label>
 													</div>
 
 													<table class="cntwidthProductDetailOnlinePrice" cellpadding="5" cellspacing="0">
@@ -428,7 +428,7 @@
 															{
 																 <tr>
 																<td class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp" id="lbl_Quantity">
-																	@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Quantity", UserCookieManager.StoreId))
+																	@Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.StoreId))
 																</td>
 
 																	 @foreach (var stock in stockOptions)
@@ -650,7 +650,7 @@
 
 								<div class="whitebackground">
 
-									<label id="lbl_Product_Description" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Product_Description", UserCookieManager.StoreId))</label>
+									<label id="lbl_Product_Description" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProdDescHeadingText", UserCookieManager.StoreId))</label>
 									<div class="displayBlock rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
 										<br />
 										<label id="lblProductSpecifications" class="show_as_it_is">@Model.ProductSpecification.Replace("\r\n", replaceWith).Replace("\n", replaceWith).Replace("\r", replaceWith);</label>
@@ -668,7 +668,7 @@
 
 								<div class="whitebackground">
 
-									<label id="lbl_HandyInformation" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_HandyInformation", UserCookieManager.StoreId))</label>
+									<label id="lbl_HandyInformation" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnIdeas", UserCookieManager.StoreId))</label>
 									<div class="rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
 										<br />
 										<label id="lblHintsandTips" class="show_as_it_is">@Model.TipsAndHints.Replace("\r\n", replaceWith).Replace("\n", replaceWith).Replace("\r", replaceWith);</label>
@@ -686,7 +686,7 @@
 
 								<div class="whitebackground">
 
-									<label id="lbl_KeyFeatures" text="" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_KeyFeatures", UserCookieManager.StoreId))</label>
+									<label id="lbl_KeyFeatures" text="" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnLayoutGrid", UserCookieManager.StoreId))</label>
 									<div class="rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
 										<br />
 										<label id="lblDescriptionOfLayout" class="show_as_it_is">@Model.LayoutGridContent.Replace("\r\n", "</br>").Replace("\n", "</br>").Replace("\r", "</br>");</label>
@@ -761,7 +761,7 @@
 								}
 								else
 								{
-									<label id="lbl_RelatedItems" class="errorMsgClss">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_RelatedItems", UserCookieManager.StoreId))</label>
+									<label id="lbl_RelatedItems" class="errorMsgClss">@Html.Raw(Html.GetKeyValueFromResourceFile("lblRelatedItems", UserCookieManager.StoreId))</label>
 								}
 							}
 					</div>
@@ -784,8 +784,8 @@
 					<div class="product_detail_sup_padding">
 						<div id="tabs" class="float_left_simple width93per" style="text-align: left !important;">
 							<ul class="MLeft40 MBtm marginbtm5Imp" style="display: none;">
-								<li id="lbl_HowToVideo" clientidmode="Predictable" class="width84per ui-state-default ui-corner-top PaddingtopCentreAlign" onclick="tabify('tabs4','MainContent_btnHowToVideo')">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_HowToVideo", UserCookieManager.StoreId))</li>
-								<li  id="lbl_MatchingSets" clientidmode="Predictable" class="width84per ui-state-default ui-corner-top "onclick="tabify('tabs5','MainContent_btnMatchingSets')">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_MatchingSets", UserCookieManager.StoreId))</li>
+								<li id="lbl_HowToVideo" clientidmode="Predictable" class="width84per ui-state-default ui-corner-top PaddingtopCentreAlign" onclick="tabify('tabs4','MainContent_btnHowToVideo')">@Html.Raw(Html.GetKeyValueFromResourceFile("lblHowToVideo", UserCookieManager.StoreId))</li>
+								<li  id="lbl_MatchingSets" clientidmode="Predictable" class="width84per ui-state-default ui-corner-top "onclick="tabify('tabs5','MainContent_btnMatchingSets')">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlmatchingset", UserCookieManager.StoreId))</li>
 							</ul>
 
 						</div>

@@ -7,20 +7,18 @@
 <div id="page" class="container content_area" style="margin: auto; border: 0px solid orange; margin-top: 20px;">
 
     <div class="row left_right_padding">
-        <ul class="bonhamsOption navM cursor_pointer" style="display:none;">
-            <li>
-                1. Select
+        <ul  class="bonhamsOption navM cursor_pointer" style="display:none;">
+            <li id="lbl_SelectReceipt">
+                @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_SelectReceipt", UserCookieManager.StoreId))
             </li>
-            <li>
-                2. Edit
+            <li id="lbl_EditReceipt">
+                @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_EditReceipt", UserCookieManager.StoreId))
             </li>
-
-
-            <li>
-                3. Confirm order & payment
+            <li id="lbl_ConfirmOrderPaymentReceipt">
+                @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_ConfirmOrderPaymentReceipt", UserCookieManager.StoreId))
             </li>
-            <li class="bonhamSelectedOption">
-                4. Order summary
+            <li id="lbl_OrderSummaryReceipt" class="bonhamSelectedOption">
+                @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_OrderSummaryReceipt", UserCookieManager.StoreId))
             </li>
 
         </ul>
@@ -28,13 +26,12 @@
 
             <div style="font-family: 'Open Sans Condensed', sans-serif; font-style: normal; text-align: left; font-weight: normal; -moz-border-radius: 10px; -webkit-border-radius: 10px; -khtml-border-radius: 10px; border-radius: 10px; font-size: large;">
                 <div class="orderReceiptTitle">
-                    <label id="ltrlreceipt">Receipt</label>
+                    <label id="lbl_Receipt">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlreceipt", UserCookieManager.StoreId))</label>
                     &nbsp;<label id="lblReceiptNumber" />
                 </div>
                 <div style="float: right; padding: 10px; padding-top: 14px; text-decoration: underline;">
-                    <a id="lblPrintReceipt" href="#" onclick="PrintReceipt();">
-                        Print this
-                        receipt
+                    <a id="lbl_PrintReceipt" href="#" onclick="PrintReceipt();">
+                       @Html.Raw(Html.GetKeyValueFromResourceFile("lblPrintReceipt", UserCookieManager.StoreId))
                     </a>
                 </div>
                 <div class="clearBoth">
@@ -44,15 +41,15 @@
         </div>
         <div class="receiptArea">
             <div style="width: 100%; display: none; text-align: center; font-size: 16px; font-weight: bold; color: #C72965;">
-                <label id="ltrlthNKU">Thank you</label>
+                <label id="lbl_ThankYou">@Html.Raw(Html.GetKeyValueFromResourceFile("lblThankYou", UserCookieManager.StoreId))</label>
             </div>
             <div style="width: 100%; display: none; text-align: center; font-size: 16px; font-weight: bold; color: #C72965;">
-                <label id="ltrlConfrmMesgd">Your Order is complete and some one will call you to confirm all details and delivery</label>
+                <label id="lbl_DelivaryConformationMessage">@Html.Raw(Html.GetKeyValueFromResourceFile("lblDelivaryConformationMessage", UserCookieManager.StoreId))</label>
             </div>
             <div class="col-md-8 col-lg-8 col-xs-12 receiptWhitelblRightcnt">
                 &nbsp;
                 <img id="ImagePinkcard" style="display: none;" class="pink_company_logo floatright" />
-                <label id="lblPoweredBy" style="color: #C72965; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-weight: bold; font-style: normal; font-weight: bold; display: none; font-size: 13px; line-height: 16px; float: right; margin-top: 25px;">Powered By</label>
+                <label id="lbl_PoweredBy" style="color: #C72965; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-weight: bold; font-style: normal; font-weight: bold; display: none; font-size: 13px; line-height: 16px; float: right; margin-top: 25px;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlPoweredBy", UserCookieManager.StoreId))</label>
             </div>
             <div id="trWhiteLabel" class="col-md-4 col-lg-4 col-xs-12 receiptWhitelblleftcnt">
                 <img id="Companyimg" class="IframeCompanyLogoCs_AddSelectCS" src="@Html.GetAppBasePath()@ViewBag.Organisation.WebsiteLogo" /><br />
@@ -71,42 +68,42 @@
                 &nbsp;
             </div>
             <div id="trVatNumb" style="height: 30px;" class="col-md-4 col-lg-4 col-xs-12 receiptWhitelblleftcnt">
-                <label id="lblTaxName" style="font-weight: bold;">VAT Registration Number</label>
+                <label id="lbl_VATRegisterationNumber" style="font-weight: bold;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVATRegisterationNumber", UserCookieManager.StoreId))</label>
                 <label id="lblVatNum" class="receiptVatNum" style="font-weight: bold;" >@ViewBag.Organisation.VATRegNumber</label>
             </div>
             <div class="clearBoth" style="border-top: 2px solid #f3f3f3;">
             </div>
             <div class="col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt">
                 <div style="" class="shopReceiptOrderDetails">
-                    <span id="spnorderdate" class="spnOrderHeadings">Order date: </span>
+                    <span id="lbl_OrderDate" class="spnOrderHeadings">@Html.Raw(Html.GetKeyValueFromResourceFile("spnorderdate", UserCookieManager.StoreId)) </span>
                 </div>
                 <label id="lblOrderDate" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px; line-height: 34px; margin-left: 5px;">@Model.OrderDate</label>
                 <div class="clearBoth">
                     &nbsp;
                 </div>
                 <div class="shopReceiptOrderDetails">
-                    <span id="spnOrderCode" class="spnOrderHeadings">Order Code: </span>
+                    <span id="lbl_OrderCode" class="spnOrderHeadings">@Html.Raw(Html.GetKeyValueFromResourceFile("spnordernum", UserCookieManager.StoreId))</span>
                 </div>
                 <label id="lblOrderCode" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px; line-height: 34px; margin-left: 5px;">@Model.OrderCode</label>
                 <div class="clearBoth">
                     &nbsp;
                 </div>
                 <div class="shopReceiptOrderDetails">
-                    <span id="spninvoicedate" class="spnOrderHeadings">Invoice date: </span>
+                    <span id="lbl_InvoiceDate" class="spnOrderHeadings">@Html.Raw(Html.GetKeyValueFromResourceFile("spninvoicedate", UserCookieManager.StoreId))</span>
                 </div>
                 <label id="lblInvoiceDate" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px; line-height: 34px; margin-left: 5px;">@Model.OrderDate</label>
                 <div class="clearBoth">
                     &nbsp;
                 </div>
                 <div class="shopReceiptOrderDetails">
-                    <span id="spnplacedby" class="spnOrderHeadings">Placed by: </span>
+                    <span id="lbl_PlacedBy" class="spnOrderHeadings">@Html.Raw(Html.GetKeyValueFromResourceFile("spnplacedby", UserCookieManager.StoreId)) </span>
                 </div>
                 <label id="lblPlacedBy" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px; line-height: 34px; margin-left: 5px;">@Model.PlacedBy</label>
                 <div class="clearBoth">
                     &nbsp;
                 </div>
                 <div class="shopReceiptOrderDetails">
-                    <span id="spnyourref" class="spnOrderHeadings">Your Ref: </span>
+                    <span id="lbl_YourRer" class="spnOrderHeadings"> @Html.Raw(Html.GetKeyValueFromResourceFile("ltlReference", UserCookieManager.StoreId))</span>
                 </div>
                 <label id="lblYourRefNum" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px; line-height: 34px; margin-left: 5px;">@Model.YourRef</label>
                 <div class="clearBoth">
@@ -114,7 +111,7 @@
                 </div>
             </div>
             <div class="col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt" style="line-height: 30px;">
-                <span id="spnbilledto" style="" class="shopReceiptBillToHeading">Billed To:</span><br />
+                <span id="lbl_ReceiptbillTo" style="" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("spnbilledto", UserCookieManager.StoreId))</span><br />
                 <label id="lblCustName" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.CustomerName</label><br />
                 <label id="lblBAddressLine1" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Address1</label><br />
                 <label id="lblAddressLine2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Address2</label><br />
@@ -124,12 +121,12 @@
 
                 <label id="lblBCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Country</label><br />
                 <span>
-                    <label id="lrtlBTel">Tel:</label>
+                    <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Tel", UserCookieManager.StoreId))</label>
                 </span>
                 <label id="lblBTel" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px;">@Model.BillingAdress.Tel1</label>
             </div>
             <div class="col-md-4 col-lg-4 col-xs-12 receiptShippingDeliverycnt" style="line-height: 30px;">
-                <span id="spnshippedto" class="shopReceiptBillToHeading">Shipped To:</span><br />
+                <span id="lbl_ShippedTo" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("spnshippedto", UserCookieManager.StoreId))</span><br />
                 <label id="lblSCusName" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.CustomerName</label><br />
                 <label id="lblSAddLine1" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Address1</label><br />
                 <label id="lblSAddreLine2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Address2</label><br />
@@ -137,27 +134,27 @@
                 <label id="lblSState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.State</label>
                 <label id="lblSZipCode" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.PostCode</label><br />
                 <label id="lblSCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Country</label><br />
-                <label id="ltlShiTel">Tel:</label>
+                <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Tel", UserCookieManager.StoreId))</label>
                 <label id="lblSTel" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Tel1</label>
             </div>
             <div class="clearBoth">
             </div>
             <div class="trspclInstr col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt  spclcntHeight">
-                <span id="spnspeacilinstruction" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px; margin-left: 22px;">Special Instruction:</span><br />
+                <span id="lbl_SpecialInstructions" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px; margin-left: 22px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnspeacilinstruction", UserCookieManager.StoreId))</span><br />
                 <label id="lblSpecialInstructions" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px;">@Model.SpecialInstNotes</label>
             </div>
             <div class="trspclInstr col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt">
-                <span id="spnestimateddispatchdate" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">Estimated dispatch date:</span><br />
+                <span id="lbl_EstimatedDate" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnestimateddispatchdate", UserCookieManager.StoreId))</span><br />
                 <label id="lblEstimatedDispatchDate" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px; margin-left: 0px;">@Model.DeliveryDate</label>
             </div>
             <div class="trspclInstr col-md-4 col-lg-4 col-xs-12 receiptShippingDeliverycnt">
-                <span id="spnestimationmethod" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">Delivery method:</span><br />
+                <span id="lbl_DelivaryMethod" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spndilevry", UserCookieManager.StoreId))</span><br />
                 <label id="lblEstimatedDeliveryMethod" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px;">@Model.DeliveryMethod</label>
             </div>
             <div class="clearBoth">
             </div>
             <div style="height: 35px; padding: 3px; margin-top: 5px; font-size: 15px; font-weight: bold" class="col-md-12 col-lg-12 col-xs-12">
-                <span id="spnitemordered">Items Ordered:</span>
+                <span id="lbl_itemsOrdered">@Html.Raw(Html.GetKeyValueFromResourceFile("lblitemsOrdered", UserCookieManager.StoreId))</span>
             </div>
             <div style="padding-bottom: 20px;" class="col-md-12 col-lg-12 col-xs-12">
                 <table cellspacing="0" cellpadding="5" id="MainContent_grdViewShopCart" style="width:100%;border-collapse:collapse;">
@@ -212,7 +209,7 @@
                         <td class="srFirstTd"></td>
                         <td class="srScdTd"></td>
                         <td class="srThirdTd" align="left" style="font-weight: normal; font-size: 14px; color: #A8A8A8; line-height: 2; font-family: Trebuchet MS, Arial, Helvetica, sans-serif;">
-                            <span id="spnsubtotal">Sub Total:</span>
+                            <span id="lbl_SubTotal">Sub Total:@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.StoreId))</span>
                         </td>
                         <td class="srForthtd">
                             <label id="lblSubTotal" style="font-size: 17px; color: Black;" >@_itemTotal</label>
@@ -222,7 +219,7 @@
                         <td></td>
                         <td align="left"></td>
                         <td align="left" style="font-weight: normal; font-size: 14px; color: #A8A8A8; line-height: 2; font-family: Trebuchet MS, Arial, Helvetica, sans-serif;">
-                            <span id="spndilevry">Delivery:</span>
+                            <span id="lbl_Delivery">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDeliveryMethod", UserCookieManager.StoreId))</span>
                         </td>
                         <td>
                             <label id="lblDeliveryCostCenter" >@Model.DeliveryCost</label>
@@ -242,11 +239,10 @@
                         <td></td>
                         <td></td>
                         <td align="left">
-                            <span id="spntotal" style="font-weight: bold; color: Black; font-size: 17px;">Total:</span>
+                            <span id="lbl_Total" style="font-weight: bold; color: Black; font-size: 17px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spngrandtotal", UserCookieManager.StoreId))</span>
                         </td>
                         <td>
-                            <label style="font-weight: bold; font-size: 17px; color: Black;" id="lblGrandTotal"
-                                   ></label>
+                            <label style="font-weight:bold; font-size:17px; color:Black;" id="lblGrandTotal"></label>
                         </td>
                     </tr>
                 </table>

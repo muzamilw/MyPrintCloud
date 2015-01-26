@@ -47,7 +47,7 @@
             @if (ViewData["ProductCategory"] != null)
             {
 
-                <label ID="lbl_ProductCategory" class="product_detail_sub_heading custom_color floatleft clearBoth MarginBottom30px">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_ProductCategory", UserCookieManager.StoreId))</label>
+                <label ID="lbl_ProductCategory" class="product_detail_sub_heading custom_color floatleft clearBoth MarginBottom30px">@Html.Raw(Html.GetKeyValueFromResourceFile("lblCategoryHeader", UserCookieManager.StoreId))</label>
             }
         </div>
         <div class="cntParentCategDesc col-md-12 col-lg-12 col-xs-12">
@@ -98,7 +98,7 @@
                   { 
                     <div id="pnlAllProductTopLevel" class="padd_bottom_30 floatleft clear">
                         <div class="col-md-12 col-lg-12 col-xs-12">
-                            <label id="lbl_ProductHeading" class="product_detail_sub_heading custom_color floatleft clear marginBtm10">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_ProductHeading", UserCookieManager.StoreId))</label>
+                            <label id="lbl_ProductHeading" class="product_detail_sub_heading custom_color floatleft clear marginBtm10">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProductHeader", UserCookieManager.StoreId))</label>
                         </div>
                         <div class="clearBoth">
                             &nbsp;
@@ -198,7 +198,7 @@
                                                     </a>
                                                 }
                                             }
-</div>
+    </div>
                                         <div class="product_detail_image_heading_IRI">
                                             <label ID="lblProductName">@item.ProductName</label>
                                         </div>
@@ -230,7 +230,7 @@
                                             <tr>
                                                 <td class="Metroprod_table_cell prod_table_cell procu_detail_grid_cell wdthWrp"
                                                     style="text-align: left;">
-                                                   Quantity
+                                                   @Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.StoreId))
                                                 </td>
                                                 <td id="tdStockOpt1" class="prod_table_cell Metroprod_table_cell procu_detail_grid_cell wdthWrp"
                                                     style="text-align: right;">
@@ -297,7 +297,7 @@
                                                 <div class="paddingTop2px">
                                                     &nbsp;
                                                 </div>
-                                                FROM
+                                                @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfrom", UserCookieManager.StoreId))
                                                 <br />
                                                 <label ID="lblFromMinPrice"  style="font-size:16px;" >@item.MinPrice</label>
                                             </div>
@@ -314,9 +314,9 @@
                       
 
                         <div id="PopupProofScreen" hidden="hidden" class="FileUploaderPopup_Mesgbox  rounded_corners">
-                            <label ID="lbl_Proof"  class="left_align FileUploadHeaderText_PopUp float_left_simple MesgBoxClass lblPopupCorpHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Proof", UserCookieManager.StoreId))</label>
+                            <label ID="lbl_Proof"  class="left_align FileUploadHeaderText_PopUp float_left_simple MesgBoxClass lblPopupCorpHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProof", UserCookieManager.StoreId))</label>
                             <div id="Div1" onclick="hidePopup2()" class="MesgBoxBtnsDisplay rounded_corners5">
-                                Close
+                                @Html.Raw(Html.GetKeyValueFromResourceFile("lblClose", UserCookieManager.StoreId))
                             </div>
                             <div class="clearBoth">
                                 &nbsp;
@@ -331,7 +331,7 @@
                                 <div class="divTxtProofing">
                                     <div class="ConfirmPopupProof">
                                         <label id="lbl_spelling_Details">
-                                           @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_spelling_Details", UserCookieManager.StoreId))
+                                           @Html.Raw(Html.GetKeyValueFromResourceFile("lblspellingDetails", UserCookieManager.StoreId))
                                         </label>
                                         <input id="chkCheckSpelling" name="chkCheckSpelling" class="simpleText regular-checkbox"
                                                type="checkbox" />

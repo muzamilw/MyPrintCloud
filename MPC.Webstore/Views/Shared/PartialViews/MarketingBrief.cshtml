@@ -34,7 +34,7 @@
              style="padding: 5px;">
             <div class="white_background rounded_corners MB_P5o">
                 <label id="WlSumMesg" class="MB_ThksMsg">@ViewBag.WlSumMesg</label>
-                <a class="spanRetURl" href="/Home/Index" id="lnk_ReturnHome">@Html.Raw(Html.GetKeyValueFromResourceFile("lnk_ReturnHome", UserCookieManager.StoreId))</a>
+                <a class="spanRetURl" href="/Home/Index" id="lnk_ReturnHome">@Html.Raw(Html.GetKeyValueFromResourceFile("spngohome", UserCookieManager.StoreId))</a>
             </div>
         </div>
     }
@@ -155,7 +155,7 @@
                         &nbsp;
                     </div>
                     <div class="MB_AddInfoCOnt">
-                        <label id="lbl_AdditionalInformation" class="MB_AddInfoColor">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_AdditionalInformation", UserCookieManager.StoreId))</label>
+                        <label id="lbl_AdditionalInformation" class="MB_AddInfoColor">@Html.Raw(Html.GetKeyValueFromResourceFile("lblAdditionalInformation", UserCookieManager.StoreId))</label>
                         <textarea id="txtAddAns" class="rounded_corners MB_txtbxInfo" cols="10" rows="3"></textarea>
                     </div>
 
@@ -178,15 +178,15 @@
                        @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_UploadFiles", UserCookieManager.StoreId))
                     </div>
                     <div class="MB_UploadContainer">
-                        <label id="lbl_UploadFileGudelines" class="Fsize17">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_UploadFileGudelines", UserCookieManager.StoreId))</label><br />
+                        <label id="lbl_UploadFileGudelines" class="Fsize17">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines", UserCookieManager.StoreId))</label><br />
                         <br />
                         <div class="MB_GLContainer">
-                            <label id="lbl_UploadFileGudelines_Format">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_UploadFileGudelines_Format", UserCookieManager.StoreId))</label>
-                            <label id="lbl_UploadFileGudelines_Format_Types">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_UploadFileGudelines_Format_Types", UserCookieManager.StoreId))</label>
+                            <label id="lbl_UploadFileGudelines_Format">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines_Format", UserCookieManager.StoreId))</label>
+                            <label id="lbl_UploadFileGudelines_Format_Types">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines_Format_Types", UserCookieManager.StoreId))</label>
                         </div>
                         <div class="MB_GLContainer">
-                            <label id="lbl_UploadFileGuideLines_FileSize">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_UploadFileGuideLines_FileSize", UserCookieManager.StoreId))</label>
-                            <label id="lbl_UploadFileGuideLines_FileSize_Bytes">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_UploadFileGuideLines_FileSize_Bytes", UserCookieManager.StoreId))</label>
+                            <label id="lbl_UploadFileGuideLines_FileSize">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGuideLines_FileSize", UserCookieManager.StoreId))</label>
+                            <label id="lbl_UploadFileGuideLines_FileSize_Bytes">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGuideLinesFileSizeBytes", UserCookieManager.StoreId))</label>
                         </div>
                     </div>
                     <div class="MB_fileUploadContainer">
@@ -206,16 +206,16 @@
             <div class="float_left_simple LGBC rounded_corners paddingLeft5px Mleft10 MB_InnerRightCont">
                 <div class="white_background rounded_corners MB_RightInnerPnl">
                     <div class="MB_GrayBack">
-                        <label id="lbl_Reply_Message" class="Fsize17">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Reply_Message", UserCookieManager.StoreId))</label>
+                        <label id="lbl_Reply_Message" class="Fsize17">@Html.Raw(Html.GetKeyValueFromResourceFile("lblReplyMessage", UserCookieManager.StoreId))</label>
                         <div class="left_align">
-                            <label id="lbl_Email" class="MB_EMailtxtColor">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Email", UserCookieManager.StoreId))</label>
+                            <label id="lbl_Email" class="MB_EMailtxtColor">@Html.Raw(Html.GetKeyValueFromResourceFile("lblEmail", UserCookieManager.StoreId))</label>
                         </div>
                         <label id="lblEMailAdd">@ViewBag.Email</label><br />
                         <div style="margin-top: 10px; text-align: left;">
                             <label id="lblTelText" class="MB_EMailtxtColor">Tel:</label>
                         </div>
                         <label id="lblPhoneNo">@ViewBag.Phone</label><br />
-                        <a id="lbl_Change"  href="#" style="float: right; cursor: pointer; color:#73a8ac; clear: both; display:none;">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Change", UserCookieManager.StoreId))</a>
+                        <a id="lbl_Change"  href="#" style="float: right; cursor: pointer; color:#73a8ac; clear: both; display:none;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblChange", UserCookieManager.StoreId))</a>
                         <div class="clearBoth">
                             &nbsp;
                         </div>

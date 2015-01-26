@@ -1,11 +1,12 @@
 ﻿@model  MPC.Webstore.Models.AccountViewModel
+@using MPC.Webstore.Common;
 
 @{ Layout = null;}
 <div class="container content_area">
     <div id="loginpage" class="white-container-lightgrey-border  rounded_corners">
         <div class="sign_up_page_box NoPadding">
             <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
-                <div id="lblSignWithSM" class="mainHeadingAveniorCheckout">Sign in using</div>
+                <div id="lblSignWithSM" class="mainHeadingAveniorCheckout">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsigninwithaccount", UserCookieManager.StoreId))</div>
                 <div class="clearBoth">&nbsp;</div>
                 <div id="cntSocialLink" class="cntSignInWithSocialinks">
                     <em id="emfacebook" class="emfb"></em>
@@ -43,7 +44,7 @@
                     &nbsp;
                 </div>
                 <div class="mainHeadingAveniorCheckout">
-                    Sign in to CompanyName
+                    @Html.Raw(Html.GetKeyValueFromResourceFile("lblSignIntoComapny", UserCookieManager.StoreId))
                 </div>
                 @using (Html.BeginForm())
                 {
@@ -63,12 +64,12 @@
                     <br />
                     <div id="cntStaySignedin">
                         @Html.CheckBoxFor(model => model.KeepMeLoggedIn, new { id = "rememberMe" })
-                        <label for="rememberMe">Keep me logged in</label>
+                        <label for="rememberMe">@Html.Raw(Html.GetKeyValueFromResourceFile("keepMe", UserCookieManager.StoreId))</label>
                     </div>
               
                     <div id="divBtnContainer" style="margin-top: 20px;">
                         <div class="divwidth">
-                            <a class="forgetPassLink" id="lnkForgotPassword" href="/ForgotPassword">Forgot your Password?</a>
+                            <a class="forgetPassLink" id="lnkForgotPassword" href="/ForgotPassword">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkForgotPassword", UserCookieManager.StoreId))</a>
                         </div>
                         <div class="divwidthset">
                             <input id="cmdLogin" type="submit" class="start_creating_btn_Login rounded_corners5" value="Login" onclick="ShowLoader();" /><br />
@@ -90,42 +91,42 @@
                 </div>
             }
             <div class="divDontHaveAccont rounded_corners5">
-                <p id="lblRegistering" class="mainHeadingAveniorCheckout" style="font-size: 19px !important; margin-bottom: 0px !important;">By registering you are able to:</p>
+                <p id="lblRegistering" class="mainHeadingAveniorCheckout" style="font-size: 19px !important; margin-bottom: 0px !important;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblRegistering", UserCookieManager.StoreId))</p>
                 <div class="registering_item">
                     <div class="tickImge">
                         &nbsp;
                     </div>
-                    <p id="ltrlsaveurdesign" class="smallAveniorLogin">Save your designs</p>
+                    <p id="ltrlsaveurdesign" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsaveurdesign", UserCookieManager.StoreId))</p>
                 </div>
                 <div class="registering_item">
                     <div class="tickImge">
                         &nbsp;
                     </div>
-                    <p id="ltrlviewtoh" class="smallAveniorLogin">View and track order history</p>
+                    <p id="ltrlviewtoh" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlviewtoh", UserCookieManager.StoreId))</p>
                 </div>
                 <div class="registering_item">
                     <div class="tickImge">
                         &nbsp;
                     </div>
-                    <p id="ltrlroq" class="smallAveniorLogin">Re-order quickly</p>
+                    <p id="ltrlroq" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("divreorderq", UserCookieManager.StoreId))</p>
                 </div>
                 <div class="registering_item">
                     <div class="tickImge">
                         &nbsp;
                     </div>
-                    <p id="ltrlsubscribe2Nwzl" class="smallAveniorLogin">Subscribe to our Newsletters on new marketing products and services</p>
+                    <p id="ltrlsubscribe2Nwzl" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("divsubs2newsl", UserCookieManager.StoreId))</p>
                 </div>
                 <div class="registering_item">
                     <div class="tickImge">
                         &nbsp;
                     </div>
-                    <p id="lblTitleRequestQuote" class="smallAveniorLogin">Request a quote</p>
+                    <p id="lblTitleRequestQuote" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("hlRequestQuote", UserCookieManager.StoreId))</p>
                 </div>
                 <div class="registering_item">
                     <div class="tickImge">
                         &nbsp;
                     </div>
-                    <p id="ltrlNewVoucherPromo" class="smallAveniorLogin">Get latest Voucher promotions</p>
+                    <p id="ltrlNewVoucherPromo" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlNewVoucherPromo", UserCookieManager.StoreId))</p>
                 </div>
                 <div class="clearBoth"></div>
             </div>
