@@ -25,18 +25,5 @@ namespace MPC.Models.DomainModels
 
         public virtual CompanyBannerSet CompanyBannerSet { get; set; }
 
-        #region Additional Properties
-        /// <summary>
-        /// File Bytes
-        /// </summary>
-        [NotMapped]
-        public string Bytes { get; set; }
-
-        /// <summary>
-        /// File Name
-        /// </summary>
-        [NotMapped]
-        public string FileName { get; set; }
-        #endregion
     }
 }

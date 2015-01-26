@@ -223,15 +223,7 @@ namespace MPC.MIS.Areas.Api.Models
         #endregion
 
         #region Backgroud Image
-        /// <summary>
-        /// Store Backgroud Image Image Source
-        /// </summary>
-        public string StoreBackgroudImageImageSource { get; set; }
-
-        /// <summary>
-        /// Store Backgroud Image File Name
-        /// </summary>
-        public string StoreBackgroudImageFileName { get; set; }
+        public string StoreBackgroundFile { get; set; }
 
         /// <summary>
         /// Store Backgroud Image Bytes

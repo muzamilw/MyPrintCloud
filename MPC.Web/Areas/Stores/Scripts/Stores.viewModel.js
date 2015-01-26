@@ -189,6 +189,8 @@ define("stores/stores.viewModel",
                 },
                 //On Edit Click Of Store
                 onCreateNewStore = function () {
+                    filteredCompanyBanners.removeAll();
+                    companyBannerSetList.removeAll();
                     selectedStore(new model.Store);
                     isEditorVisible(true);
                     view.initializeForm();
@@ -202,7 +204,6 @@ define("stores/stores.viewModel",
                     if (itemsForWidgets().length === 0) {
                         getItemsForWidgets();
                     }
-                    newUploadedMediaFile(model.MediaLibrary());
                 },
                 //To Show/Hide Edit Section
                 isStoreEditorVisible = ko.observable(false),
@@ -1843,7 +1844,7 @@ define("stores/stores.viewModel",
                         companyId: selectedStoreListView().companyId()
                     }, {
                         success: function (data) {
-                            selectedStore(undefined);
+                            selectedStore(model.Store());
                             if (data != null) {
                                 selectedStore(model.Store.Create(data.Company));
                                 //_.each(data.AddressResponse.Addresses, function (item) {
@@ -2404,25 +2405,102 @@ define("stores/stores.viewModel",
 
                 //#region ________ MEDIA LIBRARY___________
 
+                //Active Media File
+                selectedMediaFile = ko.observable(),
+                //Media Library Open From
+                mediaLibraryOpenFrom = ko.observable(),
+                mediaLibraryIdCount = ko.observable(0),
                 //New Uploaded Media File
                 newUploadedMediaFile = ko.observable(model.MediaLibrary()),
                 //Media Library File Loaded Call back
                 mediaLibraryFileLoadedCallback = function (file, data) {
-                    var mediaLibrary = model.MediaLibrary();
-                    mediaLibrary.fileSource(data);
-                    mediaLibrary.fileName(file.name);
-                    mediaLibrary.fileType(file.type);
-                    mediaLibrary.companyId(selectedStore().companyId());
-                    newUploadedMediaFile(mediaLibrary);
-                    selectedStore().mediaLibraries.push(newUploadedMediaFile());
+                    //Flag check, whether file is already exist in media libray
+                    var flag = true;
+                    _.each(selectedStore().mediaLibraries(), function (item) {
+                        if (item.fileSource() === data && item.fileName() === file.name) {
+                            flag = false;
+                        }
+                    });
+
+                    if (flag) {
+                        var mediaId = mediaLibraryIdCount() - 1;
+                        var mediaLibrary = model.MediaLibrary();
+                        mediaLibrary.id(mediaId);
+                        mediaLibrary.fakeId(mediaId);
+                        mediaLibrary.fileSource(data);
+                        mediaLibrary.fileName(file.name);
+                        mediaLibrary.fileType(file.type);
+                        mediaLibrary.companyId(selectedStore().companyId());
+                        newUploadedMediaFile(mediaLibrary);
+                        selectedStore().mediaLibraries.push(newUploadedMediaFile());
+                        //Last set Id
+                        mediaLibraryIdCount(mediaId);
+                    }
                 },
                 //#endregion
-
-                showMediaLibraryDialog = function () {
-                    view.showMediaGalleryDialog();
+                //Open Media Library From Store Background Image
+                showMediaLibraryDialogFromStoreBackground = function () {
+                    resetMediaGallery();
+                    _.each(selectedStore().mediaLibraries(), function (item) {
+                        if (selectedStore().storeBackgroudImagePath() !== undefined && (item.id() === selectedStore().storeBackgroudImagePath() || item.filePath() === selectedStore().storeBackgroudImagePath())) {
+                            item.isSelected(true);
+                            selectedStore().storeBackgroudImageImageSource(item.fileSource());
+                        }
+                    });
+                    mediaLibraryOpenFrom("StoreBackground");
+                    showMediaLibrary();
                 },
+                //Open Media Library From CompanyBanner
+                openMediaLibraryDialogFromCompanyBanner = function () {
+                    resetMediaGallery();
+                    _.each(selectedStore().mediaLibraries(), function (item) {
+                        if (selectedCompanyBanner().filePath() !== undefined && (item.id() === selectedCompanyBanner().filePath() || item.filePath() === selectedCompanyBanner().filePath())) {
+                            item.isSelected(true);
+                            selectedCompanyBanner().fileBinary(item.fileSource());
+                        }
+                    });
+                    mediaLibraryOpenFrom("CompanyBanner");
+                    showMediaLibrary();
+                },
+                //Hie Media Library
                 hideMediaLibraryDialog = function () {
                     view.hideMediaGalleryDialog();
+                },
+
+                //Show Media Library 
+                showMediaLibrary = function () {
+                    view.showMediaGalleryDialog();
+                },
+                //select Media File
+                selectMediaFile = function (media) {
+                    resetMediaGallery();
+                    media.isSelected(true);
+                    selectedMediaFile(media);
+                },
+                //Reset Media Gallery
+                resetMediaGallery = function () {
+                    _.each(selectedStore().mediaLibraries(), function (item) {
+                        item.isSelected(false);
+                    });
+                },
+                //Save Media File And Close Library Dialog
+                onSaveMedia = function () {
+                    //Open From Store backgound
+                    if (mediaLibraryOpenFrom() === "StoreBackground") {
+                        selectedStore().storeBackgroudImageImageSource(selectedMediaFile().fileSource());
+                    }
+                        //If Open From Company Banner
+                    else if (mediaLibraryOpenFrom() === "CompanyBanner") {
+                        if (selectedMediaFile().id() > 0) {
+                            selectedCompanyBanner().filePath(selectedMediaFile().filePath());
+                        } else {
+                            selectedCompanyBanner().filePath(selectedMediaFile().id());
+                        }
+                        selectedCompanyBanner().fileBinary(selectedMediaFile().fileSource());
+                        selectedCompanyBanner().imageSource(selectedMediaFile().fileSource());
+                    }
+                    //Hide gallery
+                    hideMediaLibraryDialog();
                 },
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
@@ -2683,8 +2761,12 @@ define("stores/stores.viewModel",
                     createCompanyDomainItem: createCompanyDomainItem,
                     newUploadedMediaFile: newUploadedMediaFile,
                     mediaLibraryFileLoadedCallback: mediaLibraryFileLoadedCallback,
-                    showMediaLibraryDialog: showMediaLibraryDialog,
+                    showMediaLibraryDialogFromStoreBackground: showMediaLibraryDialogFromStoreBackground,
+                    openMediaLibraryDialogFromCompanyBanner: openMediaLibraryDialogFromCompanyBanner,
                     hideMediaLibraryDialog: hideMediaLibraryDialog,
+                    selectMediaFile: selectMediaFile,
+                    selectedMediaFile: selectedMediaFile,
+                    onSaveMedia: onSaveMedia,
                 };
             })()
         };

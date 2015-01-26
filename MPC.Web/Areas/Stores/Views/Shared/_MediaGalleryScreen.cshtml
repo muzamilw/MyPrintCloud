@@ -23,19 +23,22 @@
                 &nbsp;
             </div>
             <div class="fileSelectedContainer">
-                <span>1 file selected</span>
-                <a>Edit&nbsp;|</a><a>&nbsp;Clear</a>
+                @*<span>1 file selected</span>
+                <a>Edit&nbsp;|</a><a>&nbsp;Clear</a>*@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveMedia">Save</button>
             </div>
         </div>
     </div>
 
     <script id="mediaGalleryItemTemplate" type="text/html">
-        <li class="col-md-3 col-sm-3 col-xs-6">
+        <li class="col-md-3 col-sm-3 col-xs-6 " data-bind="click:$root.selectMediaFile, css: { galleryImgContainerSelected:isSelected } ">
             @*<a href="#" class="photo-box image-link" style="background-image: url('/Content/themes/Centaurus/img/samples/hdr/small/img_6.jpg');"></a>*@
+            <div class="checkboxGray" data-bind="visible:isSelected()">
+                <i class="fa fa-check"></i>
+            </div>
             <div class="photo-box image-link" data-bind="style:{backgroundImage:' url('+fileSource()+')'}"></div>
             <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
         </li>
