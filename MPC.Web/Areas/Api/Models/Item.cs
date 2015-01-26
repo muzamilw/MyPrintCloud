@@ -378,6 +378,11 @@ namespace MPC.MIS.Areas.Api.Models
         public long? OrganisationId { get; set; }
         public double? PackagingWeight { get; set; }
         public bool? IsVdpProduct { get; set; }
+        public int? TemplateType { get; set; }
+        public int? DesignerCategoryId { get; set; }
+        public double? Scalar { get; set; }
+        public double? ZoomFactor { get; set; }
+        public bool? IsAddCropMarks { get; set; }
         public string ThumbnailImageName { get; set; }
         public string ImagePathImageName { get; set; }
         public string GridImageSourceName { get; set; }

@@ -12,7 +12,7 @@ namespace MPC.Interfaces.Repository
     {
         CompanyContact GetContactUser(string email, string password);
         CompanyContact GetContactByFirstName(string Fname);
-        CompanyContact GetContactByEmail(string Email);
+        CompanyContact GetContactByEmail(string Email, long OID);
         long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID);
 
         CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName);
@@ -21,7 +21,7 @@ namespace MPC.Interfaces.Repository
         Models.ResponseModels.CompanyContactResponse GetCompanyContacts(
             Models.RequestModels.CompanyContactRequestModel request);
 
-        CompanyContact GetContactByEmailAndMode(string Email, int Type, int customerID);
+        CompanyContact GetContactByEmailAndMode(string Email, int Type, long customerID);
 
         string GeneratePasswordHash(string plainText);
 

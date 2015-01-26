@@ -1794,12 +1794,12 @@ namespace MPC.Implementation.WebStoreServices
         }
 
         // called from designer, all the units are converted to pixel before sending  // added by saqib ali
-        public Template GetTemplateInDesigner(long productID,long categoryIdv2,double  height, double width,long organisationId)
+        public Template GetTemplateInDesigner(long productID,long categoryIdv2,double  height, double width,long organisationId,long itemId)
         {
             Template product = null;
             if (productID == 0)
             {
-                product = _templateRepository.CreateTemplate(productID, categoryIdv2, height, width);
+                product = _templateRepository.CreateTemplate(productID, categoryIdv2, height, width,itemId);
                // _templatePageService.CreateBlankBackgroundPDFs(product.ProductId,Convert.ToDouble( product.PDFTemplateHeight),Convert.ToDouble( product.PDFTemplateWidth), 1, organisationId);
             }
             else
@@ -1809,7 +1809,24 @@ namespace MPC.Implementation.WebStoreServices
             product.PDFTemplateHeight = DesignerUtils.PointToPixel(product.PDFTemplateHeight.Value);
             product.PDFTemplateWidth = DesignerUtils.PointToPixel(product.PDFTemplateWidth.Value);
             product.CuttingMargin = DesignerUtils.PointToPixel(product.CuttingMargin.Value);
+            string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + organisationId.ToString() + "/Templates/" + productID.ToString() + "/");
+                       
+            foreach (var objPage in product.TemplatePages)
+            {
 
+               // targetFolder = System.Web.Hosting.HostingEnvironment.MapPath("~/Designer/Products/");
+                if (objPage.BackGroundType != 3)
+                {
+                    if (File.Exists(drURL + "/templatImgBk" + objPage.PageNo.ToString() + ".jpg"))
+                    {
+                        objPage.BackgroundFileName =  productID + "/templatImgBk" + objPage.PageNo.ToString() + ".jpg";
+                    }
+                    else
+                    {
+                        objPage.BackgroundFileName = "";
+                    }
+                }
+            }
 
             return product;
         }
@@ -2332,6 +2349,7 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
+        
         //public string GetConvertedSizeWithUnits(double heightInMM, double widthInMM, long productId,long organisationID)
         //{
 

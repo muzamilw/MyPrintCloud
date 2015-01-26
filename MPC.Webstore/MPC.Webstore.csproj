@@ -281,6 +281,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CategoryHeaderController.cs" />
+    <Compile Include="Controllers\ContactDetailController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\OrderConfirmationController.cs" />
     <Compile Include="Controllers\ProductDetailController.cs" />
@@ -385,6 +386,7 @@
     <Content Include="Content\Designer\assets-v2\valign1.png" />
     <Content Include="Content\Designer\assets-v2\valign2.png" />
     <Content Include="Content\Designer\assets-v2\valign3.png" />
+    <Content Include="Content\Images\artwork_arrow_icons.png" />
     <Content Include="Content\Images\fancybox_loading.gif" />
     <Content Include="Content\Designer\assets-v2\bkColor.jpg" />
     <Content Include="Content\Designer\assets-v2\bleed_area.png" />
@@ -645,6 +647,7 @@
     <Content Include="Views\Shared\PartialViews\Dashboard.cshtml" />
     <Content Include="Views\Shared\PartialViews\Receipt.cshtml" />
     <Content Include="Views\Shared\PartialViews\OrderConfirmation.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ContactDetail.cshtml" />
     <Content Include="Views\Shared\PartialViews\pages.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -652,6 +655,7 @@
     <Folder Include="Areas\DesignerApi\Models\" />
     <Folder Include="Areas\DesignerApi\Views\Shared\" />
     <Folder Include="Areas\Designer\Models\" />
+    <Folder Include="Views\ContactDetail\" />
     <Folder Include="Views\OrderConfirmation\" />
   </ItemGroup>
   <ItemGroup>

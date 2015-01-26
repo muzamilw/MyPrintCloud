@@ -15,6 +15,7 @@ using MPC.Webstore.ResponseModels;
 using System.IO;
 using MPC.Webstore.Models;
 using Newtonsoft.Json;
+using System.Runtime.Caching;
 
 namespace MPC.Webstore.Controllers
 {
@@ -87,9 +88,11 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index(string CategoryId, string ItemId, string ItemMode, string TemplateId)
         {
             Item clonedItem = null;
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
 
             long referenceItemId = 0;
-
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
             if (ItemMode == "UploadDesign")
             {
                 if (UserCookieManager.OrderId == 0)
@@ -97,8 +100,9 @@ namespace MPC.Webstore.Controllers
                     long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
 
                     // create new order
-                    MyCompanyDomainBaseResponse organisationBaseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
-                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, organisationBaseResponse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, _myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), ref TemporaryRetailCompanyId);
+                    
+                   // MyCompanyDomainBaseResponse organisationBaseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
+                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, _myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), ref TemporaryRetailCompanyId);
                     if (OrderID > 0)
                     {
                         UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
@@ -108,7 +112,7 @@ namespace MPC.Webstore.Controllers
 
                         if (clonedItem == null)
                         {
-                            clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, OrderID, UserCookieManager.StoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID());
+                            clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, OrderID, UserCookieManager.StoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId);
                         }
                     }
                 }
@@ -119,7 +123,7 @@ namespace MPC.Webstore.Controllers
 
                     if (clonedItem == null)
                     {
-                        clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, UserCookieManager.OrderId, UserCookieManager.StoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID());
+                        clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, UserCookieManager.OrderId, UserCookieManager.StoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId);
                     }
                 }
                 ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList();
@@ -159,7 +163,7 @@ namespace MPC.Webstore.Controllers
             ViewBag.AttachmentCount = clonedItem.ItemAttachments == null ? 0 : clonedItem.ItemAttachments.Count;
 
             DefaultSettings(referenceItemId);
-
+            StoreBaseResopnse = null;
             return View("PartialViews/ProductOptions");
         }
 

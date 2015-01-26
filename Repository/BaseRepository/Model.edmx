@@ -1982,6 +1982,100 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="Mobile" Type="varchar" MaxLength="50" />
           <Property Name="ListingId" Type="bigint" />
         </EntityType>
+        <EntityType Name="LookupMethod">
+          <Key>
+            <PropertyRef Name="MethodId" />
+          </Key>
+          <Property Name="MethodId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Type" Type="bigint" />
+          <Property Name="LockedBy" Type="int" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="FlagId" Type="int" />
+          <Property Name="SystemSiteId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Machine">
+          <Key>
+            <PropertyRef Name="MachineId" />
+          </Key>
+          <Property Name="MachineId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MachineName" Type="varchar" MaxLength="50" />
+          <Property Name="MachineCatId" Type="int" />
+          <Property Name="ColourHeads" Type="int" />
+          <Property Name="isPerfecting" Type="bit" />
+          <Property Name="SetupCharge" Type="float" />
+          <Property Name="WashupPrice" Type="float" />
+          <Property Name="WashupCost" Type="float" />
+          <Property Name="MinInkDuctqty" Type="float" />
+          <Property Name="worknturncharge" Type="float" />
+          <Property Name="MakeReadyCost" Type="float" />
+          <Property Name="DefaultFilmId" Type="int" />
+          <Property Name="DefaultPlateId" Type="int" />
+          <Property Name="DefaultPaperId" Type="int" Nullable="false" />
+          <Property Name="isfilmused" Type="bit" />
+          <Property Name="isplateused" Type="bit" />
+          <Property Name="ismakereadyused" Type="bit" />
+          <Property Name="iswashupused" Type="bit" />
+          <Property Name="maximumsheetweight" Type="float" />
+          <Property Name="maximumsheetheight" Type="float" />
+          <Property Name="maximumsheetwidth" Type="float" />
+          <Property Name="minimumsheetheight" Type="float" />
+          <Property Name="minimumsheetwidth" Type="float" />
+          <Property Name="gripdepth" Type="float" />
+          <Property Name="gripsideorientaion" Type="int" />
+          <Property Name="gutterdepth" Type="float" />
+          <Property Name="headdepth" Type="float" />
+          <Property Name="Va" Type="float" />
+          <Property Name="PressSizeRatio" Type="float" />
+          <Property Name="Description" Type="text" Nullable="false" />
+          <Property Name="Priority" Type="float" />
+          <Property Name="DirectCost" Type="bit" />
+          <Property Name="MinimumCharge" Type="float" />
+          <Property Name="CostPerCut" Type="float" />
+          <Property Name="PricePerCut" Type="float" Nullable="false" />
+          <Property Name="IsAdditionalOption" Type="bit" />
+          <Property Name="IsDisabled" Type="bit" />
+          <Property Name="LockedBy" Type="int" Nullable="false" />
+          <Property Name="CylinderSizeId" Type="int" />
+          <Property Name="MaxItemAcrossCylinder" Type="int" />
+          <Property Name="Web1MRCost" Type="float" />
+          <Property Name="Web1MRPrice" Type="float" />
+          <Property Name="Web2MRCost" Type="float" />
+          <Property Name="Web2MRPrice" Type="float" />
+          <Property Name="ReelMRCost" Type="float" />
+          <Property Name="ReelMRPrice" Type="float" Nullable="false" />
+          <Property Name="IsMaxColorLimit" Type="bit" />
+          <Property Name="PressUtilization" Type="int" />
+          <Property Name="MakeReadyPrice" Type="float" />
+          <Property Name="InkChargeForUniqueColors" Type="float" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="FlagId" Type="int" />
+          <Property Name="IsScheduleable" Type="bit" Nullable="false" />
+          <Property Name="SystemSiteId" Type="int" Nullable="false" />
+          <Property Name="SpoilageType" Type="int" Nullable="false" />
+          <Property Name="SetupTime" Type="float" />
+          <Property Name="TimePerCut" Type="float" />
+          <Property Name="MakeReadyTime" Type="float" />
+          <Property Name="WashupTime" Type="float" />
+          <Property Name="ReelMakereadyTime" Type="float" />
+        </EntityType>
+        <EntityType Name="MachineInkCoverage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SideInkOrder" Type="int" />
+          <Property Name="SideInkOrderCoverage" Type="int" />
+          <Property Name="MachineId" Type="int" />
+        </EntityType>
+        <EntityType Name="MachineResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MachineId" Type="int" />
+          <Property Name="ResourceId" Type="int" />
+        </EntityType>
         <EntityType Name="Markup">
           <Key>
             <PropertyRef Name="MarkUpId" />
@@ -3014,7 +3108,6 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="OrganisationId" Type="bigint" />
           <Property Name="WebDescription" Type="varchar(max)" />
           <Property Name="PriceDiscountPercentage" Type="int" />
-          <Property Name="isTemplateDesignMode" Type="bit" />
           <Property Name="DefaultItemTax" Type="float" />
           <Property Name="isUploadImage" Type="bit" />
           <Property Name="CompanyId" Type="bigint" />
@@ -4068,6 +4161,30 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbl_machines_tbl_machine_ink_coverage">
+          <End Role="Machine" Type="Self.Machine" Multiplicity="0..1" />
+          <End Role="MachineInkCoverage" Type="Self.MachineInkCoverage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Machine">
+              <PropertyRef Name="MachineId" />
+            </Principal>
+            <Dependent Role="MachineInkCoverage">
+              <PropertyRef Name="MachineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_machines_tbl_machine_resource">
+          <End Role="Machine" Type="Self.Machine" Multiplicity="0..1" />
+          <End Role="MachineResource" Type="Self.MachineResource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Machine">
+              <PropertyRef Name="MachineId" />
+            </Principal>
+            <Dependent Role="MachineResource">
+              <PropertyRef Name="MachineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_PaymentGateways_tbl_PaymentMethods">
           <End Role="PaymentMethod" Type="Self.PaymentMethod" Multiplicity="0..1" />
           <End Role="PaymentGateway" Type="Self.PaymentGateway" Multiplicity="*" />
@@ -4480,6 +4597,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="ListingLink" EntityType="Self.ListingLink" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ListingOFIs" EntityType="Self.ListingOFIs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ListingVendor" EntityType="Self.ListingVendor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LookupMethod" EntityType="Self.LookupMethod" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Machine" EntityType="Self.Machine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MachineInkCoverage" EntityType="Self.MachineInkCoverage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MachineResource" EntityType="Self.MachineResource" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Markup" EntityType="Self.Markup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MediaLibrary" EntityType="Self.MediaLibrary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Organisation" EntityType="Self.Organisation" Schema="dbo" store:Type="Tables" />
@@ -4643,7 +4764,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
     [GetItemsListView].[OrganisationId] AS [OrganisationId], 
     [GetItemsListView].[WebDescription] AS [WebDescription], 
     [GetItemsListView].[PriceDiscountPercentage] AS [PriceDiscountPercentage], 
-    [GetItemsListView].[isTemplateDesignMode] AS [isTemplateDesignMode], 
     [GetItemsListView].[DefaultItemTax] AS [DefaultItemTax], 
     [GetItemsListView].[isUploadImage] AS [isUploadImage], 
     [GetItemsListView].[CompanyId] AS [CompanyId]
@@ -5027,6 +5147,14 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <AssociationSet Name="FK_tbl_items_tbl_Statuses" Association="Self.FK_tbl_items_tbl_Statuses">
             <End Role="Status" EntitySet="Status" />
             <End Role="Items" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_machines_tbl_machine_ink_coverage" Association="Self.FK_tbl_machines_tbl_machine_ink_coverage">
+            <End Role="Machine" EntitySet="Machine" />
+            <End Role="MachineInkCoverage" EntitySet="MachineInkCoverage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_machines_tbl_machine_resource" Association="Self.FK_tbl_machines_tbl_machine_resource">
+            <End Role="Machine" EntitySet="Machine" />
+            <End Role="MachineResource" EntitySet="MachineResource" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_PaymentGateways_tbl_PaymentMethods" Association="Self.FK_tbl_PaymentGateways_tbl_PaymentMethods">
             <End Role="PaymentMethod" EntitySet="PaymentMethod" />
@@ -5712,6 +5840,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <AssociationSet Name="FK_MediaLibrary_Company" Association="DomainModels.FK_MediaLibrary_Company">
             <End Role="Company" EntitySet="Companies" />
             <End Role="MediaLibrary" EntitySet="MediaLibraries" />
+          </AssociationSet>
+          <EntitySet Name="LookupMethods" EntityType="DomainModels.LookupMethod" />
+          <EntitySet Name="Machines" EntityType="DomainModels.Machine" />
+          <EntitySet Name="MachineInkCoverages" EntityType="DomainModels.MachineInkCoverage" />
+          <EntitySet Name="MachineResources" EntityType="DomainModels.MachineResource" />
+          <AssociationSet Name="FK_tbl_machines_tbl_machine_ink_coverage" Association="DomainModels.FK_tbl_machines_tbl_machine_ink_coverage">
+            <End Role="Machine" EntitySet="Machines" />
+            <End Role="MachineInkCoverage" EntitySet="MachineInkCoverages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_machines_tbl_machine_resource" Association="DomainModels.FK_tbl_machines_tbl_machine_resource">
+            <End Role="Machine" EntitySet="Machines" />
+            <End Role="MachineResource" EntitySet="MachineResources" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
@@ -8545,7 +8685,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="OrganisationId" Type="Int64" />
           <Property Name="WebDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="PriceDiscountPercentage" Type="Int32" />
-          <Property Name="IsTemplateDesignMode" Type="Boolean" />
           <Property Name="DefaultItemTax" Type="Double" />
           <Property Name="ProductType" Type="Int32" />
           <Property Name="IsUploadImage" Type="Boolean" />
@@ -10273,6 +10412,128 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="MediaLibrary">
               <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="LookupMethod">
+          <Key>
+            <PropertyRef Name="MethodId" />
+          </Key>
+          <Property Name="MethodId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="Int64" />
+          <Property Name="LockedBy" Type="Int32" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="FlagId" Type="Int32" />
+          <Property Name="SystemSiteId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Machine">
+          <Key>
+            <PropertyRef Name="MachineId" />
+          </Key>
+          <Property Name="MachineId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MachineName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MachineCatId" Type="Int32" />
+          <Property Name="ColourHeads" Type="Int32" />
+          <Property Name="isPerfecting" Type="Boolean" />
+          <Property Name="SetupCharge" Type="Double" />
+          <Property Name="WashupPrice" Type="Double" />
+          <Property Name="WashupCost" Type="Double" />
+          <Property Name="MinInkDuctqty" Type="Double" />
+          <Property Name="worknturncharge" Type="Double" />
+          <Property Name="MakeReadyCost" Type="Double" />
+          <Property Name="DefaultFilmId" Type="Int32" />
+          <Property Name="DefaultPlateId" Type="Int32" />
+          <Property Name="DefaultPaperId" Type="Int32" Nullable="false" />
+          <Property Name="isfilmused" Type="Boolean" />
+          <Property Name="isplateused" Type="Boolean" />
+          <Property Name="ismakereadyused" Type="Boolean" />
+          <Property Name="iswashupused" Type="Boolean" />
+          <Property Name="maximumsheetweight" Type="Double" />
+          <Property Name="maximumsheetheight" Type="Double" />
+          <Property Name="maximumsheetwidth" Type="Double" />
+          <Property Name="minimumsheetheight" Type="Double" />
+          <Property Name="minimumsheetwidth" Type="Double" />
+          <Property Name="gripdepth" Type="Double" />
+          <Property Name="gripsideorientaion" Type="Int32" />
+          <Property Name="gutterdepth" Type="Double" />
+          <Property Name="headdepth" Type="Double" />
+          <Property Name="Va" Type="Double" />
+          <Property Name="PressSizeRatio" Type="Double" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Priority" Type="Double" />
+          <Property Name="DirectCost" Type="Boolean" />
+          <Property Name="MinimumCharge" Type="Double" />
+          <Property Name="CostPerCut" Type="Double" />
+          <Property Name="PricePerCut" Type="Double" Nullable="false" />
+          <Property Name="IsAdditionalOption" Type="Boolean" />
+          <Property Name="IsDisabled" Type="Boolean" />
+          <Property Name="LockedBy" Type="Int32" Nullable="false" />
+          <Property Name="CylinderSizeId" Type="Int32" />
+          <Property Name="MaxItemAcrossCylinder" Type="Int32" />
+          <Property Name="Web1MRCost" Type="Double" />
+          <Property Name="Web1MRPrice" Type="Double" />
+          <Property Name="Web2MRCost" Type="Double" />
+          <Property Name="Web2MRPrice" Type="Double" />
+          <Property Name="ReelMRCost" Type="Double" />
+          <Property Name="ReelMRPrice" Type="Double" Nullable="false" />
+          <Property Name="IsMaxColorLimit" Type="Boolean" />
+          <Property Name="PressUtilization" Type="Int32" />
+          <Property Name="MakeReadyPrice" Type="Double" />
+          <Property Name="InkChargeForUniqueColors" Type="Double" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="FlagId" Type="Int32" />
+          <Property Name="IsScheduleable" Type="Boolean" Nullable="false" />
+          <Property Name="SystemSiteId" Type="Int32" Nullable="false" />
+          <Property Name="SpoilageType" Type="Int32" Nullable="false" />
+          <Property Name="SetupTime" Type="Double" />
+          <Property Name="TimePerCut" Type="Double" />
+          <Property Name="MakeReadyTime" Type="Double" />
+          <Property Name="WashupTime" Type="Double" />
+          <Property Name="ReelMakereadyTime" Type="Double" />
+          <NavigationProperty Name="MachineInkCoverages" Relationship="DomainModels.FK_tbl_machines_tbl_machine_ink_coverage" FromRole="Machine" ToRole="MachineInkCoverage" />
+          <NavigationProperty Name="MachineResources" Relationship="DomainModels.FK_tbl_machines_tbl_machine_resource" FromRole="Machine" ToRole="MachineResource" />
+        </EntityType>
+        <EntityType Name="MachineInkCoverage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SideInkOrder" Type="Int32" />
+          <Property Name="SideInkOrderCoverage" Type="Int32" />
+          <Property Name="MachineId" Type="Int32" />
+          <NavigationProperty Name="Machine" Relationship="DomainModels.FK_tbl_machines_tbl_machine_ink_coverage" FromRole="MachineInkCoverage" ToRole="Machine" />
+        </EntityType>
+        <EntityType Name="MachineResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MachineId" Type="Int32" />
+          <Property Name="ResourceId" Type="Int32" />
+          <NavigationProperty Name="Machine" Relationship="DomainModels.FK_tbl_machines_tbl_machine_resource" FromRole="MachineResource" ToRole="Machine" />
+        </EntityType>
+        <Association Name="FK_tbl_machines_tbl_machine_ink_coverage">
+          <End Type="DomainModels.Machine" Role="Machine" Multiplicity="0..1" />
+          <End Type="DomainModels.MachineInkCoverage" Role="MachineInkCoverage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Machine">
+              <PropertyRef Name="MachineId" />
+            </Principal>
+            <Dependent Role="MachineInkCoverage">
+              <PropertyRef Name="MachineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_machines_tbl_machine_resource">
+          <End Type="DomainModels.Machine" Role="Machine" Multiplicity="0..1" />
+          <End Type="DomainModels.MachineResource" Role="MachineResource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Machine">
+              <PropertyRef Name="MachineId" />
+            </Principal>
+            <Dependent Role="MachineResource">
+              <PropertyRef Name="MachineId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -12369,7 +12630,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="IsUploadImage" ColumnName="isUploadImage" />
                 <ScalarProperty Name="ProductType" ColumnName="ProductType" />
                 <ScalarProperty Name="DefaultItemTax" ColumnName="DefaultItemTax" />
-                <ScalarProperty Name="IsTemplateDesignMode" ColumnName="isTemplateDesignMode" />
                 <ScalarProperty Name="PriceDiscountPercentage" ColumnName="PriceDiscountPercentage" />
                 <ScalarProperty Name="WebDescription" ColumnName="WebDescription" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
@@ -13718,6 +13978,104 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="FilePath" ColumnName="FilePath" />
                 <ScalarProperty Name="MediaId" ColumnName="MediaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LookupMethods">
+            <EntityTypeMapping TypeName="DomainModels.LookupMethod">
+              <MappingFragment StoreEntitySet="LookupMethod">
+                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
+                <ScalarProperty Name="FlagId" ColumnName="FlagId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="LockedBy" ColumnName="LockedBy" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="MethodId" ColumnName="MethodId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Machines">
+            <EntityTypeMapping TypeName="DomainModels.Machine">
+              <MappingFragment StoreEntitySet="Machine">
+                <ScalarProperty Name="ReelMakereadyTime" ColumnName="ReelMakereadyTime" />
+                <ScalarProperty Name="WashupTime" ColumnName="WashupTime" />
+                <ScalarProperty Name="MakeReadyTime" ColumnName="MakeReadyTime" />
+                <ScalarProperty Name="TimePerCut" ColumnName="TimePerCut" />
+                <ScalarProperty Name="SetupTime" ColumnName="SetupTime" />
+                <ScalarProperty Name="SpoilageType" ColumnName="SpoilageType" />
+                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
+                <ScalarProperty Name="IsScheduleable" ColumnName="IsScheduleable" />
+                <ScalarProperty Name="FlagId" ColumnName="FlagId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="InkChargeForUniqueColors" ColumnName="InkChargeForUniqueColors" />
+                <ScalarProperty Name="MakeReadyPrice" ColumnName="MakeReadyPrice" />
+                <ScalarProperty Name="PressUtilization" ColumnName="PressUtilization" />
+                <ScalarProperty Name="IsMaxColorLimit" ColumnName="IsMaxColorLimit" />
+                <ScalarProperty Name="ReelMRPrice" ColumnName="ReelMRPrice" />
+                <ScalarProperty Name="ReelMRCost" ColumnName="ReelMRCost" />
+                <ScalarProperty Name="Web2MRPrice" ColumnName="Web2MRPrice" />
+                <ScalarProperty Name="Web2MRCost" ColumnName="Web2MRCost" />
+                <ScalarProperty Name="Web1MRPrice" ColumnName="Web1MRPrice" />
+                <ScalarProperty Name="Web1MRCost" ColumnName="Web1MRCost" />
+                <ScalarProperty Name="MaxItemAcrossCylinder" ColumnName="MaxItemAcrossCylinder" />
+                <ScalarProperty Name="CylinderSizeId" ColumnName="CylinderSizeId" />
+                <ScalarProperty Name="LockedBy" ColumnName="LockedBy" />
+                <ScalarProperty Name="IsDisabled" ColumnName="IsDisabled" />
+                <ScalarProperty Name="IsAdditionalOption" ColumnName="IsAdditionalOption" />
+                <ScalarProperty Name="PricePerCut" ColumnName="PricePerCut" />
+                <ScalarProperty Name="CostPerCut" ColumnName="CostPerCut" />
+                <ScalarProperty Name="MinimumCharge" ColumnName="MinimumCharge" />
+                <ScalarProperty Name="DirectCost" ColumnName="DirectCost" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PressSizeRatio" ColumnName="PressSizeRatio" />
+                <ScalarProperty Name="Va" ColumnName="Va" />
+                <ScalarProperty Name="headdepth" ColumnName="headdepth" />
+                <ScalarProperty Name="gutterdepth" ColumnName="gutterdepth" />
+                <ScalarProperty Name="gripsideorientaion" ColumnName="gripsideorientaion" />
+                <ScalarProperty Name="gripdepth" ColumnName="gripdepth" />
+                <ScalarProperty Name="minimumsheetwidth" ColumnName="minimumsheetwidth" />
+                <ScalarProperty Name="minimumsheetheight" ColumnName="minimumsheetheight" />
+                <ScalarProperty Name="maximumsheetwidth" ColumnName="maximumsheetwidth" />
+                <ScalarProperty Name="maximumsheetheight" ColumnName="maximumsheetheight" />
+                <ScalarProperty Name="maximumsheetweight" ColumnName="maximumsheetweight" />
+                <ScalarProperty Name="iswashupused" ColumnName="iswashupused" />
+                <ScalarProperty Name="ismakereadyused" ColumnName="ismakereadyused" />
+                <ScalarProperty Name="isplateused" ColumnName="isplateused" />
+                <ScalarProperty Name="isfilmused" ColumnName="isfilmused" />
+                <ScalarProperty Name="DefaultPaperId" ColumnName="DefaultPaperId" />
+                <ScalarProperty Name="DefaultPlateId" ColumnName="DefaultPlateId" />
+                <ScalarProperty Name="DefaultFilmId" ColumnName="DefaultFilmId" />
+                <ScalarProperty Name="MakeReadyCost" ColumnName="MakeReadyCost" />
+                <ScalarProperty Name="worknturncharge" ColumnName="worknturncharge" />
+                <ScalarProperty Name="MinInkDuctqty" ColumnName="MinInkDuctqty" />
+                <ScalarProperty Name="WashupCost" ColumnName="WashupCost" />
+                <ScalarProperty Name="WashupPrice" ColumnName="WashupPrice" />
+                <ScalarProperty Name="SetupCharge" ColumnName="SetupCharge" />
+                <ScalarProperty Name="isPerfecting" ColumnName="isPerfecting" />
+                <ScalarProperty Name="ColourHeads" ColumnName="ColourHeads" />
+                <ScalarProperty Name="MachineCatId" ColumnName="MachineCatId" />
+                <ScalarProperty Name="MachineName" ColumnName="MachineName" />
+                <ScalarProperty Name="MachineId" ColumnName="MachineId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MachineInkCoverages">
+            <EntityTypeMapping TypeName="DomainModels.MachineInkCoverage">
+              <MappingFragment StoreEntitySet="MachineInkCoverage">
+                <ScalarProperty Name="MachineId" ColumnName="MachineId" />
+                <ScalarProperty Name="SideInkOrderCoverage" ColumnName="SideInkOrderCoverage" />
+                <ScalarProperty Name="SideInkOrder" ColumnName="SideInkOrder" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MachineResources">
+            <EntityTypeMapping TypeName="DomainModels.MachineResource">
+              <MappingFragment StoreEntitySet="MachineResource">
+                <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
+                <ScalarProperty Name="MachineId" ColumnName="MachineId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

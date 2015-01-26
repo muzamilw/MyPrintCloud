@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Web;
 using MPC.ExceptionHandling;
-using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
+using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.ModelMappers;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
+using IItemService = MPC.Interfaces.MISServices.IItemService;
 
 namespace MPC.Implementation.MISServices
 {
@@ -46,6 +48,7 @@ namespace MPC.Implementation.MISServices
         private readonly IItemProductDetailRepository itemProductDetailRepository;
         private readonly IProductCategoryItemRepository productCategoryItemRepository;
         private readonly IProductCategoryRepository productCategoryRepository;
+        private readonly ITemplatePageService templatePageService;
 
         /// <summary>
         /// Create Item Vdp Price
@@ -451,7 +454,7 @@ namespace MPC.Implementation.MISServices
             IItemPriceMatrixRepository itemPriceMatrixRepository, IItemStateTaxRepository itemStateTaxRepository, ICountryRepository countryRepository,
             IStateRepository stateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyRepository companyRepository, 
             IItemProductDetailRepository itemProductDetailRepository, IProductCategoryItemRepository productCategoryItemRepository, 
-            IProductCategoryRepository productCategoryRepository)
+            IProductCategoryRepository productCategoryRepository, ITemplatePageService templatePageService)
         {
             if (itemRepository == null)
             {
@@ -537,6 +540,10 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("productCategoryRepository");
             }
+            if (templatePageService == null)
+            {
+                throw new ArgumentNullException("templatePageService");
+            }
 
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
@@ -559,6 +566,7 @@ namespace MPC.Implementation.MISServices
             this.itemProductDetailRepository = itemProductDetailRepository;
             this.productCategoryItemRepository = productCategoryItemRepository;
             this.productCategoryRepository = productCategoryRepository;
+            this.templatePageService = templatePageService;
         }
 
         #endregion

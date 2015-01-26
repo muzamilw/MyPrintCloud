@@ -1,4 +1,5 @@
 ﻿@model List<MPC.Models.DomainModels.ProductCategory>
+@using MPC.Webstore.Common;
 <div class="top_sub_section TopMenuH60W100Px container content_area">
     <div class="">
         <div class="left_right_padding">
@@ -29,8 +30,7 @@
             <div class="float_right Fsize15 lnkContactUS" style="padding-top: 10.5px;">
                 <ul class="navM neg_left_margin_5 cursor_pointer">
                     <li id="liContcUS">
-                        <a id="hyprContUs" class="top_sub_section_links marginLeft" onclick="ShowLoader();"
-                           href="/ContactUs">Contact Us</a>
+                        <a id="lnk_ContactUs" class="top_sub_section_links marginLeft"href="/ContactUs">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkContactUs", UserCookieManager.StoreId))</a>
                     </li>
                 </ul>
             </div>

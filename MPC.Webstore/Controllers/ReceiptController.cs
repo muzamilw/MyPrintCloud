@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MPC.Webstore.ModelMappers;
+using System.Runtime.Caching;
 
 namespace MPC.Webstore.Controllers
 {
@@ -32,11 +33,17 @@ namespace MPC.Webstore.Controllers
         // GET: Receipt
         public ActionResult Index(string OrderId)
         {
-            MyCompanyDomainBaseResponse baseResponseOrganisation = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
-            MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-            MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
 
-            if (baseResponseCompany.Company.ShowPrices ?? true)
+            //MyCompanyDomainBaseResponse baseResponseOrganisation = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
+            //MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+            //MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+
+
+
+            if (StoreBaseResopnse.Company.ShowPrices ?? true)
             {
                 ViewBag.IsShowPrices = true;
                 //do nothing because pricing are already visible.
@@ -46,9 +53,9 @@ namespace MPC.Webstore.Controllers
                 ViewBag.IsShowPrices = false;
                 //  cntRightPricing1.Visible = false;
             }
-            if(!string.IsNullOrEmpty(baseResponseCurrency.Currency))
+            if (!string.IsNullOrEmpty(StoreBaseResopnse.Currency))
             {
-                ViewBag.Currency = baseResponseCurrency.Currency;
+                ViewBag.Currency = StoreBaseResopnse.Currency;
             }
             else
             {
@@ -57,7 +64,7 @@ namespace MPC.Webstore.Controllers
 
            OrderDetail order =  _OrderService.GetOrderReceipt(Convert.ToInt64(OrderId));
 
-           ViewBag.Organisation = baseResponseOrganisation.Organisation;
+           ViewBag.Organisation = StoreBaseResopnse.Organisation;
 
            return View("PartialViews/Receipt", order);
         }

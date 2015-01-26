@@ -11,12 +11,12 @@
 
         <div class="pad20 col-md-4 col-lg-4 col-xs-12 matchingSetsleftPanel" style="text-align:left;">
             <div class="custom_color confirm_design">
-                <label id="ltrlmatchingset">Matching Set</label>
+                <label id="lbl_MatchingSet">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlmatchingset", UserCookieManager.StoreId))</label>
             </div>
             <br />
-            <label id="ltrlhere">Here are other products with the</label>
+            <label id="lbl_Other_Products">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlhere", UserCookieManager.StoreId))</label>
 
-            <label id="ltrlsameasdesignconcept">same design concepts</label>
+            <label id="lbl_Design_Concept">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsameasdesignconcept", UserCookieManager.StoreId))</label>
         </div>
         <div class="white_background rounded_corners pad10 col-md-8 col-lg-8 col-xs-12 matchingSetsrightPanel">
 
@@ -137,12 +137,12 @@
     }
      else
      {
-        <label id="lblMesg" class="errorMsgClss">No Matching set found</label>
+        <label id="lbl_MatchingSet_Message" class="errorMsgClss">@Html.Raw(Html.GetKeyValueFromResourceFile("lblNoMatchingSet", UserCookieManager.StoreId))</label>
      }
 
 }
 else
 {
-    <label id="lblMesg" class="errorMsgClss">No Matching set found</label>
+    <label id="lbl_MatchingSet_Message" class="errorMsgClss">@Html.Raw(Html.GetKeyValueFromResourceFile("lblNoMatchingSet", UserCookieManager.StoreId))</label>
 }
 
