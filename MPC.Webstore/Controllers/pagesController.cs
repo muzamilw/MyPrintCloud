@@ -8,7 +8,7 @@ using MPC.Interfaces.WebStoreServices;
 
 namespace MPC.Webstore.Controllers
 {
-    public class SecondaryPagesController : Controller
+    public class pagesController : Controller
     {
 
           #region Private
@@ -22,7 +22,7 @@ namespace MPC.Webstore.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public SecondaryPagesController(ICompanyService myCompanyService)
+        public pagesController(ICompanyService myCompanyService)
         {
             if (myCompanyService == null)
             {
@@ -39,7 +39,7 @@ namespace MPC.Webstore.Controllers
 
             CmsPage SPage = _myCompanyService.getPageByID(PageID);
 
-            return View("/PartialViews/SecondaryPages",SPage);
+            return PartialView("PartialViews/pages", SPage);
         }
     }
 }

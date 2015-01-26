@@ -19,7 +19,7 @@
                     <li>
                         @foreach (var category in Model)
                         {
-                            <a class="float_left_simple Fsize15 CategoryMenuColor marginRght" href="/Category/@category.CategoryName/@category.ProductCategoryId">@category.CategoryName</a>
+                            <a class="float_left_simple Fsize15 CategoryMenuColor marginRght" href="/Category/@category.CategoryName/@category.ProductCategoryId" onclick="ShowLoader();">@category.CategoryName</a>
 
                         }
 
@@ -29,7 +29,7 @@
             <div class="float_right Fsize15 lnkContactUS" style="padding-top: 10.5px;">
                 <ul class="navM neg_left_margin_5 cursor_pointer">
                     <li id="liContcUS">
-                        <a id="hyprContUs" class="top_sub_section_links marginLeft"
+                        <a id="hyprContUs" class="top_sub_section_links marginLeft" onclick="ShowLoader();"
                            href="/ContactUs">Contact Us</a>
                     </li>
                 </ul>
