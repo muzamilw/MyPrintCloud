@@ -21,6 +21,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ProductName = source.ProductName,
                 PdfTemplateHeight = source.PDFTemplateHeight,
                 PdfTemplateWidth = source.PDFTemplateWidth,
+                IsCreatedManual = source.isCreatedManual,
+                IsSpotTemplate = source.isSpotTemplate,
                 TemplatePages = source.TemplatePages != null ? source.TemplatePages.Select(vdp => vdp.CreateFrom()) : new List<TemplatePage>()
             };
         }
@@ -36,6 +38,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ProductName = source.ProductName,
                 PDFTemplateHeight = source.PdfTemplateHeight,
                 PDFTemplateWidth = source.PdfTemplateWidth,
+                isCreatedManual = source.IsCreatedManual,
+                isSpotTemplate = source.IsSpotTemplate,
                 TemplatePages = source.TemplatePages != null ? source.TemplatePages.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.TemplatePage>()
             };
         }
