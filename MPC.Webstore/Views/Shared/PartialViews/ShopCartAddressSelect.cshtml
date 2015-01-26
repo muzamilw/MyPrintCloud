@@ -924,7 +924,7 @@
 
                         <div class="textAlignCenter">
                             @*<label ID="lblMsg" runat="server" Text="Your Cart is empty!" Visible="false" >Your Cart is empty!</label>*@
-                            <label ID="lblStatus" runat="server" Text="" class="errorMessage" Visible="false"></label>
+                            <label ID="lblStatus" class="errorMessage" ></label>
                         </div>
                         <input type="hidden" value="@BillingAddress.AddressId" id="txthdnBillingAddressID" />
                         <input type="hidden" value="@BillingAddress.IsDefaultShippingAddress" id="txthdnBillingDefaultShippingAddress" />
@@ -933,13 +933,13 @@
                         <input type="hidden" value="@ShippingAddress.IsDefaultAddress" id="txthdnDeliveryDefaultAddress" />
                         <input type="hidden" value="@GrandTotal" name="hfGrandTotal" id="hfGrandTotal" />
                         <input type="hidden" value="@Model.chkBoxDeliverySameAsBilling" id="hfchkBoxDeliverySameAsBilling" />
-                        <input type="hidden" value="Continue" name="hfPostBackCallFrom" id="hfPostBackCallFrom" />
+                      
                         <input type="hidden" value=@Html.Raw(Json.Encode(ViewBag.shippingAddress)) id="JsonAddressContainer" />
 
                     </div>
                    }
         
-        <asp:HiddenField ID="txthdnBillingDefaultAddress" runat="server" Value="false" />
+        @*<asp:HiddenField ID="txthdnBillingDefaultAddress" runat="server" Value="false" />
       
    
        
@@ -948,15 +948,15 @@
         <asp:HiddenField ID="hfBrokerContactCompany" runat="server" Value="0" />
         <asp:HiddenField ID="hfISBrokerSelected" runat="server" Value="0" />
         <asp:HiddenField ID="hfPageIsValid" runat="server" Value="1" />
-        <asp:HiddenField ID="hfIsDefaultBilling" runat="server" Value="0" />
+        <asp:HiddenField ID="hfIsDefaultBilling" runat="server" Value="0" />*@
         <br />
         <br />
         <br />
-        <label ID="lblQuantityHeaderTxt" runat="server" Visible="false"></label>
-        <label ID="lblProdDescHeadingText" runat="server" Visible="false"></label>
-        <label ID="lblPriceHeaderTxt" runat="server" Visible="false"></label>
-        <label ID="lblVatHeadingText" runat="server" Visible="false"></label>
-        <label ID="lblTotalHeadingText" runat="server" Visible="false"></label>
+        <label ID="lblQuantityHeaderTxt" ></label>
+        <label ID="lblProdDescHeadingText" ></label>
+        <label ID="lblPriceHeaderTxt" ></label>
+        <label ID="lblVatHeadingText" ></label>
+        <label ID="lblTotalHeadingText"></label>
 
     </div>
 </div>
