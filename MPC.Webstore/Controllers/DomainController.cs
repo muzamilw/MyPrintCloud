@@ -57,10 +57,21 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-               // MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(storeId).CreateFromCompany();
-                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+                if(UserCookieManager.StoreId == 0)
+                {
+                    UserCookieManager.StoreId = storeId;
+                }
 
-
+                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = null;
+                if ((cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>) != null && (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>).ContainsKey(storeId))
+                {
+                    StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[storeId];
+                }
+                else
+                {
+                    StoreBaseResopnse = _myCompanyService.GetStoreFromCache(storeId);
+                }
+              
                 if (StoreBaseResopnse.Company != null)
                 {
                     UserCookieManager.StoreId = StoreBaseResopnse.Company.CompanyId;
@@ -68,7 +79,7 @@ namespace MPC.Webstore.Controllers
                     UserCookieManager.isIncludeTax = StoreBaseResopnse.Company.isIncludeVAT ?? false;
                     UserCookieManager.TaxRate = StoreBaseResopnse.Company.TaxRate ?? 0;
                     UserCookieManager.OrganisationID = StoreBaseResopnse.Company.OrganisationId ?? 0;
-                    //UserCookieManager.OrganisationLanguageIdentifier = "_" + UserCookieManager.OrganisationID.ToString();
+                   
                     // set global language of store
 
                     string languageName = _myCompanyService.GetUiCulture(Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId));
