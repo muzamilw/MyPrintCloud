@@ -64,7 +64,7 @@ namespace MPC.Webstore.Controllers
             List<VariableSection> lstSections = new List<VariableSection>();
             List<FieldVariable> lstVariablesData = _myListingService.GetVariablesListWithValues(listingId, itemId, out lstVariableAndValue, out lstGeneralVariable, out lstListingImages, out lstSections);
 
-            //ViewData["VariablesAndValue"] = lstVariableAndValue;
+            ViewData["GeneralVariables"] = lstVariableAndValue;
             ViewData["ListingImages"] = lstListingImages;
 
             List<SectionControls> lstControls = new List<SectionControls>();
@@ -91,9 +91,9 @@ namespace MPC.Webstore.Controllers
         }
 
         [HttpPost]
-        public ActionResult SmartFormSubmit(FormCollection formCollection)
+        public ActionResult SmartFormSubmit()
         {
-            foreach (var item in formCollection)
+            foreach (var control in ViewData["ControlsList"] as List<SectionControls>)
             {
                 
             }
