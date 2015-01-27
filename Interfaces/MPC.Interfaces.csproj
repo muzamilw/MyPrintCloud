@@ -72,6 +72,7 @@
     <Compile Include="MISServices\IItemService.cs" />
     <Compile Include="MISServices\IInventoryService.cs" />
     <Compile Include="MISServices\ICostCentersService.cs" />
+    <Compile Include="MISServices\IMachineService.cs" />
     <Compile Include="MISServices\IPhraseLibraryService.cs" />
     <Compile Include="MISServices\IPrefixService.cs" />
     <Compile Include="MISServices\IStockCategoryService.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Repository\IItemPriceMatrixRepository.cs" />
     <Compile Include="Repository\IItemProductDetailRepository.cs" />
     <Compile Include="Repository\IListingRepository.cs" />
+    <Compile Include="Repository\IMachineRepository.cs" />
     <Compile Include="Repository\IOrganisationFileTableViewRepository.cs" />
     <Compile Include="Repository\IMpcFileTableViewRepository.cs" />
     <Compile Include="Repository\IOrderRepository.cs" />
