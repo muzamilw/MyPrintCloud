@@ -17,6 +17,8 @@
 
     document.getElementById("innerLayer").style.width = "500px";
     document.getElementById("innerLayer").style.height = "170px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
 
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
@@ -46,6 +48,8 @@ function ShowPopUpMarketingBrief(Type, Message,ProductName,ItemID) {
 
     document.getElementById("innerLayer").style.width = "500px";
     document.getElementById("innerLayer").style.height = "170px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
 
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
@@ -70,6 +74,8 @@ function ConfirmDeleteItemPopUP(ItemID,OrderID)
 
     document.getElementById("innerLayer").style.width = "500px";
     document.getElementById("innerLayer").style.height = "170px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
 
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
@@ -154,6 +160,8 @@ function ShowArtWorkPopup(Type, panelHtml) {
     document.getElementById("innerLayer").style.top = "0px";
 
     document.getElementById("innerLayer").style.width = "730px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
 
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
