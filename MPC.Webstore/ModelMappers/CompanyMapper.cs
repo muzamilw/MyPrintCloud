@@ -63,7 +63,9 @@ namespace MPC.Webstore.ModelMappers
                 TaxRate = source.TaxRate,
                 isIncludeVAT = source.isIncludeVAT,
                 IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode,
-               
+                PickupAddressId = source.PickupAddressId,
+                TaxLabel = source.TaxLabel ,
+                isCalculateTaxByService = source.isCalculateTaxByService
             };
         }
 
@@ -122,7 +124,10 @@ namespace MPC.Webstore.ModelMappers
                 WebAnalyticCode = source.WebAnalyticCode,
                 TaxRate = source.TaxRate,
                 isIncludeVAT = source.isIncludeVAT,
-                IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode
+                IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode,
+                PickupAddressId = source.PickupAddressId,
+                TaxLabel = source.TaxLabel,
+                isCalculateTaxByService = source.isCalculateTaxByService
             };
         }
 

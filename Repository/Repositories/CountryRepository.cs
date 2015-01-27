@@ -5,6 +5,7 @@ using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
+using System;
 
 namespace MPC.Repository.Repositories
 {
@@ -44,6 +45,26 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.ToList();
         }
+        public List<Country> PopulateBillingCountryDropDown()
+        {
+            try
+            {
+              return db.Countries.ToList();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public Country GetCountryByID(long CountryID)
+        {
+            
+            Country country = db.Countries.Where(i => i.CountryId == CountryID).FirstOrDefault();
+            return country;
+
+        }
 
         /// <summary>
         /// Gets the Name of the country by its id
@@ -53,6 +74,23 @@ namespace MPC.Repository.Repositories
         public string GetCountryNameById(long CountryId)
         {
             return db.Countries.Where(s => s.CountryId == CountryId).Select(n => n.CountryName).FirstOrDefault();
+        }
+        public string GetCountryCodeById(long countryId)
+        {
+
+            try
+            {
+               
+                    return db.Countries.Where(a => a.CountryId == countryId).Select(c => c.CountryCode).FirstOrDefault();
+
+               
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
         #endregion
     }

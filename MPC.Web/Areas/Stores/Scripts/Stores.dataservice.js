@@ -13,6 +13,12 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Items For Widgets
+                    amplify.request.define('getItemsForWidgets', 'ajax', {
+                        url: ist.siteUrl + '/Api/GetItemsForWidgets',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to get product category childs
                     amplify.request.define('getProductCategoryChilds', 'ajax', {
                         url: ist.siteUrl + '/Api/ProductCategory',
@@ -99,6 +105,13 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to Save Product Category
+                    amplify.request.define('saveProductCategory', 'ajax', {
+                        url: ist.siteUrl + '/Api/ProductCategory',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
                     isInitialized = true;
                 }
             },
@@ -122,7 +135,16 @@
                     data: params
                 });
             },
-            // get Store
+            // get Items For Widgets
+            getItemsForWidgets = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getItemsForWidgets',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
+             // get Store
             getStores = function (params, callbacks) {
                 initialize();
                 return amplify.request({
@@ -193,7 +215,7 @@
                 });
             },
               // get Widget Detail 
-            getWidgetDetail= function (params, callbacks) {
+            getWidgetDetail = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getWidgetDetail',
@@ -243,6 +265,16 @@
                     data: params
                 });
             },
+        // Save Product Category
+        saveProductCategory = function(param, callbacks) {
+                initialize();
+            return amplify.request({
+                resourceId: 'saveProductCategory',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
         // save Store
         saveStore = function (param, callbacks) {
             initialize();
@@ -269,7 +301,9 @@
             getSecondryPageById: getSecondryPageById,
             getCmsPageLayoutWidget: getCmsPageLayoutWidget,
             getWidgetDetail: getWidgetDetail,
-            getProductCategoryById: getProductCategoryById
+            getProductCategoryById: getProductCategoryById,
+            getItemsForWidgets: getItemsForWidgets,
+            saveProductCategory: saveProductCategory
         };
     })();
 

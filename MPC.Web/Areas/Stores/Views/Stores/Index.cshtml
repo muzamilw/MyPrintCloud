@@ -50,7 +50,7 @@
                                             <th class="col-lg-1"></th>
                                             <th class="col-lg-3"><span>All Stores</span></th>
                                             <th class="col-lg-3"><span>Type</span></th>
-                                            <th class ="col-lg-2"><span>Status</span></thclass>
+                                            <th class ="col-lg-2"><span>Status</span></th>
 
                                             <th class="col-lg-1">&nbsp;</th>
                                         </tr>
@@ -72,7 +72,7 @@
                         @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                         <!-- /ko -->
                     </div>
-
+                   
                 </div>
             </div>
 
@@ -103,8 +103,8 @@
                     <img data-bind="attr: { src: storeImageFileBinary }" alt="" />
                 </td>
                 <td>
-                    <a href="#" class="user-link" data-bind="text: name,click : $root.onEditItem"></a>
-                    <a href="#" class="user-link" style="font-size: 0.875em; color: black;" data-bind="text: url"><i class="fa fa-external-link-square"></i></a>
+                    <a href="#" class="store-user-link" data-bind="text: name,click : $root.onEditItem"></a>
+                    <a href="#" class="store-user-link" style="font-size: 0.875em; color: black;" data-bind="text: url"><i class="fa fa-external-link-square"></i></a>
                 </td>
 
                 <td data-bind="text: type"></td>

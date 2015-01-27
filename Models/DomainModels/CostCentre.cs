@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace MPC.Models.DomainModels
 {
+    [Serializable()]
     public class CostCentre
     {
         public long CostCentreId { get; set; }
@@ -131,6 +132,8 @@ namespace MPC.Models.DomainModels
         public bool? isFromMIS { get; set; }
         public string XeroAccessCode { get; set; }
         public long? OrganisationId { get; set; }
+        public int? DeliveryType { get; set; }
+        public string DeliveryServiceType { get; set; }
 
         public virtual CostCentreType CostCentreType { get; set; }
         public virtual ICollection<SectionCostcentre> SectionCostcentres { get; set; }

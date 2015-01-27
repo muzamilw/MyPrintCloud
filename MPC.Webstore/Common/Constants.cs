@@ -12,6 +12,8 @@ namespace MPC.Webstore.Common
         public const string CompanyCategoryImagePath = @"mpc_content/Categories/";
         public const string CompanyProductImagesPath = @"mpc_content/ProductImages/";
         public const string CompanyProductAttachmentsPath = @"mpc_content/Attachments/";
+
+        public static string NotAvailiable = "N / A";
      
     }
 }

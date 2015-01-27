@@ -1,11 +1,12 @@
-﻿
+﻿@using MPC.Webstore.Common;
+
 <link href="~/Content/RealEstate_StyleSheet.css" rel="stylesheet" />
 
 <div class="content_area realEstateHeader" style="padding-top: 13px; padding-bottom: 10px;">
     <div class="Headaer-Parent-Div">
         <div class="HeaderBarLeft-Div">
             <div class="HeaderBarLeft-ChildDiv">
-                <label id="hoverPopup" style="font-family: PT Sans; font-size: 18px; color: black;">Profile</label>
+                <label id="lbl_HeaderProfile" style="font-family: PT Sans; font-size: 18px; color: black;">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_HeaderProfile", UserCookieManager.StoreId))</label>
             </div>
             <div class="DropDown">
                 <div style="height: 125px;">
@@ -16,12 +17,12 @@
                         <table style="height: 90px; width: 180px;">
                             <tr>
                                 <td>
-                                    <label id="lblLogginAs" style="font-family: PT Sans; font-size: 15px; color:#666666;">Logged in as</label>
+                                    <label id="lbl_HeaderLoggedIn" style="font-family: PT Sans; font-size: 15px; color:#666666;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblHeaderLoggedIn", UserCookieManager.StoreId))</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label id="lblUsername" style="font-family: PT Sans; font-size: 20px; color:#666666;">John Simth</label>
+                                    <label id="lbl_HeaderUsername" style="font-family: PT Sans; font-size: 20px; color:#666666;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblHeaderUsername", UserCookieManager.StoreId))</label>
                                 </td>
                             </tr>
                         </table>
@@ -38,7 +39,7 @@
                                 <img src="~/Content/Images/Settings.png" width="30" height="30" />
                             </td>
                             <td style="padding-left: 20px;">
-                                <label id="lblSettings" style="font-family: PT Sans; font-size: 15px; color:#666666;">Settings</label>
+                                <label id="lbl_HeaderSettings" style="font-family: PT Sans; font-size: 15px; color:#666666;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblHeaderSettings", UserCookieManager.StoreId))</label>
                             </td>
                         </tr>
                     </table>
@@ -54,7 +55,7 @@
                                 <img src="~/Content/Images/my-jobs.png" width="30" height="30" />
                             </td>
                             <td style="padding-left: 20px;">
-                                <label id="lblJobs" style="font-family: PT Sans; font-size: 15px; color:#666666;">My Jobs</label>
+                                <label id="lbl_HeaderJobs" style="font-family: PT Sans; font-size: 15px; color:#666666;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblHeaderJobs", UserCookieManager.StoreId))</label>
                             </td>
                         </tr>
                     </table>
@@ -69,7 +70,7 @@
                                 <img src="~/Content/Images/logout.png" width="30" height="30" />
                             </td>
                             <td style="padding-left: 20px;font-family: PT Sans; font-size: 15px; color:#666666;">
-                                @Html.ActionLink( "Sign Out", "LogOut", "LoginBar", null, new { @onclick = "ShowLoader();" })
+                                <label id="lbl_HeaderLogout" style="font-family: PT Sans; font-size: 15px; color:#666666;">@Html.Raw(Html.GetKeyValueFromResourceFile("LogOut", UserCookieManager.StoreId))</label>
                             </td>
                         </tr>
                     </table>

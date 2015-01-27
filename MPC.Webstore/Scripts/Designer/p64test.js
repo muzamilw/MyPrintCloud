@@ -16198,7 +16198,7 @@ fabric.Image.fromURL = function (url, callback, imgOptions) {
         if (img != null) {
             callback(new fabric.Image(img, imgOptions));
         } else {  // added by saqib to handle the not found image 
-            fabric.Image.fromURL("./assets/failure1.png", callback, imgOptions);
+            fabric.Image.fromURL("/Content/Designer/assets-v2/failure1.png", callback, imgOptions);
         }
     }, null, imgOptions && imgOptions.crossOrigin);
 };
@@ -17512,7 +17512,7 @@ fabric.Image.filters.Tint.fromObject = function (object) {
 	'maxWidth','customStyles',
 		'maxHeight',
 		'charSpacing', 'clippedText' , 'IsPositionLocked','IsEditable',
-    'IsHidden', 'IsTextEditable', 'AutoShrinkText', 'IsOverlayObject', 'IsQuickText'
+    'IsHidden', 'IsTextEditable', 'AutoShrinkText', 'IsOverlayObject', 'IsQuickText', 'textCase'
   );
 
     /**
@@ -17799,7 +17799,8 @@ fabric.Image.filters.Tint.fromObject = function (object) {
     charSpacing: 0,
     clippedText: '',
       _charWidthsCache: {},
-            _cachedObject :null,
+      _cachedObject: null,
+      textCase :0,
     /**
     * Constructor
     * @param {String} text Text string
@@ -18069,6 +18070,28 @@ fabric.Image.filters.Tint.fromObject = function (object) {
     wrapText: function (context, text, x, y, maxWidth, lineHeight, BoxHeight, charSpacing, textAlign, fontSize, appliedStyles, objThis) {
         var formattedText = [];
         charSpacing = parseFloat(charSpacing);
+        //if (this.textCase == 1) {
+        //   text = text.toLowerCase();
+        //} else if (this.textCase == 2) {
+        //    text = text.toUpperCase();
+        //} else if (this.textCase == 3) {
+
+        //    text = text.toLowerCase();
+        //    var sntncForSentncCase = text.split(".");
+        //    var TextTemp = '';
+        //    for (var sen = 0; sen < sntncForSentncCase.length; sen++) {
+        //        if (sntncForSentncCase.length == 1) {
+        //            TextTemp = TextTemp + sntncForSentncCase[sen].substr(0, 1).toUpperCase() + sntncForSentncCase[sen].substr(1);
+        //        } else {
+        //            sntncForSentncCase[sen] = sntncForSentncCase[sen].trim();
+        //            TextTemp = TextTemp + sntncForSentncCase[sen].substr(0, 1).toUpperCase() + sntncForSentncCase[sen].substr(1) + '. ';
+        //        }
+                
+        //    }
+
+        //    text = TextTemp;
+        //}
+
         var sentence = text.split(/\r\n|\r|\n/);
         var MaxHeight = 0;
         var chars = "";
@@ -18076,8 +18099,10 @@ fabric.Image.filters.Tint.fromObject = function (object) {
         
         var CalcWidthChars = "";
         for (var nz = 0; nz < sentence.length; nz++) {
+        
             var words = sentence[nz].split(" ");
             var line = "";
+            
             for (var n = 0; n < words.length; n++) {
                 var spacingWidth = 0;
                 var testLine = line + words[n] ;
@@ -18160,6 +18185,20 @@ fabric.Image.filters.Tint.fromObject = function (object) {
             chars = chars.substring(0, chars.length - 1);
             this.clippedText = chars;
             this._cachedObject = clone(this);
+            
+
+            //if (this.textCase == 3) {
+            //   // formattedText = formattedText.toLowerCase();
+                
+            //    var sntncForSentncCase = formattedText.split(/./).trim();
+            //    var formattedTextTemp = [];
+            //    for (var sen = 0; sen < sntncForSentncCase.length;sen++){
+                    
+            //        formattedTextTemp.push(sntncForSentncCase[sen].substr(0, 1).toUpperCase()+'. ');
+            //    }
+
+            //    formattedText = formattedTextTemp;
+            //}
             return formattedText;
         } 
     },
@@ -18186,7 +18225,7 @@ fabric.Image.filters.Tint.fromObject = function (object) {
         this.clipTo && fabric.util.clipContext(this, ctx);
           var textLines = "";
           if (this._cachedObject != null && this.AutoShrinkText != true) {
-            if( this._cachedObject.maxWidth == this.maxWidth && this._cachedObject.maxHeight == this.maxHeight && this._cachedObject.customStyles == this.customStyles && this._cachedObject.fontFamily == this.fontFamily && this._cachedObject.fontSize == this.fontSize && this._cachedObject.fontStyle == this.fontStyle && this._cachedObject.fontWeight == this.fontWeight && this._cachedObject.lineHeight == this.lineHeight && this._cachedObject.charSpacing == this.charSpacing && this.text == this._cachedObject.text) {
+              if (this._cachedObject.maxWidth == this.maxWidth && this._cachedObject.maxHeight == this.maxHeight && this._cachedObject.customStyles == this.customStyles && this._cachedObject.fontFamily == this.fontFamily && this._cachedObject.fontSize == this.fontSize && this._cachedObject.fontStyle == this.fontStyle && this._cachedObject.fontWeight == this.fontWeight && this._cachedObject.lineHeight == this.lineHeight && this._cachedObject.charSpacing == this.charSpacing && this.text == this._cachedObject.text) {
                 textLines = this.clippedText.split(this._reNewline); 
             } else {
                  textLines = this._performClipping(ctx, this.text,this);
@@ -18673,6 +18712,7 @@ fabric.Image.filters.Tint.fromObject = function (object) {
             textBackgroundColor: this.textBackgroundColor,
             useNative: this.useNative,
             maxWidth: this.maxWidth,
+            textCase : this.textCase,
             maxHeight: this.maxHeight
         });
         if (!this.includeDefaultValues) {
@@ -20626,6 +20666,37 @@ fabric.IText.instances = [];
     * @param {String} _chars Characters to insert
     */
     insertChars: function (_chars) {
+        
+        if (this.textCase == 1) {
+            _chars = _chars.toLowerCase();
+        } else if (this.textCase == 2) {
+            _chars = _chars.toUpperCase();
+        } else if (this.textCase == 3) {
+            if (_chars != ".") {
+                var sntncForSentncCase = _chars.split(".");
+                if (sntncForSentncCase > 1) {
+                    var TextTemp = '';
+                    for (var sen = 0; sen < sntncForSentncCase.length; sen++) {
+                        if (sntncForSentncCase.length == 1) {
+                            TextTemp = TextTemp + sntncForSentncCase[sen].substr(0, 1).toUpperCase() + sntncForSentncCase[sen].substr(1);
+                        } else {
+                            sntncForSentncCase[sen] = sntncForSentncCase[sen].trim();
+                            TextTemp = TextTemp + sntncForSentncCase[sen].substr(0, 1).toUpperCase() + sntncForSentncCase[sen].substr(1) + '. ';
+                        }
+
+                    }
+
+                    _chars = TextTemp;
+
+                } else {
+                    var textTo=this.clippedText.trim();
+                    if (textTo.charAt(textTo.length - 1) == ".") {
+                        _chars = _chars.substring(0, 1).toUpperCase() + _chars.substr(1);
+                    }
+                }
+            }
+        }
+
         var isEndOfLine =(( this.clippedText.slice(this.selectionStart, this.selectionStart + 1) === '\n'));
          this._calcTextFromClippedInsertChars(_chars);
         this.clippedText = this.clippedText.slice(0, this.selectionStart) +

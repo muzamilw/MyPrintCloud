@@ -126,8 +126,13 @@
     <tr>
         <td data-bind="style: {backgroundColor: colour}"></td>
         <td>
-            <span data-bind="text: name"></span><span class="user-subhead" data-bind="text:supplierCompanyName"></span>
+            <a href="#" class="store-user-link" data-bind="text: name"></a>
+            <label   style="font-size: 0.875em; color: black;" data-bind="text: supplierCompanyName"><i class="fa fa-external-link-square"></i></label>
         </td>
+        @*<td>
+
+            <span data-bind="text: name"></span><span style="margin-left: 20px;" class="user-subhead" data-bind="text:supplierCompanyName"></span>
+        </td>*@
         <td data-bind="text: fullCategoryName"></td>
         <td>
             <span data-bind="text: weight"></span> <span data-bind="text: weightUnitName"></span>

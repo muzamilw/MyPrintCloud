@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace MPC.Repository.Repositories
 {
+    [Serializable()]
     public class CostCentreVariableRepository : BaseRepository<CostCentreVariable>, ICostCentreVariableRepository
     {
 

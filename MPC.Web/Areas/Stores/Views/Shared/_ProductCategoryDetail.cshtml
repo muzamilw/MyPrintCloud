@@ -68,7 +68,8 @@
                                                         <label for="txtCompanyName" class="control-label text-right">Parent Category</label>
                                                     </div>
                                                     <div class="col-lg-6">
-                                                        <select class="form-control col-lg-4" data-bind="options:$root.parentCategories,optionsText:'categoryName',optionsValue:'productCategoryId',optionsCaption:'Choose ...', value: parentCategoryId"></select>   
+                                                        @*<select class="form-control col-lg-4" data-bind="options:$root.parentCategories,optionsText:'categoryName',optionsValue:'productCategoryId',optionsCaption:'Top Level Category', value: parentCategoryId"></select>*@   
+                                                        <select class="form-control col-lg-4" data-bind="options:$root.populatedParentCategoriesList,optionsText:'categoryName',optionsValue:'productCategoryId',optionsCaption:'Top Level Category', value: parentCategoryId"></select>   
                                                         <span class="help-block text-right"></span>
                                                     </div>
                                                 </div>

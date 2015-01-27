@@ -4,12 +4,15 @@ using System.Linq;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
 using System;
 using System.Data;
 using MPC.Models.Common;
 using System.Data.SqlClient;
 using System.Data.Entity.Core.Objects;
+using System.Linq.Expressions;
 
 namespace MPC.Repository.Repositories
 {
@@ -19,6 +22,14 @@ namespace MPC.Repository.Repositories
     public class CostCentreRepository : BaseRepository<CostCentre>, ICostCentreRepository
     {
         #region privte
+        #region Private
+        private readonly Dictionary<CostCentersColumns, Func<CostCentre, object>> OrderByClause = new Dictionary<CostCentersColumns, Func<CostCentre, object>>
+                    {
+                        {CostCentersColumns.Name, d => d.Name},
+                        {CostCentersColumns.Type, d => d.Type},
+                        
+                    };
+        #endregion
         #endregion
 
         #region Constructor
@@ -612,6 +623,44 @@ namespace MPC.Repository.Repositories
                 throw new Exception("IsCostCentreAvailable", ex);
             }
         }
+
+        public CostCentersResponse GetUserDefinedCostCenters(CostCenterRequestModel request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            Expression<Func<CostCentre, bool>> query =
+                oCostCenter => oCostCenter.Type != 1 && oCostCenter.IsDisabled == 0 && oCostCenter.OrganisationId == OrganisationId;
+
+            var rowCount = DbSet.Count(query);
+            var costCenters = request.IsAsc
+                ? DbSet.Where(query)
+                    .OrderBy(OrderByClause[request.CostCenterOrderBy])
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList()
+                : DbSet.Where(query)
+                    .OrderByDescending(OrderByClause[request.CostCenterOrderBy])
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList();
+            return new CostCentersResponse
+            {
+                RowCount = rowCount,
+                CostCenters = costCenters
+            };
+        }
+        public CostCentre GetCostCentersByID(long costCenterID)
+        {
+
+
+            var query = from tblCostCenter in db.CostCentres
+                        where tblCostCenter.CostCentreId == costCenterID && tblCostCenter.isPublished == true
+                        select tblCostCenter;
+
+                return query.ToList().FirstOrDefault();
+            
+
+        }
         #endregion
 
         #region "CostCentre Template"
@@ -701,6 +750,47 @@ namespace MPC.Repository.Repositories
             {
                 throw new Exception("ExecuteUserStockItem", ex);
             }
+        }
+        #endregion
+
+        #region AddressSelect
+        public List<CostCentre> GetCorporateDeliveryCostCentersList(long CompanyID)
+        {
+
+                var query = from tblCostCenter in db.CostCentres
+                            join CorpCostCenter in db.CompanyCostCentres on tblCostCenter.CostCentreId equals (long)CorpCostCenter.CostCentreId
+                            where tblCostCenter.Type == (int)CostCenterTypes.Delivery && tblCostCenter.isPublished == true
+                            && CorpCostCenter.CompanyId == CompanyID
+                            orderby tblCostCenter.MinimumCost
+                            select new CostCentre()
+                            {
+
+                                CostCentreId = tblCostCenter.CostCentreId,
+                                CompletionTime = tblCostCenter.CompletionTime,
+                                MinimumCost = tblCostCenter.MinimumCost,
+                                Description = tblCostCenter.Description,
+                                Name = tblCostCenter.Name,
+                                SetupCost = tblCostCenter.DeliveryCharges ?? 0,
+                                EstimateProductionTime = tblCostCenter.EstimateProductionTime
+                            };
+
+
+                return query.ToList();
+
+        }
+        public List<CostCentre> GetDeliveryCostCentersList()
+        {
+
+
+            var query = from tblCostCenter in db.CostCentres
+                        where tblCostCenter.Type == (int)CostCenterTypes.Delivery && tblCostCenter.isPublished == true && tblCostCenter.IsDisabled == 0
+                        orderby tblCostCenter.MinimumCost
+                        select tblCostCenter;
+
+
+                return query.ToList();
+            
+
         }
         #endregion
     }

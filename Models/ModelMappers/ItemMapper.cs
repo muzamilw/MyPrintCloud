@@ -323,11 +323,14 @@ namespace MPC.Models.ModelMappers
                 target.Template = actions.CreateTemplate();
             }
 
+            // Update Template
             target.Template.PDFTemplateHeight = source.Template.PDFTemplateHeight;
-            target.Template.PDFTemplateWidth = source.Template.PDFTemplateWidth;
+            target.Template.PDFTemplateHeight = source.Template.PDFTemplateHeight;
+            target.Template.isCreatedManual = source.Template.isCreatedManual;
+            target.Template.isSpotTemplate = source.Template.isSpotTemplate;
 
+            // Update Template Pages
             UpdateTemplatePages(source, target, actions);
-
         }
 
         /// <summary>
@@ -808,6 +811,9 @@ namespace MPC.Models.ModelMappers
 
             // Update Supplier Prices
             UpdateSupplierPricesHeader(source, target);
+
+            // Update Template Properties
+            UpdateTemplatePropertiesHeader(source, target);
         }
 
         /// <summary>
@@ -873,6 +879,18 @@ namespace MPC.Models.ModelMappers
             target.EstimateProductionTime = source.EstimateProductionTime;
             target.SupplierId = source.SupplierId;
             target.SupplierId2 = source.SupplierId2;
+        }
+
+        /// <summary>
+        /// Update Template Properties Header
+        /// </summary>
+        private static void UpdateTemplatePropertiesHeader(Item source, Item target)
+        {
+            target.TemplateType = source.TemplateType;
+            target.IsCmyk = source.IsCmyk;
+            target.IsTemplateDesignMode = source.IsTemplateDesignMode;
+            target.ZoomFactor = source.IsTemplateDesignMode;
+            target.Scalar = source.Scalar;
         }
 
         #endregion

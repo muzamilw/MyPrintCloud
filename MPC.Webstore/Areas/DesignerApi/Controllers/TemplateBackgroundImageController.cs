@@ -59,7 +59,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         // parameter 1 = imageName , parameter 2 = imageX1, parameter3 = imageY1, parameter4 =imageWidth1 , parameter5 = imageHeight1,parameter6 = Image productName
-            //parameter 77 = mode , parameter 8 = objectID, parameter 9 = ogranisationID
+            //parameter 77 = mode , parameter 8 = objectID, parameter 9 = organisationId
         public HttpResponseMessage CropImage(string parameter1, int parameter2, int parameter3, int parameter4, int parameter5, string parameter6, int parameter7, long parameter8, long parameter9)
         {
             var result = templateBackgroundImages.CropImage(parameter1, parameter2, parameter3, parameter4, parameter5, parameter6, parameter7, parameter8, parameter9);
@@ -117,6 +117,20 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         public HttpResponseMessage UpdateImage(long parameter1, int parameter2, string parameter3, string parameter4, string parameter5)
         {
             var result = templateBackgroundImages.UpdateImage(parameter1, parameter2, parameter3, parameter4, parameter5);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
+
+        }
+
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        // string filepath, long productID, int uploaded from,contactId,organisationId,imageSetType,contactCompanyId
+        public HttpResponseMessage UploadImageRecord(string parameter1,long parameter2, int parameter3, long parameter4, int parameter5, int parameter6, long parameter7)
+        {
+            var result = templateBackgroundImages.InsertUploadedImageRecord(parameter1, parameter2, parameter3, parameter4, parameter5, parameter6, parameter7);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;

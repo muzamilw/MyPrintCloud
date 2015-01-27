@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Http;
@@ -53,15 +54,27 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
             var result = companyService.GetBaseDataForNewCompany();
+            byte[] bytes = null;
+            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png")))
+            {
+                bytes = File.ReadAllBytes(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png"));
+            }
+            string defaultCss = string.Empty;
+            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultCss/Default_CompanyStyles.css")))
+            {
+                defaultCss = File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultCss/Default_CompanyStyles.css"));
+            }
             return new CompanyBaseResponse
             {
-                SystemUsers = result.SystemUsers != null? result.SystemUsers.Select(x => x.CreateFrom()): null,
-                CompanyContactRoles = result.CompanyContactRoles != null ? result.CompanyContactRoles.Select(x => x.CreateFrom()): null,
+                SystemUsers = result.SystemUsers != null ? result.SystemUsers.Select(x => x.CreateFrom()) : null,
+                CompanyContactRoles = result.CompanyContactRoles != null ? result.CompanyContactRoles.Select(x => x.CreateFrom()) : null,
                 PageCategories = result.PageCategories != null ? result.PageCategories.Select(x => x.CreateFromDropDown()) : null,
                 RegistrationQuestions = result.RegistrationQuestions != null ? result.RegistrationQuestions.Select(x => x.CreateFromDropDown()) : null,
                 Addresses = result.Addresses != null ? result.Addresses.Select(x => x.CreateFrom()) : null,
                 EmailEvents = result.EmailEvents != null ? result.EmailEvents.Select(x => x.CreateFrom()) : null,
                 Widgets = result.Widgets != null ? result.Widgets.Select(x => x.CreateFrom()) : null,
+                DefaultSpriteImage = bytes,
+                DefaultCompanyCss = defaultCss
             };
         }
         #endregion

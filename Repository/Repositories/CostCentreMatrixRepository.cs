@@ -6,9 +6,11 @@ using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
 using System;
+using MPC.Models.Common;
 
 namespace MPC.Repository.Repositories
 {
+    [Serializable()]
     public class CostCentreMatrixRepository : BaseRepository<CostCentreMatrix>, ICostCentreMatrixRepository
     {
         
@@ -78,6 +80,54 @@ namespace MPC.Repository.Repositories
         //}
 
 
+
+        
+
+
+        /// <summary>
+        /// Get Matrix and its layout
+        /// </summary>
+        /// <param name="MatrixID"></param>
+        /// <returns></returns>
+        public CostCentreMatrix GetMatrix(int MatrixID)
+        {
+            try
+            {
+
+
+                CostCentreMatrix oMatrix = db.CostCentreMatrices.Where(m => m.MatrixId == MatrixID).FirstOrDefault();
+
+                if (oMatrix != null)
+                {
+                   oMatrix.items = GetMatrixDetail(MatrixID);
+                }
+
+                return oMatrix;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetMatrix", ex);
+            }
+        }
+
+
+        /// <summary>
+        /// Get matrix layout only
+        /// </summary>
+        /// <param name="MatrixID"></param>
+        /// <returns></returns>
+        public List<CostCentreMatrixDetail> GetMatrixDetail(int MatrixID)
+        {
+            try
+            {
+                return db.CostCentreMatrixDetails.Where(d => d.MatrixId == MatrixID).OrderBy(i => i.Id).ToList();
+                 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetMatrixDetail", ex);
+            }
+        }
         #endregion
     }
 }

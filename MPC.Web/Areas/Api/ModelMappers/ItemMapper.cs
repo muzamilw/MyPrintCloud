@@ -69,6 +69,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SupplierId2 = source.SupplierId2,
                 EstimateProductionTime = source.EstimateProductionTime,
                 MinPrice = source.MinPrice,
+                TemplateType = source.TemplateType,
+                IsTemplateDesignMode = source.IsTemplateDesignMode,
+                IsCmyk = source.IsCmyk,
+                ZoomFactor = source.ZoomFactor,
+                Scalar = source.Scalar,
                 ItemProductDetail = source.ItemProductDetails != null && source.ItemProductDetails.Count > 0 ?
                 source.ItemProductDetails.FirstOrDefault().CreateFrom() : null,
                 Template = source.Template != null ? source.Template.CreateFrom() : new Template(),
@@ -104,7 +109,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 item.File1Bytes = source.File1 != null ? File.ReadAllBytes(source.File1) : null;
             }
-            
+
             // Load File2
             if (source.File2 != null && File.Exists(source.File2))
             {
@@ -125,7 +130,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 item.File5Bytes = source.File5 != null ? File.ReadAllBytes(source.File5) : null;
             }
-            
+
             return item;
         }
 
@@ -207,6 +212,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SupplierId = source.SupplierId,
                 SupplierId2 = source.SupplierId2,
                 EstimateProductionTime = source.EstimateProductionTime,
+                TemplateType = source.TemplateType,
+                IsTemplateDesignMode = source.IsTemplateDesignMode,
+                IsCmyk = source.IsCmyk,
+                ZoomFactor = source.ZoomFactor,
+                Scalar = source.Scalar,
                 Template = source.Template != null ? source.Template.CreateFrom() : new DomainModels.Template(),
                 ItemVdpPrices = source.ItemVdpPrices != null ? source.ItemVdpPrices.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVdpPrice>(),
                 ItemVideos = source.ItemVideos != null ? source.ItemVideos.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVideo>(),
@@ -236,7 +246,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 File4Name = source.File4Name,
                 File5Byte = source.File5Byte,
                 File5Name = source.File5Name,
-                ProductCategoryCustomItems = source.ProductCategoryItems != null ? source.ProductCategoryItems.Select(pci => pci.CreateFrom()).ToList() : 
+                ProductCategoryCustomItems = source.ProductCategoryItems != null ? source.ProductCategoryItems.Select(pci => pci.CreateFrom()).ToList() :
                 new List<DomainModels.ProductCategoryItemCustom>()
             };
         }
@@ -331,5 +341,18 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 new List<DomainModels.ProductCategoryItemCustom>()
             };
         }
+
+        /// <summary>
+        /// Crete From Domain Model
+        /// </summary>
+        public static ItemForWidgets CreateFromForWidgets(this DomainModels.Item source)
+        {
+            return new ItemForWidgets
+            {
+                ItemId = source.ItemId,
+                ProductName = source.ProductName,
+            };
+        }
+
     }
 }

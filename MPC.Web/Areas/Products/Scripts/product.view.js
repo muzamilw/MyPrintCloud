@@ -304,6 +304,30 @@ define("product/product.view",
                     }
 
                 },
+                // Show Basic Details Tab when Product Detail Opens up
+                showBasicDetailsTab = function() {
+                    var liElement = $('a[href=#tab-ProdNameAndImages]');
+                    var productNameAndImagesTab = $('#tab-ProdNameAndImages');
+                    if (!liElement) {
+                        return;
+                    }
+
+                    // Show Basic Details
+                    liElement.click();
+
+                    if (!productNameAndImagesTab) {
+                        return;
+                    }
+
+                    if (!productNameAndImagesTab.hasClass('in')) {
+                        productNameAndImagesTab.addClass('in');
+                    }
+
+                    if (!productNameAndImagesTab.hasClass('active')) {
+                        productNameAndImagesTab.addClass('active');
+                    }
+
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -330,7 +354,8 @@ define("product/product.view",
                 showProductCategoryDialog: showProductCategoryDialog,
                 hideProductCategoryDialog: hideProductCategoryDialog,
                 getCategoryIdFromElement: getCategoryIdFromElement,
-                updateInputCheckedStates: updateInputCheckedStates
+                updateInputCheckedStates: updateInputCheckedStates,
+                showBasicDetailsTab: showBasicDetailsTab
             };
         })(productViewModel);
 

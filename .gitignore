@@ -114,3 +114,5 @@ OdyPortal/OdyPortal.csproj.orig
 *.cs.orig
 
 MPC.Web/Web.config
+
+MPC.Webstore/ccAssembly/TestUserCostCentres.dll

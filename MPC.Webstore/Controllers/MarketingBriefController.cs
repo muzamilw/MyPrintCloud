@@ -11,6 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 using MPC.Webstore.ResponseModels;
 using MPC.Webstore.ModelMappers;
+using System.Runtime.Caching;
 
 namespace MPC.Webstore.Controllers
 {
@@ -92,6 +93,8 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index(ProductItem Model)
         {
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
 
             List<string> Attachments = null;
 
@@ -123,13 +126,14 @@ namespace MPC.Webstore.Controllers
             string MEsg = string.Empty;
           
             ProductItem Item = _IItemService.GetItemAndDetailsByItemID(Model.ItemID);
-            MyCompanyDomainBaseResponse baseResponse = _ICompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+           // MyCompanyDomainBaseResponse baseResponse = _ICompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
 
-            MyCompanyDomainBaseResponse baseResponseorg = _ICompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
+          //  MyCompanyDomainBaseResponse baseResponseorg = _ICompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
 
             string ContactMobile = _ICompanyService.GetContactMobile(_myClaimHelper.loginContactID());
 
-            Organisation org = _ICompanyService.getOrganisatonByID((int)baseResponseorg.Organisation.OrganisationId);
+            Organisation org = _ICompanyService.getOrganisatonByID((int)StoreBaseResopnse.Organisation.OrganisationId);
             if (Item != null)
             {
                 MEsg += "Product : " + Item.ProductName + "<br />";
@@ -137,7 +141,7 @@ namespace MPC.Webstore.Controllers
             }
 
 
-            MEsg += "Customer name :  " + baseResponse.Company.Name  + "<br />";
+            MEsg += "Customer name :  " + StoreBaseResopnse.Company.Name + "<br />";
             MEsg += "Contact/user :   " + UserCookieManager.ContactFirstName + " " + UserCookieManager.ContactLastName + "<br />";
             MEsg += "Email  :  " + UserCookieManager.Email + "<br />";
             MEsg += "Phone  :  " + ContactMobile + "<br /> <br />";
@@ -177,14 +181,14 @@ namespace MPC.Webstore.Controllers
                 EmailParams.StoreID = (int)UserCookieManager.StoreId;
                 EmailParams.SalesManagerContactID = _myClaimHelper.loginContactID();
                 int OID = (int)org.OrganisationId;
-                _ICampaignService.emailBodyGenerator(EventCampaign, EmailParams, null, StoreMode.Retail, OID, "", "", "", baseResponse.Company.MarketingBriefRecipient, baseResponse.Company.Name, SecondEmail, Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
+                _ICampaignService.emailBodyGenerator(EventCampaign, EmailParams, null, StoreMode.Retail, OID, "", "", "", StoreBaseResopnse.Company.MarketingBriefRecipient, StoreBaseResopnse.Company.Name, SecondEmail, Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
                 
                
             }
             else
             {
                 string Email = string.Empty;
-                SystemUser SalesMagerRec = _IUserManagerService.GetSalesManagerDataByID(Convert.ToInt32(baseResponse.Company.SalesAndOrderManagerId1));
+                SystemUser SalesMagerRec = _IUserManagerService.GetSalesManagerDataByID(Convert.ToInt32(StoreBaseResopnse.Company.SalesAndOrderManagerId1));
                 if (SalesMagerRec != null)
                 {
                     EmailParams.SystemUserID = SalesMagerRec.SystemUserId;
@@ -195,7 +199,7 @@ namespace MPC.Webstore.Controllers
                     EmailParams.SystemUserID = 0;
                   
                 }
-                EmailParams.StoreID = baseResponseorg.Organisation.OrganisationId;
+                EmailParams.StoreID = StoreBaseResopnse.Organisation.OrganisationId;
                 EmailParams.SalesManagerContactID = _myClaimHelper.loginContactID();
                
                  
@@ -224,7 +228,7 @@ namespace MPC.Webstore.Controllers
 
             //LeftPanel.Visible = false;
             //RightPanel.Visible = false;
-
+            StoreBaseResopnse = null;
             return View("PartialViews/MarketingBrief",Item);
         }
     }

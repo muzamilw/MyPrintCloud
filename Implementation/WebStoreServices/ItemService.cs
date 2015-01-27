@@ -10,6 +10,11 @@ using System.Text;
 using System.Threading.Tasks;
 using MPC.Models.DomainModels;
 using System.Web;
+using WebSupergoo.ABCpdf8;
+using System.IO;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 
 
 namespace MPC.Implementation.WebStoreServices
@@ -27,6 +32,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IItemAttachmentRepository _itemAtachement;
         private readonly IFavoriteDesignRepository _favoriteDesign;
         private readonly ITemplateService _templateService;
+        private readonly IPaymentGatewayRepository _paymentRepository;
         #region Constructor
 
         /// <summary>
@@ -34,7 +40,8 @@ namespace MPC.Implementation.WebStoreServices
         /// </summary>
         public ItemService(IItemRepository ItemRepository, IItemStockOptionRepository StockOptions, ISectionFlagRepository SectionFlagRepository, ICompanyRepository CompanyRepository
             , IItemStockControlRepository StockRepository, IItemAddOnCostCentreRepository AddOnRepository, IProductCategoryRepository ProductCategoryRepository
-            , IItemAttachmentRepository itemAtachement, IFavoriteDesignRepository FavoriteDesign, ITemplateService templateService)
+            , IItemAttachmentRepository itemAtachement, IFavoriteDesignRepository FavoriteDesign, ITemplateService templateService
+            ,IPaymentGatewayRepository paymentRepository)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -46,6 +53,7 @@ namespace MPC.Implementation.WebStoreServices
             this._itemAtachement = itemAtachement;
             this._favoriteDesign = FavoriteDesign;
             this._templateService = templateService;
+            this._paymentRepository = paymentRepository;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -57,9 +65,9 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.GetItemById(ItemId);
         }
-        public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, int TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID)
+        public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID)
         {
-            return _ItemRepository.CloneItem(itemID, RefItemID, OrderID, CustomerID, TemplateID, StockID, SelectedAddOnsList, isSavedDesign, isCopyProduct, objContactID);
+            return _ItemRepository.CloneItem(itemID, RefItemID, OrderID, CustomerID, TemplateID, StockID, SelectedAddOnsList, isSavedDesign, isCopyProduct, objContactID,OrganisationID);
         }
 
         public List<ItemPriceMatrix> GetPriceMatrix(List<ItemPriceMatrix> tblRefItemsPriceMatrix, bool IsRanged, bool IsUserLoggedIn, long CompanyId)
@@ -442,5 +450,194 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.GetRealEstateProductsByCompanyID(companyId);
         }
+        public Item GetItemByOrderID(long OrderID)
+        {
+            try
+            {
+                return _ItemRepository.GetItemByOrderID(OrderID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public  void GenerateThumbnailForPdf( string url, bool insertCuttingMargin)
+        {
+            using (Doc theDoc = new Doc())
+            {
+                theDoc.Read(url);
+                theDoc.PageNumber = 1;
+                theDoc.Rect.String = theDoc.CropBox.String;
+                double cuttingMargin = 14.173228345;
+                if (insertCuttingMargin)
+                {
+                    theDoc.Rect.Inset(cuttingMargin, cuttingMargin);
+                }
+
+                Stream oImgstream = new MemoryStream();
+
+                theDoc.Rendering.DotsPerInch = 300;
+                theDoc.Rendering.Save("tmp.png", oImgstream);
+
+                theDoc.Clear();
+                theDoc.Dispose();
+
+                CreatAndSaveThumnail(oImgstream, url);
+
+            }
+        }
+        public string SaveDesignAttachments(long templateID, long itemID, long customerID, string DesignName, string caller, long organisationId)
+        {
+            return _ItemRepository.SaveDesignAttachments(templateID, itemID, customerID, DesignName, caller, organisationId);
+        }
+        public bool CreatAndSaveThumnail(Stream oImgstream,string sideThumbnailPath)
+        {
+            try
+            {
+                string orgPath = sideThumbnailPath;
+                string baseAddress = sideThumbnailPath.Substring(0, sideThumbnailPath.LastIndexOf('\\'));
+                sideThumbnailPath = Path.GetFileNameWithoutExtension(sideThumbnailPath) + "Thumb.png";
+
+                sideThumbnailPath = baseAddress + "\\" + sideThumbnailPath;
+
+                Image origImage = null;
+                if (oImgstream != null)
+                {
+                    origImage = Image.FromStream(oImgstream);
+                }
+                else
+                {
+                    origImage = Image.FromFile(orgPath);
+                }
+                
+
+                float WidthPer, HeightPer;
+
+                int NewWidth, NewHeight;
+                int ThumbnailSizeWidth = 400;
+                int ThumbnailSizeHeight = 400;
+
+                if (origImage.Width > origImage.Height)
+                {
+                    NewWidth = ThumbnailSizeWidth;
+                    WidthPer = (float)ThumbnailSizeWidth / origImage.Width;
+                    NewHeight = Convert.ToInt32(origImage.Height * WidthPer);
+                }
+                else
+                {
+                    NewHeight = ThumbnailSizeHeight;
+                    HeightPer = (float)ThumbnailSizeHeight / origImage.Height;
+                    NewWidth = Convert.ToInt32(origImage.Width * HeightPer);
+                }
+
+                Bitmap origThumbnail = new Bitmap(NewWidth, NewHeight, origImage.PixelFormat);
+                Graphics oGraphic = Graphics.FromImage(origThumbnail);
+                oGraphic.CompositingQuality = CompositingQuality.HighQuality;
+                oGraphic.SmoothingMode = SmoothingMode.HighQuality;
+                oGraphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                Rectangle oRectangle = new Rectangle(0, 0, NewWidth, NewHeight);
+                oGraphic.DrawImage(origImage, oRectangle);
+
+
+                origThumbnail.Save(sideThumbnailPath, ImageFormat.Png);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        public List<ItemAttachment> SaveArtworkAttachments(List<ItemAttachment> attachmentList)
+        {
+            return _itemAtachement.SaveArtworkAttachments(attachmentList);
+        }
+        /// <summary>
+        /// gets the cloned item
+        /// </summary>
+        /// <param name="ItemId"></param>
+        /// <returns></returns>
+        public Item GetClonedItemById(long ItemId)
+        {
+            return _ItemRepository.GetClonedItemById(ItemId);
+        }
+        /// <summary>
+        /// returns the active payment gateway
+        /// </summary>
+        /// <returns></returns>
+        public PaymentGateway GetPaymentGatewayRecord(long CompanyId)
+        {
+
+            return _paymentRepository.GetPaymentGatewayRecord(CompanyId);
+
+
+        }
+        public long GetFirstItemIdByOrderId(long orderId)
+        {
+
+            return _ItemRepository.GetFirstItemIdByOrderId(orderId);
+
+
+        }
+                 /// <summary>
+        /// add payment
+        /// </summary>
+        /// <returns></returns>
+        public long AddPrePayment(PrePayment prePayment)
+        {
+
+            return _paymentRepository.AddPrePayment(prePayment);
+
+
+        }
+        public List<Item> GetItemsByOrderID(long OrderID)
+        {
+            try
+            {
+                return _ItemRepository.GetItemsByOrderID(OrderID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<Item> GetListOfDeliveryItemByOrderID(long OID)
+        {
+            try
+            {
+               return _ItemRepository.GetListOfDeliveryItemByOrderID(OID);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool RemoveListOfDeliveryItemCostCenter(long OrderId)
+        {
+            try
+            {
+                return _ItemRepository.RemoveListOfDeliveryItemCostCenter(OrderId);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool AddUpdateItemFordeliveryCostCenter(long orderId, long DeliveryCostCenterId, double DeliveryCost, long customerID, string DeliveryName, StoreMode Mode, bool isDeliveryTaxable, bool IstaxONService, double GetServiceTAX, double TaxRate)
+        {
+             try
+            {
+                return _ItemRepository.AddUpdateItemFordeliveryCostCenter(orderId,DeliveryCostCenterId,DeliveryCost,customerID,DeliveryName,Mode,isDeliveryTaxable,IstaxONService,GetServiceTAX,TaxRate);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+  
+
     }
 }

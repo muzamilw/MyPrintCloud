@@ -120,23 +120,23 @@ namespace MPC.Webstore.Common
         {
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
-          
-            Dictionary<long, MyCompanyDomainBaseReponse> stores = cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>;
+
+            MyCompanyDomainBaseReponse stores = (cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>)[StoreId];
 
             XmlDocument resxFile = null;
 
             if (stores != null)
             {
-                resxFile = stores[StoreId].ResourceFile;
+                resxFile = stores.ResourceFile;
             }
             
             if (resxFile != null) 
             {
                 XmlNode loRoot = resxFile.SelectSingleNode("root/data[@name='" + key + "']/value");
 
-                if (loRoot.LastChild != null)
+                if (loRoot != null)
                 {
-                    return (loRoot.LastChild).InnerXml;
+                    return (loRoot).InnerXml;
                 }
                 else
                 {
@@ -192,6 +192,17 @@ namespace MPC.Webstore.Common
             }
         }
 
+        public static string specialCharactersEncoder(string value)
+        {
+            value = value.Replace("/", "-");
+            value = value.Replace(" ", "-");
+            value = value.Replace(";", "-");
+            value = value.Replace("&#34;", "");
+            value = value.Replace("&", "");
+            value = value.Replace("+", "");
+            return value;
+        }
+
     }
     public static class CommonHtmlExtensions
     {
@@ -210,6 +221,13 @@ namespace MPC.Webstore.Common
         public static string GetKeyValueFromResourceFile(this HtmlHelper htmlHelper, string Key, long StoreId)
         {
             return Utils.GetKeyValueFromResourceFile(Key, StoreId);
+        }
+
+        public static string GetAttachmentFileName(this HtmlHelper htmlHelper, string ProductCode, string OrderCode, string ItemCode, string SideCode, string extension, DateTime OrderCreationDate)
+        {
+            string FileName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") + OrderCreationDate.Day.ToString() + "-" + ProductCode + "-" + OrderCode + "-" + ItemCode + "-" + SideCode + extension;
+
+            return FileName;
         }
     //    static Assembly FindGlobalResAssembly()
     //    {

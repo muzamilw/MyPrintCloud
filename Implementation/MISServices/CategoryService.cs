@@ -18,6 +18,21 @@ namespace MPC.Implementation.MISServices
         private readonly IProductCategoryRepository productCategoryRepository;
         private readonly IProductCategoryFileTableViewRepository productCategoryFileTableViewRepository;
         
+        //#region Private Methods
+        private ProductCategory Create(ProductCategory productCategory)
+        {
+            productCategoryRepository.Add(productCategory);
+            productCategoryRepository.SaveChanges();
+            return productCategory;
+        }
+
+        private ProductCategory Update(ProductCategory productCategory)
+        {
+            productCategoryRepository.Update(productCategory);
+            productCategoryRepository.SaveChanges();
+            return productCategory;
+        }
+        //#endregion
         #endregion
 
         #region Constructor
@@ -58,6 +73,16 @@ namespace MPC.Implementation.MISServices
             }
             return result;
         }
+
+        public ProductCategory Save(ProductCategory productCategory)
+        {
+            if (productCategory.ProductCategoryId == 0)
+            {
+                return Create(productCategory);
+            }
+            return Update(productCategory);
+        }
+
         #endregion
     }
 }

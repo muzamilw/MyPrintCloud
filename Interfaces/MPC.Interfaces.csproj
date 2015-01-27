@@ -71,6 +71,7 @@
     <Compile Include="MISServices\ICompanyService.cs" />
     <Compile Include="MISServices\IItemService.cs" />
     <Compile Include="MISServices\IInventoryService.cs" />
+    <Compile Include="MISServices\ICostCentersService.cs" />
     <Compile Include="MISServices\IPhraseLibraryService.cs" />
     <Compile Include="MISServices\IPrefixService.cs" />
     <Compile Include="MISServices\IStockCategoryService.cs" />
@@ -148,8 +149,10 @@
     <Compile Include="WebStoreServices\ICompanyService.cs" />
     <Compile Include="MISServices\IMyOrganizationService.cs" />
     <Compile Include="WebStoreServices\ICompanyBannerService.cs" />
+    <Compile Include="WebStoreServices\ICostCentreQuestionRepository.cs" />
     <Compile Include="WebStoreServices\ICostCentreService.cs" />
     <Compile Include="WebStoreServices\ICostCentreVariableRepository.cs" />
+    <Compile Include="WebStoreServices\IExecutionService.cs" />
     <Compile Include="WebStoreServices\IImagePermissionsService.cs" />
     <Compile Include="WebStoreServices\IListingService.cs" />
     <Compile Include="WebStoreServices\IMyCompanyDomainService.cs" />

@@ -154,6 +154,9 @@ define("product/product.viewModel",
                     },
                     // Open Editor
                     openProductEditor = function () {
+                        // Show Basic Details Tab
+                        view.showBasicDetailsTab();
+                        // Show Details
                         isProductDetailsVisible(true);
                         // Set Product Category true/false for popup
                         productCategories.each(function (productCategory) {

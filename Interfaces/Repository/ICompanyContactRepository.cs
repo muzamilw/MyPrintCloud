@@ -12,7 +12,7 @@ namespace MPC.Interfaces.Repository
     {
         CompanyContact GetContactUser(string email, string password);
         CompanyContact GetContactByFirstName(string Fname);
-        CompanyContact GetContactByEmail(string Email);
+        CompanyContact GetContactByEmail(string Email, long OID);
         long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID);
 
         CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName);
@@ -21,7 +21,7 @@ namespace MPC.Interfaces.Repository
         Models.ResponseModels.CompanyContactResponse GetCompanyContacts(
             Models.RequestModels.CompanyContactRequestModel request);
 
-        CompanyContact GetContactByEmailAndMode(string Email, int Type, int customerID);
+        CompanyContact GetContactByEmailAndMode(string Email, int Type, long customerID);
 
         string GeneratePasswordHash(string plainText);
 
@@ -56,11 +56,11 @@ namespace MPC.Interfaces.Repository
         /// <returns></returns>
         int GetPendingOrdersCountByTerritory(long companyId, OrderStatus statusId, int TerritoryID);
 
-        /// <summary>
-        /// Gets all pending approval orders count for corporate customers
-        /// </summary>
-        /// <param name="contactId"></param>
-        /// <param name="isApprover"></param>
+        CompanyContact GetCorporateAdmin(long contactCompanyId);
+
+    
+
+
         /// <param name="statusId"></param>
         /// <returns></returns>
         int GetAllPendingOrders(long CompanyId, OrderStatus statusId);
@@ -84,5 +84,11 @@ namespace MPC.Interfaces.Repository
         /// <param name="password"></param>
         /// <returns></returns>
         CompanyContact GetRetailUser(string email, string password);
+
+        long GetContactTerritoryID(long CID);
+        bool updateQuikcTextInfo(long contactId, QuickText objQuickText);
+
+        long GetContactIdByRole(long CompanyID, int Role);
+        long GetContactAddressID(long cID);
     }
 }

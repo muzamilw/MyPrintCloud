@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using MPC.Models.DomainModels;
 using MPC.Models.Common;
+using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Interfaces.Repository
 {
     /// <summary>
     /// Cost Centre Repository Interface
     /// </summary>
-    public interface ICostCentreRepository : IBaseRepository<CostCentre, long>
+    public interface ICostCentreRepository 
     {
         /// <summary>
         /// Get All Cost Centres that are not system defined
@@ -48,5 +50,12 @@ namespace MPC.Interfaces.Repository
         double ExecUserVariable(CostCentreVariable oVariable);
         double ExecuteUserResource(long ResourceID, ResourceReturnType oCostPerHour);
         double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, out double Price, out double PerQtyQty);
+        CostCentersResponse GetUserDefinedCostCenters(CostCenterRequestModel request);
+
+        List<CostCentre> GetDeliveryCostCentersList();
+
+        List<CostCentre> GetCorporateDeliveryCostCentersList(long CompanyID);
+
+        CostCentre GetCostCentersByID(long costCenterID);
     }
 }

@@ -17,7 +17,11 @@ namespace MPC.Models.Common
         TemporaryCustomer = 53,
         SalesCustomer = 57
     }
-
+    public enum CostCenterTypes
+    {
+        SystemCostCentres = 1,
+        Delivery = 11
+    }
     public enum HashAlgos
     {
         MD5,
@@ -153,7 +157,7 @@ namespace MPC.Models.Common
 
     };
 
-    [Serializable]
+  
     public enum UploadFileTypes : int
     {
         Artwork,
@@ -184,16 +188,24 @@ namespace MPC.Models.Common
     public enum StockPriceType : int
     {
         PerUnit = 1,
-          PerPack = 2
+        PerPack = 2
     }
+
+    public enum ContactCompanyUserRoles
+    {
+        Administrator = 1,
+        Manager = 2,
+        User = 3
+    }
+
 
     public enum CostCentreExecutionMode : int
     {
         PromptMode = 1,
         ExecuteMode = 2
     }
-     public enum VariableProperty : int 
-     {
+    public enum VariableProperty : int
+    {
         Side1Inks = 1,
         Side2Inks = 2,
         PrintSheetQty_ProRata = 3,
@@ -233,19 +245,44 @@ namespace MPC.Models.Common
         SectionPaperWeightExSelfQty_ProRata = 37,
         WashupQty = 38,
         MakeReadyQty = 39
-     }
-     public enum PrintViewOrientation : int
-     {
-         Landscape = 1,
-         Portrait = 0
-     }
-     public enum SecondryPagesInfo : int
-     {
-         AboutUs = 2,
-         ContactUs = 3,
-         SpecialOffer = 35,
-         HowToOrder = 36,
-         PrivacyPolicy = 5,
-         TermsAndConditions = 11
-     }
+    }
+    public enum PrintViewOrientation : int
+    {
+        Landscape = 1,
+        Portrait = 0
+    }
+    public enum SecondryPagesInfo : int
+    {
+        AboutUs = 2,
+        ContactUs = 3,
+        SpecialOffer = 35,
+        HowToOrder = 36,
+        PrivacyPolicy = 5,
+        TermsAndConditions = 11
+    }
+
+    public enum QuestionType : int
+    {
+        InputQuestion = 1,
+        BooleanQuestion = 2,
+        MultipleChoiceQuestion = 3,
+
+    }
+    public enum ClientStatus : int
+    {
+        inProgress = 38,
+        completed = 37
+    }
+    public enum StockLogEvents
+    {
+        Ordered = 2,
+        ReachedThresholdLevel = 3,
+        BackOrder = 4
+    }
+    public enum DeliveryCarriers
+    {
+        Fedex = 1,
+        UPS = 2,
+        Other = 3
+    }
 }

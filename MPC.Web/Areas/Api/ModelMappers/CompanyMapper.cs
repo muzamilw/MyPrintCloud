@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Web;
 using MPC.MIS.Areas.Api.Models;
 using ApiModels = MPC.MIS.Areas.Api.Models;
 using DomainResponseModel = MPC.Models.ResponseModels;
@@ -14,7 +15,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static ApiModels.Company CreateFrom(this DomainModels.Company source)
+        public static Company CreateFrom(this DomainModels.Company source)
         {
             byte[] bytes = null;
             if (source.Image != null && File.Exists(source.Image))
@@ -26,8 +27,25 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 storeBackgroundImageBytes = source.StoreBackgroundImage != null ? File.ReadAllBytes(source.StoreBackgroundImage) : null;
             }
+            byte[] spriteBytes = null;
+            string spritePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/sprite.png");
+            if (File.Exists(spritePath))
+            {
+                spriteBytes = File.ReadAllBytes(spritePath);
+            }
+            byte[] defaultSpriteBytes = null;
+            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png")))
+            {
+                defaultSpriteBytes = File.ReadAllBytes(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png"));
+            }
+            string defaultCss = string.Empty;
 
-            return new ApiModels.Company
+            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/site.css")))
+            {
+                defaultCss = File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/site.css"));
+            }
+
+            return new Company
             {
                 CompanyId = source.CompanyId,
                 Name = source.Name,
@@ -44,6 +62,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 AccountManagerId = source.AccountManagerId,
                 Status = source.Status,
                 IsCustomer = source.IsCustomer,
+                CustomCSS = defaultCss,
                 Notes = source.Notes,
                 IsDisabled = source.IsDisabled,
                 AccountBalance = source.AccountBalance,
@@ -93,6 +112,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 includeEmailBrokerArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport,
                 includeEmailBrokerArtworkOrderXML = source.includeEmailBrokerArtworkOrderXML,
                 includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard,
+                StoreBackgroundImage = source.StoreBackgroundImage,
                 makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady,
 
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
@@ -112,22 +132,26 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                     source.CompanyContacts != null ? source.CompanyContacts.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFrom()).ToList() : null,
                 PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Take(10).Select(x => x.CreateFrom()).ToList() : null,
-                ProductCategoriesListView = source.ProductCategories != null ? source.ProductCategories.Take(10).Where(x => x.ParentCategoryId == null).Select(x => x.ListViewModelCreateFrom()).ToList() : null,
+                ProductCategoriesListView = source.ProductCategories != null ? source.ProductCategories.Where(x => x.ParentCategoryId == null).Select(x => x.ListViewModelCreateFrom()).ToList() : null,
                 CmsPagesDropDownList = source.CmsPages != null ? source.CmsPages.Select(x => x.CreateFromForDropDown()).ToList() : null,
                 ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null,
-                StoreBackgroudImage = storeBackgroundImageBytes
-                //Items = source.produ
+                StoreBackgroudImage = storeBackgroundImageBytes,
+                DefaultSpriteImage = defaultSpriteBytes,
+                UserDefinedSpriteImage = spriteBytes,
+                MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
+                CompanyDomains = source.CompanyDomains != null ? source.CompanyDomains.Select(x=> x.CreateFrom()).ToList() : null
             };
         }
 
         /// <summary>
         /// Crete From Web Model
         /// </summary>
-        public static DomainModels.Company CreateFrom(this ApiModels.Company source)
+        public static DomainModels.Company CreateFrom(this Company source)
         {
             var company = new DomainModels.Company
             {
                 CompanyId = source.CompanyId,
+                StoreBackgroundFile = source.StoreBackgroundFile,
                 Name = source.Name,
                 Image = source.ImageBytes,
                 AccountNumber = source.AccountNumber,
@@ -135,6 +159,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CreditReference = source.CreditReference,
                 CreditLimit = source.CreditLimit,
                 Terms = source.Terms,
+                CustomCSS = source.CustomCSS,
                 TypeId = 52,
                 DefaultNominalCode = source.DefaultNominalCode,
                 DefaultMarkUpId = source.DefaultMarkUpId,
@@ -214,8 +239,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Select(x => x.CreateFrom()).ToList() : null,
                 Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFrom()).ToList() : null,
                 ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null,
-                StoreBackgroudImageImageSource = source.StoreBackgroudImageImageSource,
-                StoreBackgroudImageFileName = source.StoreBackgroudImageFileName,
+                StoreBackgroundImage = source.StoreBackgroundImage,
+                CmsOffers = source.CmsOffers != null ? source.CmsOffers.Select(c => c.CreateFrom()).ToList() : null,
+                UserDefinedSpriteSource = source.UserDefinedSpriteSource,
+                MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
+                CompanyDomains = source.CompanyDomains != null? source.CompanyDomains.Select(x=> x.CreateFrom()).ToList(): null
             };
 
             return company;
@@ -224,9 +252,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static ApiModels.SupplierForInventory CreateFromForInventory(this DomainModels.Company source)
+        public static SupplierForInventory CreateFromForInventory(this DomainModels.Company source)
         {
-            return new ApiModels.SupplierForInventory
+            return new SupplierForInventory
             {
                 Name = source.Name,
                 SupplierId = source.CompanyId,
@@ -305,7 +333,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 }
             };
 
-        #endregion
+
         }
+
+        #endregion
     }
 }

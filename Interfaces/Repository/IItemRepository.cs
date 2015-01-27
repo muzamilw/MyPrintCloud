@@ -17,12 +17,12 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         ItemSearchResponse GetItems(ItemSearchRequestModel request);
 
-        List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(int ProductCategoryID);
+        List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(long ProductCategoryID);
 
         ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId);
 
         List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId);
-        Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID);
+        Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID);
 
         Item GetItemById(long RefitemId);
 
@@ -39,7 +39,7 @@ namespace MPC.Interfaces.Repository
         bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0);
 
         List<ProductItem> GetRelatedItemsList();
-    
+
         Item GetItemByOrderAndItemID(long ItemID, long OrderID);
 
         double FindMinimumPriceOfProduct(long itemID);
@@ -54,19 +54,23 @@ namespace MPC.Interfaces.Repository
 
         double GetMinimumProductValue(long itemId);
 
-        /// <summary>
-        /// Update Order
-        /// </summary>
-        /// <param name="TemporaryCustomerID"></param>
-        /// <param name="realCustomerID"></param>
-        /// <param name="realContactID"></param>
-        /// <param name="replacedOrderdID"></param>
-        /// <param name="orderAllItemsAttatchmentsListToBeRemoved"></param>
-        /// <param name="clonedTemplateToRemoveList"></param>
-        /// <returns></returns>
         long UpdateTemporaryCustomerOrderWithRealCustomer(long TemporaryCustomerID, long realCustomerID, long realContactID, long replacedOrderdID, out List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved, out List<Template> clonedTemplateToRemoveList);
 
-        List<usp_GetRealEstateProducts_Result> GetRealEstateProductsByCompanyID(long CompanyId);
+        /// <summary>
+        /// Get Items For Widgets 
+        /// </summary>
+        List<Item> GetItemsForWidgets();
+         Item GetItemByOrderID(long OrderID);
+          List<Item> GetItemsByOrderID(long OrderID);
+         string SaveDesignAttachments(long templateID, long itemID, long customerID, string DesignName, string caller, long organisationId);
+         Item GetClonedItemById(long itemId);
+         long GetFirstItemIdByOrderId(long orderId);
 
+         List<Item> GetListOfDeliveryItemByOrderID(long OID);
+
+        List<usp_GetRealEstateProducts_Result> GetRealEstateProductsByCompanyID(long CompanyId);
+         bool RemoveListOfDeliveryItemCostCenter(long OrderId);
+
+         bool AddUpdateItemFordeliveryCostCenter(long orderId, long DeliveryCostCenterId, double DeliveryCost, long customerID, string DeliveryName, StoreMode Mode, bool isDeliveryTaxable, bool IstaxONService, double GetServiceTAX, double TaxRate);
     }
 }
