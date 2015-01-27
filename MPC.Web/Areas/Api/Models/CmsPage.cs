@@ -22,6 +22,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string PageHTML { get; set; }
         public string FileName { get; set; }
         public string DefaultPageKeyWords { get; set; }
+        public string PageBanner { get; set; }
 
         /// <summary>
         /// File Bytes

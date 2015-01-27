@@ -252,7 +252,7 @@ define("stores/stores.viewModel",
                 },
                 //Store Image Files Loaded Callback
                     storeImageFilesLoadedCallback = function (file, data) {
-                        selectedStore().image(data);
+                        selectedStore().storeImageFileBinary(data);
                         selectedStore().storeImageName(file.name);
                         //selectedProductCategoryForEditting().fileType(data.imageType);
                     },
@@ -2442,7 +2442,7 @@ define("stores/stores.viewModel",
                 showMediaLibraryDialogFromStoreBackground = function () {
                     resetMediaGallery();
                     _.each(selectedStore().mediaLibraries(), function (item) {
-                        if (selectedStore().storeBackgroudImagePath() !== undefined && (item.id() === selectedStore().storeBackgroudImagePath() || item.filePath() === selectedStore().storeBackgroudImagePath())) {
+                        if (selectedStore().storeBackgroudImageImageSource() !== undefined && item.fileSource() === selectedStore().storeBackgroudImageImageSource()) {
                             item.isSelected(true);
                             selectedStore().storeBackgroudImageImageSource(item.fileSource());
                         }
@@ -2450,7 +2450,7 @@ define("stores/stores.viewModel",
                     mediaLibraryOpenFrom("StoreBackground");
                     showMediaLibrary();
                 },
-                //Open Media Library From CompanyBanner
+                //Open Media Library From Company Banner
                 openMediaLibraryDialogFromCompanyBanner = function () {
                     resetMediaGallery();
                     _.each(selectedStore().mediaLibraries(), function (item) {
@@ -2462,6 +2462,19 @@ define("stores/stores.viewModel",
                     mediaLibraryOpenFrom("CompanyBanner");
                     showMediaLibrary();
                 },
+                //Open Media Library From Secondary Page
+                openMediaLibraryDialogFromSecondaryPage = function () {
+                    resetMediaGallery();
+                    _.each(selectedStore().mediaLibraries(), function (item) {
+                        if (selectedSecondaryPage().pageBanner() !== undefined && (item.id() === selectedSecondaryPage().pageBanner() || item.filePath() === selectedSecondaryPage().pageBanner())) {
+                            item.isSelected(true);
+                            selectedSecondaryPage().imageSrc(item.fileSource());
+                        }
+                    });
+                    mediaLibraryOpenFrom("SecondaryPage");
+                    showMediaLibrary();
+                },
+
                 //Hie Media Library
                 hideMediaLibraryDialog = function () {
                     view.hideMediaGalleryDialog();
@@ -2499,6 +2512,16 @@ define("stores/stores.viewModel",
                         selectedCompanyBanner().fileBinary(selectedMediaFile().fileSource());
                         selectedCompanyBanner().imageSource(selectedMediaFile().fileSource());
                     }
+                        //If Open From Secondary Page
+                    else if (mediaLibraryOpenFrom() === "SecondaryPage") {
+                        if (selectedMediaFile().id() > 0) {
+                            selectedSecondaryPage().pageBanner(selectedMediaFile().filePath());
+                        } else {
+                            selectedSecondaryPage().pageBanner(selectedMediaFile().id());
+                        }
+                        selectedSecondaryPage().imageSrc(selectedMediaFile().fileSource());
+                    }
+
                     //Hide gallery
                     hideMediaLibraryDialog();
                 },
@@ -2763,6 +2786,7 @@ define("stores/stores.viewModel",
                     mediaLibraryFileLoadedCallback: mediaLibraryFileLoadedCallback,
                     showMediaLibraryDialogFromStoreBackground: showMediaLibraryDialogFromStoreBackground,
                     openMediaLibraryDialogFromCompanyBanner: openMediaLibraryDialogFromCompanyBanner,
+                    openMediaLibraryDialogFromSecondaryPage: openMediaLibraryDialogFromSecondaryPage,
                     hideMediaLibraryDialog: hideMediaLibraryDialog,
                     selectMediaFile: selectMediaFile,
                     selectedMediaFile: selectedMediaFile,

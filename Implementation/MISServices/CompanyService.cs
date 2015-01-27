@@ -67,7 +67,7 @@ namespace MPC.Implementation.MISServices
         private readonly ISectionFlagRepository sectionFlagRepository;
         private readonly IItemProductDetailRepository itemProductDetailRepository;
 
-        #endregion
+
 
         /// <summary>
         /// Save Company
@@ -676,7 +676,7 @@ namespace MPC.Implementation.MISServices
             UpdateCampaigns(companySavingModel.Company.Campaigns, companyDbVersion);
             UpdateCmsSkinPageWidget(companySavingModel.CmsPageWithWidgetList, companyDbVersion);
             UpdateColorPallete(companySavingModel.Company, companyDbVersion);
-            if (companyToBeUpdated.Image != null)
+            if (companyToBeUpdated.ImageBytes != null)
             {
                 companySavingModel.Company.Image = SaveCompanyProfileImage(companySavingModel.Company);
             }
@@ -698,11 +698,14 @@ namespace MPC.Implementation.MISServices
 
             SaveCompanyBannerImages(companySavingModel.Company);
             SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
-            UpdateSecondaryPageImagePath(companyDbVersion);
+            UpdateSecondaryPageImagePath(companySavingModel, companyDbVersion);
             companyRepository.SaveChanges();
             return companySavingModel.Company;
         }
 
+        /// <summary>
+        /// Update Media Library File Path
+        /// </summary>
         private void UpdateMediaLibraryFilePath(Company company, Company companyDbVersion)
         {
             if (company.MediaLibraries != null)
@@ -741,6 +744,9 @@ namespace MPC.Implementation.MISServices
             }
         }
 
+        /// <summary>
+        /// Update Media Library
+        /// </summary>
         private void UpdateMediaLibrary(Company company, Company companyDbVersion)
         {
             if (company.MediaLibraries != null)
@@ -756,6 +762,9 @@ namespace MPC.Implementation.MISServices
             }
         }
 
+        /// <summary>
+        /// Save/Update Company/Store CSS
+        /// </summary>
         private void SaveCompanyCss(Company company)
         {
             string directoryPath =
@@ -770,6 +779,9 @@ namespace MPC.Implementation.MISServices
             File.WriteAllText(savePath, company.CustomCSS);
         }
 
+        /// <summary>
+        /// Save Sprite Image
+        /// </summary>
         private void SaveSpriteImage(Company company)
         {
             string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + company.CompanyId);
@@ -795,6 +807,9 @@ namespace MPC.Implementation.MISServices
             }
         }
 
+        /// <summary>
+        /// Update Cms Offer
+        /// </summary>
         private void UpdateCmsOffers(Company company, Company companyDbVersion)
         {
             #region Update Cms Offer
@@ -854,6 +869,9 @@ namespace MPC.Implementation.MISServices
             #endregion
         }
 
+        /// <summary>
+        /// Save Store Background Image
+        /// </summary>
         private void SaveStoreBackgroundImage(Company company, Company companyDbVersion)
         {
 
@@ -879,17 +897,29 @@ namespace MPC.Implementation.MISServices
             }
         }
 
-        private void UpdateSecondaryPageImagePath(Company company)
+        /// <summary>
+        /// Update Secondary Page Images Path
+        /// </summary>
+        private void UpdateSecondaryPageImagePath(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
-            //if (company.CmsPages != null)
-            //{
-            //    foreach (var item in company.CmsPages)
-            //    {
-
-            //        banner.ImageURL = media.FilePath;
-            //    }
-            //}
+            if (companyDbVersion.CmsPages != null)
+            {
+                foreach (var itemDbVersion in companyDbVersion.CmsPages)
+                {
+                    foreach (var media in companySavingModel.Company.MediaLibraries)
+                    {
+                        if (media.FakeId == itemDbVersion.PageBanner)
+                        {
+                            itemDbVersion.PageBanner = media.FilePath;
+                        }
+                    }
+                }
+            }
         }
+
+        /// <summary>
+        /// Update Color Pallete
+        /// </summary>
         private void UpdateColorPallete(Company company, Company companyDbVersion)
         {
             if (company.ColorPalletes != null)
@@ -1690,23 +1720,19 @@ namespace MPC.Implementation.MISServices
         }
         private string SaveCompanyProfileImage(Company company)
         {
-            if (company.Image != null)
+            if (company.ImageBytes != null)
             {
-                string base64 = company.Image.Substring(company.Image.IndexOf(',') + 1);
+                string base64 = company.ImageBytes.Substring(company.ImageBytes.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
 
-                //stores/organisation1/company505/CompanyProfileImage
-                string directoryPath =
-                   System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Stores/Organisation" +
-                                                                 itemRepository.OrganisationId + "/Company" +
-                                                                 company.CompanyId + "/CompanyProfileImage");
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + company.CompanyId);
 
                 if (directoryPath != null && !Directory.Exists(directoryPath))
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string savePath = directoryPath + "\\" + "_" + company.ImageName;
+                string savePath = directoryPath + "\\logo.png" ;
                 File.WriteAllBytes(savePath, data);
 
                 return savePath;
@@ -1714,6 +1740,7 @@ namespace MPC.Implementation.MISServices
             return null;
         }
 
+        #endregion
 
         #region Constructor
 

@@ -152,7 +152,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyId = source.CompanyId,
                 StoreBackgroundFile = source.StoreBackgroundFile,
                 Name = source.Name,
-                Image = source.ImageBytes,
+                ImageBytes = source.ImageBytes,
                 AccountNumber = source.AccountNumber,
                 URL = source.URL,
                 CreditReference = source.CreditReference,
