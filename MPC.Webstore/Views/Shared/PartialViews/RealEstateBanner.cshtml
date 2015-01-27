@@ -1,4 +1,5 @@
-﻿
+﻿@model List<MPC.Webstore.Models.CompanyBanner>
+@using MPC.Webstore.Common;
 <style type="text/css">
     body {
         margin: 0;
@@ -8,6 +9,11 @@
     .bx-wrapper .bx-viewport {
         border: none;
         left: 0;
+    }
+
+    .bx-wrapper {
+        margin: 0px auto 0px !important;
+        box-shadow: 0px 0px 14px 5px lightgray;
     }
 
     ul.bxslider {
@@ -41,28 +47,26 @@
     }
 </style>
 
-
-
-<div class="content_area container" id="bannerContainer" style="width: 100% !important; height: 200px; position: relative;">
-    <ul class=" bxslider">
+<div class="content_area" id="bannerContainer" style="width: 100% !important; height: 300px; position: relative;z-index:99;">
+    <ul class="bxslider" style="width: 100% !important;">
         @foreach (var banner in Model)
         {
             <li>
-                <a id="hlItemUrl">
-                    <img id="imgBanner" src="http://yolkpm.myprintcloud.com//StoredImages/PageBanners/ce7d3d5b-229b-4487-9ac7-066ae7926014_HomePageBanner.png" />
-                </a>
+                <div class="banner">
+                    <a id="hlItemUrl">
+                        <img id="imgBanner" src="@Html.GetAppBasePath()@banner.ImageURL" style="width: 100%; height:300px;" />
+                    </a>
+                    <div class="slide-desc">
+                        <label id="lblTitle" style="font-size: 25px; line-height: 2;">@banner.Heading</label><br />
+                        <div style="margin-right: 20px;">
+                            <p id="desc">@banner.Description</p>
+                        </div>
+                    </div>
+                </div>
             </li>
         }
     </ul>
 </div>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('.bx-wrapper').css({
-            'margin': '0px',
-            'box-shadow': '0px 0px 14px 5px lightgray',
-            'position': 'relative',
-            'z-index': '99'
-        });
-    });
-</script>
+
+

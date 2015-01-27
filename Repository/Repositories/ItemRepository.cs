@@ -1925,7 +1925,16 @@ namespace MPC.Repository.Repositories
             return true;
         }
 
-        public Item GetItemByOrderID(long OrderID)
+        public List<usp_GetRealEstateProducts_Result> GetRealEstateProductsByCompanyID(long CompanyId)
+        {
+            List<usp_GetRealEstateProducts_Result> lstProducts = new List<usp_GetRealEstateProducts_Result>();
+
+            lstProducts = db.usp_GetRealEstateProducts(Convert.ToInt32(CompanyId)).ToList();
+
+            return lstProducts;
+        }
+
+ public Item GetItemByOrderID(long OrderID)
         {
             try
             {
@@ -1936,6 +1945,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+        
         /// <summary>
         /// Get Items For Widgets 
         /// </summary>

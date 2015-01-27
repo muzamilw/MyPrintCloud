@@ -102,6 +102,8 @@ namespace MPC.Interfaces.WebStoreServices
         /// <returns></returns>
         long PostLoginCustomerAndCardChanges(long OrderId, long CompanyId, long ContactId, long TemporaryCompanyId, long OrganisationId);
 
+        List<usp_GetRealEstateProducts_Result> GetRealEstateProductsByCompanyID(long CompanyId);
+
         Item GetItemByOrderID(long OrderID);
         void GenerateThumbnailForPdf(string url, bool insertCuttingMargin);
         List<Item> GetItemsByOrderID(long OrderID);
