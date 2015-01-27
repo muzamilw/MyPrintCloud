@@ -24,8 +24,9 @@ namespace MPC.Webstore.Controllers
             List<usp_GetRealEstateProducts_Result> lstRealEstateProducts = _IItemService.GetRealEstateProductsByCompanyID(UserCookieManager.StoreId);
 
             ViewData["RealEstateProducts"] = lstRealEstateProducts;
+            ViewBag.ListingID = listingId;
 
-            return View("PartialViews/RealEstateProducts", listingId);
+            return View("PartialViews/RealEstateProducts");
         }
     }
 }

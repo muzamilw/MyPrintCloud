@@ -1,15 +1,24 @@
-﻿@Model Images
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="@Url.Content("~/Content/SamrtFormCarousel.css")" rel="stylesheet" type="text/css" />
 
+<style>
+    .jcarousel-skin-tango {
+        background-color: transparent !important;
+    }
+    .jcarousel-container-horizontal{
+        background-color: transparent !important;
+    }
+</style>
 
-
-
-<div class="content_area  featuredProductsCarousel">
+<div class="content_area featuredProductsCarousel">
     <ul id="mycarousel" class="jcarousel-skin-tango">
         @foreach (var listing in Model as List<string>)
         {
-            <li style="width: 250px; padding-right: 10px;">
+            <li style="width: 250px; margin-right: 10px;">
                 <div>
-                    <img src="@listing" alt="" style="height: 250px; width: 250px;" />
+                    <img src="../../@listing" alt="" style="height: 250px; width: 250px;" />
                 </div>
             </li>
         }
@@ -24,3 +33,4 @@
         });
     </script>
 }
+

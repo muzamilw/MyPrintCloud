@@ -89,5 +89,17 @@ namespace MPC.Webstore.Controllers
 
             return View("PartialViews/RealEstateSmartForm");
         }
+
+        [HttpPost]
+        public ActionResult SmartFormSubmit(FormCollection formCollection)
+        {
+            foreach (var item in formCollection)
+            {
+                
+            }
+
+            //View will be template designer - for now its empty
+            return View();
+        }
     }
 }
