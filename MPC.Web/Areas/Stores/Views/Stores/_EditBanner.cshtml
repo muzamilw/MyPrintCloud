@@ -42,9 +42,9 @@
                         @*<span class="help-block text-right"></span>*@
                     </div>
                     <div class="col-lg-1">
-                        <div class="fileUpload btn btn-primary">
+                        <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromCompanyBanner">
                             <span>....</span>
-                            <input type="file" class="upload" id="image_files"  data-bind="files: { onLoaded: $root.MultipleImageFilesLoadedCallback, fileFilter: 'image.*'}" />
+                            @*<input type="file" class="upload" id="image_files" data-bind="files: { onLoaded: $root.MultipleImageFilesLoadedCallback, fileFilter: 'image.*'}" />*@
                         </div>
                     </div>
                 </div>

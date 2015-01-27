@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.Models
 {
@@ -141,6 +142,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// Cms Offers
         /// </summary>
         public List<CmsOffer> CmsOffers { get; set; }
+        public List<CompanyDomain> CompanyDomains { get; set; }
 
         public List<MediaLibrary> MediaLibraries { get; set; }
 
@@ -223,15 +225,7 @@ namespace MPC.MIS.Areas.Api.Models
         #endregion
 
         #region Backgroud Image
-        /// <summary>
-        /// Store Backgroud Image Image Source
-        /// </summary>
-        public string StoreBackgroudImageImageSource { get; set; }
-
-        /// <summary>
-        /// Store Backgroud Image File Name
-        /// </summary>
-        public string StoreBackgroudImageFileName { get; set; }
+        public string StoreBackgroundFile { get; set; }
 
         /// <summary>
         /// Store Backgroud Image Bytes

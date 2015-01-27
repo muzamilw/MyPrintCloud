@@ -105,6 +105,13 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to Save Product Category
+                    amplify.request.define('saveProductCategory', 'ajax', {
+                        url: ist.siteUrl + '/Api/ProductCategory',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
                     isInitialized = true;
                 }
             },
@@ -258,6 +265,16 @@
                     data: params
                 });
             },
+        // Save Product Category
+        saveProductCategory = function(param, callbacks) {
+                initialize();
+            return amplify.request({
+                resourceId: 'saveProductCategory',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
         // save Store
         saveStore = function (param, callbacks) {
             initialize();
@@ -285,7 +302,8 @@
             getCmsPageLayoutWidget: getCmsPageLayoutWidget,
             getWidgetDetail: getWidgetDetail,
             getProductCategoryById: getProductCategoryById,
-            getItemsForWidgets: getItemsForWidgets
+            getItemsForWidgets: getItemsForWidgets,
+            saveProductCategory: saveProductCategory
         };
     })();
 

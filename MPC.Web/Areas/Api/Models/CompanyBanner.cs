@@ -51,17 +51,6 @@ namespace MPC.MIS.Areas.Api.Models
         public long? CompanySetId { get; set; }
 
         /// <summary>
-        /// File Bytes
-        /// </summary>
-        public string Bytes { get; set; }
-
-        /// <summary>
-        /// File Name
-        /// </summary>
-        public string FileName { get; set; }
-
-
-        /// <summary>
         /// Image Bytes
         /// </summary>
         public byte[] Image { get; set; }

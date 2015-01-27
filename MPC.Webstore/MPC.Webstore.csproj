@@ -484,6 +484,7 @@
     <Content Include="Content\Images\ProfileImage.png" />
     <Content Include="Content\Images\RealEstateLogo.png" />
     <Content Include="Content\Images\Settings.png" />
+    <Content Include="Content\Images\SignUp.PNG" />
     <Content Include="Content\Images\Sign_up_Email.PNG" />
     <Content Include="Content\Images\SmartFormCart.png" />
     <Content Include="Content\Images\SocialSprite.png" />
