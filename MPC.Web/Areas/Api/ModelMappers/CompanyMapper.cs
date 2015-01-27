@@ -138,7 +138,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StoreBackgroudImage = storeBackgroundImageBytes,
                 DefaultSpriteImage = defaultSpriteBytes,
                 UserDefinedSpriteImage = spriteBytes,
-                MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null
+                MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
+                CompanyDomains = source.CompanyDomains != null ? source.CompanyDomains.Select(x=> x.CreateFrom()).ToList() : null
             };
         }
 
@@ -241,7 +242,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StoreBackgroundImage = source.StoreBackgroundImage,
                 CmsOffers = source.CmsOffers != null ? source.CmsOffers.Select(c => c.CreateFrom()).ToList() : null,
                 UserDefinedSpriteSource = source.UserDefinedSpriteSource,
-                MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null
+                MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
+                CompanyDomains = source.CompanyDomains != null? source.CompanyDomains.Select(x=> x.CreateFrom()).ToList(): null
             };
 
             return company;

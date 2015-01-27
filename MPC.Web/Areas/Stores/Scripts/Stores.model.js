@@ -144,13 +144,14 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             webAnalyticCode = ko.observable(specifiedWebAnalyticCode),
             type = ko.observable(),
             storeImagePath = ko.observable(specifiedStoreImagePath),
-            webAccessCode = ko.observable(specifiedWebAccessCode).extend({
-                required: {
-                    onlyIf: function () {
-                        return type() == 3;
-                    }
-                }
-            }),
+            //webAccessCode = ko.observable(specifiedWebAccessCode).extend({
+            //    required: {
+            //        onlyIf: function () {
+            //            return type() == 3;
+            //        }
+            //    }
+            //}),
+            webAccessCode = ko.observable(specifiedWebAccessCode).extend({ required: true }),
             twitterUrl = ko.observable(specifiedTwitterUrl),
             facebookUrl = ko.observable(specifiedFacebookUrl),
             linkedinUrl = ko.observable(specifiedLinkedinUrl),
@@ -250,6 +251,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 notes: notes,
                 webAccessCode: webAccessCode,
                 twitterUrl: twitterUrl,
+                mediaLibraries: mediaLibraries,
                 facebookUrl: facebookUrl,
                 linkedinUrl: linkedinUrl,
                 facebookAppId: facebookAppId,
@@ -635,6 +637,15 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         _.each(source.CompanyCmykColors, function (item) {
             store.companyCMYKColors.push(CompanyCMYKColor.Create(item));
         });
+        var temp = [];
+        _.each(source.CompanyDomains, function (item) {
+            temp.push(CompanyDomain.Create(item));
+            //If first item is pushing then it is the mandatory one
+            if (temp.length == 1) {
+                temp[0].isMandatoryDomain(true);
+            }
+        });
+        store.companyDomains(temp.reverse());
         _.each(source.ContactCompanies, function (item) {
             store.users.push(CompanyContact.Create(item));
         });
@@ -904,10 +915,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             colorId = ko.observable(specifiedColorId),
             companyId = ko.observable(specifiedCompanyId),
             colorName = ko.observable(specifiedColorName).extend({ required: true }),
-            colorC = ko.observable(specifiedColorC).extend({ required: true }),
-            colorM = ko.observable(specifiedColorM).extend({ required: true }),
-            colorY = ko.observable(specifiedColorY).extend({ required: true }),
-            colorK = ko.observable(specifiedColorK).extend({ required: true }),
+            colorC = ko.observable(specifiedColorC).extend({ required: true, number: true, min: 0, max: 200 }),
+            colorM = ko.observable(specifiedColorM).extend({ required: true, number: true, min: 0, max: 200 }),
+            colorY = ko.observable(specifiedColorY).extend({ required: true, number: true, min: 0, max: 200 }),
+            colorK = ko.observable(specifiedColorK).extend({ required: true, number: true, min: 0, max: 200 }),
             // Errors
             errors = ko.validation.group({
                 colorName: colorName,
@@ -3374,12 +3385,13 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     //#region ___________________C O M P A N Y   D O M A I N ______________________________
 
     // ReSharper disable once InconsistentNaming
-    var CompanyDomain = function (specifiedCompanyDomainId, specifiedDomain) {
+    var CompanyDomain = function (specifiedCompanyDomainId, specifiedDomain, specifiedCompanyId) {
         var // Unique key
             companyDomainId = ko.observable(specifiedCompanyDomainId || 0),
             // Domain
             domain = ko.observable(specifiedDomain || undefined).extend({ required: true }),
-
+            companyId = ko.observable(specifiedCompanyId || undefined),
+            isMandatoryDomain = ko.observable(false),
             errors = ko.validation.group({
                 domain: domain
             }),
@@ -3390,31 +3402,44 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             // True if the product has been changed
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
-                domain: domain
+                domain: domain,
+                companyId: companyId
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
                 return dirtyFlag.isDirty();
-            });
+            }),
+             convertToServerData = function () {
+                 return {
+                     CompanyDomainId: companyDomainId() === undefined ? 0 : companyDomainId(),
+                     Domain: domain(),
+                     CompanyId: companyId(),
+                 };
+             };
         return {
             companyDomainId: companyDomainId,
             domain: domain,
+            companyId: companyId,
+            isMandatoryDomain: isMandatoryDomain,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
+            convertToServerData: convertToServerData
         };
     };
     CompanyDomain.CreateFromClientModel = function (source) {
         return new CompanyDomain(
             source.companyDomainId,
-            source.domain
+            source.domain,
+            source.CompanyId
             );
     };
     CompanyDomain.Create = function (source) {
         var companyDomain = new CompanyDomain(
             source.CompanyDomainId,
-            source.Domain
+            source.Domain,
+            source.CompanyId
             );
         return companyDomain;
     };

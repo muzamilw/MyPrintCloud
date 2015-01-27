@@ -14,8 +14,8 @@
             <div id="loginbarCon" class="login_bar float_right col-sm-6 col-md-6 col-lg-6 col-xs-12" style="padding-right: 0px !important;">
                 <ul id="menu-my-account" class="navM">
                     <li style="margin-right: 0px !important;" class="classicthemeLoginMenu">
-                        <a href="/Login"><i class="fa fa-user usercolorSize"></i></a>
-                        <a href="/Signup"><i class="fa fa-unlock usercolorSize"></i></a>
+                        <a onclick="ShowLoader();" href="/Login"><i class="fa fa-user usercolorSize"></i></a>
+                        <a onclick="ShowLoader();" href="/Signup"><i class="fa fa-unlock usercolorSize"></i></a>
                     </li>
                     <li class="sub PinkBtnMyAccS6">
                         <a id="lnk_SignInRegisteration" href="/Login" class="lnkSignInCs" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkLogin", UserCookieManager.StoreId))</a>

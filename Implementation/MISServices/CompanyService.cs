@@ -66,6 +66,7 @@ namespace MPC.Implementation.MISServices
         private readonly IStateRepository stateRepository;
         private readonly ISectionFlagRepository sectionFlagRepository;
         private readonly IItemProductDetailRepository itemProductDetailRepository;
+        private readonly ICompanyDomainRepository companyDomainRepository;
 
 
 
@@ -188,9 +189,9 @@ namespace MPC.Implementation.MISServices
             #endregion
             return company;
         }
-        private Company UpdateCmykColorsOfUpdatingCompany(Company company)
+        private Company UpdateCmykColorsOfUpdatingCompany(Company company, Company companyDbVersion)
         {
-            var companyDbVersion = companyRepository.Find(company.CompanyId);
+            //var companyDbVersion = companyRepository.Find(company.CompanyId);
             #region CMYK Colors Items
             //Add  CMYK Colors
             if (company.CompanyCMYKColors != null)
@@ -238,6 +239,60 @@ namespace MPC.Implementation.MISServices
                 foreach (var companyCMYKColorsItem in company.CompanyCMYKColors)
                 {
                     companyCmykColorRepository.Update(companyCMYKColorsItem);
+                }
+            }
+            #endregion
+            return company;
+        }
+        private Company UpdateCompanyDomain(Company company)
+        {
+            var companyDbVersion = companyRepository.Find(company.CompanyId);
+            #region Company Domain
+            //Add Company Domain
+            if (company.CompanyDomains != null)
+            {
+                foreach (var item in company.CompanyDomains)
+                {
+                    if (companyDbVersion.CompanyDomains.All(x => x.CompanyDomainId != item.CompanyDomainId && x.CompanyId != item.CompanyId))
+                    {
+                        item.CompanyId = company.CompanyId;
+                        companyDbVersion.CompanyDomains.Add(item);
+                    }
+                }
+            }
+            //find missing items
+
+            List<CompanyDomain> missingCompanyDomains = new List<CompanyDomain>();
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            if (companyDbVersion.CompanyDomains != null)
+            {
+
+
+                foreach (CompanyDomain dbversionCompanyDomain in companyDbVersion.CompanyDomains)
+                {
+                    if (company.CompanyDomains != null && company.CompanyDomains.All(x => x.CompanyDomainId != dbversionCompanyDomain.CompanyDomainId && x.CompanyId != dbversionCompanyDomain.CompanyDomainId))
+                    {
+                        missingCompanyDomains.Add(dbversionCompanyDomain);
+                    }
+                }
+
+                //remove missing items
+                foreach (CompanyDomain missingCompanyDomain in missingCompanyDomains)
+                {
+
+                    CompanyDomain dbVersionMissingItem = companyDbVersion.CompanyDomains.First(x => x.CompanyDomainId == missingCompanyDomain.CompanyDomainId && x.CompanyId == missingCompanyDomain.CompanyId);
+
+                    companyDbVersion.CompanyDomains.Remove(dbVersionMissingItem);
+                    companyDomainRepository.Delete(dbVersionMissingItem);
+
+                }
+            }
+            if (company.CompanyDomains != null)
+            {
+                //updating Company Domains
+                foreach (var companyDomain in company.CompanyDomains)
+                {
+                    companyDomainRepository.Update(companyDomain);
                 }
             }
             #endregion
@@ -297,21 +352,22 @@ namespace MPC.Implementation.MISServices
                     var addressToDelete = addressRepository.Find(address.AddressId);
                     addressRepository.Delete(addressToDelete);
                 }
+            addressRepository.SaveChanges();
         }
         private void SaveProductCategoryThumbNailImage(ProductCategory productCategory)
         {
-            if (productCategory.ThumbNailBytes != null)
-            {
-                string base64 = productCategory.ThumbNailBytes.Substring(productCategory.ThumbNailBytes.IndexOf(',') + 1);
-                base64 = base64.Trim('\0');
-                productCategory.ThumbNailFileBytes = Convert.FromBase64String(base64);
-            }
-            if (productCategory.ImageBytes != null)
-            {
-                string base64Image = productCategory.ImageBytes.Substring(productCategory.ImageBytes.IndexOf(',') + 1);
-                base64Image = base64Image.Trim('\0');
-                productCategory.ImageFileBytes = Convert.FromBase64String(base64Image);
-            }
+            //if (productCategory.ThumbNailBytes != null)
+            //{
+            //    string base64 = productCategory.ThumbNailBytes.Substring(productCategory.ThumbNailBytes.IndexOf(',') + 1);
+            //    base64 = base64.Trim('\0');
+            //    productCategory.ThumbNailFileBytes = Convert.FromBase64String(base64);
+            //}
+            //if (productCategory.ImageBytes != null)
+            //{
+            //    string base64Image = productCategory.ImageBytes.Substring(productCategory.ImageBytes.IndexOf(',') + 1);
+            //    base64Image = base64Image.Trim('\0');
+            //    productCategory.ImageFileBytes = Convert.FromBase64String(base64Image);
+            //}
         }
 
         #region Product
@@ -627,7 +683,7 @@ namespace MPC.Implementation.MISServices
                 {
                     companyContact.CompanyId = companySavingModel.Company.CompanyId;
                     companyContact.OrganisationId = companyContactRepository.OrganisationId;
-                    companyContact.image = SaveCompanyContactProfileImage(companyContact);
+                    //companyContact.image = SaveCompanyContactProfileImage(companyContact);
                     companyContactRepository.Add(companyContact);
                 }
             }
@@ -642,7 +698,7 @@ namespace MPC.Implementation.MISServices
                         File.Delete(companyContact.image);
                     }
                     companyContact.CompanyId = companySavingModel.Company.CompanyId;
-                    companyContact.image = SaveCompanyContactProfileImage(companyContact);
+                    //companyContact.image = SaveCompanyContactProfileImage(companyContact);
                     companyContactRepository.Update(companyContact);
                 }
             }
@@ -655,6 +711,7 @@ namespace MPC.Implementation.MISServices
                     companyContactRepository.Delete(companyContactTodelete);
                 }
             }
+            companyContactRepository.SaveChanges();
         }
 
         /// <summary>
@@ -666,8 +723,9 @@ namespace MPC.Implementation.MISServices
             companySavingModel.Company.OrganisationId = companyRepository.OrganisationId;
             var companyToBeUpdated = UpdateRaveReviewsOfUpdatingCompany(companySavingModel.Company);
             companyToBeUpdated = UpdatePaymentGatewaysOfUpdatingCompany(companyToBeUpdated);
-            companyToBeUpdated = UpdateCmykColorsOfUpdatingCompany(companyToBeUpdated);
-
+            companyToBeUpdated = UpdateCmykColorsOfUpdatingCompany(companyToBeUpdated, companyDbVersion);
+            companyToBeUpdated = UpdateCompanyDomain(companyToBeUpdated);
+            //
             UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
             UpdateAddressOfUpdatingCompany(companySavingModel);
             UpdateProductCategoriesOfUpdatingCompany(companySavingModel, productCategories);
@@ -690,12 +748,12 @@ namespace MPC.Implementation.MISServices
             UpdateProductsOfUpdatingCompany(companySavingModel);
             //Save Files
             companyToBeUpdated.ProductCategories = productCategories;
-            SaveFilesOfProductCategories(companyToBeUpdated);
+            //SaveFilesOfProductCategories(companyToBeUpdated);
             SaveSpriteImage(companySavingModel.Company);
             SaveCompanyCss(companySavingModel.Company);
             UpdateMediaLibraryFilePath(companySavingModel.Company, companyDbVersion);
 
-
+            UpdateContactProfileImage(companySavingModel, companyDbVersion);
             SaveCompanyBannerImages(companySavingModel.Company);
             SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
             UpdateSecondaryPageImagePath(companySavingModel, companyDbVersion);
@@ -703,6 +761,30 @@ namespace MPC.Implementation.MISServices
             return companySavingModel.Company;
         }
 
+        private void UpdateContactProfileImage(CompanySavingModel companySavingModel, Company companyDbVersion)
+        {
+            if (companySavingModel.NewAddedCompanyContacts != null)
+            {
+                //Add New companyContacts
+                foreach (var companyContact in companySavingModel.NewAddedCompanyContacts)
+                {
+                    companyContact.image = SaveCompanyContactProfileImage(companyContact);
+                }
+            }
+            if (companySavingModel.EdittedCompanyContacts != null)
+            {
+                //Update companyContacts
+                foreach (var companyContact in companySavingModel.EdittedCompanyContacts)
+                {
+                    if (File.Exists(companyContact.image))
+                    {
+                        //If already image exist
+                        File.Delete(companyContact.image);
+                    }
+                    companyContact.image = SaveCompanyContactProfileImage(companyContact);
+                }
+            }
+        }
         /// <summary>
         /// Update Media Library File Path
         /// </summary>
@@ -956,87 +1038,87 @@ namespace MPC.Implementation.MISServices
         }
         private void SaveFilesOfProductCategories(Company company)
         {
-            // Update Organisation MISLogoStreamId
-            Organisation organisation = organisationRepository.Find(organisationRepository.OrganisationId);
-            //IEnumerable<ProductCategory> productCategories = productCategoryRepository.GetAllCategoriesByStoreId(company.CompanyId);
-            if (organisation == null)
-            {
-                throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture,
-                    LanguageResources.MyOrganisationService_OrganisationNotFound,
-                    organisationRepository.OrganisationId));
-            }
-            string pathLocator = "\\Organisation" + organisation.OrganisationId;
-            if (
-                string.IsNullOrEmpty(productCategoryFileTableViewRepository.GetNewPathLocator(pathLocator,
-                    FileTableCaption.Category)))
-            {
-                CategoryFileTableView categoryFile = productCategoryFileTableViewRepository.Create();
-                productCategoryFileTableViewRepository.Add(categoryFile);
-                categoryFile.Name = "Organisation" + organisation.OrganisationId;
-                categoryFile.UncPath = pathLocator;
-                categoryFile.IsDirectory = true;
-                categoryFile.FileTableName = FileTableCaption.Category;
-                // Save to File Table
-                productCategoryFileTableViewRepository.SaveChanges();
-            }
-            if (company.ProductCategories != null)
-            {
-                Dictionary<long, List<CategoryFileTableView>> categoryFileTableViews = new Dictionary<long, List<CategoryFileTableView>>();
-                foreach (var productCategory in company.ProductCategories)
-                {
+            //// Update Organisation MISLogoStreamId
+            //Organisation organisation = organisationRepository.Find(organisationRepository.OrganisationId);
+            ////IEnumerable<ProductCategory> productCategories = productCategoryRepository.GetAllCategoriesByStoreId(company.CompanyId);
+            //if (organisation == null)
+            //{
+            //    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture,
+            //        LanguageResources.MyOrganisationService_OrganisationNotFound,
+            //        organisationRepository.OrganisationId));
+            //}
+            //string pathLocator = "\\Organisation" + organisation.OrganisationId;
+            //if (
+            //    string.IsNullOrEmpty(productCategoryFileTableViewRepository.GetNewPathLocator(pathLocator,
+            //        FileTableCaption.Category)))
+            //{
+            //    CategoryFileTableView categoryFile = productCategoryFileTableViewRepository.Create();
+            //    productCategoryFileTableViewRepository.Add(categoryFile);
+            //    categoryFile.Name = "Organisation" + organisation.OrganisationId;
+            //    categoryFile.UncPath = pathLocator;
+            //    categoryFile.IsDirectory = true;
+            //    categoryFile.FileTableName = FileTableCaption.Category;
+            //    // Save to File Table
+            //    productCategoryFileTableViewRepository.SaveChanges();
+            //}
+            //if (company.ProductCategories != null)
+            //{
+            //    Dictionary<long, List<CategoryFileTableView>> categoryFileTableViews = new Dictionary<long, List<CategoryFileTableView>>();
+            //    foreach (var productCategory in company.ProductCategories)
+            //    {
 
-                    categoryFileTableViews[productCategory.ProductCategoryId] = new List<CategoryFileTableView>();
-                    if (!string.IsNullOrEmpty(productCategory.ThumbNailBytes))
-                    {
-                        // Add File
-                        CategoryFileTableView categoryFileTableView = productCategoryFileTableViewRepository.Create();
+            //        categoryFileTableViews[productCategory.ProductCategoryId] = new List<CategoryFileTableView>();
+            //        if (!string.IsNullOrEmpty(productCategory.ThumbNailBytes))
+            //        {
+            //            // Add File
+            //            CategoryFileTableView categoryFileTableView = productCategoryFileTableViewRepository.Create();
 
-                        categoryFileTableView.Name = productCategory.ThumbNailFileName + "_" + productCategory.ProductCategoryId + "_Thumbnail";
-                        categoryFileTableView.FileStream = productCategory.ThumbNailFileBytes;
-                        categoryFileTableView.FileTableName = FileTableCaption.Category;
-                        categoryFileTableView.UncPath = pathLocator;
-                        productCategoryFileTableViewRepository.Add(categoryFileTableView);
+            //            categoryFileTableView.Name = productCategory.ThumbNailFileName + "_" + productCategory.ProductCategoryId + "_Thumbnail";
+            //            categoryFileTableView.FileStream = productCategory.ThumbNailFileBytes;
+            //            categoryFileTableView.FileTableName = FileTableCaption.Category;
+            //            categoryFileTableView.UncPath = pathLocator;
+            //            productCategoryFileTableViewRepository.Add(categoryFileTableView);
 
-                        categoryFileTableViews[productCategory.ProductCategoryId].Add(categoryFileTableView);
-                    }
-                    if (!string.IsNullOrEmpty(productCategory.ImageBytes))
-                    {
-                        // Add File
-                        CategoryFileTableView categoryFileTableView = productCategoryFileTableViewRepository.Create();
+            //            categoryFileTableViews[productCategory.ProductCategoryId].Add(categoryFileTableView);
+            //        }
+            //        if (!string.IsNullOrEmpty(productCategory.ImageBytes))
+            //        {
+            //            // Add File
+            //            CategoryFileTableView categoryFileTableView = productCategoryFileTableViewRepository.Create();
 
-                        categoryFileTableView.Name = productCategory.ImageFileName + "_" + productCategory.ProductCategoryId + "_Image";
-                        categoryFileTableView.FileStream = productCategory.ImageFileBytes;
-                        categoryFileTableView.FileTableName = FileTableCaption.Category;
-                        categoryFileTableView.UncPath = pathLocator;
-                        productCategoryFileTableViewRepository.Add(categoryFileTableView);
+            //            categoryFileTableView.Name = productCategory.ImageFileName + "_" + productCategory.ProductCategoryId + "_Image";
+            //            categoryFileTableView.FileStream = productCategory.ImageFileBytes;
+            //            categoryFileTableView.FileTableName = FileTableCaption.Category;
+            //            categoryFileTableView.UncPath = pathLocator;
+            //            productCategoryFileTableViewRepository.Add(categoryFileTableView);
 
-                        categoryFileTableViews[productCategory.ProductCategoryId].Add(categoryFileTableView);
-                    }
+            //            categoryFileTableViews[productCategory.ProductCategoryId].Add(categoryFileTableView);
+            //        }
 
-                }
-                productCategoryFileTableViewRepository.SaveChanges();
+            //    }
+            //    productCategoryFileTableViewRepository.SaveChanges();
 
-                foreach (var categoryFileTableView in categoryFileTableViews)
-                {
-                    ProductCategory category =
-                        company.ProductCategories.FirstOrDefault(p => p.ProductCategoryId == categoryFileTableView.Key);
-                    if (category != null)
-                    {
-                        CategoryFileTableView view = categoryFileTableView.Value.FirstOrDefault(c => c.Name == category.ThumbNailFileName + "_" + category.ProductCategoryId + "_Thumbnail");
-                        if (view != null)
-                        {
-                            category.ThumbnailStreamId = view.StreamId;
-                        }
-                        CategoryFileTableView view2 = categoryFileTableView.Value.FirstOrDefault(c => c.Name == category.ImageFileName + "_" + category.ProductCategoryId + "_Image");
-                        if (view2 != null)
-                        {
-                            category.ImageStreamId = view2.StreamId;
-                        }
-                    }
-                }
+            //    foreach (var categoryFileTableView in categoryFileTableViews)
+            //    {
+            //        ProductCategory category =
+            //            company.ProductCategories.FirstOrDefault(p => p.ProductCategoryId == categoryFileTableView.Key);
+            //        if (category != null)
+            //        {
+            //            CategoryFileTableView view = categoryFileTableView.Value.FirstOrDefault(c => c.Name == category.ThumbNailFileName + "_" + category.ProductCategoryId + "_Thumbnail");
+            //            if (view != null)
+            //            {
+            //                category.ThumbnailStreamId = view.StreamId;
+            //            }
+            //            CategoryFileTableView view2 = categoryFileTableView.Value.FirstOrDefault(c => c.Name == category.ImageFileName + "_" + category.ProductCategoryId + "_Image");
+            //            if (view2 != null)
+            //            {
+            //                category.ImageStreamId = view2.StreamId;
+            //            }
+            //        }
+            //    }
 
-                productCategoryFileTableViewRepository.SaveChanges();
-            }
+            //    productCategoryFileTableViewRepository.SaveChanges();
+            //}
         }
 
         /// <summary>
@@ -1695,25 +1777,20 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private string SaveCompanyContactProfileImage(CompanyContact companyContact)
         {
-            if (companyContact.image != null)
+            if (companyContact.ContactProfileImage != null)
             {
-                string base64 = companyContact.image.Substring(companyContact.image.IndexOf(',') + 1);
+                string base64 = companyContact.ContactProfileImage.Substring(companyContact.ContactProfileImage.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
 
-                //stores/organisation1/company505/CompanyProfileImage
-                string directoryPath =
-                   System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Stores/Organisation" +
-                                                                 itemRepository.OrganisationId + "/Company" +
-                                                                 companyContact.CompanyId + "/CompanyContacts/CompanyContact" + companyContact.ContactId);
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyContact.CompanyId + "/Contacts");
 
                 if (directoryPath != null && !Directory.Exists(directoryPath))
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string savePath = directoryPath + "\\" + "_" + companyContact.FileName;
+                string savePath = directoryPath + "\\Contact_" + companyContact.ContactId + ".png";
                 File.WriteAllBytes(savePath, data);
-
                 return savePath;
             }
             return null;
@@ -1732,7 +1809,7 @@ namespace MPC.Implementation.MISServices
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string savePath = directoryPath + "\\logo.png" ;
+                string savePath = directoryPath + "\\logo.png";
                 File.WriteAllBytes(savePath, data);
 
                 return savePath;
@@ -1765,7 +1842,8 @@ namespace MPC.Implementation.MISServices
         ICountryRepository countryRepository,
         IStateRepository stateRepository,
         ISectionFlagRepository sectionFlagRepository,
-        IItemProductDetailRepository itemProductDetailRepository)
+        IItemProductDetailRepository itemProductDetailRepository,
+            ICompanyDomainRepository companyDomainRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
@@ -1807,6 +1885,7 @@ namespace MPC.Implementation.MISServices
             this.stateRepository = stateRepository;
             this.sectionFlagRepository = sectionFlagRepository;
             this.itemProductDetailRepository = itemProductDetailRepository;
+            this.companyDomainRepository = companyDomainRepository;
 
         }
         #endregion

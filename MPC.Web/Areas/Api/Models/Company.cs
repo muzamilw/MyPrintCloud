@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.Models
 {
@@ -142,6 +143,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// Cms Offers
         /// </summary>
         public List<CmsOffer> CmsOffers { get; set; }
+        public List<CompanyDomain> CompanyDomains { get; set; }
 
         public List<MediaLibrary> MediaLibraries { get; set; }
 

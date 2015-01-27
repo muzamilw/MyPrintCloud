@@ -21,14 +21,11 @@
             <div class="row" id="user-profile">
                 <div class="col-lg-12 col-md-8 col-sm-8" style="padding-bottom: 10px;">
                     <div class="clearfix ">
-
                         <div class="col-xs-4">
                         </div>
                         <div class="col-xs-4">
                         </div>
-
                         <div class="col-xs-4" style="text-align: right; padding-right: 0px;">
-
                             <button type="button" class="btn btn-primary btn-lg" data-bind="click: $root.saveStore">
                                 <span class="fa fa-save"></span>&nbsp;Save
                             </button>
@@ -36,7 +33,6 @@
                                 <span class="fa fa-save"></span>&nbsp;Close
                             </button>
                         </div>
-
                     </div>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -59,44 +55,33 @@
                                 <li><a href="#tab-CMYKColors" data-toggle="tab">CMYK Colors</a></li>
                             </ul>
                             <div class="tab-content" data-bind="with: $root.selectedStore()">
-
                                 <div class="tab-pane fade in active" id="tab-generalinfo">
                                     <div class="col-lg-12 form-horizontal">
                                         <h3 class="group-header">Store Details</h3>
                                         <div class="col-lg-9">
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
-
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the store that will be displayed on the web." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtCompanyName" class="control-label text-right tooltip-float">Store Name</label>
-
                                                 </div>
-
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtCompanyName" placeholder="Enter Store Name" data-bind="value: name, validationTooltip: name">
                                                     <span class="help-block text-right">This will be used in defalt URL to pass on to your customer.</span>
                                                 </div>
-
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
-
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="The store type determines how a store is accessed." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label class="control-label text-right tooltip-float">Store Type</label>
                                                 </div>
-
                                                 <div class="col-lg-6">
                                                     @*<div class="btn-group" data-toggle="buttons">
                                                             <label class="btn btn-primary">
@@ -117,23 +102,18 @@
                                                             Corporate
                                                         </label>
                                                     </div>
-
                                                     <span class="help-block text-right">The store type determines how a store is accessed.</span>
                                                 </div>
-
                                             </div>
                                             <div class="form-group">
                                                 @*data-bind="visible: type() == 'Corporate' || type() == 3"*@
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Code to access your store http://pinkcards.com/corporatedemo/login" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Web Access Code</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtWebAccessCode" placeholder="Enter Web Access Code" data-bind="value: webAccessCode, validationTooltip: webAccessCode">
@@ -159,16 +139,12 @@
                                                 </div>*@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
-
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="ex. (999) 999-9999" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label class="control-label tooltip-float" for="maskedPhone">Phone</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="input-group">
@@ -176,56 +152,77 @@
                                                         <input type="text" class="form-control" id="maskedPhone" data-bind="value: phoneNo">
                                                     </div>
                                                     <span class="help-block">ex. (999) 999-9999</span>
-
                                                 </div>
-
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="User notes for the store." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtNotes" class="control-label text-right tooltip-float">Notes</label>
-
                                                 </div>
-
                                                 <div class="col-lg-6">
                                                     <textarea class="form-control" id="txtNotes" rows="5" data-bind="value: notes"></textarea>
                                                     <span class="help-block text-right"></span>
                                                 </div>
-
                                             </div>
 
-                                            <div class="col-md-6 form-horizontal">
-                                                <div class="form-group">
-                                                    <label class="control-label h5 col-sm-6"><b>Company Domain</b></label>
-                                                </div>
-                                                <div class="filter-block pull-right">
-                                                    <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.createCompanyDomainItem">
-                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
-                                                    </a>
-                                                </div>
-                                                <div class="clearfix">
-                                                    <div class="table-responsive">
-                                                        <table id="costTablle" class="table table-striped table-hover">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th> <span>Domain Name </span></th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <!-- ko template: { name: $root.templateToUseCompanyDomain , foreach: companyDomains() } -->
-                                                                <!-- /ko -->
-                                                            </tbody>
-                                                        </table>
+
+                                            @*Start*@
+                                            <div class="col-lg-12">
+                                                <h3 class="group-header">Company Domain</h3>
+                                                <div class="col-lg-9 clearfix">
+                                                    <header class="main-box-header clearfix">
+                                                        <div class="filter-block pull-right">
+                                                            <button class="btn btn-primary pull-right" data-bind="click: $root.createCompanyDomainItem, enable:($root.selectedStore().companyDomains().length != 0)">Add</button>
+                                                        </div>
+                                                    </header>
+                                                    <div class="main-box-body clearfix">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-striped table-hover">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th> <span>Domain Name </span></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <!-- ko template: { name: $root.templateToUseCompanyDomain , foreach: companyDomains() } -->
+                                                                    <!-- /ko -->
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
+
                                                 </div>
-                                                <br />
                                             </div>
+                                            @*<div class="col-md-6 form-horizontal">
+                                                    <div class="form-group">
+                                                        <label class="control-label h5 col-sm-6"><b>Company Domain</b></label>
+                                                    </div>
+                                                    <div class="filter-block pull-right">
+                                                        <button class="btn btn-primary pull-right" data-bind="click: $root.createCompanyDomainItem, enable:($root.selectedStore().companyDomains().length != 0)">Add</button>
+
+                                                    </div>
+                                                    <div class="clearfix">
+                                                        <div class="table-responsive">
+                                                            <table id="costTablle" class="table table-striped table-hover">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th> <span>Domain Name </span></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <!-- ko template: { name: $root.templateToUseCompanyDomain , foreach: companyDomains() } -->
+                                                                    <!-- /ko -->
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <br />
+                                                </div>*@
+                                            @*End*@
                                         </div>
                                         <div class="col-lg-3 col-md-4 col-sm-4">
                                             <div class="main-box clearfix">
@@ -235,7 +232,6 @@
                                                 <div class="main-box-body clearfix">
                                                     <div class="profile-status">
                                                     </div>
-
                                                     @*<a id="uploadLogoIcon" class="logoUploadIcon" style="display: block;">
                                                             <i class="fa fa-upload" onclick="readURL(this);"></i>
                                                         </a>
@@ -245,7 +241,6 @@
                                                         <input type="file" id="my_file" style="display: none;" name="file" onchange="readURL(this);" />
                                                         <button type="submit" id="orgImageSubmitBtn" disabled class="btn btn-primary" style="margin-left: 33%;">Upload</button>
                                                         <input type="hidden" id="companyId" name="companyId" data-bind="value:companyId" />*@
-
                                                     <img style="min-height: 150px; width: 150px;" data-bind="attr: { src: storeImageFileBinary }" />
                                                     <div class="pull-right">
                                                         <div class="fileUpload btn btn-primary">
@@ -253,9 +248,7 @@
                                                             <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />
                                                         </div>
                                                     </div>
-
                                                     <div class="profile-label profileLabelPadding">
-
                                                         <!-- ko if: status() == 1 -->
                                                         <span class="label label-success">Active</span>
                                                         <!-- /ko -->
@@ -263,10 +256,8 @@
                                                         <span class="label label-danger">DeActive</span>
                                                         <!-- /ko -->
 
-
                                                     </div>
                                                     <div class="profile-stars">
-
                                                         <span data-bind="value: type"></span>
                                                     </div>
                                                     <div class="profile-since" data-bind="value: accountOpenDate">
@@ -287,8 +278,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-
                                     </div>
                                     <div class="col-lg-12 form-horizontal">
                                         <h3 class="group-header">Account Details</h3>
@@ -296,34 +285,25 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Opening date of account - format mm-dd-yyyy" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="datepickerDate" class="control-label text-right tooltip-float">Account Opened</label>
-
                                                 </div>
-
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="datepickerDate" data-bind="date: accountOpenDate, format: 'DD MMM YYYY'">
                                                     <span class="help-block text-right"></span>
                                                 </div>
-
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
-
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Store's Account Manager " data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label class="control-label text-right tooltip-float">Account Manager</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <select class="form-control">
@@ -338,18 +318,13 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="GST registration number will be used for invoices" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtGSTRegNo" class="control-label text-right tooltip-float">GST Reg. No.</label>
-
                                                 </div>
-
                                                 <div class="col-lg-6">
-
 
                                                     <input type="text" class="form-control" id="txtGSTRegNo" placeholder="Enter GST Registration Number" data-bind="value: avatRegNumber">
                                                     <span class="help-block text-right">GST registration number</span>
@@ -357,24 +332,18 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
-
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="GST reference number will be used for accounts" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtGSTRefNo" class="control-label text-right  tooltip-float">GST Ref. No.</label>
-
                                                 </div>
-
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtGSTRefNo" placeholder="Enter GST Reference Number" data-bind="value: avatRegReference">
                                                     <span class="help-block text-right">GST reference number</span>
                                                 </div>
                                             </div>
-
 
                                         </div>
                                     </div>
@@ -382,18 +351,14 @@
                                         <h3 class="group-header">Social Details</h3>
                                         <div class="col-lg-9">
 
-
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Facebook Page URL - e.g. https://www.facebook.com/Pinkcards" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtFacebookURL" class="control-label text-right tooltip-float">Facebook URL</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtFacebookURL" placeholder="Enter Facebook URL" data-bind="value: facebookUrl">
@@ -403,14 +368,11 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Facilitate user to login/Register from their Facebook account. You can get Your Facebook app Id from https://developers.facebook.com/apps" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtFacebookAppID" class="control-label text-right tooltip-float">Facebook APP ID</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtFacebookAppID" placeholder="Enter Facebook App ID" data-bind="value: facebookAppId">
@@ -420,14 +382,11 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Facilitate user to login/Register from their Facebook account. You can get Your Facebook app key from https://developers.facebook.com/apps" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtFacebookAppKey" class="control-label text-right tooltip-float">Facebook APP Key</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtFacebookAppKey" placeholder="Enter Facebook App Key" data-bind="value: facebookAppKey">
@@ -437,14 +396,11 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Twitter Page URL - e.g. https://www.twitter.com/Pinkcards " data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtTwitterURL" class="control-label text-right tooltip-float">Twitter URL</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtTwitterURL" placeholder="Enter Twitter URL" data-bind="value: twitterUrl">
@@ -454,14 +410,11 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Facilitate user to login/Register from their twitter account. You can get Your Twitter app Id from https://dev.twitter.com/" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtTwitterAppID" class="control-label text-right tooltip-float">Twitter APP ID</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtTwitterAppID" placeholder="Enter Twitter App ID" data-bind="value: twitterAppId">
@@ -471,14 +424,11 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Facilitate user to login/Register from their twitter account. You can get Your Twitter app Id from https://dev.twitter.com/" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtTwitterAppKey" class="control-label text-right tooltip-float">Twitter APP Key</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtTwitterAppKey" placeholder="Enter Twitter App Key" data-bind="value: twitterAppKey">
@@ -488,14 +438,11 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Linkedin Page URL - e.g. https://www.linkedin.com/" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtLinkedInURL" class="control-label text-right tooltip-float">Linkedin URL</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtLinkedInURL" placeholder="Enter Linkedin URL" data-bind="value: linkedinUrl">
@@ -505,14 +452,11 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter corporate home title" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtCorpHomeURL" class="control-label text-right tooltip-float">Home URL</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtCorpHomeURL" placeholder="Enter Corporate Home URL" data-bind="value: url">
@@ -520,10 +464,8 @@
                                                 </div>
                                             </div>
 
-
                                         </div>
                                     </div>
-
                                 </div>
                                 <div class="tab-pane fade" id="tab-products">
                                     <div class="col-lg-3">
@@ -589,7 +531,6 @@
                                                     </table>
                                                 </div>
                                             </div>
-
                                             <footer class="main-box-header pull-right">
                                                 <div id="pagerDiv">
                                                     <!-- ko with: $root.companyTerritoryPager -->
@@ -605,7 +546,6 @@
                                             <header class="main-box-header clearfix">
                                                 <div class="filter-block">
                                                     <div class="form-group filter-block pull-left col-xs-4">
-
                                                         <select class="form-control col-lg-4" data-bind="options:$root.addressCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Choose...', value: $root.addressTerritoryFilter"></select>
                                                     </div>
                                                     <div class="filter-block pull-right col-xs-5">
@@ -697,18 +637,14 @@
                                     <div class="col-lg-12">
                                         <h3 class="group-header">Managers</h3>
                                         <div class="col-lg-9 form-horizontal clearfix">
-
                                             <div class="form-group form-horizontal">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Sales & Order manager 1</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'userName',optionsValue:'systemUserId', value: $root.selectedStore().salesAndOrderManagerId1"></select>   @*,value: $root.selectedClaimFilterListitem*@
@@ -718,14 +654,11 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Sales & Order manager 2</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'userName',optionsValue:'systemUserId', value: $root.selectedStore().salesAndOrderManagerId2"></select>
@@ -735,14 +668,11 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtWebAccessCode" class="control-label text-right tooltip-float">job Production manager 1</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'userName',optionsValue:'systemUserId', value: $root.selectedStore().productionManagerId1"></select>
@@ -752,14 +682,11 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtWebAccessCode" class="control-label text-right tooltip-float">job Production manager 2</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'userName',optionsValue:'systemUserId', value: $root.selectedStore().productionManagerId2"></select>
@@ -769,14 +696,11 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Stock Notification Manager 1</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'userName',optionsValue:'systemUserId', value: $root.selectedStore().stockNotificationManagerId1"></select>
@@ -786,14 +710,11 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Stock Notification Manager 2</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'userName',optionsValue:'systemUserId', value: $root.selectedStore().stockNotificationManagerId2"></select>
@@ -801,29 +722,23 @@
                                                 </div>
                                             </div>
 
-
                                         </div>
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="tab-widgets">
                                     <div class="col-md-12 form-horizontal">
-
                                         <h3 class="group-header">Store background</h3>
                                         <div class="col-md-9">
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload your store background image. Recommended size is (PNG 2149 x 713 pixels)" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
-
                                                     <label class="control-label text-right tooltip-float">Upload store background</label>
                                                     <label class="control-label text-right tooltip-float">(PNG 2149 x 713 pixels)</label>
                                                 </div>
-
                                                 <div class="col-lg-6">
                                                     <img data-bind="attr: { src: storeBackgroudImageImageSource }" width="400" height="300" />
                                                 </div>
@@ -833,56 +748,41 @@
                                                         @*<input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeBackgroudImageUploadCallback, fileFilter: 'image.*'}" />*@
                                                     </div>
                                                 </div>
-
                                             </div>
                                         </div>
-
                                     </div>
                                     <div class="col-md-12 form-horizontal">
                                         <h3 class="group-header">Widgets</h3>
                                         <div class="col-md-12">
 
-
                                             <div class="form-group">
                                                 <div class="col-lg-6 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Would you like to display the FEATURED products Row" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
-
                                                     <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Would you like to display the FEATURED products Row</label>
-
                                                 </div>
-
                                                 <div class="col-lg-3">
-
                                                     <div class="col-xs-6">
                                                         <a id="A1" href="#" class="btn btn-primary" style="vertical-align: top;width:38%;" data-bind="click:$root.openItemsForWidgetsDialogFromFeatured">
                                                             <i class="fa fa-lg"></i>&nbsp;....
                                                         </a>
                                                         <span class="help-block text-right"></span>
                                                     </div>
-
                                                 </div>
                                             </div>
-
 
                                             <div class="form-group">
                                                 <div class="col-lg-6 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Would you like to display the MOST POPULAR products Row" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Would you like to display the MOST POPULAR products Row</label>
-
                                                 </div>
-
                                                 <div class="col-lg-3">
                                                     <div class="col-xs-6">
                                                         <a id="A2" href="#" data-bind="click:$root.openItemsForWidgetsDialogFromPopular" class="btn btn-primary" style="vertical-align: top;width:38%;">
@@ -890,24 +790,17 @@
                                                         </a>
                                                         <span class="help-block text-right"></span>
                                                     </div>
-
                                                 </div>
                                             </div>
-
                                             <div class="form-group">
                                                 <div class="col-lg-6 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer; border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Would you like to display the SPECIAL products Row" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
-
                                                     <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Would you like to display the SPECIAL products Row</label>
-
                                                 </div>
-
                                                 <div class="col-lg-3">
                                                     <div class="col-xs-6">
                                                         <a id="A3" href="#" class="btn btn-primary" data-bind="click:$root.openItemsForWidgetsDialogFromSpecial" style="vertical-align: top;width:38%;">
@@ -915,21 +808,16 @@
                                                         </a>
                                                         <span class="help-block text-right"></span>
                                                     </div>
-
                                                 </div>
-
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Display MAP on Contact US Page using one of these two options. " data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label class="control-label text-right tooltip-float">Map on contact Us</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="radio">
@@ -956,14 +844,11 @@
                                             <div class="form-group" id="MapImage" style="display:none;">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload Map" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label class="control-label text-right tooltip-float">Upload Map Image</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div id="dropzone1" class="dropzonepl">
@@ -976,7 +861,6 @@
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                     <div class="col-md-12 form-horizontal">
@@ -985,15 +869,12 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload images in your media gallery to access it throughout the store." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtCompanyName" class="control-label text-right tooltip-float">Upload media files</label>
                                                 </div>
-
                                                 <div class="col-lg-6">
                                                     <div class="col-lg-8">
                                                         <div id="dropzone">
@@ -1010,9 +891,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
-
                                             <div class="main-box-body">
                                                 <div id="gallery-photos-lightbox">
                                                     <ul class="clearfix gallery-photos">
@@ -1023,25 +902,20 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="clearfix">
                                         &nbsp;
                                     </div>
-
                                     <div class="col-md-12 form-horizontal">
                                         <h3 class="group-header">Banners</h3>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="it will display selected banner set on store home page." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label class="control-label text-right tooltip-float">Display Banner widget on home page</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="onoffswitch">
@@ -1053,14 +927,12 @@
                                                     </div>
                                                     <span class="help-block text-right"></span>
                                                 </div>
-
                                             </div>
                                             @* <div class="col-md-3"></div>*@
                                             <div class="col-md-9">
                                                 <div class="form-group pull-left col-xs-4">
                                                     <select class="form-control" data-bind="options: $root.companyBannerSetList,optionsCaption:'All Set', optionsText: 'setName', optionsValue: 'id',value:$root.filteredCompanySetId"></select>
                                                 </div>
-
                                                 <div class="btn btn-primary pull-right" data-bind="click:$root.onCreateBanner">
                                                     <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Banner
                                                 </div>
@@ -1084,10 +956,8 @@
                                                 </div>
                                                 @*Banners Grid ends here*@
                                             </div>
-
                                         </div>
                                     </div>
-
                                     <div class="col-md-12">
                                         <h3 class="group-header">CSS Editor</h3>
                                         <div class="col-md-9">
@@ -1105,17 +975,12 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="It will change button backgrounds, icons throughout the store" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
-
                                                     <label for="txtCompanyName" class="control-label text-right tooltip-float">Upload New Sprite Image</label>
-
                                                 </div>
-
                                                 <div class="col-lg-6">
                                                     @*<div id="dropzone1" class="dropzonepl">
                                                             <form id="demo-upload1" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
@@ -1136,10 +1001,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <img alt="" style="border: dotted; border-width: 1px;" class="img-responsive center-block" data-bind="attr: { src: userDefinedSpriteImageSource }" />
                                             @*<img src="~/Content/themes/Centaurus/img/samples/Sprite.png" alt="" style="border: dotted; border-width: 1px;" class="img-responsive center-block" />*@
-
                                         </div>
                                     </div>
                                     <div class="clearfix">
@@ -1147,19 +1010,15 @@
                                     </div>
                                     <div class="col-md-12 form-horizontal">
                                         <h3 class="group-header">Secondary Pages</h3>
-
                                         <div class="col-md-10 form-horizontal">
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This setting will Show or Hide Secondary Page Widget on store." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label class="control-label text-right tooltip-float">Display in footer</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="onoffswitch">
@@ -1171,7 +1030,6 @@
                                                     </div>
                                                     <span class="help-block text-right"></span>
                                                 </div>
-
                                             </div>
                                             <div data-bind="click:$root.onAddSecondaryPage" style="margin-right:17px;" class="btn btn-primary pull-right">
                                                 <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Secondary Page
@@ -1193,9 +1051,7 @@
                                                             <!-- /ko -->
                                                         </tbody>
                                                     </table>
-
                                                 </div>
-
                                             </div>
                                             <div id="pagerDiv">
                                                 <ul class="pagination pull-right">
@@ -1209,7 +1065,6 @@
                                     <div class="clearfix">
                                         &nbsp;
                                     </div>
-
                                 </div>
                                 <div class="tab-pane fade" id="tab-SEO">
                                     <div class="col-lg-12 form-horizontal">
@@ -1218,14 +1073,11 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Google WebMaster" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtGoogelWebMasterCode" class="control-label text-right tooltip-float">Google Webmaster & Other Scripts</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <textarea class="form-control" id="txtGoogelWebMasterCode" rows="8" data-bind="value: $root.selectedStore().webMasterTag"></textarea>
@@ -1251,13 +1103,11 @@
                                     <div class="clearfix">
                                         &nbsp;
                                     </div>
-
                                     <div class="col-lg-12">
                                         <h3 class="group-header">Rave Reviews</h3>
                                         <div class="col-lg-9 clearfix">
                                             <header class="main-box-header clearfix">
                                                 <div class="filter-block pull-right">
-
                                                     <a class="btn btn-primary pull-right" data-bind="click: $root.onCreateNewRaveReview">
                                                         <i class="fa fa-plus-circle fa-lg"></i>&nbsp;
                                                     </a>
@@ -1281,7 +1131,6 @@
                                                 </div>
                                             </div>
 
-
                                         </div>
                                     </div>
                                 </div>
@@ -1294,7 +1143,6 @@
                                                     <tr>
                                                         <th style="width: 435px"><a href="#"><span>Title</span></a></th>
                                                         <th style="width: 432px"><a href="#" class="asc"><span>Event</span></a></th>
-
                                                         <th>&nbsp;</th>
                                                     </tr>
                                                 </thead>
@@ -1306,12 +1154,10 @@
                                         </div>
                                     </div>
                                     <h3 class="group-header">One time Marketing Emails</h3>
-
                                     <div class="pull-right">
                                         <a href="#" class="btn btn-primary" data-bind="click:$root.onCreateOneTimeMarketingEmail">
                                             <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Email
                                         </a>
-
                                     </div>
                                     <div class="main-box-body clearfix">
                                         <div class="table-responsive">
@@ -1336,7 +1182,6 @@
                                         <a href="#" class="btn btn-primary" data-bind="click:$root.onCreateIntervalMarketingEmail">
                                             <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Email
                                         </a>
-
                                     </div>
                                     <div class="main-box-body clearfix">
                                         <div class="table-responsive">
@@ -1363,19 +1208,14 @@
                                         <h3 class="group-header">Approval Policies</h3>
                                         <div class="col-lg-9">
                                             <div class="form-group">
-
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Determines whether addresses are shared by every user or addresses can be private or public." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label class="control-label text-right tooltip-float">Store Mode</label>
-
                                                 </div>
-
                                                 <div class="col-lg-6">
                                                     <div class="radio">
                                                         <input type="radio" name="optionsRadiosStore" id="optionsRadiosPrivateStore" value="true" data-bind="checked: $root.selectedStore().isStoreModePrivate">
@@ -1391,20 +1231,15 @@
                                                     </div>
                                                     <span class="help-block text-right">Determines whether addresses are shared by every user or addresses can be private or public.</span>
                                                 </div>
-
                                             </div>
-
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select water mark text or image" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label class="control-label text-right tooltip-float">Designer PDF Watermark Type</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="radio">
@@ -1435,21 +1270,15 @@
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
-
                                             <div class="form-group">
-
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Payment options force user to process order accordingly" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label class="control-label text-right tooltip-float">Online Payment Options</label>
-
                                                 </div>
-
                                                 <div class="col-lg-6">
                                                     <div class="radio">
                                                         <input type="radio" name="optionsRadiosOlinePayment" id="optionsRadiosForceOnlinePayment" value="true" data-bind="checked: $root.selectedStore().isBrokerPaymentRequired">
@@ -1465,12 +1294,9 @@
                                                     </div>
                                                     <span class="help-block text-right"></span>
                                                 </div>
-
                                             </div>
-
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-
                                                 <label class="col-md-6" for="onoffswitchAcceptOnline">Can this store accept online payments ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
@@ -1482,7 +1308,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
 
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
@@ -1497,7 +1322,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
                                                 <label class="col-md-6" for="switchProductPrices">Display the prices of products accross store ?</label>
@@ -1524,7 +1348,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
 
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
@@ -1565,26 +1388,20 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                     <div class="col-lg-12 form-horizontal">
                                         <h3 class="group-header">Price Settings</h3>
-
                                         <div class="col-lg-12 clearfix">
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This setting will show prices on webstore by Including GST/VAT or excluding GST/VAT." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label for="txtCompanyName" class="control-label text-right tooltip-float">Include VAT/GST in Prices</label>
-
                                                 </div>
-
                                                 <div class="col-lg-6">
                                                     <div class="radio">
                                                         <input type="radio" name="optionsRadios" id="optionYes" value="true" data-bind="checked: $root.selectedStore().isIncludeVAT">
@@ -1604,14 +1421,11 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This setting defines the percentage of VAT/GST" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
                                                     </div>
                                                     <label class="control-label text-right tooltip-float">VAT/GST</label>
-
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="input-group" style="width:50%;">
@@ -1620,13 +1434,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
-
                                     <div class="col-lg-12 form-horizontal">
                                         <h3 class="group-header">Payment Gateways</h3>
-
                                         <div class="col-lg-12 clearfix">
                                             <header class="main-box-header clearfix">
                                                 <div class="filter-block pull-right">
@@ -1657,23 +1468,15 @@
                                                     </table>
                                                 </div>
                                             </div>
-
                                         </div>
-
                                     </div>
-
                                     <div class="col-lg-12 form-horizontal">
                                         <h3 class="group-header">Order Download Settings</h3>
-
                                         <div class="col-lg-9">
-
                                             <div class="form-group">
                                                 <div class="col-lg-6 text-right">
-
                                                     <label class="control-label text-right" for="switchSecondaryPages">Include Order Report ?</label>
-
                                                 </div>
-
                                                 <div class="col-lg-4">
                                                     <div>
                                                         <div class="onoffswitch">
@@ -1686,16 +1489,11 @@
                                                         <span class="help-block text-right"></span>
                                                     </div>
                                                 </div>
-
                                             </div>
-
                                             <div class="form-group">
                                                 <div class="col-lg-6 text-right">
-
                                                     <label class="control-label text-right" for="switchSecondaryPages">Include Order information in XML format</label>
-
                                                 </div>
-
                                                 <div class="col-lg-3">
                                                     <div>
                                                         <div class="onoffswitch">
@@ -1708,16 +1506,11 @@
                                                         <span class="help-block text-right"></span>
                                                     </div>
                                                 </div>
-
                                             </div>
-
                                             <div class="form-group">
                                                 <div class="col-lg-6 text-right">
-
                                                     <label class="control-label text-right" for="switchSecondaryPages">Include Job Card report for each item</label>
-
                                                 </div>
-
                                                 <div class="col-lg-3">
                                                     <div>
                                                         <div class="onoffswitch">
@@ -1730,16 +1523,11 @@
                                                         <span class="help-block text-right"></span>
                                                     </div>
                                                 </div>
-
                                             </div>
-
                                             <div class="form-group">
                                                 <div class="col-lg-6 text-right">
-
                                                     <label class="control-label text-right" for="switchSecondaryPages">Make  template artwork production ready by removing watermarks</label>
-
                                                 </div>
-
                                                 <div class="col-lg-3">
                                                     <div>
                                                         <div class="onoffswitch">
@@ -1752,9 +1540,7 @@
                                                         <span class="help-block text-right"></span>
                                                     </div>
                                                 </div>
-
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -1763,7 +1549,6 @@
                                         <div class="clearfix">
                                             <header class="main-box-header clearfix">
                                                 <h2>Available Widgets</h2>
-
                                             </header>
                                             <div style="padding-right: 5px;" id="widgetDiv">
                                                 <ol class="dd-list" id="widgetList">
@@ -1780,7 +1565,6 @@
                                                 <div class="filter-block pull-right">
                                                 </div>
                                             </header>
-
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
@@ -1801,29 +1585,21 @@
                                         </div>
                                     </div>
 
-
-
                                 </div>
                                 <div class="tab-pane clearfix fade" id="tab-DelvAddOns">
-
                                     <div class="col-lg-12">
                                         <h3 class="group-header">Delivery Add Ons</h3>
                                         <div class="col-lg-12 form-horizontal clearfix">
                                             <div class="main-box-body clearfix">
                                                 <div class="form-group">
-
                                                     <div class="col-lg-4 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This setting determines whether the Delivery Cost includes the VAT/GST or not. ." data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
-
                                                         </div>
                                                         <label class="control-label text-right tooltip-float">Is delivery taxable?</label>
-
                                                     </div>
-
                                                     <div class="col-lg-6">
                                                         <div class="radio">
                                                             <input type="radio" name="optionsRadiosTaxOptions" id="optionsRadiosYesTaxable" value="option1" checked>
@@ -1839,22 +1615,16 @@
                                                         </div>
                                                         <span class="help-block text-right"></span>
                                                     </div>
-
                                                 </div>
                                                 <div class="form-group">
-
                                                     <div class="col-lg-4 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
-
                                                         </div>
                                                         <label class="control-label text-right tooltip-float">Delivery Options</label>
-
                                                     </div>
-
                                                     <div class="col-lg-6">
                                                         <div class="radio">
                                                             <input type="radio" name="optionsRadiosDelvOptions" id="optionsRadiosForceDeliverOnShop" value="option1" checked>
@@ -1870,31 +1640,23 @@
                                                         </div>
                                                         <span class="help-block text-right"></span>
                                                     </div>
-
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-lg-4 text-right">
-
                                                         <div class="bs-example-tooltips tooltip-float-width">
-
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
-
                                                         </div>
 
-
                                                         <label for="txtPickUpLocation" class="control-label text-right tooltip-float">Pick Up Location/Zip code </label>
-
                                                     </div>
-
                                                     <div class="col-lg-4">
                                                         <input type="text" disabled="disabled" class="form-control" style="float:left;width:86%" value="East Region / ER-4569" id="txtPickUpLocation">
                                                         <a data-toggle="modal" href="#SelectAddressSetModal" class="btn btn-primary pull-right">
                                                             <i class="fa  fa-lg"></i>&nbsp;....
                                                         </a>
                                                     </div>
-
                                                 </div>
                                                 <div class="table-responsive">
                                                     <table class="table table-striped table-hover">
@@ -1909,10 +1671,8 @@
                                                                 <td>
                                                                     Fixed Price Delivery (Delivery)
                                                                 </td>
-
                                                                 <td>
                                                                     <div class="form-group pull-right">
-
                                                                         <div class="col-md-3 ">
                                                                             <div class="checkbox-nice">
                                                                                 <input type="checkbox" id="checkbox-1">
@@ -1929,7 +1689,6 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="form-group pull-right">
-
                                                                         <div class="col-md-3">
                                                                             <div class="checkbox-nice">
                                                                                 <input type="checkbox" id="checkbox-2" checked="checked">
@@ -1946,7 +1705,6 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="form-group pull-right">
-
                                                                         <div class="col-md-3">
                                                                             <div class="checkbox-nice">
                                                                                 <input type="checkbox" id="checkbox-3">
@@ -1964,7 +1722,6 @@
                                         </div>
                                     </div>
 
-
                                 </div>
                                 <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-specialoffer">
                                     <h3 class="group-header">Special Offers</h3>
@@ -1980,7 +1737,6 @@
                                                 <div class="form-group filter-block pull-left col-xs-4">
                                                 </div>
                                                 <div class="filter-block pull-right col-xs-5">
-
                                                     <a class="btn btn-primary pull-right" data-bind="click: $root.onCreateNewCompanyCMYKColor">
                                                         <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add CMYK
                                                     </a>
@@ -2020,9 +1776,7 @@
                                                 </div>
                                             </footer>*@
                                     </div>
-
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -2080,7 +1834,6 @@
                 </td>
             </tr>
         </script>
-
         <script id="actionsCompanyTerritoryTemplate" type="text/html">
             <a class="table-link" data-bind="click : $root.onEditCompanyTerritory">
                 <span class="fa-stack">
@@ -2175,9 +1928,7 @@
                     </a>
                 </td>
             </tr>
-
         </script>
-
         <script id="actionsAddressTemplate" type="text/html">
             <a class="table-link" data-bind="click : $root.onEditAddress">
                 <span class="fa-stack">
@@ -2198,7 +1949,6 @@
                 <td data-bind="text: city"></td>
                 <td data-bind="text: territoryId"></td>
                 <td data-bind="text: isDefaultTerrorityBilling() == true ? 'Yes' : 'No' "></td>
-
                 <!--ko if: isDefaultAddress() == true -->
                 <td class="type">
                     @*<span class="label label-danger" data-bind="text: isDefaultAddress()== true ? 'Yes' : 'No'"> </span>*@
@@ -2218,7 +1968,6 @@
                 </td>
             </tr>
         </script>
-
         <script id="actionsCompanyContactTemplate" type="text/html">
             <a class="table-link" data-bind="click : $root.onEditCompanyContact">
                 <span class="fa-stack">
@@ -2244,7 +1993,6 @@
                             <a data-toggle="modal" href="#" data-bind="text: firstName , validationToolTip:firstName"></a>
                         </div>
                         <div class="time online" data-bind="text: email, validationToolTip:email ">
-
                         </div>
                     </div>
                 </td>
@@ -2267,7 +2015,6 @@
                 </td>
             </tr>
         </script>
-
         <script id="actionsPaymentGatewayTemplate" type="text/html">
             <a class="table-link" data-bind="click : $root.onEditPaymentGateway">
                 <span class="fa-stack">
@@ -2302,7 +2049,6 @@
                 </td>
             </tr>
         </script>
-
         <script id="itemProductCategoriesTemplate" type="text/html">
             <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}, attr: {id: productCategoryId}">
                 <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-bars"></i></div>
@@ -2326,7 +2072,7 @@
         <script id="editCompanyDomainTemplate" type="text/html">
             <tr data-bind="css: { selectedRow: $data === $root.selectedCompanyDomainItem() }">
                 <td>
-                    <input type="text" />
+                    <input type="text" class="form-control" data-bind="value: domain, validationTooltip: domain" />
                     @*<input style="width: 70px;height:23px;" type="text" data-bind="value: domain, validationTooltip: domain" />*@
                 </td>
                 <td>
@@ -2345,8 +2091,6 @@
             </tr>
         </script>
     </form>
-
-
 </div>
 <style type="text/css" media="screen">
     #editor {
@@ -2378,9 +2122,7 @@
 @Html.Partial("Company/_ChooseUsIcon")
 @Html.Partial("~/Areas/Stores/Views/Shared/_ProductCategoryDetail.cshtml")
 
-
 @section Scripts {
-
     @*
         <script src="~/Content/themes/Centaurus/js/jquery-ui.custom.min.js"></script>*@
     <script src="~/Content/themes/Centaurus/js/jquery.magnific-popup.min.js"></script>
@@ -2391,13 +2133,10 @@
         <script src="~/Content/themes/Centaurus/js/bootstrap-wizard.js"></script>
         <script src="~/Content/themes/Centaurus/js/select2.min.js"></script>
         <script src="~/Content/themes/Centaurus/js/dropzone.js"></script>*@
-
     @*<script src="~/Scripts/Ace/colorpicker.js"></script>*@
-
     @*<script src="~/Content/themes/Centaurus/js/jquery.js"></script>
 
         <script src="~/Scripts/jquery.form.js"></script>*@
-
     <script type="text/javascript">
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/clouds");
@@ -2742,9 +2481,7 @@
         });
     </script>
 
-
 }
-
 <script id="workflowEmailItemTemplate" type="text/html">
     <!-- ko if: campaignType() === 1 -->
     <tr>
@@ -2761,7 +2498,6 @@
     </tr>
     <!-- /ko -->
 </script>
-
 <script id="oneTimeMarketingEmailItemTemplate" type="text/html">
     <!-- ko if: campaignType() === 3 -->
     <tr>
@@ -2794,7 +2530,6 @@
     </tr>
     <!-- /ko -->
 </script>
-
 <script id="intervalMarketingEmailItemTemplate" type="text/html">
     <!-- ko if: campaignType() === 2 -->
     <tr>
@@ -2856,10 +2591,8 @@
                 </div>
             </div>
         </div>
-
     </li>
 </script>
-
 <script id="mediaLibraryItemTemplate" type="text/html">
     <li class="col-md-3 col-sm-3 col-xs-6">
         @*<a href="#" class="photo-box image-link" style="background-image: url('/Content/themes/Centaurus/img/samples/hdr/small/img_6.jpg');"></a>*@
@@ -2867,4 +2600,3 @@
         <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
     </li>
 </script>
-
