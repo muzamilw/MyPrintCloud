@@ -57,6 +57,10 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
+                if(UserCookieManager.StoreId == 0)
+                {
+                    UserCookieManager.StoreId = storeId;
+                }
                // MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(storeId).CreateFromCompany();
                 MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
 
