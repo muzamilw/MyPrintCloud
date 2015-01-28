@@ -119,5 +119,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         bool AddUpdateItemFordeliveryCostCenter(long orderId, long DeliveryCostCenterId, double DeliveryCost, long customerID, string DeliveryName, StoreMode Mode, bool isDeliveryTaxable, bool IstaxONService, double GetServiceTAX, double TaxRate);
 
+        Item GetItemByOrderItemID(long ItemID, long OrderID);
+
     }
 }

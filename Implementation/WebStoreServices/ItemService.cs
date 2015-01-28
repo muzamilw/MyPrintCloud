@@ -632,6 +632,17 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
+        public Item GetItemByOrderItemID(long ItemID,long OrderID)
+        {
+            try
+            {
+                return _ItemRepository.GetItemByOrderAndItemID(ItemID, OrderID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
   
 
     }

@@ -904,6 +904,8 @@
     <Content Include="Images\orderedList9.png" />
     <Content Include="MPC_Content\DefaultCss\Default_CompanyStyles.css" />
     <Content Include="MPC_Content\DefaultSprite\sprite.bakup.png" />
+    <Content Include="MPC_Content\Stores\assets\2205\Site.css" />
+    <Content Include="MPC_Content\Stores\assets\2205\sprite.png" />
     <Content Include="RichTextEditor\adapters\jquery.js" />
     <Content Include="RichTextEditor\build-config.js" />
     <Content Include="RichTextEditor\ckeditor.js" />
@@ -2676,7 +2678,6 @@
     <Folder Include="MPC_Content\Organisations\" />
     <Folder Include="MPC_Content\Products\" />
     <Folder Include="MPC_Content\SecondaryPages\" />
-    <Folder Include="MPC_Content\Stores\" />
     <Folder Include="Reports\" />
     <Folder Include="Scripts\Plugins\forms\tiny_mce\plugins\spellchecker\classes\utils\" />
     <Folder Include="Scripts\Plugins\forms\tiny_mce\plugins\spellchecker\includes\" />
