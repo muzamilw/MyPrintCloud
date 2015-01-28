@@ -24,9 +24,17 @@ namespace MPC.Repository.Repositories
 
         }
         #endregion
-        public IEnumerable<Machine> GetAllMachine()
+        public MachineResponseModel GetAllMachine(MachineRequestModel request)
         {
-            return DbSet.ToList();
+           
+            return new MachineResponseModel
+            {
+                RowCount = DbSet.Count(),
+                MachineList =  DbSet.ToList()
+            };    
+
+
+               
         }
         public Machine GetMachineByID(long MachineID)
         {

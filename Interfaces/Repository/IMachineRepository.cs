@@ -7,7 +7,7 @@ namespace MPC.Interfaces.Repository
 {
     public interface IMachineRepository
     {
-        IEnumerable<Machine> GetAllMachine();
+        MachineResponseModel GetAllMachine(MachineRequestModel request);
         //bool Delete(long MachineID);
        // bool UpdateSystemMachine(long MachineID, string Name, string Description);
         Machine GetMachineByID(long MachineID);

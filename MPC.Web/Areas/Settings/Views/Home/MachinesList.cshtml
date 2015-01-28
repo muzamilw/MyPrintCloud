@@ -1,10 +1,10 @@
 ﻿@{
-    ViewBag.Title = "MachinesList";
+    ViewBag.Title = "Machines List";
 }
 @section leftmenue {
     
 }
-<div class="row">
+<div class="row" id="divMachineListBinding">
     <div class="col-lg-12">
         <div class="row">
             <div class="col-lg-12">
@@ -17,7 +17,7 @@
                 <h1>Machines</h1>
             </div>
         </div>
-        <div class="row" id="user-profile">
+        <div class="row" > @*id="user-profile"*@
           
             <div class="col-lg-12 col-md-8 col-sm-8">
                 <div class="main-box clearfix">
@@ -43,7 +43,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
+                                                    @*<tr>
                                                         <td>
                                                             <img src="~/Content/themes/Centaurus/img/Machine_SheetPress.png" alt="" />
                                                             <a href="~/Settings/MachinesDetail?MachineID=1" class="user-link">GTO 46 2 Colour</a>
@@ -287,7 +287,7 @@
                                                                 </span>
                                                             </a>
                                                         </td>
-                                                    </tr>
+                                                    </tr>*@
                                                    
                                                 </tbody>
                                             </table>
@@ -296,17 +296,11 @@
 
                                     </div>
                                 </div>
-                                <div id="pagerDiv">
-                                    <ul class="pagination pull-right">
-                                    <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
-                                    <li><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
-                                </ul>
-                                </div>
+                                       @*<div id="pagerDiv">
+                                           <!-- ko with: pager -->
+                                           @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                           <!-- /ko -->
+                                       </div>*@
                                 
                             </div>
                               
@@ -462,7 +456,7 @@
         </div>
     </div>
 </div>
-@section Scripts {
+@*@section Scripts {
     <script src="~/Content/themes/Centaurus/js/jquery-ui.custom.min.js"></script>
     <script src="~/Content/themes/Centaurus/js/bootstrap-wizard.js"></script>
     <script src="~/Content/themes/Centaurus/js/select2.min.js"></script>
@@ -635,4 +629,17 @@
             });
         });
     </script>  
-    }
+    }*@
+
+@section Scripts{
+    <script src="~/Scripts/jquery.form.js"></script>
+    <script>
+        require(["machine/machine.view", "common/confirmation.view"]);
+        $(function () {
+            $('#lisettings').addClass('active');
+            $('#limissettings').addClass('active');
+            $('#liMachineList').addClass('active');
+        });
+
+    </script>
+}

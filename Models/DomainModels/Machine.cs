@@ -39,6 +39,7 @@ namespace MPC.Models.DomainModels
         public string Description { get; set; }
         public double? Priority { get; set; }
         public bool? DirectCost { get; set; }
+        public string Image { get; set; }
         public double? MinimumCharge { get; set; }
         public double? CostPerCut { get; set; }
         public double PricePerCut { get; set; }

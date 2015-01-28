@@ -40,10 +40,10 @@ namespace MPC.Implementation.MISServices
         {
            return _machineRepository.GetMachineByID(id);
         }
-        
-        public IEnumerable<Machine> GetAll(MachineRequestModel request)
+
+        public MachineResponseModel GetAll(MachineRequestModel request)
         {
-            return _machineRepository.GetAllMachine();
+            return _machineRepository.GetAllMachine(request);
         }
         #endregion
     }
