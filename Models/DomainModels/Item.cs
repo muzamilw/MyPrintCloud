@@ -388,6 +388,13 @@ namespace MPC.Models.DomainModels
         [NotMapped]
         public double MinPrice { get; set; }
 
+        /// <summary>
+        /// Being used for Template Service generateTemplateFromPdf method, if mode is 2 then preserves
+        /// existing template object else removes
+        /// </summary>
+        [NotMapped]
+        public int? TemplateTypeMode { get; set; }
+
         #endregion
 
         #region Reference Properties

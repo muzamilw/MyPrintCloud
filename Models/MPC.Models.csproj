@@ -101,6 +101,8 @@
     <Compile Include="Common\AccessRight.cs" />
     <Compile Include="Common\AccessRightClaimValue.cs" />
     <Compile Include="Common\AddOnCostsCenter.cs" />
+    <Compile Include="Common\CategoryType.cs" />
+    <Compile Include="Common\CategoryRegion.cs" />
     <Compile Include="Common\CmsPageModel.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\ContactClaimValue.cs" />
@@ -337,6 +339,7 @@
     <Compile Include="ResponseModels\CompanyResponse.cs" />
     <Compile Include="ResponseModels\CompanyTerritoryResponse.cs" />
     <Compile Include="ResponseModels\CompanyContactResponse.cs" />
+    <Compile Include="ResponseModels\ItemDesignerTemplateBaseResponse.cs" />
     <Compile Include="ResponseModels\ItemBaseResponse.cs" />
     <Compile Include="ResponseModels\InventoryBaseResponse.cs" />
     <Compile Include="ResponseModels\ItemListViewSearchResponse.cs" />

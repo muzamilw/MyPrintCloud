@@ -1,5 +1,4 @@
-﻿using System.IO;
-using MPC.MIS.Areas.Api.Models;
+﻿using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
@@ -90,7 +89,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isEnabled = source.isEnabled ?? false,
                 isMarketPlace = source.isMarketPlace,
                 TemplateDesignerMappedCategoryName = source.TemplateDesignerMappedCategoryName,
-                isArchived = source.isArchived == null ? true : false,
+                isArchived = source.isArchived == null,
                 isPublished = source.isPublished ?? false,
                 TrimmedWidth = source.TrimmedWidth,
                 TrimmedHeight = source.TrimmedHeight,
@@ -146,6 +145,22 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ProductCategoryId = source.ProductCategoryId,
                 CategoryName = source.CategoryName,
                 CategoryTypeId = source.CategoryTypeId
+            };
+        }
+
+        /// <summary>
+        /// Crete From For Template Properties
+        /// </summary>
+        public static ProductCategoryForTemplate CreateFromForTemplate(this DomainModels.ProductCategory source)
+        {
+            return new ProductCategoryForTemplate
+            {
+                ProductCategoryId = source.ProductCategoryId,
+                CategoryName = source.CategoryName,
+                CategoryTypeId = source.CategoryTypeId,
+                RegionId = source.RegionId,
+                ZoomFactor = source.ZoomFactor,
+                ScaleFactor = source.ScaleFactor
             };
         }
     }
