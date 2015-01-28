@@ -104,6 +104,19 @@
 #myOrganizationBinding #tab-RegionalSettings #markupTablle td.action {
   width: 20%;
 }
+#storesBinding #addStore {
+  margin-top: 25px;
+}
+#storesBinding #filter {
+  height: 62px !important;
+}
+#storesBinding #topArea {
+  margin-bottom: -11px;
+}
+#storesBinding #tabsHeader {
+  border: 1px solid silver;
+  box-shadow: 1px 1px 1px silver;
+}
 .store-user-link {
   display: block;
   font-size: 1.25em;
