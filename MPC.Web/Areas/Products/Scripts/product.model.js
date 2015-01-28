@@ -312,6 +312,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             designerCategoryId = ko.observable(specifiedDesignerCategoryId || undefined),
             // Template Type
             templateType = ko.observable(specifiedTemplateType || 1),
+            // Template Type Mode 
+            templateTypeMode = ko.observable(),
             // Template Type Ui
             templateTypeUi = ko.computed({
                 read: function () {
@@ -331,10 +333,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (tempType === 2) {
                         // Changing from option 1 to 2
                         // Ask if want to keep old template objects or not
-                        if (id() && (specifiedTemplateType === 1)) {
+                        if (template() && template().id() && (specifiedTemplateType === 1)) {
                             // Set Mode to 1 if yes else set to 2 // Mode will be passed to generateTemplateFromPDF function                                
                             // that will decide whether to delete old template or not
-
+                            if (callbacks && callbacks.onPreBuiltTemplateSelected && typeof callbacks.onPreBuiltTemplateSelected === "function") {
+                                callbacks.onPreBuiltTemplateSelected();
+                            }
                         }
                     }
 
@@ -925,7 +929,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 }).length === 0 &&
                 itemStockOptions.filter(function (itemStockOption) {
                     return !itemStockOption.isValid();
-                }).length === 0;
+                }).length === 0 &&
+                template().isValid();
             }),
             // Show All Error Messages
             showAllErrors = function () {
@@ -939,6 +944,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     _.each(itemStockOptionErrors, function (itemStockOption) {
                         itemStockOption.errors.showAllMessages();
                     });
+                }
+                // Show Template Errors
+                if (!template().isValid()) {
+                    template().errors.showAllMessages();
                 }
             },
             // Set Validation Summary
@@ -961,6 +970,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (itemStockOptionInvalid.label.error) {
                         var labelElement = itemStockOptionInvalid.label.domElement;
                         validationSummaryList.push({ name: labelElement.name, element: labelElement });
+                    }
+                }
+                // Show Template Errors
+                if (!template().isValid()) {
+                    if (template().fileSource.error) {
+                        var templateFileElement = template().fileSource.domElement;
+                        validationSummaryList.push({ name: "Pre-Built Template", element: templateFileElement });
                     }
                 }
             },
@@ -1148,6 +1164,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     ZoomFactor: zoomFactor(),
                     DesignerCategoryId: designerCategoryId(),
                     TemplateType: templateType(),
+                    TemplateTypeMode: templateTypeMode(),
                     ThumbnailImageName: thumbnailFileName(),
                     ThumbnailImageByte: thumbnailFileSource(),
                     GridImageSourceName: gridImageFileName(),
@@ -1262,8 +1279,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isCmykUi: isCmykUi,
             scalar: scalar,
             zoomFactor: zoomFactor,
-            DesignerCategoryId: designerCategoryId,
+            designerCategoryId: designerCategoryId,
             templateTypeUi: templateTypeUi,
+            templateTypeMode: templateTypeMode,
             canStartDesignerEmpty: canStartDesignerEmpty,
             itemProductDetail: itemProductDetail,
             itemVideos: itemVideos,
@@ -1507,11 +1525,19 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Pdf Template Height
             pdfTemplateHeight = ko.observable(specifiedPdfTemplateHeight || undefined),
             // Is Created Manual
-            isCreatedManual = ko.observable(specifiedIsCreatedManual || true),
+            isCreatedManual = ko.observable(specifiedIsCreatedManual !== null && specifiedIsCreatedManual !== undefined ? specifiedIsCreatedManual :
+                (!specifiedId ? true : undefined)),
             // Is Spot Template
-            isSpotTemplate = ko.observable(specifiedIsSpotTemplate || true),
+            isSpotTemplate = ko.observable(specifiedIsSpotTemplate !== null && specifiedIsSpotTemplate !== undefined ? specifiedIsSpotTemplate :
+                (!specifiedId ? true : undefined)),
             // File Source
-            fileSource = ko.observable(),
+            fileSource = ko.observable().extend({
+                required: {
+                    onlyIf: function () {
+                        return isCreatedManual() === false;
+                    }
+                }
+            }),
             // File Name
             fileName = ko.observable(),
             // Template Pages
@@ -1545,16 +1571,17 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 }
             },
             // On Select File
-            onSelectFile = function (data, file) {
+            onSelectFile = function (file, data) {
                 fileSource(data);
                 fileName(file.name);
             },
             // Errors
             errors = ko.validation.group({
+                fileSource: fileSource
             }),
             // Is Valid
             isValid = ko.computed(function () {
-                return errors().length === 0 || templatePages.filter(function (templatePage) {
+                return errors().length === 0 && templatePages.filter(function (templatePage) {
                     return !templatePage.isValid();
                 }).length === 0;
             }),
@@ -1589,6 +1616,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     PdfTemplateHeight: pdfTemplateHeight(),
                     IsCreatedManual: isCreatedManual(),
                     IsSpotTemplate: isSpotTemplate(),
+                    FileName: fileName(),
+                    FileSource: fileSource(),
                     TemplatePages: templatePages.map(function (templatePage, index) {
                         var templatePageItem = templatePage.convertToServerData();
                         templatePageItem.PageNo = index + 1;
@@ -1973,6 +2002,35 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Company Entity        
     Company = function (specifiedId, specifiedName) {
+        return {
+            id: specifiedId,
+            name: specifiedName
+        };
+    },
+    
+    // Product Category For Template Entity        
+    ProductCategoryForTemplate = function (specifiedId, specifiedName, specifiedRegionId, specifiedCategoryTypeId, specifiedZoomFactor,
+        specifiedScalarFactor) {
+        return {
+            id: specifiedId,
+            name: specifiedName,
+            regionId: specifiedRegionId,
+            typeId: specifiedCategoryTypeId,
+            zoomFactor: specifiedZoomFactor,
+            scalarFactor: specifiedScalarFactor
+        };
+    },
+    
+    // Category Region Entity        
+    CategoryRegion = function (specifiedId, specifiedName) {
+        return {
+            id: specifiedId,
+            name: specifiedName
+        };
+    },
+    
+    // Company Type Entity        
+    CategoryType = function (specifiedId, specifiedName) {
         return {
             id: specifiedId,
             name: specifiedName
@@ -2605,7 +2663,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.JobDescriptionTitle10, source.JobDescription10, source.GridImageSource, source.ImagePathImageSource, source.File1BytesSource, source.File2BytesSource,
             source.File3BytesSource, source.File4BytesSource, source.File5BytesSource, source.FlagId, source.IsQtyRanged, source.PackagingWeight, source.DefaultItemTax,
             source.SupplierId, source.SupplierId2, source.EstimateProductionTime, source.ItemProductDetail, source.IsTemplateDesignMode, source.DesignerCategoryId,
-            source.Scalar, source.ZoomFactor, source.IsCMYK, source.TemplateType, callbacks, constructorParams);
+            source.Scalar, source.ZoomFactor, source.IsCmyk, source.TemplateType, callbacks, constructorParams);
 
         // Map Item Vdp Prices if any
         if (source.ItemVdpPrices && source.ItemVdpPrices.length > 0) {
@@ -2758,6 +2816,24 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         return productCategory;
     };
     
+    // Category Region Factory
+    CategoryRegion.Create = function (source) {
+        return new CategoryRegion(source.RegionId, source.RegionName);
+    };
+    
+    // Category Type Factory
+    CategoryType.Create = function (source) {
+        return new CategoryType(source.TypeId, source.TypeName);
+    };
+    
+    // Product Category For Template Factory
+    ProductCategoryForTemplate.Create = function (source) {
+        var productCategory = new ProductCategoryForTemplate(source.ProductCategoryId, source.CategoryName, source.RegionId, source.CategoryTypeId,
+        source.ZoomFactor, source.ScalarFactor);
+
+        return productCategory;
+    };
+    
     return {
         // Item Constructor
         Item: Item,
@@ -2792,6 +2868,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // Product Category Constructor
         ProductCategory: ProductCategory,
         // Product Category Item Constructor
-        ProductCategoryItem: ProductCategoryItem
+        ProductCategoryItem: ProductCategoryItem,
+        // Product Category For Template Constructor
+        ProductCategoryForTemplate: ProductCategoryForTemplate,
+        // Category Region Constructor
+        CategoryRegion: CategoryRegion,
+        // Category Type Constructor
+        CategoryType: CategoryType
     };
 });

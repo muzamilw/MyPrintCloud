@@ -6,7 +6,7 @@
 	float: left;
 	text-decoration: none;
 	vertical-align: bottom;
-	background-image: url('../images/star.gif');
+	background-image: url('./images/star.gif');
 	background-repeat: no-repeat;
 }
 .ui-rating a {

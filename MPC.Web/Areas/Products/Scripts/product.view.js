@@ -328,13 +328,25 @@ define("product/product.view",
                     }
 
                 },
+                // WIre Up tab Shown Event
+                wireUpTabShownEvent = function() {
+                    // Wire up event for Template Properties tab
+                    // When clicked will call base data service for designer Category to load 1st time
+                    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                        if (e.target.id === "tabTempProperties") {
+                            viewModel.getBaseDataForDesignerCategory();
+                        }
+                    });
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
                         return;
                     }
+
                 };
             initialize();
+            
             return {
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
@@ -355,7 +367,8 @@ define("product/product.view",
                 hideProductCategoryDialog: hideProductCategoryDialog,
                 getCategoryIdFromElement: getCategoryIdFromElement,
                 updateInputCheckedStates: updateInputCheckedStates,
-                showBasicDetailsTab: showBasicDetailsTab
+                showBasicDetailsTab: showBasicDetailsTab,
+                wireUpTabShownEvent: wireUpTabShownEvent
             };
         })(productViewModel);
 

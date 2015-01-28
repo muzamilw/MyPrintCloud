@@ -1,6 +1,14 @@
 ﻿$(".collapseDesignerMenu").click(function (event) {
     $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage0");
-
+    if (canvas.getActiveGroup())
+        canvas.discardActiveGroup();
+    if (canvas.getActiveObject())
+        canvas.discardActiveObject();
+    if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
+        $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
+        //  $("#FrontBackOptionPanalSection").addClass("hideRightPropertyPanel");
+        $("#FrontBackOptionPanal").css("display", "none");
+    }
 });
 $(".search").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
@@ -1981,6 +1989,26 @@ $("#chkboxAutoShrink").click(function () {
     }
 
     g1(D1AO);
+});
+$("#chkboxTxtInputMask").click(function () {
+    var thisCheck = $(this);
+    if (thisCheck.is(':checked')) {
+        $(".maskingControls").css("display", "block");
+    } else {
+        $(".maskingControls").css("display", "none");
+    }
+
+   
+});
+$("#chkboxTxtInputMandatory").click(function () {
+    var thisCheck = $(this);
+    if (thisCheck.is(':checked')) {
+        $(".txtManadatoryControl").css("display", "block");
+    } else {
+        $(".txtManadatoryControl").css("display", "none");
+    }
+
+
 });
 $("#chkboxOverlayTxt").click(function () {
     var thisCheck = $(this);
