@@ -1,0 +1,25 @@
+﻿#inventoryBinding #addInventory {
+  margin-top: 25px;
+}
+#inventoryBinding #filter {
+  height: 62px !important;
+}
+#inventoryBinding #topArea {
+  margin-bottom: -11px;
+}
+#inventoryBinding #tabsHeader {
+  border: 1px solid silver;
+  box-shadow: 1px 1px 1px silver;
+}
+#inventoryBinding #inventoryEditor #tab-CostPrice #costTablle tr th#costTh {
+  width: 104px;
+}
+#inventoryBinding #inventoryEditor #tab-CostPrice #costTablle tr th#fromTh {
+  width: 104px;
+}
+#inventoryBinding #inventoryEditor #tab-CostPrice #costTablle tr th#toTh {
+  width: 10%;
+}
+#inventoryBinding #inventoryEditor #tab-CostPrice #costTablle tr th#packCostTh {
+  width: 10%;
+}

@@ -667,8 +667,20 @@
     <Content Include="Content\Images\loaders\horizontal\062.gif" />
     <Content Include="Content\Images\loaders\horizontal\063.gif" />
     <Content Include="Content\layout.css" />
+    <Content Include="Content\less\Inventory.css">
+      <DependentUpon>Inventory.less</DependentUpon>
+    </Content>
+    <Content Include="Content\less\InventoryCategory.css">
+      <DependentUpon>InventoryCategory.less</DependentUpon>
+    </Content>
     <Content Include="Content\less\MainSite.css">
       <DependentUpon>MainSite.less</DependentUpon>
+    </Content>
+    <Content Include="Content\less\Organisation.css">
+      <DependentUpon>Organisation.less</DependentUpon>
+    </Content>
+    <Content Include="Content\less\PaperSheet.css">
+      <DependentUpon>PaperSheet.less</DependentUpon>
     </Content>
     <Content Include="Content\less\Products.css">
       <DependentUpon>Products.less</DependentUpon>
@@ -1492,6 +1504,8 @@
     <Content Include="Areas\Stores\Views\Stores\_StoreProductCategoryDialog.cshtml" />
     <Content Include="Areas\Settings\Views\Home\LookupMethods.cshtml" />
     <Content Include="Areas\Products\Views\Home\_SignatureEdit.cshtml" />
+    <Content Include="Content\less\PaperSheet.less" />
+    <Content Include="Content\less\InventoryCategory.less" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />

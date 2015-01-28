@@ -19,24 +19,20 @@
                 </div>
             </div>
             <div class="row" id="user-profile">
-                <div class="col-lg-12 col-md-8 col-sm-8" style="padding-bottom: 10px;">
+                <div class="col-lg-12 col-md-8 col-sm-8" style="padding-bottom: 10px;" data-bind="with: $root.selectedStore()">
                     <div class="clearfix ">
                         <div class="col-xs-4">
                         </div>
                         <div class="col-xs-4">
                         </div>
                         <div class="col-xs-4" style="text-align: right; padding-right: 0px;">
-                            <button type="button" class="btn btn-primary btn-lg" data-bind="click: $root.saveStore">
-                                <span class="fa fa-save"></span>&nbsp;Save
-                            </button>
-                            <button type="button" class="btn btn-primary btn-lg" data-bind="click: $root.closeEditDialog">
-                                <span class="fa fa-save"></span>&nbsp;Close
-                            </button>
+                            <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.saveStore, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
+                            <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeEditDialog">Close</button>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="main-box clearfix">
+                    <div class="main-box clearfix" id="tabsHeader">
                         <div class="tabs-wrapper profile-tabs">
                             <ul class="nav nav-tabs">
                                 <li class="active" id="generalInfoTab"><a href="#tab-generalinfo" data-toggle="tab">General Info</a></li>
