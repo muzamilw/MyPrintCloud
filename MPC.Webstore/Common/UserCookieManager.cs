@@ -381,5 +381,34 @@ namespace MPC.Webstore.Common
                 HttpContext.Current.Response.Cookies.Add(RegisterClaimCookie);
             }
         }
+
+        //public static bool removeAllCookies()
+        //{
+        //    if (HttpContext.Current.Response.Cookies["FirstName"] != null)
+        //    {
+        //        HttpContext.Current.Response.Cookies.Remove("FirstName");
+
+        //    }
+        //    if (HttpContext.Current.Response.Cookies["Email"] != null)
+        //    {
+        //        HttpContext.Current.Response.Cookies.Remove("Email");
+
+        //    }
+        //    if (HttpContext.Current.Request.Cookies["LastName"] != null)
+        //    {
+        //        HttpContext.Current.Response.Cookies.Remove("LastName");
+        //    }
+        //    if (HttpContext.Current.Response.Cookies["OrderId"] != null)
+        //    {
+        //        HttpContext.Current.Response.Cookies.Remove("OrderId");
+
+        //    } 
+        //    if (HttpContext.Current.Response.Cookies["TemporaryCompanyId"] != null)
+        //    {
+        //        HttpContext.Current.Response.Cookies.Remove("TemporaryCompanyId");
+
+        //    }
+        //    return true;
+        //}
     }
 }

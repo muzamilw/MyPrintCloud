@@ -79,6 +79,24 @@ namespace MPC.Implementation {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to generate Template pages from specified pdf..
+        /// </summary>
+        internal static string ItemService_FailedToGeneratePagesFromPdf {
+            get {
+                return ResourceManager.GetString("ItemService_FailedToGeneratePagesFromPdf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to generate pdf from specified template pages..
+        /// </summary>
+        internal static string ItemService_FailedToGeneratePdfFromPages {
+            get {
+                return ResourceManager.GetString("ItemService_FailedToGeneratePdfFromPages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid File Path..
         /// </summary>
         internal static string ItemService_InvalidFilePath {
@@ -102,6 +120,15 @@ namespace MPC.Implementation {
         internal static string ItemService_ItemNotFound {
             get {
                 return ResourceManager.GetString("ItemService_ItemNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Template with Id {0} not found..
+        /// </summary>
+        internal static string ItemService_TemplateNotFound {
+            get {
+                return ResourceManager.GetString("ItemService_TemplateNotFound", resourceCulture);
             }
         }
         

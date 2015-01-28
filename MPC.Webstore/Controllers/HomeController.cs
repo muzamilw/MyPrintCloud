@@ -365,26 +365,46 @@ namespace MPC.Webstore.Controllers
                 //signout
                 AuthenticationManager.SignOut();
                 UserCookieManager.isRegisterClaims = 0;
-                Session.Abandon();
 
-                // clear authentication cookie
-                HttpCookie cookie1 = new HttpCookie(FormsAuthentication.FormsCookieName, "");
-                cookie1.Expires = DateTime.Now.AddYears(-1);
-                Response.Cookies.Add(cookie1);
+                /// explicitly set claim to null 
 
-                // clear session cookie (not necessary for your current problem but i would recommend you do it anyway)
+                ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
+
+                ClaimsSecurityService.AddSignInClaimsToIdentity(0, 0,  0,  0, identity);
+
+                var claimsPriciple = new ClaimsPrincipal(identity);
+                // Make sure the Principal's are in sync
+                HttpContext.User = claimsPriciple;
+
+                Thread.CurrentPrincipal = HttpContext.User;
+
+                AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+
+                UserCookieManager.isRegisterClaims = 0;
+
+                //Manually remove the authentication cooke it is not getting removed automatically 
+
+                if (Request.Cookies[".AspNet.ApplicationCookie"] != null)
+                {
+                    Response.Cookies.Remove(".AspNet.ApplicationCookie");
+                }
+                // clear session cookie (not necessary for your current problem)
                 HttpCookie cookie2 = new HttpCookie("ASP.NET_SessionId", "");
                 cookie2.Expires = DateTime.Now.AddYears(-1);
                 Response.Cookies.Add(cookie2);
 
-                if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
-                {
-                    Response.Redirect("/Login");
-                }
-                else
-                {
-                    Response.Redirect("/");
-                }
+
+                // if we redirect response to other page all the changes to cookies are lost and user will remain login 
+
+                //if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                //{
+                //    Response.Redirect("/Login");
+                //}
+                //else
+                //{
+                //   // Response.Redirect("/");
+
+                //}
             }
         }
 

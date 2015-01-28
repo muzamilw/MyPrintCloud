@@ -17,7 +17,7 @@ namespace MPC.Webstore.Controllers
         #region Private
 
         private readonly IWebstoreClaimsHelperService _webstoreclaimHelper;
-
+        
         #endregion
 
         #region Constructor
@@ -61,7 +61,8 @@ namespace MPC.Webstore.Controllers
             UserCookieManager.ContactCanEditProfile = false;
             UserCookieManager.ShowPriceOnWebstore = true;
             UserCookieManager.isRegisterClaims = 2;
-         
+          //  UserCookieManager.removeAllCookies();
+           // _webstoreclaimHelper.removeAuthenticationClaim();
             Response.Redirect("/"); 
             return null;
 
