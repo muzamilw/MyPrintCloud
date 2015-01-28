@@ -1505,6 +1505,7 @@ namespace MPC.Implementation.WebStoreServices
         public readonly ICompanyContactRepository _contactRepository;
         public readonly IOrganisationRepository _organisationRepository;
         public readonly ITemplatePageService _templatePageService;
+        public readonly IItemRepository _itemRepository;
         // it will convert pdf to template pages and will preserve template objects and images 
         private bool CovertPdfToBackground(string physicalPath, long ProductID, long OrganisationID)
         {
@@ -1761,7 +1762,7 @@ namespace MPC.Implementation.WebStoreServices
         
         #endregion
         #region constructor
-        public TemplateService(ITemplateRepository templateRepository, IProductCategoryRepository ProductCategoryRepository,ITemplateBackgroundImagesService templateBackgroundImages,ITemplateFontsService templateFontSvc,ICompanyRepository companyRepository, ICompanyContactRepository contactRepostiory,IOrganisationRepository organisationRepository,ITemplatePageService templatePageService)
+        public TemplateService(ITemplateRepository templateRepository, IProductCategoryRepository ProductCategoryRepository,ITemplateBackgroundImagesService templateBackgroundImages,ITemplateFontsService templateFontSvc,ICompanyRepository companyRepository, ICompanyContactRepository contactRepostiory,IOrganisationRepository organisationRepository,ITemplatePageService templatePageService,IItemRepository itemRepository)
         {
             this._templateRepository = templateRepository;
             this._ProductCategoryRepository = ProductCategoryRepository;
@@ -1771,6 +1772,7 @@ namespace MPC.Implementation.WebStoreServices
             this._contactRepository = contactRepostiory;
             this._organisationRepository = organisationRepository;
             this._templatePageService = templatePageService;
+            this._itemRepository = itemRepository;
         }
         #endregion
 
@@ -2194,10 +2196,11 @@ namespace MPC.Implementation.WebStoreServices
         }
 
         // download tempate from v2 and merge it locally 
-        public long MergeRetailTemplate(int RemoteTemplateID, long LocalTempalteID, long organisationId)
+        public long MergeRetailTemplate(int RemoteTemplateID, long LocalTempalteID, long organisationId, bool ChangeQuickText,long CompanyID,long ContactID,long ItemID)
         {
             try
             {
+
                 long LocalProductID = 0;
                 using (GlobalTemplateDesigner.TemplateSvcSPClient pSc = new GlobalTemplateDesigner.TemplateSvcSPClient())
                 {
@@ -2241,13 +2244,93 @@ namespace MPC.Implementation.WebStoreServices
                     {
                         oTemplateFont.Add(returnLocalFont(objFont));
                     }
+                    if (ChangeQuickText)
+                    {
+                        var objQuickText = GetContactQuickTextFields(CompanyID, ContactID);//CustomerID,ContacTid)
+                        foreach (var obj in oTemplateObjects)
+                        {
+                            if (obj.Name == "AddressLine1")
+                            {
+                                obj.ContentString = objQuickText.Address1.ToString();
+                            }
+                            else if (obj.Name == "CompanyName")
+                            {
+                                obj.ContentString = objQuickText.Company.ToString();
+                            }
+                            else if (obj.Name == "CompanyMessage")
+                            {
+                                obj.ContentString = objQuickText.CompanyMessage.ToString();
+                            }
+                            else if (obj.Name == "Email")
+                            {
+                                obj.ContentString = objQuickText.Email.ToString();
+                            }
+                            else if (obj.Name == "Fax")
+                            {
+                                obj.ContentString = objQuickText.Fax.ToString();
+                            }
+                            else if (obj.Name == "Name")
+                            {
+                                obj.ContentString = objQuickText.Name.ToString();
+                            }
+                            else if (obj.Name == "Phone")
+                            {
+                                obj.ContentString = objQuickText.MobileNumber.ToString();
+                            }
+                            else if (obj.Name == "Title")
+                            {
+                                obj.ContentString = objQuickText.Title.ToString();
+                            }
+                            else if (obj.Name == "Website")
+                            {
+                                obj.ContentString = objQuickText.Website.ToString();
+                            }
+
+
+                        }
+                    }
+                   
+                    //List<tbl_cmsDefaultSettings> records = pageMgr.GetAllDefaultSettings();
+                    Company objCompany = _companyRepository.GetStoreById(CompanyID);
+                    if (objCompany != null)
+                    {
+                        oTemplate.TempString = objCompany.WatermarkText;
+                        oTemplate.isWatermarkText = objCompany.isTextWatermark;
+                        if (objCompany.isTextWatermark == false)
+                        {
+                            oTemplate.TempString = System.Web.HttpContext.Current.Server.MapPath(objCompany.WatermarkText);
+                        }
+
+                    }
+
+                    // commented by zohaib will implement later because have not implement 5 page business card in designer
+                    //LocalTemplateDesigner.TemplateSvcSPClient oLocSvc = new LocalTemplateDesigner.TemplateSvcSPClient();
+                    //LocalProductID = oLocSvc.SaveTemplateLocally(oTemplate, oTemplatePages, oTemplateObjects, oTemplateImages, oTemplateFont, TemplateDesignerUrl + "designer/", Server.MapPath("~/designengine/designer/")); //products/
+                    //if (PageParameters.CategoryId == bizCardCategory)
+                    //{
+                    //    foreach (var oTemp in oTemplatePages)
+                    //    {
+                    //        DownloadFile(TemplateDesignerUrl + "designer/" + "products/" + RemoteTemplateID + "/p" + oTemp.PageNo.ToString() + ".png", Server.MapPath("~/designengine/designer/") + "products\\" + LocalProductID.ToString() + "/p" + oTemp.PageNo.ToString() + ".png");
+                    //    }
+                    //}
+                    //ProductManager productManager = new ProductManager();
                     string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + organisationId.ToString() + "/");
                    // LocalTemplateDesigner.TemplateSvcSPClient oLocSvc = new LocalTemplateDesigner.TemplateSvcSPClient();
-                    LocalProductID = SaveTemplateLocally(oTemplate, oTemplatePages, oTemplateObjects, oTemplateImages,oTemplateFont, "http://designerv2.myprintcloud.com/designer/", drURL, organisationId, 2, LocalTempalteID); //products/
+                    if (LocalTempalteID == 0)
+                    {
+                        LocalProductID = SaveTemplateLocally(oTemplate, oTemplatePages, oTemplateObjects, oTemplateImages, oTemplateFont, "http://designerv2.myprintcloud.com/designer/", drURL, organisationId,1, LocalTempalteID); //products/
+                    }
+                    else
+                    {
+                        LocalProductID = SaveTemplateLocally(oTemplate, oTemplatePages, oTemplateObjects, oTemplateImages, oTemplateFont, "http://designerv2.myprintcloud.com/designer/", drURL, organisationId, 2, LocalTempalteID); //products/
+                    }
 
-                    //ProductManager productManager = new ProductManager();
-                   // productManager.ResolveTemplateVariables(LocalProductID, SessionParameters.ContactCompany, SessionParameters.CustomerContact, StoreMode.Retail);
-
+                    //_itemRepository.ResolveTemplateVariables()
+                    //productManager.ResolveTemplateVariables(LocalProductID, SessionParameters.ContactCompany, SessionParameters.CustomerContact, StoreMode.Retail);
+                    if(ItemID > 0)
+                         _itemRepository.VariablesResolve(ItemID, LocalProductID, ContactID);
+                 
+                 
                     return LocalProductID;
                 }
             }
@@ -2348,7 +2431,7 @@ namespace MPC.Implementation.WebStoreServices
             return _contactRepository.updateQuikcTextInfo(objQText.ContactID, objQText);
 
         }
-
+       
         
         //public string GetConvertedSizeWithUnits(double heightInMM, double widthInMM, long productId,long organisationID)
         //{
