@@ -320,14 +320,17 @@ namespace MPC.Models.ModelMappers
         {
             if (target.Template == null)
             {
+                // Start Template with designer empty
+                if (source.Template == null || (source.TemplateType.HasValue && source.TemplateType.Value == 3))
+                {
+                    return;
+                }
+
                 target.Template = actions.CreateTemplate();
             }
 
             // Update Template
-            target.Template.PDFTemplateHeight = source.Template.PDFTemplateHeight;
-            target.Template.PDFTemplateHeight = source.Template.PDFTemplateHeight;
-            target.Template.isCreatedManual = source.Template.isCreatedManual;
-            target.Template.isSpotTemplate = source.Template.isSpotTemplate;
+            target.Template.UpdateTo(source.Template);
 
             // Update Template Pages
             UpdateTemplatePages(source, target, actions);
@@ -889,8 +892,9 @@ namespace MPC.Models.ModelMappers
             target.TemplateType = source.TemplateType;
             target.IsCmyk = source.IsCmyk;
             target.IsTemplateDesignMode = source.IsTemplateDesignMode;
-            target.ZoomFactor = source.IsTemplateDesignMode;
+            target.ZoomFactor = source.ZoomFactor;
             target.Scalar = source.Scalar;
+            target.DesignerCategoryId = source.DesignerCategoryId;
         }
 
         #endregion

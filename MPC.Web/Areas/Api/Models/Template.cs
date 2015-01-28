@@ -66,5 +66,15 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsCreatedManual { get; set; }
         public bool? IsEditorChoice { get; set; }
         public IEnumerable<TemplatePage> TemplatePages { get; set; }
+
+        /// <summary>
+        /// File in Base64
+        /// </summary>
+        public string FileSource { get; set; }
+
+        /// <summary>
+        /// File Name
+        /// </summary>
+        public string FileName { get; set; }
     }
 }
