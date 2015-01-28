@@ -2671,7 +2671,6 @@
     <Folder Include="MPC_Content\Artworks\" />
     <Folder Include="MPC_Content\Assets\" />
     <Folder Include="MPC_Content\Attachments\" />
-    <Folder Include="MPC_Content\Categories\" />
     <Folder Include="MPC_Content\CostCentres\" />
     <Folder Include="MPC_Content\Designer\" />
     <Folder Include="MPC_Content\Media\" />

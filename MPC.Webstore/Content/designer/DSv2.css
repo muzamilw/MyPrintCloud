@@ -6113,8 +6113,8 @@ background-repeat: no-repeat;background-position-x: 14px;
     position: absolute;
     left: 70px;
     right: 0px;
-    top: 42px;
-    bottom: 142px;
+    top: 86px/*42px*/;
+    bottom: 178px/*142px*/;
     overflow: hidden;
     padding: 20px 18px 20px 0;
     background-color: #3f4652;
@@ -6181,6 +6181,7 @@ background-repeat: no-repeat;background-position-x: 14px;
     background-color: rgb(254, 206, 47) !important;
     color: rgb(159, 146, 47)!important;
     bottom:-30px;
+    display:none;
 }
 
 
@@ -6314,6 +6315,7 @@ background-repeat: no-repeat;background-position-x: 14px;
     vertical-align:top;
     margin-bottom:-17px;
     margin-left: 24px;
+    display:none;
 }
   
 #btnReplaceImage{
@@ -6554,4 +6556,8 @@ label
  {
      width: 105px !important;
 margin: auto !important;
+ }
+ .maskingControls ,.txtManadatoryControl
+ {
+     display:none;
  }

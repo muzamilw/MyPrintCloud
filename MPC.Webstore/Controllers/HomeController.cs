@@ -24,6 +24,7 @@ using System.Reflection;
 using MPC.Models.DomainModels;
 using MPC.WebBase.UnityConfiguration;
 using System.Runtime.Caching;
+using System.Web.Security;
 
 
 
@@ -364,6 +365,18 @@ namespace MPC.Webstore.Controllers
                 //signout
                 AuthenticationManager.SignOut();
                 UserCookieManager.isRegisterClaims = 0;
+                Session.Abandon();
+
+                // clear authentication cookie
+                HttpCookie cookie1 = new HttpCookie(FormsAuthentication.FormsCookieName, "");
+                cookie1.Expires = DateTime.Now.AddYears(-1);
+                Response.Cookies.Add(cookie1);
+
+                // clear session cookie (not necessary for your current problem but i would recommend you do it anyway)
+                HttpCookie cookie2 = new HttpCookie("ASP.NET_SessionId", "");
+                cookie2.Expires = DateTime.Now.AddYears(-1);
+                Response.Cookies.Add(cookie2);
+
                 if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
                 {
                     Response.Redirect("/Login");

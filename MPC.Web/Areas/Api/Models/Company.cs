@@ -38,7 +38,8 @@ namespace MPC.MIS.Areas.Api.Models
         public string PhoneNo { get; set; }
         public short? IsGeneral { get; set; }
         public int? SalesPerson { get; set; }
-        public byte[] Image { get; set; }
+        public string StoreImagePath { get; set; }
+        
         public string ImageName { get; set; }
         public string WebAccessCode { get; set; }
         public bool? isArchived { get; set; }
@@ -204,6 +205,8 @@ namespace MPC.MIS.Areas.Api.Models
 
         #region Public Image Source
         public string ImageBytes { get; set; }
+
+        public byte[] Image { get; set; }
         /// <summary>
         /// Image Source
         /// </summary>

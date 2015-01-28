@@ -173,6 +173,11 @@ namespace MPC.Models.DomainModels
         /// Store Background File
         /// </summary>
         public string StoreBackgroundFile { get; set; }
+
+        /// <summary>
+        /// Logo Image Bytes
+        /// </summary>
+        public string ImageBytes { get; set; }
         #endregion
     }
 }
