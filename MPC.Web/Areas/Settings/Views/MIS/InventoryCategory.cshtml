@@ -395,15 +395,15 @@
     <script id="editStockSubCategoryTemplate" type="text/html">
         <tr data-bind="css: { selectedRow: $data === $root.selectedStockSubCategory() }">
             <td class="col-lg-4 pull-left">
-                <input type="text" data-bind="value: code, validationTooltip: code" />
+                <input type="text" class="form-control" data-bind="value: code, validationTooltip: code" />
             </td>
             <td class="col-lg-4 pull-left">
-                <input type="text" data-bind="value: name, validationTooltip: name" />
+                <input type="text" class="form-control" data-bind="value: name, validationTooltip: name" />
             </td>
             <td class="col-lg-3 pull-left">
-                <input type="text" data-bind="value: description, validationTooltip: description" />
+                <input type="text" class="form-control" data-bind="value: description, validationTooltip: description" />
             </td>
-            <td class="col-lg-1 pull-right" id="actionColumn">
+            <td class="col-lg-1 pull-right" id="actionColumn" style="height:59px;">
                 <!-- ko template: { name: 'editActionStockSubCategoryTemplate' } -->
                 <!-- /ko -->
                 @*</td>
@@ -415,10 +415,10 @@
     </script>
     <script id="itemStockSubCategoryTemplate" type="text/html">
         <tr>
-            <td class="col-lg-4 pull-left" data-bind="text: code"></td>
-            <td class="col-lg-4 pull-left" data-bind="text: name"></td>
-            <td class="col-lg-3 pull-left" data-bind="text: description"></td>
-            <td class="col-lg-1 pull-right" id="actionColumn">
+            <td class="col-lg-4 pull-left" style="height:47px;" data-bind="text: code"></td>
+            <td class="col-lg-4 pull-left" style="height:47px;" data-bind="text: name"></td>
+            <td class="col-lg-3 pull-left" style="height:47px;" data-bind="text: description"></td>
+            <td class="col-lg-1 pull-right" id="actionColumn" style="height:47px;">
                 <!-- ko template: { name: 'editActionStockSubCategoryTemplate' } -->
                 <!-- /ko -->
                 @*</td>

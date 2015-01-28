@@ -190,7 +190,6 @@ define("inventoryCategory/inventoryCategory.viewModel",
                             confirmation.show();
                             return;
                         }
-
                     },
                     ///*** Stock Sub Categories Region ***
 

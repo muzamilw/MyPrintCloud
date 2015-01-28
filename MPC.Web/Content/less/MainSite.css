@@ -118,9 +118,30 @@
 #storesBinding #itemsForWidgetsDialog .selectedItemRow {
   background: yellow;
 }
-#inventoryBinding #inventoryEditor #tab-CostPrice #costTxt {
-  width: 70px;
-  height: 23px;
+#inventoryBinding #addInventory {
+  margin-top: 25px;
+}
+#inventoryBinding #filter {
+  height: 62px !important;
+}
+#inventoryBinding #topArea {
+  margin-bottom: -11px;
+}
+#inventoryBinding #tabsHeader {
+  border: 1px solid silver;
+  box-shadow: 1px 1px 1px silver;
+}
+#inventoryBinding #inventoryEditor #tab-CostPrice #costTablle tr th#costTh {
+  width: 104px;
+}
+#inventoryBinding #inventoryEditor #tab-CostPrice #costTablle tr th#fromTh {
+  width: 104px;
+}
+#inventoryBinding #inventoryEditor #tab-CostPrice #costTablle tr th#toTh {
+  width: 10%;
+}
+#inventoryBinding #inventoryEditor #tab-CostPrice #costTablle tr th#packCostTh {
+  width: 10%;
 }
 #paperSheetBinding #filter {
   height: 62px !important;
@@ -136,6 +157,9 @@
 }
 #inventoryCategoriesBinding #topArea {
   margin-bottom: -11px;
+}
+#inventoryCategoriesBinding #detailArea {
+  margin-top: 3px;
 }
 .fileUpload {
   position: relative;
@@ -155,4 +179,42 @@
 #phraseLibraryDialog .selectedSection,
 #phraseLibraryDialog .selectedPhraseField {
   background: yellow;
+}
+.inlineGrid table {
+  max-width: 100%;
+  width: 100%;
+  min-width: 100%;
+}
+.inlineGrid table td {
+  padding: 4px 5px;
+  vertical-align: middle;
+}
+.inlineGrid table tr td select,
+.inlineGrid table textarea,
+.inlineGrid table input[type="text"],
+.inlineGrid table input[type="password"],
+.inlineGrid table input[type="datetime"],
+.inlineGrid table input[type="datetime-local"],
+.inlineGrid table input[type="date"],
+.inlineGrid table input[type="month"],
+.inlineGrid table input[type="time"],
+.inlineGrid table input[type="week"],
+.inlineGrid table input[type="number"],
+.inlineGrid table input[type="email"],
+.inlineGrid table input[type="url"],
+.inlineGrid table input[type="search"],
+.inlineGrid table input[type="tel"],
+.inlineGrid table input[type="color"],
+.inlineGrid table .uneditable-input {
+  padding-left: 2px;
+  padding-right: 2px;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1px;
+  margin-right: 2px;
+}
+.inlineGrid table .selectedRow label {
+  color: #8B8B8B;
+  font-size: 13px;
+  text-align: left;
 }
