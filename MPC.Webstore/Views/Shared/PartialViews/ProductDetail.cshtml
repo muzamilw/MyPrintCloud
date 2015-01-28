@@ -1277,7 +1277,7 @@
 								var Count = "(" + (parseInt(FinalFavCount, 10) + 1) + ")";
 								$('.FavCount').html(Count);
 							}
-						}, function () {alert('beforeLogin');
+						}, function () { 
 							if (LoginPopUp()) {
 								$(this).removeClass('active_star').addClass('passive_star');
 								$(this).attr('title', 'Click to add favorite');

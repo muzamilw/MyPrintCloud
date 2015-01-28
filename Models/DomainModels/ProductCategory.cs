@@ -72,37 +72,37 @@ namespace MPC.Models.DomainModels
         /// <summary>
         /// Product Category ThumbNail File Bytes
         /// </summary>
-        [NotMapped]
-        public string ThumbNailBytes { get; set; }
+        //[NotMapped]
+       // public string ThumbNailBytes { get; set; }
 
         /// <summary>
         /// Product Category Thumb Nail Name
         /// </summary>
-        [NotMapped]
-        public string ThumbNailFileName { get; set; }
+        //[NotMapped]
+        //public string ThumbNailFileName { get; set; }
 
         /// <summary>
         /// Product Category Thumb Nail Name
         /// </summary>
-        [NotMapped]
-        public byte[] ThumbNailFileBytes { get; set; }
+        //[NotMapped]
+        //public byte[] ThumbNailFileBytes { get; set; }
         /// <summary>
         /// Product Category Image File Bytes
         /// </summary>
-        [NotMapped]
-        public string ImageBytes { get; set; }
+        //[NotMapped]
+       // public string ImageBytes { get; set; }
 
         /// <summary>
         /// Product Category Image Name
         /// </summary>
-        [NotMapped]
-        public string ImageFileName { get; set; }
+        //[NotMapped]
+        //public string ImageFileName { get; set; }
 
         /// <summary>
         /// Product Category Image Name
         /// </summary>
-        [NotMapped]
-        public byte[] ImageFileBytes { get; set; }
+        //[NotMapped]
+       // public byte[] ImageFileBytes { get; set; }
         #endregion
     }
 }

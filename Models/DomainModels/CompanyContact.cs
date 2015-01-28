@@ -102,5 +102,9 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<Inquiry> Inquiries { get; set; }
         public virtual Address Address { get; set; }
         public virtual ICollection<FavoriteDesign> FavoriteDesigns { get; set; }
+        
+        [NotMapped]
+        public string ContactProfileImage { get; set; }
+
     }
 }

@@ -445,6 +445,11 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
+
+        public List<usp_GetRealEstateProducts_Result> GetRealEstateProductsByCompanyID(long companyId)
+        {
+            return _ItemRepository.GetRealEstateProductsByCompanyID(companyId);
+        }
         public Item GetItemByOrderID(long OrderID)
         {
             try

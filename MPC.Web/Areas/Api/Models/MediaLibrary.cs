@@ -13,6 +13,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string FileType { get; set; }
         public long CompanyId { get; set; }
         public string FileSource { get; set; }
+        public string FakeId { get; set; }
 
         /// <summary>
         /// Image Bytes
@@ -32,7 +33,7 @@ namespace MPC.MIS.Areas.Api.Models
                 }
 
                 string base64 = Convert.ToBase64String(Image);
-                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+                return string.Format("data:{0};base64,{1}", FileType, base64);
             }
         }
     }

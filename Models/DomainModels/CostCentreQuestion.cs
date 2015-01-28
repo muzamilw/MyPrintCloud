@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MPC.Models.DomainModels
 {
+    [Serializable()]
     /// <summary>
     /// Cost Centre Question Domain Model
     /// </summary>

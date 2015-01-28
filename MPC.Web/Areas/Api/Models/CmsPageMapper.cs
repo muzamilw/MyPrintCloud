@@ -22,7 +22,6 @@ namespace MPC.MIS.Areas.Api.Models
             string fileName = string.Empty;
             if (source.PageBanner != null && File.Exists(source.PageBanner))
             {
-                fileName = source.PageBanner.IndexOf('_') > 0 ? source.PageBanner.Split('_')[1] : string.Empty;
                 bytes = source.PageBanner != null ? File.ReadAllBytes(source.PageBanner) : null;
             }
             string defaultPageKeyWords = null;
@@ -52,7 +51,8 @@ namespace MPC.MIS.Areas.Api.Models
                 PageTitle = source.PageTitle,
                 DefaultPageKeyWords = defaultPageKeyWords,
                 Image = bytes,
-                FileName = fileName
+                FileName = fileName,
+                PageBanner = source.PageBanner
             };
         }
 
@@ -77,6 +77,7 @@ namespace MPC.MIS.Areas.Api.Models
                 PageTitle = source.PageTitle,
                 FileName = source.FileName,
                 Bytes = source.Bytes,
+                PageBanner = source.PageBanner,
             };
         }
 

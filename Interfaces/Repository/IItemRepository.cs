@@ -68,6 +68,7 @@ namespace MPC.Interfaces.Repository
 
          List<Item> GetListOfDeliveryItemByOrderID(long OID);
 
+        List<usp_GetRealEstateProducts_Result> GetRealEstateProductsByCompanyID(long CompanyId);
          bool RemoveListOfDeliveryItemCostCenter(long OrderId);
 
          bool AddUpdateItemFordeliveryCostCenter(long orderId, long DeliveryCostCenterId, double DeliveryCost, long customerID, string DeliveryName, StoreMode Mode, bool isDeliveryTaxable, bool IstaxONService, double GetServiceTAX, double TaxRate);

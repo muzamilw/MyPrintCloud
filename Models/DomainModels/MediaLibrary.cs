@@ -19,5 +19,10 @@ namespace MPC.Models.DomainModels
         [NotMapped]
         public string FileSource { get; set; }
         #endregion
+
+        #region Additional Properties
+        [NotMapped]
+        public string FakeId { get; set; }
+        #endregion
     }
 }

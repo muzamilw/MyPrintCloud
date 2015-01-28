@@ -17,10 +17,15 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static MediaLibrary CreateFrom(this DomainModels.MediaLibrary source)
         {
             byte[] mediaFileBytes = null;
-            string path = HttpContext.Current.Server.MapPath("~/MPC_Content/Media/Store" + source.CompanyId + "/" + source.MediaId + "_" + source.FileName);
-            if (File.Exists(path))
+            if (source.Company != null)
             {
-                mediaFileBytes = File.ReadAllBytes(path);
+                string path =
+                    HttpContext.Current.Server.MapPath("~/MPC_Content/Media/" + source.Company.OrganisationId + "/" +
+                                                       source.CompanyId + "/" + source.MediaId + "_" + source.FileName);
+                if (File.Exists(path))
+                {
+                    mediaFileBytes = File.ReadAllBytes(path);
+                }
             }
             return new MediaLibrary
             {
@@ -45,7 +50,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 FilePath = source.FilePath ?? string.Empty,
                 CompanyId = source.CompanyId,
                 FileType = source.FileType,
-                FileSource = source.FileSource
+                FileSource = source.FileSource,
+                FakeId = source.FakeId
             };
         }
         #endregion
