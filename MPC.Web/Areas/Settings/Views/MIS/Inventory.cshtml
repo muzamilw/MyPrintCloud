@@ -109,19 +109,18 @@
     </script>
 }
 
-<script id="editActionInventoryTemplate" type="text/html">
-    <a href="#" class="table-link" data-bind="click: $root.onEditInventory">
-        <span class="fa-stack">
-            <i class="fa fa-square fa-stack-2x"></i>
-            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-        </span>
-    </a>
-</script>
-<script id="deleteActionInventoryTemplate" type="text/html">
-    <a href="#" class="table-link danger" data-bind="click: $root.onDeleteInventory" title="Delete">
+
+<script id="actionsTemplate" type="text/html">
+    <a href="#" class="table-link danger" data-bind="click : $root.onDeleteInventory" style="float: right">
         <span class="fa-stack">
             <i class="fa fa-square fa-stack-2x"></i>
             <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+    <a class="table-link" data-bind="click : $root.onEditInventory" style="float: right">
+        <span class="fa-stack">
+            <i class="fa fa-square fa-stack-2x"></i>
+            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
         </span>
     </a>
 </script>
@@ -142,10 +141,8 @@
             <br /><br />
             <span data-bind="text:perQtyQty"> Sheets</span>
         </td>
-        <td class="col-lg-1">
-            <!-- ko template: { name: 'editActionInventoryTemplate' } -->
-            <!-- /ko -->
-            <!-- ko template: { name: 'deleteActionInventoryTemplate' } -->
+        <td class="col-lg-2" id="actionColumn">
+            <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
             <!-- /ko -->
         </td>
     </tr>
