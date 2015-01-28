@@ -171,12 +171,12 @@ namespace MPC.Repository.Repositories
         }
         #endregion
 
-        public List<FieldVariable> GetVariablesListWithValues(long listingId, long itemId, out List<MPC.Models.Common.TemplateVariable> lstVariableAndValue, out List<MPC.Models.Common.TemplateVariable> lstGeneralVariables, out List<string> lstListingImages, out List<VariableSection> lstSectionsName)
+        public List<FieldVariable> GetVariablesListWithValues(long listingId, long itemId, long ContactID, long ContactCompanyID, long FlagID, long AddressID, out List<MPC.Models.Common.TemplateVariable> lstVariableAndValue, out List<MPC.Models.Common.TemplateVariable> lstGeneralVariables, out List<MPC.Models.Common.TemplateVariable> lstListingImages, out List<VariableSection> lstSectionsName)
         {
             List<FieldVariable> lstFieldVariable = new List<FieldVariable>();
             lstGeneralVariables = new List<MPC.Models.Common.TemplateVariable>();
             lstVariableAndValue = new List<MPC.Models.Common.TemplateVariable>();
-            lstListingImages = new List<string>();
+            lstListingImages = new List<MPC.Models.Common.TemplateVariable>();
             lstSectionsName = new List<VariableSection>();
 
             try
@@ -207,7 +207,7 @@ namespace MPC.Repository.Repositories
                         if (item.VariableType != 1)
                         {
                             //add controls to current section
-                            var keyValue = 0;
+                            long keyValue = 0;
                             string fieldValue = string.Empty;
 
                             switch (item.RefTableName)
@@ -336,15 +336,15 @@ namespace MPC.Repository.Repositories
                                     listingConAgentCount++;
                                     break;
                                 case "CompanyContact":
-                                    keyValue = 0;//SessionParameters.CustomerContact.ContactID;
+                                    keyValue = ContactID;//SessionParameters.CustomerContact.ContactID;
                                     fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName, item.KeyField, keyValue);
                                     break;
                                 case "Company":
-                                    keyValue = 0;//UserCookieManager.StoreId;
+                                    keyValue = ContactCompanyID;//UserCookieManager.StoreId;
                                     fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName, item.KeyField, keyValue);
                                     break;
                                 case "Address":
-                                    keyValue = 0;//SessionParameters.CustomerContact.AddressID;
+                                    keyValue = AddressID;//SessionParameters.CustomerContact.AddressID;
                                     fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName, item.KeyField, keyValue);
                                     break;
                                 default:
@@ -357,8 +357,8 @@ namespace MPC.Repository.Repositories
                                 {
                                     //CreateImage2(item.CriteriaFieldName, fieldValue); //create image
                                     //BindImages(currentPannelName);
-
-                                    lstListingImages.Add(fieldValue);
+                                    MPC.Models.Common.TemplateVariable tVar = new MPC.Models.Common.TemplateVariable(item.VariableName, fieldValue);
+                                    lstListingImages.Add(tVar);
                                 }
                                 else //TextBox
                                 {
@@ -379,29 +379,27 @@ namespace MPC.Repository.Repositories
                         }
                         else //General Variable
                         {
-                            int keyValue = 0;
+                            long keyValue = 0;
                             string fieldValue = string.Empty;
 
                             switch (item.RefTableName)
                             {
                                 case "CompanyContact":
-                                    keyValue = 0;//SessionParameters.CustomerContact.ContactID;
+                                    keyValue = ContactID;//SessionParameters.CustomerContact.ContactID;
                                     fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName, item.KeyField, keyValue);
                                     break;
                                 case "Company":
-                                    keyValue = 0;//SessionParameters.ContactCompany.ContactCompanyID;
+                                    keyValue = ContactCompanyID;//SessionParameters.ContactCompany.ContactCompanyID;
                                     fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName, item.KeyField, keyValue);
                                     break;
                                 case "Address":
-                                    keyValue = 0;//SessionParameters.CustomerContact.AddressID;
+                                    keyValue = AddressID;//SessionParameters.CustomerContact.AddressID;
                                     fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName, item.KeyField, keyValue);
                                     break;
                                 case "SectionFlag":
-                                    //using (MPCEntities dbContext = new MPCEntities())
-                                    //{
-                                    //    keyValue = SessionParameters.ContactCompany.FlagID;
-                                    //    fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName, item.KeyField, keyValue);
-                                    //}
+                                    
+                                    keyValue = FlagID;// SessionParameters.ContactCompany.FlagID;
+                                    fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName, item.KeyField, keyValue);
                                     break;
                                 case "tbl_ContactDepartments":
                                     //keyValue = Convert.ToInt32(SessionParameters.CustomerContact.DepartmentID);
