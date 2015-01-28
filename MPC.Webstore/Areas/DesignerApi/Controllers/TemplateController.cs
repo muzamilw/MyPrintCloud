@@ -76,7 +76,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         [System.Web.Http.HttpGet]
         public HttpResponseMessage mergeTemplate(int parameter1, long parameter2, long parameter3)
         {
-            var template = templateService.MergeRetailTemplate(parameter1,parameter2,parameter3);
+            var template = templateService.MergeRetailTemplate(parameter1,parameter2,parameter3,false,0,0,0);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;

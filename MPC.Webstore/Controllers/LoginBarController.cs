@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using MPC.Webstore.Common;
 using Microsoft.Owin.Security;
 using System.Threading;
+using MPC.Models.Common;
 
 namespace MPC.Webstore.Controllers
 {
@@ -17,7 +18,7 @@ namespace MPC.Webstore.Controllers
         #region Private
 
         private readonly IWebstoreClaimsHelperService _webstoreclaimHelper;
-
+        
         #endregion
 
         #region Constructor
@@ -61,8 +62,18 @@ namespace MPC.Webstore.Controllers
             UserCookieManager.ContactCanEditProfile = false;
             UserCookieManager.ShowPriceOnWebstore = true;
             UserCookieManager.isRegisterClaims = 2;
-         
-            Response.Redirect("/"); 
+          //  UserCookieManager.removeAllCookies();
+           // _webstoreclaimHelper.removeAuthenticationClaim();
+            if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+            {
+                Response.Redirect("/Login");
+            }
+            else
+            {
+                 Response.Redirect("/");
+
+            }
+            //Response.Redirect("/"); 
             return null;
 
         }

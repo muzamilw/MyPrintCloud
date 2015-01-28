@@ -70,6 +70,13 @@ define("product/product.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    
+                    // Define request to get base data
+                    amplify.request.define('getBaseDataForDesignerCategory', 'ajax', {
+                        url: ist.siteUrl + '/Api/ItemDesignerTemplateBase',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
 
                     isInitialized = true;
                 }
@@ -79,6 +86,15 @@ define("product/product.dataservice", function () {
                 initialize();
                 return amplify.request({
                     resourceId: 'getBaseData',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
+            // Get Base Data for Designer Category
+            getBaseDataForDesignerCategory = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getBaseDataForDesignerCategory',
                     success: callbacks.success,
                     error: callbacks.error,
                 });
@@ -162,7 +178,8 @@ define("product/product.dataservice", function () {
             getStockItems: getStockItems,
             getBaseData: getBaseData,
             getItemPriceMatricesForItemByFlagId: getItemPriceMatricesForItemByFlagId,
-            getProductCategoryChilds: getProductCategoryChilds
+            getProductCategoryChilds: getProductCategoryChilds,
+            getBaseDataForDesignerCategory: getBaseDataForDesignerCategory
         };
     })();
 

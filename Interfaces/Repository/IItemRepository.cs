@@ -76,6 +76,10 @@ namespace MPC.Interfaces.Repository
         /// checks if the order is dummy, this function return true if the order is dummy and needs to replaced with real order else false
         /// </summary>
         /// <param name="orderId"></param>
+
+         Item GetItemByOrderItemID(long ItemID, long OrderID);
+
+         void VariablesResolve(long ItemID, long ProductId, long objContactID);
         /// <param name="customerId"></param>
         /// <param name="contactId"></param>
         /// <returns></returns>

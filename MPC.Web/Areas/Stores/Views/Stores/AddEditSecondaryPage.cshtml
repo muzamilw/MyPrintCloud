@@ -92,9 +92,9 @@
                                                         <img width="290" height="217" data-bind="attr: { src: imageSrc }" />
                                                     </div>
                                                     <div class="col-lg-1">
-                                                        <div class="fileUpload btn btn-primary">
+                                                        <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromSecondaryPage">
                                                             <span>....</span>
-                                                            <input type="file" class="upload"  data-bind="files: { onLoaded: $root.SecondaryImageFileLoadedCallback, fileFilter: 'image.*'}" />
+                                                            @*<input type="file" class="upload" data-bind="files: { onLoaded: $root.SecondaryImageFileLoadedCallback, fileFilter: 'image.*'}" />*@
                                                         </div>
                                                     </div>
                                                 </div>

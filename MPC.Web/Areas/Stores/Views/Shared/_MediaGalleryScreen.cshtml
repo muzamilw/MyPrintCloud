@@ -4,7 +4,7 @@
 
 
 
-<div class="modal fade" id="myMediaGalleryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myMediaGalleryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 50000">
     <div style="width: 838px;" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -34,7 +34,7 @@
     </div>
 
     <script id="mediaGalleryItemTemplate" type="text/html">
-        <li class="col-md-3 col-sm-3 col-xs-6 " data-bind="click:$root.selectMediaFile, css: { galleryImgContainerSelected:isSelected } ">
+        <li class="col-md-3 col-sm-3 col-xs-6 " data-bind="click:$root.selectMediaFile ">
             @*<a href="#" class="photo-box image-link" style="background-image: url('/Content/themes/Centaurus/img/samples/hdr/small/img_6.jpg');"></a>*@
             <div class="checkboxGray" data-bind="visible:isSelected()">
                 <i class="fa fa-check"></i>
