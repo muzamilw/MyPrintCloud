@@ -1321,6 +1321,7 @@ function g2_22(mode) {
         } else {
             $("#imgThumbPreview").attr("src", D1AO.getSrc());
             $(".imgthumbPreviewSlider").css("display", "block");
+            $("#BtnCropImg2").css("display", "inline-block");
             $(".imgthumbPreviewSliderBtn").css("display", "inline");
             $(".rotateSlider").slider("option", "value", D1AO.getAngle());
             if (IsCalledFrom == 3) {
@@ -1341,7 +1342,7 @@ function g2_22(mode) {
 
             //$(".imgthumbPreviewSlider").css("display", "none");
             $("#imgThumbPreview").attr("src", D1AO.toDataURL());
-
+            $("#BtnCropImg2").css("display", "none");
             $(".imgthumbPreviewSliderBtn").css("display", "none");
 
             if (IsCalledFrom == 3) {
