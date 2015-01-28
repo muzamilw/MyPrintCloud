@@ -1491,6 +1491,7 @@
     <Content Include="Areas\Stores\Views\Stores\_ItemsForWidgetDialog.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_StoreProductCategoryDialog.cshtml" />
     <Content Include="Areas\Settings\Views\Home\LookupMethods.cshtml" />
+    <Content Include="Areas\Products\Views\Home\_SignatureEdit.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />

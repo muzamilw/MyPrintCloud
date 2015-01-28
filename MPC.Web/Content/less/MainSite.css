@@ -18,6 +18,9 @@
 #productBinding #stockDialog #stockDialogMainContainer {
   width: 838px;
 }
+#productBinding #signtureEdit .modal-dialog {
+  width: 838px;
+}
 #productBinding #itemAddonCostCentreDialog #itemAddonCostCentreDialogMainContainer {
   width: 838px;
 }
@@ -112,6 +115,27 @@
 .profileLabelPadding {
   margin-top: 15px;
 }
+#storesBinding .selectedItemRow {
+  background: yellow;
+}
+#storesBinding #itemsForWidgetsDialog .selectedItemRow {
+  background: yellow;
+}
+/*#inventoryBinding {
+    #inventoryEditor {
+        #tab-CostPrice {
+            #costTxt {
+                width: 70px;
+                height: 23px;
+            }
+        }
+    }
+}
+
+.costTxt {
+    width: 70px;
+    height: 23px;
+}*/
 .fileUpload {
   position: relative;
   overflow: hidden;
