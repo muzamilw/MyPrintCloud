@@ -24,6 +24,32 @@
     document.getElementById("innerLayer").style.display = "block";
 }
 
+function ShowPopUpDesignNow(Type, Message) {
+
+    var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" class="btn btn-primary" onclick=DesignNow("1");  >Resume</button><button type="button" onclick=DesignNow("2"); class="btn btn-primary">Create New</button></div></div>';
+
+    var bws = getBrowserHeight();
+    var shadow = document.getElementById("innerLayer");
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 500) / 2);
+    var top = parseInt((bws.height - 170) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+
+    document.getElementById("innerLayer").style.top = top + "px";
+    document.getElementById("innerLayer").style.left = left + "px";
+
+    document.getElementById("innerLayer").style.width = "500px";
+    document.getElementById("innerLayer").style.height = "170px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+}
+
 function ShowPopUpMarketingBrief(Type, Message,ProductName,ItemID) {
 
     ProductName = ProductName.replace('"', '');
@@ -170,4 +196,17 @@ function ConfirmRemove(Path)
 {
  
     window.location.href = Path;
+}
+function DesignNow(callFrom)
+{
+    if (callFrom == "1") // resume
+    {
+        window.location.href = "/EditDesign/Resume";
+        
+    }
+    else // create new 
+    {
+        window.location.href = "/EditDesign/new";
+    }
+    
 }

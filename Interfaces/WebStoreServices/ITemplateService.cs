@@ -26,7 +26,7 @@ namespace MPC.Interfaces.WebStoreServices
         void processTemplatePDF(long TemplateID, long OrganisationID, bool printCropMarks, bool printWaterMarks, bool isroundCorners);
         long CloneTemplateByTemplateID(long TempID);
         void regeneratePDFs(long productID,long OrganisationID, bool printCuttingMargins);
-        long MergeRetailTemplate(int RemoteTemplateID, long LocalTempalteID, long organisationId);
+        long MergeRetailTemplate(int RemoteTemplateID, long LocalTempalteID, long organisationId, bool ChangeQuickText, long CompanyID, long ContactID, long ItemID);
         string SaveTemplate(List<TemplateObject> lstTemplatesObjects, List<TemplatePage> lstTemplatePages, long organisationID, bool printCropMarks, bool printWaterMarks, bool isRoundCorners,double bleedAreaSize);
         long SaveTemplateLocally(Template oTemplate, List<TemplatePage> oTemplatePages, List<TemplateObject> oTemplateObjects, List<TemplateBackgroundImage> oTemplateImages, List<TemplateFont> oTemplateFonts, string RemoteUrlBasePath, string BasePath,  long organisationID,int mode, long localTemplateID);
         /// <summary>
@@ -42,5 +42,7 @@ namespace MPC.Interfaces.WebStoreServices
         QuickText GetContactQuickTextFields(long CustomerID, long ContactID);
 
         bool UpdateQuickTextTemplateSelection(QuickText objQText);
+
+        
     }
 }
