@@ -63,8 +63,8 @@ namespace MPC.MIS.Areas.Api.Models
         public string ImageBytes { get; set; }
         public string ImageName { get; set; }
         public string ThumbnailName { get; set; }
-        public Guid? ImageStreamId { get; set; }
-        public Guid? ThumbnailStreamId { get; set; }
+        //public Guid? ImageStreamId { get; set; }
+       // public Guid? ThumbnailStreamId { get; set; }
         public string ImageSource
         {
             get

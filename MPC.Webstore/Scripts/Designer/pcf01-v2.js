@@ -818,10 +818,10 @@ function d6(width, height, showguides) {
         if (udCutMar != 0) {
             cutmargin = udCutMar * dfZ1l;
         }
-        var leftline = i4([0, 0, 0, cutmargin + height - cutmargin], -980, 'white', cutmargin * 2);
-        var topline = i4([cutmargin + 0.39, 0, cutmargin + width - 0.39 - cutmargin * 2, 0], -981, 'white', cutmargin * 2);
-        var rightline = i4([width - 1, 0, width - 1, cutmargin + height - cutmargin], -982, 'white', cutmargin * 2);
-        var bottomline = i4([cutmargin + 0.39, height, cutmargin + width - 0.39 - cutmargin * 2, height], -983, 'white', cutmargin * 2);
+        var leftline = i4([0, 0, 0, cutmargin + height - cutmargin], -980, '#EBECED', cutmargin * 2);
+        var topline = i4([cutmargin + 0.39, 0, cutmargin + width - 0.39 - cutmargin * 2, 0], -981, '#EBECED', cutmargin * 2);
+        var rightline = i4([width - 1, 0, width - 1, cutmargin + height - cutmargin], -982, '#EBECED', cutmargin * 2);
+        var bottomline = i4([cutmargin + 0.39, height, cutmargin + width - 0.39 - cutmargin * 2, height], -983, '#EBECED', cutmargin * 2);
 
         var topCutMarginTxt = i5((14 * dfZ1l), width / 2, 17, 100, 10, 'Bleed Area', -975, 0, 'gray');
         var leftCutMarginTxt = i5(height / 2, width - (12 * dfZ1l), 17, 100, 10, 'Bleed Area', -974, 90, 'gray');
@@ -1432,7 +1432,7 @@ function b3_lDimensions() {
  //   w = w * Template.ScaleFactor;
   //  h = h * Template.ScaleFactor;
     //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
-    $(".dimentionsBC").html("Trim size -" + " " + w + " (w) *  " + h + " (h) mm");
+    $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " mm");
   //  $(".dimentionsBC").append("<br /><span class='spanZoomContainer'> Zoom - " + D1CS * 100 + " % </span>");
  //   $(".zoomToolBar").html(" Zoom " + Math.floor(D1CS * 100) + " % ");
 }

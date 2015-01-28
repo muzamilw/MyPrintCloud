@@ -445,6 +445,11 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
+
+        public List<usp_GetRealEstateProducts_Result> GetRealEstateProductsByCompanyID(long companyId)
+        {
+            return _ItemRepository.GetRealEstateProductsByCompanyID(companyId);
+        }
         public Item GetItemByOrderID(long OrderID)
         {
             try
@@ -626,6 +631,17 @@ namespace MPC.Implementation.WebStoreServices
             {
                 return _ItemRepository.AddUpdateItemFordeliveryCostCenter(orderId,DeliveryCostCenterId,DeliveryCost,customerID,DeliveryName,Mode,isDeliveryTaxable,IstaxONService,GetServiceTAX,TaxRate);
 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public Item GetItemByOrderItemID(long ItemID,long OrderID)
+        {
+            try
+            {
+                return _ItemRepository.GetItemByOrderAndItemID(ItemID, OrderID);
             }
             catch (Exception ex)
             {

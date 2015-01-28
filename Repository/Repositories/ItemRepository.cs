@@ -272,15 +272,9 @@ namespace MPC.Repository.Repositories
                         }
 
                     }
-                    List<FieldVariable> lstFieldVariabes = GeyFieldVariablesByItemID(itemID);
-                    if (lstFieldVariabes != null && lstFieldVariabes.Count > 0)
-                    {
-                        List<Models.Common.TemplateVariable> lstPageControls = new List<Models.Common.TemplateVariable>();
-                        CompanyContact contact = db.CompanyContacts.Where(c => c.ContactId == objContactID).FirstOrDefault();
-                        lstPageControls = ResolveVariables(lstFieldVariabes, contact);
-                        ResolveTemplateVariables(clonedTemplate.ProductId, contact, StoreMode.Corp, lstPageControls);
-                    }
-
+                // here 
+                   
+                    VariablesResolve(itemID,clonedTemplate.ProductId,objContactID);
                 }
 
             }
@@ -308,6 +302,28 @@ namespace MPC.Repository.Repositories
                 throw new Exception("Nothing happened");
 
             return newItem;
+        }
+
+        // resolve c
+        public void VariablesResolve(long ItemID, long ProductID, long objContactID)
+        {
+            try
+            {
+                List<FieldVariable> lstFieldVariabes = GeyFieldVariablesByItemID(ItemID);
+                    if (lstFieldVariabes != null && lstFieldVariabes.Count > 0)
+                    {
+                        List<Models.Common.TemplateVariable> lstPageControls = new List<Models.Common.TemplateVariable>();
+                        CompanyContact contact = db.CompanyContacts.Where(c => c.ContactId == objContactID).FirstOrDefault();
+                        lstPageControls = ResolveVariables(lstFieldVariabes, contact);
+                        ResolveTemplateVariables(ProductID, contact, lstPageControls);
+                    }
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+
         }
         // gettting field variables by itemid
         public List<FieldVariable> GeyFieldVariablesByItemID(long itemId)
@@ -661,7 +677,7 @@ namespace MPC.Repository.Repositories
 
         #region "dynamic resolve template Variables"
         // resolve variables in templates
-        public bool ResolveTemplateVariables(long productID, CompanyContact objContact, StoreMode objMode, List<Models.Common.TemplateVariable> lstPageControls)
+        public bool ResolveTemplateVariables(long productID, CompanyContact objContact, List<Models.Common.TemplateVariable> lstPageControls)
         {
 
             string CompanyLogo = "";
@@ -1925,7 +1941,16 @@ namespace MPC.Repository.Repositories
             return true;
         }
 
-        public Item GetItemByOrderID(long OrderID)
+        public List<usp_GetRealEstateProducts_Result> GetRealEstateProductsByCompanyID(long CompanyId)
+        {
+            List<usp_GetRealEstateProducts_Result> lstProducts = new List<usp_GetRealEstateProducts_Result>();
+
+            lstProducts = db.usp_GetRealEstateProducts(Convert.ToInt32(CompanyId)).ToList();
+
+            return lstProducts;
+        }
+
+ public Item GetItemByOrderID(long OrderID)
         {
             try
             {
@@ -1936,6 +1961,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+        
         /// <summary>
         /// Get Items For Widgets 
         /// </summary>
@@ -2632,6 +2658,19 @@ namespace MPC.Repository.Repositories
                     return 0;
                 }
 
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+
+        public Item GetItemByOrderItemID(long ItemID,long OrderID)
+        {
+            try
+            {
+                return db.Items.Where(g => g.RefItemId == ItemID && g.EstimateId == OrderID && g.IsOrderedItem == false).FirstOrDefault();
             }
             catch (Exception)
             {

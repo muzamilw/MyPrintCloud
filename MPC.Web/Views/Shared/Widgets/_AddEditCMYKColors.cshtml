@@ -21,7 +21,7 @@
                         <label for="txtColorName" class="control-label text-right tooltip-float">Color Name</label>
                     </div>
                     <div class="col-lg-6">
-                        <input type="text" class="form-control" id="txtColorName" data-bind="value:colorName ">
+                        <input type="text" class="form-control" id="txtColorName" data-bind="value:colorName, validationTooltip: colorName ">
                     </div>
                 </div>
                 <div class="form-group">
@@ -34,7 +34,7 @@
                         <label for="txtCCode" class="control-label text-right tooltip-float">ColorC</label>
                     </div>
                     <div class="col-lg-6">
-                        <input type="text" class="form-control" id="txtCCode" data-bind="value: colorC">
+                        <input type="number" class="form-control" id="txtCCode" data-bind="value: colorC, validationTooltip: colorC" min="0" max="200">
                     </div>
                 </div>
                 <div class="form-group">
@@ -47,7 +47,7 @@
                         <label for="txtMCode" class="control-label text-right tooltip-float">ColorM</label>
                     </div>
                     <div class="col-lg-6">
-                        <input type="text" class="form-control" id="txtMCode" data-bind="value: colorM">
+                        <input type="number" class="form-control" id="txtMCode" data-bind="value: colorM, validationTooltip: colorM" min="0" max="200">
                     </div>
                 </div>
                 <div class="form-group">
@@ -60,7 +60,7 @@
                         <label for="txtYCode" class="control-label text-right tooltip-float">ColorY</label>
                     </div>
                     <div class="col-lg-6">
-                        <input type="text" class="form-control" id="txtYCode" data-bind="value: colorY">
+                        <input type="number" class="form-control" id="txtYCode" data-bind="value: colorY, validationTooltip: colorY" min="0" max="200">
                     </div>
                 </div>
                 <div class="form-group">
@@ -73,7 +73,7 @@
                         <label for="txtKCode" class="control-label text-right tooltip-float">ColorK</label>
                     </div>
                     <div class="col-lg-6">
-                        <input type="text" class="form-control" id="txtKCode" data-bind="value: colorK">
+                        <input type="number" class="form-control" id="txtKCode" data-bind="value: colorK, validationTooltip: colorK" min="0" max="200">
                     </div>
                 </div>
             </div>
