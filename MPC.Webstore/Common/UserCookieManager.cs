@@ -320,10 +320,10 @@ namespace MPC.Webstore.Common
 
                 }
 
-                HttpCookie TemporaryCompanyId = null;
-                TemporaryCompanyId = new HttpCookie("TemporaryCompanyId", value.ToString());
-                TemporaryCompanyId.Expires = DateTime.Now.AddDays(30);
-                HttpContext.Current.Response.Cookies.Add(TemporaryCompanyId);
+                HttpCookie TemporaryCompanyIdCookie = null;
+                TemporaryCompanyIdCookie = new HttpCookie("TemporaryCompanyId", value.ToString());
+                TemporaryCompanyIdCookie.Expires = DateTime.Now.AddDays(30);
+                HttpContext.Current.Response.Cookies.Add(TemporaryCompanyIdCookie);
             }
         }
 

@@ -362,6 +362,7 @@ namespace MPC.Webstore.Controllers
             else if (UserCookieManager.isRegisterClaims == 2)
             {
                 //signout
+                //AuthenticationManager.Signout(DefaultAuthenticationTypes.ApplicationCookie);
                 AuthenticationManager.SignOut();
                 UserCookieManager.isRegisterClaims = 0;
                 if (UserCookieManager.StoreMode == (int)StoreMode.Corp)

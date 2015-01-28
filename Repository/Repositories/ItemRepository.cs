@@ -1324,8 +1324,18 @@ namespace MPC.Repository.Repositories
                         clonedTemplate = RemoveTemplates(tblItem.TemplateId.HasValue ? (int)tblItem.TemplateId : (int?)null);
 
                     //Section cost centeres
-                    tblItem.ItemSections.ToList().ForEach(itemSection => itemSection.SectionCostcentres.ToList().ForEach(sectCost => db.SectionCostcentres.Remove(sectCost)));
-
+                    //tblItem.ItemSections.ToList().ForEach(itemSection => itemSection.SectionCostcentres.ToList().ForEach(sectCost => db.SectionCostcentres.Remove(sectCost)));
+                    tblItem.ItemSections.ToList().ForEach(itemSection =>
+                    {
+                        List<SectionCostcentre> listOfSectionCC = db.SectionCostcentres.Where(sec => sec.ItemSectionId == itemSection.ItemSectionId).ToList();
+                        if (listOfSectionCC != null) 
+                        {
+                                listOfSectionCC.ToList().ForEach(SectionCC =>
+                                                    {
+                                                        db.SectionCostcentres.Remove(SectionCC);
+                                                    });
+                        }
+                    });
 
                     //Item Section
                     tblItem.ItemSections.ToList().ForEach(itemsect => db.ItemSections.Remove(itemsect));
@@ -1745,8 +1755,8 @@ namespace MPC.Repository.Repositories
         /// <returns></returns>
         public long UpdateTemporaryCustomerOrderWithRealCustomer(long TemporaryCustomerID, long realCustomerID, long realContactID, long replacedOrderdID, out List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved, out List<Template> clonedTemplateToRemoveList)
         {
-
-
+            try { 
+            db.Configuration.LazyLoadingEnabled = false;
             Estimate TemporaryOrder = null;
 
             Estimate ActualOrder = null;
@@ -1764,11 +1774,16 @@ namespace MPC.Repository.Repositories
             clonedTemplateToRemoveList = null;
 
             //Loads the dummy customer complete order
-            TemporaryOrder = db.Estimates.Where(order => order.CompanyId == TemporaryCustomerID && order.StatusId == (short)OrderStatus.ShoppingCart && order.isEstimate == false).FirstOrDefault();
+            TemporaryOrder = db.Estimates.Where(order => order.EstimateId == replacedOrderdID && order.StatusId == (short)OrderStatus.ShoppingCart && order.isEstimate == false).FirstOrDefault();
             ActualOrder = db.Estimates.Where(order => order.CompanyId == realCustomerID && order.ContactId == realContactID && order.StatusId == (short)OrderStatus.ShoppingCart && order.isEstimate == false).FirstOrDefault();
 
-
-            TemporaryContact = db.CompanyContacts.Where(i => i.CompanyId == TemporaryCustomerID).FirstOrDefault();
+            ActualOrder.CompanyName = "companyName";
+            ActualOrder.CreationTime = DateTime.Now;
+            ActualOrder.SectionFlagId = 3;
+            ActualOrder.AddressId = 159239;
+            ActualOrder.LockedBy = Convert.ToInt32(realContactID);
+            ActualOrder.CompanyId = realCustomerID;
+            TemporaryContact = db.CompanyContacts.Where(i => i.CompanyId == TemporaryOrder.CompanyId).FirstOrDefault();
 
             if (TemporaryContact != null)
             {
@@ -1785,7 +1800,7 @@ namespace MPC.Repository.Repositories
                 ActualContact.quickTitle = TemporaryContact.quickTitle;
                 ActualContact.quickWebsite = TemporaryContact.quickWebsite;
 
-                TemporaryBackgroundImageRec = db.TemplateBackgroundImages.Where(i => i.ContactCompanyId == TemporaryCustomerID && i.ContactId == TemporaryContact.ContactId).ToList();
+                TemporaryBackgroundImageRec = db.TemplateBackgroundImages.Where(i => i.ContactCompanyId == TemporaryOrder.CompanyId && i.ContactId == TemporaryContact.ContactId).ToList();
 
                 foreach (var temImge in TemporaryBackgroundImageRec)
                 {
@@ -1803,10 +1818,12 @@ namespace MPC.Repository.Repositories
                     orderID = ActualOrder.EstimateId;
                 }
 
+                List<Item> TemporaryOrderItems = db.Items.Include("ItemAttachments").Where(i => i.EstimateId == TemporaryOrder.EstimateId && i.StatusId == (short)OrderStatus.ShoppingCart).ToList();
+
                 //Attatchments
                 if (ActualOrder == null)
                 {
-                    TemporaryOrder.Items.ToList().ForEach(item =>
+                    TemporaryOrderItems.ToList().ForEach(item =>
                     {
                         item.ItemAttachments.ToList().ForEach(attatchment =>
                         {
@@ -1817,7 +1834,7 @@ namespace MPC.Repository.Repositories
                 }
                 else
                 {
-                    TemporaryOrder.Items.ToList().ForEach(item =>
+                    TemporaryOrderItems.ToList().ForEach(item =>
                     {
                         int PageNo = 1;
                         item.ItemAttachments.ToList().ForEach(attatchment =>
@@ -1845,7 +1862,7 @@ namespace MPC.Repository.Repositories
                 }
 
                 //item
-                TemporaryOrder.Items.ToList().ForEach(item =>
+                TemporaryOrderItems.ToList().ForEach(item =>
                 {
                     item.CompanyId = realCustomerID;
                     if (orderID > 0)
@@ -1862,7 +1879,7 @@ namespace MPC.Repository.Repositories
                 else
                 {
                     //remove dummy customer and its order
-                    RemoveCustomerAndOrder(TemporaryCustomerID, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTemplateToRemoveList);
+                   // RemoveCustomerAndOrder(TemporaryOrder.CompanyId, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTemplateToRemoveList);
                 }
 
 
@@ -1871,58 +1888,77 @@ namespace MPC.Repository.Repositories
             }
 
             return orderID;
+            }catch(Exception ex)
+            {
+                throw ex;
+                return 0;
+            }
         }
 
         private bool RemoveCustomerAndOrder(long TemporaryCustomerId, out List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved, out List<Template> clonedTemplateToRemoveList)
         {
-
-            List<ArtWorkAttatchment> artWorkAttaList = new List<ArtWorkAttatchment>();
-            List<Template> clonedTemplateList = new List<Template>();
-
-
-            Estimate TemporaryCustomerOrder = null;
-
-            //Loads the dummy customer complete order
-            Company customer = db.Companies.Where(cust => cust.CompanyId == TemporaryCustomerId).FirstOrDefault();
-            if (customer != null && (customer.IsCustomer == 0 || customer.TypeId == (int)CompanyTypes.TemporaryCustomer))
+            try
             {
-                TemporaryCustomerOrder = db.Estimates.Where(order => order.CompanyId == TemporaryCustomerId && order.StatusId == (short)OrderStatus.ShoppingCart && order.isEstimate == false).FirstOrDefault();
-                if (TemporaryCustomerOrder != null)
+                List<ArtWorkAttatchment> artWorkAttaList = new List<ArtWorkAttatchment>();
+                List<Template> clonedTemplateList = new List<Template>();
+
+
+                Estimate TemporaryCustomerOrder = null;
+
+                //Loads the dummy customer complete order
+                Company customer = db.Companies.Include("CompanyContacts").Where(cust => cust.CompanyId == TemporaryCustomerId).FirstOrDefault();
+                if (customer != null && (customer.IsCustomer == 0 || customer.TypeId == (int)CompanyTypes.TemporaryCustomer))
                 {
-                    //order items
-                    TemporaryCustomerOrder.Items.ToList().ForEach(item =>
+                    TemporaryCustomerOrder = db.Estimates.Where(order => order.CompanyId == TemporaryCustomerId && order.StatusId == (short)OrderStatus.ShoppingCart && order.isEstimate == false).FirstOrDefault();
+                    List<Item> TemporaryOrderItems = db.Items.Include("ItemAttachments").Include("ItemSections").Where(i => i.EstimateId == TemporaryCustomerOrder.EstimateId && i.StatusId == (short)OrderStatus.ShoppingCart).ToList();
+
+                    if (TemporaryCustomerOrder != null)
                     {
-                        //remove item and template complete structure
-
-                        List<ArtWorkAttatchment> itemAttment = null;
-
-                        Template cloneTemp = null;
-
-                        RemoveCloneItem(item, out itemAttment, out cloneTemp);
-
-                        if (itemAttment != null)
-                            artWorkAttaList.AddRange(itemAttment); // builds a list of whole Attatchments to be removed physically
-
-                        if (cloneTemp != null && clonedTemplateList.Find(tempInList => tempInList.ProductId == cloneTemp.ProductId) == null)
+                        //order items
+                        TemporaryCustomerOrder.Items.ToList().ForEach(item =>
                         {
-                            clonedTemplateList.Add(cloneTemp);
-                        }
+                            //remove item and template complete structure
 
-                    });
+                            List<ArtWorkAttatchment> itemAttment = null;
 
-                    //order 
-                    db.Estimates.Remove(TemporaryCustomerOrder);
+                            Template cloneTemp = null;
+
+                            RemoveCloneItem(item, out itemAttment, out cloneTemp);
+
+                            if (itemAttment != null)
+                                artWorkAttaList.AddRange(itemAttment); // builds a list of whole Attatchments to be removed physically
+
+                            if (cloneTemp != null && clonedTemplateList.Find(tempInList => tempInList.ProductId == cloneTemp.ProductId) == null)
+                            {
+                                clonedTemplateList.Add(cloneTemp);
+                            }
+
+                        });
+
+                        //order 
+                        db.Estimates.Remove(TemporaryCustomerOrder);
+                    }
+
+                    List<Address> addressesList = db.Addesses.Where(a => a.CompanyId == customer.CompanyId).ToList();
+                    if (addressesList != null)
+                    {
+                        addressesList.ToList().ForEach(addr => db.Addesses.Remove(addr));
+                    }
+
+                    customer.CompanyContacts.ToList().ForEach(contacts => db.CompanyContacts.Remove(contacts));
+                    //remove Customer
+                    db.Companies.Remove(customer);
                 }
 
-                customer.Addresses.ToList().ForEach(addr => db.Addesses.Remove(addr));
-                customer.CompanyContacts.ToList().ForEach(contacts => db.CompanyContacts.Remove(contacts));
-                //remove Customer
-                db.Companies.Remove(customer);
-            }
+                orderAllItemsAttatchmentsListToBeRemoved = artWorkAttaList;
+                clonedTemplateToRemoveList = clonedTemplateList;
 
-            orderAllItemsAttatchmentsListToBeRemoved = artWorkAttaList;
-            clonedTemplateToRemoveList = clonedTemplateList;
-            return true;
+                return true;
+            }
+            catch (Exception ex) 
+            {
+                throw ex;
+            }
         }
 
         public List<usp_GetRealEstateProducts_Result> GetRealEstateProductsByCompanyID(long CompanyId)
@@ -2648,6 +2684,19 @@ namespace MPC.Repository.Repositories
                 throw;
             }
 
+        }
+        public bool isTemporaryOrder(long orderId, long customerId, long contactId) 
+        {
+            Estimate Order = db.Estimates.Where(o => o.EstimateId == orderId && o.StatusId == (short)OrderStatus.ShoppingCart && o.isEstimate == false).FirstOrDefault();
+
+            if (Order != null && Order.CompanyId == customerId && Order.ContactId == contactId)
+            {
+                return false; // order is real
+            }
+            else 
+            {
+                return true; // order is dummy
+            }
         }
         #endregion
     }
