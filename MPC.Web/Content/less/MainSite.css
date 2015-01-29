@@ -2,6 +2,14 @@
   background-color: #ff7e47;
   color: white;
 }
+#productBinding #tabsHeader {
+  border: 1px solid silver;
+  box-shadow: 1px 1px 1px silver;
+}
+#productBinding .set-filter-margin {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
 #productBinding .inactiveView {
   background-color: #ffffff;
   color: black;
@@ -117,6 +125,20 @@
   border: 1px solid silver;
   box-shadow: 1px 1px 1px silver;
 }
+#storesBinding .dynamicNameHeading {
+  height: 51px;
+}
+#storesBinding #tabsHeaderSecondarypage {
+  border: 1px solid silver;
+  box-shadow: 1px 1px 1px silver;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 10px;
+}
+#storesBinding #dialgHeaderPadding {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
 .store-user-link {
   display: block;
   font-size: 1.25em;
@@ -143,6 +165,9 @@
 #inventoryBinding #tabsHeader {
   border: 1px solid silver;
   box-shadow: 1px 1px 1px silver;
+}
+#inventoryBinding .dynamicNameHeading {
+  height: 51px;
 }
 #inventoryBinding #inventoryEditor #tab-CostPrice #costTablle tr th#costTh {
   width: 104px;
@@ -230,4 +255,10 @@
   color: #8B8B8B;
   font-size: 13px;
   text-align: left;
+}
+.my-modal {
+  overflow: auto !important;
+}
+.closeSaveButtonMarginRemove {
+  margin-left: 0px;
 }

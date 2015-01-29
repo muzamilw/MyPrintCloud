@@ -1718,7 +1718,21 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
 
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
-
+                pageTitle: pageTitle,
+                pageKeywords: pageKeywords,
+                metaTitle: metaTitle,
+                metaDescriptionContent: metaDescriptionContent,
+                metaCategoryContent: metaCategoryContent,
+                metaRobotsContent: metaRobotsContent,
+                metaAuthorContent: metaAuthorContent,
+                metaLanguageContent: metaLanguageContent,
+                metaRevisitAfterContent: metaRevisitAfterContent,
+                categoryId: categoryId,
+                pageHTML: pageHTML,
+                imageSrc: imageSrc,
+                fileName: fileName,
+                defaultPageKeyWords: defaultPageKeyWords,
+                pageBanner: pageBanner,
             }),
             // Has Changes
             hasChanges = ko.computed(function () {

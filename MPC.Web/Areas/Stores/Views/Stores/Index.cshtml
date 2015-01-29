@@ -14,23 +14,6 @@
                 </ol>
                 <div class="clearfix">
                     <h1 class="pull-left">Stores</h1>
-
-                    @*<div class="filter-block ">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="main-box no-header clearfix">
-                                    <h1 class="pull-left">
-                                        Search Store
-                                        <input type="text" data-bind="value: $root.searchFilter" />
-                                    </h1>
-                                    <span class="pull-right">
-                                        <button type="submit" class="btn btn-primary" data-bind="click: $root.getStores">Search</button>
-                                        <button type="reset" class="btn btn-default" data-bind="click: $root.resetFilterSection">Reset</button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>*@
                 </div>
                 <div class="pull-right top-page-ui">
                     <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
@@ -45,49 +28,49 @@
             </div>
         </div>
         <div class="row">
-                <div class="col-lg-12">
-                    <div class="main-box no-header clearfix">
-                        <div class="main-box-body clearfix">
-                            <div class="table-responsive">
-                                <table class="table user-list">
-                                    <thead>
-                                        <tr id="storesList" class="span12">
-                                            <th class="col-lg-1"></th>
-                                            <th class="col-lg-3"><span>All Stores</span></th>
-                                            <th class="col-lg-3"><span>Type</span></th>
-                                            <th class="col-lg-2"><span>Status</span></th>
+            <div class="col-lg-12">
+                <div class="main-box no-header clearfix">
+                    <div class="main-box-body clearfix">
+                        <div class="table-responsive">
+                            <table class="table user-list">
+                                <thead>
+                                    <tr id="storesList" class="span12">
+                                        <th class="col-lg-1"></th>
+                                        <th class="col-lg-3"><span>All Stores</span></th>
+                                        <th class="col-lg-3"><span>Type</span></th>
+                                        <th class="col-lg-2"><span>Status</span></th>
 
-                                            <th class="col-lg-1">&nbsp;</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                        <th class="col-lg-1">&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
-                                        <!-- ko template: { name: $root.templateToUse , foreach: $root.stores } -->
-                                        <!-- /ko -->
+                                    <!-- ko template: { name: $root.templateToUse , foreach: $root.stores } -->
+                                    <!-- /ko -->
 
-                                    </tbody>
-                                </table>
-
-                            </div>
+                                </tbody>
+                            </table>
 
                         </div>
-                    </div>
-                    <div id="pagerDiv">
-                        <!-- ko with: pager -->
-                        @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                        <!-- /ko -->
-                    </div>
 
+                    </div>
                 </div>
+                <div id="pagerDiv">
+                    <!-- ko with: pager -->
+                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                    <!-- /ko -->
+                </div>
+
             </div>
+        </div>
 
-            @*<ul data-bind="sortable: { data: $root.highPriorityTasks }">
-                    <li>
-                        <span data-bind="text: Text"></span>
+        @*<ul data-bind="sortable: { data: $root.highPriorityTasks }">
+                <li>
+                    <span data-bind="text: Text"></span>
 
-                    </li>
-                </ul>*@
-      
+                </li>
+            </ul>*@
+
         <script id="actionsTemplate" type="text/html">
             <a class="table-link" data-bind="click : $root.onEditItem" style="float: right">
                 <span class="fa-stack">

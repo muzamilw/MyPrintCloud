@@ -2,7 +2,7 @@
     ViewBag.Title = "_InventoryCategoryDialog";
 }
 
-<div class="modal fade" id="inventoryCategoryDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade my-modal" id="inventoryCategoryDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div style="width:838px;" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -76,26 +76,26 @@
                     </div>
                     <div class="main-box-body clearfix">
                         @*<header class="main-box-header clearfix"><span>Sub Categories</span></header>
-                        <div class="main-box no-header clearfix">
-                            <table class="table user-list">
-                                <thead>
-                                    <tr>
-                                        <th><span id="0">Code</span></th>
-                                        <th><span id="1">Name</span></th>
-                                        <th><span id="2">Discription</span></th>
-                                        <th><span id="3"></span></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- ko foreach: $root.selectedStockCategory().stockSubCategories() -->
-                                    <!-- ko template: { name: 'itemstockSubCategories' } -->
-                                    <!-- /ko -->
-                                    <!-- /ko -->
-                                    <!-- ko if: !($root.selectedStockCategory().stockSubCategories().length > 0) -->
-                                    <!-- /ko -->
-                                </tbody>
-                            </table>
-                        </div>*@
+                            <div class="main-box no-header clearfix">
+                                <table class="table user-list">
+                                    <thead>
+                                        <tr>
+                                            <th><span id="0">Code</span></th>
+                                            <th><span id="1">Name</span></th>
+                                            <th><span id="2">Discription</span></th>
+                                            <th><span id="3"></span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- ko foreach: $root.selectedStockCategory().stockSubCategories() -->
+                                        <!-- ko template: { name: 'itemstockSubCategories' } -->
+                                        <!-- /ko -->
+                                        <!-- /ko -->
+                                        <!-- ko if: !($root.selectedStockCategory().stockSubCategories().length > 0) -->
+                                        <!-- /ko -->
+                                    </tbody>
+                                </table>
+                            </div>*@
                         <header class="main-box-header clearfix">
                             <h2>Sub Categories</h2>
                             <div class="filter-block pull-right">

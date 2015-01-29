@@ -1,11 +1,6 @@
-﻿@{
-    ViewBag.Title = "Add Edit Payment Gateway";
-}
-
-
-
-<div class="modal fade" id="myPaymentGatewayModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div style="width: 420px;" class="modal-dialog" >
+﻿
+<div class="modal fade my-modal" id="myPaymentGatewayModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div style="width: 420px;" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -30,14 +25,14 @@
                     </div>
 
                     <div class="col-lg-6">
-                        <select class="form-control col-lg-4" id="ddPaymentGatway"  data-bind="options:$root.paymentMethods ,optionsText:'methodName',optionsValue:'paymentMethodId', value: paymentMethodId, validationTooltip: paymentMethodId"></select>  @*,optionsCaption: 'Choose...'*@
+                        <select class="form-control col-lg-4" id="ddPaymentGatway" data-bind="options:$root.paymentMethods ,optionsText:'methodName',optionsValue:'paymentMethodId', value: paymentMethodId, validationTooltip: paymentMethodId"></select>  @*,optionsCaption: 'Choose...'*@
                         @*<select id="ddPaymentGatway" class="form-control" onchange="ShowHidePaymentSettings();">
-                            <option>PayPal</option>
-                            <option>Authorized.Net</option>
-                            <option>ANZ</option>
-                            <option>St George</option>
-                            <option>Cash</option>
-                        </select>*@
+                                <option>PayPal</option>
+                                <option>Authorized.Net</option>
+                                <option>ANZ</option>
+                                <option>St George</option>
+                                <option>Cash</option>
+                            </select>*@
                     </div>
 
                 </div>
@@ -66,10 +61,10 @@
                 <div class="form-group">
                     <div class="col-lg-12">
                         <div class="col-lg-12" id="marchantIDtxt" style="font-size:12px;">
-                           <!-- ko if: !$root.isAccessCodeSectionVisible() -->
-                                e.g. The marchant email address used in your PayPal account.
+                            <!-- ko if: !$root.isAccessCodeSectionVisible() -->
+                            e.g. The marchant email address used in your PayPal account.
                             <!--/ko-->
-                           <!-- ko if: $root.isAccessCodeSectionVisible() -->
+                            <!-- ko if: $root.isAccessCodeSectionVisible() -->
                             e.g. The marchant id used in your <label data-bind="text: $root.paymentMethodName"></label> account.
                             <!--/ko-->
                         </div>
@@ -148,8 +143,9 @@
                 &nbsp;
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-bind="click: onClosePaymentGateway">Close</button>
                 <button type="button" class="btn btn-primary" data-bind="click: onSavePaymentGateway">Save</button>
+                <button type="button" class="btn btn-default" data-bind="click: onClosePaymentGateway" style="margin-left: 0px;">Close</button>
+
             </div>
         </div>
     </div>
