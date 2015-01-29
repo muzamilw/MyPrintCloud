@@ -115,6 +115,7 @@
     <Compile Include="Common\ExecutionQueue.cs" />
     <Compile Include="Common\InlineTextStyles.cs" />
     <Compile Include="Common\FileTableCaption.cs" />
+    <Compile Include="Common\MachineByColumn.cs" />
     <Compile Include="Common\MatchingSets.cs" />
     <Compile Include="Common\CostCentersColumns.cs" />
     <Compile Include="Common\OrderDetail.cs" />
@@ -323,6 +324,7 @@
     <Compile Include="RequestModels\CompanyTerritoryRequestModel.cs" />
     <Compile Include="RequestModels\CompanyContactRequestModel.cs" />
     <Compile Include="RequestModels\GetPagedListRequest.cs" />
+    <Compile Include="RequestModels\MachineSearchRequestModel.cs" />
     <Compile Include="RequestModels\ItemSearchRequestModel.cs" />
     <Compile Include="RequestModels\InventorySearchRequestModel.cs" />
     <Compile Include="RequestModels\CostCenterRequestModel.cs" />
@@ -340,6 +342,7 @@
     <Compile Include="ResponseModels\CompanyResponse.cs" />
     <Compile Include="ResponseModels\CompanyTerritoryResponse.cs" />
     <Compile Include="ResponseModels\CompanyContactResponse.cs" />
+    <Compile Include="ResponseModels\MachineSearchResponse.cs" />
     <Compile Include="ResponseModels\ItemDesignerTemplateBaseResponse.cs" />
     <Compile Include="ResponseModels\ItemBaseResponse.cs" />
     <Compile Include="ResponseModels\InventoryBaseResponse.cs" />
