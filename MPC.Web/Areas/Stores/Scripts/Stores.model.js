@@ -124,7 +124,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         specifiedStockNotificationManagerId1, specifiedStockNotificationManagerId2, specifiedisDisplayBanners, specifiedisStoreModePrivate, specifiedisTextWatermark,
         specifiedWatermarkText, specifiedisBrokerPaymentRequired, specifiedisBrokerCanAcceptPaymentOnline, specifiedcanUserPlaceOrderWithoutApproval,
         specifiedisIncludeVAT, specifiedincludeEmailBrokerArtworkOrderReport, specifiedincludeEmailBrokerArtworkOrderXML, specifiedincludeEmailBrokerArtworkOrderJobCard
-        , specifiedIsDeliveryTaxAble,specifiedPickupAddressId,
+        , specifiedIsDeliveryTaxAble, specifiedPickupAddressId,
         specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreImageFileBinary, specifiedStoreBackgroudImageSource, specifiedIsShowGoogleMap,
         specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName, specifiedCustomCSS, specifiedStoreBackgroundImage, specifiedStoreImagePath
     ) {
@@ -182,10 +182,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isDeliveryTaxAble = ko.observable(!specifiedIsDeliveryTaxAble ? 2 : 1),
             // is Delivery TaxAble ui
             isDeliveryTaxAbleUi = ko.computed({
-                read: function() {
+                read: function () {
                     return '' + isDeliveryTaxAble();
                 },
-                write: function(value) {
+                write: function (value) {
                     var deliveryTaxAble = parseInt(value);
                     if (deliveryTaxAble === isDeliveryTaxAble()) {
                         return;
@@ -1748,7 +1748,21 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
 
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
-
+                pageTitle: pageTitle,
+                pageKeywords: pageKeywords,
+                metaTitle: metaTitle,
+                metaDescriptionContent: metaDescriptionContent,
+                metaCategoryContent: metaCategoryContent,
+                metaRobotsContent: metaRobotsContent,
+                metaAuthorContent: metaAuthorContent,
+                metaLanguageContent: metaLanguageContent,
+                metaRevisitAfterContent: metaRevisitAfterContent,
+                categoryId: categoryId,
+                pageHTML: pageHTML,
+                imageSrc: imageSrc,
+                fileName: fileName,
+                defaultPageKeyWords: defaultPageKeyWords,
+                pageBanner: pageBanner,
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -3484,8 +3498,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             itemId = ko.observable(specifiedItemId),
             offerType = ko.observable(specifiedOfferType),
             itemName = ko.observable(specifiedItemName),
-           sortOrder = ko.observable(specifiedSortOrder),
-           companyId = ko.observable(),
+            sortOrder = ko.observable(specifiedSortOrder),
+            companyId = ko.observable(),
         //Convert To Server
         convertToServerData = function () {
             return {
@@ -3577,6 +3591,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         var self,
             costCentreId = ko.observable(specifiedCostCentreId),
             name = ko.observable(specifiedName),
+            isSelected = ko.observable(),
             // Errors
             errors = ko.validation.group({
 
@@ -3600,7 +3615,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             convertToServerData = function () {
                 return {
                     CostCentreId: costCentreId(),
-                    Name: name()
+                    Name: name(),
                 };
             },
             // Reset
@@ -3610,6 +3625,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         self = {
             costCentreId: costCentreId,
             name: name,
+            isSelected: isSelected,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,

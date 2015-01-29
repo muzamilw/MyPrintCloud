@@ -343,6 +343,7 @@
     <Compile Include="ResponseModels\CompanyResponse.cs" />
     <Compile Include="ResponseModels\CompanyTerritoryResponse.cs" />
     <Compile Include="ResponseModels\CompanyContactResponse.cs" />
+    <Compile Include="ResponseModels\CostCenterBaseResponse.cs" />
     <Compile Include="ResponseModels\MachineSearchResponse.cs" />
     <Compile Include="ResponseModels\ItemDesignerTemplateBaseResponse.cs" />
     <Compile Include="ResponseModels\ItemBaseResponse.cs" />
