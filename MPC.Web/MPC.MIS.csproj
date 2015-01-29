@@ -385,6 +385,8 @@
     <Compile Include="Areas\Api\Models\ItemStateTax.cs" />
     <Compile Include="Areas\Api\Models\ItemStockOption.cs" />
     <Compile Include="Areas\Api\Models\ItemVideo.cs" />
+    <Compile Include="Areas\Api\Models\Machine.cs" />
+    <Compile Include="Areas\Api\Models\MachineSearchResponse.cs" />
     <Compile Include="Areas\Api\Models\MediaLibrary.cs" />
     <Compile Include="Areas\Api\Models\PageCategory.cs" />
     <Compile Include="Areas\Api\Models\PageCategoryDropDown.cs" />

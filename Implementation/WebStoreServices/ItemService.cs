@@ -78,6 +78,8 @@ namespace MPC.Implementation.WebStoreServices
                 flagId = GetFlagId(CompanyId);
                 if (flagId == 0)
                 {
+                    // pass 0  to get the default flag id for price matrix
+                    flagId = GetFlagId(0);
                     if (IsRanged == true)
                     {
                         tblRefItemsPriceMatrix = tblRefItemsPriceMatrix.Where(c => c.QtyRangeFrom > 0 && c.QtyRangeTo > 0 && c.FlagId == flagId && c.SupplierId == null).ToList();
@@ -112,6 +114,7 @@ namespace MPC.Implementation.WebStoreServices
             }
             else
             {
+                // pass 0  to get the default flag id for price matrix
                 flagId = GetFlagId(0);
                 if (IsRanged == true)
                 {
