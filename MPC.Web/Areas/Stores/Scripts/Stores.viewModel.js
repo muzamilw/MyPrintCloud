@@ -99,6 +99,7 @@ define("stores/stores.viewModel",
                 parentCategories = ko.observableArray([]),
 
                 selectedWidgetsList = ko.observableArray([]),
+                costCentersList = ko.observableArray([]),
 
                 //#endregion
 
@@ -1925,11 +1926,11 @@ define("stores/stores.viewModel",
                         }
                         //#endregion
 
-                        //#region Media Library
+                        
                         _.each(selectedStore().mediaLibraries(), function (item) {
                             storeToSave.MediaLibraries.push(item.convertToServerData());
                         });
-                        //endregion
+                        
 
                         dataservice.saveStore(
                             storeToSave, {
@@ -2112,6 +2113,7 @@ define("stores/stores.viewModel",
                                 roles.removeAll();
                                 registrationQuestions.removeAll();
                                 allCompanyAddressesList.removeAll();
+                                costCentersList.removeAll();
                                 pageCategories.removeAll();
                                 _.each(data.SystemUsers, function (item) {
                                     var systemUser = new model.SystemUser.Create(item);
@@ -2140,6 +2142,9 @@ define("stores/stores.viewModel",
                                 });
                                 _.each(data.PaymentMethods, function (item) {
                                     paymentMethods.push(model.PaymentMethod.Create(item));
+                                });
+                                _.each(data.CostCenterDropDownList, function (item) {
+                                    costCentersList.push(model.CostCenter.Create(item));
                                 });
                                 //Email Event List
                                 emailEvents.removeAll();
@@ -2588,7 +2593,7 @@ define("stores/stores.viewModel",
                         mediaLibraryIdCount(mediaId);
                     }
                 },
-
+                
                 //Open Media Library From Store Background Image
                 showMediaLibraryDialogFromStoreBackground = function () {
                     resetMediaGallery();
@@ -2718,6 +2723,24 @@ define("stores/stores.viewModel",
                     hideMediaLibraryDialog();
                 },
                 //#endregion
+
+                //#region ________D E L I V E R Y    A D D    O N________________
+                selectedPickupAddress = ko.observable(),
+                updatePickupAddressFields = ko.computed(function() {
+                    if (selectedStore() != undefined) {
+                        if (selectedStore().pickupAddressId() != undefined) {
+                            _.each(allCompanyAddressesList(), function (address) {
+                                if (address.addressId() == selectedStore().pickupAddressId()) {
+                                    selectedPickupAddress(address);
+                                }
+                            });
+                        } else {
+                            selectedPickupAddress(new model.Address);
+                        }
+                    } 
+                }),
+                //#endregion
+
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
                 initialize = function (specifiedView) {
@@ -2990,6 +3013,8 @@ define("stores/stores.viewModel",
                     selectedMediaFile: selectedMediaFile,
                     onSaveMedia: onSaveMedia,
                     colseSecondaryPageCategoryDialog: colseSecondaryPageCategoryDialog,
+                    selectedPickupAddress: selectedPickupAddress,
+                    costCentersList: costCentersList
                 };
                 //#endregion
             })()

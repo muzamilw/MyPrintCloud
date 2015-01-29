@@ -537,7 +537,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
-                                        <h3 class="group-header">Addresses</h3>
+                                        <h3 class="group-header">Addresses</h3>Delivery Add Ons
                                         <div class="col-lg-12 clearfix">
                                             <header class="main-box-header clearfix">
                                                 <div class="filter-block">
@@ -1598,40 +1598,15 @@
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="radio">
-                                                            <input type="radio" name="optionsRadiosTaxOptions" id="optionsRadiosYesTaxable" value="option1" checked>
+                                                            <input type="radio" name="optionsRadiosTaxOptions" id="optionsRadiosYesTaxable" value="1" data-bind="checked: isDeliveryTaxAbleUi">
                                                             <label for="optionsRadiosYesTaxable">
                                                                 Yes
                                                             </label>
                                                         </div>
                                                         <div class="radio">
-                                                            <input type="radio" name="optionsRadiosTaxOptions" id="optionsRadiosNotTaxable" value="option1">
+                                                            <input type="radio" name="optionsRadiosTaxOptions" id="optionsRadiosNotTaxable" value="2" data-bind="checked: isDeliveryTaxAbleUi">
                                                             <label for="optionsRadiosNotTaxable">
                                                                 No
-                                                            </label>
-                                                        </div>
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-lg-4 text-right">
-                                                        <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-                                                        </div>
-                                                        <label class="control-label text-right tooltip-float">Delivery Options</label>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="radio">
-                                                            <input type="radio" name="optionsRadiosDelvOptions" id="optionsRadiosForceDeliverOnShop" value="option1" checked>
-                                                            <label for="optionsRadiosForceDeliverOnShop">
-                                                                Display on Shopping Cart
-                                                            </label>
-                                                        </div>
-                                                        <div class="radio">
-                                                            <input type="radio" name="optionsRadiosDelvOptions" id="optionsRadiosDelvONConfirm" value="option1">
-                                                            <label for="optionsRadiosDelvONConfirm">
-                                                                Display on Confirmation Page
                                                             </label>
                                                         </div>
                                                         <span class="help-block text-right"></span>
@@ -1663,54 +1638,8 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    Fixed Price Delivery (Delivery)
-                                                                </td>
-                                                                <td>
-                                                                    <div class="form-group pull-right">
-                                                                        <div class="col-md-3 ">
-                                                                            <div class="checkbox-nice">
-                                                                                <input type="checkbox" id="checkbox-1">
-                                                                                <label for="checkbox-1">
-                                                                                </label>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    Express Delivery (Delivery)
-                                                                </td>
-                                                                <td>
-                                                                    <div class="form-group pull-right">
-                                                                        <div class="col-md-3">
-                                                                            <div class="checkbox-nice">
-                                                                                <input type="checkbox" id="checkbox-2" checked="checked">
-                                                                                <label for="checkbox-2">
-                                                                                </label>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    Collect in Store (Delivery)
-                                                                </td>
-                                                                <td>
-                                                                    <div class="form-group pull-right">
-                                                                        <div class="col-md-3">
-                                                                            <div class="checkbox-nice">
-                                                                                <input type="checkbox" id="checkbox-3">
-                                                                                <label for="checkbox-3">
-                                                                                </label>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
+                                                            <!-- ko template: { name: 'itemCostCenterTemplate', foreach: $root.costCentersList }-->
+                                                            <!-- /ko -->
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -2086,6 +2015,28 @@
                 </td>
             </tr>
         </script>
+        @*For Cost Center*@
+        <script id="itemCostCenterTemplate" type="text/html">
+            <tr>
+                @*data-bind="click: $root.selectRaveReview, css: { selectedRow: $data === $root.selectedRaveReview}"*@
+                <td data-bind="text: name">
+                    
+                </td>
+                <td>
+                    <div class="form-group pull-right">
+                        <div class="col-md-3 ">
+                            <div class="checkbox-nice">
+                                <input type="checkbox" data-bind="checked: isSelected, attr: { id: costCentreId}">
+                                <label for="costCentreId">
+                                </label>
+                            </div>
+                            @*<input type="checkbox" data-bind="checked: isSelected">*@
+                        </div>
+                    </div>
+                </td>
+
+            </tr>
+        </script>
     </form>
 </div>
 <style type="text/css" media="screen">
@@ -2112,7 +2063,7 @@
 @Html.Partial("Widgets/_MediaGalleryScreen")
 @Html.Partial("Widgets/_AddEditCMYKColors")
 @Html.Partial("~/Areas/Stores/Views/Shared/_AddEditPaymentGateway.cshtml")
-@Html.Partial("Address/_SelectAddress")
+@Html.Partial("~/Areas/Stores/Views/Shared/_SelectAddress.cshtml")
 @Html.Partial("Company/_RaveReviews")
 @Html.Partial("Company/_ProductsFilter")
 @Html.Partial("Company/_ChooseUsIcon")

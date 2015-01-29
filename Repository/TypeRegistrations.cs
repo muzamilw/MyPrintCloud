@@ -16,7 +16,7 @@ namespace MPC.Repository
         /// </summary>
         public static void RegisterType(IUnityContainer unityContainer)
         {
-           // unityContainer.RegisterType<BaseDbContext>(new PerRequestLifetimeManager());
+            unityContainer.RegisterType<BaseDbContext>(new PerRequestLifetimeManager());
             unityContainer.RegisterType<IOrganisationRepository, OrganisationRepository>();
             unityContainer.RegisterType<IMarkupRepository, MarkupRepository>();
             unityContainer.RegisterType<ITaxRateRepository, TaxRateRepository>();

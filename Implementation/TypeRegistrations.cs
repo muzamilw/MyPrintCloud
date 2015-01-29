@@ -34,7 +34,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<IClaimsSecurityService, ClaimsSecurityService>();
             unityContainer.RegisterType<IInventoryService, InventoryService>();
             unityContainer.RegisterType<IStockCategoryService, StockCategoryService>();
-            unityContainer.RegisterType<MISInterfaces.IItemService, MISServices.ItemService>();
+            unityContainer.RegisterType<MISInterfaces.IItemService, MISImplementation.ItemService>();
             unityContainer.RegisterType<MISInterfaces.ICompanyService, MISImplementation.CompanyService>();
             unityContainer.RegisterType<IWebstoreClaimsSecurityService, WebstoreClaimsSecurityService>();
             unityContainer.RegisterType<IWebstoreClaimsHelperService, WebstoreClaimsHelperService>();
@@ -44,17 +44,17 @@ namespace MPC.Implementation
             unityContainer.RegisterType<ICategoryService, CategoryService>();
             unityContainer.RegisterType<IPhraseLibraryService, PhraseLibraryService>();
             unityContainer.RegisterType<webstoreInterfaces.IItemService, webstoreImplementation.ItemService>();
-            unityContainer.RegisterType<webstoreInterfaces.ITemplateService, webstoreImplementation.TemplateService>();
-            unityContainer.RegisterType<webstoreInterfaces.ITemplateColorStylesService, webstoreImplementation.TemplateColorStylesService>();
-            unityContainer.RegisterType<webstoreInterfaces.ITemplatePageService, webstoreImplementation.TemplatePageService>();
+            unityContainer.RegisterType<ITemplateService, TemplateService>();
+            unityContainer.RegisterType<ITemplateColorStylesService, TemplateColorStylesService>();
+            unityContainer.RegisterType<ITemplatePageService, TemplatePageService>();
             unityContainer.RegisterType<IPrefixService, PrefixService>();
-            unityContainer.RegisterType<webstoreInterfaces.ITemplateObjectService, webstoreImplementation.TemplateObjectService>();
-            unityContainer.RegisterType<webstoreInterfaces.ITemplateFontsService, webstoreImplementation.TemplateFontsService>();
-            unityContainer.RegisterType<webstoreInterfaces.ITemplateBackgroundImagesService, webstoreImplementation.TemplateBackgroundImagesService>();
+            unityContainer.RegisterType<ITemplateObjectService, TemplateObjectService>();
+            unityContainer.RegisterType<ITemplateFontsService, TemplateFontsService>();
+            unityContainer.RegisterType<ITemplateBackgroundImagesService, TemplateBackgroundImagesService>();
             unityContainer.RegisterType<ICostCentreService, CostCentreService>();
-            unityContainer.RegisterType<webstoreInterfaces.IListingService, webstoreImplementation.ListingService>();
+            unityContainer.RegisterType<IListingService, ListingService>();
             unityContainer.RegisterType<IImagePermissionsService, ImagePermissionService>();
-            unityContainer.RegisterType<MISInterfaces.ICostCentersService, MISImplementation.CostCenterService>();
+            unityContainer.RegisterType<ICostCentersService, CostCenterService>();
 
         
             
