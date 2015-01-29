@@ -258,6 +258,8 @@
     <Compile Include="Areas\Api\ModelMappers\CmsOfferMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ColorPalleteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyDomainMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CostCenterBaseResponseMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CostCenterTypeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MediaLibraryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductCategoryItemMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PhraseFieldMapper.cs" />
@@ -266,7 +268,10 @@
     <Compile Include="Areas\Api\Models\CmsOffer.cs" />
     <Compile Include="Areas\Api\Models\ColorPallete.cs" />
     <Compile Include="Areas\Api\Models\CompanyDomain.cs" />
+    <Compile Include="Areas\Api\Models\CostCenterBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\CostCenterResponse.cs" />
+    <Compile Include="Areas\Api\Models\CostCenterCalculationTypes.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreType.cs" />
     <Compile Include="Areas\Api\Models\ItemForWidgets.cs" />
     <Compile Include="Areas\Api\Models\LanguageEditor.cs" />
     <Compile Include="Areas\Api\Controllers\PaymentGatewayController.cs" />

@@ -12,7 +12,10 @@ namespace MPC.Implementation.MISServices
         #region Private
 
         private readonly ICostCentreRepository _costCenterRepository;
-
+        private readonly IChartOfAccountRepository _chartOfAccountRepository;
+        private readonly ISystemUserRepository _systemUserRepository;
+        private readonly ICostCenterTypeRepository _costcentreTypeRepository;
+        private readonly IMarkupRepository _markupRepository;
         #endregion
 
         #region Constructor
@@ -58,6 +61,17 @@ namespace MPC.Implementation.MISServices
         public CostCentersResponse GetUserDefinedCostCenters(CostCenterRequestModel request)
         {
             return _costCenterRepository.GetUserDefinedCostCenters(request);
+        }
+
+        public CostCenterBaseResponse GetBaseData(CostCenterRequestModel request)
+        {
+            return new CostCenterBaseResponse
+            {
+                CostCenterCategories = _costcentreTypeRepository.GetAll(),
+                CostCenterResources = _systemUserRepository.GetAll(),
+                NominalCodes = _chartOfAccountRepository.GetAll(),
+                Markups = _markupRepository.GetAll()
+            };
         }
         #endregion
 
