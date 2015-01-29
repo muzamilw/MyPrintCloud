@@ -258,6 +258,7 @@
     <Compile Include="Areas\Api\ModelMappers\CmsOfferMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ColorPalleteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyDomainMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CostCentreDropDownMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MediaLibraryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductCategoryItemMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PhraseFieldMapper.cs" />
@@ -267,6 +268,7 @@
     <Compile Include="Areas\Api\Models\ColorPallete.cs" />
     <Compile Include="Areas\Api\Models\CompanyDomain.cs" />
     <Compile Include="Areas\Api\Models\CostCenterResponse.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreDropDown.cs" />
     <Compile Include="Areas\Api\Models\ItemForWidgets.cs" />
     <Compile Include="Areas\Api\Models\LanguageEditor.cs" />
     <Compile Include="Areas\Api\Controllers\PaymentGatewayController.cs" />
@@ -2629,7 +2631,7 @@
     <Content Include="Scripts\Plugins\charts\knob\jQuery Knob demo.url" />
     <Content Include="Scripts\Plugins\misc\jqueryFileTree\jQuery File Tree - A Beautiful Blog.url" />
     <Content Include="Scripts\Plugins\misc\search\tipuesearch_content.json" />
-    <Content Include="Views\Shared\Address\_SelectAddress.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_SelectAddress.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_AddEditPaymentGateway.cshtml" />
     <Content Include="Views\Shared\Widgets\_AddVideo.cshtml" />
     <Content Include="Views\Shared\Widgets\_PhraseLibrary.cshtml" />
@@ -2680,6 +2682,7 @@
     <Folder Include="Reports\" />
     <Folder Include="Scripts\Plugins\forms\tiny_mce\plugins\spellchecker\classes\utils\" />
     <Folder Include="Scripts\Plugins\forms\tiny_mce\plugins\spellchecker\includes\" />
+    <Folder Include="Views\Shared\Address\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

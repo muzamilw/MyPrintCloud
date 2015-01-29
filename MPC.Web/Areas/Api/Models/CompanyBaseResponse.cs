@@ -18,6 +18,7 @@ namespace MPC.MIS.Areas.Api.Models
         public IEnumerable<PaymentMethod> PaymentMethods { get; set; }
         public IEnumerable<Widget> Widgets { get; set; }
         public IEnumerable<CmsPageDropDown> CmsPageDropDownList { get; set; }
+        public IEnumerable<CostCentreDropDown> CostCenterDropDownList { get; set; }
 
 
         /// <summary>
