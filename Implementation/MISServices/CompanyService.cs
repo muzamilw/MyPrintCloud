@@ -1950,10 +1950,11 @@ namespace MPC.Implementation.MISServices
                        CompanyContactRoles = companyContactRoleRepository.GetAll(),
                        PageCategories = pageCategoryRepository.GetCmsSecondaryPageCategories(),
                        RegistrationQuestions = registrationQuestionRepository.GetAll(),
-                       Addresses = addressRepository.GetAllDefaultAddressByStoreID(storeId),
+                       Addresses = addressRepository.GetAllAddressByStoreId(storeId),
                        PaymentMethods = paymentMethodRepository.GetAll().ToList(),
                        EmailEvents = emailEventRepository.GetAll(),
                        Widgets = widgetRepository.GetAll(),
+                      CostCentres = costCentreRepository.GetAllCompanyCentersByCompanyId(storeId).ToList()
                    };
         }
         public CompanyBaseResponse GetBaseDataForNewCompany()
