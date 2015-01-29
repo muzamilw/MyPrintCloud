@@ -678,12 +678,6 @@
     <Folder Include="Areas\WebstoreApi\Controllers\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
-    <Folder Include="Views\ContactDetail\" />
-    <Folder Include="Views\OrderConfirmation\" />
-    <Folder Include="Views\RealEstateFooter\" />
-    <Folder Include="Views\RealEstateImageSlider\" />
-    <Folder Include="Views\RealEstateProducts\" />
-    <Folder Include="Views\RealEstateSmartForm\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
