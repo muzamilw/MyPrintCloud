@@ -201,6 +201,7 @@
     <Compile Include="Repositories\GetItemsListViewRepository.cs" />
     <Compile Include="Repositories\GlobalLanguageRepository.cs" />
     <Compile Include="Repositories\ImagePermissionRepository.cs" />
+    <Compile Include="Repositories\MachineRepository.cs" />
     <Compile Include="Repositories\ItemAttachmentRepository.cs" />
     <Compile Include="Repositories\ProductCategoryItemRepository.cs" />
     <Compile Include="Repositories\ItemStateTaxRepository.cs" />
@@ -221,6 +222,7 @@
     <Compile Include="Repositories\PhraseRespository.cs" />
     <Compile Include="Repositories\ProductCategoryFileTableViewRepository.cs" />
     <Compile Include="Repositories\StateRepository.cs" />
+    <Compile Include="Repositories\CostCenterTypeRepository.cs" />
     <Compile Include="Repositories\TemplateBackgroundImagesRepository.cs" />
     <Compile Include="Repositories\TemplateColorStylesRepository.cs" />
     <Compile Include="Repositories\TemplateFontsRepository.cs" />

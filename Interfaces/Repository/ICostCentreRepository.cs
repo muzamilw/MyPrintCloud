@@ -57,6 +57,6 @@ namespace MPC.Interfaces.Repository
         List<CostCentre> GetCorporateDeliveryCostCentersList(long CompanyID);
 
         CostCentre GetCostCentersByID(long costCenterID);
-        IEnumerable<CostCentre> GetAllCompanyCentersByCompanyId(long companyId);
+        IEnumerable<CostCentre> GetAllCompanyCentersByOrganisationId();
     }
 }

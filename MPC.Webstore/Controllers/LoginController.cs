@@ -168,12 +168,12 @@ namespace MPC.Webstore.Controllers
                 }
                 if (user.Company.IsDisabled == 1)
                 {
-                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultAddress", UserCookieManager.StoreId); //"Your account is disabled. Please contact us for further information.";
+                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("DisabledAccount", UserCookieManager.StoreId); //"Your account is disabled. Please contact us for further information.";
                     return View("PartialViews/Login");
                 }
                 if (UserCookieManager.StoreMode == (int)StoreMode.Corp && user.isWebAccess == false)
                 {
-                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultAddress", UserCookieManager.StoreId);  //"Your account does not have the web access enabled. Please contact your Order Manager.";
+                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("AccountHasNoWebAccess", UserCookieManager.StoreId);  //"Your account does not have the web access enabled. Please contact your Order Manager.";
                     return View("PartialViews/Login");
                 }
                 else

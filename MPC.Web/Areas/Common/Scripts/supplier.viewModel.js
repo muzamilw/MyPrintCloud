@@ -97,11 +97,11 @@ define("common/supplier.viewModel",
                 //On select Supplier close supplier dialog
                     onSelectSupplierColseDialog = ko.computed(function () {
                         if (selectedSupplier() !== undefined) {
-                            if (selectedSupplier().isSelected()) {
-                                hide();
-                            }
+                            hide();
                         }
                     }, this),
+
+              
                 // close Supplier Editor
                     closeSupplierEditor = function () {
                         isSupplierEditorVisible(false);

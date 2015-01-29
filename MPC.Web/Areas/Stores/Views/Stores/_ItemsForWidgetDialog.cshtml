@@ -1,5 +1,5 @@
 ﻿
-<div class="modal fade" id="itemsForWidgetsDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade my-modal" id="itemsForWidgetsDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div style="width:838px;" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -14,7 +14,7 @@
                     </div>
                     <div class="col-lg-9">
                         <div class="radio">
-                            <input type="radio" name="optionsRadios1" id="optionYesProducts" value=1 data-bind="checked: $root.productPriorityRadioOption" >
+                            <input type="radio" name="optionsRadios1" id="optionYesProducts" value=1 data-bind="checked: $root.productPriorityRadioOption">
                             <label for="optionYesProducts">
                                 Select Upto 9 products
                             </label>
@@ -89,8 +89,10 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <hr />
                 <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
+
             </div>
         </div>
     </div>

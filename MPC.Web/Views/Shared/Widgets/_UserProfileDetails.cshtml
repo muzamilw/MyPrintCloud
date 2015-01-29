@@ -7,17 +7,16 @@
 <div class="modal fade" id="myContactProfileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div style="width: 838px;" class="modal-dialog" data-bind="with: $root.selectedCompanyContact">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" id="dialgHeaderPadding">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h1>Profile - <span data-bind="text: firstName"></span></h1>
+                <h4>Profile - <span data-bind="text: firstName"></span></h4>
             </div>
             <br />
-            <div class="col-lg-12 clearfix">
+            <div class="col-lg-12 clearfix" >
 
                 <div class="row" id="user-profile">
-
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="main-box clearfix">
+                        <div class="main-box clearfix" id="tabsHeader">
                             <div class="tabs-wrapper profile-tabs">
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a href="#tab-UserProfileinfo" data-toggle="tab">Profile</a></li>
@@ -167,7 +166,7 @@
                                                             <label for="ddUserRole" class="control-label text-right tooltip-float">Role</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <select class="form-control col-lg-4" data-bind="options:$root.roles,optionsText:'roleName',optionsValue:'roleId', value: contactRoleId"></select>   
+                                                            <select class="form-control col-lg-4" data-bind="options:$root.roles,optionsText:'roleName',optionsValue:'roleId', value: contactRoleId"></select>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -237,7 +236,7 @@
                                                         </div>
 
                                                         <div class="col-lg-7">
-                                                            <input type="password" class="form-control" id="txtCPassword" >
+                                                            <input type="password" class="form-control" id="txtCPassword">
                                                         </div>
 
                                                     </div>
@@ -252,7 +251,7 @@
                                                         </div>
 
                                                         <div class="col-lg-7">
-                                                            <select class="form-control col-lg-4" data-bind="options:$root.registrationQuestions,optionsText:'question',optionsValue:'questionId', value: secretQuestion"></select>   
+                                                            <select class="form-control col-lg-4" data-bind="options:$root.registrationQuestions,optionsText:'question',optionsValue:'questionId', value: secretQuestion"></select>
                                                         </div>
 
                                                     </div>
@@ -1168,8 +1167,8 @@
                                                         </div>
 
                                                         <div class="col-lg-7">
-                                                            <select class="form-control " id="ddTerritory" data-bind="options:$root.contactCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Choose...', value: territoryId"></select>   
-                                                            
+                                                            <select class="form-control " id="ddTerritory" data-bind="options:$root.contactCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Choose...', value: territoryId"></select>
+
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -1189,7 +1188,7 @@
                                                         </div>
 
                                                         <div class="col-lg-7">
-                                                            <select class="form-control " id="ddTerritory" data-bind="options:$root.bussinessAddresses,optionsText:'addressName',optionsValue:'addressId',optionsCaption: 'Choose...',value: $root.selectedBussinessAddressId"></select>   
+                                                            <select class="form-control " id="ddTerritory" data-bind="options:$root.bussinessAddresses,optionsText:'addressName',optionsValue:'addressId',optionsCaption: 'Choose...',value: $root.selectedBussinessAddressId"></select>
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -1274,7 +1273,7 @@
 
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <select class="form-control " id="ddTerritory" data-bind="options:$root.shippingAddresses,optionsText:'addressName',optionsValue:'addressId',optionsCaption: 'Choose...',value: $root.selectedShippingAddressId"></select>   
+                                                            <select class="form-control " id="ddTerritory" data-bind="options:$root.shippingAddresses,optionsText:'addressName',optionsValue:'addressId',optionsCaption: 'Choose...',value: $root.selectedShippingAddressId"></select>
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -1346,15 +1345,16 @@
                                         <div class="col-lg-12">
                                         </div>
                                     </div>
-                                    <div class="modal-footer col-xs-12">
-                                        <button type="button" class="btn btn-default" data-bind="click: $root.onCloseCompanyContact">Close</button>
-                                        <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyContact">Save</button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="modal-footer col-xs-12">
+                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyContact">Save</button>
+                <button type="button" class="btn btn-default" data-bind="click: $root.onCloseCompanyContact" style="margin-left:0px;" >Close</button>
+
             </div>
 
             <div class="clearfix">

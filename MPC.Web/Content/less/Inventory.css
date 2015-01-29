@@ -11,6 +11,9 @@
   border: 1px solid silver;
   box-shadow: 1px 1px 1px silver;
 }
+#inventoryBinding .dynamicNameHeading {
+  height: 51px;
+}
 #inventoryBinding #inventoryEditor #tab-CostPrice #costTablle tr th#costTh {
   width: 104px;
 }

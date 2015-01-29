@@ -107,7 +107,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 EstimatedTimeDefaultValue = source.EstimatedTimeDefaultValue,
                 Sequence = source.Sequence,
                 CompleteCode = source.CompleteCode,
-                CompanyId = source.CompanyId,
                 SystemTypeId = source.SystemTypeId,
                 FlagId = source.FlagId,
                 IsScheduleable = source.IsScheduleable,
@@ -119,7 +118,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ThumbnailImageURL = source.ThumbnailImageURL,
                 DeliveryCharges = source.DeliveryCharges,
                 XeroAccessCode = source.XeroAccessCode,
-                OrganisationId = source.OrganisationId,
+                OrganisationId = source.OrganisationId
             };
         }
 
@@ -208,7 +207,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 EstimatedTimeDefaultValue = source.EstimatedTimeDefaultValue,
                 Sequence = source.Sequence,
                 CompleteCode = source.CompleteCode,
-                CompanyId = source.CompanyId,
                 SystemTypeId = source.SystemTypeId,
                 FlagId = source.FlagId,
                 IsScheduleable = source.IsScheduleable,
@@ -220,7 +218,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ThumbnailImageURL = source.ThumbnailImageURL,
                 DeliveryCharges = source.DeliveryCharges,
                 XeroAccessCode = source.XeroAccessCode,
-                OrganisationId = source.OrganisationId,
+                OrganisationId = source.OrganisationId
             };
         }
         
