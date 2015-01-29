@@ -663,7 +663,7 @@ namespace MPC.Repository.Repositories
         }
         public IEnumerable<CostCentre> GetAllCompanyCentersByCompanyId(long companyId)
         {
-            return DbSet.Where(x => x.CompanyId == companyId && x.OrganisationId == OrganisationId).ToList();
+            return DbSet.Where(x => x.OrganisationId == OrganisationId).ToList();
         }
         public IEnumerable<CostCentre> GetAllCompanyCentersByOrganisationId()
         {

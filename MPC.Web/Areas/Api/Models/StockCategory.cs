@@ -23,7 +23,7 @@ namespace MPC.MIS.Areas.Api.Models
         public short? Flag2 { get; set; }
         public short? Flag3 { get; set; }
         public short? Flag4 { get; set; }
-        public int CompanyId { get; set; }
+        public long OrganistionId { get; set; }
         public List<StockSubCategory> StockSubCategories { get; set; }
     }
 }
