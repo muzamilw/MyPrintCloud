@@ -73,44 +73,7 @@
             $('.slider-minmax').val(100, true);
         });
 
-        function HideTempDesginerControl(RadioID) {
-
-            if (RadioID == "1") {
-                $('#LinkDesign').css('display', 'none');
-            }
-            else if (RadioID == "2") {
-                $('#LinkDesign').css('display', 'none');
-            }
-            else if (RadioID == "3") {
-                $('#LinkDesign').css('display', 'block');
-            }
-
-        }
-
-        function HideSupp2() {
-
-            if ($('input:checkbox[id=switchAutoCreateGreater]').is(':checked')) {
-
-                $("#Supp2").css("display", "block");
-                $("#tab-supplier2").css("display", "block");
-            }
-            else {
-                $("#Supp2").css("display", "none");
-                $("#tab-supplier2").css("display", "none");
-            }
-
-        }
-        function HideExternalActivity(isInternal) {
-
-            if (isInternal == "1") {
-                $('#externalDiv').css('display', 'none');
-            }
-            else {
-
-                $('#externalDiv').css('display', 'block');
-            }
-
-        }
+        
         
         function AddNewSection() {
 

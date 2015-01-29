@@ -261,6 +261,7 @@
     <Compile Include="Areas\Api\ModelMappers\ColorPalleteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CategoryRegionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyDomainMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CostCentreDropDownMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemDesignerTemplateBaseResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MediaLibraryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductCategoryItemMapper.cs" />
@@ -273,6 +274,7 @@
     <Compile Include="Areas\Api\Models\ColorPallete.cs" />
     <Compile Include="Areas\Api\Models\CompanyDomain.cs" />
     <Compile Include="Areas\Api\Models\CostCenterResponse.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreDropDown.cs" />
     <Compile Include="Areas\Api\Models\ItemDesignerTemplateBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemForWidgets.cs" />
     <Compile Include="Areas\Api\Models\LanguageEditor.cs" />
@@ -667,8 +669,20 @@
     <Content Include="Content\Images\loaders\horizontal\062.gif" />
     <Content Include="Content\Images\loaders\horizontal\063.gif" />
     <Content Include="Content\layout.css" />
+    <Content Include="Content\less\Inventory.css">
+      <DependentUpon>Inventory.less</DependentUpon>
+    </Content>
+    <Content Include="Content\less\InventoryCategory.css">
+      <DependentUpon>InventoryCategory.less</DependentUpon>
+    </Content>
     <Content Include="Content\less\MainSite.css">
       <DependentUpon>MainSite.less</DependentUpon>
+    </Content>
+    <Content Include="Content\less\Organisation.css">
+      <DependentUpon>Organisation.less</DependentUpon>
+    </Content>
+    <Content Include="Content\less\PaperSheet.css">
+      <DependentUpon>PaperSheet.less</DependentUpon>
     </Content>
     <Content Include="Content\less\Products.css">
       <DependentUpon>Products.less</DependentUpon>
@@ -1491,6 +1505,9 @@
     <Content Include="Areas\Stores\Views\Stores\_ItemsForWidgetDialog.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_StoreProductCategoryDialog.cshtml" />
     <Content Include="Areas\Settings\Views\Home\LookupMethods.cshtml" />
+    <Content Include="Areas\Products\Views\Home\_SignatureEdit.cshtml" />
+    <Content Include="Content\less\PaperSheet.less" />
+    <Content Include="Content\less\InventoryCategory.less" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
@@ -2639,7 +2656,7 @@
     <Content Include="Scripts\Plugins\charts\knob\jQuery Knob demo.url" />
     <Content Include="Scripts\Plugins\misc\jqueryFileTree\jQuery File Tree - A Beautiful Blog.url" />
     <Content Include="Scripts\Plugins\misc\search\tipuesearch_content.json" />
-    <Content Include="Views\Shared\Address\_SelectAddress.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_SelectAddress.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_AddEditPaymentGateway.cshtml" />
     <Content Include="Views\Shared\Widgets\_AddVideo.cshtml" />
     <Content Include="Views\Shared\Widgets\_PhraseLibrary.cshtml" />
@@ -2689,6 +2706,7 @@
     <Folder Include="Reports\" />
     <Folder Include="Scripts\Plugins\forms\tiny_mce\plugins\spellchecker\classes\utils\" />
     <Folder Include="Scripts\Plugins\forms\tiny_mce\plugins\spellchecker\includes\" />
+    <Folder Include="Views\Shared\Address\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

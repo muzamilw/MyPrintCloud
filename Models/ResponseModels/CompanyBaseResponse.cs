@@ -19,6 +19,7 @@ namespace MPC.Models.ResponseModels
         public IEnumerable<PaymentMethod> PaymentMethods { get; set; }
         public IEnumerable<Widget> Widgets { get; set; }
         public IEnumerable<CmsPage> CmsPages { get; set; }
+        public IEnumerable<CostCentre> CostCentres { get; set; }
 
 
        

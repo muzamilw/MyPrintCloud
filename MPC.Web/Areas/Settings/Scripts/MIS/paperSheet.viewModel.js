@@ -36,6 +36,7 @@ define("paperSheet/paperSheet.viewModel",
                     createNewPaperSheet = function () {
                         var paperSheet = new model.PaperSheet();
                         editorViewModel.selectItem(paperSheet);
+                        selectedPaperSheet().isArchived(false);
                         openEditDialog();
                     },
                     //On Edit Click Of Paper Sheet
@@ -172,7 +173,7 @@ define("paperSheet/paperSheet.viewModel",
                          searchFilter(undefined);
                          getPaperSheets();
                      },
-                    
+
                     // Get Base Data
                     getBaseData = function () {
                         dataservice.getBaseData({
@@ -182,7 +183,7 @@ define("paperSheet/paperSheet.viewModel",
                                 }
                             },
                             error: function (response) {
-                                
+
                             }
                         });
                     },

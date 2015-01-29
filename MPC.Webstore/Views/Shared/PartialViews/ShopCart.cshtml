@@ -193,7 +193,7 @@
                                             }
 
                                             <td align="left" style="width:20%;">
-                                                @Html.ActionLink("Remove Product", "RemoveProduct", "ShopCart", new { ItemID = prod.ItemID, OrderID = UserCookieManager.OrderId }, new { @class = "silver_back_button", onclick = "ShowLoader();" })
+                                                
                                                 <a id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="ConfirmDeleteItem('@prod.ItemID');">Remove</a>
                                                 <br>
                                                 @Html.ActionLink("Copy Product", "CopyProduct", "ShopCart", new { ItemID = prod.ItemID, OrderID = UserCookieManager.OrderId }, new { @class = "silver_back_button", onclick="ShowLoader();" })

@@ -108,6 +108,7 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsDeliveryTaxAble { get; set; }
         public bool? IsDisplayDeliveryOnCheckout { get; set; }
         public long? DeliveryPickUpAddressId { get; set; }
+        public long? PickupAddressId { get; set; }
         public long? BussinessAddressId { get; set; }
 
         #endregion
