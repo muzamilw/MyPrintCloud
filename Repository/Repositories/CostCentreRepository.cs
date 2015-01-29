@@ -665,6 +665,10 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(x => x.CompanyId == companyId && x.OrganisationId == OrganisationId).ToList();
         }
+        public IEnumerable<CostCentre> GetAllCompanyCentersByOrganisationId()
+        {
+            return DbSet.Where(x => x.OrganisationId == OrganisationId).ToList();
+        }
         #endregion
 
         #region "CostCentre Template"

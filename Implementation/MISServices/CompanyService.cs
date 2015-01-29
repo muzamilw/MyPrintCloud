@@ -1954,7 +1954,7 @@ namespace MPC.Implementation.MISServices
                        PaymentMethods = paymentMethodRepository.GetAll().ToList(),
                        EmailEvents = emailEventRepository.GetAll(),
                        Widgets = widgetRepository.GetAll(),
-                      CostCentres = costCentreRepository.GetAllCompanyCentersByCompanyId(storeId).ToList()
+                       CostCentres = costCentreRepository.GetAllCompanyCentersByOrganisationId().ToList()//GetAllCompanyCentersByCompanyId
                    };
         }
         public CompanyBaseResponse GetBaseDataForNewCompany()

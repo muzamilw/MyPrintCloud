@@ -1638,54 +1638,8 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    Fixed Price Delivery (Delivery)
-                                                                </td>
-                                                                <td>
-                                                                    <div class="form-group pull-right">
-                                                                        <div class="col-md-3 ">
-                                                                            <div class="checkbox-nice">
-                                                                                <input type="checkbox" id="checkbox-1">
-                                                                                <label for="checkbox-1">
-                                                                                </label>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    Express Delivery (Delivery)
-                                                                </td>
-                                                                <td>
-                                                                    <div class="form-group pull-right">
-                                                                        <div class="col-md-3">
-                                                                            <div class="checkbox-nice">
-                                                                                <input type="checkbox" id="checkbox-2" checked="checked">
-                                                                                <label for="checkbox-2">
-                                                                                </label>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    Collect in Store (Delivery)
-                                                                </td>
-                                                                <td>
-                                                                    <div class="form-group pull-right">
-                                                                        <div class="col-md-3">
-                                                                            <div class="checkbox-nice">
-                                                                                <input type="checkbox" id="checkbox-3">
-                                                                                <label for="checkbox-3">
-                                                                                </label>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
+                                                            <!-- ko template: { name: 'itemCostCenterTemplate', foreach: $root.costCentersList }-->
+                                                            <!-- /ko -->
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -2059,6 +2013,28 @@
                     <!-- ko template: { name: 'deleteCompanyDomainItemTemplate' } -->
                     <!-- /ko -->
                 </td>
+            </tr>
+        </script>
+        @*For Cost Center*@
+        <script id="itemCostCenterTemplate" type="text/html">
+            <tr>
+                @*data-bind="click: $root.selectRaveReview, css: { selectedRow: $data === $root.selectedRaveReview}"*@
+                <td data-bind="text: name">
+                    
+                </td>
+                <td>
+                    <div class="form-group pull-right">
+                        <div class="col-md-3 ">
+                            <div class="checkbox-nice">
+                                <input type="checkbox" id="checkbox-1" data-bind="checked: isSelected">
+                                <label for="checkbox-1">
+                                </label>
+                            </div>
+                            @*<input type="checkbox" data-bind="checked: isSelected">*@
+                        </div>
+                    </div>
+                </td>
+
             </tr>
         </script>
     </form>

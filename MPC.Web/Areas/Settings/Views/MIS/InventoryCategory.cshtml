@@ -145,8 +145,8 @@
 
                                     <div class="col-lg-7">
                                         <div class="checkbox-nice">
-                                            <input type="checkbox" data-bind="checked: itemWeight" id="itemWeight">
-                                            <label for="itemWeight"></label>
+                                            <input type="checkbox" data-bind="checked: itemWeight, attr: { id: costCentreId}" @*id="itemWeight"*@>
+                                            <label data-bind="attr: {for: costCentreId}" @*for="itemWeight"*@></label>
                                         </div>
                                     </div>
                                 </div>
