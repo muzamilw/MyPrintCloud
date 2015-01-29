@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MPC.Models.DomainModels
+﻿namespace MPC.Models.DomainModels
 {
+    /// <summary>
+    /// Company Cost Centre Domain Model
+    /// </summary>
     public class CompanyCostCentre
     {
-        public int CompanyCostCenterId { get; set; }
-        public Nullable<int> CompanyId { get; set; }
-        public Nullable<int> CostCentreId { get; set; }
-        public Nullable<double> BrokerMarkup { get; set; }
-        public Nullable<double> ContactMarkup { get; set; }
-        public Nullable<bool> isDisplayToUser { get; set; }
-        public Nullable<long> OrganisationId { get; set; }
+        public long CompanyCostCenterId { get; set; }
+        public long? CompanyId { get; set; }
+        public long? CostCentreId { get; set; }
+        public double? BrokerMarkup { get; set; }
+        public double? ContactMarkup { get; set; }
+        public bool? isDisplayToUser { get; set; }
+        public long? OrganisationId { get; set; }
+        public virtual Company Company { get; set; }
+        public virtual CostCentre CostCentre { get; set; }
     }
 }
