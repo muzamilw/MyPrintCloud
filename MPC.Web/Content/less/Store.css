@@ -1,8 +1,27 @@
-﻿.store-user-link {
+﻿#storesBinding #addStore {
+  margin-top: 25px;
+}
+#storesBinding #filter {
+  height: 62px !important;
+}
+#storesBinding #topArea {
+  margin-bottom: -11px;
+}
+#storesBinding #tabsHeader {
+  border: 1px solid silver;
+  box-shadow: 1px 1px 1px silver;
+}
+.store-user-link {
   display: block;
   font-size: 1.25em;
   padding-top: 3px;
 }
 .profileLabelPadding {
   margin-top: 15px;
+}
+#storesBinding .selectedItemRow {
+  background: yellow;
+}
+#storesBinding #itemsForWidgetsDialog .selectedItemRow {
+  background: yellow;
 }

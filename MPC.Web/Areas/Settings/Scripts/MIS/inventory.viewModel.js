@@ -81,6 +81,7 @@ define("inventory/inventory.viewModel",
                     // #endregion Arrays
 
                     // #region Utility Functions
+
                       // Delete a Inventory
                     onDeleteInventory = function (inventory) {
                         if (!inventory.itemId()) {
@@ -353,7 +354,7 @@ define("inventory/inventory.viewModel",
                     doBeforeCostAndPrice = function () {
                         var flag = true;
                         _.each(costPriceList(), function (costPrice, index) {
-                            if (!costPrice.isValid()) {
+                            if (!costPrice.isValid() && !isInvalidPeriod()) {
                                 costPrice.errors.showAllMessages();
                                 if (flag) {
                                     errorList.push({ indexId: index, tabId: 1, name: "Cost Or Price Missing Fields" });
@@ -414,11 +415,20 @@ define("inventory/inventory.viewModel",
                         price.costOrPriceIdentifier(-1);
                         selectedPriceItem(price);
                         costPriceList.splice(0, 0, price);
-                        selectedInventory().reset();
+                        // selectedInventory().reset();
                         showInventoryEditor();
                     },
                     // close Inventory Editor
                     closeInventoryEditor = function () {
+                        if (selectedInventory().hasChanges()) {
+                            confirmation.messageText("Do you want to save changes?");
+                            confirmation.afterProceed(onSaveInventory);
+                            confirmation.afterCancel(function () {
+                                isInventoryEditorVisible(false);
+                            });
+                            confirmation.show();
+                            return;
+                        }
                         isInventoryEditorVisible(false);
                     },
                     // Show Inventory Editor
