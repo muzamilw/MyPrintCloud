@@ -12563,7 +12563,7 @@ setupState: function () {
                 mt: true,
                 mr: true,
                 mb: true,
-                mtr: false
+                mtr: true
             };
         }
         return this._controlsVisibility;
