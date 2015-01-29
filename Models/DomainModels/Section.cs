@@ -55,6 +55,12 @@ namespace MPC.Models.DomainModels
         /// Phrase Fields
         /// </summary>
         public virtual ICollection<PhraseField> PhraseFields { get; set; }
+
+        /// <summary>
+        /// Campign Email Variables
+        /// </summary>
+        public virtual ICollection<CampaignEmailVariable> CampaignEmailVariables { get; set; }
+
         #endregion
 
     }

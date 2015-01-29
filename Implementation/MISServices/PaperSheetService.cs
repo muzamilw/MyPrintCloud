@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using MPC.Interfaces.MISServices;
+﻿using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
@@ -11,17 +10,15 @@ namespace MPC.Implementation.MISServices
     {
         #region Private
 
-        private readonly IPaperSheetRepository paperSheetRepository;
-        private readonly IOrganisationRepository organisationRepository;
+        private readonly IPaperSizeRepository paperSheetRepository;
         
         #endregion
 
         #region Constructor
 
-        public PaperSheetService(IPaperSheetRepository paperSheetRepository, IOrganisationRepository organisationRepository)
+        public PaperSheetService(IPaperSizeRepository paperSheetRepository)
         {
             this.paperSheetRepository = paperSheetRepository;
-            this.organisationRepository = organisationRepository;
         }
 
         #endregion
@@ -77,11 +74,6 @@ namespace MPC.Implementation.MISServices
 
         public int? GetBaseData()
         {
-            //var organisation = organisationRepository.GetOrganizatiobByID(paperSheetRepository.OrganisationId);
-            //    if (organisation != null)
-            //{
-            //    if (organisation.SystemLengthUnit != null) return (int) organisation.SystemLengthUnit.Value;
-            //}
             return null;
         }
         #endregion

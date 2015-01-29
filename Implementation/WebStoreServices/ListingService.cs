@@ -1,4 +1,5 @@
-﻿using MPC.Interfaces.Repository;
+﻿using MPC.Common;
+using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
 using System;
@@ -22,7 +23,7 @@ namespace MPC.Implementation.WebStoreServices
             this._ListingRepository = ListingRepository;
         }
 
-        public List<Listing> GetRealEstateProperties()
+        public List<MPC.Models.DomainModels.Listing> GetRealEstateProperties()
         {
             return _ListingRepository.GetRealEstateProperties();
         }
@@ -37,7 +38,7 @@ namespace MPC.Implementation.WebStoreServices
             return _ListingRepository.GeyFieldVariablesByItemID(itemId);
         }
 
-        public Listing GetListingByListingId(long listingId)
+        public MPC.Models.DomainModels.Listing GetListingByListingId(long listingId)
         {
             return _ListingRepository.GetListingByListingId(listingId);
         }
@@ -78,5 +79,104 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ListingRepository.GetVariablesListWithValues(listingId, itemId, out lstVariableAndValue, out lstGeneralVariables, out lstListingImages, out lstSectionsName);
         }
+
+        public string UpdateListingData(ListingProperty objProperty)
+        {
+            string dataError = string.Empty;
+            bool dataProcessed = false;
+
+            if (objProperty.Listing.StoreCode == null)
+            {
+                dataError = "Store code is missing";
+                return dataError;
+            }
+            long iContactCompanyID = GetContactCompanyID(objProperty.Listing.StoreCode);
+            //int territoryId = GetDefaultTerritoryByContactCompanyID(objProperty.Listing.StoreCode);
+
+            if (iContactCompanyID == 0)
+            {
+                dataError = "Invalid Store code [" + objProperty.Listing.StoreCode + "]";
+                return dataError;
+            }
+            else
+            {
+                objProperty.Listing.ContactCompanyID = Convert.ToString(iContactCompanyID);
+            }
+
+            MPC.Models.DomainModels.Listing listing = CheckListingForUpdate(objProperty.Listing.ListingID);
+
+            if (listing != null) // update
+            {
+                dataProcessed = UpdateListingData(objProperty, listing);
+            }
+            else
+            {
+                dataProcessed = AddListingData(objProperty);
+            }
+
+            if (dataProcessed)
+                dataError = "Data processed successfully.";
+            else
+                dataError = "Error occurred while processing data.";
+
+            return dataError;
+        }
+        private long GetContactCompanyID(string sStoreCode)
+        {
+            try
+            {
+                return _ListingRepository.GetContactCompanyID(sStoreCode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        private MPC.Models.DomainModels.Listing CheckListingForUpdate(string clientListingID)
+        {
+            try
+            {
+                return _ListingRepository.CheckListingForUpdate(clientListingID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        private bool UpdateListingData(ListingProperty objProperty, MPC.Models.DomainModels.Listing listing)
+        {
+            try
+            {
+                bool dataAdded = false;
+
+               
+
+                dataAdded = _ListingRepository.UpdateListingData(objProperty,listing);
+
+                return dataAdded;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        private bool AddListingData(ListingProperty objProperty)
+        {
+            try
+            {
+                bool dataAdded = false;
+
+
+
+                dataAdded = _ListingRepository.AddListingData(objProperty);
+
+                return dataAdded;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }
