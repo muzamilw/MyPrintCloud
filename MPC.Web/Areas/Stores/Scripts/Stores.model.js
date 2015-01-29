@@ -126,7 +126,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         specifiedisIncludeVAT, specifiedincludeEmailBrokerArtworkOrderReport, specifiedincludeEmailBrokerArtworkOrderXML, specifiedincludeEmailBrokerArtworkOrderJobCard
         , specifiedIsDeliveryTaxAble,specifiedPickupAddressId,
         specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreImageFileBinary, specifiedStoreBackgroudImageSource, specifiedIsShowGoogleMap,
-        specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName, specifiedCustomCSS, specifiedStoreBackgroundImage
+        specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName, specifiedCustomCSS, specifiedStoreBackgroundImage, specifiedStoreImagePath
     ) {
         var self,
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
@@ -144,6 +144,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             webMasterTag = ko.observable(specifiedWebMasterTag),
             webAnalyticCode = ko.observable(specifiedWebAnalyticCode),
             type = ko.observable(),
+            storeImagePath = ko.observable(specifiedStoreImagePath),
             //webAccessCode = ko.observable(specifiedWebAccessCode).extend({
             //    required: {
             //        onlyIf: function () {
@@ -269,6 +270,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 notes: notes,
                 webAccessCode: webAccessCode,
                 twitterUrl: twitterUrl,
+                mediaLibraries: mediaLibraries,
                 facebookUrl: facebookUrl,
                 linkedinUrl: linkedinUrl,
                 facebookAppId: facebookAppId,
@@ -342,6 +344,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.FacebookAppKey = source.facebookAppKey();
                 result.TwitterAppId = source.twitterAppId();
                 result.TwitterAppKey = source.twitterAppKey();
+                result.StoreImagePath = source.storeImagePath();
                 result.SalesAndOrderManagerId1 = source.salesAndOrderManagerId1();
                 result.SalesAndOrderManagerId2 = source.salesAndOrderManagerId2();
                 result.ProductionManagerId1 = source.productionManagerId1();
@@ -356,7 +359,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.isBrokerCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline();
                 result.canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval();
                 result.isIncludeVAT = source.isIncludeVAT();
-               // result.StoreBackgroundImage = source.storeBackgroudImagePath();
+                // result.StoreBackgroundImage = source.storeBackgroudImagePath();
                 result.includeEmailBrokerArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport();
                 result.includeEmailBrokerArtworkOrderXML = source.includeEmailBrokerArtworkOrderXML();
                 result.includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard();
@@ -419,7 +422,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.StoreBackgroudImageFileName = source.storeBackgroudImageFileName();
                 //#endregion
                 result.ImageName = source.storeImageName() === undefined ? null : source.storeImageName();
-                result.ImageBytes = source.image() === undefined ? null : source.image();
+                result.ImageBytes = source.storeImageFileBinary() === undefined ? null : source.storeImageFileBinary();
                 result.DefaultSpriteSource = source.defaultSpriteImageSource() === undefined ? null : source.defaultSpriteImageSource();
                 result.UserDefinedSpriteSource = source.userDefinedSpriteImageSource() === undefined ? null : source.userDefinedSpriteImageSource();
                 result.UserDefinedSpriteFileName = source.userDefinedSpriteImageFileName() === undefined ? null : source.userDefinedSpriteImageFileName();
@@ -461,6 +464,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             stockNotificationManagerId2: stockNotificationManagerId2,
             twitterAppKey: twitterAppKey,
             companyType: companyType,
+            storeImagePath: storeImagePath,
             isStoreModePrivate: isStoreModePrivate,
             isTextWatermark: isTextWatermark,
             watermarkText: watermarkText,
@@ -633,7 +637,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.UserDefinedSpriteImageSource,
             source.UserDefinedSpriteFileName,
             source.CustomCSS,
-            source.StoreBackgroundImage
+            source.StoreBackgroundImage,
+            source.StoreImagePath
         );
 
         store.companyType(CompanyType.Create(source.CompanyType));
@@ -1713,7 +1718,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // ReSharper disable once InconsistentNaming
     var CMSPage = function (specifiedPageId, specifiedPageTitle, specifiedPageKeywords, specifiedMetaTitle, specifiedMetaDescriptionContent, specifiedMetaCategoryContent,
         specifiedMetaRobotsContent, specifiedMetaAuthorContent, specifiedMetaLanguageContent, specifiedMetaRevisitAfterContent, specifiedCategoryId, specifiedPageHTML,
-        specifiedImageSource, specifiedDefaultPageKeyWords, specifiedFileName) {
+        specifiedImageSource, specifiedDefaultPageKeyWords, specifiedFileName, specifiedPageBanner) {
         var self,
             id = ko.observable(specifiedPageId),
             pageTitle = ko.observable(specifiedPageTitle).extend({ required: true }),
@@ -1730,6 +1735,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             imageSrc = ko.observable(specifiedImageSource),
             fileName = ko.observable(specifiedFileName),
             defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
+            pageBanner = ko.observable(specifiedPageBanner),
             // Errors
             errors = ko.validation.group({
                 pageTitle: pageTitle,
@@ -1765,6 +1771,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.PageHTML = source.pageHTML() === undefined ? null : source.pageHTML();
                 result.FileName = source.fileName() === undefined ? null : source.fileName();
                 result.Bytes = source.imageSrc() === undefined ? null : source.imageSrc();
+                result.PageBanner = source.pageBanner() === undefined ? null : source.pageBanner();
                 return result;
             },
             // Reset
@@ -1787,6 +1794,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             imageSrc: imageSrc,
             fileName: fileName,
             defaultPageKeyWords: defaultPageKeyWords,
+            pageBanner: pageBanner,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1813,7 +1821,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.PageHTML,
             source.ImageSource,
             source.DefaultPageKeyWords,
-            source.FileName
+            source.FileName,
+            source.PageBanner
 
         );
     };

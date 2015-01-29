@@ -180,7 +180,6 @@ namespace MPC.Repository.Repositories
                     isCreateTemporaryCompany = true;
                 }
 
-            CompanyContact ContactPerson = null;
             }
 
             if (isCreateTemporaryCompany)
@@ -215,6 +214,7 @@ namespace MPC.Repository.Repositories
 
                 ContactCompany.IsCustomer = 0; //prospect
 
+                ContactCompany.OrganisationId = OrganisationId;
 
                 Markup OrgMarkup = db.Markups.Where(m => m.OrganisationId == OrganisationId && m.IsDefault == true).FirstOrDefault();
 
@@ -471,5 +471,6 @@ namespace MPC.Repository.Repositories
             }
         
         }
+      
     }
 }
