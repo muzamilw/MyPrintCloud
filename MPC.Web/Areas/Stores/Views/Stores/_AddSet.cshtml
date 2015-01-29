@@ -1,11 +1,6 @@
-﻿@{
-    ViewBag.Title = "Add banner set";
-}
-
-
-
-<div class="modal fade" id="mybannerSetModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div style="width: 838px;" class="modal-dialog" >
+﻿
+<div class="modal fade my-modal" id="mybannerSetModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div style="width: 838px;" class="modal-dialog">
         <div class="modal-content" data-bind="with:$root.selectedCompanyBannerSet">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -45,8 +40,9 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveBannerSet">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
+
             </div>
         </div>
     </div>

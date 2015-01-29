@@ -383,7 +383,7 @@ define("inventory/inventory.viewModel",
                                     selectedInventoryCopy().fullCategoryName(data.FullCategoryName);
                                     selectedInventoryCopy().supplierCompanyName(data.SupplierCompanyName);
                                 }
-                                closeInventoryEditor();
+                                isInventoryEditorVisible(false);
                                 toastr.success("Successfully save.");
                             },
                             error: function (exceptionMessage, exceptionType) {

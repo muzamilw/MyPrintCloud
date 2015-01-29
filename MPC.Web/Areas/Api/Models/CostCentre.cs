@@ -87,7 +87,6 @@ namespace MPC.MIS.Areas.Api.Models
         public int Sequence { get; set; }
         public string CompleteCode { get; set; }
         public string ItemDescription { get; set; }
-        public int CompanyId { get; set; }
         public int? SystemTypeId { get; set; }
         public int? FlagId { get; set; }
         public short IsScheduleable { get; set; }
