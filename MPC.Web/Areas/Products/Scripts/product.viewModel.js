@@ -19,6 +19,8 @@ define("product/product.viewModel",
                     errorList = ko.observableArray([]),
                     // Stock Items
                     stockItems = ko.observableArray([]),
+                    // Press Items
+                    pressItems = ko.observableArray([]),
                     // Cost Centres
                     costCentres = ko.observableArray([]),
                     // Section Flags
@@ -104,6 +106,8 @@ define("product/product.viewModel",
                     itemRelaterPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, productsToRelate)),
                     // Pagination For Stock Item Dialog
                     stockDialogPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, stockItems)),
+                    // Pagination For Press Dialog
+                    pressDialogPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, pressItems)),
                     // Current Page - Editable
                     currentPageCustom = ko.computed({
                         read: function () {
@@ -157,6 +161,8 @@ define("product/product.viewModel",
                     selectedJobDescription = ko.observable(),
                     // Stock Dialog Filter
                     stockDialogFilter = ko.observable(),
+                    // press Dialog Filter
+                    pressDialogFilter = ko.observable(),
                     // #region Utility Functions
                     toggleView = function (data, e) {
                         view.changeView(e);
@@ -331,6 +337,27 @@ define("product/product.viewModel",
                     // Close Stock Item Dialog
                     closeStockItemDialog = function () {
                         view.hideStockItemDialog();
+                    },
+                    // Search Press Items
+                    searchPressItems = function () {
+                        pressDialogPager().reset();
+                        getPressItems();
+                    },
+                    // Reset Stock Items
+                    resetPressItems = function () {
+                        // Reset Text 
+                        pressDialogPager(undefined);
+                        // Filter Record
+                        searchPressItems();
+                    },
+                    // Open Stock Item Dialog
+                    openPressDialog = function () {
+                        view.showPressDialog();
+                        searchPressItems();
+                    },
+                    // Close Stock Item Dialog
+                    closePressDialog = function () {
+                        view.hidePressDialog();
                     },
                     // Open Item Addon Cost Centre Dialog
                     openItemAddonCostCentreDialog = function () {
@@ -538,6 +565,17 @@ define("product/product.viewModel",
                         // Push to Original Array
                         ko.utils.arrayPushAll(stockItems(), itemsList);
                         stockItems.valueHasMutated();
+                    },
+                    // Map Press Items 
+                    mapPressItems = function (data) {
+                        var itemsList = [];
+                        _.each(data, function (item) {
+                            itemsList.push(model.PressItem.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(pressItems(), itemsList);
+                        pressItems.valueHasMutated();
                     },
                     // Filter Products to Relate
                     filterProductsToRelate = function () {
@@ -869,6 +907,25 @@ define("product/product.viewModel",
                             },
                             error: function (response) {
                                 toastr.error("Failed to load stock items" + response);
+                            }
+                        });
+                    },
+                    // Get Press Items
+                    getPressItems = function () {
+                        dataservice.getPressItems({
+                            SearchString: pressDialogFilter(),
+                            PageSize: pressDialogPager().pageSize(),
+                            PageNo: pressDialogPager().currentPage()
+                        }, {
+                            success: function (data) {
+                                pressItems.removeAll();
+                                if (data && data.TotalCount > 0) {
+                                    pressDialogPager().totalCount(data.TotalCount);
+                                    mapPressItems(data.PressItems);
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to load Press items" + response);
                             }
                         });
                     },

@@ -26,7 +26,7 @@
                         </button>
                     </div>
                 </div>
-            </div>
+            </div> 
             <div class="row" id="divCostCenterDetail">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="main-box clearfix">
@@ -34,12 +34,12 @@
                             <ul class="nav nav-tabs">
                                 <li class="active" id="generalInfoTab"><a href="#tab-generalinfo" data-toggle="tab">Type & Description</a></li>
                                 <li><a href="#tab-CostSetup" data-toggle="tab">Cost Setup</a></li>
-                                <li><a href="#tab-FixedCalculation" data-toggle="tab">Fixed Calculation</a></li>
-                                <li><a href="#tab-QtyBaseCalculation" data-toggle="tab">Quantity Base Calculation</a></li>
-                                <li><a href="#tab-PlantCalculation" data-toggle="tab">Plant Calculation</a></li>
-                                <li><a href="#tab-StockCalculation" data-toggle="tab">Stock Calculation</a></li>
-                                <li><a href="#tab-LabourCalculation" data-toggle="tab">Labour Calculation</a></li>
-                                <li><a href="#tab-TimeCalculation" data-toggle="tab">Time Calculation</a></li>
+                                <li><a href="#tab-FixedCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 1">Fixed Calculation</a></li>
+                                <li><a href="#tab-QtyBaseCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 3">Quantity Base Calculation</a></li>
+                                <li><a href="#tab-PlantCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 4">Plant Calculation</a></li>
+                                <li><a href="#tab-StockCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 4">Stock Calculation</a></li>
+                                <li><a href="#tab-LabourCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 4">Labour Calculation</a></li>
+                                <li><a href="#tab-TimeCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 4">Time Calculation</a></li>
                                 <li><a href="#tab-WorkInstruction" data-toggle="tab">Work Instruction</a></li>
                             </ul>
                             <div class="tab-content">
@@ -266,6 +266,12 @@
                                                     <span class="help-block text-right">Setup Time</span>
                                                 </div>
                                             </div>
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 form-horizontal">
+                                        <h3 class="group-header">Spoilage</h3>
+                                        <div class="col-lg-9">
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
@@ -280,42 +286,56 @@
                                                     <span class="help-block text-right">Setup Spoilage</span>
                                                 </div>
                                             </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Running Spoilage" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtRunningSpoilage" class="control-label text-right tooltip-float">Running Spoilage</label>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <input type="text" class="form-control" id="txtRunningSpoilage" placeholder="Enter minimum cost" data-bind="value: runningSpoilage">
+                                                    <span class="help-block text-right">Running Spoilage</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="tab-pane clearfix fade" id="tab-QtyBaseCalculation">
-                                    <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Quantity Base Calculation</h3>
-                                    </div>
-                                </div>
-                                <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-PlantCalculation">
-                                    <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Plant Calculation</h3>
-                                    </div>
-                                </div>
-                                <div class="tab-pane clearfix fade" id="tab-StockCalculation">
-                                    <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Stock Calculation</h3>
-                                    </div>
-                                </div>
-                                <div class="tab-pane clearfix fade" id="tab-LabourCalculation">
-                                    <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Labour Calculation</h3>
-                                    </div>
-                                </div>
-                                <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-TimeCalculation">
-                                    <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Time Calculation</h3>
-                                    </div>
-                                </div>
-                                <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-WorkInstruction">
-                                    <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Work Instructions</h3>
-                                    </div>
-                                </div>
+                                        </div>
+                                        <div class="tab-pane clearfix fade" id="tab-QtyBaseCalculation">
+                                            <div class="col-lg-12 form-horizontal">
+                                                <h3 class="group-header">Quantity Base Calculation</h3>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-PlantCalculation">
+                                            <div class="col-lg-12 form-horizontal">
+                                                <h3 class="group-header">Plant Calculation</h3>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane clearfix fade" id="tab-StockCalculation">
+                                            <div class="col-lg-12 form-horizontal">
+                                                <h3 class="group-header">Stock Calculation</h3>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane clearfix fade" id="tab-LabourCalculation">
+                                            <div class="col-lg-12 form-horizontal">
+                                                <h3 class="group-header">Labour Calculation</h3>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-TimeCalculation">
+                                            <div class="col-lg-12 form-horizontal">
+                                                <h3 class="group-header">Time Calculation</h3>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-WorkInstruction">
+                                            <div class="col-lg-12 form-horizontal">
+                                                <h3 class="group-header">Work Instructions</h3>
+                                            </div>
+                                        </div>
 
-                            </div>
-                        </div>
+                                    </div>
+                                </div>
                     </div>
                 </div>
             </div>

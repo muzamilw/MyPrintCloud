@@ -1,7 +1,5 @@
-﻿@{
-    ViewBag.Title = "Paper Sheet Dialog";
-}
-<div class="modal fade" id="supplierDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+﻿
+<div class="modal fade my-modal" id="supplierDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div style="width:838px;" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" data-bind="visible: !isSupplierEditorVisible()">
@@ -27,7 +25,6 @@
                                         <table id="supplierTablle" class="table table-striped table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th class="col-sm-1">&nbsp;</th>
                                                     <th> <span>Name<span></span></span></th>
                                                 </tr>
                                             </thead>
@@ -85,10 +82,7 @@
 
 <script id="supplierItemTemplate" type="text/html">
     <tr data-bind="click: $root.selectedSupplier">
-        <td>
-            @*<div class="col-sm-1 checkbox-nice"><input type="checkbox" data-bind="checked: isSelected " id="suup" /><label for="suup"></label></div>*@
-            <div class="col-sm-1"><input type="checkbox" data-bind="checked: isSelected " /></div>
-        </td>
+
         <td>
             <span style="font-size: 1.105em; color: #0094ff;" data-bind="text: name"></span>
             <br />

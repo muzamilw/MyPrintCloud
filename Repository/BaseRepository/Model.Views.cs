@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets42DD7D8B00D0C759E63892DFB44A531421813E4A9543D0631817CCC11103AB2C))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets54ABBEDD5C8FF999DEC6B80A16E3529B6ED998991F68E175ACA04E7339384BFC))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,19 +17,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets42DD7D8B00D0C759E63892DFB44A531421813E4A9543D0631817CCC11103AB2C : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets54ABBEDD5C8FF999DEC6B80A16E3529B6ED998991F68E175ACA04E7339384BFC : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets42DD7D8B00D0C759E63892DFB44A531421813E4A9543D0631817CCC11103AB2C()
+        public ViewsForBaseEntitySets54ABBEDD5C8FF999DEC6B80A16E3529B6ED998991F68E175ACA04E7339384BFC()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "66ba2dd6994748d0fc75cec9d71e6f1a1bfa7326cc071cc61a3004b2f4d6f927";
-            this.HashOverAllExtentViews = "4fd73aad8f2a808289b3ed45e29434963f9a88695a45135dff630e33c7534bdd";
-            this.ViewCount = 278;
+            this.HashOverMappingClosure = "271cea9e7c274a106bb860064a7b0bee899c0e9d30e2ca21486ec85c73ebdd34";
+            this.HashOverAllExtentViews = "449aa129bfe4f270093f342115f3529a22f3913cd85d474aa8b8833b70208372";
+            this.ViewCount = 280;
         }
         
         /// <Summary>
@@ -1148,6 +1148,14 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 277))
             {
                 return GetView277();
+            }
+            if ((index == 278))
+            {
+                return GetView278();
+            }
+            if ((index == 279))
+            {
+                return GetView279();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -3328,120 +3336,122 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView47()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(9024);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(9153);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Campaign\r\n        [DomainModels.Store.Campaig");
             viewString.Append("n](T1.Campaign_CampaignId, T1.Campaign_CampaignName, T1.Campaign_Description, T1");
             viewString.Append(".Campaign_DataSourceType, T1.Campaign_RunCampaignFor, T1.Campaign_IncludeCustome");
-            viewString.Append("rs, T1.Campaign_IncludeSuppliers, T1.Campaign_IncludeProspects, T1.Campaign_Incl");
-            viewString.Append("udeKeyword, T1.Campaign_SearchKeyword, T1.Campaign_IncludeType, T1.Campaign_Incl");
-            viewString.Append("udeFlag, T1.Campaign_IncludeName, T1.Campaign_IncludeAddress, T1.Campaign_Includ");
-            viewString.Append("eContactName, T1.Campaign_SubjectA, T1.Campaign_HTMLMessageA, T1.Campaign_Attach");
-            viewString.Append("mentFileNameFieldName, T1.Campaign_AttachmentType, T1.Campaign_EmailField, T1.Ca");
-            viewString.Append("mpaign_CCEmailField, T1.Campaign_SMTPServer, T1.Campaign_FromAddress, T1.Campaig");
-            viewString.Append("n_ReturnPathAddress, T1.Campaign_ReplyToAddress, T1.Campaign_ErrorsToAddress, T1");
-            viewString.Append(".Campaign_SMTPServerType, T1.Campaign_EnableSchedule, T1.Campaign_StartDateTime,");
-            viewString.Append(" T1.Campaign_RepeatEvery, T1.Campaign_RepeatInterval, T1.Campaign_LastRunOn, T1.");
-            viewString.Append("Campaign_MessageType, T1.Campaign_ABMessaging, T1.Campaign_SubjectB, T1.Campaign");
-            viewString.Append("_HTMLMessageB, T1.Campaign_IncludePlainText, T1.Campaign_SMTPDelaySeconds, T1.Ca");
-            viewString.Append("mpaign_EmailAddressLogFiles, T1.Campaign_PlainTextMessageA, T1.Campaign_PlainTex");
-            viewString.Append("tMessageB, T1.Campaign_UId, T1.Campaign_Private, T1.Campaign_SubscribeEmailUpdat");
-            viewString.Append("eField, T1.Campaign_UnsubscribeEmailHyperlinkText, T1.Campaign_SubscribeEmailAdd");
-            viewString.Append("ress, T1.Campaign_SubscribeEmailHyperlinkText, T1.Campaign_UnSubscribeCount, T1.");
-            viewString.Append("Campaign_SubscribeCount, T1.Campaign_BounceCount, T1.Campaign_LastRunEndDateTime");
-            viewString.Append(", T1.Campaign_MessageCount, T1.Campaign_SuccessCount, T1.Campaign_FailedCount, T");
-            viewString.Append("1.Campaign_EnableLogFiles, T1.Campaign_ContinueIfWritebackError, T1.Campaign_Ema");
-            viewString.Append("ilFieldPreviewColumn2, T1.Campaign_EmailFieldPreviewColumn3, T1.Campaign_Attachm");
-            viewString.Append("entFileName, T1.Campaign_ClearCounters, T1.Campaign_SMTPServer2, T1.Campaign_Loc");
-            viewString.Append("kedByUID, T1.Campaign_UnSubscribeCountTotal, T1.Campaign_SubscribeCountTotal, T1");
-            viewString.Append(".Campaign_BounceCountTotal, T1.Campaign_EnableEmailAddressCache, T1.Campaign_Ope");
-            viewString.Append("nedCount, T1.Campaign_OpenedCountTotal, T1.Campaign_OpenedEmailUpdateField, T1.C");
-            viewString.Append("ampaign_EnableOpenedEmail, T1.Campaign_ABMessagingUpdateField, T1.Campaign_Email");
-            viewString.Append("LogFileAddress2, T1.Campaign_EmailLogFileAddress3, T1.Campaign_CampaignCategory,");
-            viewString.Append(" T1.Campaign_SoftBounceCountTotal, T1.Campaign_SMTPUsername, T1.Campaign_SMTPPas");
-            viewString.Append("sword, T1.Campaign_EnableWriteBackTab, T1.Campaign_EnableClickThruTab, T1.Campai");
-            viewString.Append("gn_UnsubscribeMethod, T1.Campaign_UseWYSWYG, T1.Campaign_CreationDate, T1.Campai");
-            viewString.Append("gn_Status, T1.Campaign_ValidateEmail, T1.Campaign_CampaignType, T1.Campaign_Syst");
-            viewString.Append("emSiteId, T1.Campaign_IncludeCorporateCustomers, T1.Campaign_IsEnabled, T1.Campa");
-            viewString.Append("ign_SendEmailAfterDays, T1.Campaign_EmailEvent, T1.Campaign_isSystemEmail, T1.Ca");
-            viewString.Append("mpaign_FlagIDs, T1.Campaign_CustomerTypeIDs, T1.Campaign_GroupIDs, T1.Campaign_F");
-            viewString.Append("romName, T1.Campaign_CampaignReportId, T1.Campaign_OrganisationId, T1.Campaign_C");
-            viewString.Append("ompanyId, T1.Campaign_UnsubscribeEmailAddress)\r\n    FROM (\r\n        SELECT \r\n   ");
-            viewString.Append("         T.CampaignId AS Campaign_CampaignId, \r\n            T.CampaignName AS Ca");
-            viewString.Append("mpaign_CampaignName, \r\n            T.Description AS Campaign_Description, \r\n    ");
-            viewString.Append("        T.DataSourceType AS Campaign_DataSourceType, \r\n            T.RunCampaign");
-            viewString.Append("For AS Campaign_RunCampaignFor, \r\n            T.IncludeCustomers AS Campaign_Inc");
-            viewString.Append("ludeCustomers, \r\n            T.IncludeSuppliers AS Campaign_IncludeSuppliers, \r\n");
-            viewString.Append("            T.IncludeProspects AS Campaign_IncludeProspects, \r\n            T.Inc");
-            viewString.Append("ludeKeyword AS Campaign_IncludeKeyword, \r\n            T.SearchKeyword AS Campaig");
-            viewString.Append("n_SearchKeyword, \r\n            T.IncludeType AS Campaign_IncludeType, \r\n        ");
-            viewString.Append("    T.IncludeFlag AS Campaign_IncludeFlag, \r\n            T.IncludeName AS Campai");
-            viewString.Append("gn_IncludeName, \r\n            T.IncludeAddress AS Campaign_IncludeAddress, \r\n   ");
-            viewString.Append("         T.IncludeContactName AS Campaign_IncludeContactName, \r\n            T.Su");
-            viewString.Append("bjectA AS Campaign_SubjectA, \r\n            T.HTMLMessageA AS Campaign_HTMLMessag");
-            viewString.Append("eA, \r\n            T.AttachmentFileNameFieldName AS Campaign_AttachmentFileNameFi");
-            viewString.Append("eldName, \r\n            T.AttachmentType AS Campaign_AttachmentType, \r\n          ");
-            viewString.Append("  T.EmailField AS Campaign_EmailField, \r\n            T.CCEmailField AS Campaign_");
-            viewString.Append("CCEmailField, \r\n            T.SMTPServer AS Campaign_SMTPServer, \r\n            T");
-            viewString.Append(".FromAddress AS Campaign_FromAddress, \r\n            T.ReturnPathAddress AS Campa");
-            viewString.Append("ign_ReturnPathAddress, \r\n            T.ReplyToAddress AS Campaign_ReplyToAddress");
-            viewString.Append(", \r\n            T.ErrorsToAddress AS Campaign_ErrorsToAddress, \r\n            T.S");
-            viewString.Append("MTPServerType AS Campaign_SMTPServerType, \r\n            T.EnableSchedule AS Camp");
-            viewString.Append("aign_EnableSchedule, \r\n            T.StartDateTime AS Campaign_StartDateTime, \r\n");
-            viewString.Append("            T.RepeatEvery AS Campaign_RepeatEvery, \r\n            T.RepeatInterva");
-            viewString.Append("l AS Campaign_RepeatInterval, \r\n            T.LastRunOn AS Campaign_LastRunOn, \r");
-            viewString.Append("\n            T.MessageType AS Campaign_MessageType, \r\n            T.ABMessaging ");
-            viewString.Append("AS Campaign_ABMessaging, \r\n            T.SubjectB AS Campaign_SubjectB, \r\n      ");
-            viewString.Append("      T.HTMLMessageB AS Campaign_HTMLMessageB, \r\n            T.IncludePlainText ");
-            viewString.Append("AS Campaign_IncludePlainText, \r\n            T.SMTPDelaySeconds AS Campaign_SMTPD");
-            viewString.Append("elaySeconds, \r\n            T.EmailAddressLogFiles AS Campaign_EmailAddressLogFil");
-            viewString.Append("es, \r\n            T.PlainTextMessageA AS Campaign_PlainTextMessageA, \r\n         ");
-            viewString.Append("   T.PlainTextMessageB AS Campaign_PlainTextMessageB, \r\n            T.UId AS Cam");
-            viewString.Append("paign_UId, \r\n            T.Private AS Campaign_Private, \r\n            T.Subscrib");
-            viewString.Append("eEmailUpdateField AS Campaign_SubscribeEmailUpdateField, \r\n            T.Unsubsc");
-            viewString.Append("ribeEmailHyperlinkText AS Campaign_UnsubscribeEmailHyperlinkText, \r\n            ");
-            viewString.Append("T.SubscribeEmailAddress AS Campaign_SubscribeEmailAddress, \r\n            T.Subsc");
-            viewString.Append("ribeEmailHyperlinkText AS Campaign_SubscribeEmailHyperlinkText, \r\n            T.");
-            viewString.Append("UnSubscribeCount AS Campaign_UnSubscribeCount, \r\n            T.SubscribeCount AS");
-            viewString.Append(" Campaign_SubscribeCount, \r\n            T.BounceCount AS Campaign_BounceCount, \r");
-            viewString.Append("\n            T.LastRunEndDateTime AS Campaign_LastRunEndDateTime, \r\n            ");
-            viewString.Append("T.MessageCount AS Campaign_MessageCount, \r\n            T.SuccessCount AS Campaig");
-            viewString.Append("n_SuccessCount, \r\n            T.FailedCount AS Campaign_FailedCount, \r\n         ");
-            viewString.Append("   T.EnableLogFiles AS Campaign_EnableLogFiles, \r\n            T.ContinueIfWriteb");
-            viewString.Append("ackError AS Campaign_ContinueIfWritebackError, \r\n            T.EmailFieldPreview");
-            viewString.Append("Column2 AS Campaign_EmailFieldPreviewColumn2, \r\n            T.EmailFieldPreviewC");
-            viewString.Append("olumn3 AS Campaign_EmailFieldPreviewColumn3, \r\n            T.AttachmentFileName ");
-            viewString.Append("AS Campaign_AttachmentFileName, \r\n            T.ClearCounters AS Campaign_ClearC");
-            viewString.Append("ounters, \r\n            T.SMTPServer2 AS Campaign_SMTPServer2, \r\n            T.Lo");
-            viewString.Append("ckedByUID AS Campaign_LockedByUID, \r\n            T.UnSubscribeCountTotal AS Camp");
-            viewString.Append("aign_UnSubscribeCountTotal, \r\n            T.SubscribeCountTotal AS Campaign_Subs");
-            viewString.Append("cribeCountTotal, \r\n            T.BounceCountTotal AS Campaign_BounceCountTotal, ");
-            viewString.Append("\r\n            T.EnableEmailAddressCache AS Campaign_EnableEmailAddressCache, \r\n ");
-            viewString.Append("           T.OpenedCount AS Campaign_OpenedCount, \r\n            T.OpenedCountTot");
-            viewString.Append("al AS Campaign_OpenedCountTotal, \r\n            T.OpenedEmailUpdateField AS Campa");
-            viewString.Append("ign_OpenedEmailUpdateField, \r\n            T.EnableOpenedEmail AS Campaign_Enable");
-            viewString.Append("OpenedEmail, \r\n            T.ABMessagingUpdateField AS Campaign_ABMessagingUpdat");
-            viewString.Append("eField, \r\n            T.EmailLogFileAddress2 AS Campaign_EmailLogFileAddress2, \r");
-            viewString.Append("\n            T.EmailLogFileAddress3 AS Campaign_EmailLogFileAddress3, \r\n        ");
-            viewString.Append("    T.CampaignCategory AS Campaign_CampaignCategory, \r\n            T.SoftBounceC");
-            viewString.Append("ountTotal AS Campaign_SoftBounceCountTotal, \r\n            T.SMTPUsername AS Camp");
-            viewString.Append("aign_SMTPUsername, \r\n            T.SMTPPassword AS Campaign_SMTPPassword, \r\n    ");
-            viewString.Append("        T.EnableWriteBackTab AS Campaign_EnableWriteBackTab, \r\n            T.Ena");
-            viewString.Append("bleClickThruTab AS Campaign_EnableClickThruTab, \r\n            T.UnsubscribeMetho");
-            viewString.Append("d AS Campaign_UnsubscribeMethod, \r\n            T.UseWYSWYG AS Campaign_UseWYSWYG");
-            viewString.Append(", \r\n            T.CreationDate AS Campaign_CreationDate, \r\n            T.Status ");
-            viewString.Append("AS Campaign_Status, \r\n            T.ValidateEmail AS Campaign_ValidateEmail, \r\n ");
-            viewString.Append("           T.CampaignType AS Campaign_CampaignType, \r\n            T.SystemSiteId");
-            viewString.Append(" AS Campaign_SystemSiteId, \r\n            T.IncludeCorporateCustomers AS Campaign");
-            viewString.Append("_IncludeCorporateCustomers, \r\n            T.IsEnabled AS Campaign_IsEnabled, \r\n ");
-            viewString.Append("           T.SendEmailAfterDays AS Campaign_SendEmailAfterDays, \r\n            T.");
-            viewString.Append("EmailEvent AS Campaign_EmailEvent, \r\n            T.isSystemEmail AS Campaign_isS");
-            viewString.Append("ystemEmail, \r\n            T.FlagIDs AS Campaign_FlagIDs, \r\n            T.Custome");
-            viewString.Append("rTypeIDs AS Campaign_CustomerTypeIDs, \r\n            T.GroupIDs AS Campaign_Group");
-            viewString.Append("IDs, \r\n            T.FromName AS Campaign_FromName, \r\n            T.CampaignRepo");
-            viewString.Append("rtId AS Campaign_CampaignReportId, \r\n            T.OrganisationId AS Campaign_Or");
-            viewString.Append("ganisationId, \r\n            T.CompanyId AS Campaign_CompanyId, \r\n            T.U");
-            viewString.Append("nsubscribeEmailAddress AS Campaign_UnsubscribeEmailAddress, \r\n            True A");
-            viewString.Append("S _from0\r\n        FROM BaseDbContext.Campaigns AS T\r\n    ) AS T1");
+            viewString.Append("rs, T1.Campaign_IncludeSuppliers, T1.Campaign_IncludeNewsLetterSubscribers, T1.C");
+            viewString.Append("ampaign_IncludeProspects, T1.Campaign_IncludeKeyword, T1.Campaign_SearchKeyword,");
+            viewString.Append(" T1.Campaign_IncludeType, T1.Campaign_IncludeFlag, T1.Campaign_IncludeName, T1.C");
+            viewString.Append("ampaign_IncludeAddress, T1.Campaign_IncludeContactName, T1.Campaign_SubjectA, T1");
+            viewString.Append(".Campaign_HTMLMessageA, T1.Campaign_AttachmentFileNameFieldName, T1.Campaign_Att");
+            viewString.Append("achmentType, T1.Campaign_EmailField, T1.Campaign_CCEmailField, T1.Campaign_SMTPS");
+            viewString.Append("erver, T1.Campaign_FromAddress, T1.Campaign_ReturnPathAddress, T1.Campaign_Reply");
+            viewString.Append("ToAddress, T1.Campaign_ErrorsToAddress, T1.Campaign_SMTPServerType, T1.Campaign_");
+            viewString.Append("EnableSchedule, T1.Campaign_StartDateTime, T1.Campaign_RepeatEvery, T1.Campaign_");
+            viewString.Append("RepeatInterval, T1.Campaign_LastRunOn, T1.Campaign_MessageType, T1.Campaign_ABMe");
+            viewString.Append("ssaging, T1.Campaign_SubjectB, T1.Campaign_HTMLMessageB, T1.Campaign_IncludePlai");
+            viewString.Append("nText, T1.Campaign_SMTPDelaySeconds, T1.Campaign_EmailAddressLogFiles, T1.Campai");
+            viewString.Append("gn_PlainTextMessageA, T1.Campaign_PlainTextMessageB, T1.Campaign_UId, T1.Campaig");
+            viewString.Append("n_Private, T1.Campaign_SubscribeEmailUpdateField, T1.Campaign_UnsubscribeEmailHy");
+            viewString.Append("perlinkText, T1.Campaign_SubscribeEmailAddress, T1.Campaign_SubscribeEmailHyperl");
+            viewString.Append("inkText, T1.Campaign_UnSubscribeCount, T1.Campaign_SubscribeCount, T1.Campaign_B");
+            viewString.Append("ounceCount, T1.Campaign_LastRunEndDateTime, T1.Campaign_MessageCount, T1.Campaig");
+            viewString.Append("n_SuccessCount, T1.Campaign_FailedCount, T1.Campaign_EnableLogFiles, T1.Campaign");
+            viewString.Append("_ContinueIfWritebackError, T1.Campaign_EmailFieldPreviewColumn2, T1.Campaign_Ema");
+            viewString.Append("ilFieldPreviewColumn3, T1.Campaign_AttachmentFileName, T1.Campaign_ClearCounters");
+            viewString.Append(", T1.Campaign_SMTPServer2, T1.Campaign_LockedByUID, T1.Campaign_UnSubscribeCount");
+            viewString.Append("Total, T1.Campaign_SubscribeCountTotal, T1.Campaign_BounceCountTotal, T1.Campaig");
+            viewString.Append("n_EnableEmailAddressCache, T1.Campaign_OpenedCount, T1.Campaign_OpenedCountTotal");
+            viewString.Append(", T1.Campaign_OpenedEmailUpdateField, T1.Campaign_EnableOpenedEmail, T1.Campaign");
+            viewString.Append("_ABMessagingUpdateField, T1.Campaign_EmailLogFileAddress2, T1.Campaign_EmailLogF");
+            viewString.Append("ileAddress3, T1.Campaign_CampaignCategory, T1.Campaign_SoftBounceCountTotal, T1.");
+            viewString.Append("Campaign_SMTPUsername, T1.Campaign_SMTPPassword, T1.Campaign_EnableWriteBackTab,");
+            viewString.Append(" T1.Campaign_EnableClickThruTab, T1.Campaign_UnsubscribeMethod, T1.Campaign_UseW");
+            viewString.Append("YSWYG, T1.Campaign_CreationDate, T1.Campaign_Status, T1.Campaign_ValidateEmail, ");
+            viewString.Append("T1.Campaign_CampaignType, T1.Campaign_SystemSiteId, T1.Campaign_IncludeCorporate");
+            viewString.Append("Customers, T1.Campaign_IsEnabled, T1.Campaign_SendEmailAfterDays, T1.Campaign_Em");
+            viewString.Append("ailEvent, T1.Campaign_isSystemEmail, T1.Campaign_FlagIDs, T1.Campaign_CustomerTy");
+            viewString.Append("peIDs, T1.Campaign_GroupIDs, T1.Campaign_FromName, T1.Campaign_CampaignReportId,");
+            viewString.Append(" T1.Campaign_OrganisationId, T1.Campaign_CompanyId, T1.Campaign_UnsubscribeEmail");
+            viewString.Append("Address)\r\n    FROM (\r\n        SELECT \r\n            T.CampaignId AS Campaign_Camp");
+            viewString.Append("aignId, \r\n            T.CampaignName AS Campaign_CampaignName, \r\n            T.D");
+            viewString.Append("escription AS Campaign_Description, \r\n            T.DataSourceType AS Campaign_D");
+            viewString.Append("ataSourceType, \r\n            T.RunCampaignFor AS Campaign_RunCampaignFor, \r\n    ");
+            viewString.Append("        T.IncludeCustomers AS Campaign_IncludeCustomers, \r\n            T.Include");
+            viewString.Append("Suppliers AS Campaign_IncludeSuppliers, \r\n            T.IncludeNewsLetterSubscri");
+            viewString.Append("bers AS Campaign_IncludeNewsLetterSubscribers, \r\n            T.IncludeProspects ");
+            viewString.Append("AS Campaign_IncludeProspects, \r\n            T.IncludeKeyword AS Campaign_Include");
+            viewString.Append("Keyword, \r\n            T.SearchKeyword AS Campaign_SearchKeyword, \r\n            ");
+            viewString.Append("T.IncludeType AS Campaign_IncludeType, \r\n            T.IncludeFlag AS Campaign_I");
+            viewString.Append("ncludeFlag, \r\n            T.IncludeName AS Campaign_IncludeName, \r\n            T");
+            viewString.Append(".IncludeAddress AS Campaign_IncludeAddress, \r\n            T.IncludeContactName A");
+            viewString.Append("S Campaign_IncludeContactName, \r\n            T.SubjectA AS Campaign_SubjectA, \r\n");
+            viewString.Append("            T.HTMLMessageA AS Campaign_HTMLMessageA, \r\n            T.AttachmentF");
+            viewString.Append("ileNameFieldName AS Campaign_AttachmentFileNameFieldName, \r\n            T.Attach");
+            viewString.Append("mentType AS Campaign_AttachmentType, \r\n            T.EmailField AS Campaign_Emai");
+            viewString.Append("lField, \r\n            T.CCEmailField AS Campaign_CCEmailField, \r\n            T.S");
+            viewString.Append("MTPServer AS Campaign_SMTPServer, \r\n            T.FromAddress AS Campaign_FromAd");
+            viewString.Append("dress, \r\n            T.ReturnPathAddress AS Campaign_ReturnPathAddress, \r\n      ");
+            viewString.Append("      T.ReplyToAddress AS Campaign_ReplyToAddress, \r\n            T.ErrorsToAddre");
+            viewString.Append("ss AS Campaign_ErrorsToAddress, \r\n            T.SMTPServerType AS Campaign_SMTPS");
+            viewString.Append("erverType, \r\n            T.EnableSchedule AS Campaign_EnableSchedule, \r\n        ");
+            viewString.Append("    T.StartDateTime AS Campaign_StartDateTime, \r\n            T.RepeatEvery AS Ca");
+            viewString.Append("mpaign_RepeatEvery, \r\n            T.RepeatInterval AS Campaign_RepeatInterval, \r");
+            viewString.Append("\n            T.LastRunOn AS Campaign_LastRunOn, \r\n            T.MessageType AS C");
+            viewString.Append("ampaign_MessageType, \r\n            T.ABMessaging AS Campaign_ABMessaging, \r\n    ");
+            viewString.Append("        T.SubjectB AS Campaign_SubjectB, \r\n            T.HTMLMessageB AS Campaig");
+            viewString.Append("n_HTMLMessageB, \r\n            T.IncludePlainText AS Campaign_IncludePlainText, \r");
+            viewString.Append("\n            T.SMTPDelaySeconds AS Campaign_SMTPDelaySeconds, \r\n            T.Em");
+            viewString.Append("ailAddressLogFiles AS Campaign_EmailAddressLogFiles, \r\n            T.PlainTextMe");
+            viewString.Append("ssageA AS Campaign_PlainTextMessageA, \r\n            T.PlainTextMessageB AS Campa");
+            viewString.Append("ign_PlainTextMessageB, \r\n            T.UId AS Campaign_UId, \r\n            T.Priv");
+            viewString.Append("ate AS Campaign_Private, \r\n            T.SubscribeEmailUpdateField AS Campaign_S");
+            viewString.Append("ubscribeEmailUpdateField, \r\n            T.UnsubscribeEmailHyperlinkText AS Campa");
+            viewString.Append("ign_UnsubscribeEmailHyperlinkText, \r\n            T.SubscribeEmailAddress AS Camp");
+            viewString.Append("aign_SubscribeEmailAddress, \r\n            T.SubscribeEmailHyperlinkText AS Campa");
+            viewString.Append("ign_SubscribeEmailHyperlinkText, \r\n            T.UnSubscribeCount AS Campaign_Un");
+            viewString.Append("SubscribeCount, \r\n            T.SubscribeCount AS Campaign_SubscribeCount, \r\n   ");
+            viewString.Append("         T.BounceCount AS Campaign_BounceCount, \r\n            T.LastRunEndDateTi");
+            viewString.Append("me AS Campaign_LastRunEndDateTime, \r\n            T.MessageCount AS Campaign_Mess");
+            viewString.Append("ageCount, \r\n            T.SuccessCount AS Campaign_SuccessCount, \r\n            T");
+            viewString.Append(".FailedCount AS Campaign_FailedCount, \r\n            T.EnableLogFiles AS Campaign");
+            viewString.Append("_EnableLogFiles, \r\n            T.ContinueIfWritebackError AS Campaign_ContinueIf");
+            viewString.Append("WritebackError, \r\n            T.EmailFieldPreviewColumn2 AS Campaign_EmailFieldP");
+            viewString.Append("reviewColumn2, \r\n            T.EmailFieldPreviewColumn3 AS Campaign_EmailFieldPr");
+            viewString.Append("eviewColumn3, \r\n            T.AttachmentFileName AS Campaign_AttachmentFileName,");
+            viewString.Append(" \r\n            T.ClearCounters AS Campaign_ClearCounters, \r\n            T.SMTPSe");
+            viewString.Append("rver2 AS Campaign_SMTPServer2, \r\n            T.LockedByUID AS Campaign_LockedByU");
+            viewString.Append("ID, \r\n            T.UnSubscribeCountTotal AS Campaign_UnSubscribeCountTotal, \r\n ");
+            viewString.Append("           T.SubscribeCountTotal AS Campaign_SubscribeCountTotal, \r\n            ");
+            viewString.Append("T.BounceCountTotal AS Campaign_BounceCountTotal, \r\n            T.EnableEmailAddr");
+            viewString.Append("essCache AS Campaign_EnableEmailAddressCache, \r\n            T.OpenedCount AS Cam");
+            viewString.Append("paign_OpenedCount, \r\n            T.OpenedCountTotal AS Campaign_OpenedCountTotal");
+            viewString.Append(", \r\n            T.OpenedEmailUpdateField AS Campaign_OpenedEmailUpdateField, \r\n ");
+            viewString.Append("           T.EnableOpenedEmail AS Campaign_EnableOpenedEmail, \r\n            T.AB");
+            viewString.Append("MessagingUpdateField AS Campaign_ABMessagingUpdateField, \r\n            T.EmailLo");
+            viewString.Append("gFileAddress2 AS Campaign_EmailLogFileAddress2, \r\n            T.EmailLogFileAddr");
+            viewString.Append("ess3 AS Campaign_EmailLogFileAddress3, \r\n            T.CampaignCategory AS Campa");
+            viewString.Append("ign_CampaignCategory, \r\n            T.SoftBounceCountTotal AS Campaign_SoftBounc");
+            viewString.Append("eCountTotal, \r\n            T.SMTPUsername AS Campaign_SMTPUsername, \r\n          ");
+            viewString.Append("  T.SMTPPassword AS Campaign_SMTPPassword, \r\n            T.EnableWriteBackTab AS");
+            viewString.Append(" Campaign_EnableWriteBackTab, \r\n            T.EnableClickThruTab AS Campaign_Ena");
+            viewString.Append("bleClickThruTab, \r\n            T.UnsubscribeMethod AS Campaign_UnsubscribeMethod");
+            viewString.Append(", \r\n            T.UseWYSWYG AS Campaign_UseWYSWYG, \r\n            T.CreationDate ");
+            viewString.Append("AS Campaign_CreationDate, \r\n            T.Status AS Campaign_Status, \r\n         ");
+            viewString.Append("   T.ValidateEmail AS Campaign_ValidateEmail, \r\n            T.CampaignType AS Ca");
+            viewString.Append("mpaign_CampaignType, \r\n            T.SystemSiteId AS Campaign_SystemSiteId, \r\n  ");
+            viewString.Append("          T.IncludeCorporateCustomers AS Campaign_IncludeCorporateCustomers, \r\n ");
+            viewString.Append("           T.IsEnabled AS Campaign_IsEnabled, \r\n            T.SendEmailAfterDays");
+            viewString.Append(" AS Campaign_SendEmailAfterDays, \r\n            T.EmailEvent AS Campaign_EmailEve");
+            viewString.Append("nt, \r\n            T.isSystemEmail AS Campaign_isSystemEmail, \r\n            T.Fla");
+            viewString.Append("gIDs AS Campaign_FlagIDs, \r\n            T.CustomerTypeIDs AS Campaign_CustomerTy");
+            viewString.Append("peIDs, \r\n            T.GroupIDs AS Campaign_GroupIDs, \r\n            T.FromName A");
+            viewString.Append("S Campaign_FromName, \r\n            T.CampaignReportId AS Campaign_CampaignReport");
+            viewString.Append("Id, \r\n            T.OrganisationId AS Campaign_OrganisationId, \r\n            T.C");
+            viewString.Append("ompanyId AS Campaign_CompanyId, \r\n            T.UnsubscribeEmailAddress AS Campa");
+            viewString.Append("ign_UnsubscribeEmailAddress, \r\n            True AS _from0\r\n        FROM BaseDbCo");
+            viewString.Append("ntext.Campaigns AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Campaign", viewString.ToString());
         }
         
@@ -6401,7 +6411,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView124()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(9031);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(9160);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Campaigns\r\n        [DomainModels.Campaign](T1");
             viewString.Append(".Campaign_CampaignId, T1.Campaign_CampaignName, T1.Campaign_Description, T1.Camp");
             viewString.Append("aign_DataSourceType, T1.Campaign_RunCampaignFor, T1.Campaign_IncludeCustomers, T");
@@ -6438,83 +6448,85 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("endEmailAfterDays, T1.Campaign_EmailEvent, T1.Campaign_isSystemEmail, T1.Campaig");
             viewString.Append("n_FlagIDs, T1.Campaign_CustomerTypeIDs, T1.Campaign_GroupIDs, T1.Campaign_FromNa");
             viewString.Append("me, T1.Campaign_CampaignReportId, T1.Campaign_OrganisationId, T1.Campaign_Compan");
-            viewString.Append("yId, T1.Campaign_UnsubscribeEmailAddress)\r\n    FROM (\r\n        SELECT \r\n        ");
-            viewString.Append("    T.CampaignId AS Campaign_CampaignId, \r\n            T.CampaignName AS Campaig");
-            viewString.Append("n_CampaignName, \r\n            T.Description AS Campaign_Description, \r\n         ");
-            viewString.Append("   T.DataSourceType AS Campaign_DataSourceType, \r\n            T.RunCampaignFor A");
-            viewString.Append("S Campaign_RunCampaignFor, \r\n            T.IncludeCustomers AS Campaign_IncludeC");
-            viewString.Append("ustomers, \r\n            T.IncludeSuppliers AS Campaign_IncludeSuppliers, \r\n     ");
-            viewString.Append("       T.IncludeProspects AS Campaign_IncludeProspects, \r\n            T.IncludeK");
-            viewString.Append("eyword AS Campaign_IncludeKeyword, \r\n            T.SearchKeyword AS Campaign_Sea");
-            viewString.Append("rchKeyword, \r\n            T.IncludeType AS Campaign_IncludeType, \r\n            T");
-            viewString.Append(".IncludeFlag AS Campaign_IncludeFlag, \r\n            T.IncludeName AS Campaign_In");
-            viewString.Append("cludeName, \r\n            T.IncludeAddress AS Campaign_IncludeAddress, \r\n        ");
-            viewString.Append("    T.IncludeContactName AS Campaign_IncludeContactName, \r\n            T.Subject");
-            viewString.Append("A AS Campaign_SubjectA, \r\n            T.HTMLMessageA AS Campaign_HTMLMessageA, \r");
-            viewString.Append("\n            T.AttachmentFileNameFieldName AS Campaign_AttachmentFileNameFieldNa");
-            viewString.Append("me, \r\n            T.AttachmentType AS Campaign_AttachmentType, \r\n            T.E");
-            viewString.Append("mailField AS Campaign_EmailField, \r\n            T.CCEmailField AS Campaign_CCEma");
-            viewString.Append("ilField, \r\n            T.SMTPServer AS Campaign_SMTPServer, \r\n            T.From");
-            viewString.Append("Address AS Campaign_FromAddress, \r\n            T.ReturnPathAddress AS Campaign_R");
-            viewString.Append("eturnPathAddress, \r\n            T.ReplyToAddress AS Campaign_ReplyToAddress, \r\n ");
-            viewString.Append("           T.ErrorsToAddress AS Campaign_ErrorsToAddress, \r\n            T.SMTPSe");
-            viewString.Append("rverType AS Campaign_SMTPServerType, \r\n            T.EnableSchedule AS Campaign_");
-            viewString.Append("EnableSchedule, \r\n            T.StartDateTime AS Campaign_StartDateTime, \r\n     ");
-            viewString.Append("       T.RepeatEvery AS Campaign_RepeatEvery, \r\n            T.RepeatInterval AS ");
-            viewString.Append("Campaign_RepeatInterval, \r\n            T.LastRunOn AS Campaign_LastRunOn, \r\n    ");
-            viewString.Append("        T.MessageType AS Campaign_MessageType, \r\n            T.ABMessaging AS Ca");
-            viewString.Append("mpaign_ABMessaging, \r\n            T.SubjectB AS Campaign_SubjectB, \r\n           ");
-            viewString.Append(" T.HTMLMessageB AS Campaign_HTMLMessageB, \r\n            T.IncludePlainText AS Ca");
-            viewString.Append("mpaign_IncludePlainText, \r\n            T.SMTPDelaySeconds AS Campaign_SMTPDelayS");
-            viewString.Append("econds, \r\n            T.EmailAddressLogFiles AS Campaign_EmailAddressLogFiles, \r");
-            viewString.Append("\n            T.PlainTextMessageA AS Campaign_PlainTextMessageA, \r\n            T.");
-            viewString.Append("PlainTextMessageB AS Campaign_PlainTextMessageB, \r\n            T.UId AS Campaign");
-            viewString.Append("_UId, \r\n            T.Private AS Campaign_Private, \r\n            T.SubscribeEmai");
-            viewString.Append("lUpdateField AS Campaign_SubscribeEmailUpdateField, \r\n            T.UnsubscribeE");
-            viewString.Append("mailHyperlinkText AS Campaign_UnsubscribeEmailHyperlinkText, \r\n            T.Sub");
-            viewString.Append("scribeEmailAddress AS Campaign_SubscribeEmailAddress, \r\n            T.SubscribeE");
-            viewString.Append("mailHyperlinkText AS Campaign_SubscribeEmailHyperlinkText, \r\n            T.UnSub");
-            viewString.Append("scribeCount AS Campaign_UnSubscribeCount, \r\n            T.SubscribeCount AS Camp");
-            viewString.Append("aign_SubscribeCount, \r\n            T.BounceCount AS Campaign_BounceCount, \r\n    ");
-            viewString.Append("        T.LastRunEndDateTime AS Campaign_LastRunEndDateTime, \r\n            T.Mes");
-            viewString.Append("sageCount AS Campaign_MessageCount, \r\n            T.SuccessCount AS Campaign_Suc");
-            viewString.Append("cessCount, \r\n            T.FailedCount AS Campaign_FailedCount, \r\n            T.");
-            viewString.Append("EnableLogFiles AS Campaign_EnableLogFiles, \r\n            T.ContinueIfWritebackEr");
-            viewString.Append("ror AS Campaign_ContinueIfWritebackError, \r\n            T.EmailFieldPreviewColum");
-            viewString.Append("n2 AS Campaign_EmailFieldPreviewColumn2, \r\n            T.EmailFieldPreviewColumn");
-            viewString.Append("3 AS Campaign_EmailFieldPreviewColumn3, \r\n            T.AttachmentFileName AS Ca");
-            viewString.Append("mpaign_AttachmentFileName, \r\n            T.ClearCounters AS Campaign_ClearCounte");
-            viewString.Append("rs, \r\n            T.SMTPServer2 AS Campaign_SMTPServer2, \r\n            T.LockedB");
-            viewString.Append("yUID AS Campaign_LockedByUID, \r\n            T.UnSubscribeCountTotal AS Campaign_");
-            viewString.Append("UnSubscribeCountTotal, \r\n            T.SubscribeCountTotal AS Campaign_Subscribe");
-            viewString.Append("CountTotal, \r\n            T.BounceCountTotal AS Campaign_BounceCountTotal, \r\n   ");
-            viewString.Append("         T.EnableEmailAddressCache AS Campaign_EnableEmailAddressCache, \r\n      ");
-            viewString.Append("      T.OpenedCount AS Campaign_OpenedCount, \r\n            T.OpenedCountTotal AS");
-            viewString.Append(" Campaign_OpenedCountTotal, \r\n            T.OpenedEmailUpdateField AS Campaign_O");
-            viewString.Append("penedEmailUpdateField, \r\n            T.EnableOpenedEmail AS Campaign_EnableOpene");
-            viewString.Append("dEmail, \r\n            T.ABMessagingUpdateField AS Campaign_ABMessagingUpdateFiel");
-            viewString.Append("d, \r\n            T.EmailLogFileAddress2 AS Campaign_EmailLogFileAddress2, \r\n    ");
-            viewString.Append("        T.EmailLogFileAddress3 AS Campaign_EmailLogFileAddress3, \r\n            T");
-            viewString.Append(".CampaignCategory AS Campaign_CampaignCategory, \r\n            T.SoftBounceCountT");
-            viewString.Append("otal AS Campaign_SoftBounceCountTotal, \r\n            T.SMTPUsername AS Campaign_");
-            viewString.Append("SMTPUsername, \r\n            T.SMTPPassword AS Campaign_SMTPPassword, \r\n         ");
-            viewString.Append("   T.EnableWriteBackTab AS Campaign_EnableWriteBackTab, \r\n            T.EnableCl");
-            viewString.Append("ickThruTab AS Campaign_EnableClickThruTab, \r\n            T.UnsubscribeMethod AS ");
-            viewString.Append("Campaign_UnsubscribeMethod, \r\n            T.UseWYSWYG AS Campaign_UseWYSWYG, \r\n ");
-            viewString.Append("           T.CreationDate AS Campaign_CreationDate, \r\n            T.Status AS Ca");
-            viewString.Append("mpaign_Status, \r\n            T.ValidateEmail AS Campaign_ValidateEmail, \r\n      ");
-            viewString.Append("      T.CampaignType AS Campaign_CampaignType, \r\n            T.SystemSiteId AS C");
-            viewString.Append("ampaign_SystemSiteId, \r\n            T.IncludeCorporateCustomers AS Campaign_Incl");
-            viewString.Append("udeCorporateCustomers, \r\n            T.IsEnabled AS Campaign_IsEnabled, \r\n      ");
-            viewString.Append("      T.SendEmailAfterDays AS Campaign_SendEmailAfterDays, \r\n            T.Email");
-            viewString.Append("Event AS Campaign_EmailEvent, \r\n            T.isSystemEmail AS Campaign_isSystem");
-            viewString.Append("Email, \r\n            T.FlagIDs AS Campaign_FlagIDs, \r\n            T.CustomerType");
-            viewString.Append("IDs AS Campaign_CustomerTypeIDs, \r\n            T.GroupIDs AS Campaign_GroupIDs, ");
-            viewString.Append("\r\n            T.FromName AS Campaign_FromName, \r\n            T.CampaignReportId ");
-            viewString.Append("AS Campaign_CampaignReportId, \r\n            T.OrganisationId AS Campaign_Organis");
-            viewString.Append("ationId, \r\n            T.CompanyId AS Campaign_CompanyId, \r\n            T.Unsubs");
-            viewString.Append("cribeEmailAddress AS Campaign_UnsubscribeEmailAddress, \r\n            True AS _fr");
-            viewString.Append("om0\r\n        FROM DomainModelsStoreContainer.Campaign AS T\r\n    ) AS T1");
+            viewString.Append("yId, T1.Campaign_UnsubscribeEmailAddress, T1.Campaign_IncludeNewsLetterSubscribe");
+            viewString.Append("rs)\r\n    FROM (\r\n        SELECT \r\n            T.CampaignId AS Campaign_CampaignI");
+            viewString.Append("d, \r\n            T.CampaignName AS Campaign_CampaignName, \r\n            T.Descri");
+            viewString.Append("ption AS Campaign_Description, \r\n            T.DataSourceType AS Campaign_DataSo");
+            viewString.Append("urceType, \r\n            T.RunCampaignFor AS Campaign_RunCampaignFor, \r\n         ");
+            viewString.Append("   T.IncludeCustomers AS Campaign_IncludeCustomers, \r\n            T.IncludeSuppl");
+            viewString.Append("iers AS Campaign_IncludeSuppliers, \r\n            T.IncludeProspects AS Campaign_");
+            viewString.Append("IncludeProspects, \r\n            T.IncludeKeyword AS Campaign_IncludeKeyword, \r\n ");
+            viewString.Append("           T.SearchKeyword AS Campaign_SearchKeyword, \r\n            T.IncludeTyp");
+            viewString.Append("e AS Campaign_IncludeType, \r\n            T.IncludeFlag AS Campaign_IncludeFlag, ");
+            viewString.Append("\r\n            T.IncludeName AS Campaign_IncludeName, \r\n            T.IncludeAddr");
+            viewString.Append("ess AS Campaign_IncludeAddress, \r\n            T.IncludeContactName AS Campaign_I");
+            viewString.Append("ncludeContactName, \r\n            T.SubjectA AS Campaign_SubjectA, \r\n            ");
+            viewString.Append("T.HTMLMessageA AS Campaign_HTMLMessageA, \r\n            T.AttachmentFileNameField");
+            viewString.Append("Name AS Campaign_AttachmentFileNameFieldName, \r\n            T.AttachmentType AS ");
+            viewString.Append("Campaign_AttachmentType, \r\n            T.EmailField AS Campaign_EmailField, \r\n  ");
+            viewString.Append("          T.CCEmailField AS Campaign_CCEmailField, \r\n            T.SMTPServer AS");
+            viewString.Append(" Campaign_SMTPServer, \r\n            T.FromAddress AS Campaign_FromAddress, \r\n   ");
+            viewString.Append("         T.ReturnPathAddress AS Campaign_ReturnPathAddress, \r\n            T.Repl");
+            viewString.Append("yToAddress AS Campaign_ReplyToAddress, \r\n            T.ErrorsToAddress AS Campai");
+            viewString.Append("gn_ErrorsToAddress, \r\n            T.SMTPServerType AS Campaign_SMTPServerType, \r");
+            viewString.Append("\n            T.EnableSchedule AS Campaign_EnableSchedule, \r\n            T.StartD");
+            viewString.Append("ateTime AS Campaign_StartDateTime, \r\n            T.RepeatEvery AS Campaign_Repea");
+            viewString.Append("tEvery, \r\n            T.RepeatInterval AS Campaign_RepeatInterval, \r\n           ");
+            viewString.Append(" T.LastRunOn AS Campaign_LastRunOn, \r\n            T.MessageType AS Campaign_Mess");
+            viewString.Append("ageType, \r\n            T.ABMessaging AS Campaign_ABMessaging, \r\n            T.Su");
+            viewString.Append("bjectB AS Campaign_SubjectB, \r\n            T.HTMLMessageB AS Campaign_HTMLMessag");
+            viewString.Append("eB, \r\n            T.IncludePlainText AS Campaign_IncludePlainText, \r\n           ");
+            viewString.Append(" T.SMTPDelaySeconds AS Campaign_SMTPDelaySeconds, \r\n            T.EmailAddressLo");
+            viewString.Append("gFiles AS Campaign_EmailAddressLogFiles, \r\n            T.PlainTextMessageA AS Ca");
+            viewString.Append("mpaign_PlainTextMessageA, \r\n            T.PlainTextMessageB AS Campaign_PlainTex");
+            viewString.Append("tMessageB, \r\n            T.UId AS Campaign_UId, \r\n            T.Private AS Campa");
+            viewString.Append("ign_Private, \r\n            T.SubscribeEmailUpdateField AS Campaign_SubscribeEmai");
+            viewString.Append("lUpdateField, \r\n            T.UnsubscribeEmailHyperlinkText AS Campaign_Unsubscr");
+            viewString.Append("ibeEmailHyperlinkText, \r\n            T.SubscribeEmailAddress AS Campaign_Subscri");
+            viewString.Append("beEmailAddress, \r\n            T.SubscribeEmailHyperlinkText AS Campaign_Subscrib");
+            viewString.Append("eEmailHyperlinkText, \r\n            T.UnSubscribeCount AS Campaign_UnSubscribeCou");
+            viewString.Append("nt, \r\n            T.SubscribeCount AS Campaign_SubscribeCount, \r\n            T.B");
+            viewString.Append("ounceCount AS Campaign_BounceCount, \r\n            T.LastRunEndDateTime AS Campai");
+            viewString.Append("gn_LastRunEndDateTime, \r\n            T.MessageCount AS Campaign_MessageCount, \r\n");
+            viewString.Append("            T.SuccessCount AS Campaign_SuccessCount, \r\n            T.FailedCount");
+            viewString.Append(" AS Campaign_FailedCount, \r\n            T.EnableLogFiles AS Campaign_EnableLogFi");
+            viewString.Append("les, \r\n            T.ContinueIfWritebackError AS Campaign_ContinueIfWritebackErr");
+            viewString.Append("or, \r\n            T.EmailFieldPreviewColumn2 AS Campaign_EmailFieldPreviewColumn");
+            viewString.Append("2, \r\n            T.EmailFieldPreviewColumn3 AS Campaign_EmailFieldPreviewColumn3");
+            viewString.Append(", \r\n            T.AttachmentFileName AS Campaign_AttachmentFileName, \r\n         ");
+            viewString.Append("   T.ClearCounters AS Campaign_ClearCounters, \r\n            T.SMTPServer2 AS Cam");
+            viewString.Append("paign_SMTPServer2, \r\n            T.LockedByUID AS Campaign_LockedByUID, \r\n      ");
+            viewString.Append("      T.UnSubscribeCountTotal AS Campaign_UnSubscribeCountTotal, \r\n            T");
+            viewString.Append(".SubscribeCountTotal AS Campaign_SubscribeCountTotal, \r\n            T.BounceCoun");
+            viewString.Append("tTotal AS Campaign_BounceCountTotal, \r\n            T.EnableEmailAddressCache AS ");
+            viewString.Append("Campaign_EnableEmailAddressCache, \r\n            T.OpenedCount AS Campaign_Opened");
+            viewString.Append("Count, \r\n            T.OpenedCountTotal AS Campaign_OpenedCountTotal, \r\n        ");
+            viewString.Append("    T.OpenedEmailUpdateField AS Campaign_OpenedEmailUpdateField, \r\n            T");
+            viewString.Append(".EnableOpenedEmail AS Campaign_EnableOpenedEmail, \r\n            T.ABMessagingUpd");
+            viewString.Append("ateField AS Campaign_ABMessagingUpdateField, \r\n            T.EmailLogFileAddress");
+            viewString.Append("2 AS Campaign_EmailLogFileAddress2, \r\n            T.EmailLogFileAddress3 AS Camp");
+            viewString.Append("aign_EmailLogFileAddress3, \r\n            T.CampaignCategory AS Campaign_Campaign");
+            viewString.Append("Category, \r\n            T.SoftBounceCountTotal AS Campaign_SoftBounceCountTotal,");
+            viewString.Append(" \r\n            T.SMTPUsername AS Campaign_SMTPUsername, \r\n            T.SMTPPass");
+            viewString.Append("word AS Campaign_SMTPPassword, \r\n            T.EnableWriteBackTab AS Campaign_En");
+            viewString.Append("ableWriteBackTab, \r\n            T.EnableClickThruTab AS Campaign_EnableClickThru");
+            viewString.Append("Tab, \r\n            T.UnsubscribeMethod AS Campaign_UnsubscribeMethod, \r\n        ");
+            viewString.Append("    T.UseWYSWYG AS Campaign_UseWYSWYG, \r\n            T.CreationDate AS Campaign_");
+            viewString.Append("CreationDate, \r\n            T.Status AS Campaign_Status, \r\n            T.Validat");
+            viewString.Append("eEmail AS Campaign_ValidateEmail, \r\n            T.CampaignType AS Campaign_Campa");
+            viewString.Append("ignType, \r\n            T.SystemSiteId AS Campaign_SystemSiteId, \r\n            T.");
+            viewString.Append("IncludeCorporateCustomers AS Campaign_IncludeCorporateCustomers, \r\n            T");
+            viewString.Append(".IsEnabled AS Campaign_IsEnabled, \r\n            T.SendEmailAfterDays AS Campaign");
+            viewString.Append("_SendEmailAfterDays, \r\n            T.EmailEvent AS Campaign_EmailEvent, \r\n      ");
+            viewString.Append("      T.isSystemEmail AS Campaign_isSystemEmail, \r\n            T.FlagIDs AS Camp");
+            viewString.Append("aign_FlagIDs, \r\n            T.CustomerTypeIDs AS Campaign_CustomerTypeIDs, \r\n   ");
+            viewString.Append("         T.GroupIDs AS Campaign_GroupIDs, \r\n            T.FromName AS Campaign_F");
+            viewString.Append("romName, \r\n            T.CampaignReportId AS Campaign_CampaignReportId, \r\n      ");
+            viewString.Append("      T.OrganisationId AS Campaign_OrganisationId, \r\n            T.CompanyId AS ");
+            viewString.Append("Campaign_CompanyId, \r\n            T.UnsubscribeEmailAddress AS Campaign_Unsubscr");
+            viewString.Append("ibeEmailAddress, \r\n            T.IncludeNewsLetterSubscribers AS Campaign_Includ");
+            viewString.Append("eNewsLetterSubscribers, \r\n            True AS _from0\r\n        FROM DomainModelsS");
+            viewString.Append("toreContainer.Campaign AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Campaigns", viewString.ToString());
         }
         
@@ -7652,9 +7664,34 @@ namespace Edm_EntityMappingGeneratedViews
         }
         
         /// <Summary>
-        /// return view for DomainModelsStoreContainer.Phrase
+        /// return view for DomainModelsStoreContainer.CampaignEmailVariable
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView166()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CampaignEmailVariable", @"
+    SELECT VALUE -- Constructing CampaignEmailVariable
+        [DomainModels.Store.CampaignEmailVariable](T1.CampaignEmailVariable_VariableId, T1.CampaignEmailVariable_VariableName, T1.CampaignEmailVariable_RefTableName, T1.CampaignEmailVariable_RefFieldName, T1.CampaignEmailVariable_CriteriaFieldName, T1.CampaignEmailVariable_Description, T1.CampaignEmailVariable_SectionId, T1.CampaignEmailVariable_VariableTag, T1.CampaignEmailVariable_Key, T1.CampaignEmailVariable_OrganisationId)
+    FROM (
+        SELECT 
+            T.VariableId AS CampaignEmailVariable_VariableId, 
+            T.VariableName AS CampaignEmailVariable_VariableName, 
+            T.RefTableName AS CampaignEmailVariable_RefTableName, 
+            T.RefFieldName AS CampaignEmailVariable_RefFieldName, 
+            T.CriteriaFieldName AS CampaignEmailVariable_CriteriaFieldName, 
+            T.Description AS CampaignEmailVariable_Description, 
+            T.SectionId AS CampaignEmailVariable_SectionId, 
+            T.VariableTag AS CampaignEmailVariable_VariableTag, 
+            T.[Key] AS CampaignEmailVariable_Key, 
+            T.OrganisationId AS CampaignEmailVariable_OrganisationId, 
+            True AS _from0
+        FROM BaseDbContext.CampaignEmailVariables AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.Phrase
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView167()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Phrase", @"
     SELECT VALUE -- Constructing Phrase
@@ -7674,7 +7711,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.PhraseField
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView167()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView168()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.PhraseField", @"
     SELECT VALUE -- Constructing PhraseField
@@ -7693,7 +7730,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.Sections
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView168()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView169()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Sections", @"
     SELECT VALUE -- Constructing Sections
@@ -7715,7 +7752,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.SectionFlags
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView169()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView170()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.SectionFlags", @"
     SELECT VALUE -- Constructing SectionFlags
@@ -7736,9 +7773,34 @@ namespace Edm_EntityMappingGeneratedViews
         }
         
         /// <Summary>
+        /// return view for BaseDbContext.CampaignEmailVariables
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView171()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CampaignEmailVariables", @"
+    SELECT VALUE -- Constructing CampaignEmailVariables
+        [DomainModels.CampaignEmailVariable](T1.CampaignEmailVariable_VariableId, T1.CampaignEmailVariable_VariableName, T1.CampaignEmailVariable_RefTableName, T1.CampaignEmailVariable_RefFieldName, T1.CampaignEmailVariable_CriteriaFieldName, T1.CampaignEmailVariable_Description, T1.CampaignEmailVariable_SectionId, T1.CampaignEmailVariable_VariableTag, T1.CampaignEmailVariable_Key, T1.CampaignEmailVariable_OrganisationId)
+    FROM (
+        SELECT 
+            T.VariableId AS CampaignEmailVariable_VariableId, 
+            T.VariableName AS CampaignEmailVariable_VariableName, 
+            T.RefTableName AS CampaignEmailVariable_RefTableName, 
+            T.RefFieldName AS CampaignEmailVariable_RefFieldName, 
+            T.CriteriaFieldName AS CampaignEmailVariable_CriteriaFieldName, 
+            T.Description AS CampaignEmailVariable_Description, 
+            T.SectionId AS CampaignEmailVariable_SectionId, 
+            T.VariableTag AS CampaignEmailVariable_VariableTag, 
+            T.[Key] AS CampaignEmailVariable_Key, 
+            T.OrganisationId AS CampaignEmailVariable_OrganisationId, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.CampaignEmailVariable AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
         /// return view for BaseDbContext.Phrases
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView170()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView172()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Phrases", @"
     SELECT VALUE -- Constructing Phrases
@@ -7758,7 +7820,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.PhraseFields
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView171()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView173()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.PhraseFields", @"
     SELECT VALUE -- Constructing PhraseFields
@@ -7777,7 +7839,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.WeightUnit
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView172()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView174()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.WeightUnit", @"
     SELECT VALUE -- Constructing WeightUnit
@@ -7797,7 +7859,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.WeightUnits
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView173()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView175()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.WeightUnits", @"
     SELECT VALUE -- Constructing WeightUnits
@@ -7817,7 +7879,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ItemStockControl
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView174()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView176()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(5074);
             viewString.Append("\r\n    SELECT VALUE -- Constructing ItemStockControl\r\n        [DomainModels.Store");
@@ -7890,7 +7952,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.ItemStockControls
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView175()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView177()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(5081);
             viewString.Append("\r\n    SELECT VALUE -- Constructing ItemStockControls\r\n        [DomainModels.Item");
@@ -7963,7 +8025,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.SystemEmail
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView176()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView178()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.SystemEmail", @"
     SELECT VALUE -- Constructing SystemEmail
@@ -7987,7 +8049,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.SystemEmails
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView177()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView179()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.SystemEmails", @"
     SELECT VALUE -- Constructing SystemEmails
@@ -8011,7 +8073,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.LengthUnit
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView178()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView180()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.LengthUnit", @"
     SELECT VALUE -- Constructing LengthUnit
@@ -8031,7 +8093,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.LengthUnits
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView179()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView181()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.LengthUnits", @"
     SELECT VALUE -- Constructing LengthUnits
@@ -8051,7 +8113,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.PaperBasisArea
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView180()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView182()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.PaperBasisArea", @"
     SELECT VALUE -- Constructing PaperBasisArea
@@ -8070,7 +8132,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.PaperBasisAreas
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView181()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView183()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.PaperBasisAreas", @"
     SELECT VALUE -- Constructing PaperBasisAreas
@@ -8083,56 +8145,6 @@ namespace Edm_EntityMappingGeneratedViews
             T.IsSystem AS PaperBasisArea_IsSystem, 
             True AS _from0
         FROM DomainModelsStoreContainer.PaperBasisArea AS T
-    ) AS T1");
-        }
-        
-        /// <Summary>
-        /// return view for DomainModelsStoreContainer.CampaignEmailVariable
-        /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView182()
-        {
-            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CampaignEmailVariable", @"
-    SELECT VALUE -- Constructing CampaignEmailVariable
-        [DomainModels.Store.CampaignEmailVariable](T1.CampaignEmailVariable_VariableId, T1.CampaignEmailVariable_VariableName, T1.CampaignEmailVariable_RefTableName, T1.CampaignEmailVariable_RefFieldName, T1.CampaignEmailVariable_CriteriaFieldName, T1.CampaignEmailVariable_Description, T1.CampaignEmailVariable_SectionId, T1.CampaignEmailVariable_VariableTag, T1.CampaignEmailVariable_Key, T1.CampaignEmailVariable_OrganisationId)
-    FROM (
-        SELECT 
-            T.VariableId AS CampaignEmailVariable_VariableId, 
-            T.VariableName AS CampaignEmailVariable_VariableName, 
-            T.RefTableName AS CampaignEmailVariable_RefTableName, 
-            T.RefFieldName AS CampaignEmailVariable_RefFieldName, 
-            T.CriteriaFieldName AS CampaignEmailVariable_CriteriaFieldName, 
-            T.Description AS CampaignEmailVariable_Description, 
-            T.SectionId AS CampaignEmailVariable_SectionId, 
-            T.VariableTag AS CampaignEmailVariable_VariableTag, 
-            T.[Key] AS CampaignEmailVariable_Key, 
-            T.OrganisationId AS CampaignEmailVariable_OrganisationId, 
-            True AS _from0
-        FROM BaseDbContext.CampaignEmailVariables AS T
-    ) AS T1");
-        }
-        
-        /// <Summary>
-        /// return view for BaseDbContext.CampaignEmailVariables
-        /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView183()
-        {
-            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CampaignEmailVariables", @"
-    SELECT VALUE -- Constructing CampaignEmailVariables
-        [DomainModels.CampaignEmailVariable](T1.CampaignEmailVariable_VariableId, T1.CampaignEmailVariable_VariableName, T1.CampaignEmailVariable_RefTableName, T1.CampaignEmailVariable_RefFieldName, T1.CampaignEmailVariable_CriteriaFieldName, T1.CampaignEmailVariable_Description, T1.CampaignEmailVariable_SectionId, T1.CampaignEmailVariable_VariableTag, T1.CampaignEmailVariable_Key, T1.CampaignEmailVariable_OrganisationId)
-    FROM (
-        SELECT 
-            T.VariableId AS CampaignEmailVariable_VariableId, 
-            T.VariableName AS CampaignEmailVariable_VariableName, 
-            T.RefTableName AS CampaignEmailVariable_RefTableName, 
-            T.RefFieldName AS CampaignEmailVariable_RefFieldName, 
-            T.CriteriaFieldName AS CampaignEmailVariable_CriteriaFieldName, 
-            T.Description AS CampaignEmailVariable_Description, 
-            T.SectionId AS CampaignEmailVariable_SectionId, 
-            T.VariableTag AS CampaignEmailVariable_VariableTag, 
-            T.[Key] AS CampaignEmailVariable_Key, 
-            T.OrganisationId AS CampaignEmailVariable_OrganisationId, 
-            True AS _from0
-        FROM DomainModelsStoreContainer.CampaignEmailVariable AS T
     ) AS T1");
         }
         
@@ -10485,6 +10497,56 @@ namespace Edm_EntityMappingGeneratedViews
             T.Fixed AS MachineCategory_Fixed, 
             True AS _from0
         FROM DomainModelsStoreContainer.MachineCategory AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.Groups
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView278()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Groups", @"
+    SELECT VALUE -- Constructing Groups
+        [DomainModels.Store.Groups](T1.Groups_GroupId, T1.Groups_GroupName, T1.Groups_GroupDescription, T1.Groups_CreationDateTime, T1.Groups_CreatedBy, T1.Groups_LastModifiedDateTime, T1.Groups_LastModifiedBy, T1.Groups_SystemSiteId, T1.Groups_IsPrivate, T1.Groups_Notes)
+    FROM (
+        SELECT 
+            T.GroupId AS Groups_GroupId, 
+            T.GroupName AS Groups_GroupName, 
+            T.GroupDescription AS Groups_GroupDescription, 
+            T.CreationDateTime AS Groups_CreationDateTime, 
+            T.CreatedBy AS Groups_CreatedBy, 
+            T.LastModifiedDateTime AS Groups_LastModifiedDateTime, 
+            T.LastModifiedBy AS Groups_LastModifiedBy, 
+            T.SystemSiteId AS Groups_SystemSiteId, 
+            T.IsPrivate AS Groups_IsPrivate, 
+            T.Notes AS Groups_Notes, 
+            True AS _from0
+        FROM BaseDbContext.Groups AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.Groups
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView279()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Groups", @"
+    SELECT VALUE -- Constructing Groups
+        [DomainModels.Group](T1.Group_GroupId, T1.Group_GroupName, T1.Group_GroupDescription, T1.Group_CreationDateTime, T1.Group_CreatedBy, T1.Group_LastModifiedDateTime, T1.Group_LastModifiedBy, T1.Group_SystemSiteId, T1.Group_IsPrivate, T1.Group_Notes)
+    FROM (
+        SELECT 
+            T.GroupId AS Group_GroupId, 
+            T.GroupName AS Group_GroupName, 
+            T.GroupDescription AS Group_GroupDescription, 
+            T.CreationDateTime AS Group_CreationDateTime, 
+            T.CreatedBy AS Group_CreatedBy, 
+            T.LastModifiedDateTime AS Group_LastModifiedDateTime, 
+            T.LastModifiedBy AS Group_LastModifiedBy, 
+            T.SystemSiteId AS Group_SystemSiteId, 
+            T.IsPrivate AS Group_IsPrivate, 
+            T.Notes AS Group_Notes, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.Groups AS T
     ) AS T1");
         }
     }

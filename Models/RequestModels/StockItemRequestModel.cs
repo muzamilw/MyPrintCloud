@@ -7,6 +7,12 @@ namespace MPC.Models.RequestModels
     /// </summary>
     public class StockItemRequestModel: GetPagedListRequest
     {
+
+        /// <summary>
+        /// Stock Category Id
+        /// </summary>
+        public long? CategoryId { get; set; }
+
         /// <summary>
         /// Stock Category By Column for sorting
         /// </summary>
