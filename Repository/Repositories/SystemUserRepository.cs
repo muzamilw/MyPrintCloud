@@ -37,7 +37,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<SystemUser> GetAll()
         {
-            return DbSet.Where(systemUser => systemUser.OrganizationId == OrganisationId).ToList();
+            return DbSet.Where(systemUser => systemUser.OrganizationId == OrganisationId && systemUser.IsAccountDisabled == 0).ToList();
         }
         public SystemUser GetSalesManagerById(long SytemUserId)
         {
