@@ -150,6 +150,7 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<StockItem> StockItems { get; set; }
         public virtual ICollection<CmsOffer> CmsOffers { get; set; }
         public virtual ICollection<MediaLibrary> MediaLibraries { get; set; }
+        public virtual ICollection<CompanyCostCentre> CompanyCostCentres { get; set; }
 
         #region Additional Properties
       
@@ -173,6 +174,11 @@ namespace MPC.Models.DomainModels
         /// Store Background File
         /// </summary>
         public string StoreBackgroundFile { get; set; }
+
+        /// <summary>
+        /// Logo Image Bytes
+        /// </summary>
+        public string ImageBytes { get; set; }
         #endregion
     }
 }

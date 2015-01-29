@@ -123,9 +123,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         specifiedSalesAndOrderManagerId1, specifiedSalesAndOrderManagerId2, specifiedProductionManagerId1, specifiedProductionManagerId2,
         specifiedStockNotificationManagerId1, specifiedStockNotificationManagerId2, specifiedisDisplayBanners, specifiedisStoreModePrivate, specifiedisTextWatermark,
         specifiedWatermarkText, specifiedisBrokerPaymentRequired, specifiedisBrokerCanAcceptPaymentOnline, specifiedcanUserPlaceOrderWithoutApproval,
-        specifiedisIncludeVAT, specifiedincludeEmailBrokerArtworkOrderReport, specifiedincludeEmailBrokerArtworkOrderXML, specifiedincludeEmailBrokerArtworkOrderJobCard,
+        specifiedisIncludeVAT, specifiedincludeEmailBrokerArtworkOrderReport, specifiedincludeEmailBrokerArtworkOrderXML, specifiedincludeEmailBrokerArtworkOrderJobCard
+        , specifiedIsDeliveryTaxAble, specifiedPickupAddressId,
         specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreImageFileBinary, specifiedStoreBackgroudImageSource, specifiedIsShowGoogleMap,
-        specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName, specifiedCustomCSS, specifiedStoreBackgroundImage
+        specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName, specifiedCustomCSS, specifiedStoreBackgroundImage, specifiedStoreImagePath
     ) {
         var self,
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
@@ -143,6 +144,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             webMasterTag = ko.observable(specifiedWebMasterTag),
             webAnalyticCode = ko.observable(specifiedWebAnalyticCode),
             type = ko.observable(),
+            storeImagePath = ko.observable(specifiedStoreImagePath),
             //webAccessCode = ko.observable(specifiedWebAccessCode).extend({
             //    required: {
             //        onlyIf: function () {
@@ -163,7 +165,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             productionManagerId1 = ko.observable(specifiedProductionManagerId1),
             productionManagerId2 = ko.observable(specifiedProductionManagerId2),
             stockNotificationManagerId1 = ko.observable(specifiedStockNotificationManagerId1),
-            stockNotificationManagerId2 = ko.observable(specifiedStockNotificationManagerId2),/////
+            stockNotificationManagerId2 = ko.observable(specifiedStockNotificationManagerId2), /////
             isStoreModePrivate = ko.observable(specifiedisStoreModePrivate),
             isTextWatermark = ko.observable(specifiedisTextWatermark),
             watermarkText = ko.observable(specifiedWatermarkText),
@@ -175,6 +177,24 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             includeEmailBrokerArtworkOrderXML = ko.observable(specifiedincludeEmailBrokerArtworkOrderXML),
             includeEmailBrokerArtworkOrderJobCard = ko.observable(specifiedincludeEmailBrokerArtworkOrderJobCard),
             makeEmailBrokerArtworkOrderProductionReady = ko.observable(specifiedmakeEmailBrokerArtworkOrderProductionReady),
+            // isDeliveryTaxAble = ko.observable(specifiedIsDeliveryTaxAble),
+            // is Delivery TaxAble
+            isDeliveryTaxAble = ko.observable(!specifiedIsDeliveryTaxAble ? 2 : 1),
+            // is Delivery TaxAble ui
+            isDeliveryTaxAbleUi = ko.computed({
+                read: function () {
+                    return '' + isDeliveryTaxAble();
+                },
+                write: function (value) {
+                    var deliveryTaxAble = parseInt(value);
+                    if (deliveryTaxAble === isDeliveryTaxAble()) {
+                        return;
+                    }
+
+                    isDeliveryTaxAble(deliveryTaxAble);
+                }
+            }),
+            pickupAddressId = ko.observable(specifiedPickupAddressId),
             //store Image
             storeImageFileBinary = ko.observable(specifiedStoreImageFileBinary),
             storeImageName = ko.observable(),
@@ -250,6 +270,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 notes: notes,
                 webAccessCode: webAccessCode,
                 twitterUrl: twitterUrl,
+                mediaLibraries: mediaLibraries,
                 facebookUrl: facebookUrl,
                 linkedinUrl: linkedinUrl,
                 facebookAppId: facebookAppId,
@@ -290,7 +311,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 storeBackgroudImageFileName: storeBackgroudImageFileName,
                 isShowGoogleMap: isShowGoogleMap,
                 customCSS: customCSS,
-                companyDomains: companyDomains
+                companyDomains: companyDomains,
+                isDeliveryTaxAble: isDeliveryTaxAble,
+                pickupAddressId: pickupAddressId
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -321,6 +344,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.FacebookAppKey = source.facebookAppKey();
                 result.TwitterAppId = source.twitterAppId();
                 result.TwitterAppKey = source.twitterAppKey();
+                result.StoreImagePath = source.storeImagePath();
                 result.SalesAndOrderManagerId1 = source.salesAndOrderManagerId1();
                 result.SalesAndOrderManagerId2 = source.salesAndOrderManagerId2();
                 result.ProductionManagerId1 = source.productionManagerId1();
@@ -335,12 +359,14 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.isBrokerCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline();
                 result.canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval();
                 result.isIncludeVAT = source.isIncludeVAT();
-               // result.StoreBackgroundImage = source.storeBackgroudImagePath();
+                // result.StoreBackgroundImage = source.storeBackgroudImagePath();
                 result.includeEmailBrokerArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport();
                 result.includeEmailBrokerArtworkOrderXML = source.includeEmailBrokerArtworkOrderXML();
                 result.includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard();
                 result.makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady();
                 result.isDisplayBanners = source.isDisplayBanners();
+                result.IsDeliveryTaxAble = source.isDeliveryTaxAble() === 2 ? false : true;
+                result.PickupAddressId = source.pickupAddressId();
                 result.CompanyType = source.companyType() != undefined ? CompanyType().convertToServerData(source.companyType()) : null;
                 result.CustomCSS = source.customCSS();
                 result.RaveReviews = [];
@@ -396,7 +422,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.StoreBackgroudImageFileName = source.storeBackgroudImageFileName();
                 //#endregion
                 result.ImageName = source.storeImageName() === undefined ? null : source.storeImageName();
-                result.ImageBytes = source.image() === undefined ? null : source.image();
+                result.ImageBytes = source.storeImageFileBinary() === undefined ? null : source.storeImageFileBinary();
                 result.DefaultSpriteSource = source.defaultSpriteImageSource() === undefined ? null : source.defaultSpriteImageSource();
                 result.UserDefinedSpriteSource = source.userDefinedSpriteImageSource() === undefined ? null : source.userDefinedSpriteImageSource();
                 result.UserDefinedSpriteFileName = source.userDefinedSpriteImageFileName() === undefined ? null : source.userDefinedSpriteImageFileName();
@@ -438,6 +464,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             stockNotificationManagerId2: stockNotificationManagerId2,
             twitterAppKey: twitterAppKey,
             companyType: companyType,
+            storeImagePath: storeImagePath,
             isStoreModePrivate: isStoreModePrivate,
             isTextWatermark: isTextWatermark,
             watermarkText: watermarkText,
@@ -465,6 +492,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             paymentMethod: paymentMethod,
             productCategories: productCategories,
             products: products,
+            isDeliveryTaxAble: isDeliveryTaxAble,
             storeBackgroudImageImageSource: storeBackgroudImageImageSource,
             storeBackgroudImageFileName: storeBackgroudImageFileName,
             storeBackgroudImagePath: storeBackgroudImagePath,
@@ -473,6 +501,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             defaultSpriteImageFileName: defaultSpriteImageFileName,
             userDefinedSpriteImageSource: userDefinedSpriteImageSource,
             userDefinedSpriteImageFileName: userDefinedSpriteImageFileName,
+            isDeliveryTaxAbleUi: isDeliveryTaxAbleUi,
+            pickupAddressId: pickupAddressId,
             customCSS: customCSS,
             companyDomains: companyDomains,
             mediaLibraries: mediaLibraries,
@@ -525,6 +555,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.includeEmailBrokerArtworkOrderReport,
             source.includeEmailBrokerArtworkOrderXML,
             source.includeEmailBrokerArtworkOrderJobCard,
+            source.isDeliveryTaxAble,
+            source.pickupAddressId,
             source.makeEmailBrokerArtworkOrderProductionReady
         );
         //result.companyType(CompanyType.CreateFromClientModel(source.companyType));
@@ -595,6 +627,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.includeEmailBrokerArtworkOrderReport,
             source.includeEmailBrokerArtworkOrderXML,
             source.includeEmailBrokerArtworkOrderJobCard,
+            source.IsDeliveryTaxAble,
+            source.PickupAddressId,
             source.makeEmailBrokerArtworkOrderProductionReady,
             source.ImageSource,
             source.StoreBackgroudImageSource,
@@ -603,7 +637,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.UserDefinedSpriteImageSource,
             source.UserDefinedSpriteFileName,
             source.CustomCSS,
-            source.StoreBackgroundImage
+            source.StoreBackgroundImage,
+            source.StoreImagePath
         );
 
         store.companyType(CompanyType.Create(source.CompanyType));
@@ -1683,7 +1718,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // ReSharper disable once InconsistentNaming
     var CMSPage = function (specifiedPageId, specifiedPageTitle, specifiedPageKeywords, specifiedMetaTitle, specifiedMetaDescriptionContent, specifiedMetaCategoryContent,
         specifiedMetaRobotsContent, specifiedMetaAuthorContent, specifiedMetaLanguageContent, specifiedMetaRevisitAfterContent, specifiedCategoryId, specifiedPageHTML,
-        specifiedImageSource, specifiedDefaultPageKeyWords, specifiedFileName) {
+        specifiedImageSource, specifiedDefaultPageKeyWords, specifiedFileName, specifiedPageBanner) {
         var self,
             id = ko.observable(specifiedPageId),
             pageTitle = ko.observable(specifiedPageTitle).extend({ required: true }),
@@ -1700,6 +1735,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             imageSrc = ko.observable(specifiedImageSource),
             fileName = ko.observable(specifiedFileName),
             defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
+            pageBanner = ko.observable(specifiedPageBanner),
             // Errors
             errors = ko.validation.group({
                 pageTitle: pageTitle,
@@ -1712,7 +1748,21 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
 
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
-
+                pageTitle: pageTitle,
+                pageKeywords: pageKeywords,
+                metaTitle: metaTitle,
+                metaDescriptionContent: metaDescriptionContent,
+                metaCategoryContent: metaCategoryContent,
+                metaRobotsContent: metaRobotsContent,
+                metaAuthorContent: metaAuthorContent,
+                metaLanguageContent: metaLanguageContent,
+                metaRevisitAfterContent: metaRevisitAfterContent,
+                categoryId: categoryId,
+                pageHTML: pageHTML,
+                imageSrc: imageSrc,
+                fileName: fileName,
+                defaultPageKeyWords: defaultPageKeyWords,
+                pageBanner: pageBanner,
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -1735,6 +1785,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.PageHTML = source.pageHTML() === undefined ? null : source.pageHTML();
                 result.FileName = source.fileName() === undefined ? null : source.fileName();
                 result.Bytes = source.imageSrc() === undefined ? null : source.imageSrc();
+                result.PageBanner = source.pageBanner() === undefined ? null : source.pageBanner();
                 return result;
             },
             // Reset
@@ -1757,6 +1808,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             imageSrc: imageSrc,
             fileName: fileName,
             defaultPageKeyWords: defaultPageKeyWords,
+            pageBanner: pageBanner,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1783,7 +1835,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.PageHTML,
             source.ImageSource,
             source.DefaultPageKeyWords,
-            source.FileName
+            source.FileName,
+            source.PageBanner
 
         );
     };
@@ -2500,7 +2553,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         return self;
     };
     Role.CreateFromClientModel = function (source) {
-        return new roleName(
+        return new Role(
             source.roleId,
             source.rolesName
             );
@@ -3445,8 +3498,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             itemId = ko.observable(specifiedItemId),
             offerType = ko.observable(specifiedOfferType),
             itemName = ko.observable(specifiedItemName),
-           sortOrder = ko.observable(specifiedSortOrder),
-           companyId = ko.observable(),
+            sortOrder = ko.observable(specifiedSortOrder),
+            companyId = ko.observable(),
         //Convert To Server
         convertToServerData = function () {
             return {
@@ -3531,6 +3584,73 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
 
     // #endregion ______________ MediaLibrary _________________
 
+    // #region ______________ C O S T   C E N T E R_________________
+    // ReSharper disable once InconsistentNaming
+    var CostCenter = function (specifiedCostCentreId, specifiedName) {
+
+        var self,
+            costCentreId = ko.observable(specifiedCostCentreId),
+            name = ko.observable(specifiedName),
+            isSelected = ko.observable(),
+            // Errors
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                costCentreId: costCentreId,
+                name: name,
+
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function () {
+                return {
+                    CostCentreId: costCentreId(),
+                    Name: name(),
+                };
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            costCentreId: costCentreId,
+            name: name,
+            isSelected: isSelected,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    CostCenter.CreateFromClientModel = function (source) {
+        return new roleName(
+            source.costCentreId,
+            source.name
+            );
+    };
+    CostCenter.Create = function (source) {
+        var costCenter = new CostCenter(
+            source.CostCentreId,
+            source.Name
+            );
+        return costCenter;
+    };
+    // #endregion 
+
+    //#region ______________ R E T U R N ______________
     return {
         StoreListView: StoreListView,
         Store: Store,
@@ -3562,5 +3682,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         CmsOffer: CmsOffer,
         CompanyDomain: CompanyDomain,
         MediaLibrary: MediaLibrary,
+        CostCenter: CostCenter,
     };
+    // #endregion 
 });

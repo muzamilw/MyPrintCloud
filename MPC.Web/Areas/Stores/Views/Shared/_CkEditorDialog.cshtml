@@ -1,20 +1,8 @@
 ﻿
-<div class="modal fade" id="ckEditorDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade my-modal" id="ckEditorDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div style="width: 838px;" class="modal-dialog" data-bind="with:$root.selectedWidget">
         <div class="modal-content">
             <div class="modal-header">
-            </div>
-            <div class="row">
-                <div class="col-lg-12 col-md-8 col-sm-8" style="padding-bottom:10px;">
-                    <div class="col-xs-10">
-                    </div>
-                    <div class="col-xs-1">
-                        <button type="button" class="btn btn-primary pull-right" data-bind="click:$root.onSaveWidgetParamFromCkEditor">Save</button>
-                    </div>
-                    <div class="col-xs-1">
-                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
             </div>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -24,6 +12,9 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-primary pull-right" data-bind="click:$root.onSaveWidgetParamFromCkEditor">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
+
             </div>
         </div>
     </div>

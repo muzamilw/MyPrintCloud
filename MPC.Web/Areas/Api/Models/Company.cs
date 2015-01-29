@@ -38,7 +38,8 @@ namespace MPC.MIS.Areas.Api.Models
         public string PhoneNo { get; set; }
         public short? IsGeneral { get; set; }
         public int? SalesPerson { get; set; }
-        public byte[] Image { get; set; }
+        public string StoreImagePath { get; set; }
+        
         public string ImageName { get; set; }
         public string WebAccessCode { get; set; }
         public bool? isArchived { get; set; }
@@ -107,6 +108,7 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsDeliveryTaxAble { get; set; }
         public bool? IsDisplayDeliveryOnCheckout { get; set; }
         public long? DeliveryPickUpAddressId { get; set; }
+        public long? PickupAddressId { get; set; }
         public long? BussinessAddressId { get; set; }
 
         #endregion
@@ -204,6 +206,8 @@ namespace MPC.MIS.Areas.Api.Models
 
         #region Public Image Source
         public string ImageBytes { get; set; }
+
+        public byte[] Image { get; set; }
         /// <summary>
         /// Image Source
         /// </summary>

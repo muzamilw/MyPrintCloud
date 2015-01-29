@@ -1,11 +1,5 @@
 ﻿
-@{
-    ViewBag.Title = "Add Edit Address";
-}
-
-
-
-<div class="modal fade" id="myAddressSetModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade my-modal" id="myAddressSetModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div style="width: 838px;" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -246,7 +240,7 @@
                         </div>
 
                         <div class="col-lg-7">
-                            <select class="form-control col-lg-4" data-bind="options:$root.addressCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Choose...', value: territoryId"></select>   
+                            <select class="form-control col-lg-4" data-bind="options:$root.addressCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Choose...', value: territoryId"></select>
                         </div>
                     </div>
                     <div class="form-group ">
@@ -363,8 +357,9 @@
                     </div>
                 </div>
                 <div class="modal-footer col-xs-12">
-                    <button type="button" class="btn btn-default" data-bind="click: $root.onCloseAddress">Close</button>
                     <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveAddress">Save</button>
+                    <button type="button" class="btn btn-default" data-bind="click: $root.onCloseAddress" style="margin-left:0px;">Close</button>
+
                 </div>
             </div>
         </div>

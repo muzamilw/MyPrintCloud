@@ -99,11 +99,12 @@ define("stores/stores.viewModel",
                 parentCategories = ko.observableArray([]),
 
                 selectedWidgetsList = ko.observableArray([]),
+                costCentersList = ko.observableArray([]),
 
                 //#endregion
 
                 //#region _________E D I T O R I AL   V I E W    M O D E L_______
-                  
+
                 // Editor View Model
                 editorViewModel = new ist.ViewModel(model.StoreListView),
                 //Selected store
@@ -111,7 +112,7 @@ define("stores/stores.viewModel",
                     //#endregion
 
                 //#region _________C O M P A N Y   D O M A I N___________________
-                    
+
                 //Template To Use
                 templateToUse = function (store) {
                     return (store === selectedStore() ? 'itemStoreTemplate' : 'itemStoreTemplate');
@@ -166,7 +167,7 @@ define("stores/stores.viewModel",
                     if (selectedStore() && selectedStore().webAccessCode() != undefined) {
                         if (selectedStore().companyDomains().length == 0) {
                             selectedStore().companyDomains.splice(0, 0, new model.CompanyDomain());
-                            selectedStore().companyDomains()[0].domain(window.location.host +'/'+selectedStore().webAccessCode()+'/login');
+                            selectedStore().companyDomains()[0].domain(window.location.host + '/' + selectedStore().webAccessCode() + '/login');
                         }
                         else if (selectedStore().companyDomains().length > 0) {
                             _.each(selectedStore().companyDomains(), function (companyDomain) {
@@ -279,7 +280,7 @@ define("stores/stores.viewModel",
                 },
                 //Store Image Files Loaded Callback
                     storeImageFilesLoadedCallback = function (file, data) {
-                        selectedStore().image(data);
+                        selectedStore().storeImageFileBinary(data);
                         selectedStore().storeImageName(file.name);
                         //selectedProductCategoryForEditting().fileType(data.imageType);
                     },
@@ -310,7 +311,6 @@ define("stores/stores.viewModel",
                 },
                 //Create Stock Sub Category
                 onCreateNewRaveReview = function () {
-                    app.run();
                     var raveReview = new model.RaveReview();
                     selectedRaveReview(raveReview);
                     view.showRaveReviewDialog();
@@ -551,7 +551,7 @@ define("stores/stores.viewModel",
                 //Craete Banner
                 onCreateBanner = function () {
                     selectedCompanyBanner(model.CompanyBanner());
-                    selectedCompanyBanner().reset();
+                    selectedCompanyBanner().description("");
                     view.showEditBannerDialog();
                 },
                 //Create Banner Set
@@ -919,6 +919,7 @@ define("stores/stores.viewModel",
                 //Add New Secondary PAge
                 onAddSecondaryPage = function () {
                     selectedSecondaryPage(model.CMSPage());
+                    selectedSecondaryPage().metaTitle("");
                     view.showSecondoryPageDialog();
                 },
                 //Add Secondry Page Category
@@ -926,6 +927,9 @@ define("stores/stores.viewModel",
                     selectedPageCategory(model.PageCategory());
                     view.showSecondaryPageCategoryDialog();
                 },
+                colseSecondaryPageCategoryDialog = function () {
+                    view.hideSecondaryPageCategoryDialog();
+                }
                 //Get Secondory Pages
                 getSecondoryPages = function () {
                     dataservice.getSecondaryPages({
@@ -1398,10 +1402,18 @@ define("stores/stores.viewModel",
                 //Function Call When create new Product Category 
                 onCreateNewProductCategory = function () {
                     var productCategory = new model.ProductCategory();
-
+                    //Set Product category value for by default
+                    productCategory.isShelfProductCategory(true);
+                    productCategory.isEnabled(true);
+                    productCategory.isPublished(true);
                     //Setting Product Category Editting
                     selectedProductCategoryForEditting(productCategory);
-
+                    //Setting drop down list of parent
+                    //putting all list of categories
+                    populatedParentCategoriesList.removeAll();
+                    _.each(parentCategories(), function (category) {
+                        populatedParentCategoriesList.splice(0, 0, category);
+                    });
                     isSavingNewProductCategory(true);
                     view.showStoreProductCategoryDialog();
                 },
@@ -1516,28 +1528,28 @@ define("stores/stores.viewModel",
                 },
                 //on Save Store Product Category
                 onSaveStoreProductCategory = function () {
-                        if (doBeforeSaveProductCategory()) {
-                            //dataService.saveStoreProductCategory()
-                            if (selectedProductCategoryForEditting().productCategoryId() === undefined) {
-                                //selectedProductCategoryForEditting().productCategoryId(data.ProductCategoryId);
-                                //Check Is New and Parent 
-                                if (isSavingNewProductCategory() === true && selectedProductCategoryForEditting().parentCategoryId() == undefined) {
-                                    $("#nestable2").append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
-                                }
-                                //Check Is New and Child
-                                if (isSavingNewProductCategory() === true) {
-
-                                }
+                    if (doBeforeSaveProductCategory()) {
+                        //dataService.saveStoreProductCategory()
+                        if (selectedProductCategoryForEditting().productCategoryId() === undefined) {
+                            //selectedProductCategoryForEditting().productCategoryId(data.ProductCategoryId);
+                            //Check Is New and Parent 
+                            if (isSavingNewProductCategory() === true && selectedProductCategoryForEditting().parentCategoryId() == undefined) {
+                                $("#nestable2").append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
                             }
-                            //Check Is Updating and Parent is Changing
-                            if (COND) {
+                            //Check Is New and Child
+                            if (isSavingNewProductCategory() === true) {
 
                             }
                         }
+                        //Check Is Updating and Parent is Changing
+                        if (COND) {
+
+                        }
+                    }
                 },
                 //On Save Product Category
-                onSaveProductCategory = function() {
-                   
+                onSaveProductCategory = function () {
+
                     if (doBeforeSaveProductCategory()) {
                         selectedProductCategoryForEditting().companyId(selectedStore().companyId());
                         dataservice.saveProductCategory(
@@ -1549,36 +1561,41 @@ define("stores/stores.viewModel",
                                 if (data.ParentCategoryId == null) {
                                     //if saving product is editting
                                     if (selectedProductCategoryForEditting().productCategoryId() > 0) {
-                                        _.each(selectedStore().productCategories(), function(item) {
+                                        $("#" + selectedProductCategoryForEditting().productCategoryId()).remove();
+                                        //update item
+                                        _.each(selectedStore().productCategories(), function (item) {
                                             if (item.productCategoryId() == selectedProductCategoryForEditting().productCategoryId()) {
                                                 item.categoryName(selectedProductCategoryForEditting().categoryName());
                                                 toastr.success("Category Updated Successfully");
                                             }
                                         });
                                     }
-                                    //Creating new Product category
+                                        //Creating new Product category
                                     else {
                                         selectedStore().productCategories.splice(0, 0, model.ProductCategory.Create(data));
                                         toastr.success("Category Added Successfully");
                                     }
+                                    $("#nestable2").append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + data.ProductCategoryId + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
+                                    ko.applyBindings(view.viewModel, $("#" + data.ProductCategoryId)[0]);
                                     isLoadingStores(false);
                                     view.hideStoreProductCategoryDialog();
                                 }
                                 else {
-                                    var flagAlreadyExist = false;
+
 
                                     newProductCategories.push(model.ProductCategory.Create(data));
                                     selectedProductCategoryForEditting(model.ProductCategory.Create(data));
-                                    
+
                                     if ($("#" + selectedProductCategoryForEditting().productCategoryId()).length > 0) {
-                                        flagAlreadyExist = true;
+
                                         $("#" + selectedProductCategoryForEditting().productCategoryId()).remove();
                                     }
                                     //$("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
                                     $("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
                                     //if (!flagAlreadyExist) {
-                                        ko.applyBindings(view.viewModel, $("#" + selectedProductCategoryForEditting().productCategoryId())[0]);
+                                    ko.applyBindings(view.viewModel, $("#" + selectedProductCategoryForEditting().productCategoryId())[0]);
                                     //}
+                                    toastr.success("Category Updated Successfully");
                                 }
                                 var category = {
                                     productCategoryId: data.ProductCategoryId,
@@ -1592,11 +1609,10 @@ define("stores/stores.viewModel",
                             },
                             error: function (response) {
                                 isLoadingStores(false);
-                                toastr.error("Error: Failed To load Categories " + response);
+                                toastr.error("Error: Failed To Save Category " + response);
                             }
                         });
                     }
-                    
                 },
                 //On Save Product Category
                 onSaveProductCategoryOld = function () {
@@ -1610,7 +1626,7 @@ define("stores/stores.viewModel",
                             addProductCategoryCounter();
                         }
                         if (selectedProductCategoryForEditting().productCategoryId() === undefined && isSavingNewProductCategory() === true) {
-                            
+
                             selectedProductCategoryForEditting().productCategoryId(productCategoryCounter);
                             newProductCategories.push(selectedProductCategoryForEditting());
                             $("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
@@ -1667,7 +1683,7 @@ define("stores/stores.viewModel",
                     selectedProductCategoryForEditting().productCategoryImageName(file.name);
                     //selectedProductCategoryForEditting().fileType(data.imageType);
                 },
-                //new start
+
                 //Populate Parent Categories List
 
                 populatedParentCategoriesList = ko.observableArray([]),
@@ -1686,7 +1702,7 @@ define("stores/stores.viewModel",
                     populatedParentCategoriesList.removeAll();
                     categoriesToRemoveForParentCategoriesDropdown.removeAll();
                     populateParentCategoriesListItems(categoryId);
-                    
+
                     //putting all list of categories
                     _.each(parentCategories(), function (productCategory) {
                         if (selectedProductCategoryForEditting().productCategoryId() !== productCategory.productCategoryId) {
@@ -1694,13 +1710,13 @@ define("stores/stores.viewModel",
                         }
                     });
                     //removing child categories
-                    _.each(categoriesToRemoveForParentCategoriesDropdown(), function(productCategory) {
+                    _.each(categoriesToRemoveForParentCategoriesDropdown(), function (productCategory) {
                         populatedParentCategoriesList.remove(productCategory);
                     });
-                    
+
                     populatedParentCategoriesList.reverse();
                 },
-                //new end
+
                 //Populate Parent Categories
                 populateParentCategories = ko.computed(function () {
 
@@ -1910,11 +1926,11 @@ define("stores/stores.viewModel",
                         }
                         //#endregion
 
-                        //#region Media Library
+                        
                         _.each(selectedStore().mediaLibraries(), function (item) {
                             storeToSave.MediaLibraries.push(item.convertToServerData());
                         });
-                        //endregion
+                        
 
                         dataservice.saveStore(
                             storeToSave, {
@@ -2043,6 +2059,8 @@ define("stores/stores.viewModel",
                             selectedCurrentPageId(undefined);
                             selectedCurrentPageCopy(undefined);
                             newUploadedMediaFile(model.MediaLibrary());
+
+                            selectedStore().reset();
                             isLoadingStores(false);
                         },
                         error: function (response) {
@@ -2053,19 +2071,29 @@ define("stores/stores.viewModel",
                 },
                 //Close Store Dialog
                 closeEditDialog = function () {
-                    if (selectedStore() != undefined) {
-                        if (selectedStore().companyId() > 0) {
-                            isEditorVisible(false);
-                        } else {
-                            isEditorVisible(false);
-                            stores.remove(selectedStore());
-                        }
-                        editorViewModel.revertItem();
-                        allPagesWidgets.removeAll();
-                        pageSkinWidgets.removeAll();
-                        selectedCurrentPageId(undefined);
-                        resetObservableArrays();
+
+                    if (selectedStore().hasChanges()) {
+                        confirmation.messageText("Do you want to save changes?");
+                        confirmation.afterProceed(saveStore);
+                        confirmation.afterCancel(function () {
+                            if (selectedStore() != undefined) {
+                                if (selectedStore().companyId() > 0) {
+                                    isEditorVisible(false);
+                                } else {
+                                    isEditorVisible(false);
+                                    stores.remove(selectedStore());
+                                }
+                                editorViewModel.revertItem();
+                                allPagesWidgets.removeAll();
+                                pageSkinWidgets.removeAll();
+                                selectedCurrentPageId(undefined);
+                                resetObservableArrays();
+                            }
+                        });
+                        confirmation.show();
+                        return;
                     }
+                    isEditorVisible(false);
                 },
                 resetFilterSection = function () {
                     searchFilter(undefined);
@@ -2085,6 +2113,7 @@ define("stores/stores.viewModel",
                                 roles.removeAll();
                                 registrationQuestions.removeAll();
                                 allCompanyAddressesList.removeAll();
+                                costCentersList.removeAll();
                                 pageCategories.removeAll();
                                 _.each(data.SystemUsers, function (item) {
                                     var systemUser = new model.SystemUser.Create(item);
@@ -2114,6 +2143,9 @@ define("stores/stores.viewModel",
                                 _.each(data.PaymentMethods, function (item) {
                                     paymentMethods.push(model.PaymentMethod.Create(item));
                                 });
+                                _.each(data.CostCenterDropDownList, function (item) {
+                                    costCentersList.push(model.CostCenter.Create(item));
+                                });
                                 //Email Event List
                                 emailEvents.removeAll();
                                 if (data.EmailEvents !== null) {
@@ -2124,9 +2156,8 @@ define("stores/stores.viewModel",
                                 _.each(data.Widgets, function (item) {
                                     widgets.push(model.Widget.Create(item));
                                 });
-
-
                             }
+                            selectedStore().reset();
                             isLoadingStores(false);
                         },
                         error: function (response) {
@@ -2507,7 +2538,7 @@ define("stores/stores.viewModel",
                 //Select Item
                 selectAddItem = function (item) {
                     selectedItemForAdd(item);
-                }
+                },
                 //reset Items
                 resetItems = function () {
                     _.each(itemsForWidgets(), function (item) {
@@ -2521,7 +2552,7 @@ define("stores/stores.viewModel",
                                     item.isInSelectedList(true);
                             });
                     });
-                }
+                },
                 //select remove Item
                 selectRemoveItem = function (item) {
                     selectedItemForRemove(item);
@@ -2562,12 +2593,12 @@ define("stores/stores.viewModel",
                         mediaLibraryIdCount(mediaId);
                     }
                 },
-                //#endregion
+                
                 //Open Media Library From Store Background Image
                 showMediaLibraryDialogFromStoreBackground = function () {
                     resetMediaGallery();
                     _.each(selectedStore().mediaLibraries(), function (item) {
-                        if (selectedStore().storeBackgroudImagePath() !== undefined && (item.id() === selectedStore().storeBackgroudImagePath() || item.filePath() === selectedStore().storeBackgroudImagePath())) {
+                        if (selectedStore().storeBackgroudImageImageSource() !== undefined && item.fileSource() === selectedStore().storeBackgroudImageImageSource()) {
                             item.isSelected(true);
                             selectedStore().storeBackgroudImageImageSource(item.fileSource());
                         }
@@ -2575,7 +2606,7 @@ define("stores/stores.viewModel",
                     mediaLibraryOpenFrom("StoreBackground");
                     showMediaLibrary();
                 },
-                //Open Media Library From CompanyBanner
+                //Open Media Library From Company Banner
                 openMediaLibraryDialogFromCompanyBanner = function () {
                     resetMediaGallery();
                     _.each(selectedStore().mediaLibraries(), function (item) {
@@ -2585,6 +2616,42 @@ define("stores/stores.viewModel",
                         }
                     });
                     mediaLibraryOpenFrom("CompanyBanner");
+                    showMediaLibrary();
+                },
+                //Open Media Library From Secondary Page
+                openMediaLibraryDialogFromSecondaryPage = function () {
+                    resetMediaGallery();
+                    _.each(selectedStore().mediaLibraries(), function (item) {
+                        if (selectedSecondaryPage().pageBanner() !== undefined && (item.id() === selectedSecondaryPage().pageBanner() || item.filePath() === selectedSecondaryPage().pageBanner())) {
+                            item.isSelected(true);
+                            selectedSecondaryPage().imageSrc(item.fileSource());
+                        }
+                    });
+                    mediaLibraryOpenFrom("SecondaryPage");
+                    showMediaLibrary();
+                },
+                //Open Media Library From Product Category Thumbnail
+                openMediaLibraryDialogFromProductCategoryThumbnail = function () {
+                    resetMediaGallery();
+                    _.each(selectedStore().mediaLibraries(), function (item) {
+                        if (selectedProductCategoryForEditting().thumbnailPath() !== undefined && (item.id() === selectedProductCategoryForEditting().thumbnailPath() || item.filePath() === selectedProductCategoryForEditting().thumbnailPath())) {
+                            item.isSelected(true);
+                            selectedProductCategoryForEditting().productCategoryThumbnailFileBinary(item.fileSource());
+                        }
+                    });
+                    mediaLibraryOpenFrom("ProductCategoryThumbnail");
+                    showMediaLibrary();
+                },
+                //Open Media Library From Product Category Banner
+                openMediaLibraryDialogFromProductCategoryBanner = function () {
+                    resetMediaGallery();
+                    _.each(selectedStore().mediaLibraries(), function (item) {
+                        if (selectedProductCategoryForEditting().imagePath() !== undefined && (item.id() === selectedProductCategoryForEditting().imagePath() || item.filePath() === selectedProductCategoryForEditting().imagePath())) {
+                            item.isSelected(true);
+                            selectedProductCategoryForEditting().productCategoryImageFileBinary(item.fileSource());
+                        }
+                    });
+                    mediaLibraryOpenFrom("ProductCategoryBanner");
                     showMediaLibrary();
                 },
                 //Hie Media Library
@@ -2624,9 +2691,56 @@ define("stores/stores.viewModel",
                         selectedCompanyBanner().fileBinary(selectedMediaFile().fileSource());
                         selectedCompanyBanner().imageSource(selectedMediaFile().fileSource());
                     }
+                        //If Open From Secondary Page
+                    else if (mediaLibraryOpenFrom() === "SecondaryPage") {
+                        if (selectedMediaFile().id() > 0) {
+                            selectedSecondaryPage().pageBanner(selectedMediaFile().filePath());
+                        } else {
+                            selectedSecondaryPage().pageBanner(selectedMediaFile().id());
+                        }
+                        selectedSecondaryPage().imageSrc(selectedMediaFile().fileSource());
+                    }
+                        //If Open From Product Category Banner
+                    else if (mediaLibraryOpenFrom() === "ProductCategoryBanner") {
+                        if (selectedMediaFile().id() > 0) {
+                            selectedProductCategoryForEditting().imagePath(selectedMediaFile().filePath());
+                        } else {
+                            selectedProductCategoryForEditting().imagePath(selectedMediaFile().id());
+                        }
+                        selectedProductCategoryForEditting().productCategoryImageFileBinary(selectedMediaFile().fileSource());
+                    }
+                        //If Open From Product Category Thumbnail
+                    else if (mediaLibraryOpenFrom() === "ProductCategoryThumbnail") {
+                        if (selectedMediaFile().id() > 0) {
+                            selectedProductCategoryForEditting().thumbnailPath(selectedMediaFile().filePath());
+                        } else {
+                            selectedProductCategoryForEditting().thumbnailPath(selectedMediaFile().id());
+                        }
+                        selectedProductCategoryForEditting().productCategoryThumbnailFileBinary(selectedMediaFile().fileSource());
+                    }
+
                     //Hide gallery
                     hideMediaLibraryDialog();
                 },
+                //#endregion
+
+                //#region ________D E L I V E R Y    A D D    O N________________
+                selectedPickupAddress = ko.observable(),
+                updatePickupAddressFields = ko.computed(function() {
+                    if (selectedStore() != undefined) {
+                        if (selectedStore().pickupAddressId() != undefined) {
+                            _.each(allCompanyAddressesList(), function (address) {
+                                if (address.addressId() == selectedStore().pickupAddressId()) {
+                                    selectedPickupAddress(address);
+                                }
+                            });
+                        } else {
+                            selectedPickupAddress(new model.Address);
+                        }
+                    } 
+                }),
+                //#endregion
+
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
                 initialize = function (specifiedView) {
@@ -2638,7 +2752,7 @@ define("stores/stores.viewModel",
                     view.initializeForm();
                 };
                 //#region _________R E T U R N_____________________
-                
+
                 return {
                     //storeProduct: storeProduct,
                     MultipleImageFilesLoadedCallback: MultipleImageFilesLoadedCallback,
@@ -2891,10 +3005,16 @@ define("stores/stores.viewModel",
                     populatedParentCategoriesList: populatedParentCategoriesList,
                     showMediaLibraryDialogFromStoreBackground: showMediaLibraryDialogFromStoreBackground,
                     openMediaLibraryDialogFromCompanyBanner: openMediaLibraryDialogFromCompanyBanner,
+                    openMediaLibraryDialogFromSecondaryPage: openMediaLibraryDialogFromSecondaryPage,
+                    openMediaLibraryDialogFromProductCategoryThumbnail: openMediaLibraryDialogFromProductCategoryThumbnail,
+                    openMediaLibraryDialogFromProductCategoryBanner: openMediaLibraryDialogFromProductCategoryBanner,
                     hideMediaLibraryDialog: hideMediaLibraryDialog,
                     selectMediaFile: selectMediaFile,
                     selectedMediaFile: selectedMediaFile,
                     onSaveMedia: onSaveMedia,
+                    colseSecondaryPageCategoryDialog: colseSecondaryPageCategoryDialog,
+                    selectedPickupAddress: selectedPickupAddress,
+                    costCentersList: costCentersList
                 };
                 //#endregion
             })()

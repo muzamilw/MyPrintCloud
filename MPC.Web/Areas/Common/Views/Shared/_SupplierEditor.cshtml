@@ -1,20 +1,14 @@
 ﻿
 
-<div class="row" id="supplierEditor" data-bind="visible: $root.isSupplierEditorVisible" style="display: none;">
+<div class="row" id="supplierEditor" data-bind="visible: $root.isSupplierEditorVisible" style="display: none;margin-top: -31px;">
     <form class="form-horizontal" method="post" enctype="multipart/form-data" id="fileUploadForm">
         <div class="col-lg-12" data-bind="with:$root.addSupplier">
             <div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="clearfix">
-                            <h1 class="pull-left">Supplier Detail</h1>
-                            <div class="pull-right top-page-ui" style="margin-top: 5px;margin-right: 18px">
-                                <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.onSaveSupplier">Save</button>
-                                <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeSupplierEditor">Cancel</button>
-                            </div>
-
+                        <div class="modal-header">
+                            <h4 class="modal-title">Supplier Detail</h4>
                         </div>
-                        <hr />
                         <div data-bind="visible:$root.errorList().length > 0" style="display: none;margin-left:100px">
                             <p> Please corresct these errors.</p>
                             <table id="table">
@@ -135,18 +129,17 @@
                         <hr />
                     </div>
                 </div>
-
             </div>
-            <div class="row" style="background-color:#f5faed;margin-right: 15px;margin-left: 15px;margin-top: 25px; ">
-                <div class="main-box clearfix" style="margin-right: 5px;margin-left: 5px;margin-top: 10px;">
-                    <div class="tabs-wrapper profile-tabs">
+            <div class="row" style="margin-right: 15px;margin-left: 15px;margin-top: 25px; ">
+                <div class="main-box clearfix">
+                    <div class="tabs-wrapper profile-tabs" style="border: 1px solid silver;box-shadow: 1px 1px 1px silver;">
                         <ul class="nav nav-tabs" id="myTab">
                             <li class="active"><a href="#tab-CompanyDetail" data-toggle="tab">Company Detail</a></li>
                             <li><a href="#tab-AccountDetail" data-toggle="tab">Account Detail</a></li>
                             <li><a href="#tab-AddressDetail" data-toggle="tab">Address Detail</a></li>
                             <li><a href="#tab-ContactDetail" data-toggle="tab">Contact Detail</a></li>
                         </ul>
-                        <div class="tab-content">
+                        <div class="tab-content" style="margin-bottom: 0px;">
                             <div class="tab-pane fade in active" id="tab-CompanyDetail">
                                 <div class="main-box-body clearfix">
                                     <div class="col-md-12 form-horizontal">
@@ -802,7 +795,10 @@
                                                 <label for="txtReference" class="control-label text-right tooltip-float">Mail Subscription</label>
                                             </div>
                                             <div class="col-lg-7">
-                                                <input type="checkbox" data-bind="checked:isEmailSubscription" />
+                                                <div class="checkbox-nice">
+                                                    <input type="checkbox" data-bind="checked: isEmailSubscription" id="isEmailSubscription">
+                                                    <label for="isEmailSubscription"></label>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-group ">
@@ -816,7 +812,10 @@
                                                 <label for="txtReference" class="control-label text-right tooltip-float">Newsletters Subscription</label>
                                             </div>
                                             <div class="col-lg-7">
-                                                <input type="checkbox" data-bind="checked:isNewsLetterSubscription" />
+                                                <div class="checkbox-nice">
+                                                    <input type="checkbox" data-bind="checked: isNewsLetterSubscription" id="isNewsLetterSubscription">
+                                                    <label for="isNewsLetterSubscription"></label>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -856,7 +855,13 @@
                     </div>
                 </div>
             </div>
-
+            <hr />
+            <div>
+                <div class="pull-right top-page-ui" style="margin-bottom: 20px;margin-right: 13px">
+                    <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.onSaveSupplier">Save</button>
+                    <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeSupplierEditor">Close</button>
+                </div>
+            </div>
         </div>
     </form>
 </div>

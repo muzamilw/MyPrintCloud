@@ -45,12 +45,12 @@
                             </div>
                         </div>
                         <div class="clearBoth">&nbsp;</div>
-                        <div id="lbl_SignUp" class="mainHeadingAveniorCheckout">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_SignUp", UserCookieManager.StoreId))</div>
+                        <div id="lbl_SignUp" class="mainHeadingAveniorCheckout">@Html.Raw(Html.GetKeyValueFromResourceFile("registerFor", UserCookieManager.StoreId))</div>
                         @{
                             bool isSocialSignUp = Convert.ToBoolean(ViewData["IsSocialSignUp"]);
                             if (isSocialSignUp == true)
                             {
-                                <div id="lbl_CompleteYourRegisteration" class="errorMessage mainHeadingAveniorCheckout">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_CompleteYourRegisteration", UserCookieManager.StoreId))</div>
+                                <div id="lbl_CompleteYourRegisteration" class="errorMessage mainHeadingAveniorCheckout">@Html.Raw(Html.GetKeyValueFromResourceFile("registerFor", UserCookieManager.StoreId)) @ViewBag.CompanyName</div>
                             }
                            
                           }
@@ -77,30 +77,21 @@
 
                             <div id="MessageBox"></div>
                          
-                            @*<div class="errorMesgLoginPage">
-                                
-                                @Html.ValidationMessageFor(u => u.FirstName)<br />
-                                @Html.ValidationMessageFor(u => u.LastName)<br />
-                                @Html.ValidationMessageFor(u => u.Phone)<br />
-                                @Html.ValidationMessageFor(u => u.Email)<br />
-                                @Html.ValidationMessageFor(u => u.Password)<br />
-
-                            </div>*@
-                            @Html.TextBoxFor(model => model.FirstName, new { id = "FirstName", @class = "smallTxtBox cntRegisterFN", placeholder = ViewData.ModelMetadata.DisplayName })
+                            @Html.TextBoxFor(model => model.FirstName, new { id = "FirstName", @class = "smallTxtBox cntRegisterFN", @placeholder = ViewData.ModelMetadata.DisplayName })
            
                             @Html.ValidationMessageFor(u => u.FirstName,string.Empty, new { @style = "color:red" })
 
-                            @Html.TextBoxFor(model => model.LastName, new { id = "LastName", @class = "smallTxtBox", placeholder = "Last Name" })
+                            @Html.TextBoxFor(model => model.LastName, new { id = "LastName", @class = "smallTxtBox", @placeholder = "Last Name" })
                             <br />
                             @Html.ValidationMessageFor(u => u.LastName, string.Empty, new { @style = "color:red" })
-                             @Html.TextBoxFor(model => model.Phone, new { id = "Phone", @class = "txtBoxLoginPage", placeholder = "Phone" })
+                             @Html.TextBoxFor(model => model.Phone, new { id = "Phone", @class = "txtBoxLoginPage", @placeholder = "Phone" })
                             <br />
                             @Html.ValidationMessageFor(u => u.Phone, string.Empty, new { @style = "color:red" })
-                            @Html.TextBoxFor(model => model.Email, new { id = "Email", @class = "txtBoxLoginPage", placeholder = "Email"})
+                            @Html.TextBoxFor(model => model.Email, new { id = "Email", @class = "txtBoxLoginPage", @placeholder = "Email"})
                             <br />
                            
                             @Html.ValidationMessageFor(u => u.Email, string.Empty, new { @style = "color:red;" })
-                             @Html.PasswordFor(model => model.Password, new { id = "Password", @class = "txtBoxLoginPage",placeholder = "Password" }) <br />
+                             @Html.PasswordFor(model => model.Password, new { id = "Password", @class = "txtBoxLoginPage",@placeholder = "Password" }) <br />
                              <br />
                             @Html.ValidationMessageFor(u => u.Password, string.Empty, new { @style = "color:red;" })<br />
                             <input id="cmdRegister" type="submit" class="start_creating_btn_CretAcc registerAccountBtn rounded_corners5" value="CREATE ACCOUNT" /><br />
@@ -121,11 +112,11 @@
                                 &nbsp;
                             </div>
 
-                            <p id="lbl_ByRegisteringMessage" class="registering_label">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_ByRegisteringMessage", UserCookieManager.StoreId))</p>
+                            <p id="lbl_ByRegisteringMessage" class="registering_label">@Html.Raw(Html.GetKeyValueFromResourceFile("lblRegistering", UserCookieManager.StoreId))</p>
                             <div class="registering_item_register" id="divsaveurdeisgn">
                                 <div class="tickImge">&nbsp;</div>
 
-                                <p id="lbl_SaveDesign" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_SaveDesign", UserCookieManager.StoreId))</p>
+                                <p id="lbl_SaveDesign" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsaveurdesign", UserCookieManager.StoreId))</p>
                             </div>
                             <div class="registering_item_separator">
                                 &nbsp;
@@ -133,7 +124,7 @@
                             <div class="registering_item_register">
                                 <div class="tickImge">&nbsp;</div>
 
-                                <p id="lbl_OrderHistory" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_OrderHistory", UserCookieManager.StoreId))</p>
+                                <p id="lbl_OrderHistory" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlviewtoh", UserCookieManager.StoreId))</p>
                             </div>
                             <div class="registering_item_separator">
                                 &nbsp;
@@ -141,7 +132,7 @@
                             <div class="registering_item_register">
                                 <div class="tickImge">&nbsp;</div>
 
-                                <p id="lbl_Reorder" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Reorder", UserCookieManager.StoreId))</p>
+                                <p id="lbl_Reorder" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("divreorderq", UserCookieManager.StoreId))</p>
                             </div>
                             <div class="registering_item_separator">
                                 &nbsp;
@@ -149,7 +140,7 @@
                             <div class="registering_item_register">
                                 <div class="tickImge">&nbsp;</div>
 
-                                <p id="lbl_NewLetter" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_NewLetter", UserCookieManager.StoreId))</p>
+                                <p id="lbl_NewLetter" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("divsubs2newsl", UserCookieManager.StoreId))</p>
                             </div>
                             <div class="registering_item_separator">
                                 &nbsp;
@@ -157,7 +148,7 @@
                             <div class="registering_item_register">
                                 <div class="tickImge">&nbsp;</div>
 
-                                <p id="lbl_RequestQuote" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_RequestQuote", UserCookieManager.StoreId))</p>
+                                <p id="lbl_RequestQuote" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("hlRequestQuote", UserCookieManager.StoreId))</p>
                             </div>
                             <div class="registering_item_separator">
                                 &nbsp;
@@ -166,7 +157,7 @@
                                 <div class="tickImge">
                                     &nbsp;
                                 </div>
-                                <p id="lbl_Voucher" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Voucher", UserCookieManager.StoreId))</p>
+                                <p id="lbl_Voucher" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlNewVoucherPromo", UserCookieManager.StoreId))</p>
                             </div>
                         </div>
                     </div>

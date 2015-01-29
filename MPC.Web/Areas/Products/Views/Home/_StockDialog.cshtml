@@ -1,4 +1,4 @@
-﻿<div class="modal fade" id="stockDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+﻿<div class="modal fade my-modal" id="stockDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div id="stockDialogMainContainer" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,10 +8,27 @@
             <div class="col-lg-12">
                 <div class="col-lg-12 clearfix">
                     <header class="main-box-header clearfix">
-                        <div class="filter-block pull-right">
-                            <div class="form-group pull-left">
-                                <input type="text" class="form-control" data-bind="value: $root.stockDialogFilter" placeholder="Search...">
-                                <i class="fa fa-search search-icon"></i>
+                        @*<div class="filter-block pull-right">
+                                <div class="form-group pull-left">
+                                    <input type="text" class="form-control" data-bind="value: $root.stockDialogFilter" placeholder="Search...">
+                                    <i class="fa fa-search search-icon"></i>
+                                </div>
+                            </div>*@
+                        <div class="filter-body set-filter-margin" id="filter">
+                            <div class="filter-block pull-left">
+                                <div class="pull-left spanfilterlbl">
+                                    Search: &nbsp;
+                                </div>
+                                <div class="form-group pull-left">
+                                    <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.stockDialogFilter">
+                                    <i class="fa fa-search search-icon" data-bind="click: $root.searchStockItems"></i>
+                                </div>
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-primary" data-bind="click:$root.searchStockItems">Search</button>
+                                    <button type="reset" class="btn btn-default">Reset</button>
+                                </div>
+                            </div>
+                            <div class="clearfix">
                             </div>
                         </div>
                     </header>
@@ -33,7 +50,7 @@
                             </table>
                         </div>
                     </div>
-                    <footer class="main-box-header pull-right">
+                    <footer class="main-box-header pull-left">
                         <div id="pagerDiv">
                             <!-- ko with: $root.stockDialogPager -->
                             @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
@@ -43,8 +60,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <hr />
                 <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
             </div>
         </div>
     </div>

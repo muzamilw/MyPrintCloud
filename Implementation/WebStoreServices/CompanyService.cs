@@ -125,7 +125,7 @@ namespace MPC.Implementation.WebStoreServices
                 oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
                 oStore.SecondaryPages = AllPages.Where(s => s.CompanyId == oCompany.CompanyId).ToList();
                 oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
-                oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oCompany.OrganisationId));
+                oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oStore.Organisation.CurrencyId));
                 oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
                 oStore.StoreDetaultAddress = GetDefaultAddressByStoreID(companyId);
                 stores.Add(oCompany.CompanyId, oStore);
@@ -206,7 +206,7 @@ namespace MPC.Implementation.WebStoreServices
                 oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
                 oStore.SecondaryPages = AllPages.Where(s => s.CompanyId == oCompany.CompanyId).ToList();
                 oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
-                oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oCompany.OrganisationId));
+                oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oStore.Organisation.CurrencyId));
                 oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
                 oStore.StoreDetaultAddress = GetDefaultAddressByStoreID(companyId);
                 stores.Add(oCompany.CompanyId, oStore);
@@ -809,6 +809,7 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
+    
 
         #endregion
     }
