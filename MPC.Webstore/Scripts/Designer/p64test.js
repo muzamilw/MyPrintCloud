@@ -10124,7 +10124,7 @@ cloneWithoutData: function (callback) {
     * @type Number
     * @default
     */
-    cornerSize: 9,
+    cornerSize: 12, // old value was 9
 
     /**
     * When true, object's controlling corners are rendered as transparent inside (i.e. stroke instead of fill)
