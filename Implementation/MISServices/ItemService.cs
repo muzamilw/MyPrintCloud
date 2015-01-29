@@ -50,6 +50,8 @@ namespace MPC.Implementation.MISServices
         private readonly IProductCategoryRepository productCategoryRepository;
         private readonly ITemplatePageService templatePageService;
         private readonly ITemplateService templateService;
+        private readonly IMachineRepository machineRepository;
+        private readonly IPaperSizeRepository paperSizeRepository;
 
         /// <summary>
         /// Create Item Vdp Price
@@ -566,7 +568,8 @@ namespace MPC.Implementation.MISServices
             IItemPriceMatrixRepository itemPriceMatrixRepository, IItemStateTaxRepository itemStateTaxRepository, ICountryRepository countryRepository,
             IStateRepository stateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyRepository companyRepository,
             IItemProductDetailRepository itemProductDetailRepository, IProductCategoryItemRepository productCategoryItemRepository,
-            IProductCategoryRepository productCategoryRepository, ITemplatePageService templatePageService, ITemplateService templateService)
+            IProductCategoryRepository productCategoryRepository, ITemplatePageService templatePageService, ITemplateService templateService,
+            IMachineRepository machineRepository, IPaperSizeRepository paperSizeRepository)
         {
             if (itemRepository == null)
             {
@@ -660,6 +663,14 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("templateService");
             }
+            if (machineRepository == null)
+            {
+                throw new ArgumentNullException("machineRepository");
+            }
+            if (paperSizeRepository == null)
+            {
+                throw new ArgumentNullException("paperSizeRepository");
+            }
 
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
@@ -684,6 +695,8 @@ namespace MPC.Implementation.MISServices
             this.productCategoryRepository = productCategoryRepository;
             this.templatePageService = templatePageService;
             this.templateService = templateService;
+            this.machineRepository = machineRepository;
+            this.paperSizeRepository = paperSizeRepository;
         }
 
         #endregion
@@ -864,7 +877,8 @@ namespace MPC.Implementation.MISServices
                 Countries = countryRepository.GetAll(),
                 States = stateRepository.GetAll(),
                 Suppliers = companyRepository.GetAllSuppliers(),
-                ProductCategories = productCategoryRepository.GetParentCategories()
+                ProductCategories = productCategoryRepository.GetParentCategories(),
+                PaperSizes = paperSizeRepository.GetAll()
             };
         }
 
@@ -909,6 +923,15 @@ namespace MPC.Implementation.MISServices
                 CategoryRegions = categoryRegions,
                 CategoryTypes = categoryTypes
             };
+        }
+
+        /// <summary>
+        /// Get Machines
+        /// Used in Products - Press Selection
+        /// </summary>
+        public MachineSearchResponse GetMachines(MachineSearchRequestModel request)
+        {
+            return machineRepository.GetMachinesForProduct(request);
         }
 
 

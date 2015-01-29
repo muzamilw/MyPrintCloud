@@ -1962,6 +1962,22 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             description: specifiedDescription
         };
     },
+    
+    // Machine Entity        
+    Machine = function (specifiedId, specifiedName, specifiedDefaultPageId, specifiedMaxSheetHeight, specifiedMaxSheetWeight, specifiedMaxSheetWidth,
+        specifiedMinSheetHeight, specifiedMinSheetWidth, specifiedMachineCatId) {
+        return {
+            id: specifiedId,
+            name: specifiedName,
+            categoryId: specifiedMachineCatId,
+            defaultPageId: defaultPageId,
+            maxSheetHeight: specifiedMaxSheetHeight,
+            maxSheetWeight: specifiedMaxSheetWeight,
+            maxSheetWidth: specifiedMaxSheetWidth,
+            minSheetWidth: specifiedMinSheetWidth,
+            minSheetHeight: specifiedMaxSheetHeight
+        };
+    },
 
     // Cost Centre Entity        
     CostCentre = function (specifiedId, specifiedName, specifiedType) {
