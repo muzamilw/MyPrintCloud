@@ -1926,6 +1926,17 @@ define("stores/stores.viewModel",
                         _.each(selectedStore().mediaLibraries(), function (item) {
                             storeToSave.MediaLibraries.push(item.convertToServerData());
                         });
+
+                        //#region Cost Center
+                        //storeToSave().companyCostCenters.removeAll();
+                        _.each(costCentersList(), function (costCenter) {
+                            if (costCenter.isSelected()) {
+                                storeToSave.CompanyCostCentres.push(costCenter.convertToServerData());
+                            }
+                        });
+                        //updateCostCentersOnStoreSaving();
+                        //#endregion
+
                         
 
                         dataservice.saveStore(
@@ -2055,6 +2066,8 @@ define("stores/stores.viewModel",
                             selectedCurrentPageId(undefined);
                             selectedCurrentPageCopy(undefined);
                             newUploadedMediaFile(model.MediaLibrary());
+                            //Update Cost Centers Selection 
+                            updateSelectedStoreCostCenters();
 
                             selectedStore().reset();
                             isLoadingStores(false);
@@ -2712,6 +2725,7 @@ define("stores/stores.viewModel",
 
                 //#region ________D E L I V E R Y    A D D    O N________________
                 selectedPickupAddress = ko.observable(),
+                pickupAddress = ko.observable(),
                 updatePickupAddressFields = ko.computed(function() {
                     if (selectedStore() != undefined) {
                         if (selectedStore().pickupAddressId() != undefined) {
@@ -2725,6 +2739,49 @@ define("stores/stores.viewModel",
                         }
                     } 
                 }),
+                pickUpLocationValue = ko.observable(),
+               
+                updatePickupAddress = ko.computed(function() {
+                    if (selectedPickupAddress().stateName() != undefined && selectedPickupAddress().countryName() != undefined && selectedPickupAddress().postCode() != undefined) {
+                        pickupAddress(selectedPickupAddress());
+                        pickUpLocationValue(pickupAddress().addressName() + '/' + pickupAddress().postCode());
+                        //selectedStore().pickupAddressId(selectedStore().pickupAddressId());
+                    } else {
+                        pickupAddress(new model.Address);
+                        //selectedStore().pickupAddressId(selectedStore().pickupAddressId());
+                    }
+                }),
+                //updateSelectedStoreCostCenters
+                updateSelectedStoreCostCenters = function() {
+                    _.each(selectedStore().companyCostCenters(), function (costCenter) {
+                        var selectedCostCenter;
+                         selectedCostCenter = _.find(costCentersList(), function (costCenterItem) {
+                            return costCenterItem.costCentreId() === costCenter.costCentreId();
+                        });
+                            selectedCostCenter.isSelected(true);
+                    });
+                },
+                onClosePickupDialog = function () {
+                    if (selectedPickupAddress().state() != undefined && selectedPickupAddress().country() != undefined && selectedPickupAddress().postCode() != undefined) {
+                        pickupAddress(selectedPickupAddress());
+                        selectedStore().pickupAddressId(selectedStore().pickupAddressId());
+                    } else {
+                        pickupAddress(new model.Address);
+                        selectedStore().pickupAddressId(undefined);
+                    }
+                },
+                onSavePickupDialog = function () {
+                    
+                },
+                //Update selected Store selected cost centers
+                updateCostCentersOnStoreSaving = function() {
+                    selectedStore().companyCostCenters.removeAll();
+                    _.each(costCentersList(), function(costCenter) {
+                        if (costCenter.isSelected()) {
+                            selectedStore().companyCostCenters.push(costCenter.convertToServerData());
+                        }
+                    });
+                },
                 //#endregion
 
                 //Initialize
@@ -2999,7 +3056,11 @@ define("stores/stores.viewModel",
                     selectedMediaFile: selectedMediaFile,
                     onSaveMedia: onSaveMedia,
                     selectedPickupAddress: selectedPickupAddress,
-                    costCentersList: costCentersList
+                    costCentersList: costCentersList,
+                    pickupAddress: pickupAddress,
+                    onClosePickupDialog: onClosePickupDialog,
+                    onSavePickupDialog: onSavePickupDialog,
+                    pickUpLocationValue: pickUpLocationValue
                 };
                 //#endregion
             })()

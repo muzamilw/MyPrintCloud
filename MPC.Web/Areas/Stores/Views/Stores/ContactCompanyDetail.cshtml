@@ -1622,8 +1622,8 @@
 
                                                         <label for="txtPickUpLocation" class="control-label text-right tooltip-float">Pick Up Location/Zip code </label>
                                                     </div>
-                                                    <div class="col-lg-4">
-                                                        <input type="text" disabled="disabled" class="form-control" style="float:left;width:86%" value="East Region / ER-4569" id="txtPickUpLocation">
+                                                    <div class="col-lg-4" data-bind="with: $root.pickupAddress">
+                                                        <input type="text" disabled="disabled" class="form-control" style="float:left;width:86%" placeholder="Pick Up Location/Zip code" id="txtPickUpLocation" data-bind="value: $root.pickUpLocationValue ">
                                                         <a data-toggle="modal" href="#SelectAddressSetModal" class="btn btn-primary pull-right">
                                                             <i class="fa  fa-lg"></i>&nbsp;....
                                                         </a>
@@ -2027,7 +2027,7 @@
                         <div class="col-md-3 ">
                             <div class="checkbox-nice">
                                 <input type="checkbox" data-bind="checked: isSelected, attr: { id: costCentreId}">
-                                <label for="costCentreId">
+                                <label data-bind="attr: { for: costCentreId}">
                                 </label>
                             </div>
                             @*<input type="checkbox" data-bind="checked: isSelected">*@
