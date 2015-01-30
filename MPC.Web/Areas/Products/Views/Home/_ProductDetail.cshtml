@@ -430,15 +430,15 @@
                                                 <label for="txtCompanyName" class="control-label text-right"></label>
 
                                             </div>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-9" data-bind="with: itemProductDetail">
                                                 <div class="radio">
-                                                    <input type="radio" name="optionsRadiosPrint" id="optionPrintYes" value="option1">
+                                                    <input type="radio" name="optionsRadiosPrint" id="optionPrintYes" data-bind="checked: isPrintItemUi" value="2">
                                                     <label for="optionPrintYes">
                                                         No Print - No Signatures required ( no section need to be define)
                                                     </label>
                                                 </div>
                                                 <div class="radio">
-                                                    <input type="radio" name="optionsRadiosPrint" id="optionPrintNo" value="option2" checked>
+                                                    <input type="radio" name="optionsRadiosPrint" id="optionPrintNo" value="1" data-bind="checked: isPrintItemUi">
                                                     <label for="optionPrintNo">
                                                         Digital Litho Print Paginations
                                                     </label>
@@ -479,10 +479,10 @@
 
                                                 </div>
                                                 <div class="col-xs-2" style="width:15%;">
-                                                    <button id="AddSection" type="button" style="float:left;" onclick="AddNewSection();" class="btn btn-success">
+                                                    <button id="AddSection" type="button" style="float:left;" data-bind="visible: canAddItemSection, click: $root.addItemSection" class="btn btn-success">
                                                         <span class="fa"></span> +
                                                     </button>
-                                                    <button id="RemoveSection" type="button" style="float:right;display:none;" onclick="RemoveSection();" class="btn btn-danger">
+                                                    <button id="RemoveSection" type="button" style="float:right;display:none;" data-bind="visible: canRemoveItemSection, click: removeItemSection" class="btn btn-danger">
                                                         <span class="fa"></span>
                                                         -
                                                     </button>
@@ -495,67 +495,16 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-12" style="margin-bottom:10px; margin-left:19%;">
-
-                                        <div id="mainDivSections">
+                                        <div id="mainDivSections" data-bind="foreach: itemSections">
                                             <div class="col-xs-2">
-                                                <div id="Sec1">
-
-                                                    <input type="text" style="width:100px;float: left;" class="form-control" id="txtSectionName" value="Section 1">
-
-
-                                                    <a data-toggle="modal" href="#signtureEdit" class="btn btn-primary pull-right">
-                                                        <i class="fa fa-lg"></i>&nbsp;....
-                                                    </a>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-2">
-                                                <div id="Sec2" style="display:none;">
-                                                    <input type="text" style="width:100px;float: left;" class="form-control" id="txtSectionName" value="Section 2">
-
-
-                                                    <a data-toggle="modal" href="#signtureEdit" class="btn btn-primary pull-right">
-                                                        <i class="fa fa-lg"></i>&nbsp;....
-                                                    </a>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-2">
-                                                <div id="Sec3" style="display:none;">
-
-                                                    <input type="text" style="width:100px;float: left;" class="form-control" id="txtSectionName" value="Section 3">
-
-
-                                                    <a data-toggle="modal" href="#SigntureEdit" class="btn btn-primary pull-right">
-                                                        <i class="fa fa-lg"></i>&nbsp;....
-                                                    </a>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-2">
-                                                <div id="Sec4" style="display:none;">
-                                                    <input type="text" style="width:100px;float: left;" class="form-control" id="txtSectionName" value="Section 4">
-
-
-                                                    <a data-toggle="modal" href="#SigntureEdit" class="btn btn-primary pull-right">
+                                                <div >
+                                                    <input type="text" style="width:100px;float: left;" class="form-control" data-bind="value: name">
+                                                    <a href="#" data-bind="click: $root.editSectionSignature" class="btn btn-primary pull-right">
                                                         <i class="fa fa-lg"></i>&nbsp;....
                                                     </a>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-2">
-                                                <div id="Sec5" style="display:none;">
-
-                                                    <input type="text" style="width:100px;float: left;" class="form-control" id="txtSectionName" value="Section 5">
-
-
-                                                    <a data-toggle="modal" href="#SigntureEdit" class="btn btn-primary pull-right">
-                                                        <i class="fa fa-lg"></i>&nbsp;....
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-2"></div>
                                         </div>
-
                                     </div>
 
 
@@ -2604,6 +2553,7 @@
             <!-- /ko -->
         </tr>
     </script>
+
 
     <!-- ko with: selectedProduct -->
     @Html.Partial("_AddVideo")

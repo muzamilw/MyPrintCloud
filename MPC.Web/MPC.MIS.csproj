@@ -266,6 +266,7 @@
     <Compile Include="Areas\Api\ModelMappers\CostCenterTypeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreDropDownMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemDesignerTemplateBaseResponseMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ItemSectionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MediaLibraryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductCategoryItemMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PhraseFieldMapper.cs" />
@@ -284,6 +285,7 @@
     <Compile Include="Areas\Api\Models\CostCentreDropDown.cs" />
     <Compile Include="Areas\Api\Models\ItemDesignerTemplateBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemForWidgets.cs" />
+    <Compile Include="Areas\Api\Models\ItemSection.cs" />
     <Compile Include="Areas\Api\Models\LanguageEditor.cs" />
     <Compile Include="Areas\Api\Controllers\PaymentGatewayController.cs" />
     <Compile Include="Areas\Api\Controllers\PrefixController.cs" />

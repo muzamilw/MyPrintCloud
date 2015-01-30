@@ -874,6 +874,8 @@ namespace MPC.MIS.Areas.Api.Models
 
         public IEnumerable<ProductCategoryItem> ProductCategoryItems { get; set; }
 
+        public IEnumerable<ItemSection> ItemSections { get; set; }
+
         #endregion
     }
 }

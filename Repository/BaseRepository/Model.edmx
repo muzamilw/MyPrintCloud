@@ -2154,6 +2154,9 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="MISLogoStreamId" Type="uniqueidentifier" />
           <Property Name="BleedAreaSize" Type="float" />
           <Property Name="ShowBleedArea" Type="bit" />
+          <Property Name="isXeroIntegrationRequired" Type="bit" />
+          <Property Name="XeroApiId" Type="nvarchar" MaxLength="100" />
+          <Property Name="XeroApiKey" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="PageCategory">
           <Key>
@@ -6209,6 +6212,9 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="BleedAreaSize" Type="Double" />
           <Property Name="ShowBleedArea" Type="Boolean" />
           <NavigationProperty Name="GlobalLanguage" Relationship="DomainModels.FK_Organisation_GlobalLanguage" FromRole="Organisation" ToRole="GlobalLanguage" />
+          <Property Name="isXeroIntegrationRequired" Type="Boolean" />
+          <Property Name="XeroApiId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="XeroApiKey" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -10904,6 +10910,9 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Organisations">
             <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="XeroApiKey" ColumnName="XeroApiKey" />
+                <ScalarProperty Name="XeroApiId" ColumnName="XeroApiId" />
+                <ScalarProperty Name="isXeroIntegrationRequired" ColumnName="isXeroIntegrationRequired" />
                 <ScalarProperty Name="ShowBleedArea" ColumnName="ShowBleedArea" />
                 <ScalarProperty Name="BleedAreaSize" ColumnName="BleedAreaSize" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />

@@ -764,6 +764,92 @@ namespace MPC.Models.ModelMappers
         }
 
         /// <summary>
+        /// True if the ItemSection is new
+        /// </summary>
+        private static bool IsNewItemSection(ItemSection sourceItemSection)
+        {
+            return sourceItemSection.ItemSectionId <= 0;
+        }
+
+        /// <summary>
+        /// Initialize target ItemSections
+        /// </summary>
+        private static void InitializeItemSections(Item item)
+        {
+            if (item.ItemSections == null)
+            {
+                item.ItemSections = new List<ItemSection>();
+            }
+        }
+
+        /// <summary>
+        /// Update or add Item Sections
+        /// </summary>
+        private static void UpdateOrAddItemSections(Item source, Item target, ItemMapperActions actions)
+        {
+            foreach (ItemSection sourceLine in source.ItemSections.ToList())
+            {
+                UpdateOrAddItemSection(sourceLine, target, actions);
+            }
+        }
+
+        /// <summary>
+        /// Update target Item Sections 
+        /// </summary>
+        private static void UpdateOrAddItemSection(ItemSection sourceItemSection, Item target, ItemMapperActions actions)
+        {
+            ItemSection targetLine;
+            if (IsNewItemSection(sourceItemSection))
+            {
+                targetLine = actions.CreateItemSection();
+                target.ItemSections.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.ItemSections.FirstOrDefault(vdp => vdp.ItemSectionId == sourceItemSection.ItemSectionId);
+            }
+            
+            // Set Defaults to Non-Print Section
+            if (target.ItemProductDetails != null && target.ItemProductDetails.Any())
+            {
+                ItemProductDetail itemProductDetail = target.ItemProductDetails.First();
+                if (itemProductDetail.isPrintItem.HasValue && itemProductDetail.isPrintItem.Value)
+                {
+                    actions.SetDefaultsForItemSection(targetLine);    
+                }
+            }
+
+            sourceItemSection.UpdateTo(targetLine);
+        }
+
+        /// <summary>
+        /// Delete sections no longer needed
+        /// </summary>
+        private static void DeleteItemSections(Item source, Item target, ItemMapperActions actions)
+        {
+            List<ItemSection> linesToBeRemoved = target.ItemSections.Where(
+                vdp => !IsNewItemSection(vdp) && source.ItemSections.All(sourceVdp => sourceVdp.ItemSectionId != vdp.ItemSectionId))
+                  .ToList();
+            linesToBeRemoved.ForEach(line =>
+            {
+                target.ItemSections.Remove(line);
+                actions.DeleteItemSection(line);
+            });
+        }
+
+        /// <summary>
+        /// Update Videos
+        /// </summary>
+        private static void UpdateItemSections(Item source, Item target, ItemMapperActions actions)
+        {
+            InitializeItemSections(source);
+            InitializeItemSections(target);
+
+            UpdateOrAddItemSections(source, target, actions);
+            DeleteItemSections(source, target, actions);
+        }
+
+        /// <summary>
         /// Update Images
         /// </summary>
         private static void UpdateImages(Item source, Item target)
@@ -938,6 +1024,7 @@ namespace MPC.Models.ModelMappers
             UpdateItemStateTaxes(source, target, actions);
             UpdateItemProductDetail(source, target, actions);
             UpdateProductCategoryItems(source, target, actions);
+            UpdateItemSections(source, target, actions);
         }
 
         #endregion

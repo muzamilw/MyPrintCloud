@@ -121,6 +121,7 @@
     <Compile Include="Common\OrderDetail.cs" />
     <Compile Include="Common\QuickText.cs" />
     <Compile Include="Common\QuickTextData.cs" />
+    <Compile Include="Common\StockCategoryEnum.cs" />
     <Compile Include="Common\SectionEnum.cs" />
     <Compile Include="Common\ItemFileType.cs" />
     <Compile Include="Common\CompanyClaimValue.cs" />
@@ -306,6 +307,7 @@
     <Compile Include="ModelMappers\ItemStateTaxMapper.cs" />
     <Compile Include="ModelMappers\ItemStockOptionMapper.cs" />
     <Compile Include="ModelMappers\ItemProductDetailMapper.cs" />
+    <Compile Include="ModelMappers\ItemSectionMapper.cs" />
     <Compile Include="ModelMappers\ProductCategoryItemMapper.cs" />
     <Compile Include="ModelMappers\ItemVideoMapper.cs" />
     <Compile Include="ModelMappers\TemplatePageMapper.cs" />
