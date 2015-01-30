@@ -102,7 +102,6 @@
     <Compile Include="Repository\ICostCentreRepository.cs" />
     <Compile Include="Repository\IItemPriceMatrixRepository.cs" />
     <Compile Include="Repository\IItemProductDetailRepository.cs" />
-    <Compile Include="Repository\IMachineRepository.cs" />
     <Compile Include="Repository\IListingRepository.cs" />
     <Compile Include="Repository\IMachineRepository.cs" />
     <Compile Include="Repository\IOrganisationFileTableViewRepository.cs" />

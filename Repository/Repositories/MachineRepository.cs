@@ -1,4 +1,15 @@
-﻿using System.Data.Entity;
+﻿using System.Linq;
+using MPC.Interfaces.Repository;
+using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
+using MPC.Repository.BaseRepository;
+using System.Data.Entity;
+using Microsoft.Practices.Unity;
+using System.Collections.Generic;
+using MPC.Models.Common;
+using System;
+using System.Data.Entity;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
@@ -13,23 +24,24 @@ using System.Linq.Expressions;
 
 namespace MPC.Repository.Repositories
 {
-    /// <summary>
-    /// Machine Repository
-    /// </summary>
-    public class MachineRepository : BaseRepository<Machine>, IMachineRepository
+    class MachineRepository : BaseRepository<Machine>, IMachineRepository
     {
-        #region privte
 
-        /// <summary>
-        /// Machine Orderby clause
-        /// </summary>
-        private readonly Dictionary<MachineByColumn, Func<Machine, object>> machineOrderByClause =
+
+        #region Private
+        private readonly Dictionary<MachineListColumns, Func<Machine, object>> OrderByClause = new Dictionary<MachineListColumns, Func<Machine, object>>
+                    {
+                        {MachineListColumns.MachineName, d => d.MachineName},
+                        {MachineListColumns.CalculationMethod, d => d.MachineCatId},
+                        
+                    };
+          private readonly Dictionary<MachineByColumn, Func<Machine, object>> machineOrderByClause =
             new Dictionary<MachineByColumn, Func<Machine, object>>
                     {
                          {MachineByColumn.Name, c => c.MachineName}
                     };
-
         #endregion
+
 
         #region Constructor
 
@@ -41,34 +53,37 @@ namespace MPC.Repository.Repositories
         {
 
         }
-
-        /// <summary>
-        /// Primary database set
-        /// </summary>
-        protected override IDbSet<Machine> DbSet
-        {
-            get
-            {
-                return db.Machines;
-            }
-        }
-
         #endregion
-
-        #region public
-
-        /// <summary>
-        /// Find Machine
-        /// </summary>
-        public Machine Find(int id)
+        public MachineResponseModel GetAllMachine(MachineRequestModel request)
         {
-            return DbSet.Find(id);
-        }
 
-        /// <summary>
-        /// Get Machines For Product
-        /// </summary>
-        public MachineSearchResponse GetMachinesForProduct(MachineSearchRequestModel request)
+            //var result = from t in db.Machines
+            //             join x in db.LookupMethods on t.MachineId equals x.MethodId
+            //             select t;
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+
+            var machineList = request.IsAsc
+                ? DbSet.OrderBy(OrderByClause[request.MachineOrderBy])
+                .Skip(fromRow)
+                .Take(toRow)
+                .ToList()
+                : DbSet.OrderByDescending(OrderByClause[request.MachineOrderBy])
+                .Skip(fromRow)
+                .Take(toRow)
+                .ToList();
+
+            return new MachineResponseModel
+            {
+                RowCount = DbSet.Count(),
+                MachineList = machineList
+
+            };
+
+
+
+        }
+         public MachineSearchResponse GetMachinesForProduct(MachineSearchRequestModel request)
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
@@ -91,7 +106,24 @@ namespace MPC.Repository.Repositories
             return new MachineSearchResponse { Machines = machines, TotalCount = DbSet.Count(query) };
         }
 
-        #endregion
+         public Machine Find(int id)
+        {
+            return DbSet.Find(id);
+        }
+
+        public Machine GetMachineByID(long MachineID)
+        {
+            return DbSet.Where(g => g.MachineId == MachineID).SingleOrDefault();
+        }
+
+
+        protected override IDbSet<Machine> DbSet
+        {
+            get
+            {
+                return db.Machines;
+            }
+        }
 
     }
 }
