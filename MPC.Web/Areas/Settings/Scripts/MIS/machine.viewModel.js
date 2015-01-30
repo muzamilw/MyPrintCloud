@@ -34,13 +34,13 @@ define("machine/machine.viewModel",
                         openEditDialog();
                     },
                     //Delete Cost Center
-                    //deleteMachine = function (oCostCenter) {
+                    //deleteMachine = function (oMachine) {
                     //    dataservice.deleteMachine({
-                    //        CostCentreId: oCostCenter.CostCentreId(),
+                    //        CostCentreId: oMachine.CostCentreId(),
                     //    }, {
                     //        success: function (data) {
                     //            if (data != null) {
-                    //                machineList.remove(oCostCenter);
+                    //                machineList.remove(oMachine);
                     //                toastr.success(" Deleted Successfully !");
                     //            }
                     //        },
@@ -49,14 +49,14 @@ define("machine/machine.viewModel",
                     //        }
                     //    });
                     //},
-                    //onDeleteCostCenter = function (oCostCenter) {
-                    //    if (!oCostCenter.CostCentreId()) {
-                    //        machineList.remove(oCostCenter);
+                    //onDeleteCostCenter = function (oMachine) {
+                    //    if (!oMachine.CostCentreId()) {
+                    //        machineList.remove(oMachine);
                     //        return;
                     //    }
                     //    // Ask for confirmation
                     //    confirmation.afterProceed(function () {
-                    //        deleteCostCenter(oCostCenter);
+                    //        deleteCostCenter(oMachine);
                     //    });
                     //    confirmation.show();
                     //},
@@ -111,7 +111,7 @@ define("machine/machine.viewModel",
                     //        success: function (data) {
                     //            selectedMachine().costCenterId(data.costCenterId);
                     //            machineList.splice(0, 0, selectedMachine());
-                    //            view.hideCostCenterDialog();
+                    //            view.hideMachineDialog();
                     //            toastr.success("Successfully save.");
                     //        },
                     //        error: function (response) {
@@ -129,7 +129,7 @@ define("machine/machine.viewModel",
                     //            });
                     //            machineList.remove(newObjtodelete);
                     //            machineList.push(newItem);
-                    //            view.hideCostCenterDialog();
+                    //            view.hideMachineDialog();
                     //            toastr.success("Successfully save.");
                     //        },
                     //        error: function (exceptionMessage, exceptionType) {
@@ -141,49 +141,49 @@ define("machine/machine.viewModel",
                     //        }
                     //    });
                     //},
-                    ////On Edit Click Of Cost Center
-                    //onEditItem = function (oCostCenter) {
-                    //    errorList.removeAll();
-                    //    // selectedMachine(oCostCenter);
-                    //    dataservice.getCostCentreById({
-                    //        id: oCostCenter.costCentreId(),
-                    //    }, {
-                    //        success: function (data) {
-                    //            if (data != null) {
-                    //                selectedMachine(model.costCenterClientMapper(data));
-                    //                selectedMachine().reset();
-                    //                showCostCenterDetail();
-                    //            }
-                    //        },
-                    //        error: function (response) {
-                    //            toastr.error("Failed to load Detail . Error: ");
-                    //        }
-                    //    });
-                    //},
-                    //openEditDialog = function () {
-                    //    view.showCostCenterDialog();
-                    //},
-                    //closeEditDialog = function () {
-                    //    if (selectedMachine() != undefined) {
-                    //        if (selectedMachine().costCenterId() > 0) {
-                    //            isEditorVisible(false);
-                    //            view.hideCostCenterDialog();
-                    //        } else {
-                    //            isEditorVisible(false);
-                    //            view.hideCostCenterDialog();
-                    //            machineList.remove(selectedMachine());
-                    //        }
-                    //        editorViewModel.revertItem();
-                    //    }
-                    //},
-                    //// close CostCenter Editor
-                    //closeCostCenterDetail = function () {
-                    //    isEditorVisible(false);
-                    //},
-                    //// Show CostCenter Editor
-                    //showCostCenterDetail = function () {
-                    //    isEditorVisible(true);
-                    //},
+                    //On Edit Click Of Machine
+                    onEditMachineItem = function (oMachine) {
+                        errorList.removeAll();
+                        // selectedMachine(oMachine);
+                        dataservice.getMachineById({
+                            id: oMachine.MachineId(),
+                        }, {
+                            success: function (data) {
+                                if (data != null) {
+                                    selectedMachine(model.machineListClientMapper(data));
+                                    selectedMachine().reset();
+                                    showMachineDetail();
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to load Detail . Error: ");
+                            }
+                        });
+                    },
+                    openEditDialog = function () {
+                        view.showCostCenterDialog();
+                    },
+                    closeEditDialog = function () {
+                        if (selectedMachine() != undefined) {
+                            if (selectedMachine().MachineId() > 0) {
+                                isEditorVisible(false);
+                                view.hideMachineDialog();
+                            } else {
+                                isEditorVisible(false);
+                                view.hideMachineDialog();
+                                machineList.remove(selectedMachine());
+                            }
+                            editorViewModel.revertItem();
+                        }
+                    },
+                    // close CostCenter Editor
+                    closeMachineDetail = function () {
+                        isEditorVisible(false);
+                    },
+                    // Show CostCenter Editor
+                    showMachineDetail = function () {
+                        isEditorVisible(true);
+                    },
                     // #region Observables
                     // Initialize the view model
                     initialize = function (specifiedView) {
@@ -210,15 +210,15 @@ define("machine/machine.viewModel",
                     //doBeforeSave: doBeforeSave,
                     //saveCostCenter: saveCostCenter,
                     //saveNewCostCenter: saveNewCostCenter,
-                   // saveEdittedCostCenter: saveEdittedCostCenter,
+                    // saveEdittedCostCenter: saveEdittedCostCenter,
                     //openEditDialog: openEditDialog,
                     //closeEditDialog: closeEditDialog,
                     searchFilter: searchFilter,
-                    //onEditItem: onEditItem,
-                    initialize: initialize
-                    //isEditorVisible: isEditorVisible,
-                    //closeCostCenterDetail: closeCostCenterDetail,
-                    //showCostCenterDetail: showCostCenterDetail
+                    onEditMachineItem: onEditMachineItem,
+                    initialize: initialize,
+                    isEditorVisible: isEditorVisible,
+                    closeMachineDetail: closeMachineDetail,
+                    showMachineDetail: showMachineDetail
                 };
             })()
         };

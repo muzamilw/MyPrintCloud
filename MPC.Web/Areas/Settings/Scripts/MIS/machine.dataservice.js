@@ -38,12 +38,12 @@ define("machine/machine.dataservice", function () {
                     //    decoder: amplify.request.decoders.istStatusDecoder,
                     //    type: 'POST'
                     //});
-                    //// Define request to get Machine
-                    //amplify.request.define('getMachineById', 'ajax', {
-                    //    url: ist.siteUrl + '/Api/MachineList',
-                    //    dataType: 'json',
-                    //    type: 'GET'
-                    //});
+                    // Define request to get Machine
+                    amplify.request.define('getMachineById', 'ajax', {
+                        url: ist.siteUrl + '/Api/Machine',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
             },
@@ -56,50 +56,50 @@ define("machine/machine.dataservice", function () {
                     error: callbacks.error,
                     data: params
                 });
+            },
+             //Get Machine by Id 
+            getMachineById = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getMachineById',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
             };
-            // Get Machine by Id 
-            //getCostCentreById = function (params, callbacks) {
-            //    initialize();
-            //    return amplify.request({
-            //        resourceId: 'getCostCentreById',
-            //        success: callbacks.success,
-            //        error: callbacks.error,
-            //        data: params
-            //    });
-            //},
-            //deleteMachine = function (params, callbacks) {
-            //    initialize();
-            //    return amplify.request({
-            //        resourceId: 'deleteMachine',
-            //        success: callbacks.success,
-            //        error: callbacks.error,
-            //        data: params
-            //    });
-            //},
-            //// Save New paper Sheet
-            //saveNewMachine = function (param, callbacks) {
-            //    initialize();
-            //    return amplify.request({
-            //        resourceId: 'saveNewMachine',
-            //        success: callbacks.success,
-            //        error: callbacks.error,
-            //        data: param
-            //    });
-            //},
-            //// Save Cost Center
-            //saveMachine = function (param, callbacks) {
-            //    initialize();
-            //    return amplify.request({
-            //        resourceId: 'saveMachine',
-            //        success: callbacks.success,
-            //        error: callbacks.error,
-            //        data: param
-            //    });
-            //};
+        //deleteMachine = function (params, callbacks) {
+        //    initialize();
+        //    return amplify.request({
+        //        resourceId: 'deleteMachine',
+        //        success: callbacks.success,
+        //        error: callbacks.error,
+        //        data: params
+        //    });
+        //},
+        //// Save New paper Sheet
+        //saveNewMachine = function (param, callbacks) {
+        //    initialize();
+        //    return amplify.request({
+        //        resourceId: 'saveNewMachine',
+        //        success: callbacks.success,
+        //        error: callbacks.error,
+        //        data: param
+        //    });
+        //},
+        //// Save Cost Center
+        //saveMachine = function (param, callbacks) {
+        //    initialize();
+        //    return amplify.request({
+        //        resourceId: 'saveMachine',
+        //        success: callbacks.success,
+        //        error: callbacks.error,
+        //        data: param
+        //    });
+        //};
 
         return {
-            GetMachineList: GetMachineList
-            //getCostCentreById: getCostCentreById,
+            GetMachineList: GetMachineList,
+            getMachineById: getMachineById
             //deleteCostCenter: deleteCostCenter,
             //saveNewCostCenter: saveNewCostCenter,
             //saveCostCenter: saveCostCenter

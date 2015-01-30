@@ -402,6 +402,9 @@
     <Compile Include="Areas\Api\Models\MachineList.cs" />
     <Compile Include="Areas\Api\Models\MachineResource.cs" />
     <Compile Include="Areas\Api\Models\MachineResponse.cs" />
+    <Compile Include="Areas\Api\Models\MachineSearchResponse.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Areas\Api\Models\MediaLibrary.cs" />
     <Compile Include="Areas\Api\Models\PageCategory.cs" />
     <Compile Include="Areas\Api\Models\PageCategoryDropDown.cs" />

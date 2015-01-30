@@ -4,6 +4,7 @@ using DomainResponseModel = MPC.Models.ResponseModels;
 using MPC.Models.ResponseModels;
 using MPC.Models.DomainModels;
 
+using APIDomainModels=MPC.MIS.Areas.Api.Models;
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
     /// <summary>
@@ -17,9 +18,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Create From Domain Model
         /// </summary>
-        public static MachineSearchResponse CreateFrom(this DomainResponseModel.MachineSearchResponse source)
+        public static APIDomainModels.MachineSearchResponse CreateFrom(this DomainResponseModel.MachineSearchResponse source)
         {
-            return new MachineSearchResponse
+            return new APIDomainModels.MachineSearchResponse
             {
                 Machines = source.Machines != null ? source.Machines.Select(machine => machine.CreateFrom()).ToList() : null,
                 TotalCount = source.TotalCount
@@ -29,9 +30,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Create From Domain Model
         /// </summary>
-        public static Machine CreateFrom(this DomainModels.Machine source)
+        public static APIDomainModels.Machine CreateFrom(this DomainModels.Machine source)
         {
-            return new Machine
+            return new APIDomainModels.Machine
             {
                 MachineId = source.MachineId,
                 MachineName = source.MachineName,

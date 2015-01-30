@@ -68,6 +68,7 @@ namespace MPC.Models.DomainModels
         public double? MakeReadyTime { get; set; }
         public double? WashupTime { get; set; }
         public double? ReelMakereadyTime { get; set; }
+        
 
         public virtual ICollection<MachineInkCoverage> MachineInkCoverages { get; set; }
         public virtual ICollection<MachineResource> MachineResources { get; set; }

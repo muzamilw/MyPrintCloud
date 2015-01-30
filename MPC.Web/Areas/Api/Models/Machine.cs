@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MPC.Models.DomainModels
+namespace MPC.MIS.Areas.Api.Models
 {
     /// <summary>
     /// Machine Domain Model
