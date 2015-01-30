@@ -35,7 +35,8 @@ namespace MPC.Repository.Repositories
         
         public override IEnumerable<CostCentreType> GetAll()
         {
-            return DbSet.Where(c => c.CompanyId == OrganisationId).ToList();
+            //
+            return DbSet.Where(c => c.CompanyId == OrganisationId && c.IsSystem != 1 && c.TypeId != 11).ToList(); //11 is Delivery cost center will be listed seperately. 
         }
         public CostCentreType GetCostCenterTypeById(int Id)
         {
