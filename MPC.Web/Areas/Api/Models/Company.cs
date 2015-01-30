@@ -111,6 +111,7 @@ namespace MPC.MIS.Areas.Api.Models
         public long? PickupAddressId { get; set; }
         public long? BussinessAddressId { get; set; }
 
+
         #endregion
 
         #region Public List Properties

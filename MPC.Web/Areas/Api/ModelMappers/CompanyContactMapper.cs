@@ -15,7 +15,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new DomainModels.CompanyContact
                    {
                        ContactId = source.ContactId,
-                       AddressId = 192885,
+                       AddressId = source.BussinessAddress.AddressId,
+                       TerritoryId = source.BussinessAddress.TerritoryId,
                        CompanyId = source.CompanyId,
                        FirstName = source.FirstName,
                        MiddleName = source.MiddleName,
@@ -63,7 +64,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        CreditLimit = source.CreditLimit,
                        isArchived = source.isArchived,
                        ContactRoleId = source.ContactRoleId,
-                       TerritoryId = source.TerritoryId,
+                       //TerritoryId = source.TerritoryId,
                        ClaimIdentifer = source.ClaimIdentifer,
                        AuthentifiedBy = source.AuthentifiedBy,
                        IsPayByPersonalCreditCard = source.IsPayByPersonalCreditCard,
@@ -98,6 +99,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        canPlaceDirectOrder = source.canPlaceDirectOrder,
                        OrganisationId = source.OrganisationId,
                        FileName = source.FileName
+                       //CompanyTerritory = source.BussinessAddress.Territory.CreateFrom(),
+                       //Address = source.BussinessAddress != null? source.BussinessAddress.CreateFrom() : null,
+                       
                    };
         }
 

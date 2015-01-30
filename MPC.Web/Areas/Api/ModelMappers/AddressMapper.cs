@@ -107,7 +107,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ContactId = source.ContactId,
                 isDefaultTerrorityBilling = source.isDefaultTerrorityBilling,
                 isDefaultTerrorityShipping = source.isDefaultTerrorityShipping,
-                OrganisationId = source.OrganisationId,
+                OrganisationId = source.OrganisationId
+                //CompanyTerritory = source.Territory != null ? source.Territory.CreateFrom() : null
             };
         }
     }

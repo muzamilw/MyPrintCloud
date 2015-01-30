@@ -271,7 +271,7 @@ namespace MPC.Implementation.MISServices
                     companyDbVersion.CompanyCostCentres.Remove(dbVersionMissingItem);
                 }
             }
-            else if (company.CompanyCostCentres == null && companyDbVersion.CompanyCostCentres.Count > 0)
+            else if (company.CompanyCostCentres == null && companyDbVersion.CompanyCostCentres != null && companyDbVersion.CompanyCostCentres.Count > 0)
             {
                 List<CompanyCostCentre> lisRemoveAllItemsList = companyDbVersion.CompanyCostCentres.ToList();
                 foreach (CompanyCostCentre missingCompanyCostCentre in lisRemoveAllItemsList)
@@ -753,7 +753,56 @@ namespace MPC.Implementation.MISServices
             }
             companyContactRepository.SaveChanges();
         }
-
+        //Territory
+        private void UpdateNewTerritories(CompanySavingModel companySavingModel, Company companyDbVersion)
+        {
+            if (companySavingModel.NewAddedAddresses != null)
+            {
+                if (companyDbVersion.CompanyTerritories == null)
+                {
+                    companyDbVersion.CompanyTerritories = new Collection<CompanyTerritory>();
+                }
+                foreach (var territory in companySavingModel.NewAddedCompanyTerritories)
+                {
+                    companyDbVersion.CompanyTerritories.Add(territory);
+                    //companyTerritoryRepository.Add(territory);
+                }
+            }
+        }
+        //Address
+        private void UpdateNewAddresses(CompanySavingModel companySavingModel, Company companyDbVersion)
+        {
+            if (companySavingModel.NewAddedAddresses != null)
+            {
+                if (companyDbVersion.Addresses == null)
+                {
+                    companyDbVersion.Addresses = new Collection<Address>();
+                }
+                foreach (var address in companySavingModel.NewAddedAddresses)
+                {
+                    address.OrganisationId = addressRepository.OrganisationId;
+                    companyDbVersion.Addresses.Add(address);
+                    //addressRepository.Add(address);
+                }
+            }
+        }
+        //COmpany Contact
+        private void UpdateNewCompanyContacts(CompanySavingModel companySavingModel, Company companyDbVersion)
+        {
+            if (companySavingModel.NewAddedCompanyContacts != null)
+            {
+                if (companyDbVersion.CompanyContacts == null)
+                {
+                    companyDbVersion.CompanyContacts = new Collection<CompanyContact>();
+                }
+                foreach (var companyContacts in companySavingModel.NewAddedCompanyContacts)
+                {
+                    companyContacts.OrganisationId = companyContactRepository.OrganisationId;
+                    companyDbVersion.CompanyContacts.Add(companyContacts);
+                    //companyContactRepository.Add(companyContacts);
+                }
+            }
+        }
         /// <summary>
         /// Update Company
         /// </summary>
@@ -766,11 +815,15 @@ namespace MPC.Implementation.MISServices
             companyToBeUpdated = UpdateCmykColorsOfUpdatingCompany(companyToBeUpdated, companyDbVersion);
             companyToBeUpdated = UpdateCompanyCostCentersOfUpdatingCompany(companyToBeUpdated, companyDbVersion);
             companyToBeUpdated = UpdateCompanyDomain(companyToBeUpdated);
-            //
-            UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
-            UpdateAddressOfUpdatingCompany(companySavingModel);
+
+            UpdateNewTerritories(companySavingModel, companyDbVersion);
+            UpdateNewAddresses(companySavingModel, companyDbVersion);
+            UpdateNewCompanyContacts(companySavingModel, companyDbVersion);
+            //UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
+            //UpdateAddressOfUpdatingCompany(companySavingModel);
+            //UpdateCompanyContactOfUpdatingCompany(companySavingModel);
             UpdateProductCategoriesOfUpdatingCompany(companySavingModel, productCategories);
-            UpdateCompanyContactOfUpdatingCompany(companySavingModel);
+            
             UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);
             UpdateCampaigns(companySavingModel.Company.Campaigns, companyDbVersion);
             UpdateCmsSkinPageWidget(companySavingModel.CmsPageWithWidgetList, companyDbVersion);

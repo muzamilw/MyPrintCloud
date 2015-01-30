@@ -227,17 +227,17 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                     source.CompanyCmykColors != null
                         ? source.CompanyCmykColors.Select(x => x.CreateFrom()).ToList()
                         : null,
-                Addresses = source.Addresses != null ? source.Addresses.Select(x => x.CreateFrom()).ToList() : null,
-                CompanyTerritories =
-                    source.CompanyTerritories != null
-                        ? source.CompanyTerritories.Select(x => x.CreateFrom()).ToList()
-                        : null,
+                //Addresses = source.Addresses != null ? source.Addresses.Select(x => x.CreateFrom()).ToList() : null,
+                //CompanyTerritories =
+                //    source.CompanyTerritories != null
+                //        ? source.CompanyTerritories.Select(x => x.CreateFrom()).ToList()
+                //        : null,
                 CompanyBannerSets =
                     source.CompanyBannerSets != null
                         ? source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList()
                         : null,
-                CompanyContacts =
-                    source.CompanyContacts != null ? source.CompanyContacts.Select(x => x.Createfrom()).ToList() : null,
+                //CompanyContacts =
+                //    source.CompanyContacts != null ? source.CompanyContacts.Select(x => x.Createfrom()).ToList() : null,
                 PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Select(x => x.CreateFrom()).ToList() : null,
                 Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFrom()).ToList() : null,
                 ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null,
