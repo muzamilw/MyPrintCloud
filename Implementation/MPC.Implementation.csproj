@@ -150,6 +150,7 @@
     <Compile Include="MISServices\ItemService.cs" />
     <Compile Include="MISServices\InventoryService.cs" />
     <Compile Include="MISServices\CostCenterService.cs" />
+    <Compile Include="MISServices\MachineService.cs" />
     <Compile Include="MISServices\PaperSheetService.cs" />
     <Compile Include="MISServices\PhraseLibraryService.cs" />
     <Compile Include="MISServices\PrefixService.cs" />

@@ -4,43 +4,44 @@
 
 @section leftmenue {
 }
-<div class="row">
+<div class="row" data-bind="visible: $root.isEditorVisible()" style="display: none">
     <div class="col-lg-12">
         <div class="row">
             <div class="col-lg-12">
                 <ol class="breadcrumb">
                     <li><a href="~/Dashboard/Index">Home</a></li>
-                    <li><a href="/Settings/MachinesList">Machine List</a></li>
+                    <li><a href="/Settings/Home/MachinesList">Machine List</a></li>
                     <li class="active"><span>Machine Detail</span></li>
                 </ol>
                 <h1>Machine Detail GTO 46 2 Colour</h1>
             </div>
         </div>
         <div class="row" id="user-profile">
-          
+
             <div class="col-lg-12 col-md-8 col-sm-8">
                 <div class="main-box clearfix">
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#tab-machineBasic" data-toggle="tab">Name & Description</a></li>
                             <li><a href="#tab-feed" data-toggle="tab">Feed Restriction</a></li>
-                            <li class="PressControls" ><a href="#tab-properties" data-toggle="tab">Properties</a></li>
+                            <li class="PressControls"><a href="#tab-properties" data-toggle="tab">Properties</a></li>
                             <li><a href="#tab-setup" data-toggle="tab">Setup & Running Charges</a></li>
                             <li class="PressControls"><a href="#tab-inkCoverage" data-toggle="tab">Ink Coverage</a></li>
-                            <li class="PressControls"><a href="#tab-spoilage" data-toggle="tab">Spoilage</a></li> 
+                            <li class="PressControls"><a href="#tab-spoilage" data-toggle="tab">Spoilage</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="tab-machineBasic">
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Name and Description</h3>
                                     <div class="col-lg-6">
-                                         <div class="form-group">
+                                        <div class="form-group">
                                             <div class="col-lg-4 text-right">
 
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the Machine that will be displayed on the web." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
 
                                                 </div>
                                                 <label for="txtCompanyName" class="control-label text-right tooltip-float">Name</label>
@@ -48,7 +49,7 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtMachienName" placeholder="Enter Machine Name" value="GTO 46 2 Colour">
+                                                <input type="text" class="form-control" id="txtMachienName" placeholder="Enter Machine Name"  > @*data-bind="value: MachineName"*@
                                                 <span class="help-block text-right"></span>
                                             </div>
 
@@ -59,7 +60,8 @@
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Description of Machine ." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
 
                                                 </div>
                                                 <label for="txtCompanyName" class="control-label text-right tooltip-float">Description</label>
@@ -67,447 +69,463 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                 <textarea class="form-control" placeholder="Enter Description" id="descMachines" rows="3"></textarea>
+                                                <textarea class="form-control" placeholder="Enter Description" id="descMachines" rows="3"></textarea>
                                                 <span class="help-block text-right"></span>
                                             </div>
 
                                         </div>
-                                       
-                                           <div class="form-group">
+
+                                        <div class="form-group">
                                             <div class="col-lg-4 text-right">
-                                                      
+
                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Value add percentage." data-original-title="" title="">
-                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                            </div>
-                                                 <label class="control-label text-right tooltip-float" >Value Add Percentage</label>
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Value add percentage." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label class="control-label text-right tooltip-float">Value Add Percentage</label>
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <select class="form-control">
-                                                      <option>M 10</option>
+                                                    <option>M 10</option>
                                                     <option>M 20</option>
                                                     <option>M 30</option>
-                                                     <option>M 40</option>
-                                                     <option>M 50</option>
-                                                    </select> 
-                                                <span class="help-block text-right"></span>
-                                            </div>
-
-                                        </div>
-
-                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
-                                                      
-                                                <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Priority for Press." data-original-title="" title="">
-                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                            </div>
-                                                 <label class="control-label text-right tooltip-float" >Priority</label>
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                            <input type="text" class="form-control" id="txtPriority" placeholder="Enter Priority" value="1000">
-                                                <span class="help-block text-right"></span>
-                                            </div>
-
-                                        </div>
-
-                                           <div class="form-group">
-                                            <div class="col-lg-4 text-right">
-                                                      
-                                               
-                                                
-                                            </div>
-                                            
-
-                                            <div class="col-lg-8">
-                                             <label class="control-label" style="font-weight:bold;" >The lower the value sooner it apears on job tickets</label>
-                                                <span class="help-block text-right"></span>
-                                            </div>
-
-                                        </div>
-                                               
-                                        
-                                     
-                                   </div>
-
-                                 </div>
-
-                            </div>
-                            <div class="tab-pane fade" id="tab-feed">
-                                 <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Feed Restriction</h3>
-                                        <div class="col-lg-9">
-                                          <div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                                  <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Quantities" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                                 <label class="control-label text-right" for="switchSecondaryPages">Minimum Sheet Size</label>
-                                                  
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                  
-                                                        <div class="col-xs-5">
-
-                                                             <input type="text"  class="form-control txtBox-contentAlignRight" value="20" id="qty11"/>
-                                                             <span class="help-block text-right">Width (inch)</span>
-                                                        </div>
-                                                          <div class="col-xs-2" style="text-align: center;margin-top: 8px;">
-                                                            X
-                                                        </div>
-                                                         <div class="col-xs-5">
-
-                                                              <input type="text"  class="form-control txtBox-contentAlignRight" value="14" id="qty31"/>
-                                                              <span class="help-block text-right">Height (inch)</span>
-                                                        </div>
- 
-                                                 
-                                            </div>
-                                        </div>
-
-                                          <div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                                  <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Quantities" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                                 <label class="control-label text-right" for="switchSecondaryPages">Maximum Sheet Size</label>
-                                                  
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                  
-                                                        <div class="col-xs-5">
-
-                                                             <input type="text"  class="form-control txtBox-contentAlignRight" value="120"  id="qty11"/>
-                                                             <span class="help-block text-right">Width (inch)</span>
-                                                        </div>
-                                                          <div class="col-xs-2" style="text-align: center;margin-top: 8px;">
-                                                              X
-                                                            
-
-                                                        </div>
-                                                         <div class="col-xs-5">
-
-                                                              <input type="text"  class="form-control txtBox-contentAlignRight" value="80" id="qty31"/>
-                                                              <span class="help-block text-right">Height (inch)</span>
-                                                        </div>
- 
-                                                 
-                                            </div>
-                          </div>
-
-                                            <div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Estimate Title" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                  
-
-                              
-                                                <label  class="control-label tooltip-float">Maximum Sheet Weight</label>
-                                            
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div>
-                                                   <input type="text" value="350" placeholder="Enter Maximum Sheet Weight"  class="form-control txtBox-contentAlignRight" id="Estimateitle"/>
-                                                     <span class="help-block text-right">lbs</span>
-                                                    
-                                                  </div>  
-                                              
-                                            </div>
-                                        </div>
-                                          <div class="form-group PressControls" >
-                                            <div class="col-lg-3 text-right">
-                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Stock for Signature" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                  
-
-                              
-                                                <label  class="control-label tooltip-float">Default Paper for Press</label>
-                                            
-                                            </div>
-                                            <div class="col-lg-6">
-                                            
-                                                <input type="text" class="form-control OpenStockPopup-Class" id="txtStock" style="width:88%" disabled="disabled" value="Laser Guarantee 100gsm SRA2">
-                                               <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right">
-                                                    <i class="fa fa-lg"></i>&nbsp;....
-                                                </a>
-                                                    
-                                                     
-                                            </div>
-                                        </div>
-
-                                           <div class="form-group PressControls" >
-                                            <div class="col-lg-3 text-right">
-                                                      
-                                                <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Order Flag." data-original-title="" title="">
-                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                            </div>
-                                                 <label class="control-label text-right tooltip-float" >Grip Side Orientation</label>
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <select class="form-control">
-                                                    <option>Long Side</option>
-                                                    <option>Short Side</option>
-                                                    
+                                                    <option>M 40</option>
+                                                    <option>M 50</option>
                                                 </select>
                                                 <span class="help-block text-right"></span>
                                             </div>
 
                                         </div>
 
-                                               <div class="form-group PressControls" >
-                                            <div class="col-lg-3 text-right">
-                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Estimate Title" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                  
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
 
-                              
-                                                <label  class="control-label tooltip-float">Grip Depth</label>
-                                            
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Priority for Press." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label class="control-label text-right tooltip-float">Priority</label>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="txtPriority" placeholder="Enter Priority" value="1000">
+                                                <span class="help-block text-right"></span>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+
+
+
+                                            </div>
+
+
+                                            <div class="col-lg-8">
+                                                <label class="control-label" style="font-weight:bold;">The lower the value sooner it apears on job tickets</label>
+                                                <span class="help-block text-right"></span>
+                                            </div>
+
+                                        </div>
+
+
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="tab-pane fade" id="tab-feed">
+                                <div class="col-lg-12 form-horizontal">
+                                    <h3 class="group-header">Feed Restriction</h3>
+                                    <div class="col-lg-9">
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Quantities" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label class="control-label text-right" for="switchSecondaryPages">Minimum Sheet Size</label>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+
+                                                <div class="col-xs-5">
+
+                                                    <input type="text" class="form-control txtBox-contentAlignRight" value="20" id="qty11" />
+                                                    <span class="help-block text-right">Width (inch)</span>
+                                                </div>
+                                                <div class="col-xs-2" style="text-align: center;margin-top: 8px;">
+                                                    X
+                                                </div>
+                                                <div class="col-xs-5">
+
+                                                    <input type="text" class="form-control txtBox-contentAlignRight" value="14" id="qty31" />
+                                                    <span class="help-block text-right">Height (inch)</span>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Quantities" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label class="control-label text-right" for="switchSecondaryPages">Maximum Sheet Size</label>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+
+                                                <div class="col-xs-5">
+
+                                                    <input type="text" class="form-control txtBox-contentAlignRight" value="120" id="qty11" />
+                                                    <span class="help-block text-right">Width (inch)</span>
+                                                </div>
+                                                <div class="col-xs-2" style="text-align: center;margin-top: 8px;">
+                                                    X
+
+
+                                                </div>
+                                                <div class="col-xs-5">
+
+                                                    <input type="text" class="form-control txtBox-contentAlignRight" value="80" id="qty31" />
+                                                    <span class="help-block text-right">Height (inch)</span>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Estimate Title" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+
+
+                                                <label class="control-label tooltip-float">Maximum Sheet Weight</label>
+
                                             </div>
                                             <div class="col-lg-6">
                                                 <div>
-                                                   <input type="text" value="0.25" placeholder="Enter Grip Depth"  class="form-control txtBox-contentAlignRight" id="Estimateitle"/>
-                                                     <span class="help-block text-right">inch</span>
-                                                    
-                                                  </div>  
-                                              
+                                                    <input type="text" value="350" placeholder="Enter Maximum Sheet Weight" class="form-control txtBox-contentAlignRight" id="Estimateitle" />
+                                                    <span class="help-block text-right">lbs</span>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group PressControls">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Stock for Signature" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+
+
+                                                <label class="control-label tooltip-float">Default Paper for Press</label>
+
+                                            </div>
+                                            <div class="col-lg-6">
+
+                                                <input type="text" class="form-control OpenStockPopup-Class" id="txtStock" style="width:88%" disabled="disabled" value="Laser Guarantee 100gsm SRA2">
+                                                <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right">
+                                                    <i class="fa fa-lg"></i>&nbsp;....
+                                                </a>
+
+
                                             </div>
                                         </div>
 
-                                             <div class="form-group PressControls" >
+                                        <div class="form-group PressControls">
                                             <div class="col-lg-3 text-right">
-                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Estimate Title" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                  
 
-                              
-                                                <label  class="control-label tooltip-float">Head Depth</label>
-                                            
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Order Flag." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label class="control-label text-right tooltip-float">Grip Side Orientation</label>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <select class="form-control">
+                                                    <option>Long Side</option>
+                                                    <option>Short Side</option>
+
+                                                </select>
+                                                <span class="help-block text-right"></span>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group PressControls">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Estimate Title" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+
+
+                                                <label class="control-label tooltip-float">Grip Depth</label>
+
                                             </div>
                                             <div class="col-lg-6">
                                                 <div>
-                                                   <input type="text" value="0.4" placeholder="Enter Head Depth"  class="form-control txtBox-contentAlignRight" id="Estimateitle"/>
-                                                     <span class="help-block text-right">inch</span>
-                                                    
-                                                  </div>  
-                                              
+                                                    <input type="text" value="0.25" placeholder="Enter Grip Depth" class="form-control txtBox-contentAlignRight" id="Estimateitle" />
+                                                    <span class="help-block text-right">inch</span>
+
+                                                </div>
+
                                             </div>
                                         </div>
 
-                                               <div class="form-group PressControls" >
+                                        <div class="form-group PressControls">
                                             <div class="col-lg-3 text-right">
-                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Estimate Title" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                  
+                                                <div class="bs-example-tooltips tooltip-float-width">
 
-                              
-                                                <label  class="control-label tooltip-float">Side Gutter Depth</label>
-                                            
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Estimate Title" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+
+
+                                                <label class="control-label tooltip-float">Head Depth</label>
+
                                             </div>
                                             <div class="col-lg-6">
                                                 <div>
-                                                   <input type="text" value="0.2" placeholder="Enter Side Gutter Depth"  class="form-control txtBox-contentAlignRight" id="Estimateitle"/>
-                                                     <span class="help-block text-right">inch</span>
-                                                    
-                                                  </div>  
-                                              
+                                                    <input type="text" value="0.4" placeholder="Enter Head Depth" class="form-control txtBox-contentAlignRight" id="Estimateitle" />
+                                                    <span class="help-block text-right">inch</span>
+
+                                                </div>
+
                                             </div>
                                         </div>
+
+                                        <div class="form-group PressControls">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Estimate Title" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+
+
+                                                <label class="control-label tooltip-float">Side Gutter Depth</label>
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div>
+                                                    <input type="text" value="0.2" placeholder="Enter Side Gutter Depth" class="form-control txtBox-contentAlignRight" id="Estimateitle" />
+                                                    <span class="help-block text-right">inch</span>
+
+                                                </div>
+
+                                            </div>
                                         </div>
-                                  
-                                  </div>
-                             
+                                    </div>
+
+                                </div>
+
                             </div>
                             <div class="tab-pane fade PressControls" id="tab-properties">
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Properties</h3>
                                     <div class="col-lg-9">
-                                       <div class="form-group">
+                                        <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate for machine" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                                 <label class="control-label text-right" for="switchSecondaryPages">Plate</label>
-                                                
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate for machine" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label class="control-label text-right" for="switchSecondaryPages">Plate</label>
+
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <div class="col-xs-1" style="padding-left: 0px;margin-top: 5px;">
-                                                 <div class="checkbox-nice">
-                                                            <input type="checkbox" id="checkbox-12" checked="checked"/>
-                                                            <label for="checkbox-12">
-                                                              
-                                                            </label>
-                                                            </div> 
+                                                    <div class="checkbox-nice">
+                                                        <input type="checkbox" id="checkbox-12" checked="checked" />
+                                                        <label for="checkbox-12">
+
+                                                        </label>
+                                                    </div>
                                                 </div>
-                                                  <div class="col-xs-11">
-                                                  <input type="text" class="form-control OpenStockPopup-Class" id="txtStock" style="width:85%" disabled="disabled" value="Laser Guarantee 100gsm SRA2">
-                                               <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right">
-                                                    <i class="fa fa-lg"></i>&nbsp;....
-                                                </a>
-                                                      </div>
+                                                <div class="col-xs-11">
+                                                    <input type="text" class="form-control OpenStockPopup-Class" id="txtStock" style="width:85%" disabled="disabled" value="Laser Guarantee 100gsm SRA2">
+                                                    <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right">
+                                                        <i class="fa fa-lg"></i>&nbsp;....
+                                                    </a>
+                                                </div>
                                                 <span class="help-block text-right"></span>
                                             </div>
 
                                         </div>
 
-                                         <div class="form-group">
+                                        <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate for machine" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                                 <label class="control-label text-right" for="switchSecondaryPages">Washup</label>
-                                                
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate for machine" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label class="control-label text-right" for="switchSecondaryPages">Washup</label>
+
                                             </div>
 
                                             <div class="col-lg-6">
-                                                 <div class="checkbox-nice" style="margin-top: 5px;" >
-                                                            <input type="checkbox" id="checkbox-13" checked="checked"/>
-                                                            <label for="checkbox-13">
-                                                               
-                                                            </label>
-                                                            </div> 
+                                                <div class="checkbox-nice" style="margin-top: 5px;">
+                                                    <input type="checkbox" id="checkbox-13" checked="checked" />
+                                                    <label for="checkbox-13">
+
+                                                    </label>
+                                                </div>
                                                 <span class="help-block text-right"></span>
                                             </div>
 
                                         </div>
 
 
-                                          <div class="form-group">
+                                        <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate for machine" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                                 <label class="control-label text-right" for="switchSecondaryPages">Makeready</label>
-                                                
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate for machine" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label class="control-label text-right" for="switchSecondaryPages">Makeready</label>
+
                                             </div>
 
                                             <div class="col-lg-6">
-                                                 <div class="checkbox-nice" style="margin-top: 5px;" >
-                                                            <input type="checkbox"   id="checkbox-14" checked="checked"/>
-                                                            <label for="checkbox-14">
-                                                               
-                                                            </label>
-                                                            </div> 
+                                                <div class="checkbox-nice" style="margin-top: 5px;">
+                                                    <input type="checkbox" id="checkbox-14" checked="checked" />
+                                                    <label for="checkbox-14">
+
+                                                    </label>
+                                                </div>
                                                 <span class="help-block text-right"></span>
                                             </div>
 
                                         </div>
-                                             <div class="form-group">
+                                        <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate for machine" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                                 <label class="control-label text-right" for="switchSecondaryPages">Can Press Do Perfecting ?</label>
-                                                
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate for machine" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label class="control-label text-right" for="switchSecondaryPages">Can Press Do Perfecting ?</label>
+
                                             </div>
 
                                             <div class="col-lg-6">
-                                                 <div class="checkbox-nice" style="margin-top: 5px;" >
-                                                            <input type="checkbox" style="margin-top: 5px;"  id="checkbox-15" checked="checked"/>
-                                                            <label for="checkbox-15">
-                                                               
-                                                            </label>
-                                                            </div> 
+                                                <div class="checkbox-nice" style="margin-top: 5px;">
+                                                    <input type="checkbox" style="margin-top: 5px;" id="checkbox-15" checked="checked" />
+                                                    <label for="checkbox-15">
+
+                                                    </label>
+                                                </div>
                                                 <span class="help-block text-right"></span>
                                             </div>
 
                                         </div>
-                                         <div class="form-group">
-                                            <div class="col-lg-3 text-right" style="margin-top: 5px;" >
-                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate for machine" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                                 <label class="control-label text-right" for="switchSecondaryPages">Limit to maximum Color ?</label>
-                                                
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right" style="margin-top: 5px;">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate for machine" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label class="control-label text-right" for="switchSecondaryPages">Limit to maximum Color ?</label>
+
                                             </div>
 
                                             <div class="col-lg-6">
-                                                 <div class="checkbox-nice">
-                                                            <input type="checkbox" style="margin-top: 5px;"  id="checkbox-16" checked="checked"/>
-                                                            <label for="checkbox-16">
-                                                               
-                                                            </label>
-                                                            </div> 
+                                                <div class="checkbox-nice">
+                                                    <input type="checkbox" style="margin-top: 5px;" id="checkbox-16" checked="checked" />
+                                                    <label for="checkbox-16">
+
+                                                    </label>
+                                                </div>
                                                 <span class="help-block text-right"></span>
                                             </div>
 
                                         </div>
 
-                                          <div class="form-group">
+                                        <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Estimate Title" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                                 </div>
-                                  
+                                                <div class="bs-example-tooltips tooltip-float-width">
 
-                              
-                                                <label  class="control-label tooltip-float">No of Color Units</label>
-                                            
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Estimate Title" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+
+
+                                                <label class="control-label tooltip-float">No of Color Units</label>
+
                                             </div>
                                             <div class="col-lg-6">
                                                 <div>
-                                                   <input type="text" value="4"  placeholder="Enter Number"  class="form-control txtBox-contentAlignRight" style="width: 20%;" id="Estimateitle"/>
-                                                     <span class="help-block text-right"></span>
-                                                    
-                                                  </div>  
-                                              
+                                                    <input type="text" value="4" placeholder="Enter Number" class="form-control txtBox-contentAlignRight" style="width: 20%;" id="Estimateitle" />
+                                                    <span class="help-block text-right"></span>
+
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -518,13 +536,14 @@
                                 <div class="col-md-12 form-horizontal">
                                     <h3 class="group-header">Setup & Running Charges</h3>
                                     <div class="col-md-9">
-                                       <div class="form-group">
+                                        <div class="form-group">
                                             <div class="col-lg-4 text-right">
 
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Setup Charge." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
 
                                                 </div>
                                                 <label for="txtCompanyName" class="control-label text-right tooltip-float">Setup Charge (Ex. Makereadies) </label>
@@ -538,13 +557,14 @@
 
                                         </div>
 
-                                         <div class="form-group">
+                                        <div class="form-group">
                                             <div class="col-lg-4 text-right">
 
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the Machine that will be displayed on the web." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
 
                                                 </div>
                                                 <label for="txtCompanyName" class="control-label text-right tooltip-float">Minimum Running Charge</label>
@@ -558,13 +578,14 @@
 
                                         </div>
 
-                                         <div class="form-group">
+                                        <div class="form-group">
                                             <div class="col-lg-4 text-right">
 
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the Machine that will be displayed on the web." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
 
                                                 </div>
                                                 <label for="txtCompanyName" class="control-label text-right tooltip-float">Volume of Ink Duct Per Head</label>
@@ -573,19 +594,20 @@
 
                                             <div class="col-lg-6">
                                                 <input type="text" class="form-control txtBox-contentAlignRight" style="width:25%;" id="txtMachienName" placeholder="Enter Volume of Ink Duct Per Head" value="1">
-                                                <span class="help-block text-right" style="width:25%;" >lbs</span>
+                                                <span class="help-block text-right" style="width:25%;">lbs</span>
                                             </div>
 
                                         </div>
 
 
-                                            <div class="form-group">
+                                        <div class="form-group">
                                             <div class="col-lg-4 text-right">
 
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the Machine that will be displayed on the web." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
 
                                                 </div>
                                                 <label for="txtCompanyName" class="control-label text-right tooltip-float">Premium Per Head For Work 'n' turn</label>
@@ -594,31 +616,32 @@
 
                                             <div class="col-lg-6">
                                                 <input type="text" class="form-control txtBox-contentAlignRight" style="width:25%;" id="txtMachienName" placeholder="Enter Premium Per Head" value="1">
-                                                <span class="help-block text-right" style="width:25%;" >lbs</span>
+                                                <span class="help-block text-right" style="width:25%;">lbs</span>
                                             </div>
 
                                         </div>
 
-                                         <div class="form-group">
+                                        <div class="form-group">
                                             <div class="col-lg-4 text-right">
-                                                      
+
                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                               
-                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Value add percentage." data-original-title="" title="">
-                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-                                                
-                                            </div>
-                                                 <label class="control-label text-right tooltip-float" >Select Calculation Method</label>
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Value add percentage." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label class="control-label text-right tooltip-float">Select Calculation Method</label>
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <select class="form-control">
-                                                      <option>Speed Weight Calculation Formula 2</option>
+                                                    <option>Speed Weight Calculation Formula 2</option>
                                                     <option>Per Hour Lookup</option>
                                                     <option>Meter per Hour</option>
-                                                     <option>Click Charge Lookup</option>
-                                                     <option>Commercial Click Charge</option>
-                                                    </select> 
+                                                    <option>Click Charge Lookup</option>
+                                                    <option>Commercial Click Charge</option>
+                                                </select>
                                                 <span class="help-block text-right"></span>
                                             </div>
 
@@ -626,21 +649,22 @@
                                     </div>
 
                                 </div>
-                            
+
                             </div>
                             <div class="tab-pane fade PressControls" id="tab-inkCoverage">
-                              
-                              <div class="col-lg-12 form-horizontal">
+
+                                <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Ink Coverage</h3>
-                                      <div class="col-lg-12">
-                                            
-                                         <div class="form-group">
+                                    <div class="col-lg-12">
+
+                                        <div class="form-group">
                                             <div class="col-lg-4 text-right">
 
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Minimum ink charges that apply for each unique color." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
 
                                                 </div>
                                                 <label for="txtCompanyName" class="control-label text-right tooltip-float">Minimum Ink Charges Applied For Each Unique Color</label>
@@ -648,8 +672,8 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" style="width:25%;" id="txtMachienName"  value="1">
-                                                <span class="help-block text-right" style="width:25%;" ></span>
+                                                <input type="text" class="form-control" style="width:25%;" id="txtMachienName" value="1">
+                                                <span class="help-block text-right" style="width:25%;"></span>
                                             </div>
 
                                         </div>
@@ -659,7 +683,8 @@
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Ink Coverage for machine." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
 
                                                 </div>
                                                 <label for="txtCompanyName" class="control-label text-right tooltip-float">Ink Coverage</label>
@@ -667,376 +692,385 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th style="width:175px;"><a href="#"><span>Ink Order</span></a></th>
-                                                             <th style="width: 175px;"><span>Coverage</span></th>
-                                                            
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                      <tr>
-                                                            
-                                                            <td>
-                                                              <select class="form-control">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width:175px;"><a href="#"><span>Ink Order</span></a></th>
+                                                                <th style="width: 175px;"><span>Coverage</span></th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+
+                                                                <td>
+                                                                    <select class="form-control">
                                                                         <option>Blue</option>
                                                                         <option>Blue C</option>
                                                                         <option>Process Black</option>
                                                                         <option>Process Cyan</option>
                                                                         <option>Process Magenta</option>
-                                                                       <option>Process Yellow</option>
-                                                                       <option>Purple C</option>
-                                                                       <option>Violet C</option>
-                                                                       <option>Yellow 012 C</option>
+                                                                        <option>Process Yellow</option>
+                                                                        <option>Purple C</option>
+                                                                        <option>Violet C</option>
+                                                                        <option>Yellow 012 C</option>
 
-                                                            </select>
-                                                            </td>
-                                                                 
-                                                            <td>
-                                                                <select class="form-control">
+                                                                    </select>
+                                                                </td>
+
+                                                                <td>
+                                                                    <select class="form-control">
                                                                         <option>Low 10%</option>
                                                                         <option>Medium 20%</option>
                                                                         <option>High 50%</option>
                                                                         <option>Moderate 30.6%</option>
                                                                         <option>Very High 60%</option>
-                                                                      <option>Much High 60%</option>
-                                                            </select>
-                                                            </td>
-                                                         
-                                                            
-                                                        </tr>
-                                                        
-                                                          <tr>
-                                                            
-                                                            <td>
-                                                              <select class="form-control">
+                                                                        <option>Much High 60%</option>
+                                                                    </select>
+                                                                </td>
+
+
+                                                            </tr>
+
+                                                            <tr>
+
+                                                                <td>
+                                                                    <select class="form-control">
                                                                         <option>Blue</option>
                                                                         <option>Blue C</option>
                                                                         <option>Process Black</option>
                                                                         <option>Process Cyan</option>
                                                                         <option>Process Magenta</option>
-                                                                       <option>Process Yellow</option>
-                                                                       <option>Purple C</option>
-                                                                       <option>Violet C</option>
-                                                                       <option>Yellow 012 C</option>
+                                                                        <option>Process Yellow</option>
+                                                                        <option>Purple C</option>
+                                                                        <option>Violet C</option>
+                                                                        <option>Yellow 012 C</option>
 
-                                                            </select>
-                                                            </td>
-                                                                 
-                                                            <td>
-                                                                <select class="form-control">
+                                                                    </select>
+                                                                </td>
+
+                                                                <td>
+                                                                    <select class="form-control">
                                                                         <option>Low 10%</option>
                                                                         <option>Medium 20%</option>
                                                                         <option>High 50%</option>
                                                                         <option>Moderate 30.6%</option>
                                                                         <option>Very High 60%</option>
-                                                                      <option>Much High 60%</option>
-                                                            </select>
-                                                            </td>
-                                                         
-                                                            
-                                                        </tr>
-                                                           <tr>
-                                                            
-                                                            <td>
-                                                              <select class="form-control">
+                                                                        <option>Much High 60%</option>
+                                                                    </select>
+                                                                </td>
+
+
+                                                            </tr>
+                                                            <tr>
+
+                                                                <td>
+                                                                    <select class="form-control">
                                                                         <option>Blue</option>
                                                                         <option>Blue C</option>
                                                                         <option>Process Black</option>
                                                                         <option>Process Cyan</option>
                                                                         <option>Process Magenta</option>
-                                                                       <option>Process Yellow</option>
-                                                                       <option>Purple C</option>
-                                                                       <option>Violet C</option>
-                                                                       <option>Yellow 012 C</option>
+                                                                        <option>Process Yellow</option>
+                                                                        <option>Purple C</option>
+                                                                        <option>Violet C</option>
+                                                                        <option>Yellow 012 C</option>
 
-                                                            </select>
-                                                            </td>
-                                                                 
-                                                            <td>
-                                                                <select class="form-control">
+                                                                    </select>
+                                                                </td>
+
+                                                                <td>
+                                                                    <select class="form-control">
                                                                         <option>Low 10%</option>
                                                                         <option>Medium 20%</option>
                                                                         <option>High 50%</option>
                                                                         <option>Moderate 30.6%</option>
                                                                         <option>Very High 60%</option>
-                                                                      <option>Much High 60%</option>
-                                                            </select>
-                                                            </td>
-                                                         
-                                                            
-                                                        </tr>
-                                                      
-                                                         <tr>
-                                                            
-                                                            <td>
-                                                              <select class="form-control">
+                                                                        <option>Much High 60%</option>
+                                                                    </select>
+                                                                </td>
+
+
+                                                            </tr>
+
+                                                            <tr>
+
+                                                                <td>
+                                                                    <select class="form-control">
                                                                         <option>Blue</option>
                                                                         <option>Blue C</option>
                                                                         <option>Process Black</option>
                                                                         <option>Process Cyan</option>
                                                                         <option>Process Magenta</option>
-                                                                       <option>Process Yellow</option>
-                                                                       <option>Purple C</option>
-                                                                       <option>Violet C</option>
-                                                                       <option>Yellow 012 C</option>
+                                                                        <option>Process Yellow</option>
+                                                                        <option>Purple C</option>
+                                                                        <option>Violet C</option>
+                                                                        <option>Yellow 012 C</option>
 
-                                                            </select>
-                                                            </td>
-                                                                 
-                                                            <td>
-                                                                <select class="form-control">
+                                                                    </select>
+                                                                </td>
+
+                                                                <td>
+                                                                    <select class="form-control">
                                                                         <option>Low 10%</option>
                                                                         <option>Medium 20%</option>
                                                                         <option>High 50%</option>
                                                                         <option>Moderate 30.6%</option>
                                                                         <option>Very High 60%</option>
-                                                                      <option>Much High 60%</option>
-                                                            </select>
-                                                            </td>
-                                                         
-                                                            
-                                                        </tr>
-                                                         <tr>
-                                                            
-                                                            <td>
-                                                              <select class="form-control">
+                                                                        <option>Much High 60%</option>
+                                                                    </select>
+                                                                </td>
+
+
+                                                            </tr>
+                                                            <tr>
+
+                                                                <td>
+                                                                    <select class="form-control">
                                                                         <option>Blue</option>
                                                                         <option>Blue C</option>
                                                                         <option>Process Black</option>
                                                                         <option>Process Cyan</option>
                                                                         <option>Process Magenta</option>
-                                                                       <option>Process Yellow</option>
-                                                                       <option>Purple C</option>
-                                                                       <option>Violet C</option>
-                                                                       <option>Yellow 012 C</option>
+                                                                        <option>Process Yellow</option>
+                                                                        <option>Purple C</option>
+                                                                        <option>Violet C</option>
+                                                                        <option>Yellow 012 C</option>
 
-                                                            </select>
-                                                            </td>
-                                                                 
-                                                            <td>
-                                                                <select class="form-control">
+                                                                    </select>
+                                                                </td>
+
+                                                                <td>
+                                                                    <select class="form-control">
                                                                         <option>Low 10%</option>
                                                                         <option>Medium 20%</option>
                                                                         <option>High 50%</option>
                                                                         <option>Moderate 30.6%</option>
                                                                         <option>Very High 60%</option>
-                                                                      <option>Much High 60%</option>
-                                                            </select>
-                                                            </td>
-                                                         
-                                                            
-                                                        </tr>
-                                                         <tr>
-                                                            
-                                                            <td>
-                                                              <select class="form-control">
+                                                                        <option>Much High 60%</option>
+                                                                    </select>
+                                                                </td>
+
+
+                                                            </tr>
+                                                            <tr>
+
+                                                                <td>
+                                                                    <select class="form-control">
                                                                         <option>Blue</option>
                                                                         <option>Blue C</option>
                                                                         <option>Process Black</option>
                                                                         <option>Process Cyan</option>
                                                                         <option>Process Magenta</option>
-                                                                       <option>Process Yellow</option>
-                                                                       <option>Purple C</option>
-                                                                       <option>Violet C</option>
-                                                                       <option>Yellow 012 C</option>
+                                                                        <option>Process Yellow</option>
+                                                                        <option>Purple C</option>
+                                                                        <option>Violet C</option>
+                                                                        <option>Yellow 012 C</option>
 
-                                                            </select>
-                                                            </td>
-                                                                 
-                                                            <td>
-                                                                <select class="form-control">
+                                                                    </select>
+                                                                </td>
+
+                                                                <td>
+                                                                    <select class="form-control">
                                                                         <option>Low 10%</option>
                                                                         <option>Medium 20%</option>
                                                                         <option>High 50%</option>
                                                                         <option>Moderate 30.6%</option>
                                                                         <option>Very High 60%</option>
-                                                                      <option>Much High 60%</option>
-                                                            </select>
-                                                            </td>
-                                                         
-                                                            
-                                                        </tr>
-                                                         <tr>
-                                                            
-                                                            <td>
-                                                              <select class="form-control">
+                                                                        <option>Much High 60%</option>
+                                                                    </select>
+                                                                </td>
+
+
+                                                            </tr>
+                                                            <tr>
+
+                                                                <td>
+                                                                    <select class="form-control">
                                                                         <option>Blue</option>
                                                                         <option>Blue C</option>
                                                                         <option>Process Black</option>
                                                                         <option>Process Cyan</option>
                                                                         <option>Process Magenta</option>
-                                                                       <option>Process Yellow</option>
-                                                                       <option>Purple C</option>
-                                                                       <option>Violet C</option>
-                                                                       <option>Yellow 012 C</option>
+                                                                        <option>Process Yellow</option>
+                                                                        <option>Purple C</option>
+                                                                        <option>Violet C</option>
+                                                                        <option>Yellow 012 C</option>
 
-                                                            </select>
-                                                            </td>
-                                                                 
-                                                            <td>
-                                                                <select class="form-control">
+                                                                    </select>
+                                                                </td>
+
+                                                                <td>
+                                                                    <select class="form-control">
                                                                         <option>Low 10%</option>
                                                                         <option>Medium 20%</option>
                                                                         <option>High 50%</option>
                                                                         <option>Moderate 30.6%</option>
                                                                         <option>Very High 60%</option>
-                                                                      <option>Much High 60%</option>
-                                                            </select>
-                                                            </td>
-                                                         
-                                                            
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                                                        <option>Much High 60%</option>
+                                                                    </select>
+                                                                </td>
+
+
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
-                                          </div>
+                                        </div>
                                     </div>
-                                     
+                                </div>
+
 
                             </div>
-                            <div class="tab-pane fade PressControls"  id="tab-spoilage">
-                              
-                                 <div class="col-lg-12 form-horizontal">
+                            <div class="tab-pane fade PressControls" id="tab-spoilage">
+
+                                <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Spoilage</h3>
-                                      <div class="col-lg-12">
-                                          <div class="clearfix">
-                                                
-                                               <div class="form-group">
-                                            <div class="col-lg-4 text-right">
+                                    <div class="col-lg-12">
+                                        <div class="clearfix">
 
-                                                <div class="bs-example-tooltips tooltip-float-width">
+                                            <div class="form-group">
+                                                <div class="col-lg-4 text-right">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Spoilages for machine." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Spoilages for machine." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+
+                                                    </div>
+                                                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Spoilage</label>
 
                                                 </div>
-                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Spoilage</label>
 
-                                            </div>
+                                                <div class="col-lg-6">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="width:175px;"><a href="#"><span>No of Colors</span></a></th>
+                                                                    <th style="width: 175px;"><span>Setup Sheets</span></th>
+                                                                    <th style="width: 175px;"><a href="#" class="asc"><span>Running Spoilage %</span></a></th>
 
-                                            <div class="col-lg-6">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th style="width:175px;"><a href="#"><span>No of Colors</span></a></th>
-                                                             <th style="width: 175px;"><span>Setup Sheets</span></th>
-                                                            <th style="width: 175px;"><a href="#" class="asc"><span>Running Spoilage %</span></a></th>
-                                                           
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td> 1
-                                                            </td>
-                                                           <td>
-                                                              5
-                                                            </td>
-                                                                 
-                                                            <td>
-                                                              0
-                                                            </td>
-                                                      
-                                                        </tr>
-                                                        <tr>
-                                                            <td> 2
-                                                            </td>
-                                                            <td>
-                                                              5
-                                                            </td>
-                                                                 
-                                                            <td>
-                                                              0
-                                                            </td>
-                                                      
-                                                        </tr>
-                                                        <tr>
-                                                            <td> 3
-                                                            </td>
-                                                             <td>
-                                                              5
-                                                            </td>
-                                                                 
-                                                            <td>
-                                                              0
-                                                            </td>
-                                                      
-                                                        </tr>
-                                                        <tr>
-                                                            <td> 4
-                                                            </td>
-                                                           <td>
-                                                              5
-                                                            </td>
-                                                                 
-                                                            <td>
-                                                              0
-                                                            </td>
-                                                      
-                                                        </tr>
-                                                        <tr>
-                                                            <td> 5
-                                                            </td>
-                                                          <td>
-                                                              5
-                                                            </td>
-                                                                 
-                                                            <td>
-                                                              0
-                                                            </td>
-                                                      
-                                                        </tr>
-                                                        <tr>
-                                                            <td> 6
-                                                            </td>
-                                                           <td>
-                                                              5
-                                                            </td>
-                                                                 
-                                                            <td>
-                                                              0
-                                                            </td>
-                                                      
-                                                        </tr>
-                                                        <tr>
-                                                            <td> 7
-                                                            </td>
-                                                         <td>
-                                                              5
-                                                            </td>
-                                                                 
-                                                            <td>
-                                                              0
-                                                            </td>
-                                                      
-                                                        </tr>
-                                                        <tr>
-                                                            <td> 8
-                                                            </td>
-                                                           <td>
-                                                              5
-                                                            </td>
-                                                                 
-                                                            <td>
-                                                              0
-                                                            </td>
-                                                      
-                                                        </tr>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        1
+                                                                    </td>
+                                                                    <td>
+                                                                        5
+                                                                    </td>
 
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                                                    <td>
+                                                                        0
+                                                                    </td>
+
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        2
+                                                                    </td>
+                                                                    <td>
+                                                                        5
+                                                                    </td>
+
+                                                                    <td>
+                                                                        0
+                                                                    </td>
+
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        3
+                                                                    </td>
+                                                                    <td>
+                                                                        5
+                                                                    </td>
+
+                                                                    <td>
+                                                                        0
+                                                                    </td>
+
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        4
+                                                                    </td>
+                                                                    <td>
+                                                                        5
+                                                                    </td>
+
+                                                                    <td>
+                                                                        0
+                                                                    </td>
+
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        5
+                                                                    </td>
+                                                                    <td>
+                                                                        5
+                                                                    </td>
+
+                                                                    <td>
+                                                                        0
+                                                                    </td>
+
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        6
+                                                                    </td>
+                                                                    <td>
+                                                                        5
+                                                                    </td>
+
+                                                                    <td>
+                                                                        0
+                                                                    </td>
+
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        7
+                                                                    </td>
+                                                                    <td>
+                                                                        5
+                                                                    </td>
+
+                                                                    <td>
+                                                                        0
+                                                                    </td>
+
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        8
+                                                                    </td>
+                                                                    <td>
+                                                                        5
+                                                                    </td>
+
+                                                                    <td>
+                                                                        0
+                                                                    </td>
+
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
-                                    </div>
+                                            </div>
                                         </div>
-                                          </div>
                                     </div>
-                                     
+                                </div>
+
 
                             </div>
                         </div>
