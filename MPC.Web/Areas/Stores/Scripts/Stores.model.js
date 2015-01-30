@@ -227,6 +227,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             products = ko.observableArray([]),
             //Media Libraries
             mediaLibraries = ko.observableArray([]),
+            //Company Cost Center
+            companyCostCenters = ko.observableArray([]),
             //store Backgroud Image Image Source
             storeBackgroudImageImageSource = ko.observable(specifiedStoreBackgroudImageSource),
             //store Backgroud Image Path
@@ -387,6 +389,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 _.each(source.companyDomains(), function (item) {
                     result.CompanyDomains.push(item.convertToServerData());
                 });
+                result.CompanyCostCenters = [];
+                _.each(source.companyCostCenters(), function (item) {
+                    result.CompanyCostCenters.push(item.convertToServerData());
+                });
                 //_.each(source.users(), function (item) {
                 //    result.CompanyContacts.push(item.convertToServerData());
                 //});
@@ -413,6 +419,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.EdittedProducts = [];
                 result.Deletedproducts = [];
                 result.Campaigns = [];
+                result.CompanyCostCentres = [];
                 _.each(source.paymentGateway(), function (item) {
                     result.PaymentGateways.push(item.convertToServerData());
                 });
@@ -435,6 +442,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 dirtyFlag.reset();
             };
         self = {
+            //#region SELF
             companyId: companyId,
             name: name,
             status: status,
@@ -506,12 +514,14 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             customCSS: customCSS,
             companyDomains: companyDomains,
             mediaLibraries: mediaLibraries,
+            companyCostCenters: companyCostCenters,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,
             reset: reset
+            //#endregion
         };
         return self;
     };
@@ -583,6 +593,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         });
         _.each(source.productCategories, function (item) {
             result.productCategories.push(ProductCategoryListView.CreateFromClientModel(item));
+        });
+        _.each(source.companyCostCenters, function (item) {
+            result.companyCostCenters.push(CostCenter.CreateFromClientModel(item));
         });
         return result;
     };
@@ -690,6 +703,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         //});
         _.each(source.ProductCategoriesListView, function (item) {
             store.productCategories.push(ProductCategory.Create(item));
+        });
+        _.each(source.CompanyCostCentres, function (item) {
+            store.companyCostCenters.push(CostCenter.Create(item));
         });
         ////Add Store Products/Items in store product model
         //var mapper = new storeProductModel.Item();
@@ -1218,7 +1234,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // #region ______________  A D D R E S S   _________________
 
     // ReSharper disable once InconsistentNaming
-    var Address = function (specifiedAddressId, specifiedCompanyId, specifiedAddressName, specifiedAddress1, specifiedAddress2, specifiedAddress3, specifiedCity, specifiedState, specifiedCountry, specifiedPostCode, specifiedFax,
+    var Address = function (specifiedAddressId, specifiedCompanyId, specifiedAddressName, specifiedAddress1, specifiedAddress2, specifiedAddress3, specifiedCity, specifiedState, specifiedCountry, specifiedStateName, specifiedCountryName, specifiedPostCode, specifiedFax,
         specifiedEmail, specifiedURL, specifiedTel1, specifiedTel2, specifiedExtension1, specifiedExtension2, specifiedReference, specifiedFAO, specifiedIsDefaultAddress, specifiedIsDefaultShippingAddress,
         specifiedisArchived, specifiedTerritoryId, specifiedGeoLatitude, specifiedGeoLongitude, specifiedisPrivate,
         specifiedisDefaultTerrorityBilling, specifiedisDefaultTerrorityShipping, specifiedOrganisationId) {
@@ -1233,6 +1249,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             city = ko.observable(specifiedCity),
             state = ko.observable(specifiedState),
             country = ko.observable(specifiedCountry),
+            stateName = ko.observable(specifiedStateName),
+            countryName = ko.observable(specifiedCountryName),
             postCode = ko.observable(specifiedPostCode),
             fax = ko.observable(specifiedFax),
             email = ko.observable(specifiedEmail),
@@ -1346,6 +1364,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             city: city,
             state: state,
             country: country,
+            stateName: stateName,
+            countryName: countryName,
             postCode: postCode,
             fax: fax,
             email: email,
@@ -1386,6 +1406,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.city,
             source.state,
             source.country,
+            source.stateName,
+            source.countryName,
             source.postCode,
             source.fax,
             source.email,
@@ -1419,6 +1441,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.City,
             source.State,
             source.Country,
+            source.StateName,
+            source.CountryName,
             source.PostCode,
             source.Fax,
             source.Email,
@@ -3636,7 +3660,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         return self;
     };
     CostCenter.CreateFromClientModel = function (source) {
-        return new roleName(
+        return new CostCenter(
             source.costCentreId,
             source.name
             );

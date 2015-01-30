@@ -251,6 +251,7 @@
     <Compile Include="Areas\Api\Controllers\AddressController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />
     <Compile Include="Areas\Api\Controllers\GetItemsForWidgetsController.cs" />
+    <Compile Include="Areas\Api\Controllers\CostCenterBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemDesignerTemplateBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemPriceMatrixController.cs" />
     <Compile Include="Areas\Api\Controllers\LanguageEditorController.cs" />
@@ -261,6 +262,7 @@
     <Compile Include="Areas\Api\ModelMappers\CmsOfferMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ColorPalleteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CategoryRegionMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CompanyCostCenterMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyDomainMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCenterBaseResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCenterTypeMapper.cs" />
@@ -277,6 +279,7 @@
     <Compile Include="Areas\Api\Models\CategoryType.cs" />
     <Compile Include="Areas\Api\Models\CmsOffer.cs" />
     <Compile Include="Areas\Api\Models\ColorPallete.cs" />
+    <Compile Include="Areas\Api\Models\CompanyCostCentre.cs" />
     <Compile Include="Areas\Api\Models\CompanyDomain.cs" />
     <Compile Include="Areas\Api\Models\CostCenterBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\CostCenterResponse.cs" />

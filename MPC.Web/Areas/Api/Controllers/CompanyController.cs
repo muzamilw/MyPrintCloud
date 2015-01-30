@@ -104,6 +104,8 @@ namespace MPC.MIS.Areas.Api.Controllers
             companySavingModel.EdittedProducts = company.EdittedProducts != null ? company.EdittedProducts.Select(x => x.CreateFromForCompany()) : null;
             companySavingModel.Deletedproducts = company.Deletedproducts != null ? company.Deletedproducts.Select(x => x.CreateFromForCompany()) : null;
 
+            //companySavingModel.CompanyCostCentres = company.CompanyCostCentres != null ? company.CompanyCostCentres.Select(x => x.CreateFrom()).ToList() : null;
+
             return companyService.SaveCompany(companySavingModel).CreateFrom();
         }
         [HttpDelete]

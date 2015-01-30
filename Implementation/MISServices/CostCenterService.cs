@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
@@ -20,9 +21,34 @@ namespace MPC.Implementation.MISServices
 
         #region Constructor
 
-        public CostCenterService(ICostCentreRepository costCenterRepository)
+        public CostCenterService(ICostCentreRepository costCenterRepository, IChartOfAccountRepository chartOfAccountRepository, ISystemUserRepository systemUserRepository, ICostCenterTypeRepository costCenterTypeRepository,
+            IMarkupRepository markupRepository)
         {
+            if (costCenterRepository == null)
+            {
+                throw new ArgumentNullException("costCenterRepository");
+            }
+            if (chartOfAccountRepository == null)
+            {
+                throw new ArgumentNullException("chartOfAccountRepository");
+            }
+            if (systemUserRepository == null)
+            {
+                throw new ArgumentNullException("systemUserRepository");
+            }
+            if (costCenterTypeRepository == null)
+            {
+                throw new ArgumentNullException("costCenterTypeRepository");
+            }
+            if (markupRepository == null)
+            {
+                throw new ArgumentNullException("markupRepository");
+            }
             this._costCenterRepository = costCenterRepository;
+            this._chartOfAccountRepository = chartOfAccountRepository;
+            this._systemUserRepository = systemUserRepository;
+            this._costcentreTypeRepository = costCenterTypeRepository;
+            this._markupRepository = markupRepository;
         }
 
         #endregion
@@ -63,7 +89,7 @@ namespace MPC.Implementation.MISServices
             return _costCenterRepository.GetUserDefinedCostCenters(request);
         }
 
-        public CostCenterBaseResponse GetBaseData(CostCenterRequestModel request)
+        public CostCenterBaseResponse GetBaseData()
         {
             return new CostCenterBaseResponse
             {
