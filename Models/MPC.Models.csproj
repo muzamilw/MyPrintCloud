@@ -163,6 +163,7 @@
     <Compile Include="DomainModels\CostcentreWorkInstructionsChoice.cs" />
     <Compile Include="DomainModels\CustomCopy.cs" />
     <Compile Include="DomainModels\FavoriteDesign.cs" />
+    <Compile Include="DomainModels\Group.cs" />
     <Compile Include="DomainModels\ImagePermission.cs" />
     <Compile Include="DomainModels\ItemStockUpdateHistory.cs" />
     <Compile Include="DomainModels\Listing.cs" />

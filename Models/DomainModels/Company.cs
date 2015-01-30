@@ -152,6 +152,7 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<MediaLibrary> MediaLibraries { get; set; }
         public virtual ICollection<CompanyCostCentre> CompanyCostCentres { get; set; }
 
+
         #region Additional Properties
       
         /// <summary>

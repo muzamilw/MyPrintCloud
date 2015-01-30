@@ -22,7 +22,6 @@ namespace MPC.Repository
             unityContainer.RegisterType<ITaxRateRepository, TaxRateRepository>();
             unityContainer.RegisterType<IChartOfAccountRepository, ChartOfAccountRepository>();
             unityContainer.RegisterType<ICompanyDomainRepository, CompanyDomainRepository>();
-            unityContainer.RegisterType<IPaperSheetRepository, PaperSheetRepository>();
             unityContainer.RegisterType<ICompanyRepository, CompanyRepository>();
             unityContainer.RegisterType<IStockCategoryRepository, StockCategoryRepository>();
             unityContainer.RegisterType<IStockSubCategoryRepository, StockSubCategoryRepository>();
@@ -93,6 +92,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<ICostCentreVariableRepository, CostCentreVariableRepository>();
             unityContainer.RegisterType<ICostCentreMatrixRepository, CostCentreMatrixRepository>();
             unityContainer.RegisterType<ICostCenterTypeRepository, CostCenterTypeRepository>();
+            unityContainer.RegisterType<IMachineRepository, MachineRepository>();
         }
     }
 }

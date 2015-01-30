@@ -238,7 +238,6 @@
     <Compile Include="Repositories\MarkupRepository.cs" />
     <Compile Include="Repositories\PageCategoryRepository.cs" />
     <Compile Include="Repositories\PaperBasisAreaRepository.cs" />
-    <Compile Include="Repositories\PaperSheetRepository.cs" />
     <Compile Include="Repositories\PaperSizeRepository.cs" />
     <Compile Include="Repositories\RaveReviewRepository.cs" />
     <Compile Include="Repositories\RegistrationQuestionRepository.cs" />

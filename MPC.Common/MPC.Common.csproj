@@ -58,6 +58,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ListingProperty.cs" />
     <Compile Include="MpcClaimTypes.cs" />
     <Compile Include="OAuthHelper.cs" />
     <Compile Include="OAuthUtility.cs" />
