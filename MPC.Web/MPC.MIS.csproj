@@ -269,13 +269,13 @@
     <Compile Include="Areas\Api\ModelMappers\CostCenterTypeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreDropDownMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemDesignerTemplateBaseResponseMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachineListMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MediaLibraryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductCategoryItemMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PhraseFieldMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PhraseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SectionMapper.cs" />
-    <Compile Include="Areas\Api\ModelMappers\MachineMapper.cs" />
     <Compile Include="Areas\Api\Models\CategoryRegion.cs" />
     <Compile Include="Areas\Api\Models\CategoryType.cs" />
     <Compile Include="Areas\Api\Models\CmsOffer.cs" />

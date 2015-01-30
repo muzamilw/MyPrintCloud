@@ -35,9 +35,9 @@ namespace MPC.Repository.Repositories
                         {MachineListColumns.CalculationMethod, d => d.MachineCatId},
                         
                     };
-        #endregion
-
-
+        private readonly Dictionary<MachineByColumn, Func<Machine, object>> machineOrderByClause =
+          new Dictionary<MachineByColumn, Func<Machine, object>>
+                    {
                          {MachineByColumn.Name, c => c.MachineName}
                     };
         #endregion
@@ -72,7 +72,7 @@ namespace MPC.Repository.Repositories
                 .Skip(fromRow)
                 .Take(toRow)
                 .ToList();
-        
+
             return new MachineResponseModel
             {
                 RowCount = DbSet.Count(),
@@ -83,7 +83,7 @@ namespace MPC.Repository.Repositories
 
 
         }
-         public MachineSearchResponse GetMachinesForProduct(MachineSearchRequestModel request)
+        public MachineSearchResponse GetMachinesForProduct(MachineSearchRequestModel request)
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
@@ -106,7 +106,7 @@ namespace MPC.Repository.Repositories
             return new MachineSearchResponse { Machines = machines, TotalCount = DbSet.Count(query) };
         }
 
-         public Machine Find(int id)
+        public Machine Find(int id)
         {
             return DbSet.Find(id);
         }

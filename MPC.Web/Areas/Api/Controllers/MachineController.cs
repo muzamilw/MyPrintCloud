@@ -16,16 +16,16 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Private
         private readonly IMachineService _machineService;
         #endregion
-        
+
 
         #region Constructor
         public MachineController(IMachineService machineService)
         {
-          
+
             this._machineService = machineService;
-        } 
+        }
         #endregion
-      
+
 
         #region Public
         public Machine GetMachine(long id)

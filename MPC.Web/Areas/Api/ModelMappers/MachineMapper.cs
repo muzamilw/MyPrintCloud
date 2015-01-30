@@ -4,7 +4,7 @@ using DomainResponseModel = MPC.Models.ResponseModels;
 using MPC.Models.ResponseModels;
 using MPC.Models.DomainModels;
 
-using APIDomainModels=MPC.MIS.Areas.Api.Models;
+using APIDomainModels = MPC.MIS.Areas.Api.Models;
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
     /// <summary>
@@ -47,14 +47,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
         }
 
-         public static Machine CreateFromDetail(this MPC.Models.DomainModels.Machine source)
+        public static Machine CreateFromDetail(this MPC.Models.DomainModels.Machine source)
         {
             return new Machine
             {
                 MachineId = source.MachineId,
                 MachineName = source.MachineName,
-                MachineCatId =source.MachineCatId,
-                ColourHeads =source.ColourHeads,
+                MachineCatId = source.MachineCatId,
+                ColourHeads = source.ColourHeads,
                 isPerfecting = source.isPerfecting,
                 SetupCharge = source.SetupCharge,
                 WashupPrice = source.WashupPrice,
@@ -120,4 +120,5 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
     }
 }
+
 
