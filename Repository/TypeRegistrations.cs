@@ -92,6 +92,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<ICostCentreVariableRepository, CostCentreVariableRepository>();
             unityContainer.RegisterType<ICostCentreMatrixRepository, CostCentreMatrixRepository>();
             unityContainer.RegisterType<IMachineRepository, MachineRepository>();
+            unityContainer.RegisterType<IGroupRepository, GroupRepository>();
         }
     }
 }

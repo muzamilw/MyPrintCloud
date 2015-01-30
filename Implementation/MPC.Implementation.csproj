@@ -143,6 +143,7 @@
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
     <Compile Include="MISServices\AuthorizationChecker.cs" />
+    <Compile Include="MISServices\CampaignService.cs" />
     <Compile Include="MISServices\CategoryService.cs" />
     <Compile Include="MISServices\ClaimsSecurityService.cs" />
     <Compile Include="MISServices\CompanyService.cs" />

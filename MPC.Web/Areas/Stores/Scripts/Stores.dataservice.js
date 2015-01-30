@@ -13,6 +13,13 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Campaign Base Data
+                    amplify.request.define('getCampaignBaseData', 'ajax', {
+                        url: ist.siteUrl + '/Api/CampaignBase',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
                     // Define request to get Items For Widgets
                     amplify.request.define('getItemsForWidgets', 'ajax', {
                         url: ist.siteUrl + '/Api/GetItemsForWidgets',
@@ -154,6 +161,16 @@
                     data: params
                 });
             },
+             // get Campaign Base Data
+            getCampaignBaseData = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getCampaignBaseData',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
+
             // searchCompanyTerritory
             searchCompanyTerritory = function (params, callbacks) {
                 initialize();
@@ -266,8 +283,8 @@
                 });
             },
         // Save Product Category
-        saveProductCategory = function(param, callbacks) {
-                initialize();
+        saveProductCategory = function (param, callbacks) {
+            initialize();
             return amplify.request({
                 resourceId: 'saveProductCategory',
                 success: callbacks.success,
@@ -303,7 +320,8 @@
             getWidgetDetail: getWidgetDetail,
             getProductCategoryById: getProductCategoryById,
             getItemsForWidgets: getItemsForWidgets,
-            saveProductCategory: saveProductCategory
+            saveProductCategory: saveProductCategory,
+            getCampaignBaseData: getCampaignBaseData
         };
     })();
 
