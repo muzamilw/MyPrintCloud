@@ -21,12 +21,17 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Constructor
         public MachineController(IMachineService machineService)
         {
+          
             this._machineService = machineService;
         } 
         #endregion
       
 
         #region Public
+        public Machine GetMachine(long id)
+        {
+            return _machineService.GetMachineById(id).CreateFrom();
+        }
         public MachineResponse GetMachineList([FromUri] MachineRequestModel request)
         {
             var result = _machineService.GetAll(request);

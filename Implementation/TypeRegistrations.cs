@@ -57,6 +57,8 @@ namespace MPC.Implementation
             unityContainer.RegisterType<IImagePermissionsService, ImagePermissionService>();
             unityContainer.RegisterType<MISInterfaces.ICostCentersService, MISImplementation.CostCenterService>();
 
+       
+       
         
             
 

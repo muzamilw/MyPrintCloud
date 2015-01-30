@@ -19,6 +19,7 @@
         </div>
         <div class="row">
             @*id="user-profile"*@
+
             <div class="col-lg-12 col-md-8 col-sm-8">
                 <div class="main-box clearfix">
                     <div class="tabs-wrapper profile-tabs">
@@ -45,9 +46,12 @@
                                                     <tbody>
                                                         <!-- ko template: { name: 'itemMachineTemplate' , foreach: $root.machineList } -->
                                                         <!-- /ko -->
+
                                                     </tbody>
                                                 </table>
+
                                             </div>
+
                                         </div>
                                     </div>
                                     <div id="pagerDiv">
@@ -55,7 +59,9 @@
                                         @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                                         <!-- /ko -->
                                     </div>
+
                                 </div>
+
                             </div>
                             <div class="tab-pane fade " id="tab-Guillotine">
                                 <div class="col-lg-12">
@@ -88,6 +94,7 @@
                                             <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
                                         </ul>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -99,19 +106,19 @@
     @Html.Partial("~/Areas/Settings/Views/Home/MachinesDetail.cshtml")
 </div>
 <script id="itemMachineTemplate" type="text/html">
-    <tr>
+    <tr >
         @*<td data-bind="text:MachineName"></td>*@
-
-        <td>
-            <a href="#" data-bind="text:MachineName, click: $root.onEditMachineItem" class="user-link"></a>
+        
+        <td><a href="#" data-bind="text:MachineName, click: $root.onEditMachineItem" class="user-link"></a>
             <span data-bind="text:Description" class="user-subhead machine-list-margin"></span>
-        </td>
-        <td><span data-bind="text: maximumsheetwidth"> </span><span>*</span> <span data-bind="text: maximumsheetheight"> </span>  </td>
+         </td>
+        <td ><span data-bind="text: maximumsheetwidth"> </span><span>*</span> <span data-bind="text: maximumsheetheight"> </span>  </td>
         <td><span data-bind="text: minimumsheetwidth"> </span><span>*</span> <span data-bind="text: minimumsheetheight"> </span>  </td>
-
+        
         @*<td data-bind="text: CalculationMethod"></td>*@
         <td id="actionColumn"></td>
     </tr>
+</script>
 </script>
 @*@section Scripts {
         <script src="~/Content/themes/Centaurus/js/jquery-ui.custom.min.js"></script>

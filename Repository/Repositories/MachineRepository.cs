@@ -35,9 +35,9 @@ namespace MPC.Repository.Repositories
                         {MachineListColumns.CalculationMethod, d => d.MachineCatId},
                         
                     };
-          private readonly Dictionary<MachineByColumn, Func<Machine, object>> machineOrderByClause =
-            new Dictionary<MachineByColumn, Func<Machine, object>>
-                    {
+        #endregion
+
+
                          {MachineByColumn.Name, c => c.MachineName}
                     };
         #endregion
@@ -72,7 +72,7 @@ namespace MPC.Repository.Repositories
                 .Skip(fromRow)
                 .Take(toRow)
                 .ToList();
-
+        
             return new MachineResponseModel
             {
                 RowCount = DbSet.Count(),

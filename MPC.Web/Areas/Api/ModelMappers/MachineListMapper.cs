@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ApiModels = MPC.MIS.Areas.Api.Models;
 using DomainResponseModel = MPC.Models.ResponseModels;
 using DomainModels = MPC.Models.DomainModels;
@@ -21,9 +20,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 MachineCatId= source.MachineCatId,
                 MachineName = source.MachineName,
                 Description = source.Description,
+                maximumsheetwidth = source.maximumsheetwidth,
+                maximumsheetheight= source.maximumsheetheight,
+                minimumsheetwidth= source.minimumsheetwidth,
+                minimumsheetheight = source.minimumsheetheight,
                 Image = bytes
             };
         }
-
+        
     }
 }

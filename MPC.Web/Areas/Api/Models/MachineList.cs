@@ -11,6 +11,13 @@ namespace MPC.MIS.Areas.Api.Models
         public int? MachineCatId { get; set; }
         public string MachineName { get; set; }
         public string Description { get; set; }
+        public string LookupMethod { get; set; }
+        public double? maximumsheetweight { get; set; }
+        public double? maximumsheetheight { get; set; }
+        public double? maximumsheetwidth { get; set; }
+        public double? minimumsheetheight { get; set; }
+        public double? minimumsheetwidth { get; set; }
+
         public byte[] Image { get; set; }
         public string ImageSource
         {
