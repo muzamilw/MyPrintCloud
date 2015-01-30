@@ -67,7 +67,33 @@ namespace MPC.Common
             IEnumerable<Claim> claims = identity.Claims.Where(c => c.Type == claimType);
             return claims.Select(claim => claim.Deserialize<T>()).ToList();
         }
+        public static bool RemoveClaim(string claimType)
+        {
+            if (string.IsNullOrEmpty(claimType))
+            {
+                throw new ArgumentException(LanguageResources.InvalidString, "claimType");
+            }
 
+            ClaimsPrincipal claimsPrincipal = Thread.CurrentPrincipal as ClaimsPrincipal;
+            if (claimsPrincipal == null)
+            {
+                throw new InvalidOperationException(LanguageResources.ClaimHelper_UnexpectedPrincipalType);
+            }
+
+            ClaimsIdentity identity = claimsPrincipal.Identity as ClaimsIdentity;
+            if (identity == null)
+            {
+                throw new InvalidOperationException(LanguageResources.ClaimHelper_UnexpectedIdentityType);
+            }
+
+            IEnumerable<Claim> claims = identity.Claims.Where(c => c.Type == claimType);
+            foreach (var claim in claims)
+            {
+                identity.TryRemoveClaim(claim);
+            }
+            return true;
+           
+        }
         #endregion
     }
 }

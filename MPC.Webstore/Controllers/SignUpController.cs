@@ -44,6 +44,13 @@ namespace MPC.Webstore.Controllers
         // GET: SignUp///
         public ActionResult Index(string FirstName, string LastName, string Email, string ReturnURL)
         {
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+
+
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+
+            ViewBag.CompanyName = StoreBaseResopnse.Company.Name;
             if (FirstName != null)
             {
                 ViewData["IsSocialSignUp"] = true;

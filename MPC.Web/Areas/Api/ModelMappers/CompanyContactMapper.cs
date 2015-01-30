@@ -15,7 +15,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new DomainModels.CompanyContact
                    {
                        ContactId = source.ContactId,
-                       AddressId = source.AddressId,
+                       AddressId = 192885,
                        CompanyId = source.CompanyId,
                        FirstName = source.FirstName,
                        MiddleName = source.MiddleName,
@@ -44,7 +44,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        URL = source.URL,
                        IsEmailSubscription = source.IsEmailSubscription,
                        IsNewsLetterSubscription = source.IsNewsLetterSubscription,
-                       image = source.ImageBytes,
+                       ContactProfileImage = source.ImageBytes,
                        quickFullName = source.quickFullName,
                        quickTitle = source.quickTitle,
                        quickCompanyName = source.quickCompanyName,
