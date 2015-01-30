@@ -104,7 +104,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ProductionManagerId2 = source.ProductionManagerId2,
                 StockNotificationManagerId1 = source.StockNotificationManagerId1,
                 StockNotificationManagerId2 = source.StockNotificationManagerId2,
-                IsDeliveryTaxAble = source.IsDeliveryTaxAble,
+                IsDeliveryTaxAble = source.IsDeliveryTaxAble ?? false,
                 IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
                 DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
                 isBrokerPaymentRequired = source.isBrokerPaymentRequired == true ? "true" : "false",
@@ -114,8 +114,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard,
                 StoreBackgroundImage = source.StoreBackgroundImage,
                 makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady,
-
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
+                PickupAddressId = source.PickupAddressId,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCmykColors =
@@ -139,7 +139,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 DefaultSpriteImage = defaultSpriteBytes,
                 UserDefinedSpriteImage = spriteBytes,
                 MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
-                CompanyDomains = source.CompanyDomains != null ? source.CompanyDomains.Select(x=> x.CreateFrom()).ToList() : null
+                CompanyDomains = source.CompanyDomains != null ? source.CompanyDomains.Select(x=> x.CreateFrom()).ToList() : null,
+                CompanyCostCentres = source.CompanyCostCentres.Count != 0 ? source.CompanyCostCentres.FirstOrDefault().CostCentre != null ? source.CompanyCostCentres.Select(x => x.CostCentre).Select(x => x.CostCentreDropDownCreateFrom()).ToList() : null : null
             };
         }
 
@@ -218,6 +219,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard,
                 makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady,
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
+                PickupAddressId = source.PickupAddressId,
                 ImageName = source.ImageName,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
@@ -243,7 +245,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CmsOffers = source.CmsOffers != null ? source.CmsOffers.Select(c => c.CreateFrom()).ToList() : null,
                 UserDefinedSpriteSource = source.UserDefinedSpriteSource,
                 MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
-                CompanyDomains = source.CompanyDomains != null? source.CompanyDomains.Select(x=> x.CreateFrom()).ToList(): null
+                CompanyDomains = source.CompanyDomains != null? source.CompanyDomains.Select(x=> x.CreateFrom()).ToList(): null,
+                CompanyCostCentres = source.CompanyCostCentres != null ? source.CompanyCostCentres.Select(x => x.CreateFrom()).ToList() : null
             };
 
             return company;

@@ -99,6 +99,7 @@ define("stores/stores.viewModel",
                 parentCategories = ko.observableArray([]),
 
                 selectedWidgetsList = ko.observableArray([]),
+                costCentersList = ko.observableArray([]),
 
                 //#endregion
 
@@ -550,7 +551,7 @@ define("stores/stores.viewModel",
                 //Craete Banner
                 onCreateBanner = function () {
                     selectedCompanyBanner(model.CompanyBanner());
-                    selectedCompanyBanner().reset();
+                    selectedCompanyBanner().description("");
                     view.showEditBannerDialog();
                 },
                 //Create Banner Set
@@ -918,6 +919,7 @@ define("stores/stores.viewModel",
                 //Add New Secondary PAge
                 onAddSecondaryPage = function () {
                     selectedSecondaryPage(model.CMSPage());
+                    selectedSecondaryPage().metaTitle("");
                     view.showSecondoryPageDialog();
                 },
                 //Add Secondry Page Category
@@ -925,6 +927,9 @@ define("stores/stores.viewModel",
                     selectedPageCategory(model.PageCategory());
                     view.showSecondaryPageCategoryDialog();
                 },
+                colseSecondaryPageCategoryDialog = function () {
+                    view.hideSecondaryPageCategoryDialog();
+                }
                 //Get Secondory Pages
                 getSecondoryPages = function () {
                     dataservice.getSecondaryPages({
@@ -1407,7 +1412,7 @@ define("stores/stores.viewModel",
                     //putting all list of categories
                     populatedParentCategoriesList.removeAll();
                     _.each(parentCategories(), function (category) {
-                            populatedParentCategoriesList.splice(0, 0, category);
+                        populatedParentCategoriesList.splice(0, 0, category);
                     });
                     isSavingNewProductCategory(true);
                     view.showStoreProductCategoryDialog();
@@ -1576,13 +1581,13 @@ define("stores/stores.viewModel",
                                     view.hideStoreProductCategoryDialog();
                                 }
                                 else {
-                                   
+
 
                                     newProductCategories.push(model.ProductCategory.Create(data));
                                     selectedProductCategoryForEditting(model.ProductCategory.Create(data));
 
                                     if ($("#" + selectedProductCategoryForEditting().productCategoryId()).length > 0) {
-                                    
+
                                         $("#" + selectedProductCategoryForEditting().productCategoryId()).remove();
                                     }
                                     //$("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
@@ -1590,7 +1595,7 @@ define("stores/stores.viewModel",
                                     //if (!flagAlreadyExist) {
                                     ko.applyBindings(view.viewModel, $("#" + selectedProductCategoryForEditting().productCategoryId())[0]);
                                     //}
-                                        toastr.success("Category Updated Successfully");
+                                    toastr.success("Category Updated Successfully");
                                 }
                                 var category = {
                                     productCategoryId: data.ProductCategoryId,
@@ -1678,7 +1683,7 @@ define("stores/stores.viewModel",
                     selectedProductCategoryForEditting().productCategoryImageName(file.name);
                     //selectedProductCategoryForEditting().fileType(data.imageType);
                 },
-                
+
                 //Populate Parent Categories List
 
                 populatedParentCategoriesList = ko.observableArray([]),
@@ -1711,7 +1716,7 @@ define("stores/stores.viewModel",
 
                     populatedParentCategoriesList.reverse();
                 },
-                
+
                 //Populate Parent Categories
                 populateParentCategories = ko.computed(function () {
 
@@ -1921,11 +1926,22 @@ define("stores/stores.viewModel",
                         }
                         //#endregion
 
-                        //#region Media Library
+                        
                         _.each(selectedStore().mediaLibraries(), function (item) {
                             storeToSave.MediaLibraries.push(item.convertToServerData());
                         });
-                        //endregion
+
+                        //#region Cost Center
+                        //storeToSave().companyCostCenters.removeAll();
+                        _.each(costCentersList(), function (costCenter) {
+                            if (costCenter.isSelected()) {
+                                storeToSave.CompanyCostCentres.push(costCenter.convertToServerData());
+                            }
+                        });
+                        //updateCostCentersOnStoreSaving();
+                        //#endregion
+
+                        
 
                         dataservice.saveStore(
                             storeToSave, {
@@ -2054,6 +2070,8 @@ define("stores/stores.viewModel",
                             selectedCurrentPageId(undefined);
                             selectedCurrentPageCopy(undefined);
                             newUploadedMediaFile(model.MediaLibrary());
+                            //Update Cost Centers Selection 
+                            updateSelectedStoreCostCenters();
 
                             selectedStore().reset();
                             isLoadingStores(false);
@@ -2066,19 +2084,29 @@ define("stores/stores.viewModel",
                 },
                 //Close Store Dialog
                 closeEditDialog = function () {
-                    if (selectedStore() != undefined) {
-                        if (selectedStore().companyId() > 0) {
-                            isEditorVisible(false);
-                        } else {
-                            isEditorVisible(false);
-                            stores.remove(selectedStore());
-                        }
-                        editorViewModel.revertItem();
-                        allPagesWidgets.removeAll();
-                        pageSkinWidgets.removeAll();
-                        selectedCurrentPageId(undefined);
-                        resetObservableArrays();
+
+                    if (selectedStore().hasChanges()) {
+                        confirmation.messageText("Do you want to save changes?");
+                        confirmation.afterProceed(saveStore);
+                        confirmation.afterCancel(function () {
+                            if (selectedStore() != undefined) {
+                                if (selectedStore().companyId() > 0) {
+                                    isEditorVisible(false);
+                                } else {
+                                    isEditorVisible(false);
+                                    stores.remove(selectedStore());
+                                }
+                                editorViewModel.revertItem();
+                                allPagesWidgets.removeAll();
+                                pageSkinWidgets.removeAll();
+                                selectedCurrentPageId(undefined);
+                                resetObservableArrays();
+                            }
+                        });
+                        confirmation.show();
+                        return;
                     }
+                    isEditorVisible(false);
                 },
                 resetFilterSection = function () {
                     searchFilter(undefined);
@@ -2098,6 +2126,7 @@ define("stores/stores.viewModel",
                                 roles.removeAll();
                                 registrationQuestions.removeAll();
                                 allCompanyAddressesList.removeAll();
+                                costCentersList.removeAll();
                                 pageCategories.removeAll();
                                 _.each(data.SystemUsers, function (item) {
                                     var systemUser = new model.SystemUser.Create(item);
@@ -2126,6 +2155,9 @@ define("stores/stores.viewModel",
                                 });
                                 _.each(data.PaymentMethods, function (item) {
                                     paymentMethods.push(model.PaymentMethod.Create(item));
+                                });
+                                _.each(data.CostCenterDropDownList, function (item) {
+                                    costCentersList.push(model.CostCenter.Create(item));
                                 });
                                 //Email Event List
                                 emailEvents.removeAll();
@@ -2574,7 +2606,7 @@ define("stores/stores.viewModel",
                         mediaLibraryIdCount(mediaId);
                     }
                 },
-
+                
                 //Open Media Library From Store Background Image
                 showMediaLibraryDialogFromStoreBackground = function () {
                     resetMediaGallery();
@@ -2704,6 +2736,68 @@ define("stores/stores.viewModel",
                     hideMediaLibraryDialog();
                 },
                 //#endregion
+
+                //#region ________D E L I V E R Y    A D D    O N________________
+                selectedPickupAddress = ko.observable(),
+                pickupAddress = ko.observable(),
+                updatePickupAddressFields = ko.computed(function() {
+                    if (selectedStore() != undefined) {
+                        if (selectedStore().pickupAddressId() != undefined) {
+                            _.each(allCompanyAddressesList(), function (address) {
+                                if (address.addressId() == selectedStore().pickupAddressId()) {
+                                    selectedPickupAddress(address);
+                                }
+                            });
+                        } else {
+                            selectedPickupAddress(new model.Address);
+                        }
+                    } 
+                }),
+                pickUpLocationValue = ko.observable(),
+               
+                updatePickupAddress = ko.computed(function() {
+                    if (selectedPickupAddress().stateName() != undefined && selectedPickupAddress().countryName() != undefined && selectedPickupAddress().postCode() != undefined) {
+                        pickupAddress(selectedPickupAddress());
+                        pickUpLocationValue(pickupAddress().addressName() + '/' + pickupAddress().postCode());
+                        //selectedStore().pickupAddressId(selectedStore().pickupAddressId());
+                    } else {
+                        pickupAddress(new model.Address);
+                        //selectedStore().pickupAddressId(selectedStore().pickupAddressId());
+                    }
+                }),
+                //updateSelectedStoreCostCenters
+                updateSelectedStoreCostCenters = function() {
+                    _.each(selectedStore().companyCostCenters(), function (costCenter) {
+                        var selectedCostCenter;
+                         selectedCostCenter = _.find(costCentersList(), function (costCenterItem) {
+                            return costCenterItem.costCentreId() === costCenter.costCentreId();
+                        });
+                            selectedCostCenter.isSelected(true);
+                    });
+                },
+                onClosePickupDialog = function () {
+                    if (selectedPickupAddress().state() != undefined && selectedPickupAddress().country() != undefined && selectedPickupAddress().postCode() != undefined) {
+                        pickupAddress(selectedPickupAddress());
+                        selectedStore().pickupAddressId(selectedStore().pickupAddressId());
+                    } else {
+                        pickupAddress(new model.Address);
+                        selectedStore().pickupAddressId(undefined);
+                    }
+                },
+                onSavePickupDialog = function () {
+                    
+                },
+                //Update selected Store selected cost centers
+                updateCostCentersOnStoreSaving = function() {
+                    selectedStore().companyCostCenters.removeAll();
+                    _.each(costCentersList(), function(costCenter) {
+                        if (costCenter.isSelected()) {
+                            selectedStore().companyCostCenters.push(costCenter.convertToServerData());
+                        }
+                    });
+                },
+                //#endregion
+
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
                 initialize = function (specifiedView) {
@@ -2975,6 +3069,13 @@ define("stores/stores.viewModel",
                     selectMediaFile: selectMediaFile,
                     selectedMediaFile: selectedMediaFile,
                     onSaveMedia: onSaveMedia,
+                    colseSecondaryPageCategoryDialog: colseSecondaryPageCategoryDialog,
+                    selectedPickupAddress: selectedPickupAddress,
+                    costCentersList: costCentersList,
+                    pickupAddress: pickupAddress,
+                    onClosePickupDialog: onClosePickupDialog,
+                    onSavePickupDialog: onSavePickupDialog,
+                    pickUpLocationValue: pickUpLocationValue
                 };
                 //#endregion
             })()

@@ -52,7 +52,6 @@ namespace MPC.Implementation.MISServices
         private readonly IItemStockOptionRepository itemStockOptionRepository;
         private readonly IPrefixRepository prefixRepository;
         private readonly IItemVdpPriceRepository itemVdpPriceRepository;
-        //
         private readonly IItemVideoRepository itemVideoRepository;
         private readonly IItemRelatedItemRepository itemRelatedItemRepository;
         private readonly ITemplatePageRepository templatePageRepository;
@@ -67,7 +66,6 @@ namespace MPC.Implementation.MISServices
         private readonly ISectionFlagRepository sectionFlagRepository;
         private readonly IItemProductDetailRepository itemProductDetailRepository;
         private readonly ICompanyDomainRepository companyDomainRepository;
-
 
 
         /// <summary>
@@ -241,6 +239,48 @@ namespace MPC.Implementation.MISServices
                     companyCmykColorRepository.Update(companyCMYKColorsItem);
                 }
             }
+            #endregion
+            return company;
+        }
+        private Company UpdateCompanyCostCentersOfUpdatingCompany(Company company, Company companyDbVersion)
+        {
+
+            #region Company Cost Centers
+            //Add  Company Cost Centers
+            if (company.CompanyCostCentres != null)
+            {
+                List<CompanyCostCentre> newlist = company.CompanyCostCentres.Where(
+                    c => companyDbVersion.CompanyCostCentres.All(cc => cc.CostCentreId != c.CostCentreId)).ToList();
+                //List<CompanyCostCentre> missingItemsList = companyDbVersion.CompanyCostCentres.Where(
+                //    c => company.CompanyCostCentres.All(cc => cc.CostCentreId != c.CostCentreId)).ToList();
+                foreach (var item in newlist)
+                {
+                    item.CompanyId = company.CompanyId;
+                    item.OrganisationId = companyRepository.OrganisationId;
+                    companyDbVersion.CompanyCostCentres.Add(item);
+                }
+            }
+            if (company.CompanyCostCentres != null)
+            {
+                List<CompanyCostCentre> missingItemsList = companyDbVersion.CompanyCostCentres.Where(
+                    c => company.CompanyCostCentres.All(cc => cc.CostCentreId != c.CostCentreId)).ToList();
+                //remove missing items
+                foreach (CompanyCostCentre missingCompanyCostCentre in missingItemsList)
+                {
+                    CompanyCostCentre dbVersionMissingItem = companyDbVersion.CompanyCostCentres.First(x => x.CostCentreId == missingCompanyCostCentre.CostCentreId && x.CompanyId == missingCompanyCostCentre.CompanyId);
+                    companyDbVersion.CompanyCostCentres.Remove(dbVersionMissingItem);
+                }
+            }
+            else if (company.CompanyCostCentres == null && companyDbVersion.CompanyCostCentres.Count > 0)
+            {
+                List<CompanyCostCentre> lisRemoveAllItemsList = companyDbVersion.CompanyCostCentres.ToList();
+                foreach (CompanyCostCentre missingCompanyCostCentre in lisRemoveAllItemsList)
+                {
+                    CompanyCostCentre dbVersionMissingItem = companyDbVersion.CompanyCostCentres.First(x => x.CostCentreId == missingCompanyCostCentre.CostCentreId && x.CompanyId == missingCompanyCostCentre.CompanyId);
+                    companyDbVersion.CompanyCostCentres.Remove(dbVersionMissingItem);
+                }
+            }
+            
             #endregion
             return company;
         }
@@ -724,6 +764,7 @@ namespace MPC.Implementation.MISServices
             var companyToBeUpdated = UpdateRaveReviewsOfUpdatingCompany(companySavingModel.Company);
             companyToBeUpdated = UpdatePaymentGatewaysOfUpdatingCompany(companyToBeUpdated);
             companyToBeUpdated = UpdateCmykColorsOfUpdatingCompany(companyToBeUpdated, companyDbVersion);
+            companyToBeUpdated = UpdateCompanyCostCentersOfUpdatingCompany(companyToBeUpdated, companyDbVersion);
             companyToBeUpdated = UpdateCompanyDomain(companyToBeUpdated);
             //
             UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
@@ -1950,10 +1991,11 @@ namespace MPC.Implementation.MISServices
                        CompanyContactRoles = companyContactRoleRepository.GetAll(),
                        PageCategories = pageCategoryRepository.GetCmsSecondaryPageCategories(),
                        RegistrationQuestions = registrationQuestionRepository.GetAll(),
-                       Addresses = addressRepository.GetAllDefaultAddressByStoreID(storeId),
+                       Addresses = addressRepository.GetAllAddressByStoreId(storeId),
                        PaymentMethods = paymentMethodRepository.GetAll().ToList(),
                        EmailEvents = emailEventRepository.GetAll(),
                        Widgets = widgetRepository.GetAll(),
+                       CostCentres = costCentreRepository.GetAllCompanyCentersByOrganisationId().ToList()//GetAllCompanyCentersByCompanyId
                    };
         }
         public CompanyBaseResponse GetBaseDataForNewCompany()

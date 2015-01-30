@@ -123,7 +123,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         specifiedSalesAndOrderManagerId1, specifiedSalesAndOrderManagerId2, specifiedProductionManagerId1, specifiedProductionManagerId2,
         specifiedStockNotificationManagerId1, specifiedStockNotificationManagerId2, specifiedisDisplayBanners, specifiedisStoreModePrivate, specifiedisTextWatermark,
         specifiedWatermarkText, specifiedisBrokerPaymentRequired, specifiedisBrokerCanAcceptPaymentOnline, specifiedcanUserPlaceOrderWithoutApproval,
-        specifiedisIncludeVAT, specifiedincludeEmailBrokerArtworkOrderReport, specifiedincludeEmailBrokerArtworkOrderXML, specifiedincludeEmailBrokerArtworkOrderJobCard,
+        specifiedisIncludeVAT, specifiedincludeEmailBrokerArtworkOrderReport, specifiedincludeEmailBrokerArtworkOrderXML, specifiedincludeEmailBrokerArtworkOrderJobCard
+        , specifiedIsDeliveryTaxAble, specifiedPickupAddressId,
         specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreImageFileBinary, specifiedStoreBackgroudImageSource, specifiedIsShowGoogleMap,
         specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName, specifiedCustomCSS, specifiedStoreBackgroundImage, specifiedStoreImagePath
     ) {
@@ -164,7 +165,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             productionManagerId1 = ko.observable(specifiedProductionManagerId1),
             productionManagerId2 = ko.observable(specifiedProductionManagerId2),
             stockNotificationManagerId1 = ko.observable(specifiedStockNotificationManagerId1),
-            stockNotificationManagerId2 = ko.observable(specifiedStockNotificationManagerId2),/////
+            stockNotificationManagerId2 = ko.observable(specifiedStockNotificationManagerId2), /////
             isStoreModePrivate = ko.observable(specifiedisStoreModePrivate),
             isTextWatermark = ko.observable(specifiedisTextWatermark),
             watermarkText = ko.observable(specifiedWatermarkText),
@@ -176,6 +177,24 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             includeEmailBrokerArtworkOrderXML = ko.observable(specifiedincludeEmailBrokerArtworkOrderXML),
             includeEmailBrokerArtworkOrderJobCard = ko.observable(specifiedincludeEmailBrokerArtworkOrderJobCard),
             makeEmailBrokerArtworkOrderProductionReady = ko.observable(specifiedmakeEmailBrokerArtworkOrderProductionReady),
+            // isDeliveryTaxAble = ko.observable(specifiedIsDeliveryTaxAble),
+            // is Delivery TaxAble
+            isDeliveryTaxAble = ko.observable(!specifiedIsDeliveryTaxAble ? 2 : 1),
+            // is Delivery TaxAble ui
+            isDeliveryTaxAbleUi = ko.computed({
+                read: function () {
+                    return '' + isDeliveryTaxAble();
+                },
+                write: function (value) {
+                    var deliveryTaxAble = parseInt(value);
+                    if (deliveryTaxAble === isDeliveryTaxAble()) {
+                        return;
+                    }
+
+                    isDeliveryTaxAble(deliveryTaxAble);
+                }
+            }),
+            pickupAddressId = ko.observable(specifiedPickupAddressId),
             //store Image
             storeImageFileBinary = ko.observable(specifiedStoreImageFileBinary),
             storeImageName = ko.observable(),
@@ -208,6 +227,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             products = ko.observableArray([]),
             //Media Libraries
             mediaLibraries = ko.observableArray([]),
+            //Company Cost Center
+            companyCostCenters = ko.observableArray([]),
             //store Backgroud Image Image Source
             storeBackgroudImageImageSource = ko.observable(specifiedStoreBackgroudImageSource),
             //store Backgroud Image Path
@@ -292,7 +313,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 storeBackgroudImageFileName: storeBackgroudImageFileName,
                 isShowGoogleMap: isShowGoogleMap,
                 customCSS: customCSS,
-                companyDomains: companyDomains
+                companyDomains: companyDomains,
+                isDeliveryTaxAble: isDeliveryTaxAble,
+                pickupAddressId: pickupAddressId
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -344,6 +367,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard();
                 result.makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady();
                 result.isDisplayBanners = source.isDisplayBanners();
+                result.IsDeliveryTaxAble = source.isDeliveryTaxAble() === 2 ? false : true;
+                result.PickupAddressId = source.pickupAddressId();
                 result.CompanyType = source.companyType() != undefined ? CompanyType().convertToServerData(source.companyType()) : null;
                 result.CustomCSS = source.customCSS();
                 result.RaveReviews = [];
@@ -363,6 +388,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.CompanyDomains = [];
                 _.each(source.companyDomains(), function (item) {
                     result.CompanyDomains.push(item.convertToServerData());
+                });
+                result.CompanyCostCenters = [];
+                _.each(source.companyCostCenters(), function (item) {
+                    result.CompanyCostCenters.push(item.convertToServerData());
                 });
                 //_.each(source.users(), function (item) {
                 //    result.CompanyContacts.push(item.convertToServerData());
@@ -390,6 +419,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.EdittedProducts = [];
                 result.Deletedproducts = [];
                 result.Campaigns = [];
+                result.CompanyCostCentres = [];
                 _.each(source.paymentGateway(), function (item) {
                     result.PaymentGateways.push(item.convertToServerData());
                 });
@@ -412,6 +442,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 dirtyFlag.reset();
             };
         self = {
+            //#region SELF
             companyId: companyId,
             name: name,
             status: status,
@@ -469,6 +500,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             paymentMethod: paymentMethod,
             productCategories: productCategories,
             products: products,
+            isDeliveryTaxAble: isDeliveryTaxAble,
             storeBackgroudImageImageSource: storeBackgroudImageImageSource,
             storeBackgroudImageFileName: storeBackgroudImageFileName,
             storeBackgroudImagePath: storeBackgroudImagePath,
@@ -477,15 +509,19 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             defaultSpriteImageFileName: defaultSpriteImageFileName,
             userDefinedSpriteImageSource: userDefinedSpriteImageSource,
             userDefinedSpriteImageFileName: userDefinedSpriteImageFileName,
+            isDeliveryTaxAbleUi: isDeliveryTaxAbleUi,
+            pickupAddressId: pickupAddressId,
             customCSS: customCSS,
             companyDomains: companyDomains,
             mediaLibraries: mediaLibraries,
+            companyCostCenters: companyCostCenters,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,
             reset: reset
+            //#endregion
         };
         return self;
     };
@@ -529,6 +565,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.includeEmailBrokerArtworkOrderReport,
             source.includeEmailBrokerArtworkOrderXML,
             source.includeEmailBrokerArtworkOrderJobCard,
+            source.isDeliveryTaxAble,
+            source.pickupAddressId,
             source.makeEmailBrokerArtworkOrderProductionReady
         );
         //result.companyType(CompanyType.CreateFromClientModel(source.companyType));
@@ -555,6 +593,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         });
         _.each(source.productCategories, function (item) {
             result.productCategories.push(ProductCategoryListView.CreateFromClientModel(item));
+        });
+        _.each(source.companyCostCenters, function (item) {
+            result.companyCostCenters.push(CostCenter.CreateFromClientModel(item));
         });
         return result;
     };
@@ -599,6 +640,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.includeEmailBrokerArtworkOrderReport,
             source.includeEmailBrokerArtworkOrderXML,
             source.includeEmailBrokerArtworkOrderJobCard,
+            source.IsDeliveryTaxAble,
+            source.PickupAddressId,
             source.makeEmailBrokerArtworkOrderProductionReady,
             source.ImageSource,
             source.StoreBackgroudImageSource,
@@ -660,6 +703,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         //});
         _.each(source.ProductCategoriesListView, function (item) {
             store.productCategories.push(ProductCategory.Create(item));
+        });
+        _.each(source.CompanyCostCentres, function (item) {
+            store.companyCostCenters.push(CostCenter.Create(item));
         });
         ////Add Store Products/Items in store product model
         //var mapper = new storeProductModel.Item();
@@ -1188,7 +1234,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // #region ______________  A D D R E S S   _________________
 
     // ReSharper disable once InconsistentNaming
-    var Address = function (specifiedAddressId, specifiedCompanyId, specifiedAddressName, specifiedAddress1, specifiedAddress2, specifiedAddress3, specifiedCity, specifiedState, specifiedCountry, specifiedPostCode, specifiedFax,
+    var Address = function (specifiedAddressId, specifiedCompanyId, specifiedAddressName, specifiedAddress1, specifiedAddress2, specifiedAddress3, specifiedCity, specifiedState, specifiedCountry, specifiedStateName, specifiedCountryName, specifiedPostCode, specifiedFax,
         specifiedEmail, specifiedURL, specifiedTel1, specifiedTel2, specifiedExtension1, specifiedExtension2, specifiedReference, specifiedFAO, specifiedIsDefaultAddress, specifiedIsDefaultShippingAddress,
         specifiedisArchived, specifiedTerritoryId, specifiedGeoLatitude, specifiedGeoLongitude, specifiedisPrivate,
         specifiedisDefaultTerrorityBilling, specifiedisDefaultTerrorityShipping, specifiedOrganisationId) {
@@ -1203,6 +1249,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             city = ko.observable(specifiedCity),
             state = ko.observable(specifiedState),
             country = ko.observable(specifiedCountry),
+            stateName = ko.observable(specifiedStateName),
+            countryName = ko.observable(specifiedCountryName),
             postCode = ko.observable(specifiedPostCode),
             fax = ko.observable(specifiedFax),
             email = ko.observable(specifiedEmail),
@@ -1316,6 +1364,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             city: city,
             state: state,
             country: country,
+            stateName: stateName,
+            countryName: countryName,
             postCode: postCode,
             fax: fax,
             email: email,
@@ -1356,6 +1406,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.city,
             source.state,
             source.country,
+            source.stateName,
+            source.countryName,
             source.postCode,
             source.fax,
             source.email,
@@ -1389,6 +1441,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.City,
             source.State,
             source.Country,
+            source.StateName,
+            source.CountryName,
             source.PostCode,
             source.Fax,
             source.Email,
@@ -1718,7 +1772,21 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
 
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
-
+                pageTitle: pageTitle,
+                pageKeywords: pageKeywords,
+                metaTitle: metaTitle,
+                metaDescriptionContent: metaDescriptionContent,
+                metaCategoryContent: metaCategoryContent,
+                metaRobotsContent: metaRobotsContent,
+                metaAuthorContent: metaAuthorContent,
+                metaLanguageContent: metaLanguageContent,
+                metaRevisitAfterContent: metaRevisitAfterContent,
+                categoryId: categoryId,
+                pageHTML: pageHTML,
+                imageSrc: imageSrc,
+                fileName: fileName,
+                defaultPageKeyWords: defaultPageKeyWords,
+                pageBanner: pageBanner,
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -2509,7 +2577,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         return self;
     };
     Role.CreateFromClientModel = function (source) {
-        return new roleName(
+        return new Role(
             source.roleId,
             source.rolesName
             );
@@ -3454,8 +3522,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             itemId = ko.observable(specifiedItemId),
             offerType = ko.observable(specifiedOfferType),
             itemName = ko.observable(specifiedItemName),
-           sortOrder = ko.observable(specifiedSortOrder),
-           companyId = ko.observable(),
+            sortOrder = ko.observable(specifiedSortOrder),
+            companyId = ko.observable(),
         //Convert To Server
         convertToServerData = function () {
             return {
@@ -3540,6 +3608,73 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
 
     // #endregion ______________ MediaLibrary _________________
 
+    // #region ______________ C O S T   C E N T E R_________________
+    // ReSharper disable once InconsistentNaming
+    var CostCenter = function (specifiedCostCentreId, specifiedName) {
+
+        var self,
+            costCentreId = ko.observable(specifiedCostCentreId),
+            name = ko.observable(specifiedName),
+            isSelected = ko.observable(),
+            // Errors
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                costCentreId: costCentreId,
+                name: name,
+
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function () {
+                return {
+                    CostCentreId: costCentreId(),
+                    Name: name(),
+                };
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            costCentreId: costCentreId,
+            name: name,
+            isSelected: isSelected,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    CostCenter.CreateFromClientModel = function (source) {
+        return new CostCenter(
+            source.costCentreId,
+            source.name
+            );
+    };
+    CostCenter.Create = function (source) {
+        var costCenter = new CostCenter(
+            source.CostCentreId,
+            source.Name
+            );
+        return costCenter;
+    };
+    // #endregion 
+
+    //#region ______________ R E T U R N ______________
     return {
         StoreListView: StoreListView,
         Store: Store,
@@ -3571,5 +3706,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         CmsOffer: CmsOffer,
         CompanyDomain: CompanyDomain,
         MediaLibrary: MediaLibrary,
+        CostCenter: CostCenter,
     };
+    // #endregion 
 });

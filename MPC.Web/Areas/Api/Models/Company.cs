@@ -108,6 +108,7 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsDeliveryTaxAble { get; set; }
         public bool? IsDisplayDeliveryOnCheckout { get; set; }
         public long? DeliveryPickUpAddressId { get; set; }
+        public long? PickupAddressId { get; set; }
         public long? BussinessAddressId { get; set; }
 
         #endregion
@@ -146,6 +147,8 @@ namespace MPC.MIS.Areas.Api.Models
         public List<CompanyDomain> CompanyDomains { get; set; }
 
         public List<MediaLibrary> MediaLibraries { get; set; }
+        public List<CostCentreDropDown> CompanyCostCentres { get; set; }
+       
 
         #region CMS Pages
 

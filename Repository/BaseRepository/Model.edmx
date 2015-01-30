@@ -52,6 +52,7 @@
           <Property Name="RunCampaignFor" Type="smallint" />
           <Property Name="IncludeCustomers" Type="bit" />
           <Property Name="IncludeSuppliers" Type="bit" />
+          <Property Name="IncludeNewsLetterSubscribers" Type="bit" />
           <Property Name="IncludeProspects" Type="bit" />
           <Property Name="IncludeKeyword" Type="bit" />
           <Property Name="SearchKeyword" Type="varchar" MaxLength="200" />
@@ -577,9 +578,9 @@
           <Key>
             <PropertyRef Name="CompanyCostCenterId" />
           </Key>
-          <Property Name="CompanyCostCenterId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CompanyId" Type="int" />
-          <Property Name="CostCentreId" Type="int" />
+          <Property Name="CompanyCostCenterId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyId" Type="bigint" />
+          <Property Name="CostCentreId" Type="bigint" />
           <Property Name="BrokerMarkup" Type="float" />
           <Property Name="ContactMarkup" Type="float" />
           <Property Name="isDisplayToUser" Type="bit" />
@@ -704,7 +705,6 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="Sequence" Type="int" Nullable="false" />
           <Property Name="CompleteCode" Type="text" />
           <Property Name="ItemDescription" Type="text" />
-          <Property Name="CompanyId" Type="int" Nullable="false" />
           <Property Name="SystemTypeId" Type="int" />
           <Property Name="FlagId" Type="int" />
           <Property Name="IsScheduleable" Type="smallint" Nullable="false" />
@@ -1100,6 +1100,21 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="FriendlyName" Type="varchar" MaxLength="50" />
           <Property Name="uiCulture" Type="varchar" MaxLength="50" />
           <Property Name="culture" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Groups">
+          <Key>
+            <PropertyRef Name="GroupId" />
+          </Key>
+          <Property Name="GroupId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupName" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="GroupDescription" Type="varchar" MaxLength="1000" />
+          <Property Name="CreationDateTime" Type="datetime" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="LastModifiedDateTime" Type="datetime" />
+          <Property Name="LastModifiedBy" Type="int" />
+          <Property Name="SystemSiteId" Type="int" />
+          <Property Name="IsPrivate" Type="bit" />
+          <Property Name="Notes" Type="ntext" />
         </EntityType>
         <EntityType Name="ImagePermissions">
           <Key>
@@ -2059,6 +2074,14 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="WashupTime" Type="float" />
           <Property Name="ReelMakereadyTime" Type="float" />
         </EntityType>
+        <EntityType Name="MachineCategory">
+          <Key>
+            <PropertyRef Name="MachineCatId" />
+          </Key>
+          <Property Name="MachineCatId" Type="bigint" Nullable="false" />
+          <Property Name="MachineCategory" Type="varchar" MaxLength="50" />
+          <Property Name="Fixed" Type="smallint" />
+        </EntityType>
         <EntityType Name="MachineInkCoverage">
           <Key>
             <PropertyRef Name="Id" />
@@ -2581,7 +2604,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="Flag2" Type="smallint" />
           <Property Name="Flag3" Type="smallint" />
           <Property Name="Flag4" Type="smallint" />
-          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="OrganisationId" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="StockCostAndPrice">
           <Key>
@@ -3367,6 +3390,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CampaignEmailVariable_Section">
+          <End Role="Section" Type="Self.Section" Multiplicity="0..1" />
+          <End Role="CampaignEmailVariable" Type="Self.CampaignEmailVariable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Section">
+              <PropertyRef Name="SectionId" />
+            </Principal>
+            <Dependent Role="CampaignEmailVariable">
+              <PropertyRef Name="SectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CmsOffer_Company">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="CmsOffer" Type="Self.CmsOffer" Multiplicity="*" />
@@ -3436,6 +3471,30 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="CompanyCMYKColor">
               <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyCostCentre_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="CompanyCostCentre" Type="Self.CompanyCostCentre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="CompanyCostCentre">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyCostCentre_CostCentre">
+          <End Role="CostCentre" Type="Self.CostCentre" Multiplicity="0..1" />
+          <End Role="CompanyCostCentre" Type="Self.CompanyCostCentre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostCentre">
+              <PropertyRef Name="CostCentreId" />
+            </Principal>
+            <Dependent Role="CompanyCostCentre">
+              <PropertyRef Name="CostCentreId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4568,6 +4627,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="FavoriteDesign" EntityType="Self.FavoriteDesign" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FieldVariable" EntityType="Self.FieldVariable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GlobalLanguage" EntityType="Self.GlobalLanguage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Groups" EntityType="Self.Groups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ImagePermissions" EntityType="Self.ImagePermissions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inquiry" EntityType="Self.Inquiry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InquiryAttachment" EntityType="Self.InquiryAttachment" Schema="dbo" store:Type="Tables" />
@@ -4599,6 +4659,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="ListingVendor" EntityType="Self.ListingVendor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LookupMethod" EntityType="Self.LookupMethod" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Machine" EntityType="Self.Machine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MachineCategory" EntityType="Self.MachineCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MachineInkCoverage" EntityType="Self.MachineInkCoverage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MachineResource" EntityType="Self.MachineResource" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Markup" EntityType="Self.Markup" Schema="dbo" store:Type="Tables" />
@@ -4888,6 +4949,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Template" EntitySet="Template" />
             <End Role="TemplatePage" EntitySet="TemplatePage" />
           </AssociationSet>
+          <AssociationSet Name="FK_CampaignEmailVariable_Section" Association="Self.FK_CampaignEmailVariable_Section">
+            <End Role="Section" EntitySet="Section" />
+            <End Role="CampaignEmailVariable" EntitySet="CampaignEmailVariable" />
+          </AssociationSet>
           <AssociationSet Name="FK_CmsOffer_Company" Association="Self.FK_CmsOffer_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="CmsOffer" EntitySet="CmsOffer" />
@@ -4911,6 +4976,14 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <AssociationSet Name="FK_CompanyCMYKColor_Company" Association="Self.FK_CompanyCMYKColor_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="CompanyCMYKColor" EntitySet="CompanyCMYKColor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyCostCentre_Company" Association="Self.FK_CompanyCostCentre_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="CompanyCostCentre" EntitySet="CompanyCostCentre" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyCostCentre_CostCentre" Association="Self.FK_CompanyCostCentre_CostCentre">
+            <End Role="CostCentre" EntitySet="CostCentre" />
+            <End Role="CompanyCostCentre" EntitySet="CompanyCostCentre" />
           </AssociationSet>
           <AssociationSet Name="FK_CompanyDomain_Company" Association="Self.FK_CompanyDomain_Company">
             <End Role="Company" EntitySet="Company" />
@@ -5334,7 +5407,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="WeightUnits" EntityType="DomainModels.WeightUnit" />
           <EntitySet Name="CompanyContacts" EntityType="DomainModels.CompanyContact" />
           <EntitySet Name="CompanyContactRoles" EntityType="DomainModels.CompanyContactRole" />
-          <EntitySet Name="CompanyCostCentres" EntityType="DomainModels.CompanyCostCentre" />
           <EntitySet Name="CompanyTerritories" EntityType="DomainModels.CompanyTerritory" />
           <EntitySet Name="CompanyTypes" EntityType="DomainModels.CompanyType" />
           <AssociationSet Name="FK_tbl_contactcompanies_tbl_contactcompanytypes" Association="DomainModels.FK_tbl_contactcompanies_tbl_contactcompanytypes">
@@ -5853,6 +5925,21 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Machine" EntitySet="Machines" />
             <End Role="MachineResource" EntitySet="MachineResources" />
           </AssociationSet>
+          <EntitySet Name="MachineCategories" EntityType="DomainModels.MachineCategory" />
+          <EntitySet Name="CompanyCostCentres" EntityType="DomainModels.CompanyCostCentre" />
+          <AssociationSet Name="FK_CompanyCostCentre_Company" Association="DomainModels.FK_CompanyCostCentre_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="CompanyCostCentre" EntitySet="CompanyCostCentres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyCostCentre_CostCentre" Association="DomainModels.FK_CompanyCostCentre_CostCentre">
+            <End Role="CostCentre" EntitySet="CostCentres" />
+            <End Role="CompanyCostCentre" EntitySet="CompanyCostCentres" />
+          </AssociationSet>
+          <EntitySet Name="Groups" EntityType="DomainModels.Group" />
+          <AssociationSet Name="FK_CampaignEmailVariable_Section" Association="DomainModels.FK_CampaignEmailVariable_Section">
+            <End Role="Section" EntitySet="Sections" />
+            <End Role="CampaignEmailVariable" EntitySet="CampaignEmailVariables" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -5981,6 +6068,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="CmsOffers" Relationship="DomainModels.FK_CmsOffer_Company" FromRole="Company" ToRole="CmsOffer" />
           <Property Name="isCalculateTaxByService" Type="Boolean" />
           <NavigationProperty Name="MediaLibraries" Relationship="DomainModels.FK_MediaLibrary_Company" FromRole="Company" ToRole="MediaLibrary" />
+          <NavigationProperty Name="CompanyCostCentres" Relationship="DomainModels.FK_CompanyCostCentre_Company" FromRole="Company" ToRole="CompanyCostCentre" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -6376,9 +6464,9 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="Flag2" Type="Int16" />
           <Property Name="Flag3" Type="Int16" />
           <Property Name="Flag4" Type="Int16" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="StockSubCategories" Relationship="DomainModels.FK_StockCategory_StockSubCategory" FromRole="StockCategory" ToRole="StockSubCategory" />
           <NavigationProperty Name="StockItems" Relationship="DomainModels.FK_tbl_stockitems_tbl_stockcategories" FromRole="StockCategory" ToRole="StockItem" />
+          <Property Name="OrganisationId" Type="Int64" Nullable="false" />
         </EntityType>
         <EntityType Name="StockSubCategory">
           <Key>
@@ -6568,6 +6656,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="Independent" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="SectionFlags" Relationship="DomainModels.FK_tbl_section_flags_tbl_sections" FromRole="Section" ToRole="SectionFlag" />
           <NavigationProperty Name="PhraseFields" Relationship="DomainModels.fk_sectionId" FromRole="Section" ToRole="PhraseField" />
+          <NavigationProperty Name="CampaignEmailVariables" Relationship="DomainModels.FK_CampaignEmailVariable_Section" FromRole="Section" ToRole="CampaignEmailVariable" />
         </EntityType>
         <EntityType Name="SectionFlag">
           <Key>
@@ -6708,18 +6797,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="ContactRoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ContactRoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CompanyContacts" Relationship="DomainModels.FK_tbl_contacts_tbl_contactcompanyuserroles" FromRole="CompanyContactRole" ToRole="CompanyContact" />
-        </EntityType>
-        <EntityType Name="CompanyCostCentre">
-          <Key>
-            <PropertyRef Name="CompanyCostCenterId" />
-          </Key>
-          <Property Name="CompanyCostCenterId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CompanyId" Type="Int32" />
-          <Property Name="CostCentreId" Type="Int32" />
-          <Property Name="BrokerMarkup" Type="Double" />
-          <Property Name="ContactMarkup" Type="Double" />
-          <Property Name="isDisplayToUser" Type="Boolean" />
-          <Property Name="OrganisationId" Type="Int64" />
         </EntityType>
         <EntityType Name="CompanyTerritory">
           <Key>
@@ -6885,7 +6962,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="Sequence" Type="Int32" Nullable="false" />
           <Property Name="CompleteCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ItemDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
           <Property Name="SystemTypeId" Type="Int32" />
           <Property Name="FlagId" Type="Int32" />
           <Property Name="IsScheduleable" Type="Int16" Nullable="false" />
@@ -6940,6 +7016,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="CostcentreInstructions" Relationship="DomainModels.tbl_costcentres_tbl_costcentre_instructions" FromRole="CostCentre" ToRole="CostcentreInstruction" />
           <Property Name="DeliveryType" Type="Int32" />
           <Property Name="DeliveryServiceType" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CompanyCostCentres" Relationship="DomainModels.FK_CompanyCostCentre_CostCentre" FromRole="CostCentre" ToRole="CompanyCostCentre" />
         </EntityType>
         <EntityType Name="ItemAttachment">
           <Key>
@@ -8463,6 +8540,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="CampaignImages" Relationship="DomainModels.FK_tbl_CampaignImages_tbl_campaigns" FromRole="Campaign" ToRole="CampaignImage" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_Company_Campaign" FromRole="Campaign" ToRole="Company" />
           <NavigationProperty Name="CampaignEmailEvent" Relationship="DomainModels.FK_EventEmail_Campaign" FromRole="Campaign" ToRole="EmailEvent" />
+          <Property Name="IncludeNewsLetterSubscribers" Type="Boolean" />
         </EntityType>
         <EntityType Name="CampaignEmailVariable">
           <Key>
@@ -8478,6 +8556,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="VariableTag" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Key" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="Section" Relationship="DomainModels.FK_CampaignEmailVariable_Section" FromRole="CampaignEmailVariable" ToRole="Section" />
         </EntityType>
         <EntityType Name="CampaignImage">
           <Key>
@@ -10537,6 +10616,79 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="MachineCategory">
+          <Key>
+            <PropertyRef Name="MachineCatId" />
+          </Key>
+          <Property Name="MachineCatId" Type="Int64" Nullable="false" />
+          <Property Name="MachineCategory1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fixed" Type="Int16" />
+        </EntityType>
+        <EntityType Name="CompanyCostCentre">
+          <Key>
+            <PropertyRef Name="CompanyCostCenterId" />
+          </Key>
+          <Property Name="CompanyCostCenterId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="CostCentreId" Type="Int64" />
+          <Property Name="BrokerMarkup" Type="Double" />
+          <Property Name="ContactMarkup" Type="Double" />
+          <Property Name="isDisplayToUser" Type="Boolean" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_CompanyCostCentre_Company" FromRole="CompanyCostCentre" ToRole="Company" />
+          <NavigationProperty Name="CostCentre" Relationship="DomainModels.FK_CompanyCostCentre_CostCentre" FromRole="CompanyCostCentre" ToRole="CostCentre" />
+        </EntityType>
+        <Association Name="FK_CompanyCostCentre_Company">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.CompanyCostCentre" Role="CompanyCostCentre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="CompanyCostCentre">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyCostCentre_CostCentre">
+          <End Type="DomainModels.CostCentre" Role="CostCentre" Multiplicity="0..1" />
+          <End Type="DomainModels.CompanyCostCentre" Role="CompanyCostCentre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostCentre">
+              <PropertyRef Name="CostCentreId" />
+            </Principal>
+            <Dependent Role="CompanyCostCentre">
+              <PropertyRef Name="CostCentreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="GroupId" />
+          </Key>
+          <Property Name="GroupId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="GroupDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="CreationDateTime" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="LastModifiedDateTime" Type="DateTime" Precision="3" />
+          <Property Name="LastModifiedBy" Type="Int32" />
+          <Property Name="SystemSiteId" Type="Int32" />
+          <Property Name="IsPrivate" Type="Boolean" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_CampaignEmailVariable_Section">
+          <End Type="DomainModels.Section" Role="Section" Multiplicity="0..1" />
+          <End Type="DomainModels.CampaignEmailVariable" Role="CampaignEmailVariable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Section">
+              <PropertyRef Name="SectionId" />
+            </Principal>
+            <Dependent Role="CampaignEmailVariable">
+              <PropertyRef Name="SectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10885,7 +11037,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="StockCategories">
             <EntityTypeMapping TypeName="DomainModels.StockCategory">
               <MappingFragment StoreEntitySet="StockCategory">
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="Flag4" ColumnName="Flag4" />
                 <ScalarProperty Name="Flag3" ColumnName="Flag3" />
                 <ScalarProperty Name="Flag2" ColumnName="Flag2" />
@@ -11189,19 +11341,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CompanyCostCentres">
-            <EntityTypeMapping TypeName="DomainModels.CompanyCostCentre">
-              <MappingFragment StoreEntitySet="CompanyCostCentre">
-                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
-                <ScalarProperty Name="isDisplayToUser" ColumnName="isDisplayToUser" />
-                <ScalarProperty Name="ContactMarkup" ColumnName="ContactMarkup" />
-                <ScalarProperty Name="BrokerMarkup" ColumnName="BrokerMarkup" />
-                <ScalarProperty Name="CostCentreId" ColumnName="CostCentreId" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="CompanyCostCenterId" ColumnName="CompanyCostCenterId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CompanyTerritories">
             <EntityTypeMapping TypeName="DomainModels.CompanyTerritory">
               <MappingFragment StoreEntitySet="CompanyTerritory">
@@ -11274,7 +11413,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="IsScheduleable" ColumnName="IsScheduleable" />
                 <ScalarProperty Name="FlagId" ColumnName="FlagId" />
                 <ScalarProperty Name="SystemTypeId" ColumnName="SystemTypeId" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
                 <ScalarProperty Name="CompleteCode" ColumnName="CompleteCode" />
                 <ScalarProperty Name="Sequence" ColumnName="Sequence" />
@@ -12378,6 +12516,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Campaigns">
             <EntityTypeMapping TypeName="DomainModels.Campaign">
               <MappingFragment StoreEntitySet="Campaign">
+                <ScalarProperty Name="IncludeNewsLetterSubscribers" ColumnName="IncludeNewsLetterSubscribers" />
                 <ScalarProperty Name="UnsubscribeEmailAddress" ColumnName="UnsubscribeEmailAddress" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
@@ -14076,6 +14215,44 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
                 <ScalarProperty Name="MachineId" ColumnName="MachineId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MachineCategories">
+            <EntityTypeMapping TypeName="DomainModels.MachineCategory">
+              <MappingFragment StoreEntitySet="MachineCategory">
+                <ScalarProperty Name="Fixed" ColumnName="Fixed" />
+                <ScalarProperty Name="MachineCategory1" ColumnName="MachineCategory" />
+                <ScalarProperty Name="MachineCatId" ColumnName="MachineCatId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyCostCentres">
+            <EntityTypeMapping TypeName="DomainModels.CompanyCostCentre">
+              <MappingFragment StoreEntitySet="CompanyCostCentre">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="isDisplayToUser" ColumnName="isDisplayToUser" />
+                <ScalarProperty Name="ContactMarkup" ColumnName="ContactMarkup" />
+                <ScalarProperty Name="BrokerMarkup" ColumnName="BrokerMarkup" />
+                <ScalarProperty Name="CostCentreId" ColumnName="CostCentreId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="CompanyCostCenterId" ColumnName="CompanyCostCenterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="DomainModels.Group">
+              <MappingFragment StoreEntitySet="Groups">
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="IsPrivate" ColumnName="IsPrivate" />
+                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
+                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+                <ScalarProperty Name="LastModifiedDateTime" ColumnName="LastModifiedDateTime" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreationDateTime" ColumnName="CreationDateTime" />
+                <ScalarProperty Name="GroupDescription" ColumnName="GroupDescription" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

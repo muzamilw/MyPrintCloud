@@ -2,6 +2,14 @@
   background-color: #ff7e47;
   color: white;
 }
+#productBinding #tabsHeader {
+  border: 1px solid silver;
+  box-shadow: 1px 1px 1px silver;
+}
+#productBinding .set-filter-margin {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
 #productBinding .inactiveView {
   background-color: #ffffff;
   color: black;
@@ -16,6 +24,9 @@
   margin-bottom: 0;
 }
 #productBinding #stockDialog #stockDialogMainContainer {
+  width: 838px;
+}
+#productBinding #signtureEdit .modal-dialog {
   width: 838px;
 }
 #productBinding #itemAddonCostCentreDialog #itemAddonCostCentreDialogMainContainer {
@@ -104,6 +115,33 @@
 #myOrganizationBinding #tab-RegionalSettings #markupTablle td.action {
   width: 20%;
 }
+#storesBinding #addStore {
+  margin-top: 25px;
+}
+#storesBinding #filter {
+  height: 62px !important;
+}
+#storesBinding #topArea {
+  margin-bottom: -11px;
+}
+#storesBinding #tabsHeader {
+  border: 1px solid silver;
+  box-shadow: 1px 1px 1px silver;
+}
+#storesBinding .dynamicNameHeading {
+  height: 51px;
+}
+#storesBinding #tabsHeaderSecondarypage {
+  border: 1px solid silver;
+  box-shadow: 1px 1px 1px silver;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 10px;
+}
+#storesBinding #dialgHeaderPadding {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
 .store-user-link {
   display: block;
   font-size: 1.25em;
@@ -111,6 +149,58 @@
 }
 .profileLabelPadding {
   margin-top: 15px;
+}
+#storesBinding .selectedItemRow {
+  background: yellow;
+}
+#storesBinding #itemsForWidgetsDialog .selectedItemRow {
+  background: yellow;
+}
+#inventoryBinding #addInventory {
+  margin-top: 25px;
+}
+#inventoryBinding #filter {
+  height: 62px !important;
+}
+#inventoryBinding #topArea {
+  margin-bottom: -11px;
+}
+#inventoryBinding #tabsHeader {
+  border: 1px solid silver;
+  box-shadow: 1px 1px 1px silver;
+}
+#inventoryBinding .dynamicNameHeading {
+  height: 51px;
+}
+#inventoryBinding #inventoryEditor #tab-CostPrice #costTablle tr th#costTh {
+  width: 104px;
+}
+#inventoryBinding #inventoryEditor #tab-CostPrice #costTablle tr th#fromTh {
+  width: 104px;
+}
+#inventoryBinding #inventoryEditor #tab-CostPrice #costTablle tr th#toTh {
+  width: 10%;
+}
+#inventoryBinding #inventoryEditor #tab-CostPrice #costTablle tr th#packCostTh {
+  width: 10%;
+}
+#paperSheetBinding #filter {
+  height: 62px !important;
+}
+#paperSheetBinding .removeLeftMargin {
+  margin-left: 0px;
+}
+#inventoryCategoriesBinding #addInventory {
+  margin-top: 25px;
+}
+#inventoryCategoriesBinding #filter {
+  height: 62px !important;
+}
+#inventoryCategoriesBinding #topArea {
+  margin-bottom: -11px;
+}
+#inventoryCategoriesBinding #detailArea {
+  margin-top: 3px;
 }
 .fileUpload {
   position: relative;
@@ -130,4 +220,48 @@
 #phraseLibraryDialog .selectedSection,
 #phraseLibraryDialog .selectedPhraseField {
   background: yellow;
+}
+.inlineGrid table {
+  max-width: 100%;
+  width: 100%;
+  min-width: 100%;
+}
+.inlineGrid table td {
+  padding: 4px 5px;
+  vertical-align: middle;
+}
+.inlineGrid table tr td select,
+.inlineGrid table textarea,
+.inlineGrid table input[type="text"],
+.inlineGrid table input[type="password"],
+.inlineGrid table input[type="datetime"],
+.inlineGrid table input[type="datetime-local"],
+.inlineGrid table input[type="date"],
+.inlineGrid table input[type="month"],
+.inlineGrid table input[type="time"],
+.inlineGrid table input[type="week"],
+.inlineGrid table input[type="number"],
+.inlineGrid table input[type="email"],
+.inlineGrid table input[type="url"],
+.inlineGrid table input[type="search"],
+.inlineGrid table input[type="tel"],
+.inlineGrid table input[type="color"],
+.inlineGrid table .uneditable-input {
+  padding-left: 2px;
+  padding-right: 2px;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1px;
+  margin-right: 2px;
+}
+.inlineGrid table .selectedRow label {
+  color: #8B8B8B;
+  font-size: 13px;
+  text-align: left;
+}
+.my-modal {
+  overflow: auto !important;
+}
+.closeSaveButtonMarginRemove {
+  margin-left: 0px;
 }

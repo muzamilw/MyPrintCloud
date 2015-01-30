@@ -1,107 +1,246 @@
-﻿@{
-    ViewBag.Title = "Edit banner";
-}
-
-<div class="modal fade" id="addEditCampaignEmailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+﻿
+<div class="modal fade my-modal" id="addEditCampaignEmailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div style="width: 838px;" class="modal-dialog" data-bind="with:$root.selectedEmail">
         <div class="modal-content">
-            <div class="row">
-                <br />
-                <div class="col-lg-12">
-                    <h4 class="group-header">Email Detail</h4>
-                </div>
-                <div class="col-lg-12 col-md-8 col-sm-8" style="padding-bottom:10px;">
-                    <div class="col-xs-10">
-                    </div>
-                    <div class="col-xs-1">
-                        <button type="button" class="btn btn-primary pull-right" data-bind="click:$root.onSaveEmail, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
-                    </div>
-                    <div class="col-xs-1">
-                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Email Detail</h4>
             </div>
+
             <div class="col-lg-12 form-horizontal outerDiv-Padding">
-                <div class="form-group">
-                    <div class="col-lg-5 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-                        </div>
-                        <label for="txtBannerHead" class="control-label text-right tooltip-float">Campaign Name</label>
-                    </div>
-                    <div class="col-lg-5">
-                        <input type="text" class="form-control" id="txtBannerHead" data-bind="value:campaignName, validationTooltip:campaignName">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-5 text-right" data-bind="visible:campaignType() === 3">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-                        </div>
-                        <label for="txtBannerHead" class="control-label text-right tooltip-float">Start Date</label>
-                    </div>
-                    <div class="col-lg-5" data-bind="visible:campaignType() === 3">
-                        <input type="text" class="form-control" data-bind="datepicker:startDateTime, validationTooltip:startDateTime">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-5 text-right" data-bind="visible:(campaignType() === 2 ||campaignType() === 1)">
-                        <div class="bs-example-tooltips tooltip-float-width">
+                <div class="clearfix" id="tabsHeader" style="margin-bottom:10px;">
+                    <div class="tabs-wrapper profile-tabs">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab-CampaignInformation" data-toggle="tab">Campaign Information</a></li>
+                            <li><a href="#tab-dataSource" data-toggle="tab">Data Source</a></li>
+                            <li><a href="#tab-emailProcessing" data-toggle="tab">Email Processing</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="tab-CampaignInformation">
+                                <div class="col-lg-12 form-horizontal">
+                                    <div class="form-group">
+                                        <div class="col-lg-5 text-right">
+                                            <div class="bs-example-tooltips tooltip-float-width">
+                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                </a>
+                                            </div>
+                                            <label for="txtBannerHead" class="control-label text-right tooltip-float">Campaign Name</label>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <input type="text" class="form-control" id="txtBannerHead" data-bind="value:campaignName, validationTooltip:campaignName">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-5 text-right">
+                                            <div class="bs-example-tooltips tooltip-float-width">
+                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                </a>
+                                            </div>
+                                            <label for="description" class="control-label text-right tooltip-float">Description</label>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <textarea class="form-control" rows="4" id="description"></textarea>
+                                        </div>
+                                    </div>
 
-                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Product Type" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
+                                    <div class="form-group">
+                                        <div class="col-lg-5 text-right">
+                                            <div class="bs-example-tooltips tooltip-float-width">
+                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                </a>
+                                            </div>
+                                            <label class="control-label text-right tooltip-float">Enable Email Campaign</label>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <div class="radio">
+                                                <input type="radio" id="enableEmailCompaign">
+                                                <label for="enableEmailCompaign">&nbsp;</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-5 text-right">
+                                            <div class="bs-example-tooltips tooltip-float-width">
+                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                </a>
+                                            </div>
+                                            <label class="control-label text-right tooltip-float">Type Scheduling</label>
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <div class="col-lg-3 radio">
+                                                <input class="radio" type="radio" id="typeScheduling" value="1" checked="checked" disabled>
+                                                <label for="typeScheduling" data-bind="visible:campaignType() === 1" >Send Email on Event</label>
+                                                <label for="typeScheduling" data-bind="visible:campaignType() === 3">Start Campaign at</label>
+                                                <label for="typeScheduling" data-bind="visible:campaignType() === 2">Send Email</label>
+                                            </div>
 
+                                            <div class="col-lg-4" data-bind="visible:campaignType() === 3">
+                                                <input class="form-control" type="text">
+                                            </div>
+                                            <div class="col-lg-2" data-bind="visible:campaignType() === 2">
+                                                <input class="form-control" type="text">
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <label class="control-label" data-bind="visible:campaignType() === 2">Days After</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-5 text-right">
+                                            <div class="bs-example-tooltips tooltip-float-width">
+                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                                    @*<span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@
+                                                </a>
+                                            </div>
+                                            <label class="control-label text-right tooltip-float"></label>
+                                        </div>
+                                        <div class="col-lg-5" data-bind="visible:(campaignType() === 2 ||campaignType() === 1)">
+                                            <select class="form-control" data-bind="options: $root.emailEvents, optionsText: 'EventName', optionsValue: 'EmailEventId',value:emailEventId, validationTooltip: emailEventId"></select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" data-bind="visible:campaignType() === 3">
+                                        <div class="col-lg-5 text-right">
+                                            <div class="bs-example-tooltips tooltip-float-width">
+                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                </a>
+                                            </div>
+                                            <label class="control-label text-right tooltip-float">Type Scheduling</label>
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <div class="col-lg-3 checkbox-nice">
+                                                <input type="checkbox" id="customer">
+                                                <label for="customer">Customers</label>
+                                            </div>
+                                            <div class="col-lg-4 checkbox-nice">
+                                                <input type="checkbox" id="prospects">
+                                                <label for="prospects">Prospects</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" data-bind="visible:campaignType() === 3">
+                                        <div class="col-lg-5 text-right">
+                                            <div class="bs-example-tooltips tooltip-float-width">
+                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                                    @*<span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@
+                                                </a>
+                                            </div>
+                                            <label class="control-label text-right tooltip-float"></label>
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <div class="col-lg-3 checkbox-nice">
+                                                <input type="checkbox" id="supplier">
+                                                <label for="supplier">Supplier</label>
+                                            </div>
+                                            <div class="col-lg-4 checkbox-nice">
+                                                <input type="checkbox" id="contactGroups">
+                                                <label for="contactGroups">Contact Groups</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" data-bind="visible:campaignType() === 3">
+                                        <div class="col-lg-5 text-right">
+                                            <div class="bs-example-tooltips tooltip-float-width">
+                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                                    @*<span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@
+                                                </a>
+                                            </div>
+                                            <label class="control-label text-right tooltip-float"></label>
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <div class="col-lg-3 checkbox-nice">
+                                                <input type="checkbox" id="flag">
+                                                <label for="flag">Flag</label>
+                                            </div>
+                                            <div class="col-lg-4 checkbox-nice">
+                                                <input type="checkbox" id="customerType">
+                                                <label for="customerType">Customer Type</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" data-bind="visible:campaignType() === 3">
+                                        <div class="col-lg-5 text-right">
+                                            <div class="bs-example-tooltips tooltip-float-width">
+                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                                    @*<span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@
+                                                </a>
+                                            </div>
+                                            <label class="control-label text-right tooltip-float"></label>
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <div class="col-lg-4 checkbox-nice">
+                                                <input type="checkbox" id="newsLetterSubscription">
+                                                <label for="newsLetterSubscription">News Letter Subscriber</label>
+                                            </div>
+                                            @*<div class="col-lg-3 checkbox-nice">
+                                                <input type="checkbox" id="customerType">
+                                                <label for="customerType">Customer Type</label>
+                                            </div>*@
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @*<div class="col-lg-5 text-right" data-bind="visible:campaignType() === 3">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label for="txtBannerHead" class="control-label text-right tooltip-float">Start Date</label>
+                                            </div>
+                                            <div class="col-lg-5" data-bind="visible:campaignType() === 3">
+                                                <input type="text" class="form-control" data-bind="datepicker:startDateTime, validationTooltip:startDateTime">
+                                            </div>*@
+                                    </div>
+                                    <div class="form-group">
+                                        @*<div class="col-lg-5 text-right" data-bind="visible:(campaignType() === 2 ||campaignType() === 1)">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Product Type" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label class="control-label text-right tooltip-float">Event</label>
+                                            </div>
+                                            <div class="col-lg-5" data-bind="visible:(campaignType() === 2 ||campaignType() === 1)">
+                                                <select class="form-control" data-bind="options: $root.emailEvents, optionsText: 'EventName', optionsValue: 'EmailEventId',value:emailEventId, validationTooltip: emailEventId"></select>
+                                            </div>*@
+                                    </div>
+                                    <div class="form-group">
+                                        @*<div class="col-lg-5 text-right" data-bind="visible:campaignType() === 2 ">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label for="txtBannerHead" class="control-label text-right tooltip-float">Days After</label>
+                                            </div>
+                                            <div class="col-lg-5" data-bind="visible:campaignType() === 2 ">
+                                                <input type="text" class="form-control" id="txtBannerHead" data-bind="value:sendEmailAfterDays, validationTooltip:sendEmailAfterDays">
+                                            </div>*@
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tab-dataSource">
+
+                            </div>
+                            <div class="tab-pane fade" id="tab-emailProcessing">
+
+                            </div>
                         </div>
-                        <label class="control-label text-right tooltip-float">Event</label>
                     </div>
-                    <div class="col-lg-5" data-bind="visible(campaignType() === 2 ||campaignType() === 1)">
-                        <select class="form-control" data-bind="options: $root.emailEvents, optionsText: 'EventName', optionsValue: 'EmailEventId',value:emailEventId, validationTooltip: emailEventId"></select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-5 text-right" data-bind="visible:campaignType() === 2 ">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-                        </div>
-                        <label for="txtBannerHead" class="control-label text-right tooltip-float">Days After</label>
-                    </div>
-                    <div class="col-lg-5" data-bind="visible:campaignType() === 2 ">
-                        <input type="text" class="form-control" id="txtBannerHead" data-bind="value:sendEmailAfterDays, validationTooltip:sendEmailAfterDays">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-5 text-right" data-bind="visible:(campaignType() === 2 || campaignType() === 3)">
-                        <div class="bs-example-tooltips tooltip-float-width">
-
-                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="it will display selected banner set on store home page." data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
-                        </div>
-                        <label class="control-label text-right tooltip-float">Active</label>
-
-                    </div>
-                    <div class="col-lg-6" data-bind="visible:(campaignType() === 2 || campaignType() === 3)">
-                        <div class="onoffswitch">
-                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCampaign" data-bind="checked:isEnabled">
-                            <label class="onoffswitch-label" for="switchCampaign">
-                                <div class="onoffswitch-inner"></div>
-                                <div class="onoffswitch-switch"></div>
-                            </label>
-                        </div>
-                        <span class="help-block text-right"></span>
-                    </div>
-
                 </div>
             </div>
             <div class="modal-footer">
+                <hr />
+                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveEmail">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
             </div>
         </div>
     </div>

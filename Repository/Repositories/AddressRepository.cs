@@ -76,6 +76,10 @@ namespace MPC.Repository.Repositories
         {
             return db.Addesses.Where(s => s.CompanyId == StoreID && s.IsDefaultAddress == true);
         }
+        public IEnumerable<Address> GetAllAddressByStoreId(long storeId)
+        {
+            return db.Addesses.Where(s => s.CompanyId == storeId );
+        }
         public Address GetAddressByID(long AddressID)
         {
             try

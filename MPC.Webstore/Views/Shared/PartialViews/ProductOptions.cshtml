@@ -22,7 +22,7 @@
         <div class="StocksDelivryContainer col-md-8 col-lg-8 col-xs-12 col-sm-12">
             <div id="divStockOptions" class="float_left_simple LGBC rounded_corners width730" style="padding: 5px;">
                 <div id="lbl_Options" class="SelectQtyContainer textAlignLeft">
-                   @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlLSelectYourQ", UserCookieManager.StoreId))
+                   @Html.Raw(Html.GetKeyValueFromResourceFile("lnkltrlSelectQty", UserCookieManager.StoreId))
                 </div>
                 <div class="white_background rounded_corners divStk">
                     <div class="float_left_simple Width100Percent">
@@ -226,7 +226,7 @@
     <div class="float_left_simple PriceTableCs col-md-3 col-lg-3 col-xs-12">
         <div class="LGBC rounded_corners Pad5px">
             <div id="lbl_SelectQuantity" class="SelectQtyContainer">
-                @Html.Raw(Html.GetKeyValueFromResourceFile("lblSelectQuantity", UserCookieManager.StoreId))
+                @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlLSelectYourQ", UserCookieManager.StoreId))
             </div>
             <div class="white_background rounded_corners padding10">
                 <div class="textAlignLeft Mleft10 gallery">
@@ -296,7 +296,7 @@
                     {
                         @*<label id="lblTaxLabel" class="Fsize13 float_right marginLeft">ex. VAT</label>*@
                     }
-                    <label id="lblGrossTotal" class="float_left_simple"></label>
+                    <label id="lblGrossTotal" class="float_right"></label>
                 </div>
                 @if (ViewBag.IsStockControl == true)
                 {
@@ -795,7 +795,7 @@
             for (var i = count - 1; i < $(JsonData).length; i++) {
                 JsonLastObject = $(JsonData)[i];
             }
-               
+
             if (QuantityOrdered < JsonFirstObject.QtyRangeFrom || QuantityOrdered > JsonLastObject.QtyRangeTo) {
                 ShowPopUp('Message', "Your quantity exceeds the normal amount, please contact us for a special price.");
                 return false;
@@ -852,14 +852,14 @@
         price = parseFloat($('#' + selectedStockNo).attr("title"));
 
         $("#VMJsonMatrix").val(JSON.stringify(JsonData));
-        
+
         $("#VMQuantityOrdered").val($(".dropdownQtyListClass").find(":selected").text());
         this.displayTotalPrice(price, calculateAddOns());
     }
 
     $(".dropdownQtyListClass").change(function () {
 
-        
+
         CalculatePriceBaseOnSelectedQuantity($(this).find(":selected").index());
     });
 
@@ -1020,15 +1020,15 @@
         TotalItemPrice = TotalItemPrice.toFixed(2);
 
         var GrossTotal = itemPrice + addOnPrice;
-        GrossTotal = GrossTotal.toFixed(2);
+        GrossTotal = "@ViewBag.Currency" + GrossTotal.toFixed(2).toString();
 
         var isShowPricing = 1;//'<%=isCorporatePricingshown %>';
 
         if (isShowPricing == 1) {
             if (IsInt == -1) {
-                $('#lblGrossTotal').text(@ViewBag.Currency GrossTotal);
+                $('#lblGrossTotal').text(GrossTotal);
             } else {
-                $('#lblGrossTotal').text(@ViewBag.Currency GrossTotal);
+                $('#lblGrossTotal').text(GrossTotal);
             }
         }
         else {
@@ -1204,8 +1204,8 @@
                         actualPrice = selectedCheckBox.MinimumCost;
 
                     }
-
-                    $(val).next().next().children(':first').html((actualPrice).toFixed(2));
+                    actualPrice = "@ViewBag.Currency" + (actualPrice).toFixed(2).toString();
+                    $(val).next().next().children(':first').html(actualPrice);
                 }
             }
         });
@@ -1281,7 +1281,7 @@
                 processData: false,
                 data: data,
                 success: function (messages) {
-                   
+
                     sideOFImage = parseInt(sideOFImage) + 1;
                     $("#uploadedImageSide").val(sideOFImage);
                     if(messages[0] == "Artwork not uploaded"){
@@ -1289,9 +1289,9 @@
                     }else{
                         window.location.reload(true);
                     }
-                       
-                
-                   
+
+
+
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     //alert("Error while invoking the Web API");
@@ -1304,12 +1304,12 @@
 
     }
 
-        function RediredToDesigner(ProductName, TemplateID, ItemID, CompanyID, ContactID, isCalledFrom, OrganisationID, printCropMarks, printWaterMark, isEmbedded, TempDesignerID){
-            
-            ShowLoader();
-            var URL = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationID + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
-            window.location.href = URL;
-        }
+    function RediredToDesigner(ProductName, TemplateID, ItemID, CompanyID, ContactID, isCalledFrom, OrganisationID, printCropMarks, printWaterMark, isEmbedded, TempDesignerID){
+
+        ShowLoader();
+        var URL = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationID + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
+        window.location.href = URL;
+    }
 
 </script>
 }

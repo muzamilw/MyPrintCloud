@@ -5,6 +5,9 @@ using System.Web;
 
 namespace MPC.MIS.Areas.Api.Models
 {
+    /// <summary>
+    /// Machine Web Api Model
+    /// </summary>
     public class Machine
     {
         public int MachineId { get; set; }
