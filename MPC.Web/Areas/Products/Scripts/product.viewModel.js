@@ -49,6 +49,8 @@ define("product/product.viewModel",
                     categoryRegions = ko.observableArray([]),
                     // Category Types
                     categoryTypes = ko.observableArray([]),
+                    // Paper Sizes
+                    paperSizes = ko.observableArray([]),
                     // Selected Region Id
                     selectedRegionId = ko.observable(),
                     // Selected Category Type Id
@@ -133,8 +135,8 @@ define("product/product.viewModel",
                         onSelectRelatedItem: function () {
                             closeRelatedItemDialog();
                         },
-                        onChooseStockItem: function () {
-                            openStockItemDialog();
+                        onChooseStockItem: function (stockCategoryId) {
+                            openStockItemDialog(stockCategoryId);
                         },
                         onSelectStockItem: function () {
                             closeStockItemDialog();
@@ -153,6 +155,9 @@ define("product/product.viewModel",
                         },
                         onPreBuiltTemplateSelected: function() {
                             selectPreBuiltTemplate();
+                        },
+                        onSelectPressItem: function () {
+                            closePressDialog();
                         }
                     },
                     // Item State Tax Constructor Params
@@ -161,6 +166,8 @@ define("product/product.viewModel",
                     selectedJobDescription = ko.observable(),
                     // Stock Dialog Filter
                     stockDialogFilter = ko.observable(),
+                    // Stock Dialog Cat Filter
+                    stockDialogCatFilter = ko.observable(),
                     // press Dialog Filter
                     pressDialogFilter = ko.observable(),
                     // #region Utility Functions
@@ -249,6 +256,7 @@ define("product/product.viewModel",
                         selectedDesignerCategory(undefined);
                         selectedRegionId(undefined);
                         selectedCategoryTypeId(undefined);
+                        errorList.removeAll();
                     },
                     // On Archive
                     onArchiveProduct = function (item) {
@@ -325,12 +333,26 @@ define("product/product.viewModel",
                     // Reset Stock Items
                     resetStockItems = function () {
                         // Reset Text 
-                        stockDialogFilter(undefined);
+                        resetStockDialogFilters();
                         // Filter Record
                         searchStockItems();
                     },
+                    // Reset Stock Dialog Filters
+                    resetStockDialogFilters = function () {
+                        // Reset Text 
+                        stockDialogFilter(undefined);
+                        // Reset Category
+                        stockDialogCatFilter(undefined);
+                    },
                     // Open Stock Item Dialog
-                    openStockItemDialog = function () {
+                    openStockItemDialog = function (stockCategoryId) {
+                        // Reset Stock Dialog Filters
+                        resetStockDialogFilters();
+                        
+                        if (stockCategoryId) {
+                            stockDialogCatFilter(stockCategoryId);
+                        }
+
                         view.showStockItemDialog();
                         searchStockItems();
                     },
@@ -346,18 +368,37 @@ define("product/product.viewModel",
                     // Reset Stock Items
                     resetPressItems = function () {
                         // Reset Text 
-                        pressDialogPager(undefined);
+                        resetPressDialogFilter();
                         // Filter Record
                         searchPressItems();
                     },
+                    // Reset Press Dialog Filter
+                    resetPressDialogFilter = function() {
+                        // Reset Text 
+                        pressDialogFilter(undefined);
+                    },
                     // Open Stock Item Dialog
                     openPressDialog = function () {
+                        resetPressDialogFilter();
                         view.showPressDialog();
                         searchPressItems();
                     },
                     // Close Stock Item Dialog
                     closePressDialog = function () {
                         view.hidePressDialog();
+                    },
+                    // Edit Item Section
+                    editSectionSignature = function (itemSection) {
+                        selectedProduct().selectItemSection(itemSection);
+                        openSignatureDialog();
+                    },
+                    // Open Signature Dialog
+                    openSignatureDialog = function() {
+                        view.showSignatureDialog();
+                    },
+                    // Close Signature Dialog
+                    closeSignatureDialog = function () {
+                        view.hideSignatureDialog();
                     },
                     // Open Item Addon Cost Centre Dialog
                     openItemAddonCostCentreDialog = function () {
@@ -493,6 +534,8 @@ define("product/product.viewModel",
                         itemRelaterPager(new pagination.Pagination({ PageSize: 5 }, productsToRelate, getItemsToRelate)),
 
                         stockDialogPager(new pagination.Pagination({ PageSize: 5 }, stockItems, getStockItems)),
+                        
+                        pressDialogPager(new pagination.Pagination({ PageSize: 5 }, pressItems, getPressItems)),
 
                         // Get Base Data
                         getBaseData();
@@ -570,7 +613,7 @@ define("product/product.viewModel",
                     mapPressItems = function (data) {
                         var itemsList = [];
                         _.each(data, function (item) {
-                            itemsList.push(model.PressItem.Create(item));
+                            itemsList.push(model.Machine.Create(item));
                         });
 
                         // Push to Original Array
@@ -732,6 +775,17 @@ define("product/product.viewModel",
                         ko.utils.arrayPushAll(categoryTypes(), itemsList);
                         categoryTypes.valueHasMutated();
                     },
+                    // Map Paper Sizes
+                    mapPaperSizes = function (data) {
+                        var itemsList = [];
+                        _.each(data, function (item) {
+                            itemsList.push(model.PaperSize.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(paperSizes(), itemsList);
+                        paperSizes.valueHasMutated();
+                    },
                     // Set Item Price Matrices to Current Item against selected Flag
                     setItemPriceMatricesToItem = function (itemPriceMatrices) {
                         // Only ask for confirmation if it is not a new product
@@ -753,6 +807,13 @@ define("product/product.viewModel",
                                 costCentres.removeAll();
                                 countries.removeAll();
                                 states.removeAll();
+                                sectionFlags.removeAll();
+                                suppliers.removeAll();
+                                productCategories.removeAll();
+                                templateCategories.removeAll();
+                                categoryRegions.removeAll();
+                                categoryTypes.removeAll();
+                                paperSizes.removeAll();
                                 if (data) {
                                     mapCostCentres(data.CostCentres);
 
@@ -779,6 +840,9 @@ define("product/product.viewModel",
                                     
                                     // Map Category Types
                                     mapCategoryTypes(data.CategoryTypes);
+                                    
+                                    // Map Paper Sizes
+                                    mapPaperSizes(data.PaperSizes);
 
                                     // Assign countries & states to StateTaxConstructorParam
                                     itemStateTaxConstructorParams.countries = countries();
@@ -896,7 +960,8 @@ define("product/product.viewModel",
                         dataservice.getStockItems({
                             SearchString: stockDialogFilter(),
                             PageSize: stockDialogPager().pageSize(),
-                            PageNo: stockDialogPager().currentPage()
+                            PageNo: stockDialogPager().currentPage(),
+                            CategoryId: stockDialogCatFilter(),
                         }, {
                             success: function (data) {
                                 stockItems.removeAll();
@@ -912,7 +977,7 @@ define("product/product.viewModel",
                     },
                     // Get Press Items
                     getPressItems = function () {
-                        dataservice.getPressItems({
+                        dataservice.getMachines({
                             SearchString: pressDialogFilter(),
                             PageSize: pressDialogPager().pageSize(),
                             PageNo: pressDialogPager().currentPage()
@@ -921,7 +986,7 @@ define("product/product.viewModel",
                                 pressItems.removeAll();
                                 if (data && data.TotalCount > 0) {
                                     pressDialogPager().totalCount(data.TotalCount);
-                                    mapPressItems(data.PressItems);
+                                    mapPressItems(data.Machines);
                                 }
                             },
                             error: function (response) {
@@ -1062,6 +1127,10 @@ define("product/product.viewModel",
                     selectedRegionId: selectedRegionId,
                     selectedCategoryTypeId: selectedCategoryTypeId,
                     selectedDesignerCategory: selectedDesignerCategory,
+                    pressDialogFilter: pressDialogFilter,
+                    pressDialogPager: pressDialogPager,
+                    pressItems: pressItems,
+                    paperSizes: paperSizes,
                     // Utility Methods
                     initialize: initialize,
                     resetFilter: resetFilter,
@@ -1095,7 +1164,13 @@ define("product/product.viewModel",
                     closeProductCategoryDialog: closeProductCategoryDialog,
                     updateCheckedStateForCategory: updateCheckedStateForCategory,
                     openPhraseLibrary: openPhraseLibrary,
-                    getBaseDataForDesignerCategory: getBaseDataForDesignerCategory
+                    getBaseDataForDesignerCategory: getBaseDataForDesignerCategory,
+                    openPressDialog: openPressDialog,
+                    resetPressItems: resetPressItems,
+                    searchPressItems: searchPressItems,
+                    closePressDialog: closePressDialog,
+                    editSectionSignature: editSectionSignature,
+                    closeSignatureDialog: closeSignatureDialog
                     // Utility Methods
 
                 };

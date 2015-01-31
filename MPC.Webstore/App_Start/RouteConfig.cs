@@ -93,6 +93,11 @@ namespace MPC.Webstore
               new { controller = "Home", action = "Index", CategoryId = UrlParameter.Optional, ItemId = UrlParameter.Optional, ItemMode = UrlParameter.Optional, TemplateId = UrlParameter.Optional }
              );
             routes.MapRoute(
+              "ProductOptionCostCentre",
+              "ProductOptions/GetDateTimeString",
+              new { controller = "ProductOptions", action = "GetDateTimeString"}
+             );
+            routes.MapRoute(
              "MarketingBrief",
              "MarketingBrief/{ProductName}/{ItemID}",
              new { controller = "Home", action = "Index", ProductName = UrlParameter.Optional, ItemID = UrlParameter.Optional }

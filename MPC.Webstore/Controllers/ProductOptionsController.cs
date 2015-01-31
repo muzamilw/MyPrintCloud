@@ -477,5 +477,6 @@ namespace MPC.Webstore.Controllers
             ViewData["ArtworkAttachments"] = _myItemService.GetArtwork(Convert.ToInt64(ItemId)).ToList();
 
         }
+
     }
 }
