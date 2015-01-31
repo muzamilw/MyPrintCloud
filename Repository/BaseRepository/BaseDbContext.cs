@@ -533,6 +533,11 @@ namespace MPC.Repository.BaseRepository
         public DbSet<MachineCategory> MachineCategories { get; set; }
 
         /// <summary>
+        /// Group DbSet
+        /// </summary>
+        public DbSet<Group> Groups { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
 // ReSharper disable InconsistentNaming

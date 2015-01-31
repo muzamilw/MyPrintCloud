@@ -38,18 +38,8 @@ namespace MPC.MIS.Areas.Api.Models
         public IEnumerable<ProductCategoryDropDown> ProductCategories { get; set; }
 
         /// <summary>
-        /// Template Categories
+        /// Paper Sizes
         /// </summary>
-        public IEnumerable<ProductCategoryForTemplate> TemplateCategories { get; set; }
-
-        /// <summary>
-        /// Category Regions
-        /// </summary>
-        public IEnumerable<CategoryRegion> CategoryRegions { get; set; }
-
-        /// <summary>
-        /// Category Types
-        /// </summary>
-        public IEnumerable<CategoryType> CategoryTypes { get; set; }
+        public IEnumerable<PaperSizeDropDown> PaperSizes { get; set; }
     }
 }

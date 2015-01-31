@@ -4,6 +4,7 @@ using MPC.Implementation.MISServices;
 using MPC.Implementation.WebStoreServices;
 using MPC.Interfaces.Logger;
 using MPC.Interfaces.MISServices;
+using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using webstoreInterfaces = MPC.Interfaces.WebStoreServices;
 using webstoreImplementation = MPC.Implementation.WebStoreServices;
@@ -38,7 +39,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<MISInterfaces.ICompanyService, MISImplementation.CompanyService>();
             unityContainer.RegisterType<IWebstoreClaimsSecurityService, WebstoreClaimsSecurityService>();
             unityContainer.RegisterType<IWebstoreClaimsHelperService, WebstoreClaimsHelperService>();
-            unityContainer.RegisterType<ICampaignService, CampaignService>();
+            unityContainer.RegisterType<Interfaces.MISServices.ICampaignService, MISServices.CampaignService>();
             unityContainer.RegisterType<IUserManagerService, UserManagerService>();
             unityContainer.RegisterType<IOrderService, OrderService>();
             unityContainer.RegisterType<ICategoryService, CategoryService>();
@@ -54,8 +55,10 @@ namespace MPC.Implementation
             unityContainer.RegisterType<ICostCentreService, CostCentreService>();
             unityContainer.RegisterType<IListingService, ListingService>();
             unityContainer.RegisterType<IImagePermissionsService, ImagePermissionService>();
-            unityContainer.RegisterType<ICostCentersService, CostCenterService>();
-
+            unityContainer.RegisterType<MISInterfaces.ICostCentersService, MISImplementation.CostCenterService>();
+            unityContainer.RegisterType<MISInterfaces.IMachineService, MISImplementation.MachineService>();
+       
+       
         
             
 

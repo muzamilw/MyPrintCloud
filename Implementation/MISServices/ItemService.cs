@@ -50,6 +50,9 @@ namespace MPC.Implementation.MISServices
         private readonly IProductCategoryRepository productCategoryRepository;
         private readonly ITemplatePageService templatePageService;
         private readonly ITemplateService templateService;
+        private readonly IMachineRepository machineRepository;
+        private readonly IPaperSizeRepository paperSizeRepository;
+        private readonly IItemSectionRepository itemSectionRepository;
 
         /// <summary>
         /// Create Item Vdp Price
@@ -223,6 +226,84 @@ namespace MPC.Implementation.MISServices
         private void DeleteProductCategoryItem(ProductCategoryItem line)
         {
             productCategoryItemRepository.Delete(line);
+        }
+
+        /// <summary>
+        /// Sets Default Paper Sizes For Non Print Item Section
+        /// </summary>
+        private void SetPaperSizesForNonPrintItemSection(ItemSection line)
+        {
+            List<PaperSize> paperSizes = paperSizeRepository.GetAll().ToList();
+            if (paperSizes.Any())
+            {
+                PaperSize paperSize = paperSizes.First();
+
+                // Set Default SectionSizeId
+                line.SectionSizeId = paperSize.PaperSizeId;
+                line.SectionSizeHeight = paperSize.Height;
+                line.SectionSizeWidth = paperSize.Width;
+
+                // Set Default ItemSizeId
+                line.ItemSizeId = paperSize.PaperSizeId;
+                line.ItemSizeHeight = paperSize.Height;
+                line.ItemSizeWidth = paperSize.Width;
+            }
+        }
+
+        /// <summary>
+        /// Sets Default Press, StockItem, SectionSize, ItemSize to Non Print Item Section
+        /// </summary>
+        private void SetNonPrintItemSection(ItemSection line)
+        {
+            // Set Default Press Id
+            MachineSearchResponse machinesResponse = machineRepository.GetMachinesForProduct(new MachineSearchRequestModel());
+
+            if (machinesResponse.Machines != null && machinesResponse.Machines.Any())
+            {
+                Machine machine = machinesResponse.Machines.FirstOrDefault();
+                if (machine != null)
+                {
+                    line.PressId = machine.MachineId;
+                }
+            }
+
+            // Set Default StockItemId
+            InventorySearchResponse stockItemResponse = stockItemRepository
+                .GetStockItemsForProduct(new StockItemRequestModel
+                {
+                    CategoryId = (long)StockCategoryEnum.Paper
+                });
+
+            if (stockItemResponse.StockItems != null && stockItemResponse.StockItems.Any())
+            {
+                StockItem stockItem = stockItemResponse.StockItems.FirstOrDefault();
+                if (stockItem != null)
+                {
+                    line.StockItemID1 = stockItem.StockItemId;
+                }
+            }
+
+            // Set Paper Sizes
+            SetPaperSizesForNonPrintItemSection(line);
+        }
+        
+        /// <summary>
+        /// Create Item Section
+        /// </summary>
+        private ItemSection CreateItemSection()
+        {
+            ItemSection line = itemSectionRepository.Create();
+            itemSectionRepository.Add(line);
+
+            return line;
+        }
+
+        /// <summary>
+        /// Delete Item Section
+        /// </summary>
+        private void DeleteItemSection(ItemSection line)
+        {
+            itemSectionRepository.Delete(line);
         }
 
         /// <summary>
@@ -566,7 +647,8 @@ namespace MPC.Implementation.MISServices
             IItemPriceMatrixRepository itemPriceMatrixRepository, IItemStateTaxRepository itemStateTaxRepository, ICountryRepository countryRepository,
             IStateRepository stateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyRepository companyRepository,
             IItemProductDetailRepository itemProductDetailRepository, IProductCategoryItemRepository productCategoryItemRepository,
-            IProductCategoryRepository productCategoryRepository, ITemplatePageService templatePageService, ITemplateService templateService)
+            IProductCategoryRepository productCategoryRepository, ITemplatePageService templatePageService, ITemplateService templateService,
+            IMachineRepository machineRepository, IPaperSizeRepository paperSizeRepository, IItemSectionRepository itemSectionRepository)
         {
             if (itemRepository == null)
             {
@@ -660,6 +742,18 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("templateService");
             }
+            if (machineRepository == null)
+            {
+                throw new ArgumentNullException("machineRepository");
+            }
+            if (paperSizeRepository == null)
+            {
+                throw new ArgumentNullException("paperSizeRepository");
+            }
+            if (itemSectionRepository == null)
+            {
+                throw new ArgumentNullException("itemSectionRepository");
+            }
 
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
@@ -684,6 +778,9 @@ namespace MPC.Implementation.MISServices
             this.productCategoryRepository = productCategoryRepository;
             this.templatePageService = templatePageService;
             this.templateService = templateService;
+            this.machineRepository = machineRepository;
+            this.paperSizeRepository = paperSizeRepository;
+            this.itemSectionRepository = itemSectionRepository;
         }
 
         #endregion
@@ -815,7 +912,10 @@ namespace MPC.Implementation.MISServices
                 CreateItemPriceMatrix = CreateItemPriceMatrix,
                 CreateItemProductDetail = CreateItemProductDetail,
                 CreateProductCategoryItem = CreateProductCategoryItem,
-                DeleteProductCategoryItem = DeleteProductCategoryItem
+                DeleteProductCategoryItem = DeleteProductCategoryItem,
+                CreateItemSection = CreateItemSection,
+                SetDefaultsForItemSection = SetNonPrintItemSection,
+                DeleteItemSection = DeleteItemSection
             });
 
             // Save Changes
@@ -864,7 +964,8 @@ namespace MPC.Implementation.MISServices
                 Countries = countryRepository.GetAll(),
                 States = stateRepository.GetAll(),
                 Suppliers = companyRepository.GetAllSuppliers(),
-                ProductCategories = productCategoryRepository.GetParentCategories()
+                ProductCategories = productCategoryRepository.GetParentCategories(),
+                PaperSizes = paperSizeRepository.GetAll()
             };
         }
 
@@ -909,6 +1010,15 @@ namespace MPC.Implementation.MISServices
                 CategoryRegions = categoryRegions,
                 CategoryTypes = categoryTypes
             };
+        }
+
+        /// <summary>
+        /// Get Machines
+        /// Used in Products - Press Selection
+        /// </summary>
+        public MachineSearchResponse GetMachines(MachineSearchRequestModel request)
+        {
+            return machineRepository.GetMachinesForProduct(request);
         }
 
 

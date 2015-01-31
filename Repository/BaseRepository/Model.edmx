@@ -52,6 +52,7 @@
           <Property Name="RunCampaignFor" Type="smallint" />
           <Property Name="IncludeCustomers" Type="bit" />
           <Property Name="IncludeSuppliers" Type="bit" />
+          <Property Name="IncludeNewsLetterSubscribers" Type="bit" />
           <Property Name="IncludeProspects" Type="bit" />
           <Property Name="IncludeKeyword" Type="bit" />
           <Property Name="SearchKeyword" Type="varchar" MaxLength="200" />
@@ -1100,6 +1101,21 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="uiCulture" Type="varchar" MaxLength="50" />
           <Property Name="culture" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Groups">
+          <Key>
+            <PropertyRef Name="GroupId" />
+          </Key>
+          <Property Name="GroupId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupName" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="GroupDescription" Type="varchar" MaxLength="1000" />
+          <Property Name="CreationDateTime" Type="datetime" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="LastModifiedDateTime" Type="datetime" />
+          <Property Name="LastModifiedBy" Type="int" />
+          <Property Name="SystemSiteId" Type="int" />
+          <Property Name="IsPrivate" Type="bit" />
+          <Property Name="Notes" Type="ntext" />
+        </EntityType>
         <EntityType Name="ImagePermissions">
           <Key>
             <PropertyRef Name="Id" />
@@ -2138,6 +2154,9 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="MISLogoStreamId" Type="uniqueidentifier" />
           <Property Name="BleedAreaSize" Type="float" />
           <Property Name="ShowBleedArea" Type="bit" />
+          <Property Name="isXeroIntegrationRequired" Type="bit" />
+          <Property Name="XeroApiId" Type="nvarchar" MaxLength="100" />
+          <Property Name="XeroApiKey" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="PageCategory">
           <Key>
@@ -3374,6 +3393,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CampaignEmailVariable_Section">
+          <End Role="Section" Type="Self.Section" Multiplicity="0..1" />
+          <End Role="CampaignEmailVariable" Type="Self.CampaignEmailVariable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Section">
+              <PropertyRef Name="SectionId" />
+            </Principal>
+            <Dependent Role="CampaignEmailVariable">
+              <PropertyRef Name="SectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CmsOffer_Company">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="CmsOffer" Type="Self.CmsOffer" Multiplicity="*" />
@@ -4599,6 +4630,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="FavoriteDesign" EntityType="Self.FavoriteDesign" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FieldVariable" EntityType="Self.FieldVariable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GlobalLanguage" EntityType="Self.GlobalLanguage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Groups" EntityType="Self.Groups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ImagePermissions" EntityType="Self.ImagePermissions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inquiry" EntityType="Self.Inquiry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InquiryAttachment" EntityType="Self.InquiryAttachment" Schema="dbo" store:Type="Tables" />
@@ -4919,6 +4951,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <AssociationSet Name="FK__TemplateP__Produ__5C0FF180" Association="Self.FK__TemplateP__Produ__5C0FF180">
             <End Role="Template" EntitySet="Template" />
             <End Role="TemplatePage" EntitySet="TemplatePage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CampaignEmailVariable_Section" Association="Self.FK_CampaignEmailVariable_Section">
+            <End Role="Section" EntitySet="Section" />
+            <End Role="CampaignEmailVariable" EntitySet="CampaignEmailVariable" />
           </AssociationSet>
           <AssociationSet Name="FK_CmsOffer_Company" Association="Self.FK_CmsOffer_Company">
             <End Role="Company" EntitySet="Company" />
@@ -5902,6 +5938,11 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="CostCentre" EntitySet="CostCentres" />
             <End Role="CompanyCostCentre" EntitySet="CompanyCostCentres" />
           </AssociationSet>
+          <EntitySet Name="Groups" EntityType="DomainModels.Group" />
+          <AssociationSet Name="FK_CampaignEmailVariable_Section" Association="DomainModels.FK_CampaignEmailVariable_Section">
+            <End Role="Section" EntitySet="Sections" />
+            <End Role="CampaignEmailVariable" EntitySet="CampaignEmailVariables" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -6171,6 +6212,9 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="BleedAreaSize" Type="Double" />
           <Property Name="ShowBleedArea" Type="Boolean" />
           <NavigationProperty Name="GlobalLanguage" Relationship="DomainModels.FK_Organisation_GlobalLanguage" FromRole="Organisation" ToRole="GlobalLanguage" />
+          <Property Name="isXeroIntegrationRequired" Type="Boolean" />
+          <Property Name="XeroApiId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="XeroApiKey" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -6618,6 +6662,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="Independent" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="SectionFlags" Relationship="DomainModels.FK_tbl_section_flags_tbl_sections" FromRole="Section" ToRole="SectionFlag" />
           <NavigationProperty Name="PhraseFields" Relationship="DomainModels.fk_sectionId" FromRole="Section" ToRole="PhraseField" />
+          <NavigationProperty Name="CampaignEmailVariables" Relationship="DomainModels.FK_CampaignEmailVariable_Section" FromRole="Section" ToRole="CampaignEmailVariable" />
         </EntityType>
         <EntityType Name="SectionFlag">
           <Key>
@@ -8501,6 +8546,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="CampaignImages" Relationship="DomainModels.FK_tbl_CampaignImages_tbl_campaigns" FromRole="Campaign" ToRole="CampaignImage" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_Company_Campaign" FromRole="Campaign" ToRole="Company" />
           <NavigationProperty Name="CampaignEmailEvent" Relationship="DomainModels.FK_EventEmail_Campaign" FromRole="Campaign" ToRole="EmailEvent" />
+          <Property Name="IncludeNewsLetterSubscribers" Type="Boolean" />
         </EntityType>
         <EntityType Name="CampaignEmailVariable">
           <Key>
@@ -8516,6 +8562,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="VariableTag" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Key" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="Section" Relationship="DomainModels.FK_CampaignEmailVariable_Section" FromRole="CampaignEmailVariable" ToRole="Section" />
         </EntityType>
         <EntityType Name="CampaignImage">
           <Key>
@@ -10621,6 +10668,33 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="GroupId" />
+          </Key>
+          <Property Name="GroupId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="GroupDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="CreationDateTime" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="LastModifiedDateTime" Type="DateTime" Precision="3" />
+          <Property Name="LastModifiedBy" Type="Int32" />
+          <Property Name="SystemSiteId" Type="Int32" />
+          <Property Name="IsPrivate" Type="Boolean" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_CampaignEmailVariable_Section">
+          <End Type="DomainModels.Section" Role="Section" Multiplicity="0..1" />
+          <End Type="DomainModels.CampaignEmailVariable" Role="CampaignEmailVariable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Section">
+              <PropertyRef Name="SectionId" />
+            </Principal>
+            <Dependent Role="CampaignEmailVariable">
+              <PropertyRef Name="SectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10836,6 +10910,9 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Organisations">
             <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="XeroApiKey" ColumnName="XeroApiKey" />
+                <ScalarProperty Name="XeroApiId" ColumnName="XeroApiId" />
+                <ScalarProperty Name="isXeroIntegrationRequired" ColumnName="isXeroIntegrationRequired" />
                 <ScalarProperty Name="ShowBleedArea" ColumnName="ShowBleedArea" />
                 <ScalarProperty Name="BleedAreaSize" ColumnName="BleedAreaSize" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
@@ -12448,6 +12525,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Campaigns">
             <EntityTypeMapping TypeName="DomainModels.Campaign">
               <MappingFragment StoreEntitySet="Campaign">
+                <ScalarProperty Name="IncludeNewsLetterSubscribers" ColumnName="IncludeNewsLetterSubscribers" />
                 <ScalarProperty Name="UnsubscribeEmailAddress" ColumnName="UnsubscribeEmailAddress" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
@@ -14168,6 +14246,22 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="CostCentreId" ColumnName="CostCentreId" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="CompanyCostCenterId" ColumnName="CompanyCostCenterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="DomainModels.Group">
+              <MappingFragment StoreEntitySet="Groups">
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="IsPrivate" ColumnName="IsPrivate" />
+                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
+                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+                <ScalarProperty Name="LastModifiedDateTime" ColumnName="LastModifiedDateTime" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreationDateTime" ColumnName="CreationDateTime" />
+                <ScalarProperty Name="GroupDescription" ColumnName="GroupDescription" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

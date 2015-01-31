@@ -13,6 +13,6 @@ namespace MPC.Interfaces.MISServices
         bool Delete(long costcentreId);
         CostCentre GetCostCentreById(long id);
         CostCentersResponse GetUserDefinedCostCenters(CostCenterRequestModel request);
-        CostCenterBaseResponse GetBaseData(CostCenterRequestModel request);
+        CostCenterBaseResponse GetBaseData();
     }
 }

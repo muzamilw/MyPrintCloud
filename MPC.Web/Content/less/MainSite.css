@@ -26,7 +26,10 @@
 #productBinding #stockDialog #stockDialogMainContainer {
   width: 838px;
 }
-#productBinding #signtureEdit .modal-dialog {
+#productBinding #pressDialog #pressDialogMainContainer {
+  width: 838px;
+}
+#productBinding #signatureEdit .modal-dialog {
   width: 838px;
 }
 #productBinding #itemAddonCostCentreDialog #itemAddonCostCentreDialogMainContainer {
@@ -114,6 +117,10 @@
 }
 #myOrganizationBinding #tab-RegionalSettings #markupTablle td.action {
   width: 20%;
+}
+#storesBinding .selectedSection,
+#storesBinding .selectedEmailVariable {
+  background: yellow;
 }
 #storesBinding #addStore {
   margin-top: 25px;

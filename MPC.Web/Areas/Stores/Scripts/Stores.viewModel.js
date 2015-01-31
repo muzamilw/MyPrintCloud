@@ -672,6 +672,11 @@ define("stores/stores.viewModel",
 
                 //#region _________EMAIL ______________________________________
                 selectedEmail = ko.observable(),
+                selectedSection = ko.observable(),
+                campaignSectionFlags = ko.observableArray([]),
+                campaignCompanyTypes = ko.observableArray([]),
+                campaignGroups = ko.observableArray([]),
+                emailCampaignSections = ko.observableArray([]),
                 //Create One Time Marketing Email
                 onCreateOneTimeMarketingEmail = function () {
                     var campaign = model.Campaign();
@@ -680,6 +685,10 @@ define("stores/stores.viewModel",
                     selectedEmail(campaign);
                     selectedEmail().reset();
                     view.showEmailCamapaignDialog();
+                    if (campaignSectionFlags().length === 0) {
+                        getCampaignBaseData();
+                    }
+
                 },
                 //Create Interval Marketing Email
                 onCreateIntervalMarketingEmail = function () {
@@ -688,6 +697,9 @@ define("stores/stores.viewModel",
                     selectedEmail(campaign);
                     selectedEmail().reset();
                     view.showEmailCamapaignDialog();
+                    if (campaignSectionFlags().length === 0) {
+                        getCampaignBaseData();
+                    }
                 },
                 onSaveEmail = function (email) {
                     if (dobeforeSaveEmail()) {
@@ -725,6 +737,65 @@ define("stores/stores.viewModel",
                 onDeleteEmail = function (email) {
                     emails.remove(email);
                 },
+
+                //Get Campaign Base
+                getCampaignBaseData = function (callBack) {
+                    dataservice.getCampaignBaseData({
+                        success: function (data) {
+                            //Section Flags
+                            campaignSectionFlags.removeAll();
+                            _.each(data.SectionFlags, function (item) {
+                                var section = model.SectionFlag.Create(item);
+                                campaignSectionFlags.push(section);
+                            });
+
+                            //Company Types
+                            campaignCompanyTypes.removeAll();
+                            _.each(data.CompanyTypes, function (item) {
+                                var companyType = model.CampaignCompanyType.Create(item);
+                                campaignCompanyTypes.push(companyType);
+                            });
+                            //Groups
+                            campaignGroups.removeAll();
+                            _.each(data.Groups, function (item) {
+                                var group = model.Group.Create(item);
+                                campaignGroups.push(group);
+                            });
+
+                            // Campaign Sections
+                            emailCampaignSections.removeAll();
+                            _.each(data.CampaignSections, function (item) {
+                                var section = model.CampaignSection.Create(item);
+                                _.each(item.CampaignEmailVariables, function (emailVariable) {
+                                    section.campaignEmailVariables.push(model.CampaignEmailVariable.Create(emailVariable));
+                                });
+                                emailCampaignSections.push(section);
+                            });
+                            if (callBack && typeof callBack === 'function') {
+                                callBack();
+                            }
+                        },
+                        error: function () {
+                            toastr.error("Failed to load base data.");
+                        }
+                    });
+                },
+                //
+                 selectSection = function (section) {
+                     //old menu collapse
+                     if (selectedSection() !== undefined) {
+                         selectedSection().isExpanded(false);
+                     }
+                     //new selected section expand
+                     section.isExpanded(true);
+                     selectedSection(section);
+                 },
+                   campaignEmailImagesLoadedCallback = function (file, data) {
+                       var campaignImage = model.CampaignImage();
+                       campaignImage.imageName(file.name);
+                       campaignImage.imageSource(data);
+                       selectedEmail().campaignImages.push(campaignImage);
+                   },
                 //#endregion
 
                 // #region _________A D D R E S S E S __________________________
@@ -1926,11 +1997,22 @@ define("stores/stores.viewModel",
                         }
                         //#endregion
 
-                        
+
                         _.each(selectedStore().mediaLibraries(), function (item) {
                             storeToSave.MediaLibraries.push(item.convertToServerData());
                         });
-                        
+
+                        //#region Cost Center
+                        //storeToSave().companyCostCenters.removeAll();
+                        _.each(costCentersList(), function (costCenter) {
+                            if (costCenter.isSelected()) {
+                                storeToSave.CompanyCostCentres.push(costCenter.convertToServerData());
+                            }
+                        });
+                        //updateCostCentersOnStoreSaving();
+                        //#endregion
+
+
 
                         dataservice.saveStore(
                             storeToSave, {
@@ -2059,6 +2141,8 @@ define("stores/stores.viewModel",
                             selectedCurrentPageId(undefined);
                             selectedCurrentPageCopy(undefined);
                             newUploadedMediaFile(model.MediaLibrary());
+                            //Update Cost Centers Selection 
+                            updateSelectedStoreCostCenters();
 
                             selectedStore().reset();
                             isLoadingStores(false);
@@ -2593,7 +2677,7 @@ define("stores/stores.viewModel",
                         mediaLibraryIdCount(mediaId);
                     }
                 },
-                
+
                 //Open Media Library From Store Background Image
                 showMediaLibraryDialogFromStoreBackground = function () {
                     resetMediaGallery();
@@ -2726,7 +2810,8 @@ define("stores/stores.viewModel",
 
                 //#region ________D E L I V E R Y    A D D    O N________________
                 selectedPickupAddress = ko.observable(),
-                updatePickupAddressFields = ko.computed(function() {
+                pickupAddress = ko.observable(),
+                updatePickupAddressFields = ko.computed(function () {
                     if (selectedStore() != undefined) {
                         if (selectedStore().pickupAddressId() != undefined) {
                             _.each(allCompanyAddressesList(), function (address) {
@@ -2737,8 +2822,51 @@ define("stores/stores.viewModel",
                         } else {
                             selectedPickupAddress(new model.Address);
                         }
-                    } 
+                    }
                 }),
+                pickUpLocationValue = ko.observable(),
+
+                updatePickupAddress = ko.computed(function () {
+                    if (selectedPickupAddress().stateName() != undefined && selectedPickupAddress().countryName() != undefined && selectedPickupAddress().postCode() != undefined) {
+                        pickupAddress(selectedPickupAddress());
+                        pickUpLocationValue(pickupAddress().addressName() + '/' + pickupAddress().postCode());
+                        //selectedStore().pickupAddressId(selectedStore().pickupAddressId());
+                    } else {
+                        pickupAddress(new model.Address);
+                        //selectedStore().pickupAddressId(selectedStore().pickupAddressId());
+                    }
+                }),
+                //updateSelectedStoreCostCenters
+                updateSelectedStoreCostCenters = function () {
+                    _.each(selectedStore().companyCostCenters(), function (costCenter) {
+                        var selectedCostCenter;
+                        selectedCostCenter = _.find(costCentersList(), function (costCenterItem) {
+                            return costCenterItem.costCentreId() === costCenter.costCentreId();
+                        });
+                        selectedCostCenter.isSelected(true);
+                    });
+                },
+                onClosePickupDialog = function () {
+                    if (selectedPickupAddress().state() != undefined && selectedPickupAddress().country() != undefined && selectedPickupAddress().postCode() != undefined) {
+                        pickupAddress(selectedPickupAddress());
+                        selectedStore().pickupAddressId(selectedStore().pickupAddressId());
+                    } else {
+                        pickupAddress(new model.Address);
+                        selectedStore().pickupAddressId(undefined);
+                    }
+                },
+                onSavePickupDialog = function () {
+
+                },
+                //Update selected Store selected cost centers
+                updateCostCentersOnStoreSaving = function () {
+                    selectedStore().companyCostCenters.removeAll();
+                    _.each(costCentersList(), function (costCenter) {
+                        if (costCenter.isSelected()) {
+                            selectedStore().companyCostCenters.push(costCenter.convertToServerData());
+                        }
+                    });
+                },
                 //#endregion
 
                 //Initialize
@@ -3014,7 +3142,18 @@ define("stores/stores.viewModel",
                     onSaveMedia: onSaveMedia,
                     colseSecondaryPageCategoryDialog: colseSecondaryPageCategoryDialog,
                     selectedPickupAddress: selectedPickupAddress,
-                    costCentersList: costCentersList
+                    costCentersList: costCentersList,
+                    pickupAddress: pickupAddress,
+                    onClosePickupDialog: onClosePickupDialog,
+                    onSavePickupDialog: onSavePickupDialog,
+                    campaignSectionFlags: campaignSectionFlags,
+                    campaignCompanyTypes: campaignCompanyTypes,
+                    campaignGroups: campaignGroups,
+                    emailCampaignSections: emailCampaignSections,
+                    pickUpLocationValue: pickUpLocationValue,
+                    selectedSection: selectedSection,
+                    selectSection: selectSection,
+                    campaignEmailImagesLoadedCallback: campaignEmailImagesLoadedCallback,
                 };
                 //#endregion
             })()
