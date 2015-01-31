@@ -14,6 +14,7 @@ using System.Drawing.Imaging;
 using MPC.Common;
 using MPC.Models.Common;
 using System.Web;
+using WebSupergoo.ABCpdf8;
 
 namespace MPC.Implementation.WebStoreServices
 {
@@ -21,7 +22,7 @@ namespace MPC.Implementation.WebStoreServices
     {
         #region private
         private readonly ITemplateBackgroundImagesRepository _templateImagesRepository;
-        private readonly ITemplateService _templateService;
+        private readonly ITemplateRepository _templateRepository;
         private byte[] Crop(string Img, int Width, int Height, int X, int Y, int mode, string NfileName)
         {
             try
@@ -113,9 +114,10 @@ namespace MPC.Implementation.WebStoreServices
         }
         #endregion
         #region constructor
-        public TemplateBackgroundImagesService(ITemplateBackgroundImagesRepository templateImagesRepository, IProductCategoryRepository ProductCategoryRepository)
+        public TemplateBackgroundImagesService(ITemplateBackgroundImagesRepository templateImagesRepository,ITemplateRepository templateRepository)
         {
             this._templateImagesRepository = templateImagesRepository;
+            this._templateRepository = templateRepository;
         }
         #endregion
         #region public
@@ -313,7 +315,7 @@ namespace MPC.Implementation.WebStoreServices
                     string destPath = results[0] + "_thumb" + ext;
                     GenerateThumbNail(sourcePath, destPath, 98);
                 }
-                NewImgPath = "/MPC_Content/Designer/Organisation" + organisationID.ToString() + "/Templates/" + TemplateID.ToString() + "/" + fileName[fileName.Length - 1];
+                NewImgPath = "/Designer/Organisation" + organisationID.ToString() + "/Templates/" + TemplateID.ToString() + "/" + fileName[fileName.Length - 1];
                 int ImageWidth = 0,ImageHeight = 0;
                 if (!Path.GetExtension(fileName[fileName.Length - 1]).Contains("svg"))
                 {
@@ -354,7 +356,7 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     if (objBackground.ImageName != null && objBackground.ImageName != "")
                     {
-                        objBackground.BackgroundImageRelativePath = "MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/" + objBackground.ImageName;
+                        objBackground.BackgroundImageRelativePath = "/Designer/Organisation" + OrganisationID.ToString() + "/Templates/" + objBackground.ImageName;
                     }
 
                 }
@@ -451,17 +453,17 @@ namespace MPC.Implementation.WebStoreServices
 
                     if (Path.GetExtension(uploadPath).Contains("pdf"))
                     {
-                        //if (Convert.ToInt32(imageType) == 3)
-                        //{
-                        //    bkPagesCount = obj.generatePdfAsBackgroundDesigner(uploadPath, productId);
-                        //    isPdfBackground = true;
-                        //    result = "uploadedPDFBK";
-                        //}
-                        //else
-                        //{
-                        //    uploadedPdfRecords = obj.CovertPdfToBackgroundDesigner(uploadPath, productId, RootPath);
-                        //    isUploadedPDF = true;
-                        //}
+                        if (Convert.ToInt32(imageType) == 3)
+                        {
+                            bkPagesCount = generatePdfAsBackgroundDesigner(uploadPath, productId,organisationId);
+                            isPdfBackground = true;
+                            result = "uploadedPDFBK";
+                        }
+                        else
+                        {
+                            uploadedPdfRecords = CovertPdfToBackgroundDesigner(uploadPath, productId, RootPath,organisationId,uploadedFrom,contactId);
+                            isUploadedPDF = true;
+                        }
                     }
 
                     string UploadPathForPDF = productId + "/";
@@ -499,7 +501,7 @@ namespace MPC.Implementation.WebStoreServices
                             result = "IsUploadedPDF";
                             // generate thumbnail 
                             string imgExt = Path.GetExtension(obj.Name);
-                            string sourcePath = HttpContext.Current.Server.MapPath("Designer/Products/" + UploadPathForPDF + obj.Name);
+                            string sourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + organisationId.ToString() + "/Templates/" + UploadPathForPDF + obj.Name);
                             //string ext = Path.GetExtension(uploadPath);
                             string[] results = sourcePath.Split(new string[] { imgExt }, StringSplitOptions.None);
                             string res = results[0];
@@ -510,49 +512,57 @@ namespace MPC.Implementation.WebStoreServices
                     }
                     else
                     {
-                        if (!Path.GetExtension(uploadPath).Contains("svg"))
+                        if (isPdfBackground)
                         {
-                            using (objImage = System.Drawing.Image.FromFile(uploadPath))
-                            {
-                                float res = objImage.HorizontalResolution;
-                                if (res < 96)
-                                {
-                                    result = imageName;
-                                }
-                                ImageWidth = objImage.Width;
-                                ImageHeight = objImage.Height;
-                            }
+                            _templateRepository.updateTemplatePages(bkPagesCount, productId);
                         }
-                        var bgImg = new TemplateBackgroundImage();
-                        bgImg.Name = Imname;
-                        bgImg.ImageName = Imname;
-                        bgImg.ProductId = productId;
-
-                        bgImg.ImageWidth = ImageWidth;
-                        bgImg.ImageHeight = ImageHeight;
-
-                        bgImg.ImageType = Convert.ToInt32(imageType);
-                        bgImg.ImageTitle = imageName;
-                        bgImg.UploadedFrom = Convert.ToInt32(uploadedFrom);
-                        bgImg.ContactCompanyId = Convert.ToInt32(contactCompanyID);
-                        bgImg.ContactId = Convert.ToInt32(contactId);
-
-
-                        listImages.Add(bgImg);
-                      //  result = bgImg.ID.ToString();
-
-                        // generate thumbnail 
-                        if (!ext.Contains("svg"))
+                        else
                         {
-                           // Services.imageSvc objSvc = new Services.imageSvc();
-                            string sourcePath = uploadPath;
-                            //string ext = Path.GetExtension(uploadPath);
-                            string[] results = sourcePath.Split(new string[] { ext }, StringSplitOptions.None);
-                            string destPath = results[0] + "_thumb" + ext;
-                            GenerateThumbNail(sourcePath, destPath, 98);
+                            if (!Path.GetExtension(uploadPath).Contains("svg"))
+                            {
+                                using (objImage = System.Drawing.Image.FromFile(uploadPath))
+                                {
+                                    float res = objImage.HorizontalResolution;
+                                    if (res < 96)
+                                    {
+                                        result = imageName;
+                                    }
+                                    ImageWidth = objImage.Width;
+                                    ImageHeight = objImage.Height;
+                                }
+                            }
+                            var bgImg = new TemplateBackgroundImage();
+                            bgImg.Name = Imname;
+                            bgImg.ImageName = Imname;
+                            bgImg.ProductId = productId;
+
+                            bgImg.ImageWidth = ImageWidth;
+                            bgImg.ImageHeight = ImageHeight;
+
+                            bgImg.ImageType = Convert.ToInt32(imageType);
+                            bgImg.ImageTitle = imageName;
+                            bgImg.UploadedFrom = Convert.ToInt32(uploadedFrom);
+                            bgImg.ContactCompanyId = Convert.ToInt32(contactCompanyID);
+                            bgImg.ContactId = Convert.ToInt32(contactId);
+
+
+                            listImages.Add(bgImg);
+                            //  result = bgImg.ID.ToString();
+
+                            // generate thumbnail 
+                            if (!ext.Contains("svg"))
+                            {
+                                // Services.imageSvc objSvc = new Services.imageSvc();
+                                string sourcePath = uploadPath;
+                                //string ext = Path.GetExtension(uploadPath);
+                                string[] results = sourcePath.Split(new string[] { ext }, StringSplitOptions.None);
+                                string destPath = results[0] + "_thumb" + ext;
+                                GenerateThumbNail(sourcePath, destPath, 98);
+                            }
+
+                            result = _templateImagesRepository.insertImageRecord(listImages).ToString();
                         }
                     }
-                    result =  _templateImagesRepository.insertImageRecord(listImages).ToString();
                     
                 }
             }
@@ -570,6 +580,176 @@ namespace MPC.Implementation.WebStoreServices
 
             }
             return result;
+        }
+
+        public int generatePdfAsBackgroundDesigner(string physicalPath, long TemplateID,long organisationId)
+        {
+            int count = 0;
+            using (Doc theDoc = new Doc())
+            {
+                try
+                {
+                    theDoc.Read(physicalPath);
+                    _templateRepository.updateTemplate(TemplateID, theDoc.MediaBox.Width, theDoc.MediaBox.Height);
+                    int srcPagesID = theDoc.GetInfoInt(theDoc.Root, "Pages");
+                    int srcDocRot = theDoc.GetInfoInt(srcPagesID, "/Rotate");
+                    for (int i = 1; i <= theDoc.PageCount; i++)
+                    {
+                        theDoc.PageNumber = i;
+                        theDoc.Rect.String = theDoc.CropBox.String;
+                        theDoc.Rect.Inset(0, 0);
+                        string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + organisationId.ToString() + "/Templates/"+TemplateID.ToString() +"/");
+                        //check if folder exist
+                        if (System.IO.Directory.Exists(drURL) == false)
+                        {
+                            System.IO.Directory.CreateDirectory(drURL);
+                        }
+                        // generate image 
+                        theDoc.Rendering.DotsPerInch = 150;
+                        if (System.Configuration.ConfigurationManager.AppSettings["RenderingDotsPerInch"] != null)
+                        {
+                            theDoc.Rendering.DotsPerInch = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["RenderingDotsPerInch"]);
+                        }
+                        string imgpath = "~/MPC_Content/Designer/Organisation" + organisationId.ToString() + "/Templates/"+TemplateID.ToString() + "/templatImgBk" + i.ToString() + ".jpg";
+                        theDoc.Rendering.Save(HttpContext.Current.Server.MapPath(imgpath));
+
+                        // save pdf 
+                        Doc singlePagePdf = new Doc();
+                        try
+                        {
+                            singlePagePdf.Rect.String = singlePagePdf.MediaBox.String = theDoc.MediaBox.String;
+                            singlePagePdf.AddPage();
+                            singlePagePdf.AddImageDoc(theDoc, i, null);
+                            singlePagePdf.FrameRect();
+
+                            int srcPageRot = theDoc.GetInfoInt(theDoc.Page, "/Rotate");
+                            if (srcDocRot != 0)
+                            {
+                                singlePagePdf.SetInfo(singlePagePdf.Page, "/Rotate", srcDocRot);
+                            }
+                            if (srcPageRot != 0)
+                            {
+                                singlePagePdf.SetInfo(singlePagePdf.Page, "/Rotate", srcPageRot);
+                            }
+                            string targetFolder = "";
+                            //targetFolder = System.Web.Hosting.HostingEnvironment.MapPath("~/Designer/Products/");
+                            if (File.Exists(drURL + "/Side" + i.ToString() + ".pdf"))
+                            {
+                                File.Delete(drURL + "/Side" + i.ToString() + ".pdf");
+                            }
+                            singlePagePdf.Save(drURL + "/Side" + i.ToString() + ".pdf");
+                            singlePagePdf.Clear();
+                            count++;
+                        }
+                        catch (Exception e)
+                        {
+                            throw new Exception("GenerateTemplateBackground", e);
+                        }
+                        finally
+                        {
+                            if (singlePagePdf != null)
+                                singlePagePdf.Dispose();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("GeneratePDfPreservingObjects", ex);
+                }
+                finally
+                {
+                    if (theDoc != null)
+                        theDoc.Dispose();
+                }
+            }
+            return count;
+
+        }
+
+        public List<TemplateBackgroundImage> CovertPdfToBackgroundDesigner(string physicalPath, long templateID, string uploadPath,long organisationId,int isCalledFrom,long contactId)
+        {
+            string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + organisationId.ToString() + "/Templates/"+templateID.ToString() +"/");                 
+            List<TemplateBackgroundImage> objs = generatePdfAsBackgroundDesigner(physicalPath,drURL, 0, templateID, uploadPath,organisationId,isCalledFrom,contactId);
+            return objs;
+        }
+        private List<TemplateBackgroundImage> generatePdfAsBackgroundDesigner(string PDFDoc, string savePath, double CuttingMargin, long TemplateID, string rootPath,long organisationId,int isCalledFrom,long contactId)
+        {
+            List<TemplateBackgroundImage> objs = new List<TemplateBackgroundImage>();
+            Doc theDoc = new Doc();
+            try
+            {
+                string basePath = TemplateID.ToString();
+                string ThumbnailFileName = "Conv_" + DateTime.Now.ToString();
+                ThumbnailFileName = ThumbnailFileName.Replace("/", "_");
+                ThumbnailFileName = ThumbnailFileName.Replace(" ", "_");
+                ThumbnailFileName = ThumbnailFileName.Replace(":", "_");
+                theDoc.Read(PDFDoc);
+                if (isCalledFrom == 1 || isCalledFrom == 2)
+                {
+                    basePath = "UserImgs/" + contactId.ToString() ;
+                }
+                else if (isCalledFrom == 3 || isCalledFrom == 4)
+                {
+                    basePath = "UserImgs/Retail/" + contactId.ToString() ;
+                }
+                for (int i = 1; i <= theDoc.PageCount; i++)
+                {
+                    theDoc.PageNumber = i;
+                    theDoc.Rect.String = theDoc.CropBox.String;
+                    theDoc.Rect.Inset(CuttingMargin, CuttingMargin);
+
+                    if (System.IO.Directory.Exists(savePath) == false)
+                    {
+                        System.IO.Directory.CreateDirectory(savePath);
+                    }
+                    string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + organisationId.ToString() + "/Templates/" +basePath+ "/");
+
+                    string imgpath = drURL + "/" + ThumbnailFileName + i.ToString() + ".jpg";
+                    int res = 150;
+                    if (System.Configuration.ConfigurationManager.AppSettings["RenderingDotsPerInch"] != null)
+                    {
+                        res = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["RenderingDotsPerInch"]);
+                    }
+
+                    theDoc.Rendering.DotsPerInch = res;
+                    theDoc.Rendering.Save((imgpath));
+
+
+                    System.Drawing.Image objImage = System.Drawing.Image.FromFile(imgpath);
+                    int ImageWidth = objImage.Width;
+                    int ImageHeight = objImage.Height;
+                    objImage.Dispose();
+
+
+                    var bgImg = new TemplateBackgroundImage();
+                    bgImg.Name = ThumbnailFileName + i.ToString() + ".jpg";
+                    bgImg.ImageName = ThumbnailFileName + i.ToString() + ".jpg";
+                    bgImg.ProductId = TemplateID;
+
+                    bgImg.ImageWidth = ImageWidth;
+                    bgImg.ImageHeight = ImageHeight;
+                    objs.Add(bgImg);
+                    //saveGeneratedImg(TemplateID, ThumbnailFileName + i.ToString() + ".jpg", ImageWidth, ImageHeight);
+
+                }
+                theDoc.Dispose();
+
+                return objs;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GenerateTemplateThumbnail PDFExtractor -- pdf to image designer function", ex);
+            }
+            finally
+            {
+                if (theDoc != null)
+                    theDoc.Dispose();
+                if (File.Exists(PDFDoc))
+                {
+                    File.Delete(PDFDoc);
+                }
+            }
         }
         #endregion
     }

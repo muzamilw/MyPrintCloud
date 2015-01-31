@@ -190,6 +190,7 @@
     <Compile Include="Repositories\CompanyBannerSetRepository.cs" />
     <Compile Include="Repositories\CompanyTerritoryRepository.cs" />
     <Compile Include="Repositories\CompanyTypeRepository.cs" />
+    <Compile Include="Repositories\CostCentreExecution.cs" />
     <Compile Include="Repositories\CostCentreMatrixRepository.cs" />
     <Compile Include="Repositories\CostCentreQuestionRepository.cs" />
     <Compile Include="Repositories\CostCentreVariableRepository.cs" />
@@ -199,7 +200,10 @@
     <Compile Include="Repositories\FavoriteDesignRepository.cs" />
     <Compile Include="Repositories\GetItemsListViewRepository.cs" />
     <Compile Include="Repositories\GlobalLanguageRepository.cs" />
+    <Compile Include="Repositories\GroupRepository.cs" />
     <Compile Include="Repositories\ImagePermissionRepository.cs" />
+    <Compile Include="Repositories\ItemSectionRepository.cs" />
+    <Compile Include="Repositories\MachineRepository.cs" />
     <Compile Include="Repositories\ItemAttachmentRepository.cs" />
     <Compile Include="Repositories\ProductCategoryItemRepository.cs" />
     <Compile Include="Repositories\ItemStateTaxRepository.cs" />
@@ -220,6 +224,7 @@
     <Compile Include="Repositories\PhraseRespository.cs" />
     <Compile Include="Repositories\ProductCategoryFileTableViewRepository.cs" />
     <Compile Include="Repositories\StateRepository.cs" />
+    <Compile Include="Repositories\CostCenterTypeRepository.cs" />
     <Compile Include="Repositories\TemplateBackgroundImagesRepository.cs" />
     <Compile Include="Repositories\TemplateColorStylesRepository.cs" />
     <Compile Include="Repositories\TemplateFontsRepository.cs" />
@@ -235,7 +240,6 @@
     <Compile Include="Repositories\MarkupRepository.cs" />
     <Compile Include="Repositories\PageCategoryRepository.cs" />
     <Compile Include="Repositories\PaperBasisAreaRepository.cs" />
-    <Compile Include="Repositories\PaperSheetRepository.cs" />
     <Compile Include="Repositories\PaperSizeRepository.cs" />
     <Compile Include="Repositories\RaveReviewRepository.cs" />
     <Compile Include="Repositories\RegistrationQuestionRepository.cs" />

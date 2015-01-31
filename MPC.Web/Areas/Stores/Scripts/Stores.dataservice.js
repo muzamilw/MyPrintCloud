@@ -13,6 +13,13 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Campaign Base Data
+                    amplify.request.define('getCampaignBaseData', 'ajax', {
+                        url: ist.siteUrl + '/Api/CampaignBase',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
                     // Define request to get Items For Widgets
                     amplify.request.define('getItemsForWidgets', 'ajax', {
                         url: ist.siteUrl + '/Api/GetItemsForWidgets',
@@ -105,6 +112,13 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to Save Product Category
+                    amplify.request.define('saveProductCategory', 'ajax', {
+                        url: ist.siteUrl + '/Api/ProductCategory',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
                     isInitialized = true;
                 }
             },
@@ -147,6 +161,16 @@
                     data: params
                 });
             },
+             // get Campaign Base Data
+            getCampaignBaseData = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getCampaignBaseData',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
+
             // searchCompanyTerritory
             searchCompanyTerritory = function (params, callbacks) {
                 initialize();
@@ -258,6 +282,16 @@
                     data: params
                 });
             },
+        // Save Product Category
+        saveProductCategory = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'saveProductCategory',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
         // save Store
         saveStore = function (param, callbacks) {
             initialize();
@@ -285,7 +319,9 @@
             getCmsPageLayoutWidget: getCmsPageLayoutWidget,
             getWidgetDetail: getWidgetDetail,
             getProductCategoryById: getProductCategoryById,
-            getItemsForWidgets: getItemsForWidgets
+            getItemsForWidgets: getItemsForWidgets,
+            saveProductCategory: saveProductCategory,
+            getCampaignBaseData: getCampaignBaseData
         };
     })();
 

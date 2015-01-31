@@ -27,11 +27,22 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 storeBackgroundImageBytes = source.StoreBackgroundImage != null ? File.ReadAllBytes(source.StoreBackgroundImage) : null;
             }
-            byte[] defaultSpriteBytes = null;
-            string defaultSpritePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Organisations/Organisation" + source.OrganisationId + "/Store" + source.CompanyId + "/Sprites" + "\\" + source.CompanyId + "_sprite.backup.png");
-            if (File.Exists(defaultSpritePath))
+            byte[] spriteBytes = null;
+            string spritePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/sprite.png");
+            if (File.Exists(spritePath))
             {
-                defaultSpriteBytes = File.ReadAllBytes(defaultSpritePath);
+                spriteBytes = File.ReadAllBytes(spritePath);
+            }
+            byte[] defaultSpriteBytes = null;
+            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png")))
+            {
+                defaultSpriteBytes = File.ReadAllBytes(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png"));
+            }
+            string defaultCss = string.Empty;
+
+            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/site.css")))
+            {
+                defaultCss = File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/site.css"));
             }
 
             return new Company
@@ -51,6 +62,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 AccountManagerId = source.AccountManagerId,
                 Status = source.Status,
                 IsCustomer = source.IsCustomer,
+                CustomCSS = defaultCss,
                 Notes = source.Notes,
                 IsDisabled = source.IsDisabled,
                 AccountBalance = source.AccountBalance,
@@ -92,7 +104,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ProductionManagerId2 = source.ProductionManagerId2,
                 StockNotificationManagerId1 = source.StockNotificationManagerId1,
                 StockNotificationManagerId2 = source.StockNotificationManagerId2,
-                IsDeliveryTaxAble = source.IsDeliveryTaxAble,
+                IsDeliveryTaxAble = source.IsDeliveryTaxAble ?? false,
                 IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
                 DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
                 isBrokerPaymentRequired = source.isBrokerPaymentRequired == true ? "true" : "false",
@@ -100,9 +112,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 includeEmailBrokerArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport,
                 includeEmailBrokerArtworkOrderXML = source.includeEmailBrokerArtworkOrderXML,
                 includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard,
+                StoreBackgroundImage = source.StoreBackgroundImage,
                 makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady,
-
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
+                PickupAddressId = source.PickupAddressId,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCmykColors =
@@ -124,8 +137,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null,
                 StoreBackgroudImage = storeBackgroundImageBytes,
                 DefaultSpriteImage = defaultSpriteBytes,
-                UserDefinedSpriteImage = GetUserDefinedSpriteImage(source),
-                UserDefinedSpriteFileName = GetUserDefinedSpriteImageName(source)
+                UserDefinedSpriteImage = spriteBytes,
+                MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
+                CompanyDomains = source.CompanyDomains != null ? source.CompanyDomains.Select(x=> x.CreateFrom()).ToList() : null,
+                CompanyCostCentres = source.CompanyCostCentres.Count != 0 ? source.CompanyCostCentres.FirstOrDefault().CostCentre != null ? source.CompanyCostCentres.Select(x => x.CostCentre).Select(x => x.CostCentreDropDownCreateFrom()).ToList() : null : null
             };
         }
 
@@ -137,13 +152,15 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             var company = new DomainModels.Company
             {
                 CompanyId = source.CompanyId,
+                StoreBackgroundFile = source.StoreBackgroundFile,
                 Name = source.Name,
-                Image = source.ImageBytes,
+                ImageBytes = source.ImageBytes,
                 AccountNumber = source.AccountNumber,
                 URL = source.URL,
                 CreditReference = source.CreditReference,
                 CreditLimit = source.CreditLimit,
                 Terms = source.Terms,
+                CustomCSS = source.CustomCSS,
                 TypeId = 52,
                 DefaultNominalCode = source.DefaultNominalCode,
                 DefaultMarkUpId = source.DefaultMarkUpId,
@@ -202,6 +219,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard,
                 makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady,
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
+                PickupAddressId = source.PickupAddressId,
                 ImageName = source.ImageName,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
@@ -223,12 +241,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Select(x => x.CreateFrom()).ToList() : null,
                 Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFrom()).ToList() : null,
                 ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null,
-                StoreBackgroudImageImageSource = source.StoreBackgroudImageImageSource,
-                StoreBackgroudImageFileName = source.StoreBackgroudImageFileName,
+                StoreBackgroundImage = source.StoreBackgroundImage,
                 CmsOffers = source.CmsOffers != null ? source.CmsOffers.Select(c => c.CreateFrom()).ToList() : null,
-                DefaultSpriteSource = source.DefaultSpriteSource,
                 UserDefinedSpriteSource = source.UserDefinedSpriteSource,
-                UserDefinedSpriteFileName = source.UserDefinedSpriteFileName,
+                MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
+                CompanyDomains = source.CompanyDomains != null? source.CompanyDomains.Select(x=> x.CreateFrom()).ToList(): null,
+                CompanyCostCentres = source.CompanyCostCentres != null ? source.CompanyCostCentres.Select(x => x.CreateFrom()).ToList() : null
             };
 
             return company;
@@ -237,9 +255,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Crete From Domain Model
         /// </summary>
-        public static ApiModels.SupplierForInventory CreateFromForInventory(this DomainModels.Company source)
+        public static SupplierForInventory CreateFromForInventory(this DomainModels.Company source)
         {
-            return new ApiModels.SupplierForInventory
+            return new SupplierForInventory
             {
                 Name = source.Name,
                 SupplierId = source.CompanyId,
@@ -321,42 +339,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
         }
 
-        private static byte[] GetUserDefinedSpriteImage(DomainModels.Company company)
-        {
-            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Organisations/Organisation" + company.OrganisationId + "/Store" + company.CompanyId + "/Sprites");
-            if (directoryPath != null && Directory.Exists(directoryPath))
-            {
-                DirectoryInfo dir = new DirectoryInfo(directoryPath);
-                FileInfo[] Files = dir.GetFiles();
-                foreach (FileInfo file in Files)
-                {
-                    if (file.Name != "" && file.Name != company.CompanyId + "_sprite.backup.png")
-                    {
-                        if (File.Exists(directoryPath + "\\" + file.Name))
-                            return File.ReadAllBytes(directoryPath + "\\" + file.Name);
-                    }
-                }
-            }
-            return null;
-        }
-        private static string GetUserDefinedSpriteImageName(DomainModels.Company company)
-        {
-            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Organisations/Organisation" + company.OrganisationId + "/Store" + company.CompanyId + "/Sprites");
-            if (directoryPath != null && Directory.Exists(directoryPath))
-            {
-                DirectoryInfo dir = new DirectoryInfo(directoryPath);
-                FileInfo[] Files = dir.GetFiles();
-                foreach (FileInfo file in Files)
-                {
-                    if (file.Name != "" && file.Name != company.CompanyId + "_sprite.backup.png")
-                    {
-                        if (File.Exists(directoryPath + "\\" + file.Name))
-                            return file.Name;
-                    }
-                }
-            }
-            return null;
-        }
         #endregion
     }
 }

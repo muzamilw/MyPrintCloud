@@ -11,7 +11,7 @@ namespace MPC.Models.Common
 {
 
 
-
+  [Serializable()]
     public class QuestionQueueItem 
     {
 
@@ -38,6 +38,8 @@ namespace MPC.Models.Common
         private double _Qty4Answer;
 
         private double _Qty5Answer;
+        private int _RowCount;
+        private int _ColumnCount;
 
      
         /// <summary>
@@ -52,7 +54,7 @@ namespace MPC.Models.Common
         /// <param name="AnswerID"></param>
         /// <param name="IsAnswered"></param>
         public QuestionQueueItem(int ID, string Name, long CostCentreID, short ItemType, string VisualQuestion, string DefaultAnswer, string AnswerID, bool IsAnswered, double Qty1Answer, double Qty2Answer = 0,
-        double Qty3Answer = 0, double Qty4Answer = 0, double Qty5Answer = 0, List<CostCentreAnswer> answers = null)
+        double Qty3Answer = 0, double Qty4Answer = 0, double Qty5Answer = 0,int RowCount = 0, int ColumnCount = 0 ,List<CostCentreAnswer> answers = null)
         {
             this._ID = ID;
             this._Name = Name;
@@ -70,6 +72,8 @@ namespace MPC.Models.Common
             this._Qty3Answer = Qty3Answer;
             this._Qty4Answer = Qty4Answer;
             this._Qty5Answer = Qty5Answer;
+            this._RowCount = RowCount;
+            this._ColumnCount = ColumnCount;
         }
 
         public int ID
@@ -163,13 +167,21 @@ namespace MPC.Models.Common
             set { this._AnswersTable = value; }
         }
 
-
+        public int RowCount
+        {
+            get { return this._RowCount; }
+            set { this._RowCount = value; }
+        }
+        public int ColumnCount
+        {
+            get { return this._ColumnCount; }
+            set { this._ColumnCount = value; }
+        }
 
     }
 
-        
 
-[Serializable()]
+     [Serializable()]
 public class CostCentreQueueItem
 {
 
@@ -342,9 +354,8 @@ public class CostCentreQueueItem
 
 }
 
-    
 
-[Serializable()]
+     [Serializable()]
 public class StockQueueItem
 {
 
@@ -438,9 +449,7 @@ public class StockQueueItem
 }
 
 
-    
-
-[Serializable()]
+     [Serializable()]
 public class InputQueueItem
 {
 

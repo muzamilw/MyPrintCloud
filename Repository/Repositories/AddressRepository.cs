@@ -29,14 +29,14 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public List<Address>  GetAddressesByTerritoryID(Int64 TerritoryID)
+        public List<Address> GetAddressesByTerritoryID(Int64 TerritoryID)
         {
             return db.Addesses.Where(a => a.TerritoryId == TerritoryID && (a.isArchived == null || a.isArchived.Value == false) && (a.isPrivate == false || a.isPrivate == null)).ToList();
         }
 
         public Models.ResponseModels.AddressResponse GetAddress(Models.RequestModels.AddressRequestModel request)
         {
-            int fromRow = (request.PageNo - 1)*request.PageSize;
+            int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
             bool isSearchFilterSpecified = !string.IsNullOrEmpty(request.SearchFilter);
             bool isTerritoryInSearch = request.TerritoryId != 0;
@@ -76,13 +76,17 @@ namespace MPC.Repository.Repositories
         {
             return db.Addesses.Where(s => s.CompanyId == StoreID && s.IsDefaultAddress == true);
         }
+        public IEnumerable<Address> GetAllAddressByStoreId(long storeId)
+        {
+            return db.Addesses.Where(s => s.CompanyId == storeId );
+        }
         public Address GetAddressByID(long AddressID)
         {
             try
             {
                 return db.Addesses.Where(a => a.AddressId == AddressID).FirstOrDefault();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -93,7 +97,7 @@ namespace MPC.Repository.Repositories
             {
 
                 return db.Addesses.Where(c => c.CompanyId == companyID && (c.isArchived == null || c.isArchived.Value == false) && (c.isPrivate == false || c.isPrivate == null)).OrderBy(ad => ad.AddressName).ToList();
-               
+
             }
             catch (Exception ex)
             {
@@ -106,7 +110,7 @@ namespace MPC.Repository.Repositories
 
             try
             {
-                    return db.Addesses.Where(a => a.ContactId == contactID && a.isPrivate == true).ToList();
+                return db.Addesses.Where(a => a.ContactId == contactID && a.isPrivate == true).ToList();
 
             }
             catch (Exception ex)
@@ -119,7 +123,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                    return db.Addesses.Where(a => a.TerritoryId == TerritoryID && (a.isPrivate == null || a.isPrivate == false)).OrderBy(ad => ad.AddressName).ToList();
+                return db.Addesses.Where(a => a.TerritoryId == TerritoryID && (a.isPrivate == null || a.isPrivate == false)).OrderBy(ad => ad.AddressName).ToList();
 
             }
             catch (Exception ex)
@@ -130,14 +134,14 @@ namespace MPC.Repository.Repositories
         }
 
         public List<Address> GetContactCompanyAddressesList(long customerID)
-        {           
-                var query = from Addr in db.Addesses
-                            orderby Addr.AddressName
-                            where Addr.CompanyId == customerID && Addr.isArchived == false
-                            select Addr;
+        {
+            var query = from Addr in db.Addesses
+                        orderby Addr.AddressName
+                        where Addr.CompanyId == customerID && Addr.isArchived == false
+                        select Addr;
 
-                return query.ToList();
-           
+            return query.ToList();
+
 
         }
 
@@ -215,6 +219,8 @@ namespace MPC.Repository.Repositories
             tblAddress.PostCode = address.PostCode;
             tblAddress.Tel1 = address.Tel1;
             tblAddress.Country = address.Country;
+            tblAddress.CountryId = address.CountryId;
+            tblAddress.StateId = address.StateId;
             tblAddress.CompanyId = address.CompanyId > 0 ? address.CompanyId : tblAddress.CompanyId;
             if (tblAddress.AddressId == 0)
             {
@@ -226,5 +232,31 @@ namespace MPC.Repository.Repositories
             tblAddress.IsDefaultShippingAddress = address.IsDefaultShippingAddress;
         }
 
+
+      
+
+
+        /// <summary>
+        /// Get addresses list billing, shipping and pickup address
+        /// </summary>
+        /// <param name="customerID"></param>
+        /// <returns></returns>
+        public List<Address> GetContactCompanyAddressesList(long BillingAddressId, long ShippingAddressid, long PickUpAddressId)
+        {
+
+            List<Address> oAddressList = new List<Address>();
+
+            oAddressList.Add(db.Addesses.Where(estm => estm.AddressId == ShippingAddressid).FirstOrDefault());
+            oAddressList.Add(db.Addesses.Where(estm => estm.AddressId == BillingAddressId).FirstOrDefault());
+            if (PickUpAddressId > 0)
+            {
+                oAddressList.Add(db.Addesses.Where(estm => estm.AddressId == PickUpAddressId).FirstOrDefault());
+            }
+            else
+            {
+                oAddressList.Add(null);
+            }
+            return oAddressList;
+        }
     }
 }

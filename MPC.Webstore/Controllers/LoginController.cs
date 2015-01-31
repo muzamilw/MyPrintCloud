@@ -17,6 +17,7 @@ using MPC.Webstore.ModelMappers;
 using MPC.Webstore.ResponseModels;
 using System.Runtime;
 using MPC.Models.Common;
+using System.Runtime.Caching;
 namespace MPC.Webstore.Controllers
 {
     public class LoginController : Controller
@@ -60,9 +61,13 @@ namespace MPC.Webstore.Controllers
         // GET: Login
         public ActionResult Index(string FirstName, string LastName, string Email, string ReturnURL)
         {
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
 
-            if ((baseResponse.Company.IsCustomer == (int)CustomerTypes.Corporate && baseResponse.Company.isAllowRegistrationFromWeb == true) || (baseResponse.Company.IsCustomer == 1))
+           
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+
+            if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate && StoreBaseResopnse.Company.isAllowRegistrationFromWeb == true) || (StoreBaseResopnse.Company.IsCustomer == 1))
             {
                 ViewBag.AllowRegisteration = 1;
             }
@@ -74,7 +79,7 @@ namespace MPC.Webstore.Controllers
                 ViewBag.ReturnURL = "Social";
             else  
                 ViewBag.ReturnURL = ReturnURL;
-       
+            StoreBaseResopnse = null;
             if (!string.IsNullOrEmpty(FirstName))
             {
                 string returnUrl = string.Empty;
@@ -83,7 +88,7 @@ namespace MPC.Webstore.Controllers
 
                 if (!string.IsNullOrEmpty(Email))
                 {
-                    user = _myCompanyService.GetContactByEmail(Email);
+                    user = _myCompanyService.GetContactByEmail(Email,StoreBaseResopnse.Organisation.OrganisationId);
                 }
                 else
                 {
@@ -111,15 +116,15 @@ namespace MPC.Webstore.Controllers
         {
 
             string returnUrl = string.Empty;
-
-           
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
 
             if (ModelState.IsValid)
             {
                 CompanyContact user =  null;
-                 MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-
-                 if ((baseResponse.Company.IsCustomer == (int)CustomerTypes.Corporate))
+                 //MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+                 MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+                 if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate))
                  {
                      user = _myCompanyService.GetCorporateUserByEmailAndPassword(model.Email, model.Password, UserCookieManager.StoreId);
                  }
@@ -128,7 +133,7 @@ namespace MPC.Webstore.Controllers
                      user = _myCompanyService.GetRetailUser(model.Email, model.Password);
                  }
 
-                 
+                 StoreBaseResopnse = null;
                 if (user != null)
                 {
                     if (model.KeepMeLoggedIn)
@@ -153,53 +158,58 @@ namespace MPC.Webstore.Controllers
 
         private ActionResult VerifyUser(CompanyContact user, string ReturnUrl)
         {
-            if (user.isArchived.HasValue && user.isArchived.Value == true)
+            try
             {
-                ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultAddress", UserCookieManager.StoreId); // "Your account is archived.";
-                
-                return View("PartialViews/Login");
-            }
-            if (user.Company.IsDisabled == 1)
-            {
-                ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultAddress", UserCookieManager.StoreId); //"Your account is disabled. Please contact us for further information.";
-                return View("PartialViews/Login");
-            }
-            if (UserCookieManager.StoreMode == (int)StoreMode.Corp && user.isWebAccess == false)
-            {
-                ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultAddress", UserCookieManager.StoreId);  //"Your account does not have the web access enabled. Please contact your Order Manager.";
-                return View("PartialViews/Login");
-            }
-            else
-            {
-                UserCookieManager.isRegisterClaims = 1;
-                UserCookieManager.ContactFirstName = user.FirstName;
-                UserCookieManager.ContactLastName = user.LastName;
-                UserCookieManager.ContactCanEditProfile = user.CanUserEditProfile ?? false;
-                UserCookieManager.ShowPriceOnWebstore = user.IsPricingshown ?? true;
-                
-                UserCookieManager.Email = user.Email;
-
-                long Orderid = _ItemService.PostLoginCustomerAndCardChanges(0, user.CompanyId, user.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.OrganisationID);
-
-                if (ReturnUrl == "Social")
+                if (user.isArchived.HasValue && user.isArchived.Value == true)
                 {
-                    RedirectToLocal(ReturnUrl);
-                } 
+                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultAddress", UserCookieManager.StoreId); // "Your account is archived.";
+
+                    return View("PartialViews/Login");
+                }
+                if (user.Company.IsDisabled == 1)
+                {
+                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("DisabledAccount", UserCookieManager.StoreId); //"Your account is disabled. Please contact us for further information.";
+                    return View("PartialViews/Login");
+                }
+                if (UserCookieManager.StoreMode == (int)StoreMode.Corp && user.isWebAccess == false)
+                {
+                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("AccountHasNoWebAccess", UserCookieManager.StoreId);  //"Your account does not have the web access enabled. Please contact your Order Manager.";
+                    return View("PartialViews/Login");
+                }
                 else
                 {
-                    if (Orderid > 0)
-                    {
-                        UserCookieManager.TemporaryCompanyId = 0;
-                        Response.Redirect("/ShopCart/" + Orderid);
-                    }
-                    else 
-                    {
-                        Response.Redirect("/");
-                    }
-                }
-                return null;
-            }
+                    UserCookieManager.isRegisterClaims = 1;
+                    UserCookieManager.ContactFirstName = user.FirstName;
+                    UserCookieManager.ContactLastName = user.LastName;
+                    UserCookieManager.ContactCanEditProfile = user.CanUserEditProfile ?? false;
+                    UserCookieManager.ShowPriceOnWebstore = user.IsPricingshown ?? true;
 
+                    UserCookieManager.Email = user.Email;
+
+                    long Orderid = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.OrderId, user.CompanyId, user.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.OrganisationID);
+
+                    if (ReturnUrl == "Social")
+                    {
+                        RedirectToLocal(ReturnUrl);
+                    }
+                    else
+                    {
+                        if (Orderid > 0)
+                        {
+                            UserCookieManager.TemporaryCompanyId = 0;
+                            Response.Redirect("/ShopCart/" + Orderid);
+                        }
+                        else
+                        {
+                            Response.Redirect("/");
+                        }
+                    }
+                    return null;
+                }
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
         }
         private ActionResult RedirectToLocal(string returnUrl)
         {

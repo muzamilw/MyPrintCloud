@@ -17,12 +17,7 @@ define("costcenter/costcenter.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
-                    // Define request to get CostCenter
-                    amplify.request.define('getCostCenterDetail', 'ajax', {
-                        url: ist.siteUrl + '/Api/CostCenter',
-                        dataType: 'json',
-                        type: 'GET'
-                    });
+                    
                     // Define request to delete CostCenter
                     amplify.request.define('deleteCostCenter', 'ajax', {
                         url: ist.siteUrl + '/Api/CostCenter',
@@ -43,8 +38,29 @@ define("costcenter/costcenter.dataservice", function () {
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to get CostCenter
+                    amplify.request.define('getCostCentreById', 'ajax', {
+                        url: ist.siteUrl + '/Api/CostCenter',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Get Base Date for Collections
+                    amplify.request.define('getBaseData', 'ajax', {
+                        url: ist.siteUrl + '/Api/CostCenterBase',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
+            },
+             // Get base data
+            getBaseData = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getBaseData',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
             },
             // Get Cost Centers List
             getCostCentersList = function (params, callbacks) {
@@ -57,12 +73,13 @@ define("costcenter/costcenter.dataservice", function () {
                 });
             },
             // Get Cost Centers by Id 
-            getCostCenterDetail = function (callbacks) {
+            getCostCentreById = function (params, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'getCostCenterDetail',
+                    resourceId: 'getCostCentreById',
                     success: callbacks.success,
                     error: callbacks.error,
+                    data: params
                 });
             },
             deleteCostCenter = function (params, callbacks) {
@@ -97,10 +114,11 @@ define("costcenter/costcenter.dataservice", function () {
 
         return {
             getCostCentersList:getCostCentersList,
-            getCostCenterDetail: getCostCenterDetail,
+            getCostCentreById: getCostCentreById,
             deleteCostCenter: deleteCostCenter,
             saveNewCostCenter:saveNewCostCenter,
             saveCostCenter: saveCostCenter,
+            getBaseData: getBaseData
         };
     })();
 

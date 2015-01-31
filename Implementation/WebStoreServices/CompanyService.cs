@@ -41,7 +41,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IStateRepository _StateRepository;
         private readonly ICountryRepository _countryRepository;
         private readonly IFavoriteDesignRepository _favoriteRepository;
-       
+
 
         private string pageTitle = string.Empty;
         private string MetaKeywords = string.Empty;
@@ -57,7 +57,7 @@ namespace MPC.Implementation.WebStoreServices
         public CompanyService(ICompanyRepository companyRepository, ICmsSkinPageWidgetRepository widgetRepository,
          ICompanyBannerRepository companyBannerRepository, IProductCategoryRepository productCategoryRepository, ICmsPageRepository cmspageRepository,
             IPageCategoryRepository pageCategoryRepository, ICompanyContactRepository companyContactRepository, ICurrencyRepository currencyRepository
-            , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository,IItemRepository itemRepository, IAddressRepository addressRepository,IMarkupRepository markuprepository
+            , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository, IItemRepository itemRepository, IAddressRepository addressRepository, IMarkupRepository markuprepository
             , ICountryRepository countryRepository, IStateRepository stateRepository, IFavoriteDesignRepository favoriteRepository, IStateRepository StateRepository, ICompanyTerritoryRepository CompanyTerritoryRepository)
         {
             this._CompanyRepository = companyRepository;
@@ -82,7 +82,6 @@ namespace MPC.Implementation.WebStoreServices
 
         #endregion
 
-
         #region Public
         /// <summary>
         /// Resolves the Company/Stores by the companyid and organizationid
@@ -92,13 +91,12 @@ namespace MPC.Implementation.WebStoreServices
 
         public MyCompanyDomainBaseReponse GetStoreFromCache(long companyId)
         {
-            
 
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
             CacheItemPolicy policy = null;
 
-             MyCompanyDomainBaseReponse responseObject = cache.Get(CacheKeyName) as MyCompanyDomainBaseReponse;
+            MyCompanyDomainBaseReponse responseObject = cache.Get(CacheKeyName) as MyCompanyDomainBaseReponse;
 
             policy = new CacheItemPolicy();
             policy.Priority = CacheItemPriority.NotRemovable;
@@ -118,7 +116,7 @@ namespace MPC.Implementation.WebStoreServices
                 Company oCompany = GetCompanyByCompanyID(companyId);
 
                 CacheEntryRemovedCallback callback = null;
-         
+
                 MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
                 oStore.Company = oCompany;
                 oStore.Organisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
@@ -127,9 +125,11 @@ namespace MPC.Implementation.WebStoreServices
                 oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
                 oStore.SecondaryPages = AllPages.Where(s => s.CompanyId == oCompany.CompanyId).ToList();
                 oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
-                oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oCompany.OrganisationId));
+                oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oStore.Organisation.CurrencyId));
                 oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
+                oStore.StoreDetaultAddress = GetDefaultAddressByStoreID(companyId);
                 stores.Add(oCompany.CompanyId, oStore);
+                
 
 
                 cache.Set(CacheKeyName, stores, policy);
@@ -148,13 +148,15 @@ namespace MPC.Implementation.WebStoreServices
 
 
                     oStore.Company = oCompany;
+                    oStore.Organisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
                     oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
                     oStore.Banners = _companyBannerRepository.GetCompanyBannersById(oCompany.CompanyId);
                     oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
                     oStore.SecondaryPages = AllPages.Where(s => s.CompanyId == oCompany.CompanyId).ToList();
                     oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
                     oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oCompany.OrganisationId));
-
+                    oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
+                    oStore.StoreDetaultAddress = GetDefaultAddressByStoreID(companyId);
                     stores.Add(oCompany.CompanyId, oStore);
                     cache.Set(CacheKeyName, stores, policy);
                     return stores[oCompany.CompanyId];
@@ -198,14 +200,15 @@ namespace MPC.Implementation.WebStoreServices
 
                 MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
                 oStore.Company = oCompany;
-                oStore.Organisation = _organisationRepository.GetOrganizatiobByID((int)oCompany.OrganisationId);
+                oStore.Organisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
                 oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
                 oStore.Banners = _companyBannerRepository.GetCompanyBannersById(oCompany.CompanyId);
                 oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
                 oStore.SecondaryPages = AllPages.Where(s => s.CompanyId == oCompany.CompanyId).ToList();
                 oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
-                oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oCompany.OrganisationId));
+                oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oStore.Organisation.CurrencyId));
                 oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
+                oStore.StoreDetaultAddress = GetDefaultAddressByStoreID(companyId);
                 stores.Add(oCompany.CompanyId, oStore);
                 cache.Set(CacheKeyName, stores, policy);
             }
@@ -216,9 +219,9 @@ namespace MPC.Implementation.WebStoreServices
             return _CompanyRepository.GetStoreIdFromDomain(domain);
         }
 
-        public List<ProductCategory> GetCompanyParentCategoriesById(long companyId)
+        public List<ProductCategory> GetCompanyParentCategoriesById(long companyId, long OrganisationId)
         {
-            return _productCategoryRepository.GetParentCategoriesByStoreId(companyId);
+            return _productCategoryRepository.GetParentCategoriesByStoreId(companyId, OrganisationId);
         }
 
         public CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request)
@@ -235,17 +238,17 @@ namespace MPC.Implementation.WebStoreServices
             return _CompanyContactRepository.GetContactByFirstName(FName);
         }
 
-        public CompanyContact GetContactByEmail(string Email)
+        public CompanyContact GetContactByEmail(string Email,long OrganisationID)
         {
-            return _CompanyContactRepository.GetContactByEmail(Email);
+            return _CompanyContactRepository.GetContactByEmail(Email,OrganisationID);
         }
 
         public long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID)
         {
-            return _CompanyContactRepository.CreateContact(Contact, Name, OrganizationID, CustomerType, TwitterScreanName,SaleAndOrderManagerID,StoreID);
+            return _CompanyContactRepository.CreateContact(Contact, Name, OrganizationID, CustomerType, TwitterScreanName, SaleAndOrderManagerID, StoreID);
         }
 
-       
+
 
         public Company GetCompanyByCompanyID(Int64 CompanyID)
         {
@@ -263,8 +266,8 @@ namespace MPC.Implementation.WebStoreServices
         }
         public CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName)
         {
-        
-            return _CompanyContactRepository.CreateCorporateContact(CustomerId, regContact,TwitterScreenName);
+
+            return _CompanyContactRepository.CreateCorporateContact(CustomerId, regContact, TwitterScreenName);
         }
 
         public string GetUiCulture(long organisationId)
@@ -273,7 +276,7 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
-        public CompanyContact GetContactByEmailAndMode(string Email, int Type, int customerID)
+        public CompanyContact GetContactByEmailAndMode(string Email, int Type, long customerID)
         {
             return _CompanyContactRepository.GetContactByEmailAndMode(Email, Type, customerID);
         }
@@ -311,41 +314,45 @@ namespace MPC.Implementation.WebStoreServices
             return _productCategoryRepository.GetAllParentCorporateCatalogByTerritory(customerId, ContactId);
         }
 
-        public List<ProductCategory> GetStoreParentCategories(long companyId)
+        public List<ProductCategory> GetStoreParentCategories(long companyId, long OrganisationId)
         {
-            return _productCategoryRepository.GetParentCategoriesByStoreId(companyId);
+            return _productCategoryRepository.GetParentCategoriesByStoreId(companyId, OrganisationId);
         }
-        public List<ProductCategory> GetAllCategories(long companyId) 
+        public List<ProductCategory> GetAllCategories(long companyId)
         {
             return _productCategoryRepository.GetAllCategoriesByStoreId(companyId);
         }
 
-        public CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId) 
+        public CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId)
         {
             return _CompanyContactRepository.GetCorporateUser(email, password, companyId);
         }
 
-        public ProductCategory GetCategoryById(int categoryId)
+        public ProductCategory GetCategoryById(long categoryId)
         {
             return _productCategoryRepository.GetCategoryById(categoryId);
         }
 
-        public List<ProductCategory> GetChildCategories(int categoryId)
+        public List<ProductCategory> GetChildCategories(long categoryId)
         {
             return _productCategoryRepository.GetChildCategories(categoryId);
         }
 
-        public List<ProductCategory> GetAllChildCorporateCatalogByTerritory(int customerId, int ContactId, int ParentCatId)
+        public List<ProductCategory> GetAllChildCorporateCatalogByTerritory(long customerId, long ContactId, long ParentCatId)
         {
             return _productCategoryRepository.GetAllChildCorporateCatalogByTerritory(customerId, ContactId, ParentCatId);
-            
+
         }
 
 
         public string[] CreatePageMetaTags(string MetaTitle, string metaDesc, string metaKeyword, StoreMode mode, string StoreName, Address address = null)
         {
-                
 
+            this.pageTitle = "";
+            this.MetaKeywords = "";
+            this.MetaDEsc = "";
+            if (address != null)
+            {
                 this.pageTitle = MetaTitle + " - " + StoreName + ", " + address.City + ", " + address.State;
                 this.MetaKeywords = metaKeyword + ", " + address.City + ", " + address.State + ", " + address.Country + "," + address.PostCode;
 
@@ -360,7 +367,25 @@ namespace MPC.Implementation.WebStoreServices
                         this.MetaDEsc = metaDesc + " - " + StoreName + ", " + address.City + ", " + address.State;
                     }
                 }
-                return new[] { pageTitle, MetaKeywords, MetaDEsc };
+            }
+            else 
+            {
+                this.pageTitle = MetaTitle;
+                this.MetaKeywords = metaKeyword;
+                if (!string.IsNullOrEmpty(metaDesc))
+                {
+                    if (metaDesc.Length > 156)
+                    {
+                        this.MetaDEsc = metaDesc.Substring(0, 156);
+                    }
+                    else
+                    {
+                        this.MetaDEsc = metaDesc + " - " + StoreName;
+                    }
+                }
+            }
+
+            return new[] { pageTitle, MetaKeywords, MetaDEsc };
         }
 
         public Address GetDefaultAddressByStoreID(Int64 StoreID)
@@ -368,7 +393,7 @@ namespace MPC.Implementation.WebStoreServices
             return _addressRepository.GetDefaultAddressByStoreID(StoreID);
         }
 
-        public List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(int ProductCategoryID)
+        public List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(long ProductCategoryID)
         {
             return _itemRepository.GetRetailOrCorpPublishedProducts(ProductCategoryID);
         }
@@ -414,7 +439,7 @@ namespace MPC.Implementation.WebStoreServices
         public Organisation getOrganisatonByID(int OID)
         {
             return _organisationRepository.GetOrganizatiobByID(OID);
-            
+
         }
         public string GetContactMobile(long CID)
         {
@@ -426,17 +451,17 @@ namespace MPC.Implementation.WebStoreServices
             return _cmsPageRepositary.getPageByID(PageID);
         }
 
-        public bool canContactPlaceOrder(long contactID,out bool hasWebAccess)
+        public bool canContactPlaceOrder(long contactID, out bool hasWebAccess)
         {
-            return _CompanyContactRepository.canContactPlaceOrder(contactID,out hasWebAccess);
+            return _CompanyContactRepository.canContactPlaceOrder(contactID, out hasWebAccess);
         }
 
-        public string GetCountryNameById(long CountryId) 
+        public string GetCountryNameById(long CountryId)
         {
             return _countryRepository.GetCountryNameById(CountryId);
         }
 
-       
+
 
         /// <summary>
         /// Gets the count of users register against a company by its id
@@ -609,18 +634,18 @@ namespace MPC.Implementation.WebStoreServices
             {
                 return _addressRepository.GetAddressByCompanyID(companyID);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public  CompanyTerritory GetTerritoryById(long territoryId)
+        public CompanyTerritory GetTerritoryById(long territoryId)
         {
             try
             {
                 return _CompanyTerritoryRepository.GetTerritoryById(territoryId);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -631,7 +656,7 @@ namespace MPC.Implementation.WebStoreServices
             {
                 return _addressRepository.GetAdressesByContactID(contactID);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
 
@@ -643,7 +668,7 @@ namespace MPC.Implementation.WebStoreServices
             {
                 return _addressRepository.GetBillingAndShippingAddresses(TerritoryID);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -687,15 +712,107 @@ namespace MPC.Implementation.WebStoreServices
         {
             try
             {
-               return _CompanyContactRepository.GetContactTerritoryID(CID);
+                return _CompanyContactRepository.GetContactTerritoryID(CID);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
+  	 public List<Address> GetContactCompanyAddressesList(long BillingAddressId, long ShippingAddressid, long PickUpAddressId)
+        {
+            try
+            {
+                return _addressRepository.GetContactCompanyAddressesList(BillingAddressId, ShippingAddressid, PickUpAddressId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }        
+        public long GetContactAddressID(long cID)
+        {
+            try
+            {
+                return _CompanyContactRepository.GetContactAddressID(cID);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public string GetStateCodeById(long stateId)
+        {
+            try
+            {
+                return _StateRepository.GetStateCodeById(stateId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <returns></returns>
+
+        public long GetContactIdByCompanyId(long CompanyId)
+        {
+            return _CompanyContactRepository.GetContactIdByCustomrID(CompanyId);
+        }
+        public string GetCountryCodeById(long countryId)
+        {
+            try
+            {
+                return _countryRepository.GetCountryCodeById(countryId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// get contact list by role and company id
+        /// </summary>
+        /// <param name="CompanyID"></param>
+        /// <param name="Role"></param>
+        /// <returns></returns>
+        public long GetContactIdByRole(long CompanyID, int Role)
+        {
+            return _CompanyContactRepository.GetContactIdByRole(CompanyID, Role);
+        }
+        
+
+        public string SystemWeight(long OrganisationID)
+        {
+            try
+            {
+                return _CompanyRepository.SystemWeight(OrganisationID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string SystemLength(long OrganisationID)
+        {
+            try
+            {
+                return _CompanyRepository.SystemLength(OrganisationID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+    
+
         #endregion
     }
 
-    
+
 }

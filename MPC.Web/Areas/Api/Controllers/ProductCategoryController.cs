@@ -10,11 +10,10 @@ using Microsoft.Owin;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
-using MPC.Models.DomainModels;
+using MPC.MIS.ModelMappers;
 using MPC.Models.RequestModels;
 using MPC.WebBase.Mvc;
 using PagedList;
-using ProductCategory = MPC.MIS.Areas.Api.Models.ProductCategory;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -23,7 +22,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Private
 
         private readonly ICategoryService categoryService;
-       
+
         #endregion
 
         #region Constructor
@@ -71,6 +70,18 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
             return null;
         }
+
+        [ApiException]
+        [HttpPost]
+        public ProductCategory Post(ProductCategory productCategory)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+            return categoryService.Save(productCategory.CreateFrom()).CreateFrom();
+        }
+
         #endregion
     }
 }

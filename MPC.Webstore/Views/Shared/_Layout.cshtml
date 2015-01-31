@@ -4,13 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-    @RenderSection("metatags", false)
-    @Styles.Render("~/Content/Site.css")
+    <title>@ViewBag.Title </title>
+
+    <link href="@ViewBag.StyleSheet" rel="stylesheet" />
+
+    <link href="http://mpc/Content/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     @Styles.Render("~/Content/js-image-slider.css")
     @Styles.Render("~/Content/ListingPropertiesCarousel.css")
     @RenderSection("headerScripts", required: false)
+    @RenderSection("metatags", false)
+   
 </head>
 <body class="bodycolor">
     <div id="layer" class="opaqueLayer"></div>
@@ -30,7 +34,6 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-
             $('.bxslider').bxSlider({
                 auto: true,
                 speed: 2200

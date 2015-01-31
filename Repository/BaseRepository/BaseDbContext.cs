@@ -13,6 +13,7 @@ namespace MPC.Repository.BaseRepository
     /// <summary>
     /// Base Db Context. Implements Identity Db Context over Application User
     /// </summary>
+    [Serializable]
     public sealed class BaseDbContext : DbContext
     {
         #region Private
@@ -212,9 +213,11 @@ namespace MPC.Repository.BaseRepository
                 throw new ArgumentException(LanguageResources.InvalidItem, "itemId");
             }
 
+// ReSharper disable SuggestUseVarKeywordEvident
             ObjectParameter itemIdParameter = new ObjectParameter("ItemId", itemId);
+// ReSharper restore SuggestUseVarKeywordEvident
             ObjectResult<double?> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<double?>("sp_GetMinimumProductValue", itemIdParameter);
-            
+
             return result.FirstOrDefault() ?? 0;
         }
 
@@ -400,9 +403,9 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// Listing OFI DbSet
         /// </summary>
-// ReSharper disable InconsistentNaming
+        // ReSharper disable InconsistentNaming
         public DbSet<ListingOFI> ListingOFIs { get; set; }
-// ReSharper restore InconsistentNaming
+        // ReSharper restore InconsistentNaming
 
         /// <summary>
         /// Listing Vendor DbSet
@@ -437,57 +440,57 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// Cost Centre Answer DbSet
         /// </summary>
-        public  DbSet<CostCentreAnswer> CostCentreAnswers { get; set; }
+        public DbSet<CostCentreAnswer> CostCentreAnswers { get; set; }
 
         /// <summary>
         /// Cost center Instuction DbSet
         /// </summary>
-        public  DbSet<CostcentreInstruction> CostcentreInstructions { get; set; }
+        public DbSet<CostcentreInstruction> CostcentreInstructions { get; set; }
 
         /// <summary>
         /// Cost Centre Matrix DbSet
         /// </summary>
-        public  DbSet<CostCentreMatrix> CostCentreMatrices { get; set; }
+        public DbSet<CostCentreMatrix> CostCentreMatrices { get; set; }
 
         /// <summary>
         /// Cost Centre Matrix Detail DbSet
         /// </summary>
-        public  DbSet<CostCentreMatrixDetail> CostCentreMatrixDetails { get; set; }
+        public DbSet<CostCentreMatrixDetail> CostCentreMatrixDetails { get; set; }
 
         /// <summary>
         /// Cost Centre Question DbSet
         /// </summary>
-        public  DbSet<CostCentreQuestion> CostCentreQuestions { get; set; }
+        public DbSet<CostCentreQuestion> CostCentreQuestions { get; set; }
 
         /// <summary>
         /// Cost Centre Answer DbSet
         /// </summary>
-        public  DbSet<CostcentreResource> CostcentreResources { get; set; }
+        public DbSet<CostcentreResource> CostcentreResources { get; set; }
 
         /// <summary>
         /// Cost Centre System Type DbSet
         /// </summary>
-        public  DbSet<CostcentreSystemType> CostcentreSystemTypes { get; set; }
+        public DbSet<CostcentreSystemType> CostcentreSystemTypes { get; set; }
 
         /// <summary>
         /// Cost Centre Template DbSet
         /// </summary>
-        public  DbSet<CostCentreTemplate> CostCentreTemplates { get; set; }
+        public DbSet<CostCentreTemplate> CostCentreTemplates { get; set; }
 
         /// <summary>
         /// Cost Centre Variable DbSet
         /// </summary>
-        public  DbSet<CostCentreVariable> CostCentreVariables { get; set; }
+        public DbSet<CostCentreVariable> CostCentreVariables { get; set; }
 
         /// <summary>
         /// Cost Centre Variable Type DbSet
         /// </summary>
-        public  DbSet<CostCentreVariableType> CostCentreVariableTypes { get; set; }
+        public DbSet<CostCentreVariableType> CostCentreVariableTypes { get; set; }
 
         /// <summary>
         /// Cost Centre Work Instruction Choice DbSet
         /// </summary>
-        public  DbSet<CostcentreWorkInstructionsChoice> CostcentreWorkInstructionsChoices { get; set; }
+        public DbSet<CostcentreWorkInstructionsChoice> CostcentreWorkInstructionsChoices { get; set; }
 
         /// <summary>
         /// Cms Offer DbSet
@@ -505,14 +508,50 @@ namespace MPC.Repository.BaseRepository
         public DbSet<MediaLibrary> MediaLibraries { get; set; }
 
         /// <summary>
+        /// Lookup Method DbSet
+        /// </summary>
+        public DbSet<LookupMethod> LookupMethods { get; set; }
+
+        /// <summary>
+        /// Machine DbSet
+        /// </summary>
+        public DbSet<Machine> Machines { get; set; }
+
+        /// <summary>
+        /// Machine Ink Coverage DbSet
+        /// </summary>
+        public DbSet<MachineInkCoverage> MachineInkCoverages { get; set; }
+
+        /// <summary>
+        /// Machine Resource DbSet
+        /// </summary>
+        public DbSet<MachineResource> MachineResources { get; set; }
+
+        /// <summary>
+        /// Machine Category DbSet
+        /// </summary>
+        public DbSet<MachineCategory> MachineCategories { get; set; }
+
+        /// <summary>
+        /// Group DbSet
+        /// </summary>
+        public DbSet<Group> Groups { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
+// ReSharper disable InconsistentNaming
         public long sp_cloneTemplate(long templateId, long submittedBy, string submittedByName)
+// ReSharper restore InconsistentNaming
         {
+// ReSharper disable SuggestUseVarKeywordEvident
             ObjectParameter templateIdParameter = new ObjectParameter("TemplateID", templateId);
+
             ObjectParameter submittedByParameter = new ObjectParameter("submittedBy", submittedBy);
             ObjectParameter submittedByNameParameter = new ObjectParameter("submittedByName", submittedByName);
-            ObjectResult<long?> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<long?>("BaseDbContext.sp_cloneTemplate", templateIdParameter, submittedByParameter, 
+            // ReSharper restore SuggestUseVarKeywordEvident
+
+            ObjectResult<long?> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<long?>("BaseDbContext.sp_cloneTemplate", templateIdParameter, submittedByParameter,
                 submittedByNameParameter);
             long? newTemplateId = result.FirstOrDefault();
 
@@ -522,7 +561,9 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// Stored Procedure to Add File to FileTable
         /// </summary>
+// ReSharper disable InconsistentNaming
         public int MPCFileTable_Add(string filename, byte[] filedata, string pathlocator, string fileTableName, bool isDirectory = false)
+// ReSharper restore InconsistentNaming
         {
             var filenameParameter = filename != null ?
                 new ObjectParameter("filename", filename) :
@@ -542,14 +583,16 @@ namespace MPC.Repository.BaseRepository
 
             var isDirectoryParameter = new ObjectParameter("isdirectory", isDirectory);
 
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseDbContext.MPCFileTable_Add", filenameParameter, filedataParameter, 
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseDbContext.MPCFileTable_Add", filenameParameter, filedataParameter,
                 pathLocatorParameter, isDirectoryParameter, fileTableParameter);
         }
 
         /// <summary>
         /// Stored Procedure to Delete File from FileTable
         /// </summary>
+// ReSharper disable InconsistentNaming
         public int MPCFileTable_Del(Guid docId, string fileTableName)
+// ReSharper restore InconsistentNaming
         {
             var docIdParameter = new ObjectParameter("docId", docId);
             var fileTableParameter = fileTableName != null ?
@@ -572,7 +615,7 @@ namespace MPC.Repository.BaseRepository
                 new ObjectParameter("fileTableName", fileTableName) :
                 new ObjectParameter("fileTableName", typeof(string));
 
-            ObjectResult<string> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("BaseDbContext.GetNewPathLocator", filePathParameter, 
+            ObjectResult<string> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("BaseDbContext.GetNewPathLocator", filePathParameter,
                 fileTableParameter);
             return result.FirstOrDefault();
         }
@@ -580,9 +623,9 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// GetUsedFonts Updated 
         /// </summary>
-// ReSharper disable InconsistentNaming
+        // ReSharper disable InconsistentNaming
         public IEnumerable<sp_GetUsedFontsUpdated_Result> sp_GetUsedFontsUpdated(long? templateID, long? customerID)
-// ReSharper restore InconsistentNaming
+        // ReSharper restore InconsistentNaming
         {
             var templateIdParameter = templateID.HasValue ?
                 new ObjectParameter("TemplateID", templateID) :
@@ -592,8 +635,8 @@ namespace MPC.Repository.BaseRepository
                 new ObjectParameter("CustomerID", customerID) :
                 new ObjectParameter("CustomerID", typeof(long));
 
-            ObjectResult<sp_GetUsedFontsUpdated_Result> templateFontsUpdatedResults = 
-                ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetUsedFontsUpdated_Result>("BaseDbContext.sp_GetUsedFontsUpdated", templateIdParameter, 
+            ObjectResult<sp_GetUsedFontsUpdated_Result> templateFontsUpdatedResults =
+                ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetUsedFontsUpdated_Result>("BaseDbContext.sp_GetUsedFontsUpdated", templateIdParameter,
                 customerIdParameter);
 
             return templateFontsUpdatedResults.ToList();
@@ -602,7 +645,9 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// Get Real Estate Products 
         /// </summary>
+// ReSharper disable InconsistentNaming
         public IEnumerable<usp_GetRealEstateProducts_Result> usp_GetRealEstateProducts(int? contactCompanyId)
+// ReSharper restore InconsistentNaming
         {
             var contactCompanyIdParameter = contactCompanyId.HasValue ?
                 new ObjectParameter("ContactCompanyID", contactCompanyId) :
@@ -615,7 +660,9 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// Get Template Images Result
         /// </summary>
-        public IEnumerable<sp_GetTemplateImages_Result> sp_GetTemplateImages(int? isCalledFrom, int? imageSetType, long? templateId, long? contactCompanyId, 
+// ReSharper disable InconsistentNaming
+        public IEnumerable<sp_GetTemplateImages_Result> sp_GetTemplateImages(int? isCalledFrom, int? imageSetType, long? templateId, long? contactCompanyId,
+// ReSharper restore InconsistentNaming
             long? contactId, long? territory, int? pageNumber, int? pageSize, string sortColumn, string search, ObjectParameter imageCount)
         {
             var isCalledFromParameter = isCalledFrom.HasValue ?
@@ -659,15 +706,17 @@ namespace MPC.Repository.BaseRepository
                 new ObjectParameter("search", typeof(string));
 
             return ((IObjectContextAdapter)this).ObjectContext.
-                ExecuteFunction<sp_GetTemplateImages_Result>("sp_GetTemplateImages", isCalledFromParameter, imageSetTypeParameter, 
-                templateIdParameter, contactCompanyIdParameter, contactIdParameter, territoryParameter, pageNumberParameter, 
+                ExecuteFunction<sp_GetTemplateImages_Result>("sp_GetTemplateImages", isCalledFromParameter, imageSetTypeParameter,
+                templateIdParameter, contactCompanyIdParameter, contactIdParameter, territoryParameter, pageNumberParameter,
                 pageSizeParameter, sortColumnParameter, searchParameter, imageCount).ToList();
         }
 
         /// <summary>
         /// Stored Procedure sp_CostCentreExecution_get_StockPriceByCalculationType
         /// </summary>
+// ReSharper disable InconsistentNaming
         public double sp_CostCentreExecution_get_StockPriceByCalculationType(int? stockId, int? calculationType, ObjectParameter returnPrice, ObjectParameter perQtyQty)
+// ReSharper restore InconsistentNaming
         {
             var stockIdParameter = stockId.HasValue ?
                 new ObjectParameter("StockID", stockId) :
@@ -677,7 +726,7 @@ namespace MPC.Repository.BaseRepository
                 new ObjectParameter("CalculationType", calculationType) :
                 new ObjectParameter("CalculationType", typeof(int));
 
-            ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_CostCentreExecution_get_StockPriceByCalculationType", stockIdParameter, 
+            ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_CostCentreExecution_get_StockPriceByCalculationType", stockIdParameter,
                 calculationTypeParameter, returnPrice, perQtyQty);
 
             return perQtyQty.Value != null ? (double)perQtyQty.Value : 0;

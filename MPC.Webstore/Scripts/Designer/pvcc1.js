@@ -8,7 +8,7 @@ var cIDv2 = 0;
 var tID = 0;
 var temp;
 var CustomerID = 0;
-var ogranisationId = 0;
+var organisationId = 0;
 var printCropMarks = false;
 var printWaterMarks = false;
 var orderCode = null;
@@ -28,7 +28,7 @@ var T0FU = [];
 var D1SF = 1.2;
 var D1CS = 1;
 var D1CZL = 0; var LIFT = true; var TIC = 0; var TotalImgLoaded = 0; var canvas;
-var highlightEditableText = true; var IsInputSelected = false;
+var highlightEditableText = false; var IsInputSelected = false;
 var isBkPnlUploads = false;
 var TempOB = [];
 //old vars
@@ -152,7 +152,37 @@ function buildParams() {
 	IsEmbedded = locVars[locVars.length - 1];
 	CustomerID = parseInt( locVars[locVars.length - 7]);
 	ContactID =parseInt(  locVars[locVars.length - 6]);
-	ogranisationId = parseInt( locVars[locVars.length - 4]);
+	organisationId = parseInt( locVars[locVars.length - 4]);
 	cIDv2 =parseInt( locVars[locVars.length - 10]);
-	productionFolderPath = "Organisation" + ogranisationId + "/Templates/" ;
+	productionFolderPath = "Organisation" + organisationId + "/Templates/";
+	ItemId = parseInt(locVars[locVars.length - 8]);
+    //alert(ItemId);
+	LoadBasicTemplateSettings();
+	var tempName = locVars[locVars.length - 11];
+	while (tempName.indexOf('%20') != -1)
+	    tempName = tempName.replace("%20", " ");
+	$("#txtTemplateTitle").val(tempName);
+}
+function LoadBasicTemplateSettings() {
+    if (cIDv2 == 0)
+    {
+        $("#Template").css("visibility", "hidden");
+        $("#btnAdd").click();
+    }
+    if(IsCalledFrom == 2)
+    {
+        //corp admin
+     
+    } else if (IsCalledFrom == 3 || IsCalledFrom == 4)
+    {
+        $(".adminControl").css("display", "none");
+    } 
+}
+function restrictControls() {
+    $("#btnAdd").css("visibility", "hidden"); 
+    $("#Quick").click();
+    $("#btnMenuCopy").css("visibility", "hidden");
+    $("#btnMenuPaste").css("visibility", "hidden");
+    $("#backgrounds").css("visibility", "hidden");
+    $("#layersPanel").css("visibility", "hidden");
 }

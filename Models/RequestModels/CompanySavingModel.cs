@@ -27,6 +27,6 @@ namespace MPC.Models.RequestModels
         public List<CmsPage> DeletedCmsPages { get; set; }
         public List<PageCategory> PageCategories { get; set; }
 
-       public List<CmsPageWithWidgetList> CmsPageWithWidgetList { get; set; }
+        public List<CmsPageWithWidgetList> CmsPageWithWidgetList { get; set; }
     }
 }

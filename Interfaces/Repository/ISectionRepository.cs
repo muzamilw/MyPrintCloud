@@ -18,5 +18,10 @@ namespace MPC.Interfaces.Repository
         /// Get Sections By Parent Id
         /// </summary>
         IEnumerable<Section> GetSectionsByParentId(long parentId);
+
+        /// <summary>
+        /// Get Campaign Sections 
+        /// </summary>
+        IEnumerable<Section> GetCampaignSections();
     }
 }

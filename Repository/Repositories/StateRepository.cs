@@ -81,6 +81,20 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+        public string GetStateCodeById(long stateId)
+        {
+
+            try
+            {
+
+                return db.States.Where(a => a.StateId == stateId).Select(c => c.StateCode).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         #endregion
     }
 }

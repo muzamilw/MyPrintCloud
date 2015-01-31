@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace MPC.Models.DomainModels
 {
+    [Serializable()]
     public class CostCentre
     {
         public long CostCentreId { get; set; }
@@ -83,7 +84,6 @@ namespace MPC.Models.DomainModels
         public int Sequence { get; set; }
         public string CompleteCode { get; set; }
         public string ItemDescription { get; set; }
-        public int CompanyId { get; set; }
         public int? SystemTypeId { get; set; }
         public int? FlagId { get; set; }
         public short IsScheduleable { get; set; }
@@ -139,5 +139,6 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<ItemAddonCostCentre> ItemAddonCostCentres { get; set; }
         public virtual ICollection<CostcentreInstruction> CostcentreInstructions { get; set; }
         public virtual ICollection<CostcentreResource> CostcentreResources { get; set; }
+        public virtual ICollection<CompanyCostCentre> CompanyCostCentres { get; set; }
     }
 }

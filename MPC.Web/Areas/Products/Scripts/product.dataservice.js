@@ -70,6 +70,20 @@ define("product/product.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    
+                    // Define request to get base data
+                    amplify.request.define('getBaseDataForDesignerCategory', 'ajax', {
+                        url: ist.siteUrl + '/Api/ItemDesignerTemplateBase',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    
+                    // Define request to get machines
+                    amplify.request.define('getMachines', 'ajax', {
+                        url: ist.siteUrl + '/Api/ProductMachines',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
 
                     isInitialized = true;
                 }
@@ -83,11 +97,30 @@ define("product/product.dataservice", function () {
                     error: callbacks.error,
                 });
             },
+            // Get Base Data for Designer Category
+            getBaseDataForDesignerCategory = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getBaseDataForDesignerCategory',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
             // Get Stock Items
             getStockItems = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getStockItems',
+                    data: params,
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
+            // Get Product Machines
+            getMachines = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getMachines',
                     data: params,
                     success: callbacks.success,
                     error: callbacks.error,
@@ -162,7 +195,9 @@ define("product/product.dataservice", function () {
             getStockItems: getStockItems,
             getBaseData: getBaseData,
             getItemPriceMatricesForItemByFlagId: getItemPriceMatricesForItemByFlagId,
-            getProductCategoryChilds: getProductCategoryChilds
+            getProductCategoryChilds: getProductCategoryChilds,
+            getBaseDataForDesignerCategory: getBaseDataForDesignerCategory,
+            getMachines: getMachines
         };
     })();
 

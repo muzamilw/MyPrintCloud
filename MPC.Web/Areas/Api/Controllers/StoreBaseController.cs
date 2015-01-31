@@ -44,6 +44,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                        //PaymentMethods = result.PaymentMethods.Select(x=>x.CreateFrom()),
                        EmailEvents = result.EmailEvents != null ? result.EmailEvents.Select(x => x.CreateFrom()) : null,
                        Widgets = result.Widgets != null ? result.Widgets.Select(x => x.CreateFrom()) : null,
+                       CostCenterDropDownList = result.CostCentres != null ? result.CostCentres.Select(x => x.CostCentreDropDownCreateFrom()) : null
                        //CmsPageDropDownList = result.CmsPages.Select(x => x.CreateFromForDropDown())
                    };
         }
@@ -59,6 +60,11 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 bytes = File.ReadAllBytes(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png"));
             }
+            string defaultCss = string.Empty;
+            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultCss/Default_CompanyStyles.css")))
+            {
+                defaultCss = File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultCss/Default_CompanyStyles.css"));
+            }
             return new CompanyBaseResponse
             {
                 SystemUsers = result.SystemUsers != null ? result.SystemUsers.Select(x => x.CreateFrom()) : null,
@@ -68,7 +74,9 @@ namespace MPC.MIS.Areas.Api.Controllers
                 Addresses = result.Addresses != null ? result.Addresses.Select(x => x.CreateFrom()) : null,
                 EmailEvents = result.EmailEvents != null ? result.EmailEvents.Select(x => x.CreateFrom()) : null,
                 Widgets = result.Widgets != null ? result.Widgets.Select(x => x.CreateFrom()) : null,
-                DefaultSpriteImage = bytes
+                DefaultSpriteImage = bytes,
+                DefaultCompanyCss = defaultCss,
+                CostCenterDropDownList = result.CostCentres != null ? result.CostCentres.Select(x => x.CostCentreDropDownCreateFrom()) : null
             };
         }
         #endregion

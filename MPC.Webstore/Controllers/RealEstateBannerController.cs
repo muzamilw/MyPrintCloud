@@ -38,9 +38,11 @@ namespace MPC.Webstore.Controllers
         // GET: RealEstateBanner
         public ActionResult Index()
         {
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromBanner();
-
-            return View("PartialViews/RealEstateBanner", baseResponse.Banners);
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+           // MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromBanner();
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            return View("PartialViews/RealEstateBanner", StoreBaseResopnse.Banners);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.Models
 {
@@ -37,7 +38,8 @@ namespace MPC.MIS.Areas.Api.Models
         public string PhoneNo { get; set; }
         public short? IsGeneral { get; set; }
         public int? SalesPerson { get; set; }
-        public byte[] Image { get; set; }
+        public string StoreImagePath { get; set; }
+        
         public string ImageName { get; set; }
         public string WebAccessCode { get; set; }
         public bool? isArchived { get; set; }
@@ -106,6 +108,7 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsDeliveryTaxAble { get; set; }
         public bool? IsDisplayDeliveryOnCheckout { get; set; }
         public long? DeliveryPickUpAddressId { get; set; }
+        public long? PickupAddressId { get; set; }
         public long? BussinessAddressId { get; set; }
 
         #endregion
@@ -141,6 +144,11 @@ namespace MPC.MIS.Areas.Api.Models
         /// Cms Offers
         /// </summary>
         public List<CmsOffer> CmsOffers { get; set; }
+        public List<CompanyDomain> CompanyDomains { get; set; }
+
+        public List<MediaLibrary> MediaLibraries { get; set; }
+        public List<CostCentreDropDown> CompanyCostCentres { get; set; }
+       
 
         #region CMS Pages
 
@@ -195,10 +203,13 @@ namespace MPC.MIS.Areas.Api.Models
 
         #endregion
 
+
         #endregion
 
         #region Public Image Source
         public string ImageBytes { get; set; }
+
+        public byte[] Image { get; set; }
         /// <summary>
         /// Image Source
         /// </summary>
@@ -220,15 +231,7 @@ namespace MPC.MIS.Areas.Api.Models
         #endregion
 
         #region Backgroud Image
-        /// <summary>
-        /// Store Backgroud Image Image Source
-        /// </summary>
-        public string StoreBackgroudImageImageSource { get; set; }
-
-        /// <summary>
-        /// Store Backgroud Image File Name
-        /// </summary>
-        public string StoreBackgroudImageFileName { get; set; }
+        public string StoreBackgroundFile { get; set; }
 
         /// <summary>
         /// Store Backgroud Image Bytes

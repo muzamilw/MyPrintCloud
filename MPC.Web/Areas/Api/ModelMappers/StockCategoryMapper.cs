@@ -34,7 +34,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Flag2 = source.Flag2,
                 Flag3 = source.Flag3,
                 Flag4 = source.Flag4,
-                CompanyId = source.CompanyId,
+                OrganistionId = source.OrganisationId,
                 StockSubCategories = source.StockSubCategories.Select(x => x.CreateFrom()).ToList()
             };
         }
@@ -76,7 +76,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Flag2 = source.Flag2,
                 Flag3 = source.Flag3,
                 Flag4 = source.Flag4,
-                CompanyId = source.CompanyId,
+                OrganisationId = source.OrganistionId
             };
             if (stockCategory.StockSubCategories == null)
             {

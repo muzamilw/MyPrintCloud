@@ -149,6 +149,14 @@ namespace MPC.Webstore.Models
         /// User Domain Key
         /// </summary>
         public int UserDomainKey { get; set; }
+        /// <summary>
+        /// ShowBleedArea
+        /// </summary>
+        public bool? ShowBleedArea { get; set; }
+        /// <summary>
+        /// BleedAreaSize
+        /// </summary>
+        public double? BleedAreaSize { get; set; }
 
         ///// <summary>
         ///// Payment Business Email

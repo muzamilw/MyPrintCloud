@@ -43,7 +43,6 @@
         <EntityTypeShape EntityType="DomainModels.WeightUnit" Width="1.5" PointX="11.375" PointY="6.75" />
         <EntityTypeShape EntityType="DomainModels.CompanyContact" Width="1.5" PointX="13.25" PointY="14.25" />
         <EntityTypeShape EntityType="DomainModels.CompanyContactRole" Width="1.5" PointX="11.375" PointY="17.875" />
-        <EntityTypeShape EntityType="DomainModels.CompanyCostCentre" Width="1.5" PointX="18" PointY="14.75" />
         <EntityTypeShape EntityType="DomainModels.CompanyTerritory" Width="1.5" PointX="3" PointY="24.75" />
         <EntityTypeShape EntityType="DomainModels.CompanyType" Width="1.5" PointX="2.5" PointY="22.125" />
         <AssociationConnector Association="DomainModels.FK_tbl_contactcompanies_tbl_contactcompanytypes" />
@@ -114,7 +113,7 @@
         <AssociationConnector Association="DomainModels.FK_tbl_invoicedetails_tbl_items" />
         <EntityTypeShape EntityType="DomainModels.Campaign" Width="1.5" PointX="25.375" PointY="21" />
         <EntityTypeShape EntityType="DomainModels.CampaignEmailVariable" Width="1.5" PointX="15.375" PointY="21" />
-        <EntityTypeShape EntityType="DomainModels.CampaignImage" Width="1.5" PointX="27.625" PointY="28.75" />
+        <EntityTypeShape EntityType="DomainModels.CampaignImage" Width="1.5" PointX="27.375" PointY="26.375" />
         <EntityTypeShape EntityType="DomainModels.DeliveryNote" Width="1.5" PointX="21.125" PointY="29.125" />
         <EntityTypeShape EntityType="DomainModels.DeliveryNoteDetail" Width="1.5" PointX="23.625" PointY="41.625" />
         <AssociationConnector Association="DomainModels.FK_tbl_CampaignImages_tbl_campaigns" />
@@ -172,8 +171,8 @@
         <EntityTypeShape EntityType="DomainModels.MediaFileTableView" Width="1.5" PointX="29.375" PointY="21.875" />
         <EntityTypeShape EntityType="DomainModels.OrganisationFileTableView" Width="1.5" PointX="29.375" PointY="24.625" />
         <EntityTypeShape EntityType="DomainModels.ProductFileTableView" Width="1.5" PointX="25.375" PointY="18.125" />
-        <EntityTypeShape EntityType="DomainModels.SecondaryPageFileTableView" Width="1.5" PointX="30.375" PointY="27.875" />
-        <EntityTypeShape EntityType="DomainModels.StoreFileTableView" Width="1.5" PointX="30.375" PointY="30.875" />
+        <EntityTypeShape EntityType="DomainModels.SecondaryPageFileTableView" Width="1.5" PointX="29.375" PointY="27.375" />
+        <EntityTypeShape EntityType="DomainModels.StoreFileTableView" Width="1.5" PointX="29.375" PointY="30" />
         <EntityTypeShape EntityType="DomainModels.TemplateFileTableView" Width="1.5" PointX="31.375" PointY="0.875" />
         <EntityTypeShape EntityType="DomainModels.ItemStateTax" Width="1.5" PointX="11" PointY="44.75" />
         <AssociationConnector Association="DomainModels.FK_ItemStateTax_Country" />
@@ -206,13 +205,13 @@
         <EntityTypeShape EntityType="DomainModels.FavoriteDesign" Width="1.5" PointX="26.625" PointY="46.875" />
         <EntityTypeShape EntityType="DomainModels.Listing" Width="1.5" PointX="33.375" PointY="1" />
         <EntityTypeShape EntityType="DomainModels.ListingAgent" Width="1.5" PointX="6.375" PointY="32" />
-        <EntityTypeShape EntityType="DomainModels.ListingConjunctionAgent" Width="1.5" PointX="27.375" PointY="32" />
+        <EntityTypeShape EntityType="DomainModels.ListingConjunctionAgent" Width="1.5" PointX="27.375" PointY="28.75" />
         <EntityTypeShape EntityType="DomainModels.ListingFloorPlan" Width="1.5" PointX="7.375" PointY="25" />
         <EntityTypeShape EntityType="DomainModels.ListingImage" Width="1.5" PointX="33.375" PointY="17" />
         <EntityTypeShape EntityType="DomainModels.ListingLink" Width="1.5" PointX="33.375" PointY="21" />
         <EntityTypeShape EntityType="DomainModels.ListingOFI" Width="1.5" PointX="33.375" PointY="24" />
-        <EntityTypeShape EntityType="DomainModels.ListingVendor" Width="1.5" PointX="33.375" PointY="28" />
-        <EntityTypeShape EntityType="DomainModels.CompanyVariableIcon" Width="1.5" PointX="33.375" PointY="32" />
+        <EntityTypeShape EntityType="DomainModels.ListingVendor" Width="1.5" PointX="33.375" PointY="27.125" />
+        <EntityTypeShape EntityType="DomainModels.CompanyVariableIcon" Width="1.5" PointX="33.375" PointY="30.75" />
         <AssociationConnector Association="DomainModels.FK_tbl_FavoriteDesign_tbl_contacts" />
         <AssociationConnector Association="DomainModels.FK_tbl_FavoriteDesign_tbl_items" />
         <EntityTypeShape EntityType="DomainModels.Phrase" Width="1.5" PointX="33.375" PointY="34.875" />
@@ -240,7 +239,19 @@
         <EntityTypeShape EntityType="DomainModels.ItemStockUpdateHistory" Width="1.5" PointX="35.375" PointY="12.875" />
         <EntityTypeShape EntityType="DomainModels.MediaLibrary" Width="1.5" PointX="3" PointY="43.375" />
         <AssociationConnector Association="DomainModels.FK_MediaLibrary_Company" />
-      </Diagram>
+        <EntityTypeShape EntityType="DomainModels.LookupMethod" Width="1.5" PointX="27.375" PointY="35.875" />
+        <EntityTypeShape EntityType="DomainModels.Machine" Width="1.5" PointX="35.375" PointY="17.5" />
+        <EntityTypeShape EntityType="DomainModels.MachineInkCoverage" Width="1.5" PointX="37.625" PointY="21.75" />
+        <EntityTypeShape EntityType="DomainModels.MachineResource" Width="1.5" PointX="37.625" PointY="24.5" />
+        <AssociationConnector Association="DomainModels.FK_tbl_machines_tbl_machine_ink_coverage" />
+        <AssociationConnector Association="DomainModels.FK_tbl_machines_tbl_machine_resource" />
+        <EntityTypeShape EntityType="DomainModels.MachineCategory" Width="1.5" PointX="35.375" PointY="30.75" />
+        <EntityTypeShape EntityType="DomainModels.CompanyCostCentre" Width="1.5" PointX="37.625" PointY="18.125" />
+        <AssociationConnector Association="DomainModels.FK_CompanyCostCentre_Company" />
+        <AssociationConnector Association="DomainModels.FK_CompanyCostCentre_CostCentre" />
+        <EntityTypeShape EntityType="DomainModels.Group" Width="1.5" PointX="18.375" PointY="13.75" />
+        <AssociationConnector Association="DomainModels.FK_CampaignEmailVariable_Section" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

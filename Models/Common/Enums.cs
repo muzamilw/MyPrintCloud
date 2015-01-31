@@ -111,7 +111,8 @@ namespace MPC.Models.Common
         TemplateProductWithImage = 2,
         TemplateProductWithBanner = 3,
         FinishedGoodWithBanner = 4,
-        InventoryItem = 5
+        InventoryItem = 5,
+        RealEstate = 6
     }
 
     public enum ItemStatuses
@@ -156,7 +157,7 @@ namespace MPC.Models.Common
 
     };
 
-    [Serializable]
+  
     public enum UploadFileTypes : int
     {
         Artwork,
@@ -277,5 +278,11 @@ namespace MPC.Models.Common
         Ordered = 2,
         ReachedThresholdLevel = 3,
         BackOrder = 4
+    }
+    public enum DeliveryCarriers
+    {
+        Fedex = 1,
+        UPS = 2,
+        Other = 3
     }
 }

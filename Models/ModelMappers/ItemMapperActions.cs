@@ -105,6 +105,21 @@ namespace MPC.Models.ModelMappers
         /// </summary>
         public Action<ProductCategoryItem> DeleteProductCategoryItem { get; set; }
 
+        /// <summary>
+        /// Action to create a Item Section
+        /// </summary>
+        public Func<ItemSection> CreateItemSection { get; set; }
+
+        /// <summary>
+        /// Action to set defaults to Item Section
+        /// </summary>
+        public Action<ItemSection> SetDefaultsForItemSection { get; set; }
+
+        /// <summary>
+        /// Action to delete a Item Section
+        /// </summary>
+        public Action<ItemSection> DeleteItemSection { get; set; }
+
         #endregion
     }
 }

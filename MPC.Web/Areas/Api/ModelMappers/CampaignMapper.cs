@@ -1,5 +1,7 @@
-﻿using MPC.MIS.Areas.Api.Models;
+﻿using System.Linq;
+using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
+using ResponseModels = MPC.Models.ResponseModels;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
@@ -44,6 +46,19 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             };
         }
 
+        /// <summary>
+        ///  Crete From Domain Model
+        /// </summary>
+        public static CampaignBaseResponse CreateFrom(this ResponseModels.CampaignBaseResponse source)
+        {
+            return new CampaignBaseResponse()
+            {
+                CompanyTypes = source.CompanyTypes.Select(ct => ct.CreateFrom()).ToList(),
+                Groups = source.Groups.Select(g => g.CreateFrom()).ToList(),
+                SectionFlags = source.SectionFlags.Select(g => g.CreateFromDropDown()).ToList(),
+                CampaignSections = source.CampaignSections.Select(g => g.CreateFromCampaign()).ToList()
+            };
+        }
         #endregion
     }
 }

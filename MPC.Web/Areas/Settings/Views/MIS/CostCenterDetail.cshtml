@@ -1,17 +1,345 @@
-﻿
-@{
-    Layout = null;
+﻿@{
+    ViewBag.Title = "Cost Center Detail";
 }
+@section leftmenue {
 
-<!DOCTYPE html>
+}
+<div class="row" data-bind="visible: $root.isEditorVisible()" style="display: none">
+<div class="col-lg-12">
+    <form method="post" enctype="multipart/form-data" id="fileUploadForm">
+        <div class="row" data-bind="with: selectedCostCenter()">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li><a href="~/Dashboard/Index">Home</a></li>
+                    <li><span>Settings</span></li>
+                    <li><a href="~/Settings/MIS/CostCenters">Cost Centers</a></li>
+                    <li class="active"><span>Cost Center Detail</span></li>
+                </ol>
+                <div class="clearfix">
+                    <h1 class="pull-left" data-bind="text: name()"></h1>
+                    <div class="pull-right top-page-ui">
+                        <button type="button" class="btn btn-primary" data-bind="click: $root.saveCostCenter">
+                            <span class="fa fa-save"></span>&nbsp;Save
+                        </button>
+                        <button type="button" class="btn btn-primary" data-bind="click: $root.closeCostCenterDetail">
+                            <span class="fa fa-power-off"></span>&nbsp;Close
+                        </button>
+                    </div>
+                </div>
+            </div> 
+            <div class="row" id="divCostCenterDetail">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="main-box clearfix">
+                        <div class="tabs-wrapper profile-tabs">
+                            <ul class="nav nav-tabs">
+                                <li class="active" id="generalInfoTab"><a href="#tab-generalinfo" data-toggle="tab">Type & Description</a></li>
+                                <li><a href="#tab-CostSetup" data-toggle="tab">Cost Setup</a></li>
+                                <li><a href="#tab-FixedCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 1">Fixed Calculation</a></li>
+                                <li><a href="#tab-QtyBaseCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 3">Quantity Base Calculation</a></li>
+                                <li><a href="#tab-PlantCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 4">Plant Calculation</a></li>
+                                <li><a href="#tab-StockCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 4">Stock Calculation</a></li>
+                                <li><a href="#tab-LabourCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 4">Labour Calculation</a></li>
+                                <li><a href="#tab-TimeCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 4">Time Calculation</a></li>
+                                <li><a href="#tab-WorkInstruction" data-toggle="tab">Work Instruction</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active" id="tab-generalinfo">
+                                    <div class="col-lg-12 form-horizontal">
+                                        <h3 class="group-header">Cost Center Details</h3>
+                                        <div class="col-lg-9">
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the cost center." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtCostCenterName" class="control-label text-right tooltip-float">Name</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" id="txtCostCenterName" placeholder="Enter Cost Center Name" data-bind="value: name, validationTooltip: name">
+                                                    <span class="help-block text-right">Cost Center Name required to display in lists.</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the cost center." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtInternalDesc" class="control-label text-right tooltip-float">Internal Description</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <textarea class="form-control" id="txtInternalDesc" placeholder="Enter Internal Description" rows="5" data-bind="value: description"></textarea>
+                                                    <span class="help-block text-right">Description required to display in lists.</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the cost center." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtWebDesc" class="control-label text-right tooltip-float">Web Store Description</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <textarea class="form-control" id="txtWebDesc" placeholder="Enter Internal Description" rows="5" data-bind="value: webStoreDesc"></textarea>
+                                                    <span class="help-block text-right">Web description required to display on website.</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Cost Center Category" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="ddlbCostCenterCategory" class="control-label text-right tooltip-float">Cost Center Category</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <select id="ddlbCostCenterCategory" class="form-control" data-bind="options: $root.costCenterCategories, optionsText: 'TypeName', optionsValue: 'TypeId',value:type"></select>
+                                                    <span class="help-block text-right">Cost Center Category</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Cost Center Type" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="ddlbCostCenterType" class="control-label text-right tooltip-float">Calculation Method Type</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <select id="ddlbCostCenterType" class="form-control" data-bind="options: $root.costCenterTypes, optionsText: 'TypeName', optionsValue: 'TypeId',value:calculationMethodType"></select>
+                                                   <span class="help-block text-right">Cost Center Type</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Grouping and Job card Priority" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtPriority" class="control-label text-right tooltip-float">Grouping and Job card Priority</label>
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <input type="text" class="form-control" id="txtPriority" placeholder="Enter Cost Center Name" data-bind="value: priority">
+                                                    <span class="help-block text-right">(0-Hight, 9-Low)</span>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-lg-3 col-md-4 col-sm-4">
+                                            <div class="clearfix">
+                                                <header class="main-box-header clearfix">
+                                                    <h2><label>Thumbnail</label></h2>
+                                                </header>
+                                                <div class="main-box-body clearfix">
+                                                    <img style="min-height: 150px; width: 150px;" />
+                                                    <div class="pull-right">
+                                                        <div class="fileUpload btn btn-primary">
+                                                            <span>....</span>
+                                                            <input type="file" class="upload" id="image_files" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="profile-stars">
+                                                        <span data-bind="value: type"></span>
+                                                    </div>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>CostCenterDetail</title>
-</head>
-<body>
-    <div> 
-    </div>
-</body>
-</html>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="tab-pane fade" id="tab-FixedCalculation">
+                                    <div class="col-lg-12">
+                                        <h3 class="group-header">Fixed Calculation Method</h3>
+                                    </div>
+                                    
+                                    
+                                   
+                                    </div>
+                                <div class="tab-pane fade" id="tab-CostSetup">
+                                    <div class="col-lg-12 form-horizontal">
+                                        <h3 class="group-header">Cost Setup</h3>
+                                        <div class="col-lg-9">
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Minimum Cost." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtMinimumCost" class="control-label text-right tooltip-float">Minimum Cost</label>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <input type="text" class="form-control" id="txtMinimumCost" placeholder="Enter minimum cost" data-bind="value: minimumCost, validationTooltip: minimumCost">
+                                                    <span class="help-block text-right">minimum cost</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Setup Cost." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtSetupCost" class="control-label text-right tooltip-float">Setup Cost</label>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <input type="text" class="form-control" id="txtSetupCost" placeholder="Enter setup cost" data-bind="value: setupCost, validationTooltip: minimumCost">
+                                                    <span class="help-block text-right"> setup time</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Run On Cost." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtRunonCost" class="control-label text-right tooltip-float">Run On Cost</label>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <input type="text" class="form-control" id="txtRunonCost" placeholder="Enter Run On cost" data-bind="value: costPerThousand">
+                                                    <span class="help-block text-right">Rnon Cost</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Hourly Rate." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtHourlyRate" class="control-label text-right tooltip-float">Hourly Rate</label>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <input type="text" class="form-control" id="txtHourlyRate" placeholder="Enter hourly rate" data-bind="value: hourlyCharge">
+                                                    <span class="help-block text-right">Hourly Rate</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Hourly Overhead Rate." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtHourlyOverheadRate" class="control-label text-right tooltip-float">Hourly Overhead Rate</label>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <input type="text" class="form-control" id="txtHourlyOverheadRate" placeholder="Enter hourly rate" data-bind="value: overHeadRate">
+                                                    <span class="help-block text-right">Hourly Overhead Rate</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Minimum Time" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtMinimumTime" class="control-label text-right tooltip-float">Minimum Time</label>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <input type="text" class="form-control" id="txtMinimumTime" placeholder="Enter Minimum Time" data-bind="value: completionTime">
+                                                    <span class="help-block text-right">Minimum Time</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Setup Time" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtSetupTime" class="control-label text-right tooltip-float">Setup Time</label>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <input type="text" class="form-control" id="txtSetupTime" placeholder="Enter Setup Time" data-bind="value: setupTime">
+                                                    <span class="help-block text-right">Setup Time</span>
+                                                </div>
+                                            </div>
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 form-horizontal">
+                                        <h3 class="group-header">Spoilage</h3>
+                                        <div class="col-lg-9">
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Minimum Cost." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtSetupSpoilage" class="control-label text-right tooltip-float">Setup Spoilage</label>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <input type="text" class="form-control" id="txtSetupSpoilage" placeholder="Enter minimum cost" data-bind="value: setupSpoilage">
+                                                    <span class="help-block text-right">Setup Spoilage</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Running Spoilage" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtRunningSpoilage" class="control-label text-right tooltip-float">Running Spoilage</label>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <input type="text" class="form-control" id="txtRunningSpoilage" placeholder="Enter minimum cost" data-bind="value: runningSpoilage">
+                                                    <span class="help-block text-right">Running Spoilage</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        </div>
+                                        <div class="tab-pane clearfix fade" id="tab-QtyBaseCalculation">
+                                            <div class="col-lg-12 form-horizontal">
+                                                <h3 class="group-header">Quantity Base Calculation</h3>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-PlantCalculation">
+                                            <div class="col-lg-12 form-horizontal">
+                                                <h3 class="group-header">Plant Calculation</h3>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane clearfix fade" id="tab-StockCalculation">
+                                            <div class="col-lg-12 form-horizontal">
+                                                <h3 class="group-header">Stock Calculation</h3>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane clearfix fade" id="tab-LabourCalculation">
+                                            <div class="col-lg-12 form-horizontal">
+                                                <h3 class="group-header">Labour Calculation</h3>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-TimeCalculation">
+                                            <div class="col-lg-12 form-horizontal">
+                                                <h3 class="group-header">Time Calculation</h3>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-WorkInstruction">
+                                            <div class="col-lg-12 form-horizontal">
+                                                <h3 class="group-header">Work Instructions</h3>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+</div>

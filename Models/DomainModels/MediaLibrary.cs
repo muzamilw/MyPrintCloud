@@ -1,4 +1,6 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MPC.Models.DomainModels
 {
     /// <summary>
     /// Media Library Domain Model
@@ -12,5 +14,15 @@
         public long CompanyId { get; set; }
 
         public virtual Company Company { get; set; }
+
+        #region Additional Properties
+        [NotMapped]
+        public string FileSource { get; set; }
+        #endregion
+
+        #region Additional Properties
+        [NotMapped]
+        public string FakeId { get; set; }
+        #endregion
     }
 }

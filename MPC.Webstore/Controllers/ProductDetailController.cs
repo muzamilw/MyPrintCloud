@@ -13,12 +13,14 @@ using MPC.Webstore.ViewModels;
 using System.Web.Configuration;
 using MPC.ExceptionHandling;
 using System.Globalization;
+using System.Runtime.Caching;
 
 namespace MPC.Webstore.Controllers
 {
     public class ProductDetailController : Controller
     {
         private readonly ICompanyService _myCompanyService;
+        private readonly IOrderService _orderService;
         private readonly IItemService _IItemService;
         private readonly ITemplateService _ITemplateService;
         private readonly IWebstoreClaimsHelperService _myClaimHelper;
@@ -26,8 +28,8 @@ namespace MPC.Webstore.Controllers
         private int _priceMatrixListCount = 0;
         private long organisationID = 0;
         RelatedItemViewModel RIviewModel = new RelatedItemViewModel();
- 
-        public ProductDetailController(IWebstoreClaimsHelperService myClaimHelper, ICompanyService myCompanyService,IItemService IItemService,ITemplateService ITemplateService)
+
+        public ProductDetailController(IWebstoreClaimsHelperService myClaimHelper, ICompanyService myCompanyService, IItemService IItemService, ITemplateService ITemplateService, IOrderService orderService)
         {
             if (myCompanyService == null)
             {
@@ -38,6 +40,7 @@ namespace MPC.Webstore.Controllers
             this._myCompanyService = myCompanyService;
             this._IItemService = IItemService;
             this._ITemplateService = ITemplateService;
+            this._orderService = orderService;
         
         }
         // GET: Default
@@ -45,17 +48,19 @@ namespace MPC.Webstore.Controllers
         {
             try
             {
-                
+                string CacheKeyName = "CompanyBaseResponse";
+                ObjectCache cache = MemoryCache.Default;
+
                 double minimumPrice = 0;
                 long ReferenceItemID;
                 bool IsShowPrices;
-                MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-                
-                MyCompanyDomainBaseResponse baseresponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
-                MyCompanyDomainBaseResponse baseresponseOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
-                organisationID = baseresponseOrg.Organisation.OrganisationId;
 
-                if (baseResponseCompany.Company.ShowPrices == true)
+                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+
+              
+                organisationID = StoreBaseResopnse.Organisation.OrganisationId;
+
+                if (StoreBaseResopnse.Company.ShowPrices == true)
                 {
                     ViewBag.IsShowPrices = true;
                     IsShowPrices = true;
@@ -76,8 +81,8 @@ namespace MPC.Webstore.Controllers
                     {
                         ViewBag.TemplateID = TemplateID;
                         long TempID = TemplateID;
-                        SetLastItemTemplateMatchingSets(ItemRecord, baseresponseOrg, baseresponseCurrency, baseResponseCompany, TempID);
-                        PopulateTemplateObject(TempID, ItemRecord, ItemID);
+                        SetLastItemTemplateMatchingSets(ItemRecord, StoreBaseResopnse,TempID);
+                        PopulateTemplateObject(TempID, ItemRecord, ItemID,StoreBaseResopnse.Organisation.OrganisationId);
                     }
                     else
                     {
@@ -100,13 +105,13 @@ namespace MPC.Webstore.Controllers
 
                     ViewBag.hfCategoryId = CategoryID;
 
-                    SetPageMEtaTitle(ItemRecord.ProductName, ItemRecord.MetaDescription, ItemRecord.MetaKeywords, ItemRecord.MetaTitle, baseResponseCompany);
+                   // SetPageMEtaTitle(ItemRecord.ProductName, ItemRecord.MetaDescription, ItemRecord.MetaKeywords, ItemRecord.MetaTitle,StoreBaseResopnse);
 
                     string CurrentProductCategoryName = string.Empty;
                     //Findout the minimum price
                     minimumPrice = _IItemService.FindMinimumPriceOfProduct(ItemRecord.ItemId);
                     string cateName = _IItemService.GetImmidiateParentCategory(ItemRecord.ItemId, out CurrentProductCategoryName);
-                    string currency = baseresponseCurrency.Currency;
+                    string currency = StoreBaseResopnse.Currency;
                     //Sets Heading
                     SetHeadings(CurrentProductCategoryName, ItemRecord.ProductName, cateName, minimumPrice.ToString(), ItemRecord.ProductCode, ItemRecord.WebDescription, ItemRecord.ItemId, currency);
 
@@ -122,7 +127,7 @@ namespace MPC.Webstore.Controllers
                     if (ItemRecord.ItemPriceMatrices.Count > 0)
                     {
                         ReferenceItemID = ItemRecord.ItemId;
-                        BindPriceMatrixData(ItemRecord.ItemPriceMatrices.Where(i => i.SupplierId == null).ToList(), mode, baseResponseCompany, ItemRecord);
+                        BindPriceMatrixData(ItemRecord.ItemPriceMatrices.Where(i => i.SupplierId == null).ToList(), mode, StoreBaseResopnse, ItemRecord);
                     }
                     if (stockOption != null)
                     {
@@ -174,7 +179,7 @@ namespace MPC.Webstore.Controllers
                     //HandleCorporateScenario(curProduct);
 
 
-                    LoadRelatedItems(ItemID, ItemRecord.ProductName, baseresponseCurrency, IsShowPrices);
+                    LoadRelatedItems(ItemID, ItemRecord.ProductName, StoreBaseResopnse, IsShowPrices);
 
 
 
@@ -221,7 +226,7 @@ namespace MPC.Webstore.Controllers
         /// <param name="baseresponseOrg"></param>
         /// <param name="baseresponseCurrency"></param>
         /// <param name="baseresponseCompany"></param>
-        private void SetLastItemTemplateMatchingSets(Item Product, MyCompanyDomainBaseResponse baseresponseOrg, MyCompanyDomainBaseResponse baseresponseCurrency, MyCompanyDomainBaseResponse baseresponseCompany,long tempID)
+        private void SetLastItemTemplateMatchingSets(Item Product, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseresponse,long tempID)
         {
 
             MatchingSetViewModel MSViewModel = new MatchingSetViewModel();
@@ -238,7 +243,7 @@ namespace MPC.Webstore.Controllers
                         if (!string.IsNullOrEmpty(TemplateName))
                         {
 
-                            List<MatchingSets> res = _ITemplateService.BindTemplatesList(TemplateName, 1, baseresponseOrg.Organisation.OrganisationId, (int)_myClaimHelper.loginContactCompanyID());
+                            List<MatchingSets> res = _ITemplateService.BindTemplatesList(TemplateName, 1, baseresponse.Organisation.OrganisationId, (int)_myClaimHelper.loginContactCompanyID());
 
                             int isCalledFrom = 0;
                             if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
@@ -263,7 +268,7 @@ namespace MPC.Webstore.Controllers
                             }
 
                             bool isShowPrices;
-                            if (baseresponseCompany.Company.ShowPrices ?? true)
+                            if (baseresponse.Company.ShowPrices ?? true)
                             {
                                 isShowPrices = true;
                             }
@@ -301,7 +306,7 @@ namespace MPC.Webstore.Controllers
                                 MSViewModel.MatchingSetsList = res;
                                 MSViewModel.MappedCategoriesName = mappedCatList;
                                 MSViewModel.IsIncludeVAT = isIncludeVAT;
-                                MSViewModel.Currency = baseresponseCurrency.Currency;
+                                MSViewModel.Currency = baseresponse.Currency;
                                 MSViewModel.IsShowPrices = isShowPrices;
                                 ViewData["MSViewModel"] = MSViewModel;
                             }
@@ -330,11 +335,11 @@ namespace MPC.Webstore.Controllers
         /// <param name="TempID"></param>
         /// <param name="RecItem"></param>
         /// <param name="ItemID"></param>
-        private void PopulateTemplateObject(long TempID,Item RecItem,long ItemID)
+        private void PopulateTemplateObject(long TempID,Item RecItem,long ItemID,long OID)
         {
              Template ObjTemp = new Template();
              string TempName = string.Empty;
-             string option = string.Empty;
+             string option = "NoTemplate";
              List<TemplatePage> LstTempPages = new List<TemplatePage>();
              _ITemplateService.populateTemplateInfo(TempID,RecItem,out ObjTemp,out LstTempPages);
  
@@ -355,7 +360,7 @@ namespace MPC.Webstore.Controllers
                 ViewBag.txtTemplateID = TempID;
                 ViewBag.Count = count;
 
-                if (UserCookieManager.OrderId != null)
+                if (UserCookieManager.OrderId > 0)
                 {
 
                             var result = _IItemService.GetItemByOrderAndItemID(ItemID,UserCookieManager.OrderId);
@@ -407,20 +412,44 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    string TemplateDesignerUrl = WebConfigurationManager.AppSettings["TemplateDesignsUrl"];
-                    ViewBag.IsTemplateProductWithBanner = false;
-                    html = "  <div id='slider' style='height:450px;'> ";
-                    for (int i = 1; i <= count; i++)
-                    {
-                        string imgurl = string.Format("{0}{1}{2}", TemplateDesignerUrl, "designer/products/" + TempID + "/", "p" + i + ".png");
-                        if(LstTempPages != null)
-                            html += "<img class='sliderImgs' src=" + imgurl + " alt='" + LstTempPages[i - 1].PageName + "'  />";// orignal for image slider 
-                        else
-                            html += "<img class='sliderImgs' src=" + imgurl + "/>";// orignal for image slider 
-                    }
-                    html += "</div>";
-                    ViewBag.Html = html;
                     
+                    if(ItemID > 0)
+                    {
+                        ViewBag.IsTemplateProductWithBanner = false;
+                        html = "  <div id='slider' style='height:450px;'> ";
+                        for (int i = 1; i <= count; i++)
+                        {
+                            string path = "/MPC_Content/Designer/Organisation" + OID + "/Templates/" + TempID + "/p" + i + ".png";
+                          //  string drURL = System.Web.HttpContext.Current.Server.MapPath(path);
+                            // string imgurl = string.Format("{0}{1}{2}", TemplateDesignerUrl, "designer/products/" + TempID + "/", "p" + i + ".png");
+                            if (LstTempPages != null)
+                                html += "<img class='sliderImgs' src=" + path + " alt='" + LstTempPages[i - 1].PageName + "'  />";// orignal for image slider 
+                            else
+                                html += "<img class='sliderImgs' src=" + path + "/>";// orignal for image slider 
+                        }
+                        html += "</div>";
+                        ViewBag.Html = html;
+
+                       
+                    }
+                    else
+                    {
+                        string TemplateDesignerUrl = WebConfigurationManager.AppSettings["TemplateDesignsUrl"];
+                        ViewBag.IsTemplateProductWithBanner = false;
+                        html = "  <div id='slider' style='height:450px;'> ";
+                        for (int i = 1; i <= count; i++)
+                        {
+                            string imgurl = string.Format("{0}{1}{2}", TemplateDesignerUrl, "designer/products/" + TempID + "/", "p" + i + ".png");
+                            if (LstTempPages != null)
+                                html += "<img class='sliderImgs' src=" + imgurl + " alt='" + LstTempPages[i - 1].PageName + "'  />";// orignal for image slider 
+                            else
+                                html += "<img class='sliderImgs' src=" + imgurl + "/>";// orignal for image slider 
+                        }
+                        html += "</div>";
+                        ViewBag.Html = html;
+
+                    }
+  
                 }
             }
         /// <summary>
@@ -443,10 +472,10 @@ namespace MPC.Webstore.Controllers
                 if (images.Count != 0)
                 {
                     ViewBag.txtNoOfPages = images.Count.ToString();
-                    string AppBasePath = WebConfigurationManager.AppSettings["AppBasePath"];
+                    //string AppBasePath = WebConfigurationManager.AppSettings["AppBasePath"];
                     foreach (var image in images)
                     {
-                        string imgurl = string.Format("{0}{1}", AppBasePath, image.ImageURL);
+                        string imgurl = string.Format("{0}{1}", Utils.GetAppBasePath(), image.ImageURL);
 
                         html += "<img class='sliderImgs' src=" + imgurl + "   />";// orignal for image slider // alt='" + image.ImageTitle + "'
 
@@ -457,7 +486,7 @@ namespace MPC.Webstore.Controllers
                     ViewBag.txtNoOfPages = "1";
 
 
-                    html += "<img class='sliderImgs' src=" + imagePath + "   />";// orignal for image slider // alt='" + image.ImageTitle + "'
+                    html += "<img class='sliderImgs' src=" + Utils.GetAppBasePath() + imagePath + "   />";// orignal for image slider // alt='" + image.ImageTitle + "'
 
                 }
                 html += "</div>";
@@ -517,7 +546,7 @@ namespace MPC.Webstore.Controllers
         /// </summary>
         /// <param name="tblItemsPriceMatrix"></param>
         /// <param name="mode"></param>
-        private void BindPriceMatrixData(List<ItemPriceMatrix> tblItemsPriceMatrix, bool mode, MyCompanyDomainBaseResponse baseResponse, Item productItem)
+        private void BindPriceMatrixData(List<ItemPriceMatrix> tblItemsPriceMatrix, bool mode,MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponse, Item productItem)
         {
             if (_myClaimHelper.isUserLoggedIn())
             {
@@ -722,7 +751,7 @@ namespace MPC.Webstore.Controllers
 
       
 
-        public void LoadRelatedItems(long ItemID, string sProductName, MyCompanyDomainBaseResponse baseResponseCurrency, bool IsShowPrices)
+        public void LoadRelatedItems(long ItemID, string sProductName, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponseCurrency, bool IsShowPrices)
         {
             List<ProductItem> allRelatedItemsList = null;
            
@@ -747,6 +776,250 @@ namespace MPC.Webstore.Controllers
             }
 
         }
+
+      
+        public ActionResult EditDesign(string DesignState,string EditType,long ItemID,long TemplateId,string TemplateName,string ProductName)
+        {
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            try
+            {
+                long NewLocalTemplateID = 0;
+               // long sItemID = 0;
+                string EditTempType = Request.Form["hfEditTempType"];
+                string sProductName = string.Empty;
+                long oItemID = 0;
+                int TempDesignerID = 0;
+                long oTemplateID = 0;
+                long ContactID = _myClaimHelper.loginContactID();
+                long CompanyID = _myClaimHelper.loginContactCompanyID();
+
+                if (EditTempType == "SameTemplate" && DesignState == "resume")
+                {
+                    Item Item = _IItemService.GetItemByOrderItemID(ItemID, UserCookieManager.OrderId);
+                    if (Item != null)
+                    {
+                        var localTemplate = _ITemplateService.GetTemplate(Item.TemplateId ?? 0);
+                        
+                        NewLocalTemplateID = localTemplate.ProductId;
+                        //ViewState["templatename"] = localTemplate.ProductName;
+                        oItemID = Item.ItemId;
+                        TempDesignerID = Item.DesignerCategoryId ?? 0;
+                        sProductName = ProductName;
+                        oTemplateID = localTemplate.ProductId;
+                    }
+                }
+                else if (EditTempType == "SameItem" && DesignState == "resume")
+                {
+
+                    //  long itemID = itemID;
+                      Item Item = _IItemService.GetItemByOrderItemID(ItemID, UserCookieManager.OrderId);
+                      if (Item != null)
+                      {
+                          var localTemplate = _ITemplateService.GetTemplate(Item.TemplateId ?? 0);
+                            NewLocalTemplateID = localTemplate.ProductId;
+                            oItemID = Item.ItemId;
+                            TempDesignerID = Item.DesignerCategoryId ?? 0;
+                           // ViewState["templatename"] = localTemplate.ProductName;
+                            sProductName = ProductName;
+                            oTemplateID = localTemplate.ProductId;
+                      }
+                   
+                }
+                else // new case
+                {
+                    if (EditTempType == "SameTemplate" && DesignState == "new")
+                    {
+                       
+                        List<ArtWorkAttatchment> attachments = new List<ArtWorkAttatchment>();
+                        Template template = new Template();
+                        Item Item = _IItemService.GetItemByOrderItemID(ItemID, UserCookieManager.OrderId);
+                        if (Item != null)
+                        {
+                            _IItemService.RemoveCloneItem(Item.ItemId, out attachments, out template);
+
+                        }
+
+                    }
+                    else if (EditTempType == "SameItem" && DesignState == "new")
+                    {
+
+                        List<ArtWorkAttatchment> attachments = new List<ArtWorkAttatchment>();
+                        Template template = new Template();
+
+                        Item result = _IItemService.GetItemByOrderItemID(ItemID, UserCookieManager.OrderId);
+                        if (result != null)
+                        {
+                            _IItemService.RemoveCloneItem(result.ItemId,out attachments,out template);
+                        }
+                        
+                    }
+
+                    
+
+                    int tempid = (int)TemplateId;
+                    NewLocalTemplateID = _ITemplateService.MergeRetailTemplate(tempid, 0, StoreBaseResopnse.Organisation.OrganisationId, false, CompanyID, ContactID, ItemID);
+                   
+                    
+                    
+                   // int ProductCategoryID = Convert.ToInt32(PageParameters.CategoryId.ToString());
+
+                   
+                     
+                   // int TemplateID = Convert.ToInt32(txtHiddenCorpItemTemplateID.Value);
+
+                  
+
+
+
+                      //processing order information and adding the selected item
+                   
+                   
+                    if (UserCookieManager.OrderId == 0)
+                    {
+                        long TemporaryRetailCompanyId = 0;
+                        if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                        {
+                            TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
+                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                            if (OrderID > 0)
+                            {
+                                UserCookieManager.OrderId = OrderID;
+                            }
+                            if (TemporaryRetailCompanyId != 0)
+                            {
+                                UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
+                                ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
+                            }
+                            CompanyID = TemporaryRetailCompanyId;
+
+                        }
+                        else 
+                        {
+                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                            if (OrderID > 0)
+                            {
+                                UserCookieManager.OrderId = OrderID;
+                            }
+                        }
+
+                        // create new order
+
+
+                        Item item = _IItemService.CloneItem(ItemID, 0, UserCookieManager.OrderId, CompanyID, 0, 0, null, false, false, ContactID, StoreBaseResopnse.Organisation.OrganisationId);
+
+                            if (item != null)
+                            {
+                                oItemID = item.ItemId;
+                                oTemplateID = item.TemplateId ?? 0;
+                                TempDesignerID = item.DesignerCategoryId ?? 0;
+                                sProductName = item.ProductName;
+                            }
+                
+                    }
+                    else
+                    {
+                        if (UserCookieManager.TemporaryCompanyId == 0 && UserCookieManager.StoreMode == (int)StoreMode.Retail && ContactID == 0)
+                        {
+                            long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
+
+                            // create new order
+
+                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                            if (OrderID > 0)
+                            {
+                                UserCookieManager.OrderId = OrderID;
+                            }
+                            if (TemporaryRetailCompanyId != 0)
+                            {
+                                UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
+                                ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
+                            }
+                            CompanyID = TemporaryRetailCompanyId;
+                        }
+                        else if (UserCookieManager.TemporaryCompanyId > 0 && UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                        {
+                            CompanyID = UserCookieManager.TemporaryCompanyId;
+                            ContactID = _myCompanyService.GetContactIdByCompanyId(CompanyID);
+                        }
+                        Item item = _IItemService.CloneItem(ItemID, 0, UserCookieManager.OrderId, CompanyID, 0, 0, null, false, false, ContactID, StoreBaseResopnse.Organisation.OrganisationId);
+
+                        if (item != null)
+                        {
+                            oItemID = item.ItemId;
+                            oTemplateID = item.TemplateId ?? 0;
+                            TempDesignerID = item.DesignerCategoryId ?? 0;
+                            sProductName = Utils.specialCharactersEncoder(item.ProductName);
+                        }
+                    }
+                        //int isCalledFrom = 0;
+                        //if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                        //    isCalledFrom = 4;
+                        //else
+                        //    isCalledFrom = 3;
+
+                        //bool isEmbedded;
+                        //bool printWaterMark = true;
+                        //if (UserCookieManager.StoreMode == (int)StoreMode.Corp || UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                        //{
+                        //    isEmbedded = true;
+                        //}
+                        //else {
+                        //    printWaterMark = false;
+                        //    isEmbedded = false;
+                        //}
+
+                        //ProductName = _IItemService.specialCharactersEncoder(ProductName);
+                        ////Designer/productName/CategoryIDv2/TemplateID/ItemID/companyID/cotnactID/printCropMarks/printWaterMarks/isCalledFrom/IsEmbedded;
+                        //bool printCropMarks = true;
+                         //string URL = "/Designer/" + sProductName + "/" + TempDesignerID + "/" + oTemplateID + "/" + oItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + UserCookieManager.OrganisationID + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
+
+                        // ItemID ok
+                        // TemplateID ok
+                        // iscalledfrom ok
+                        // cv scripts require
+                        // productName ok
+                        // contactid // ask from iqra about retail and corporate
+                        // companyID // ask from iqra
+                        // isembaded ook
+                       
+
+
+                }
+                int isCalledFrom = 0;
+                if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                    isCalledFrom = 4;
+                else
+                    isCalledFrom = 3;
+
+                bool isEmbedded;
+                bool printWaterMark = true;
+                if (UserCookieManager.StoreMode == (int)StoreMode.Corp || UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                {
+                    isEmbedded = true;
+                }
+                else
+                {
+                    printWaterMark = false;
+                    isEmbedded = false;
+                }
+
+                 string  ProdName = _IItemService.specialCharactersEncoder(sProductName);
+                //Designer/productName/CategoryIDv2/TemplateID/ItemID/companyID/cotnactID/printCropMarks/printWaterMarks/isCalledFrom/IsEmbedded;
+                bool printCropMarks = true;
+                string URL = "/Designer/" + ProdName + "/" + TempDesignerID + "/" + oTemplateID + "/" + oItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + UserCookieManager.OrganisationID + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
+                Response.Redirect(URL);
+                return null;
+               
+            }
+            catch (Exception ex)
+            {
+               
+                throw new MPCException(ex.ToString(), StoreBaseResopnse.Organisation.OrganisationId);
+            }
+        }
+
        
 
         

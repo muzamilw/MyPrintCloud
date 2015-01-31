@@ -52,7 +52,6 @@ namespace MPC.Implementation.MISServices
         private readonly IItemStockOptionRepository itemStockOptionRepository;
         private readonly IPrefixRepository prefixRepository;
         private readonly IItemVdpPriceRepository itemVdpPriceRepository;
-        //
         private readonly IItemVideoRepository itemVideoRepository;
         private readonly IItemRelatedItemRepository itemRelatedItemRepository;
         private readonly ITemplatePageRepository templatePageRepository;
@@ -66,8 +65,8 @@ namespace MPC.Implementation.MISServices
         private readonly IStateRepository stateRepository;
         private readonly ISectionFlagRepository sectionFlagRepository;
         private readonly IItemProductDetailRepository itemProductDetailRepository;
+        private readonly ICompanyDomainRepository companyDomainRepository;
 
-        #endregion
 
         /// <summary>
         /// Save Company
@@ -188,9 +187,9 @@ namespace MPC.Implementation.MISServices
             #endregion
             return company;
         }
-        private Company UpdateCmykColorsOfUpdatingCompany(Company company)
+        private Company UpdateCmykColorsOfUpdatingCompany(Company company, Company companyDbVersion)
         {
-            var companyDbVersion = companyRepository.Find(company.CompanyId);
+            //var companyDbVersion = companyRepository.Find(company.CompanyId);
             #region CMYK Colors Items
             //Add  CMYK Colors
             if (company.CompanyCMYKColors != null)
@@ -238,6 +237,102 @@ namespace MPC.Implementation.MISServices
                 foreach (var companyCMYKColorsItem in company.CompanyCMYKColors)
                 {
                     companyCmykColorRepository.Update(companyCMYKColorsItem);
+                }
+            }
+            #endregion
+            return company;
+        }
+        private Company UpdateCompanyCostCentersOfUpdatingCompany(Company company, Company companyDbVersion)
+        {
+
+            #region Company Cost Centers
+            //Add  Company Cost Centers
+            if (company.CompanyCostCentres != null)
+            {
+                List<CompanyCostCentre> newlist = company.CompanyCostCentres.Where(
+                    c => companyDbVersion.CompanyCostCentres.All(cc => cc.CostCentreId != c.CostCentreId)).ToList();
+                //List<CompanyCostCentre> missingItemsList = companyDbVersion.CompanyCostCentres.Where(
+                //    c => company.CompanyCostCentres.All(cc => cc.CostCentreId != c.CostCentreId)).ToList();
+                foreach (var item in newlist)
+                {
+                    item.CompanyId = company.CompanyId;
+                    item.OrganisationId = companyRepository.OrganisationId;
+                    companyDbVersion.CompanyCostCentres.Add(item);
+                }
+            }
+            if (company.CompanyCostCentres != null)
+            {
+                List<CompanyCostCentre> missingItemsList = companyDbVersion.CompanyCostCentres.Where(
+                    c => company.CompanyCostCentres.All(cc => cc.CostCentreId != c.CostCentreId)).ToList();
+                //remove missing items
+                foreach (CompanyCostCentre missingCompanyCostCentre in missingItemsList)
+                {
+                    CompanyCostCentre dbVersionMissingItem = companyDbVersion.CompanyCostCentres.First(x => x.CostCentreId == missingCompanyCostCentre.CostCentreId && x.CompanyId == missingCompanyCostCentre.CompanyId);
+                    companyDbVersion.CompanyCostCentres.Remove(dbVersionMissingItem);
+                }
+            }
+            else if (company.CompanyCostCentres == null && companyDbVersion.CompanyCostCentres.Count > 0)
+            {
+                List<CompanyCostCentre> lisRemoveAllItemsList = companyDbVersion.CompanyCostCentres.ToList();
+                foreach (CompanyCostCentre missingCompanyCostCentre in lisRemoveAllItemsList)
+                {
+                    CompanyCostCentre dbVersionMissingItem = companyDbVersion.CompanyCostCentres.First(x => x.CostCentreId == missingCompanyCostCentre.CostCentreId && x.CompanyId == missingCompanyCostCentre.CompanyId);
+                    companyDbVersion.CompanyCostCentres.Remove(dbVersionMissingItem);
+                }
+            }
+            
+            #endregion
+            return company;
+        }
+        private Company UpdateCompanyDomain(Company company)
+        {
+            var companyDbVersion = companyRepository.Find(company.CompanyId);
+            #region Company Domain
+            //Add Company Domain
+            if (company.CompanyDomains != null)
+            {
+                foreach (var item in company.CompanyDomains)
+                {
+                    if (companyDbVersion.CompanyDomains.All(x => x.CompanyDomainId != item.CompanyDomainId && x.CompanyId != item.CompanyId))
+                    {
+                        item.CompanyId = company.CompanyId;
+                        companyDbVersion.CompanyDomains.Add(item);
+                    }
+                }
+            }
+            //find missing items
+
+            List<CompanyDomain> missingCompanyDomains = new List<CompanyDomain>();
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            if (companyDbVersion.CompanyDomains != null)
+            {
+
+
+                foreach (CompanyDomain dbversionCompanyDomain in companyDbVersion.CompanyDomains)
+                {
+                    if (company.CompanyDomains != null && company.CompanyDomains.All(x => x.CompanyDomainId != dbversionCompanyDomain.CompanyDomainId && x.CompanyId != dbversionCompanyDomain.CompanyDomainId))
+                    {
+                        missingCompanyDomains.Add(dbversionCompanyDomain);
+                    }
+                }
+
+                //remove missing items
+                foreach (CompanyDomain missingCompanyDomain in missingCompanyDomains)
+                {
+
+                    CompanyDomain dbVersionMissingItem = companyDbVersion.CompanyDomains.First(x => x.CompanyDomainId == missingCompanyDomain.CompanyDomainId && x.CompanyId == missingCompanyDomain.CompanyId);
+
+                    companyDbVersion.CompanyDomains.Remove(dbVersionMissingItem);
+                    companyDomainRepository.Delete(dbVersionMissingItem);
+
+                }
+            }
+            if (company.CompanyDomains != null)
+            {
+                //updating Company Domains
+                foreach (var companyDomain in company.CompanyDomains)
+                {
+                    companyDomainRepository.Update(companyDomain);
                 }
             }
             #endregion
@@ -297,21 +392,22 @@ namespace MPC.Implementation.MISServices
                     var addressToDelete = addressRepository.Find(address.AddressId);
                     addressRepository.Delete(addressToDelete);
                 }
+            addressRepository.SaveChanges();
         }
         private void SaveProductCategoryThumbNailImage(ProductCategory productCategory)
         {
-            if (productCategory.ThumbNailBytes != null)
-            {
-                string base64 = productCategory.ThumbNailBytes.Substring(productCategory.ThumbNailBytes.IndexOf(',') + 1);
-                base64 = base64.Trim('\0');
-                productCategory.ThumbNailFileBytes = Convert.FromBase64String(base64);
-            }
-            if (productCategory.ImageBytes != null)
-            {
-                string base64Image = productCategory.ImageBytes.Substring(productCategory.ImageBytes.IndexOf(',') + 1);
-                base64Image = base64Image.Trim('\0');
-                productCategory.ImageFileBytes = Convert.FromBase64String(base64Image);
-            }
+            //if (productCategory.ThumbNailBytes != null)
+            //{
+            //    string base64 = productCategory.ThumbNailBytes.Substring(productCategory.ThumbNailBytes.IndexOf(',') + 1);
+            //    base64 = base64.Trim('\0');
+            //    productCategory.ThumbNailFileBytes = Convert.FromBase64String(base64);
+            //}
+            //if (productCategory.ImageBytes != null)
+            //{
+            //    string base64Image = productCategory.ImageBytes.Substring(productCategory.ImageBytes.IndexOf(',') + 1);
+            //    base64Image = base64Image.Trim('\0');
+            //    productCategory.ImageFileBytes = Convert.FromBase64String(base64Image);
+            //}
         }
 
         #region Product
@@ -627,7 +723,7 @@ namespace MPC.Implementation.MISServices
                 {
                     companyContact.CompanyId = companySavingModel.Company.CompanyId;
                     companyContact.OrganisationId = companyContactRepository.OrganisationId;
-                    companyContact.image = SaveCompanyContactProfileImage(companyContact);
+                    //companyContact.image = SaveCompanyContactProfileImage(companyContact);
                     companyContactRepository.Add(companyContact);
                 }
             }
@@ -642,7 +738,7 @@ namespace MPC.Implementation.MISServices
                         File.Delete(companyContact.image);
                     }
                     companyContact.CompanyId = companySavingModel.Company.CompanyId;
-                    companyContact.image = SaveCompanyContactProfileImage(companyContact);
+                    //companyContact.image = SaveCompanyContactProfileImage(companyContact);
                     companyContactRepository.Update(companyContact);
                 }
             }
@@ -655,6 +751,7 @@ namespace MPC.Implementation.MISServices
                     companyContactRepository.Delete(companyContactTodelete);
                 }
             }
+            companyContactRepository.SaveChanges();
         }
 
         /// <summary>
@@ -666,8 +763,10 @@ namespace MPC.Implementation.MISServices
             companySavingModel.Company.OrganisationId = companyRepository.OrganisationId;
             var companyToBeUpdated = UpdateRaveReviewsOfUpdatingCompany(companySavingModel.Company);
             companyToBeUpdated = UpdatePaymentGatewaysOfUpdatingCompany(companyToBeUpdated);
-            companyToBeUpdated = UpdateCmykColorsOfUpdatingCompany(companyToBeUpdated);
-            BannersUpdate(companySavingModel.Company, companyDbVersion);
+            companyToBeUpdated = UpdateCmykColorsOfUpdatingCompany(companyToBeUpdated, companyDbVersion);
+            companyToBeUpdated = UpdateCompanyCostCentersOfUpdatingCompany(companyToBeUpdated, companyDbVersion);
+            companyToBeUpdated = UpdateCompanyDomain(companyToBeUpdated);
+            //
             UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
             UpdateAddressOfUpdatingCompany(companySavingModel);
             UpdateProductCategoriesOfUpdatingCompany(companySavingModel, productCategories);
@@ -676,65 +775,139 @@ namespace MPC.Implementation.MISServices
             UpdateCampaigns(companySavingModel.Company.Campaigns, companyDbVersion);
             UpdateCmsSkinPageWidget(companySavingModel.CmsPageWithWidgetList, companyDbVersion);
             UpdateColorPallete(companySavingModel.Company, companyDbVersion);
-            if (companyToBeUpdated.Image != null)
+            if (companyToBeUpdated.ImageBytes != null)
             {
                 companySavingModel.Company.Image = SaveCompanyProfileImage(companySavingModel.Company);
             }
             companyRepository.Update(companyToBeUpdated);
             companyRepository.Update(companySavingModel.Company);
-            SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
             UpdateCmsOffers(companySavingModel.Company, companyDbVersion);
+            UpdateMediaLibrary(companySavingModel.Company, companyDbVersion);
+            BannersUpdate(companySavingModel.Company, companyDbVersion);
             companyRepository.SaveChanges();
             //Update products
             UpdateProductsOfUpdatingCompany(companySavingModel);
             //Save Files
             companyToBeUpdated.ProductCategories = productCategories;
-            SaveFilesOfProductCategories(companyToBeUpdated);
+            //SaveFilesOfProductCategories(companyToBeUpdated);
             SaveSpriteImage(companySavingModel.Company);
+            SaveCompanyCss(companySavingModel.Company);
+            UpdateMediaLibraryFilePath(companySavingModel.Company, companyDbVersion);
 
+            UpdateContactProfileImage(companySavingModel, companyDbVersion);
+            SaveCompanyBannerImages(companySavingModel.Company);
+            SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
+            UpdateSecondaryPageImagePath(companySavingModel, companyDbVersion);
+            companyRepository.SaveChanges();
             return companySavingModel.Company;
         }
 
-        private void SaveSpriteImage(Company company)
+        private void UpdateContactProfileImage(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
-            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Organisations/Organisation" + companyRepository.OrganisationId + "/Store" + company.CompanyId + "/Sprites");
-
-            //Save Default Sprite File
-            if (company.DefaultSpriteSource != null)
+            if (companySavingModel.NewAddedCompanyContacts != null)
             {
-                string base64 = company.DefaultSpriteSource.Substring(company.DefaultSpriteSource.IndexOf(',') + 1);
-                base64 = base64.Trim('\0');
-                byte[] data = Convert.FromBase64String(base64);
-
-                if (directoryPath != null && !Directory.Exists(directoryPath))
+                //Add New companyContacts
+                foreach (var companyContact in companySavingModel.NewAddedCompanyContacts)
                 {
-                    Directory.CreateDirectory(directoryPath);
+                    companyContact.image = SaveCompanyContactProfileImage(companyContact);
                 }
-                string savePath = directoryPath + "\\" + company.CompanyId + "_sprite.backup.png";
-                if (!File.Exists(savePath))
-                {
-                    File.WriteAllBytes(savePath, data);
-                }
-
             }
-
-            //Delete already existing sprite file
-            if (directoryPath != null && Directory.Exists(directoryPath))
+            if (companySavingModel.EdittedCompanyContacts != null)
             {
-                DirectoryInfo dir = new DirectoryInfo(directoryPath);
-                FileInfo[] Files = dir.GetFiles();
-                foreach (FileInfo file in Files)
+                //Update companyContacts
+                foreach (var companyContact in companySavingModel.EdittedCompanyContacts)
                 {
-                    if (file.Name != "" && file.Name != company.CompanyId + "_sprite.backup.png")
+                    if (File.Exists(companyContact.image))
                     {
-                        string deleteFilePath = directoryPath + "\\" + file.Name;
-                        if (File.Exists(deleteFilePath))
+                        //If already image exist
+                        File.Delete(companyContact.image);
+                    }
+                    companyContact.image = SaveCompanyContactProfileImage(companyContact);
+                }
+            }
+        }
+        /// <summary>
+        /// Update Media Library File Path
+        /// </summary>
+        private void UpdateMediaLibraryFilePath(Company company, Company companyDbVersion)
+        {
+            if (company.MediaLibraries != null)
+            {
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Media/" + companyRepository.OrganisationId + "/" + company.CompanyId);
+
+                foreach (var item in company.MediaLibraries)
+                {
+                    if (item.FilePath == string.Empty)
+                    {
+                        if (item.FileSource != null)
                         {
-                            File.Delete(deleteFilePath);
+                            string base64 = item.FileSource.Substring(item.FileSource.IndexOf(',') + 1);
+                            base64 = base64.Trim('\0');
+                            byte[] data = Convert.FromBase64String(base64);
+
+                            if (directoryPath != null && !Directory.Exists(directoryPath))
+                            {
+                                Directory.CreateDirectory(directoryPath);
+                            }
+                            string savePath = directoryPath + "\\" + item.MediaId + "_" + item.FileName;
+                            if (!File.Exists(savePath))
+                            {
+                                File.WriteAllBytes(savePath, data);
+                                MediaLibrary mediaLibraryDbVersion =
+                                    companyDbVersion.MediaLibraries.FirstOrDefault(m => m.MediaId == item.MediaId);
+                                if (mediaLibraryDbVersion != null)
+                                {
+                                    mediaLibraryDbVersion.FilePath = savePath;
+                                }
+                            }
                         }
                     }
                 }
+                companyRepository.SaveChanges();
             }
+        }
+
+        /// <summary>
+        /// Update Media Library
+        /// </summary>
+        private void UpdateMediaLibrary(Company company, Company companyDbVersion)
+        {
+            if (company.MediaLibraries != null)
+            {
+                foreach (var item in company.MediaLibraries)
+                {
+                    //New Added Files
+                    if (item.MediaId < 0)
+                    {
+                        companyDbVersion.MediaLibraries.Add(item);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Save/Update Company/Store CSS
+        /// </summary>
+        private void SaveCompanyCss(Company company)
+        {
+            string directoryPath =
+                HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" +
+                                                   company.CompanyId);
+            if (directoryPath != null && !Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            string savePath = directoryPath + "\\site.css";
+            File.WriteAllText(savePath, company.CustomCSS);
+        }
+
+        /// <summary>
+        /// Save Sprite Image
+        /// </summary>
+        private void SaveSpriteImage(Company company)
+        {
+            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + company.CompanyId);
 
             //Save user Defined Sprite File
             if (company.UserDefinedSpriteSource != null)
@@ -747,13 +920,19 @@ namespace MPC.Implementation.MISServices
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string savePath = directoryPath + "\\" + company.CompanyId + "_sprite." + company.UserDefinedSpriteFileName;
+                string savePath = directoryPath + "\\sprite.png";
 
-
+                if (File.Exists(savePath))
+                {
+                    File.Delete(savePath);
+                }
                 File.WriteAllBytes(savePath, data);
             }
         }
 
+        /// <summary>
+        /// Update Cms Offer
+        /// </summary>
         private void UpdateCmsOffers(Company company, Company companyDbVersion)
         {
             #region Update Cms Offer
@@ -813,36 +992,57 @@ namespace MPC.Implementation.MISServices
             #endregion
         }
 
+        /// <summary>
+        /// Save Store Background Image
+        /// </summary>
         private void SaveStoreBackgroundImage(Company company, Company companyDbVersion)
         {
-            if (company.StoreBackgroudImageImageSource != null)
+
+            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + company.CompanyId);
+            if (company.StoreBackgroundFile != null)
             {
-                string base64 = company.StoreBackgroudImageImageSource.Substring(company.StoreBackgroudImageImageSource.IndexOf(',') + 1);
+                string base64 = company.StoreBackgroundFile.Substring(company.StoreBackgroundFile.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
 
-                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Organisations/Organisation" + companyRepository.OrganisationId + "/Store" + company.CompanyId);
                 if (directoryPath != null && !Directory.Exists(directoryPath))
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string savePath = directoryPath + "\\" + "StoreBackgroundImage" + company.CompanyId + "_" + company.StoreBackgroudImageFileName + ".jpeg";
+                string savePath = directoryPath + "\\background.png";
                 if (File.Exists(savePath))
                 {
                     File.Delete(savePath);
                 }
-                File.WriteAllBytes(savePath, data);
 
-                if (companyDbVersion != null)
+                File.WriteAllBytes(savePath, data);
+                companyDbVersion.StoreBackgroundImage = savePath;
+            }
+        }
+
+        /// <summary>
+        /// Update Secondary Page Images Path
+        /// </summary>
+        private void UpdateSecondaryPageImagePath(CompanySavingModel companySavingModel, Company companyDbVersion)
+        {
+            if (companyDbVersion.CmsPages != null)
+            {
+                foreach (var itemDbVersion in companyDbVersion.CmsPages)
                 {
-                    companyDbVersion.StoreBackgroundImage = savePath;
-                }
-                else
-                {
-                    company.StoreBackgroundImage = savePath;
+                    foreach (var media in companySavingModel.Company.MediaLibraries)
+                    {
+                        if (media.FakeId == itemDbVersion.PageBanner)
+                        {
+                            itemDbVersion.PageBanner = media.FilePath;
+                        }
+                    }
                 }
             }
         }
+
+        /// <summary>
+        /// Update Color Pallete
+        /// </summary>
         private void UpdateColorPallete(Company company, Company companyDbVersion)
         {
             if (company.ColorPalletes != null)
@@ -879,87 +1079,87 @@ namespace MPC.Implementation.MISServices
         }
         private void SaveFilesOfProductCategories(Company company)
         {
-            // Update Organisation MISLogoStreamId
-            Organisation organisation = organisationRepository.Find(organisationRepository.OrganisationId);
-            //IEnumerable<ProductCategory> productCategories = productCategoryRepository.GetAllCategoriesByStoreId(company.CompanyId);
-            if (organisation == null)
-            {
-                throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture,
-                    LanguageResources.MyOrganisationService_OrganisationNotFound,
-                    organisationRepository.OrganisationId));
-            }
-            string pathLocator = "\\Organisation" + organisation.OrganisationId;
-            if (
-                string.IsNullOrEmpty(productCategoryFileTableViewRepository.GetNewPathLocator(pathLocator,
-                    FileTableCaption.Category)))
-            {
-                CategoryFileTableView categoryFile = productCategoryFileTableViewRepository.Create();
-                productCategoryFileTableViewRepository.Add(categoryFile);
-                categoryFile.Name = "Organisation" + organisation.OrganisationId;
-                categoryFile.UncPath = pathLocator;
-                categoryFile.IsDirectory = true;
-                categoryFile.FileTableName = FileTableCaption.Category;
-                // Save to File Table
-                productCategoryFileTableViewRepository.SaveChanges();
-            }
-            if (company.ProductCategories != null)
-            {
-                Dictionary<long, List<CategoryFileTableView>> categoryFileTableViews = new Dictionary<long, List<CategoryFileTableView>>();
-                foreach (var productCategory in company.ProductCategories)
-                {
+            //// Update Organisation MISLogoStreamId
+            //Organisation organisation = organisationRepository.Find(organisationRepository.OrganisationId);
+            ////IEnumerable<ProductCategory> productCategories = productCategoryRepository.GetAllCategoriesByStoreId(company.CompanyId);
+            //if (organisation == null)
+            //{
+            //    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture,
+            //        LanguageResources.MyOrganisationService_OrganisationNotFound,
+            //        organisationRepository.OrganisationId));
+            //}
+            //string pathLocator = "\\Organisation" + organisation.OrganisationId;
+            //if (
+            //    string.IsNullOrEmpty(productCategoryFileTableViewRepository.GetNewPathLocator(pathLocator,
+            //        FileTableCaption.Category)))
+            //{
+            //    CategoryFileTableView categoryFile = productCategoryFileTableViewRepository.Create();
+            //    productCategoryFileTableViewRepository.Add(categoryFile);
+            //    categoryFile.Name = "Organisation" + organisation.OrganisationId;
+            //    categoryFile.UncPath = pathLocator;
+            //    categoryFile.IsDirectory = true;
+            //    categoryFile.FileTableName = FileTableCaption.Category;
+            //    // Save to File Table
+            //    productCategoryFileTableViewRepository.SaveChanges();
+            //}
+            //if (company.ProductCategories != null)
+            //{
+            //    Dictionary<long, List<CategoryFileTableView>> categoryFileTableViews = new Dictionary<long, List<CategoryFileTableView>>();
+            //    foreach (var productCategory in company.ProductCategories)
+            //    {
 
-                    categoryFileTableViews[productCategory.ProductCategoryId] = new List<CategoryFileTableView>();
-                    if (!string.IsNullOrEmpty(productCategory.ThumbNailBytes))
-                    {
-                        // Add File
-                        CategoryFileTableView categoryFileTableView = productCategoryFileTableViewRepository.Create();
+            //        categoryFileTableViews[productCategory.ProductCategoryId] = new List<CategoryFileTableView>();
+            //        if (!string.IsNullOrEmpty(productCategory.ThumbNailBytes))
+            //        {
+            //            // Add File
+            //            CategoryFileTableView categoryFileTableView = productCategoryFileTableViewRepository.Create();
 
-                        categoryFileTableView.Name = productCategory.ThumbNailFileName + "_" + productCategory.ProductCategoryId + "_Thumbnail";
-                        categoryFileTableView.FileStream = productCategory.ThumbNailFileBytes;
-                        categoryFileTableView.FileTableName = FileTableCaption.Category;
-                        categoryFileTableView.UncPath = pathLocator;
-                        productCategoryFileTableViewRepository.Add(categoryFileTableView);
+            //            categoryFileTableView.Name = productCategory.ThumbNailFileName + "_" + productCategory.ProductCategoryId + "_Thumbnail";
+            //            categoryFileTableView.FileStream = productCategory.ThumbNailFileBytes;
+            //            categoryFileTableView.FileTableName = FileTableCaption.Category;
+            //            categoryFileTableView.UncPath = pathLocator;
+            //            productCategoryFileTableViewRepository.Add(categoryFileTableView);
 
-                        categoryFileTableViews[productCategory.ProductCategoryId].Add(categoryFileTableView);
-                    }
-                    if (!string.IsNullOrEmpty(productCategory.ImageBytes))
-                    {
-                        // Add File
-                        CategoryFileTableView categoryFileTableView = productCategoryFileTableViewRepository.Create();
+            //            categoryFileTableViews[productCategory.ProductCategoryId].Add(categoryFileTableView);
+            //        }
+            //        if (!string.IsNullOrEmpty(productCategory.ImageBytes))
+            //        {
+            //            // Add File
+            //            CategoryFileTableView categoryFileTableView = productCategoryFileTableViewRepository.Create();
 
-                        categoryFileTableView.Name = productCategory.ImageFileName + "_" + productCategory.ProductCategoryId + "_Image";
-                        categoryFileTableView.FileStream = productCategory.ImageFileBytes;
-                        categoryFileTableView.FileTableName = FileTableCaption.Category;
-                        categoryFileTableView.UncPath = pathLocator;
-                        productCategoryFileTableViewRepository.Add(categoryFileTableView);
+            //            categoryFileTableView.Name = productCategory.ImageFileName + "_" + productCategory.ProductCategoryId + "_Image";
+            //            categoryFileTableView.FileStream = productCategory.ImageFileBytes;
+            //            categoryFileTableView.FileTableName = FileTableCaption.Category;
+            //            categoryFileTableView.UncPath = pathLocator;
+            //            productCategoryFileTableViewRepository.Add(categoryFileTableView);
 
-                        categoryFileTableViews[productCategory.ProductCategoryId].Add(categoryFileTableView);
-                    }
+            //            categoryFileTableViews[productCategory.ProductCategoryId].Add(categoryFileTableView);
+            //        }
 
-                }
-                productCategoryFileTableViewRepository.SaveChanges();
+            //    }
+            //    productCategoryFileTableViewRepository.SaveChanges();
 
-                foreach (var categoryFileTableView in categoryFileTableViews)
-                {
-                    ProductCategory category =
-                        company.ProductCategories.FirstOrDefault(p => p.ProductCategoryId == categoryFileTableView.Key);
-                    if (category != null)
-                    {
-                        CategoryFileTableView view = categoryFileTableView.Value.FirstOrDefault(c => c.Name == category.ThumbNailFileName + "_" + category.ProductCategoryId + "_Thumbnail");
-                        if (view != null)
-                        {
-                            category.ThumbnailStreamId = view.StreamId;
-                        }
-                        CategoryFileTableView view2 = categoryFileTableView.Value.FirstOrDefault(c => c.Name == category.ImageFileName + "_" + category.ProductCategoryId + "_Image");
-                        if (view2 != null)
-                        {
-                            category.ImageStreamId = view2.StreamId;
-                        }
-                    }
-                }
+            //    foreach (var categoryFileTableView in categoryFileTableViews)
+            //    {
+            //        ProductCategory category =
+            //            company.ProductCategories.FirstOrDefault(p => p.ProductCategoryId == categoryFileTableView.Key);
+            //        if (category != null)
+            //        {
+            //            CategoryFileTableView view = categoryFileTableView.Value.FirstOrDefault(c => c.Name == category.ThumbNailFileName + "_" + category.ProductCategoryId + "_Thumbnail");
+            //            if (view != null)
+            //            {
+            //                category.ThumbnailStreamId = view.StreamId;
+            //            }
+            //            CategoryFileTableView view2 = categoryFileTableView.Value.FirstOrDefault(c => c.Name == category.ImageFileName + "_" + category.ProductCategoryId + "_Image");
+            //            if (view2 != null)
+            //            {
+            //                category.ImageStreamId = view2.StreamId;
+            //            }
+            //        }
+            //    }
 
-                productCategoryFileTableViewRepository.SaveChanges();
-            }
+            //    productCategoryFileTableViewRepository.SaveChanges();
+            //}
         }
 
         /// <summary>
@@ -1138,7 +1338,6 @@ namespace MPC.Implementation.MISServices
                     item.PageId = 0;
                     item.CompanyId = companySavingModel.Company.CompanyId;
                     item.OrganisationId = companyRepository.OrganisationId;
-                    item.PageBanner = SaveCmsPageImage(item, companySavingModel.Company.CompanyId);
                     companyDbVersion.CmsPages.Add(item);
                 }
             }
@@ -1162,12 +1361,7 @@ namespace MPC.Implementation.MISServices
                             dbItem.PageHTML = item.PageHTML;
                             dbItem.PageKeywords = item.PageKeywords;
                             dbItem.PageTitle = item.PageTitle;
-                            if (File.Exists(dbItem.PageBanner))
-                            {
-                                //If already image exist
-                                File.Delete(dbItem.PageBanner);
-                            }
-                            dbItem.PageBanner = SaveCmsPageImage(item, companySavingModel.Company.CompanyId);
+                            dbItem.PageBanner = item.PageBanner;
                         }
                     }
                 }
@@ -1267,6 +1461,7 @@ namespace MPC.Implementation.MISServices
                                         bannerDbVersion.ItemURL = item.ItemURL;
                                         bannerDbVersion.Description = item.Description;
                                         bannerDbVersion.CompanySetId = item.CompanySetId;
+                                        bannerDbVersion.ImageURL = item.ImageURL;
                                     }
                                 }
                             }
@@ -1274,7 +1469,6 @@ namespace MPC.Implementation.MISServices
                     }
 
                 }
-                companyRepository.SaveChanges();
             }//End Add/Edit 
             #endregion
 
@@ -1316,49 +1510,31 @@ namespace MPC.Implementation.MISServices
             }
             #endregion
 
-            if (company.CompanyBannerSets != null)
-                SaveCompanyBannerImages(company.CompanyBannerSets, company.CompanyId);
+
         }
+
         /// <summary>
-        /// Save Images
+        /// Save Company Banner Images
         /// </summary>
-        private void SaveCompanyBannerImages(IEnumerable<CompanyBannerSet> companyBannerSets, long companyId)
+        private void SaveCompanyBannerImages(Company company)
         {
-            List<CompanyBanner> companyBannersList = companyBannerRepository.GetAll().ToList();
-
-            foreach (var item in companyBannerSets)
+            if (company.CompanyBannerSets != null)
             {
-                if (item.CompanyBanners != null)
-                    foreach (var img in item.CompanyBanners)
-                    {
-                        if (img.Bytes != null)
+                foreach (var item in company.CompanyBannerSets)
+                {
+                    if (item.CompanyBanners != null)
+                        foreach (var banner in item.CompanyBanners)
                         {
-                            string base64 = img.Bytes.Substring(img.Bytes.IndexOf(',') + 1);
-                            base64 = base64.Trim('\0');
-                            byte[] data = Convert.FromBase64String(base64);
-
-                            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Organisations/Organisation" + companyRepository.OrganisationId + "/Store" + companyId);
-                            if (directoryPath != null && !Directory.Exists(directoryPath))
+                            foreach (var media in company.MediaLibraries)
                             {
-                                Directory.CreateDirectory(directoryPath);
-                            }
-                            string savePath = directoryPath + "\\" + "CompanyBanner" + img.CompanyBannerId + "_" + img.FileName + ".jpeg";
-                            if (File.Exists(savePath))
-                            {
-                                File.Delete(savePath);
-                            }
-                            File.WriteAllBytes(savePath, data);
-                            CompanyBanner companyBanner = companyBannersList.FirstOrDefault(x => x.CompanyBannerId == img.CompanyBannerId);
-                            if (companyBanner != null)
-                            {
-                                companyBanner.ImageURL = savePath;
+                                if (media.FakeId == banner.ImageURL)
+                                {
+                                    banner.ImageURL = media.FilePath;
+                                }
                             }
                         }
-                    }
+                }
             }
-
-            companyBannerRepository.SaveChanges();
-
         }
 
         private void SaveStoreProductImage(Item item)
@@ -1642,48 +1818,39 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private string SaveCompanyContactProfileImage(CompanyContact companyContact)
         {
-            if (companyContact.image != null)
+            if (companyContact.ContactProfileImage != null)
             {
-                string base64 = companyContact.image.Substring(companyContact.image.IndexOf(',') + 1);
+                string base64 = companyContact.ContactProfileImage.Substring(companyContact.ContactProfileImage.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
 
-                //stores/organisation1/company505/CompanyProfileImage
-                string directoryPath =
-                   System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Stores/Organisation" +
-                                                                 itemRepository.OrganisationId + "/Company" +
-                                                                 companyContact.CompanyId + "/CompanyContacts/CompanyContact" + companyContact.ContactId);
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyContact.CompanyId + "/Contacts");
 
                 if (directoryPath != null && !Directory.Exists(directoryPath))
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string savePath = directoryPath + "\\" + "_" + companyContact.FileName;
+                string savePath = directoryPath + "\\Contact_" + companyContact.ContactId + ".png";
                 File.WriteAllBytes(savePath, data);
-
                 return savePath;
             }
             return null;
         }
         private string SaveCompanyProfileImage(Company company)
         {
-            if (company.Image != null)
+            if (company.ImageBytes != null)
             {
-                string base64 = company.Image.Substring(company.Image.IndexOf(',') + 1);
+                string base64 = company.ImageBytes.Substring(company.ImageBytes.IndexOf(',') + 1);
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
 
-                //stores/organisation1/company505/CompanyProfileImage
-                string directoryPath =
-                   System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Stores/Organisation" +
-                                                                 itemRepository.OrganisationId + "/Company" +
-                                                                 company.CompanyId + "/CompanyProfileImage");
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + company.CompanyId);
 
                 if (directoryPath != null && !Directory.Exists(directoryPath))
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string savePath = directoryPath + "\\" + "_" + company.ImageName;
+                string savePath = directoryPath + "\\logo.png";
                 File.WriteAllBytes(savePath, data);
 
                 return savePath;
@@ -1691,6 +1858,7 @@ namespace MPC.Implementation.MISServices
             return null;
         }
 
+        #endregion
 
         #region Constructor
 
@@ -1715,7 +1883,8 @@ namespace MPC.Implementation.MISServices
         ICountryRepository countryRepository,
         IStateRepository stateRepository,
         ISectionFlagRepository sectionFlagRepository,
-        IItemProductDetailRepository itemProductDetailRepository)
+        IItemProductDetailRepository itemProductDetailRepository,
+            ICompanyDomainRepository companyDomainRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
@@ -1757,6 +1926,7 @@ namespace MPC.Implementation.MISServices
             this.stateRepository = stateRepository;
             this.sectionFlagRepository = sectionFlagRepository;
             this.itemProductDetailRepository = itemProductDetailRepository;
+            this.companyDomainRepository = companyDomainRepository;
 
         }
         #endregion
@@ -1821,10 +1991,11 @@ namespace MPC.Implementation.MISServices
                        CompanyContactRoles = companyContactRoleRepository.GetAll(),
                        PageCategories = pageCategoryRepository.GetCmsSecondaryPageCategories(),
                        RegistrationQuestions = registrationQuestionRepository.GetAll(),
-                       Addresses = addressRepository.GetAllDefaultAddressByStoreID(storeId),
+                       Addresses = addressRepository.GetAllAddressByStoreId(storeId),
                        PaymentMethods = paymentMethodRepository.GetAll().ToList(),
                        EmailEvents = emailEventRepository.GetAll(),
                        Widgets = widgetRepository.GetAll(),
+                       CostCentres = costCentreRepository.GetAllCompanyCentersByOrganisationId().ToList()//GetAllCompanyCentersByCompanyId
                    };
         }
         public CompanyBaseResponse GetBaseDataForNewCompany()

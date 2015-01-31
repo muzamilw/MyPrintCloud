@@ -14,11 +14,11 @@ namespace MPC.Webstore
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(
-              "Error",
-              "Error",
-              new { controller = "Home", action = "Error", id = UrlParameter.Optional }
-           );
+           // routes.MapRoute(
+           //   "Error",
+           //   "Error",
+           //   new { controller = "Home", action = "Error", id = UrlParameter.Optional }
+           //);
 
             routes.MapRoute("clear"
                  , "clear/{name}"
@@ -29,10 +29,22 @@ namespace MPC.Webstore
                  , "store/{name}"
                  , new { controller = "Domain", action = "Index", name = "" });
 
+    
+
             routes.MapRoute(
              "AllProducts",
              "AllProducts",
              new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+          );
+            routes.MapRoute(
+             "RealEstateProducts",
+             "RealEstateProducts/{listingId}",
+             new { controller = "Home", action = "Index", listingId = "" }
+          );
+            routes.MapRoute(
+             "RealEstateSmartForm",
+             "RealEstateSmartForm/{listingId}/{itemId}",
+             new { controller = "Home", action = "Index", listingId = "", itemId = "" }
           );
             routes.MapRoute(
             "Dashboard",
@@ -91,12 +103,25 @@ namespace MPC.Webstore
            "ShopCart/{optionalOrderId}",
            new { controller = "Home", action = "Index", optionalOrderId = UrlParameter.Optional }
              );
+
+            routes.MapRoute(
+               "Receipt",
+               "Receipt/{OrderID}",
+               new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional}
+                 );
          
                   routes.MapRoute(
            "ShopCartAddressSelect",
            "ShopCartAddressSelect/{OrderID}",
            new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
              );
+
+                  routes.MapRoute(
+               "OrderConfirmation",
+               "OrderConfirmation/{OrderID}",
+               new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
+                 );
+         
 
             routes.MapRoute(
          "pages",

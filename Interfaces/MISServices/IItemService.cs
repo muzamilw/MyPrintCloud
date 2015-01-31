@@ -56,5 +56,16 @@ namespace MPC.Interfaces.MISServices
         /// Get Item Price Matrices for Section Flag & Item 
         /// </summary>
         IEnumerable<ItemPriceMatrix> GetItemPriceMatricesBySectionFlagForItem(long sectionFlagId, long itemId);
+
+        /// <summary>
+        /// Get Base Data For Designer Template
+        /// </summary>
+        ItemDesignerTemplateBaseResponse GetBaseDataForDesignerTemplate();
+
+        /// <summary>
+        /// Get Machines for Press Selection Dialog
+        /// Used in Products
+        /// </summary>
+        MachineSearchResponse GetMachines(MachineSearchRequestModel request);
     }
 }

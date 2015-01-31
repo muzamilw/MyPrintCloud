@@ -52,5 +52,9 @@ namespace MPC.Implementation.WebStoreServices
                 return false;
             }
         }
+        public bool removeAuthenticationClaim()
+        {
+            return ClaimHelper.RemoveClaim(WebstoreClaimTypes.LoginUser);
+        }
     }
 }

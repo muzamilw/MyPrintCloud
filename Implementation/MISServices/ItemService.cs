@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Web;
 using MPC.ExceptionHandling;
-using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
+using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.ModelMappers;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
+using IItemService = MPC.Interfaces.MISServices.IItemService;
 
 namespace MPC.Implementation.MISServices
 {
@@ -46,6 +48,11 @@ namespace MPC.Implementation.MISServices
         private readonly IItemProductDetailRepository itemProductDetailRepository;
         private readonly IProductCategoryItemRepository productCategoryItemRepository;
         private readonly IProductCategoryRepository productCategoryRepository;
+        private readonly ITemplatePageService templatePageService;
+        private readonly ITemplateService templateService;
+        private readonly IMachineRepository machineRepository;
+        private readonly IPaperSizeRepository paperSizeRepository;
+        private readonly IItemSectionRepository itemSectionRepository;
 
         /// <summary>
         /// Create Item Vdp Price
@@ -220,7 +227,85 @@ namespace MPC.Implementation.MISServices
         {
             productCategoryItemRepository.Delete(line);
         }
+
+        /// <summary>
+        /// Sets Default Paper Sizes For Non Print Item Section
+        /// </summary>
+        private void SetPaperSizesForNonPrintItemSection(ItemSection line)
+        {
+            List<PaperSize> paperSizes = paperSizeRepository.GetAll().ToList();
+            if (paperSizes.Any())
+            {
+                PaperSize paperSize = paperSizes.First();
+
+                // Set Default SectionSizeId
+                line.SectionSizeId = paperSize.PaperSizeId;
+                line.SectionSizeHeight = paperSize.Height;
+                line.SectionSizeWidth = paperSize.Width;
+
+                // Set Default ItemSizeId
+                line.ItemSizeId = paperSize.PaperSizeId;
+                line.ItemSizeHeight = paperSize.Height;
+                line.ItemSizeWidth = paperSize.Width;
+            }
+        }
+
+        /// <summary>
+        /// Sets Default Press, StockItem, SectionSize, ItemSize to Non Print Item Section
+        /// </summary>
+        private void SetNonPrintItemSection(ItemSection line)
+        {
+            // Set Default Press Id
+            MachineSearchResponse machinesResponse = machineRepository.GetMachinesForProduct(new MachineSearchRequestModel());
+
+            if (machinesResponse.Machines != null && machinesResponse.Machines.Any())
+            {
+                Machine machine = machinesResponse.Machines.FirstOrDefault();
+                if (machine != null)
+                {
+                    line.PressId = machine.MachineId;
+                }
+            }
+
+            // Set Default StockItemId
+            InventorySearchResponse stockItemResponse = stockItemRepository
+                .GetStockItemsForProduct(new StockItemRequestModel
+                {
+                    CategoryId = (long)StockCategoryEnum.Paper
+                });
+
+            if (stockItemResponse.StockItems != null && stockItemResponse.StockItems.Any())
+            {
+                StockItem stockItem = stockItemResponse.StockItems.FirstOrDefault();
+                if (stockItem != null)
+                {
+                    line.StockItemID1 = stockItem.StockItemId;
+                }
+            }
+
+            // Set Paper Sizes
+            SetPaperSizesForNonPrintItemSection(line);
+        }
         
+        /// <summary>
+        /// Create Item Section
+        /// </summary>
+        private ItemSection CreateItemSection()
+        {
+            ItemSection line = itemSectionRepository.Create();
+            itemSectionRepository.Add(line);
+
+            return line;
+        }
+
+        /// <summary>
+        /// Delete Item Section
+        /// </summary>
+        private void DeleteItemSection(ItemSection line)
+        {
+            itemSectionRepository.Delete(line);
+        }
+
         /// <summary>
         /// Save Product Images
         /// </summary>
@@ -229,7 +314,7 @@ namespace MPC.Implementation.MISServices
             string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
             HttpServerUtility server = HttpContext.Current.Server;
             string mapPath = server.MapPath(mpcContentPath + "/Products/Organisation" + itemRepository.OrganisationId + "/Product" + target.ItemId);
-            
+
             // Create directory if not there
             if (!Directory.Exists(mapPath))
             {
@@ -414,7 +499,7 @@ namespace MPC.Implementation.MISServices
         /// <param name="fileSource">Base64 representation of file being saved</param>
         /// <param name="fileSourceBytes">Byte[] representation of file being saved</param>
         /// <returns>Path of File being saved</returns>
-        private string SaveImage(string mapPath, string existingImage, string caption, string fileName, 
+        private string SaveImage(string mapPath, string existingImage, string caption, string fileName,
             string fileSource, byte[] fileSourceBytes)
         {
             if (!string.IsNullOrEmpty(fileSource))
@@ -436,7 +521,118 @@ namespace MPC.Implementation.MISServices
 
             return null;
         }
-        
+
+        /// <summary>
+        /// Calls Template Services to Create Pdf
+        /// </summary>
+        private void GenereatePdfForTemplate(Item itemTarget, int? templateTypeMode)
+        {
+            if (itemTarget.TemplateId.HasValue)
+            {
+                long organisationId = itemTarget.OrganisationId.HasValue
+                    ? itemTarget.OrganisationId.Value
+                    : itemRepository.OrganisationId;
+
+                Template template = itemTarget.Template;
+
+                if (template == null)
+                {
+                    throw new MPCException(
+                        string.Format(CultureInfo.InvariantCulture, LanguageResources.ItemService_TemplateNotFound,
+                            itemTarget.TemplateId.Value),
+                        organisationId);
+                }
+
+                if (itemTarget.TemplateType.HasValue)
+                {
+                    // Create Blank Pdf from Template Pages
+                    if (itemTarget.TemplateType.Value == 1)
+                    {
+                        // Generates Pdf from Template Pages
+                        GeneratePdfFromTemplatePages(template, organisationId);
+                    }
+                    else if (itemTarget.TemplateType.Value == 2)
+                    {
+                        // Create Pre-Built Template from Pdf
+                        // Save Template Pdf
+                        var mapPath = SavePdfForPreBuiltTemplate(itemTarget);
+
+                        // Genereates Template Pages from Pdf supplied
+                        GenerateTemplatePagesFromPdf(itemTarget, mapPath, organisationId, templateTypeMode);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Generate Template Pages from Pdf Provided
+        /// </summary>
+        private void GenerateTemplatePagesFromPdf(Item itemTarget, string mapPath, long organisationId, int? templateTypeMode)
+        {
+            try
+            {
+                if (!itemTarget.TemplateId.HasValue)
+                {
+                    return;
+                }
+
+                templateService.generateTemplateFromPDF(mapPath,
+                    templateTypeMode.HasValue ? templateTypeMode.Value : 2,
+                    itemTarget.TemplateId.Value, organisationId);
+            }
+            catch (Exception)
+            {
+                throw new MPCException(
+                    "Saved Successfully but " + LanguageResources.ItemService_FailedToGeneratePagesFromPdf,
+                    organisationId);
+            }
+        }
+
+
+        /// <summary>
+        /// Genereate Pdf From Template Pages
+        /// </summary>
+        private void GeneratePdfFromTemplatePages(Template template, long organisationId)
+        {
+            try
+            {
+                templatePageService.CreateBlankBackgroundPDFsByPages(template.ProductId,
+                    template.PDFTemplateHeight.HasValue ? template.PDFTemplateHeight.Value : 0,
+                    template.PDFTemplateWidth.HasValue ? template.PDFTemplateWidth.Value : 0,
+                    1, template.TemplatePages.ToList(),
+                    organisationId);
+            }
+            catch (Exception)
+            {
+                throw new MPCException(
+                    "Saved Successfully but " + LanguageResources.ItemService_FailedToGeneratePdfFromPages,
+                    organisationId);
+            }
+        }
+
+        /// <summary>
+        /// Saves Pdf For PreBuiltTemplate
+        /// </summary>
+        private string SavePdfForPreBuiltTemplate(Item itemTarget)
+        {
+            string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
+            HttpServerUtility server = HttpContext.Current.Server;
+            string mapPath =
+                server.MapPath(mpcContentPath + "/Products/Organisation" + itemRepository.OrganisationId +
+                               "/Product" + itemTarget.ItemId);
+            mapPath = mapPath + "//Templates";
+
+            if (!Directory.Exists(mapPath))
+            {
+                Directory.CreateDirectory(mapPath);
+            }
+
+            mapPath = SaveImage(mapPath, mapPath + "//random_CorporateTemplateUpload.pdf", string.Empty,
+                "random_CorporateTemplateUpload.pdf", itemTarget.Template.FileSource, itemTarget.Template.FileSourceBytes);
+
+            return mapPath;
+        }
+
         #endregion
 
         #region Constructor
@@ -445,13 +641,14 @@ namespace MPC.Implementation.MISServices
         ///  Constructor
         /// </summary>
         public ItemService(IItemRepository itemRepository, IGetItemsListViewRepository itemsListViewRepository, IItemVdpPriceRepository itemVdpPriceRepository,
-            IPrefixRepository prefixRepository, IItemVideoRepository itemVideoRepository, IItemRelatedItemRepository itemRelatedItemRepository, 
+            IPrefixRepository prefixRepository, IItemVideoRepository itemVideoRepository, IItemRelatedItemRepository itemRelatedItemRepository,
             ITemplatePageRepository templatePageRepository, ITemplateRepository templateRepository, IItemStockOptionRepository itemStockOptionRepository,
-            IItemAddOnCostCentreRepository itemAddOnCostCentreRepository, ICostCentreRepository costCentreRepository, IStockItemRepository stockItemRepository, 
+            IItemAddOnCostCentreRepository itemAddOnCostCentreRepository, ICostCentreRepository costCentreRepository, IStockItemRepository stockItemRepository,
             IItemPriceMatrixRepository itemPriceMatrixRepository, IItemStateTaxRepository itemStateTaxRepository, ICountryRepository countryRepository,
-            IStateRepository stateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyRepository companyRepository, 
-            IItemProductDetailRepository itemProductDetailRepository, IProductCategoryItemRepository productCategoryItemRepository, 
-            IProductCategoryRepository productCategoryRepository)
+            IStateRepository stateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyRepository companyRepository,
+            IItemProductDetailRepository itemProductDetailRepository, IProductCategoryItemRepository productCategoryItemRepository,
+            IProductCategoryRepository productCategoryRepository, ITemplatePageService templatePageService, ITemplateService templateService,
+            IMachineRepository machineRepository, IPaperSizeRepository paperSizeRepository, IItemSectionRepository itemSectionRepository)
         {
             if (itemRepository == null)
             {
@@ -537,6 +734,26 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("productCategoryRepository");
             }
+            if (templatePageService == null)
+            {
+                throw new ArgumentNullException("templatePageService");
+            }
+            if (templateService == null)
+            {
+                throw new ArgumentNullException("templateService");
+            }
+            if (machineRepository == null)
+            {
+                throw new ArgumentNullException("machineRepository");
+            }
+            if (paperSizeRepository == null)
+            {
+                throw new ArgumentNullException("paperSizeRepository");
+            }
+            if (itemSectionRepository == null)
+            {
+                throw new ArgumentNullException("itemSectionRepository");
+            }
 
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
@@ -559,6 +776,11 @@ namespace MPC.Implementation.MISServices
             this.itemProductDetailRepository = itemProductDetailRepository;
             this.productCategoryItemRepository = productCategoryItemRepository;
             this.productCategoryRepository = productCategoryRepository;
+            this.templatePageService = templatePageService;
+            this.templateService = templateService;
+            this.machineRepository = machineRepository;
+            this.paperSizeRepository = paperSizeRepository;
+            this.itemSectionRepository = itemSectionRepository;
         }
 
         #endregion
@@ -607,7 +829,7 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentException(LanguageResources.ItemService_InvalidFilePath, "filePath");
             }
-            
+
             Item item = GetById(itemId);
 
             switch (itemFileType)
@@ -625,7 +847,7 @@ namespace MPC.Implementation.MISServices
                     item.File1 = filePath;
                     break;
             }
-            
+
             itemRepository.SaveChanges();
 
             return item;
@@ -640,7 +862,7 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentException(LanguageResources.ItemService_InvalidItem, "itemId");
             }
-            
+
             Item item = GetById(itemId);
             string filePath = item.ThumbnailPath;
 
@@ -690,7 +912,10 @@ namespace MPC.Implementation.MISServices
                 CreateItemPriceMatrix = CreateItemPriceMatrix,
                 CreateItemProductDetail = CreateItemProductDetail,
                 CreateProductCategoryItem = CreateProductCategoryItem,
-                DeleteProductCategoryItem = DeleteProductCategoryItem
+                DeleteProductCategoryItem = DeleteProductCategoryItem,
+                CreateItemSection = CreateItemSection,
+                SetDefaultsForItemSection = SetNonPrintItemSection,
+                DeleteItemSection = DeleteItemSection
             });
 
             // Save Changes
@@ -701,6 +926,9 @@ namespace MPC.Implementation.MISServices
 
             // Load Properties if Any
             itemTarget = itemRepository.Find(itemTarget.ItemId);
+
+            // Genereate Pdf for Template if required using Template Services
+            GenereatePdfForTemplate(itemTarget, item.TemplateTypeMode);
 
             // Get Updated Minimum Price
             itemTarget.MinPrice = itemRepository.GetMinimumProductValue(itemTarget.ItemId);
@@ -727,7 +955,6 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Get Base Data
         /// </summary>
-        /// <returns></returns>
         public ItemBaseResponse GetBaseData()
         {
             return new ItemBaseResponse
@@ -737,10 +964,64 @@ namespace MPC.Implementation.MISServices
                 Countries = countryRepository.GetAll(),
                 States = stateRepository.GetAll(),
                 Suppliers = companyRepository.GetAllSuppliers(),
-                ProductCategories = productCategoryRepository.GetParentCategories()
+                ProductCategories = productCategoryRepository.GetParentCategories(),
+                PaperSizes = paperSizeRepository.GetAll()
             };
         }
-        
+
+        /// <summary>
+        /// Get Base Data For Designer Template
+        /// </summary>
+        public ItemDesignerTemplateBaseResponse GetBaseDataForDesignerTemplate()
+        {
+            List<ProductCategory> templateCategories;
+            List<CategoryRegion> categoryRegions;
+            List<CategoryType> categoryTypes;
+            // ReSharper disable SuggestUseVarKeywordEvident
+            using (GlobalTemplateDesigner.TemplateSvcSPClient pSc = new GlobalTemplateDesigner.TemplateSvcSPClient())
+            // ReSharper restore SuggestUseVarKeywordEvident
+            {
+                templateCategories = pSc.GetCategories().Select(category => new ProductCategory
+                {
+                    ProductCategoryId = category.ProductCategoryID,
+                    CategoryName = category.CategoryName,
+                    RegionId = category.RegionID,
+                    CategoryTypeId = category.CatagoryTypeID,
+                    ZoomFactor = category.ZoomFactor,
+                    ScaleFactor = category.ScaleFactor
+                }).ToList();
+                categoryRegions = pSc.getCategoryRegions().Select(category => new CategoryRegion
+                {
+                    RegionId = category.RegionID,
+                    RegionName = category.RegionName
+                }).ToList();
+
+                categoryTypes = pSc.getCategoryTypes().Select(category => new CategoryType
+                {
+                    TypeId = category.TypeID,
+                    TypeName = category.TypeName
+                }).ToList();
+
+            }
+
+            return new ItemDesignerTemplateBaseResponse
+            {
+                TemplateCategories = templateCategories,
+                CategoryRegions = categoryRegions,
+                CategoryTypes = categoryTypes
+            };
+        }
+
+        /// <summary>
+        /// Get Machines
+        /// Used in Products - Press Selection
+        /// </summary>
+        public MachineSearchResponse GetMachines(MachineSearchRequestModel request)
+        {
+            return machineRepository.GetMachinesForProduct(request);
+        }
+
+
         /// <summary>
         /// Get Stock Items
         /// Used in Products - Stock Item Selection

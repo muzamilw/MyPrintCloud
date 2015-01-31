@@ -1,0 +1,384 @@
+﻿@model MPC.Models.Common.ShoppingCart
+@using MPC.Webstore.Common;
+@using MPC.Models.Common;
+@{
+               double GrossTotal = 0;
+               string VatTotal = string.Empty;
+               string subtotal = string.Empty;
+               var AddressList = ViewData["OrderAddresses"] as List<MPC.Models.DomainModels.Address>;
+               string EstimateDispatchTime = string.Empty;
+               double _priceTotal = 0;
+               double _vatTotal = 0;
+               double _grandTotal = 0;
+               decimal noOfCostCentreProdDays = 0;
+               decimal _numOfProductionDays = 0;
+               decimal numberOfDaysAddedTodelivery = 0;
+               decimal ProductProductionTime = 0;
+
+}
+    <div class="container content_area">
+        <div class="row left_right_padding">
+            <div id="MessgeToDisply" class="rounded_corners col-md-12 col-lg-12 col-xs-12" style="display:none;">
+                <label ID="ltrlMessge" ></label>
+            </div>
+
+            <h2>
+                Review Your Order
+
+            </h2>
+
+            <div class="white-container-lightgrey-border textAlignLeft rounded_corners">
+            @if (AddressList[2] != null)
+            {
+                <div class="col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt" style="line-height: 30px;">
+                    <span style="" class="shopReceiptBillToHeading">PickUpAddress :</span><br />
+                    <label id="PickupAddressName" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].AddressName</label><br />
+                    <label id="pickUpAddressLine1" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].Address1</label><br />
+                    <label id="pickUpAddress2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].Address2</label><br />
+                    <label id="pickUpAddressCity" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].City</label>
+                    <label id="pickUpAddressState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].State.StateName</label>
+                    <label id="pickUPAddressCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].Country.CountryName</label><br />
+
+                    <label id="pickUpAddressZip" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].PostCode</label><br />
+                    <span>
+                        <label>Tel:</label>
+                    </span>
+                    <label id="pickUpAddressContact" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px;">@AddressList[2].Tel1</label>
+                </div>
+            }
+             @if (AddressList[1] != null)
+            {
+                <div class="col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt" style="line-height: 30px;">
+                    <span id="Span1"  style="" class="shopReceiptBillToHeading">Billing Address :</span><br />
+                    <label id="AddressName" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].AddressName</label><br />
+                    <label id="AddressLine" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].Address1</label><br />
+                    <label id="Addressline2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].Address2</label><br />
+                    <label id="lblBCity" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].City</label>
+                    <label id="lblBState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].State.StateName</label>
+                    <label id="lblBCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].Country.CountryName</label><br />
+                    <label id="lblBZipCode" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].PostCode</label><br />
+
+
+                    <span>
+                        <label ID="lrtlBTel" >Tel:</label>
+                    </span>
+                    <label id="lblBTel" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px;">@AddressList[1].Tel1</label>
+                </div>
+             }
+             @if (AddressList[0] != null)
+            {
+                <div class="col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt" style="line-height: 30px;">
+                    <span id="Span2"  style="" class="shopReceiptBillToHeading">Shipping Address:</span><br />
+                    <label id="ShippingAddressName" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].AddressName</label><br />
+                    <label id="shippingAddressline1" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].Address1</label><br />
+                    <label id="shippingAddressline2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].Address2</label><br />
+                    <label id="shippingCity" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].City</label>
+                    <label id="shippingState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].State.StateName</label>
+                    <label id="shippingCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].Country.CountryName</label><br />
+                    <label id="shippingZipCode" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].PostCode</label><br />
+
+
+                    <span>
+                        <label ID="Literal2">Tel:</label>
+                    </span>
+                    <label ID="shippingTel"  Style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px;" >@AddressList[0].Tel1</label>
+                </div>
+
+             }
+
+                <div class="check_out_third_div">
+                    <div class="confirm_order_detail_div">
+                        <div style="min-height: 290px">
+                            <div ID="pnlConfirmOrder" >
+                                <div class="mainHeadingAveniorCheckout">
+                                    <label ID="ltrlconfirmurorderdetails"  >Confirm your order details...</label>
+                                </div>
+                                <br />
+                                <table cellspacing="0" cellpadding="15" id="grdViewShopCart" style="width:100%;border-collapse:collapse;">
+                                    <tbody>
+                                        <tr class="gridViewHeaderStyle">
+                                            <th align="center" scope="col">&nbsp;</th>
+                                            <th align="left" scope="col">Products</th>
+                                            <th align="left" scope="col">Quantity</th>
+                                            @if (ViewBag.IsShowPrices == true)
+                                            {
+                                                <th align="right" scope="col">Price</th>
+                                            }
+                                            <th align="left" scope="col" style="color: white !important; border: none; background-color: white !important;">&nbsp;</th>
+                                        </tr>
+                                        @{ foreach (var prod in Model.CartItemsList as List<MPC.Models.Common.ProductItem>)
+                                         {
+                                            <tr class="gridViewRowStyle" valign="top">
+                                                <td class="PadTop5 shopCartFirstCol">
+                                                    <div class="cart_grid_image_container gallery">
+                                                        @{
+                                             string pdfLinkBtn = string.Empty;
+                                             string imgToShowURL = string.Empty;
+                                             if (!string.IsNullOrWhiteSpace(prod.Attatchment.FileName))
+                                             {
+                                                 string ext = System.IO.Path.GetExtension(prod.Attatchment.FileName);
+                                                 if (ext == ".xlsx" || ext == ".xls" || ext == ".csv")
+                                                 {
+                                                     string completeImgPath = Html.GetAppBasePath() + prod.ThumbnailPath;
+                                                     pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
+                                                     imgToShowURL = completeImgPath;
+                                                 }
+                                                 else
+                                                 {
+                                                     string FolderPathOfAttachment = prod.Attatchment.FolderPath;
+                                                     if (FolderPathOfAttachment.Contains("Production") == true)
+                                                     {
+                                                         FolderPathOfAttachment = FolderPathOfAttachment.Replace("Production", "Attachments");
+                                                     }
+                                                     // from file table
+                                                     //  string completeImgPath = ResolveUrl(GetSideThumbnail(FolderPathOfAttachment, model.Attatchment.FileName));
+
+                                                     pdfLinkBtn = "";// completeImgPath;//ImageDisplayScript(completeImgPath);
+                                                     imgToShowURL = "";// completeImgPath;
+                                                 }
+                                             }
+                                             else
+                                             {
+                                                 if (prod.ProductType == (int)ProductType.FinishedGoodWithBanner || prod.ProductType == (int)ProductType.FinishedGoodWithImageRotator)
+                                                 {
+                                                     string completeImgPath = Html.GetAppBasePath() + prod.ThumbnailPath;
+                                                     pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
+                                                     imgToShowURL = completeImgPath;
+                                                 }
+                                             }
+                                                        }
+                                                        <a id="lnkPdfFile" href=@pdfLinkBtn><img id="imgToShow" class="image_stretcher" src="@imgToShowURL"></a>
+                                                    </div>
+                                                    <div class="BtnTemplateModifyContainer">
+                                                        @if (prod.ProductType == (int)ProductType.TemplateProductWithBanner || prod.ProductType == (int)ProductType.TemplateProductWithImage)
+                                                        {
+                                                            <input type="submit" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('@prod.TemplateID','@prod.ProductCategoryID','@prod.ItemID');" value="Modify" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="submit" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('0','@prod.ProductCategoryID','@prod.ItemID');" value="Modify" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
+                                                        }
+                                                    </div>
+                                                </td>
+                                                <td style="width:29%;">
+                                                    <span id="lblItemProductName" class="heading_16">@prod.ProductName</span><span id="CopyTxt" class="heading_16" style="color: red !important;"></span>
+                                                    <br>
+                                                    <span id="lblProductCategory" class="ItemdetailDesc">( @prod.ProductCategoryName )</span>
+                                                    <br>
+                                                    <br>
+                                                    <span id="lblSlectedStockName" class="ItemdetailDesc">@prod.PaperType</span>
+                                                    <br>
+                                                    <br>
+                                                    @{
+                                                        string itemAddsOn = string.Empty;
+                                                        ProductProductionTime = prod.EstimateProductionTime ?? 0;
+                                                        if (ViewData["selectedItemsAddonsList"] != null)
+                                                        {
+                                                            List<AddOnCostsCenter> costcenters = Model.ItemsSelectedAddonsList as List<AddOnCostsCenter>;
+                                                            foreach (AddOnCostsCenter cost in costcenters.Where(addon => addon.ItemID == prod.ItemID))
+                                                            {
+                                                                itemAddsOn = itemAddsOn + cost.AddOnName + ",";
+                                                                noOfCostCentreProdDays += cost.EstimateProductionTime;
+                                                            }
+                                                        }
+
+                                                        ProductProductionTime += noOfCostCentreProdDays;
+                                                        if (_numOfProductionDays < ProductProductionTime)
+                                                        {
+                                                            _numOfProductionDays = ProductProductionTime;
+                                                        }
+                                                        numberOfDaysAddedTodelivery = _numOfProductionDays;
+
+                                                        DateTime date = Utils.AddBusinessdays(_numOfProductionDays, DateTime.Now);
+
+                                                        EstimateDispatchTime = date.ToString("MMMM dd, yyyy");
+                                                    }
+
+                                                    <span id="lblselectedAddOnList" class="ItemdetailDesc">@itemAddsOn</span>
+                                                    <input type="hidden" id="numberOfDaysAddedTodelivery" name="numberOfDaysAddedTodelivery" value="@numberOfDaysAddedTodelivery">
+                                                    <br>
+                                                    <br>
+                                                </td>
+                                                <td class="PadTop5" align="left" style="width:5%;">
+                                                    <span id="lblItemQuantity" class="fntQtyPrice" style="font-weight:bold;">@prod.Qty1</span>
+                                                </td>
+                                                @if (ViewBag.IsShowPrices)
+                                                {
+
+                                                    string itemPrice = string.Empty;
+                                                    double vatStateTaxPaid = (prod.Qty1GrossTotal ?? 0) - (prod.Qty1BaseCharge1 ?? 0);
+                                                    _vatTotal += vatStateTaxPaid;
+
+                                                    //2.Set item Price Now
+
+                                                    _priceTotal += prod.Qty1BaseCharge1 ?? 0;
+
+                                                    itemPrice = Utils.FormatDecimalValueToTwoDecimal((prod.Qty1BaseCharge1 ?? 0).ToString(), ViewBag.Currency);
+                                                    _grandTotal += prod.Qty1GrossTotal ?? 0;
+
+                                                    <td class="PadTop5 priceth" align="right" style="width:20%;">
+                                                        <span id="lblItemPrice" class="fntQtyPrice" style="font-weight:bold;text-align: right !important;">@itemPrice</span>
+                                                    </td>
+                                                }
+
+                                                <td align="left" style="width:20%;">
+
+                                                   
+                                                    <br>
+                                                  
+
+                                                </td>
+                                            </tr>
+
+                                                subtotal = Utils.FormatDecimalValueToTwoDecimal(_priceTotal.ToString(), ViewBag.Currency);
+                                                VatTotal = Utils.FormatDecimalValueToTwoDecimal(_vatTotal.ToString(), ViewBag.Currency);
+                                                GrossTotal = _priceTotal + _vatTotal;
+
+                                         }
+
+                                        }
+                                    </tbody>
+                                </table>
+                                <br />
+                                <div id="PnalTotalBox" >
+                                    <table border="0" cellpadding="3" cellspacing="0" width="100%" class="left_align">
+                                        <tr>
+                                            <td width="30%">
+                                                &nbsp;
+                                            </td>
+                                            <td width="30%">
+                                                &nbsp;
+                                            </td>
+                                            <td width="20%" align="left" class="LightGrayLabels" id="td1" >
+                                                <span id="spnsubtotal" >Sub Total:</span>
+                                            </td>
+                                            <td align="right" width="20%">
+                                                <label ID="lblSubTotal"  class="Fsize15 colorBlack"
+                                                           Style="margin-right: 13px;" >@subtotal</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="30%" align="left">
+                                                &nbsp;
+                                            </td>
+                                            <td width="30%">
+                                                &nbsp;
+                                            </td>
+                                            <td width="20%" align="left" class=" LightGrayLabels" id="td2" >
+                                                <span id="spndelivery" >Delivery Cost:</span>
+                                            </td>
+                                            <td align="right" width="20%">
+                                                <label ID="lblDeliveryCostCenter"   class="LightGrayLabels"
+                                                           Style="margin-right: 13px;" >@Model.DeliveryCost</label>
+                                            </td>
+                                        </tr>
+                                        <tr id="Tr2" >
+                                            <td width="30%" align="left"></td>
+                                            <td width="30%"></td>
+                                            <td width="20%" align="left" class="LightGrayLabels">
+                                                <label ID="lblTaxLabel" >VAT</label>
+                                            </td>
+                                            <td align="right" width="20%">
+                                                <label ID="lblVatTotal"  class="LightGrayLabels"  Style="margin-right: 13px;" >@VatTotal</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="30%">
+                                                &nbsp;
+                                            </td>
+                                            <td width="30%">
+                                                &nbsp;
+                                            </td>
+                                            <td width="20%" align="left" class="fontSyleBold Fsize15" id="td3" >
+                                                <span class="CartFonts colorBlack" id="spngrandtotal" >Gross Total:</span>
+                                            </td>
+                                            <td align="right" width="20%">
+                                                <label class="CartFonts colorBlack Fsize15" ID="lblGrandTotal"  
+                                                           Style="margin-right: 13px;" >@GrossTotal</label>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        @using (Html.BeginForm())
+                        {
+                            <input type="hidden" id="buttonType" name="buttonType" />
+                            if (ViewBag.LoginUser.IsPayByPersonalCreditCard == true)
+                            {
+                                if (ViewBag.LoginUser.canPlaceDirectOrder == true)
+                                {
+                                    <div class="pad10">
+                                        <div class="float_right marginLeft directDepositcs">
+                                            <input type="submit" value="Pay Via Direct Deposite " id="btnDirectDeposit" class="start_creating_btn_SApp rounded_corners5" onclick="setButtonType('2');" />
+                                        </div>
+                                    </div>
+                                    <div class="clearBoth">
+                                    </div>
+                                }
+                                <div class="pad10">
+                                    <div class="float_right marginLeft">
+                                        <input id="btnPlaceOrderUsingCreditCard" class="start_creating_btn_SApp rounded_corners5" type="submit" value="Pay by Credit Card" onclick="setButtonType('1');" />
+
+                                    </div>
+                                    <div class="float_right">
+                                        <input type="button" value="BACK TO SHOPPING" id="btnShopCart" class="btn_brown rounded_corners5"
+                                               onclick="BackToShopping('@UserCookieManager.OrderId');" />
+                                        @*<a href="/" class="btn_brown rounded_corners5">BACK TO SHOPPING</a>*@
+                                    </div>
+                                    <div class="clearBoth">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                
+                            }
+                            else if ((ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.Adminstrator) || ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.Manager)) || (ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.User) && ViewBag.LoginUser.canUserPlaceOrderWithoutApproval == true))
+                            {
+                                <div class="pad10">
+                                    <div class="float_right marginLeft">
+                                        <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="Place Order" onclick="setButtonType('1');"/>
+                                       
+                                    </div>
+                                    <div class="float_right">
+                                        <input type="button" value="BACK TO SHOPPING" id="btnShopCart" class="btn_brown rounded_corners5"
+                                               onclick="BackToShopping('@UserCookieManager.OrderId');" />
+                                        @*<a href="/" class="btn_brown rounded_corners5">BACK TO SHOPPING</a>*@
+                                    </div>
+                                    <div class="clearBoth">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="pad10">
+                                    <div class="float_right marginLeft">
+                                        <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="Submit for Approval" onclick="setButtonType('1');" />
+
+                                    </div>
+                                    <div class="float_right">
+                                        <input type="button" value="BACK TO SHOPPING" id="btnShopCart" class="btn_brown rounded_corners5"
+                                               onclick="BackToShopping('@UserCookieManager.OrderId');" />
+                                      @*  <a href="/" class="btn_brown rounded_corners5">BACK TO SHOPPING</a>*@
+                                    </div>
+                                    <div class="clearBoth">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+    function setButtonType(Type) {
+
+        $("#setButtonType").val(Type);
+    }
+    function BackToShopping(OrderId) {
+        window.location.href = "/ShopCart/" + OrderId;
+    }
+</script>

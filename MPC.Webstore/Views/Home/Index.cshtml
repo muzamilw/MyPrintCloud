@@ -1,4 +1,25 @@
-﻿@model List<MPC.Webstore.Models.CmsSkinPageWidget>
+﻿@model List<MPC.Models.DomainModels.CmsSkinPageWidget>
+
+@section metatags
+{
+    @if (ViewBag.MetaTitle != null)
+    {
+        <meta name="title" content="@ViewBag.MetaTitle" />
+
+
+    }
+    @if (ViewBag.MetaDescription != null)
+    {
+        <meta name="description" content="@ViewBag.MetaDescription" />
+
+    }
+`
+    @if (ViewBag.MetaKeywords != null)
+    {
+        <meta name="keywords" content="@ViewBag.MetaKeywords" />
+    }
+}
+
 @foreach (var widget in Model)
 {
     <div>
