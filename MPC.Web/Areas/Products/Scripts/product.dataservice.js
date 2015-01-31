@@ -87,7 +87,7 @@ define("product/product.dataservice", function () {
 
                     // Define request to clone Item
                     amplify.request.define('cloneItem', 'ajax', {
-                        url: ist.siteUrl + '/Api/Item',
+                        url: ist.siteUrl + '/Api/ItemClone',
                         dataType: 'json',
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'

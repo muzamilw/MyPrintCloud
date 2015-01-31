@@ -1161,8 +1161,10 @@ namespace MPC.Implementation.MISServices
             // That will clone Template deeply
             if (source.TemplateId.HasValue)
             {
-                templateService.CopyTemplate(source.TemplateId.Value, 0, string.Empty, target.OrganisationId.HasValue ? 
+                long templateId = templateService.CopyTemplate(source.TemplateId.Value, 0, string.Empty, target.OrganisationId.HasValue ? 
                     target.OrganisationId.Value : itemRepository.OrganisationId);
+
+                target.TemplateId = templateId;
             }
 
             // Save Changes
