@@ -71,6 +71,22 @@ define("product/product.view",
                 hideProductCategoryDialog = function () {
                     $("#productCategoryDialog").modal("hide");
                 },
+                // Show Signature dialog
+                showSignatureDialog = function () {
+                    $("#signatureEdit").modal("show");
+                },
+                // Hide Signature dialog
+                hideSignatureDialog = function () {
+                    $("#signatureEdit").modal("hide");
+                },
+                // Show Press dialog
+                showPressDialog = function () {
+                    $("#pressDialog").modal("show");
+                },
+                // Hide Press dialog
+                hidePressDialog = function () {
+                    $("#pressDialog").modal("hide");
+                },
                 // Go To Element with Validation Errors
                 gotoElement = function (element) {
                     var tab = $(element).closest(".tab-pane");
@@ -247,7 +263,9 @@ define("product/product.view",
 
                     // Create Dropzone's
                     // "demoUpload1" is the HTML element's ID
+                    // ReSharper disable Html.IdNotResolved
                     if (!$("#demoUpload1").dropzone) {
+
                         $("#demoUpload1").dropzone({
                             paramName: "file", // The name that will be used to transfer the file
                             maxFilesize: 1,
@@ -292,6 +310,7 @@ define("product/product.view",
                     if (!$("#demoUpload4").dropzone) {
                         // Files
                         $("#demoUpload4").dropzone({
+                        // ReSharper restore Html.IdNotResolved
                             paramName: "file", // The name that will be used to transfer the file
                             maxFilesize: 1,
                             addRemoveLinks: true,
@@ -368,7 +387,11 @@ define("product/product.view",
                 getCategoryIdFromElement: getCategoryIdFromElement,
                 updateInputCheckedStates: updateInputCheckedStates,
                 showBasicDetailsTab: showBasicDetailsTab,
-                wireUpTabShownEvent: wireUpTabShownEvent
+                wireUpTabShownEvent: wireUpTabShownEvent,
+                showSignatureDialog: showSignatureDialog,
+                hideSignatureDialog: hideSignatureDialog,
+                showPressDialog: showPressDialog,
+                hidePressDialog: hidePressDialog
             };
         })(productViewModel);
 

@@ -1,0 +1,77 @@
+﻿<div class="modal fade my-modal" id="pressDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div id="pressDialogMainContainer" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Press List</h4>
+            </div>
+            <div class="col-lg-12">
+                <div class="col-lg-12 clearfix">
+                    <header class="main-box-header clearfix">
+                        <div class="filter-body set-filter-margin" id="filter">
+                            <div class="filter-block pull-left">
+                                <div class="pull-left spanfilterlbl">
+                                    Search: &nbsp;
+                                </div>
+                                <div class="form-group pull-left">
+                                    <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.pressDialogFilter">
+                                    <i class="fa fa-search search-icon" data-bind="click: $root.searchPressItems"></i>
+                                </div>
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-primary" data-bind="click:$root.searchPressItems">Search</button>
+                                    <button type="reset" class="btn btn-default" data-bind="click: $root.resetPressItems">Reset</button>
+                                </div>
+                            </div>
+                            <div class="clearfix">
+                            </div>
+                        </div>
+                    </header>
+                    <div class="main-box-body clearfix">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th><a href="#"><span>Press Name</span></a></th>
+                                        <th><a href="#"><span>Max Sheet Height</span></a></th>
+                                        <th><a href="#"><span>Max Sheet Weight</span></a></th>
+                                        <th><a href="#"><span>Min Sheet Height</span></a></th>
+                                        <th><a href="#"><span>Min Sheet Weight</span></a></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- ko template: { name: 'pressDialogItemTemplate', foreach: $root.pressItems } -->
+                                    <!-- /ko -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <footer class="main-box-header pull-left">
+                        <div id="pagerDiv">
+                            <!-- ko with: $root.pressDialogPager -->
+                            @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                            <!-- /ko -->
+                        </div>
+                    </footer>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <hr />
+                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                <button type="button" class="btn btn-default" data-bind="click: $root.closePressDialog" style="margin-left: 0">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Press Item Template *@
+<script id="pressDialogItemTemplate" type="text/html">
+    <tr data-bind="click: $parent.onSelectPressItem">
+        <td data-bind="text: name"></td>
+        <td data-bind="text: maxSheetHeight"></td>
+        <td data-bind="text: maxSheetWeight"></td>
+        <td data-bind="text: minSheetHeight"></td>
+        <td data-bind="text: minSheetHeight"></td>
+    </tr>
+</script>
+
+@* Wizard Popup ends here*@

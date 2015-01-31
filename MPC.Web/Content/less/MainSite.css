@@ -26,7 +26,10 @@
 #productBinding #stockDialog #stockDialogMainContainer {
   width: 838px;
 }
-#productBinding #signtureEdit .modal-dialog {
+#productBinding #pressDialog #pressDialogMainContainer {
+  width: 838px;
+}
+#productBinding #signatureEdit .modal-dialog {
   width: 838px;
 }
 #productBinding #itemAddonCostCentreDialog #itemAddonCostCentreDialogMainContainer {
