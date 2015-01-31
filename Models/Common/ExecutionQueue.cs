@@ -40,7 +40,7 @@ namespace MPC.Models.Common
         private double _Qty5Answer;
         private int _RowCount;
         private int _ColumnCount;
-
+        private List<CostCentreMatrixDetail> _MatrixTable;
      
         /// <summary>
         /// overloaded constructor
@@ -54,7 +54,7 @@ namespace MPC.Models.Common
         /// <param name="AnswerID"></param>
         /// <param name="IsAnswered"></param>
         public QuestionQueueItem(int ID, string Name, long CostCentreID, short ItemType, string VisualQuestion, string DefaultAnswer, string AnswerID, bool IsAnswered, double Qty1Answer, double Qty2Answer = 0,
-        double Qty3Answer = 0, double Qty4Answer = 0, double Qty5Answer = 0,int RowCount = 0, int ColumnCount = 0 ,List<CostCentreAnswer> answers = null)
+        double Qty3Answer = 0, double Qty4Answer = 0, double Qty5Answer = 0, int RowCount = 0, int ColumnCount = 0, List<CostCentreAnswer> answers = null, List<CostCentreMatrixDetail> matrices = null)
         {
             this._ID = ID;
             this._Name = Name;
@@ -74,6 +74,7 @@ namespace MPC.Models.Common
             this._Qty5Answer = Qty5Answer;
             this._RowCount = RowCount;
             this._ColumnCount = ColumnCount;
+            this._MatrixTable = matrices;
         }
 
         public int ID
@@ -178,6 +179,11 @@ namespace MPC.Models.Common
             set { this._ColumnCount = value; }
         }
 
+        public List<CostCentreMatrixDetail> MatrixTable
+        {
+            get { return this._MatrixTable; }
+            set { this._MatrixTable = value; }
+        }
     }
 
 

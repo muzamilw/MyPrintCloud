@@ -11,6 +11,8 @@
 
 <link href="~/Scripts/Designer/a12/a66.css" rel="stylesheet" />
 
+<div id="FormulaMatrixLayer">
+</div>
 <div class="container content_area">
     <div class="row left_right_padding">
         <div class="signin_heading_div float_left_simple">
@@ -243,7 +245,7 @@
                         }
                         else
                         {
-                            <input type="text" id="rangedQuantityOrdered" class="dropdownBorderCS Width60pixel Mleft10 Fsize17" onblur="CalculatePriceBaseOnRangedQuantity();" />
+                            <input  type="text" id="rangedQuantityOrdered" class="dropdownBorderCS Width60pixel Mleft10 Fsize17" onblur="CalculatePriceBaseOnRangedQuantity();" />
                         }
 
                         <input type="button" onclick="CalculatePriceBaseOnRangedQuantity(); return false;" class="go_button rounded_corners5 width35pix"
@@ -688,7 +690,7 @@
     var isPriceSelected = 0;
 
     $(document).ready(function () {
-
+        
         $('input:radio[name=StockPaper]:checked').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
         $('input:radio[name=StockPaper]:checked').next().css("background-color", "white");
 
@@ -708,9 +710,6 @@
         SelectStockOption($('input:radio[name=StockPaper]:checked').attr('class'));
 
         SetAddOnsPriceOnPageLaod();
-
-
-
     });
 
     $("#priceToggle").click(function () {
@@ -1207,7 +1206,7 @@
                     actualPrice = "@ViewBag.Currency" + (actualPrice).toFixed(2).toString();
                     $(val).next().next().children(':first').html(actualPrice);
                 }else if(selectedCheckBox.Type == 4){
-                
+                    $(val).attr('onclick', 'PromptForValues('+ selectedCheckBox.CostCenterId +');');
                 }
             }
         });
@@ -1262,8 +1261,8 @@
         "July", "August", "September", "October", "November", "December"];
         var FileName = yyyy + monthNames[mm] + dd;
         FileName = FileName.concat("-", '@ViewBag.ClonedItem.ProductCode', "-", '@ViewBag.Order.Order_Code', "-", '@ViewBag.ClonedItem.ItemCode', "-", '' + sideOFImage);
-        var url = "/mpc_content/Attachments/Organisation";
-        url = url.concat('@UserCookieManager.OrganisationID', "/", '@UserCookieManager.StoreId', "/");
+        var url = "/mpc_content/Attachments/";
+        url = url.concat('@UserCookieManager.OrganisationID', "/", '@UserCookieManager.StoreId', "/Products/", @ViewBag.ClonedItem.ItemId);
 
         while (url.indexOf('/') != -1)
             url = url.replace("/", "__");
@@ -1313,5 +1312,12 @@
         window.location.href = URL;
     }
 
+    function PromptForValues(CostCentreId){
+        $.getJSON("/webstoreapi/costCenter/GetDateTimeString/" + CostCentreId,
+      function (DT) {
+          console.log(DT);
+          ShowCostCentrePopup(DT[2]);
+      });
+    }
 </script>
 }
