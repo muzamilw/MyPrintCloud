@@ -358,7 +358,7 @@
     <Compile Include="ResponseModels\ItemSearchResponse.cs" />
     <Compile Include="ResponseModels\InventorySearchResponse.cs" />
     <Compile Include="ResponseModels\LanguageEditor.cs" />
-    <Compile Include="ResponseModels\MachineResponseModel.cs.cs" />
+    <Compile Include="ResponseModels\MachineResponseModel.cs" />
     <Compile Include="ResponseModels\MyCompanyDomainBaseReponse.cs" />
     <Compile Include="ResponseModels\MyOrganizationBaseResponse.cs" />
     <Compile Include="ResponseModels\CostCentersResponse.cs" />
