@@ -117,10 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ItemAddonCostCentre_InvalidItem" xml:space="preserve">
+    <value>Item Addon CostCenter is null.</value>
+  </data>
+  <data name="ItemClone_InvalidItem" xml:space="preserve">
+    <value>Item is null.</value>
+  </data>
   <data name="ItemMapper_CreateItemVdpPriceMustBeSpecified" xml:space="preserve">
     <value>Create ItemVdpPrice must be specified.</value>
   </data>
   <data name="ItemMapper_DeleteItemVdpPriceMustBeSpecified" xml:space="preserve">
     <value>Delete ItemVdpPrice must be specified.</value>
+  </data>
+  <data name="ItemPriceMatrixClone_InvalidItem" xml:space="preserve">
+    <value>Item Price Matrix is null.</value>
+  </data>
+  <data name="ItemProductDetailClone_InvalidItemProductDetail" xml:space="preserve">
+    <value>Item Product Detail is null.</value>
+  </data>
+  <data name="ItemSectionClone_InvalidItemSection" xml:space="preserve">
+    <value>Item Section is null.</value>
+  </data>
+  <data name="ItemStateTaxClone_InvalidItem" xml:space="preserve">
+    <value>Item State Tax is null.</value>
+  </data>
+  <data name="ItemStockOption_InvalidItemStockOption" xml:space="preserve">
+    <value>Item Stock Option is null.</value>
+  </data>
+  <data name="ItemVdpPriceClone_InvalidItem" xml:space="preserve">
+    <value>Item Vdp Price is null.</value>
+  </data>
+  <data name="ProductCategoryItemClone_InvalidItem" xml:space="preserve">
+    <value>Product Category Item is null.</value>
   </data>
 </root>

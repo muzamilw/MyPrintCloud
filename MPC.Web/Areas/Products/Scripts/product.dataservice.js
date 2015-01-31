@@ -85,6 +85,14 @@ define("product/product.dataservice", function () {
                         type: 'GET'
                     });
 
+                    // Define request to clone Item
+                    amplify.request.define('cloneItem', 'ajax', {
+                        url: ist.siteUrl + '/Api/Item',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
+
                     isInitialized = true;
                 }
             },
@@ -166,6 +174,16 @@ define("product/product.dataservice", function () {
                     data: param
                 });
             },
+            // Clone Item
+            cloneItem = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'cloneItem',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
             // Get ItemPriceMatrices For Item By FlagId
             getItemPriceMatricesForItemByFlagId = function (params, callbacks) {
                 initialize();
@@ -197,7 +215,8 @@ define("product/product.dataservice", function () {
             getItemPriceMatricesForItemByFlagId: getItemPriceMatricesForItemByFlagId,
             getProductCategoryChilds: getProductCategoryChilds,
             getBaseDataForDesignerCategory: getBaseDataForDesignerCategory,
-            getMachines: getMachines
+            getMachines: getMachines,
+            cloneItem: cloneItem
         };
     })();
 
