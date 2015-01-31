@@ -1,5 +1,7 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System;
+namespace MPC.Models.DomainModels
 {
+     [Serializable()]
     /// <summary>
     /// Cost Centre Matrix Detail Domain Model
     /// </summary>

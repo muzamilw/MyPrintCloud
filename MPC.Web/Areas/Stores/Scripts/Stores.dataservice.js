@@ -6,7 +6,6 @@
             // Initialize
             initialize = function () {
                 if (!isInitialized) {
-
                     // Define request to get Store
                     amplify.request.define('getStores', 'ajax', {
                         url: ist.siteUrl + '/Api/Company',
@@ -109,6 +108,18 @@
                     // Define request to Get Secondry Page By Id
                     amplify.request.define('getSecondryPageById', 'ajax', {
                         url: ist.siteUrl + '/Api/SecondaryPage',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to Get Company Territory Validation check
+                    amplify.request.define('validateCompanyToDelete', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyTerritory',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to Get Address Validation check
+                    amplify.request.define('validateAddressToDelete', 'ajax', {
+                        url: ist.siteUrl + '/Api/Address',
                         dataType: 'json',
                         type: 'GET'
                     });
@@ -282,6 +293,26 @@
                     data: params
                 });
             },
+        // validate Company To Delete
+        validateCompanyToDelete = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'validateCompanyToDelete',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
+        // validate Address To Delete
+        validateAddressToDelete = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'validateAddressToDelete',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
         // Save Product Category
         saveProductCategory = function (param, callbacks) {
             initialize();
@@ -321,7 +352,9 @@
             getProductCategoryById: getProductCategoryById,
             getItemsForWidgets: getItemsForWidgets,
             saveProductCategory: saveProductCategory,
-            getCampaignBaseData: getCampaignBaseData
+            getCampaignBaseData: getCampaignBaseData,
+            validateCompanyToDelete: validateCompanyToDelete,
+            validateAddressToDelete: validateAddressToDelete
         };
     })();
 
