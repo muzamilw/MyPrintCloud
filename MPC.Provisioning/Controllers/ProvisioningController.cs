@@ -8,6 +8,7 @@ using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Diagnostics;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace MPC.Provisioning.Controllers
 {
@@ -90,12 +91,12 @@ namespace MPC.Provisioning.Controllers
 
         //}
 
-        public string Post(string siteName, string sitePhysicalPath, string siteOrganisationId)
+        public string Post(string subdomain, string sitePhysicalPath, string siteOrganisationId, string ContactFullName)
         {
 
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = @"powershell.exe";
-            startInfo.Arguments = @"-File " + HttpContext.Current.Server.MapPath("~/scripts/provisionNew.ps1") + " " + siteName + " " + sitePhysicalPath + " " + siteOrganisationId;
+            startInfo.Arguments = @"-File " + HttpContext.Current.Server.MapPath("~/scripts/provisionNew.ps1") + " " + subdomain + " " + sitePhysicalPath + " " + siteOrganisationId;
             startInfo.RedirectStandardOutput = true;
             startInfo.RedirectStandardError = true;
             startInfo.UseShellExecute = false;
@@ -112,9 +113,10 @@ namespace MPC.Provisioning.Controllers
 
             if (output == "App Created")
             {
-                string connectionString =
-                        "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPC;server=www.myprintcloud.com,9998; user id=mpcmissa; password=p@ssw0rd@mis2o14;";
+                string connectionString = ConfigurationManager.AppSettings["connectionString"];
+                        
 
+                //inserting the default Organisation
                 string queryString =
                    "INSERT INTO Organisation VALUES(NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,NULL,NULL,NULL)";
                 using (SqlConnection connection = new SqlConnection(connectionString))
@@ -126,7 +128,7 @@ namespace MPC.Provisioning.Controllers
                     {
                         connection.Open();
 
-                        command.ExecuteNonQuery();
+                        var result = command.ExecuteNonQuery();
 
                         connection.Close();
 
