@@ -689,7 +689,23 @@ define("stores/stores.viewModel",
                         getCampaignBaseData();
                     }
 
+                    resetEmailBaseDataArrays();
+
+                    makeCkeditorDropable();
                 },
+
+                resetEmailBaseDataArrays = function () {
+                    _.each(campaignSectionFlags(), function (item) {
+                        item.isChecked(false);
+                    });
+                    _.each(campaignCompanyTypes(), function (item) {
+                        item.isChecked(false);
+                    });
+
+                    _.each(campaignGroups(), function (item) {
+                        item.isChecked(false);
+                    });
+                }
                 //Create Interval Marketing Email
                 onCreateIntervalMarketingEmail = function () {
                     var campaign = model.Campaign();
@@ -700,9 +716,47 @@ define("stores/stores.viewModel",
                     if (campaignSectionFlags().length === 0) {
                         getCampaignBaseData();
                     }
+                    makeCkeditorDropable();
                 },
+                //Save Campaign
                 onSaveEmail = function (email) {
                     if (dobeforeSaveEmail()) {
+                        if (email.campaignType() === 3) {
+                            var flags = null;
+                            _.each(campaignSectionFlags(), function (item) {
+                                if (item.isChecked()) {
+                                    if (flags === null) {
+                                        flags = item.id();
+                                    } else {
+                                        flags = flags + "," + item.id();
+                                    }
+                                }
+                            });
+                            email.flagIDs(flags);
+                            var cTypes = null;
+                            _.each(campaignCompanyTypes(), function (item) {
+                                if (item.isChecked()) {
+                                    if (cTypes === null) {
+                                        cTypes = item.id();
+                                    } else {
+                                        cTypes = cTypes + "," + item.id();
+                                    }
+                                }
+                            });
+                            email.customerTypeIDs(flags);
+                            var groups = "";
+                            _.each(campaignGroups(), function (item) {
+                                if (item.isChecked()) {
+                                    if (groups === null) {
+                                        groups = item.id();
+                                    } else {
+                                        groups = groups + "," + item.id();
+                                    }
+                                }
+                            });
+                            email.groupIDs(groups);
+                        }
+
                         if (email.emailEventId() !== undefined) {
                             _.each(emailEvents(), function (item) {
                                 if (item.EmailEventId === email.emailEventId()) {
@@ -732,6 +786,46 @@ define("stores/stores.viewModel",
                     selectedEmail(campaign);
                     selectedEmail().reset();
                     view.showEmailCamapaignDialog();
+                    if (campaignSectionFlags().length === 0) {
+                        getCampaignBaseData();
+                    }
+                    debugger;
+                    if (selectedEmail().campaignType() === 3) {
+                        resetEmailBaseDataArrays();
+                        if (campaign.flagIDs() !== null && campaign.flagIDs() !== undefined) {
+                            var flagIds = campaign.flagIDs().split(',');
+                            for (var i = 0; i < flagIds.length; i++) {
+                                _.each(campaignSectionFlags(), function (item) {
+                                    if (parseInt(flagIds[i]) === item.id()) {
+                                        item.isChecked(true);
+                                    }
+
+                                });
+                            }
+                        }
+                        if (campaign.customerTypeIDs() !== null && campaign.customerTypeIDs() !== undefined) {
+                            var customerTypeIDs = campaign.customerTypeIDs().split(',');
+                            for (var j = 0; j < customerTypeIDs.length; j++) {
+                                _.each(campaignCompanyTypes(), function (item) {
+                                    if (parseInt(customerTypeIDs[j]) === item.id()) {
+                                        item.isChecked(true);
+                                    }
+
+                                });
+                            }
+                        }
+                        if (campaign.groupIDs() !== null && campaign.groupIDs() !== undefined) {
+                            var groupIDs = campaign.groupIDs().split(',');
+                            for (var k = 0; k < groupIDs.length; k++) {
+                                _.each(campaignCompanyTypes(), function (item) {
+                                    if (parseInt(groupIDs[k]) === item.id()) {
+                                        item.isChecked(true);
+                                    }
+                                });
+                            }
+                        }
+                    }
+                    makeCkeditorDropable();
                 },
                 // Delete Email
                 onDeleteEmail = function (email) {
@@ -771,6 +865,8 @@ define("stores/stores.viewModel",
                                 });
                                 emailCampaignSections.push(section);
                             });
+
+
                             if (callBack && typeof callBack === 'function') {
                                 callBack();
                             }
@@ -780,7 +876,23 @@ define("stores/stores.viewModel",
                         }
                     });
                 },
-                //
+                //Make Ckeditor Dropable
+                makeCkeditorDropable = function () {
+                    setTimeout(
+                        function () {
+                            $(CKEDITOR.instances.content.container.find('iframe').$[0]).droppable({
+                                tolerance: 'pointer',
+                                hoverClass: 'dragHover',
+                                activeClass: 'dragActive',
+                                drop: function (evt, ui) {
+                                    droppedEmailSection(ui.helper.data('ko.draggable.data'), null, evt);
+                                }
+                            });
+                        }, 10000);
+
+
+                },
+                //Active Section Item
                  selectSection = function (section) {
                      //old menu collapse
                      if (selectedSection() !== undefined) {
@@ -790,12 +902,52 @@ define("stores/stores.viewModel",
                      section.isExpanded(true);
                      selectedSection(section);
                  },
-                   campaignEmailImagesLoadedCallback = function (file, data) {
-                       var campaignImage = model.CampaignImage();
-                       campaignImage.imageName(file.name);
-                       campaignImage.imageSource(data);
-                       selectedEmail().campaignImages.push(campaignImage);
-                   },
+                 campaignEmailImagesLoadedCallback = function (file, data) {
+                     var campaignImage = model.CampaignImage();
+                     campaignImage.imageName(file.name);
+                     campaignImage.imageSource(data);
+                     selectedEmail().campaignImages.push(campaignImage);
+                 },
+                // Returns the item being dragged
+                draggedSection = function (source) {
+
+                    return {
+                        row: source.$parent,
+                        section: source.$data
+                    };
+                },
+                draggedImage = function (source) {
+                    return {
+                        row: source.$parent,
+                        image: source.$data
+                    };
+                },
+                draggedEmailVaribale = function (source) {
+                    return {
+                        row: source.$parent,
+                        emailVariable: source.$data
+                    };
+                },
+
+                // Widget being dropped
+                // ReSharper disable UnusedParameter
+                droppedEmailSection = function (source, target, event) {
+                    var hTMLMessageA = CKEDITOR.instances.content.getData();
+                    if (selectedEmail() !== undefined && source !== undefined && source !== null && source.section !== undefined && source.section !== null) {
+                        //variableName //sectionName
+                        selectedEmail().hTMLMessageA(hTMLMessageA + source.section.sectionName());
+                    }
+                    else if (selectedEmail() !== undefined && source !== undefined && source !== null && source.emailVariable !== undefined && source.emailVariable !== null) {
+                        selectedEmail().hTMLMessageA(hTMLMessageA + source.emailVariable.variableName());
+                    }
+                    else if (selectedEmail() !== undefined && source !== undefined && source !== null && source.image !== undefined && source.image !== null) {
+                        // var img = "<img  src=" + source.image.imageSource() + "/>";
+                        var img = "<img width=\"100px\"  height=\"100px\" src=\"" + source.image.imageSource() + "\"/>";
+                        selectedEmail().hTMLMessageA(hTMLMessageA + img);
+                        //selectedEmail().hTMLMessageA(); //imageSource
+                    }
+
+                },
                 //#endregion
 
                 // #region _________A D D R E S S E S __________________________
@@ -1897,7 +2049,11 @@ define("stores/stores.viewModel",
                         });
                         //#region Emails (Campaigns)
                         _.each(emails(), function (email) {
-                            storeToSave.Campaigns.push(email.convertToServerData(email));
+                            var emailServer = email.convertToServerData(email);
+                            _.each(email.campaignImages(), function (campaignImage) {
+                                emailServer.CampaignImages.push(campaignImage.convertToServerData(campaignImage));
+                            });
+                            storeToSave.Campaigns.push(emailServer);
                         });
                         //#endregion
                         _.each(companyBannerSetList(), function (bannerSet) {
@@ -1997,7 +2153,6 @@ define("stores/stores.viewModel",
                         }
                         //#endregion
 
-
                         _.each(selectedStore().mediaLibraries(), function (item) {
                             storeToSave.MediaLibraries.push(item.convertToServerData());
                         });
@@ -2090,7 +2245,11 @@ define("stores/stores.viewModel",
                                 }
                                 emails.removeAll();
                                 _.each(data.Company.Campaigns, function (item) {
-                                    emails.push(model.Campaign.Create(item));
+                                    var campaign = model.Campaign.Create(item);
+                                    _.each(item.CampaignImages, function (campaignImage) {
+                                        campaign.campaignImages.push(model.CampaignImage.Create(campaignImage));
+                                    });
+                                    emails.push(campaign);
                                 });
 
                                 addressPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().addresses, searchAddress));
@@ -3154,6 +3313,10 @@ define("stores/stores.viewModel",
                     selectedSection: selectedSection,
                     selectSection: selectSection,
                     campaignEmailImagesLoadedCallback: campaignEmailImagesLoadedCallback,
+                    draggedSection: draggedSection,
+                    draggedImage: draggedImage,
+                    draggedEmailVaribale: draggedEmailVaribale,
+                    droppedEmailSection: droppedEmailSection,
                 };
                 //#endregion
             })()

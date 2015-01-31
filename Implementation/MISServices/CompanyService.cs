@@ -280,7 +280,7 @@ namespace MPC.Implementation.MISServices
                     companyDbVersion.CompanyCostCentres.Remove(dbVersionMissingItem);
                 }
             }
-            
+
             #endregion
             return company;
         }
@@ -798,10 +798,54 @@ namespace MPC.Implementation.MISServices
             SaveCompanyBannerImages(companySavingModel.Company);
             SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
             UpdateSecondaryPageImagePath(companySavingModel, companyDbVersion);
+            UpdateCampaignImages(companySavingModel.Company.Campaigns, companyDbVersion);
             companyRepository.SaveChanges();
             return companySavingModel.Company;
         }
 
+        public void UpdateCampaignImages(IEnumerable<Campaign> campaigns, Company companyDbVersion)
+        {
+            if (campaigns != null)
+            {
+                foreach (var campaign in campaigns)
+                {
+                    if (campaign.CampaignImages != null)
+                    {
+                        foreach (var campaignImage in campaign.CampaignImages)
+                        {
+                            campaignImage.ImagePath = SaveCampaignImage(campaignImage, companyDbVersion.CompanyId);
+
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Save Campaign Image
+        /// </summary>
+        private string SaveCampaignImage(CampaignImage campaignImage, long companyId)
+        {
+            if (campaignImage.ImageByteSource != null)
+            {
+                string base64 = campaignImage.ImageByteSource.Substring(campaignImage.ImageByteSource.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyId + "/CampaignImages");
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+
+                string savePath = directoryPath + "\\" + campaignImage.CampaignImageId + ".png";
+                if (!File.Exists(savePath))
+                {
+                    File.WriteAllBytes(savePath, data);
+                }
+                return savePath;
+            }
+            return null;
+        }
         private void UpdateContactProfileImage(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
             if (companySavingModel.NewAddedCompanyContacts != null)
@@ -1247,7 +1291,7 @@ namespace MPC.Implementation.MISServices
 
         }
         /// <summary>
-        /// 
+        /// Update Campaigns
         /// </summary>
         private void UpdateCampaigns(IEnumerable<Campaign> campaigns, Company companyDbVersion)
         {
@@ -1261,6 +1305,7 @@ namespace MPC.Implementation.MISServices
                 }
                 foreach (var campaign in campaigns)
                 {
+                    #region Campaign
                     //New Added
                     if (campaign.CampaignId == 0)
                     {
@@ -1273,21 +1318,53 @@ namespace MPC.Implementation.MISServices
                             companyDbVersion.Campaigns.FirstOrDefault(c => c.CampaignId == campaign.CampaignId);
                         if (campaignDbItem != null)
                         {
-                            if (campaign.CampaignName != campaignDbItem.CampaignName ||
-                                campaign.EmailEvent != campaignDbItem.EmailEvent
-                                || campaign.IsEnabled != campaignDbItem.IsEnabled ||
-                                campaign.SendEmailAfterDays != campaignDbItem.SendEmailAfterDays
-                                || campaign.StartDateTime != campaignDbItem.StartDateTime)
+                            campaignDbItem.CampaignName = campaign.CampaignName;
+                            campaignDbItem.Description = campaign.Description;
+                            campaignDbItem.CampaignType = campaign.CampaignType;
+                            campaignDbItem.IsEnabled = campaign.IsEnabled;
+                            campaignDbItem.IncludeCustomers = campaign.IncludeCustomers;
+                            campaignDbItem.IncludeSuppliers = campaign.IncludeSuppliers;
+                            campaignDbItem.IncludeProspects = campaign.IncludeProspects;
+                            campaignDbItem.IncludeNewsLetterSubscribers = campaign.IncludeNewsLetterSubscribers;
+                            campaignDbItem.IncludeFlag = campaign.IncludeFlag;
+                            campaignDbItem.FlagIDs = campaign.FlagIDs;
+                            campaignDbItem.CustomerTypeIDs = campaign.CustomerTypeIDs;
+                            campaignDbItem.GroupIDs = campaign.GroupIDs;
+                            campaignDbItem.SubjectA = campaign.SubjectA;
+                            campaignDbItem.HTMLMessageA = campaign.HTMLMessageA;
+                            campaignDbItem.StartDateTime = campaign.StartDateTime;
+                            campaignDbItem.FromAddress = campaign.FromAddress;
+                            campaignDbItem.ReturnPathAddress = campaign.ReturnPathAddress;
+                            campaignDbItem.ReplyToAddress = campaign.ReplyToAddress;
+                            campaignDbItem.EmailLogFileAddress2 = campaign.EmailLogFileAddress2;
+                            campaignDbItem.EmailEvent = campaign.EmailEvent;
+                            campaignDbItem.SendEmailAfterDays = campaign.SendEmailAfterDays;
+                            campaignDbItem.FromName = campaign.FromName;
+                            campaignDbItem.IncludeType = campaign.IncludeType;
+                            campaignDbItem.IncludeCorporateCustomers = campaign.IncludeCorporateCustomers;
+                            campaignDbItem.EnableLogFiles = campaign.EnableLogFiles;
+                            campaignDbItem.EmailLogFileAddress3 = campaign.EmailLogFileAddress3;
+                        }
+                    }
+
+                    #endregion
+
+                    #region Campain Image
+
+                    if (campaign.CampaignImages != null)
+                    {
+                        foreach (var campaignImage in campaign.CampaignImages)
+                        {
+                            Campaign campaignDbItem =
+                            companyDbVersion.Campaigns.FirstOrDefault(c => c.CampaignId == campaign.CampaignId);
+                            if (campaignImage.CampaignImageId == 0 && campaignDbItem != null)
                             {
-                                campaignDbItem.CampaignName = campaign.CampaignName;
-                                campaignDbItem.EmailEvent = campaign.EmailEvent;
-                                campaignDbItem.IsEnabled = campaign.IsEnabled;
-                                campaignDbItem.StartDateTime = campaign.StartDateTime;
-                                campaignDbItem.SendEmailAfterDays = campaign.SendEmailAfterDays;
-                                campaignDbItem.CampaignType = campaign.CampaignType;
+                                campaignImage.CampaignId = campaignDbItem.CampaignId;
+                                campaignDbItem.CampaignImages.Add(campaignImage);
                             }
                         }
                     }
+                    #endregion
                 }
             }
 
