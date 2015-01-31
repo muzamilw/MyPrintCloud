@@ -1520,7 +1520,6 @@
     <Content Include="Areas\Products\Views\Home\_SignatureEdit.cshtml" />
     <Content Include="Content\less\PaperSheet.less" />
     <Content Include="Content\less\InventoryCategory.less" />
-    <Content Include="Areas\Products\Views\Home\_PressDialog.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
