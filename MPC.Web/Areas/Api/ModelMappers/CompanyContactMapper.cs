@@ -15,8 +15,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new DomainModels.CompanyContact
                    {
                        ContactId = source.ContactId,
-                       AddressId = source.BussinessAddress.AddressId,
-                       TerritoryId = source.BussinessAddress.TerritoryId,
+                       AddressId = source.AddressId,
+                       TerritoryId = source.TerritoryId,
                        CompanyId = source.CompanyId,
                        FirstName = source.FirstName,
                        MiddleName = source.MiddleName,

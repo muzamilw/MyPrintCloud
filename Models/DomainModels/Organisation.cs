@@ -161,6 +161,21 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public bool? ShowBleedArea { get; set; }
 
+        /// <summary>
+        /// is Xero Integration Required
+        /// </summary>
+        public bool? isXeroIntegrationRequired { get; set; }
+
+        /// <summary>
+        /// XeroApiId
+        /// </summary>
+        public string XeroApiId { get; set; }
+
+        /// <summary>
+        /// XeroApiKey
+        /// </summary>
+        public string XeroApiKey { get; set; }
+
         #endregion
         
         #region Reference Properties

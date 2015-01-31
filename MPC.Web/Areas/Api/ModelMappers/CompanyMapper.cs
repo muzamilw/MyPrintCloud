@@ -140,7 +140,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 UserDefinedSpriteImage = spriteBytes,
                 MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
                 CompanyDomains = source.CompanyDomains != null ? source.CompanyDomains.Select(x=> x.CreateFrom()).ToList() : null,
-                CompanyCostCentres = source.CompanyCostCentres.Count != 0 ? source.CompanyCostCentres.FirstOrDefault().CostCentre != null ? source.CompanyCostCentres.Select(x => x.CostCentre).Select(x => x.CostCentreDropDownCreateFrom()).ToList() : null : null
+                CompanyCostCentres = source.CompanyCostCentres != null ? source.CompanyCostCentres.Count != 0 ? source.CompanyCostCentres.FirstOrDefault().CostCentre != null ? source.CompanyCostCentres.Select(x => x.CostCentre).Select(x => x.CostCentreDropDownCreateFrom()).ToList() : null : null : null
             };
         }
 

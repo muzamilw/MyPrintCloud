@@ -16,7 +16,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static Item CreateFrom(this DomainModels.Item source)
         {
+// ReSharper disable SuggestUseVarKeywordEvident
             Item item = new Item
+// ReSharper restore SuggestUseVarKeywordEvident
             {
                 ItemId = source.ItemId,
                 ItemCode = source.ItemCode,
@@ -84,7 +86,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemStockOptions = source.ItemStockOptions != null ? source.ItemStockOptions.Select(vdp => vdp.CreateFrom()) : new List<ItemStockOption>(),
                 ItemStateTaxes = source.ItemStateTaxes != null ? source.ItemStateTaxes.Select(vdp => vdp.CreateFrom()) : new List<ItemStateTax>(),
                 ItemPriceMatrices = source.ItemPriceMatrices != null ? source.ItemPriceMatrices.Select(vdp => vdp.CreateFrom()) : new List<ItemPriceMatrix>(),
-                ProductCategoryItems = source.ProductCategoryItems != null ? source.ProductCategoryItems.Select(pci => pci.CreateFrom()) : new List<ProductCategoryItem>()
+                ProductCategoryItems = source.ProductCategoryItems != null ? source.ProductCategoryItems.Select(pci => pci.CreateFrom()) : new List<ProductCategoryItem>(),
+                ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFrom()) :
+                new List<ItemSection>()
             };
 
             // Load Thumbnail Image
@@ -250,7 +254,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 File5Byte = source.File5Byte,
                 File5Name = source.File5Name,
                 ProductCategoryCustomItems = source.ProductCategoryItems != null ? source.ProductCategoryItems.Select(pci => pci.CreateFrom()).ToList() :
-                new List<DomainModels.ProductCategoryItemCustom>()
+                new List<DomainModels.ProductCategoryItemCustom>(),
+                ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFrom()).ToList() :
+                new List<DomainModels.ItemSection>()
             };
         }
 

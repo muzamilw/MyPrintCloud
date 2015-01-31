@@ -900,7 +900,7 @@
                                                             <label for="txtBAredd" class="control-label text-right tooltip-float">Address</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtBAredd" disabled="disabled" data-bind="value: $root.selectedBussinessAddressId() != undefined ? $root.selectedBussinessAddress().addressName():''">
+                                                            <input type="text" class="form-control" id="txtBAredd" disabled="disabled" data-bind="value: $root.selectedBussinessAddress() != undefined && $root.selectedBussinessAddress().addressName() != undefined ? $root.selectedBussinessAddress().addressName():''">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -914,7 +914,7 @@
                                                             <label for="txtBAddCity" class="control-label text-right tooltip-float">City</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtBAddCity" disabled="disabled" data-bind="value: $root.selectedBussinessAddressId() != undefined ? $root.selectedBussinessAddress().city():''">
+                                                            <input type="text" class="form-control" id="txtBAddCity" disabled="disabled" data-bind="value: $root.selectedBussinessAddress()!= undefined && $root.selectedBussinessAddress().city() != undefined ? $root.selectedBussinessAddress().city():''">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -928,7 +928,7 @@
                                                             <label for="txtBAddState" class="control-label text-right tooltip-float">State</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtBAddState" disabled="disabled" data-bind="value: $root.selectedBussinessAddressId() != undefined ? $root.selectedBussinessAddress().state():''">
+                                                            <input type="text" class="form-control" id="txtBAddState" disabled="disabled" data-bind="value: $root.selectedBussinessAddress()!= undefined && $root.selectedBussinessAddress().state() != undefined ? $root.selectedBussinessAddress().state():''">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -966,7 +966,7 @@
                                                             <label for="txtShipAddDetail" class="control-label text-right tooltip-float">Address</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtShipAddDetail" disabled="disabled" data-bind="value: $root.selectedShippingAddressId() != undefined ? $root.selectedShippingAddress().addressName():''">
+                                                            <input type="text" class="form-control" id="txtShipAddDetail" disabled="disabled" data-bind="value: $root.selectedShippingAddress() != undefined && selectedShippingAddress().addressName() != undefined ? $root.selectedShippingAddress().addressName():''">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">

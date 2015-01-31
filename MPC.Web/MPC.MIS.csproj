@@ -249,6 +249,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\AddressController.cs" />
+    <Compile Include="Areas\Api\Controllers\CampaignBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />
     <Compile Include="Areas\Api\Controllers\GetItemsForWidgetsController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterBaseController.cs" />
@@ -256,8 +257,10 @@
     <Compile Include="Areas\Api\Controllers\ItemPriceMatrixController.cs" />
     <Compile Include="Areas\Api\Controllers\LanguageEditorController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterController.cs" />
+    <Compile Include="Areas\Api\Controllers\MachineController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionsForPhraseLibraryController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductMachinesController.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CampaignEmailVariableMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CategoryTypeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CmsOfferMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ColorPalleteMapper.cs" />
@@ -267,13 +270,19 @@
     <Compile Include="Areas\Api\ModelMappers\CostCenterBaseResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCenterTypeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreDropDownMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\GroupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemDesignerTemplateBaseResponseMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ItemSectionMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachineListMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachineMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MediaLibraryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductCategoryItemMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PhraseFieldMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PhraseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SectionMapper.cs" />
-    <Compile Include="Areas\Api\ModelMappers\MachineMapper.cs" />
+    <Compile Include="Areas\Api\Models\CampaignBaseResponse.cs" />
+    <Compile Include="Areas\Api\Models\CampaignEmailVariable.cs" />
+    <Compile Include="Areas\Api\Models\CampaignImage.cs" />
     <Compile Include="Areas\Api\Models\CategoryRegion.cs" />
     <Compile Include="Areas\Api\Models\CategoryType.cs" />
     <Compile Include="Areas\Api\Models\CmsOffer.cs" />
@@ -285,8 +294,10 @@
     <Compile Include="Areas\Api\Models\CostCenterCalculationTypes.cs" />
     <Compile Include="Areas\Api\Models\CostCentreType.cs" />
     <Compile Include="Areas\Api\Models\CostCentreDropDown.cs" />
+    <Compile Include="Areas\Api\Models\GroupForCampaign.cs" />
     <Compile Include="Areas\Api\Models\ItemDesignerTemplateBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemForWidgets.cs" />
+    <Compile Include="Areas\Api\Models\ItemSection.cs" />
     <Compile Include="Areas\Api\Models\LanguageEditor.cs" />
     <Compile Include="Areas\Api\Controllers\PaymentGatewayController.cs" />
     <Compile Include="Areas\Api\Controllers\PrefixController.cs" />
@@ -396,7 +407,13 @@
     <Compile Include="Areas\Api\Models\ItemStockOption.cs" />
     <Compile Include="Areas\Api\Models\ItemVideo.cs" />
     <Compile Include="Areas\Api\Models\Machine.cs" />
-    <Compile Include="Areas\Api\Models\MachineSearchResponse.cs" />
+    <Compile Include="Areas\Api\Models\MachineInkCoverage.cs" />
+    <Compile Include="Areas\Api\Models\MachineList.cs" />
+    <Compile Include="Areas\Api\Models\MachineResource.cs" />
+    <Compile Include="Areas\Api\Models\MachineResponse.cs" />
+    <Compile Include="Areas\Api\Models\MachineSearchResponse.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Areas\Api\Models\MediaLibrary.cs" />
     <Compile Include="Areas\Api\Models\PageCategory.cs" />
     <Compile Include="Areas\Api\Models\PageCategoryDropDown.cs" />
@@ -414,6 +431,7 @@
     <Compile Include="Areas\Api\Models\ProductCategoryListViewModel.cs" />
     <Compile Include="Areas\Api\Models\ProductCategoryResultModel.cs" />
     <Compile Include="Areas\Api\Models\SecondaryPageResponse.cs" />
+    <Compile Include="Areas\Api\Models\Section.cs" />
     <Compile Include="Areas\Api\Models\SectionFlag.cs" />
     <Compile Include="Areas\Api\Models\SectionForPhraseLibrary.cs" />
     <Compile Include="Areas\Api\Models\State.cs" />
@@ -521,6 +539,10 @@
     <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.view.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventory.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\machine.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\machine.model.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\machine.view.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\machine.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\paperSheet.dataservice.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventory.model.js" />
     <Content Include="Areas\Settings\Scripts\MIS\paperSheet.model.js" />
@@ -940,6 +962,8 @@
     <Content Include="Images\orderedList9.png" />
     <Content Include="MPC_Content\DefaultCss\Default_CompanyStyles.css" />
     <Content Include="MPC_Content\DefaultSprite\sprite.bakup.png" />
+    <Content Include="MPC_Content\Stores\assets\2205\Site.css" />
+    <Content Include="MPC_Content\Stores\assets\2205\sprite.png" />
     <Content Include="RichTextEditor\adapters\jquery.js" />
     <Content Include="RichTextEditor\build-config.js" />
     <Content Include="RichTextEditor\ckeditor.js" />
@@ -2691,6 +2715,7 @@
     <Folder Include="Areas\Api\Views\Category\" />
     <Folder Include="Areas\Api\Views\CompanyContact\" />
     <Folder Include="Areas\Api\Views\CompanyProduct\" />
+    <Folder Include="Areas\Api\Views\Machine\" />
     <Folder Include="Areas\Api\Views\PaperSheetBaseApi\" />
     <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />

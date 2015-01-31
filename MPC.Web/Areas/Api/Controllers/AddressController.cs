@@ -11,6 +11,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Private
 
         private readonly ICompanyService companyService;
+        private readonly IAddressService addressService;
 
         #endregion
         #region Constructor
@@ -19,9 +20,10 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Constructor
         /// </summary>
         /// <param name="companyService"></param>
-        public AddressController(ICompanyService companyService)
+        public AddressController(ICompanyService companyService, IAddressService addressService)
         {
             this.companyService = companyService;
+            this.addressService = addressService;
         }
 
         #endregion
@@ -40,6 +42,24 @@ namespace MPC.MIS.Areas.Api.Controllers
                 Addresses = result.Addresses.Select(x => x.CreateFrom()),
                 RowCount = result.RowCount
             };
+        }
+        /// <summary>
+        /// Get address By id
+        /// </summary>
+        /// <param name="addressId"></param>
+        /// <returns></returns>
+        public bool Get([FromUri] long addressId)
+        {
+            var address = addressService.Get(addressId);
+            if (address != null)
+            {
+                if (address.CompanyContacts != null )
+                {
+                    return false;
+                }
+                return true;
+            }
+            return false;
         }
 
         #endregion

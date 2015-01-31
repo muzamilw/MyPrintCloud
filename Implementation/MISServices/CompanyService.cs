@@ -754,9 +754,10 @@ namespace MPC.Implementation.MISServices
             companyContactRepository.SaveChanges();
         }
         //Territory
-        private void UpdateNewTerritories(CompanySavingModel companySavingModel, Company companyDbVersion)
+        private void UpdateTerritories(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
-            if (companySavingModel.NewAddedAddresses != null)
+            //Add
+            if (companySavingModel.NewAddedCompanyTerritories != null)
             {
                 if (companyDbVersion.CompanyTerritories == null)
                 {
@@ -765,13 +766,30 @@ namespace MPC.Implementation.MISServices
                 foreach (var territory in companySavingModel.NewAddedCompanyTerritories)
                 {
                     companyDbVersion.CompanyTerritories.Add(territory);
-                    //companyTerritoryRepository.Add(territory);
+                }
+            }
+            //Edit
+            if (companySavingModel.EdittedCompanyTerritories != null)
+            {
+                foreach (var territory in companySavingModel.EdittedCompanyTerritories)
+                {
+                    companyTerritoryRepository.Update(territory);
+                }
+            }
+            //Delete
+            if (companySavingModel.DeletedCompanyTerritories != null)
+            {
+                foreach (var territory in companySavingModel.DeletedCompanyTerritories)
+                {
+                    companyDbVersion.CompanyTerritories.Remove(territory);
+                    companyTerritoryRepository.Delete(territory);
                 }
             }
         }
         //Address
-        private void UpdateNewAddresses(CompanySavingModel companySavingModel, Company companyDbVersion)
+        private void UpdateAddresses(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
+            //Add
             if (companySavingModel.NewAddedAddresses != null)
             {
                 if (companyDbVersion.Addresses == null)
@@ -782,13 +800,30 @@ namespace MPC.Implementation.MISServices
                 {
                     address.OrganisationId = addressRepository.OrganisationId;
                     companyDbVersion.Addresses.Add(address);
-                    //addressRepository.Add(address);
+                }
+            }
+            //Edit
+            if (companySavingModel.EdittedAddresses != null)
+            {
+                foreach (var address in companySavingModel.EdittedAddresses)
+                {
+                    addressRepository.Update(address);
+                }
+            }
+            //Delete
+            if (companySavingModel.DeletedAddresses != null)
+            {
+                foreach (var address in companySavingModel.DeletedAddresses)
+                {
+                    companyDbVersion.Addresses.Remove(address);
+                    addressRepository.Delete(address);
                 }
             }
         }
-        //COmpany Contact
-        private void UpdateNewCompanyContacts(CompanySavingModel companySavingModel, Company companyDbVersion)
+        //Company Contact
+        private void UpdateCompanyContacts(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
+            //Add
             if (companySavingModel.NewAddedCompanyContacts != null)
             {
                 if (companyDbVersion.CompanyContacts == null)
@@ -799,7 +834,23 @@ namespace MPC.Implementation.MISServices
                 {
                     companyContacts.OrganisationId = companyContactRepository.OrganisationId;
                     companyDbVersion.CompanyContacts.Add(companyContacts);
-                    //companyContactRepository.Add(companyContacts);
+                }
+            }
+            //Edit
+            if (companySavingModel.EdittedCompanyContacts != null)
+            {
+                foreach (var companyContact in companySavingModel.EdittedCompanyContacts)
+                {
+                    companyContactRepository.Update(companyContact);
+                }
+            }
+            //Delete
+            if (companySavingModel.DeletedCompanyContacts != null)
+            {
+                foreach (var companyContact in companySavingModel.DeletedCompanyContacts)
+                {
+                    companyDbVersion.CompanyContacts.Remove(companyContact);
+                    companyContactRepository.Delete(companyContact);
                 }
             }
         }
@@ -816,9 +867,9 @@ namespace MPC.Implementation.MISServices
             companyToBeUpdated = UpdateCompanyCostCentersOfUpdatingCompany(companyToBeUpdated, companyDbVersion);
             companyToBeUpdated = UpdateCompanyDomain(companyToBeUpdated);
 
-            UpdateNewTerritories(companySavingModel, companyDbVersion);
-            UpdateNewAddresses(companySavingModel, companyDbVersion);
-            UpdateNewCompanyContacts(companySavingModel, companyDbVersion);
+            UpdateTerritories(companySavingModel, companyDbVersion);
+            UpdateAddresses(companySavingModel, companyDbVersion);
+            UpdateCompanyContacts(companySavingModel, companyDbVersion);
             //UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
             //UpdateAddressOfUpdatingCompany(companySavingModel);
             //UpdateCompanyContactOfUpdatingCompany(companySavingModel);
