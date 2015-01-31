@@ -118,6 +118,10 @@
 #myOrganizationBinding #tab-RegionalSettings #markupTablle td.action {
   width: 20%;
 }
+#storesBinding .selectedSection,
+#storesBinding .selectedEmailVariable {
+  background: yellow;
+}
 #storesBinding #addStore {
   margin-top: 25px;
 }

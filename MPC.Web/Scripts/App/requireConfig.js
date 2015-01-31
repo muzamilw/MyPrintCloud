@@ -20,6 +20,7 @@
             "dropzone": "/Scripts/dropzone-amd-module",
             "prefix": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
             "costcenter": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
+            "machine": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
         }
     });
 

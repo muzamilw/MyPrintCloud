@@ -39,7 +39,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<MISInterfaces.ICompanyService, MISImplementation.CompanyService>();
             unityContainer.RegisterType<IWebstoreClaimsSecurityService, WebstoreClaimsSecurityService>();
             unityContainer.RegisterType<IWebstoreClaimsHelperService, WebstoreClaimsHelperService>();
-            unityContainer.RegisterType<ICampaignService, CampaignService>();
+            unityContainer.RegisterType<Interfaces.MISServices.ICampaignService, MISServices.CampaignService>();
             unityContainer.RegisterType<IUserManagerService, UserManagerService>();
             unityContainer.RegisterType<IOrderService, OrderService>();
             unityContainer.RegisterType<ICategoryService, CategoryService>();
@@ -56,6 +56,12 @@ namespace MPC.Implementation
             unityContainer.RegisterType<IListingService, ListingService>();
             unityContainer.RegisterType<IImagePermissionsService, ImagePermissionService>();
             unityContainer.RegisterType<MISInterfaces.ICostCentersService, MISImplementation.CostCenterService>();
+            unityContainer.RegisterType<MISInterfaces.IMachineService, MISImplementation.MachineService>();
+       
+       
+        
+            
+
         }
     }
 }

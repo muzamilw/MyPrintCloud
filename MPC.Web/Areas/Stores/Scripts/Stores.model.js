@@ -1644,18 +1644,44 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // #region ______________ Email _________________
 
     // ReSharper disable once InconsistentNaming
-    var Campaign = function (specifiedCampaignId, specifiedCampaignName, specifiedEmailEvent, specifiedStartDateTime, specifiedIsEnabled, specifiedSendEmailAfterDays
-        , specifiedEventName, specifiedCampaignType) {
+    var Campaign = function (specifiedCampaignId, specifiedCampaignName, specifiedDescription, specifiedCampaignType, specifiedIsEnabled, specifiedStartDateTime
+        , specifiedIncludeCustomers, specifiedIncludeSuppliers, specifiedIncludeProspects, specifiedIncludeNewsLetterSubscribers, specifiedIncludeFlag, specifiedFlagIDs,
+        specifiedCustomerTypeIDs, specifiedGroupIDs, specifiedSubjectA, specifiedHTMLMessageA, specifiedFromName, specifiedFromAddress, specifiedReturnPathAddress,
+        specifiedReplyToAddress, specifiedEmailLogFileAddress2, specifiedEmailEvent, specifiedEventName, specifiedSendEmailAfterDays, specifiedIncludeType,
+        specifiedIncludeCorporateCustomers, specifiedEnableLogFiles, specifiedEmailLogFileAddress3
+        ) {
         var self,
             id = ko.observable(specifiedCampaignId),
             campaignName = ko.observable(specifiedCampaignName).extend({ required: true }),
-            emailEventId = ko.observable(specifiedEmailEvent),
-            startDateTime = ko.observable(specifiedStartDateTime !== undefined ? moment(specifiedStartDateTime, ist.utcFormat).toDate() : undefined),
-            isEnabled = ko.observable(specifiedIsEnabled),
-            sendEmailAfterDays = ko.observable(specifiedSendEmailAfterDays).extend({ number: true }),
-            eventName = ko.observable(specifiedEventName),
+            description = ko.observable(specifiedDescription),
             campaignType = ko.observable(specifiedCampaignType),
-                // Errors
+            isEnabled = ko.observable(specifiedIsEnabled),
+            startDateTime = ko.observable(specifiedStartDateTime !== undefined ? moment(specifiedStartDateTime, ist.utcFormat).toDate() : undefined),
+            includeCustomers = ko.observable(specifiedIncludeCustomers),
+            includeSuppliers = ko.observable(specifiedIncludeSuppliers),
+            includeProspects = ko.observable(specifiedIncludeProspects),
+            includeNewsLetterSubscribers = ko.observable(specifiedIncludeNewsLetterSubscribers),
+            includeFlag = ko.observable(specifiedIncludeFlag),
+            flagIDs = ko.observable(specifiedFlagIDs),
+            customerTypeIDs = ko.observable(specifiedCustomerTypeIDs),
+            groupIDs = ko.observable(specifiedGroupIDs),
+            subjectA = ko.observable(specifiedSubjectA),
+            hTMLMessageA = ko.observable(specifiedHTMLMessageA),
+            fromName = ko.observable(specifiedFromName),
+            fromAddress = ko.observable(specifiedFromAddress),
+            returnPathAddress = ko.observable(specifiedReturnPathAddress),
+            replyToAddress = ko.observable(specifiedReplyToAddress),
+            emailLogFileAddress2 = ko.observable(specifiedEmailLogFileAddress2),
+            emailEventId = ko.observable(specifiedEmailEvent),
+            eventName = ko.observable(specifiedEventName),
+            sendEmailAfterDays = ko.observable(specifiedSendEmailAfterDays).extend({ number: true }),
+            campaignImages = ko.observableArray([]),
+            includeType = ko.observable(specifiedIncludeType),
+            includeCorporateCustomers = ko.observable(specifiedIncludeCorporateCustomers),
+            enableLogFiles = ko.observable(specifiedEnableLogFiles),
+            emailLogFileAddress3 = ko.observable(specifiedEmailLogFileAddress3),
+
+                  // Errors
             errors = ko.validation.group({
                 campaignName: campaignName,
                 sendEmailAfterDays: sendEmailAfterDays,
@@ -1668,10 +1694,32 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
                 campaignName: campaignName,
-                emailEventId: emailEventId,
-                startDateTime: startDateTime,
+                description: description,
+                campaignType: campaignType,
                 isEnabled: isEnabled,
-                sendEmailAfterDays: sendEmailAfterDays
+                startDateTime: startDateTime,
+                includeCustomers: includeCustomers,
+                includeSuppliers: includeSuppliers,
+                includeProspects: includeProspects,
+                includeNewsLetterSubscribers: includeNewsLetterSubscribers,
+                includeFlag: includeFlag,
+                flagIDs: flagIDs,
+                customerTypeIDs: customerTypeIDs,
+                groupIDs: groupIDs,
+                subjectA: subjectA,
+                hTMLMessageA: hTMLMessageA,
+                fromName: fromName,
+                fromAddress: fromAddress,
+                returnPathAddress: returnPathAddress,
+                replyToAddress: replyToAddress,
+                emailLogFileAddress2: emailLogFileAddress2,
+                emailEventId: emailEventId,
+                sendEmailAfterDays: sendEmailAfterDays,
+                campaignImages: campaignImages,
+                includeType: includeType,
+                includeCorporateCustomers: includeCorporateCustomers,
+                enableLogFiles: enableLogFiles,
+                emailLogFileAddress3: emailLogFileAddress3,
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -1682,11 +1730,32 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 var result = {};
                 result.CampaignId = source.id() === undefined ? 0 : source.id();
                 result.CampaignName = source.campaignName() === undefined ? null : source.campaignName();
-                result.EmailEvent = source.emailEventId() === undefined ? null : source.emailEventId();
-                result.StartDateTime = (startDateTime() === undefined || startDateTime() === null) ? null : moment(startDateTime()).format(ist.utcFormat);
-                result.IsEnabled = source.isEnabled() === undefined ? null : source.isEnabled();
-                result.SendEmailAfterDays = source.sendEmailAfterDays() === undefined ? null : source.sendEmailAfterDays();
+                result.Description = source.description() === undefined ? null : source.description();
                 result.CampaignType = source.campaignType() === undefined ? null : source.campaignType();
+                result.IsEnabled = source.isEnabled() === undefined ? null : source.isEnabled();
+                result.StartDateTime = (startDateTime() === undefined || startDateTime() === null) ? null : moment(startDateTime()).format(ist.utcFormat);
+                result.IncludeCustomers = source.includeCustomers() === undefined ? null : source.includeCustomers();
+                result.IncludeSuppliers = source.includeSuppliers() === undefined ? null : source.includeSuppliers();
+                result.IncludeProspects = source.includeProspects() === undefined ? null : source.includeProspects();
+                result.IncludeNewsLetterSubscribers = source.includeNewsLetterSubscribers() === undefined ? null : source.includeNewsLetterSubscribers();
+                result.IncludeFlag = source.includeFlag() === undefined ? null : source.includeFlag();
+                result.FlagIDs = source.flagIDs() === undefined ? null : source.flagIDs();
+                result.CustomerTypeIDs = source.customerTypeIDs() === undefined ? null : source.customerTypeIDs();
+                result.GroupIDs = source.groupIDs() === undefined ? null : source.groupIDs();
+                result.SubjectA = source.subjectA() === undefined ? null : source.subjectA();
+                result.HTMLMessageA = source.hTMLMessageA() === undefined ? null : source.hTMLMessageA();
+                result.FromName = source.fromName() === undefined ? null : source.fromName();
+                result.FromAddress = source.fromAddress() === undefined ? null : source.fromAddress();
+                result.ReturnPathAddress = source.returnPathAddress() === undefined ? null : source.returnPathAddress();
+                result.ReplyToAddress = source.replyToAddress() === undefined ? null : source.replyToAddress();
+                result.EmailLogFileAddress2 = source.emailLogFileAddress2() === undefined ? null : source.emailLogFileAddress2();
+                result.EmailEvent = source.emailEventId() === undefined ? null : source.emailEventId();
+                result.SendEmailAfterDays = source.sendEmailAfterDays() === undefined ? null : source.sendEmailAfterDays();
+                result.IncludeType = source.sendEmailAfterDays() === undefined ? null : source.sendEmailAfterDays();
+                result.IncludeCorporateCustomers = source.sendEmailAfterDays() === undefined ? null : source.sendEmailAfterDays();
+                result.EnableLogFiles = source.sendEmailAfterDays() === undefined ? null : source.sendEmailAfterDays();
+                result.EmailLogFileAddress3 = source.sendEmailAfterDays() === undefined ? null : source.sendEmailAfterDays();
+                result.CampaignImages = [];
                 return result;
             },
             // Reset
@@ -1696,12 +1765,33 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         self = {
             id: id,
             campaignName: campaignName,
-            emailEventId: emailEventId,
-            startDateTime: startDateTime,
-            isEnabled: isEnabled,
-            sendEmailAfterDays: sendEmailAfterDays,
-            eventName: eventName,
+            description: description,
             campaignType: campaignType,
+            isEnabled: isEnabled,
+            startDateTime: startDateTime,
+            includeCustomers: includeCustomers,
+            includeSuppliers: includeSuppliers,
+            includeProspects: includeProspects,
+            includeNewsLetterSubscribers: includeNewsLetterSubscribers,
+            includeFlag: includeFlag,
+            flagIDs: flagIDs,
+            customerTypeIDs: customerTypeIDs,
+            groupIDs: groupIDs,
+            subjectA: subjectA,
+            hTMLMessageA: hTMLMessageA,
+            fromName: fromName,
+            fromAddress: fromAddress,
+            returnPathAddress: returnPathAddress,
+            replyToAddress: replyToAddress,
+            emailLogFileAddress2: emailLogFileAddress2,
+            emailEventId: emailEventId,
+            eventName: eventName,
+            sendEmailAfterDays: sendEmailAfterDays,
+            campaignImages: campaignImages,
+            includeType: includeType,
+            includeCorporateCustomers: includeCorporateCustomers,
+            enableLogFiles: enableLogFiles,
+            emailLogFileAddress3: emailLogFileAddress3,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1715,13 +1805,33 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         return new Campaign(
             source.CampaignId,
             source.CampaignName,
-            source.EmailEvent,
-            source.StartDateTime,
+            source.Description,
+            source.CampaignType,
             source.IsEnabled,
-            source.SendEmailAfterDays,
+            source.StartDateTime,
+            source.IncludeCustomers,
+            source.IncludeSuppliers,
+            source.IncludeProspects,
+            source.IncludeNewsLetterSubscribers,
+            source.IncludeFlag,
+            source.FlagIDs,
+            source.CustomerTypeIDs,
+            source.GroupIDs,
+            source.SubjectA,
+            source.HTMLMessageA,
+            source.FromName,
+            source.FromAddress,
+            source.ReturnPathAddress,
+            source.ReplyToAddress,
+            source.EmailLogFileAddress2,
+            source.EmailEvent,
             source.EventName,
-            source.CampaignType
-        );
+            source.SendEmailAfterDays,
+            source.IncludeType,
+            source.IncludeCorporateCustomers,
+            source.EnableLogFiles,
+            source.EmailLogFileAddress3
+      );
     };
     Campaign.CreateFromClientModel = function (source) {
         return new Campaign(
@@ -1736,6 +1846,119 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             );
     };
     // #endregion ______________ Email _________________
+
+
+    // #region ______________ Campaign Section _________________
+    var CampaignSection = function (specifiedSectionId, specifiedSectionName) {
+        var self,
+            id = ko.observable(specifiedSectionId),
+            sectionName = ko.observable(specifiedSectionName),
+            //Is Expanded
+            isExpanded = ko.observable(false),
+            campaignEmailVariables = ko.observableArray([]);
+
+        self = {
+            id: id,
+            sectionName: sectionName,
+            isExpanded: isExpanded,
+            campaignEmailVariables: campaignEmailVariables,
+        };
+        return self;
+    };
+    CampaignSection.Create = function (source) {
+        return new CampaignSection(source.SectionId, source.SectionName);
+    };
+
+    var CampaignEmailVariable = function (specifiedVariableId, specifiedVariableName) {
+        var self,
+            id = ko.observable(specifiedVariableId),
+            variableName = ko.observable(specifiedVariableName);
+
+        self = {
+            id: id,
+            variableName: variableName,
+        };
+        return self;
+    };
+    CampaignEmailVariable.Create = function (source) {
+        return new CampaignEmailVariable(source.VariableId, source.VariableName);
+    };
+
+    var CampaignImage = function (specifiedCampaignImageId, specifiedCampaignId, specifiedImagePath, specifiedImageName, specifiedImageSource) {
+        var self,
+            id = ko.observable(specifiedCampaignImageId),
+            campaignId = ko.observable(specifiedCampaignId),
+            imagePath = ko.observable(specifiedImagePath),
+            imageName = ko.observable(specifiedImageName),
+            imageSource = ko.observable(specifiedImageSource);
+
+        self = {
+            id: id,
+            campaignId: campaignId,
+            imagePath: imagePath,
+            imageName: imageName,
+            imageSource: imageSource,
+        };
+        return self;
+    };
+    CampaignImage.Create = function (source) {
+        return new CampaignImage(source.CampaignImageId, source.CampaignId, source.ImagePath, source.ImageName, source.ImageSource);
+    };
+
+    var SectionFlag = function (specifiedSectionFlagId, specifiedFlagName) {
+        var self,
+            id = ko.observable(specifiedSectionFlagId),
+            name = ko.observable(specifiedFlagName),
+            isChecked = ko.observable(false);
+
+        self = {
+            id: id,
+            name: name,
+            isChecked: isChecked,
+        };
+        return self;
+    };
+    SectionFlag.Create = function (source) {
+        return new SectionFlag(source.SectionFlagId, source.FlagName);
+    };
+
+
+    var CampaignCompanyType = function (specifiedTypeId, specifiedTypeName) {
+        var self,
+            id = ko.observable(specifiedTypeId),
+            name = ko.observable(specifiedTypeName),
+            isChecked = ko.observable(false);
+
+        self = {
+            id: id,
+            name: name,
+            isChecked: isChecked,
+        };
+        return self;
+    };
+    CampaignCompanyType.Create = function (source) {
+        return new CampaignCompanyType(source.TypeId, source.TypeName);
+    };
+
+    var Group = function (specifiedGroupId, specifiedGroupName) {
+        var self,
+            id = ko.observable(specifiedGroupId),
+            name = ko.observable(specifiedGroupName),
+            isChecked = ko.observable(false);
+
+        self = {
+            id: id,
+            name: name,
+            isChecked: isChecked,
+        };
+        return self;
+    };
+    Group.Create = function (source) {
+        return new Group(source.GroupId, source.GroupName);
+    };
+
+
+    // #endregion ______________ Campaign Section _________________
 
     // #region ______________  CMS Page   _________________
 
@@ -3707,6 +3930,12 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         CompanyDomain: CompanyDomain,
         MediaLibrary: MediaLibrary,
         CostCenter: CostCenter,
+        CampaignSection: CampaignSection,
+        CampaignEmailVariable: CampaignEmailVariable,
+        CampaignImage: CampaignImage,
+        SectionFlag: SectionFlag,
+        CampaignCompanyType: CampaignCompanyType,
+        Group: Group,
     };
     // #endregion 
 });
