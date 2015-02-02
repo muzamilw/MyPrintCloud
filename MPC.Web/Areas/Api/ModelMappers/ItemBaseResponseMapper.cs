@@ -18,7 +18,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new ItemBaseResponse
             {
-                CostCentres = source.CostCentres != null ? source.CostCentres.Select(cc => cc.CreateFrom()) : new List<CostCentre>(),
+                CostCentres = source.CostCentres != null ? source.CostCentres.Select(cc => cc.CreateFromDropDown()) : new List<CostCentre>(),
                 SectionFlags = source.SectionFlags != null ? source.SectionFlags.Select(cc => cc.CreateFromDropDown()) : new List<SectionFlagDropDown>(),
                 Countries = source.Countries != null ? source.Countries.Select(cc => cc.CreateFrom()) : new List<Country>(),
                 States = source.States != null ? source.States.Select(cc => cc.CreateFrom()) : new List<State>(),

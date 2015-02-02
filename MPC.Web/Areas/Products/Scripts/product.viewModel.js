@@ -3,8 +3,8 @@
 */
 define("product/product.viewModel",
     ["jquery", "amplify", "ko", "product/product.dataservice", "product/product.model", "common/pagination", "common/confirmation.viewModel",
-        "common/phraseLibrary.viewModel"],
-    function ($, amplify, ko, dataservice, model, pagination, confirmation, phraseLibrary) {
+        "common/phraseLibrary.viewModel", "common/sharedNavigation.viewModel"],
+    function ($, amplify, ko, dataservice, model, pagination, confirmation, phraseLibrary, shared) {
         var ist = window.ist || {};
         ist.product = {
             viewModel: (function () {
@@ -233,6 +233,11 @@ define("product/product.viewModel",
                         
                         // WIre up tab shown event
                         view.wireUpTabShownEvent();
+                        
+                        // Wire Up Navigation Control - If has Changes and user navigates to another page
+                        shared.initialize(selectedProduct, function(navigateCallback) {
+                            onSaveProduct(null, null, navigateCallback);
+                        });
                     },
                     // On Close Editor
                     onCloseProductEditor = function () {
@@ -649,12 +654,12 @@ define("product/product.viewModel",
                         filterProducts();
                     },
                     // On Save Product
-                    onSaveProduct = function () {
+                    onSaveProduct = function (data, event, navigateCallback) {
                         if (!doBeforeSave()) {
                             return;
                         }
 
-                        saveProduct(closeProductEditor);
+                        saveProduct(closeProductEditor, navigateCallback);
                     },
                     // Do Before Save
                     doBeforeSave = function () {
@@ -895,7 +900,7 @@ define("product/product.viewModel",
                         });
                     },
                     // Save Product
-                    saveProduct = function (callback) {
+                    saveProduct = function (callback, navigateCallback) {
                         dataservice.saveItem(selectedProduct().convertToServerData(), {
                             success: function (data) {
                                 if (!selectedProduct().id()) {
@@ -924,6 +929,10 @@ define("product/product.viewModel",
 
                                 if (callback && typeof callback === "function") {
                                     callback();
+                                }
+                                
+                                if (navigateCallback && typeof navigateCallback === "function") {
+                                    navigateCallback();
                                 }
                             },
                             error: function (response) {
