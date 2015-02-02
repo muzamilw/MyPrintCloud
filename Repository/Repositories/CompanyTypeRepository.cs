@@ -44,6 +44,14 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.ToList();
         }
+
+        /// <summary>
+        /// Get All Company Types For Campaign
+        /// </summary>
+        public IEnumerable<CompanyType> GetAllForCampaign()
+        {
+            return DbSet.Where(c => c.TypeId != 53).ToList();
+        }
         #endregion
     }
 }

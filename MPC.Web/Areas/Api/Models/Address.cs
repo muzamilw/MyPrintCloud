@@ -38,5 +38,6 @@
         public bool? isDefaultTerrorityBilling { get; set; }
         public bool? isDefaultTerrorityShipping { get; set; }
         public long? OrganisationId { get; set; }
+        public CompanyTerritory Territory { get; set; }
     }
 }

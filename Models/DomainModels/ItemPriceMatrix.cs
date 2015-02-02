@@ -1,4 +1,6 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System;
+
+namespace MPC.Models.DomainModels
 {
     /// <summary>
     /// Item Price Matrix Domain Model
@@ -26,5 +28,39 @@
         public int? FlagId { get; set; }
         public int? SupplierSequence { get; set; }
         public virtual Item Item { get; set; }
+
+        #region Public
+
+        /// <summary>
+        /// Creates Copy of Entity
+        /// </summary>
+        public void Clone(ItemPriceMatrix target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemPriceMatrixClone_InvalidItem, "target");
+            }
+
+            target.FlagId = FlagId;
+            target.SupplierId = SupplierId;
+            target.SupplierSequence = SupplierSequence;
+            target.PricePaperType1 = PricePaperType1;
+            target.PricePaperType2 = PricePaperType2;
+            target.PricePaperType3 = PricePaperType3;
+            target.PriceStockType4 = PriceStockType4;
+            target.PriceStockType5 = PriceStockType5;
+            target.PriceStockType6 = PriceStockType6;
+            target.PriceStockType7 = PriceStockType7;
+            target.PriceStockType8 = PriceStockType8;
+            target.PriceStockType9 = PriceStockType9;
+            target.PriceStockType10 = PriceStockType10;
+            target.PriceStockType11 = PriceStockType11;
+            target.Quantity = Quantity;
+            target.QtyRangeFrom = QtyRangeFrom;
+            target.QtyRangeTo = QtyRangeTo;
+            target.Price = Price;
+        }
+
+        #endregion
     }
 }

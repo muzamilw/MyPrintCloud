@@ -273,6 +273,7 @@
     <Compile Include="Areas\DesignerApi\DesignerApiAreaRegistration.cs" />
     <Compile Include="Areas\Designer\Controllers\DesignerController.cs" />
     <Compile Include="Areas\Designer\DesignerAreaRegistration.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\CostCenterController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\RealEstateController.cs" />
     <Compile Include="Areas\WebstoreApi\WebstoreApiAreaRegistration.cs" />
     <Compile Include="Common\Constants.cs" />
@@ -678,12 +679,6 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
-    <Folder Include="Views\ContactDetail\" />
-    <Folder Include="Views\OrderConfirmation\" />
-    <Folder Include="Views\RealEstateFooter\" />
-    <Folder Include="Views\RealEstateImageSlider\" />
-    <Folder Include="Views\RealEstateProducts\" />
-    <Folder Include="Views\RealEstateSmartForm\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

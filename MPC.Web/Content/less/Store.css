@@ -1,4 +1,8 @@
-﻿#storesBinding #addStore {
+﻿#storesBinding .selectedSection,
+#storesBinding .selectedPhraseField {
+  background: yellow;
+}
+#storesBinding #addStore {
   margin-top: 25px;
 }
 #storesBinding #filter {

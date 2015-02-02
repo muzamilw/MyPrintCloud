@@ -1,4 +1,6 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System;
+
+namespace MPC.Models.DomainModels
 {
     /// <summary>
     /// Product Category Item Domain Model
@@ -11,5 +13,22 @@
 
         public virtual Item Item { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }
+
+        #region Public
+
+        /// <summary>
+        /// Creates Copy of Entity
+        /// </summary>
+        public void Clone(ProductCategoryItem target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ProductCategoryItemClone_InvalidItem, "target");
+            }
+
+            target.CategoryId = CategoryId;
+        }
+
+        #endregion
     }
 }
