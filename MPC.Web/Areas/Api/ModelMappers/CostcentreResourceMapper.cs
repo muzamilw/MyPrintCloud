@@ -11,8 +11,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new CostcentreResource
             {
                 CostCentreId = source.CostCentreId,
-                CostCenterResourceId = source.CostCenterResourceId,
-                CostCentre = source.CostCentre.CreateFrom()
+                CostCenterResourceId = source.CostCenterResourceId
             };
         }
 
@@ -21,8 +20,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new MPC.Models.DomainModels.CostcentreResource
             {
                 CostCentreId = source.CostCentreId,
-                CostCenterResourceId = source.CostCenterResourceId,
-                CostCentre = source.CostCentre.CreateFrom()
+                CostCenterResourceId = source.CostCenterResourceId
             };
         }
     }
