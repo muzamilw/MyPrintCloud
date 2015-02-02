@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
-
     <script type="text/javascript">
         //<![CDATA[
         try { if (!window.CloudFlare) { var CloudFlare = [{ verbose: 0, p: 0, byc: 0, owlid: "cf", bag2: 1, mirage2: 0, oracle: 0, paths: { cloudflare: "/cdn-cgi/nexp/dokv=88e434a982/" }, atok: "dd9c6b9d970c21043597a4fadd80e4dd", petok: "522fd99e7c7ba64b5097694a33e1b12f448f8fe0-1408352612-1800", zone: "adbee.technology", rocket: "0", apps: { "ga_key": { "ua": "UA-49262924-2", "ga_bs": "2" } } }]; !function (a, b) { a = document.createElement("script"), b = document.getElementsByTagName("script")[0], a.async = !0, a.src = "//ajax.cloudflare.com/cdn-cgi/nexp/dokv=97fb4d042e/cloudflare.min.js", b.parentNode.insertBefore(a, b) }() } } catch (e) { };
@@ -32,11 +31,9 @@
     <link rel="stylesheet" type="text/css" href="~/Content/less/MainSite.css">
     @Styles.Render("~/Bundles/BaseCss")
     @Styles.Render("~/Content/themes/base/css")
-
     <link href="~/Content/CSS/custom.css" rel="stylesheet" />
     <link type="image/x-icon" href="favicon.png" rel="shortcut icon" />
     <link href='//fonts.googleapis.com/css?family=Open+Sans:400,600,700,300|Titillium+Web:200,300,400' rel='stylesheet' type='text/css'>
-
     <!--[if lt IE 9]>
         <script src="js/html5shiv.js"></script>
         <script src="js/respond.min.js"></script>
@@ -56,12 +53,12 @@
         (function (b) { (function (a) { "__CF" in b && "DJS" in b.__CF ? b.__CF.DJS.push(a) : "addEventListener" in b ? b.addEventListener("load", a, !1) : b.attachEvent("onload", a) })(function () { "FB" in b && "Event" in FB && "subscribe" in FB.Event && (FB.Event.subscribe("edge.create", function (a) { _gaq.push(["_trackSocial", "facebook", "like", a]) }), FB.Event.subscribe("edge.remove", function (a) { _gaq.push(["_trackSocial", "facebook", "unlike", a]) }), FB.Event.subscribe("message.send", function (a) { _gaq.push(["_trackSocial", "facebook", "send", a]) })); "twttr" in b && "events" in twttr && "bind" in twttr.events && twttr.events.bind("tweet", function (a) { if (a) { var b; if (a.target && a.target.nodeName == "IFRAME") a: { if (a = a.target.src) { a = a.split("#")[0].match(/[^?=&]+=([^&]*)?/g); b = 0; for (var c; c = a[b]; ++b) if (c.indexOf("url") === 0) { b = unescape(c.split("=")[1]); break a } } b = void 0 } _gaq.push(["_trackSocial", "twitter", "tweet", b]) } }) }) })(window);
         /* ]]> */
     </script>
-
 </head>
 <body>
     <header class="navbar" id="header-navbar">
         <div class="container">
-            <a href="~/Dashboard/Index" id="logo" class="navbar-brand">
+            <a href="~/Dashboard/Index" data-bind="click:ist.sharedNavigation.viewModel.showConfirmationDialog" style="cursor: pointer" id="logo" class="navbar-brand">
+
                 <img src="~/Content/themes/Centaurus/img/logo.png" alt="" class="normal-logo logo-white" />
                 <img src="~/Content/themes/Centaurus/img/logo-black.png" alt="" class="normal-logo logo-black" />
                 <img src="~/Content/themes/Centaurus/img/logo-small.png" alt="" class="small-logo hidden-xs hidden-sm hidden" />
@@ -261,7 +258,7 @@
                         <div class="collapse navbar-collapse navbar-ex1-collapse" id="sidebar-nav">
                             <ul class="nav nav-pills nav-stacked">
                                 <li id="lidashboard">
-                                    <a href="~/Dashboard/Index">
+                                    <a href="~/Dashboard/Index" class="my-navigator">
                                         <i class="fa fa-dashboard"></i>
                                         <span>Dashboard</span>
                                     </a>
@@ -590,7 +587,6 @@
                                                         Lookup Methods
                                                     </a>
                                                 </li>
-
                                             </ul>
                                         </li>
                                         <li id="lisystemsettings">
@@ -714,7 +710,6 @@
             </ul>
         </div>
     </div>
-
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/Bundle/BaseLibs")
@@ -743,14 +738,13 @@
     <script src="~/Content/themes/Centaurus/js/jquery.nouislider.js"></script>
     @RenderSection("scripts", required: false)
     <script type="text/javascript">
-    var ist = window.ist;
-    @{
+        var ist = window.ist;
+        @{
         <text>
-    ist.siteUrl = '@(System.Configuration.ConfigurationManager.AppSettings["SiteURL"].ToString())';    
-    </text>
+        ist.siteUrl = '@(System.Configuration.ConfigurationManager.AppSettings["SiteURL"].ToString())';
+        </text>
     }
     </script>
 
 </body>
 </html>
-

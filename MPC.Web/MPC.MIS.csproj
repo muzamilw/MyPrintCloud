@@ -520,6 +520,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Common\Scripts\phraseLibrary.dataservice.js" />
+    <Content Include="Areas\Common\Scripts\sharedNavigation.viewModel.js" />
     <Content Include="Areas\Common\Scripts\supplier.dataservice.js" />
     <Content Include="Areas\Common\Scripts\phraseLibrary.model.js" />
     <Content Include="Areas\Common\Scripts\phraseLibrary.view.js" />

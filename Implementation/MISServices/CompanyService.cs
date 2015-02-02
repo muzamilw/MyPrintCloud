@@ -271,7 +271,7 @@ namespace MPC.Implementation.MISServices
                     companyDbVersion.CompanyCostCentres.Remove(dbVersionMissingItem);
                 }
             }
-            else if (company.CompanyCostCentres == null && companyDbVersion.CompanyCostCentres.Count > 0)
+            else if (company.CompanyCostCentres == null &&  companyDbVersion.CompanyCostCentres!=null && companyDbVersion.CompanyCostCentres.Count > 0)
             {
                 List<CompanyCostCentre> lisRemoveAllItemsList = companyDbVersion.CompanyCostCentres.ToList();
                 foreach (CompanyCostCentre missingCompanyCostCentre in lisRemoveAllItemsList)

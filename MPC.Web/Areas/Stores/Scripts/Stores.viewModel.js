@@ -2,8 +2,8 @@
     Module with the view model for the Store.
 */
 define("stores/stores.viewModel",
-    ["jquery", "amplify", "ko", "stores/stores.dataservice", "stores/stores.model", "common/confirmation.viewModel", "common/pagination", "stores/store.Product.viewModel"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination, storeProductsViewModel) {
+    ["jquery", "amplify", "ko", "stores/stores.dataservice", "stores/stores.model", "common/confirmation.viewModel", "common/pagination", "stores/store.Product.viewModel", "common/sharedNavigation.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, storeProductsViewModel, sharedNavigationVM) {
         var ist = window.ist || {};
         ist.stores = {
             viewModel: (function () {
@@ -214,12 +214,15 @@ define("stores/stores.viewModel",
                     openEditDialog();
                     $('.nav-tabs').children().removeClass('active');
                     $('#generalInfoTab').addClass('active');
+                    sharedNavigationVM.initialize(selectedStore, function (saveCallback) { saveStore(saveCallback); });
                 },
                 //On Edit Click Of Store
                 onCreateNewStore = function () {
                     filteredCompanyBanners.removeAll();
                     companyBannerSetList.removeAll();
-                    selectedStore(new model.Store);
+                    var store = new model.Store();
+                    editorViewModel.selectItem(store);
+                    selectedStore(store);
                     isEditorVisible(true);
                     view.initializeForm();
                     getBaseDataFornewCompany();
@@ -232,6 +235,7 @@ define("stores/stores.viewModel",
                     if (itemsForWidgets().length === 0) {
                         getItemsForWidgets();
                     }
+                    sharedNavigationVM.initialize(selectedStore, function (saveCallback) { saveStore(saveCallback); });
                 },
                 //To Show/Hide Edit Section
                 isStoreEditorVisible = ko.observable(false),
@@ -686,7 +690,7 @@ define("stores/stores.viewModel",
                     selectedEmail().reset();
                     view.showEmailCamapaignDialog();
                     if (campaignSectionFlags().length === 0) {
-                       getCampaignBaseData();
+                        getCampaignBaseData();
                     }
 
                     resetEmailBaseDataArrays();
@@ -2018,7 +2022,7 @@ define("stores/stores.viewModel",
                     }
                 },
                 //Save Store
-                saveStore = function () {
+                saveStore = function (callback) {
                     if (doBeforeSave()) {
                         var storeToSave = model.Store().convertToServerData(selectedStore());
                         storeToSave.ColorPalletes.push(selectedStore().colorPalette().convertToServerData(selectedStore().colorPalette()));
@@ -2197,6 +2201,9 @@ define("stores/stores.viewModel",
                                     isEditorVisible(false);
                                     toastr.success("Successfully save.");
                                     resetObservableArrays();
+                                    if (callback && typeof callback === "function") {
+                                        callback();
+                                    }
                                 },
                                 error: function (response) {
                                     toastr.error("Failed to Update . Error: " + response);
@@ -3028,6 +3035,9 @@ define("stores/stores.viewModel",
                 },
                 //#endregion
 
+                showNavigationConfirmationDialog = function () {
+                    sharedNavigationVM.showConfirmationDialog();
+                },
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
                 initialize = function (specifiedView) {
@@ -3317,6 +3327,7 @@ define("stores/stores.viewModel",
                     draggedImage: draggedImage,
                     draggedEmailVaribale: draggedEmailVaribale,
                     droppedEmailSection: droppedEmailSection,
+                    // showNavigationConfirmationDialog: showNavigationConfirmationDialog,
                 };
                 //#endregion
             })()
