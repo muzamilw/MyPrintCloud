@@ -785,6 +785,7 @@ namespace MPC.Models.DomainModels
             }
 
             target.ProductName = ProductName;
+            target.ProductCode = ProductName + ProductCode;
             target.ProductSpecification = ProductSpecification;
             target.IsEnabled = IsEnabled;
             target.IsFeatured = IsFeatured;
