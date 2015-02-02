@@ -51,11 +51,14 @@
                         <div class="productHeadingsCnt width24Perc">
                             Main Image
                         </div>
-                        <div class="productHeadingsCnt width25Perc">
+                        <div class="productHeadingsCnt width13Per">
                             Product Name
                         </div>
                         <div class="productHeadingsCnt width13Per">
                             Product Price
+                        </div>
+                        <div class="productHeadingsCnt width12Perc">
+                            Categories
                         </div>
                         <div class="productHeadingsCnt width12Perc">
                             Is Published
@@ -117,7 +120,7 @@
         <div class="Top_Cat_Body">
             <div class="LCLB">
                 <div class="PDTC_TL FI_TL">
-                    <img src="@Url.Content("~/Content/themes/Centaurus/img/samples/thumbnail2.png")" alt="image" class="Top_Cat_ThumbnailPath" />
+                    <img src="" alt="image" data-bind="attr: { src: thumbnail }" class="Top_Cat_ThumbnailPath" />
                 </div>
                 <div class="productListIcons">
                     <!-- ko template: { name: 'productActionTemplate' } -->
@@ -164,15 +167,18 @@
             <td class="width24Perc text-center">
                 <div class="LCLB Product-Body-List">
                     <div class="PDTC_TL Product-Body-List-TL">
-                        <img src="@Url.Content("~/Content/themes/Centaurus/img/samples/thumbnail1.png")" alt="image" class="Top_Cat_ThumbnailPath" />
+                        <img src="" alt="image" data-bind="attr: { src: thumbnail }" class="Top_Cat_ThumbnailPath" />
                     </div>
                 </div>
             </td>
-            <td class="text-center width25Perc">
+            <td class="text-center width13Per">
                 <span class="NoneditableName" data-bind="text: productName"></span>
             </td>
             <td class="text-center width13Per">
                 <span class="NoneditablePrice" data-bind="text: '$' + miniPrice()"></span>
+            </td>
+            <td class="text-center width12Perc">
+                <span class="NoneditableCat" data-bind="text: productCategoryName"></span>
             </td>
             <td class="text-center width12Perc">
                 <span class="label label-success" data-bind="text: isPublishedUi"></span>
