@@ -689,7 +689,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             }
         });
         store.companyDomains(temp.reverse());
-        _.each(source.ContactCompanies, function (item) {
+        //_.each(source.ContactCompanies, function (item) {
+        _.each(source.CompanyContacts, function (item) {
             store.users.push(CompanyContact.Create(item));
         });
         _.each(source.PaymentGateways, function (item) {
@@ -1236,7 +1237,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // ReSharper disable once InconsistentNaming
     var Address = function (specifiedAddressId, specifiedCompanyId, specifiedAddressName, specifiedAddress1, specifiedAddress2, specifiedAddress3, specifiedCity, specifiedState, specifiedCountry, specifiedStateName, specifiedCountryName, specifiedPostCode, specifiedFax,
         specifiedEmail, specifiedURL, specifiedTel1, specifiedTel2, specifiedExtension1, specifiedExtension2, specifiedReference, specifiedFAO, specifiedIsDefaultAddress, specifiedIsDefaultShippingAddress,
-        specifiedisArchived, specifiedTerritoryId, specifiedGeoLatitude, specifiedGeoLongitude, specifiedisPrivate,
+        specifiedisArchived, specifiedTerritoryId,specifiedTerritoryName, specifiedGeoLatitude, specifiedGeoLongitude, specifiedisPrivate,
         specifiedisDefaultTerrorityBilling, specifiedisDefaultTerrorityShipping, specifiedOrganisationId) {
         var
             self,
@@ -1264,16 +1265,19 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isDefaultAddress = ko.observable(specifiedIsDefaultAddress),
             isDefaultShippingAddress = ko.observable(specifiedIsDefaultShippingAddress),
             isArchived = ko.observable(specifiedisArchived),
-            territoryId = ko.observable(specifiedTerritoryId),
+            territoryId = ko.observable(specifiedTerritoryId).extend({ required: true }),
+            territoryName = ko.observable(specifiedTerritoryName),
             geoLatitude = ko.observable(specifiedGeoLatitude),
             geoLongitude = ko.observable(specifiedGeoLongitude),
             isPrivate = ko.observable(specifiedisPrivate),
             isDefaultTerrorityBilling = ko.observable(specifiedisDefaultTerrorityBilling),
             isDefaultTerrorityShipping = ko.observable(specifiedisDefaultTerrorityShipping),
             organisationId = ko.observable(specifiedOrganisationId),
+            territory= ko.observable(),
             // Errors
             errors = ko.validation.group({
-                addressName: addressName
+                addressName: addressName,
+                territoryId: territoryId
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -1347,7 +1351,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     isPrivate: isPrivate(),
                     isDefaultTerrorityBilling: isDefaultTerrorityBilling(),
                     isDefaultTerrorityShipping: isDefaultTerrorityShipping(),
-                    OrganisationId: organisationId()
+                    OrganisationId: organisationId(),
+                    //Territory: territory().convertToServerData(),
                 };
             },
             // Reset
@@ -1386,6 +1391,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isDefaultTerrorityBilling: isDefaultTerrorityBilling,
             isDefaultTerrorityShipping: isDefaultTerrorityShipping,
             organisationId: organisationId,
+            territory: territory,
+            territoryName: territoryName,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1422,6 +1429,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.isDefaultShippingAddress,
             source.isArchived,
             source.territoryId,
+            source.territoryName,
             source.geoLatitude,
             source.geoLongitude,
             source.isPrivate,
@@ -1457,6 +1465,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.IsDefaultShippingAddress,
             source.isArchived,
             source.TerritoryId,
+            source.TerritoryName,
             source.GeoLatitude,
             source.GeoLongitude,
             source.isPrivate,
@@ -2295,12 +2304,16 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             canUserEditProfile = ko.observable(specifiedCanUserEditProfile),
             canPlaceDirectOrder = ko.observable(specifiedcanPlaceDirectOrder),
             organisationId = ko.observable(specifiedOrganisationId),
-            bussinessAddressId = ko.observable(specifiedBussinessAddressId),
+            bussinessAddressId = ko.observable(specifiedBussinessAddressId).extend({ required: true }),
             fileName = ko.observable(),
+            bussinessAddress = ko.observable(),
+            shippingAddress = ko.observable(),
+
             // Errors
             errors = ko.validation.group({
                 firstName: firstName,
-                email: email
+                email: email,
+                bussinessAddressId: bussinessAddressId
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -2486,7 +2499,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     canPlaceDirectOrder: canPlaceDirectOrder(),
                     OrganisationId: organisationId(),
                     BussinessAddressId: bussinessAddressId(),
-                    FileName: fileName()
+                    FileName: fileName(),
+                    //BussinessAddress: bussinessAddress() != undefined ? bussinessAddress().convertToServerData(): null,
+                    //ShippingAddress: shippingAddress() != undefined ? shippingAddress().convertToServerData() : null,
                 };
             },
             // Reset
@@ -2579,6 +2594,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             organisationId: organisationId,
             bussinessAddressId: bussinessAddressId,
             fileName: fileName,
+            bussinessAddress: bussinessAddress,
+            shippingAddress: shippingAddress,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,

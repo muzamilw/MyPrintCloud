@@ -142,11 +142,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="MISServices\AddressService.cs" />
     <Compile Include="MISServices\AuthorizationChecker.cs" />
     <Compile Include="MISServices\CampaignService.cs" />
     <Compile Include="MISServices\CategoryService.cs" />
     <Compile Include="MISServices\ClaimsSecurityService.cs" />
     <Compile Include="MISServices\CompanyService.cs" />
+    <Compile Include="MISServices\CompanyTerritoryService.cs" />
     <Compile Include="MISServices\ItemService.cs" />
     <Compile Include="MISServices\InventoryService.cs" />
     <Compile Include="MISServices\CostCenterService.cs" />

@@ -15,6 +15,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Private
 
         private readonly ICompanyService companyService;
+        private readonly ICompanyTerritoryService companyTerritoryService;
 
         #endregion
         #region Constructor
@@ -23,9 +24,10 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Constructor
         /// </summary>
         /// <param name="companyService"></param>
-        public CompanyTerritoryController(ICompanyService companyService)
+        public CompanyTerritoryController(ICompanyService companyService, ICompanyTerritoryService companyTerritoryService)
         {
             this.companyService = companyService;
+            this.companyTerritoryService = companyTerritoryService;
         }
 
         #endregion
@@ -45,6 +47,24 @@ namespace MPC.MIS.Areas.Api.Controllers
                        CompanyTerritories = result.CompanyTerritories.Select(x => x.CreateFrom()),
                        RowCount = result.RowCount
                    };
+        }
+        /// <summary>
+        /// Get Company Territory By id
+        /// </summary>
+        /// <param name="companyTerritoryId"></param>
+        /// <returns></returns>
+        public bool Get([FromUri] long companyTerritoryId)
+        {
+            var companyTerritory= companyTerritoryService.Get(companyTerritoryId);
+            if (companyTerritory != null)
+            {
+                if (companyTerritory.Addresses != null || companyTerritory.CompanyContacts != null)
+                {
+                    return false;
+                }
+                return true;
+            }
+            return false;
         }
 
         #endregion

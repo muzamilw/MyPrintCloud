@@ -666,6 +666,10 @@ define("product/product.viewModel",
                         }
                         return flag;
                     },
+                    // On Clone Product
+                    onCloneProduct = function(data) {
+                        cloneProduct(data, openProductEditor);
+                    },
                     // Go To Element
                     gotoElement = function (validation) {
                         view.gotoElement(validation.element);
@@ -927,6 +931,28 @@ define("product/product.viewModel",
                             }
                         });
                     },
+                    // Clone Product
+                    cloneProduct = function (item, callback) {
+                        dataservice.cloneItem({ ItemId: item.id() }, {
+                            success: function (data) {
+                                if (data) {
+                                    var newItem = model.Item.Create(data, itemActions, itemStateTaxConstructorParams);
+                                    // Add to top of list
+                                    products.splice(0, 0, newItem);
+                                    selectedProduct(newItem);
+                                    
+                                    if (callback && typeof callback === "function") {
+                                        callback();
+                                    }
+                                }
+
+                                toastr.success("Cloned Successfully.");
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to Clone Product. Error: " + response);
+                            }
+                        });
+                    },
                     // archive Product
                     archiveProduct = function () {
                         dataservice.archiveItem({
@@ -1170,7 +1196,8 @@ define("product/product.viewModel",
                     searchPressItems: searchPressItems,
                     closePressDialog: closePressDialog,
                     editSectionSignature: editSectionSignature,
-                    closeSignatureDialog: closeSignatureDialog
+                    closeSignatureDialog: closeSignatureDialog,
+                    onCloneProduct: onCloneProduct
                     // Utility Methods
 
                 };

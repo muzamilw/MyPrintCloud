@@ -251,6 +251,8 @@
         <AssociationConnector Association="DomainModels.FK_CompanyCostCentre_CostCentre" />
         <EntityTypeShape EntityType="DomainModels.Group" Width="1.5" PointX="18.375" PointY="13.75" />
         <AssociationConnector Association="DomainModels.FK_CampaignEmailVariable_Section" />
+        <AssociationConnector Association="DomainModels.FK_ItemSection_Machine" />
+        <AssociationConnector Association="DomainModels.FK_ItemSection_StockItem" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

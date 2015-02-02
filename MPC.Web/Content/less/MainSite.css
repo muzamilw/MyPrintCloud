@@ -1,4 +1,80 @@
-﻿#productBinding .activeView {
+﻿/* Common Styles */
+.fileUpload {
+  position: relative;
+  overflow: hidden;
+}
+.fileUpload input.upload {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+#phraseLibraryDialog .selectedSection,
+#phraseLibraryDialog .selectedPhraseField {
+  background: yellow;
+}
+.inlineGrid table {
+  max-width: 100%;
+  width: 100%;
+  min-width: 100%;
+}
+.inlineGrid table td {
+  padding: 4px 5px;
+  vertical-align: middle;
+}
+.inlineGrid table tr td select,
+.inlineGrid table textarea,
+.inlineGrid table input[type="text"],
+.inlineGrid table input[type="password"],
+.inlineGrid table input[type="datetime"],
+.inlineGrid table input[type="datetime-local"],
+.inlineGrid table input[type="date"],
+.inlineGrid table input[type="month"],
+.inlineGrid table input[type="time"],
+.inlineGrid table input[type="week"],
+.inlineGrid table input[type="number"],
+.inlineGrid table input[type="email"],
+.inlineGrid table input[type="url"],
+.inlineGrid table input[type="search"],
+.inlineGrid table input[type="tel"],
+.inlineGrid table input[type="color"],
+.inlineGrid table .uneditable-input {
+  padding-left: 2px;
+  padding-right: 2px;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1px;
+  margin-right: 2px;
+}
+.inlineGrid table .selectedRow label {
+  color: #8B8B8B;
+  font-size: 13px;
+  text-align: left;
+}
+.my-modal {
+  overflow: auto !important;
+}
+.closeSaveButtonMarginRemove {
+  margin-left: 0;
+}
+/* Validation Summary */
+.validationSummaryContainer .validationSummaryLink {
+  margin-left: 15px;
+}
+.validationSummaryContainer ul {
+  padding-left: 20px;
+}
+.validationSummaryContainer a {
+  color: red;
+}
+/* Validation Summary */
+/* Common Styles */
+#productBinding .activeView {
   background-color: #ff7e47;
   color: white;
 }
@@ -43,6 +119,16 @@
 #productBinding .form-group .input-group .input-group-addon {
   border: 1px solid #ccc;
 }
+#productBinding .pricetable-itemPriceMatrix tr th#Qty {
+  width: 12%;
+}
+#productBinding .pricetable-itemPriceMatrix tr th#QtyRangeFrom,
+#productBinding .pricetable-itemPriceMatrix tr th#QtyRangeTo {
+  width: 6%;
+}
+#productBinding .pricetable-itemPriceMatrix tr th.paperStockType {
+  width: 8%;
+}
 #productBinding #tab-pricetable .form-group #txtDiscountsContainer {
   padding: 0;
 }
@@ -54,16 +140,6 @@
 }
 #productBinding #tab-pricetable .form-group #stateTaxSectionLabel {
   font-weight: bold;
-}
-#productBinding #tab-pricetable #tab-pricetable-itemPriceMatrix tr th#Qty {
-  width: 104px;
-}
-#productBinding #tab-pricetable #tab-pricetable-itemPriceMatrix tr th#QtyRangeFrom,
-#productBinding #tab-pricetable #tab-pricetable-itemPriceMatrix tr th#QtyRangeTo {
-  width: 104px;
-}
-#productBinding #tab-pricetable #tab-pricetable-itemPriceMatrix tr th.paperStockType {
-  width: 10%;
 }
 #productBinding #tab-supplierPrice .labelBold {
   font-weight: bold;
@@ -208,67 +284,4 @@
 }
 #inventoryCategoriesBinding #detailArea {
   margin-top: 3px;
-}
-.fileUpload {
-  position: relative;
-  overflow: hidden;
-}
-.fileUpload input.upload {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 0;
-  padding: 0;
-  font-size: 20px;
-  cursor: pointer;
-  opacity: 0;
-  filter: alpha(opacity=0);
-}
-#phraseLibraryDialog .selectedSection,
-#phraseLibraryDialog .selectedPhraseField {
-  background: yellow;
-}
-.inlineGrid table {
-  max-width: 100%;
-  width: 100%;
-  min-width: 100%;
-}
-.inlineGrid table td {
-  padding: 4px 5px;
-  vertical-align: middle;
-}
-.inlineGrid table tr td select,
-.inlineGrid table textarea,
-.inlineGrid table input[type="text"],
-.inlineGrid table input[type="password"],
-.inlineGrid table input[type="datetime"],
-.inlineGrid table input[type="datetime-local"],
-.inlineGrid table input[type="date"],
-.inlineGrid table input[type="month"],
-.inlineGrid table input[type="time"],
-.inlineGrid table input[type="week"],
-.inlineGrid table input[type="number"],
-.inlineGrid table input[type="email"],
-.inlineGrid table input[type="url"],
-.inlineGrid table input[type="search"],
-.inlineGrid table input[type="tel"],
-.inlineGrid table input[type="color"],
-.inlineGrid table .uneditable-input {
-  padding-left: 2px;
-  padding-right: 2px;
-  width: 100%;
-  max-width: 100%;
-  margin-bottom: 1px;
-  margin-right: 2px;
-}
-.inlineGrid table .selectedRow label {
-  color: #8B8B8B;
-  font-size: 13px;
-  text-align: left;
-}
-.my-modal {
-  overflow: auto !important;
-}
-.closeSaveButtonMarginRemove {
-  margin-left: 0px;
 }

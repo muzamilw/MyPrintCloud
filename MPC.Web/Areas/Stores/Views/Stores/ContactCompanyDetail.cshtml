@@ -537,12 +537,12 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
-                                        <h3 class="group-header">Addresses</h3>Delivery Add Ons
+                                        <h3 class="group-header">Addresses</h3>
                                         <div class="col-lg-12 clearfix">
                                             <header class="main-box-header clearfix">
                                                 <div class="filter-block">
                                                     <div class="form-group filter-block pull-left col-xs-4">
-                                                        <select class="form-control col-lg-4" data-bind="options:$root.addressCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Choose...', value: $root.addressTerritoryFilter"></select>
+                                                        <select class="form-control col-lg-4" data-bind="options:$root.addressCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Choose...', value: $root.addressTerritoryFilter, validationToolTip: territoryId"></select>
                                                     </div>
                                                     <div class="filter-block pull-right col-xs-5">
                                                         <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
@@ -1872,7 +1872,7 @@
             <tr data-bind="click: $root.selectAddress, css: { selectedRow: $data === $root.selectedAddress}">
                 <td data-bind="text: addressName"></td>
                 <td data-bind="text: city"></td>
-                <td data-bind="text: territoryId"></td>
+                <td data-bind="text: territoryName"></td>
                 <td data-bind="text: isDefaultTerrorityBilling() == true ? 'Yes' : 'No' "></td>
                 <!--ko if: isDefaultAddress() == true -->
                 <td class="type">
