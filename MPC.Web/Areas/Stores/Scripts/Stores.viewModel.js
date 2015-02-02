@@ -686,7 +686,7 @@ define("stores/stores.viewModel",
                     selectedEmail().reset();
                     view.showEmailCamapaignDialog();
                     if (campaignSectionFlags().length === 0) {
-                        getCampaignBaseData();
+                       getCampaignBaseData();
                     }
 
                     resetEmailBaseDataArrays();
