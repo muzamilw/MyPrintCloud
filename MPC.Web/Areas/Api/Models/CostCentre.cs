@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 
 namespace MPC.MIS.Areas.Api.Models
 {
@@ -134,6 +135,8 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? isFromMIS { get; set; }
         public string XeroAccessCode { get; set; }
         public long? OrganisationId { get; set; }
+        public virtual ICollection<CostcentreInstruction> CostcentreInstructions { get; set; }
+        public virtual ICollection<CostcentreResource> CostcentreResources { get; set; }
        
     }
 }

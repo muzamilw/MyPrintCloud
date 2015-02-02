@@ -101,6 +101,7 @@
             deliveryCharges = ko.observable().extend({ required: true }),
             xeroAccessCode = ko.observable(),
             organisationId = ko.observable().extend({ required: true }),
+            costCenterResource = ko.observableArray([]),
             errors = ko.validation.group({
                 name: name,
                 type: type,
@@ -212,6 +213,7 @@
             deliveryCharges: deliveryCharges,
             xeroAccessCode: xeroAccessCode,
             organisationId: organisationId,
+            costCenterResource: costCenterResource,
             dirtyFlag: dirtyFlag,
             errors: errors,
             isValid: isValid,
@@ -220,7 +222,39 @@
         };
         return self;
     };
-    
+
+    costCenterListView = function (specifiedCostCentreId, specifiedName, specifiedDescription, specifiedType, specifiedCalType
+                            ) {
+        var
+            self,
+            //Unique ID
+            costCenterId = ko.observable(specifiedCostCentreId),
+            //Name
+            name = ko.observable(specifiedName),
+            //Description
+            description = ko.observable(specifiedDescription),
+            //Type
+            type = ko.observable(specifiedType),
+            calculationMethodType = ko.observable(specifiedCalType),
+            convertToServerData = function () {
+                return {
+                    CostCentreId: costCenterId(),
+                }
+            };
+        self = {
+            costCenterId: costCenterId,
+            name: name,
+            description: description,
+            type: type,
+            calculationMethodType:calculationMethodType,
+            convertToServerData: convertToServerData,
+        };
+        return self;
+    };
+  
+    costCenterListView.Create = function (source) {
+        return new costCenterListView(source.CostCentreId, source.Name, source.Description, source.Type, source.CalculationMethodType);
+    };
     var costCenterClientMapper = function(source) {
         var oCostCenter = new CostCenter();
         oCostCenter.costCentreId(source.CostCentreId);
@@ -417,6 +451,7 @@
     return {
         CostCenter: CostCenter,
         costCenterClientMapper: costCenterClientMapper,
-        costCenterServerMapper: costCenterServerMapper
+        costCenterServerMapper: costCenterServerMapper,
+        costCenterListView: costCenterListView
     };
 });
