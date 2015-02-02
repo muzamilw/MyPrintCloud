@@ -2073,6 +2073,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="MakeReadyTime" Type="float" />
           <Property Name="WashupTime" Type="float" />
           <Property Name="ReelMakereadyTime" Type="float" />
+          <Property Name="LookupMethodId" Type="bigint" />
         </EntityType>
         <EntityType Name="MachineCategory">
           <Key>
@@ -3561,6 +3562,30 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ItemSection_Machine">
+          <End Role="Machine" Type="Self.Machine" Multiplicity="0..1" />
+          <End Role="ItemSection" Type="Self.ItemSection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Machine">
+              <PropertyRef Name="MachineId" />
+            </Principal>
+            <Dependent Role="ItemSection">
+              <PropertyRef Name="PressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemSection_StockItem">
+          <End Role="StockItem" Type="Self.StockItem" Multiplicity="0..1" />
+          <End Role="ItemSection" Type="Self.ItemSection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockItem">
+              <PropertyRef Name="StockItemId" />
+            </Principal>
+            <Dependent Role="ItemSection">
+              <PropertyRef Name="StockItemID1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ItemStateTax_Country">
           <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
           <End Role="ItemStateTax" Type="Self.ItemStateTax" Multiplicity="*" />
@@ -5008,6 +5033,14 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Company" EntitySet="Company" />
             <End Role="Items" EntitySet="Items" />
           </AssociationSet>
+          <AssociationSet Name="FK_ItemSection_Machine" Association="Self.FK_ItemSection_Machine">
+            <End Role="Machine" EntitySet="Machine" />
+            <End Role="ItemSection" EntitySet="ItemSection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemSection_StockItem" Association="Self.FK_ItemSection_StockItem">
+            <End Role="StockItem" EntitySet="StockItem" />
+            <End Role="ItemSection" EntitySet="ItemSection" />
+          </AssociationSet>
           <AssociationSet Name="FK_ItemStateTax_Country" Association="Self.FK_ItemStateTax_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="ItemStateTax" EntitySet="ItemStateTax" />
@@ -5943,6 +5976,14 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Section" EntitySet="Sections" />
             <End Role="CampaignEmailVariable" EntitySet="CampaignEmailVariables" />
           </AssociationSet>
+          <AssociationSet Name="FK_ItemSection_Machine" Association="DomainModels.FK_ItemSection_Machine">
+            <End Role="Machine" EntitySet="Machines" />
+            <End Role="ItemSection" EntitySet="ItemSections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemSection_StockItem" Association="DomainModels.FK_ItemSection_StockItem">
+            <End Role="StockItem" EntitySet="StockItems" />
+            <End Role="ItemSection" EntitySet="ItemSections" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -6604,6 +6645,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="SectionCostCentreDetails" Relationship="DomainModels.FK_tbl_section_costcentre_detail_tbl_stockitems" FromRole="StockItem" ToRole="SectionCostCentreDetail" />
           <NavigationProperty Name="ItemStockOptions" Relationship="DomainModels.FK_StockItem_ItemStockOption" FromRole="StockItem" ToRole="ItemStockOption" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_StockItem_Company" FromRole="StockItem" ToRole="Company" />
+          <NavigationProperty Name="ItemSections" Relationship="DomainModels.FK_ItemSection_StockItem" FromRole="StockItem" ToRole="ItemSection" />
         </EntityType>
         <Association Name="FK_tbl_stockitems_tbl_stockcategories">
           <End Type="DomainModels.StockCategory" Role="StockCategory" Multiplicity="0..1" />
@@ -7518,6 +7560,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="SimilarSections" Type="Int32" />
           <NavigationProperty Name="Item" Relationship="DomainModels.FK_tbl_item_sections_tbl_items" FromRole="ItemSection" ToRole="Item" />
           <NavigationProperty Name="SectionCostcentres" Relationship="DomainModels.FK_tbl_section_costcentres_tbl_item_sections" FromRole="ItemSection" ToRole="SectionCostcentre" />
+          <NavigationProperty Name="Machine" Relationship="DomainModels.FK_ItemSection_Machine" FromRole="ItemSection" ToRole="Machine" />
+          <NavigationProperty Name="StockItem" Relationship="DomainModels.FK_ItemSection_StockItem" FromRole="ItemSection" ToRole="StockItem" />
         </EntityType>
         <EntityType Name="ItemStockControl">
           <Key>
@@ -10578,6 +10622,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="ReelMakereadyTime" Type="Double" />
           <NavigationProperty Name="MachineInkCoverages" Relationship="DomainModels.FK_tbl_machines_tbl_machine_ink_coverage" FromRole="Machine" ToRole="MachineInkCoverage" />
           <NavigationProperty Name="MachineResources" Relationship="DomainModels.FK_tbl_machines_tbl_machine_resource" FromRole="Machine" ToRole="MachineResource" />
+          <Property Name="LookupMethodId" Type="Int64" />
+          <NavigationProperty Name="ItemSections" Relationship="DomainModels.FK_ItemSection_Machine" FromRole="Machine" ToRole="ItemSection" />
         </EntityType>
         <EntityType Name="MachineInkCoverage">
           <Key>
@@ -10692,6 +10738,30 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="CampaignEmailVariable">
               <PropertyRef Name="SectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemSection_Machine">
+          <End Type="DomainModels.Machine" Role="Machine" Multiplicity="0..1" />
+          <End Type="DomainModels.ItemSection" Role="ItemSection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Machine">
+              <PropertyRef Name="MachineId" />
+            </Principal>
+            <Dependent Role="ItemSection">
+              <PropertyRef Name="PressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemSection_StockItem">
+          <End Type="DomainModels.StockItem" Role="StockItem" Multiplicity="0..1" />
+          <End Type="DomainModels.ItemSection" Role="ItemSection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockItem">
+              <PropertyRef Name="StockItemId" />
+            </Principal>
+            <Dependent Role="ItemSection">
+              <PropertyRef Name="StockItemID1" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -14145,6 +14215,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Machines">
             <EntityTypeMapping TypeName="DomainModels.Machine">
               <MappingFragment StoreEntitySet="Machine">
+                <ScalarProperty Name="LookupMethodId" ColumnName="LookupMethodId" />
                 <ScalarProperty Name="ReelMakereadyTime" ColumnName="ReelMakereadyTime" />
                 <ScalarProperty Name="WashupTime" ColumnName="WashupTime" />
                 <ScalarProperty Name="MakeReadyTime" ColumnName="MakeReadyTime" />

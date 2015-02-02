@@ -178,6 +178,9 @@ namespace MPC.Models.DomainModels
 
         public virtual ICollection<SectionCostcentre> SectionCostcentres { get; set; }
 
+        public virtual StockItem StockItem { get; set; }
+        public virtual Machine Machine { get; set; }
+
         #region Public
 
         /// <summary>
