@@ -1,37 +1,40 @@
 ﻿
 <div class="row" id="inventoryEditor" data-bind="visible: isInventoryEditorVisible" style="display: none;">
-    <div data-bind="with:selectedInventory">
+
+    <div>
         <div class="col-lg-12">
             <div class="row">
                 <div class="col-lg-12">
                     <ol class="breadcrumb">
-                        <li><a href="~/Dashboard/Index" data-bind="click: ist.sharedNavigation.viewModel.showConfirmationDialog">Home</a></li>
-                        <li class="active"><span>Inventories</span></li>
+                        <li><a href="~/Dashboard/Index" class="my-navigator">Home</a></li>
+                        <li><a href="~/Settings/MIS/Inventory" class="my-navigator">Inventories</a></li>
                         <li class="active"><span>Inventory Detail</span></li>
                     </ol>
-                    <div class="clearfix dynamicNameHeading">
-                        <h1 class="pull-left" data-bind="text:itemName">&nbsp;</h1>
-                    </div>
-                    <div class="pull-right top-page-ui">
-                        <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.onSaveInventory, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
-                        <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeInventoryEditor">Close</button>
-                    </div>
-                    <div id="detailArea">
-                        &nbsp;
-                    </div>
-                    <div data-bind="visible:$root.errorList().length > 0" style="display: none;">
-                        <p> Please corresct these errors.</p>
-                        <table id="table">
-                            <tbody>
-                                <!-- ko template: { name: 'itemErrorTemplate' , foreach: $root.errorList } -->
-                                <!-- /ko -->
-                            </tbody>
-                        </table>
+                    <div data-bind="with:selectedInventory">
+                        <div class="clearfix dynamicNameHeading">
+                            <h1 class="pull-left" data-bind="text:itemName">&nbsp;</h1>
+                        </div>
+                        <div class="pull-right top-page-ui">
+                            <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.onSaveInventory, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
+                            <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeInventoryEditor">Close</button>
+                        </div>
+                        <div id="detailArea">
+                            &nbsp;
+                        </div>
+                        <div data-bind="visible:$root.errorList().length > 0" style="display: none;">
+                            <p> Please corresct these errors.</p>
+                            <table id="table">
+                                <tbody>
+                                    <!-- ko template: { name: 'itemErrorTemplate' , foreach: $root.errorList } -->
+                                    <!-- /ko -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <br />
                 </div>
             </div>
-            <div class="row">
+            <div class="row" data-bind="with:selectedInventory">
                 <div class="col-lg-12">
                     <div class="main-box no-header clearfix">
                         <h3 class="group-header">Inventory Detail</h3>

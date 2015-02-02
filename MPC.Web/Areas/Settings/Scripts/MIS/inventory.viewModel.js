@@ -137,6 +137,7 @@ define("inventory/inventory.viewModel",
                                     }
                                     selectedInventory().reset();
                                     showInventoryEditor();
+                                    sharedNavigationVM.initialize(selectedInventory, function (saveCallback) { onSaveInventory(saveCallback); });
                                 }
                             },
                             error: function (response) {
@@ -297,16 +298,7 @@ define("inventory/inventory.viewModel",
                     //Call function for Save Invetry
                     onSaveInventory = function (callback) {
                         errorList.removeAll();
-                        if (doBeforeSave() && doBeforeCostAndPrice()) {
-                            if (selectedInventory().stockCostAndPriceListInInventory().length > 0) {
-                                inventory.stockCostAndPriceListInInventory.removeAll();
-                            }
-                            _.each(costPriceList(), function (item) {
-                                selectedInventory().stockCostAndPriceListInInventory.push(item.convertToServerData());
-                            });
-                            saveInventory(callback);
-                            supplierVm.selectedSupplier(undefined);
-                        }
+                        saveInventory(callback);
                     },
                      // Do Before Logic
                     doBeforeSave = function () {
@@ -366,43 +358,54 @@ define("inventory/inventory.viewModel",
                     },
                      // Save Inventory
                     saveInventory = function (callback) {
-                        dataservice.saveInventory(selectedInventory().convertToServerData(), {
-                            success: function (data) {
-                                //For Add New
-                                if (selectedInventory().itemId() === 0) {
-                                    var inventoryResponse = new model.InventoryListView.Create(data);
-                                    inventories.splice(0, 0, inventoryResponse);
-                                } else {
-                                    selectedInventoryCopy().name(data.ItemName);
-                                    selectedInventoryCopy().weight(data.ItemWeight);
-                                    selectedInventoryCopy().perQtyQty(data.PerQtyQty);
-                                    selectedInventoryCopy().colour(data.FlagColor);
-                                    selectedInventoryCopy().categoryName(data.CategoryName);
-                                    selectedInventoryCopy().subCategoryName(data.SubCategoryName);
-                                    selectedInventoryCopy().weightUnitName(data.WeightUnitName);
-                                    selectedInventoryCopy().fullCategoryName(data.FullCategoryName);
-                                    selectedInventoryCopy().supplierCompanyName(data.SupplierCompanyName);
-                                }
-                                isInventoryEditorVisible(false);
-                                if (callback && typeof callback === "function") {
-                                    callback();
-                                }
-                                toastr.success("Successfully save.");
-                            },
-                            error: function (exceptionMessage, exceptionType) {
-
-                                if (exceptionType === ist.exceptionType.CaresGeneralException) {
-
-                                    toastr.error(exceptionMessage);
-
-                                } else {
-
-                                    toastr.error("Failed to save.");
-
-                                }
-
+                        if (doBeforeSave() && doBeforeCostAndPrice()) {
+                            if (selectedInventory().stockCostAndPriceListInInventory().length > 0) {
+                                selectedInventory().stockCostAndPriceListInInventory.removeAll();
                             }
-                        });
+                            _.each(costPriceList(), function (item) {
+                                selectedInventory().stockCostAndPriceListInInventory.push(item.convertToServerData());
+                            });
+                            supplierVm.selectedSupplier(undefined);
+
+
+                            dataservice.saveInventory(selectedInventory().convertToServerData(), {
+                                success: function (data) {
+                                    //For Add New
+                                    if (selectedInventory().itemId() === 0) {
+                                        var inventoryResponse = new model.InventoryListView.Create(data);
+                                        inventories.splice(0, 0, inventoryResponse);
+                                    } else {
+                                        selectedInventoryCopy().name(data.ItemName);
+                                        selectedInventoryCopy().weight(data.ItemWeight);
+                                        selectedInventoryCopy().perQtyQty(data.PerQtyQty);
+                                        selectedInventoryCopy().colour(data.FlagColor);
+                                        selectedInventoryCopy().categoryName(data.CategoryName);
+                                        selectedInventoryCopy().subCategoryName(data.SubCategoryName);
+                                        selectedInventoryCopy().weightUnitName(data.WeightUnitName);
+                                        selectedInventoryCopy().fullCategoryName(data.FullCategoryName);
+                                        selectedInventoryCopy().supplierCompanyName(data.SupplierCompanyName);
+                                    }
+                                    isInventoryEditorVisible(false);
+                                    if (callback && typeof callback === "function") {
+                                        callback();
+                                    }
+                                    toastr.success("Successfully save.");
+                                },
+                                error: function (exceptionMessage, exceptionType) {
+
+                                    if (exceptionType === ist.exceptionType.CaresGeneralException) {
+
+                                        toastr.error(exceptionMessage);
+
+                                    } else {
+
+                                        toastr.error("Failed to save.");
+
+                                    }
+
+                                }
+                            });
+                        }
                     },
                     //Create New Inventory Item
                     createInventory = function () {
@@ -420,6 +423,7 @@ define("inventory/inventory.viewModel",
                         costPriceList.splice(0, 0, price);
                         // selectedInventory().reset();
                         showInventoryEditor();
+                        sharedNavigationVM.initialize(selectedInventory, function (saveCallback) { onSaveInventory(saveCallback); });
                     },
                     // close Inventory Editor
                     closeInventoryEditor = function () {
@@ -560,8 +564,7 @@ define("inventory/inventory.viewModel",
                         getBase();
                         pager(pagination.Pagination({ PageSize: 5 }, inventories, getInventoriesListItems));
                         getInventoriesListItems();
-                        sharedNavigationVM.selectedScreenItem(selectedInventory());
-                        sharedNavigationVM.saveFunctionCallback(function (saveCallback) { onSaveInventory(saveCallback) });
+
                     };
                 // #endregion Arrays
 

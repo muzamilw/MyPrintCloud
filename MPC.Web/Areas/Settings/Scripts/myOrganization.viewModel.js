@@ -2,8 +2,9 @@
     Module with the view model for the My Organization.
 */
 define("myOrganization/myOrganization.viewModel",
-    ["jquery", "amplify", "ko", "myOrganization/myOrganization.dataservice", "myOrganization/myOrganization.model", "common/confirmation.viewModel", "common/pagination"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination) {
+    ["jquery", "amplify", "ko", "myOrganization/myOrganization.dataservice", "myOrganization/myOrganization.model", "common/confirmation.viewModel",
+        "common/pagination", "common/sharedNavigation.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM) {
         var ist = window.ist || {};
         ist.myOrganization = {
             viewModel: (function () {
@@ -275,6 +276,7 @@ define("myOrganization/myOrganization.viewModel",
                                 orgnizationImage(data.ImageSource);
                                 view.initializeForm();
                                 isLoadingMyOrganization(false);
+                                sharedNavigationVM.initialize(selectedMyOrganization, function (saveCallback) { onSaveMyOrganization(saveCallback); });
                             },
                             error: function () {
                                 isLoadingMyOrganization(false);
@@ -283,7 +285,7 @@ define("myOrganization/myOrganization.viewModel",
                         });
                     },
                     // Save My Organization
-                    onSaveMyOrganization = function (myOrg) {
+                    onSaveMyOrganization = function (callback) {
                         errorList.removeAll();
                         //Selected Markup update in markup list
                         if (selectedMarkup() !== undefined) {
@@ -306,16 +308,16 @@ define("myOrganization/myOrganization.viewModel",
 
                         if (doBeforeSave() & doBeforeSaveMarkups() & doBeforeSaveChartOfAccounts()) {
                             //Markup List
-                            if (myOrg.markupsInMyOrganization.length !== 0) {
-                                myOrg.markupsInMyOrganization.removeAll();
+                            if (selectedMyOrganization().markupsInMyOrganization.length !== 0) {
+                                selectedMyOrganization().markupsInMyOrganization.removeAll();
                             }
-                            ko.utils.arrayPushAll(myOrg.markupsInMyOrganization(), markups());
+                            ko.utils.arrayPushAll(selectedMyOrganization().markupsInMyOrganization(), markups());
                             //Chart of Accounts List
-                            if (myOrg.chartOfAccountsInMyOrganization.length !== 0) {
-                                myOrg.chartOfAccountsInMyOrganization.removeAll();
+                            if (selectedMyOrganization().chartOfAccountsInMyOrganization.length !== 0) {
+                                selectedMyOrganization().chartOfAccountsInMyOrganization.removeAll();
                             }
-                            ko.utils.arrayPushAll(myOrg.chartOfAccountsInMyOrganization(), chartOfAccounts());
-                            saveMyOrganization(myOrg);
+                            ko.utils.arrayPushAll(selectedMyOrganization().chartOfAccountsInMyOrganization(), chartOfAccounts());
+                            saveMyOrganization(callback);
                         }
                     },
                     // Do Before Logic
@@ -394,8 +396,8 @@ define("myOrganization/myOrganization.viewModel",
                         }
                     }, this),
                     // Save My Organization
-                    saveMyOrganization = function (myOrg) {
-                        dataservice.saveMyOrganization(model.CompanySitesServerMapper(myOrg), {
+                    saveMyOrganization = function (callback) {
+                        dataservice.saveMyOrganization(model.CompanySitesServerMapper(selectedMyOrganization()), {
                             success: function (data) {
                                 var orgId = data.OrganizationId;
                                 if (selectedMyOrganization().id() > 0) {
@@ -427,6 +429,9 @@ define("myOrganization/myOrganization.viewModel",
                                 }
                                 selectedMyOrganization().reset();
                                 toastr.success("Successfully save.");
+                                if (callback && typeof callback === "function") {
+                                    callback();
+                                }
                             },
                             error: function (exceptionMessage, exceptionType) {
 
