@@ -13,9 +13,9 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Delete company territory 
         /// </summary>
-        /// <param name="companyTerritory"></param>
+        /// <param name="companyTerritoryId"></param>
         /// <returns></returns>
-        bool Delete(CompanyTerritory companyTerritory);
+        bool Delete(long companyTerritoryId);
         /// <summary>
         /// Get Company Territory By Id
         /// </summary>

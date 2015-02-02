@@ -288,8 +288,11 @@
     <Compile Include="Areas\Api\Models\CategoryType.cs" />
     <Compile Include="Areas\Api\Models\CmsOffer.cs" />
     <Compile Include="Areas\Api\Models\ColorPallete.cs" />
+    <Compile Include="Areas\Api\Models\CompanyAddressDeleteModel.cs" />
+    <Compile Include="Areas\Api\Models\CompanyContactDeleteModel.cs" />
     <Compile Include="Areas\Api\Models\CompanyCostCentre.cs" />
     <Compile Include="Areas\Api\Models\CompanyDomain.cs" />
+    <Compile Include="Areas\Api\Models\CompanyTerritoryDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\CostCenterBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\CostCenterResponse.cs" />
     <Compile Include="Areas\Api\Models\CostCenterCalculationTypes.cs" />

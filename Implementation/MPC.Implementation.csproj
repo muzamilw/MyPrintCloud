@@ -147,6 +147,7 @@
     <Compile Include="MISServices\CampaignService.cs" />
     <Compile Include="MISServices\CategoryService.cs" />
     <Compile Include="MISServices\ClaimsSecurityService.cs" />
+    <Compile Include="MISServices\CompanyContactService.cs" />
     <Compile Include="MISServices\CompanyService.cs" />
     <Compile Include="MISServices\CompanyTerritoryService.cs" />
     <Compile Include="MISServices\ItemService.cs" />

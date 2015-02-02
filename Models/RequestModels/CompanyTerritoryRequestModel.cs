@@ -1,4 +1,6 @@
-﻿namespace MPC.Models.RequestModels
+﻿using MPC.Models.DomainModels;
+
+namespace MPC.Models.RequestModels
 {
     public class CompanyTerritoryRequestModel : GetPagedListRequest
     {
