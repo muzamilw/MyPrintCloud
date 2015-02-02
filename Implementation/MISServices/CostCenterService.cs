@@ -17,12 +17,13 @@ namespace MPC.Implementation.MISServices
         private readonly ISystemUserRepository _systemUserRepository;
         private readonly ICostCenterTypeRepository _costcentreTypeRepository;
         private readonly IMarkupRepository _markupRepository;
+        private readonly ICostCentreVariableRepository _costCentreVariableRepository;
         #endregion
 
         #region Constructor
 
         public CostCenterService(ICostCentreRepository costCenterRepository, IChartOfAccountRepository chartOfAccountRepository, ISystemUserRepository systemUserRepository, ICostCenterTypeRepository costCenterTypeRepository,
-            IMarkupRepository markupRepository)
+            IMarkupRepository markupRepository, ICostCentreVariableRepository costCentreVariableRepository)
         {
             if (costCenterRepository == null)
             {
@@ -44,11 +45,16 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("markupRepository");
             }
+            if (costCentreVariableRepository == null)
+            {
+                throw new ArgumentNullException("costCentreVariableRepository");
+            }
             this._costCenterRepository = costCenterRepository;
             this._chartOfAccountRepository = chartOfAccountRepository;
             this._systemUserRepository = systemUserRepository;
             this._costcentreTypeRepository = costCenterTypeRepository;
             this._markupRepository = markupRepository;
+            this._costCentreVariableRepository = costCentreVariableRepository;
         }
 
         #endregion
@@ -96,7 +102,8 @@ namespace MPC.Implementation.MISServices
                 CostCenterCategories = _costcentreTypeRepository.GetAll(),
                 CostCenterResources = _systemUserRepository.GetAll(),
                 NominalCodes = _chartOfAccountRepository.GetAll(),
-                Markups = _markupRepository.GetAll()
+                Markups = _markupRepository.GetAll(),
+                CostCentreVariables = _costCentreVariableRepository.returnLoadVariableList()
             };
         }
         #endregion

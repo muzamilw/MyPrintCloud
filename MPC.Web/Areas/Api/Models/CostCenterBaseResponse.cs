@@ -10,6 +10,7 @@ namespace MPC.MIS.Areas.Api.Models
         public IEnumerable<ChartOfAccount> NominalCodes { get; set; }
         public IEnumerable<CostCenterCalculationTypes> CalculationTypes { get; set; }
         public IEnumerable<CostCentreType> CostCenterCategories { get; set; }
+        public IEnumerable<CostCentreVariable> CostCentreVariables { get; set; }
 
     }
 }

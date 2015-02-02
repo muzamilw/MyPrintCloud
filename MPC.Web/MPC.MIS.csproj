@@ -253,6 +253,7 @@
     <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />
     <Compile Include="Areas\Api\Controllers\GetItemsForWidgetsController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\ItemCloneController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemDesignerTemplateBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemPriceMatrixController.cs" />
     <Compile Include="Areas\Api\Controllers\LanguageEditorController.cs" />
@@ -268,6 +269,11 @@
     <Compile Include="Areas\Api\ModelMappers\CategoryRegionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyCostCenterMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyDomainMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CostcentreInstructionMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CostcentreResourceMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CostCentreVariableMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CostcentreWorkInstructionsChoiceMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CsotCenterListViewMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCenterBaseResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCenterTypeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreDropDownMapper.cs" />
@@ -293,12 +299,17 @@
     <Compile Include="Areas\Api\Models\CompanyCostCentre.cs" />
     <Compile Include="Areas\Api\Models\CompanyDomain.cs" />
     <Compile Include="Areas\Api\Models\CompanyTerritoryDeleteRequest.cs" />
+    <Compile Include="Areas\Api\Models\CostCenterListViewModel.cs" />
     <Compile Include="Areas\Api\Models\CostCenterBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\CostCenterResponse.cs" />
     <Compile Include="Areas\Api\Models\CostCenterCalculationTypes.cs" />
+    <Compile Include="Areas\Api\Models\CostcentreInstruction.cs" />
+    <Compile Include="Areas\Api\Models\CostcentreResource.cs" />
     <Compile Include="Areas\Api\Models\CostCentreType.cs" />
     <Compile Include="Areas\Api\Models\CostCentreDropDown.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreVariable.cs" />
     <Compile Include="Areas\Api\Models\GroupForCampaign.cs" />
+    <Compile Include="Areas\Api\Models\CostcentreWorkInstructionsChoice.cs" />
     <Compile Include="Areas\Api\Models\ItemDesignerTemplateBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemForWidgets.cs" />
     <Compile Include="Areas\Api\Models\ItemSection.cs" />
@@ -523,6 +534,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Common\Scripts\phraseLibrary.dataservice.js" />
+    <Content Include="Areas\Common\Scripts\sharedNavigation.viewModel.js" />
     <Content Include="Areas\Common\Scripts\supplier.dataservice.js" />
     <Content Include="Areas\Common\Scripts\phraseLibrary.model.js" />
     <Content Include="Areas\Common\Scripts\phraseLibrary.view.js" />
@@ -966,8 +978,6 @@
     <Content Include="Images\orderedList9.png" />
     <Content Include="MPC_Content\DefaultCss\Default_CompanyStyles.css" />
     <Content Include="MPC_Content\DefaultSprite\sprite.bakup.png" />
-    <Content Include="MPC_Content\Stores\assets\2205\Site.css" />
-    <Content Include="MPC_Content\Stores\assets\2205\sprite.png" />
     <Content Include="RichTextEditor\adapters\jquery.js" />
     <Content Include="RichTextEditor\build-config.js" />
     <Content Include="RichTextEditor\ckeditor.js" />

@@ -67,5 +67,10 @@ namespace MPC.Interfaces.MISServices
         /// Used in Products
         /// </summary>
         MachineSearchResponse GetMachines(MachineSearchRequestModel request);
+
+        /// <summary>
+        /// Clone Product
+        /// </summary>
+        Item CloneProduct(long itemId);
     }
 }

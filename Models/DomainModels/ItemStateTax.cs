@@ -1,4 +1,6 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System;
+
+namespace MPC.Models.DomainModels
 {
     /// <summary>
     /// Item State Tax Domain Model
@@ -14,5 +16,24 @@
         public virtual Item Item { get; set; }
         public virtual Country Country { get; set; }
         public virtual State State { get; set; }
+
+        #region Public
+
+        /// <summary>
+        /// Creates a copy of entity
+        /// </summary>
+        public void Clone(ItemStateTax target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemStateTaxClone_InvalidItem, "target");
+            }
+
+            target.CountryId = CountryId;
+            target.StateId = StateId;
+            target.TaxRate = TaxRate;
+        }
+
+        #endregion
     }
 }

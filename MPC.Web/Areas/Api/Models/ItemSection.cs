@@ -21,5 +21,7 @@
         public int? GuillotineId { get; set; }
         public int? PressId { get; set; }
         public long? StockItemId1 { get; set; }
+        public string StockItem1Name { get; set; }
+        public string PressName { get; set; }
     }
 }
