@@ -93,6 +93,9 @@ namespace MPC.MIS.Areas.Api.Models
         public long? BussinessAddressId { get; set; }
         public string FileName { get; set; }
 
+        public Address BussinessAddress { get; set; }
+        public Address ShippingAddress { get; set; }
+
         /// <summary>
         /// File Bytes
         /// </summary>

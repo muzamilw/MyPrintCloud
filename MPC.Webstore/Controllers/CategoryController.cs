@@ -188,8 +188,8 @@ namespace MPC.Webstore.Controllers
                                 ProductPriceMatrixViewModel ppm = new ProductPriceMatrixViewModel();
                                 ppm.Quantity = Quantity;
                                 ppm.ItemID = (int)product.ItemId;
-                                if (!string.IsNullOrEmpty(Price))
-                                    ppm.Price = Convert.ToDouble(Price);
+
+                                ppm.Price = StoreBaseResopnse.Currency + Price;
                                 //if (!string.IsNullOrEmpty(DPrice))
                                 //    ppm.DiscountPrice = Convert.ToDouble(DPrice);
 
@@ -264,17 +264,14 @@ namespace MPC.Webstore.Controllers
                                     //{
                                     //    SecPricetr.Visible = false;
                                     //}
-                                    Price = StoreBaseResopnse.Currency + Price;
+                                  //  Price = StoreBaseResopnse.Currency + Price;
 
                                     ProductPriceMatrixViewModel ppm = new ProductPriceMatrixViewModel();
                                     ppm.Quantity = Quantity;
                                     ppm.ItemID = (int)product.ItemId;
-                                    if (!string.IsNullOrEmpty(Price))
-                                        ppm.Price = Convert.ToDouble(Price);
-                                    //if (!string.IsNullOrEmpty(DPrice))
-                                    //    ppm.DiscountPrice = Convert.ToDouble(DPrice);
-
-                                    //ppm.isDiscounted = isDiscounted;
+                                    //if (!string.IsNullOrEmpty(Price))
+                                    //    ppm.Price = Convert.ToDouble(Price);
+                                    ppm.Price = StoreBaseResopnse.Currency + ppm.Price;
                                     ProductPriceMatrix.Add(ppm);
 
                                     ViewData["PriceMatrix"] = ProductPriceMatrix;

@@ -13,6 +13,11 @@
         /// <summary>
         /// Inventory
         /// </summary>
-        Inventory = 23
+        Inventory = 23,
+
+        /// <summary>
+        /// Customers
+        /// </summary>
+        Customers = 17
     }
 }

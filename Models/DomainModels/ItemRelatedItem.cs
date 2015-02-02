@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MPC.Models.DomainModels
 {
@@ -14,5 +10,22 @@ namespace MPC.Models.DomainModels
 
         public virtual Item Item { get; set; }
         public virtual Item RelatedItem { get; set; }
+
+        #region Public
+
+        /// <summary>
+        /// Creates Copy of Entity
+        /// </summary>
+        public void Clone(ItemRelatedItem target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ProductCategoryItemClone_InvalidItem, "target");
+            }
+
+            target.RelatedItemId = RelatedItemId;
+        }
+
+        #endregion
     }
 }

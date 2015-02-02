@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
 {
@@ -56,6 +57,60 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<TemplateObject> TemplateObjects { get; set; }
         public virtual ICollection<TemplateColorStyle> TemplateColorStyles { get; set; }
         public virtual ICollection<TemplateFont> TemplateFonts { get; set; }
+
+        #region Additional Properties
+
+        /// <summary>
+        /// File in Base64
+        /// </summary>
+        [NotMapped]
+        public string FileSource { get; set; }
+
+        /// <summary>
+        /// File Name
+        /// </summary>
+        [NotMapped]
+        public string FileName { get; set; }
+
+        /// <summary>
+        /// File Source Bytes - byte[] representation of Base64 string FileSource
+        /// </summary>
+        public byte[] FileSourceBytes
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(FileSource))
+                {
+                    return null;
+                }
+
+                int firtsAppearingCommaIndex = FileSource.IndexOf(',');
+
+                if (firtsAppearingCommaIndex < 0)
+                {
+                    return null;
+                }
+
+                if (FileSource.Length < firtsAppearingCommaIndex + 1)
+                {
+                    return null;
+                }
+
+                string sourceSubString = FileSource.Substring(firtsAppearingCommaIndex + 1);
+
+                try
+                {
+                    return Convert.FromBase64String(sourceSubString.Trim('\0'));
+                }
+                catch (FormatException)
+                {
+                    return null;
+                }
+            }
+        }
+
+        #endregion
+
     }
 
 }

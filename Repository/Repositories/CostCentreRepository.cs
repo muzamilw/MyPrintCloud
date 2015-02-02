@@ -661,6 +661,10 @@ namespace MPC.Repository.Repositories
             
 
         }
+        public IEnumerable<CostCentre> GetAllCompanyCentersByOrganisationId()
+        {
+            return DbSet.Where(x => x.OrganisationId == OrganisationId && x.isPublished == true).ToList();
+        }
         #endregion
 
         #region "CostCentre Template"

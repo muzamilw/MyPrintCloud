@@ -7,7 +7,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
     using DomainModels = MPC.Models.ResponseModels;
 
     /// <summary>
-    /// Item Vdp Price Mapper
+    /// Item Base Response WebApi Mapper
     /// </summary>
     public static class ItemBaseResponseMapper
     {
@@ -23,7 +23,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Countries = source.Countries != null ? source.Countries.Select(cc => cc.CreateFrom()) : new List<Country>(),
                 States = source.States != null ? source.States.Select(cc => cc.CreateFrom()) : new List<State>(),
                 Suppliers = source.Suppliers != null ? source.Suppliers.Select(cc => cc.CreateFromForInventory()) : new List<SupplierForInventory>(),
-                ProductCategories = source.ProductCategories != null ? source.ProductCategories.Select(cc => cc.CreateFromDropDown()) : new List<ProductCategoryDropDown>()
+                ProductCategories = source.ProductCategories != null ? source.ProductCategories.Select(cc => cc.CreateFromDropDown()) : 
+                new List<ProductCategoryDropDown>(),
+                PaperSizes = source.PaperSizes != null ? source.PaperSizes.Select(cc => cc.CreateFromDropDown()) :
+                new List<PaperSizeDropDown>()
             };
         }
         

@@ -52,7 +52,6 @@ namespace MPC.Implementation.MISServices
         private readonly IItemStockOptionRepository itemStockOptionRepository;
         private readonly IPrefixRepository prefixRepository;
         private readonly IItemVdpPriceRepository itemVdpPriceRepository;
-        //
         private readonly IItemVideoRepository itemVideoRepository;
         private readonly IItemRelatedItemRepository itemRelatedItemRepository;
         private readonly ITemplatePageRepository templatePageRepository;
@@ -67,7 +66,6 @@ namespace MPC.Implementation.MISServices
         private readonly ISectionFlagRepository sectionFlagRepository;
         private readonly IItemProductDetailRepository itemProductDetailRepository;
         private readonly ICompanyDomainRepository companyDomainRepository;
-
 
 
         /// <summary>
@@ -241,6 +239,48 @@ namespace MPC.Implementation.MISServices
                     companyCmykColorRepository.Update(companyCMYKColorsItem);
                 }
             }
+            #endregion
+            return company;
+        }
+        private Company UpdateCompanyCostCentersOfUpdatingCompany(Company company, Company companyDbVersion)
+        {
+
+            #region Company Cost Centers
+            //Add  Company Cost Centers
+            if (company.CompanyCostCentres != null)
+            {
+                List<CompanyCostCentre> newlist = company.CompanyCostCentres.Where(
+                    c => companyDbVersion.CompanyCostCentres.All(cc => cc.CostCentreId != c.CostCentreId)).ToList();
+                //List<CompanyCostCentre> missingItemsList = companyDbVersion.CompanyCostCentres.Where(
+                //    c => company.CompanyCostCentres.All(cc => cc.CostCentreId != c.CostCentreId)).ToList();
+                foreach (var item in newlist)
+                {
+                    item.CompanyId = company.CompanyId;
+                    item.OrganisationId = companyRepository.OrganisationId;
+                    companyDbVersion.CompanyCostCentres.Add(item);
+                }
+            }
+            if (company.CompanyCostCentres != null)
+            {
+                List<CompanyCostCentre> missingItemsList = companyDbVersion.CompanyCostCentres.Where(
+                    c => company.CompanyCostCentres.All(cc => cc.CostCentreId != c.CostCentreId)).ToList();
+                //remove missing items
+                foreach (CompanyCostCentre missingCompanyCostCentre in missingItemsList)
+                {
+                    CompanyCostCentre dbVersionMissingItem = companyDbVersion.CompanyCostCentres.First(x => x.CostCentreId == missingCompanyCostCentre.CostCentreId && x.CompanyId == missingCompanyCostCentre.CompanyId);
+                    companyDbVersion.CompanyCostCentres.Remove(dbVersionMissingItem);
+                }
+            }
+            else if (company.CompanyCostCentres == null && companyDbVersion.CompanyCostCentres != null && companyDbVersion.CompanyCostCentres.Count > 0)
+            {
+                List<CompanyCostCentre> lisRemoveAllItemsList = companyDbVersion.CompanyCostCentres.ToList();
+                foreach (CompanyCostCentre missingCompanyCostCentre in lisRemoveAllItemsList)
+                {
+                    CompanyCostCentre dbVersionMissingItem = companyDbVersion.CompanyCostCentres.First(x => x.CostCentreId == missingCompanyCostCentre.CostCentreId && x.CompanyId == missingCompanyCostCentre.CompanyId);
+                    companyDbVersion.CompanyCostCentres.Remove(dbVersionMissingItem);
+                }
+            }
+
             #endregion
             return company;
         }
@@ -713,7 +753,107 @@ namespace MPC.Implementation.MISServices
             }
             companyContactRepository.SaveChanges();
         }
-
+        //Territory
+        private void UpdateTerritories(CompanySavingModel companySavingModel, Company companyDbVersion)
+        {
+            //Add
+            if (companySavingModel.NewAddedCompanyTerritories != null)
+            {
+                if (companyDbVersion.CompanyTerritories == null)
+                {
+                    companyDbVersion.CompanyTerritories = new Collection<CompanyTerritory>();
+                }
+                foreach (var territory in companySavingModel.NewAddedCompanyTerritories)
+                {
+                    companyDbVersion.CompanyTerritories.Add(territory);
+                }
+            }
+            //Edit
+            if (companySavingModel.EdittedCompanyTerritories != null)
+            {
+                foreach (var territory in companySavingModel.EdittedCompanyTerritories)
+                {
+                    companyTerritoryRepository.Update(territory);
+                }
+            }
+            //Delete
+            if (companySavingModel.DeletedCompanyTerritories != null)
+            {
+                foreach (var territory in companySavingModel.DeletedCompanyTerritories)
+                {
+                    companyDbVersion.CompanyTerritories.Remove(territory);
+                    companyTerritoryRepository.Delete(territory);
+                }
+            }
+        }
+        //Address
+        private void UpdateAddresses(CompanySavingModel companySavingModel, Company companyDbVersion)
+        {
+            //Add
+            if (companySavingModel.NewAddedAddresses != null)
+            {
+                if (companyDbVersion.Addresses == null)
+                {
+                    companyDbVersion.Addresses = new Collection<Address>();
+                }
+                foreach (var address in companySavingModel.NewAddedAddresses)
+                {
+                    address.OrganisationId = addressRepository.OrganisationId;
+                    companyDbVersion.Addresses.Add(address);
+                }
+            }
+            //Edit
+            if (companySavingModel.EdittedAddresses != null)
+            {
+                foreach (var address in companySavingModel.EdittedAddresses)
+                {
+                    addressRepository.Update(address);
+                }
+            }
+            //Delete
+            if (companySavingModel.DeletedAddresses != null)
+            {
+                foreach (var address in companySavingModel.DeletedAddresses)
+                {
+                    companyDbVersion.Addresses.Remove(address);
+                    addressRepository.Delete(address);
+                }
+            }
+        }
+        //Company Contact
+        private void UpdateCompanyContacts(CompanySavingModel companySavingModel, Company companyDbVersion)
+        {
+            //Add
+            if (companySavingModel.NewAddedCompanyContacts != null)
+            {
+                if (companyDbVersion.CompanyContacts == null)
+                {
+                    companyDbVersion.CompanyContacts = new Collection<CompanyContact>();
+                }
+                foreach (var companyContacts in companySavingModel.NewAddedCompanyContacts)
+                {
+                    companyContacts.OrganisationId = companyContactRepository.OrganisationId;
+                    companyDbVersion.CompanyContacts.Add(companyContacts);
+                }
+            }
+            //Edit
+            if (companySavingModel.EdittedCompanyContacts != null)
+            {
+                foreach (var companyContact in companySavingModel.EdittedCompanyContacts)
+                {
+                    companyContactRepository.Update(companyContact);
+                }
+            }
+            //Delete
+            if (companySavingModel.DeletedCompanyContacts != null)
+            {
+                foreach (var companyContact in companySavingModel.DeletedCompanyContacts)
+                {
+                    companyDbVersion.CompanyContacts.Remove(companyContact);
+                    companyContactRepository.Delete(companyContact);
+                }
+            }
+        }
         /// <summary>
         /// Update Company
         /// </summary>
@@ -724,12 +864,17 @@ namespace MPC.Implementation.MISServices
             var companyToBeUpdated = UpdateRaveReviewsOfUpdatingCompany(companySavingModel.Company);
             companyToBeUpdated = UpdatePaymentGatewaysOfUpdatingCompany(companyToBeUpdated);
             companyToBeUpdated = UpdateCmykColorsOfUpdatingCompany(companyToBeUpdated, companyDbVersion);
+            companyToBeUpdated = UpdateCompanyCostCentersOfUpdatingCompany(companyToBeUpdated, companyDbVersion);
             companyToBeUpdated = UpdateCompanyDomain(companyToBeUpdated);
-            //
-            UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
-            UpdateAddressOfUpdatingCompany(companySavingModel);
+
+            UpdateTerritories(companySavingModel, companyDbVersion);
+            UpdateAddresses(companySavingModel, companyDbVersion);
+            UpdateCompanyContacts(companySavingModel, companyDbVersion);
+            //UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
+            //UpdateAddressOfUpdatingCompany(companySavingModel);
+            //UpdateCompanyContactOfUpdatingCompany(companySavingModel);
             UpdateProductCategoriesOfUpdatingCompany(companySavingModel, productCategories);
-            UpdateCompanyContactOfUpdatingCompany(companySavingModel);
+            
             UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);
             UpdateCampaigns(companySavingModel.Company.Campaigns, companyDbVersion);
             UpdateCmsSkinPageWidget(companySavingModel.CmsPageWithWidgetList, companyDbVersion);
@@ -757,10 +902,54 @@ namespace MPC.Implementation.MISServices
             SaveCompanyBannerImages(companySavingModel.Company);
             SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
             UpdateSecondaryPageImagePath(companySavingModel, companyDbVersion);
+            UpdateCampaignImages(companySavingModel.Company.Campaigns, companyDbVersion);
             companyRepository.SaveChanges();
             return companySavingModel.Company;
         }
 
+        public void UpdateCampaignImages(IEnumerable<Campaign> campaigns, Company companyDbVersion)
+        {
+            if (campaigns != null)
+            {
+                foreach (var campaign in campaigns)
+                {
+                    if (campaign.CampaignImages != null)
+                    {
+                        foreach (var campaignImage in campaign.CampaignImages)
+                        {
+                            campaignImage.ImagePath = SaveCampaignImage(campaignImage, companyDbVersion.CompanyId);
+
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Save Campaign Image
+        /// </summary>
+        private string SaveCampaignImage(CampaignImage campaignImage, long companyId)
+        {
+            if (campaignImage.ImageByteSource != null)
+            {
+                string base64 = campaignImage.ImageByteSource.Substring(campaignImage.ImageByteSource.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyId + "/CampaignImages");
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+
+                string savePath = directoryPath + "\\" + campaignImage.CampaignImageId + ".png";
+                if (!File.Exists(savePath))
+                {
+                    File.WriteAllBytes(savePath, data);
+                }
+                return savePath;
+            }
+            return null;
+        }
         private void UpdateContactProfileImage(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
             if (companySavingModel.NewAddedCompanyContacts != null)
@@ -1206,7 +1395,7 @@ namespace MPC.Implementation.MISServices
 
         }
         /// <summary>
-        /// 
+        /// Update Campaigns
         /// </summary>
         private void UpdateCampaigns(IEnumerable<Campaign> campaigns, Company companyDbVersion)
         {
@@ -1220,6 +1409,7 @@ namespace MPC.Implementation.MISServices
                 }
                 foreach (var campaign in campaigns)
                 {
+                    #region Campaign
                     //New Added
                     if (campaign.CampaignId == 0)
                     {
@@ -1232,21 +1422,53 @@ namespace MPC.Implementation.MISServices
                             companyDbVersion.Campaigns.FirstOrDefault(c => c.CampaignId == campaign.CampaignId);
                         if (campaignDbItem != null)
                         {
-                            if (campaign.CampaignName != campaignDbItem.CampaignName ||
-                                campaign.EmailEvent != campaignDbItem.EmailEvent
-                                || campaign.IsEnabled != campaignDbItem.IsEnabled ||
-                                campaign.SendEmailAfterDays != campaignDbItem.SendEmailAfterDays
-                                || campaign.StartDateTime != campaignDbItem.StartDateTime)
+                            campaignDbItem.CampaignName = campaign.CampaignName;
+                            campaignDbItem.Description = campaign.Description;
+                            campaignDbItem.CampaignType = campaign.CampaignType;
+                            campaignDbItem.IsEnabled = campaign.IsEnabled;
+                            campaignDbItem.IncludeCustomers = campaign.IncludeCustomers;
+                            campaignDbItem.IncludeSuppliers = campaign.IncludeSuppliers;
+                            campaignDbItem.IncludeProspects = campaign.IncludeProspects;
+                            campaignDbItem.IncludeNewsLetterSubscribers = campaign.IncludeNewsLetterSubscribers;
+                            campaignDbItem.IncludeFlag = campaign.IncludeFlag;
+                            campaignDbItem.FlagIDs = campaign.FlagIDs;
+                            campaignDbItem.CustomerTypeIDs = campaign.CustomerTypeIDs;
+                            campaignDbItem.GroupIDs = campaign.GroupIDs;
+                            campaignDbItem.SubjectA = campaign.SubjectA;
+                            campaignDbItem.HTMLMessageA = campaign.HTMLMessageA;
+                            campaignDbItem.StartDateTime = campaign.StartDateTime;
+                            campaignDbItem.FromAddress = campaign.FromAddress;
+                            campaignDbItem.ReturnPathAddress = campaign.ReturnPathAddress;
+                            campaignDbItem.ReplyToAddress = campaign.ReplyToAddress;
+                            campaignDbItem.EmailLogFileAddress2 = campaign.EmailLogFileAddress2;
+                            campaignDbItem.EmailEvent = campaign.EmailEvent;
+                            campaignDbItem.SendEmailAfterDays = campaign.SendEmailAfterDays;
+                            campaignDbItem.FromName = campaign.FromName;
+                            campaignDbItem.IncludeType = campaign.IncludeType;
+                            campaignDbItem.IncludeCorporateCustomers = campaign.IncludeCorporateCustomers;
+                            campaignDbItem.EnableLogFiles = campaign.EnableLogFiles;
+                            campaignDbItem.EmailLogFileAddress3 = campaign.EmailLogFileAddress3;
+                        }
+                    }
+
+                    #endregion
+
+                    #region Campain Image
+
+                    if (campaign.CampaignImages != null)
+                    {
+                        foreach (var campaignImage in campaign.CampaignImages)
+                        {
+                            Campaign campaignDbItem =
+                            companyDbVersion.Campaigns.FirstOrDefault(c => c.CampaignId == campaign.CampaignId);
+                            if (campaignImage.CampaignImageId == 0 && campaignDbItem != null)
                             {
-                                campaignDbItem.CampaignName = campaign.CampaignName;
-                                campaignDbItem.EmailEvent = campaign.EmailEvent;
-                                campaignDbItem.IsEnabled = campaign.IsEnabled;
-                                campaignDbItem.StartDateTime = campaign.StartDateTime;
-                                campaignDbItem.SendEmailAfterDays = campaign.SendEmailAfterDays;
-                                campaignDbItem.CampaignType = campaign.CampaignType;
+                                campaignImage.CampaignId = campaignDbItem.CampaignId;
+                                campaignDbItem.CampaignImages.Add(campaignImage);
                             }
                         }
                     }
+                    #endregion
                 }
             }
 
@@ -1950,10 +2172,11 @@ namespace MPC.Implementation.MISServices
                        CompanyContactRoles = companyContactRoleRepository.GetAll(),
                        PageCategories = pageCategoryRepository.GetCmsSecondaryPageCategories(),
                        RegistrationQuestions = registrationQuestionRepository.GetAll(),
-                       Addresses = addressRepository.GetAllDefaultAddressByStoreID(storeId),
+                       Addresses = addressRepository.GetAllAddressByStoreId(storeId),
                        PaymentMethods = paymentMethodRepository.GetAll().ToList(),
                        EmailEvents = emailEventRepository.GetAll(),
                        Widgets = widgetRepository.GetAll(),
+                       CostCentres = costCentreRepository.GetAllCompanyCentersByOrganisationId().ToList()//GetAllCompanyCentersByCompanyId
                    };
         }
         public CompanyBaseResponse GetBaseDataForNewCompany()

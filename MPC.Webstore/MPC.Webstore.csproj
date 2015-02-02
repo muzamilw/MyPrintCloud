@@ -273,6 +273,9 @@
     <Compile Include="Areas\DesignerApi\DesignerApiAreaRegistration.cs" />
     <Compile Include="Areas\Designer\Controllers\DesignerController.cs" />
     <Compile Include="Areas\Designer\DesignerAreaRegistration.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\CostCenterController.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\RealEstateController.cs" />
+    <Compile Include="Areas\WebstoreApi\WebstoreApiAreaRegistration.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\CostCentreTemplate.cs" />
     <Compile Include="Common\UserCookieManager.cs" />
@@ -540,6 +543,7 @@
     <Content Include="Areas\Designer\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Designer\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Designer\Views\Designer\Index.cshtml" />
+    <Content Include="Areas\WebstoreApi\Views\web.config" />
     <None Include="Properties\PublishProfiles\MPCPublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Designer\jCanvaScript.1.5.14.min.js" />
@@ -673,12 +677,8 @@
     <Folder Include="Areas\DesignerApi\Models\" />
     <Folder Include="Areas\DesignerApi\Views\Shared\" />
     <Folder Include="Areas\Designer\Models\" />
-    <Folder Include="Views\RealEstateFooter\" />
-    <Folder Include="Views\RealEstateImageSlider\" />
-    <Folder Include="Views\ContactDetail\" />
-    <Folder Include="Views\OrderConfirmation\" />
-    <Folder Include="Views\RealEstateProducts\" />
-    <Folder Include="Views\RealEstateSmartForm\" />
+    <Folder Include="Areas\WebstoreApi\Models\" />
+    <Folder Include="Areas\WebstoreApi\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

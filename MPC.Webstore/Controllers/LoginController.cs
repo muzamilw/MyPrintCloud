@@ -158,53 +158,58 @@ namespace MPC.Webstore.Controllers
 
         private ActionResult VerifyUser(CompanyContact user, string ReturnUrl)
         {
-            if (user.isArchived.HasValue && user.isArchived.Value == true)
+            try
             {
-                ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultAddress", UserCookieManager.StoreId); // "Your account is archived.";
-                
-                return View("PartialViews/Login");
-            }
-            if (user.Company.IsDisabled == 1)
-            {
-                ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultAddress", UserCookieManager.StoreId); //"Your account is disabled. Please contact us for further information.";
-                return View("PartialViews/Login");
-            }
-            if (UserCookieManager.StoreMode == (int)StoreMode.Corp && user.isWebAccess == false)
-            {
-                ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultAddress", UserCookieManager.StoreId);  //"Your account does not have the web access enabled. Please contact your Order Manager.";
-                return View("PartialViews/Login");
-            }
-            else
-            {
-                UserCookieManager.isRegisterClaims = 1;
-                UserCookieManager.ContactFirstName = user.FirstName;
-                UserCookieManager.ContactLastName = user.LastName;
-                UserCookieManager.ContactCanEditProfile = user.CanUserEditProfile ?? false;
-                UserCookieManager.ShowPriceOnWebstore = user.IsPricingshown ?? true;
-                
-                UserCookieManager.Email = user.Email;
-
-                long Orderid = _ItemService.PostLoginCustomerAndCardChanges(0, user.CompanyId, user.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.OrganisationID);
-
-                if (ReturnUrl == "Social")
+                if (user.isArchived.HasValue && user.isArchived.Value == true)
                 {
-                    RedirectToLocal(ReturnUrl);
-                } 
+                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultAddress", UserCookieManager.StoreId); // "Your account is archived.";
+
+                    return View("PartialViews/Login");
+                }
+                if (user.Company.IsDisabled == 1)
+                {
+                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("DisabledAccount", UserCookieManager.StoreId); //"Your account is disabled. Please contact us for further information.";
+                    return View("PartialViews/Login");
+                }
+                if (UserCookieManager.StoreMode == (int)StoreMode.Corp && user.isWebAccess == false)
+                {
+                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("AccountHasNoWebAccess", UserCookieManager.StoreId);  //"Your account does not have the web access enabled. Please contact your Order Manager.";
+                    return View("PartialViews/Login");
+                }
                 else
                 {
-                    if (Orderid > 0)
-                    {
-                        UserCookieManager.TemporaryCompanyId = 0;
-                        Response.Redirect("/ShopCart/" + Orderid);
-                    }
-                    else 
-                    {
-                        Response.Redirect("/");
-                    }
-                }
-                return null;
-            }
+                    UserCookieManager.isRegisterClaims = 1;
+                    UserCookieManager.ContactFirstName = user.FirstName;
+                    UserCookieManager.ContactLastName = user.LastName;
+                    UserCookieManager.ContactCanEditProfile = user.CanUserEditProfile ?? false;
+                    UserCookieManager.ShowPriceOnWebstore = user.IsPricingshown ?? true;
 
+                    UserCookieManager.Email = user.Email;
+
+                    long Orderid = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.OrderId, user.CompanyId, user.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.OrganisationID);
+
+                    if (ReturnUrl == "Social")
+                    {
+                        RedirectToLocal(ReturnUrl);
+                    }
+                    else
+                    {
+                        if (Orderid > 0)
+                        {
+                            UserCookieManager.TemporaryCompanyId = 0;
+                            Response.Redirect("/ShopCart/" + Orderid);
+                        }
+                        else
+                        {
+                            Response.Redirect("/");
+                        }
+                    }
+                    return null;
+                }
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
         }
         private ActionResult RedirectToLocal(string returnUrl)
         {

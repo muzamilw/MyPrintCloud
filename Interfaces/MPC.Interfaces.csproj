@@ -65,13 +65,17 @@
     <Compile Include="Common\ICostCentreLoader.cs" />
     <Compile Include="Data\AuthorizationCheckRequest.cs" />
     <Compile Include="Data\SecurityAccessRight.cs" />
+    <Compile Include="MISServices\IAddressService.cs" />
     <Compile Include="MISServices\IAuthorizationChecker.cs" />
+    <Compile Include="MISServices\ICampaignService.cs" />
     <Compile Include="MISServices\ICategoryService.cs" />
     <Compile Include="MISServices\IClaimsSecurityService.cs" />
     <Compile Include="MISServices\ICompanyService.cs" />
+    <Compile Include="MISServices\ICompanyTerritoryService.cs" />
     <Compile Include="MISServices\IItemService.cs" />
     <Compile Include="MISServices\IInventoryService.cs" />
     <Compile Include="MISServices\ICostCentersService.cs" />
+    <Compile Include="MISServices\IMachineService.cs" />
     <Compile Include="MISServices\IPhraseLibraryService.cs" />
     <Compile Include="MISServices\IPrefixService.cs" />
     <Compile Include="MISServices\IStockCategoryService.cs" />
@@ -90,7 +94,9 @@
     <Compile Include="Repository\IFavoriteDesignRepository.cs" />
     <Compile Include="Repository\IGetItemsListViewRepository.cs" />
     <Compile Include="Repository\IGlobalLanguageRepository.cs" />
+    <Compile Include="Repository\IGroupRepository.cs" />
     <Compile Include="Repository\IImagePermissionsRepository.cs" />
+    <Compile Include="Repository\IItemSectionRepository.cs" />
     <Compile Include="Repository\IItemAttachmentRepository.cs" />
     <Compile Include="Repository\IIProductCategoryItemRepository.cs" />
     <Compile Include="Repository\IItemStateTaxRepository.cs" />
@@ -102,6 +108,7 @@
     <Compile Include="Repository\IItemPriceMatrixRepository.cs" />
     <Compile Include="Repository\IItemProductDetailRepository.cs" />
     <Compile Include="Repository\IListingRepository.cs" />
+    <Compile Include="Repository\IMachineRepository.cs" />
     <Compile Include="Repository\IOrganisationFileTableViewRepository.cs" />
     <Compile Include="Repository\IMpcFileTableViewRepository.cs" />
     <Compile Include="Repository\IOrderRepository.cs" />
@@ -111,6 +118,7 @@
     <Compile Include="Repository\IPhraseRespository.cs" />
     <Compile Include="Repository\IProductCategoryFileTableViewRepository.cs" />
     <Compile Include="Repository\IStateRepository.cs" />
+    <Compile Include="Repository\ICostCenterTypeRepository.cs" />
     <Compile Include="Repository\ITemplateBackgroundImagesRepository.cs" />
     <Compile Include="Repository\ITemplateColorStylesRepository.cs" />
     <Compile Include="Repository\ITemplateFontsRepository.cs" />
@@ -165,7 +173,6 @@
     <Compile Include="Repository\IOrganisationRepository.cs" />
     <Compile Include="Repository\ICompanyRepository.cs" />
     <Compile Include="Repository\IMarkupRepository.cs" />
-    <Compile Include="Repository\IPaperSheetRepository.cs" />
     <Compile Include="Repository\ITaxRateRepository.cs" />
     <Compile Include="WebStoreServices\IOrderService.cs" />
     <Compile Include="WebStoreServices\IItemService.cs" />
@@ -183,6 +190,10 @@
     <ProjectReference Include="..\Models\MPC.Models.csproj">
       <Project>{81067904-2176-4648-87AB-014B0D76B85E}</Project>
       <Name>MPC.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPC.Common\MPC.Common.csproj">
+      <Project>{4ba9e712-f447-4a6b-bae6-18eeb43087c6}</Project>
+      <Name>MPC.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

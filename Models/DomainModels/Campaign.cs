@@ -14,6 +14,7 @@ namespace MPC.Models.DomainModels
         public bool? IncludeCustomers { get; set; }
         public bool? IncludeSuppliers { get; set; }
         public bool? IncludeProspects { get; set; }
+        public bool? IncludeNewsLetterSubscribers { get; set; }
         public bool? IncludeKeyword { get; set; }
         public string SearchKeyword { get; set; }
         public bool? IncludeType { get; set; }

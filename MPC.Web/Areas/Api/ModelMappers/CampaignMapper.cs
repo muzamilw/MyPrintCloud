@@ -1,5 +1,7 @@
-﻿using MPC.MIS.Areas.Api.Models;
+﻿using System.Linq;
+using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
+using ResponseModels = MPC.Models.ResponseModels;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
@@ -18,11 +20,32 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 CampaignId = source.CampaignId,
                 CampaignName = source.CampaignName,
-                EmailEvent = source.EmailEvent,
-                IsEnabled = source.IsEnabled,
-                StartDateTime = source.StartDateTime,
-                SendEmailAfterDays = source.SendEmailAfterDays,
+                Description = source.Description,
                 CampaignType = source.CampaignType,
+                IsEnabled = source.IsEnabled,
+                IncludeCustomers = source.IncludeCustomers,
+                IncludeSuppliers = source.IncludeSuppliers,
+                IncludeProspects = source.IncludeProspects,
+                IncludeNewsLetterSubscribers = source.IncludeNewsLetterSubscribers,
+                IncludeFlag = source.IncludeFlag,
+                FlagIDs = source.FlagIDs,
+                CustomerTypeIDs = source.CustomerTypeIDs,
+                GroupIDs = source.GroupIDs,
+                SubjectA = source.SubjectA,
+                HTMLMessageA = source.HTMLMessageA,
+                FromAddress = source.FromAddress,
+                ReturnPathAddress = source.ReturnPathAddress,
+                ReplyToAddress = source.ReplyToAddress,
+                EmailLogFileAddress2 = source.EmailLogFileAddress2,
+                EmailEvent = source.EmailEvent,
+                SendEmailAfterDays = source.SendEmailAfterDays,
+                FromName = source.FromName,
+                IncludeType = source.IncludeType,
+                IncludeCorporateCustomers = source.IncludeCorporateCustomers,
+                EnableLogFiles = source.EnableLogFiles,
+                EmailLogFileAddress3 = source.EmailLogFileAddress3,
+                StartDateTime = source.StartDateTime,
+                CampaignImages = source.CampaignImages != null ? source.CampaignImages.Select(ci => ci.CreateFrom()).ToList() : null,
                 EventName = source.CampaignEmailEvent != null ? source.CampaignEmailEvent.EventName : null,
             };
         }
@@ -36,14 +59,49 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 CampaignId = source.CampaignId,
                 CampaignName = source.CampaignName,
-                EmailEvent = source.EmailEvent,
+                Description = source.Description,
+                CampaignType = source.CampaignType,
                 IsEnabled = source.IsEnabled,
+                IncludeCustomers = source.IncludeCustomers,
+                IncludeSuppliers = source.IncludeSuppliers,
+                IncludeProspects = source.IncludeProspects,
+                IncludeNewsLetterSubscribers = source.IncludeNewsLetterSubscribers,
+                IncludeFlag = source.IncludeFlag,
+                FlagIDs = source.FlagIDs,
+                CustomerTypeIDs = source.CustomerTypeIDs,
+                GroupIDs = source.GroupIDs,
+                SubjectA = source.SubjectA,
+                HTMLMessageA = source.HTMLMessageA,
+                FromAddress = source.FromAddress,
+                ReturnPathAddress = source.ReturnPathAddress,
+                ReplyToAddress = source.ReplyToAddress,
+                EmailLogFileAddress2 = source.EmailLogFileAddress2,
+                EmailEvent = source.EmailEvent,
                 StartDateTime = source.StartDateTime,
                 SendEmailAfterDays = source.SendEmailAfterDays,
-                CampaignType = source.CampaignType,
+                FromName = source.FromName,
+                IncludeType = source.IncludeType,
+                IncludeCorporateCustomers = source.IncludeCorporateCustomers,
+                EnableLogFiles = source.EnableLogFiles,
+                EmailLogFileAddress3 = source.EmailLogFileAddress3,
+                CampaignImages = source.CampaignImages != null ? source.CampaignImages.Select(ci => ci.CreateFrom()).ToList() : null
+
             };
         }
 
+        /// <summary>
+        ///  Crete From Domain Model
+        /// </summary>
+        public static CampaignBaseResponse CreateFrom(this ResponseModels.CampaignBaseResponse source)
+        {
+            return new CampaignBaseResponse()
+            {
+                CompanyTypes = source.CompanyTypes.Select(ct => ct.CreateFrom()).ToList(),
+                Groups = source.Groups.Select(g => g.CreateFrom()).ToList(),
+                SectionFlags = source.SectionFlags.Select(g => g.CreateFromDropDown()).ToList(),
+                CampaignSections = source.CampaignSections.Select(g => g.CreateFromCampaign()).ToList()
+            };
+        }
         #endregion
     }
 }

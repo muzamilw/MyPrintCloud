@@ -535,7 +535,7 @@ namespace MPC.Repository.Repositories
 				s =>
 					(isSearchFilterSpecified && (s.Email.Contains(request.SearchFilter)) ||
 					 (s.quickCompanyName.Contains(request.SearchFilter)) ||
-					 !isSearchFilterSpecified) && s.CompanyId == request.CompanyId && s.OrganisationId == OrganisationId;
+                     !isSearchFilterSpecified) && s.CompanyId == request.CompanyId;//&& s.OrganisationId == OrganisationId
 
 			int rowCount = DbSet.Count(query);
 			// ReSharper disable once ConditionalTernaryEqualBranch

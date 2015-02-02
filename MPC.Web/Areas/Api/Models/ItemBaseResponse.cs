@@ -35,6 +35,11 @@ namespace MPC.MIS.Areas.Api.Models
         /// <summary>
         /// Parent Product Categories
         /// </summary>
-        public IEnumerable<ProductCategoryDropDown> ProductCategories { get; set; } 
+        public IEnumerable<ProductCategoryDropDown> ProductCategories { get; set; }
+
+        /// <summary>
+        /// Paper Sizes
+        /// </summary>
+        public IEnumerable<PaperSizeDropDown> PaperSizes { get; set; }
     }
 }
