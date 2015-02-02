@@ -197,16 +197,16 @@ function ConfirmRemove(Path)
  
     window.location.href = Path;
 }
-function DesignNow(callFrom)
+function DesignNow(callFrom,EditType,ItemID,TemplateID,TemplateName,ProductName)
 {
     if (callFrom == "1") // resume
     {
-        window.location.href = "/EditDesign/Resume";
+        window.location.href = "/EditDesign/resume/" + EditType + "/" + ItemID + "/" + TemplateID + "/"  + TemplateName + "/" + ProductName;
         
     }
     else // create new 
     {
-        window.location.href = "/EditDesign/new";
+        window.location.href = "/EditDesign/new" + EditType + "/" + ItemID + "/" + TemplateID + "/" + TemplateName + "/" + ProductName;
     }
     
 }
