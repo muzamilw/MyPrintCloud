@@ -2106,7 +2106,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Item Section Entity
     ItemSection = function (specifiedId, specifiedSectionNo, specifiedSectionName, specifiedSectionSizeId, specifiedItemSizeId, specifiedIsSectionSizeCustom,
         specifiedSectionSizeHeight, specifiedSectionSizeWidth, specifiedIsItemSizeCustom, specifiedItemSizeHeight, specifiedItemSizeWidth,
-        specifiedPressId, specifiedStockItemId, specifiedItemId) {
+        specifiedPressId, specifiedStockItemId, specifiedStockItemName, specifiedPressName, specifiedItemId) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
@@ -2115,11 +2115,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Stock Item Id
             stockItemId = ko.observable(specifiedStockItemId || undefined).extend({ required: true }),
             // Stock Item Name
-            stockItemName = ko.observable(),
+            stockItemName = ko.observable(specifiedStockItemName || undefined),
             // Press Id
             pressId = ko.observable(specifiedPressId || undefined).extend({ required: true }),
             // Press Name
-            pressName = ko.observable(),
+            pressName = ko.observable(specifiedPressName || undefined),
             // section size id
             sectionSizeId = ko.observable(specifiedSectionSizeId || undefined),
             // Item size id
@@ -2988,7 +2988,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     ItemSection.Create = function (source) {
         var itemSection = new ItemSection(source.ItemSectionId, source.SectionNo, source.SectionName, source.SectionSizeId, source.ItemSizeId,
             source.IsSectionSizeCustom, source.SectionSizeHeight, source.SectionSizeWidth, source.IsItemSizeCustom, source.ItemSizeHeight,
-            source.ItemSizeWidth, source.PressId, source.StockItemId1, source.ItemId);
+            source.ItemSizeWidth, source.PressId, source.StockItemId1, source.StockItem1Name, source.PressName, source.ItemId);
 
         return itemSection;
     };
