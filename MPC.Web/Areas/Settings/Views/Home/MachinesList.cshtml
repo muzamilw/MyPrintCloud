@@ -83,17 +83,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="pagerDiv">
-                                        <ul class="pagination pull-right">
-                                            <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
-                                            <li><a href="#">1</a></li>
-                                            <li><a href="#">2</a></li>
-                                            <li><a href="#">3</a></li>
-                                            <li><a href="#">4</a></li>
-                                            <li><a href="#">5</a></li>
-                                            <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
-                                        </ul>
-                                    </div>
+                                    
 
                                 </div>
                             </div>
@@ -106,194 +96,20 @@
     @Html.Partial("~/Areas/Settings/Views/Home/MachinesDetail.cshtml")
 </div>
 <script id="itemMachineTemplate" type="text/html">
-    <tr >
-        @*<td data-bind="text:MachineName"></td>*@
-        
-        <td><a href="#" data-bind="text:MachineName, click: $root.onEditMachineItem" class="user-link"></a>
+    <tr data-bind="click: $root.selectItem, css: { selectedRow: $data === $root.selectedMachine}">
+        <td>
+            <a href="#" data-bind="text:MachineName, click: $root.onEditItem" class="user-link"></a>
             <span data-bind="text:Description" class="user-subhead machine-list-margin"></span>
-         </td>
-        <td ><span data-bind="text: maximumsheetwidth"> </span><span>*</span> <span data-bind="text: maximumsheetheight"> </span>  </td>
+        </td>
+        <td><span data-bind="text: maximumsheetwidth"> </span><span>*</span> <span data-bind="text: maximumsheetheight"> </span>  </td>
         <td><span data-bind="text: minimumsheetwidth"> </span><span>*</span> <span data-bind="text: minimumsheetheight"> </span>  </td>
-        
+        <td> &nbsp;</td>
         @*<td data-bind="text: CalculationMethod"></td>*@
         <td id="actionColumn"></td>
     </tr>
 </script>
-</script>
-@*@section Scripts {
-        <script src="~/Content/themes/Centaurus/js/jquery-ui.custom.min.js"></script>
-        <script src="~/Content/themes/Centaurus/js/bootstrap-wizard.js"></script>
-        <script src="~/Content/themes/Centaurus/js/select2.min.js"></script>
-        <script src="~/Content/themes/Centaurus/js/dropzone.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquery.magnific-popup.min.js"></script>
-        <script src="~/Content/themes/Centaurus/js/bootstrap-datepicker.js"></script>
-    <script src="~/Content/themes/Centaurus/js/daterangepicker.js"></script>
-    <script src="~/Content/themes/Centaurus/js/bootstrap-timepicker.min.js"></script>
-        <script src="~/Content/themes/Centaurus/js/fullcalendar.min.js"></script>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('.bs-example-tooltips a').popover();
-                $('#liplansettings').addClass('active');
 
 
-            });
-
-            function setServerName(card) {
-                var host = $("#new-server-fqdn").val();
-                var name = $("#new-server-name").val();
-                var displayName = host;
-
-                if (name) {
-                    displayName = name + " (" + host + ")";
-                };
-
-                card.wizard.setSubtitle(displayName);
-                card.wizard.el.find(".create-server-name").text(displayName);
-            }
-
-            function validateIP(ipaddr) {
-                //Remember, this function will validate only Class C IP.
-                //change to other IP Classes as you need
-                ipaddr = ipaddr.replace(/\s/g, "") //remove spaces for checking
-                var re = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/; //regex. check for digits and in
-                //all 4 quadrants of the IP
-                if (re.test(ipaddr)) {
-                    //split into units with dots "."
-                    var parts = ipaddr.split(".");
-                    //if the first unit/quadrant of the IP is zero
-                    if (parseInt(parseFloat(parts[0])) == 0) {
-                        return false;
-                    }
-                    //if the fourth unit/quadrant of the IP is zero
-                    if (parseInt(parseFloat(parts[3])) == 0) {
-                        return false;
-                    }
-                    //if any part is greater than 255
-                    for (var i = 0; i < parts.length; i++) {
-                        if (parseInt(parseFloat(parts[i])) > 255) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            }
-
-            function validateFQDN(val) {
-                return /^[a-z0-9-_]+(\.[a-z0-9-_]+)*\.([a-z]{2,4})$/.test(val);
-            }
-
-            function fqdn_or_ip(el) {
-                var val = el.val();
-                ret = {
-                    status: true
-                };
-                if (!validateFQDN(val)) {
-                    if (!validateIP(val)) {
-                        ret.status = false;
-                        ret.msg = "Invalid IP address or FQDN";
-                    }
-                }
-                return ret;
-            }
-
-
-            $(function () {
-
-                $('#sel2').select2();
-
-                $.fn.wizard.logging = false;
-
-                var wizard = $("#wizard-demo").wizard({
-                    showCancel: true
-                });
-
-                //$(".chzn-select").chosen();
-
-                wizard.el.find(".wizard-ns-select").change(function () {
-                    wizard.el.find(".wizard-ns-detail").show();
-                });
-
-                wizard.el.find(".create-server-service-list").change(function () {
-                    var noOption = $(this).find("option:selected").length == 0;
-                    wizard.getCard(this).toggleAlert(null, noOption);
-                });
-
-                wizard.cards["name"].on("validated", function (card) {
-                    var hostname = card.el.find("#new-server-fqdn").val();
-                });
-
-                wizard.on("submit", function (wizard) {
-                    var submit = {
-                        "hostname": $("#new-server-fqdn").val()
-                    };
-
-                    setTimeout(function () {
-                        wizard.trigger("success");
-                        wizard.hideButtons();
-                        wizard._submitting = false;
-                        wizard.showSubmitCard("success");
-                        wizard.updateProgressBar(0);
-                    }, 2000);
-                });
-
-                wizard.on("reset", function (wizard) {
-                    wizard.setSubtitle("");
-                    wizard.el.find("#new-server-fqdn").val("");
-                    wizard.el.find("#new-server-name").val("");
-                });
-
-                wizard.el.find(".wizard-success .im-done").click(function () {
-                    wizard.reset().close();
-                });
-
-                wizard.el.find(".wizard-success .create-another-server").click(function () {
-                    wizard.reset();
-                });
-
-                $(".wizard-group-list").click(function () {
-                    alert("Disabled for demo.");
-                });
-
-                $("#open-wizard").click(function () {
-                    wizard.show();
-                });
-
-
-
-                //wizard.show();
-            });
-
-            $(function () {
-                $('ul#gallery-photos').sortable({
-                    opacity: 0.6, cursor: 'move', update: function () {
-                        var order = $(this).sortable('serialize');
-                        $.post('/gallery-sortimages.html', order, function (theResponse) {
-
-                        });
-                    }
-                });
-
-
-                //datepicker
-
-
-                $(document).ready(function () {
-
-
-                    $('#gallery-photos-lightbox').magnificPopup({
-                        type: 'image',
-                        delegate: 'a',
-                        gallery: {
-                            enabled: true
-                        }
-                    });
-                });
-            });
-        </script>
-        }*@
 @section Scripts{
     <script src="~/Scripts/jquery.form.js"></script>
     <script>

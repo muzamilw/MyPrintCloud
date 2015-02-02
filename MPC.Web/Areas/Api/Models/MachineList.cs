@@ -17,7 +17,6 @@ namespace MPC.MIS.Areas.Api.Models
         public double? maximumsheetwidth { get; set; }
         public double? minimumsheetheight { get; set; }
         public double? minimumsheetwidth { get; set; }
-
         public byte[] Image { get; set; }
         public string ImageSource
         {

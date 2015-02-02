@@ -12,6 +12,7 @@
             maximumsheetheight = ko.observable(),
             minimumsheetwidth = ko.observable(),
             minimumsheetheight = ko.observable(),
+            maximumsheetweight=ko.observable(),
             errors = ko.validation.group({
                 name: MachineName,
                 type: MachineCatId,
@@ -45,7 +46,8 @@
             maximumsheetwidth:maximumsheetwidth,
             maximumsheetheight: maximumsheetheight,
             minimumsheetwidth: minimumsheetwidth,
-            minimumsheetheight:minimumsheetheight,
+            minimumsheetheight: minimumsheetheight,
+            maximumsheetweight: maximumsheetweight,
             reset: reset
         };
         return self;
@@ -63,6 +65,7 @@
         omachineList.maximumsheetheight(source.maximumsheetheight);
         omachineList.minimumsheetwidth(source.minimumsheetwidth);
         omachineList.minimumsheetheight(source.minimumsheetheight);
+        omachineList.maximumsheetweight(source.maximumsheetweight);
         return omachineList;
 
     };
@@ -77,6 +80,7 @@
         result.maximumsheetheight = source.maximumsheetheight;
         result.minimumsheetwidth = source.minimumsheetwidth;
         result.minimumsheetheight = source.minimumsheetheight;
+        result.maximumsheetweight = source.maximumsheetweight;
         return result;
     };
 

@@ -142,7 +142,7 @@ define("machine/machine.viewModel",
                     //    });
                     //},
                     //On Edit Click Of Machine
-                    onEditMachineItem = function (oMachine) {
+                    onEditItem = function (oMachine) {
                         errorList.removeAll();
                         // selectedMachine(oMachine);
                         dataservice.getMachineById({
@@ -161,7 +161,7 @@ define("machine/machine.viewModel",
                         });
                     },
                     openEditDialog = function () {
-                        view.showCostCenterDialog();
+                        view.showMachineDetail();
                     },
                     closeEditDialog = function () {
                         if (selectedMachine() != undefined) {
@@ -211,10 +211,10 @@ define("machine/machine.viewModel",
                     //saveCostCenter: saveCostCenter,
                     //saveNewCostCenter: saveNewCostCenter,
                     // saveEdittedCostCenter: saveEdittedCostCenter,
-                    //openEditDialog: openEditDialog,
-                    //closeEditDialog: closeEditDialog,
+                    openEditDialog: openEditDialog,
+                    closeEditDialog: closeEditDialog,
                     searchFilter: searchFilter,
-                    onEditMachineItem: onEditMachineItem,
+                    onEditItem: onEditItem,
                     initialize: initialize,
                     isEditorVisible: isEditorVisible,
                     closeMachineDetail: closeMachineDetail,
