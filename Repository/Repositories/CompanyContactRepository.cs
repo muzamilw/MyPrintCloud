@@ -304,7 +304,7 @@ namespace MPC.Repository.Repositories
 			Company.CreditLimit = 0;
 			Company.IsCustomer = Convert.ToInt16(CustomerType);
 		   
-			Company.SalesAndOrderManagerId1 = SaleAndOrderManagerID;
+			//Company.SalesAndOrderManagerId1 = SaleAndOrderManagerID;
 			Company.StoreId = StoreID;
 			Company.OrganisationId = OrganizationID;
 			//if (BrokerContactCompanyID != null)

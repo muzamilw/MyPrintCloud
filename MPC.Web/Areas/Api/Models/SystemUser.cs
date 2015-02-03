@@ -1,11 +1,10 @@
 ﻿using System;
-using MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.Models
 {
     public class SystemUser
     {
-        public int SystemUserId { get; set; }
+        public Guid SystemUserId { get; set; }
         public string UserName { get; set; }
         public string Description { get; set; }
         public int? OrganizationId { get; set; }
