@@ -7,6 +7,18 @@ namespace MPC.Implementation.MISServices
     public class CompanyContactService : ICompanyContactService
     {
          private readonly ICompanyContactRepository companyContactRepository;
+         private CompanyContact Create(CompanyContact companyContact)
+         {
+             companyContactRepository.Add(companyContact);
+             companyContactRepository.SaveChanges();
+             return companyContact;
+         }
+         private CompanyContact Update(CompanyContact companyContact)
+         {
+             companyContactRepository.Update(companyContact);
+             companyContactRepository.SaveChanges();
+             return companyContact;
+         }
         #region Constructor
 
          public CompanyContactService(ICompanyContactRepository companyContactRepository)
@@ -25,6 +37,14 @@ namespace MPC.Implementation.MISServices
                 return true;
             }
             return false;
+        }
+        public CompanyContact Save(CompanyContact companyContact)
+        {
+            if (companyContact.ContactId == 0)
+            {
+                return Create(companyContact);
+            }
+            return Update(companyContact);
         }
     }
 }

@@ -130,6 +130,14 @@
                         dataType: 'json',
                         type: 'DELETE'
                     });
+
+                    // Define request to Save Address
+                    amplify.request.define('saveAddress', 'ajax', {
+                        url: ist.siteUrl + '/Api/Address',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
                     // Define request to Delete Company Address
                     amplify.request.define('deleteCompanyAddress', 'ajax', {
                         url: ist.siteUrl + '/Api/Address',
@@ -358,6 +366,16 @@
                     data: param
                 });
             },
+         // Save Address
+            saveAddress = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'saveAddress',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
             // Delete Company Territory
             deleteCompanyTerritory = function (param, callbacks) {
                 initialize();
@@ -421,6 +439,7 @@
             validateCompanyToDelete: validateCompanyToDelete,
             validateAddressToDelete: validateAddressToDelete,
             saveCompanyTerritory: saveCompanyTerritory,
+            saveAddress: saveAddress,
             deleteCompanyTerritory: deleteCompanyTerritory,
             deleteCompanyAddress: deleteCompanyAddress,
             deleteCompanyContact: deleteCompanyContact

@@ -49,6 +49,14 @@ namespace MPC.MIS.Areas.Api.Controllers
                 RowCount = result.RowCount
             };
         }
+        public CompanyContact Post(CompanyContact companyContact)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+            return companyContactService.Save(companyContact.Createfrom()).CreateFrom();
+        }
         public bool Delete(CompanyContactDeleteModel request)
         {
             if (request == null || !ModelState.IsValid || request.CompanyContactId <= 0)
