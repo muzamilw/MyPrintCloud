@@ -188,11 +188,11 @@ namespace MPC.Repository.Repositories
             try
             {
                 var query = from sysUser in db.SystemUsers
-                            join resource in db.CostcentreResources on sysUser.SystemUserId equals resource.ResourceId
-                            where resource.CostCentreId == CostcentreID
+                            //join resource in db.CostcentreResources on sysUser.SystemUserId equals resource.ResourceId
+                            //where resource.CostCentreId == CostcentreID
                             select new CostCentreResource()
                             {
-                                ResourceId = resource.ResourceId ?? 0,
+                                //ResourceId = resource.ResourceId ?? 0,
                                 UserName = sysUser.UserName
                             };
 
@@ -726,7 +726,8 @@ namespace MPC.Repository.Repositories
             {
                 if (oCostPerHour == ResourceReturnType.CostPerHour)
                 {
-                    return Convert.ToDouble(db.SystemUsers.Where(s => s.SystemUserId == ResourceID).Select(c => c.CostPerHour).FirstOrDefault());
+                    return Convert.ToDouble(db.SystemUsers.Select(c => c.CostPerHour).FirstOrDefault());
+                    // db.SystemUsers.Where(s => s.SystemUserId == ResourceID)
                 }
                 else
                     return 0;
