@@ -85,6 +85,7 @@ namespace MPC.Repository.Repositories
             Expression<Func<Item, bool>> query =
                 item =>
                     ((string.IsNullOrEmpty(request.SearchString) || item.ProductName.Contains(request.SearchString)) &&
+                    (!request.CompanyId.HasValue || item.CompanyId == request.CompanyId) &&
                     item.OrganisationId == OrganisationId);
 
             IEnumerable<Item> items = request.IsAsc
@@ -108,19 +109,7 @@ namespace MPC.Repository.Repositories
             recordds = recordds.OrderBy(s => s.SortOrder).ToList();
             return recordds;
         }
-
-        //public ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId)
-        //{
-        //        if (CompanyId > 0)
-        //        {
-        //            return db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.CompanyId == CompanyId && i.OptionSequence == 1).FirstOrDefault();
-        //        }
-        //        else
-        //        {
-        //            return db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.CompanyId == null && i.OptionSequence == 1).FirstOrDefault();
-        //        }
-        //}
-
+        
         public ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId)
         {
             if (CompanyId > 0)
