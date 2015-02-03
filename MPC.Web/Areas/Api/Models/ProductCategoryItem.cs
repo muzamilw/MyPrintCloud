@@ -7,6 +7,7 @@
     {
         public long ProductCategoryItemId { get; set; }
         public long? CategoryId { get; set; }
+        public string CategoryName { get; set; }
         public long? ItemId { get; set; }
 
         /// <summary>

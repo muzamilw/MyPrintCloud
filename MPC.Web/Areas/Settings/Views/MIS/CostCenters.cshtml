@@ -31,8 +31,9 @@
                                     <thead>
                                         <tr id="ccList" class="span12">
                                             <th class="col-lg-3"><span>Name</span></th>
-                                            <th class="col-lg-5"><span>Description</span></th>
+                                            <th class="col-lg-4"><span>Description</span></th>
                                             <th class="col-lg-2"><span>Type</span></th>
+                                            <th class="col-lg-1"><span>Calculation</span></th>
                                             <th class="col-lg-2">&nbsp;</th>
                                         </tr>
                                     </thead>
@@ -72,15 +73,21 @@
                     <a href="#" data-bind="text: name,click : $root.onEditItem"></a>
                 </td>
                 <td data-bind="text: description"></td>
-                <td data-bind="text: typeName"></td>
-                @*<td>
-                        <!-- ko if: isDisabled() == 1 -->
-                        <span class="label label-danger">DeActive</span>
-                        <!-- /ko -->
-                        <!-- ko if: isDisabled() != 1 -->
-                        <span class="label label-success">Active</span>
-                        <!-- /ko -->
-                    </td>*@
+                <td data-bind="text: name"></td>
+                <td>
+                    <!-- ko if: calculationMethodType() == 1 -->
+                    <span class="label label-success">Fixed</span>
+                    <!-- /ko -->
+                    <!-- ko if: calculationMethodType() == 2 -->
+                    <span class="label label-default">Per Hour</span>
+                    <!-- /ko -->
+                    <!-- ko if: calculationMethodType() == 3 -->
+                    <span class="label label-default">Quantity Base</span>
+                    <!-- /ko -->
+                    <!-- ko if: calculationMethodType() == 4 -->
+                    <span class="label label-danger">Formula Base</span>
+                    <!-- /ko -->
+                    </td>
 
                 <td id="actionColumn">
                     <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->

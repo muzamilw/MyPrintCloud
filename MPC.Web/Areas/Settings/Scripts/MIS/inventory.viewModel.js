@@ -3,8 +3,8 @@
 */
 define("inventory/inventory.viewModel",
     ["jquery", "amplify", "ko", "inventory/inventory.dataservice", "inventory/inventory.model", "common/confirmation.viewModel", "common/pagination"
-        , "common/supplier.model", "common/supplier.viewModel"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination, supplierModel, supplierVm) {
+        , "common/supplier.model", "common/supplier.viewModel", "common/sharedNavigation.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, supplierModel, supplierVm, sharedNavigationVM) {
         var ist = window.ist || {};
         ist.inventory = {
             viewModel: (function () {
@@ -295,16 +295,16 @@ define("inventory/inventory.viewModel",
                         }
                     }, this),
                     //Call function for Save Invetry
-                    onSaveInventory = function (inventory) {
+                    onSaveInventory = function (callback) {
                         errorList.removeAll();
                         if (doBeforeSave() && doBeforeCostAndPrice()) {
-                            if (inventory.stockCostAndPriceListInInventory().length > 0) {
+                            if (selectedInventory().stockCostAndPriceListInInventory().length > 0) {
                                 inventory.stockCostAndPriceListInInventory.removeAll();
                             }
                             _.each(costPriceList(), function (item) {
-                                inventory.stockCostAndPriceListInInventory.push(item.convertToServerData());
+                                selectedInventory().stockCostAndPriceListInInventory.push(item.convertToServerData());
                             });
-                            saveInventory(inventory);
+                            saveInventory(callback);
                             supplierVm.selectedSupplier(undefined);
                         }
                     },
@@ -365,8 +365,8 @@ define("inventory/inventory.viewModel",
                         return flag;
                     },
                      // Save Inventory
-                    saveInventory = function (inventory) {
-                        dataservice.saveInventory(selectedInventory().convertToServerData(inventory), {
+                    saveInventory = function (callback) {
+                        dataservice.saveInventory(selectedInventory().convertToServerData(), {
                             success: function (data) {
                                 //For Add New
                                 if (selectedInventory().itemId() === 0) {
@@ -384,6 +384,9 @@ define("inventory/inventory.viewModel",
                                     selectedInventoryCopy().supplierCompanyName(data.SupplierCompanyName);
                                 }
                                 isInventoryEditorVisible(false);
+                                if (callback && typeof callback === "function") {
+                                    callback();
+                                }
                                 toastr.success("Successfully save.");
                             },
                             error: function (exceptionMessage, exceptionType) {
@@ -557,6 +560,8 @@ define("inventory/inventory.viewModel",
                         getBase();
                         pager(pagination.Pagination({ PageSize: 5 }, inventories, getInventoriesListItems));
                         getInventoriesListItems();
+                        sharedNavigationVM.selectedScreenItem(selectedInventory());
+                        sharedNavigationVM.saveFunctionCallback(function (saveCallback) { onSaveInventory(saveCallback) });
                     };
                 // #endregion Arrays
 

@@ -9,5 +9,11 @@ namespace MPC.Interfaces.MISServices
         /// <param name="addressId"></param>
         /// <returns></returns>
         Address Get(long addressId);
+        /// <summary>
+        /// Delete
+        /// </summary>
+        /// <param name="addressId"></param>
+        /// <returns></returns>
+        bool Delete(long addressId);
     }
 }

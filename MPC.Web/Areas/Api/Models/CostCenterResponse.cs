@@ -7,7 +7,7 @@ namespace MPC.MIS.Areas.Api.Models
 {
     public class CostCenterResponse
     {
-        public IEnumerable<CostCentre> CostCenters { get; set; }
+        public IEnumerable<CostCenterListViewModel> CostCenters { get; set; }
         public int RowCount { get; set; }
     }
 }
