@@ -57,7 +57,7 @@
 <body>
     <header class="navbar" id="header-navbar">
         <div class="container">
-            <a href="~/Dashboard/Index" data-bind="click:ist.sharedNavigation.viewModel.showConfirmationDialog" style="cursor: pointer" id="logo" class="navbar-brand">
+            <a href="~/Dashboard/Index" id="logo" class="my-navigator navbar-brand">
 
                 <img src="~/Content/themes/Centaurus/img/logo.png" alt="" class="normal-logo logo-white" />
                 <img src="~/Content/themes/Centaurus/img/logo-black.png" alt="" class="normal-logo logo-black" />
@@ -264,25 +264,25 @@
                                     </a>
                                 </li>
                                 <li id="listores">
-                                    <a href="~/Stores/Stores/Index">
+                                    <a href="~/Stores/Stores/Index" class="my-navigator">
                                         <i class="fa fa-th-large"></i>
                                         <span>Stores</span>
                                     </a>
                                 </li>
                                 <li id="licrm">
-                                    <a href="#" class="dropdown-toggle">
+                                    <a href="#" class="dropdown-toggle" >
                                         <i class="fa fa-users"></i>
                                         <span>CRM</span>
                                         <i class="fa fa-chevron-circle-right drop-icon"></i>
                                     </a>
                                     <ul class="submenu">
                                         <li>
-                                            <a href="~/CRM/CompaniesList">
+                                            <a href="~/CRM/CompaniesList" class="my-navigator">
                                                 Prospects / Customers
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="~/CRM/Calendar">
+                                            <a href="~/CRM/Calendar" class="my-navigator">
                                                 My Calendar
                                             </a>
                                         </li>
@@ -292,55 +292,55 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="~/CRM/SuppliersList">
+                                            <a href="~/CRM/SuppliersList" class="my-navigator">
                                                 Suppliers
                                             </a>
                                         </li>
                                     </ul>
                                 </li>
                                 <li id="liProducts">
-                                    <a href="~/Products/Home/Index">
+                                    <a href="~/Products/Home/Index" class="my-navigator">
                                         <i class="fa fa-th-large"></i>
                                         <span>Products</span>
                                     </a>
                                 </li>
                                 <li id="liestimating">
-                                    <a href="#" class="dropdown-toggle">
+                                    <a href="#" class="dropdown-toggle" >
                                         <i class="fa fa-users"></i>
                                         <span>Estimating</span>
                                         <i class="fa fa-chevron-circle-right drop-icon"></i>
                                     </a>
                                     <ul class="submenu">
                                         <li class="left15pxback">
-                                            <a href="~/Estimate/EstimatesList">
+                                            <a href="~/Estimate/EstimatesList" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Estimates - All</span>
                                                 <span class="label label-primary label-circle pull-right">44</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Estimate/EstimatesList">
+                                            <a href="~/Estimate/EstimatesList" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Unconfirmed Orders</span>
                                                 <span class="label label-primary label-circle pull-right">30</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Estimate/EstimatesList">
+                                            <a href="~/Estimate/EstimatesList" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Progressed to Orders</span>
                                                 <span class="label label-primary label-circle pull-right">10</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Estimate/EstimatesList">
+                                            <a href="~/Estimate/EstimatesList" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>In Production</span>
                                                 <span class="label label-primary label-circle pull-right">12</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Estimate/EstimatesList">
+                                            <a href="~/Estimate/EstimatesList" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Invoiced</span>
                                                 <span class="label label-primary label-circle pull-right">14</span>
@@ -356,49 +356,49 @@
                                     </a>
                                     <ul class="submenu">
                                         <li class="left15pxback">
-                                            <a href="~/Order/OrderList">
+                                            <a href="~/Order/OrderList" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Orders - All</span>
                                                 <span class="label label-primary label-circle pull-right">86</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Order/OrderList">
+                                            <a href="~/Order/OrderList" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Pending (New) Orders</span>
                                                 <span class="label label-primary label-circle pull-right">50</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Order/OrderList">
+                                            <a href="~/Order/OrderList" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Confirmed Starts</span>
                                                 <span class="label label-primary label-circle pull-right">10</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Order/OrderList">
+                                            <a href="~/Order/OrderList" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>In Production</span>
                                                 <span class="label label-primary label-circle pull-right">08</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Order/OrderList">
+                                            <a href="~/Order/OrderList" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Ready for shipping</span>
                                                 <span class="label label-primary label-circle pull-right">07</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Order/OrderList">
+                                            <a href="~/Order/OrderList" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Invoiced</span>
                                                 <span class="label label-primary label-circle pull-right">05</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Order/OrderList">
+                                            <a href="~/Order/OrderList" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Cancelled Orders</span>
                                                 <span class="label label-primary label-circle pull-right">06</span>
@@ -407,7 +407,7 @@
                                     </ul>
                                 </li>
                                 <li id="liproduction">
-                                    <a href="~/Home/PageUnAvailable">
+                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
                                         <i class="fa fa-th-large"></i>
                                         <span>Production & Scheduling</span>
                                     </a>
@@ -420,42 +420,42 @@
                                     </a>
                                     <ul class="submenu">
                                         <li class="left15pxback">
-                                            <a href="~/Billing/InvoicesList">
+                                            <a href="~/Billing/InvoicesList" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>All</span>
                                                 <span class="label label-primary label-circle pull-right">20</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Billing/InvoicesList">
+                                            <a href="~/Billing/InvoicesList" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Awaiting</span>
                                                 <span class="label label-primary label-circle pull-right">09</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Billing/InvoicesList">
+                                            <a href="~/Billing/InvoicesList" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Posted</span>
                                                 <span class="label label-primary label-circle pull-right">05</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="#">
+                                            <a href="#" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Cancelled</span>
                                                 <span class="label label-primary label-circle pull-right">02</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="#">
+                                            <a href="#" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Archived</span>
                                                 <span class="label label-primary label-circle pull-right">03</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="#">
+                                            <a href="#" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Pro-Forma</span>
                                                 <span class="label label-primary label-circle pull-right">01</span>
@@ -471,14 +471,14 @@
                                     </a>
                                     <ul class="submenu">
                                         <li class="left15pxback">
-                                            <a href="~/Home/PageUnAvailable">
+                                            <a href="~/Home/PageUnAvailable" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Awaiting</span>
                                                 <span class="label label-primary label-circle pull-right">11</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Home/PageUnAvailable">
+                                            <a href="~/Home/PageUnAvailable" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Delivered</span>
                                                 <span class="label label-primary label-circle pull-right">09</span>
@@ -487,19 +487,19 @@
                                     </ul>
                                 </li>
                                 <li id="lipurchases">
-                                    <a href="~/Home/PageUnAvailable">
+                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
                                         <i class="fa fa-calendar"></i>
                                         <span>Purchase Orders</span>
                                     </a>
                                 </li>
                                 <li id="liemails">
-                                    <a href="~/Home/PageUnAvailable">
+                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
                                         <i class="fa fa-calendar"></i>
                                         <span>Email Campaigns</span>
                                     </a>
                                 </li>
                                 <li id="liinventory">
-                                    <a href="~/Settings/MIS/Inventory">
+                                    <a href="~/Settings/MIS/Inventory" class="my-navigator">
                                         <i class="fa fa-calendar"></i>
                                         <span>Inventory</span>
                                     </a>
@@ -512,7 +512,7 @@
                                     </a>
                                     <ul class="submenu">
                                         <li id="listOrganization">
-                                            <a href="~/Settings/Home/MyOrganization">
+                                            <a href="~/Settings/Home/MyOrganization" class="my-navigator">
                                                 <span>My Organization</span>
                                             </a>
                                         </li>
@@ -524,47 +524,47 @@
                                             </a>
                                             <ul class="submenu">
                                                 <li>
-                                                    <a href="~/Settings/MIS/PaperSheet">
+                                                    <a href="~/Settings/MIS/PaperSheet" class="my-navigator">
                                                         Paper Sheet
                                                     </a>
                                                 </li>
                                                 <li id="liCostCenters">
-                                                    <a href="~/Settings/MIS/CostCenters">
+                                                    <a href="~/Settings/MIS/CostCenters" class="my-navigator">
                                                         Cost Centers
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Settings/MIS/InventoryCategory">
+                                                    <a href="~/Settings/MIS/InventoryCategory" class="my-navigator">
                                                         Inventory Categories
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Settings/Home/DeliveryCostCentres">
+                                                    <a href="~/Settings/Home/DeliveryCostCentres" class="my-navigator">
                                                         Delivery Cost Centers
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Settings/Home/DeliveryCarrier">
+                                                    <a href="~/Settings/Home/DeliveryCarrier" class="my-navigator">
                                                         Delivery Carrier
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Home/PageUnAvailable">
+                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
                                                         Charts
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Home/PageUnAvailable">
+                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
                                                         Sales and Pipeline
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Home/PageUnAvailable">
+                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
                                                         My Reports
                                                     </a>
                                                 </li>
                                                 <li id="liprefixes">
-                                                    <a href="~/Settings/MIS/Prefixes">
+                                                    <a href="~/Settings/MIS/Prefixes" class="my-navigator">
                                                         Start Numbers
                                                     </a>
                                                 </li>
@@ -578,12 +578,12 @@
                                             </a>
                                             <ul class="submenu">
                                                 <li id="liMachineList">
-                                                    <a href="~/Settings/Home/MachinesList">
+                                                    <a href="~/Settings/Home/MachinesList" class="my-navigator">
                                                         Machines
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Home/PageUnAvailable">
+                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
                                                         Lookup Methods
                                                     </a>
                                                 </li>
@@ -597,37 +597,37 @@
                                             </a>
                                             <ul class="submenu">
                                                 <li>
-                                                    <a href="~/Settings/Home/PhraseLibrary">
+                                                    <a href="~/Settings/Home/PhraseLibrary" class="my-navigator">
                                                         Phrase Library
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Home/PageUnAvailable">
+                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
                                                         Section Flags
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Home/PageUnAvailable">
+                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
                                                         Import Export
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Home/PageUnAvailable">
+                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
                                                         Archived
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Home/PageUnAvailable">
+                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
                                                         Posted Invoices
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Home/PageUnAvailable">
+                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
                                                         Purchase Orders
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Home/PageUnAvailable">
+                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
                                                         Campaign Studio
                                                     </a>
                                                 </li>

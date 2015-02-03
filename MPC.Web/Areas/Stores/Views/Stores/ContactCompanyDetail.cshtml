@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <ol class="breadcrumb">
-                        <li><a href="~/Dashboard/Index" class="my-navigator" style="cursor: pointer">Home</a></li>
+                        <li><a href="~/Dashboard/Index" class="my-navigator">Home</a></li>
                         <li><a href="~/Stores/Stores/Index" class="my-navigator">Stores</a></li>
                         <li class="active"><span>Store Detail</span></li>
                     </ol>
@@ -21,7 +21,17 @@
             <div class="row" id="user-profile">
                 <div class="col-lg-12 col-md-8 col-sm-8" style="padding-bottom: 10px;" data-bind="with: $root.selectedStore()">
                     <div class="clearfix ">
-                        <div class="col-xs-4">
+                        <div class="col-xs-4 pull-left validationSummaryContainer">
+                            <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopup', popoverId: 'validationSummaryPopoverBody' }" style="display: none">Validation Errors</a>
+                            <div class="well well-small validationSummaryModal" id="validationSummaryPopup" style="display: none">
+                                <div id="validationSummaryPopoverBody">
+                                    <ul data-bind="foreach: $root.errorList">
+                                        <li>
+                                            <a data-bind="click: $root.gotoElement.bind($data.element)"><span data-bind="text: name"></span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-xs-4">
                         </div>
@@ -65,7 +75,7 @@
                                                     <label for="txtCompanyName" class="control-label text-right tooltip-float">Store Name</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <input type="text" class="form-control" id="txtCompanyName" placeholder="Enter Store Name" data-bind="value: name, validationTooltip: name">
+                                                    <input type="text" name="Store Name" class="form-control" id="txtCompanyName" placeholder="Enter Store Name" data-bind="value: name, validationTooltip: name, validationOnElement: name">
                                                     <span class="help-block text-right">This will be used in defalt URL to pass on to your customer.</span>
                                                 </div>
                                             </div>
@@ -112,7 +122,7 @@
                                                     <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Web Access Code</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <input type="text" class="form-control" id="txtWebAccessCode" placeholder="Enter Web Access Code" data-bind="value: webAccessCode, validationTooltip: webAccessCode">
+                                                    <input type="text" name="Web Access Code" class="form-control" id="txtWebAccessCode" placeholder="Enter Web Access Code" data-bind="value: webAccessCode, validationTooltip: webAccessCode, validationOnElement: webAccessCode">
                                                     <span class="help-block text-right">URL http://pinkcards.com/corporatedemo/login</span>
                                                 </div>
                                             </div>
@@ -538,7 +548,7 @@
                                     </div>
                                     <div class="col-lg-12">
                                         <h3 class="group-header">Addresses</h3>
-                                        <div class="col-lg-12 clearfix">
+                                        <div class="col-lg-12 clearfix" >
                                             <header class="main-box-header clearfix">
                                                 <div class="filter-block">
                                                     <div class="form-group filter-block pull-left col-xs-4">
@@ -546,10 +556,10 @@
                                                     </div>
                                                     <div class="filter-block pull-right col-xs-5">
                                                         <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
-                                                            <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchAddressFilter">
+                                                            <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchAddressFilter, validationOnElement: $root.searchAddressFilter">
                                                             <i class="fa fa-search search-icon" data-bind="click:$root.searchAddress"></i>
                                                         </div>
-                                                        <a data-toggle="modal" data-bind="click: $root.onCreateNewAddress" class="btn btn-primary pull-right">
+                                                        <a data-toggle="modal" data-bind="click: $root.onCreateNewAddress" class="btn btn-primary pull-right" >
                                                             <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Address
                                                         </a>
                                                     </div>
@@ -592,7 +602,7 @@
                                                 </div>
                                                 <div class="filter-block pull-right">
                                                     <div class="form-group pull-left">
-                                                        <input type="text" class="form-control" placeholder="Search ..." data-bind="value: $root.searchCompanyContactFilter">
+                                                        <input type="text" class="form-control" placeholder="Search ..." data-bind="value: $root.searchCompanyContactFilter, validationOnElement: $root.searchCompanyContactFilter">
                                                         <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyContact"></i>
                                                     </div>
                                                     <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyContact" class="btn btn-primary pull-right">
@@ -760,9 +770,10 @@
                                                     </div>
                                                     <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Would you like to display the FEATURED products Row</label>
                                                 </div>
-                                                <div class="col-lg-3">
+                                                <div class="col-lg-3" >
                                                     <div class="col-xs-6">
-                                                        <a id="A1" href="#" class="btn btn-primary" style="vertical-align: top;width:38%;" data-bind="click:$root.openItemsForWidgetsDialogFromFeatured">
+                                                        @*<input type="text" data-bind="visible:false,validationOnElement: $root.productError" />*@
+                                                        <a id="A1" href="#" class="btn btn-primary" style="vertical-align: top;width:38%;" data-bind="click:$root.openItemsForWidgetsDialogFromFeatured,validationOnElement: $root.productError">
                                                             <i class="fa fa-lg"></i>&nbsp;....
                                                         </a>
                                                         <span class="help-block text-right"></span>
@@ -2019,9 +2030,7 @@
         <script id="itemCostCenterTemplate" type="text/html">
             <tr>
                 @*data-bind="click: $root.selectRaveReview, css: { selectedRow: $data === $root.selectedRaveReview}"*@
-                <td data-bind="text: name">
-                    
-                </td>
+                <td data-bind="text: name"></td>
                 <td>
                     <div class="form-group pull-right">
                         <div class="col-md-3 ">
