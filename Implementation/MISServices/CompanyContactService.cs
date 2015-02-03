@@ -1,5 +1,6 @@
 ﻿using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
+using MPC.Models.DomainModels;
 
 namespace MPC.Implementation.MISServices
 {
