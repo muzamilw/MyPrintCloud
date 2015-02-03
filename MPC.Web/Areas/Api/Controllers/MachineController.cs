@@ -28,7 +28,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
 
         #region Public
-        public Machine GetMachine(long id)
+        public Machine Get(long id)
         {
             return _machineService.GetMachineById(id).CreateFrom();
         }
@@ -37,7 +37,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             var result = _machineService.GetAll(request);
             return new MachineResponse
             {
-                machine = result.MachineList.Select(s => s.ListViewModelCreateFrom()),
+                machine = result.MachineList.Select(s => s.ListViewModelCreateFrom(result.lookupMethod)),
                 RowCount = result.RowCount
             };
         }

@@ -8,7 +8,7 @@ namespace MPC.MIS.Areas.Api.Models
     public class MachineResponse
     {
         public IEnumerable<MachineList> machine { get; set; }
-        
+        //public LookupMethod lookupMethod { get; set; }
         public int RowCount { get; set; }
     }
 }

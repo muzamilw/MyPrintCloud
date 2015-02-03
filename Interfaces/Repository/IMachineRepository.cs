@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using MPC.Models.DomainModels;
-using MPC.Models.Common;
-using MPC.Models.RequestModels;
-using MPC.Models.ResponseModels;
-using MPC.Models.DomainModels;
+﻿using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 

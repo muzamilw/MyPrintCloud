@@ -30,26 +30,18 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Create From Domain Model
         /// </summary>
+        //public static APIDomainModels.Machine CreateFrom(this DomainModels.Machine source)
+        //{
+        //    return new APIDomainModels.Machine
+        //    {
+               
+        //    };
+
+        //}
+
         public static APIDomainModels.Machine CreateFrom(this DomainModels.Machine source)
         {
             return new APIDomainModels.Machine
-            {
-                MachineId = source.MachineId,
-                MachineName = source.MachineName,
-                DefaultPaperId = source.DefaultPaperId,
-                MachineCatId = source.MachineCatId,
-                Maximumsheetheight = source.maximumsheetheight,
-                Maximumsheetweight = source.maximumsheetweight,
-                Maximumsheetwidth = source.maximumsheetwidth,
-                Minimumsheetheight = source.minimumsheetheight,
-                Minimumsheetwidth = source.minimumsheetwidth
-            };
-
-        }
-
-        public static Machine CreateFromDetail(this MPC.Models.DomainModels.Machine source)
-        {
-            return new Machine
             {
                 MachineId = source.MachineId,
                 MachineName = source.MachineName,
@@ -110,7 +102,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 TimePerCut = source.TimePerCut,
                 MakeReadyTime = source.MakeReadyTime,
                 WashupTime = source.WashupTime,
-                ReelMakereadyTime = source.ReelMakereadyTime
+                ReelMakereadyTime = source.ReelMakereadyTime,
+                LookupMethodId=source.LookupMethodId
                 //MachineInkCoverages = source.MachineInkCoverages,
                 //MachineResources = source.MachineResources
             };
