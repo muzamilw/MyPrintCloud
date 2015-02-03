@@ -59,6 +59,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<MISInterfaces.IMachineService, MISImplementation.MachineService>();
             unityContainer.RegisterType<ICompanyTerritoryService, CompanyTerritoryService>();
             unityContainer.RegisterType<IAddressService, AddressService>();
+            unityContainer.RegisterType<ICompanyContactService, CompanyContactService>();
        
         }
     }

@@ -271,7 +271,8 @@ define("costcenter/costcenter.viewModel",
                     costCenterCategories: costCenterCategories,
                     nominalCodes: nominalCodes,
                     markups: markups,
-                    costCenterResources: costCenterResources
+                    costCenterResources: costCenterResources,
+                    costCenterVariables: costCenterVariables
                 };
             })()
         };
