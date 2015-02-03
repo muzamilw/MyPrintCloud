@@ -588,26 +588,387 @@
                                     <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-PlantCalculation">
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Plant Calculation</h3>
+                                            <div class="col-lg-6">
+                                                @*Estimated Cost*@
+                                                <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Estimated Cost." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Estimated Cost</label>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="onoffswitch">
+                                                            <input type="checkbox" name="chkPlantEstimatedCost" class="onoffswitch-checkbox" id="chkPlantEstimatedCost">
+                                                            <label class="onoffswitch-label" for="chkPlantEstimatedCost">
+                                                                <div class="onoffswitch-inner"></div>
+                                                                <div class="onoffswitch-switch"></div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                   <div class="col-lg-6">
+                                                       <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strCostPlantUnParsed"></textarea>
+                                                       <span class="help-block text-right">Estimated Cost</span>
+                                                    </div>
+                                                </div>
+                                                @*Quoted Charge*@
+                                                <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Quoted Charge" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="chkPlantQuotedCharge" class="control-label text-right tooltip-float">Quoted Charge</label>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="onoffswitch">
+                                                            <input type="checkbox" name="chkPlantQuotedCharge" class="onoffswitch-checkbox" id="chkPlantQuotedCharge">
+                                                            <label class="onoffswitch-label" for="chkPlantQuotedCharge">
+                                                                <div class="onoffswitch-inner"></div>
+                                                                <div class="onoffswitch-switch"></div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-6">
+                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strPricePlantUnParsed"></textarea>
+                                                        <span class="help-block text-right">Quoted Charge</span>
+                                                    </div>
+                                                </div>
+                                                @*Actual Cost*@
+                                                <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Actual Cost." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Actual Cost</label>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="onoffswitch">
+                                                            <input type="checkbox" name="chkPlantActualCost" class="onoffswitch-checkbox" id="chkPlantActualCost">
+                                                            <label class="onoffswitch-label" for="chkPlantActualCost">
+                                                                <div class="onoffswitch-inner"></div>
+                                                                <div class="onoffswitch-switch"></div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-6">
+                                                        <textarea class="form-control" id="txtPlantActualCost" rows="5" data-bind="value: strActualCostPlantUnParsed"></textarea>
+                                                        <span class="help-block text-right">Actual Cost</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="clearfix">
+                                                    <div style="padding-right: 5px;" id="nestable2">
+                                                        <ol class="dd-list">
+                                                            <!-- ko template: { name: 'costCenterVariableTree' , foreach: $root.selectedStore().productCategories } -->
+                                                            <!-- /ko -->
+                                                        </ol>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="tab-pane clearfix fade" id="tab-StockCalculation">
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Stock Calculation</h3>
+                                            <div class="col-lg-6">
+                                                @*Estimated Cost*@
+                                                <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Estimated Cost." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Estimated Cost</label>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="onoffswitch">
+                                                            <input type="checkbox" name="chkPlantEstimatedCost" class="onoffswitch-checkbox" id="chkPlantEstimatedCost">
+                                                            <label class="onoffswitch-label" for="chkPlantEstimatedCost">
+                                                                <div class="onoffswitch-inner"></div>
+                                                                <div class="onoffswitch-switch"></div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-6">
+                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strCostPlantUnParsed"></textarea>
+                                                        <span class="help-block text-right">Estimated Cost</span>
+                                                    </div>
+                                                </div>
+                                                @*Quoted Charge*@
+                                                <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Quoted Charge" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="chkPlantQuotedCharge" class="control-label text-right tooltip-float">Quoted Charge</label>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="onoffswitch">
+                                                            <input type="checkbox" name="chkPlantQuotedCharge" class="onoffswitch-checkbox" id="chkPlantQuotedCharge">
+                                                            <label class="onoffswitch-label" for="chkPlantQuotedCharge">
+                                                                <div class="onoffswitch-inner"></div>
+                                                                <div class="onoffswitch-switch"></div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-6">
+                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strPricePlantUnParsed"></textarea>
+                                                        <span class="help-block text-right">Quoted Charge</span>
+                                                    </div>
+                                                </div>
+                                                @*Actual Cost*@
+                                                <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Actual Cost." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Actual Cost</label>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="onoffswitch">
+                                                            <input type="checkbox" name="chkPlantActualCost" class="onoffswitch-checkbox" id="chkPlantActualCost">
+                                                            <label class="onoffswitch-label" for="chkPlantActualCost">
+                                                                <div class="onoffswitch-inner"></div>
+                                                                <div class="onoffswitch-switch"></div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-6">
+                                                        <textarea class="form-control" id="txtPlantActualCost" rows="5" data-bind="value: strActualCostPlantUnParsed"></textarea>
+                                                        <span class="help-block text-right">Actual Cost</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="clearfix">
+                                                    <div style="padding-right: 5px;" id="nestable2">
+                                                        <ol class="dd-list">
+                                                            <!-- ko template: { name: 'costCenterVariableTree' , foreach: $root.selectedStore().productCategories } -->
+                                                            <!-- /ko -->
+                                                        </ol>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="tab-pane clearfix fade" id="tab-LabourCalculation">
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Labour Calculation</h3>
+                                            <div class="col-lg-6">
+                                                @*Estimated Cost*@
+                                                <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Estimated Cost." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Estimated Cost</label>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="onoffswitch">
+                                                            <input type="checkbox" name="chkPlantEstimatedCost" class="onoffswitch-checkbox" id="chkPlantEstimatedCost">
+                                                            <label class="onoffswitch-label" for="chkPlantEstimatedCost">
+                                                                <div class="onoffswitch-inner"></div>
+                                                                <div class="onoffswitch-switch"></div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-6">
+                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strCostPlantUnParsed"></textarea>
+                                                        <span class="help-block text-right">Estimated Cost</span>
+                                                    </div>
+                                                </div>
+                                                @*Quoted Charge*@
+                                                <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Quoted Charge" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="chkPlantQuotedCharge" class="control-label text-right tooltip-float">Quoted Charge</label>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="onoffswitch">
+                                                            <input type="checkbox" name="chkPlantQuotedCharge" class="onoffswitch-checkbox" id="chkPlantQuotedCharge">
+                                                            <label class="onoffswitch-label" for="chkPlantQuotedCharge">
+                                                                <div class="onoffswitch-inner"></div>
+                                                                <div class="onoffswitch-switch"></div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-6">
+                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strPricePlantUnParsed"></textarea>
+                                                        <span class="help-block text-right">Quoted Charge</span>
+                                                    </div>
+                                                </div>
+                                                @*Actual Cost*@
+                                                <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Actual Cost." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Actual Cost</label>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="onoffswitch">
+                                                            <input type="checkbox" name="chkPlantActualCost" class="onoffswitch-checkbox" id="chkPlantActualCost">
+                                                            <label class="onoffswitch-label" for="chkPlantActualCost">
+                                                                <div class="onoffswitch-inner"></div>
+                                                                <div class="onoffswitch-switch"></div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-6">
+                                                        <textarea class="form-control" id="txtPlantActualCost" rows="5" data-bind="value: strActualCostPlantUnParsed"></textarea>
+                                                        <span class="help-block text-right">Actual Cost</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="clearfix">
+                                                    <div style="padding-right: 5px;" id="nestable2">
+                                                        <ol class="dd-list">
+                                                            <!-- ko template: { name: 'costCenterVariableTree' , foreach: $root.selectedStore().productCategories } -->
+                                                            <!-- /ko -->
+                                                        </ol>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-TimeCalculation">
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Time Calculation</h3>
+                                            <div class="col-lg-6">
+                                                @*Estimated Cost*@
+                                                <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Estimated Cost." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Estimated Cost</label>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="onoffswitch">
+                                                            <input type="checkbox" name="chkPlantEstimatedCost" class="onoffswitch-checkbox" id="chkPlantEstimatedCost">
+                                                            <label class="onoffswitch-label" for="chkPlantEstimatedCost">
+                                                                <div class="onoffswitch-inner"></div>
+                                                                <div class="onoffswitch-switch"></div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-6">
+                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strCostPlantUnParsed"></textarea>
+                                                        <span class="help-block text-right">Estimated Cost</span>
+                                                    </div>
+                                                </div>
+                                                @*Quoted Charge*@
+                                                <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Quoted Charge" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="chkPlantQuotedCharge" class="control-label text-right tooltip-float">Quoted Charge</label>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="onoffswitch">
+                                                            <input type="checkbox" name="chkPlantQuotedCharge" class="onoffswitch-checkbox" id="chkPlantQuotedCharge">
+                                                            <label class="onoffswitch-label" for="chkPlantQuotedCharge">
+                                                                <div class="onoffswitch-inner"></div>
+                                                                <div class="onoffswitch-switch"></div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-6">
+                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strPricePlantUnParsed"></textarea>
+                                                        <span class="help-block text-right">Quoted Charge</span>
+                                                    </div>
+                                                </div>
+                                                @*Actual Cost*@
+                                                <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Actual Cost." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Actual Cost</label>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="onoffswitch">
+                                                            <input type="checkbox" name="chkPlantActualCost" class="onoffswitch-checkbox" id="chkPlantActualCost">
+                                                            <label class="onoffswitch-label" for="chkPlantActualCost">
+                                                                <div class="onoffswitch-inner"></div>
+                                                                <div class="onoffswitch-switch"></div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-6">
+                                                        <textarea class="form-control" id="txtPlantActualCost" rows="5" data-bind="value: strActualCostPlantUnParsed"></textarea>
+                                                        <span class="help-block text-right">Actual Cost</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="clearfix">
+                                                    <div style="padding-right: 5px;" id="nestable2">
+                                                        <ol class="dd-list">
+                                                            <!-- ko template: { name: 'costCenterVariableTree' , foreach: $root.selectedStore().productCategories } -->
+                                                            <!-- /ko -->
+                                                        </ol>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-WorkInstruction">
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Work Instructions</h3>
+
                                         </div>
                                     </div>
 
@@ -620,6 +981,17 @@
         </form>
     </div>
 </div>
+<script id="costCenterVariableTree" type="text/html">
+    <li class="dd-item dd-item-list">
+        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+        <div class="dd-handle">
+            <span data-bind="text: categoryName"></span>
+            <div class="nested-links">
+                <a data-bind="click: $root.onEditProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
+            </div>
+        </div>
+    </li>
+</script>
 <script id="itemResourcesTemplate" type="text/html">
     <tr>
         <td data-bind="text: UserName"></td>              

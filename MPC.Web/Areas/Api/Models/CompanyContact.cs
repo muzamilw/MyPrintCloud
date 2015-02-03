@@ -67,7 +67,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string TwitterURL { get; set; }
         public string authenticationToken { get; set; }
         public string twitterScreenName { get; set; }
-        public int? ShippingAddressId { get; set; }
+        public long? ShippingAddressId { get; set; }
         public bool? isUserLoginFirstTime { get; set; }
         public string quickMobileNumber { get; set; }
         public string quickTwitterId { get; set; }

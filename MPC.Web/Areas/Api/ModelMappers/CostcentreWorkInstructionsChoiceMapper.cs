@@ -15,8 +15,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 Choice = source.Choice,
                 Id = source.Id,
-                InstructionId = source.InstructionId,
-                CostcentreInstruction = source.CostcentreInstruction.CreateFrom()
+                InstructionId = source.InstructionId
             };
         }
 
@@ -27,8 +26,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 Choice = source.Choice,
                 Id = source.Id,
-                InstructionId = source.InstructionId,
-                CostcentreInstruction = source.CostcentreInstruction.CreateFrom()
+                InstructionId = source.InstructionId
             };
         }
     }
