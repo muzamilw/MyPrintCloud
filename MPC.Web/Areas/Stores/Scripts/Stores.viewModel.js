@@ -1797,6 +1797,8 @@ define("stores/stores.viewModel",
                 //Create CompanyContact
                 onCreateNewCompanyContact = function () {
                     var user = new model.CompanyContact();
+                    selectedBussinessAddressId(undefined);
+                    selectedShippingAddressId(undefined);
                     selectedCompanyContact(user);
                     isSavingNewCompanyContact(true);
                     view.showCompanyContactDialog();
