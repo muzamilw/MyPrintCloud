@@ -2,12 +2,6 @@
     var CostCenter = function() {
 
         var
-             costCenterTypes = function (specifiedId, specifiedName) {
-                 return {
-                     id: specifiedId,
-                     name: specifiedName
-                 };
-             },
             self,
             costCentreId = ko.observable(),
             name = ko.observable(),
@@ -102,6 +96,7 @@
             xeroAccessCode = ko.observable(),
             organisationId = ko.observable().extend({ required: true }),
             costCenterResource = ko.observableArray([]),
+            costCenterInstructions = ko.observableArray([]),
             errors = ko.validation.group({
                 name: name,
                 type: type,
@@ -214,6 +209,7 @@
             xeroAccessCode: xeroAccessCode,
             organisationId: organisationId,
             costCenterResource: costCenterResource,
+            costCenterInstructions: costCenterInstructions,
             dirtyFlag: dirtyFlag,
             errors: errors,
             isValid: isValid,
