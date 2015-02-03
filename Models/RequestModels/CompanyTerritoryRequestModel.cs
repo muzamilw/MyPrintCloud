@@ -1,4 +1,4 @@
-﻿using MPC.Models.DomainModels;
+using MPC.Models.DomainModels;
 
 namespace MPC.Models.RequestModels
 {
