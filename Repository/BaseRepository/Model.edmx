@@ -422,12 +422,12 @@
           <Property Name="includeEmailBrokerArtworkOrderXML" Type="bit" />
           <Property Name="includeEmailBrokerArtworkOrderJobCard" Type="bit" />
           <Property Name="makeEmailBrokerArtworkOrderProductionReady" Type="bit" />
-          <Property Name="SalesAndOrderManagerId1" Type="bigint" />
-          <Property Name="SalesAndOrderManagerId2" Type="bigint" />
-          <Property Name="ProductionManagerId1" Type="bigint" />
-          <Property Name="ProductionManagerId2" Type="bigint" />
-          <Property Name="StockNotificationManagerId1" Type="bigint" />
-          <Property Name="StockNotificationManagerId2" Type="bigint" />
+          <Property Name="SalesAndOrderManagerId1" Type="uniqueidentifier" />
+          <Property Name="SalesAndOrderManagerId2" Type="uniqueidentifier" />
+          <Property Name="ProductionManagerId1" Type="uniqueidentifier" />
+          <Property Name="ProductionManagerId2" Type="uniqueidentifier" />
+          <Property Name="StockNotificationManagerId1" Type="uniqueidentifier" />
+          <Property Name="StockNotificationManagerId2" Type="uniqueidentifier" />
           <Property Name="IsDeliveryTaxAble" Type="bit" />
           <Property Name="IsDisplayDeliveryOnCheckout" Type="bit" />
           <Property Name="DeliveryPickUpAddressId" Type="bigint" />
@@ -808,7 +808,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
             <PropertyRef Name="CostCenterResourceId" />
           </Key>
           <Property Name="CostCentreId" Type="bigint" />
-          <Property Name="ResourceId" Type="int" />
+          <Property Name="ResourceId" Type="uniqueidentifier" />
           <Property Name="CostCenterResourceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="CostcentreSystemType">
@@ -991,11 +991,11 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="Estimate_Total" Type="float" />
           <Property Name="Estimate_ValidUpto" Type="int" />
           <Property Name="UserNotes" Type="text" />
-          <Property Name="LastUpdatedBy" Type="int" />
+          <Property Name="LastUpdatedBy" Type="uniqueidentifier" />
           <Property Name="CreationDate" Type="datetime" />
           <Property Name="CreationTime" Type="datetime" Nullable="false" />
-          <Property Name="Created_by" Type="int" />
-          <Property Name="SalesPersonId" Type="int" />
+          <Property Name="Created_by" Type="uniqueidentifier" />
+          <Property Name="SalesPersonId" Type="uniqueidentifier" />
           <Property Name="HeadNotes" Type="nvarchar" MaxLength="2000" />
           <Property Name="FootNotes" Type="nvarchar" MaxLength="2000" />
           <Property Name="EstimateDate" Type="datetime" />
@@ -1018,7 +1018,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="Order_ConfirmationDate" Type="datetime" />
           <Property Name="Order_Status" Type="smallint" Nullable="false" />
           <Property Name="Order_CompletionDate" Type="datetime" />
-          <Property Name="OrderManagerId" Type="int" />
+          <Property Name="OrderManagerId" Type="uniqueidentifier" />
           <Property Name="ArtworkByDate" Type="datetime" />
           <Property Name="DataByDate" Type="datetime" />
           <Property Name="TargetPrintDate" Type="datetime" />
@@ -1030,7 +1030,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="Classification2ID" Type="int" />
           <Property Name="IsOfficialOrder" Type="int" />
           <Property Name="CustomerPO" Type="varchar" MaxLength="50" />
-          <Property Name="OfficialOrderSetBy" Type="int" />
+          <Property Name="OfficialOrderSetBy" Type="uniqueidentifier" />
           <Property Name="OfficialOrderSetOnDateTime" Type="datetime" />
           <Property Name="IsCreditApproved" Type="int" />
           <Property Name="CreditLimitForJob" Type="float" />
@@ -1055,7 +1055,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="DeliveryCost" Type="float" />
           <Property Name="DeliveryCompletionTime" Type="int" />
           <Property Name="VoucherDiscountRate" Type="float" />
-          <Property Name="ReportSignedBy" Type="int" />
+          <Property Name="ReportSignedBy" Type="uniqueidentifier" />
           <Property Name="InvoiceId" Type="int" />
           <Property Name="OrderReportSignedBy" Type="int" />
           <Property Name="OrderReportLastPrinted" Type="datetime" />
@@ -1180,14 +1180,14 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="InvoiceStatus" Type="int" />
           <Property Name="InvoiceTotal" Type="float" />
           <Property Name="InvoiceDate" Type="datetime" />
-          <Property Name="LastUpdatedBy" Type="int" />
+          <Property Name="LastUpdatedBy" Type="uniqueidentifier" />
           <Property Name="CreationDate" Type="datetime" />
-          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" />
           <Property Name="AccountNumber" Type="varchar" MaxLength="50" />
           <Property Name="Terms" Type="text" />
           <Property Name="InvoicePostingDate" Type="datetime" />
-          <Property Name="InvoicePostedBy" Type="int" />
-          <Property Name="LockedBy" Type="int" />
+          <Property Name="InvoicePostedBy" Type="uniqueidentifier" />
+          <Property Name="LockedBy" Type="uniqueidentifier" />
           <Property Name="AddressId" Type="int" />
           <Property Name="IsArchive" Type="bit" />
           <Property Name="TaxValue" Type="float" />
@@ -1202,7 +1202,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="IsProformaInvoice" Type="bit" />
           <Property Name="IsPrinted" Type="bit" />
           <Property Name="LastUpdateDate" Type="datetime" />
-          <Property Name="ReportSignedBy" Type="int" />
+          <Property Name="ReportSignedBy" Type="uniqueidentifier" />
           <Property Name="ReportLastPrintedDate" Type="datetime" />
           <Property Name="HeadNotes" Type="nvarchar" MaxLength="2000" />
           <Property Name="FootNotes" Type="nvarchar" MaxLength="2000" />
@@ -2098,7 +2098,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MachineId" Type="int" />
-          <Property Name="ResourceId" Type="int" />
+          <Property Name="ResourceId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Markup">
           <Key>
@@ -2549,7 +2549,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           </Key>
           <Property Name="SectionCostCentreResourceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SectionCostcentreId" Type="int" />
-          <Property Name="ResourceId" Type="int" />
+          <Property Name="ResourceId" Type="uniqueidentifier" />
           <Property Name="ResourceTime" Type="int" />
           <Property Name="IsScheduleable" Type="smallint" />
           <Property Name="IsScheduled" Type="smallint" />
@@ -2725,7 +2725,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Key>
             <PropertyRef Name="SystemUserId" />
           </Key>
-          <Property Name="SystemUserId" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="None" />
+          <Property Name="SystemUserId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UserName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Description" Type="varchar" MaxLength="100" />
           <Property Name="OrganizationId" Type="int" />
@@ -6035,12 +6035,12 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="includeEmailBrokerArtworkOrderXML" Type="Boolean" />
           <Property Name="includeEmailBrokerArtworkOrderJobCard" Type="Boolean" />
           <Property Name="makeEmailBrokerArtworkOrderProductionReady" Type="Boolean" />
-          <Property Name="SalesAndOrderManagerId1" Type="Int64" />
-          <Property Name="SalesAndOrderManagerId2" Type="Int64" />
-          <Property Name="ProductionManagerId1" Type="Int64" />
-          <Property Name="ProductionManagerId2" Type="Int64" />
-          <Property Name="StockNotificationManagerId1" Type="Int64" />
-          <Property Name="StockNotificationManagerId2" Type="Int64" />
+          <Property Name="SalesAndOrderManagerId1" Type="Guid" />
+          <Property Name="SalesAndOrderManagerId2" Type="Guid" />
+          <Property Name="ProductionManagerId1" Type="Guid" />
+          <Property Name="ProductionManagerId2" Type="Guid" />
+          <Property Name="StockNotificationManagerId1" Type="Guid" />
+          <Property Name="StockNotificationManagerId2" Type="Guid" />
           <Property Name="IsDeliveryTaxAble" Type="Boolean" />
           <Property Name="IsDisplayDeliveryOnCheckout" Type="Boolean" />
           <Property Name="DeliveryPickUpAddressId" Type="Int64" />
@@ -7847,7 +7847,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           </Key>
           <Property Name="SectionCostCentreResourceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SectionCostcentreId" Type="Int32" />
-          <Property Name="ResourceId" Type="Int32" />
+          <Property Name="ResourceId" Type="Guid" />
           <Property Name="ResourceTime" Type="Int32" />
           <Property Name="IsScheduleable" Type="Int16" />
           <Property Name="IsScheduled" Type="Int16" />
@@ -7978,11 +7978,11 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="Estimate_Total" Type="Double" />
           <Property Name="Estimate_ValidUpto" Type="Int32" />
           <Property Name="UserNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="LastUpdatedBy" Type="Int32" />
+          <Property Name="LastUpdatedBy" Type="Guid" />
           <Property Name="CreationDate" Type="DateTime" Precision="3" />
           <Property Name="CreationTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Created_by" Type="Int32" />
-          <Property Name="SalesPersonId" Type="Int32" />
+          <Property Name="Created_by" Type="Guid" />
+          <Property Name="SalesPersonId" Type="Guid" />
           <Property Name="HeadNotes" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
           <Property Name="FootNotes" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
           <Property Name="EstimateDate" Type="DateTime" Precision="3" />
@@ -8005,7 +8005,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="Order_ConfirmationDate" Type="DateTime" Precision="3" />
           <Property Name="Order_Status" Type="Int16" Nullable="false" />
           <Property Name="Order_CompletionDate" Type="DateTime" Precision="3" />
-          <Property Name="OrderManagerId" Type="Int32" />
+          <Property Name="OrderManagerId" Type="Guid" />
           <Property Name="ArtworkByDate" Type="DateTime" Precision="3" />
           <Property Name="DataByDate" Type="DateTime" Precision="3" />
           <Property Name="TargetPrintDate" Type="DateTime" Precision="3" />
@@ -8017,7 +8017,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="Classification2ID" Type="Int32" />
           <Property Name="IsOfficialOrder" Type="Int32" />
           <Property Name="CustomerPO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="OfficialOrderSetBy" Type="Int32" />
+          <Property Name="OfficialOrderSetBy" Type="Guid" />
           <Property Name="OfficialOrderSetOnDateTime" Type="DateTime" Precision="3" />
           <Property Name="IsCreditApproved" Type="Int32" />
           <Property Name="CreditLimitForJob" Type="Double" />
@@ -8042,7 +8042,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="DeliveryCost" Type="Double" />
           <Property Name="DeliveryCompletionTime" Type="Int32" />
           <Property Name="VoucherDiscountRate" Type="Double" />
-          <Property Name="ReportSignedBy" Type="Int32" />
+          <Property Name="ReportSignedBy" Type="Guid" />
           <Property Name="InvoiceId" Type="Int32" />
           <Property Name="OrderReportSignedBy" Type="Int32" />
           <Property Name="OrderReportLastPrinted" Type="DateTime" Precision="3" />
@@ -8280,14 +8280,14 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="InvoiceStatus" Type="Int32" />
           <Property Name="InvoiceTotal" Type="Double" />
           <Property Name="InvoiceDate" Type="DateTime" Precision="3" />
-          <Property Name="LastUpdatedBy" Type="Int32" />
+          <Property Name="LastUpdatedBy" Type="Guid" />
           <Property Name="CreationDate" Type="DateTime" Precision="3" />
-          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedBy" Type="Guid" />
           <Property Name="AccountNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Terms" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="InvoicePostingDate" Type="DateTime" Precision="3" />
-          <Property Name="InvoicePostedBy" Type="Int32" />
-          <Property Name="LockedBy" Type="Int32" />
+          <Property Name="InvoicePostedBy" Type="Guid" />
+          <Property Name="LockedBy" Type="Guid" />
           <Property Name="AddressId" Type="Int32" />
           <Property Name="IsArchive" Type="Boolean" />
           <Property Name="TaxValue" Type="Double" />
@@ -8302,7 +8302,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="IsProformaInvoice" Type="Boolean" />
           <Property Name="IsPrinted" Type="Boolean" />
           <Property Name="LastUpdateDate" Type="DateTime" Precision="3" />
-          <Property Name="ReportSignedBy" Type="Int32" />
+          <Property Name="ReportSignedBy" Type="Guid" />
           <Property Name="ReportLastPrintedDate" Type="DateTime" Precision="3" />
           <Property Name="HeadNotes" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
           <Property Name="FootNotes" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
@@ -10304,7 +10304,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <PropertyRef Name="CostCenterResourceId" />
           </Key>
           <Property Name="CostCentreId" Type="Int64" />
-          <Property Name="ResourceId" Type="Int32" />
+          <Property Name="ResourceId" Type="Guid" />
           <Property Name="CostCenterResourceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="CostCentre" Relationship="DomainModels.FK_tbl_costcentre_resources_tbl_costcentres" FromRole="CostcentreResource" ToRole="CostCentre" />
         </EntityType>
@@ -10567,7 +10567,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MachineId" Type="Int32" />
-          <Property Name="ResourceId" Type="Int32" />
+          <Property Name="ResourceId" Type="Guid" />
           <NavigationProperty Name="Machine" Relationship="DomainModels.FK_tbl_machines_tbl_machine_resource" FromRole="MachineResource" ToRole="Machine" />
         </EntityType>
         <Association Name="FK_tbl_machines_tbl_machine_ink_coverage">
