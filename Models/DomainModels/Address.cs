@@ -42,6 +42,7 @@ namespace MPC.Models.DomainModels
 
         public virtual CompanyTerritory CompanyTerritory { get; set; }
         public virtual ICollection<CompanyContact> CompanyContacts { get; set; }
+        public virtual ICollection<CompanyContact> ShippingCompanyContacts { get; set; }
 
         public virtual Company Company { get; set; }
         public virtual Country Country { get; set; }

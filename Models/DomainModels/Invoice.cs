@@ -19,14 +19,14 @@ namespace MPC.Models.DomainModels
         public Nullable<int> InvoiceStatus { get; set; }
         public Nullable<double> InvoiceTotal { get; set; }
         public Nullable<System.DateTime> InvoiceDate { get; set; }
-        public Nullable<int> LastUpdatedBy { get; set; }
+        public Guid? LastUpdatedBy { get; set; }
         public Nullable<System.DateTime> CreationDate { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
+        public Guid? CreatedBy { get; set; }
         public string AccountNumber { get; set; }
         public string Terms { get; set; }
         public Nullable<System.DateTime> InvoicePostingDate { get; set; }
-        public Nullable<int> InvoicePostedBy { get; set; }
-        public Nullable<int> LockedBy { get; set; }
+        public Guid? InvoicePostedBy { get; set; }
+        public Guid? LockedBy { get; set; }
         public Nullable<int> AddressId { get; set; }
         public Nullable<bool> IsArchive { get; set; }
         public Nullable<double> TaxValue { get; set; }
@@ -41,7 +41,7 @@ namespace MPC.Models.DomainModels
         public Nullable<bool> IsProformaInvoice { get; set; }
         public Nullable<bool> IsPrinted { get; set; }
         public Nullable<System.DateTime> LastUpdateDate { get; set; }
-        public Nullable<int> ReportSignedBy { get; set; }
+        public Guid? ReportSignedBy { get; set; }
         public Nullable<System.DateTime> ReportLastPrintedDate { get; set; }
         public string HeadNotes { get; set; }
         public string FootNotes { get; set; }
