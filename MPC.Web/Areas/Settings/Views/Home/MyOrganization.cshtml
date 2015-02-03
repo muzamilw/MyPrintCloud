@@ -11,19 +11,22 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <ol class="breadcrumb">
-                            <li><a href="#" >Settings</a></li>
+                            <li><a href="#">Settings</a></li>
                             <li><a href="#">General Settings</a></li>
                             <li class="active"><span>My Organization</span></li>
                         </ol>
-                        <h1>My Organization</h1>
-                        <div data-bind="visible:$root.errorList().length > 0" style="display: none;">
-                            <p> Please corresct these errors.</p>
-                            <table id="table">
-                                <tbody>
-                                    <!-- ko template: { name: 'itemErrorTemplate' , foreach: $root.errorList } -->
-                                    <!-- /ko -->
-                                </tbody>
-                            </table>
+                        <h1>Organization Detail</h1>
+                        <div class="pull-left validationSummaryContainer">
+                            <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopup', popoverId: 'validationSummaryPopoverBody' }" style="display: none">Validation Errors</a>
+                            <div class="well well-small validationSummaryModal" id="validationSummaryPopup" style="display: none">
+                                <div id="validationSummaryPopoverBody">
+                                    <ul data-bind="foreach: $root.errorList">
+                                        <li>
+                                            <a data-bind="click: $root.gotoElement.bind($data.element)"><span data-bind="text: name"></span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -242,7 +245,7 @@
                                                         </div>
 
                                                         <div class="col-lg-6">
-                                                            <input type="text" class="form-control" id="txtEmail" placeholder="Enter Email" data-bind="value:email,validationTooltip:email">
+                                                            <input type="text" class="form-control" id="txtEmail" name="Email" placeholder="Enter Email" data-bind="value:email,validationTooltip:email, validationOnElement: email">
                                                             <span class="help-block text-right"></span>
                                                         </div>
 
@@ -635,10 +638,10 @@
     <script id="editMarkupTemplate" type="text/html">
         <tr data-bind="css: { selectedRow: $data === $root.selectedMarkup() }">
             <td>
-                <input type="text" data-bind="value: name, validationTooltip: name, attr: { id: 'markupName' + $index() }" />
+                <input type="text" name="Name" data-bind="value: name, validationTooltip: name, attr: { id: 'markupName' + $index() }, validationOnElement:name" />
             </td>
             <td>
-                <input style="width: 70px;" type="text" data-bind="value: rate, validationTooltip: rate" />
+                <input style="width: 70px;" name="Rate" type="text" data-bind="value: rate, validationTooltip: rate, validationOnElement:rate" />
             </td>
             <td>
                 <!-- ko template: { name: 'editActionMarkupTemplate' } -->
@@ -650,8 +653,8 @@
     </script>
     <script id="itemMarkupTemplate" type="text/html">
         <tr>
-            <td style="width: 50%" data-bind="text: name, attr: { id: 'markupName' + $index() }"></td>
-            <td style="width: 30%" data-bind="text: rate"></td>
+            <td style="width: 50%"  data-bind="text: name, attr: { id: 'markupName' + $index() }"></td>
+            <td style="width: 30%"   data-bind="text: rate"></td>
             <td style="width: 20%">
                 <!-- ko template: { name: 'editActionMarkupTemplate' } -->
                 <!-- /ko -->
@@ -680,10 +683,10 @@
     <script id="editChartOfAccountsTemplate" type="text/html">
         <tr data-bind="css: { selectedRow: $data === $root.selectedChartOfAccounts() }">
             <td>
-                <input type="text" data-bind="value: name, validationTooltip: name, attr: { id: 'nominalCodeName' + $index() }" />
+                <input type="text" data-bind="value: name, validationTooltip: name, validationOnElement:name, validationOnElement:name" />
             </td>
             <td>
-                <input style="width: 70px;" type="text" data-bind="value: accountNo, validationTooltip: accountNo" />
+                <input style="width: 70px;" type="text" data-bind="value: accountNo, validationTooltip: accountNo, validationOnElement:accountNo, validationOnElement:accountNo" />
             </td>
             <td>
                 <!-- ko template: { name: 'editActionChartOfAccountsTemplate' } -->
