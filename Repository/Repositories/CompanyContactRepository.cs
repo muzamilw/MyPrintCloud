@@ -867,6 +867,11 @@ namespace MPC.Repository.Repositories
 				}
 			
 		}
+
+	    public IEnumerable<CompanyContact> GetCompanyContactsByCompanyId(long companyId)
+	    {
+	        return db.CompanyContacts.Where(x => x.CompanyId == companyId && x.OrganisationId == OrganisationId);
+	    }
 	}
 }
 

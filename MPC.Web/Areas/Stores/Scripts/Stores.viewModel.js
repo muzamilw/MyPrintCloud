@@ -1810,6 +1810,10 @@ define("stores/stores.viewModel",
                 },
                 // Delete CompanyContact
                 onDeleteCompanyContact = function (companyContact) {//CompanyContact
+                    if (companyContact.isDefaultContact()) {
+                        toastr.error("Default Contact Cannot be deleted");
+                        return;
+                    }
                     //#region Db Saved Record Id > 0
                     if (companyContact.contactId() > 0) {
 
@@ -1832,8 +1836,11 @@ define("stores/stores.viewModel",
                                 }
                             });
                         }
-                    } else {
+                    }
+                    //#endregion
+                    else {
                         if (companyContact.contactId() < 0) {
+                            
                             _.each(newCompanyContacts(), function (item) {
                                 if (item.contactId() == companyContact.contactId()) {
                                     newCompanyContacts.remove(companyContact);
@@ -1842,7 +1849,7 @@ define("stores/stores.viewModel",
                             selectedStore().users.remove(companyContact);
                         }
                     }
-                    //#endregion
+                    
                     return;
                 },
                 onEditCompanyContact = function (companyContact) {
@@ -1869,13 +1876,23 @@ define("stores/stores.viewModel",
                     if (doBeforeSaveCompanyContact()) {
                         //#region Editting Company Case companyid > 0
                         if (selectedStore().companyId() > 0) {
+                            
                             selectedCompanyContact().companyId(selectedStore().companyId());
-                            dataservice.saveAddress(
+                            dataservice.saveCompanyContact(
                                 selectedCompanyContact().convertToServerData(),
                              {
                                  success: function (data) {
                                      if (data) {
                                          var savedCompanyContact = model.CompanyContact.Create(data);
+                                         if (selectedCompanyContact().isDefaultContact() ) {
+                                             _.each(selectedStore().users(), function (user) {
+                                                 if (user.isDefaultContact()) {
+                                                     if (selectedCompanyContact().contactId() != user.contactId()) {
+                                                         user.isDefaultContact(false);
+                                                     }
+                                                 }
+                                             });
+                                         }
                                          if (selectedCompanyContact().contactId() <= 0 || selectedCompanyContact().contactId() == undefined) {
                                              selectedStore().users.splice(0, 0, savedCompanyContact);
                                          }
@@ -1895,6 +1912,13 @@ define("stores/stores.viewModel",
                         //#region New Company Case 
                         else {
                             if (selectedCompanyContact().contactId() === undefined && isSavingNewCompanyContact() === true) {
+                                if (selectedCompanyContact().isDefaultContact()) {
+                                    _.each(selectedStore().users(), function (user) {
+                                        if (user.isDefaultContact()) {
+                                            user.isDefaultContact(false);
+                                        }
+                                    });
+                                }
                                 selectedStore().users.splice(0, 0, selectedCompanyContact());
                                 if (selectedCompanyContact().bussinessAddressId() != undefined) {
                                     selectedCompanyContact().bussinessAddress(getAddressByAddressId(selectedCompanyContact().bussinessAddressId()));
@@ -1902,6 +1926,7 @@ define("stores/stores.viewModel",
                                 if (selectedCompanyContact().shippingAddressId() != undefined) {
                                     selectedCompanyContact().shippingAddress(getAddressByAddressId(selectedCompanyContact().shippingAddressId()));
                                 }
+                               
                                 newCompanyContacts.push(selectedCompanyContact());
                                 onCloseCompanyContact();
                             } else {
@@ -2438,6 +2463,54 @@ define("stores/stores.viewModel",
                     if (productPriorityRadioOption() === "1" && selectedItemsForOfferList().length === 0) {
                         errorList.push({ name: "At least One Product to Prioritize..", element: productError.domElement });
                         flag = false;
+                    }
+                    if (selectedStore().companyId() == undefined) {
+                        var haveIsDefaultTerritory = false;
+                        var haveIsBillingDefaultAddress = false;
+                        var haveIsShippingDefaultAddress = false;
+                        var haveIsDefaultAddress = false;
+                        var haveIsDefaultUser = false;
+                        _.each(selectedStore().companyTerritories(), function(territory) {
+                            if (territory.isDefault()) {
+                                haveIsDefaultTerritory = true;
+                            }
+                        });
+                        _.each(selectedStore().addresses(), function (territory) {
+                            if (address.isDefaultTerrorityBilling()) {
+                                haveIsBillingDefaultAddress = true;
+                            }
+                            if (address.isDefaultTerrorityShipping()) {
+                                haveIsShippingDefaultAddress = true;
+                            }
+                            if (address.isDefaultAddress()) {
+                                haveIsDefaultAddress = true;
+                            }
+                        });
+                        _.each(selectedStore().users(), function(user) {
+                            if (user.isDefaultContact()) {
+                                haveIsDefaultUser = true;
+                            }
+                        });
+                        if (!haveIsDefaultTerritory) {
+                            errorList.push({ name: "At least one default territory required.", element: searchCompanyTerritoryFilter.domElement });
+                            flag = false;
+                        }
+                        if (!haveIsBillingDefaultAddress) {
+                            errorList.push({ name: "At least one Territory Default Billing Address required.", element: searchAddressFilter.domElement });
+                            flag = false;
+                        }
+                        if (!haveIsShippingDefaultAddress) {
+                            errorList.push({ name: "At least one Territory Default Shipping Address required.", element: searchAddressFilter.domElement });
+                            flag = false;
+                        }
+                        if (!haveIsDefaultAddress) {
+                            errorList.push({ name: "At least one Company Default Address required.", element: searchAddressFilter.domElement });
+                            flag = false;
+                        }
+                        if (!haveIsDefaultUser) {
+                            errorList.push({ name: "At least one Default Company Contact required.", element: searchCompanyContactFilter.domElement });
+                            flag = false;
+                        }
                     }
                     return flag;
                 },
