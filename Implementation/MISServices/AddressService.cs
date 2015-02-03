@@ -32,5 +32,16 @@ namespace MPC.Implementation.MISServices
             }
             return null;
         }
+        public bool Delete(long addressId)
+        {
+            var dbAddress = addressRepository.GetAddressByID(addressId);
+            if (dbAddress != null && dbAddress.CompanyContacts.Count == 0)
+            {
+                addressRepository.Delete(dbAddress);
+                addressRepository.SaveChanges();
+                return true;
+            }
+            return false;
+        }
     }
 }
