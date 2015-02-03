@@ -41,7 +41,8 @@ namespace MPC.Repository.Repositories
         }
         public SystemUser GetSalesManagerById(long SytemUserId)
         {
-            return db.SystemUsers.Where(s => s.SystemUserId == SytemUserId).FirstOrDefault();
+            return db.SystemUsers.FirstOrDefault();
+            //db.SystemUsers.Where(s => s.SystemUserId == SytemUserId).FirstOrDefault();
         }
         #endregion
     }

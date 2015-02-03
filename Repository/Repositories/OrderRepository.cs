@@ -1573,9 +1573,10 @@ namespace MPC.Repository.Repositories
 
                
 
-                listOfManagers = (from c in db.SystemUsers
-                                      where mangerList.Contains(c.SystemUserId)
-                                      select c).ToList();
+                //listOfManagers = 
+                    //(from c in db.SystemUsers
+                    //                  where mangerList.Contains(c.SystemUserId)
+                    //                  select c).ToList();
                     if (listOfManagers.Count() > 0)
                     {
                         Campaign stockCampaign = GetCampaignRecordByEmailEvent(emailevent);
