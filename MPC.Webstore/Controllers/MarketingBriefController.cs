@@ -196,7 +196,7 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    EmailParams.SystemUserID = 0;
+                    EmailParams.SystemUserID = null;
                   
                 }
                 EmailParams.StoreID = StoreBaseResopnse.Organisation.OrganisationId;
