@@ -835,6 +835,7 @@ namespace MPC.Implementation.MISServices
                 foreach (var companyContacts in companySavingModel.NewAddedCompanyContacts)
                 {
                     companyContacts.OrganisationId = companyContactRepository.OrganisationId;
+                    
                     companyDbVersion.CompanyContacts.Add(companyContacts);
                 }
             }

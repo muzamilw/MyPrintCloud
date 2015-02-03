@@ -966,7 +966,7 @@
                                                             <label for="txtShipAddDetail" class="control-label text-right tooltip-float">Address</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtShipAddDetail" disabled="disabled" data-bind="value: $root.selectedShippingAddress() != undefined && selectedShippingAddress().addressName() != undefined ? $root.selectedShippingAddress().addressName():''">
+                                                            <input type="text" class="form-control" id="txtShipAddDetail" disabled="disabled" data-bind="value: $root.selectedShippingAddress() != undefined && $root.selectedShippingAddress().addressName() != undefined ? $root.selectedShippingAddress().addressName():''">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -980,7 +980,7 @@
                                                             <label for="txtShippAddCity" class="control-label text-right tooltip-float">City</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtShippAddCity" disabled="disabled" data-bind="value: $root.selectedShippingAddressId() != undefined ? $root.selectedShippingAddress().city():''">
+                                                            <input type="text" class="form-control" id="txtShippAddCity" disabled="disabled" data-bind="value: $root.selectedShippingAddress()!= undefined && $root.selectedShippingAddress().city() != undefined ? $root.selectedShippingAddress().city():''">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -994,7 +994,7 @@
                                                             <label for="txtShippAddState" class="control-label text-right tooltip-float">State</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtShippAddState" disabled="disabled" data-bind="value: $root.selectedShippingAddressId() != undefined ? $root.selectedShippingAddress().state():''">
+                                                            <input type="text" class="form-control" id="txtShippAddState" disabled="disabled" data-bind="value: $root.selectedShippingAddress()!= undefined && $root.selectedShippingAddress().state() != undefined ? $root.selectedShippingAddress().state():''">
                                                         </div>
                                                     </div>
                                                 </div>

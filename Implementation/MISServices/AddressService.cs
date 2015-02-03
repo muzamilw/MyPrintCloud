@@ -30,7 +30,7 @@ namespace MPC.Implementation.MISServices
             IEnumerable<Address> addressesToUpdate;
             if (address.isDefaultTerrorityBilling == true )
             {
-                addressesToUpdate = addressRepository.GetAll().Where(x => x.isDefaultTerrorityBilling == true && x.CompanyId == address.CompanyId);
+                addressesToUpdate = addressRepository.GetAll().Where(x => x.isDefaultTerrorityBilling == true && x.CompanyId == address.CompanyId && x.TerritoryId == address.TerritoryId);
                 foreach (var updatingAddress in addressesToUpdate)
                 {
                     updatingAddress.isDefaultTerrorityBilling = false;
@@ -39,7 +39,7 @@ namespace MPC.Implementation.MISServices
             }
             if (address.isDefaultTerrorityShipping == true)
             {
-                addressesToUpdate = addressRepository.GetAll().Where(x => x.isDefaultTerrorityShipping == true && x.CompanyId == address.CompanyId);
+                addressesToUpdate = addressRepository.GetAll().Where(x => x.isDefaultTerrorityShipping == true && x.CompanyId == address.CompanyId && x.TerritoryId == address.TerritoryId);
                 foreach (var updatingAddress in addressesToUpdate)
                 {
                     updatingAddress.isDefaultTerrorityShipping = false;
@@ -48,7 +48,7 @@ namespace MPC.Implementation.MISServices
             }
             if (address.IsDefaultAddress == true)
             {
-                addressesToUpdate = addressRepository.GetAll().Where(x => x.IsDefaultAddress == true && x.CompanyId == address.CompanyId);
+                addressesToUpdate = addressRepository.GetAll().Where(x => x.IsDefaultAddress == true && x.CompanyId == address.CompanyId && x.TerritoryId == address.TerritoryId);
                 foreach (var updatingAddress in addressesToUpdate)
                 {
                     updatingAddress.IsDefaultAddress = false;
