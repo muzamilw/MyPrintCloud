@@ -1,4 +1,6 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System;
+
+namespace MPC.Models.DomainModels
 {
     /// <summary>
     /// Machine Resource Domain Model
@@ -7,7 +9,7 @@
     {
         public long Id { get; set; }
         public int? MachineId { get; set; }
-        public int? ResourceId { get; set; }
+        public Guid? ResourceId { get; set; }
 
         public virtual Machine Machine { get; set; }
     }
