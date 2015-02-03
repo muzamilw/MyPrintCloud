@@ -550,7 +550,10 @@ define("stores/stores.viewModel",
                              success: function (data) {
                                  if (data) {
                                      var savedTerritory = model.CompanyTerritory.Create(data);
-                                     selectedStore().companyTerritories.splice(0, 0, savedTerritory);
+                                     if (selectedCompanyTerritory().territoryId() <= 0 || selectedCompanyTerritory().territoryId() == undefined) {
+                                         selectedStore().companyTerritories.splice(0, 0, savedTerritory);
+                                     }
+                                     
                                      if (savedTerritory.isDefault()) {
                                          _.each(selectedStore().companyTerritories(), function(item) {
                                              if (item.isDefault() == true) {
@@ -1345,8 +1348,10 @@ define("stores/stores.viewModel",
                                              }
                                                  
                                              });
-                                             
-                                         selectedStore().addresses.splice(0, 0, savedAddress);
+                                         if (selectedAddress().addressId() <= 0 || selectedAddress().addressId() == undefined) {
+                                             selectedStore().addresses.splice(0, 0, savedAddress);
+                                         }
+                                        
                                            
                                          if (savedAddress.isDefaultTerrorityBilling()) {
                                              _.each(selectedStore().addresses(), function (item) {
@@ -1770,7 +1775,9 @@ define("stores/stores.viewModel",
                                  success: function (data) {
                                      if (data) {
                                          var savedCompanyContact = model.CompanyContact.Create(data);
-                                         selectedStore().companyContacts.splice(0, 0, savedCompanyContact);
+                                         if (selectedCompanyContact().contactId() <= 0 || selectedCompanyContact().contactId() == undefined) {
+                                             selectedStore().companyContacts.splice(0, 0, savedCompanyContact);
+                                         }
                                          toastr.success("Saved Successfully");
                                      }
                                  },
