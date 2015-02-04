@@ -251,6 +251,10 @@
     costCenterListView.Create = function (source) {
         return new costCenterListView(source.CostCentreId, source.Name, source.Description, source.Type, source.CalculationMethodType);
     };
+    //Cost Center Instructions for Client
+    costCenterInstructions.CreateForClient = function (source) {
+        return new costCenterInstructions(source.InstructionId, source.Instruction, source.CostCenterOption);
+    };
     var costCenterClientMapper = function(source) {
         var oCostCenter = new CostCenter();
         oCostCenter.costCentreId(source.CostCentreId);
@@ -345,6 +349,7 @@
         oCostCenter.deliveryCharges(source.DeliveryCharges);
         oCostCenter.xeroAccessCode(source.XeroAccessCode);
         oCostCenter.organisationId(source.OrganisationId);
+        oCostCenter.costCenterInstructions(source.CostcentreInstructions);
         return oCostCenter;
 
     };
@@ -441,6 +446,7 @@
         result.DeliveryCharges = source.deliveryCharges();
         result.XeroAccessCode = source.xeroAccessCode();
         result.OrganisationId = source.organisationId();
+        result.CostcentreInstructions = source.costCenterInstructions();
         return result;
     };
     

@@ -23,6 +23,7 @@ define("costcenter/costcenter.viewModel",
                     markups = ko.observableArray([]),
                     // Cost Center Categories
                     costCenterCategories = ko.observableArray([]),
+                    costCenterInstructions = ko.observableArray([]),
                     // #region Busy Indicators
                     isLoadingCostCenter = ko.observable(false),
                     // #endregion Busy Indicators
@@ -161,6 +162,9 @@ define("costcenter/costcenter.viewModel",
                             success: function (data) {
                                 if (data != null) {
                                     selectedCostCenter(model.costCenterClientMapper(data));
+                                    costCenterInstructions.removeAll();
+                                    _.each(data.CostcentreInstructions, function (item) {
+                                        costCenterInstructions.push(model.costCenterInstructions.CreateForClient(item));
                                     selectedCostCenter().reset();
                                     showCostCenterDetail();
                                 }
@@ -271,7 +275,8 @@ define("costcenter/costcenter.viewModel",
                     nominalCodes: nominalCodes,
                     markups: markups,
                     costCenterResources: costCenterResources,
-                    costCenterVariables: costCenterVariables
+                    costCenterVariables: costCenterVariables,
+                    costCenterInstructions: costCenterInstructions
                 };
             })()
         };
