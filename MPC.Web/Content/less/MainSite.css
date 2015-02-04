@@ -238,6 +238,34 @@
 #storesBinding #itemsForWidgetsDialog .selectedItemRow {
   background: yellow;
 }
+#storesBinding #productBinding .activeView {
+  background-color: #ff7e47;
+  color: white;
+}
+#storesBinding #productBinding #tabsHeader {
+  border: 1px solid silver;
+  box-shadow: 1px 1px 1px silver;
+}
+#storesBinding #productBinding .set-filter-margin {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+#storesBinding #productBinding .inactiveView {
+  background-color: #ffffff;
+  color: black;
+}
+#storesBinding #productBinding #changeViewSection {
+  padding-left: 0;
+}
+#storesBinding #productBinding #gridZoomSlider {
+  width: 100%;
+}
+#storesBinding #productBinding .filter-block .form-group {
+  margin-bottom: 0;
+}
+#storesBinding #productBinding .productListIcons {
+  width: 20%;
+}
 #storesBinding #productDetailBinding .activeView {
   background-color: #ff7e47;
   color: white;
@@ -262,6 +290,9 @@
 }
 #storesBinding #productDetailBinding .filter-block .form-group {
   margin-bottom: 0;
+}
+#storesBinding #productDetailBinding .productListIcons {
+  width: 20%;
 }
 #storesBinding #productDetailBinding #stockDialog #stockDialogMainContainer {
   width: 838px;
