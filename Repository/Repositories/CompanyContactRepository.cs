@@ -46,7 +46,6 @@ namespace MPC.Repository.Repositories
 					  select contacts;
 
 			return qry.ToList().FirstOrDefault();
-
 		}
 
 		public CompanyContact GetContactByEmail(string Email,long OID)
@@ -86,7 +85,6 @@ namespace MPC.Repository.Repositories
 			{
 				result = false;
 			}
-
 
 			return result;
 		}
@@ -427,7 +425,6 @@ namespace MPC.Repository.Repositories
 			if (regContact != null)
 			{
 
-
 				// int defaultAddressID = addmgr.GetCompanyDefaultAddressID(CustomerId);
 				CompanyTerritory companyTerritory = db.CompanyTerritories.Where(t => t.isDefault == true && t.CompanyId == CustomerId).FirstOrDefault();
 				CompanyContact Contact = new CompanyContact(); // ContactManager.PopulateContactsObject(CustomerId, defaultAddressID, false);
@@ -498,7 +495,6 @@ namespace MPC.Repository.Repositories
 					Contact.TerritoryId = 0;
 					Contact.ShippingAddressId = 0;
 				}
-
 
 				db.CompanyContacts.Add(Contact);
 
@@ -867,6 +863,11 @@ namespace MPC.Repository.Repositories
 				}
 			
 		}
+
+	    public IEnumerable<CompanyContact> GetCompanyContactsByCompanyId(long companyId)
+	    {
+	        return db.CompanyContacts.Where(x => x.CompanyId == companyId && x.OrganisationId == OrganisationId);
+	    }
 	}
 }
 

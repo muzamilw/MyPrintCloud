@@ -2,8 +2,9 @@
     Module with the view model for the My Organization.
 */
 define("inventoryCategory/inventoryCategory.viewModel",
-    ["jquery", "amplify", "ko", "inventoryCategory/inventoryCategory.dataservice", "inventoryCategory/inventoryCategory.model", "common/confirmation.viewModel", "common/pagination"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination) {
+    ["jquery", "amplify", "ko", "inventoryCategory/inventoryCategory.dataservice", "inventoryCategory/inventoryCategory.model",
+        "common/confirmation.viewModel", "common/pagination", "common/sharedNavigation.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM) {
         var ist = window.ist || {};
         ist.inventoryCategory = {
             viewModel: (function () {
@@ -41,6 +42,8 @@ define("inventoryCategory/inventoryCategory.viewModel",
                         editorViewModel.selectItem(stockCategory);
                         selectedStockCategory(stockCategory);
                         isStockCategoryEditorVisible(true);
+
+                        sharedNavigationVM.initialize(selectedStockCategory, function (saveCallback) { saveStockCategory(saveCallback); });
                     },
                     //On Edit Click Of Stock Category
                     onEditItem = function (item) {
@@ -111,23 +114,26 @@ define("inventoryCategory/inventoryCategory.viewModel",
                         return flag;
                     },
                     //Save Stock Category
-                    saveStockCategory = function (item) {
+                    saveStockCategory = function (callback) {
                         if (selectedStockCategory() != undefined && doBeforeSave()) {
                             if (selectedStockCategory().categoryId() > 0) {
-                                saveEdittedStockCategory();
+                                saveEdittedStockCategory(callback);
                             } else {
-                                saveNewStockCategory(item);
+                                saveNewStockCategory(callback);
                             }
                         }
                     },
                     //Save NEW Stock Category
-                    saveNewStockCategory = function () {
+                    saveNewStockCategory = function (callback) {
                         dataservice.saveNewStockCategory(model.InventoryCategory().convertToServerData(selectedStockCategory()), {
                             success: function (data) {
                                 selectedStockCategory().categoryId(data.CategoryId);
                                 stockCategories.splice(0, 0, selectedStockCategory());
                                 isStockCategoryEditorVisible(false);
                                 toastr.success("Successfully save.");
+                                if (callback && typeof callback === "function") {
+                                    callback();
+                                }
                             },
                             error: function (response) {
                                 toastr.error("Error: Failed to save." + response);
@@ -135,11 +141,14 @@ define("inventoryCategory/inventoryCategory.viewModel",
                         });
                     },
                     //Save EDIT Stock Category
-                    saveEdittedStockCategory = function () {
+                    saveEdittedStockCategory = function (callback) {
                         dataservice.saveStockCategory(model.InventoryCategory().convertToServerData(selectedStockCategory()), {
                             success: function () {
                                 isStockCategoryEditorVisible(false);
                                 toastr.success("Successfully save.");
+                                if (callback && typeof callback === "function") {
+                                    callback();
+                                }
                             },
                             error: function (response) {
                                 toastr.error("Failed to Update . Error: " + response);

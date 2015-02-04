@@ -10,6 +10,12 @@ namespace MPC.Interfaces.MISServices
         /// <returns></returns>
         Address Get(long addressId);
         /// <summary>
+        /// Save
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
+        Address Save(Address address);
+        /// <summary>
         /// Delete
         /// </summary>
         /// <param name="addressId"></param>

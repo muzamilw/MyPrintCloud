@@ -1237,7 +1237,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // ReSharper disable once InconsistentNaming
     var Address = function (specifiedAddressId, specifiedCompanyId, specifiedAddressName, specifiedAddress1, specifiedAddress2, specifiedAddress3, specifiedCity, specifiedState, specifiedCountry, specifiedStateName, specifiedCountryName, specifiedPostCode, specifiedFax,
         specifiedEmail, specifiedURL, specifiedTel1, specifiedTel2, specifiedExtension1, specifiedExtension2, specifiedReference, specifiedFAO, specifiedIsDefaultAddress, specifiedIsDefaultShippingAddress,
-        specifiedisArchived, specifiedTerritoryId,specifiedTerritoryName, specifiedGeoLatitude, specifiedGeoLongitude, specifiedisPrivate,
+        specifiedisArchived, specifiedTerritoryId, specifiedTerritoryName, specifiedGeoLatitude, specifiedGeoLongitude, specifiedisPrivate,
         specifiedisDefaultTerrorityBilling, specifiedisDefaultTerrorityShipping, specifiedOrganisationId) {
         var
             self,
@@ -1273,7 +1273,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isDefaultTerrorityBilling = ko.observable(specifiedisDefaultTerrorityBilling),
             isDefaultTerrorityShipping = ko.observable(specifiedisDefaultTerrorityShipping),
             organisationId = ko.observable(specifiedOrganisationId),
-            territory= ko.observable(),
+            territory = ko.observable(),
             // Errors
             errors = ko.validation.group({
                 addressName: addressName,
@@ -1488,7 +1488,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             description = ko.observable(specifiedDescription),
             itemURL = ko.observable(specifiedItemURL),
             buttonURL = ko.observable(specifiedButtonURL),
-            companySetId = ko.observable(specifiedCompanySetId),
+            companySetId = ko.observable(specifiedCompanySetId).extend({ required: true }),
             filename = ko.observable(""),
             fileBinary = ko.observable(specifiedImageSource),
             fileType = ko.observable(),
@@ -1498,8 +1498,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             setName = ko.observable(),
             // Errors
             errors = ko.validation.group({
-                //companySetId: companySetId,
-                heading: heading
+                heading: heading,
+                companySetId: companySetId
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -2432,7 +2432,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     JobTitle: jobTitle(),
                     DOB: dOB(),
                     Notes: notes(),
-                    IsDefaultContact: isDefaultContact(),
+                    IsDefaultContact: isDefaultContact() == true ? 1: 0,
                     HomeAddress1: homeAddress1(),
                     HomeAddress2: homeAddress2(),
                     HomeCity: homeCity(),

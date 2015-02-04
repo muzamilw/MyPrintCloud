@@ -9,12 +9,12 @@
             <div class="col-lg-12">
                 <div class="col-lg-12 clearfix">
                     <div class="col-lg-5" style="margin-top:10px;">
-                        <div data-bind="click:$root.editJobTitle">
-                            <button class="btn btn-primary">
+                        <div >
+                            <button class="btn btn-primary" data-bind="click:$root.editJobTitle">
                                 Edit Job Title
                             </button>
                         </div>
-                        <div style="padding-right: 5px;" id="nestable2">
+                        <div class="category" id="nestable2">
                             <ol class="dd-list">
                                 <!-- ko template: { name: 'sectionIemTemplate', foreach: $root.sections }-->
                                 <!-- /ko -->
@@ -104,7 +104,7 @@
 
 <script id="phraseItemTemplate" type="text/html">
     <tr data-bind="visible:!isDeleted(),click: $root.selectPhrase, css: { selectedRow: $data === $root.selectedPhrase() }">
-        <td >
+        <td>
             <input type="checkbox" style="width:50px;" data-bind="checked:isPhraseChecked" />
         </td>
         <td>
