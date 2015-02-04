@@ -311,7 +311,7 @@ define("inventory/inventory.viewModel",
                             if (selectedInventory().supplierId.error != null) {
                                 errorList.push({ name: "Supplier Name", element: selectedInventory().supplierName.domElement });
                             }
-                            
+
                             if (selectedInventory().perQtyQty.error != null) {
                                 errorList.push({ name: "Per Quantity", element: selectedInventory().perQtyQty.domElement });
                             }
@@ -459,6 +459,7 @@ define("inventory/inventory.viewModel",
                             confirmation.afterProceed(onSaveInventory);
                             confirmation.afterCancel(function () {
                                 isInventoryEditorVisible(false);
+                                selectedInventory().reset();
                             });
                             confirmation.show();
                             return;

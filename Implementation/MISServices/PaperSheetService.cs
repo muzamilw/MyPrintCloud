@@ -11,6 +11,7 @@ namespace MPC.Implementation.MISServices
         #region Private
 
         private readonly IPaperSizeRepository paperSheetRepository;
+        private readonly IOrganisationRepository organisationRepository;
         
         #endregion
 
@@ -19,6 +20,7 @@ namespace MPC.Implementation.MISServices
         public PaperSheetService(IPaperSizeRepository paperSheetRepository)
         {
             this.paperSheetRepository = paperSheetRepository;
+            this.organisationRepository = organisationRepository;
         }
 
         #endregion
@@ -74,8 +76,13 @@ namespace MPC.Implementation.MISServices
 
         public int? GetBaseData()
         {
-            return null;
+            throw new System.NotImplementedException();
         }
+
+        //public string GetBaseData()
+        //{
+        //    return organisationRepository.GetOrganizatiobByID().SystemLengthUnit.;
+        //}
         #endregion
 
     }
