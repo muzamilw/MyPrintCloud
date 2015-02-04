@@ -58,10 +58,10 @@ namespace MPC.Implementation
             unityContainer.RegisterType<MISInterfaces.ICostCentersService, MISImplementation.CostCenterService>();
             unityContainer.RegisterType<MISInterfaces.IMachineService, MISImplementation.MachineService>();
             unityContainer.RegisterType<Interfaces.WebStoreServices.ICampaignService, WebStoreServices.CampaignService>();
+            unityContainer.RegisterType<ICompanyTerritoryService, CompanyTerritoryService>();
+            unityContainer.RegisterType<IAddressService, AddressService>();
+            unityContainer.RegisterType<ICompanyContactService, CompanyContactService>();
        
-        
-            
-
         }
     }
 }

@@ -9,7 +9,8 @@ namespace MPC.Webstore
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-1.10.2.js"));
+                        "~/Scripts/jquery-1.10.2.js",
+                        "~/Scripts/jquery-ui.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Slider").Include(
                        "~/Scripts/js-image-slider.js",
@@ -42,7 +43,8 @@ namespace MPC.Webstore
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/respond.js",
+                      "~/Scripts/bootstrap-datepicker.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/modalEffects").Include(
                      "~/Scripts/modalEffects.js"));

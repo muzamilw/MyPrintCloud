@@ -19,7 +19,7 @@
                             <div class="tab-pane fade in active" id="tab-CampaignInformation">
                                 <div class="col-lg-12 form-horizontal">
                                     <div class="form-group">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -32,7 +32,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -46,7 +46,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -55,14 +55,14 @@
                                             <label class="control-label text-right tooltip-float">Enable Email Campaign</label>
                                         </div>
                                         <div class="col-lg-5">
-                                            <div class="radio">
-                                                <input type="radio" id="enableEmailCompaign" data-bind="value:isEnabled">
+                                            <div class="checkbox-nice">
+                                                <input type="checkbox" id="enableEmailCompaign" data-bind="checked:isEnabled">
                                                 <label for="enableEmailCompaign">&nbsp;</label>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -71,15 +71,17 @@
                                             <label class="control-label text-right tooltip-float">Type Scheduling</label>
                                         </div>
                                         <div class="col-lg-7">
-                                            <div class="col-lg-3 radio">
-                                                <input class="radio" type="radio" id="typeScheduling" value="1" checked="checked" disabled>
-                                                <label for="typeScheduling" data-bind="visible:campaignType() === 1">Send Email on Event</label>
-                                                <label for="typeScheduling" data-bind="visible:campaignType() === 3">Start Campaign at</label>
-                                                <label for="typeScheduling" data-bind="visible:campaignType() === 2">Send Email</label>
+                                            <div class="col-lg-4 radio">
+                                                <input class="radio" type="radio" id="typeScheduling1" value="1" checked="checked" disabled data-bind="visible:campaignType() === 1">
+                                                <label for="typeScheduling1" data-bind="visible:campaignType() === 1">Send Email on Event</label>
+                                                <input class="radio" type="radio" id="typeScheduling2" value="2" checked="checked" disabled data-bind="visible:campaignType() === 3">
+                                                <label for="typeScheduling2" data-bind="visible:campaignType() === 3">Start Campaign at</label>
+                                                <input class="radio" type="radio" id="typeScheduling3" value="3" checked="checked" disabled data-bind="visible:campaignType() === 2">
+                                                <label for="typeScheduling3" data-bind="visible:campaignType() === 2">Send Email</label>
                                             </div>
 
                                             <div class="col-lg-4" data-bind="visible:campaignType() === 3">
-                                                <input class="form-control" type="text" data-bind="datepicker:startDateTime">
+                                                <input class="form-control" type="text" data-bind="datepicker:startDateTime, validationTooltip:startDateTime">
                                             </div>
                                             <div class="col-lg-2" data-bind="visible:campaignType() === 2">
                                                 <input class="form-control" type="text" data-bind="value:sendEmailAfterDays, validationTooltip:sendEmailAfterDays">
@@ -90,7 +92,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                                     @*<span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@
@@ -104,16 +106,16 @@
                                     </div>
 
                                     <div class="form-group" data-bind="visible:campaignType() === 3">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                 </a>
                                             </div>
-                                            <label class="control-label text-right tooltip-float">Type Scheduling</label>
+                                            <label class="control-label text-right tooltip-float">Send Estimate To</label>
                                         </div>
-                                        <div class="col-lg-7">
-                                            <div class="col-lg-3 checkbox-nice">
+                                        <div class="col-lg-8">
+                                            <div class="col-lg-4 checkbox-nice">
                                                 <input type="checkbox" id="customer" data-bind="checked: includeCustomers">
                                                 <label for="customer">Customers</label>
                                             </div>
@@ -124,7 +126,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group" data-bind="visible:campaignType() === 3">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                                     @*<span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@
@@ -132,8 +134,8 @@
                                             </div>
                                             <label class="control-label text-right tooltip-float"></label>
                                         </div>
-                                        <div class="col-lg-7">
-                                            <div class="col-lg-3 checkbox-nice">
+                                        <div class="col-lg-8">
+                                            <div class="col-lg-4 checkbox-nice">
                                                 <input type="checkbox" id="supplier" data-bind="checked: includeSuppliers">
                                                 <label for="supplier">Supplier</label>
                                             </div>
@@ -144,7 +146,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group" data-bind="visible:campaignType() === 3">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                                     @*<span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@
@@ -152,8 +154,8 @@
                                             </div>
                                             <label class="control-label text-right tooltip-float"></label>
                                         </div>
-                                        <div class="col-lg-7">
-                                            <div class="col-lg-3 checkbox-nice">
+                                        <div class="col-lg-8">
+                                            <div class="col-lg-4 checkbox-nice">
                                                 <input type="checkbox" id="flag" data-bind="checked: includeFlag">
                                                 <label for="flag">Flag</label>
                                             </div>
@@ -164,7 +166,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group" data-bind="visible:campaignType() === 3">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                                     @*<span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@
@@ -257,12 +259,12 @@
                                                 <label for="txtBannerHead" class="control-label text-right tooltip-float">Subject</label>
                                             </div>
                                             <div class="col-lg-9">
-                                                <input type="text" class="form-control" id="txtBannerHead" data-bind="value:subjectA">
+                                                <input type="text" class="form-control" id="txtBannerHead" data-bind="value:subjectA, validationTooltip:subjectA">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-12">
-                                                <input type="text" class="form-control" id="txtBannerHead" data-bind="editor:subjectA">
+                                                <textarea name="html_link_content" id="content" data-bind="editor: hTMLMessageA, valueUpdate: 'afterkeydown',drop: $root.droppedEmailSection"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -276,7 +278,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12" style="border:1px solid silver">
+                                        <div class="col-lg-12" style="border:1px solid silver;max-height: 523px;overflow-y: auto">
                                             <div style="max-height: 350px;min-height: 50px;">
                                                 <div class="main-box-body">
                                                     <div id="gallery-photos-lightbox">
@@ -304,7 +306,7 @@
                             <div class="tab-pane fade" id="tab-emailProcessing">
                                 <div class="col-lg-12 form-horizontal">
                                     <div class="form-group">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -317,7 +319,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -330,7 +332,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -343,7 +345,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -356,7 +358,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -372,7 +374,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group" data-bind="visible:enableLogFiles()">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -381,11 +383,11 @@
                                             <label for="txtBannerHead" class="control-label text-right tooltip-float">Email Address 1</label>
                                         </div>
                                         <div class="col-lg-5">
-                                            <input type="text" class="form-control" id="txtBannerHead" data-bind="value:emailLogFileAddress3">
+                                            <input type="text" class="form-control" id="txtBannerHead" data-bind="value:emailLogFileAddress3, validationTooltip:emailLogFileAddress3">
                                         </div>
                                     </div>
                                     <div class="form-group" data-bind="visible:enableLogFiles()">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -394,7 +396,7 @@
                                             <label for="txtBannerHead" class="control-label text-right tooltip-float">Email Address 2</label>
                                         </div>
                                         <div class="col-lg-5">
-                                            <input type="text" class="form-control" id="txtBannerHead" data-bind="value:emailLogFileAddress2">
+                                            <input type="text" class="form-control" id="txtBannerHead" data-bind="value:emailLogFileAddress2, validationTooltip:emailLogFileAddress2">
                                         </div>
                                     </div>
                                 </div>
@@ -415,7 +417,7 @@
     <li class="dd-item dd-item-list" data-id="15">
         <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }"><i class="fa fa-bars"></i></div>
         <div class="dd-handle">
-            <span data-bind="text: sectionName" style="cursor: move"></span>
+            <span data-bind="text: $data.sectionName(),drag: $root.draggedSection" style="cursor: move;z-index: 8000"></span>
             <div class="nested-links">
                 <a href="#" class="nested-link"></a>
             </div>
@@ -429,9 +431,9 @@
 
 <script id="emailVariableIemTemplate" type="text/html">
     <li class="dd-item dd-item-list" data-id="16">
-        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>selectedEmailVariable
+        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
         <div class="dd-handle">
-            <span data-bind="text: variableName"></span>
+            <span data-bind="text: $data.variableName(),drag: $root.draggedEmailVaribale" style="cursor: move;z-index: 8000"></span>
             <div class="nested-links">
             </div>
         </div>
@@ -440,7 +442,7 @@
 
 <script id="campaignImageItemTemplate" type="text/html">
     <li class="col-md-4 col-sm-4 col-xs-4">
-        <img class="photo-box image-link" data-bind="attr: { src: imageSource }" style="padding-top: 0px;" />
+        <img class="photo-box image-link" data-bind="attr: { src: imageSource },drag: $root.draggedImage" style="padding-top: 0px;cursor: move;z-index: 8000" />
     </li>
 </script>
 
@@ -448,8 +450,8 @@
     <tr>
         <td>
             <div class="checkbox-nice">
-                <input type="checkbox" id="chk" data-bind="checked: isChecked">
-                <label for="chk"></label>
+                <input type="checkbox" data-bind="checked: isChecked,attr: { id: 'section' + $index() }">
+                <label data-bind="attr: { for: 'section' + $index() }"></label>
             </div>
         </td>
         <td data-bind="text:name"></td>
@@ -460,8 +462,8 @@
     <tr>
         <td>
             <div class="checkbox-nice">
-                <input type="checkbox" id="chk" data-bind="checked: isChecked">
-                <label for="chk"></label>
+                <input type="checkbox" data-bind="checked: isChecked,attr: { id: 'type' + $index() }">
+                <label data-bind="attr: { for: 'type' + $index() }"></label>
             </div>
         </td>
         <td data-bind="text:name"></td>
@@ -472,8 +474,8 @@
     <tr>
         <td>
             <div class="checkbox-nice">
-                <input type="checkbox" id="chk" data-bind="checked: isChecked">
-                <label for="chk"></label>
+                <input type="checkbox" data-bind="checked: isChecked,attr: { id: 'group' + $index() }">
+                <label data-bind="attr: { for: 'group' + $index() }"></label>
             </div>
         </td>
         <td data-bind="text:name"></td>

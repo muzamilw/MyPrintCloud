@@ -177,5 +177,37 @@ namespace MPC.Models.DomainModels
         public virtual Item Item { get; set; }
 
         public virtual ICollection<SectionCostcentre> SectionCostcentres { get; set; }
+
+        public virtual StockItem StockItem { get; set; }
+        public virtual Machine Machine { get; set; }
+
+        #region Public
+
+        /// <summary>
+        /// Creates Copy of Item Section
+        /// </summary>
+        public void Clone(ItemSection target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemSectionClone_InvalidItemSection, "target");
+            }
+
+            target.SectionName = SectionName;
+            target.SectionNo = SectionNo;
+            target.PressId = PressId;
+            target.StockItemID1 = StockItemID1;
+            target.SectionSizeId = SectionSizeId;
+            target.ItemSectionId = ItemSectionId;
+            target.SectionSizeHeight = SectionSizeHeight;
+            target.SectionSizeWidth = SectionSizeWidth;
+            target.IsSectionSizeCustom = IsSectionSizeCustom;
+            target.ItemSizeHeight = ItemSizeHeight;
+            target.ItemSizeWidth = ItemSizeWidth;
+            target.IsItemSizeCustom = IsItemSizeCustom;
+            target.IsMainSection = IsMainSection;
+        }
+
+        #endregion
     }
 }

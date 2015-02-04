@@ -198,12 +198,14 @@ require(["ko", "knockout-validation"], function (ko) {
             var valueUnwrapped = ko.unwrap(value);
             var allBindings = allBindingsAccessor();
             var $element = $(element);
+            var droppable = allBindingsAccessor().drop;
             var myinstance = CKEDITOR.instances['content'];
             //check if my instance already exist
             if (myinstance !== undefined) {
                 CKEDITOR.remove(myinstance);
             }
             CKEDITOR.replace(element).setData(valueUnwrapped || $element.html());
+
             //CKEDITOR.appendTo(element).setData(valueUnwrapped || $element.html());
             if (ko.isObservable(value)) {
                 var isSubscriberChange = false;
@@ -221,6 +223,21 @@ require(["ko", "knockout-validation"], function (ko) {
                         }
                     });
                 };
+
+                //if (droppable) {
+                //    var newInstance = CKEDITOR.instances['content'];
+                //    newInstance.drop(true);
+                //    //newInstance.container.find('.cke_contents').$.droppable({
+                //    //    tolerance: 'pointer',
+                //    //    hoverClass: 'dragHover',
+                //    //    activeClass: 'dragActive',
+                //    //    drop: function (evt, ui) {
+                //    //        droppable(ui.helper.data('ko.draggable.data'), context, evt);
+                //    //    }
+                //    //});
+                //}
+
+
                 $element.on('input, change, keyup, mouseup', function () {
                     if (!isSubscriberChange) {
                         isEditorChange = true;

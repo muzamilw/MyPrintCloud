@@ -123,5 +123,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         Item GetItemByOrderItemID(long ItemID, long OrderID);
 
+        long AddInquiryAndItems(Inquiry Inquiry, List<InquiryItem> InquiryItems);
+        void AddInquiryAttachments(List<InquiryAttachment> InquiryAttachments);
     }
 }

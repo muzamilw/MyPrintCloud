@@ -30,6 +30,12 @@ define("common/phraseLibrary.dataservice", function () {
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to Get Phrase Fileds By Section Id
+                    amplify.request.define('getPhraseFiledsBySectionId', 'ajax', {
+                        url: ist.siteUrl + '/Api/GetPhraseFiledsBySection',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
             },
@@ -43,6 +49,16 @@ define("common/phraseLibrary.dataservice", function () {
                 });
 
             },
+             //Get Phrase Fileds By Section Id
+            getPhraseFiledsBySectionId = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getPhraseFiledsBySectionId',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
             // get Phrases By Phrase Field Id
             getPhrasesByPhraseFieldId = function (params, callbacks) {
                 initialize();
@@ -54,19 +70,20 @@ define("common/phraseLibrary.dataservice", function () {
                 });
             },
              // save Store
-        savePhaseLibrary = function (param, callbacks) {
-            initialize();
-            return amplify.request({
-                resourceId: 'savePhaseLibrary',
-                success: callbacks.success,
-                error: callbacks.error,
-                data: param
-            });
-        };
+            savePhaseLibrary = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'savePhaseLibrary',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            };
         return {
             getSections: getSections,
             getPhrasesByPhraseFieldId: getPhrasesByPhraseFieldId,
             savePhaseLibrary: savePhaseLibrary,
+            getPhraseFiledsBySectionId: getPhraseFiledsBySectionId,
         };
     })();
 

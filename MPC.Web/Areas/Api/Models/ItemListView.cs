@@ -1,4 +1,6 @@
-﻿namespace MPC.MIS.Areas.Api.Models
+﻿using System;
+
+namespace MPC.MIS.Areas.Api.Models
 {
     /// <summary>
     /// Item Webapi Model
@@ -41,6 +43,20 @@
         public string ProductCategoryName { get; set; }
         public double MinPrice { get; set; }
         public int? IsSpecialItem { get; set; }
+        public byte[] ThumbnailImage { get; set; }
+        public string ThumbnailImageSource
+        {
+            get
+            {
+                if (ThumbnailImage == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(ThumbnailImage);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
 
         #endregion
     }

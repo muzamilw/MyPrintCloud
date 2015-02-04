@@ -46,7 +46,6 @@ namespace MPC.Repository.Repositories
 					  select contacts;
 
 			return qry.ToList().FirstOrDefault();
-
 		}
 
 		public CompanyContact GetContactByEmail(string Email,long OID)
@@ -86,7 +85,6 @@ namespace MPC.Repository.Repositories
 			{
 				result = false;
 			}
-
 
 			return result;
 		}
@@ -304,7 +302,7 @@ namespace MPC.Repository.Repositories
 			Company.CreditLimit = 0;
 			Company.IsCustomer = Convert.ToInt16(CustomerType);
 		   
-			Company.SalesAndOrderManagerId1 = SaleAndOrderManagerID;
+			//Company.SalesAndOrderManagerId1 = SaleAndOrderManagerID;
 			Company.StoreId = StoreID;
 			Company.OrganisationId = OrganizationID;
 			//if (BrokerContactCompanyID != null)
@@ -427,7 +425,6 @@ namespace MPC.Repository.Repositories
 			if (regContact != null)
 			{
 
-
 				// int defaultAddressID = addmgr.GetCompanyDefaultAddressID(CustomerId);
 				CompanyTerritory companyTerritory = db.CompanyTerritories.Where(t => t.isDefault == true && t.CompanyId == CustomerId).FirstOrDefault();
 				CompanyContact Contact = new CompanyContact(); // ContactManager.PopulateContactsObject(CustomerId, defaultAddressID, false);
@@ -499,7 +496,6 @@ namespace MPC.Repository.Repositories
 					Contact.ShippingAddressId = 0;
 				}
 
-
 				db.CompanyContacts.Add(Contact);
 
 				if (db.SaveChanges() > 0)
@@ -535,7 +531,7 @@ namespace MPC.Repository.Repositories
 				s =>
 					(isSearchFilterSpecified && (s.Email.Contains(request.SearchFilter)) ||
 					 (s.quickCompanyName.Contains(request.SearchFilter)) ||
-					 !isSearchFilterSpecified) && s.CompanyId == request.CompanyId && s.OrganisationId == OrganisationId;
+                     !isSearchFilterSpecified) && s.CompanyId == request.CompanyId;//&& s.OrganisationId == OrganisationId
 
 			int rowCount = DbSet.Count(query);
 			// ReSharper disable once ConditionalTernaryEqualBranch
@@ -867,6 +863,11 @@ namespace MPC.Repository.Repositories
 				}
 			
 		}
+
+	    public IEnumerable<CompanyContact> GetCompanyContactsByCompanyId(long companyId)
+	    {
+	        return db.CompanyContacts.Where(x => x.CompanyId == companyId && x.OrganisationId == OrganisationId);
+	    }
 	}
 }
 
