@@ -107,13 +107,10 @@ define("costcenter/costcenter.viewModel",
                         return flag;
                     },
                     //Save Cost Center
-                    saveCostCenter = function(item) {
-                        if (selectedCostCenter() != undefined && doBeforeSave()) {
-                            if (selectedCostCenter().costCentreId() > 0) {
-                                saveEdittedCostCenter();
-                            } else {
-                                saveNewCostCenter(item);
-                            }
+                    saveCostCenter = function () {
+                        errorList.removeAll();
+                        if (doBeforeSave()) {
+                            saveEdittedCostCenter(callback);
                         }
                     },
                     //Save NEW Cost Center
@@ -131,24 +128,26 @@ define("costcenter/costcenter.viewModel",
                         });
                     },
                     //Save EDIT Cost Center
-                    saveEdittedCostCenter = function() {
-                        dataservice.saveCostCenter(selectedCostCenter().convertToServerData(), {
-                            success: function(data) {
-                                var newItem = model.costCenterClientMapper(data);
-                                var newObjtodelete = costCentersList.find(function(temp) {
-                                    return temp.costCenterId() == newItem.costCenterId();
-                                });
-                                costCentersList.remove(newObjtodelete);
-                                costCentersList.push(newItem);
-                                view.hideCostCenterDialog();
+                    saveEdittedCostCenter = function (callback) {
+                        dataservice.saveCostCenter(model.costCenterServerMapper(selectedCostCenter()), {
+                            success: function (data) {
+                                if (callback && typeof callback === "function") {
+                                    callback();
+                                }
                                 toastr.success("Successfully save.");
                             },
-                            error: function(exceptionMessage, exceptionType) {
+                            error: function (exceptionMessage, exceptionType) {
+
                                 if (exceptionType === ist.exceptionType.CaresGeneralException) {
+
                                     toastr.error(exceptionMessage);
+
                                 } else {
+
                                     toastr.error("Failed to save.");
+
                                 }
+
                             }
                         });
                     },

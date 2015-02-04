@@ -95,12 +95,12 @@ namespace MPC.Models.DomainModels
         public bool? includeEmailBrokerArtworkOrderXML { get; set; }
         public bool? includeEmailBrokerArtworkOrderJobCard { get; set; }
         public bool? makeEmailBrokerArtworkOrderProductionReady { get; set; }
-        public long? SalesAndOrderManagerId1 { get; set; }
-        public long? SalesAndOrderManagerId2 { get; set; }
-        public long? ProductionManagerId1 { get; set; }
-        public long? ProductionManagerId2 { get; set; }
-        public long? StockNotificationManagerId1 { get; set; }
-        public long? StockNotificationManagerId2 { get; set; }
+        public Guid? SalesAndOrderManagerId1 { get; set; }
+        public Guid? SalesAndOrderManagerId2 { get; set; }
+        public Guid? ProductionManagerId1 { get; set; }
+        public Guid? ProductionManagerId2 { get; set; }
+        public Guid? StockNotificationManagerId1 { get; set; }
+        public Guid? StockNotificationManagerId2 { get; set; }
         public bool? IsDeliveryTaxAble { get; set; }
         public bool? IsDisplayDeliveryOnCheckout { get; set; }
         public long? DeliveryPickUpAddressId { get; set; }

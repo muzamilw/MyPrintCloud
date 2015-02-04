@@ -20,7 +20,7 @@ define("stores/stores.view",
                 hideRaveReviewDialog = function () {
                     $("#rave").modal("hide");
                 },
-                showCompanyTerritoryDialog = function () { 
+                showCompanyTerritoryDialog = function () {
                     $("#myTerritorySetModal").modal("show");
                 },
                 // Hide Activity the dialog
@@ -396,18 +396,39 @@ define("stores/stores.view",
                 },
                 //#endregion
 
-            initializeForm = function () {
-                // Initialize Forms - For File Upload
-                $("#fileUploadForm").ajaxForm({
-                    success: function () {
-                        toastr.success("Uploading completed");
-                    },
-                    dataType: "json",
-                    error: function () {
-                        toastr.success("Uploading completed");
+               initializeForm = function () {
+                   // Initialize Forms - For File Upload
+                   $("#fileUploadForm").ajaxForm({
+                       success: function () {
+                           toastr.success("Uploading completed");
+                       },
+                       dataType: "json",
+                       error: function () {
+                           toastr.success("Uploading completed");
+                       }
+                   });
+               },
+               // Go To Element with Validation Errors
+                gotoElement = function (element) {
+                    var tab = $(element).closest(".tab-pane");
+                    if (!tab) {
+                        return;
                     }
-                });
-            },
+
+                    var liElement = $('a[href=#' + tab.attr('id') + ']');
+                    if (!liElement) {
+                        return;
+                    }
+
+                    liElement.click();
+
+                    // Scroll to Element
+                    setTimeout(function () {
+                        window.scrollTo($(element).offset().left, $(element).offset().top - 50);
+                        // Focus on element
+                        $(element).focus();
+                    }, 1000);
+                },
             // Initialize
             initialize = function () {
                 if (!bindingRoot) {
@@ -467,6 +488,7 @@ define("stores/stores.view",
                 initializeDropZones: initializeDropZones,
                 //#endregion
                 initializeForm: initializeForm,
+                gotoElement: gotoElement,
                 viewModel: viewModel,
             };
         })(storesViewModel);

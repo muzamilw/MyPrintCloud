@@ -252,6 +252,7 @@
         <AssociationConnector Association="DomainModels.FK_CampaignEmailVariable_Section" />
         <AssociationConnector Association="DomainModels.FK_ItemSection_Machine" />
         <AssociationConnector Association="DomainModels.FK_ItemSection_StockItem" />
+        <AssociationConnector Association="DomainModels.FK_CompanyContact_ShippingAddress" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

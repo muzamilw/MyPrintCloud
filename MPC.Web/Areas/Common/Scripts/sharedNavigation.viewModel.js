@@ -16,8 +16,8 @@ define("common/sharedNavigation.viewModel",
                     target = ko.observable(),
                     //show Confirmation Dialog
                     showConfirmationDialog = function (data, element) {
+                        target(element);
                         if (selectedScreenItem && selectedScreenItem() && selectedScreenItem().hasChanges && selectedScreenItem().hasChanges()) {
-                            target(element);
                             confirmation.messageText("Do you want to save changes?");
                             confirmation.afterProceed(saveAndNavigate);
                             confirmation.afterCancel(function () {
@@ -26,7 +26,8 @@ define("common/sharedNavigation.viewModel",
                             confirmation.show();
                             return false;
                         }
-                        return true;
+                        navigateToUrl();
+                        return false;
                     },
 
                     navigateToUrl = function () {
@@ -49,10 +50,9 @@ define("common/sharedNavigation.viewModel",
                         saveFunctionCallback = callback;
                     };
 
-                $(function() {
-                    $(".my-navigator").on('click', function() {
-                        showConfirmationDialog(null, this);
-                        return false;
+                $(function () {
+                    $(".my-navigator").on('click', function () {
+                        return showConfirmationDialog(null, this);
                     });
                 });
 
