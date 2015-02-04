@@ -21,6 +21,7 @@
             "prefix": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
             "costcenter": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
             "machine": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
+            "crm": ist.siteUrl + "/Areas/CRM/Scripts"
         }
     });
 

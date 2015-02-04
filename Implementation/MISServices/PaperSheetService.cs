@@ -11,14 +11,16 @@ namespace MPC.Implementation.MISServices
         #region Private
 
         private readonly IPaperSizeRepository paperSheetRepository;
-        
+        private readonly IOrganisationRepository organisationRepository;
+
         #endregion
 
         #region Constructor
 
-        public PaperSheetService(IPaperSizeRepository paperSheetRepository)
+        public PaperSheetService(IPaperSizeRepository paperSheetRepository,IOrganisationRepository organisationRepository)
         {
             this.paperSheetRepository = paperSheetRepository;
+            this.organisationRepository = organisationRepository;
         }
 
         #endregion
@@ -72,9 +74,10 @@ namespace MPC.Implementation.MISServices
             return paperSheetRepository.Find(id);
         }
 
-        public int? GetBaseData()
+        public string GetBaseData()
         {
-            return null;
+            Organisation organisation = organisationRepository.GetOrganizatiobByID();
+            return organisation.LengthUnit != null ? organisation.LengthUnit.UnitName : string.Empty;
         }
         #endregion
 

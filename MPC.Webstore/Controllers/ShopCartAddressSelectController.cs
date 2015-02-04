@@ -1104,9 +1104,9 @@ namespace MPC.Webstore.Controllers
 
                                     }
                                     if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
-                                        result = _IOrderService.UpdateOrderWithDetailsToConfirmOrder(UserCookieManager.OrderId, _myClaimHelper.loginContactID(), OrderStatus.ShoppingCart, billingAdd, deliveryAdd, _IOrderService.UpdateORderGrandTotal(UserCookieManager.OrderId), yourRefNumber, specialTelNumber, notes, true, StoreMode.Corp, 0);
+                                        result = _IOrderService.UpdateOrderWithDetailsToConfirmOrder(UserCookieManager.OrderId, _myClaimHelper.loginContactID(), OrderStatus.ShoppingCart, billingAdd, deliveryAdd, _IOrderService.UpdateORderGrandTotal(UserCookieManager.OrderId), yourRefNumber, specialTelNumber, notes, true, StoreMode.Corp);
                                     else
-                                        result = _IOrderService.UpdateOrderWithDetailsToConfirmOrder(UserCookieManager.OrderId, _myClaimHelper.loginContactID(), OrderStatus.ShoppingCart, billingAdd, deliveryAdd, _IOrderService.UpdateORderGrandTotal(UserCookieManager.OrderId), yourRefNumber, specialTelNumber, notes, true, StoreMode.Retail, 0);
+                                        result = _IOrderService.UpdateOrderWithDetailsToConfirmOrder(UserCookieManager.OrderId, _myClaimHelper.loginContactID(), OrderStatus.ShoppingCart, billingAdd, deliveryAdd, _IOrderService.UpdateORderGrandTotal(UserCookieManager.OrderId), yourRefNumber, specialTelNumber, notes, true, StoreMode.Retail);
                                 }
                                 else
                                 {
@@ -1131,9 +1131,9 @@ namespace MPC.Webstore.Controllers
                                         }
                                     }
                                     if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
-                                        result = _IOrderService.UpdateOrderWithDetailsToConfirmOrder(UserCookieManager.OrderId, _myClaimHelper.loginContactID(), OrderStatus.ShoppingCart, billingAdd, deliveryAdd, _IOrderService.UpdateORderGrandTotal(UserCookieManager.OrderId), yourRefNumber, specialTelNumber, notes, true, StoreMode.Corp, 0);
+                                        result = _IOrderService.UpdateOrderWithDetailsToConfirmOrder(UserCookieManager.OrderId, _myClaimHelper.loginContactID(), OrderStatus.ShoppingCart, billingAdd, deliveryAdd, _IOrderService.UpdateORderGrandTotal(UserCookieManager.OrderId), yourRefNumber, specialTelNumber, notes, true, StoreMode.Corp);
                                     else
-                                        result = _IOrderService.UpdateOrderWithDetailsToConfirmOrder(UserCookieManager.OrderId, _myClaimHelper.loginContactID(), OrderStatus.ShoppingCart, billingAdd, deliveryAdd, _IOrderService.UpdateORderGrandTotal(UserCookieManager.OrderId), yourRefNumber, specialTelNumber, notes, true, StoreMode.Retail, 0);
+                                        result = _IOrderService.UpdateOrderWithDetailsToConfirmOrder(UserCookieManager.OrderId, _myClaimHelper.loginContactID(), OrderStatus.ShoppingCart, billingAdd, deliveryAdd, _IOrderService.UpdateORderGrandTotal(UserCookieManager.OrderId), yourRefNumber, specialTelNumber, notes, true, StoreMode.Retail);
                                 }
 
                               

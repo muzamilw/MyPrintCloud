@@ -271,7 +271,7 @@ namespace MPC.Webstore.Controllers
                                     ppm.ItemID = (int)product.ItemId;
                                     //if (!string.IsNullOrEmpty(Price))
                                     //    ppm.Price = Convert.ToDouble(Price);
-                                    ppm.Price = StoreBaseResopnse.Currency + ppm.Price;
+                                    ppm.Price = StoreBaseResopnse.Currency + Price;
                                     ProductPriceMatrix.Add(ppm);
 
                                     ViewData["PriceMatrix"] = ProductPriceMatrix;

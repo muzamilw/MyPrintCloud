@@ -22,7 +22,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         {
             if (paperSheetService == null)
             {
-                throw new ArgumentNullException("itemService");
+                throw new ArgumentNullException("paperSheetService");
             }
 
             this.paperSheetService = paperSheetService;
@@ -33,7 +33,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Item Base Data
         /// </summary>
-        public int? Get()
+        public string Get()
         {
             if (!ModelState.IsValid)
             {

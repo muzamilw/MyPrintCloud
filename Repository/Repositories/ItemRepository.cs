@@ -421,6 +421,7 @@ namespace MPC.Repository.Repositories
                 Template oTemplate = clonedTemplate;
 
                 //copy the background of pages
+               
                 foreach (TemplatePage oTemplatePage in db.TemplatePages.Where(g => g.ProductId == result).ToList())
                 {
 
@@ -447,13 +448,18 @@ namespace MPC.Repository.Repositories
 
 
                 //skip concatinating the path if its a placeholder, cuz place holder is kept in a different path and doesnt need to be copied.
-                oTemplate.TemplateObjects.Where(tempObject => tempObject.ObjectType == 3 && tempObject.IsQuickText != true).ToList().ForEach(item =>
-                {
-                    
-                    string filepath = item.ContentString.Substring(item.ContentString.IndexOf("/Designer/Organisation" + OrganisationID.ToString() +"/Templates/") + ("/Designer/Organisation" + OrganisationID.ToString() + "/Templates/").Length, item.ContentString.Length - ((item.ContentString.IndexOf("/Designer/Organisation" + OrganisationID.ToString() + "/Templates/") + "/Designer/Organisation" + OrganisationID.ToString() + "/Templates/").Length));
-                    item.ContentString = "Designer/Organisation" + OrganisationID.ToString() + "/Templates/" + result.ToString() + filepath.Substring(filepath.IndexOf("/"), filepath.Length - filepath.IndexOf("/"));
+             
+               if(oTemplate.TemplateObjects != null)
+              {
+                  oTemplate.TemplateObjects.Where(tempObject => tempObject.ObjectType == 3 && tempObject.IsQuickText != true).ToList().ForEach(item =>
+                  {
 
-                });
+                      string filepath = item.ContentString.Substring(item.ContentString.IndexOf("/Designer/Organisation" + OrganisationID.ToString() + "/Templates/") + ("/Designer/Organisation" + OrganisationID.ToString() + "/Templates/").Length, item.ContentString.Length - ((item.ContentString.IndexOf("/Designer/Organisation" + OrganisationID.ToString() + "/Templates/") + "/Designer/Organisation" + OrganisationID.ToString() + "/Templates/").Length));
+                      item.ContentString = "Designer/Organisation" + OrganisationID.ToString() + "/Templates/" + result.ToString() + filepath.Substring(filepath.IndexOf("/"), filepath.Length - filepath.IndexOf("/"));
+
+                  });
+              }
+              
                 //foreach (var item in dbContext.TemplateObjects.Where(g => g.ProductID == result && g.ObjectType == 3))
                 //{
                 //    string filepath = item.ContentString.Substring(item.ContentString.IndexOf("DesignEngine/Designer/Products/") + "DesignEngine/Designer/Products/".Length, item.ContentString.Length - (item.ContentString.IndexOf("DesignEngine/Designer/Products/") + "DesignEngine/Designer/Products/".Length));
@@ -467,41 +473,44 @@ namespace MPC.Repository.Repositories
 
 
                 //var backimgs = dbContext.TemplateBackgroundImages.Where(g => g.ProductID == result);
+               if(oTemplate.TemplateBackgroundImages != null)
+               {
+                   oTemplate.TemplateBackgroundImages.ToList().ForEach(item =>
+                   {
 
-                oTemplate.TemplateBackgroundImages.ToList().ForEach(item =>
-                {
+                       string filePath = drURL + item.ImageName;
+                       string filename;
 
-                    string filePath = drURL + item.ImageName;
-                    string filename;
+                       string ext = Path.GetExtension(item.ImageName);
 
-                    string ext = Path.GetExtension(item.ImageName);
-
-                    // generate thumbnail 
-                    if (!ext.Contains("svg"))
-                    {
-                        string[] results = item.ImageName.Split(new string[] { ext }, StringSplitOptions.None);
-                        string destPath = results[0] + "_thumb" + ext;
-                        string ThumbPath = drURL + destPath;
-                        FileInfo oFileThumb = new FileInfo(ThumbPath);
-                        if (oFileThumb.Exists)
-                        {
-                            string oThumbName = oFileThumb.Name;
-                            oFileThumb.CopyTo(drURL + result.ToString() + "/" + oThumbName, true);
-                        }
-                        //  objSvc.GenerateThumbNail(sourcePath, destPath, 98);
-                    }
-
-
-                    FileInfo oFile = new FileInfo(filePath);
-
-                    if (oFile.Exists)
-                    {
-                        filename = oFile.Name;
-                        item.ImageName = result.ToString() + "/" + oFile.CopyTo(drURL + result.ToString() + "/" + filename, true).Name;
-                    }
+                       // generate thumbnail 
+                       if (!ext.Contains("svg"))
+                       {
+                           string[] results = item.ImageName.Split(new string[] { ext }, StringSplitOptions.None);
+                           string destPath = results[0] + "_thumb" + ext;
+                           string ThumbPath = drURL + destPath;
+                           FileInfo oFileThumb = new FileInfo(ThumbPath);
+                           if (oFileThumb.Exists)
+                           {
+                               string oThumbName = oFileThumb.Name;
+                               oFileThumb.CopyTo(drURL + result.ToString() + "/" + oThumbName, true);
+                           }
+                           //  objSvc.GenerateThumbNail(sourcePath, destPath, 98);
+                       }
 
 
-                });
+                       FileInfo oFile = new FileInfo(filePath);
+
+                       if (oFile.Exists)
+                       {
+                           filename = oFile.Name;
+                           item.ImageName = result.ToString() + "/" + oFile.CopyTo(drURL + result.ToString() + "/" + filename, true).Name;
+                       }
+
+
+                   });
+               }
+               
 
 
                 db.SaveChanges();
