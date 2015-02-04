@@ -73,7 +73,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 gripsideorientaion = source.gripsideorientaion,
                 gutterdepth = source.gutterdepth,
                 headdepth = source.headdepth,
-                Va = source.Va,
+                MarkupId = source.MarkupId,
                 PressSizeRatio = source.PressSizeRatio,
                 Description = source.Description,
                 Priority = source.Priority,

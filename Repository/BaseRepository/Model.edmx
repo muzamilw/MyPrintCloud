@@ -2040,7 +2040,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="gripsideorientaion" Type="int" />
           <Property Name="gutterdepth" Type="float" />
           <Property Name="headdepth" Type="float" />
-          <Property Name="Va" Type="float" />
+          <Property Name="MarkupId" Type="bigint" />
           <Property Name="PressSizeRatio" Type="float" />
           <Property Name="Description" Type="text" Nullable="false" />
           <Property Name="Priority" Type="float" />
@@ -10535,7 +10535,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="gripsideorientaion" Type="Int32" />
           <Property Name="gutterdepth" Type="Double" />
           <Property Name="headdepth" Type="Double" />
-          <Property Name="Va" Type="Double" />
           <Property Name="PressSizeRatio" Type="Double" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Priority" Type="Double" />
@@ -10572,6 +10571,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="MachineResources" Relationship="DomainModels.FK_tbl_machines_tbl_machine_resource" FromRole="Machine" ToRole="MachineResource" />
           <Property Name="LookupMethodId" Type="Int64" />
           <NavigationProperty Name="ItemSections" Relationship="DomainModels.FK_ItemSection_Machine" FromRole="Machine" ToRole="ItemSection" />
+          <Property Name="MarkupId" Type="Int64" />
         </EntityType>
         <EntityType Name="MachineInkCoverage">
           <Key>
@@ -14155,6 +14155,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Machines">
             <EntityTypeMapping TypeName="DomainModels.Machine">
               <MappingFragment StoreEntitySet="Machine">
+                <ScalarProperty Name="MarkupId" ColumnName="MarkupId" />
                 <ScalarProperty Name="LookupMethodId" ColumnName="LookupMethodId" />
                 <ScalarProperty Name="ReelMakereadyTime" ColumnName="ReelMakereadyTime" />
                 <ScalarProperty Name="WashupTime" ColumnName="WashupTime" />
@@ -14188,7 +14189,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="Priority" ColumnName="Priority" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="PressSizeRatio" ColumnName="PressSizeRatio" />
-                <ScalarProperty Name="Va" ColumnName="Va" />
                 <ScalarProperty Name="headdepth" ColumnName="headdepth" />
                 <ScalarProperty Name="gutterdepth" ColumnName="gutterdepth" />
                 <ScalarProperty Name="gripsideorientaion" ColumnName="gripsideorientaion" />
