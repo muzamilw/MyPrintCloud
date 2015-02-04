@@ -13,6 +13,7 @@ define("machine/machine.viewModel",
                     machineList = ko.observableArray([]),
                     machine = ko.observableArray([]),
                     errorList = ko.observableArray([]),
+                   
                     // #region Busy Indicators
                     isLoadingMachineList = ko.observable(false),
                     // #endregion Busy Indicators
@@ -26,9 +27,6 @@ define("machine/machine.viewModel",
                     isEditorVisible = ko.observable(),
                     selectedMachine = ko.observable(),
                     templateToUse = 'itemMachineTemplate',
-                    //templateToUse = function (omachine) {
-                    //    return (omachine === selectedMachine() ? 'editMachineTemplate' : 'itemMachineTemplate');
-                    //},
                     makeEditable = ko.observable(false),
                     createNewMachine = function () {
                         var oMachine = new model.machine();
@@ -222,6 +220,7 @@ define("machine/machine.viewModel",
                     isEditorVisible: isEditorVisible,
                     closeMachineDetail: closeMachineDetail,
                     showMachineDetail: showMachineDetail
+                  
                 };
             })()
         };

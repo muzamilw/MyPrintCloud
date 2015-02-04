@@ -28,15 +28,20 @@ namespace MPC.MIS.Areas.Api.Controllers
 
 
         #region Public
-        public Machine Get(long id)
+        public MachineResponse Get(long id)
         {
-            return _machineService.GetMachineById(id).CreateFrom();
+            return new MachineResponse{
+                machine = _machineService.GetMachineById(id).CreateFrom(),
+                lookupMethods = _machineService.GetAllLookupMethod().Select(s => s.LookupMethodMapper())
+
+            };
+           
         }
 
-        public MachineResponse GetMachineList([FromUri] MachineRequestModel request)
+        public MachineListResponse GetMachineList([FromUri] MachineRequestModel request)
         {
             var result = _machineService.GetAll(request);
-            return new MachineResponse
+            return new MachineListResponse
             {
                 machine = result.MachineList.Select(s => s.ListViewModelCreateFrom(result.lookupMethod)),
                 RowCount = result.RowCount
@@ -47,8 +52,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         //public IEnumerable<LookupMethod> GetLookupMethodList()
         //{
 
-        //    return _machineService.GetAllLookupMethod().LookupMethodMapper();
-            
+        //    return _machineService.GetAllLookupMethod().Select(s => s.LookupMethodMapper());
+
         //}
 
         #endregion

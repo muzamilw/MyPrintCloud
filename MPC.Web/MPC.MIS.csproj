@@ -427,6 +427,7 @@
     <Compile Include="Areas\Api\Models\MachineInkCoverage.cs" />
     <Compile Include="Areas\Api\Models\MachineList.cs" />
     <Compile Include="Areas\Api\Models\MachineResource.cs" />
+    <Compile Include="Areas\Api\Models\MachineListResponse.cs" />
     <Compile Include="Areas\Api\Models\MachineResponse.cs" />
     <Compile Include="Areas\Api\Models\MachineSearchResponse.cs">
       <SubType>Code</SubType>

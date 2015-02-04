@@ -112,7 +112,8 @@ define("machine/machine.dataservice", function () {
 
         return {
             GetMachineList: GetMachineList,
-            getMachineById: getMachineById
+            getMachineById: getMachineById,
+            GetLookupMethodList: GetLookupMethodList
             //deleteCostCenter: deleteCostCenter,
             //saveNewCostCenter: saveNewCostCenter,
             //saveCostCenter: saveCostCenter

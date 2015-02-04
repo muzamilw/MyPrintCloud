@@ -629,15 +629,11 @@
                                                 </div>
                                                 <label class="control-label text-right tooltip-float">Select Calculation Method</label>
                                             </div>
-
+                                            @*$root.lookupMethods*@
                                             <div class="col-lg-6">
-                                                <select class="form-control">
-                                                    <option>Speed Weight Calculation Formula 2</option>
-                                                    <option>Per Hour Lookup</option>
-                                                    <option>Meter per Hour</option>
-                                                    <option>Click Charge Lookup</option>
-                                                    <option>Commercial Click Charge</option>
-                                                </select>
+                                                <select class="form-control" data-bind="options: lookupList, optionsText: 'Name', optionsValue: 'MethodId', value: LookupMethodId"></select>
+
+                                              
                                                 <span class="help-block text-right"></span>
                                             </div>
 
