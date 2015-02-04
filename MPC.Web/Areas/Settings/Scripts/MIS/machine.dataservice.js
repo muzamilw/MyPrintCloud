@@ -22,6 +22,12 @@ define("machine/machine.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    amplify.request.define('getStockItemsList', 'ajax', {
+                        url: ist.siteUrl + '/Api/StockItems',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
                     // Define request to delete MachineList
                     //amplify.request.define('deleteMachine', 'ajax', {
                     //    url: ist.siteUrl + '/Api/MachineList',
@@ -70,6 +76,15 @@ define("machine/machine.dataservice", function () {
                     data: params
                 });
             },
+            getStockItemsList = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getStockItemsList',
+                    data: params,
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
              //Get Machine by Id 
             getMachineById = function (params, callbacks) {
                 initialize();
@@ -113,10 +128,9 @@ define("machine/machine.dataservice", function () {
         return {
             GetMachineList: GetMachineList,
             getMachineById: getMachineById,
-            GetLookupMethodList: GetLookupMethodList
-            //deleteCostCenter: deleteCostCenter,
-            //saveNewCostCenter: saveNewCostCenter,
-            //saveCostCenter: saveCostCenter
+            GetLookupMethodList: GetLookupMethodList,
+            getStockItemsList: getStockItemsList
+            
         };
     })();
 
