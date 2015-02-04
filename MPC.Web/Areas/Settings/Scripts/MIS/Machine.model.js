@@ -77,6 +77,9 @@
             minimumsheetwidth = ko.observable(),
             gripdepth = ko.observable(),
             gripsideorientaion = ko.observable(),
+            Orientation = ko.observableArray([
+                    new OrientationModel({ id: "1", name: "Long Side" }),
+                    new OrientationModel({ id: "2", name: "Short Side" })]),
             gutterdepth = ko.observable(),
             headdepth = ko.observable(),
             Va = ko.observable(),
@@ -162,7 +165,8 @@
             minimumsheetheight : minimumsheetheight,
             minimumsheetwidth : minimumsheetwidth,
             gripdepth : gripdepth,
-            gripsideorientaion : gripsideorientaion,
+            gripsideorientaion: gripsideorientaion,
+            Orientation:Orientation,
             gutterdepth : gutterdepth,
             headdepth : headdepth,
             Va : Va,
@@ -213,7 +217,17 @@
         };
         return self;
     };
+    var OrientationModel = function (data) {
+        var self = this;
+        self.id = ko.observable(data.id);
+        self.name = ko.observable(data.name);
+    };
 
+    var lookupMethod = function (data) {
+        var self = this;
+        self.MethodId = ko.observable(data.MethodId);
+        self.Name = ko.observable(data.Name);
+    }
     var machineListClientMapper = function (source) {
 
         var omachineList = new machineList();
@@ -320,7 +334,8 @@
         machineList: machineList,
         machineListClientMapper: machineListClientMapper,
         machineListServerMapper: machineListServerMapper,
-        machine:machine,
+        machine: machine,
+        lookupMethod:lookupMethod,
         machineClientMapper: machineClientMapper
     };
 });

@@ -279,11 +279,7 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <select class="form-control" data-bind="value:gripsideorientaion">
-                                                   
-                                                    <option data-bind="value:1">Long Side</option>
-                                                    <option data-bind="value:2">Short Side</option>
-                                                </select>
+                                                <select class="form-control" data-bind="options: Orientation, optionsText: 'name', optionsValue: 'id', value: gripsideorientaion"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
 

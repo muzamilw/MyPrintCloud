@@ -96,6 +96,7 @@ namespace MPC.Repository.Repositories
             return new MachineSearchResponse { Machines = machines, TotalCount = DbSet.Count(query) };
         }
 
+
         public Machine Find(int id)
         {
             return DbSet.Find(id);
@@ -113,6 +114,10 @@ namespace MPC.Repository.Repositories
             {
                 return db.Machines;
             }
+        }
+        public IEnumerable<LookupMethod> GetAllLookupMethodList()
+        {
+            return db.LookupMethods;
         }
         //protected override IDbSet<LookupMethod> LookupMethd
         //{

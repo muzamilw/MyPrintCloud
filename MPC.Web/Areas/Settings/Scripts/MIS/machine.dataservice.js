@@ -17,7 +17,11 @@ define("machine/machine.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
-
+                    amplify.request.define('GetLookupMethodList', 'ajax', {
+                        url: ist.siteUrl + '/Api/Machine',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to delete MachineList
                     //amplify.request.define('deleteMachine', 'ajax', {
                     //    url: ist.siteUrl + '/Api/MachineList',
@@ -47,11 +51,20 @@ define("machine/machine.dataservice", function () {
                     isInitialized = true;
                 }
             },
-            // Get Machine List
             GetMachineList = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'GetMachineList',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            // Get Machine List
+            GetLookupMethodList = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'GetLookupMethodList',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params

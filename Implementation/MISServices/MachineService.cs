@@ -45,6 +45,10 @@ namespace MPC.Implementation.MISServices
         {
             return _machineRepository.GetAllMachine(request);
         }
+        public IEnumerable<LookupMethod> GetAllLookupMethod()
+        {
+            return _machineRepository.GetAllLookupMethodList();
+        }
         #endregion
     }
 }

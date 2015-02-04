@@ -32,6 +32,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         {
             return _machineService.GetMachineById(id).CreateFrom();
         }
+
         public MachineResponse GetMachineList([FromUri] MachineRequestModel request)
         {
             var result = _machineService.GetAll(request);
@@ -41,6 +42,15 @@ namespace MPC.MIS.Areas.Api.Controllers
                 RowCount = result.RowCount
             };
         }
+
+
+        //public IEnumerable<LookupMethod> GetLookupMethodList()
+        //{
+
+        //    return _machineService.GetAllLookupMethod().LookupMethodMapper();
+            
+        //}
+
         #endregion
     }
 }
