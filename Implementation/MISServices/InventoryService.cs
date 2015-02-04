@@ -37,6 +37,7 @@ namespace MPC.Implementation.MISServices
         private readonly IMarkupRepository markupRepository;
         private readonly IChartOfAccountRepository chartOfAccountRepository;
         private readonly ISystemUserRepository systemUserRepository;
+        private readonly IOrganisationRepository organisationRepository;
         #endregion
 
         #region Constructor
@@ -49,7 +50,7 @@ namespace MPC.Implementation.MISServices
             ICompanyRepository companyRepository, IPaperSizeRepository paperSizeRepository, IStockCostAndPriceRepository stockCostAndPriceRepository,
             IPaperBasisAreaRepository paperBasisAreaRepository, ILengthUnitRepository lengthUnitRepository, IRegistrationQuestionRepository registrationQuestionRepository,
             IPrefixRepository prefixRepository, ICompanyTypeRepository companyTypeRepository, IMarkupRepository markupRepository, IChartOfAccountRepository chartOfAccountRepository,
-            ISystemUserRepository systemUserRepository
+            ISystemUserRepository systemUserRepository, IOrganisationRepository organisationRepository
             )
         {
             this.stockCategoryRepository = stockCategoryRepository;
@@ -68,6 +69,7 @@ namespace MPC.Implementation.MISServices
             this.chartOfAccountRepository = chartOfAccountRepository;
             this.systemUserRepository = systemUserRepository;
             this.companyTypeRepository = companyTypeRepository;
+            this.organisationRepository = organisationRepository;
         }
 
         #endregion
@@ -87,6 +89,7 @@ namespace MPC.Implementation.MISServices
                 WeightUnits = weightUnitRepository.GetAll(),
                 LengthUnits = lengthUnitRepository.GetAll(),
                 PaperBasisAreas = paperBasisAreaRepository.GetAll(),
+                Organisation = organisationRepository.GetOrganizatiobByID(),
             };
         }
 
