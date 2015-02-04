@@ -119,5 +119,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         bool AddUpdateItemFordeliveryCostCenter(long orderId, long DeliveryCostCenterId, double DeliveryCost, long customerID, string DeliveryName, StoreMode Mode, bool isDeliveryTaxable, bool IstaxONService, double GetServiceTAX, double TaxRate);
 
+        long AddInquiryAndItems(Inquiry Inquiry, List<InquiryItem> InquiryItems);
+        void AddInquiryAttachments(List<InquiryAttachment> InquiryAttachments);
     }
 }

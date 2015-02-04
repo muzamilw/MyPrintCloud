@@ -92,6 +92,8 @@ namespace MPC.Repository
             unityContainer.RegisterType<ICostCentreQuestionRepository, CostCentreQuestionRepository>();
             unityContainer.RegisterType<ICostCentreVariableRepository, CostCentreVariableRepository>();
             unityContainer.RegisterType<ICostCentreMatrixRepository, CostCentreMatrixRepository>();
+            unityContainer.RegisterType<IInquiryRepository, InquiryRepository>();
+            unityContainer.RegisterType<IInquiryAttachmentRepository, InquiryAttachmentRepository>();
         }
     }
 }

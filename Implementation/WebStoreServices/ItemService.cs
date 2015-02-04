@@ -33,6 +33,8 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IFavoriteDesignRepository _favoriteDesign;
         private readonly ITemplateService _templateService;
         private readonly IPaymentGatewayRepository _paymentRepository;
+        private readonly IInquiryRepository _inquiryRepository;
+        private readonly IInquiryAttachmentRepository _inquiryAttachmentRepository;
         #region Constructor
 
         /// <summary>
@@ -41,7 +43,7 @@ namespace MPC.Implementation.WebStoreServices
         public ItemService(IItemRepository ItemRepository, IItemStockOptionRepository StockOptions, ISectionFlagRepository SectionFlagRepository, ICompanyRepository CompanyRepository
             , IItemStockControlRepository StockRepository, IItemAddOnCostCentreRepository AddOnRepository, IProductCategoryRepository ProductCategoryRepository
             , IItemAttachmentRepository itemAtachement, IFavoriteDesignRepository FavoriteDesign, ITemplateService templateService
-            ,IPaymentGatewayRepository paymentRepository)
+            , IPaymentGatewayRepository paymentRepository, IInquiryRepository inquiryRepository, IInquiryAttachmentRepository inquiryAttachmentRepository)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -54,6 +56,8 @@ namespace MPC.Implementation.WebStoreServices
             this._favoriteDesign = FavoriteDesign;
             this._templateService = templateService;
             this._paymentRepository = paymentRepository;
+            this._inquiryRepository = inquiryRepository;
+            this._inquiryAttachmentRepository = inquiryAttachmentRepository;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -309,7 +313,7 @@ namespace MPC.Implementation.WebStoreServices
             try
             {
                 return _ItemRepository.GetRelatedItemsByItemID(ItemID);
-
+                
             }
             catch (Exception ex)
             {
@@ -632,7 +636,37 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
-  
 
+        /// <summary>
+        /// add in
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <param name="DeliveryCostCenterId"></param>
+        /// <param name="DeliveryCost"></param>
+        /// <param name="customerID"></param>
+        /// <param name="DeliveryName"></param>
+        /// <param name="Mode"></param>
+        /// <param name="isDeliveryTaxable"></param>
+        /// <param name="IstaxONService"></param>
+        /// <param name="GetServiceTAX"></param>
+        /// <param name="TaxRate"></param>
+        /// <returns></returns>
+        public long AddInquiryAndItems(Inquiry Inquiry, List<InquiryItem> InquiryItems)
+        {
+            try
+            {
+                return _inquiryRepository.AddInquiryAndItems(Inquiry, InquiryItems);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+       public void AddInquiryAttachments(List<InquiryAttachment> InquiryAttachments)
+       {
+            _inquiryAttachmentRepository.SaveInquiryAttachments(InquiryAttachments);
+        
+       }
     }
 }

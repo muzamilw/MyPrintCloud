@@ -201,6 +201,8 @@
     <Compile Include="Repositories\GetItemsListViewRepository.cs" />
     <Compile Include="Repositories\GlobalLanguageRepository.cs" />
     <Compile Include="Repositories\ImagePermissionRepository.cs" />
+    <Compile Include="Repositories\InquiryAttachmentRepository.cs" />
+    <Compile Include="Repositories\InquiryRepository.cs" />
     <Compile Include="Repositories\ItemAttachmentRepository.cs" />
     <Compile Include="Repositories\ProductCategoryItemRepository.cs" />
     <Compile Include="Repositories\ItemStateTaxRepository.cs" />

@@ -91,6 +91,8 @@
     <Compile Include="Repository\IGetItemsListViewRepository.cs" />
     <Compile Include="Repository\IGlobalLanguageRepository.cs" />
     <Compile Include="Repository\IImagePermissionsRepository.cs" />
+    <Compile Include="Repository\IInquiryAttachmentRepository.cs" />
+    <Compile Include="Repository\IInquiryRepository.cs" />
     <Compile Include="Repository\IItemAttachmentRepository.cs" />
     <Compile Include="Repository\IIProductCategoryItemRepository.cs" />
     <Compile Include="Repository\IItemStateTaxRepository.cs" />

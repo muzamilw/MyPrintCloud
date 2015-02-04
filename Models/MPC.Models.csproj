@@ -181,6 +181,7 @@
     <Compile Include="DomainModels\ProductCategoryItem.cs" />
     <Compile Include="DomainModels\ProductMarketBriefAnswer.cs" />
     <Compile Include="DomainModels\ProductMarketBriefQuestion.cs" />
+    <Compile Include="DomainModels\RequestQuote.cs" />
     <Compile Include="DomainModels\Role.cs" />
     <Compile Include="DomainModels\sp_GetTemplateImages_Result.cs" />
     <Compile Include="DomainModels\sp_GetUsedFontsUpdated_Result.cs" />
