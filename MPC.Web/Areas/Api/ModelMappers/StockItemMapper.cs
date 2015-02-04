@@ -27,7 +27,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 WeightUnits = source.WeightUnits != null ? source.WeightUnits.Select(su => su.CreateFromDropDown()).ToList() : null,
                 LengthUnits = source.LengthUnits != null ? source.LengthUnits.Select(ul => ul.CreateFromDropDown()).ToList() : null,
                 PaperBasisAreas = source.PaperBasisAreas != null ? source.PaperBasisAreas.Select(p => p.CreateFromDropDown()).ToList() : null,
-                RegistrationQuestions = source.RegistrationQuestions != null ? source.RegistrationQuestions.Select(q => q.CreateFromDropDown()) : new List<ApiModels.RegistrationQuestionDropDown>()
+                RegistrationQuestions = source.RegistrationQuestions != null ? source.RegistrationQuestions.Select(q => q.CreateFromDropDown()) : new List<ApiModels.RegistrationQuestionDropDown>(),
+                CurrencySymbol = (source.Organisation != null && source.LengthUnits != null) ? source.Organisation.Currency.CurrencyCode : string.Empty
             };
         }
 

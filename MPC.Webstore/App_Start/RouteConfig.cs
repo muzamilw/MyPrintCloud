@@ -150,7 +150,16 @@ namespace MPC.Webstore
              "CloneItem/{id}",
              new { controller = "Category", action = "CloneItem", id = UrlParameter.Optional }
                );
-
+            routes.MapRoute(
+            "EditDesign",
+            "EditDesign/{DesignState}/{EditType}/{ItemID}/{TemplateId}",
+            new { controller = "ProductDetail", action = "EditDesign", DesignState = UrlParameter.Optional, EditType = UrlParameter.Optional,ItemID = UrlParameter.Optional, TemplateId = UrlParameter.Optional }
+              );
+              routes.MapRoute(
+            "RemoveProduct",
+            "RemoveProduct/{ItemID}/{OrderID}",
+            new { controller = "ShopCart", action = "RemoveProduct",ItemID = UrlParameter.Optional, OrderID = UrlParameter.Optional }
+              );
       
             routes.MapRoute(
                "Default", // Route name

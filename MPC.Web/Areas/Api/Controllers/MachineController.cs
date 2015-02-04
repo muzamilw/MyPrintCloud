@@ -30,11 +30,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Public
         public MachineResponse Get(long id)
         {
-            return new MachineResponse{
-                machine = _machineService.GetMachineById(id).CreateFrom(),
-                lookupMethods = _machineService.GetAllLookupMethod().Select(s => s.LookupMethodMapper())
-
-            };
+            return _machineService.GetMachineById(id).CreateFrom() ;
+            
            
         }
 

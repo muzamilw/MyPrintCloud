@@ -143,6 +143,7 @@ namespace MPC.Webstore.Controllers
                     ViewData["Templates"] = null;
                 }
 
+              
                 ViewBag.SelectedStockItemId = clonedItem.ItemSections.FirstOrDefault().StockItemID1;
                 ViewBag.SelectedQuantity = clonedItem.Qty1;
 

@@ -244,7 +244,7 @@
         <EntityTypeShape EntityType="DomainModels.MachineResource" Width="1.5" PointX="37.625" PointY="24.5" />
         <AssociationConnector Association="DomainModels.FK_tbl_machines_tbl_machine_ink_coverage" />
         <AssociationConnector Association="DomainModels.FK_tbl_machines_tbl_machine_resource" />
-        <EntityTypeShape EntityType="DomainModels.MachineCategory" Width="1.5" PointX="35.375" PointY="30.75" />
+        <EntityTypeShape EntityType="DomainModels.MachineCategory" Width="1.5" PointX="37.625" PointY="26.625" />
         <EntityTypeShape EntityType="DomainModels.CompanyCostCentre" Width="1.5" PointX="37.625" PointY="18.125" />
         <AssociationConnector Association="DomainModels.FK_CompanyCostCentre_Company" />
         <AssociationConnector Association="DomainModels.FK_CompanyCostCentre_CostCentre" />
@@ -253,6 +253,9 @@
         <AssociationConnector Association="DomainModels.FK_ItemSection_Machine" />
         <AssociationConnector Association="DomainModels.FK_ItemSection_StockItem" />
         <AssociationConnector Association="DomainModels.FK_CompanyContact_ShippingAddress" />
+        <AssociationConnector Association="DomainModels.FK_Organisation_Currency" />
+        <AssociationConnector Association="DomainModels.FK_Organisation_LengthUnit" />
+        <AssociationConnector Association="DomainModels.FK_Organisation_WeightUnit" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
