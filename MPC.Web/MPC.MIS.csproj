@@ -281,6 +281,7 @@
     <Compile Include="Areas\Api\ModelMappers\GroupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemDesignerTemplateBaseResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemSectionMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\LookupMethodMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineListMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MediaLibraryMapper.cs" />
@@ -580,9 +581,6 @@
     <Content Include="Areas\Settings\Scripts\myOrganization.view.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.dataservice.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.model.js" />
-    <Content Include="Areas\Stores\Scripts\store.Product.dataservice.js" />
-    <Content Include="Areas\Stores\Scripts\store.Product.model.js" />
-    <Content Include="Areas\Stores\Scripts\store.Product.viewModel.js" />
     <Content Include="Areas\Stores\Scripts\Stores.dataservice.js" />
     <Content Include="Areas\Stores\Scripts\Stores.model.js" />
     <Content Include="Areas\Stores\Scripts\Stores.view.js" />
@@ -1534,13 +1532,7 @@
     <Content Include="Areas\Settings\Views\Home\MachinesList.cshtml" />
     <Content Include="Areas\Settings\Views\Home\MyOrganization.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\Prefixes.cshtml" />
-    <Content Include="Areas\Stores\Views\Stores\_Products.cshtml" />
-    <Content Include="Areas\Stores\Views\Stores\_StoreProductDetail.cshtml" />
     <Content Include="Content\less\Organisation.less" />
-    <Content Include="Areas\Stores\Views\Stores\_StoreProductAddVideo.cshtml" />
-    <Content Include="Areas\Stores\Views\Stores\_StoreProductRelatedProductDialog.cshtml" />
-    <Content Include="Areas\Stores\Views\Stores\_StoreProductStockDialog.cshtml" />
-    <Content Include="Areas\Stores\Views\Stores\_StockProductItemAddonCostCentre.cshtml" />
     <Content Include="Areas\Stores\Views\Home\Index.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -1554,7 +1546,6 @@
     <Content Include="Areas\Settings\Views\MIS\CostCenterDetail.cshtml" />
     <Content Include="Content\less\Inventory.less" />
     <Content Include="Areas\Stores\Views\Stores\_ItemsForWidgetDialog.cshtml" />
-    <Content Include="Areas\Stores\Views\Stores\_StoreProductCategoryDialog.cshtml" />
     <Content Include="Areas\Settings\Views\Home\LookupMethods.cshtml" />
     <Content Include="Areas\Products\Views\Home\_SignatureEdit.cshtml" />
     <Content Include="Content\less\PaperSheet.less" />

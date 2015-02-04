@@ -196,6 +196,21 @@ namespace MPC.Models.DomainModels
         public virtual GlobalLanguage GlobalLanguage { get; set; }
 
         /// <summary>
+        /// Length Unit
+        /// </summary>
+        public virtual LengthUnit LengthUnit { get; set; }
+
+        /// <summary>
+        /// Weight Unit
+        /// </summary>
+        public virtual WeightUnit WeightUnit { get; set; }
+
+        /// <summary>
+        /// Currency
+        /// </summary>
+        public virtual Currency Currency { get; set; }
+
+        /// <summary>
         /// Cms Skin Page Widgets
         /// </summary>
         public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }

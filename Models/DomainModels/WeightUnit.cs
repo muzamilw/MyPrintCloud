@@ -1,4 +1,6 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System.Collections.Generic;
+
+namespace MPC.Models.DomainModels
 {
     /// <summary>
     /// Weight Unit Domain Model
@@ -31,6 +33,12 @@
         /// KG
         /// </summary>
         public double? KG { get; set; }
+
+        /// <summary>
+        /// Organisations using this weight unit
+        /// </summary>
+        public virtual ICollection<Organisation> Organisations { get; set; } 
+
         #endregion
     }
 }

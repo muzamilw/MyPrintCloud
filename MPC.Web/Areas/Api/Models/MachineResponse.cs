@@ -9,6 +9,6 @@ namespace MPC.MIS.Areas.Api.Models
     {
         public Machine machine { get; set; }
         public IEnumerable<LookupMethod> lookupMethods { get; set; }
-
+        public IEnumerable<Markup> Markups { get; set; }
     }
 }

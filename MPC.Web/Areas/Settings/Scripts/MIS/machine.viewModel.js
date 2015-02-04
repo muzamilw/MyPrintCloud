@@ -11,7 +11,6 @@ define("machine/machine.viewModel",
                     view,
                     // Active
                     machineList = ko.observableArray([]),
-                    machine = ko.observableArray([]),
                     errorList = ko.observableArray([]),
                    
                     // #region Busy Indicators
@@ -198,7 +197,7 @@ define("machine/machine.viewModel",
                     machineList: machineList,
                     selectedMachine: selectedMachine,
                     isLoadingMachineList: isLoadingMachineList,
-                    machine:machine,
+                    
                     //deleteCostCenter: deleteCostCenter,
                     //onDeleteCostCenter: onDeleteCostCenter,
                     sortOn: sortOn,
