@@ -383,6 +383,12 @@ namespace MPC.MIS.Areas.Api.Models
         public double? Scalar { get; set; }
         public double? ZoomFactor { get; set; }
         public bool? IsAddCropMarks { get; set; }
+
+        /// <summary>
+        /// Being used for Template Service generateTemplateFromPdf method, if mode is 2 then preserves
+        /// existing template object else removes
+        /// </summary>
+        public int? TemplateTypeMode { get; set; }
         public string ThumbnailImageName { get; set; }
         public string ImagePathImageName { get; set; }
         public string GridImageSourceName { get; set; }
@@ -867,6 +873,8 @@ namespace MPC.MIS.Areas.Api.Models
         public ItemProductDetail ItemProductDetail { get; set; }
 
         public IEnumerable<ProductCategoryItem> ProductCategoryItems { get; set; }
+
+        public IEnumerable<ItemSection> ItemSections { get; set; }
 
         #endregion
     }

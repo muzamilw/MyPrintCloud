@@ -820,8 +820,8 @@ namespace MPC.Repository.Repositories
             }
 
 
-            tblOrder.OrderManagerId = (int)loggedInContactID;
-            tblOrder.Created_by = (int)loggedInContactID;
+            //tblOrder.OrderManagerId = (int)loggedInContactID;
+            //tblOrder.Created_by = (int)loggedInContactID;
 
         }
         public DateTime AddBusinessdays(int ProductionDays, DateTime StartingDay)
@@ -1054,8 +1054,8 @@ namespace MPC.Repository.Repositories
                         Company ObjComp = db.Companies.Where(c => c.CompanyId == tblOrder.CompanyId).FirstOrDefault();
                         if (ObjComp != null)
                         {
-                            MgrIds.Add(ObjComp.StockNotificationManagerId1 ?? 0);
-                            MgrIds.Add(ObjComp.StockNotificationManagerId2 ?? 0);
+                            //MgrIds.Add(ObjComp.StockNotificationManagerId1 ?? 0);
+                            //MgrIds.Add(ObjComp.StockNotificationManagerId2 ?? 0);
                             org = db.Organisations.Where(o => o.OrganisationId == ObjComp.OrganisationId).FirstOrDefault();
                         }
 
@@ -1573,9 +1573,10 @@ namespace MPC.Repository.Repositories
 
                
 
-                listOfManagers = (from c in db.SystemUsers
-                                      where mangerList.Contains(c.SystemUserId)
-                                      select c).ToList();
+                //listOfManagers = 
+                    //(from c in db.SystemUsers
+                    //                  where mangerList.Contains(c.SystemUserId)
+                    //                  select c).ToList();
                     if (listOfManagers.Count() > 0)
                     {
                         Campaign stockCampaign = GetCampaignRecordByEmailEvent(emailevent);

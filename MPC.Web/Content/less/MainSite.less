@@ -1,7 +1,4 @@
-﻿@import "Products";
-@import "Organisation";
-@import "Store";
-@import "Inventory";
+﻿/* Common Styles */
 
 .fileUpload {
     position: relative;
@@ -20,13 +17,94 @@
     filter: alpha(opacity=0);
 }
 
-#phraseLibraryDialog
-{
-    .selectedSection, .selectedPhraseField
-    {
+#phraseLibraryDialog {
+    .selectedSection, .selectedPhraseField {
         background: yellow;
+    }
+
+    .category {
+        padding-right: 5px;
+        border: 1px solid silver;
+        max-height: 450px;
+        overflow-y: auto;
+        margin-top: 14px;
     }
 }
 
+.inlineGrid {
+    table {
+        max-width: 100%;
+        width: 100%;
+        min-width: 100%;
+
+        th {
+            // color: @column_header_color;
+        }
+
+        td {
+            padding: 4px 5px;
+            vertical-align: middle;
+        }
 
 
+        tr td select, textarea,
+        input[type="text"], input[type="password"],
+        input[type="datetime"], input[type="datetime-local"],
+        input[type="date"], input[type="month"],
+        input[type="time"], input[type="week"],
+        input[type="number"], input[type="email"],
+        input[type="url"], input[type="search"],
+        input[type="tel"], input[type="color"], .uneditable-input {
+            padding-left: 2px;
+            padding-right: 2px;
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 1px;
+            margin-right: 2px;
+        }
+
+        .selectedRow {
+            // background-color: @select_row_backgroundColor;
+            label {
+                color: #8B8B8B;
+                font-size: 13px;
+                text-align: left;
+            }
+        }
+    }
+}
+
+.my-modal {
+    overflow: auto !important;
+}
+
+.closeSaveButtonMarginRemove {
+    margin-left: 0;
+}
+
+/* Validation Summary */
+
+.validationSummaryContainer {
+    .validationSummaryLink {
+        margin-left: 15px;
+    }
+
+    ul {
+        padding-left: 20px;
+    }
+
+    a {
+        color: red;
+    }
+}
+
+/* Validation Summary */
+
+/* Common Styles */
+
+@import "Products";
+@import "Organisation";
+@import "Store";
+@import "Inventory";
+@import "PaperSheet";
+@import "InventoryCategory";

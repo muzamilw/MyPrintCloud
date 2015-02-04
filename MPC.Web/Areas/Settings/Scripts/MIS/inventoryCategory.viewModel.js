@@ -2,8 +2,9 @@
     Module with the view model for the My Organization.
 */
 define("inventoryCategory/inventoryCategory.viewModel",
-    ["jquery", "amplify", "ko", "inventoryCategory/inventoryCategory.dataservice", "inventoryCategory/inventoryCategory.model", "common/confirmation.viewModel", "common/pagination"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination) {
+    ["jquery", "amplify", "ko", "inventoryCategory/inventoryCategory.dataservice", "inventoryCategory/inventoryCategory.model",
+        "common/confirmation.viewModel", "common/pagination", "common/sharedNavigation.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM) {
         var ist = window.ist || {};
         ist.inventoryCategory = {
             viewModel: (function () {
@@ -37,9 +38,12 @@ define("inventoryCategory/inventoryCategory.viewModel",
                     //Create New Stock Category
                     createNewStockCategory = function () {
                         var stockCategory = new model.InventoryCategory();
+                        stockCategory.itemSizeCustom(false);
                         editorViewModel.selectItem(stockCategory);
                         selectedStockCategory(stockCategory);
                         isStockCategoryEditorVisible(true);
+
+                        sharedNavigationVM.initialize(selectedStockCategory, function (saveCallback) { saveStockCategory(saveCallback); });
                     },
                     //On Edit Click Of Stock Category
                     onEditItem = function (item) {
@@ -106,27 +110,30 @@ define("inventoryCategory/inventoryCategory.viewModel",
                                 }
                             });
                         }
-                        
+
                         return flag;
                     },
                     //Save Stock Category
-                    saveStockCategory = function (item) {
+                    saveStockCategory = function (callback) {
                         if (selectedStockCategory() != undefined && doBeforeSave()) {
                             if (selectedStockCategory().categoryId() > 0) {
-                                saveEdittedStockCategory();
+                                saveEdittedStockCategory(callback);
                             } else {
-                                saveNewStockCategory(item);
+                                saveNewStockCategory(callback);
                             }
                         }
                     },
                     //Save NEW Stock Category
-                    saveNewStockCategory = function () {
+                    saveNewStockCategory = function (callback) {
                         dataservice.saveNewStockCategory(model.InventoryCategory().convertToServerData(selectedStockCategory()), {
                             success: function (data) {
                                 selectedStockCategory().categoryId(data.CategoryId);
                                 stockCategories.splice(0, 0, selectedStockCategory());
                                 isStockCategoryEditorVisible(false);
                                 toastr.success("Successfully save.");
+                                if (callback && typeof callback === "function") {
+                                    callback();
+                                }
                             },
                             error: function (response) {
                                 toastr.error("Error: Failed to save." + response);
@@ -134,11 +141,14 @@ define("inventoryCategory/inventoryCategory.viewModel",
                         });
                     },
                     //Save EDIT Stock Category
-                    saveEdittedStockCategory = function () {
+                    saveEdittedStockCategory = function (callback) {
                         dataservice.saveStockCategory(model.InventoryCategory().convertToServerData(selectedStockCategory()), {
                             success: function () {
                                 isStockCategoryEditorVisible(false);
                                 toastr.success("Successfully save.");
+                                if (callback && typeof callback === "function") {
+                                    callback();
+                                }
                             },
                             error: function (response) {
                                 toastr.error("Failed to Update . Error: " + response);
@@ -172,14 +182,22 @@ define("inventoryCategory/inventoryCategory.viewModel",
                     },
                     //Close Stock Category Dialog
                     closeEditDialog = function () {
-                        if (selectedStockCategory() != undefined) {
-                            if (selectedStockCategory().categoryId() > 0) {
-                                isStockCategoryEditorVisible(false);
-                            } else {
-                                isStockCategoryEditorVisible(false);
-                                stockCategories.remove(selectedStockCategory());
-                            }
-                            editorViewModel.revertItem();
+                        if (selectedStockCategory().hasChanges()) {
+                            confirmation.messageText("Do you want to save changes?");
+                            confirmation.afterProceed(saveStockCategory);
+                            confirmation.afterCancel(function () {
+                                if (selectedStockCategory() != undefined) {
+                                    if (selectedStockCategory().categoryId() > 0) {
+                                        isStockCategoryEditorVisible(false);
+                                    } else {
+                                        isStockCategoryEditorVisible(false);
+                                        stockCategories.remove(selectedStockCategory());
+                                    }
+                                    editorViewModel.revertItem();
+                                }
+                            });
+                            confirmation.show();
+                            return;
                         }
                     },
                     ///*** Stock Sub Categories Region ***
@@ -215,10 +233,10 @@ define("inventoryCategory/inventoryCategory.viewModel",
                      },
                      // Delete a Stock Sub Category
                     onDeleteStockSubCategory = function (stockSubCategory) {
-                       // if (stockSubCategory.categoryId() > 0) {
-                            selectedStockCategory().stockSubCategories.remove(stockSubCategory);
-                            return;
-                       // }
+                        // if (stockSubCategory.categoryId() > 0) {
+                        selectedStockCategory().stockSubCategories.remove(stockSubCategory);
+                        return;
+                        // }
                     },
 
                 //Initialize

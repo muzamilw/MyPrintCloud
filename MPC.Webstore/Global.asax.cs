@@ -27,6 +27,8 @@ using System.Web;
 using MPC.Interfaces.WebStoreServices;
 using System.Threading;
 using FluentScheduler;
+using System.Collections.Generic;
+using System.Runtime.Caching;
 namespace MPC.Webstore
 {
     public class MvcApplication : System.Web.HttpApplication
@@ -133,6 +135,9 @@ namespace MPC.Webstore
       
         protected void Session_Start()
         {
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+
             companyService = container.Resolve<ICompanyService>();
             
             string url = Convert.ToString(HttpContext.Current.Request.Url.DnsSafeHost);
@@ -141,20 +146,28 @@ namespace MPC.Webstore
 
             if (storeId > 0)
             {
-                MyCompanyDomainBaseResponse baseResponse = companyService.GetStoreFromCache(storeId).CreateFromCompany();
-                
-                if (baseResponse.Company != null)
+                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = null;
+                if ((cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>) != null && (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>).ContainsKey(storeId))
                 {
-                    UserCookieManager.StoreId = baseResponse.Company.CompanyId;
-                    UserCookieManager.StoreMode = baseResponse.Company.IsCustomer;
-                    UserCookieManager.isIncludeTax = baseResponse.Company.isIncludeVAT ?? false;
-                    UserCookieManager.TaxRate = baseResponse.Company.TaxRate ?? 0;
-                    UserCookieManager.OrganisationID = baseResponse.Company.OrganisationId ?? 0;
+                    StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[storeId];
+                }
+                else
+                {
+                    StoreBaseResopnse = companyService.GetStoreFromCache(storeId);
+                }
+                
+                if (StoreBaseResopnse.Company != null)
+                {
+                    UserCookieManager.StoreId = StoreBaseResopnse.Company.CompanyId;
+                    UserCookieManager.StoreMode = StoreBaseResopnse.Company.IsCustomer;
+                    UserCookieManager.isIncludeTax = StoreBaseResopnse.Company.isIncludeVAT ?? false;
+                    UserCookieManager.TaxRate = StoreBaseResopnse.Company.TaxRate ?? 0;
+                    UserCookieManager.OrganisationID = StoreBaseResopnse.Company.OrganisationId ?? 0;
                     //UserCookieManager.OrganisationLanguageIdentifier = "_" + UserCookieManager.OrganisationID.ToString();
                     // set global language of store
 
                     string languageName =
-                        companyService.GetUiCulture(Convert.ToInt64(baseResponse.Company.OrganisationId));
+                        companyService.GetUiCulture(Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId));
 
                     CultureInfo ci = null;
 
@@ -168,19 +181,19 @@ namespace MPC.Webstore
                     Thread.CurrentThread.CurrentUICulture = ci;
                     Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
 
-                    if (baseResponse.Company.IsCustomer == 3) // corporate customer
+                    if (StoreBaseResopnse.Company.IsCustomer == 3) // corporate customer
                     {
                         Response.Redirect("/Login");
                     }
                 }
                 else
                 {
-                    Response.Redirect("/Error");
+                  //  Response.Redirect("/Error");
                 }
             }
             else
             {
-                Response.Redirect("/Error");
+              //  Response.Redirect("/Error");
             }
 
         }

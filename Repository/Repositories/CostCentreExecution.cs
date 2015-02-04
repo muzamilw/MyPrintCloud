@@ -42,29 +42,30 @@ namespace MPC.Repository.Repositories
 
                         QuestionObj.Type = reader.GetInt16(2);
 
-                        if (QuestionObj.Type == (int)QuestionType.MultipleChoiceQuestion)
-                        {
-                            List<CostCentreAnswer> AnsObj = new List<CostCentreAnswer>();
-                            CostCentreAnswer CCObj = null;
-                            string AnsqueryString = "select * from CostCentreAnswer where QuestionId = " + QuestionID;
-                            command = new SqlCommand(AnsqueryString, con);
-                            reader = command.ExecuteReader();
-                            while (reader.Read())
-                            {
-                                CCObj = new CostCentreAnswer();
-
-                                CCObj.Id = reader.GetInt32(0);
-
-                                CCObj.QuestionId = reader.GetInt32(1);
-
-                                CCObj.AnswerString = reader.GetDouble(2);
-
-                                AnsObj.Add(CCObj);
-                            }
-                            QuestionObj.AnswerCollection = AnsObj.ToList();
-                        }
+                        
                     }
                     reader.Close();
+                    if (QuestionObj.Type == (int)QuestionType.MultipleChoiceQuestion)
+                    {
+                        List<CostCentreAnswer> AnsObj = new List<CostCentreAnswer>();
+                        CostCentreAnswer CCObj = null;
+                        string AnsqueryString = "select * from CostCentreAnswer where QuestionId = " + QuestionID;
+                        command = new SqlCommand(AnsqueryString, con);
+                        reader = command.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            CCObj = new CostCentreAnswer();
+
+                            CCObj.Id = reader.GetInt32(0);
+
+                            CCObj.QuestionId = reader.GetInt32(1);
+
+                            CCObj.AnswerString = reader.GetDouble(2);
+
+                            AnsObj.Add(CCObj);
+                        }
+                        QuestionObj.AnswerCollection = AnsObj.ToList();
+                    }
                     return QuestionObj;
                 }
 

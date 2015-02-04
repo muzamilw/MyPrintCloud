@@ -59,6 +59,15 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(s => s.ParentId == parentId).OrderBy(s => s.SecOrder).ToList();
         }
+
+        /// <summary>
+        /// Get Campaign Sections 
+        /// </summary>
+        public IEnumerable<Section> GetCampaignSections()
+        {
+            return DbSet.Where(s => s.CampaignEmailVariables.Any(c => c.SectionId == s.SectionId)).OrderBy(s => s.SecOrder).ToList();
+        }
+
         #endregion
     }
 }

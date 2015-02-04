@@ -42,6 +42,16 @@ namespace MPC.Webstore
              new { controller = "Home", action = "Index", id = UrlParameter.Optional }
           );
             routes.MapRoute(
+             "RealEstateProducts",
+             "RealEstateProducts/{listingId}",
+             new { controller = "Home", action = "Index", listingId = "" }
+          );
+            routes.MapRoute(
+             "RealEstateSmartForm",
+             "RealEstateSmartForm/{listingId}/{itemId}",
+             new { controller = "Home", action = "Index", listingId = "", itemId = "" }
+          );
+            routes.MapRoute(
             "Dashboard",
             "Dashboard",
             new { controller = "Home", action = "Index", id = UrlParameter.Optional }
@@ -86,6 +96,11 @@ namespace MPC.Webstore
               "ProductOptions",
               "ProductOptions/{CategoryId}/{ItemId}/{ItemMode}/{TemplateId}",
               new { controller = "Home", action = "Index", CategoryId = UrlParameter.Optional, ItemId = UrlParameter.Optional, ItemMode = UrlParameter.Optional, TemplateId = UrlParameter.Optional }
+             );
+            routes.MapRoute(
+              "ProductOptionCostCentre",
+              "ProductOptions/GetDateTimeString",
+              new { controller = "ProductOptions", action = "GetDateTimeString"}
              );
             routes.MapRoute(
              "MarketingBrief",

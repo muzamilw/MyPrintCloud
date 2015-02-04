@@ -102,6 +102,8 @@ namespace MPC.Interfaces.WebStoreServices
         /// <returns></returns>
         long PostLoginCustomerAndCardChanges(long OrderId, long CompanyId, long ContactId, long TemporaryCompanyId, long OrganisationId);
 
+        List<usp_GetRealEstateProducts_Result> GetRealEstateProductsByCompanyID(long CompanyId);
+
         Item GetItemByOrderID(long OrderID);
         void GenerateThumbnailForPdf(string url, bool insertCuttingMargin);
         List<Item> GetItemsByOrderID(long OrderID);
@@ -118,6 +120,8 @@ namespace MPC.Interfaces.WebStoreServices
         bool RemoveListOfDeliveryItemCostCenter(long OrderId);
 
         bool AddUpdateItemFordeliveryCostCenter(long orderId, long DeliveryCostCenterId, double DeliveryCost, long customerID, string DeliveryName, StoreMode Mode, bool isDeliveryTaxable, bool IstaxONService, double GetServiceTAX, double TaxRate);
+
+        Item GetItemByOrderItemID(long ItemID, long OrderID);
 
         long AddInquiryAndItems(Inquiry Inquiry, List<InquiryItem> InquiryItems);
         void AddInquiryAttachments(List<InquiryAttachment> InquiryAttachments);

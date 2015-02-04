@@ -8,6 +8,16 @@ namespace MPC.MIS.Areas.Api.ModelMappers
     {
         public static ProductCategory CreateFrom(this DomainModels.ProductCategory source)
         {
+            byte[] thumbnailPathBytes = null;
+            if (source.ThumbnailPath != null && File.Exists(source.ThumbnailPath))
+            {
+                thumbnailPathBytes = source.ThumbnailPath != null ? File.ReadAllBytes(source.ThumbnailPath) : null;
+            }
+            byte[] imagePathBytes = null;
+            if (source.ImagePath != null && File.Exists(source.ImagePath))
+            {
+                imagePathBytes = source.ImagePath != null ? File.ReadAllBytes(source.ImagePath) : null;
+            }
             var productCategory = new ProductCategory
             {
                 ProductCategoryId = source.ProductCategoryId,
@@ -63,12 +73,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsShowStockStatus = source.IsShowStockStatus,
                 IsShowProductDescription = source.IsShowProductDescription,
                 IsShowProductShortDescription = source.IsShowProductShortDescription,
-                ThumbnailStreamId = source.ThumbnailStreamId,
-                ImageStreamId = source.ImageStreamId,
-                Image = source.ImageFileBytes,
-                ThumbNail = source.ThumbNailFileBytes
+                //ThumbnailStreamId = source.ThumbnailStreamId,
+                //ImageStreamId = source.ImageStreamId,
+                Image = imagePathBytes,
+                ThumbNail = thumbnailPathBytes
             };
-           
+
             return productCategory;
         }
 
@@ -90,7 +100,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isEnabled = source.isEnabled ?? false,
                 isMarketPlace = source.isMarketPlace,
                 TemplateDesignerMappedCategoryName = source.TemplateDesignerMappedCategoryName,
-                isArchived = source.isArchived == null ? true : false,
+                isArchived = source.isArchived == null,
                 isPublished = source.isPublished ?? false,
                 TrimmedWidth = source.TrimmedWidth,
                 TrimmedHeight = source.TrimmedHeight,
@@ -129,10 +139,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsShowStockStatus = source.IsShowStockStatus,
                 IsShowProductDescription = source.IsShowProductDescription,
                 IsShowProductShortDescription = source.IsShowProductShortDescription,
-                ImageBytes = source.ImageBytes,
-                ImageFileName = source.ImageName,
-                ThumbNailBytes = source.ThumbnailBytes,
-                ThumbNailFileName = source.ThumbnailName
+                //ImageBytes = source.ImageBytes,
+                //ImageFileName = source.ImageName,
+                //ThumbNailBytes = source.ThumbnailBytes,
+                //ThumbNailFileName = source.ThumbnailName
             };
         }
 
@@ -146,6 +156,22 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ProductCategoryId = source.ProductCategoryId,
                 CategoryName = source.CategoryName,
                 CategoryTypeId = source.CategoryTypeId
+            };
+        }
+
+        /// <summary>
+        /// Crete From For Template Properties
+        /// </summary>
+        public static ProductCategoryForTemplate CreateFromForTemplate(this DomainModels.ProductCategory source)
+        {
+            return new ProductCategoryForTemplate
+            {
+                ProductCategoryId = source.ProductCategoryId,
+                CategoryName = source.CategoryName,
+                CategoryTypeId = source.CategoryTypeId,
+                RegionId = source.RegionId,
+                ZoomFactor = source.ZoomFactor,
+                ScaleFactor = source.ScaleFactor
             };
         }
     }

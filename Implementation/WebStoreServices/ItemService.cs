@@ -82,6 +82,8 @@ namespace MPC.Implementation.WebStoreServices
                 flagId = GetFlagId(CompanyId);
                 if (flagId == 0)
                 {
+                    // pass 0  to get the default flag id for price matrix
+                    flagId = GetFlagId(0);
                     if (IsRanged == true)
                     {
                         tblRefItemsPriceMatrix = tblRefItemsPriceMatrix.Where(c => c.QtyRangeFrom > 0 && c.QtyRangeTo > 0 && c.FlagId == flagId && c.SupplierId == null).ToList();
@@ -116,6 +118,7 @@ namespace MPC.Implementation.WebStoreServices
             }
             else
             {
+                // pass 0  to get the default flag id for price matrix
                 flagId = GetFlagId(0);
                 if (IsRanged == true)
                 {
@@ -365,26 +368,41 @@ namespace MPC.Implementation.WebStoreServices
 
         public long PostLoginCustomerAndCardChanges(long OrderId, long CompanyId, long ContactId, long TemporaryCompanyId, long OrganisationId)
         {
+            try{
             List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved = null;
             List<Template> clonedTempldateFilesList = null;
 
-            if (TemporaryCompanyId > 0 && TemporaryCompanyId != CompanyId)
+            if (OrderId > 0)
             {
-                long orderId = _ItemRepository.UpdateTemporaryCustomerOrderWithRealCustomer(TemporaryCompanyId, CompanyId, ContactId, OrderId, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTempldateFilesList);
-                if (orderId > 0)
+                bool isUpdateOrder = _ItemRepository.isTemporaryOrder(OrderId, CompanyId, ContactId);
+                if (isUpdateOrder)
                 {
-                    RemoveItemAttacmentPhysically(orderAllItemsAttatchmentsListToBeRemoved);
-                    RemoveItemTemplateFilesPhysically(clonedTempldateFilesList, OrganisationId);
-                    return orderId;
+                    long orderId = _ItemRepository.UpdateTemporaryCustomerOrderWithRealCustomer(TemporaryCompanyId, CompanyId, ContactId, OrderId, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTempldateFilesList);
+                    if (orderId > 0)
+                    {
+                        RemoveItemAttacmentPhysically(orderAllItemsAttatchmentsListToBeRemoved);
+                        RemoveItemTemplateFilesPhysically(clonedTempldateFilesList, OrganisationId);
+                        return orderId;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
                 }
-                else
+                else 
                 {
-                    return 0;
+                    return OrderId;
                 }
+               
             }
             else
             {
                 return OrderId;
+            }
+            }catch(Exception ex)
+            {
+                throw ex;
+                return 0;
             }
         }
 
@@ -448,6 +466,11 @@ namespace MPC.Implementation.WebStoreServices
             {
                 throw ex;
             }
+        }
+
+        public List<usp_GetRealEstateProducts_Result> GetRealEstateProductsByCompanyID(long companyId)
+        {
+            return _ItemRepository.GetRealEstateProductsByCompanyID(companyId);
         }
         public Item GetItemByOrderID(long OrderID)
         {
@@ -630,6 +653,17 @@ namespace MPC.Implementation.WebStoreServices
             {
                 return _ItemRepository.AddUpdateItemFordeliveryCostCenter(orderId,DeliveryCostCenterId,DeliveryCost,customerID,DeliveryName,Mode,isDeliveryTaxable,IstaxONService,GetServiceTAX,TaxRate);
 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public Item GetItemByOrderItemID(long ItemID,long OrderID)
+        {
+            try
+            {
+                return _ItemRepository.GetItemByOrderAndItemID(ItemID, OrderID);
             }
             catch (Exception ex)
             {

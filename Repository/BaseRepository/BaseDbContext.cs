@@ -13,7 +13,7 @@ namespace MPC.Repository.BaseRepository
     /// <summary>
     /// Base Db Context. Implements Identity Db Context over Application User
     /// </summary>
-    [Serializable()]
+    [Serializable]
     public sealed class BaseDbContext : DbContext
     {
         #region Private
@@ -213,7 +213,9 @@ namespace MPC.Repository.BaseRepository
                 throw new ArgumentException(LanguageResources.InvalidItem, "itemId");
             }
 
+// ReSharper disable SuggestUseVarKeywordEvident
             ObjectParameter itemIdParameter = new ObjectParameter("ItemId", itemId);
+// ReSharper restore SuggestUseVarKeywordEvident
             ObjectResult<double?> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<double?>("sp_GetMinimumProductValue", itemIdParameter);
 
             return result.FirstOrDefault() ?? 0;
@@ -526,13 +528,29 @@ namespace MPC.Repository.BaseRepository
         public DbSet<MachineResource> MachineResources { get; set; }
 
         /// <summary>
+        /// Machine Category DbSet
+        /// </summary>
+        public DbSet<MachineCategory> MachineCategories { get; set; }
+
+        /// <summary>
+        /// Group DbSet
+        /// </summary>
+        public DbSet<Group> Groups { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
+// ReSharper disable InconsistentNaming
         public long sp_cloneTemplate(long templateId, long submittedBy, string submittedByName)
+// ReSharper restore InconsistentNaming
         {
+// ReSharper disable SuggestUseVarKeywordEvident
             ObjectParameter templateIdParameter = new ObjectParameter("TemplateID", templateId);
+
             ObjectParameter submittedByParameter = new ObjectParameter("submittedBy", submittedBy);
             ObjectParameter submittedByNameParameter = new ObjectParameter("submittedByName", submittedByName);
+            // ReSharper restore SuggestUseVarKeywordEvident
+
             ObjectResult<long?> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<long?>("BaseDbContext.sp_cloneTemplate", templateIdParameter, submittedByParameter,
                 submittedByNameParameter);
             long? newTemplateId = result.FirstOrDefault();
@@ -543,7 +561,9 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// Stored Procedure to Add File to FileTable
         /// </summary>
+// ReSharper disable InconsistentNaming
         public int MPCFileTable_Add(string filename, byte[] filedata, string pathlocator, string fileTableName, bool isDirectory = false)
+// ReSharper restore InconsistentNaming
         {
             var filenameParameter = filename != null ?
                 new ObjectParameter("filename", filename) :
@@ -570,7 +590,9 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// Stored Procedure to Delete File from FileTable
         /// </summary>
+// ReSharper disable InconsistentNaming
         public int MPCFileTable_Del(Guid docId, string fileTableName)
+// ReSharper restore InconsistentNaming
         {
             var docIdParameter = new ObjectParameter("docId", docId);
             var fileTableParameter = fileTableName != null ?
@@ -623,7 +645,9 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// Get Real Estate Products 
         /// </summary>
+// ReSharper disable InconsistentNaming
         public IEnumerable<usp_GetRealEstateProducts_Result> usp_GetRealEstateProducts(int? contactCompanyId)
+// ReSharper restore InconsistentNaming
         {
             var contactCompanyIdParameter = contactCompanyId.HasValue ?
                 new ObjectParameter("ContactCompanyID", contactCompanyId) :
@@ -636,7 +660,9 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// Get Template Images Result
         /// </summary>
+// ReSharper disable InconsistentNaming
         public IEnumerable<sp_GetTemplateImages_Result> sp_GetTemplateImages(int? isCalledFrom, int? imageSetType, long? templateId, long? contactCompanyId,
+// ReSharper restore InconsistentNaming
             long? contactId, long? territory, int? pageNumber, int? pageSize, string sortColumn, string search, ObjectParameter imageCount)
         {
             var isCalledFromParameter = isCalledFrom.HasValue ?
@@ -688,7 +714,9 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// Stored Procedure sp_CostCentreExecution_get_StockPriceByCalculationType
         /// </summary>
+// ReSharper disable InconsistentNaming
         public double sp_CostCentreExecution_get_StockPriceByCalculationType(int? stockId, int? calculationType, ObjectParameter returnPrice, ObjectParameter perQtyQty)
+// ReSharper restore InconsistentNaming
         {
             var stockIdParameter = stockId.HasValue ?
                 new ObjectParameter("StockID", stockId) :

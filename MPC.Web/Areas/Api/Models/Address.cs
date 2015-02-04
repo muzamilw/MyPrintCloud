@@ -14,7 +14,9 @@
         public string Address3 { get; set; }
         public string City { get; set; }
         public long? StateId { get; set; }
+        public string StateName { get; set; }
         public long? CountryId { get; set; }
+        public string CountryName { get; set; }
         public string PostCode { get; set; }
         public string Fax { get; set; }
         public string Email { get; set; }
@@ -36,5 +38,6 @@
         public bool? isDefaultTerrorityBilling { get; set; }
         public bool? isDefaultTerrorityShipping { get; set; }
         public long? OrganisationId { get; set; }
+        public CompanyTerritory Territory { get; set; }
     }
 }

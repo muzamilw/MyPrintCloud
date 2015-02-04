@@ -39,6 +39,7 @@ namespace MPC.Models.DomainModels
         public string Description { get; set; }
         public double? Priority { get; set; }
         public bool? DirectCost { get; set; }
+        public string Image { get; set; }
         public double? MinimumCharge { get; set; }
         public double? CostPerCut { get; set; }
         public double PricePerCut { get; set; }
@@ -67,8 +68,10 @@ namespace MPC.Models.DomainModels
         public double? MakeReadyTime { get; set; }
         public double? WashupTime { get; set; }
         public double? ReelMakereadyTime { get; set; }
+        public long? LookupMethodId { get; set; }
 
         public virtual ICollection<MachineInkCoverage> MachineInkCoverages { get; set; }
         public virtual ICollection<MachineResource> MachineResources { get; set; }
+        public virtual ICollection<ItemSection> ItemSections { get; set; }
     }
 }

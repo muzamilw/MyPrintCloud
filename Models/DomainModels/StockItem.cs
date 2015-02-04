@@ -384,6 +384,11 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public virtual Company Company { get; set; }
 
+        /// <summary>
+        /// Item Sections
+        /// </summary>
+        public virtual ICollection<ItemSection> ItemSections { get; set; }
+
         #endregion
 
         #region Additional Properties

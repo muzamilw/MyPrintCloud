@@ -41,7 +41,7 @@ define("common/supplier.viewModel",
                 //Registration Questions
                 registrationQuestions = ko.observableArray([]),
                 //Error List
-                errorList = ko.observableArray([]),
+                supplierErrorList = ko.observableArray([]),
                 //Account Status 
                 accountStatusList = ko.observableArray([{ Id: 1, Text: 'Accounts Clear' },
                                                 { Id: 2, Text: 'Accounts on Hold' },
@@ -97,18 +97,21 @@ define("common/supplier.viewModel",
                 //On select Supplier close supplier dialog
                     onSelectSupplierColseDialog = ko.computed(function () {
                         if (selectedSupplier() !== undefined) {
-                            if (selectedSupplier().isSelected()) {
-                                hide();
-                            }
+                            hide();
                         }
                     }, this),
+
+                // Go To Element
+                  gotoElement = function (validation) {
+                      view.gotoElement(validation.element);
+                  },
                 // close Supplier Editor
                     closeSupplierEditor = function () {
                         isSupplierEditorVisible(false);
                     },
                 //Create New Supplier
                     onCreateSupplier = function () {
-                        errorList.removeAll();
+                        supplierErrorList([]);
                         addSupplier(model.Supplier.Create());
                         view.initializeForm();
                         isSupplierEditorVisible(true);
@@ -154,7 +157,7 @@ define("common/supplier.viewModel",
                     },
                 //Call function for Save Supplier
                     onSaveSupplier = function (supplier) {
-                        errorList.removeAll();
+                        supplierErrorList.removeAll();
                         if (doBeforeSave()) {
                             if (addSupplier().addresses().length !== 0) {
                                 addSupplier().addresses([]);
@@ -201,52 +204,35 @@ define("common/supplier.viewModel",
                             addSupplier().addressInSupplier().errors.showAllMessages();
                             addSupplier().companyContact().errors.showAllMessages();
                             if (addSupplier().name.error != null) {
-                                errorList.push({ tabId: 1, name: "Name" });
+                                supplierErrorList.push({ name: "Name", element: addSupplier().name.domElement });
                             }
                             if (addSupplier().addressInSupplier().addressName.error != null) {
-                                errorList.push({ tabId: 3, name: "AddressName" });
+                                supplierErrorList.push({ name: "Address Name", element: addSupplier().addressInSupplier().addressName.domElement });
                             }
                             if (addSupplier().addressInSupplier().address1.error != null) {
-                                errorList.push({ tabId: 3, name: "Address" });
+                                supplierErrorList.push({ name: "Address", element: addSupplier().addressInSupplier().address1.domElement });
                             }
                             if (addSupplier().addressInSupplier().email.error != null) {
-                                errorList.push({ tabId: 3, name: "Email" });
+                                supplierErrorList.push({ name: "Email", element: addSupplier().addressInSupplier().email.domElement });
                             }
                             if (addSupplier().addressInSupplier().city.error != null) {
-                                errorList.push({ tabId: 3, name: "City" });
+                                supplierErrorList.push({ name: "City", element: addSupplier().addressInSupplier().city.domElement });
                             }
                             //Company Contact 
                             if (addSupplier().companyContact().password.error != null) {
-                                errorList.push({ tabId: 4, name: "Password" });
+                                supplierErrorList.push({ name: "Password", element: addSupplier().companyContact().password.domElement });
                             }
                             if (addSupplier().companyContact().email.error != null) {
-                                errorList.push({ tabId: 4, name: "Email" });
+                                supplierErrorList.push({ name: "Email", element: addSupplier().companyContact().email.domElement });
                             }
                             if (addSupplier().companyContact().firstName.error != null) {
-                                errorList.push({ tabId: 4, name: "First Name" });
+                                supplierErrorList.push({ name: "First Name", element: addSupplier().companyContact().firstName.domElement });
                             }
                             flag = false;
                         }
                         return flag;
                     },
-                //Select Tab Click or error link
-                    selectTab = function (property) {
-                        if (property.tabId === 1) {
-                            $('#myTab a[href="#tab-CompanyDetail"]').tab('sh    ow');
-                        }
-                        if (property.tabId === 2) {
-                            $('#myTab a[href="#tab-AccountDetail"]').tab('show');
 
-                        }
-                        if (property.tabId === 3) {
-                            $('#myTab a[href="#tab-AddressDetail"]').tab('show');
-                        }
-                        if (property.tabId === 4) {
-                            $('#myTab a[href="#tab-ContactDetail"]').tab('show');
-                        }
-
-
-                    },
 
                 format = function (item) {
                     return $ + item.FlagName;
@@ -260,7 +246,7 @@ define("common/supplier.viewModel",
                     supplierPager(pagination.Pagination({ PageSize: 5 }, suppliers, getSuppliers));
                     view.initializeForm();
                 };
-                
+
                 return {
                     selectedSupplier: selectedSupplier,
                     addSupplier: addSupplier,
@@ -281,7 +267,7 @@ define("common/supplier.viewModel",
                     priceFlags: priceFlags,
                     registrationQuestions: registrationQuestions,
                     accountStatusList: accountStatusList,
-                    errorList: errorList,
+                    supplierErrorList: supplierErrorList,
                     //Utilities
                     hide: hide,
                     initialize: initialize,
@@ -291,8 +277,8 @@ define("common/supplier.viewModel",
                     closeSupplierEditor: closeSupplierEditor,
                     onCreateSupplier: onCreateSupplier,
                     onSaveSupplier: onSaveSupplier,
-                    selectTab: selectTab,
                     format: format,
+                    gotoElement: gotoElement,
                 };
             })()
         };
