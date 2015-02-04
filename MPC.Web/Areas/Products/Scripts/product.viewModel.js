@@ -170,6 +170,7 @@ define("product/product.viewModel",
                     stockDialogCatFilter = ko.observable(),
                     // press Dialog Filter
                     pressDialogFilter = ko.observable(),
+                    //#endregion
                     // #region Utility Functions
                     toggleView = function (data, e) {
                         view.changeView(e);
@@ -575,6 +576,28 @@ define("product/product.viewModel",
                             selectedProduct().scalar(designerCategory.scalarFactor);
                         });
                     },
+                    // #region For Store
+                    // Selected Company Id
+                    selectedCompany = ko.observable(),
+                    // Initialize the view model from Store
+                    initializeForStore = function(companyId) {
+                        if (selectedCompany() !== companyId) {
+                            selectedCompany(companyId);
+                        }
+
+                        var productDetailBinding = $("#productDetailBinding")[0];
+                        var productBinding = $("#productBinding")[0];
+                        setTimeout(function () {
+                            ko.cleanNode(productBinding);
+                            ko.cleanNode(productDetailBinding);
+                            ko.applyBindings(view.viewModel, productBinding);
+                            ko.applyBindings(view.viewModel, productDetailBinding);
+                        }, 1000);
+                        
+                        // Get Items for Store
+                        getItems();
+                    },
+                    // #endregion
                     // Map Products 
                     mapProducts = function (data) {
                         var itemsList = [];
@@ -901,7 +924,13 @@ define("product/product.viewModel",
                     },
                     // Save Product
                     saveProduct = function (callback, navigateCallback) {
-                        dataservice.saveItem(selectedProduct().convertToServerData(), {
+                        var product = selectedProduct().convertToServerData();
+                        // If opened from store
+                        if (selectedCompany()) {
+                            product.CompanyId = selectedCompany();
+                        }
+                        
+                        dataservice.saveItem(product, {
                             success: function (data) {
                                 if (!selectedProduct().id()) {
                                     // Update Id
@@ -1035,7 +1064,8 @@ define("product/product.viewModel",
                         dataservice.getItems({
                             SearchString: filterText(),
                             PageSize: pager().pageSize(),
-                            PageNo: pager().currentPage()
+                            PageNo: pager().currentPage(),
+                            CompanyId: selectedCompany()
                         }, {
                             success: function (data) {
                                 products.removeAll();
@@ -1206,7 +1236,10 @@ define("product/product.viewModel",
                     closePressDialog: closePressDialog,
                     editSectionSignature: editSectionSignature,
                     closeSignatureDialog: closeSignatureDialog,
-                    onCloneProduct: onCloneProduct
+                    onCloneProduct: onCloneProduct,
+                    // For Store
+                    initializeForStore: initializeForStore
+                    // For Store
                     // Utility Methods
 
                 };
