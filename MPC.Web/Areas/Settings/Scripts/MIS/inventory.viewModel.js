@@ -23,6 +23,8 @@ define("inventory/inventory.viewModel",
                     isLoadingInventory = ko.observable(false),
                        //is Inventory Editor Visible
                     isInventoryEditorVisible = ko.observable(false),
+                    //Currency Symbol
+                     currencySymbol = ko.observable(),
                     //Sort On
                     sortOn = ko.observable(1),
                     //Sort In Ascending
@@ -208,6 +210,8 @@ define("inventory/inventory.viewModel",
                                 paperBasisAreas.removeAll();
                                 ko.utils.arrayPushAll(paperBasisAreas(), data.PaperBasisAreas);
                                 paperBasisAreas.valueHasMutated();
+
+                                currencySymbol(data.CurrencySymbol);
                             },
                             error: function () {
                                 toastr.error("Failed to base data.");
@@ -311,7 +315,7 @@ define("inventory/inventory.viewModel",
                             if (selectedInventory().supplierId.error != null) {
                                 errorList.push({ name: "Supplier Name", element: selectedInventory().supplierName.domElement });
                             }
-                            
+
                             if (selectedInventory().perQtyQty.error != null) {
                                 errorList.push({ name: "Per Quantity", element: selectedInventory().perQtyQty.domElement });
                             }
@@ -459,6 +463,7 @@ define("inventory/inventory.viewModel",
                             confirmation.afterProceed(onSaveInventory);
                             confirmation.afterCancel(function () {
                                 isInventoryEditorVisible(false);
+                                selectedInventory().reset();
                             });
                             confirmation.show();
                             return;
@@ -654,6 +659,7 @@ define("inventory/inventory.viewModel",
                     resetFilter: resetFilter,
                     onAddSupplier: onAddSupplier,
                     gotoElement: gotoElement,
+                    currencySymbol: currencySymbol,
                 };
             })()
         };

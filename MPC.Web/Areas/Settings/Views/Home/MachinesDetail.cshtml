@@ -89,13 +89,7 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <select class="form-control">
-                                                    <option>M 10</option>
-                                                    <option>M 20</option>
-                                                    <option>M 30</option>
-                                                    <option>M 40</option>
-                                                    <option>M 50</option>
-                                                </select>
+                                                <select class="form-control" data-bind="options:markupList, optionsText: 'MarkUpName', optionsValue:'MarkUpId', value:MarkupId"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
 
@@ -257,7 +251,7 @@
                                             <div class="col-lg-6">
 
                                                 <input type="text" class="form-control OpenStockPopup-Class" id="txtStock" style="width:88%" disabled="disabled" value="Laser Guarantee 100gsm SRA2">
-                                                <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right">
+                                                <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right" data-bind="click: $root.onPapperSizeStockItemPopup">
                                                     <i class="fa fa-lg"></i>&nbsp;....
                                                 </a>
 
@@ -392,7 +386,7 @@
                                                 </div>
                                                 <div class="col-xs-11">
                                                     <input type="text" class="form-control OpenStockPopup-Class" id="txtStock" style="width:85%" disabled="disabled" value="Laser Guarantee 100gsm SRA2">
-                                                    <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right">
+                                                    <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right" data-bind="click: $root.onPlateStockItemPopup">
                                                         <i class="fa fa-lg"></i>&nbsp;....
                                                     </a>
                                                 </div>

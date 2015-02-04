@@ -81,9 +81,10 @@
                     new OrientationModel({ id: "1", name: "Long Side" }),
                     new OrientationModel({ id: "2", name: "Short Side" })]),
             lookupList = ko.observableArray([]),
+            markupList = ko.observableArray([]),
             gutterdepth = ko.observable(),
             headdepth = ko.observable(),
-            Va = ko.observable(),
+            MarkupId = ko.observable(),
             PressSizeRatio = ko.observable(),
             Description = ko.observable(),
             Priority = ko.observable(),
@@ -170,7 +171,7 @@
             Orientation:Orientation,
             gutterdepth : gutterdepth,
             headdepth : headdepth,
-            Va : Va,
+            MarkupId: MarkupId,
             PressSizeRatio : PressSizeRatio,
             Description : Description,
             Priority : Priority,
@@ -215,7 +216,8 @@
             errors: errors,
             isValid: isValid,
             hasChanges: hasChanges,
-            reset: reset
+            reset: reset,
+            markupList: markupList
         };
         return self;
     };
@@ -230,6 +232,17 @@
         self.MethodId = ko.observable(data.MethodId);
         self.Name = ko.observable(data.Name);
     }
+    CreateStockItem = function (specifiedId, specifiedName, specifiedCategoryName, specifiedLocation, specifiedWeight, specifiedDescription) {
+        return {
+            id: specifiedId,
+            name: specifiedName,
+            category: specifiedCategoryName,
+            location: specifiedLocation,
+            weight: specifiedWeight,
+            description: specifiedDescription
+        };
+    }
+
     var lookupMethodListClientMapper = function (source) {
         var olookup = new lookupMethod();
         olookup.MethodId(source.MethodId);
@@ -251,7 +264,9 @@
         return omachineList;
 
     };
-
+    var StockItemMapper = function (source) {
+        return new CreateStockItem(source.StockItemId, source.ItemName, source.CategoryName, source.StockLocation, source.ItemWeight, source.ItemDescription);
+    };
     var machineListServerMapper = function (source) {
         var result = {};
         result.Description= source.description;
@@ -295,7 +310,7 @@
         omachine.gripsideorientaion(source.machine.gripsideorientaion);
         omachine.gutterdepth(source.machine.gutterdepth);
         omachine.headdepth(source.machine.headdepth);
-        omachine.Va(source.machine.Va);
+        omachine.MarkupId(source.machine.MarkupId);
         omachine.PressSizeRatio(source.machine.PressSizeRatio);
         omachine.Description(source.machine.Description);
         omachine.Priority(source.machine.Priority);
@@ -338,6 +353,9 @@
         omachine.lookupList.removeAll();
         ko.utils.arrayPushAll(omachine.lookupList(), source.lookupMethods);
         omachine.lookupList.valueHasMutated();
+        omachine.markupList.removeAll();
+        ko.utils.arrayPushAll(omachine.markupList(), source.Markups);
+        omachine.markupList.valueHasMutated();
         
         return omachine;
     };
@@ -348,6 +366,7 @@
         machine: machine,
         lookupMethod: lookupMethod,
         lookupMethodListClientMapper:lookupMethodListClientMapper,
-        machineClientMapper: machineClientMapper
+        machineClientMapper: machineClientMapper,
+        StockItemMapper: StockItemMapper
     };
 });

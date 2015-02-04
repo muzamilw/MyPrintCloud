@@ -1,4 +1,5 @@
 ﻿
+
 <div class="row" id="inventoryEditor" data-bind="visible: isInventoryEditorVisible" style="display: none;">
 
     <div>
@@ -33,7 +34,7 @@
                         <div id="detailArea">
                             &nbsp;
                         </div>
-                       
+
                     </div>
                     <br />
                 </div>
@@ -753,7 +754,7 @@
 <script id="editCostTemplate" type="text/html">
     <tr data-bind="css: { selectedRow: $data === $root.selectedCostItem() }">
         <td style="padding-left:2px;padding-right: 0px;">
-            <div class="col-md-1 control-label">$</div>
+            <div class="col-md-1 control-label"><span class="control-label" data-bind="text:$root.currencySymbol"></span></div>
             <div class="col-md-10" style="padding-right: 2px;padding-left: 2px;">
                 <input class="form-control" style="padding-right: 0px;padding-left: 0px;" data-bind="value: costPrice, validationTooltip: costPrice, validationOnElement:costPrice" />
             </div>
@@ -769,7 +770,7 @@
             </div>
         </td>
         <td style="padding-left:2px;padding-right: 0px;">
-            <div class="col-md-1">$</div>
+            <div class="col-md-1"><span class="control-label" data-bind="text:$root.currencySymbol"></span></div>
             <div class="col-md-10" style="padding-right: 0px;padding-left: 2px;">
                 <span data-bind="text: packCostPrice"></span>
             </div>
@@ -782,10 +783,10 @@
 </script>
 <script id="itemCostTemplate" type="text/html">
     <tr data-bind="if: (costOrPriceIdentifier() == 0), click: $root.selectCostItem, css: { selectedRow: $data === $root.selectedCostItem() }">
-        <td>$<span data-bind="text: costPrice"></span></td>
+        <td><span class="control-label" data-bind=" text:$root.currencysymbol"></span><span data-bind="text: costPrice"></span></td>
         <td data-bind="dateString: fromDate"></td>
         <td data-bind="dateString: toDate"></td>
-        <td>$<span data-bind="text: packCostPrice"></span></td>
+        <td><span class="control-label" data-bind="text:$root.currencySymbol"></span><span data-bind="text: packCostPrice"></span></td>
         <td>
             <!-- ko template: { name: 'deleteActionCostItemTemplate' } -->
             <!-- /ko -->
@@ -804,7 +805,7 @@
 <script id="editPriceTemplate" type="text/html">
     <tr data-bind="css: { selectedRow: $data === $root.selectedPriceItem() }">
         <td style="padding-left:2px;padding-right: 0px;">
-            <div class="col-md-1 control-label">$</div>
+            <div class="col-md-1 control-label"><span class="control-label" data-bind="text:$root.currencySymbol" ></span></div>
             <div class="col-md-10" style="padding-right: 2px;padding-left: 2px;">
                 <input class="form-control" style="padding-right: 0px;padding-left: 0px;" data-bind="value: costPrice, validationTooltip: costPrice, validationOnElement:costPrice" />
             </div>
@@ -820,7 +821,7 @@
             </div>
         </td>
         <td style="padding-left:2px;padding-right: 0px;">
-            <div class="col-md-1">$</div>
+            <div class="col-md-1"><span class="control-label" data-bind="text:$root.currencySymbol" ></span></div>
             <div class="col-md-10" style="padding-right: 0px;padding-left: 2px;">
                 <span data-bind="text: packCostPrice"></span>
             </div>
@@ -833,10 +834,10 @@
 </script>
 <script id="itemPriceTemplate" type="text/html">
     <tr data-bind="if: (costOrPriceIdentifier() == -1), click: $root.selectPriceItem, css: { selectedRow: $data === $root.selectedPriceItem() }">
-        <td>$<span data-bind="text: costPrice"></span></td>
+        <td><span class="control-label" data-bind="text:$root.currencySymbol"></span><span data-bind="text: costPrice"></span></td>
         <td data-bind="dateString: fromDate"></td>
         <td data-bind="dateString: toDate"></td>
-        <td>$<span data-bind="text: packCostPrice"></span></td>
+        <td><span class="control-label" data-bind="text:$root.currencySymbol"></span><span data-bind="text: packCostPrice"></span></td>
         <td>
             <!-- ko template: { name: 'deleteActionPriceItemTemplate' } -->
             <!-- /ko -->

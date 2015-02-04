@@ -226,9 +226,10 @@ define("stores/stores.viewModel",
                     isEditorVisible(true);
                     view.initializeForm();
                     getBaseDataFornewCompany();
-                    $('.nav-tabs').children().removeClass('active');
-                    $('#generalInfoTab').addClass('active');
-
+                    //$('.nav-tabs').children().removeClass('active');
+                    //$('#generalInfoTab').addClass('active');
+                    $('.nav-tabs li:first-child a').tab('show');
+                    $('.nav-tabs li:eq(0) a').tab('show');
                     selectedItemsForOfferList.removeAll();
                     selectedItemForAdd(undefined);
                     selectedItemForRemove(undefined);
@@ -415,6 +416,11 @@ define("stores/stores.viewModel",
                         }
                     });
                 },
+                companyTerritoryFilterSelected = ko.computed(function () {
+                    if (isEditorVisible() && selectedStore() != null && selectedStore() != undefined && selectedStore().companyId() !== undefined) {
+                        searchCompanyTerritory();
+                    }
+                }),
                 //isSavingNewCompanyTerritory
                 isSavingNewCompanyTerritory = ko.observable(false),
                 // Template Chooser For Rave Review
@@ -3647,6 +3653,7 @@ define("stores/stores.viewModel",
                     selectedCompanyTerritory: selectedCompanyTerritory,
                     templateToUseCompanyTerritories: templateToUseCompanyTerritories,
                     searchCompanyTerritoryFilter: searchCompanyTerritoryFilter,
+                    companyTerritoryFilterSelected: companyTerritoryFilterSelected,
                     onCreateNewCompanyTerritory: onCreateNewCompanyTerritory,
                     onDeleteCompanyTerritory: onDeleteCompanyTerritory,
                     onEditCompanyTerritory: onEditCompanyTerritory,

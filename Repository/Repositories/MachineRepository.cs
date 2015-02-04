@@ -43,7 +43,7 @@ namespace MPC.Repository.Repositories
 
         }
         #endregion
-        public MachineResponseModel GetAllMachine(MachineRequestModel request)
+        public MachineListResponseModel GetAllMachine(MachineRequestModel request)
         {
 
             //var result = from t in db.Machines
@@ -62,7 +62,7 @@ namespace MPC.Repository.Repositories
                 .Take(toRow)
                 .ToList();
 
-            return new MachineResponseModel
+            return new MachineListResponseModel
             {
                 RowCount = DbSet.Count(),
                 MachineList = machineList,
@@ -102,9 +102,16 @@ namespace MPC.Repository.Repositories
             return DbSet.Find(id);
         }
 
-        public Machine GetMachineByID(long MachineID)
+        public MachineResponseModel GetMachineByID(long MachineID)
         {
-            return DbSet.Where(g => g.MachineId == MachineID).SingleOrDefault();
+            return new MachineResponseModel
+            {
+                machine = DbSet.Where(g => g.MachineId == MachineID).SingleOrDefault(),
+                lookupMethods = GetAllLookupMethodList(),
+                Markups = GetAllMarkupList()
+            };
+
+            
         }
 
 
@@ -119,6 +126,12 @@ namespace MPC.Repository.Repositories
         {
             return db.LookupMethods;
         }
+        public IEnumerable<Markup> GetAllMarkupList()
+        {
+            return db.Markups;
+        }
+
+
         //protected override IDbSet<LookupMethod> LookupMethd
         //{
         //    get
