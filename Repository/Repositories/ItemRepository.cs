@@ -108,19 +108,7 @@ namespace MPC.Repository.Repositories
             recordds = recordds.OrderBy(s => s.SortOrder).ToList();
             return recordds;
         }
-
-        //public ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId)
-        //{
-        //        if (CompanyId > 0)
-        //        {
-        //            return db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.CompanyId == CompanyId && i.OptionSequence == 1).FirstOrDefault();
-        //        }
-        //        else
-        //        {
-        //            return db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.CompanyId == null && i.OptionSequence == 1).FirstOrDefault();
-        //        }
-        //}
-
+        
         public ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId)
         {
             if (CompanyId > 0)

@@ -66,7 +66,7 @@ namespace MPC.Implementation.MISServices
         private readonly ISectionFlagRepository sectionFlagRepository;
         private readonly IItemProductDetailRepository itemProductDetailRepository;
         private readonly ICompanyDomainRepository companyDomainRepository;
-
+        //#endregion
 
         /// <summary>
         /// Save Company
@@ -782,7 +782,8 @@ namespace MPC.Implementation.MISServices
                 foreach (var territory in companySavingModel.DeletedCompanyTerritories)
                 {
                     companyDbVersion.CompanyTerritories.Remove(territory);
-                    companyTerritoryRepository.Delete(territory);
+                    var territoryToDelete = companyTerritoryRepository.Find(territory.TerritoryId);
+                    companyTerritoryRepository.Delete(territoryToDelete);
                 }
             }
         }
@@ -816,7 +817,8 @@ namespace MPC.Implementation.MISServices
                 foreach (var address in companySavingModel.DeletedAddresses)
                 {
                     companyDbVersion.Addresses.Remove(address);
-                    addressRepository.Delete(address);
+                    var addressToDelete = addressRepository.Find(address.AddressId);
+                    addressRepository.Delete(addressToDelete);
                 }
             }
         }
@@ -833,6 +835,7 @@ namespace MPC.Implementation.MISServices
                 foreach (var companyContacts in companySavingModel.NewAddedCompanyContacts)
                 {
                     companyContacts.OrganisationId = companyContactRepository.OrganisationId;
+                    
                     companyDbVersion.CompanyContacts.Add(companyContacts);
                 }
             }
@@ -850,7 +853,8 @@ namespace MPC.Implementation.MISServices
                 foreach (var companyContact in companySavingModel.DeletedCompanyContacts)
                 {
                     companyDbVersion.CompanyContacts.Remove(companyContact);
-                    companyContactRepository.Delete(companyContact);
+                    var companyContactToDelete = companyContactRepository.Find(companyContact.ContactId);
+                    companyContactRepository.Delete(companyContactToDelete);
                 }
             }
         }

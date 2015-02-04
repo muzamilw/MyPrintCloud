@@ -1,11 +1,9 @@
 ﻿using System.Linq;
-using Microsoft.IdentityModel.Protocols.WSFederation;
 using MPC.MIS.Areas.Api.Models;
+using DomainModels = MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
-    //using DomainModels = MPC.Models.DomainModels;
-
     /// <summary>
     /// Item Vdp Price Mapper
     /// </summary>
@@ -18,7 +16,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new CostCenterResponse
             {
-                CostCenters = source.CostCenters.Select(s => s.CreateFrom()),
+                CostCenters = source.CostCenters.Select(s => s.ListViewModelCreateFrom()),
                 RowCount = source.RowCount
             };
         }
@@ -26,7 +24,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Create From Domain Model
         /// </summary>
-        public static CostCentre CreateFrom(this MPC.Models.DomainModels.CostCentre source)
+        public static CostCentre CreateFrom(this DomainModels.CostCentre source)
         {
             return new CostCentre
             {
@@ -118,7 +116,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ThumbnailImageURL = source.ThumbnailImageURL,
                 DeliveryCharges = source.DeliveryCharges,
                 XeroAccessCode = source.XeroAccessCode,
-                OrganisationId = source.OrganisationId
+                OrganisationId = source.OrganisationId,
+                CostcentreResources = source.CostcentreResources != null ? source.CostcentreResources.Select(x => x.CreateFrom()).ToList() : null,
+                
             };
         }
 
@@ -218,7 +218,21 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ThumbnailImageURL = source.ThumbnailImageURL,
                 DeliveryCharges = source.DeliveryCharges,
                 XeroAccessCode = source.XeroAccessCode,
-                OrganisationId = source.OrganisationId
+                OrganisationId = source.OrganisationId,
+                CostcentreResources = source.CostcentreResources != null ? source.CostcentreResources.Select(x => x.CreateFrom()).ToList() : null
+            };
+        }
+
+        /// <summary>
+        /// Create From Domain Model
+        /// </summary>
+        public static CostCentre CreateFromDropDown(this DomainModels.CostCentre source)
+        {
+            return new CostCentre
+            {
+                CostCentreId = source.CostCentreId,
+                Name = source.Name,
+                Type = source.Type
             };
         }
         

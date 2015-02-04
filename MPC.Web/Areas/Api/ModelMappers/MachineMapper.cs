@@ -27,29 +27,24 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             };
         }
 
-        /// <summary>
-        /// Create From Domain Model
-        /// </summary>
-        public static APIDomainModels.Machine CreateFrom(this DomainModels.Machine source)
+        public static APIDomainModels.MachineResponse CreateFrom(this DomainResponseModel.MachineResponseModel source)
         {
-            return new APIDomainModels.Machine
+            return new APIDomainModels.MachineResponse
             {
-                MachineId = source.MachineId,
-                MachineName = source.MachineName,
-                DefaultPaperId = source.DefaultPaperId,
-                MachineCatId = source.MachineCatId,
-                Maximumsheetheight = source.maximumsheetheight,
-                Maximumsheetweight = source.maximumsheetweight,
-                Maximumsheetwidth = source.maximumsheetwidth,
-                Minimumsheetheight = source.minimumsheetheight,
-                Minimumsheetwidth = source.minimumsheetwidth
+                machine = source.machine.CreateFrom(),
+                lookupMethods = source.lookupMethods.Select(s => s.CreateFrom()),
+                Markups= source.Markups.Select(s=>s.CreateFrom())
             };
 
         }
+        /// <summary>
+        /// Create From Domain Model
+        /// </summary>
+        
 
-        public static Machine CreateFromDetail(this MPC.Models.DomainModels.Machine source)
+        public static APIDomainModels.Machine CreateFrom(this DomainModels.Machine source)
         {
-            return new Machine
+            return new APIDomainModels.Machine
             {
                 MachineId = source.MachineId,
                 MachineName = source.MachineName,
@@ -78,7 +73,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 gripsideorientaion = source.gripsideorientaion,
                 gutterdepth = source.gutterdepth,
                 headdepth = source.headdepth,
-                Va = source.Va,
+                MarkupId = source.MarkupId,
                 PressSizeRatio = source.PressSizeRatio,
                 Description = source.Description,
                 Priority = source.Priority,
@@ -110,7 +105,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 TimePerCut = source.TimePerCut,
                 MakeReadyTime = source.MakeReadyTime,
                 WashupTime = source.WashupTime,
-                ReelMakereadyTime = source.ReelMakereadyTime
+                ReelMakereadyTime = source.ReelMakereadyTime,
+                LookupMethodId=source.LookupMethodId
                 //MachineInkCoverages = source.MachineInkCoverages,
                 //MachineResources = source.MachineResources
             };

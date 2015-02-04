@@ -34,7 +34,7 @@ namespace MPC.Models.DomainModels
         public int? gripsideorientaion { get; set; }
         public double? gutterdepth { get; set; }
         public double? headdepth { get; set; }
-        public double? Va { get; set; }
+        public long? MarkupId { get; set; }
         public double? PressSizeRatio { get; set; }
         public string Description { get; set; }
         public double? Priority { get; set; }
@@ -68,9 +68,10 @@ namespace MPC.Models.DomainModels
         public double? MakeReadyTime { get; set; }
         public double? WashupTime { get; set; }
         public double? ReelMakereadyTime { get; set; }
-        
+        public long? LookupMethodId { get; set; }
 
         public virtual ICollection<MachineInkCoverage> MachineInkCoverages { get; set; }
         public virtual ICollection<MachineResource> MachineResources { get; set; }
+        public virtual ICollection<ItemSection> ItemSections { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿define("machine/machine.view",
-    ["jquery", "machine/machine.viewModel"], function ($, machineViewModel) {//costcenterViewModel
+    ["jquery", "machine/machine.viewModel"], function ($, machineViewModel) {//machineViewModel
 
         var ist = window.ist || {};
 
@@ -20,8 +20,8 @@
             initialize();
             return {
                 bindingRoot: bindingRoot,
-                viewModel: viewModel
-               
+                viewModel: viewModel,
+                initialize:initialize
             };
         })(machineViewModel);
 

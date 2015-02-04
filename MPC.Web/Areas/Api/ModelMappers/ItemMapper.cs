@@ -144,7 +144,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static ItemListView CreateFromForListView(this DomainModels.GetItemsListView source)
         {
-            return new ItemListView
+            // ReSharper disable SuggestUseVarKeywordEvident
+            ItemListView item = new ItemListView
+            // ReSharper restore SuggestUseVarKeywordEvident
             {
                 ItemId = source.ItemId,
                 ItemCode = source.ItemCode,
@@ -158,6 +160,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsPublished = source.IsPublished,
                 MinPrice = source.MinPrice
             };
+
+            if (source.ThumbnailPath != null && File.Exists(source.ThumbnailPath))
+            {
+                item.ThumbnailImage = source.ThumbnailPath != null ? File.ReadAllBytes(source.ThumbnailPath) : null;
+            }
+
+            return item;
         }
 
         /// <summary>
@@ -224,6 +233,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Scalar = source.Scalar,
                 TemplateTypeMode = source.TemplateTypeMode,
                 DesignerCategoryId = source.DesignerCategoryId,
+                CompanyId = source.CompanyId,
                 Template = source.Template != null ? source.Template.CreateFrom() : new DomainModels.Template(),
                 ItemVdpPrices = source.ItemVdpPrices != null ? source.ItemVdpPrices.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVdpPrice>(),
                 ItemVideos = source.ItemVideos != null ? source.ItemVideos.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVideo>(),

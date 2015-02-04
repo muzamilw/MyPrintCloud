@@ -384,6 +384,23 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemPriceMatrices = ko.observableArray([]),
             // Product Category Items
             productCategoryItems = ko.observableArray([]),
+            // Available Product Category items
+            availableProductCategoryItems = ko.computed(function () {
+                if (productCategoryItems().length === 0) {
+                    return "";
+                }
+
+                var categories = "";
+                productCategoryItems.each(function(pci, index) {
+                    var pcname = pci.categoryName();
+                    if (index < productCategoryItems().length - 1) {
+                        pcname = pcname + " || ";
+                    }
+                    categories += pcname;
+                });
+
+                return categories;
+            }),
             // Item Sections
             itemSections = ko.observableArray([]),
             // Can Add Item Section
@@ -780,8 +797,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 selectedPriceMatrixItem(priceMatrixItem);
             },
             // Choose Template for Price Matrix
-            chooseTemplateForPriceMatrix = function (priceMatrixItem) {
-                return selectedPriceMatrixItem() === priceMatrixItem ? 'editPriceMatrixTemplate' : 'itemPriceMatrixTemplate';
+            chooseTemplateForPriceMatrix = function () {
+                return 'editPriceMatrixTemplate';
             },
             // Selected Price Matrix Item For Supplier 1
             selectedPriceMatrixItemForSupplier1 = ko.observable(),
@@ -794,8 +811,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 selectedPriceMatrixItemForSupplier1(priceMatrixItem);
             },
             // Choose Template for Price Matrix
-            chooseTemplateForSupplier1PriceMatrix = function (priceMatrixItem) {
-                return selectedPriceMatrixItemForSupplier1() === priceMatrixItem ? 'editPriceMatrixTemplate' : 'itemPriceMatrixTemplate';
+            chooseTemplateForSupplier1PriceMatrix = function () {
+                return 'editPriceMatrixTemplate';
             },
             // Selected Price Matrix Item For Supplier 2
             selectedPriceMatrixItemForSupplier2 = ko.observable(),
@@ -808,8 +825,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 selectedPriceMatrixItemForSupplier2(priceMatrixItem);
             },
             // Choose Template for Price Matrix
-            chooseTemplateForSupplier2PriceMatrix = function (priceMatrixItem) {
-                return selectedPriceMatrixItemForSupplier2() === priceMatrixItem ? 'editPriceMatrixTemplate' : 'itemPriceMatrixTemplate';
+            chooseTemplateForSupplier2PriceMatrix = function () {
+                return 'editPriceMatrixTemplate';
             },
             // Selected State Tax Item
             selectedStateTaxItem = ko.observable(),
@@ -905,6 +922,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                                 // Add New
                                 productCategoryItems.push(ProductCategoryItem.Create({
                                     CategoryId: productCategory.id,
+                                    CategoryName: productCategory.name,
                                     ItemId: id(),
                                     IsSelected: true
                                 }));
@@ -1451,6 +1469,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemStateTaxes: itemStateTaxes,
             itemPriceMatrices: itemPriceMatrices,
             productCategoryItems: productCategoryItems,
+            availableProductCategoryItems: availableProductCategoryItems,
             itemSections: itemSections,
             itemPriceMatricesForCurrentFlag: itemPriceMatricesForCurrentFlag,
             itemPriceMatricesForSupplierId1: itemPriceMatricesForSupplierId1,
@@ -2106,7 +2125,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Item Section Entity
     ItemSection = function (specifiedId, specifiedSectionNo, specifiedSectionName, specifiedSectionSizeId, specifiedItemSizeId, specifiedIsSectionSizeCustom,
         specifiedSectionSizeHeight, specifiedSectionSizeWidth, specifiedIsItemSizeCustom, specifiedItemSizeHeight, specifiedItemSizeWidth,
-        specifiedPressId, specifiedStockItemId, specifiedItemId) {
+        specifiedPressId, specifiedStockItemId, specifiedStockItemName, specifiedPressName, specifiedItemId) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
@@ -2115,11 +2134,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Stock Item Id
             stockItemId = ko.observable(specifiedStockItemId || undefined).extend({ required: true }),
             // Stock Item Name
-            stockItemName = ko.observable(),
+            stockItemName = ko.observable(specifiedStockItemName || undefined),
             // Press Id
             pressId = ko.observable(specifiedPressId || undefined).extend({ required: true }),
             // Press Name
-            pressName = ko.observable(),
+            pressName = ko.observable(specifiedPressName || undefined),
             // section size id
             sectionSizeId = ko.observable(specifiedSectionSizeId || undefined),
             // Item size id
@@ -2842,12 +2861,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     },
 
     // Product Category Item Entity
-    ProductCategoryItem = function (specifiedId, specifiedCategoryId, specifiedIsSelected, specifiedItemId) {
+    ProductCategoryItem = function (specifiedId, specifiedCategoryId, specifiedIsSelected, specifiedCategoryName, specifiedItemId) {
         var
             // Unique Id
             id = ko.observable(specifiedId || 0),
             // Category Id
             categoryId = ko.observable(specifiedCategoryId || 0),
+            // Category Name
+            categoryName = ko.observable(specifiedCategoryName || ""),
             // True if Selected
             isSelected = ko.observable(specifiedIsSelected || undefined),
             // Item Id
@@ -2865,6 +2886,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         return {
             id: id,
             categoryId: categoryId,
+            categoryName: categoryName,
             isSelected: isSelected,
             itemId: itemId,
             convertToServerData: convertToServerData
@@ -2979,7 +3001,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Product Category Item Factory
     ProductCategoryItem.Create = function (source) {
-        var productCategoryItem = new ProductCategoryItem(source.ProductCategoryItemId, source.CategoryId, source.IsSelected, source.ItemId);
+        var productCategoryItem = new ProductCategoryItem(source.ProductCategoryItemId, source.CategoryId, source.IsSelected, source.CategoryName, source.ItemId);
 
         return productCategoryItem;
     };
@@ -2988,7 +3010,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     ItemSection.Create = function (source) {
         var itemSection = new ItemSection(source.ItemSectionId, source.SectionNo, source.SectionName, source.SectionSizeId, source.ItemSizeId,
             source.IsSectionSizeCustom, source.SectionSizeHeight, source.SectionSizeWidth, source.IsItemSizeCustom, source.ItemSizeHeight,
-            source.ItemSizeWidth, source.PressId, source.StockItemId1, source.ItemId);
+            source.ItemSizeWidth, source.PressId, source.StockItemId1, source.StockItem1Name, source.PressName, source.ItemId);
 
         return itemSection;
     };

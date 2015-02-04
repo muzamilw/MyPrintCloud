@@ -309,6 +309,7 @@
     <Compile Include="Controllers\RealEstateSmartFormController.cs" />
     <Compile Include="Controllers\ReceiptController.cs" />
     <Compile Include="Controllers\pagesController.cs" />
+    <Compile Include="Controllers\RequestQuoteController.cs" />
     <Compile Include="Controllers\ShopCartAddressSelectController.cs" />
     <Compile Include="Controllers\ShopCartController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
@@ -502,8 +503,25 @@
     <Content Include="Content\Images\SmartFormCart.png" />
     <Content Include="Content\Images\SocialSprite.png" />
     <Content Include="Content\Images\sprite.png" />
+    <Content Include="Content\jquery-ui.min.css" />
+    <Content Include="Scripts\fullcalendar.min.js" />
     <Content Include="Content\Images\star.gif" />
     <Content Include="Content\Images\Twitter.png" />
+    <Content Include="Content\jquery-ui\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="Content\jquery-ui\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="Content\jquery-ui\images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="Content\jquery-ui\images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="Content\jquery-ui\images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="Content\jquery-ui\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\jquery-ui\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="Content\jquery-ui\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="Content\jquery-ui\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="Content\jquery-ui\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\jquery-ui\images\ui-icons_228ef1_256x240.png" />
+    <Content Include="Content\jquery-ui\images\ui-icons_ef8c08_256x240.png" />
+    <Content Include="Content\jquery-ui\images\ui-icons_ffd27a_256x240.png" />
+    <Content Include="Content\jquery-ui\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\jquery-ui\jquery-ui.min.css" />
     <Content Include="Content\jquery.rating.css" />
     <Content Include="Content\js-image-slider-detail.css" />
     <Content Include="Content\js-image-slider.css" />
@@ -533,6 +551,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\DesignerApi\Views\web.config" />
@@ -575,6 +594,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-1.4.4.min.js" />
+    <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.MultiFile.js" />
     <Content Include="Scripts\jquery.rating.js" />
@@ -670,6 +690,7 @@
     <Content Include="Views\Shared\PartialViews\OrderConfirmation.cshtml" />
     <Content Include="Views\Shared\PartialViews\ContactDetail.cshtml" />
     <Content Include="Views\Shared\PartialViews\pages.cshtml" />
+    <Content Include="Views\Shared\PartialViews\RequestQuote.cshtml" />
     <Content Include="Views\Shared\PartialViews\RealEstateImageSlider.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -679,6 +700,7 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
+    <Folder Include="Views\RequestQuote\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

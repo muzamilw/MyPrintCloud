@@ -10,5 +10,6 @@ namespace MPC.Models.ResponseModels
         public IEnumerable<Markup> Markups { get; set; }
         public IEnumerable<ChartOfAccount> NominalCodes { get; set; }
         public IEnumerable<CostCentreType> CostCenterCategories { get; set; }
+        public IEnumerable<CostCentreVariable> CostCentreVariables { get; set; }
     }
 }

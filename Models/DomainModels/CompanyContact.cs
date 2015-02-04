@@ -69,7 +69,7 @@ namespace MPC.Models.DomainModels
         public string TwitterURL { get; set; }
         public string authenticationToken { get; set; }
         public string twitterScreenName { get; set; }
-        public int? ShippingAddressId { get; set; }
+        public long? ShippingAddressId { get; set; }
         public bool? isUserLoginFirstTime { get; set; }
         public string quickMobileNumber { get; set; }
         public string quickTwitterId { get; set; }
@@ -102,6 +102,7 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<Inquiry> Inquiries { get; set; }
         public virtual Address Address { get; set; }
         public virtual ICollection<FavoriteDesign> FavoriteDesigns { get; set; }
+        public virtual Address ShippingAddress { get; set; }
         
         [NotMapped]
         public string ContactProfileImage { get; set; }

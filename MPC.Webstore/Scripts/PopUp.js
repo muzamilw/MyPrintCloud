@@ -229,14 +229,25 @@ function DesignNow(callFrom,EditType,ItemID,TemplateID)
     
 }
 var CcQueueItems = null;
+var idsToValidate = "";
 function ShowCostCentrePopup(CostCentreQueueItems) {
     CcQueueItems = CostCentreQueueItems;
     var innerHtml = "";
-   
+
+    
+
     for (var i = 0; i < CostCentreQueueItems.length; i++) {
 
+       
+
         if (CostCentreQueueItems[i].ItemType == 1) { // text box
-            innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>' + CostCentreQueueItems[i].VisualQuestion + '</label></div><div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns" /></div><br/><div class="clearBoth"></div>';
+            if (idsToValidate == "") {
+                idsToValidate = 'txtBox' + CostCentreQueueItems[i].ID;
+            } else {
+                idsToValidate = idsToValidate + ',' + 'txtBox' + CostCentreQueueItems[i].ID;
+            }
+            
+            innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>' + CostCentreQueueItems[i].VisualQuestion + '</label></div><div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns" id=txtBox' + CostCentreQueueItems[i].ID + ' /></div><br/><div class="clearBoth"></div>';
         }
 
         if (CostCentreQueueItems[i].ItemType == 3) { // drop down
@@ -251,17 +262,24 @@ function ShowCostCentrePopup(CostCentreQueueItems) {
                 '</label></div><div class="cost-centre-right-container"><select class="cost-centre-dropdowns">'
                 + OptionHtml + '</select></div><br/><div class="clearBoth"></div>';
         }
-        if(CostCentreQueueItems[i].ItemType == 4) { // formula matrix
+        if (CostCentreQueueItems[i].ItemType == 4) { // formula matrix
+
+            if (idsToValidate == "") {
+                idsToValidate = 'formulaMatrixBox' + CostCentreQueueItems[i].ID;
+            } else {
+                idsToValidate = idsToValidate + ',' + 'formulaMatrixBox' + CostCentreQueueItems[i].ID;
+            }
+
             innerHtml = innerHtml +
                 '<div class="cost-centre-left-container"><label>Super Formula Matrix</label></div>' +
-                '<div class="cost-centre-right-container"><input type="text" disabled="disabled" ' +
+                '<div class="cost-centre-right-container"><input id=formulaMatrixBox' + CostCentreQueueItems[i].ID + ' type="text" disabled="disabled" ' +
                 'style="float:left; margin-right:10px;"  /> ' +
                 '<input type="button" onclick="ShowFormulaMatrix(' + CostCentreQueueItems[i].RowCount + ',' + CostCentreQueueItems[i].ColumnCount + ',' + i + '); return false;" class="Matrix-select-button rounded_corners5 " value="Select" /></div><div class="clearBoth"></div>';
         }
     }
 
-    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title left_align">Please enter the following details of Cost Centre</h4></div><div class="modal-body left_align">'+ innerHtml +'<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" class="btn btn-primary" >Continue</button></div></div></div>';
-
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title left_align">Please enter the following details of Cost Centre</h4></div><div class="modal-body left_align"><div id="CCErrorMesgContainer"></div>' + innerHtml + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" class="btn btn-primary" onclick="ValidateCostCentreControl();">Continue</button></div></div></div>';
+   
 
     var bws = getBrowserHeight();
 
@@ -287,21 +305,32 @@ function ShowCostCentrePopup(CostCentreQueueItems) {
 
 function ShowFormulaMatrix(Rows, Columns, matrixIndex) {
     var MatrixItems = CcQueueItems[matrixIndex].MatrixTable;
-    console.log(MatrixItems[0].MatrixId);
+   
     var isFirstSetToEmpty = 0;
     //var container = '  <div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideFormulaPopUp();>&times;</button><h4 class="modal-title left_align">Select Matrix</h4></div><div class="modal-body left_align"><table class="cost-centre-Matrix"><tr><td></td><td>Speed1</td><td>Speed2</td><td>Speed3</td></tr><tr><td>Weight1</td><td><button type="button" class="MatrixOption">Continue</button></td><td><button type="button" class="MatrixOption">Continue</button></td><td><button type="button" class="MatrixOption">Continue</button></td></tr><tr><td>Row2</td><td><button type="button" class="MatrixOption">Continue</button></td><td><button type="button" class="MatrixOption">Continue</button></td><td><button type="button" class="MatrixOption">Continue</button></td></tr><tr><td>Row3</td><td><button type="button" class="MatrixOption">Continue</button></td><td><button type="button" class="MatrixOption">Continue</button></td><td><button type="button" class="MatrixOption">Continue</button></td></tr></table></div></div></div>';
     var GlobalIndex = 0;
     var RowsHtml = "";
     var trHtml = "<tr>";
 
+  
     for (var row = 0; row < Rows; row++) {
         for (var col = 0; col < Columns; col++) {
+          
             if (col == 0 && isFirstSetToEmpty == 0) {
                 isFirstSetToEmpty = 1;
                 trHtml = trHtml + '<td></td>'
             } else {
-                trHtml = trHtml + '<td><button type="button" class="MatrixOption">' + MatrixItems[col].Value + '</button></td>';
+                if (row == 0 || col == 0) {
+                    trHtml = trHtml + '<td>' + MatrixItems[GlobalIndex].Value + '</td>';
+
+                } else {
+                    trHtml = trHtml + '<td><button type="button" class="MatrixOption" onclick=SetMatrixAnswer(' + MatrixItems[GlobalIndex].Value + ',' + MatrixItems[GlobalIndex].MatrixId + ');>' + MatrixItems[GlobalIndex].Value + '</button></td>';
+                }
+                
+                
+                GlobalIndex = parseInt(GlobalIndex) + 1;
             }
+            
         }
         RowsHtml = RowsHtml + trHtml + "</tr>";
         trHtml = "<tr>";
@@ -331,4 +360,78 @@ function HideFormulaPopUp() {
 
     document.getElementById("FormulaMatrixLayer").style.display = "none";
 
+}
+
+function SetMatrixAnswer(Answer, MatrixId)
+{
+    $("#formulaMatrixBox" + MatrixId).val(Answer);
+    document.getElementById("FormulaMatrixLayer").style.display = "none";
+}
+
+function ValidateCostCentreControl() {
+
+    var arrayOfIds = idsToValidate.split(",");
+    
+    var isDisplyEmptyFieldsMesg = 0;
+
+    var isNotValidInput = 0;
+
+    var isFormulaValidationError = 0;
+
+    for (var i = 0; i < arrayOfIds.length; i++) {
+        if (arrayOfIds[i].indexOf("formulaMatrixBox") != -1) {
+            
+            if ($("#" + arrayOfIds[i]).val() == "") {
+                isFormulaValidationError = 1;
+                $("#" + arrayOfIds[i]).css("border", "1px solid red");
+            } else {
+                $("#" + arrayOfIds[i]).css("border", "1px solid #a8a8a8");
+            }
+
+        } else {
+
+            if ($("#" + arrayOfIds[i]).val() == "") {
+                $("#" + arrayOfIds[i]).css("border", "1px solid red");
+                isDisplyEmptyFieldsMesg = 1;
+            } else if (isNaN($("#" + arrayOfIds[i]).val())) {
+                isNotValidInput = 1;
+                $("#" + arrayOfIds[i]).css("border", "1px solid red");
+            } else {
+                $("#" + arrayOfIds[i]).css("border", "1px solid #a8a8a8");
+            }
+
+        }
+      
+       
+    }
+
+    if (isDisplyEmptyFieldsMesg == 1) {
+        $("#CCErrorMesgContainer").css("display", "block");
+        if (isNotValidInput == 1) {
+            $("#CCErrorMesgContainer").html("Please enter numbers only to proceed.");
+            if (isFormulaValidationError == 1) {
+                var html = $("#CCErrorMesgContainer").text() + "<br/> Please select value formula values also."
+                $("#CCErrorMesgContainer").html(html);
+            }
+        } else {
+           
+            $("#CCErrorMesgContainer").html("Please enter in the hightlighted fields.");
+        }
+    } else if (isNotValidInput == 1) {
+        $("#CCErrorMesgContainer").css("display", "block");
+        $("#CCErrorMesgContainer").html("Please enter numbers only to proceed.");
+        if (isFormulaValidationError == 1) {
+            var html = $("#CCErrorMesgContainer").text() + "<br/> Please select value formula values also."
+            $("#CCErrorMesgContainer").html(html);
+        }
+    } else if (isFormulaValidationError == 1) {
+        $("#CCErrorMesgContainer").html("Please select value formula values ");
+    } else {
+        $("#CCErrorMesgContainer").css("display", "none");
+    }
+}
+function HideLoader() {
+
+    document.getElementById("layer").style.display = "none";
+    document.getElementById("innerLayer").style.display = "none";
 }

@@ -36,15 +36,19 @@ namespace MPC.Implementation.MISServices
         {
             return true;
         }
-        public Machine GetMachineById(long id)
+        public MachineResponseModel GetMachineById(long id)
         {
            return _machineRepository.GetMachineByID(id);
         }
 
-        public MachineResponseModel GetAll(MachineRequestModel request)
+        public MachineListResponseModel GetAll(MachineRequestModel request)
         {
             return _machineRepository.GetAllMachine(request);
         }
+        //public IEnumerable<LookupMethod> GetAllLookupMethod()
+        //{
+        //    return _machineRepository.GetAllLookupMethodList();
+        //}
         #endregion
     }
 }

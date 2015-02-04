@@ -307,7 +307,7 @@ namespace MPC.Repository.Repositories
                     {
                         foreach (var approver in listOfApprovers)
                         {
-                            EmailParams.SystemUserID = 0;
+                            //EmailParams.SystemUserID = 0;
                             EmailParams.ApprovarID = (int)approver.ContactId;
                             if (!string.IsNullOrEmpty(MarketingBreifMesgSummry))
                             {

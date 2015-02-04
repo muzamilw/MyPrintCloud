@@ -771,7 +771,28 @@
                                                         <span class="help-block text-right"></span>
                                                     </div>
                                                 </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-8 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Map On Contact" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="switchIsDefaultContact" class="control-label text-right tooltip-float">Is Default Contact</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="onoffswitch">
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsDefaultContact" data-bind="checked: isDefaultContact">
+                                                            <label class="onoffswitch-label" for="switchIsDefaultContact">
+                                                                <div class="onoffswitch-inner"></div>
+                                                                <div class="onoffswitch-switch"></div>
+                                                            </label>
+                                                        </div>
+                                                        <span class="help-block text-right"></span>
+                                                    </div>
+                                                </div>
                                             </div>
+                                            
                                             <div class="col-lg-7">
                                                 <div class="form-group">
                                                     <div class="col-lg-8 text-right">
@@ -853,6 +874,7 @@
                                                         <span class="help-block text-right"></span>
                                                     </div>
                                                 </div>
+                                                
                                             </div>
                                         </div>
 
@@ -966,7 +988,7 @@
                                                             <label for="txtShipAddDetail" class="control-label text-right tooltip-float">Address</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtShipAddDetail" disabled="disabled" data-bind="value: $root.selectedShippingAddress() != undefined && selectedShippingAddress().addressName() != undefined ? $root.selectedShippingAddress().addressName():''">
+                                                            <input type="text" class="form-control" id="txtShipAddDetail" disabled="disabled" data-bind="value: $root.selectedShippingAddress() != undefined && $root.selectedShippingAddress().addressName() != undefined ? $root.selectedShippingAddress().addressName():''">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -980,7 +1002,7 @@
                                                             <label for="txtShippAddCity" class="control-label text-right tooltip-float">City</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtShippAddCity" disabled="disabled" data-bind="value: $root.selectedShippingAddressId() != undefined ? $root.selectedShippingAddress().city():''">
+                                                            <input type="text" class="form-control" id="txtShippAddCity" disabled="disabled" data-bind="value: $root.selectedShippingAddress()!= undefined && $root.selectedShippingAddress().city() != undefined ? $root.selectedShippingAddress().city():''">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -994,7 +1016,7 @@
                                                             <label for="txtShippAddState" class="control-label text-right tooltip-float">State</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtShippAddState" disabled="disabled" data-bind="value: $root.selectedShippingAddressId() != undefined ? $root.selectedShippingAddress().state():''">
+                                                            <input type="text" class="form-control" id="txtShippAddState" disabled="disabled" data-bind="value: $root.selectedShippingAddress()!= undefined && $root.selectedShippingAddress().state() != undefined ? $root.selectedShippingAddress().state():''">
                                                         </div>
                                                     </div>
                                                 </div>
