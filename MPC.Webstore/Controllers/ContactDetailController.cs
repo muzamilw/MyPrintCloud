@@ -17,8 +17,8 @@ namespace MPC.Webstore.Controllers
        public ContactDetailController(ICompanyService myCompanyService,IWebstoreClaimsHelperService webstoreAuthorizationChecker)
        {
 
-           _myCompanyService = myCompanyService;
-           this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
+          this. _myCompanyService = myCompanyService;
+          this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
        
        }
         public ActionResult Index()
