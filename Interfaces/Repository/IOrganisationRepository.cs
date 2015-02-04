@@ -8,6 +8,7 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface IOrganisationRepository : IBaseRepository<Organisation, long>
     {
-        Organisation GetOrganizatiobByID(long OrganisationId);
+        Organisation GetOrganizatiobByID();
+        Organisation GetOrganizatiobByID(long organisationId);
     }
 }

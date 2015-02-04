@@ -79,7 +79,7 @@
                                     </tr>
                                     @{ foreach (var prod in ViewData["ProductItemList"] as List<MPC.Models.Common.ProductItem>)
                                      {
-                                        <tr class="gridViewRowStyle" valign="top">
+                                        <tr class="gridViewRowStyle" align="top">
                                             <td class="PadTop5 shopCartFirstCol">
                                                 <div class="cart_grid_image_container gallery">
                                                     @{
@@ -193,11 +193,11 @@
                                             }
 
                                             <td align="left" style="width:20%;">
-                                                
-                                                <a id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="ConfirmDeleteItem('@prod.ItemID');">Remove</a>
+                                                <input type="submit" id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="return ConfirmDeleteItem('@prod.ItemID','@ViewBag.OrderID');" value="Remove">
+                                                @*<a id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="ConfirmDeleteItem('@prod.ItemID');">Remove</a>*@
                                                 <br>
-                                                @Html.ActionLink("Copy Product", "CopyProduct", "ShopCart", new { ItemID = prod.ItemID, OrderID = UserCookieManager.OrderId }, new { @class = "silver_back_button", onclick="ShowLoader();" })
-
+                                               @* @Html.ActionLink("Copy Product", "CopyProduct", "ShopCart", new { ItemID = prod.ItemID, OrderID = UserCookieManager.OrderId }, new { @class = "silver_back_button", onclick="ShowLoader();" })*@
+                                                <input type="submit" ID="btnCopyProduct"  class="silver_back_button" onclick="CopyProduct('@prod.ItemID');" value="Copy in cart">
                                             </td>
                                         </tr>
 
@@ -245,7 +245,7 @@
                             </div>
                           
                             <input type="submit" id="btnCheckout" value="CHECKOUT" class="start_creating_btn_checkout float_right  rounded_corners5" /><br />
-                            <button id="btn_ContinueShopping" onclick="ContinueShopping();"class="btn_brown  rounded_corners5" style="float: right;" >@Html.Raw(Html.GetKeyValueFromResourceFile("btnContinueShopping1", UserCookieManager.StoreId))</button>
+                            <button id="btn_ContinueShopping" type="button" onclick="ContinueShopping();"class="btn_brown  rounded_corners5" style="float: right;" >@Html.Raw(Html.GetKeyValueFromResourceFile("btnContinueShopping1", UserCookieManager.StoreId))</button>
                             <div class="clearBoth">
                                 &nbsp;
                             </div>
@@ -256,7 +256,7 @@
                         &nbsp;
                     </div>
                     <input type="hidden" id="hfIsCallFrom" name="hfIsCallFrom" value="Checkout" />
-                    <input type="hidden" id="hfIsItemID" name="hfIsItemID" value="0" />
+                    <input type="hidden" id="hfItemID" name="hfItemID" value="0" />
                     <input type="hidden" id="hfNumOfRec" value="@ViewBag.NumberOfRecords" />
                     <input type="hidden" id="hfOrderID" name="hfOrderID" value="@ViewBag.OrderID" />
                     <input type="hidden" id="hfGrandTotal" name="hfGrandTotal" value="@ViewBag.GrossTotal" />
@@ -481,14 +481,15 @@
             }
             else
             {
-                alert("inn");
+              
                 window.location.href = "/ProductOptions" + "/" + CategoryID + "/" + ItemID + "/Modify/" + TempID;
             }
             return false;
         }
         function ContinueShopping()
         {
-            window.location.href = "/Home/Index";
+            alert();
+            window.location.href = "/";
         }
         function ApplyVoucherCode(OrderID,DiscountVoucher)
         {
@@ -505,8 +506,22 @@
             //$("hfIsCallFrom").val("Delete");
             //var html = $("div.RemoveProductDiv").html();
             //alert(html);
+          
+            $("#hfItemID").val(ItemID);
+            $("#hfIsCallFrom").val("RemoveProduct");
             ConfirmDeleteItemPopUP(ItemID,OrderID);
+            return false;
+        }
+        function CopyProduct(ItemID)
+        {
+           
+            $("#hfItemID").val(ItemID);
+            $("#hfIsCallFrom").val("CopyProduct");
+            
+            //"/EditDesign/''/" + EditType + "/" + ItemID + "/" + TempID;
+            ShowLoader();
 
+            
         }
     </script>
 }

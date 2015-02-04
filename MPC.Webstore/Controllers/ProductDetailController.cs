@@ -90,7 +90,7 @@ namespace MPC.Webstore.Controllers
 
 
                     }
-                    ViewBag.btnUploadDesignPath = "/ProductOptions/" + CategoryID + "/" + ItemID + "/ItemMode=UploadDesign";
+                    ViewBag.btnUploadDesignPath = "/ProductOptions/" + CategoryID + "/" + ItemID + "/UploadDesign";
 
                     // LayoutGrid
 
@@ -533,8 +533,8 @@ namespace MPC.Webstore.Controllers
             ViewBag.lblFromMinPrice = Currency + mininumCost;
             if (description != null)
             {
-                ViewBag.lblCatDes = description.Replace("\r\n", replaceWith).Replace("\n", replaceWith).Replace("\r", replaceWith);
-                ViewBag.ltrlCatDesc2 = description.Replace("\r\n", replaceWith).Replace("\n", replaceWith).Replace("\r", replaceWith);
+                ViewBag.lblCatDes = description;
+                ViewBag.ltrlCatDesc2 = description;
             }
 
             ViewBag.lblCategoryCode = code;
@@ -778,7 +778,7 @@ namespace MPC.Webstore.Controllers
         }
 
       
-        public ActionResult EditDesign(string DesignState,string EditType,long ItemID,long TemplateId,string TemplateName,string ProductName)
+        public ActionResult EditDesign(string DesignState,string EditType,long ItemID,long TemplateId)
         {
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
@@ -787,14 +787,14 @@ namespace MPC.Webstore.Controllers
             {
                 long NewLocalTemplateID = 0;
                // long sItemID = 0;
-                string EditTempType = Request.Form["hfEditTempType"];
+                string EditTempType = EditType;
                 string sProductName = string.Empty;
                 long oItemID = 0;
                 int TempDesignerID = 0;
                 long oTemplateID = 0;
                 long ContactID = _myClaimHelper.loginContactID();
                 long CompanyID = _myClaimHelper.loginContactCompanyID();
-
+               
                 if (EditTempType == "SameTemplate" && DesignState == "resume")
                 {
                     Item Item = _IItemService.GetItemByOrderItemID(ItemID, UserCookieManager.OrderId);
@@ -806,7 +806,7 @@ namespace MPC.Webstore.Controllers
                         //ViewState["templatename"] = localTemplate.ProductName;
                         oItemID = Item.ItemId;
                         TempDesignerID = Item.DesignerCategoryId ?? 0;
-                        sProductName = ProductName;
+                        sProductName = Item.ProductName;
                         oTemplateID = localTemplate.ProductId;
                     }
                 }
@@ -822,7 +822,7 @@ namespace MPC.Webstore.Controllers
                             oItemID = Item.ItemId;
                             TempDesignerID = Item.DesignerCategoryId ?? 0;
                            // ViewState["templatename"] = localTemplate.ProductName;
-                            sProductName = ProductName;
+                            sProductName = Item.ProductName;
                             oTemplateID = localTemplate.ProductId;
                       }
                    
