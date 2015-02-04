@@ -81,6 +81,7 @@
                     new OrientationModel({ id: "1", name: "Long Side" }),
                     new OrientationModel({ id: "2", name: "Short Side" })]),
             lookupList = ko.observableArray([]),
+            markupList = ko.observableArray([]),
             gutterdepth = ko.observable(),
             headdepth = ko.observable(),
             Va = ko.observable(),
@@ -215,7 +216,8 @@
             errors: errors,
             isValid: isValid,
             hasChanges: hasChanges,
-            reset: reset
+            reset: reset,
+            markupList: markupList
         };
         return self;
     };
@@ -338,6 +340,9 @@
         omachine.lookupList.removeAll();
         ko.utils.arrayPushAll(omachine.lookupList(), source.lookupMethods);
         omachine.lookupList.valueHasMutated();
+        omachine.markupList.removeAll();
+        ko.utils.arrayPushAll(omachine.markupList(), source.Markups);
+        omachine.markupList.valueHasMutated();
         
         return omachine;
     };

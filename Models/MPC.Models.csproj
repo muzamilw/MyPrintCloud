@@ -351,6 +351,7 @@
     <Compile Include="ResponseModels\CompanyTerritoryResponse.cs" />
     <Compile Include="ResponseModels\CompanyContactResponse.cs" />
     <Compile Include="ResponseModels\CostCenterBaseResponse.cs" />
+    <Compile Include="ResponseModels\MachineResponseModel.cs" />
     <Compile Include="ResponseModels\MachineSearchResponse.cs" />
     <Compile Include="ResponseModels\ItemDesignerTemplateBaseResponse.cs" />
     <Compile Include="ResponseModels\ItemBaseResponse.cs" />
@@ -359,7 +360,7 @@
     <Compile Include="ResponseModels\ItemSearchResponse.cs" />
     <Compile Include="ResponseModels\InventorySearchResponse.cs" />
     <Compile Include="ResponseModels\LanguageEditor.cs" />
-    <Compile Include="ResponseModels\MachineResponseModel.cs" />
+    <Compile Include="ResponseModels\MachineListResponseModel.cs" />
     <Compile Include="ResponseModels\MyCompanyDomainBaseReponse.cs" />
     <Compile Include="ResponseModels\MyOrganizationBaseResponse.cs" />
     <Compile Include="ResponseModels\CostCentersResponse.cs" />

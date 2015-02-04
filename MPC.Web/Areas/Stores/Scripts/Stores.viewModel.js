@@ -415,6 +415,11 @@ define("stores/stores.viewModel",
                         }
                     });
                 },
+                companyTerritoryFilterSelected = ko.computed(function () {
+                    if (isEditorVisible() && selectedStore() != null && selectedStore() != undefined && selectedStore().companyId() !== undefined) {
+                        searchCompanyTerritory();
+                    }
+                }),
                 //isSavingNewCompanyTerritory
                 isSavingNewCompanyTerritory = ko.observable(false),
                 // Template Chooser For Rave Review
@@ -3647,6 +3652,7 @@ define("stores/stores.viewModel",
                     selectedCompanyTerritory: selectedCompanyTerritory,
                     templateToUseCompanyTerritories: templateToUseCompanyTerritories,
                     searchCompanyTerritoryFilter: searchCompanyTerritoryFilter,
+                    companyTerritoryFilterSelected: companyTerritoryFilterSelected,
                     onCreateNewCompanyTerritory: onCreateNewCompanyTerritory,
                     onDeleteCompanyTerritory: onDeleteCompanyTerritory,
                     onEditCompanyTerritory: onEditCompanyTerritory,
