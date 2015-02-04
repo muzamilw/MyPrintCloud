@@ -281,6 +281,7 @@
     <Compile Include="Areas\Api\ModelMappers\GroupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemDesignerTemplateBaseResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemSectionMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\LookupMethodMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineListMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MediaLibraryMapper.cs" />

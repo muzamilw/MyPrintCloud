@@ -27,26 +27,20 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             };
         }
 
-        /// <summary>
-        /// Create From Domain Model
-        /// </summary>
-        public static APIDomainModels.LookupMethod LookupMethodMapper(this DomainModels.LookupMethod source)
+        public static APIDomainModels.MachineResponse CreateFrom(this DomainResponseModel.MachineResponseModel source)
         {
-            return new APIDomainModels.LookupMethod
+            return new APIDomainModels.MachineResponse
             {
-                MethodId=source.MethodId,
-                Name=source.Name,
-                Type = source.Type,
-                LockedBy = source.LockedBy,
-                CompanyId = source.CompanyId,
-                FlagId = source.FlagId,
-                SystemSiteId = source.SystemSiteId
-
-                
-
+                machine = source.machine.CreateFrom(),
+                lookupMethods = source.lookupMethods.Select(s => s.CreateFrom()),
+                Markups= source.Markups.Select(s=>s.CreateFrom())
             };
 
         }
+        /// <summary>
+        /// Create From Domain Model
+        /// </summary>
+        
 
         public static APIDomainModels.Machine CreateFrom(this DomainModels.Machine source)
         {
