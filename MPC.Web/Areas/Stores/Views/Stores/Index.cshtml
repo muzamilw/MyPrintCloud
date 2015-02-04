@@ -135,40 +135,25 @@
         </script>
     </div>
 
-    @Html.Partial("~/Areas/Stores/Views/Stores/ContactCompanyDetail.cshtml")
+    @{
+        Html.RenderPartial("~/Areas/Stores/Views/Stores/ContactCompanyDetail.cshtml");
+    }
 
 </div>
 <!-- ko stopBinding: true -->
 @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
 <!-- /ko -->
+
+@Html.Partial("~/Areas/Common/Views/Shared/_phraseLibraryDialog.cshtml")
+
 @section Scripts{
-    @*<link href="~/Content/colorpicker.css" rel="stylesheet" />*@
-    @*<script src="~/Scripts/Ace/ace.js"></script>*@
-    @*<script src="~/Scripts/Ace/colorpicker.js"></script>*@
-    @*<link href="~/Content/colorpicker.css" rel="stylesheet" />
-        <link href="~/RichTextEditor/skins/moono/editor.css" rel="stylesheet" />
-        <script src="~/Content/themes/Centaurus/js/wizard.js"></script>
-        <script src="~/Content/themes/Centaurus/js/jquery.maskedinput.min.js"></script>
-        <script src="~/Scripts/Ace/ace.js"></script>
-        <script src="~/Scripts/Ace/colorpicker.js"></script>*@
-    @*<link href="~/RichTextEditor/skins/moono/editor.css" rel="stylesheet" />*@
+    
     <script src="~/Scripts/jquery.form.js"></script>
-    @*<script src="~/Content/themes/Centaurus/js/ckeditor/ckeditor.js"></script>*@
+    <script src="~/Content/themes/Centaurus/js/jquery.nouislider.js"></script>
     <script>
 
-        require(["stores/stores.view", "common/confirmation.view"]);
-        //$(document).ready(function () {
-        //    // This call can be placed at any point after the
-        //    // <textarea>, or inside a <head><script> in a
-        //    // window.onload event handler.
-
-        //    // Replace the <textarea id="editor"> with an CKEditor
-        //    // instance, using default configurations.
-
-        //    CKEDITOR.replace("editor");
-        //});
-
-        //alert(CKEDITOR.basePath);
+        require(["stores/stores.view", "product/product.view", "dropzone", "common/confirmation.view", "common/phraseLibrary.view"]);
+      
         $(function () {
             $('#lisettings').addClass('active');
             $('#ligeneralsettings').addClass('active');
