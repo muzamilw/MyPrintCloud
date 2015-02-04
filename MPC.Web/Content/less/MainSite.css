@@ -232,6 +232,114 @@
   padding-top: 8px;
   padding-bottom: 8px;
 }
+#storesBinding .selectedItemRow {
+  background: yellow;
+}
+#storesBinding #itemsForWidgetsDialog .selectedItemRow {
+  background: yellow;
+}
+#storesBinding #productDetailBinding .activeView {
+  background-color: #ff7e47;
+  color: white;
+}
+#storesBinding #productDetailBinding #tabsHeader {
+  border: 1px solid silver;
+  box-shadow: 1px 1px 1px silver;
+}
+#storesBinding #productDetailBinding .set-filter-margin {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+#storesBinding #productDetailBinding .inactiveView {
+  background-color: #ffffff;
+  color: black;
+}
+#storesBinding #productDetailBinding #changeViewSection {
+  padding-left: 0;
+}
+#storesBinding #productDetailBinding #gridZoomSlider {
+  width: 100%;
+}
+#storesBinding #productDetailBinding .filter-block .form-group {
+  margin-bottom: 0;
+}
+#storesBinding #productDetailBinding #stockDialog #stockDialogMainContainer {
+  width: 838px;
+}
+#storesBinding #productDetailBinding #pressDialog #pressDialogMainContainer {
+  width: 838px;
+}
+#storesBinding #productDetailBinding #signatureEdit .modal-dialog {
+  width: 838px;
+}
+#storesBinding #productDetailBinding #itemAddonCostCentreDialog #itemAddonCostCentreDialogMainContainer {
+  width: 838px;
+}
+#storesBinding #productDetailBinding .form-group .input-group-addon {
+  text-decoration: none;
+  border: 0;
+  cursor: pointer;
+}
+#storesBinding #productDetailBinding .form-group .input-group .input-group-addon {
+  border: 1px solid #ccc;
+}
+#storesBinding #productDetailBinding .pricetable-itemPriceMatrix tr th#Qty {
+  width: 12%;
+}
+#storesBinding #productDetailBinding .pricetable-itemPriceMatrix tr th#QtyRangeFrom,
+#storesBinding #productDetailBinding .pricetable-itemPriceMatrix tr th#QtyRangeTo {
+  width: 6%;
+}
+#storesBinding #productDetailBinding .pricetable-itemPriceMatrix tr th.paperStockType {
+  width: 8%;
+}
+#storesBinding #productDetailBinding #tab-pricetable .form-group #txtDiscountsContainer {
+  padding: 0;
+}
+#storesBinding #productDetailBinding #tab-pricetable .form-group #packagingWeightUnitLabel {
+  padding-top: 10px;
+}
+#storesBinding #productDetailBinding #tab-pricetable .form-group #txtTaxContainer {
+  width: 50%;
+}
+#storesBinding #productDetailBinding #tab-pricetable .form-group #stateTaxSectionLabel {
+  font-weight: bold;
+}
+#storesBinding #productDetailBinding #tab-supplierPrice .labelBold {
+  font-weight: bold;
+}
+#storesBinding #productDetailBinding #tab-supplierPrice #estProductionTimeContainer #txtEstProductionTime {
+  width: 30%;
+}
+#storesBinding #productDetailBinding #tab-supplierPrice #estProductionTimeContainer span {
+  width: 30%;
+}
+#storesBinding #productDetailBinding #tab-supplierPrice #switchAutoCreateGraterContainer {
+  padding-left: 0;
+  padding-right: 0;
+  width: 12%;
+}
+#storesBinding #productDetailBinding #tab-supplierPrice .deliveryTimeContiner input,
+#storesBinding #productDetailBinding #tab-supplierPrice .deliveryTimeContiner span {
+  width: 40%;
+}
+#storesBinding #productDetailBinding #tab-supplierPrice #supplierTabs {
+  border: dotted;
+  border-width: 1px;
+  border-color: lightgray;
+}
+#storesBinding #productDetailBinding #tab-supplierPrice #qtyLimitLabel {
+  width: 17%;
+}
+#storesBinding #productDetailBinding #tab-supplierPrice #qtyLimitInputContainer {
+  width: 15%;
+}
+#storesBinding #productDetailBinding #tab-supplierPrice #qtyLimitInputContainer input {
+  width: 100px;
+}
+#storesBinding #productDetailBinding #productCategoryDialog ol.dd-list li.dd-item .nested-links {
+  margin-top: -3px;
+}
 .store-user-link {
   display: block;
   font-size: 1.25em;
@@ -239,12 +347,6 @@
 }
 .profileLabelPadding {
   margin-top: 15px;
-}
-#storesBinding .selectedItemRow {
-  background: yellow;
-}
-#storesBinding #itemsForWidgetsDialog .selectedItemRow {
-  background: yellow;
 }
 #inventoryBinding #addInventory {
   margin-top: 25px;

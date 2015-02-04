@@ -13,7 +13,8 @@ namespace MPC.Interfaces.MISServices
         Machine Update(Machine machine);
         bool Delete(long machineId);
         Machine GetMachineById(long id);
-        
+        IEnumerable<LookupMethod> GetAllLookupMethod();
+
         
     }
 }

@@ -233,6 +233,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Scalar = source.Scalar,
                 TemplateTypeMode = source.TemplateTypeMode,
                 DesignerCategoryId = source.DesignerCategoryId,
+                CompanyId = source.CompanyId,
                 Template = source.Template != null ? source.Template.CreateFrom() : new DomainModels.Template(),
                 ItemVdpPrices = source.ItemVdpPrices != null ? source.ItemVdpPrices.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVdpPrice>(),
                 ItemVideos = source.ItemVideos != null ? source.ItemVideos.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVideo>(),

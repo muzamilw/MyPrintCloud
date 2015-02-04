@@ -825,8 +825,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 selectedPriceMatrixItemForSupplier2(priceMatrixItem);
             },
             // Choose Template for Price Matrix
-            chooseTemplateForSupplier2PriceMatrix = function (priceMatrixItem) {
-                return selectedPriceMatrixItemForSupplier2() === priceMatrixItem ? 'editPriceMatrixTemplate' : 'itemPriceMatrixTemplate';
+            chooseTemplateForSupplier2PriceMatrix = function () {
+                return 'editPriceMatrixTemplate';
             },
             // Selected State Tax Item
             selectedStateTaxItem = ko.observable(),

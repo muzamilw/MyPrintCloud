@@ -422,10 +422,12 @@
     <Compile Include="Areas\Api\Models\ItemStateTax.cs" />
     <Compile Include="Areas\Api\Models\ItemStockOption.cs" />
     <Compile Include="Areas\Api\Models\ItemVideo.cs" />
+    <Compile Include="Areas\Api\Models\LookupMethod.cs" />
     <Compile Include="Areas\Api\Models\Machine.cs" />
     <Compile Include="Areas\Api\Models\MachineInkCoverage.cs" />
     <Compile Include="Areas\Api\Models\MachineList.cs" />
     <Compile Include="Areas\Api\Models\MachineResource.cs" />
+    <Compile Include="Areas\Api\Models\MachineListResponse.cs" />
     <Compile Include="Areas\Api\Models\MachineResponse.cs" />
     <Compile Include="Areas\Api\Models\MachineSearchResponse.cs">
       <SubType>Code</SubType>
@@ -578,9 +580,6 @@
     <Content Include="Areas\Settings\Scripts\myOrganization.view.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.dataservice.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.model.js" />
-    <Content Include="Areas\Stores\Scripts\store.Product.dataservice.js" />
-    <Content Include="Areas\Stores\Scripts\store.Product.model.js" />
-    <Content Include="Areas\Stores\Scripts\store.Product.viewModel.js" />
     <Content Include="Areas\Stores\Scripts\Stores.dataservice.js" />
     <Content Include="Areas\Stores\Scripts\Stores.model.js" />
     <Content Include="Areas\Stores\Scripts\Stores.view.js" />
@@ -1532,13 +1531,7 @@
     <Content Include="Areas\Settings\Views\Home\MachinesList.cshtml" />
     <Content Include="Areas\Settings\Views\Home\MyOrganization.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\Prefixes.cshtml" />
-    <Content Include="Areas\Stores\Views\Stores\_Products.cshtml" />
-    <Content Include="Areas\Stores\Views\Stores\_StoreProductDetail.cshtml" />
     <Content Include="Content\less\Organisation.less" />
-    <Content Include="Areas\Stores\Views\Stores\_StoreProductAddVideo.cshtml" />
-    <Content Include="Areas\Stores\Views\Stores\_StoreProductRelatedProductDialog.cshtml" />
-    <Content Include="Areas\Stores\Views\Stores\_StoreProductStockDialog.cshtml" />
-    <Content Include="Areas\Stores\Views\Stores\_StockProductItemAddonCostCentre.cshtml" />
     <Content Include="Areas\Stores\Views\Home\Index.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -1552,7 +1545,6 @@
     <Content Include="Areas\Settings\Views\MIS\CostCenterDetail.cshtml" />
     <Content Include="Content\less\Inventory.less" />
     <Content Include="Areas\Stores\Views\Stores\_ItemsForWidgetDialog.cshtml" />
-    <Content Include="Areas\Stores\Views\Stores\_StoreProductCategoryDialog.cshtml" />
     <Content Include="Areas\Settings\Views\Home\LookupMethods.cshtml" />
     <Content Include="Areas\Products\Views\Home\_SignatureEdit.cshtml" />
     <Content Include="Content\less\PaperSheet.less" />

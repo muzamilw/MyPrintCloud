@@ -18,13 +18,13 @@
                     </div>
                 </div>
             </div>
-            <div class="row" id="user-profile">
+            <div class="row" id="user-profile" data-bind="visible: !ist.product.viewModel.isProductDetailsVisible()">
                 <div class="col-lg-12 col-md-8 col-sm-8" style="padding-bottom: 10px;" data-bind="with: $root.selectedStore()">
                     <div class="clearfix ">
                         <div class="col-xs-4 pull-left validationSummaryContainer">
-                            <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopup', popoverId: 'validationSummaryPopoverBody' }" style="display: none">Validation Errors</a>
-                            <div class="well well-small validationSummaryModal" id="validationSummaryPopup" style="display: none">
-                                <div id="validationSummaryPopoverBody">
+                            <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopupForStore', popoverId: 'validationSummaryPopoverBodyForStore' }" style="display: none">Validation Errors</a>
+                            <div class="well well-small validationSummaryModal" id="validationSummaryPopupForStore" style="display: none">
+                                <div id="validationSummaryPopoverBodyForStore">
                                     <ul data-bind="foreach: $root.errorList">
                                         <li>
                                             <a data-bind="click: $root.gotoElement.bind($data.element)"><span data-bind="text: name"></span></a>
@@ -60,8 +60,8 @@
                                 <li><a href="#tab-loyaltyPoints" data-toggle="tab">Loyalty Points</a></li>
                                 <li><a href="#tab-CMYKColors" data-toggle="tab">CMYK Colors</a></li>
                             </ul>
-                            <div class="tab-content" data-bind="with: $root.selectedStore()">
-                                <div class="tab-pane fade in active" id="tab-generalinfo">
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active" data-bind="with: $root.selectedStore" id="tab-generalinfo">
                                     <div class="col-lg-12 form-horizontal">
                                         <h3 class="group-header">Store Details</h3>
                                         <div class="col-lg-9">
@@ -474,7 +474,7 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="tab-products">
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-3" data-bind="with: $root.selectedStore">
                                         <div class="clearfix">
                                             <header class="main-box-header clearfix">
                                                 <h2>Categories</h2>
@@ -492,20 +492,26 @@
                                     </div>
                                     <div class="col-lg-9">
                                         <div class="clearfix">
-                                            @*<header class="main-box-header clearfix">
-                                                    <h1>Products</h1>
-
-                                                </header>*@
-                                            <div class="main-box-body clearfix" data-bind="with: ist.storeProduct.viewModel">
-                                                @Html.Partial("~/Areas/Stores/Views/Stores/_Products.cshtml")
-                                                @Html.Partial("~/Areas/Stores/Views/Stores/_StoreProductDetail.cshtml")
+                                            <header class="main-box-header clearfix">
+                                                <h2>Products</h2>
+                                            </header>
+                                            <!-- ko stopBinding: true -->
+                                            <div id="productBindingSection" class="main-box-body clearfix">
+                                                @{
+                                                    <div id="productBinding">
+                                                        @{
+                                                            Html.RenderPartial("~/Areas/Products/Views/Home/_Products.cshtml");
+                                                        }
+                                                    </div>
+                                                }
                                             </div>
+                                            <!-- /ko -->
                                         </div>
                                         <div class="col-md-3">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="tab-territory">
+                                <div class="tab-pane fade" id="tab-territory" data-bind="with: $root.selectedStore">
                                     <div class="col-lg-12">
                                         <h3 class="group-header">Territories</h3>
                                         <div class="col-lg-9 clearfix">
@@ -731,7 +737,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="tab-widgets">
+                                <div class="tab-pane fade" id="tab-widgets" data-bind="with: $root.selectedStore">
                                     <div class="col-md-12 form-horizontal">
                                         <h3 class="group-header">Store background</h3>
                                         <div class="col-md-9">
@@ -1073,7 +1079,7 @@
                                         &nbsp;
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="tab-SEO">
+                                <div class="tab-pane fade" id="tab-SEO" data-bind="with: $root.selectedStore">
                                     <div class="col-lg-12 form-horizontal">
                                         <h3 class="group-header">SEO Scripts</h3>
                                         <div class="col-lg-9">
@@ -1141,7 +1147,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane clearfix fade" id="tab-mailseries">
+                                <div class="tab-pane clearfix fade" id="tab-mailseries" data-bind="with: $root.selectedStore">
                                     <h3 class="group-header">Workflow Emails</h3>
                                     <div class="main-box-body clearfix">
                                         <div class="table-responsive">
@@ -1210,7 +1216,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-approvalPolicies">
+                                <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-approvalPolicies" data-bind="with: $root.selectedStore">
                                     <div class="col-lg-12 form-horizontal">
                                         <h3 class="group-header">Approval Policies</h3>
                                         <div class="col-lg-9">
@@ -1551,7 +1557,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane clearfix fade" id="tab-pageeditor">
+                                <div class="tab-pane clearfix fade" id="tab-pageeditor" data-bind="with: $root.selectedStore">
                                     <div class="col-lg-3">
                                         <div class="clearfix">
                                             <header class="main-box-header clearfix">
@@ -1593,7 +1599,7 @@
                                     </div>
 
                                 </div>
-                                <div class="tab-pane clearfix fade" id="tab-DelvAddOns">
+                                <div class="tab-pane clearfix fade" id="tab-DelvAddOns" data-bind="with: $root.selectedStore">
                                     <div class="col-lg-12">
                                         <h3 class="group-header">Delivery Add Ons</h3>
                                         <div class="col-lg-12 form-horizontal clearfix">
@@ -1659,13 +1665,13 @@
                                     </div>
 
                                 </div>
-                                <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-specialoffer">
+                                <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-specialoffer" data-bind="with: $root.selectedStore">
                                     <h3 class="group-header">Special Offers</h3>
                                 </div>
-                                <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-loyaltyPoints">
+                                <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-loyaltyPoints" data-bind="with: $root.selectedStore">
                                     <h3 class="group-header">Loyalty Points</h3>
                                 </div>
-                                <div class="tab-pane clearfix fade" id="tab-CMYKColors">
+                                <div class="tab-pane clearfix fade" id="tab-CMYKColors" data-bind="with: $root.selectedStore">
                                     <h3 class="group-header">CMYK Colors</h3>
                                     <div class="col-lg-12 clearfix">
                                         <header class="main-box-header clearfix">
@@ -1718,6 +1724,25 @@
                     </div>
                 </div>
             </div>
+
+            <!-- ko stopBinding: true -->
+            <div id="productDetailBindingSection" class="main-box-body clearfix">
+                @{
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div data-bind="visible: ist.product.viewModel.isProductDetailsVisible" style="display: none">
+                                <h1 class="pull-left">Product Detail</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="productDetailBinding">
+                        @{
+                            Html.RenderPartial("~/Areas/Products/Views/Home/_ProductDetail.cshtml");
+                        }
+                    </div>
+                }
+            </div>
+            <!-- /ko -->
         </div>
         <script id="actionsRaveReviewTemplate" type="text/html">
             <a class="table-link" data-bind="click : $root.onEditRaveReview">
@@ -2079,20 +2104,8 @@
 @Html.Partial("~/Areas/Stores/Views/Shared/_ProductCategoryDetail.cshtml")
 
 @section Scripts {
-    @*
-        <script src="~/Content/themes/Centaurus/js/jquery-ui.custom.min.js"></script>*@
     <script src="~/Content/themes/Centaurus/js/jquery.magnific-popup.min.js"></script>
-    @*<link href="~/Content/colorpicker.css" rel="stylesheet" />
-        <script src="~/Scripts/Ace/ace.js"></script>*@
-    <script src="~/Content/themes/Centaurus/js/jquery.nouislider.js"></script>
-    @*
-        <script src="~/Content/themes/Centaurus/js/bootstrap-wizard.js"></script>
-        <script src="~/Content/themes/Centaurus/js/select2.min.js"></script>
-        <script src="~/Content/themes/Centaurus/js/dropzone.js"></script>*@
-    @*<script src="~/Scripts/Ace/colorpicker.js"></script>*@
-    @*<script src="~/Content/themes/Centaurus/js/jquery.js"></script>
 
-        <script src="~/Scripts/jquery.form.js"></script>*@
     <script type="text/javascript">
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/clouds");
@@ -2136,53 +2149,6 @@
             card.wizard.el.find(".create-server-name").text(displayName);
         }
 
-        function validateIP(ipaddr) {
-            //Remember, this function will validate only Class C IP.
-            //change to other IP Classes as you need
-            ipaddr = ipaddr.replace(/\s/g, "") //remove spaces for checking
-            var re = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/; //regex. check for digits and in
-            //all 4 quadrants of the IP
-            if (re.test(ipaddr)) {
-                //split into units with dots "."
-                var parts = ipaddr.split(".");
-                //if the first unit/quadrant of the IP is zero
-                if (parseInt(parseFloat(parts[0])) == 0) {
-                    return false;
-                }
-                //if the fourth unit/quadrant of the IP is zero
-                if (parseInt(parseFloat(parts[3])) == 0) {
-                    return false;
-                }
-                //if any part is greater than 255
-                for (var i = 0; i < parts.length; i++) {
-                    if (parseInt(parseFloat(parts[i])) > 255) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-
-        function validateFQDN(val) {
-            return /^[a-z0-9-_]+(\.[a-z0-9-_]+)*\.([a-z]{2,4})$/.test(val);
-        }
-
-        function fqdn_or_ip(el) {
-            var val = el.val();
-            ret = {
-                status: true
-            };
-            if (!validateFQDN(val)) {
-                if (!validateIP(val)) {
-                    ret.status = false;
-                    ret.msg = "Invalid IP address or FQDN";
-                }
-            }
-            return ret;
-        }
         $(function () {
             $('ul#gallery-photos').sortable({
                 opacity: 0.6, cursor: 'move', update: function () {
@@ -2217,96 +2183,7 @@
             $("#WaterMarkImageUploadCnt").css("display", "none");
             $("#txtWaterMArk").css("display", "block");
         }
-        //$('#colorPick1').ColorPicker({
-        //    color: '',
-        //    onShow: function (colpkr) {
-        //        $(colpkr).fadeIn(500);
-        //        return false;
-        //    },
-        //    onHide: function (colpkr) {
-        //        $(colpkr).fadeOut(500);
-        //        return false;
-        //    },
-        //    onChange: function (hsb, hex, rgb) {
-        //        $("#colorPick1").css("background-color", "#" + hex);
-        //        $("#colorPick1").text('#' + hex);
-        //    }
-        //});
-        //$('#colorPick2').ColorPicker({
-        //    color: '',
-        //    onShow: function (colpkr) {
-        //        $(colpkr).fadeIn(500);
-        //        return false;
-        //    },
-        //    onHide: function (colpkr) {
-        //        $(colpkr).fadeOut(500);
-        //        return false;
-        //    },
-        //    onChange: function (hsb, hex, rgb) {
-        //        $("#colorPick2").css("background-color", "#" + hex);
-        //        $("#colorPick2").text('#' + hex);
-        //    }
-        //});
-        //$('#colorPick3').ColorPicker({
-        //    color: '',
-        //    onShow: function (colpkr) {
-        //        $(colpkr).fadeIn(500);
-        //        return false;
-        //    },
-        //    onHide: function (colpkr) {
-        //        $(colpkr).fadeOut(500);
-        //        return false;
-        //    },
-        //    onChange: function (hsb, hex, rgb) {
-        //        $("#colorPick3").css("background-color", "#" + hex);
-        //        $("#colorPick3").text('#' + hex);
-        //    }
-        //});
-        //$('#colorPick4').ColorPicker({
-        //    color: '',
-        //    onShow: function (colpkr) {
-        //        $(colpkr).fadeIn(500);
-        //        return false;
-        //    },
-        //    onHide: function (colpkr) {
-        //        $(colpkr).fadeOut(500);
-        //        return false;
-        //    },
-        //    onChange: function (hsb, hex, rgb) {
-        //        $("#colorPick4").css("background-color", "#" + hex);
-        //        $("#colorPick4").text('#' + hex);
-        //    }
-        //});
-        //$('#colorPick5').ColorPicker({
-        //    color: '',
-        //    onShow: function (colpkr) {
-        //        $(colpkr).fadeIn(500);
-        //        return false;
-        //    },
-        //    onHide: function (colpkr) {
-        //        $(colpkr).fadeOut(500);
-        //        return false;
-        //    },
-        //    onChange: function (hsb, hex, rgb) {
-        //        $("#colorPick5").css("background-color", "#" + hex);
-        //        $("#colorPick5").text('#' + hex);
-        //    }
-        //});
-        //$('#colorPick6').ColorPicker({
-        //    color: '',
-        //    onShow: function (colpkr) {
-        //        $(colpkr).fadeIn(500);
-        //        return false;
-        //    },
-        //    onHide: function (colpkr) {
-        //        $(colpkr).fadeOut(500);
-        //        return false;
-        //    },
-        //    onChange: function (hsb, hex, rgb) {
-        //        $("#colorPick6").css("background-color", "#" + hex);
-        //        $("#colorPick6").text('#' + hex);
-        //    }
-        //});
+
     </script>
     <script>
 
@@ -2351,22 +2228,6 @@
 
 
         }
-        function changeToListView() {
-            $("#listViewIcon").css("background-color", "#ff7e47");
-            $("#gridViewIcon").css("background-color", "#ffffff");
-            $("#gridViewIcon").css("color", "black");
-            $("#listViewIcon").css("color", "white");
-            $("#gridForm").css("display", "none");
-            $("#ListForm").css("display", "block");
-        }
-        function changeToGridView() {
-            $("#gridViewIcon").css("background-color", "#ff7e47");
-            $("#listViewIcon").css("background-color", "#ffffff");
-            $("#gridViewIcon").css("color", "white");
-            $("#listViewIcon").css("color", "black");
-            $("#gridForm").css("display", "block");
-            $("#ListForm").css("display", "none");
-        }
 
         function HideUploadOwnMap(isUpload) {
 
@@ -2394,47 +2255,6 @@
             }
 
         }
-        $(document).ready(function () {
-            //min/max slider
-
-            $('.slider-minmax').noUiSlider({
-                range: [40, 100],
-                start: [100],
-                handles: 1,
-                connect: 'upper',
-                slide: function () {
-
-
-                },
-                set: function () {
-                    var val = $(this).val();
-                    $('.productHeadingsCnt').css("padding", "0px");
-                    $('.productHeadingsCnt').css("font-size", "13px");
-                    $('.productHeadingsCnt').parent().parent().css("padding", "0px");
-                    $('.productHeadingsCnt').parent().parent().parent().css("padding", "0px");
-                    $('.Product-Body-List-TL').css("height", "125px");
-                    $('.Product-Body-List-TL').css("width", "141px");
-                    $('.Product-Body-List').css("width", "145px");
-
-                    if (val >= 60) {
-
-                        $('.Top_Cat_Body').css("width", "22%");
-                        $('.FI_TL').css("height", "170px");
-                        $('.PDTC_TL').css("min-height", "160px");
-                        $('.productListIcons').css("width", "149px");
-                    } else if (val >= 40) {
-
-                        $('.Top_Cat_Body').css("width", "18%");
-                        $('.FI_TL').css("height", "120px");
-                        $('.PDTC_TL').css("min-height", "120px");
-                        $('.productListIcons').css("width", "122px");
-                    }
-                }
-
-            });
-            $('.slider-minmax').val(100, true);
-
-        });
     </script>
 
 }
