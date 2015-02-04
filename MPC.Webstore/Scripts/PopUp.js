@@ -24,9 +24,18 @@
     document.getElementById("innerLayer").style.display = "block";
 }
 
-function ShowPopUpDesignNow(Type, Message) {
+    function ShowPopUpDesignNow(Type, Message,EditType,ItemID,TemplateID) {
+       
+       
+        if (EditType == "SameTemplate")
+        {
+            var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" class="btn btn-primary" onclick=DesignNow(' + 1 + ',"SameTemplate",' + ItemID + ',' + TemplateID + ');  >Resume</button><button type="button" onclick=DesignNow(' + 2 + ',"SameTemplate",' + ItemID + ',' + TemplateID + '); class="btn btn-primary">Create New</button></div></div>';
+        }
+        else if(EditType == "SameItem")
+        {
+            var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" class="btn btn-primary" onclick=DesignNow(' + 1 + ',"SameItem",' + ItemID + ',' + TemplateID + ');  >Resume</button><button type="button" onclick=DesignNow(' + 2 + ',"SameItem",'  + ItemID + ',' + TemplateID + '); class="btn btn-primary">Create New</button></div></div>';
+        }
 
-    var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" class="btn btn-primary" onclick=DesignNow("1");  >Resume</button><button type="button" onclick=DesignNow("2"); class="btn btn-primary">Create New</button></div></div>';
 
     var bws = getBrowserHeight();
     var shadow = document.getElementById("innerLayer");
@@ -48,6 +57,8 @@ function ShowPopUpDesignNow(Type, Message) {
 
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
+
+   
 }
 
 function ShowPopUpMarketingBrief(Type, Message,ProductName,ItemID) {
@@ -82,8 +93,11 @@ function ShowPopUpMarketingBrief(Type, Message,ProductName,ItemID) {
 }
 function ConfirmDeleteItemPopUP(ItemID,OrderID)
 {
+  
     var Path = "/ShopCart/RemoveProduct/" + ItemID + "/" + OrderID;
-    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" class="btn btn-primary" onclick=ConfirmRemove("' + Path + '");  >Yes</button><button type="button" onclick=HideMessagePopUp(); class="btn btn-primary">No</button></div></div></div>';
+    var Type = "Alert!";
+    var Message = "Are you sure you want to remove this item from your shopping cart?"
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input type="submit" class="btn btn-primary" onclick=ConfirmRemove('+ItemID+','+OrderID+'); value="Yes" /><button type="button" onclick=HideMessagePopUp(); class="btn btn-primary">No</button></div></div></div>';
 
     var bws = getBrowserHeight();
     var shadow = document.getElementById("innerLayer");
@@ -105,6 +119,8 @@ function ConfirmDeleteItemPopUP(ItemID,OrderID)
 
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
+  
+    return false;
 }
 function getBrowserHeight() {
     var intH = 0;
@@ -192,21 +208,23 @@ function ShowArtWorkPopup(Type, panelHtml) {
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
 }
-function ConfirmRemove(Path)
+function ConfirmRemove(ItemID,OrderID)
+{
+   
+    ShowLoader();
+    window.location.href = "/RemoveProduct/" + ItemID + "/" + OrderID;
+}
+function DesignNow(callFrom,EditType,ItemID,TemplateID)
 {
  
-    window.location.href = Path;
-}
-function DesignNow(callFrom,EditType,ItemID,TemplateID,TemplateName,ProductName)
-{
     if (callFrom == "1") // resume
     {
-        window.location.href = "/EditDesign/resume/" + EditType + "/" + ItemID + "/" + TemplateID + "/"  + TemplateName + "/" + ProductName;
+        window.location.href = "/EditDesign/resume/" + EditType + "/" + ItemID + "/" + TemplateID;
         
     }
     else // create new 
     {
-        window.location.href = "/EditDesign/new" + EditType + "/" + ItemID + "/" + TemplateID + "/" + TemplateName + "/" + ProductName;
+        window.location.href = "/EditDesign/new/" + EditType + "/" + ItemID + "/" + TemplateID;
     }
     
 }

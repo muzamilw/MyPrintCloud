@@ -318,8 +318,10 @@ namespace MPC.Repository.Repositories
                 StatusID = tblItem.Status.StatusId;
             if (tblItem.InvoiceId != null)
                 invoiceID = (int)tblItem.InvoiceId;
-            long productCategoryID = db.Items.Where(s => s.ItemId == tblItem.ItemId).Select(s => s.ItemId).FirstOrDefault();
-            string ProductName = db.ProductCategories.Where(p => p.ProductCategoryId == (int)productCategoryID).Select(s => s.CategoryName).FirstOrDefault();
+
+            long productCategoryID = db.ProductCategoryItems.Where(i => i.ItemId == tblItem.RefItemId).Select(s => s.CategoryId ?? 0).FirstOrDefault();
+        
+            string CategoryName = db.ProductCategories.Where(p => p.ProductCategoryId == productCategoryID).Select(s => s.CategoryName).FirstOrDefault();
             ProductItem prodItem = new ProductItem()
             {
 
@@ -328,7 +330,7 @@ namespace MPC.Repository.Repositories
                 EstimateID = tblItem.EstimateId,
                 InvoiceID = invoiceID,
                 ProductName = tblItem.ProductName,
-                ProductCategoryName = ProductName, //Product category Name
+                ProductCategoryName = CategoryName, //Product category Name
                 ProductCategoryID = (int)productCategoryID,
                 ImagePath = tblItem.ImagePath,
                 ThumbnailPath = tblItem.ThumbnailPath,
@@ -378,7 +380,7 @@ namespace MPC.Repository.Repositories
             ItemAttachment tblItemAttchment = null;
 
            
-                if (tblItem != null && tblItem.ItemAttachments.Count > 0)
+                if (tblItem.ItemAttachments != null && tblItem.ItemAttachments.Count > 0)
                 {
                     //Find the pdf he loaded
 
@@ -820,7 +822,6 @@ namespace MPC.Repository.Repositories
             }
 
 
-            tblOrder.OrderManagerId = (int)loggedInContactID;
             tblOrder.Created_by = (int)loggedInContactID;
 
         }
@@ -992,15 +993,14 @@ namespace MPC.Repository.Repositories
         }
 
         public bool UpdateOrderWithDetailsToConfirmOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Address billingAdd, Address deliveryAdd, double grandOrderTotal,
-                                             string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde, long BrokerContactCompanyID, Estimate order, Prefix prefix)
+                                             string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde, Estimate order, Prefix prefix)
         {
             bool result = false;
             Estimate tblOrder = null;
             Company mdlCustomer = null;
-
-            DbTransaction dbTrans = null;
+   
             Organisation org = null;
-            Company oBrokerCompany = null;
+            
 
 
             using (var dbContextTransaction = db.Database.BeginTransaction())
