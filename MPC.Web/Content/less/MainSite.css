@@ -18,6 +18,13 @@
 #phraseLibraryDialog .selectedPhraseField {
   background: yellow;
 }
+#phraseLibraryDialog .category {
+  padding-right: 5px;
+  border: 1px solid silver;
+  max-height: 450px;
+  overflow-y: auto;
+  margin-top: 14px;
+}
 .inlineGrid table {
   max-width: 100%;
   width: 100%;

@@ -11,7 +11,9 @@ define("machine/machine.viewModel",
                     view,
                     // Active
                     machineList = ko.observableArray([]),
+                    machine = ko.observableArray([]),
                     errorList = ko.observableArray([]),
+                   
                     // #region Busy Indicators
                     isLoadingMachineList = ko.observable(false),
                     // #endregion Busy Indicators
@@ -24,16 +26,14 @@ define("machine/machine.viewModel",
                     searchFilter = ko.observable(),
                     isEditorVisible = ko.observable(),
                     selectedMachine = ko.observable(),
-                    templateToUse = function (omachine) {
-                        return (omachine === selectedMachine() ? 'editMachineTemplate' : 'itemMachineTemplate');
-                    },
+                    templateToUse = 'itemMachineTemplate',
                     makeEditable = ko.observable(false),
                     createNewMachine = function () {
                         var oMachine = new model.machine();
                         editorViewModel.selectItem(oMachine);
                         openEditDialog();
                     },
-                    //Delete Cost Center
+                    //Delete Machine
                     //deleteMachine = function (oMachine) {
                     //    dataservice.deleteMachine({
                     //        CostCentreId: oMachine.CostCentreId(),
@@ -142,7 +142,7 @@ define("machine/machine.viewModel",
                     //    });
                     //},
                     //On Edit Click Of Machine
-                    onEditMachineItem = function (oMachine) {
+                    onEditItem = function (oMachine) {
                         errorList.removeAll();
                         // selectedMachine(oMachine);
                         dataservice.getMachineById({
@@ -150,7 +150,7 @@ define("machine/machine.viewModel",
                         }, {
                             success: function (data) {
                                 if (data != null) {
-                                    selectedMachine(model.machineListClientMapper(data));
+                                    selectedMachine(model.machineClientMapper(data));
                                     selectedMachine().reset();
                                     showMachineDetail();
                                 }
@@ -161,7 +161,7 @@ define("machine/machine.viewModel",
                         });
                     },
                     openEditDialog = function () {
-                        view.showCostCenterDialog();
+                        view.showMachineDetail();
                     },
                     closeEditDialog = function () {
                         if (selectedMachine() != undefined) {
@@ -198,6 +198,7 @@ define("machine/machine.viewModel",
                     machineList: machineList,
                     selectedMachine: selectedMachine,
                     isLoadingMachineList: isLoadingMachineList,
+                    machine:machine,
                     //deleteCostCenter: deleteCostCenter,
                     //onDeleteCostCenter: onDeleteCostCenter,
                     sortOn: sortOn,
@@ -211,14 +212,15 @@ define("machine/machine.viewModel",
                     //saveCostCenter: saveCostCenter,
                     //saveNewCostCenter: saveNewCostCenter,
                     // saveEdittedCostCenter: saveEdittedCostCenter,
-                    //openEditDialog: openEditDialog,
-                    //closeEditDialog: closeEditDialog,
+                    openEditDialog: openEditDialog,
+                    closeEditDialog: closeEditDialog,
                     searchFilter: searchFilter,
-                    onEditMachineItem: onEditMachineItem,
+                    onEditItem: onEditItem,
                     initialize: initialize,
                     isEditorVisible: isEditorVisible,
                     closeMachineDetail: closeMachineDetail,
                     showMachineDetail: showMachineDetail
+                  
                 };
             })()
         };

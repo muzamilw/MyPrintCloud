@@ -6,6 +6,7 @@ using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -63,6 +64,16 @@ namespace MPC.MIS.Areas.Api.Controllers
                 return true;
             }
             return false;
+        }
+        [ApiException]
+        [HttpPost]
+        public Address Post(Address address)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+            return addressService.Save(address.CreateFrom()).CreateFrom();
         }
         public bool Delete(CompanyAddressDeleteModel request)
         {

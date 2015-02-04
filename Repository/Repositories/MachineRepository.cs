@@ -9,17 +9,6 @@ using Microsoft.Practices.Unity;
 using System.Collections.Generic;
 using MPC.Models.Common;
 using System;
-using System.Data.Entity;
-using Microsoft.Practices.Unity;
-using MPC.Interfaces.Repository;
-using MPC.Models.DomainModels;
-using MPC.Models.RequestModels;
-using MPC.Models.ResponseModels;
-using MPC.Repository.BaseRepository;
-using System.Collections.Generic;
-using System.Linq;
-using MPC.Models.Common;
-using System;
 using System.Linq.Expressions;
 
 namespace MPC.Repository.Repositories
@@ -76,7 +65,8 @@ namespace MPC.Repository.Repositories
             return new MachineResponseModel
             {
                 RowCount = DbSet.Count(),
-                MachineList = machineList
+                MachineList = machineList,
+                lookupMethod = db.LookupMethods
 
             };
 
@@ -106,6 +96,7 @@ namespace MPC.Repository.Repositories
             return new MachineSearchResponse { Machines = machines, TotalCount = DbSet.Count(query) };
         }
 
+
         public Machine Find(int id)
         {
             return DbSet.Find(id);
@@ -124,6 +115,17 @@ namespace MPC.Repository.Repositories
                 return db.Machines;
             }
         }
+        public IEnumerable<LookupMethod> GetAllLookupMethodList()
+        {
+            return db.LookupMethods;
+        }
+        //protected override IDbSet<LookupMethod> LookupMethd
+        //{
+        //    get
+        //    {
+        //        return db.LookupMethods;
+        //    }
+        //}
 
     }
 }
