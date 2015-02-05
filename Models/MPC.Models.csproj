@@ -109,6 +109,7 @@
     <Compile Include="Common\CostCentreMatrix.cs" />
     <Compile Include="Common\CostCentreQuestion.cs" />
     <Compile Include="Common\CostCentreResults.cs" />
+    <Compile Include="Common\CustomerByColumn.cs" />
     <Compile Include="Common\DesignerDamImageWrapper.cs" />
     <Compile Include="Common\CostCentreResource.cs" />
     <Compile Include="Common\DesignerPostSettings.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="Common\UserIdentityModel.cs" />
     <Compile Include="Common\USTaxInfo.cs" />
     <Compile Include="Common\Utility.cs" />
+    <Compile Include="Common\ValidationInfo.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CmsOffer.cs" />
     <Compile Include="DomainModels\CompanyVariableIcon.cs" />
