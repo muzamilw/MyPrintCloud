@@ -2,7 +2,6 @@
     ViewBag.Title = "Companies List";
 }
 @section leftmenue {
-
 }
 <div class="row" id="crmBindingRoot">
     <div class="col-lg-12">
@@ -15,16 +14,17 @@
                 </ol>
                 <div class="clearfix">
                     <h1 class="pull-left">Customers</h1>
-                    <div class="pull-right top-page-ui">
-                        <a data-toggle="modal" href="~/CRM/AddCustomer" class="btn btn-primary">
-                            <i class="fa fa-plus-circle fa-lg"></i>Add Customer
-                        </a>
-
-                    </div>
-                    <div class="filter-block pull-right">
-                      
-                    </div>
                 </div>
+                <div class="pull-right top-page-ui">
+                    <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
+                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Customer
+                    </a>
+                </div>
+                <div id="addStore">
+                    &nbsp;
+                </div> <br />
+                <!-- ko template: { name: 'filterTemplate' } -->
+                <!-- /ko -->
             </div>
         </div>
         <div class="row">
@@ -43,26 +43,22 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <!-- ko  foreach: $root.customersForListView  -->
                                     <tr>
                                         <td>
                                             <img src="~/Content/themes/Centaurus/img/samples/logos/1.jpg" alt="" />
-                                            <a href="/CRM/CompaniesDetail" class="user-link">Unbound Prints</a>
+                                            <a href="/CRM/CompaniesDetail" class="user-link" data-bind="text:name"></a>
                                             <span class="user-subhead">Broker Store</span>
                                         </td>
                                         <td>
-                                            2013/08/08
+                                            <p data-bind="dateString:creationdate"></p>
                                         </td>
                                         <td class="text-center">
-                                            <span class="label label-default">Inactive</span>
+                                            <span class="label label-default" data-bind="text:status"></span>
                                         </td>
                                         <td>
                                             <a href="/CRM/CompaniesDetail">
-                                                <span class="__cf_email__" data-cfemail="24494d4845644f514a4d570a474b49">[email&nbsp;protected]</span>
-                                                <script type="text/javascript">
-                                                    /* <![CDATA[ */
-                                                    (function () { try { var s, a, i, j, r, c, l, b = document.getElementsByTagName("script"); l = b[b.length - 1].previousSibling; a = l.getAttribute('data-cfemail'); if (a) { s = ''; r = parseInt(a.substr(0, 2), 16); for (j = 2; a.length - j; j += 2) { c = parseInt(a.substr(j, 2), 16) ^ r; s += String.fromCharCode(c); } s = document.createTextNode(s); l.parentNode.replaceChild(s, l); } } catch (e) { } })();
-                                                    /* ]]> */
-                                                </script>
+                                                <span class="label label-default" data-bind="text:email"></span>
                                             </a>
                                         </td>
                                         <td style="width: 20%;">
@@ -86,392 +82,44 @@
                                             </a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="~/Content/themes/Centaurus/img/samples/logos/2.jpg" alt="" />
-                                            <a href="/CRM/CompaniesDetail" class="user-link">Art Graphics</a>
-                                            <span class="user-subhead">Broker Store</span>
-                                        </td>
-                                        <td>
-                                            2013/08/12
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="label label-success">Active</span>
-                                        </td>
-                                        <td>
-                                            <a href="/CRM/CompaniesDetail">
-                                                <span class="__cf_email__" data-cfemail="402d21322c2f2e002232212e242f6e232f2d">[email&nbsp;protected]</span>
-                                                <script type="text/javascript">
-                                                    /* <![CDATA[ */
-                                                    (function () { try { var s, a, i, j, r, c, l, b = document.getElementsByTagName("script"); l = b[b.length - 1].previousSibling; a = l.getAttribute('data-cfemail'); if (a) { s = ''; r = parseInt(a.substr(0, 2), 16); for (j = 2; a.length - j; j += 2) { c = parseInt(a.substr(j, 2), 16) ^ r; s += String.fromCharCode(c); } s = document.createTextNode(s); l.parentNode.replaceChild(s, l); } } catch (e) { } })();
-                                                    /* ]]> */
-                                                </script>
-                                            </a>
-                                        </td>
-                                        <td style="width: 20%;">
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="/CRM/ContactCompanyDetail" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link danger">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="~/Content/themes/Centaurus/img/samples/logos/3.jpg" alt="" />
-                                            <a href="#" class="user-link">Computer Technology Prints</a>
-                                            <span class="user-subhead">Retail Store</span>
-                                        </td>
-                                        <td>
-                                            2013/03/03
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="label label-danger">Banned</span>
-                                        </td>
-                                        <td>
-                                            <a href="#">jack@nicholson</a>
-                                        </td>
-                                        <td style="width: 20%;">
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link danger">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="~/Content/themes/Centaurus/img/samples/logos/4.jpg" alt="" />
-                                            <a href="#" class="user-link">I Tech Printing</a>
-                                            <span class="user-subhead">Retail Store</span>
-                                        </td>
-                                        <td>
-                                            2004/01/24
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="label label-warning">Pending</span>
-                                        </td>
-                                        <td>
-                                            <a href="#">
-                                                <span class="__cf_email__" data-cfemail="d4bca1b9a4bca6b1ad94b6bbb3b5a6a0fab7bbb9">[email&nbsp;protected]</span>
-                                                <script type="text/javascript">
-                                                    /* <![CDATA[ */
-                                                    (function () { try { var s, a, i, j, r, c, l, b = document.getElementsByTagName("script"); l = b[b.length - 1].previousSibling; a = l.getAttribute('data-cfemail'); if (a) { s = ''; r = parseInt(a.substr(0, 2), 16); for (j = 2; a.length - j; j += 2) { c = parseInt(a.substr(j, 2), 16) ^ r; s += String.fromCharCode(c); } s = document.createTextNode(s); l.parentNode.replaceChild(s, l); } } catch (e) { } })();
-                                                    /* ]]> */
-                                                </script>
-                                            </a>
-                                        </td>
-                                        <td style="width: 20%;">
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link danger">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="~/Content/themes/Centaurus/img/samples/logos/5.jpg" alt="" />
-                                            <a href="#" class="user-link">ELM London</a>
-                                            <span class="user-subhead">Broker Store</span>
-                                        </td>
-                                        <td>
-                                            2013/12/31
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="label label-success">Active</span>
-                                        </td>
-                                        <td>
-                                            <a href="#">spencer@tracy</a>
-                                        </td>
-                                        <td style="width: 20%;">
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link danger">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="~/Content/themes/Centaurus/img/samples/logos/6.jpg" alt="" />
-                                            <a href="#" class="user-link">Colour Fast Group</a>
-                                            <span class="user-subhead">Broker Store</span>
-                                        </td>
-                                        <td>
-                                            2013/08/08
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="label label-default">Inactive</span>
-                                        </td>
-                                        <td>
-                                            <a href="#">
-                                                <span class="__cf_email__" data-cfemail="ff9296939ebf948a91968cd19c9092">[email&nbsp;protected]</span>
-                                                <script type="text/javascript">
-                                                    /* <![CDATA[ */
-                                                    (function () { try { var s, a, i, j, r, c, l, b = document.getElementsByTagName("script"); l = b[b.length - 1].previousSibling; a = l.getAttribute('data-cfemail'); if (a) { s = ''; r = parseInt(a.substr(0, 2), 16); for (j = 2; a.length - j; j += 2) { c = parseInt(a.substr(j, 2), 16) ^ r; s += String.fromCharCode(c); } s = document.createTextNode(s); l.parentNode.replaceChild(s, l); } } catch (e) { } })();
-                                                    /* ]]> */
-                                                </script>
-                                            </a>
-                                        </td>
-                                        <td style="width: 20%;">
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link danger">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="~/Content/themes/Centaurus/img/samples/logos/7.jpg" alt="" />
-                                            <a href="#" class="user-link">Creative Art</a>
-                                            <span class="user-subhead">Corporate Store</span>
-                                        </td>
-                                        <td>
-                                            2013/08/12
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="label label-success">Active</span>
-                                        </td>
-                                        <td>
-                                            <a href="#">
-                                                <span class="__cf_email__" data-cfemail="4a272b382625240a28382b242e2564292527">[email&nbsp;protected]</span>
-                                                <script type="text/javascript">
-                                                    /* <![CDATA[ */
-                                                    (function () { try { var s, a, i, j, r, c, l, b = document.getElementsByTagName("script"); l = b[b.length - 1].previousSibling; a = l.getAttribute('data-cfemail'); if (a) { s = ''; r = parseInt(a.substr(0, 2), 16); for (j = 2; a.length - j; j += 2) { c = parseInt(a.substr(j, 2), 16) ^ r; s += String.fromCharCode(c); } s = document.createTextNode(s); l.parentNode.replaceChild(s, l); } } catch (e) { } })();
-                                                    /* ]]> */
-                                                </script>
-                                            </a>
-                                        </td>
-                                        <td style="width: 20%;">
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link danger">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="~/Content/themes/Centaurus/img/samples/logos/8.jpg" alt="" />
-                                            <a href="#" class="user-link">Comrade Circle </a>
-                                            <span class="user-subhead">Corporate Store</span>
-                                        </td>
-                                        <td>
-                                            2013/03/03
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="label label-danger">Banned</span>
-                                        </td>
-                                        <td>
-                                            <a href="#">jack@nicholson</a>
-                                        </td>
-                                        <td style="width: 20%;">
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link danger">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="~/Content/themes/Centaurus/img/samples/logos/9.jpg" alt="" />
-                                            <a href="#" class="user-link">Gavin Newton</a>
-                                            <span class="user-subhead">Retail Store</span>
-                                        </td>
-                                        <td>
-                                            2004/01/24
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="label label-warning">Pending</span>
-                                        </td>
-                                        <td>
-                                            <a href="#">
-                                                <span class="__cf_email__" data-cfemail="5a322f372a32283f231a38353d3b282e74393537">[email&nbsp;protected]</span>
-                                                <script type="text/javascript">
-                                                    /* <![CDATA[ */
-                                                    (function () { try { var s, a, i, j, r, c, l, b = document.getElementsByTagName("script"); l = b[b.length - 1].previousSibling; a = l.getAttribute('data-cfemail'); if (a) { s = ''; r = parseInt(a.substr(0, 2), 16); for (j = 2; a.length - j; j += 2) { c = parseInt(a.substr(j, 2), 16) ^ r; s += String.fromCharCode(c); } s = document.createTextNode(s); l.parentNode.replaceChild(s, l); } } catch (e) { } })();
-                                                    /* ]]> */
-                                                </script>
-                                            </a>
-                                        </td>
-                                        <td style="width: 20%;">
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link danger">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="~/Content/themes/Centaurus/img/samples/logos/10.jpg" alt="" />
-                                            <a href="#" class="user-link">Eazy Prints</a>
-                                            <span class="user-subhead">Broker Store</span>
-                                        </td>
-                                        <td>
-                                            2013/12/31
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="label label-success">Active</span>
-                                        </td>
-                                        <td>
-                                            <a href="#">spencer@tracy</a>
-                                        </td>
-                                        <td style="width: 20%;">
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link danger">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    <!-- /ko -->
                                 </tbody>
                             </table>
-
                         </div>
-
                     </div>
                 </div>
                 <div id="pagerDiv">
-                    <ul class="pagination pull-right">
-                        <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
-                    </ul>
+                    <!-- ko with: pager -->
+                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                    <!-- /ko -->
                 </div>
-
+                <div id="pagerDiv">
+                </div>
             </div>
         </div>
+        <script id="filterTemplate" type="text/html">
+            <div class="filter-body" id="filter">
+                <div class="filter-block pull-left">
+                    <div class="pull-left spanfilterlbl">
+                        Search &nbsp;
+                    </div>
+                    <div class="form-group pull-left">
+                        <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter,">
+                        <i class="fa fa-search search-icon"></i>
+                    </div>
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-primary" data-bind="click:$root.getStores,event:{click:$root.searchButtonHandler}">Search</button>
+                        <button type="reset" class="btn btn-default" data-bind="click:$root.resetFilterSection,event:{click:$root.resetButtonHandler}">Reset</button>
+                    </div>
+                </div>
+                <div class="clearfix">
+                </div>
+            </div>
+        </script>
+
     </div>
 </div>
-
 @section Scripts{
-
-    
     <script>
         require(["crm/crm.view", "common/confirmation.view"]);
         $(function () {

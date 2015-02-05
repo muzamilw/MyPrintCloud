@@ -61,6 +61,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<ICompanyTerritoryService, CompanyTerritoryService>();
             unityContainer.RegisterType<IAddressService, AddressService>();
             unityContainer.RegisterType<ICompanyContactService, CompanyContactService>();
+            unityContainer.RegisterType<ICustomerService, CustomerService>();
        
         }
     }

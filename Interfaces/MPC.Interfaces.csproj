@@ -73,6 +73,7 @@
     <Compile Include="MISServices\ICompanyContactService.cs" />
     <Compile Include="MISServices\ICompanyService.cs" />
     <Compile Include="MISServices\ICompanyTerritoryService.cs" />
+    <Compile Include="MISServices\ICustomerService.cs" />
     <Compile Include="MISServices\IItemService.cs" />
     <Compile Include="MISServices\IInventoryService.cs" />
     <Compile Include="MISServices\ICostCentersService.cs" />
