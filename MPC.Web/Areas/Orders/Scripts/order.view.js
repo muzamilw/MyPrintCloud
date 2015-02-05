@@ -2,7 +2,7 @@
     View for the Order. Used to keep the viewmodel clear of UI related logic
 */
 define("order/order.view",
-    ["jquery", "order/order.viewModel"], function ($, productViewModel) {
+    ["jquery", "order/order.viewModel"], function ($, orderViewModel) {
 
         var ist = window.ist || {};
 
@@ -12,7 +12,7 @@ define("order/order.view",
                 // View model 
                 viewModel = specifiedViewModel,
                 // Binding root used with knockout
-                bindingRoot = $("#productBinding")[0],
+                bindingRoot = $("#orderBinding")[0],
                 // Go To Element with Validation Errors
                 gotoElement = function (element) {
                     var tab = $(element).closest(".tab-pane");
@@ -46,19 +46,13 @@ define("order/order.view",
             return {
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
-                gotoElement: gotoElement,
-                showBasicDetailsTab: showBasicDetailsTab,
-                wireUpTabShownEvent: wireUpTabShownEvent,
-                showSignatureDialog: showSignatureDialog,
-                hideSignatureDialog: hideSignatureDialog,
-                showPressDialog: showPressDialog,
-                hidePressDialog: hidePressDialog
+                gotoElement: gotoElement
             };
-        })(productViewModel);
+        })(orderViewModel);
 
         // Initialize the view model
         if (ist.order.view.bindingRoot) {
-            productViewModel.initialize(ist.order.view);
+            orderViewModel.initialize(ist.order.view);
         }
         return ist.order.view;
     });

@@ -13,69 +13,68 @@ define("order/order.viewModel",
                     // #region Arrays
                     // orders
                     orders = ko.observableArray([]),
+                    // Errors List
                     errorList = ko.observableArray([]),
                     // #endregion Arrays
                     // #region Busy Indicators
-                    isLoadingProducts = ko.observable(false),
+                    isLoadingOrders = ko.observable(false),
                     // Is Order Editor Visible
                     isOrderDetailsVisible = ko.observable(false),
+                    // #endregion
+                    // #region Observables
                     // filter
                     filterText = ko.observable(),
-                    // filter for Related Items
-                    filterTextForRelatedItems = ko.observable(),
-                    // Active Product
-                    selectedProduct = ko.observable(),
+                    // Active Order
+                    selectedOrder = ko.observable(),
                     // Page Header 
                     pageHeader = ko.computed(function () {
-                        return selectedProduct() && selectedProduct().productName() ? selectedProduct().productName() : 'Products';
+                        return selectedOrder() && selectedOrder().orderName() ? selectedOrder().orderName() : 'Orders';
                     }),
                     // Sort On
                     sortOn = ko.observable(1),
                     // Sort Order -  true means asc, false means desc
                     sortIsAsc = ko.observable(true),
                     // Pagination
-                    pager = ko.observable(new pagination.Pagination({ PageSize: 5 }, products)),
-                    // Create New Product
-                    createProduct = function () {
-                        selectedProduct(model.Item.Create({}));
-                        openProductEditor();
+                    pager = ko.observable(new pagination.Pagination({ PageSize: 5 }, orders)),
+                    // #endregion
+                    // #region Utility Functions
+                    // Create New Order
+                    createOrder = function () {
+                        selectedOrder(model.Estimate.Create({}));
+                        openOrderEditor();
                     },
-                    // Edit Product
-                    editProduct = function (data) {
-                        getItemById(data.id(), openProductEditor);
+                    // Edit Order
+                    editOrder = function (data) {
+                        getOrderById(data.id(), openOrderEditor);
                     },
                     // Open Editor
-                    openProductEditor = function () {
-                        
+                    openOrderEditor = function () {
+                        isOrderDetailsVisible(true);
                     },
                     // On Close Editor
-                    onCloseProductEditor = function () {
-                        if (selectedProduct().hasChanges()) {
+                    onCloseOrderEditor = function () {
+                        if (selectedOrder().hasChanges()) {
                             confirmation.messageText("Do you want to save changes?");
-                            confirmation.afterProceed(onSaveProduct);
+                            confirmation.afterProceed(onSaveOrder);
                             confirmation.afterCancel(function () {
-                                selectedProduct().reset();
-                                closeProductEditor();
+                                selectedOrder().reset();
+                                closeOrderEditor();
                             });
                             confirmation.show();
                             return;
                         }
-                        closeProductEditor();
+                        closeOrderEditor();
                     },
                     // Close Editor
-                    closeProductEditor = function () {
-                        selectedProduct(model.Item.Create({}));
-                        resetVideoCounter();
-                        isProductDetailsVisible(false);
-                        selectedDesignerCategory(undefined);
-                        selectedRegionId(undefined);
-                        selectedCategoryTypeId(undefined);
+                    closeOrderEditor = function () {
+                        selectedOrder(model.Estimate.Create({}));
+                        isOrderDetailsVisible(false);
                         errorList.removeAll();
                     },
                     // On Archive
-                    onArchiveProduct = function (item) {
+                    onArchiveOrder = function (order) {
                         confirmation.afterProceed(function () {
-                            archiveProduct(item.id());
+                            archiveOrder(order.id());
                         });
                         confirmation.show();
                     },
@@ -84,67 +83,74 @@ define("order/order.viewModel",
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
 
-                        pager(new pagination.Pagination({ PageSize: 5 }, products, getItems));
+                        pager(new pagination.Pagination({ PageSize: 5 }, orders, getOrders));
 
                         // Get Base Data
                         getBaseData();
 
-                        // Get Items
-                        getItems();
+                        // Get Orders
+                        getOrders();
 
                     },
-                    // Map Products 
-                    mapProducts = function (data) {
-                        var itemsList = [];
-                        _.each(data, function (item) {
-                            itemsList.push(model.Item.Create(item));
+                    // Map Orders 
+                    mapOrders = function (data) {
+                        var ordersList = [];
+                        _.each(data, function (order) {
+                            ordersList.push(model.Estimate.Create(order));
                         });
 
                         // Push to Original Array
-                        ko.utils.arrayPushAll(products(), itemsList);
-                        products.valueHasMutated();
+                        ko.utils.arrayPushAll(orders(), ordersList);
+                        orders.valueHasMutated();
                     },
-                    // Filter Products
-                    filterProducts = function () {
+                    // Filter Orders
+                    filterOrders = function () {
                         // Reset Pager
                         pager().reset();
-                        // Get Items
-                        getItems();
+                        // Get Orders
+                        getOrders();
                     },
                     // Reset Filter
                     resetFilter = function () {
                         // Reset Text 
                         filterText(undefined);
                         // Filter Record
-                        filterProducts();
+                        filterOrders();
                     },
-                    // On Save Product
-                    onSaveProduct = function (data, event, navigateCallback) {
+                    // On Save Order
+                    onSaveOrder = function (data, event, navigateCallback) {
                         if (!doBeforeSave()) {
                             return;
                         }
 
-                        saveProduct(closeProductEditor, navigateCallback);
+                        saveOrder(closeOrderEditor, navigateCallback);
                     },
                     // Do Before Save
                     doBeforeSave = function () {
                         var flag = true;
-                        if (!selectedProduct().isValid()) {
-                            selectedProduct().showAllErrors();
-                            selectedProduct().setValidationSummary(errorList);
+                        if (!selectedOrder().isValid()) {
+                            selectedOrder().showAllErrors();
+                            selectedOrder().setValidationSummary(errorList);
                             flag = false;
                         }
                         return flag;
                     },
-                    // On Clone Product
-                    onCloneProduct = function(data) {
-                        cloneProduct(data, openProductEditor);
+                    // On Clone Order
+                    onCloneOrder = function(data) {
+                        cloneOrder(data, openOrderEditor);
                     },
                     // Go To Element
                     gotoElement = function (validation) {
                         view.gotoElement(validation.element);
                     },
-                    
+                    // Get Order From list
+                    getOrderFromList = function(id) {
+                        return orders.find(function(order) {
+                            return order.id() === id;
+                        });
+                    },
+                    // #endregion
+                    // #region ServiceCalls
                     // Get Base Data
                     getBaseData = function () {
                         dataservice.getBaseData({
@@ -158,31 +164,28 @@ define("order/order.viewModel",
                             }
                         });
                     },
-                    // Save Product
-                    saveProduct = function (callback, navigateCallback) {
-                        var product = selectedProduct().convertToServerData();
+                    // Save Order
+                    saveOrder = function (callback, navigateCallback) {
+                        var order = selectedOrder().convertToServerData();
                        
-                        dataservice.saveItem(product, {
+                        dataservice.saveOrder(order, {
                             success: function (data) {
-                                if (!selectedProduct().id()) {
+                                if (!selectedOrder().id()) {
                                     // Update Id
-                                    selectedProduct().id(data.ItemId);
+                                    selectedOrder().id(data.OrderId);
 
                                     // Update Min Price
-                                    selectedProduct().miniPrice(data.MinPrice || 0);
+                                    selectedOrder().miniPrice(data.MinPrice || 0);
 
                                     // Add to top of list
-                                    products.splice(0, 0, selectedProduct());
+                                    orders.splice(0, 0, selectedOrder());
                                 }
                                 else {
-                                    // Get Item
-                                    var item = getItemFromList(selectedProduct().id());
-                                    if (item) {
-                                        item.productCode(data.ProductCode);
-                                        item.productName(data.ProductName);
-                                        item.isEnabled(data.IsEnabled);
-                                        item.isPublished(data.IsPublished);
-                                        item.miniPrice(data.MinPrice || 0);
+                                    // Get Order
+                                    var orderUpdated = getOrderFromList(selectedOrder().id());
+                                    if (orderUpdated) {
+                                        order.orderCode(data.OrderCode);
+                                        order.orderName(data.OrderName);
                                     }
                                 }
 
@@ -197,19 +200,19 @@ define("order/order.viewModel",
                                 }
                             },
                             error: function (response) {
-                                toastr.error("Failed to Save Product. Error: " + response);
+                                toastr.error("Failed to Save Order. Error: " + response);
                             }
                         });
                     },
-                    // Clone Product
-                    cloneProduct = function (item, callback) {
-                        dataservice.cloneItem({ ItemId: item.id() }, {
+                    // Clone Order
+                    cloneOrder = function (order, callback) {
+                        dataservice.cloneOrder({ OrderId: order.id() }, {
                             success: function (data) {
                                 if (data) {
-                                    var newItem = model.Item.Create(data);
+                                    var newOrder = model.Estimate.Create(data);
                                     // Add to top of list
-                                    products.splice(0, 0, newItem);
-                                    selectedProduct(newItem);
+                                    orders.splice(0, 0, newOrder);
+                                    selectedOrder(newOrder);
                                     
                                     if (callback && typeof callback === "function") {
                                         callback();
@@ -219,66 +222,66 @@ define("order/order.viewModel",
                                 toastr.success("Cloned Successfully.");
                             },
                             error: function (response) {
-                                toastr.error("Failed to Clone Product. Error: " + response);
+                                toastr.error("Failed to Clone Order. Error: " + response);
                             }
                         });
                     },
-                    // archive Product
-                    archiveProduct = function () {
-                        dataservice.archiveItem({
-                            ItemId: selectedProduct().id()
+                    // archive Order
+                    archiveOrder = function () {
+                        dataservice.archiveOrder({
+                            OrderId: selectedOrder().id()
                         }, {
                             success: function () {
-                                selectedProduct().isArchived(true);
+                                selectedOrder().isArchived(true);
                                 toastr.success("Archived Successfully.");
                             },
                             error: function (response) {
-                                toastr.error("Failed to archive Product. Error: " + response);
+                                toastr.error("Failed to archive Order. Error: " + response);
                             }
                         });
                     },
                     
-                    // Get Items
-                    getItems = function () {
-                        isLoadingProducts(true);
-                        dataservice.getItems({
+                    // Get Orders
+                    getOrders = function () {
+                        isLoadingOrders(true);
+                        dataservice.getOrders({
                             SearchString: filterText(),
                             PageSize: pager().pageSize(),
                             PageNo: pager().currentPage()
                         }, {
                             success: function (data) {
-                                products.removeAll();
+                                orders.removeAll();
                                 if (data && data.TotalCount > 0) {
                                     pager().totalCount(data.TotalCount);
-                                    mapProducts(data.Items);
+                                    mapOrders(data.Orders);
                                 }
-                                isLoadingProducts(false);
+                                isLoadingOrders(false);
                             },
                             error: function (response) {
-                                isLoadingProducts(false);
-                                toastr.error("Failed to load items" + response);
+                                isLoadingOrders(false);
+                                toastr.error("Failed to load orders" + response);
                             }
                         });
                     },
-                    // Get Item By Id
-                    getItemById = function (id, callback) {
-                        isLoadingProducts(true);
-                        dataservice.getItem({
+                    // Get Order By Id
+                    getOrderById = function (id, callback) {
+                        isLoadingOrders(true);
+                        dataservice.getOrder({
                             id: id
                         }, {
                             success: function (data) {
                                 if (data) {
-                                    selectedProduct(model.Item.Create(data));
+                                    selectedOrder(model.Estimate.Create(data));
 
                                     if (callback && typeof callback === "function") {
                                         callback();
                                     }
                                 }
-                                isLoadingProducts(false);
+                                isLoadingOrders(false);
                             },
                             error: function (response) {
-                                isLoadingProducts(false);
-                                toastr.error("Failed to load item details" + response);
+                                isLoadingOrders(false);
+                                toastr.error("Failed to load order details" + response);
                             }
                         });
                     };
@@ -286,28 +289,31 @@ define("order/order.viewModel",
 
                 return {
                     // Observables
-                    selectedProduct: selectedProduct,
+                    selectedOrder: selectedOrder,
                     sortOn: sortOn,
                     sortIsAsc: sortIsAsc,
-                    isLoadingProducts: isLoadingProducts,
-                    products: products,
-                    isProductDetailsVisible: isProductDetailsVisible,
+                    isLoadingOrders: isLoadingOrders,
+                    orders: orders,
+                    isOrderDetailsVisible: isOrderDetailsVisible,
                     pager: pager,
                     errorList: errorList,
                     filterText: filterText,
                     pageHeader: pageHeader,
+                    shared: shared,
+                    // Observables
                     // Utility Methods
                     initialize: initialize,
                     resetFilter: resetFilter,
-                    filterProducts: filterProducts,
-                    resetFilteredProducts: resetFilteredProducts,
-                    editProduct: editProduct,
-                    createProduct: createProduct,
-                    onSaveProduct: onSaveProduct,
-                    onCloseProductEditor: onCloseProductEditor,
-                    onArchiveProduct: onArchiveProduct,
+                    filterOrders: filterOrders,
+                    resetFilteredOrders: resetFilteredOrders,
+                    editOrder: editOrder,
+                    createOrder: createOrder,
+                    onSaveOrder: onSaveOrder,
+                    onCloseOrderEditor: onCloseOrderEditor,
+                    onArchiveOrder: onArchiveOrder,
                     gotoElement: gotoElement,
-                    onCloneProduct: onCloneProduct
+                    onCloneOrder: onCloneOrder
+                    // Utility Methods
                 };
             })()
         };

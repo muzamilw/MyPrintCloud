@@ -12,40 +12,40 @@ define("order/order.dataservice", function () {
                 if (!isInitialized) {
 
 
-                    // Define request to get items
-                    amplify.request.define('getItems', 'ajax', {
-                        url: ist.siteUrl + '/Api/Item',
+                    // Define request to get orders
+                    amplify.request.define('getOrders', 'ajax', {
+                        url: ist.siteUrl + '/Api/Order',
                         dataType: 'json',
                         type: 'GET'
                     });
 
-                    // Define request to get item by id
-                    amplify.request.define('getItem', 'ajax', {
-                        url: ist.siteUrl + '/Api/Item',
+                    // Define request to get order by id
+                    amplify.request.define('getOrder', 'ajax', {
+                        url: ist.siteUrl + '/Api/Order',
                         dataType: 'json',
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'GET'
                     });
 
-                    // Define request to save Item
-                    amplify.request.define('saveItem', 'ajax', {
-                        url: ist.siteUrl + '/Api/Item',
+                    // Define request to save Order
+                    amplify.request.define('saveOrder', 'ajax', {
+                        url: ist.siteUrl + '/Api/Order',
                         dataType: 'json',
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
 
-                    // Define request to archive Item
-                    amplify.request.define('archiveItem', 'ajax', {
-                        url: ist.siteUrl + '/Api/Item',
+                    // Define request to archive Order
+                    amplify.request.define('archiveOrder', 'ajax', {
+                        url: ist.siteUrl + '/Api/Order',
                         dataType: 'json',
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'DELETE'
                     });
                     
-                    // Define request to clone Item
-                    amplify.request.define('cloneItem', 'ajax', {
-                        url: ist.siteUrl + '/Api/ItemClone',
+                    // Define request to clone Order
+                    amplify.request.define('cloneOrder', 'ajax', {
+                        url: ist.siteUrl + '/Api/OrderClone',
                         dataType: 'json',
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
@@ -63,51 +63,51 @@ define("order/order.dataservice", function () {
                     error: callbacks.error,
                 });
             },
-            // Get Item by id 
-            getItem = function (params, callbacks) {
+            // Get Order by id 
+            getOrder = function (params, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'getItem',
+                    resourceId: 'getOrder',
                     data: params,
                     success: callbacks.success,
                     error: callbacks.error,
                 });
             },
-            // Get Items
-            getItems = function (params, callbacks) {
+            // Get Orders
+            getOrders = function (params, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'getItems',
+                    resourceId: 'getOrders',
                     data: params,
                     success: callbacks.success,
                     error: callbacks.error,
                 });
             },
-            // Archive Item
-            archiveItem = function (param, callbacks) {
+            // Archive Order
+            archiveOrder = function (param, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'archiveItem',
+                    resourceId: 'archiveOrder',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: param
                 });
             },
-            // Save Item
-            saveItem = function (param, callbacks) {
+            // Save Order
+            saveOrder = function (param, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'saveItem',
+                    resourceId: 'saveOrder',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: param
                 });
             },
-            // Clone Item
-            cloneItem = function (param, callbacks) {
+            // Clone Order
+            cloneOrder = function (param, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'cloneItem',
+                    resourceId: 'cloneOrder',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: param
@@ -115,12 +115,12 @@ define("order/order.dataservice", function () {
             };
 
         return {
-            getItem: getItem,
-            getItems: getItems,
-            saveItem: saveItem,
-            archiveItem: archiveItem,
+            getOrder: getOrder,
+            getOrders: getOrders,
+            saveOrder: saveOrder,
+            archiveOrder: archiveOrder,
             getBaseData: getBaseData,
-            cloneItem: cloneItem
+            cloneOrder: cloneOrder
         };
     })();
 
