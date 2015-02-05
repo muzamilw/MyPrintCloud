@@ -36,7 +36,7 @@ define("common/sharedNavigation.viewModel",
                         }
 
                         window.location.href = target().href;
-                        target(undefined);
+                        // target(undefined);
                     },
 
                     saveAndNavigate = function () {
@@ -56,6 +56,13 @@ define("common/sharedNavigation.viewModel",
                     });
                 });
 
+                //Show Message, when url change in address bar and changes exist
+                window.onbeforeunload = function () {
+                    if (selectedScreenItem && selectedScreenItem().hasChanges && selectedScreenItem().hasChanges() && target() === undefined) {
+                        // call this if the box wasn't shown.
+                        return 'You have made some changes which you might want to save.';
+                    }
+                };
                 return {
                     selectedScreenItem: selectedScreenItem,
                     saveFunctionCallback: saveFunctionCallback,

@@ -2040,7 +2040,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="gripsideorientaion" Type="int" />
           <Property Name="gutterdepth" Type="float" />
           <Property Name="headdepth" Type="float" />
-          <Property Name="Va" Type="float" />
+          <Property Name="MarkupId" Type="bigint" />
           <Property Name="PressSizeRatio" Type="float" />
           <Property Name="Description" Type="text" Nullable="false" />
           <Property Name="Priority" Type="float" />
@@ -3662,6 +3662,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Organisation_Currency">
+          <End Role="Currency" Type="Self.Currency" Multiplicity="0..1" />
+          <End Role="Organisation" Type="Self.Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="CurrencyId" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="CurrencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Organisation_GlobalLanguage">
           <End Role="GlobalLanguage" Type="Self.GlobalLanguage" Multiplicity="0..1" />
           <End Role="Organisation" Type="Self.Organisation" Multiplicity="*" />
@@ -3671,6 +3683,30 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="Organisation">
               <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Organisation_LengthUnit">
+          <End Role="LengthUnit" Type="Self.LengthUnit" Multiplicity="0..1" />
+          <End Role="Organisation" Type="Self.Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LengthUnit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="SystemLengthUnit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Organisation_WeightUnit">
+          <End Role="WeightUnit" Type="Self.WeightUnit" Multiplicity="0..1" />
+          <End Role="Organisation" Type="Self.Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WeightUnit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="SystemWeightUnit" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5053,8 +5089,20 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Company" EntitySet="Company" />
             <End Role="MediaLibrary" EntitySet="MediaLibrary" />
           </AssociationSet>
+          <AssociationSet Name="FK_Organisation_Currency" Association="Self.FK_Organisation_Currency">
+            <End Role="Currency" EntitySet="Currency" />
+            <End Role="Organisation" EntitySet="Organisation" />
+          </AssociationSet>
           <AssociationSet Name="FK_Organisation_GlobalLanguage" Association="Self.FK_Organisation_GlobalLanguage">
             <End Role="GlobalLanguage" EntitySet="GlobalLanguage" />
+            <End Role="Organisation" EntitySet="Organisation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Organisation_LengthUnit" Association="Self.FK_Organisation_LengthUnit">
+            <End Role="LengthUnit" EntitySet="LengthUnit" />
+            <End Role="Organisation" EntitySet="Organisation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Organisation_WeightUnit" Association="Self.FK_Organisation_WeightUnit">
+            <End Role="WeightUnit" EntitySet="WeightUnit" />
             <End Role="Organisation" EntitySet="Organisation" />
           </AssociationSet>
           <AssociationSet Name="FK_PageCategory_CmsPage" Association="Self.FK_PageCategory_CmsPage">
@@ -5964,6 +6012,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Address" EntitySet="Addresses" />
             <End Role="CompanyContact" EntitySet="CompanyContacts" />
           </AssociationSet>
+          <AssociationSet Name="FK_Organisation_Currency" Association="DomainModels.FK_Organisation_Currency">
+            <End Role="Currency" EntitySet="Currencies" />
+            <End Role="Organisation" EntitySet="Organisations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Organisation_LengthUnit" Association="DomainModels.FK_Organisation_LengthUnit">
+            <End Role="LengthUnit" EntitySet="LengthUnits" />
+            <End Role="Organisation" EntitySet="Organisations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Organisation_WeightUnit" Association="DomainModels.FK_Organisation_WeightUnit">
+            <End Role="WeightUnit" EntitySet="WeightUnits" />
+            <End Role="Organisation" EntitySet="Organisations" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -6235,6 +6295,9 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="isXeroIntegrationRequired" Type="Boolean" />
           <Property Name="XeroApiId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="XeroApiKey" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Currency" Relationship="DomainModels.FK_Organisation_Currency" FromRole="Organisation" ToRole="Currency" />
+          <NavigationProperty Name="LengthUnit" Relationship="DomainModels.FK_Organisation_LengthUnit" FromRole="Organisation" ToRole="LengthUnit" />
+          <NavigationProperty Name="WeightUnit" Relationship="DomainModels.FK_Organisation_WeightUnit" FromRole="Organisation" ToRole="WeightUnit" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -6720,6 +6783,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="Pound" Type="Double" />
           <Property Name="GSM" Type="Double" />
           <Property Name="KG" Type="Double" />
+          <NavigationProperty Name="Organisations" Relationship="DomainModels.FK_Organisation_WeightUnit" FromRole="WeightUnit" ToRole="Organisation" />
         </EntityType>
         <EntityType Name="CompanyContact">
           <Key>
@@ -8362,6 +8426,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="MM" Type="Double" />
           <Property Name="CM" Type="Double" />
           <Property Name="Inch" Type="Double" />
+          <NavigationProperty Name="Organisations" Relationship="DomainModels.FK_Organisation_LengthUnit" FromRole="LengthUnit" ToRole="Organisation" />
         </EntityType>
         <EntityType Name="PaperBasisArea">
           <Key>
@@ -8785,6 +8850,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="CurrencyId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CurrencyCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CurrencyName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Organisations" Relationship="DomainModels.FK_Organisation_Currency" FromRole="Currency" ToRole="Organisation" />
         </EntityType>
         <EntityType Name="Prefix">
           <Key>
@@ -10535,7 +10601,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="gripsideorientaion" Type="Int32" />
           <Property Name="gutterdepth" Type="Double" />
           <Property Name="headdepth" Type="Double" />
-          <Property Name="Va" Type="Double" />
           <Property Name="PressSizeRatio" Type="Double" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Priority" Type="Double" />
@@ -10572,6 +10637,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="MachineResources" Relationship="DomainModels.FK_tbl_machines_tbl_machine_resource" FromRole="Machine" ToRole="MachineResource" />
           <Property Name="LookupMethodId" Type="Int64" />
           <NavigationProperty Name="ItemSections" Relationship="DomainModels.FK_ItemSection_Machine" FromRole="Machine" ToRole="ItemSection" />
+          <Property Name="MarkupId" Type="Int64" />
         </EntityType>
         <EntityType Name="MachineInkCoverage">
           <Key>
@@ -10722,6 +10788,42 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="CompanyContact">
               <PropertyRef Name="ShippingAddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Organisation_Currency">
+          <End Type="DomainModels.Currency" Role="Currency" Multiplicity="0..1" />
+          <End Type="DomainModels.Organisation" Role="Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="CurrencyId" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="CurrencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Organisation_LengthUnit">
+          <End Type="DomainModels.LengthUnit" Role="LengthUnit" Multiplicity="0..1" />
+          <End Type="DomainModels.Organisation" Role="Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LengthUnit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="SystemLengthUnit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Organisation_WeightUnit">
+          <End Type="DomainModels.WeightUnit" Role="WeightUnit" Multiplicity="0..1" />
+          <End Type="DomainModels.Organisation" Role="Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WeightUnit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="SystemWeightUnit" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -14155,6 +14257,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Machines">
             <EntityTypeMapping TypeName="DomainModels.Machine">
               <MappingFragment StoreEntitySet="Machine">
+                <ScalarProperty Name="MarkupId" ColumnName="MarkupId" />
                 <ScalarProperty Name="LookupMethodId" ColumnName="LookupMethodId" />
                 <ScalarProperty Name="ReelMakereadyTime" ColumnName="ReelMakereadyTime" />
                 <ScalarProperty Name="WashupTime" ColumnName="WashupTime" />
@@ -14188,7 +14291,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="Priority" ColumnName="Priority" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="PressSizeRatio" ColumnName="PressSizeRatio" />
-                <ScalarProperty Name="Va" ColumnName="Va" />
                 <ScalarProperty Name="headdepth" ColumnName="headdepth" />
                 <ScalarProperty Name="gutterdepth" ColumnName="gutterdepth" />
                 <ScalarProperty Name="gripsideorientaion" ColumnName="gripsideorientaion" />

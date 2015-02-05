@@ -2,9 +2,8 @@
     Module with the view model for the Store.
 */
 define("stores/stores.viewModel",
-    ["jquery", "amplify", "ko", "stores/stores.dataservice", "stores/stores.model", "common/confirmation.viewModel", "common/pagination",
-        "stores/store.Product.viewModel", "common/sharedNavigation.viewModel"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination, storeProductsViewModel, sharedNavigationVM) {
+    ["jquery", "amplify", "ko", "stores/stores.dataservice", "stores/stores.model", "common/confirmation.viewModel", "common/pagination", "common/sharedNavigation.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM) {
         var ist = window.ist || {};
         ist.stores = {
             viewModel: (function () {
@@ -46,7 +45,6 @@ define("stores/stores.viewModel",
                 selectedCompanyContact = ko.observable(),
                 //Make Edittable
                 makeEditable = ko.observable(false),
-                selectedWidget = ko.observable(),
                 //Items with isPublished true for widgets in Themes And Widget Tab
                 itemsForWidgets = ko.observableArray([]),
                 //selected tems List For Widgets
@@ -228,9 +226,10 @@ define("stores/stores.viewModel",
                     isEditorVisible(true);
                     view.initializeForm();
                     getBaseDataFornewCompany();
-                    $('.nav-tabs').children().removeClass('active');
-                    $('#generalInfoTab').addClass('active');
-
+                    //$('.nav-tabs').children().removeClass('active');
+                    //$('#generalInfoTab').addClass('active');
+                    $('.nav-tabs li:first-child a').tab('show');
+                    $('.nav-tabs li:eq(0) a').tab('show');
                     selectedItemsForOfferList.removeAll();
                     selectedItemForAdd(undefined);
                     selectedItemForRemove(undefined);
@@ -417,6 +416,11 @@ define("stores/stores.viewModel",
                         }
                     });
                 },
+                companyTerritoryFilterSelected = ko.computed(function () {
+                    if (isEditorVisible() && selectedStore() != null && selectedStore() != undefined && selectedStore().companyId() !== undefined) {
+                        searchCompanyTerritory();
+                    }
+                }),
                 //isSavingNewCompanyTerritory
                 isSavingNewCompanyTerritory = ko.observable(false),
                 // Template Chooser For Rave Review
@@ -2671,18 +2675,18 @@ define("stores/stores.viewModel",
                         });
                         //#endregion
                         //#region Products
-                        _.each(ist.storeProduct.viewModel.newAddedProducts(), function (product) {
-                            if (product.id() < 0) {
-                                product.id(undefined);
-                            }
-                            storeToSave.NewAddedProducts.push(product.convertToServerData());
-                        });
-                        _.each(ist.storeProduct.viewModel.edittedProducts(), function (product) {
-                            storeToSave.EdittedProducts.push(product.convertToServerData());
-                        });
-                        _.each(ist.storeProduct.viewModel.deletedproducts(), function (product) {
-                            storeToSave.Deletedproducts.push(product.convertToServerData());
-                        });
+                        //_.each(ist.storeProduct.viewModel.newAddedProducts(), function (product) {
+                        //    if (product.id() < 0) {
+                        //        product.id(undefined);
+                        //    }
+                        //    storeToSave.NewAddedProducts.push(product.convertToServerData());
+                        //});
+                        //_.each(ist.storeProduct.viewModel.edittedProducts(), function (product) {
+                        //    storeToSave.EdittedProducts.push(product.convertToServerData());
+                        //});
+                        //_.each(ist.storeProduct.viewModel.deletedproducts(), function (product) {
+                        //    storeToSave.Deletedproducts.push(product.convertToServerData());
+                        //});
 
                         //#endregion
 
@@ -2877,6 +2881,7 @@ define("stores/stores.viewModel",
                                 pageSkinWidgets.removeAll();
                                 selectedCurrentPageId(undefined);
                                 resetObservableArrays();
+                                selectedStore().reset();
                             }
                         });
                         confirmation.show();
@@ -3051,11 +3056,12 @@ define("stores/stores.viewModel",
                     selectedCurrentPageId(undefined);
                     selectedCurrentPageCopy(undefined);
                     isProductTabVisited(false);
-                    ist.storeProduct.viewModel.resetObservables();
+                    //ist.storeProduct.viewModel.resetObservables();
                     selectedItemsForOfferList.removeAll();
                     selectedItemForRemove(undefined);
                     selectedItemForAdd(undefined);
                     productPriorityRadioOption("1");
+                    errorList.removeAll();
                 },
                 //#endregion
 
@@ -3064,7 +3070,8 @@ define("stores/stores.viewModel",
                 getProducts = function () {
                     if (!isProductTabVisited()) {
                         isProductTabVisited(true);
-                        ist.storeProduct.viewModel.initialize(selectedStore().companyId());
+                        //ist.storeProduct.viewModel.initialize(selectedStore().companyId());
+                        ist.product.viewModel.initializeForStore(selectedStore().companyId());
                     }
                 },
                 //#endregion 
@@ -3646,6 +3653,7 @@ define("stores/stores.viewModel",
                     selectedCompanyTerritory: selectedCompanyTerritory,
                     templateToUseCompanyTerritories: templateToUseCompanyTerritories,
                     searchCompanyTerritoryFilter: searchCompanyTerritoryFilter,
+                    companyTerritoryFilterSelected: companyTerritoryFilterSelected,
                     onCreateNewCompanyTerritory: onCreateNewCompanyTerritory,
                     onDeleteCompanyTerritory: onDeleteCompanyTerritory,
                     onEditCompanyTerritory: onEditCompanyTerritory,
@@ -3808,7 +3816,7 @@ define("stores/stores.viewModel",
                     addWidgetToPageLayout: addWidgetToPageLayout,
                     deletePageLayoutWidget: deletePageLayoutWidget,
                     allPagesWidgets: allPagesWidgets,
-                    storeProductsViewModel: storeProductsViewModel,
+                    //storeProductsViewModel: storeProductsViewModel,
                     onCreateNewStore: onCreateNewStore,
                     initialize: initialize,
                     storeBackgroudImageUploadCallback: storeBackgroudImageUploadCallback,

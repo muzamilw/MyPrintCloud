@@ -1,0 +1,184 @@
+﻿@{
+    ViewBag.Title = "AddBanner";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li><a href="#">Stores</a></li>
+                    <li class="active"><span>Banner</span></li>
+                </ol>
+                <div class="clearfix">
+                    <h1 class="pull-left">Add Banner</h1>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="main-box no-header clearfix">
+                    <div class="main-box-body clearfix form-horizontal">
+
+                        <div class="form-group">
+                            <div class="col-lg-4 text-right">
+                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Product Page Banner" data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+
+                                </div>
+
+
+                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Banner main Image (PNG 400 X 250 pixels)</label>
+
+                            </div>
+
+                            <div class="col-lg-5">
+                                <div id="dropzone1" class="dropzonepl">
+                                    <form id="demo-upload2" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
+                                        <div class="dz-default dz-message">
+                                            <span>Drop file here to upload</span>
+                                        </div>
+                                    </form>
+                                </div>
+                                <span class="help-block text-right"></span>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-4 text-right">
+
+                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Product Type" data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+
+                                </div>
+
+                                <label class="control-label text-right tooltip-float">Banner set</label>
+
+                            </div>
+
+                            <div class="col-lg-5">
+                                <select class="form-control">
+                                    <option>Set1</option>
+                                    <option>Set2</option>
+                                    <option>Set3</option>
+                                </select>
+                                <span class="help-block text-right"></span>
+
+
+                            </div>
+                            <div class="col-lg-1">
+
+                                <a data-toggle="modal" href="#mybannerSetModal" class="btn btn-primary">
+                                    <i class="fa fa-lg"></i>&nbsp;....
+                                </a>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-4 text-right">
+
+                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+
+                                </div>
+
+
+                                <label for="txtSortOrder" class="control-label text-right tooltip-float">Banner Heading</label>
+
+                            </div>
+
+                            <div class="col-lg-5">
+                                <input type="text" class="form-control" id="txtSortOrder" placeholder="Enter Sort Order" value="1">
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-4 text-right">
+
+                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+
+                                </div>
+
+
+                                <label for="txtSortOrder" class="control-label text-right tooltip-float">Description</label>
+
+                            </div>
+
+                            <div class="col-lg-5">
+                                <input type="text" class="form-control" id="txtdesc" placeholder="Enter banner description">
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-4 text-right">
+
+                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+
+                                </div>
+
+
+                                <label for="txtSortOrder" class="control-label text-right tooltip-float">Item URL</label>
+
+                            </div>
+
+                            <div class="col-lg-5">
+                                <input type="text" class="form-control" id="txtItemUrl" placeholder="Enter item URL">
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-4 text-right">
+
+                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+
+                                </div>
+
+
+                                <label for="txtSortOrder" class="control-label text-right tooltip-float">Button URL</label>
+
+                            </div>
+
+                            <div class="col-lg-5">
+                                <input type="text" class="form-control" id="txtBtnUrl" placeholder="Enter button URL">
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-4 text-right">
+                                &nbsp;
+                            </div>
+
+                            <div class="col-lg-5">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("Widgets/_AddSet")

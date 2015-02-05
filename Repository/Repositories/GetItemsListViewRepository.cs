@@ -76,6 +76,7 @@ namespace MPC.Repository.Repositories
             Expression<Func<GetItemsListView, bool>> query =
                 item =>
                     ((string.IsNullOrEmpty(request.SearchString) || item.ProductName.Contains(request.SearchString)) &&
+                    (!request.CompanyId.HasValue || item.CompanyId == request.CompanyId) &&
                     item.OrganisationId == OrganisationId);
 
             IEnumerable<GetItemsListView> items = request.IsAsc

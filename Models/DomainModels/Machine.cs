@@ -35,7 +35,7 @@ namespace MPC.Models.DomainModels
         public int? gripsideorientaion { get; set; }
         public double? gutterdepth { get; set; }
         public double? headdepth { get; set; }
-        public double? Va { get; set; }
+        public long? MarkupId { get; set; }
         public double? PressSizeRatio { get; set; }
         public string Description { get; set; }
         public double? Priority { get; set; }

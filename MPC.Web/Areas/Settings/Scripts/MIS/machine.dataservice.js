@@ -17,6 +17,16 @@ define("machine/machine.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    amplify.request.define('GetLookupMethodList', 'ajax', {
+                        url: ist.siteUrl + '/Api/Machine',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    amplify.request.define('getStockItemsList', 'ajax', {
+                        url: ist.siteUrl + '/Api/StockItems',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
 
                     // Define request to delete MachineList
                     //amplify.request.define('deleteMachine', 'ajax', {
@@ -47,7 +57,6 @@ define("machine/machine.dataservice", function () {
                     isInitialized = true;
                 }
             },
-            // Get Machine List
             GetMachineList = function (params, callbacks) {
                 initialize();
                 return amplify.request({
@@ -55,6 +64,25 @@ define("machine/machine.dataservice", function () {
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
+                });
+            },
+            // Get Machine List
+            GetLookupMethodList = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'GetLookupMethodList',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            getStockItemsList = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getStockItemsList',
+                    data: params,
+                    success: callbacks.success,
+                    error: callbacks.error,
                 });
             },
              //Get Machine by Id 
@@ -99,10 +127,10 @@ define("machine/machine.dataservice", function () {
 
         return {
             GetMachineList: GetMachineList,
-            getMachineById: getMachineById
-            //deleteCostCenter: deleteCostCenter,
-            //saveNewCostCenter: saveNewCostCenter,
-            //saveCostCenter: saveCostCenter
+            getMachineById: getMachineById,
+            GetLookupMethodList: GetLookupMethodList,
+            getStockItemsList: getStockItemsList
+            
         };
     })();
 

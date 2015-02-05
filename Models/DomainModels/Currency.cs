@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MPC.Models.DomainModels
 {
@@ -11,5 +7,10 @@ namespace MPC.Models.DomainModels
         public long CurrencyId { get; set; }
         public string CurrencyCode { get; set; }
         public string CurrencyName { get; set; }
+
+        /// <summary>
+        /// Organisations using this currency
+        /// </summary>
+        public virtual ICollection<Organisation> Organisations { get; set; } 
     }
 }

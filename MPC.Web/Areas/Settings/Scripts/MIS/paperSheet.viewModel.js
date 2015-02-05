@@ -26,6 +26,8 @@ define("paperSheet/paperSheet.viewModel",
                     editorViewModel = new ist.ViewModel(model.PaperSheet),
                     //Selected Paper Sheet
                     selectedPaperSheet = editorViewModel.itemForEditing,
+                    //Length Unit
+                    lengthUnit = ko.observable(),
                     //Template To Use
                     templateToUse = function (paperSheet) {
                         return (paperSheet === selectedPaperSheet() ? 'editPaperSheetTemplate' : 'itemPaperSheetTemplate');
@@ -179,7 +181,7 @@ define("paperSheet/paperSheet.viewModel",
                         dataservice.getBaseData({
                             success: function (data) {
                                 if (data) {
-
+                                    lengthUnit(data);
                                 }
                             },
                             error: function (response) {
@@ -233,6 +235,7 @@ define("paperSheet/paperSheet.viewModel",
                     resetFilterSection: resetFilterSection,
                     editorViewModel: editorViewModel,
                     onEditItem: onEditItem,
+                    lengthUnit: lengthUnit,
                     unit: unit,
                     getBaseData: getBaseData,
                     onClosePaperSheet: onClosePaperSheet,
