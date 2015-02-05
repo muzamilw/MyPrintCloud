@@ -251,6 +251,7 @@
     <Compile Include="Areas\Api\Controllers\AddressController.cs" />
     <Compile Include="Areas\Api\Controllers\CampaignBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />
+    <Compile Include="Areas\Api\Controllers\CrmSupplierController.cs" />
     <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Api\Controllers\GetItemsForWidgetsController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterBaseController.cs" />
@@ -315,6 +316,8 @@
     <Compile Include="Areas\Api\Models\CostCentreType.cs" />
     <Compile Include="Areas\Api\Models\CostCentreDropDown.cs" />
     <Compile Include="Areas\Api\Models\CostCentreVariable.cs" />
+    <Compile Include="Areas\Api\Models\CrmSupplierListViewModel.cs" />
+    <Compile Include="Areas\Api\Models\CrmSupplierResponse.cs" />
     <Compile Include="Areas\Api\Models\Estimate.cs" />
     <Compile Include="Areas\Api\Models\EstimateListView.cs" />
     <Compile Include="Areas\Api\Models\CustomerListViewModel.cs" />
@@ -1589,6 +1592,10 @@
     <Content Include="Areas\CRM\Views\Home\CompaniesDetail.cshtml" />
     <Content Include="Areas\CRM\Views\Home\ContactCompanies.cshtml" />
     <Content Include="Areas\CRM\Views\Home\SupplierDetail.cshtml" />
+    <Content Include="Areas\CRM\Scripts\crm.supplier.viewModel.js" />
+    <Content Include="Areas\CRM\Scripts\crm.supplier.model.js" />
+    <Content Include="Areas\CRM\Scripts\crm.supplier.dataservice.js" />
+    <Content Include="Areas\CRM\Scripts\crm.supplier.view.js" />
     <Content Include="Areas\Orders\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Orders\Views\Home\Index.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_Layout.cshtml" />

@@ -1,5 +1,7 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System;
+namespace MPC.Models.DomainModels
 {
+   
     /// <summary>
     /// Machine Category Domain Model
     /// </summary>

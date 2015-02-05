@@ -37,7 +37,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         #endregion
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public HttpResponseMessage GetDateTimeString(string id)
+        public HttpResponseMessage GetDateTimeString(string parameter1, List<QuestionQueueItem> parameter2)
         {
 
             AppDomain _AppDomain = null;
@@ -68,12 +68,21 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 CostCentreLoaderFactory _CostCentreLaoderFactory = (CostCentreLoaderFactory)_AppDomain.CreateInstance("MPC.Interfaces", "MPC.Interfaces.WebStoreServices.CostCentreLoaderFactory").Unwrap();
                 _CostCentreLaoderFactory.InitializeLifetimeService();
 
-
+                if (parameter2 != null)
+                {
+                    _CostCentreParamsArray[1] = CostCentreExecutionMode.ExecuteMode;
+                    _CostCentreParamsArray[2] = parameter2;
+                }
+                else 
+                {
+                    _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
+                    _CostCentreParamsArray[2] = new List<QuestionQueueItem>();
+                }
                 //_CostCentreParamsArray(0) = Common.g_GlobalData;
                 //GlobalData
-                _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
+               
                 //this mode will load the questionqueue
-                _CostCentreParamsArray[2] = new List<QuestionQueueItem>();
+               
                 //QuestionQueue / Execution Queue
                 _CostCentreParamsArray[3] = CostCentreQueue;
                 //CostCentreQueue
@@ -89,7 +98,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 _CostCentreParamsArray[9] = 1;
 
 
-                CostCentre oCostCentre = _CostCentreService.GetCostCentreByID(Convert.ToInt64(id));
+                CostCentre oCostCentre = _CostCentreService.GetCostCentreByID(Convert.ToInt64(parameter1));
 
                 CostCentreQueue.Add(new CostCentreQueueItem(oCostCentre.CostCentreId, oCostCentre.Name, 1, oCostCentre.CodeFileName, null, oCostCentre.SetupSpoilage, oCostCentre.RunningSpoilage));
 
@@ -99,11 +108,22 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 _oRemoteObject = (ICostCentreLoader)_oLocalObject;
 
                 CostCentreCostResult oResult = _oRemoteObject.returnCost(ref _CostCentreParamsArray);
+                if (parameter2 != null)
+                {
+                    
+                    JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
+                    GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
 
-                JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
-                GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
+                    return Request.CreateResponse(HttpStatusCode.OK, oResult.SetupCost);
+                }
+                else 
+                {
+                    JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
+                    GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
+
+                    return Request.CreateResponse(HttpStatusCode.OK, _CostCentreParamsArray);
+                }
                
-                return Request.CreateResponse(HttpStatusCode.OK, _CostCentreParamsArray);
            
 
             }
