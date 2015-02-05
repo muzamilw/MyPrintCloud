@@ -226,9 +226,10 @@ define("stores/stores.viewModel",
                     isEditorVisible(true);
                     view.initializeForm();
                     getBaseDataFornewCompany();
-                    $('.nav-tabs').children().removeClass('active');
-                    $('#generalInfoTab').addClass('active');
-
+                    //$('.nav-tabs').children().removeClass('active');
+                    //$('#generalInfoTab').addClass('active');
+                    $('.nav-tabs li:first-child a').tab('show');
+                    $('.nav-tabs li:eq(0) a').tab('show');
                     selectedItemsForOfferList.removeAll();
                     selectedItemForAdd(undefined);
                     selectedItemForRemove(undefined);
