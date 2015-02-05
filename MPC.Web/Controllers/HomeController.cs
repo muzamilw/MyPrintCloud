@@ -119,6 +119,12 @@ namespace MPC.MIS.Controllers
                                         RightName = "CanViewProduct",
                                         RightId = 1,
                                         SectionId = 1
+                                    },
+                                    new AccessRight
+                                    {
+                                        RightName = "CanViewOrder",
+                                        RightId = 1,
+                                        SectionId = 1
                                     }
                                 }
                         

@@ -18,5 +18,15 @@ namespace MPC.Interfaces.MISServices
         /// Get By Id
         /// </summary>
         Estimate GetById(long orderId);
+
+        /// <summary>
+        /// Delete Order
+        /// </summary>
+        void DeleteOrder(long orderId);
+
+        /// <summary>
+        /// Save Order
+        /// </summary>
+        Estimate SaveOrder(Estimate estimate);
     }
 }
