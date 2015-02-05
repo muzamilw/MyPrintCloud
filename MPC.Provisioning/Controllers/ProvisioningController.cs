@@ -91,12 +91,13 @@ namespace MPC.Provisioning.Controllers
 
         //}
 
-        public string Post(string subdomain, string sitePhysicalPath, string siteOrganisationId, string ContactFullName)
+        public string Get(string subdomain, string sitePhysicalPath, string siteOrganisationId, string ContactFullName, string userId, string username, string Email, string hash, string mpcContentFolder)
         {
 
+            string misFolder = sitePhysicalPath + "\\mis";
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = @"powershell.exe";
-            startInfo.Arguments = @"-File " + HttpContext.Current.Server.MapPath("~/scripts/provisionNew.ps1") + " " + subdomain + " " + sitePhysicalPath + " " + siteOrganisationId;
+            startInfo.Arguments = @"-File " + HttpContext.Current.Server.MapPath("~/scripts/provisionNew.ps1") + " " + subdomain + " " + sitePhysicalPath + " " + siteOrganisationId + " " + mpcContentFolder  +  " " + misFolder;
             startInfo.RedirectStandardOutput = true;
             startInfo.RedirectStandardError = true;
             startInfo.UseShellExecute = false;
@@ -118,7 +119,7 @@ namespace MPC.Provisioning.Controllers
 
                 //inserting the default Organisation
                 string queryString =
-                   "INSERT INTO Organisation VALUES(NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,NULL,NULL,NULL)";
+                   "INSERT INTO Organisation VALUES(" + siteOrganisationId + ",'" + ContactFullName + "',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,NULL,NULL,NULL)";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     // Create the Command and Parameter objects.
@@ -130,6 +131,13 @@ namespace MPC.Provisioning.Controllers
 
                         var result = command.ExecuteNonQuery();
 
+                        //creating default user
+                        //must save the user ID as userid coming from core
+                        command.CommandText = "INSERT INTO [SystemUser] ([UserName],[OrganizationId],[FullName],[Email],[RoleId],[CostPerHour],[ReplyEmail],[IsSystemUser],[CreatedBy],[CreatedDate]";
+                        command.CommandText += "values ('" + username + "'," + siteOrganisationId + ",'" + ContactFullName + "','" + Email + "','1',0,'" + Email + "',0,'Auto Provisioned','" + DateTime.Now + "')";
+
+                        result = command.ExecuteNonQuery();
+
                         connection.Close();
 
                     }
@@ -139,7 +147,10 @@ namespace MPC.Provisioning.Controllers
                     }
 
                 }
+            
             }
+
+            
             return output;
         }
     }

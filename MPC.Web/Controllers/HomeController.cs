@@ -56,8 +56,8 @@ namespace MPC.MIS.Controllers
              * On Call back, if user is authenticated then add Claims
              */
 
-            var organisationId = 1;//Request.QueryString["OrganisationId"];
-            var userId = "khurram";//Request.QueryString["UserId"];
+            var organisationId = 1; //Request.QueryString["OrganisationId"];
+            var userId = "khurram"; //Request.QueryString["UserId"];
 
             // Authenticate User For this Site
             // TODO: AuthenticateUser() // will return user
