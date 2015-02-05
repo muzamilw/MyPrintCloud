@@ -1115,7 +1115,7 @@
                     //if it is per quantity type then we will (qty * priceperunitqty) + setupcost
 
                     var actualPrice = selectedCheckBox.ActualPrice;
-
+                    
                     if (selectedCheckBox.Type == 2) {
 
                         if (isRanged) {
@@ -1134,10 +1134,23 @@
 
                             }
                         }
+                        checkedPriceTotal = checkedPriceTotal + parseFloat(actualPrice); 
+
+                    }else if(selectedCheckBox.Type == 4){// call cost centre service to get value
+                        
+                        ShowLoader();
+                        $.getJSON("/webstoreapi/costCenter/GetDateTimeString/" + selectedCheckBox.CostCenterId + "/null",
+                      function (DT) {
+
+                          ShowCostCentrePopup(DT[2]);
+     
+                      });
+                    
+                    }else{
+                        checkedPriceTotal = checkedPriceTotal + parseFloat(actualPrice);
 
                     }
-                    checkedPriceTotal = checkedPriceTotal + parseFloat(actualPrice); //Gets Actual non discounted Price
-
+                    
                     selectedAddonsList = selectedAddonsList + JSON.stringify(selectedCheckBox, null, 2);
 
                 }
@@ -1179,7 +1192,7 @@
         var addOnJasonData = jQuery.parseJSON($('.JsonAddonCostCentreValue').val());
 
         $(".checkBoxAdOnPriceCheckBox").each(function (i, val) {
-
+           
             if (addOnJasonData != null) {
 
                 for (var i = 0; i < $(addOnJasonData).length; i++) {
@@ -1205,9 +1218,10 @@
                     }
                     actualPrice = "@ViewBag.Currency" + (actualPrice).toFixed(2).toString();
                     $(val).next().next().children(':first').html(actualPrice);
-                }else if(selectedCheckBox.Type == 4){
-                    $(val).attr('onclick', 'PromptForValues('+ selectedCheckBox.CostCenterId +');');
                 }
+                //else if(selectedCheckBox.Type == 4){
+                //    $(val).attr('onclick', 'PromptForValues('+ selectedCheckBox.CostCenterId +');');
+                //}
             }
         });
 
@@ -1313,13 +1327,7 @@
     }
 
     function PromptForValues(CostCentreId){
-        ShowLoader();
-        $.getJSON("/webstoreapi/costCenter/GetDateTimeString/" + CostCentreId,
-      function (DT) {
-          console.log(DT);
-          ShowCostCentrePopup(DT[2]);
-          HideLoader();
-      });
+        
     }
 </script>
 }

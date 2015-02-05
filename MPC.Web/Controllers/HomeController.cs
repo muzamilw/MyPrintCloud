@@ -162,6 +162,12 @@ namespace MPC.MIS.Controllers
                                         RightName = "CanViewProduct",
                                         RightId = 1,
                                         SectionId = 1
+                                    },
+                                    new AccessRight
+                                    {
+                                        RightName = "CanViewOrder",
+                                        RightId = 1,
+                                        SectionId = 1
                                     }
                                 }
                         
@@ -183,6 +189,14 @@ namespace MPC.MIS.Controllers
             }
 
             return RedirectToAction("Index", "Dashboard");
+        }
+
+        public async Task<ActionResult> Logout()
+        {
+            Thread.CurrentPrincipal = null;
+            HttpContext.User = null;
+            AuthenticationManager.SignOut(new[] { DefaultAuthenticationTypes.ApplicationCookie });
+            return Redirect(ConfigurationManager.AppSettings["MPCDashboardPath"]);
         }
 
         /// <summary>
