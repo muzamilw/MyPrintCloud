@@ -135,13 +135,14 @@ namespace MPC.Repository.Repositories
 
         public List<Address> GetContactCompanyAddressesList(long customerID)
         {
-            var query = from Addr in db.Addesses
-                        orderby Addr.AddressName
-                        where Addr.CompanyId == customerID && Addr.isArchived == false
-                        select Addr;
-
-            return query.ToList();
-
+            try
+            {
+                return db.Addesses.Where(a => a.CompanyId == customerID && a.isArchived == false).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
         }
 
