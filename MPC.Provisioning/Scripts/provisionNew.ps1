@@ -17,6 +17,7 @@ param(
 
 )
 
+
 Set-ExecutionPolicy Bypass -Scope Process
 Import-Module WebAdministration
 
@@ -45,7 +46,7 @@ else
 }
 
 #navigate to the sites root
-cd IIS:\Sites\
+cd IIS:\Sites\ | out-null
 
 $virtualDirectoryName = "mpc-content"
 $virtualDirectoryPath = "IIS:\Sites\$siteName\$virtualDirectoryName"
@@ -64,20 +65,24 @@ $iisApp | Set-ItemProperty -Name "applicationPool" -Value $siteName
 "$($assoc.Id) - $($assoc.Name) - $($assoc.Owner)"
 
 #this command will create MIS virtual directory/App
-New-WebApplication -Name mis -Site $siteName -PhysicalPath $misFolder -ApplicationPool $siteName
+New-WebApplication -Name mis -Site $siteName -PhysicalPath $misFolder -ApplicationPool $siteName | out-null
 
 
 # this command will create MPCContent virtual folder
-New-Item $virtualDirectoryPath -type VirtualDirectory -physicalPath $mpcContentFolder
+New-Item $virtualDirectoryPath -type VirtualDirectory -physicalPath $mpcContentFolder | out-null
 
 
 # create resource directory, root folder
-New-Item $resourceFileDirectory -type directory
+if(!(Test-Path -Path $CopyResourceFolderPath ))
+	{
+New-Item $CopyResourceFolderPath -type directory | out-null
+}
 
+$currentFolder = split-path -parent $MyInvocation.MyCommand.Definition
+$curup = Split-Path $currentFolder -Parent
+$frenchFolder  = Join-Path $curup -ChildPath "/Content/languages/fr-FR"
+$englishFolder  = Join-Path $curup -ChildPath "/Content/languages/en-US"
 
-
-$englishFolder = (Get-Item -Path ".\" -Verbose).FullName + "\en-Us"
-$frenchFolder = (Get-Item -Path ".\" -Verbose).FullName + "\fr-FR"
 
 #copies the english folder
 Copy-Item -Path $englishFolder -Destination $CopyResourceFolderPath -recurse -Force
@@ -86,5 +91,3 @@ Copy-Item -Path $englishFolder -Destination $CopyResourceFolderPath -recurse -Fo
 Copy-Item -Path $frenchFolder -Destination $CopyResourceFolderPath -recurse -Force
 
 return "App Created"
-
-
