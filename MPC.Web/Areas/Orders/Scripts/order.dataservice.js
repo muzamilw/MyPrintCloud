@@ -11,6 +11,12 @@ define("order/order.dataservice", function () {
             initialize = function () {
                 if (!isInitialized) {
 
+                    // Define request to get order by id
+                    amplify.request.define('getBaseData', 'ajax', {
+                        url: ist.siteUrl + '/Api/Order',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
 
                     // Define request to get orders
                     amplify.request.define('getOrders', 'ajax', {

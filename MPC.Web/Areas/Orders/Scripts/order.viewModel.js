@@ -86,7 +86,7 @@ define("order/order.viewModel",
                         pager(new pagination.Pagination({ PageSize: 5 }, orders, getOrders));
 
                         // Get Base Data
-                        getBaseData();
+                        //getBaseData();
 
                         // Get Orders
                         getOrders();
@@ -305,7 +305,6 @@ define("order/order.viewModel",
                     initialize: initialize,
                     resetFilter: resetFilter,
                     filterOrders: filterOrders,
-                    resetFilteredOrders: resetFilteredOrders,
                     editOrder: editOrder,
                     createOrder: createOrder,
                     onSaveOrder: onSaveOrder,
