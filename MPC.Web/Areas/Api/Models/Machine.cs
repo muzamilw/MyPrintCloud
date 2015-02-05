@@ -34,7 +34,7 @@ namespace MPC.MIS.Areas.Api.Models
         public int? gripsideorientaion { get; set; }
         public double? gutterdepth { get; set; }
         public double? headdepth { get; set; }
-        public double? Va { get; set; }
+        public long? MarkupId { get; set; }
         public double? PressSizeRatio { get; set; }
         public string Description { get; set; }
         public double? Priority { get; set; }
@@ -73,6 +73,7 @@ namespace MPC.MIS.Areas.Api.Models
         public double? Maximumsheetwidth { get; set; }
         public double? Minimumsheetheight { get; set; }
         public double? Minimumsheetwidth { get; set; }
+        public long? LookupMethodId { get; set; }
         public virtual ICollection<MachineInkCoverage> MachineInkCoverages { get; set; }
         public virtual ICollection<MachineResource> MachineResources { get; set; }
     }

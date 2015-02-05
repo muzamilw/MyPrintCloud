@@ -198,10 +198,13 @@
     <Compile Include="Repositories\CurrencyRepository.cs" />
     <Compile Include="Repositories\EmailEventRepository.cs" />
     <Compile Include="Repositories\FavoriteDesignRepository.cs" />
+    <Compile Include="Repositories\EstimateRepository.cs" />
     <Compile Include="Repositories\GetItemsListViewRepository.cs" />
     <Compile Include="Repositories\GlobalLanguageRepository.cs" />
     <Compile Include="Repositories\GroupRepository.cs" />
     <Compile Include="Repositories\ImagePermissionRepository.cs" />
+    <Compile Include="Repositories\InquiryAttachmentRepository.cs" />
+    <Compile Include="Repositories\InquiryRepository.cs" />
     <Compile Include="Repositories\ItemSectionRepository.cs" />
     <Compile Include="Repositories\MachineRepository.cs" />
     <Compile Include="Repositories\ItemAttachmentRepository.cs" />

@@ -16,19 +16,20 @@ namespace MPC.Webstore.Controllers
         #region Private
 
         private readonly ICompanyService _myCompanyService;
-
+        private readonly ICampaignService _myCompainservice;
         #endregion
         #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
-        public ContactUsController(ICompanyService myCompanyService)
+        public ContactUsController(ICompanyService myCompanyService, ICampaignService _myCompainservice)
         {
             if (myCompanyService == null)
             {
                 throw new ArgumentNullException("myCompanyService");
             }
             this._myCompanyService = myCompanyService;
+            this._myCompainservice = _myCompainservice;
         }
 
         #endregion
@@ -38,18 +39,9 @@ namespace MPC.Webstore.Controllers
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
 
-           // MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
 
-            ViewBag.DefaultAddress = StoreBaseResopnse.StoreDetaultAddress;
-            string country = StoreBaseResopnse.StoreDetaultAddress.Country != null
-                                                                ? StoreBaseResopnse.StoreDetaultAddress.Country.CountryName
-                                                                : string.Empty;
-            string state = StoreBaseResopnse.StoreDetaultAddress.State != null
-                ? StoreBaseResopnse.StoreDetaultAddress.State.StateName
-                : string.Empty;
-            string MapInfoWindow = StoreBaseResopnse.StoreDetaultAddress.AddressName + "<br>" + StoreBaseResopnse.StoreDetaultAddress.Address1 + StoreBaseResopnse.StoreDetaultAddress.Address2 + "<br>" + StoreBaseResopnse.StoreDetaultAddress.City + "," + state + "," + StoreBaseResopnse.StoreDetaultAddress.PostCode;
-            ViewBag.googleMapScript = @"<script> var isGeoCode = true; var addressline = '" + StoreBaseResopnse.StoreDetaultAddress.Address1 + "," + StoreBaseResopnse.StoreDetaultAddress.Address2 + "," + StoreBaseResopnse.StoreDetaultAddress.City + "," + country + "," + StoreBaseResopnse.StoreDetaultAddress.PostCode + "';var info='" + MapInfoWindow + "';</script>";
+            SetDefaultAddress(StoreBaseResopnse);
             return PartialView("PartialViews/ContactUs");
         }
 
@@ -71,7 +63,7 @@ namespace MPC.Webstore.Controllers
                 if (StoreBaseResopnse.Organisation != null)
                 {
                     //organisationResponse
-                    smtpUser = StoreBaseResopnse.Organisation.SmtpUserName;
+                    smtpUser = StoreBaseResopnse.Organisation.SmtpUserName == null ? "" : StoreBaseResopnse.Organisation.SmtpUserName;
                     smtpserver = StoreBaseResopnse.Organisation.SmtpServer;
                     smtpPassword = StoreBaseResopnse.Organisation.SmtpPassword;
                     fromName = StoreBaseResopnse.Organisation.OrganisationName;
@@ -94,9 +86,9 @@ namespace MPC.Webstore.Controllers
                 MesgBody += "Email: " + model.Email + "<br>";
                 MesgBody += "Nature of Enquiry: General <br>";
                 MesgBody += "Enquiry: " + model.YourEnquiry + "<br>";
-                // bool result = trué; //EmailManager.AddMsgToTblQueue(salesManager.Email, "", salesManager.FullName, MesgBody, fromName, fromEmail, smtpUser, smtpPassword, smtpserver, ddlEnqiryNature.SelectedItem.Text + " Contact enquiry from " + StoreName, null, 0);
+                bool result = _myCompainservice.AddMsgToTblQueue(salesManager.Email, "", salesManager.FullName, MesgBody, fromName, fromEmail, smtpUser, smtpPassword, smtpserver, model.YourEnquiry + " Contact enquiry from " + StoreName, null, 0);
 
-                if (true)
+                 if (result)
                 {
                     model.YourEnquiry = "";
                     model.YourName = "";
@@ -108,13 +100,30 @@ namespace MPC.Webstore.Controllers
                 {
                     //ViewBag.Message = "An error occured. Please try again.";
                 }
+                SetDefaultAddress(StoreBaseResopnse);
+                
             }
             catch (Exception ex)
             {
-
+                throw ex;
+                
             }
-
             return PartialView("PartialViews/ContactUs");
         }
+
+        private void SetDefaultAddress(MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse) 
+        {
+            ViewBag.DefaultAddress = StoreBaseResopnse.StoreDetaultAddress;
+            string country = StoreBaseResopnse.StoreDetaultAddress.Country != null
+                                                                ? StoreBaseResopnse.StoreDetaultAddress.Country.CountryName
+                                                                : string.Empty;
+
+            string state = StoreBaseResopnse.StoreDetaultAddress.State != null
+                ? StoreBaseResopnse.StoreDetaultAddress.State.StateName
+                : string.Empty;
+            string MapInfoWindow = StoreBaseResopnse.StoreDetaultAddress.AddressName + "<br>" + StoreBaseResopnse.StoreDetaultAddress.Address1 + StoreBaseResopnse.StoreDetaultAddress.Address2 + "<br>" + StoreBaseResopnse.StoreDetaultAddress.City + "," + state + "," + StoreBaseResopnse.StoreDetaultAddress.PostCode;
+            ViewBag.googleMapScript = @"<script> var isGeoCode = true; var addressline = '" + StoreBaseResopnse.StoreDetaultAddress.Address1 + "," + StoreBaseResopnse.StoreDetaultAddress.Address2 + "," + StoreBaseResopnse.StoreDetaultAddress.City + "," + country + "," + StoreBaseResopnse.StoreDetaultAddress.PostCode + "';var info='" + MapInfoWindow + "';</script>";
+        }
+
     }
 }

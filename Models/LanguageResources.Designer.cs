@@ -61,6 +61,24 @@ namespace MPC.Models {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Item Addon CostCenter is null..
+        /// </summary>
+        internal static string ItemAddonCostCentre_InvalidItem {
+            get {
+                return ResourceManager.GetString("ItemAddonCostCentre_InvalidItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item is null..
+        /// </summary>
+        internal static string ItemClone_InvalidItem {
+            get {
+                return ResourceManager.GetString("ItemClone_InvalidItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create ItemVdpPrice must be specified..
         /// </summary>
         internal static string ItemMapper_CreateItemVdpPriceMustBeSpecified {
@@ -75,6 +93,69 @@ namespace MPC.Models {
         internal static string ItemMapper_DeleteItemVdpPriceMustBeSpecified {
             get {
                 return ResourceManager.GetString("ItemMapper_DeleteItemVdpPriceMustBeSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item Price Matrix is null..
+        /// </summary>
+        internal static string ItemPriceMatrixClone_InvalidItem {
+            get {
+                return ResourceManager.GetString("ItemPriceMatrixClone_InvalidItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item Product Detail is null..
+        /// </summary>
+        internal static string ItemProductDetailClone_InvalidItemProductDetail {
+            get {
+                return ResourceManager.GetString("ItemProductDetailClone_InvalidItemProductDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item Section is null..
+        /// </summary>
+        internal static string ItemSectionClone_InvalidItemSection {
+            get {
+                return ResourceManager.GetString("ItemSectionClone_InvalidItemSection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item State Tax is null..
+        /// </summary>
+        internal static string ItemStateTaxClone_InvalidItem {
+            get {
+                return ResourceManager.GetString("ItemStateTaxClone_InvalidItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item Stock Option is null..
+        /// </summary>
+        internal static string ItemStockOption_InvalidItemStockOption {
+            get {
+                return ResourceManager.GetString("ItemStockOption_InvalidItemStockOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item Vdp Price is null..
+        /// </summary>
+        internal static string ItemVdpPriceClone_InvalidItem {
+            get {
+                return ResourceManager.GetString("ItemVdpPriceClone_InvalidItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product Category Item is null..
+        /// </summary>
+        internal static string ProductCategoryItemClone_InvalidItem {
+            get {
+                return ResourceManager.GetString("ProductCategoryItemClone_InvalidItem", resourceCulture);
             }
         }
     }

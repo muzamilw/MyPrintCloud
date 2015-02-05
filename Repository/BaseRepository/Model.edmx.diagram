@@ -121,8 +121,7 @@
         <AssociationConnector Association="DomainModels.FK_tbl_deliverynote_details_tbl_items" />
         <EntityTypeShape EntityType="DomainModels.CompanyCMYKColor" Width="1.5" PointX="22.375" PointY="1" />
         <EntityTypeShape EntityType="DomainModels.DiscountVoucher" Width="1.5" PointX="23.375" PointY="8" />
-        <EntityTypeShape EntityType="DomainModels.SystemUser" Width="1.5" PointX="6.625" PointY="43.125" />
-        <AssociationConnector Association="DomainModels.FK_tbl_systemusers_tbl_company_sites" />
+        <EntityTypeShape EntityType="DomainModels.SystemUser" Width="1.5" PointX="6.375" PointY="43.375" />
         <EntityTypeShape EntityType="DomainModels.GetItemsListView" Width="1.5" PointX="25.375" PointY="8.75" />
         <AssociationConnector Association="DomainModels.FK_CompanyCMYKColor_Company" />
         <EntityTypeShape EntityType="DomainModels.Currency" Width="1.5" PointX="24.375" PointY="0.75" />
@@ -245,12 +244,18 @@
         <EntityTypeShape EntityType="DomainModels.MachineResource" Width="1.5" PointX="37.625" PointY="24.5" />
         <AssociationConnector Association="DomainModels.FK_tbl_machines_tbl_machine_ink_coverage" />
         <AssociationConnector Association="DomainModels.FK_tbl_machines_tbl_machine_resource" />
-        <EntityTypeShape EntityType="DomainModels.MachineCategory" Width="1.5" PointX="35.375" PointY="30.75" />
+        <EntityTypeShape EntityType="DomainModels.MachineCategory" Width="1.5" PointX="37.625" PointY="26.625" />
         <EntityTypeShape EntityType="DomainModels.CompanyCostCentre" Width="1.5" PointX="37.625" PointY="18.125" />
         <AssociationConnector Association="DomainModels.FK_CompanyCostCentre_Company" />
         <AssociationConnector Association="DomainModels.FK_CompanyCostCentre_CostCentre" />
         <EntityTypeShape EntityType="DomainModels.Group" Width="1.5" PointX="18.375" PointY="13.75" />
         <AssociationConnector Association="DomainModels.FK_CampaignEmailVariable_Section" />
+        <AssociationConnector Association="DomainModels.FK_ItemSection_Machine" />
+        <AssociationConnector Association="DomainModels.FK_ItemSection_StockItem" />
+        <AssociationConnector Association="DomainModels.FK_CompanyContact_ShippingAddress" />
+        <AssociationConnector Association="DomainModels.FK_Organisation_Currency" />
+        <AssociationConnector Association="DomainModels.FK_Organisation_LengthUnit" />
+        <AssociationConnector Association="DomainModels.FK_Organisation_WeightUnit" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

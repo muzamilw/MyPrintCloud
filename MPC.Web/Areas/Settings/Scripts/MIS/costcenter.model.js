@@ -2,12 +2,6 @@
     var CostCenter = function() {
 
         var
-             costCenterTypes = function (specifiedId, specifiedName) {
-                 return {
-                     id: specifiedId,
-                     name: specifiedName
-                 };
-             },
             self,
             costCentreId = ko.observable(),
             name = ko.observable(),
@@ -101,6 +95,8 @@
             deliveryCharges = ko.observable().extend({ required: true }),
             xeroAccessCode = ko.observable(),
             organisationId = ko.observable().extend({ required: true }),
+            costCenterResource = ko.observableArray([]),
+            costCenterInstructions = ko.observableArray([]),
             errors = ko.validation.group({
                 name: name,
                 type: type,
@@ -212,6 +208,8 @@
             deliveryCharges: deliveryCharges,
             xeroAccessCode: xeroAccessCode,
             organisationId: organisationId,
+            costCenterResource: costCenterResource,
+            costCenterInstructions: costCenterInstructions,
             dirtyFlag: dirtyFlag,
             errors: errors,
             isValid: isValid,
@@ -220,7 +218,43 @@
         };
         return self;
     };
-    
+
+    costCenterListView = function (specifiedCostCentreId, specifiedName, specifiedDescription, specifiedType, specifiedCalType
+                            ) {
+        var
+            self,
+            //Unique ID
+            costCenterId = ko.observable(specifiedCostCentreId),
+            //Name
+            name = ko.observable(specifiedName),
+            //Description
+            description = ko.observable(specifiedDescription),
+            //Type
+            type = ko.observable(specifiedType),
+            calculationMethodType = ko.observable(specifiedCalType),
+            convertToServerData = function () {
+                return {
+                    CostCentreId: costCenterId(),
+                }
+            };
+        self = {
+            costCenterId: costCenterId,
+            name: name,
+            description: description,
+            type: type,
+            calculationMethodType:calculationMethodType,
+            convertToServerData: convertToServerData,
+        };
+        return self;
+    };
+  
+    costCenterListView.Create = function (source) {
+        return new costCenterListView(source.CostCentreId, source.Name, source.Description, source.Type, source.CalculationMethodType);
+    };
+    //Cost Center Instructions for Client
+    costCenterInstructions.CreateForClient = function (source) {
+        return new costCenterInstructions(source.InstructionId, source.Instruction, source.CostCenterOption);
+    };
     var costCenterClientMapper = function(source) {
         var oCostCenter = new CostCenter();
         oCostCenter.costCentreId(source.CostCentreId);
@@ -315,6 +349,7 @@
         oCostCenter.deliveryCharges(source.DeliveryCharges);
         oCostCenter.xeroAccessCode(source.XeroAccessCode);
         oCostCenter.organisationId(source.OrganisationId);
+        oCostCenter.costCenterInstructions(source.CostcentreInstructions);
         return oCostCenter;
 
     };
@@ -411,12 +446,14 @@
         result.DeliveryCharges = source.deliveryCharges();
         result.XeroAccessCode = source.xeroAccessCode();
         result.OrganisationId = source.organisationId();
+        result.CostcentreInstructions = source.costCenterInstructions();
         return result;
     };
     
     return {
         CostCenter: CostCenter,
         costCenterClientMapper: costCenterClientMapper,
-        costCenterServerMapper: costCenterServerMapper
+        costCenterServerMapper: costCenterServerMapper,
+        costCenterListView: costCenterListView
     };
 });

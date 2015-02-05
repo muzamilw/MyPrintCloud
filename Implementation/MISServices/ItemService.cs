@@ -633,6 +633,544 @@ namespace MPC.Implementation.MISServices
             return mapPath;
         }
 
+        /// <summary>
+        /// Creates New Item and assigns new generated code
+        /// </summary>
+        private Item CreateNewItem()
+        {
+            string itemCode = prefixRepository.GetNextItemCodePrefix();
+            Item itemTarget = itemRepository.Create();
+            itemRepository.Add(itemTarget);
+            itemTarget.ItemCreationDateTime = DateTime.Now;
+            itemTarget.ItemCode = itemCode;
+            itemTarget.OrganisationId = itemRepository.OrganisationId;
+            return itemTarget;
+        }
+
+        /// <summary>
+        /// Copy Item Product Detail
+        /// </summary>
+        private void CloneItemProductDetail(Item source, Item target)
+        {
+            if (source.ItemProductDetails == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.ItemProductDetails == null)
+            {
+                target.ItemProductDetails = new List<ItemProductDetail>();
+            }
+
+            foreach (ItemProductDetail itemProductDetail in source.ItemProductDetails)
+            {
+                ItemProductDetail targetItemProductDetail = itemProductDetailRepository.Create();
+                itemProductDetailRepository.Add(targetItemProductDetail);
+                targetItemProductDetail.ItemId = target.ItemId;
+                target.ItemProductDetails.Add(targetItemProductDetail);
+                itemProductDetail.Clone(targetItemProductDetail);
+            }
+        }
+
+        /// <summary>
+        /// Copy Item Sections
+        /// </summary>
+        private void CloneItemSections(Item source, Item target)
+        {
+            if (source.ItemSections == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.ItemSections == null)
+            {
+                target.ItemSections = new List<ItemSection>();
+            }
+
+            foreach (ItemSection itemSection in source.ItemSections)
+            {
+                ItemSection targetItemSection = itemSectionRepository.Create();
+                itemSectionRepository.Add(targetItemSection);
+                targetItemSection.ItemId = target.ItemId;
+                target.ItemSections.Add(targetItemSection);
+                itemSection.Clone(targetItemSection);
+            }
+        }
+
+        /// <summary>
+        /// Creates Copy of Item Addon CostCentre
+        /// </summary>
+        private void CloneItemAddonCostCentres(ItemStockOption itemStockOption, ItemStockOption targetItemStockOption)
+        {
+            if (targetItemStockOption.ItemAddonCostCentres == null)
+            {
+                targetItemStockOption.ItemAddonCostCentres = new List<ItemAddonCostCentre>();
+            }
+
+            foreach (ItemAddonCostCentre itemAddonCostCentre in itemStockOption.ItemAddonCostCentres)
+            {
+                ItemAddonCostCentre targetItemAddonCostCentre = itemAddOnCostCentreRepository.Create();
+                itemAddOnCostCentreRepository.Add(targetItemAddonCostCentre);
+                targetItemAddonCostCentre.ItemStockOptionId = targetItemStockOption.ItemStockOptionId;
+                targetItemStockOption.ItemAddonCostCentres.Add(targetItemAddonCostCentre);
+                itemAddonCostCentre.Clone(targetItemAddonCostCentre);
+            }     
+        }
+
+        /// <summary>
+        /// Copy Item Stock Options
+        /// </summary>
+        private void CloneItemStockOptions(Item source, Item target)
+        {
+            if (source.ItemStockOptions == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.ItemStockOptions == null)
+            {
+                target.ItemStockOptions = new List<ItemStockOption>();
+            }
+
+            foreach (ItemStockOption itemStockOption in source.ItemStockOptions)
+            {
+                ItemStockOption targetItemStockOption = itemStockOptionRepository.Create();
+                itemStockOptionRepository.Add(targetItemStockOption);
+                targetItemStockOption.ItemId = target.ItemId;
+                target.ItemStockOptions.Add(targetItemStockOption);
+                itemStockOption.Clone(targetItemStockOption);
+
+                // Clone Item Addon Cost Centres
+                if (itemStockOption.ItemAddonCostCentres == null)
+                {
+                    continue;
+                }
+
+                // Clone ItemAddonCostCentres
+                CloneItemAddonCostCentres(itemStockOption, targetItemStockOption);
+            }
+        }
+
+        /// <summary>
+        /// Copy Item Price Matrices
+        /// </summary>
+        private void CloneItemPriceMatrices(Item source, Item target)
+        {
+            if (source.ItemPriceMatrices == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.ItemPriceMatrices == null)
+            {
+                target.ItemPriceMatrices = new List<ItemPriceMatrix>();
+            }
+
+            foreach (ItemPriceMatrix itemPriceMatrix in source.ItemPriceMatrices)
+            {
+                ItemPriceMatrix targetItemPriceMatrix = itemPriceMatrixRepository.Create();
+                itemPriceMatrixRepository.Add(targetItemPriceMatrix);
+                targetItemPriceMatrix.ItemId = target.ItemId;
+                target.ItemPriceMatrices.Add(targetItemPriceMatrix);
+                itemPriceMatrix.Clone(targetItemPriceMatrix);
+            }
+        }
+
+        /// <summary>
+        /// Copy Item State Taxes
+        /// </summary>
+        private void CloneItemStateTaxes(Item source, Item target)
+        {
+            if (source.ItemStateTaxes == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.ItemStateTaxes == null)
+            {
+                target.ItemStateTaxes = new List<ItemStateTax>();
+            }
+
+            foreach (ItemStateTax itemStateTax in source.ItemStateTaxes)
+            {
+                ItemStateTax targetItemStateTax = itemStateTaxRepository.Create();
+                itemStateTaxRepository.Add(targetItemStateTax);
+                targetItemStateTax.ItemId = target.ItemId;
+                target.ItemStateTaxes.Add(targetItemStateTax);
+                itemStateTax.Clone(targetItemStateTax);
+            }
+        }
+
+        /// <summary>
+        /// Copy Item Vdp Prices
+        /// </summary>
+        private void CloneItemVdpPrices(Item source, Item target)
+        {
+            if (source.ItemVdpPrices == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.ItemVdpPrices == null)
+            {
+                target.ItemVdpPrices = new List<ItemVdpPrice>();
+            }
+
+            foreach (ItemVdpPrice itemVdpPrice in source.ItemVdpPrices)
+            {
+                ItemVdpPrice targetItemVdpPrice = itemVdpPriceRepository.Create();
+                itemVdpPriceRepository.Add(targetItemVdpPrice);
+                targetItemVdpPrice.ItemId = target.ItemId;
+                target.ItemVdpPrices.Add(targetItemVdpPrice);
+                itemVdpPrice.Clone(targetItemVdpPrice);
+            }
+        }
+
+        /// <summary>
+        /// Copy Product Category Items
+        /// </summary>
+        private void CloneProductCategoryItems(Item source, Item target)
+        {
+            if (source.ProductCategoryItems == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.ProductCategoryItems == null)
+            {
+                target.ProductCategoryItems = new List<ProductCategoryItem>();
+            }
+
+            foreach (ProductCategoryItem productCategoryItem in source.ProductCategoryItems)
+            {
+                ProductCategoryItem targetProductCategoryItem = productCategoryItemRepository.Create();
+                productCategoryItemRepository.Add(targetProductCategoryItem);
+                targetProductCategoryItem.ItemId = target.ItemId;
+                target.ProductCategoryItems.Add(targetProductCategoryItem);
+                productCategoryItem.Clone(targetProductCategoryItem);
+            }
+        }
+
+        /// <summary>
+        /// Copy Item Related Items
+        /// </summary>
+        private void CloneItemRelatedItems(Item source, Item target)
+        {
+            if (source.ItemRelatedItems == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.ItemRelatedItems == null)
+            {
+                target.ItemRelatedItems = new List<ItemRelatedItem>();
+            }
+
+            foreach (ItemRelatedItem itemRelatedItem in source.ItemRelatedItems)
+            {
+                ItemRelatedItem targetItemRelatedItem = itemRelatedItemRepository.Create();
+                itemRelatedItemRepository.Add(targetItemRelatedItem);
+                targetItemRelatedItem.ItemId = target.ItemId;
+                target.ItemRelatedItems.Add(targetItemRelatedItem);
+                itemRelatedItem.Clone(targetItemRelatedItem);
+            }
+        }
+
+        /// <summary>
+        /// Clone Item Stock Option Images
+        /// </summary>
+        private void CloneItemStockOptionImages(Item target, string mapPath)
+        {
+            foreach (ItemStockOption itemStockOption in target.ItemStockOptions)
+            {
+                // Write Image
+                CloneItemStockOptionImage(target, mapPath, itemStockOption);
+            }
+        }
+
+        /// <summary>
+        /// Clone Item Stock Option Image
+        /// </summary>
+        private void CloneItemStockOptionImage(Item target, string mapPath, ItemStockOption itemStockOption)
+        {
+            if (string.IsNullOrEmpty((itemStockOption.ImageURL)) || !File.Exists(itemStockOption.ImageURL))
+            {
+                return;
+            }
+
+            byte[] fileBytes = File.ReadAllBytes(itemStockOption.ImageURL);
+            string imageUrl = SaveImage(mapPath, string.Empty,
+                target.ItemId + itemStockOption.ItemStockOptionId + itemStockOption.OptionSequence + "_StockOption_",
+                "image.png",
+                "stockOption",
+                fileBytes);
+
+            if (imageUrl != null)
+            {
+                itemStockOption.ImageURL = imageUrl;
+            }
+        }
+
+        /// <summary>
+        /// Clone Image Path
+        /// </summary>
+        private void CloneImagePath(Item target, string mapPath)
+        {
+            if (string.IsNullOrEmpty((target.ImagePath)) || !File.Exists(target.ImagePath))
+            {
+                return;
+            }
+
+            byte[] fileBytes = File.ReadAllBytes(target.ImagePath);
+            string imagePathUrl = SaveImage(mapPath, string.Empty,
+                target.ItemId + target.ProductCode + target.ProductName + "_ImagePath_",
+                "imagePath.png",
+                "imagePath",
+                fileBytes);
+
+            if (imagePathUrl != null)
+            {
+                // Update Image Path
+                target.ImagePath = imagePathUrl;
+            }
+        }
+
+        /// <summary>
+        /// Save Grid Image
+        /// </summary>
+        private void CloneGridImage(Item target, string mapPath)
+        {
+            if (string.IsNullOrEmpty((target.GridImage)) || !File.Exists(target.GridImage))
+            {
+                return;
+            }
+
+            byte[] fileBytes = File.ReadAllBytes(target.GridImage);
+            string gridImageUrl = SaveImage(mapPath, target.GridImage,
+                target.ItemId + target.ProductCode + target.ProductName + "_GridImage_",
+                "gridImage.png",
+                "gridImage",
+                fileBytes);
+
+            if (gridImageUrl != null)
+            {
+                // Update Grid Image
+                target.GridImage = gridImageUrl;
+            }
+        }
+
+        /// <summary>
+        /// Clone Thumbnail Path
+        /// </summary>
+        private void CloneThumbnailPath(Item target, string mapPath)
+        {
+            if (string.IsNullOrEmpty((target.ThumbnailPath)) || !File.Exists(target.ThumbnailPath))
+            {
+                return;
+            }
+
+            byte[] fileBytes = File.ReadAllBytes(target.ThumbnailPath);
+            string thumbnailImageUrl = SaveImage(mapPath, target.ThumbnailPath,
+                target.ItemId + target.ProductCode + target.ProductName + "_ThumbnailPath_",
+                "thumbnailPath.png",
+                "thumbnail",
+                fileBytes);
+
+            if (thumbnailImageUrl != null)
+            {
+                // Update Thumbnail Path
+                target.ThumbnailPath = thumbnailImageUrl;
+            }
+        }
+
+        /// <summary>
+        /// Clone File1,File2,File3,File4,File5
+        /// </summary>
+        private void CloneItemFiles(Item target, string mapPath)
+        {
+            byte[] fileBytes;
+            string extension;
+            string path;
+            if (!string.IsNullOrEmpty((target.File1)) && File.Exists(target.File1))
+            {
+                fileBytes = File.ReadAllBytes(target.File1);
+                extension = Path.GetExtension(target.File1);
+                path = SaveImage(mapPath, string.Empty,
+                target.ItemId + target.ProductCode + target.ProductName + "_File1_",
+                "file1" + extension,
+                "file1",
+                fileBytes);
+
+                if (path != null)
+                {
+                    // Update File1
+                    target.File1 = path;
+                }
+            }
+            
+            
+
+            if (!string.IsNullOrEmpty((target.File2)) && File.Exists(target.File2))
+            {
+                fileBytes = File.ReadAllBytes(target.File2);
+                extension = Path.GetExtension(target.File2);
+                path = SaveImage(mapPath, string.Empty,
+                    target.ItemId + target.ProductCode + target.ProductName + "_File2_",
+                    "file2" + extension,
+                    "file2",
+                    fileBytes);
+
+                if (path != null)
+                {
+                    // Update File2
+                    target.File2 = path;
+                }
+            }
+            
+            if (!string.IsNullOrEmpty((target.File3)) && File.Exists(target.File3))
+            {
+                fileBytes = File.ReadAllBytes(target.File3);
+                extension = Path.GetExtension(target.File3);
+                path = SaveImage(mapPath, string.Empty,
+                    target.ItemId + target.ProductCode + target.ProductName + "_File3_",
+                    "file3" + extension,
+                    "file3",
+                    fileBytes);
+
+                if (path != null)
+                {
+                    // Update File3
+                    target.File3 = path;
+                }
+            }
+
+            if (!string.IsNullOrEmpty((target.File4)) && File.Exists(target.File4))
+            {
+                fileBytes = File.ReadAllBytes(target.File4);
+                extension = Path.GetExtension(target.File4);
+                path = SaveImage(mapPath, string.Empty,
+                    target.ItemId + target.ProductCode + target.ProductName + "_File4_",
+                    "file4" + extension,
+                    "file4",
+                    fileBytes);
+
+                if (path != null)
+                {
+                    // Update File4
+                    target.File4 = path;
+                }
+
+            }
+
+            if (!string.IsNullOrEmpty((target.File5)) && File.Exists(target.File5))
+            {
+                fileBytes = File.ReadAllBytes(target.File5);
+                extension = Path.GetExtension(target.File5);
+                path = SaveImage(mapPath, string.Empty,
+                    target.ItemId + target.ProductCode + target.ProductName + "_File5_",
+                    "file5" + extension,
+                    "file5",
+                    fileBytes);
+
+                if (path != null)
+                {
+                    // Update File5
+                    target.File5 = path;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Clone Product Images
+        /// </summary>
+        private void CloneProductImages(Item target)
+        {
+            string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
+            HttpServerUtility server = HttpContext.Current.Server;
+            string mapPath = server.MapPath(mpcContentPath + "/Products/Organisation" + itemRepository.OrganisationId + "/Product" + target.ItemId);
+
+            // Create directory if not there
+            if (!Directory.Exists(mapPath))
+            {
+                Directory.CreateDirectory(mapPath);
+            }
+
+            // Save Item Stock Option Images
+            CloneItemStockOptionImages(target, mapPath);
+
+            // Thumbnail Path
+            CloneThumbnailPath(target, mapPath);
+
+            // Grid Image
+            CloneGridImage(target, mapPath);
+
+            // Image Path
+            CloneImagePath(target, mapPath);
+
+            // Files 1,2,3,4,5
+            CloneItemFiles(target, mapPath);
+        }
+
+        /// <summary>
+        /// Creates Copy of Product
+        /// </summary>
+        private void CloneItem(Item source, Item target)
+        {
+            // Clone Item
+            source.Clone(target);
+            
+            // Clone Item Product Detail
+            CloneItemProductDetail(source, target);
+
+            // Clone Item Vdp Prices
+            CloneItemVdpPrices(source, target);
+            
+            // Clone Item Sections
+            CloneItemSections(source, target);
+
+            // Clone Item Stock Options
+            CloneItemStockOptions(source, target);
+
+            // Clone Item Price Matrices
+            CloneItemPriceMatrices(source, target);
+
+            // Clone Item States
+            CloneItemStateTaxes(source, target);
+
+            // Clone Product Categories
+            CloneProductCategoryItems(source, target);
+
+            // Clone Item Related Items
+            CloneItemRelatedItems(source, target);
+
+            // Save Changes
+            itemRepository.SaveChanges();
+            
+            // Copy Files and place them under new Product folder
+            CloneProductImages(target);
+
+            // Clone Template - Call CloneTemplate from TemplateService
+            // That will clone Template deeply
+            if (source.TemplateId.HasValue)
+            {
+                long templateId = templateService.CopyTemplate(source.TemplateId.Value, 0, string.Empty, target.OrganisationId.HasValue ? 
+                    target.OrganisationId.Value : itemRepository.OrganisationId);
+
+                target.TemplateId = templateId;
+            }
+
+            // Save Changes
+            itemRepository.SaveChanges();
+        }
+
         #endregion
 
         #region Constructor
@@ -877,20 +1415,8 @@ namespace MPC.Implementation.MISServices
         public Item SaveProduct(Item item)
         {
             // Get Db Version
-            Item itemTarget = GetById(item.ItemId);
-
-            // If New then Add, Update If Existing
-            if (itemTarget == null)
-            {
-                // Gets Next Item Code and Increments it by 1
-                string itemCode = prefixRepository.GetNextItemCodePrefix();
-                itemTarget = itemRepository.Create();
-                itemRepository.Add(itemTarget);
-                itemTarget.ItemCreationDateTime = DateTime.Now;
-                itemTarget.ItemCode = itemCode;
-                itemTarget.OrganisationId = itemRepository.OrganisationId;
-            }
-
+            Item itemTarget = GetById(item.ItemId) ?? CreateNewItem();
+            
             // Update
             item.UpdateTo(itemTarget, new ItemMapperActions
             {
@@ -1020,6 +1546,25 @@ namespace MPC.Implementation.MISServices
         {
             return machineRepository.GetMachinesForProduct(request);
         }
+        
+        /// <summary>
+        /// Clone Product
+        /// </summary>
+        public Item CloneProduct(long itemId)
+        {
+            // Find Item - Throws Exception if not exist
+            Item source = GetById(itemId);
+
+            // Create New Instance
+            // And Generate ItemCode for it
+            Item target = CreateNewItem();
+
+            // Clone
+            CloneItem(source, target);
+
+            // Return Product
+            return target;
+        }
 
 
         /// <summary>
@@ -1030,6 +1575,7 @@ namespace MPC.Implementation.MISServices
         {
             return stockItemRepository.GetStockItemsForProduct(request);
         }
+
 
         /// <summary>
         /// Get Item Price Matrices for Item by Section Flag

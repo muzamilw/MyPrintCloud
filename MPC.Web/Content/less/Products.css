@@ -26,7 +26,10 @@
 #productBinding #stockDialog #stockDialogMainContainer {
   width: 838px;
 }
-#productBinding #signtureEdit .modal-dialog {
+#productBinding #pressDialog #pressDialogMainContainer {
+  width: 838px;
+}
+#productBinding #signatureEdit .modal-dialog {
   width: 838px;
 }
 #productBinding #itemAddonCostCentreDialog #itemAddonCostCentreDialogMainContainer {
@@ -40,6 +43,16 @@
 #productBinding .form-group .input-group .input-group-addon {
   border: 1px solid #ccc;
 }
+#productBinding .pricetable-itemPriceMatrix tr th#Qty {
+  width: 12%;
+}
+#productBinding .pricetable-itemPriceMatrix tr th#QtyRangeFrom,
+#productBinding .pricetable-itemPriceMatrix tr th#QtyRangeTo {
+  width: 6%;
+}
+#productBinding .pricetable-itemPriceMatrix tr th.paperStockType {
+  width: 8%;
+}
 #productBinding #tab-pricetable .form-group #txtDiscountsContainer {
   padding: 0;
 }
@@ -51,16 +64,6 @@
 }
 #productBinding #tab-pricetable .form-group #stateTaxSectionLabel {
   font-weight: bold;
-}
-#productBinding #tab-pricetable #tab-pricetable-itemPriceMatrix tr th#Qty {
-  width: 104px;
-}
-#productBinding #tab-pricetable #tab-pricetable-itemPriceMatrix tr th#QtyRangeFrom,
-#productBinding #tab-pricetable #tab-pricetable-itemPriceMatrix tr th#QtyRangeTo {
-  width: 104px;
-}
-#productBinding #tab-pricetable #tab-pricetable-itemPriceMatrix tr th.paperStockType {
-  width: 10%;
 }
 #productBinding #tab-supplierPrice .labelBold {
   font-weight: bold;

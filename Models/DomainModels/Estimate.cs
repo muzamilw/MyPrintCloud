@@ -18,11 +18,11 @@ namespace MPC.Models.DomainModels
         public Nullable<double> Estimate_Total { get; set; }
         public Nullable<int> Estimate_ValidUpto { get; set; }
         public string UserNotes { get; set; }
-        public Nullable<int> LastUpdatedBy { get; set; }
+        public Guid? LastUpdatedBy { get; set; }
         public Nullable<System.DateTime> CreationDate { get; set; }
         public System.DateTime CreationTime { get; set; }
-        public Nullable<int> Created_by { get; set; }
-        public Nullable<int> SalesPersonId { get; set; }
+        public Guid? Created_by { get; set; }
+        public Guid? SalesPersonId { get; set; }
         public string HeadNotes { get; set; }
         public string FootNotes { get; set; }
         public Nullable<System.DateTime> EstimateDate { get; set; }
@@ -45,7 +45,7 @@ namespace MPC.Models.DomainModels
         public Nullable<System.DateTime> Order_ConfirmationDate { get; set; }
         public short Order_Status { get; set; }
         public Nullable<System.DateTime> Order_CompletionDate { get; set; }
-        public Nullable<int> OrderManagerId { get; set; }
+        public Guid? OrderManagerId { get; set; }
         public Nullable<System.DateTime> ArtworkByDate { get; set; }
         public Nullable<System.DateTime> DataByDate { get; set; }
         public Nullable<System.DateTime> TargetPrintDate { get; set; }
@@ -57,7 +57,7 @@ namespace MPC.Models.DomainModels
         public Nullable<int> Classification2ID { get; set; }
         public Nullable<int> IsOfficialOrder { get; set; }
         public string CustomerPO { get; set; }
-        public Nullable<int> OfficialOrderSetBy { get; set; }
+        public Guid? OfficialOrderSetBy { get; set; }
         public Nullable<System.DateTime> OfficialOrderSetOnDateTime { get; set; }
         public Nullable<int> IsCreditApproved { get; set; }
         public Nullable<double> CreditLimitForJob { get; set; }
@@ -82,7 +82,7 @@ namespace MPC.Models.DomainModels
         public Nullable<double> DeliveryCost { get; set; }
         public Nullable<int> DeliveryCompletionTime { get; set; }
         public Nullable<double> VoucherDiscountRate { get; set; }
-        public Nullable<int> ReportSignedBy { get; set; }
+        public Guid? ReportSignedBy { get; set; }
         public Nullable<int> InvoiceId { get; set; }
         public Nullable<int> OrderReportSignedBy { get; set; }
         public Nullable<System.DateTime> OrderReportLastPrinted { get; set; }

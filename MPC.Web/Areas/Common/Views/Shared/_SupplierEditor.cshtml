@@ -9,15 +9,20 @@
                         <div class="modal-header">
                             <h4 class="modal-title">Supplier Detail</h4>
                         </div>
-                        <div data-bind="visible:$root.errorList().length > 0" style="display: none;margin-left:100px">
-                            <p> Please corresct these errors.</p>
-                            <table id="table">
-                                <tbody>
-                                    <!-- ko template: { name: 'itemErrorTemplate' , foreach: $root.errorList } -->
-                                    <!-- /ko -->
-                                </tbody>
-                            </table>
+                        <br />
+                        <div class="pull-left validationSummaryContainer">
+                            <a class="validationSummaryLink" data-bind="visible: $root.supplierErrorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopupForSupplier', popoverId: 'validationSummaryPopoverBodyForSupplier' }" style="display: none">Validation Errors</a>
+                            <div class="well well-small validationSummaryModal" id="validationSummaryPopupForSupplier" style="display: none">
+                                <div id="validationSummaryPopoverBodyForSupplier">
+                                    <ul data-bind="foreach: $root.supplierErrorList">
+                                        <li>
+                                            <a data-bind="click: $root.gotoElement.bind($data.element)"><span data-bind="text: name"></span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
+                        <br />
                         <br />
                     </div>
                     <div class="col-md-12">
@@ -46,7 +51,7 @@
                                     <label for="txtFName" class="control-label text-right tooltip-float">First Name</label>
                                 </div>
                                 <div class="col-lg-7">
-                                    <input type="text" class="form-control" id="txtFName" data-bind="value:name, validationTooltip: name">
+                                    <input type="text" class="form-control" id="txtFName" data-bind="value:name, validationTooltip: name, validationOnElement:name">
                                 </div>
                             </div>
                             <div class="form-group ">
@@ -336,7 +341,7 @@
                                                     <label for="txtAdd1" class="control-label text-right tooltip-float">Address 1</label>
                                                 </div>
                                                 <div class="col-lg-7">
-                                                    <input type="text" class="form-control" id="txtAdd1" data-bind="value: address1">
+                                                    <input type="text" class="form-control" id="txtAdd1" data-bind="value: address1, validationTooltip: address1, validationOnElement:address1">
                                                 </div>
                                             </div>
                                             <div class="form-group ">
@@ -376,7 +381,7 @@
                                                     <label for="txtCity" class="control-label text-right tooltip-float">City</label>
                                                 </div>
                                                 <div class="col-lg-7">
-                                                    <input type="text" class="form-control" id="txtCity" data-bind="value: city">
+                                                    <input type="text" class="form-control" id="txtCity" data-bind="value: city, validationTooltip: city, validationOnElement:city">
                                                 </div>
                                             </div>
                                             <div class="form-group ">
@@ -429,7 +434,7 @@
                                                     <label for="txtEmail" class="control-label text-right tooltip-float">Email</label>
                                                 </div>
                                                 <div class="col-lg-7">
-                                                    <input type="text" class="form-control" id="txtEmail" data-bind="value: email">
+                                                    <input type="text" class="form-control" id="txtEmail" data-bind="value: email, validationTooltip: email, validationOnElement:email">
                                                 </div>
                                             </div>
 
@@ -576,7 +581,7 @@
                                                 <label for="txtAddressName" class="control-label text-right tooltip-float">Address Name</label>
                                             </div>
                                             <div class="col-lg-7">
-                                                <input type="text" class="form-control" id="txtAddressName" data-bind="value: addressName">
+                                                <input type="text" class="form-control" id="txtAddressName" data-bind="value: addressName, validationTooltip: addressName, validationOnElement:addressName">
                                             </div>
                                         </div>
                                     </div>
@@ -600,7 +605,7 @@
                                                     <label for="txtAddressName" class="control-label text-right tooltip-float">First Name</label>
                                                 </div>
                                                 <div class="col-lg-7">
-                                                    <input type="text" class="form-control" data-bind="value:firstName,validationTooltip: firstName " />
+                                                    <input type="text" class="form-control" data-bind="value:firstName,validationTooltip: firstName , validationOnElement:firstName" />
                                                 </div>
                                             </div>
                                             <div class="form-group ">
@@ -626,7 +631,7 @@
                                                     <label for="txtAdd2" class="control-label text-right tooltip-float">Email</label>
                                                 </div>
                                                 <div class="col-lg-7">
-                                                    <input type="text" class="form-control" data-bind="value:email, validationTooltip: email" />
+                                                    <input type="text" class="form-control" data-bind="value:email, validationTooltip: email, validationTooltip: email, validationOnElement:email" />
                                                 </div>
                                             </div>
                                             <div class="form-group ">
@@ -667,7 +672,7 @@
                                                     <label for="txtCity" class="control-label text-right tooltip-float">Password</label>
                                                 </div>
                                                 <div class="col-lg-7">
-                                                    <input type="password" class="form-control" data-bind="value:password, validationTooltip: password" />
+                                                    <input type="password" class="form-control" data-bind="value:password, validationTooltip: password, validationTooltip: password, validationOnElement:password" />
                                                 </div>
                                             </div>
 

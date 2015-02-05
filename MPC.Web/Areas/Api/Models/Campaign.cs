@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MPC.MIS.Areas.Api.Models
 {
@@ -39,6 +40,6 @@ namespace MPC.MIS.Areas.Api.Models
         public string EmailLogFileAddress3 { get; set; }
 
 
-        //public  List<CampaignImage> CampaignImages { get; set; }
+        public List<CampaignImage> CampaignImages { get; set; }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MPC.Models.DomainModels
 {
@@ -13,5 +9,7 @@ namespace MPC.Models.DomainModels
         public double? MM { get; set; }
         public double? CM { get; set; }
         public double? Inch { get; set; }
+
+        public virtual ICollection<Organisation> Organisations { get; set; } 
     }
 }

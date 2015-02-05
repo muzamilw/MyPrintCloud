@@ -90,10 +90,13 @@ namespace MPC.Repository.Repositories
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
             bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
+            bool isTypeSpecified = request.CustomerType != null;
+            long type = request.CustomerType ?? 0;
             Expression<Func<Company, bool>> query =
                 s =>
-                    (isStringSpecified && (s.Name.Contains(request.SearchString)) && s.OrganisationId == OrganisationId && s.isArchived != true ||
-                     !isStringSpecified && s.OrganisationId == OrganisationId && s.isArchived != true);
+                    (isStringSpecified && (s.Name.Contains(request.SearchString)) && (isTypeSpecified && s.TypeId == type || !isTypeSpecified) && s.OrganisationId == OrganisationId && s.isArchived != true ||
+                     !isStringSpecified && s.OrganisationId == OrganisationId && s.isArchived != true 
+                     );
 
             int rowCount = DbSet.Count(query);
             IEnumerable<Company> companies = request.IsAsc

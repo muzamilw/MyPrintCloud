@@ -78,12 +78,12 @@
                     <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                 </span>
             </a>
-            <a href="#" class="table-link danger" data-bind="click : $root.deleteStore" style="float: right">
+            @*<a href="#" class="table-link danger" data-bind="click : $root.deleteStore" style="float: right">
                 <span class="fa-stack">
                     <i class="fa fa-square fa-stack-2x"></i>
                     <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
                 </span>
-            </a>
+            </a>*@
         </script>
         <script id="itemStoreTemplate" type="text/html">
             <tr data-bind="click: $root.selectStore, css: { selectedRow: $data === $root.selectedStore}">
@@ -102,7 +102,7 @@
                     <span class="label label-success">Active</span>
                     <!-- /ko -->
                     <!-- ko if: status() != 1 -->
-                    <span class="label label-danger">DeActive</span>
+                    <span class="label label-danger">In-Active</span>
                     <!-- /ko -->
                 </td>
 
@@ -135,44 +135,63 @@
         </script>
     </div>
 
-    @Html.Partial("~/Areas/Stores/Views/Stores/ContactCompanyDetail.cshtml")
+    @{
+        Html.RenderPartial("~/Areas/Stores/Views/Stores/ContactCompanyDetail.cshtml");
+    }
 
 </div>
 <!-- ko stopBinding: true -->
 @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
 <!-- /ko -->
+
+@Html.Partial("~/Areas/Common/Views/Shared/_phraseLibraryDialog.cshtml")
+
 @section Scripts{
-    @*<link href="~/Content/colorpicker.css" rel="stylesheet" />*@
-    @*<script src="~/Scripts/Ace/ace.js"></script>*@
-    @*<script src="~/Scripts/Ace/colorpicker.js"></script>*@
-    @*<link href="~/Content/colorpicker.css" rel="stylesheet" />
-        <link href="~/RichTextEditor/skins/moono/editor.css" rel="stylesheet" />
-        <script src="~/Content/themes/Centaurus/js/wizard.js"></script>
-        <script src="~/Content/themes/Centaurus/js/jquery.maskedinput.min.js"></script>
-        <script src="~/Scripts/Ace/ace.js"></script>
-        <script src="~/Scripts/Ace/colorpicker.js"></script>*@
-    @*<link href="~/RichTextEditor/skins/moono/editor.css" rel="stylesheet" />*@
+    
     <script src="~/Scripts/jquery.form.js"></script>
-    @*<script src="~/Content/themes/Centaurus/js/ckeditor/ckeditor.js"></script>*@
     <script>
 
-        require(["stores/stores.view", "common/confirmation.view"]);
-        //$(document).ready(function () {
-        //    // This call can be placed at any point after the
-        //    // <textarea>, or inside a <head><script> in a
-        //    // window.onload event handler.
-
-        //    // Replace the <textarea id="editor"> with an CKEditor
-        //    // instance, using default configurations.
-
-        //    CKEDITOR.replace("editor");
-        //});
-
-        //alert(CKEDITOR.basePath);
+        require(["stores/stores.view", "product/product.view", "dropzone", "common/confirmation.view", "common/phraseLibrary.view"]);
+      
         $(function () {
             $('#lisettings').addClass('active');
             $('#ligeneralsettings').addClass('active');
             $('#listore').addClass('active');
+        });
+        
+        $(document).ready(function () {
+            //min/max slider
+            $('.slider-minmax').noUiSlider({
+                range: [0, 100],
+                start: [100],
+                handles: 1,
+                connect: 'upper',
+                slide: function () {
+
+
+                },
+                set: function () {
+                    var val = $(this).val();
+                    if (val >= 60) {
+
+                        $('.Top_Cat_Body').css("width", "22%");
+                        $('.FI_TL').css("height", "210px");
+                        $('.productListIcons').css("width", "239px");
+                    } else if (val >= 40) {
+
+                        $('.Top_Cat_Body').css("width", "18%");
+                        $('.FI_TL').css("height", "210px");
+                        $('.productListIcons').css("width", "194px");
+                    } else if (val <= 20) {
+
+                        $('.Top_Cat_Body').css("width", "13%");
+                        $('.FI_TL').css("height", "140px");
+                        $('.productListIcons').css("width", "139px");
+                    }
+                }
+
+            });
+            $('.slider-minmax').val(100, true);
         });
 
     </script>

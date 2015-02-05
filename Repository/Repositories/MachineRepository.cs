@@ -9,17 +9,6 @@ using Microsoft.Practices.Unity;
 using System.Collections.Generic;
 using MPC.Models.Common;
 using System;
-using System.Data.Entity;
-using Microsoft.Practices.Unity;
-using MPC.Interfaces.Repository;
-using MPC.Models.DomainModels;
-using MPC.Models.RequestModels;
-using MPC.Models.ResponseModels;
-using MPC.Repository.BaseRepository;
-using System.Collections.Generic;
-using System.Linq;
-using MPC.Models.Common;
-using System;
 using System.Linq.Expressions;
 
 namespace MPC.Repository.Repositories
@@ -54,7 +43,7 @@ namespace MPC.Repository.Repositories
 
         }
         #endregion
-        public MachineResponseModel GetAllMachine(MachineRequestModel request)
+        public MachineListResponseModel GetAllMachine(MachineRequestModel request)
         {
 
             //var result = from t in db.Machines
@@ -73,10 +62,11 @@ namespace MPC.Repository.Repositories
                 .Take(toRow)
                 .ToList();
 
-            return new MachineResponseModel
+            return new MachineListResponseModel
             {
                 RowCount = DbSet.Count(),
-                MachineList = machineList
+                MachineList = machineList,
+                lookupMethod = db.LookupMethods
 
             };
 
@@ -106,14 +96,22 @@ namespace MPC.Repository.Repositories
             return new MachineSearchResponse { Machines = machines, TotalCount = DbSet.Count(query) };
         }
 
+
         public Machine Find(int id)
         {
             return DbSet.Find(id);
         }
 
-        public Machine GetMachineByID(long MachineID)
+        public MachineResponseModel GetMachineByID(long MachineID)
         {
-            return DbSet.Where(g => g.MachineId == MachineID).SingleOrDefault();
+            return new MachineResponseModel
+            {
+                machine = DbSet.Where(g => g.MachineId == MachineID).SingleOrDefault(),
+                lookupMethods = GetAllLookupMethodList(),
+                Markups = GetAllMarkupList()
+            };
+
+            
         }
 
 
@@ -124,6 +122,23 @@ namespace MPC.Repository.Repositories
                 return db.Machines;
             }
         }
+        public IEnumerable<LookupMethod> GetAllLookupMethodList()
+        {
+            return db.LookupMethods;
+        }
+        public IEnumerable<Markup> GetAllMarkupList()
+        {
+            return db.Markups;
+        }
+
+
+        //protected override IDbSet<LookupMethod> LookupMethd
+        //{
+        //    get
+        //    {
+        //        return db.LookupMethods;
+        //    }
+        //}
 
     }
 }

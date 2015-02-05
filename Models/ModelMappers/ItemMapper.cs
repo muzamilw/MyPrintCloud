@@ -809,16 +809,6 @@ namespace MPC.Models.ModelMappers
                 targetLine = target.ItemSections.FirstOrDefault(vdp => vdp.ItemSectionId == sourceItemSection.ItemSectionId);
             }
             
-            // Set Defaults to Non-Print Section
-            if (target.ItemProductDetails != null && target.ItemProductDetails.Any())
-            {
-                ItemProductDetail itemProductDetail = target.ItemProductDetails.First();
-                if (itemProductDetail.isPrintItem.HasValue && itemProductDetail.isPrintItem.Value)
-                {
-                    actions.SetDefaultsForItemSection(targetLine);    
-                }
-            }
-
             sourceItemSection.UpdateTo(targetLine);
         }
 
@@ -844,8 +834,29 @@ namespace MPC.Models.ModelMappers
         {
             InitializeItemSections(source);
             InitializeItemSections(target);
+            
+            // Set Defaults to Non-Print Section
+            bool isPrintItem = true;
+            if (target.ItemProductDetails != null && target.ItemProductDetails.Any() && !target.ItemSections.Any())
+            {
+                ItemProductDetail itemProductDetail = target.ItemProductDetails.First();
+                if (itemProductDetail.isPrintItem.HasValue && !itemProductDetail.isPrintItem.Value)
+                {
+                    ItemSection targetItemSection = actions.CreateItemSection();
+                    targetItemSection.ItemId = target.ItemId;
+                    target.ItemSections.Add(targetItemSection);
+                    actions.SetDefaultsForItemSection(targetItemSection);
+                    isPrintItem = false;
+                }
+            }
 
-            UpdateOrAddItemSections(source, target, actions);
+            // Add Item Sections if Print Item
+            if (isPrintItem)
+            {
+                UpdateOrAddItemSections(source, target, actions);    
+            }
+            
+            // Delete
             DeleteItemSections(source, target, actions);
         }
 
@@ -888,6 +899,7 @@ namespace MPC.Models.ModelMappers
             target.IsStockControl = source.IsStockControl;
             target.SortOrder = source.SortOrder;
             target.ItemLastUpdateDateTime = DateTime.Now;
+            target.CompanyId = source.CompanyId;
            
             // Update Images
             UpdateImages(source, target);

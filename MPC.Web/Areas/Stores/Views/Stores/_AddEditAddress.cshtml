@@ -1,5 +1,5 @@
 ﻿
-<div class="modal fade my-modal" id="myAddressSetModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade my-modal" id="myAddressSetModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" aria-hidden="true">
     <div style="width: 838px;" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -10,16 +10,13 @@
             </div>
             <br />
             <div class=" form-horizontal clearfix" data-bind="with: $root.selectedAddress">
-
                 <div class="col-lg-5">
                     <div class="form-group ">
                         <div class="col-lg-5 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
-
                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
-
                             </div>
                             <label for="txtAddressName" class="control-label text-right tooltip-float">Address Name</label>
                         </div>
@@ -62,7 +59,6 @@
                             </div>
                             <label for="txtAdd3" class="control-label text-right tooltip-float">Address 3</label>
                         </div>
-
                         <div class="col-lg-7">
                             <input type="text" class="form-control" id="txtAdd3" data-bind="value: address3">
                         </div>
@@ -102,7 +98,6 @@
                             </div>
                             <label for="txtCountry" class="control-label text-right tooltip-float">Country</label>
                         </div>
-
                         <div class="col-lg-7">
                             <input type="text" class="form-control" id="txtCountry" data-bind="value: country">
                         </div>
@@ -142,13 +137,11 @@
                             </div>
                             <label for="txtFAQ" class="control-label text-right tooltip-float">FAQ</label>
                         </div>
-
                         <div class="col-lg-7">
                             <input type="text" class="form-control" id="txtFAQ" data-bind="value: fAO">
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-6">
                     <div class="form-group">
                         <div class="col-lg-5 text-right">
@@ -183,128 +176,92 @@
                             </div>
                             <label for="txtTel2" class="control-label text-right tooltip-float">Tel 2</label>
                         </div>
-
                         <div class="col-lg-3">
                             <input type="text" class="form-control" id="txtTel2" data-bind="value: tel2">
                         </div>
                         <div class="col-lg-3 text-right">
-
                             <div class="bs-example-tooltips tooltip-float-width">
-
                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
-
                             </div>
                             <label for="txtExt2" class="control-label text-right tooltip-float">Ext 2</label>
                         </div>
-
                         <div class="col-lg-1">
                             <input type="text" class="form-control" id="txtExt2" data-bind="value: extension2">
                         </div>
                     </div>
                     <div class="form-group ">
                         <div class="col-lg-5 text-right">
-
                             <div class="bs-example-tooltips tooltip-float-width">
-
                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
-
                             </div>
 
-
                             <label for="txtReference" class="control-label text-right tooltip-float">Reference</label>
-
                         </div>
-
                         <div class="col-lg-7">
                             <input type="text" class="form-control" id="txtReference" data-bind="value: reference">
                         </div>
                     </div>
                     <div class="form-group ">
                         <div class="col-lg-5 text-right">
-
                             <div class="bs-example-tooltips tooltip-float-width">
-
                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
-
                             </div>
 
-
                             <label for="txtReference" class="control-label text-right tooltip-float">Territory</label>
-
                         </div>
-
                         <div class="col-lg-7">
                             <select class="form-control col-lg-4" data-bind="options:$root.addressCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Choose...', value: territoryId"></select>
                         </div>
                     </div>
                     <div class="form-group ">
                         <div class="col-lg-5 text-right">
-
                             <div class="bs-example-tooltips tooltip-float-width">
-
                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
-
                             </div>
 
-
                             <label for="txtFax" class="control-label text-right tooltip-float">Fax</label>
-
                         </div>
-
                         <div class="col-lg-7">
                             <input type="text" class="form-control" id="txtFax" data-bind="value: fax">
                         </div>
                     </div>
                     <div class="form-group ">
                         <div class="col-lg-5 text-right">
-
                             <div class="bs-example-tooltips tooltip-float-width">
-
                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
-
                             </div>
 
-
                             <label for="txtGeoLatitude" class="control-label text-right tooltip-float">Latitude</label>
-
                         </div>
-
                         <div class="col-lg-7">
                             <input type="text" class="form-control" id="txtGeoLatitude" data-bind="value: geoLatitude">
                         </div>
                     </div>
                     <div class="form-group ">
                         <div class="col-lg-5 text-right">
-
                             <div class="bs-example-tooltips tooltip-float-width">
-
                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
-
                             </div>
 
-
                             <label for="txtGeoLongitude" class="control-label text-right tooltip-float">Longitude</label>
-
                         </div>
-
                         <div class="col-lg-7">
                             <input type="text" class="form-control" id="txtGeoLongitude" data-bind="value: geoLongitude">
                         </div>
                     </div>
                     <div class="form-group">
-
                         <label class="col-md-9 text-right" for="switchTerritoryDBillAdd">&nbsp;&nbsp;Territory Default Billing Address</label>
                         <div class="col-md-3">
                             <div class="onoffswitch">
@@ -317,7 +274,6 @@
                         </div>
                     </div>
                     <div class="form-group">
-
                         <label class="col-md-9 text-right" for="switchTerritoryDShippAdd">&nbsp;&nbsp;Territory Default Shipping Address</label>
                         <div class="col-md-3">
                             <div class="onoffswitch">
@@ -330,7 +286,6 @@
                         </div>
                     </div>
                     <div class="form-group">
-
                         <label class="col-md-9 text-right" for="switchCompDAdd">&nbsp;&nbsp;Company Default Address</label>
                         <div class="col-md-3">
                             <div class="onoffswitch">
@@ -343,7 +298,6 @@
                         </div>
                     </div>
                     <div class="form-group">
-
                         <label class="col-md-9 text-right" for="switchCompDShippAdd">&nbsp;&nbsp;Company Default Shipping Address</label>
                         <div class="col-md-3">
                             <div class="onoffswitch">
@@ -359,7 +313,6 @@
                 <div class="modal-footer col-xs-12">
                     <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveAddress">Save</button>
                     <button type="button" class="btn btn-default" data-bind="click: $root.onCloseAddress" style="margin-left:0px;">Close</button>
-
                 </div>
             </div>
         </div>
