@@ -74,10 +74,12 @@
     <Compile Include="MISServices\ICompanyService.cs" />
     <Compile Include="MISServices\ICompanyTerritoryService.cs" />
     <Compile Include="MISServices\ICrmSupplierService.cs" />
+    <Compile Include="MISServices\ICustomerService.cs" />
     <Compile Include="MISServices\IItemService.cs" />
     <Compile Include="MISServices\IInventoryService.cs" />
     <Compile Include="MISServices\ICostCentersService.cs" />
     <Compile Include="MISServices\IMachineService.cs" />
+    <Compile Include="MISServices\IOrderService.cs" />
     <Compile Include="MISServices\IPhraseLibraryService.cs" />
     <Compile Include="MISServices\IPrefixService.cs" />
     <Compile Include="MISServices\IStockCategoryService.cs" />
@@ -94,6 +96,7 @@
     <Compile Include="Repository\ICurrencyRepository.cs" />
     <Compile Include="Repository\IEmailEventRepository.cs" />
     <Compile Include="Repository\IFavoriteDesignRepository.cs" />
+    <Compile Include="Repository\IEstimateRepository.cs" />
     <Compile Include="Repository\IGetItemsListViewRepository.cs" />
     <Compile Include="Repository\IGlobalLanguageRepository.cs" />
     <Compile Include="Repository\IGroupRepository.cs" />

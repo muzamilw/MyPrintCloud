@@ -151,10 +151,12 @@
     <Compile Include="MISServices\CompanyService.cs" />
     <Compile Include="MISServices\CompanyTerritoryService.cs" />
     <Compile Include="MISServices\CrmSupplierService.cs" />
+    <Compile Include="MISServices\CustomerService.cs" />
     <Compile Include="MISServices\ItemService.cs" />
     <Compile Include="MISServices\InventoryService.cs" />
     <Compile Include="MISServices\CostCenterService.cs" />
     <Compile Include="MISServices\MachineService.cs" />
+    <Compile Include="MISServices\OrderService.cs" />
     <Compile Include="MISServices\PaperSheetService.cs" />
     <Compile Include="MISServices\PhraseLibraryService.cs" />
     <Compile Include="MISServices\PrefixService.cs" />

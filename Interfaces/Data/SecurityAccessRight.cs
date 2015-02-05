@@ -40,6 +40,11 @@
         /// <summary>
         /// Can View Product
         /// </summary>
-        CanViewProduct = 7
+        CanViewProduct = 7,
+
+        /// <summary>
+        /// Can View Order
+        /// </summary>
+        CanViewOrder = 8
     }
 }
