@@ -198,6 +198,7 @@
     <Compile Include="Repositories\CurrencyRepository.cs" />
     <Compile Include="Repositories\EmailEventRepository.cs" />
     <Compile Include="Repositories\FavoriteDesignRepository.cs" />
+    <Compile Include="Repositories\EstimateRepository.cs" />
     <Compile Include="Repositories\GetItemsListViewRepository.cs" />
     <Compile Include="Repositories\GlobalLanguageRepository.cs" />
     <Compile Include="Repositories\GroupRepository.cs" />
