@@ -256,6 +256,7 @@
     <Compile Include="Areas\Api\Controllers\CostCenterBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\GetPhraseFiledsBySectionController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemCloneController.cs" />
+    <Compile Include="Areas\Api\Controllers\OrderController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemDesignerTemplateBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemPriceMatrixController.cs" />
     <Compile Include="Areas\Api\Controllers\LanguageEditorController.cs" />
@@ -282,6 +283,8 @@
     <Compile Include="Areas\Api\ModelMappers\CustomerMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GroupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemDesignerTemplateBaseResponseMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\EstimateMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\GetOrdersResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemSectionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\LookupMethodMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineListMapper.cs" />
@@ -312,10 +315,14 @@
     <Compile Include="Areas\Api\Models\CostCentreType.cs" />
     <Compile Include="Areas\Api\Models\CostCentreDropDown.cs" />
     <Compile Include="Areas\Api\Models\CostCentreVariable.cs" />
+    <Compile Include="Areas\Api\Models\Estimate.cs" />
+    <Compile Include="Areas\Api\Models\EstimateListView.cs" />
     <Compile Include="Areas\Api\Models\CustomerListViewModel.cs" />
     <Compile Include="Areas\Api\Models\CustomerResponse.cs" />
+    <Compile Include="Areas\Api\Models\GetOrdersResponse.cs" />
     <Compile Include="Areas\Api\Models\GroupForCampaign.cs" />
     <Compile Include="Areas\Api\Models\CostcentreWorkInstructionsChoice.cs" />
+    <Compile Include="Areas\Api\Models\OrderDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\ItemDesignerTemplateBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemForWidgets.cs" />
     <Compile Include="Areas\Api\Models\ItemSection.cs" />
@@ -443,6 +450,7 @@
     <Compile Include="Areas\Api\Models\PaymentGateway.cs" />
     <Compile Include="Areas\Api\Models\PaymentGatewayResponse.cs" />
     <Compile Include="Areas\Api\Models\PaymentMethod.cs" />
+    <Compile Include="Areas\Api\Models\PrePayment.cs" />
     <Compile Include="Areas\Api\Models\ProductCategoryForTemplate.cs" />
     <Compile Include="Areas\Api\Models\ProductCategoryDropDown.cs" />
     <Compile Include="Areas\Api\Models\Phrase.cs" />
@@ -474,6 +482,8 @@
     <Compile Include="Areas\Api\Models\Widget.cs" />
     <Compile Include="Areas\Api\Controllers\PaperSheetBaseController.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
+    <Compile Include="Areas\Orders\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Orders\OrdersAreaRegistration.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
@@ -556,6 +566,10 @@
     <Content Include="Areas\Common\Scripts\clientSidePagination.js" />
     <Content Include="Areas\Common\Scripts\supplier.model.js" />
     <Content Include="Areas\Common\Scripts\pagination.js" />
+    <Content Include="Areas\Orders\Scripts\order.dataservice.js" />
+    <Content Include="Areas\Orders\Scripts\order.model.js" />
+    <Content Include="Areas\Orders\Scripts\order.view.js" />
+    <Content Include="Areas\Orders\Scripts\order.viewModel.js" />
     <Content Include="Areas\Products\Scripts\product.dataservice.js" />
     <Content Include="Areas\Products\Scripts\product.model.js" />
     <Content Include="Areas\Products\Scripts\product.view.js" />
@@ -1575,6 +1589,12 @@
     <Content Include="Areas\CRM\Views\Home\CompaniesDetail.cshtml" />
     <Content Include="Areas\CRM\Views\Home\ContactCompanies.cshtml" />
     <Content Include="Areas\CRM\Views\Home\SupplierDetail.cshtml" />
+    <Content Include="Areas\Orders\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Orders\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Orders\Views\web.config" />
+    <Content Include="Areas\Orders\Views\Home\_Orders.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_OrderDetail.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
@@ -2754,6 +2774,7 @@
     <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
     <Folder Include="Areas\CRM\Models\" />
+    <Folder Include="Areas\Orders\Models\" />
     <Folder Include="Areas\Products\Models\" />
     <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Areas\Stores\Models\" />

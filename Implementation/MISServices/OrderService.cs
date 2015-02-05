@@ -53,6 +53,22 @@ namespace MPC.Implementation.MISServices
             return estimateRepository.Find(orderId);
         }
 
+        /// <summary>
+        /// Delete Order
+        /// </summary>
+        public void DeleteOrder(long orderId)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Save Order
+        /// </summary>
+        public Estimate SaveOrder(Estimate estimate)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }
