@@ -112,7 +112,7 @@ namespace MPC.Webstore.ViewModels
 
         public string RefNumRetail { get; set; }
 
-        public double GrandTotal { get; set; }
+        public string GrandTotal { get; set; }
 
         public string chkBoxDeliverySameAsBilling { get; set; }
 
