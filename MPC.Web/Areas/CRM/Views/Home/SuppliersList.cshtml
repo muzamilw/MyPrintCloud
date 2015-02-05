@@ -1,39 +1,28 @@
 ﻿@{
-    ViewBag.Title = "Suppliers List";
+    ViewBag.Title = "Suppliers";
 }
-@section leftmenue {
-
-}
-<div class="row">
+<div class="row" id="crmSuppliers">
     <div class="col-lg-12">
+        
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12" id="topArea">
                 <ol class="breadcrumb">
                     <li><a href="~/Dashboard/Index">Home</a></li>
-
                     <li class="active"><span>Suppliers</span></li>
                 </ol>
                 <div class="clearfix">
                     <h1 class="pull-left">Suppliers</h1>
-                    <div class="pull-right top-page-ui">
-                        <a data-toggle="modal" href="~/CRM/AddCustomer" class="btn btn-primary">
-                            <i class="fa fa-plus-circle fa-lg"></i>Add Supplier
-                        </a>
-
-                    </div>
-                    <div class="filter-block pull-right">
-                        @* <button id="open-wizard" class="btn btn-primary pull-right">
-                                <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Product
-                            </button>
-                            <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right">
-                                <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Product
-                            </a>*@
-
-                        @*<div id="addcustomer">
-                                @Html.Partial("Company/_AddCompany")
-                            </div>*@
-                    </div>
                 </div>
+                <div class="pull-right top-page-ui">
+                    <a class="btn btn-primary" >  @*data-bind="click: $root.onCreateNewStore"*@
+                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Supplier
+                    </a>
+                </div>
+                <div id="addStore">
+                    &nbsp;
+                </div>
+                <!-- ko template: { name: 'filterTemplate' } -->
+                <!-- /ko -->
             </div>
         </div>
         <div class="row">
@@ -44,353 +33,26 @@
                             <table class="table user-list">
                                 <thead>
                                     <tr>
-                                        <th><span>Company</span></th>
+                                        @*<th><span>Company</span></th>
                                         <th><span>Created</span></th>
                                         <th class="text-center"><span>Status</span></th>
                                         <th><span>Email</span></th>
-                                        <th>&nbsp;</th>
+                                        <th>&nbsp;</th>*@
+                                        
+                                        <th class="col-lg-1"></th>
+                                        <th class="col-lg-3"><span>Company</span></th>
+                                        <th class="col-lg-2"><span>Created</span></th>
+                                        <th class="col-lg-2"><span>Status</span></th>
+                                        <th class="col-lg-2"><span>Email</span></th>
+                                        <th class="col-lg-2">&nbsp;</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <img src="~/Content/themes/Centaurus/img/samples/logos/9.jpg" alt="" />
-                                            <a href="~/CRM/SupplierDetail" class="user-link">Kodak</a>
-                                            <span class="user-subhead">Supplier</span>
-                                        </td>
-                                        <td>
-                                            2004/01/24
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="label label-warning">Pending</span>
-                                        </td>
-                                        <td>
-                                            <a href="~/CRM/SupplierDetail">
-                                                jack@nicholson
-                                            </a>
-                                        </td>
-                                        <td style="width: 20%;">
-                                            <a href="~/CRM/SupplierDetail" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="~/CRM/SupplierDetail" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link danger">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <img src="~/Content/themes/Centaurus/img/samples/logos/1.jpg" alt="" />
-                                            <a href="~/CRM/SupplierDetail" class="user-link">Ace Binding Supplies</a>
-                                            <span class="user-subhead">Supplier</span>
-                                        </td>
-                                        <td>
-                                            2013/08/08
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="label label-default">Inactive</span>
-                                        </td>
-                                        <td>
-                                            <a href="~/CRM/SupplierDetail">
-                                                jack@nicholsons
-                                            </a>
-                                        </td>
-                                        <td style="width: 20%;">
-                                            <a href="~/CRM/SupplierDetail" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="~/CRM/SupplierDetail" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link danger">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="~/Content/themes/Centaurus/img/samples/logos/2.jpg" alt="" />
-                                            <a href="~/CRM/SupplierDetail" class="user-link">Aristoplast</a>
-                                            <span class="user-subhead">Supplier</span>
-                                        </td>
-                                        <td>
-                                            2013/08/12
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="label label-success">Active</span>
-                                        </td>
-                                        <td>
-                                            <a href="~/CRM/SupplierDetail">
-                                                jack@nicholson
-                                            </a>
-                                        </td>
-                                        <td style="width: 20%;">
-                                            <a href="~/CRM/SupplierDetail" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="~/CRM/SupplierDetail" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link danger">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="~/Content/themes/Centaurus/img/samples/logos/3.jpg" alt="" />
-                                            <a href="~/CRM/SupplierDetail" class="user-link">Becker Industries</a>
-                                            <span class="user-subhead">Supplier</span>
-                                        </td>
-                                        <td>
-                                            2013/03/03
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="label label-danger">Banned</span>
-                                        </td>
-                                        <td>
-                                            <a href="~/CRM/SupplierDetail">jack@nicholson</a>
-                                        </td>
-                                        <td style="width: 20%;">
-                                            <a href="~/CRM/SupplierDetail" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="~/CRM/SupplierDetail" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link danger">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="~/Content/themes/Centaurus/img/samples/logos/4.jpg" alt="" />
-                                            <a href="~/CRM/SupplierDetail" class="user-link">Best Binding Supplies</a>
-                                            <span class="user-subhead">Supplier</span>
-                                        </td>
-                                        <td>
-                                            2004/01/24
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="label label-warning">Pending</span>
-                                        </td>
-                                        <td>
-                                            <a href="~/CRM/SupplierDetail">
-                                                jack@nicholson
-                                            </a>
-                                        </td>
-                                        <td style="width: 20%;">
-                                            <a href="~/CRM/SupplierDetail" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="~/CRM/SupplierDetail" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link danger">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="~/Content/themes/Centaurus/img/samples/logos/5.jpg" alt="" />
-                                            <a href="~/CRM/SupplierDetail" class="user-link">Bound to Impress</a>
-                                            <span class="user-subhead">Supplier</span>
-                                        </td>
-                                        <td>
-                                            2013/12/31
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="label label-success">Active</span>
-                                        </td>
-                                        <td>
-                                            <a href="~/CRM/SupplierDetail">spencer@tracy</a>
-                                        </td>
-                                        <td style="width: 20%;">
-                                            <a href="~/CRM/SupplierDetail" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="~/CRM/SupplierDetail" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link danger">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="~/Content/themes/Centaurus/img/samples/logos/6.jpg" alt="" />
-                                            <a href="~/CRM/SupplierDetail" class="user-link">CMYK Hub</a>
-                                            <span class="user-subhead">Supplier</span>
-                                        </td>
-                                        <td>
-                                            2013/08/08
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="label label-default">Inactive</span>
-                                        </td>
-                                        <td>
-                                            <a href="~/CRM/SupplierDetail">
-                                                jack@nicholson
-                                            </a>
-                                        </td>
-                                        <td style="width: 20%;">
-                                            <a href="~/CRM/SupplierDetail" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="~/CRM/SupplierDetail" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link danger">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="~/Content/themes/Centaurus/img/samples/logos/7.jpg" alt="" />
-                                            <a href="#" class="user-link">BJ Ball</a>
-                                            <span class="user-subhead">Supplier</span>
-                                        </td>
-                                        <td>
-                                            2013/08/12
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="label label-success">Active</span>
-                                        </td>
-                                        <td>
-                                            <a href="#">
-                                                jack@nicholson
-                                            </a>
-                                        </td>
-                                        <td style="width: 20%;">
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link danger">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="~/Content/themes/Centaurus/img/samples/logos/8.jpg" alt="" />
-                                            <a href="#" class="user-link">GBC</a>
-                                            <span class="user-subhead">Supplier</span>
-                                        </td>
-                                        <td>
-                                            2013/03/03
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="label label-danger">Banned</span>
-                                        </td>
-                                        <td>
-                                            <a href="#">jack@nicholson</a>
-                                        </td>
-                                        <td style="width: 20%;">
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link danger">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                 @* dsdsD*@
-                                    <tr>
+                                    <!-- ko template: { name: $root.templateToUse , foreach: $root.suppliers } -->
+                                    <!-- /ko -->
+                                    
+                                    @* dsdsD*@
+                                    @*<tr>
                                         <td>
                                             <img src="~/Content/themes/Centaurus/img/samples/logos/10.jpg" alt="" />
                                             <a href="#" class="user-link">Marsh Comp</a>
@@ -425,29 +87,90 @@
                                                 </span>
                                             </a>
                                         </td>
-                                    </tr>
+                                    </tr>*@
                                 </tbody>
                             </table>
-
                         </div>
-
                     </div>
                 </div>
                 <div id="pagerDiv">
-                    <ul class="pagination pull-right">
-                        <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
-                    </ul>
+                    <!-- ko with: pager -->
+                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                    <!-- /ko -->
                 </div>
-
             </div>
         </div>
     </div>
+    <script id="actionsTemplate" type="text/html">
+        <a class="table-link" data-bind="click : $root.onEditItem" style="float: right">
+            <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+    </script>
+    <script id="itemSupplierTemplate" type="text/html">
+        <tr data-bind="click: $root.selectStore, css: { selectedRow: $data === $root.selectedSupplier}">
+            <td>
+                <img data-bind="attr: { src: storeImageFileBinary }" alt="" />
+            </td>
+            <td>
+                <a href="~/CRM/SupplierDetail" class="user-link" data-bind="text: name"></a>
+                <span class="user-subhead">Supplier</span>
+            </td>
+            <td data-bind="text: createdDate">
+                @*2004/01/24*@
+            </td>
+            <td>
+                <span class="label label-warning">Pending</span>
+            </td>
+            <td>
+                <a href="~/CRM/SupplierDetail">
+                    jack@nicholson
+                </a>
+            </td>
+            <td style="width: 20%;">
+                <a href="~/CRM/SupplierDetail" class="table-link">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+                <a href="~/CRM/SupplierDetail" class="table-link">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+                <a href="#" class="table-link danger">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </td>
+        </tr>
+    </script>
+    @* Filter Template *@
+    <script id="filterTemplate" type="text/html">
+        <div class="filter-body" id="filter">
+            <div class="filter-block pull-left">
+                <div class="pull-left spanfilterlbl">
+                    Search &nbsp;
+                </div>
+                <div class="form-group pull-left">
+                    <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
+                    <i class="fa fa-search search-icon"></i>
+                </div>
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-primary" data-bind="click:$root.getSuppliers">Search</button>
+                    <button type="reset" class="btn btn-default" data-bind="click:$root.resetFilterSection">Reset</button>
+                </div>
+            </div>
+            <div class="clearfix">
+            </div>
+        </div>
+    </script>
 </div>
 @*@Html.Partial("Company/_PartialAddStore")*@
 @section Scripts{
@@ -457,79 +180,86 @@
     <script src="~/Content/themes/Centaurus/js/select2.min.js"></script>
     <script src="~/Content/themes/Centaurus/js/dropzone.js"></script>
     <script>
-            $(function () {
-                $('#myWizard').wizard();
-                $('#licrm').addClass('active');
-                //masked inputs
-                $("#maskedDate").mask("99/99/9999");
-                $("#maskedPhone").mask("(999) 999-9999");
-                $("#maskedPhoneExt").mask("(999) 999-9999? x99999");
+        $(function () {
+            $('#myWizard').wizard();
+            $('#licrm').addClass('active');
+            //masked inputs
+            $("#maskedDate").mask("99/99/9999");
+            $("#maskedPhone").mask("(999) 999-9999");
+            $("#maskedPhoneExt").mask("(999) 999-9999? x99999");
+        });
+
+        $(function () {
+
+            $('#sel2').select2();
+
+            $.fn.wizard.logging = false;
+
+            var wizard = $("#wizard-demo").wizard({
+                showCancel: true
             });
 
-            $(function () {
+            //$(".chzn-select").chosen();
 
-                $('#sel2').select2();
-
-                $.fn.wizard.logging = false;
-
-                var wizard = $("#wizard-demo").wizard({
-                    showCancel: true
-                });
-
-                //$(".chzn-select").chosen();
-
-                wizard.el.find(".wizard-ns-select").change(function () {
-                    wizard.el.find(".wizard-ns-detail").show();
-                });
-
-                wizard.el.find(".create-server-service-list").change(function () {
-                    var noOption = $(this).find("option:selected").length == 0;
-                    wizard.getCard(this).toggleAlert(null, noOption);
-                });
-
-                wizard.cards["name"].on("validated", function (card) {
-                    var hostname = card.el.find("#new-server-fqdn").val();
-                });
-
-                wizard.on("submit", function (wizard) {
-                    var submit = {
-                        "hostname": $("#new-server-fqdn").val()
-                    };
-
-                    setTimeout(function () {
-                        wizard.trigger("success");
-                        wizard.hideButtons();
-                        wizard._submitting = false;
-                        wizard.showSubmitCard("success");
-                        wizard.updateProgressBar(0);
-                    }, 2000);
-                });
-
-                wizard.on("reset", function (wizard) {
-                    wizard.setSubtitle("");
-                    wizard.el.find("#new-server-fqdn").val("");
-                    wizard.el.find("#new-server-name").val("");
-                });
-
-                wizard.el.find(".wizard-success .im-done").click(function () {
-                    wizard.reset().close();
-                });
-
-                wizard.el.find(".wizard-success .create-another-server").click(function () {
-                    wizard.reset();
-                });
-
-                $(".wizard-group-list").click(function () {
-                    alert("Disabled for demo.");
-                });
-
-                $("#open-wizard").click(function () {
-                    wizard.show();
-                });
-
-
-
-                //wizard.show();
+            wizard.el.find(".wizard-ns-select").change(function () {
+                wizard.el.find(".wizard-ns-detail").show();
             });
+
+            wizard.el.find(".create-server-service-list").change(function () {
+                var noOption = $(this).find("option:selected").length == 0;
+                wizard.getCard(this).toggleAlert(null, noOption);
+            });
+
+            //wizard.cards["name"].on("validated", function (card) {
+            //    var hostname = card.el.find("#new-server-fqdn").val();
+            //});
+
+            wizard.on("submit", function (wizard) {
+                var submit = {
+                    "hostname": $("#new-server-fqdn").val()
+                };
+
+                setTimeout(function () {
+                    wizard.trigger("success");
+                    wizard.hideButtons();
+                    wizard._submitting = false;
+                    wizard.showSubmitCard("success");
+                    wizard.updateProgressBar(0);
+                }, 2000);
+            });
+
+            wizard.on("reset", function (wizard) {
+                wizard.setSubtitle("");
+                wizard.el.find("#new-server-fqdn").val("");
+                wizard.el.find("#new-server-name").val("");
+            });
+
+            wizard.el.find(".wizard-success .im-done").click(function () {
+                wizard.reset().close();
+            });
+
+            wizard.el.find(".wizard-success .create-another-server").click(function () {
+                wizard.reset();
+            });
+
+            $(".wizard-group-list").click(function () {
+                alert("Disabled for demo.");
+            });
+
+            $("#open-wizard").click(function () {
+                wizard.show();
+            });
+
+
+
+            //wizard.show();
+        });
     </script>
+<script>
+    require(["crm/crm.supplier.view", "common/confirmation.view"]);
+    $(function () {
+        $('#licrm').addClass('active');
+    });
+</script>
+
 }

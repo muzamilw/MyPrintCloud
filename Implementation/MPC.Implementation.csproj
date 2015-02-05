@@ -150,6 +150,7 @@
     <Compile Include="MISServices\CompanyContactService.cs" />
     <Compile Include="MISServices\CompanyService.cs" />
     <Compile Include="MISServices\CompanyTerritoryService.cs" />
+    <Compile Include="MISServices\CrmSupplierService.cs" />
     <Compile Include="MISServices\ItemService.cs" />
     <Compile Include="MISServices\InventoryService.cs" />
     <Compile Include="MISServices\CostCenterService.cs" />

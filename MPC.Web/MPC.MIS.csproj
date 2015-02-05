@@ -251,6 +251,7 @@
     <Compile Include="Areas\Api\Controllers\AddressController.cs" />
     <Compile Include="Areas\Api\Controllers\CampaignBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />
+    <Compile Include="Areas\Api\Controllers\CrmSupplierController.cs" />
     <Compile Include="Areas\Api\Controllers\GetItemsForWidgetsController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\GetPhraseFiledsBySectionController.cs" />
@@ -310,6 +311,8 @@
     <Compile Include="Areas\Api\Models\CostCentreType.cs" />
     <Compile Include="Areas\Api\Models\CostCentreDropDown.cs" />
     <Compile Include="Areas\Api\Models\CostCentreVariable.cs" />
+    <Compile Include="Areas\Api\Models\CrmSupplierListViewModel.cs" />
+    <Compile Include="Areas\Api\Models\CrmSupplierResponse.cs" />
     <Compile Include="Areas\Api\Models\GroupForCampaign.cs" />
     <Compile Include="Areas\Api\Models\CostcentreWorkInstructionsChoice.cs" />
     <Compile Include="Areas\Api\Models\ItemDesignerTemplateBaseResponse.cs" />
@@ -1571,6 +1574,10 @@
     <Content Include="Areas\CRM\Views\Home\CompaniesDetail.cshtml" />
     <Content Include="Areas\CRM\Views\Home\ContactCompanies.cshtml" />
     <Content Include="Areas\CRM\Views\Home\SupplierDetail.cshtml" />
+    <Content Include="Areas\CRM\Scripts\crm.supplier.viewModel.js" />
+    <Content Include="Areas\CRM\Scripts\crm.supplier.model.js" />
+    <Content Include="Areas\CRM\Scripts\crm.supplier.dataservice.js" />
+    <Content Include="Areas\CRM\Scripts\crm.supplier.view.js" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
