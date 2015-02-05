@@ -229,7 +229,7 @@ function ShowCostCentrePopup(CostCentreQueueItems) {
                 idsToValidate = idsToValidate + ',' + 'txtBox' + CostCentreQueueItems[i].ID;
             }
             
-            innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>' + CostCentreQueueItems[i].VisualQuestion + '</label></div><div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns" id=txtBox' + CostCentreQueueItems[i].ID + ' /></div><br/><div class="clearBoth"></div>';
+            innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>' + CostCentreQueueItems[i].VisualQuestion + '</label></div><div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id=txtBox' + CostCentreQueueItems[i].ID + ' data-id=' + CostCentreQueueItems[i].ID + ' /></div><br/><div class="clearBoth"></div>';
         }
 
         if (CostCentreQueueItems[i].ItemType == 3) { // drop down
@@ -237,11 +237,11 @@ function ShowCostCentrePopup(CostCentreQueueItems) {
             var OptionHtml = "";
             var matrixTable = CostCentreQueueItems[i].MatrixTable;
             for (var a = 0; a < CostCentreQueueItems[i].AnswersTable.length; a++) {
-                OptionHtml = OptionHtml + '<option value=' + CostCentreQueueItems[i].AnswersTable[a].QuestionId + ' >' + CostCentreQueueItems[i].AnswersTable[a].AnswerString + '</option>'
+                OptionHtml = OptionHtml + '<option data-id=' + CostCentreQueueItems[i].ID + ' value=' + CostCentreQueueItems[i].AnswersTable[a].AnswerString + ' >' + CostCentreQueueItems[i].AnswersTable[a].AnswerString + '</option>'
             }
             innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>'
                 + CostCentreQueueItems[i].VisualQuestion +
-                '</label></div><div class="cost-centre-right-container"><select class="cost-centre-dropdowns">'
+                '</label></div><div class="cost-centre-right-container"><select id=dropdown' + CostCentreQueueItems[i].ID + ' class="cost-centre-dropdowns CostCentreAnswersQueue">'
                 + OptionHtml + '</select></div><br/><div class="clearBoth"></div>';
         }
         if (CostCentreQueueItems[i].ItemType == 4) { // formula matrix
@@ -255,7 +255,7 @@ function ShowCostCentrePopup(CostCentreQueueItems) {
             innerHtml = innerHtml +
                 '<div class="cost-centre-left-container"><label>Super Formula Matrix</label></div>' +
                 '<div class="cost-centre-right-container"><input id=formulaMatrixBox' + CostCentreQueueItems[i].ID + ' type="text" disabled="disabled" ' +
-                'style="float:left; margin-right:10px;"  /> ' +
+                'style="float:left; margin-right:10px;"  data-id=' + CostCentreQueueItems[i].ID + ' class="CostCentreAnswersQueue" /> ' +
                 '<input type="button" onclick="ShowFormulaMatrix(' + CostCentreQueueItems[i].RowCount + ',' + CostCentreQueueItems[i].ColumnCount + ',' + i + '); return false;" class="Matrix-select-button rounded_corners5 " value="Select" /></div><div class="clearBoth"></div>';
         }
     }
@@ -409,11 +409,83 @@ function ValidateCostCentreControl() {
     } else if (isFormulaValidationError == 1) {
         $("#CCErrorMesgContainer").html("Please select value formula values ");
     } else {
+       
         $("#CCErrorMesgContainer").css("display", "none");
+        $(".CostCentreAnswersQueue").each(function (i, val) {
+            if ($(val).attr('data-id') == undefined) {
+                var idofDropDown = $(val).attr('id');
+                idofDropDown = "select#" + idofDropDown;
+                var idOfQuestion = $(idofDropDown + ' option:selected').attr('data-id');
+                $(CcQueueItems).each(function (i, QueueItem) {
+                    if (QueueItem.ID == idOfQuestion) {
+
+                        QueueItem.Qty1Answer = $(idofDropDown + ' option:selected').val();
+                       
+                    }
+                });
+            } else {
+                $(CcQueueItems).each(function (i, QueueItem) {
+                    if (QueueItem.ID == $(val).attr('data-id')) {
+                       
+                        QueueItem.Qty1Answer = $(val).val();
+                       
+                    }
+                });
+            }
+            
+        });
+
+        console.log(CcQueueItems);
+        ShowLoader();
+       
+
+        var jsonObjects = JSON.stringify(CcQueueItems, null, 2);
+        var to;
+        to = "/webstoreapi/costCenter/GetDateTimeString?parameter1=335";
+        var options = {
+            type: "POST",
+            url: to,
+            data: jsonObjects,
+            contentType: "application/json",
+            async: true,
+            success: function (response) {
+                var updatedAddOns = jQuery.parseJSON($('#VMJsonAddOns').val());
+                if (updatedAddOns != null) {
+
+                    for (var i = 0; i < $(updatedAddOns).length; i++) {
+                        if ($(updatedAddOns)[i].CostCenterId == 335) {
+                            alert(response);
+                            $(updatedAddOns)[i].SetupCost = response;
+                            break;
+                        }
+                    }
+
+                    var JsonToReSubmit = [];
+
+                    for (var i = 0; i < $(updatedAddOns).length; i++) {
+                        alert("push");
+                        JsonToReSubmit.push($(updatedAddOns)[i]);
+                        console.log($(updatedAddOns)[i]);
+                    }
+
+                    $("#VMJsonAddOns").val(JSON.stringify(JsonToReSubmit));
+                }
+                console.log(updatedAddOns);
+            },
+            error: function (msg) { alert("Error occured "); console.log(msg); }
+        };
+        
+        HideLoader();
     }
+
+    
 }
 function HideLoader() {
 
     document.getElementById("layer").style.display = "none";
     document.getElementById("innerLayer").style.display = "none";
+}
+
+function ExecuteCostCentre() {
+   
 }

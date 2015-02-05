@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-
+using System;
 namespace MPC.Models.DomainModels
 {
+     [Serializable()]
     /// <summary>
     /// Machine Domain Model
     /// </summary>
