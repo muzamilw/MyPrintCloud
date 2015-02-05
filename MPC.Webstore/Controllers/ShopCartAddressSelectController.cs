@@ -100,7 +100,7 @@ namespace MPC.Webstore.Controllers
                 else
                     AddressSelectModel.Currency = string.Empty;
 
-
+                AddressSelectModel.OrderId = OrderID;
                 OrganisationID = baseresponseOrg.Organisation.OrganisationId;
 
                 deliveryCostCentersList = GetDeliveryCostCenterList();
@@ -671,25 +671,33 @@ namespace MPC.Webstore.Controllers
               //  ViewData["ShipAddresses"] = addreses;
                 //AddressSelectModel.BillingAddresses = addreses;
                 List<Address> newaddress = new List<Address>();
+               
                 foreach (var address in addreses)
                 {
-                    Address addressObj = new Address
-                    {
-                        AddressId = address.AddressId,
-                        AddressName = address.AddressName,
-                        City = address.City,
-                        Address1 = address.Address1,
-                        Address2 = address.Address2,
-                        PostCode = address.PostCode,
-                        Tel1 = address.Tel1,
-                        IsDefaultShippingAddress = address.IsDefaultShippingAddress,
-                        IsDefaultAddress = address.IsDefaultAddress,
-                        StateId = address.StateId,
-                        Tel2 = address.State.StateName, // because of circullar reference error in json 
-                        FAO = address.Country.CountryName, // because of circullar reference error in json 
-                        CountryId = address.CountryId
+                    //Address addressObj = new Address
+                    //{ 
+                        Address addressObj = new Address();
+                        addressObj.AddressId = address.AddressId;
+                        addressObj.AddressName = address.AddressName;
+                        addressObj.City = address.City;
+                        addressObj.Address1 = address.Address1;
+                        addressObj.Address2 = address.Address2;
+                        addressObj.PostCode = address.PostCode;
+                        addressObj.Tel1 = address.Tel1;
+                        addressObj.IsDefaultShippingAddress = address.IsDefaultShippingAddress;
+                        addressObj.IsDefaultAddress = address.IsDefaultAddress;
+                        addressObj.StateId = address.StateId;
+                        if (address.State != null)
+                            addressObj.Tel2 = address.State.StateName; // because of circullar reference error in json 
+                        else
+                            addressObj.Tel2 = "";
+                        if (address.Country != null)
+                            addressObj.FAO = address.Country.CountryName; // because of circullar reference error in json 
+                        else
+                            addressObj.FAO = "";
+                        addressObj.CountryId = address.CountryId;
                         
-                    };
+                   // };
 
                     newaddress.Add(addressObj);
                 }
@@ -1077,7 +1085,7 @@ namespace MPC.Webstore.Controllers
                     if (!string.IsNullOrEmpty(notes))
                         notes = notes.Trim();
                     //string total =   Request.Form["hfGrandTotal"];
-                    double total = model.GrandTotal;
+                    double total = Convert.ToDouble(model.GrandTotal);
                     grandOrderTotal = total;
 
                     PrepareAddrssesToSave(out billingAdd, out deliveryAdd, baseresponseComp, model);
@@ -1280,6 +1288,7 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
+                string IsDefaultAddress = Request.Form["txthdnDeliveryDefaultAddress"];
                 deliveryAdd.AddressId = Convert.ToInt32(model.SelectedDeliveryAddress);  //Convert.ToInt32(txthdnDeliveryAddressID.Value);
 
                 deliveryAdd.IsDefaultShippingAddress = model.ShippingAddress.IsDefaultShippingAddress;
