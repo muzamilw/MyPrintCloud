@@ -10,13 +10,13 @@
                 viewModel = specifiedViewModel,
                 // Binding root used with knockout
                 bindingRoot = $("#CostCentersBinding")[0],
-                showCostCenterDialog = function () {
-                    $("#CostCenterDialog").modal("show");
-                },
-                // Hide Activity the dialog
-                hideCostCenterDialog = function () {
-                    $("#CostCenterDialog").modal("hide");
-                },
+                //showCostCenterDialog = function () {
+                //    $("#CostCenterDialog").modal("show");
+                //},
+                //// Hide Activity the dialog
+                //hideCostCenterDialog = function () {
+                //    $("#CostCenterDialog").modal("hide");
+                //},
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -26,9 +26,9 @@
             initialize();
             return {
                 bindingRoot: bindingRoot,
-                viewModel: viewModel,
-                showCostCenterDialog: showCostCenterDialog,
-                hideCostCenterDialog: hideCostCenterDialog
+                viewModel: viewModel
+                //showCostCenterDialog: showCostCenterDialog,
+                //hideCostCenterDialog: hideCostCenterDialog
             };
         })(costcenterViewModel);
 
