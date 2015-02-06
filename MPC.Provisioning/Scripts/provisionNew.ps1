@@ -36,6 +36,7 @@ if (!(Test-Path $siteName -pathType container))
     #create the app pool
     $appPool = New-Item $siteName
     $appPool | Set-ItemProperty -Name "managedRuntimeVersion" -Value $iisAppPoolDotNetVersion
+	$appPool.managedRuntimeVersion = "v4.0"
 	$appPool.processModel.identityType = "NetworkService"
 	$appPool | set-item 
 
