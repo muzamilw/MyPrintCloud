@@ -3694,7 +3694,7 @@ if it's not present, don't show loader */
     border-radius: 7px;
 }
 
-.PreviewerDownloadPDF {
+.PreviewerDownloadPDF,.PreviewerDownloadImg {
     line-height: .5;
     position: absolute;
     top: 30px;
@@ -3721,13 +3721,35 @@ if it's not present, don't show loader */
     text-decoration: none;
 }
 
-    .PreviewerDownloadPDF:hover {
+    .PreviewerDownloadPDF:hover ,.PreviewerDownloadImg:hover {
         background: #74B846;
     }
 
-    .PreviewerDownloadPDF:visited {
+    .PreviewerDownloadPDF:visited ,.PreviewerDownloadImg:visited{
         color: White;
     }
+    .PreviewerDownloadImg {
+    right: 280px !important;
+}
+    .PreviewerDownloadPDFCorp
+{
+    line-height: .5;
+    position: absolute;
+    top: 30px;
+    right: 120px;
+    font-weight: normal;
+    cursor: pointer;
+    padding: 15px;
+    display: inline-block;
+    padding-left: 15px;
+    font-size: 18px;
+    float: right;
+    margin-top: -17px;
+    margin-right: 6px;
+    cursor: pointer;
+    color: Black;
+    height: 20px;
+}
 
 .PreviewerContainerDesignerClose {
     line-height: 2.1;

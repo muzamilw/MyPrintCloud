@@ -191,6 +191,14 @@ namespace MPC.MIS.Controllers
             return RedirectToAction("Index", "Dashboard");
         }
 
+        public async Task<ActionResult> Logout()
+        {
+            Thread.CurrentPrincipal = null;
+            HttpContext.User = null;
+            AuthenticationManager.SignOut(new[] { DefaultAuthenticationTypes.ApplicationCookie });
+            return Redirect(ConfigurationManager.AppSettings["MPCDashboardPath"]);
+        }
+
         /// <summary>
         /// Page Under Construction
         /// </summary>
