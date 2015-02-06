@@ -17,6 +17,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 PaperSizeId = source.PaperSizeId,
                 Name = source.Name + " " + source.Width + " x " + source.Height,
+                Height = source.Height,
+                Width = source.Width
             };
         }
         #endregion

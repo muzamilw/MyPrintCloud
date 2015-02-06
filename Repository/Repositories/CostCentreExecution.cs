@@ -42,29 +42,30 @@ namespace MPC.Repository.Repositories
 
                         QuestionObj.Type = reader.GetInt16(2);
 
-                        if (QuestionObj.Type == (int)QuestionType.MultipleChoiceQuestion)
-                        {
-                            List<CostCentreAnswer> AnsObj = new List<CostCentreAnswer>();
-                            CostCentreAnswer CCObj = null;
-                            string AnsqueryString = "select * from CostCentreAnswer where QuestionId = " + QuestionID;
-                            command = new SqlCommand(AnsqueryString, con);
-                            reader = command.ExecuteReader();
-                            while (reader.Read())
-                            {
-                                CCObj = new CostCentreAnswer();
-
-                                CCObj.Id = reader.GetInt32(0);
-
-                                CCObj.QuestionId = reader.GetInt32(1);
-
-                                CCObj.AnswerString = reader.GetDouble(2);
-
-                                AnsObj.Add(CCObj);
-                            }
-                            QuestionObj.AnswerCollection = AnsObj.ToList();
-                        }
+                        
                     }
                     reader.Close();
+                    if (QuestionObj.Type == (int)QuestionType.MultipleChoiceQuestion)
+                    {
+                        List<CostCentreAnswer> AnsObj = new List<CostCentreAnswer>();
+                        CostCentreAnswer CCObj = null;
+                        string AnsqueryString = "select * from CostCentreAnswer where QuestionId = " + QuestionID;
+                        command = new SqlCommand(AnsqueryString, con);
+                        reader = command.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            CCObj = new CostCentreAnswer();
+
+                            CCObj.Id = reader.GetInt32(0);
+
+                            CCObj.QuestionId = reader.GetInt32(1);
+
+                            CCObj.AnswerString = reader.GetDouble(2);
+
+                            AnsObj.Add(CCObj);
+                        }
+                        QuestionObj.AnswerCollection = AnsObj.ToList();
+                    }
                     return QuestionObj;
                 }
 
@@ -269,18 +270,25 @@ namespace MPC.Repository.Repositories
                     while (reader.Read())
                     {
                         oVariable.VarId = reader.GetInt32(0);
-                        oVariable.VariableValue = reader.GetDouble(12);
-                        oVariable.VariableDescription = reader.GetString(11);
-                        oVariable.Type = reader.GetInt16(9);
-                        oVariable.SystemSiteId = reader.GetInt32(13);
-                        oVariable.RefTableName = reader.GetString(3);
-                        oVariable.RefFieldName = reader.GetString(4);
-                        oVariable.PropertyType = reader.GetInt32(10);
-                        oVariable.Name = reader.GetString(2);
-                        oVariable.IsCriteriaUsed = reader.GetString(8);
-                        oVariable.CriteriaFieldName = reader.GetString(5);
-                        oVariable.Criteria = reader.GetString(6);
-                        oVariable.CategoryId = reader.GetInt32(7);
+                        oVariable.Name = reader.GetString(1);
+                        oVariable.RefTableName = reader.GetString(2);
+                        oVariable.RefFieldName = reader.GetString(3);
+                        oVariable.CriteriaFieldName = reader.GetString(4);
+                        oVariable.Criteria = reader.GetString(5);
+                        oVariable.CategoryId = reader.GetInt32(6);
+                        oVariable.IsCriteriaUsed = reader.GetString(7);
+                        oVariable.Type = reader.GetInt16(8);
+                        oVariable.PropertyType = reader.GetInt32(9);
+                        if (!reader.IsDBNull(10))
+                        {
+                            oVariable.VariableDescription = reader.GetString(10);
+                        }
+                        if (!reader.IsDBNull(11))
+                        {
+                            oVariable.VariableValue = reader.GetDouble(11); 
+                        }
+                        oVariable.SystemSiteId = reader.GetInt32(12);
+                       
                     }
                     reader.Close();
                     return oVariable;

@@ -32,6 +32,7 @@ namespace MPC.Models.ModelMappers
             target.QtyLimit = source.QtyLimit;
             target.DeliveryTimeSupplier1 = source.DeliveryTimeSupplier1;
             target.DeliveryTimeSupplier2 = source.DeliveryTimeSupplier2;
+            target.isPrintItem = source.isPrintItem;
         }
 
         #endregion

@@ -23,11 +23,11 @@ namespace MPC.Interfaces.WebStoreServices
         long CopyTemplate(long ProductID, long SubmittedBy, string SubmittedByName, long OrganisationID);
         List<long?> CopyTemplateList(List<long?> productIDList, long SubmittedBy, string SubmittedByName, long OrganisationID);
         bool generateTemplateFromPDF(string filePhysicalPath, int mode, long templateID, long OrganisationID);
-        void processTemplatePDF(long TemplateID, long OrganisationID, bool printCropMarks, bool printWaterMarks, bool isroundCorners);
+        void processTemplatePDF(long TemplateID, long OrganisationID, bool printCropMarks, bool printWaterMarks, bool isroundCorners, bool isMultipageProduct);
         long CloneTemplateByTemplateID(long TempID);
-        void regeneratePDFs(long productID,long OrganisationID, bool printCuttingMargins);
-        long MergeRetailTemplate(int RemoteTemplateID, long LocalTempalteID, long organisationId);
-        string SaveTemplate(List<TemplateObject> lstTemplatesObjects, List<TemplatePage> lstTemplatePages, long organisationID, bool printCropMarks, bool printWaterMarks, bool isRoundCorners,double bleedAreaSize);
+        void regeneratePDFs(long productID, long OrganisationID, bool printCuttingMargins, bool isMultipageProduct);
+        long MergeRetailTemplate(int RemoteTemplateID, long LocalTempalteID, long organisationId, bool ChangeQuickText, long CompanyID, long ContactID, long ItemID);
+        string SaveTemplate(List<TemplateObject> lstTemplatesObjects, List<TemplatePage> lstTemplatePages, long organisationID, bool printCropMarks, bool printWaterMarks, bool isRoundCorners, double bleedAreaSize, bool isMultipageProduct);
         long SaveTemplateLocally(Template oTemplate, List<TemplatePage> oTemplatePages, List<TemplateObject> oTemplateObjects, List<TemplateBackgroundImage> oTemplateImages, List<TemplateFont> oTemplateFonts, string RemoteUrlBasePath, string BasePath,  long organisationID,int mode, long localTemplateID);
         /// <summary>
         /// To populate the template information base on template id and item rec by zohaib 10/1/2015
@@ -42,5 +42,7 @@ namespace MPC.Interfaces.WebStoreServices
         QuickText GetContactQuickTextFields(long CustomerID, long ContactID);
 
         bool UpdateQuickTextTemplateSelection(QuickText objQText);
+
+        
     }
 }

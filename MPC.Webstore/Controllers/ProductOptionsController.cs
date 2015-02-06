@@ -143,6 +143,7 @@ namespace MPC.Webstore.Controllers
                     ViewData["Templates"] = null;
                 }
 
+              
                 ViewBag.SelectedStockItemId = clonedItem.ItemSections.FirstOrDefault().StockItemID1;
                 ViewBag.SelectedQuantity = clonedItem.Qty1;
 
@@ -477,5 +478,6 @@ namespace MPC.Webstore.Controllers
             ViewData["ArtworkAttachments"] = _myItemService.GetArtwork(Convert.ToInt64(ItemId)).ToList();
 
         }
+
     }
 }

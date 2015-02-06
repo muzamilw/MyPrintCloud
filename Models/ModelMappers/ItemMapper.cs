@@ -320,14 +320,20 @@ namespace MPC.Models.ModelMappers
         {
             if (target.Template == null)
             {
+                // Start Template with designer empty
+                if (source.Template == null || (source.TemplateType.HasValue && source.TemplateType.Value == 3))
+                {
+                    return;
+                }
+
                 target.Template = actions.CreateTemplate();
             }
 
-            target.Template.PDFTemplateHeight = source.Template.PDFTemplateHeight;
-            target.Template.PDFTemplateWidth = source.Template.PDFTemplateWidth;
+            // Update Template
+            target.Template.UpdateTo(source.Template);
 
+            // Update Template Pages
             UpdateTemplatePages(source, target, actions);
-
         }
 
         /// <summary>
@@ -758,6 +764,103 @@ namespace MPC.Models.ModelMappers
         }
 
         /// <summary>
+        /// True if the ItemSection is new
+        /// </summary>
+        private static bool IsNewItemSection(ItemSection sourceItemSection)
+        {
+            return sourceItemSection.ItemSectionId <= 0;
+        }
+
+        /// <summary>
+        /// Initialize target ItemSections
+        /// </summary>
+        private static void InitializeItemSections(Item item)
+        {
+            if (item.ItemSections == null)
+            {
+                item.ItemSections = new List<ItemSection>();
+            }
+        }
+
+        /// <summary>
+        /// Update or add Item Sections
+        /// </summary>
+        private static void UpdateOrAddItemSections(Item source, Item target, ItemMapperActions actions)
+        {
+            foreach (ItemSection sourceLine in source.ItemSections.ToList())
+            {
+                UpdateOrAddItemSection(sourceLine, target, actions);
+            }
+        }
+
+        /// <summary>
+        /// Update target Item Sections 
+        /// </summary>
+        private static void UpdateOrAddItemSection(ItemSection sourceItemSection, Item target, ItemMapperActions actions)
+        {
+            ItemSection targetLine;
+            if (IsNewItemSection(sourceItemSection))
+            {
+                targetLine = actions.CreateItemSection();
+                target.ItemSections.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.ItemSections.FirstOrDefault(vdp => vdp.ItemSectionId == sourceItemSection.ItemSectionId);
+            }
+            
+            sourceItemSection.UpdateTo(targetLine);
+        }
+
+        /// <summary>
+        /// Delete sections no longer needed
+        /// </summary>
+        private static void DeleteItemSections(Item source, Item target, ItemMapperActions actions)
+        {
+            List<ItemSection> linesToBeRemoved = target.ItemSections.Where(
+                vdp => !IsNewItemSection(vdp) && source.ItemSections.All(sourceVdp => sourceVdp.ItemSectionId != vdp.ItemSectionId))
+                  .ToList();
+            linesToBeRemoved.ForEach(line =>
+            {
+                target.ItemSections.Remove(line);
+                actions.DeleteItemSection(line);
+            });
+        }
+
+        /// <summary>
+        /// Update Videos
+        /// </summary>
+        private static void UpdateItemSections(Item source, Item target, ItemMapperActions actions)
+        {
+            InitializeItemSections(source);
+            InitializeItemSections(target);
+            
+            // Set Defaults to Non-Print Section
+            bool isPrintItem = true;
+            if (target.ItemProductDetails != null && target.ItemProductDetails.Any() && !target.ItemSections.Any())
+            {
+                ItemProductDetail itemProductDetail = target.ItemProductDetails.First();
+                if (itemProductDetail.isPrintItem.HasValue && !itemProductDetail.isPrintItem.Value)
+                {
+                    ItemSection targetItemSection = actions.CreateItemSection();
+                    targetItemSection.ItemId = target.ItemId;
+                    target.ItemSections.Add(targetItemSection);
+                    actions.SetDefaultsForItemSection(targetItemSection);
+                    isPrintItem = false;
+                }
+            }
+
+            // Add Item Sections if Print Item
+            if (isPrintItem)
+            {
+                UpdateOrAddItemSections(source, target, actions);    
+            }
+            
+            // Delete
+            DeleteItemSections(source, target, actions);
+        }
+
+        /// <summary>
         /// Update Images
         /// </summary>
         private static void UpdateImages(Item source, Item target)
@@ -796,6 +899,7 @@ namespace MPC.Models.ModelMappers
             target.IsStockControl = source.IsStockControl;
             target.SortOrder = source.SortOrder;
             target.ItemLastUpdateDateTime = DateTime.Now;
+            target.CompanyId = source.CompanyId;
            
             // Update Images
             UpdateImages(source, target);
@@ -808,6 +912,9 @@ namespace MPC.Models.ModelMappers
 
             // Update Supplier Prices
             UpdateSupplierPricesHeader(source, target);
+
+            // Update Template Properties
+            UpdateTemplatePropertiesHeader(source, target);
         }
 
         /// <summary>
@@ -875,6 +982,19 @@ namespace MPC.Models.ModelMappers
             target.SupplierId2 = source.SupplierId2;
         }
 
+        /// <summary>
+        /// Update Template Properties Header
+        /// </summary>
+        private static void UpdateTemplatePropertiesHeader(Item source, Item target)
+        {
+            target.TemplateType = source.TemplateType;
+            target.IsCmyk = source.IsCmyk;
+            target.IsTemplateDesignMode = source.IsTemplateDesignMode;
+            target.ZoomFactor = source.ZoomFactor;
+            target.Scalar = source.Scalar;
+            target.DesignerCategoryId = source.DesignerCategoryId;
+        }
+
         #endregion
 
         #region Public
@@ -916,6 +1036,7 @@ namespace MPC.Models.ModelMappers
             UpdateItemStateTaxes(source, target, actions);
             UpdateItemProductDetail(source, target, actions);
             UpdateProductCategoryItems(source, target, actions);
+            UpdateItemSections(source, target, actions);
         }
 
         #endregion

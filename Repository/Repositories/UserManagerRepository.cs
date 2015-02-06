@@ -27,8 +27,9 @@ namespace MPC.Repository.Repositories
         }
         public SystemUser GetSalesManagerDataByID(int ManagerId)
         {
-          
-            SystemUser rec = db.SystemUsers.Where(u => u.SystemUserId == ManagerId).FirstOrDefault();
+
+            SystemUser rec = db.SystemUsers.FirstOrDefault();
+            //db.SystemUsers.Where(u => u.SystemUserId == ManagerId).FirstOrDefault()
             return rec;
         }
 

@@ -1,0 +1,41 @@
+﻿
+<div class="container content_area">
+    <fieldset id="smartParentPanel" style="margin-top: 20px;">
+        @using (Html.BeginForm("SmartFormSubmit", "RealEstateSmartForm", FormMethod.Post))
+        {
+            foreach (var control in ViewData["ControlsList"] as List<MPC.Webstore.Controllers.RealEstateSmartFormController.SectionControls>)
+            {
+                if (control.SectionName != "LISTING IMAGES")
+                {
+                    <fieldset style="margin-top: 20px;">
+                        <legend>@control.SectionName</legend>
+                        @foreach (var item in control.Controls as List<MPC.Models.Common.TemplateVariable>)
+                        {
+                            if (item != null)
+                            {
+                                <label class="col-md-2 col-lg-2 col-xs-12 smallCheckoutAvenior">@item.Name</label>
+                                <div class="TTL_Checkout ckecoutWidthAvenior col-md-8 col-lg-8 col-xs-12">
+                                    <input type="text" class="AveniorTxtBoxCheckout" value="@item.Value" />
+                                </div>
+                            }
+                        }
+
+                    </fieldset>
+                }
+                else
+                {
+                    if (ViewData["ListingImages"] != null)
+                    {
+                        <fieldset style="margin-top: 20px;">
+                            <legend>@control.SectionName</legend>
+                            @Html.Partial("PartialViews/RealEstateImageSlider", ViewData["ListingImages"])
+                        </fieldset>
+                    }
+                }
+            }
+            <input type="submit" id="btnSaveAndDesign" value="Save and Design" title="Save and Design" style="margin-bottom: 20px; float: right;" class="cursor_pointer designNowCS_Corp rounded_corners5 btnMakeThisDesign btnEditDesign" />
+        }
+    </fieldset>
+    
+
+</div>

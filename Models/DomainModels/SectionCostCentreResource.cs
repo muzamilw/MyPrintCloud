@@ -10,7 +10,7 @@ namespace MPC.Models.DomainModels
     {
         public int SectionCostCentreResourceId { get; set; }
         public Nullable<int> SectionCostcentreId { get; set; }
-        public Nullable<int> ResourceId { get; set; }
+        public Guid? ResourceId { get; set; }
         public Nullable<int> ResourceTime { get; set; }
         public Nullable<short> IsScheduleable { get; set; }
         public Nullable<short> IsScheduled { get; set; }

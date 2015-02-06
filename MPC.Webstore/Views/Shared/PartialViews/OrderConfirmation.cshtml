@@ -36,9 +36,23 @@
                     <label id="pickUpAddressLine1" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].Address1</label><br />
                     <label id="pickUpAddress2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].Address2</label><br />
                     <label id="pickUpAddressCity" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].City</label>
-                    <label id="pickUpAddressState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].State.StateName</label>
-                    <label id="pickUPAddressCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].Country.CountryName</label><br />
-
+                    @if (AddressList[2].State != null)
+                    {
+                        <label id="pickUpAddressState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].State.StateName</label>
+                    }
+                    else
+                    {
+                        <label id="pickUpAddressState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</label>
+                    }
+                        
+                    @if (AddressList[2].Country != null)
+                    {
+                        <label id="pickUPAddressCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].Country.CountryName</label><br />
+                    }
+                    else
+                    {
+                        <label id="pickUPAddressCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</label><br />
+                    }
                     <label id="pickUpAddressZip" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].PostCode</label><br />
                     <span>
                         <label>Tel:</label>
@@ -54,8 +68,23 @@
                     <label id="AddressLine" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].Address1</label><br />
                     <label id="Addressline2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].Address2</label><br />
                     <label id="lblBCity" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].City</label>
-                    <label id="lblBState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].State.StateName</label>
-                    <label id="lblBCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].Country.CountryName</label><br />
+                    @if (AddressList[1].State != null)
+                    {
+                        <label id="lblBState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].State.StateName</label>
+                    }
+                    else
+                    {
+                        <label id="lblBState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</label>
+                    }
+                    @if (AddressList[1].Country != null)
+                    {
+                        <label id="lblBCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].Country.CountryName</label><br />
+                    }
+                    else
+                    {
+                        <label id="lblBCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</label><br />
+                    }
+                    
                     <label id="lblBZipCode" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].PostCode</label><br />
 
 
@@ -73,8 +102,23 @@
                     <label id="shippingAddressline1" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].Address1</label><br />
                     <label id="shippingAddressline2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].Address2</label><br />
                     <label id="shippingCity" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].City</label>
-                    <label id="shippingState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].State.StateName</label>
+                    @if (AddressList[0].State != null)
+                    {
+                        <label id="shippingState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].State.StateName</label>
+                    }
+                    else
+                    {
+                        <label id="shippingState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</label>
+                    }
+                   @if (AddressList[0].Country != null)
+                   {
                     <label id="shippingCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].Country.CountryName</label><br />
+                   }
+                   else
+                   {
+                    <label id="shippingCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</label><br />
+                   }
+                    
                     <label id="shippingZipCode" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].PostCode</label><br />
 
 

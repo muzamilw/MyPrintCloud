@@ -16,13 +16,12 @@ namespace MPC.Repository
         /// </summary>
         public static void RegisterType(IUnityContainer unityContainer)
         {
-           // unityContainer.RegisterType<BaseDbContext>(new PerRequestLifetimeManager());
+            unityContainer.RegisterType<BaseDbContext>(new PerRequestLifetimeManager());
             unityContainer.RegisterType<IOrganisationRepository, OrganisationRepository>();
             unityContainer.RegisterType<IMarkupRepository, MarkupRepository>();
             unityContainer.RegisterType<ITaxRateRepository, TaxRateRepository>();
             unityContainer.RegisterType<IChartOfAccountRepository, ChartOfAccountRepository>();
             unityContainer.RegisterType<ICompanyDomainRepository, CompanyDomainRepository>();
-            unityContainer.RegisterType<IPaperSheetRepository, PaperSheetRepository>();
             unityContainer.RegisterType<ICompanyRepository, CompanyRepository>();
             unityContainer.RegisterType<IStockCategoryRepository, StockCategoryRepository>();
             unityContainer.RegisterType<IStockSubCategoryRepository, StockSubCategoryRepository>();
@@ -92,6 +91,13 @@ namespace MPC.Repository
             unityContainer.RegisterType<ICostCentreQuestionRepository, CostCentreQuestionRepository>();
             unityContainer.RegisterType<ICostCentreVariableRepository, CostCentreVariableRepository>();
             unityContainer.RegisterType<ICostCentreMatrixRepository, CostCentreMatrixRepository>();
+            unityContainer.RegisterType<IInquiryRepository, InquiryRepository>();
+            unityContainer.RegisterType<IInquiryAttachmentRepository, InquiryAttachmentRepository>();
+            unityContainer.RegisterType<IMachineRepository, MachineRepository>();
+            unityContainer.RegisterType<IGroupRepository, GroupRepository>();
+            unityContainer.RegisterType<ICostCenterTypeRepository, CostCenterTypeRepository>();
+            unityContainer.RegisterType<IItemSectionRepository, ItemSectionRepository>();
+            unityContainer.RegisterType<IEstimateRepository, EstimateRepository>();
         }
     }
 }

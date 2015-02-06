@@ -198,9 +198,15 @@
     <Compile Include="Repositories\CurrencyRepository.cs" />
     <Compile Include="Repositories\EmailEventRepository.cs" />
     <Compile Include="Repositories\FavoriteDesignRepository.cs" />
+    <Compile Include="Repositories\EstimateRepository.cs" />
     <Compile Include="Repositories\GetItemsListViewRepository.cs" />
     <Compile Include="Repositories\GlobalLanguageRepository.cs" />
+    <Compile Include="Repositories\GroupRepository.cs" />
     <Compile Include="Repositories\ImagePermissionRepository.cs" />
+    <Compile Include="Repositories\InquiryAttachmentRepository.cs" />
+    <Compile Include="Repositories\InquiryRepository.cs" />
+    <Compile Include="Repositories\ItemSectionRepository.cs" />
+    <Compile Include="Repositories\MachineRepository.cs" />
     <Compile Include="Repositories\ItemAttachmentRepository.cs" />
     <Compile Include="Repositories\ProductCategoryItemRepository.cs" />
     <Compile Include="Repositories\ItemStateTaxRepository.cs" />
@@ -221,6 +227,7 @@
     <Compile Include="Repositories\PhraseRespository.cs" />
     <Compile Include="Repositories\ProductCategoryFileTableViewRepository.cs" />
     <Compile Include="Repositories\StateRepository.cs" />
+    <Compile Include="Repositories\CostCenterTypeRepository.cs" />
     <Compile Include="Repositories\TemplateBackgroundImagesRepository.cs" />
     <Compile Include="Repositories\TemplateColorStylesRepository.cs" />
     <Compile Include="Repositories\TemplateFontsRepository.cs" />
@@ -236,7 +243,6 @@
     <Compile Include="Repositories\MarkupRepository.cs" />
     <Compile Include="Repositories\PageCategoryRepository.cs" />
     <Compile Include="Repositories\PaperBasisAreaRepository.cs" />
-    <Compile Include="Repositories\PaperSheetRepository.cs" />
     <Compile Include="Repositories\PaperSizeRepository.cs" />
     <Compile Include="Repositories\RaveReviewRepository.cs" />
     <Compile Include="Repositories\RegistrationQuestionRepository.cs" />

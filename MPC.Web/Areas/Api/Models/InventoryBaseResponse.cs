@@ -47,5 +47,11 @@ namespace MPC.MIS.Areas.Api.Models
         /// Registration Questions
         /// </summary>
         public IEnumerable<RegistrationQuestionDropDown> RegistrationQuestions { get; set; }
+
+
+        /// <summary>
+        /// Currency Symbol
+        /// </summary>
+        public string CurrencySymbol { get; set; }
     }
 }

@@ -48,7 +48,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        Address3 = source.Address2,
                        City = source.City,
                        StateId = source.StateId,
+                       StateName = source.State != null ? source.State.StateName : string.Empty,
                        CountryId = source.CountryId,
+                       CountryName = source.Country != null? source.Country.CountryName : string.Empty,
                        PostCode = source.PostCode,
                        Fax = source.Fax,
                        Email = source.Email,
@@ -105,7 +107,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ContactId = source.ContactId,
                 isDefaultTerrorityBilling = source.isDefaultTerrorityBilling,
                 isDefaultTerrorityShipping = source.isDefaultTerrorityShipping,
-                OrganisationId = source.OrganisationId,
+                OrganisationId = source.OrganisationId
+                //CompanyTerritory = source.Territory != null ? source.Territory.CreateFrom() : null
             };
         }
     }

@@ -24,6 +24,7 @@ using System.Reflection;
 using MPC.Models.DomainModels;
 using MPC.WebBase.UnityConfiguration;
 using System.Runtime.Caching;
+using System.Web.Security;
 
 
 
@@ -81,13 +82,15 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult Index()
         {
+            SetUserClaim(UserCookieManager.OrganisationID);
+
 
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
-            ViewBag.StyleSheet = "/mpc_content/Stores/Store" + UserCookieManager.StoreId + "/" + UserCookieManager.StoreId + "_CompanyStyles.css";  
+            ViewBag.StyleSheet = "/mpc_content/Assets/" + UserCookieManager.OrganisationID + "/" + UserCookieManager.StoreId + "/Site.css";  
 
-            SetUserClaim(StoreBaseResopnse.Organisation.OrganisationId);
+           
 
             List<MPC.Models.DomainModels.CmsSkinPageWidget> model = null;
 
@@ -360,16 +363,49 @@ namespace MPC.Webstore.Controllers
             else if (UserCookieManager.isRegisterClaims == 2)
             {
                 //signout
+                //AuthenticationManager.Signout(DefaultAuthenticationTypes.ApplicationCookie);
                 AuthenticationManager.SignOut();
                 UserCookieManager.isRegisterClaims = 0;
-                if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+
+                /// explicitly set claim to null 
+
+                ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
+
+                ClaimsSecurityService.AddSignInClaimsToIdentity(0, 0,  0,  0, identity);
+
+                var claimsPriciple = new ClaimsPrincipal(identity);
+                // Make sure the Principal's are in sync
+                HttpContext.User = claimsPriciple;
+
+                Thread.CurrentPrincipal = HttpContext.User;
+
+                AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+
+                UserCookieManager.isRegisterClaims = 0;
+
+                //Manually remove the authentication cooke it is not getting removed automatically 
+
+                if (Request.Cookies[".AspNet.ApplicationCookie"] != null)
                 {
-                    Response.Redirect("/Login");
+                    Response.Cookies.Remove(".AspNet.ApplicationCookie");
                 }
-                else
-                {
-                    Response.Redirect("/");
-                }
+                // clear session cookie (not necessary for your current problem)
+                HttpCookie cookie2 = new HttpCookie("ASP.NET_SessionId", "");
+                cookie2.Expires = DateTime.Now.AddYears(-1);
+                Response.Cookies.Add(cookie2);
+
+
+                // if we redirect response to other page all the changes to cookies are lost and user will remain login 
+
+                //if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                //{
+                //    Response.Redirect("/Login");
+                //}
+                //else
+                //{
+                //   // Response.Redirect("/");
+
+                //}
             }
         }
 

@@ -7,7 +7,7 @@ namespace MPC.Models.DomainModels
     /// <summary>
     /// Item Domain Model
     /// </summary>
-    [Serializable()]
+    [Serializable]
     public class Item
     {
         #region Persisted Properties
@@ -388,6 +388,13 @@ namespace MPC.Models.DomainModels
         [NotMapped]
         public double MinPrice { get; set; }
 
+        /// <summary>
+        /// Being used for Template Service generateTemplateFromPdf method, if mode is 2 then preserves
+        /// existing template object else removes
+        /// </summary>
+        [NotMapped]
+        public int? TemplateTypeMode { get; set; }
+
         #endregion
 
         #region Reference Properties
@@ -764,5 +771,87 @@ namespace MPC.Models.DomainModels
         public ICollection<ProductCategoryItemCustom> ProductCategoryCustomItems { get; set; }
 
         #endregion
+
+        #region Public
+
+        /// <summary>
+        /// Makes a copy of Item
+        /// </summary>
+        public void Clone(Item target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemClone_InvalidItem, "target");
+            }
+
+            target.ProductName = ProductName;
+            target.ProductCode = ProductName + ProductCode;
+            target.ProductSpecification = ProductSpecification;
+            target.IsEnabled = IsEnabled;
+            target.IsFeatured = IsFeatured;
+            target.ProductType = ProductType;
+            target.IsPublished = IsPublished;
+            target.SortOrder = SortOrder;
+            target.IsVdpProduct = IsVdpProduct;
+            target.IsStockControl = IsStockControl;
+            target.FlagId = FlagId;
+            target.IsQtyRanged = IsQtyRanged;
+            target.PackagingWeight = PackagingWeight;
+            target.DefaultItemTax = DefaultItemTax;
+            target.SupplierId = SupplierId;
+            target.SupplierId2 = SupplierId2;
+            target.EstimateProductionTime = EstimateProductionTime;
+            target.TemplateType = TemplateType;
+            target.IsTemplateDesignMode = IsTemplateDesignMode;
+            target.IsCmyk = IsCmyk;
+            target.ZoomFactor = ZoomFactor;
+            target.Scalar = Scalar;
+            target.DesignerCategoryId = DesignerCategoryId;
+            target.CompanyId = CompanyId;
+            target.ThumbnailPath = ThumbnailPath;
+            target.GridImage = GridImage;
+            target.ImagePath = ImagePath;
+            target.File1 = File1;
+            target.File2 = File2;
+            target.File3 = File3;
+            target.File4 = File4;
+            target.File5 = File5;
+            
+            // Copy Internal Descriptions
+            CloneInternalDescriptions(target);
+        }
+
+        /// <summary>
+        /// Clone Internal Descriptions
+        /// </summary>
+        /// <param name="target"></param>
+        private void CloneInternalDescriptions(Item target)
+        {
+            target.WebDescription = WebDescription;
+            target.TipsAndHints = TipsAndHints;
+            target.XeroAccessCode = XeroAccessCode;
+            target.MetaTitle = MetaTitle;
+            target.MetaDescription = MetaDescription;
+            target.MetaKeywords = MetaKeywords;
+            target.JobDescriptionTitle1 = JobDescriptionTitle1;
+            target.JobDescription1 = JobDescription1;
+            target.JobDescriptionTitle2 = JobDescriptionTitle2;
+            target.JobDescription2 = JobDescription2;
+            target.JobDescriptionTitle3 = JobDescriptionTitle3;
+            target.JobDescription3 = JobDescription3;
+            target.JobDescriptionTitle4 = JobDescriptionTitle4;
+            target.JobDescription4 = JobDescription4;
+            target.JobDescriptionTitle5 = JobDescriptionTitle5;
+            target.JobDescription5 = JobDescription5;
+            target.JobDescriptionTitle6 = JobDescriptionTitle6;
+            target.JobDescription6 = JobDescription6;
+            target.JobDescriptionTitle7 = JobDescriptionTitle7;
+            target.JobDescription7 = JobDescription7;
+        }
+
+        
+
+        #endregion
+
     }
 }

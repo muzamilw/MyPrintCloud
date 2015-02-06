@@ -26,6 +26,11 @@ namespace MPC.Models.ModelMappers
 
             target.ProductId = source.ProductId;
             target.isCreatedManual = source.isCreatedManual;
+            target.isSpotTemplate = source.isSpotTemplate;
+            target.PDFTemplateHeight = source.PDFTemplateHeight;
+            target.PDFTemplateWidth = source.PDFTemplateWidth;
+            target.FileSource = source.FileSource;
+            target.FileName = source.FileName;
         }
 
         #endregion

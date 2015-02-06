@@ -44,8 +44,23 @@ define("costcenter/costcenter.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Get Base Date for Collections
+                    amplify.request.define('getBaseData', 'ajax', {
+                        url: ist.siteUrl + '/Api/CostCenterBase',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
+            },
+             // Get base data
+            getBaseData = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getBaseData',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
             },
             // Get Cost Centers List
             getCostCentersList = function (params, callbacks) {
@@ -103,6 +118,7 @@ define("costcenter/costcenter.dataservice", function () {
             deleteCostCenter: deleteCostCenter,
             saveNewCostCenter:saveNewCostCenter,
             saveCostCenter: saveCostCenter,
+            getBaseData: getBaseData
         };
     })();
 

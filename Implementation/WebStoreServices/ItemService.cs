@@ -33,6 +33,8 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IFavoriteDesignRepository _favoriteDesign;
         private readonly ITemplateService _templateService;
         private readonly IPaymentGatewayRepository _paymentRepository;
+        private readonly IInquiryRepository _inquiryRepository;
+        private readonly IInquiryAttachmentRepository _inquiryAttachmentRepository;
         #region Constructor
 
         /// <summary>
@@ -41,7 +43,7 @@ namespace MPC.Implementation.WebStoreServices
         public ItemService(IItemRepository ItemRepository, IItemStockOptionRepository StockOptions, ISectionFlagRepository SectionFlagRepository, ICompanyRepository CompanyRepository
             , IItemStockControlRepository StockRepository, IItemAddOnCostCentreRepository AddOnRepository, IProductCategoryRepository ProductCategoryRepository
             , IItemAttachmentRepository itemAtachement, IFavoriteDesignRepository FavoriteDesign, ITemplateService templateService
-            ,IPaymentGatewayRepository paymentRepository)
+            , IPaymentGatewayRepository paymentRepository, IInquiryRepository inquiryRepository, IInquiryAttachmentRepository inquiryAttachmentRepository)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -54,6 +56,8 @@ namespace MPC.Implementation.WebStoreServices
             this._favoriteDesign = FavoriteDesign;
             this._templateService = templateService;
             this._paymentRepository = paymentRepository;
+            this._inquiryRepository = inquiryRepository;
+            this._inquiryAttachmentRepository = inquiryAttachmentRepository;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -78,6 +82,8 @@ namespace MPC.Implementation.WebStoreServices
                 flagId = GetFlagId(CompanyId);
                 if (flagId == 0)
                 {
+                    // pass 0  to get the default flag id for price matrix
+                    flagId = GetFlagId(0);
                     if (IsRanged == true)
                     {
                         tblRefItemsPriceMatrix = tblRefItemsPriceMatrix.Where(c => c.QtyRangeFrom > 0 && c.QtyRangeTo > 0 && c.FlagId == flagId && c.SupplierId == null).ToList();
@@ -112,6 +118,7 @@ namespace MPC.Implementation.WebStoreServices
             }
             else
             {
+                // pass 0  to get the default flag id for price matrix
                 flagId = GetFlagId(0);
                 if (IsRanged == true)
                 {
@@ -309,7 +316,7 @@ namespace MPC.Implementation.WebStoreServices
             try
             {
                 return _ItemRepository.GetRelatedItemsByItemID(ItemID);
-
+                
             }
             catch (Exception ex)
             {
@@ -361,26 +368,41 @@ namespace MPC.Implementation.WebStoreServices
 
         public long PostLoginCustomerAndCardChanges(long OrderId, long CompanyId, long ContactId, long TemporaryCompanyId, long OrganisationId)
         {
+            try{
             List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved = null;
             List<Template> clonedTempldateFilesList = null;
 
-            if (TemporaryCompanyId > 0 && TemporaryCompanyId != CompanyId)
+            if (OrderId > 0)
             {
-                long orderId = _ItemRepository.UpdateTemporaryCustomerOrderWithRealCustomer(TemporaryCompanyId, CompanyId, ContactId, OrderId, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTempldateFilesList);
-                if (orderId > 0)
+                bool isUpdateOrder = _ItemRepository.isTemporaryOrder(OrderId, CompanyId, ContactId);
+                if (isUpdateOrder)
                 {
-                    RemoveItemAttacmentPhysically(orderAllItemsAttatchmentsListToBeRemoved);
-                    RemoveItemTemplateFilesPhysically(clonedTempldateFilesList, OrganisationId);
-                    return orderId;
+                    long orderId = _ItemRepository.UpdateTemporaryCustomerOrderWithRealCustomer(TemporaryCompanyId, CompanyId, ContactId, OrderId, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTempldateFilesList);
+                    if (orderId > 0)
+                    {
+                        RemoveItemAttacmentPhysically(orderAllItemsAttatchmentsListToBeRemoved);
+                        RemoveItemTemplateFilesPhysically(clonedTempldateFilesList, OrganisationId);
+                        return orderId;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
                 }
-                else
+                else 
                 {
-                    return 0;
+                    return OrderId;
                 }
+               
             }
             else
             {
                 return OrderId;
+            }
+            }catch(Exception ex)
+            {
+                throw ex;
+                return 0;
             }
         }
 
@@ -444,6 +466,11 @@ namespace MPC.Implementation.WebStoreServices
             {
                 throw ex;
             }
+        }
+
+        public List<usp_GetRealEstateProducts_Result> GetRealEstateProductsByCompanyID(long companyId)
+        {
+            return _ItemRepository.GetRealEstateProductsByCompanyID(companyId);
         }
         public Item GetItemByOrderID(long OrderID)
         {
@@ -632,7 +659,48 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
-  
+        public Item GetItemByOrderItemID(long ItemID,long OrderID)
+        {
+            try
+            {
+                return _ItemRepository.GetItemByOrderAndItemID(ItemID, OrderID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
+        /// <summary>
+        /// add in
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <param name="DeliveryCostCenterId"></param>
+        /// <param name="DeliveryCost"></param>
+        /// <param name="customerID"></param>
+        /// <param name="DeliveryName"></param>
+        /// <param name="Mode"></param>
+        /// <param name="isDeliveryTaxable"></param>
+        /// <param name="IstaxONService"></param>
+        /// <param name="GetServiceTAX"></param>
+        /// <param name="TaxRate"></param>
+        /// <returns></returns>
+        public long AddInquiryAndItems(Inquiry Inquiry, List<InquiryItem> InquiryItems)
+        {
+            try
+            {
+                return _inquiryRepository.AddInquiryAndItems(Inquiry, InquiryItems);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+       public void AddInquiryAttachments(List<InquiryAttachment> InquiryAttachments)
+       {
+            _inquiryAttachmentRepository.SaveInquiryAttachments(InquiryAttachments);
+        
+       }
     }
 }

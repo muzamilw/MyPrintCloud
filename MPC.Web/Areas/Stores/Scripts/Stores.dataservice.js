@@ -6,13 +6,19 @@
             // Initialize
             initialize = function () {
                 if (!isInitialized) {
-
                     // Define request to get Store
                     amplify.request.define('getStores', 'ajax', {
                         url: ist.siteUrl + '/Api/Company',
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Campaign Base Data
+                    amplify.request.define('getCampaignBaseData', 'ajax', {
+                        url: ist.siteUrl + '/Api/CampaignBase',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
                     // Define request to get Items For Widgets
                     amplify.request.define('getItemsForWidgets', 'ajax', {
                         url: ist.siteUrl + '/Api/GetItemsForWidgets',
@@ -105,6 +111,65 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to Get Company Territory Validation check
+                    amplify.request.define('validateCompanyToDelete', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyTerritory',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to Save Company Territory
+                    amplify.request.define('saveCompanyTerritory', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyTerritory',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
+                    // Define request to Delete Company Territory
+                    amplify.request.define('deleteCompanyTerritory', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyTerritory',
+                        dataType: 'json',
+                        type: 'DELETE'
+                    });
+
+                    // Define request to Save Address
+                    amplify.request.define('saveAddress', 'ajax', {
+                        url: ist.siteUrl + '/Api/Address',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
+                    // Define request to Save Company Contact
+                    amplify.request.define('saveCompanyContact', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyContact',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
+                    // Define request to Delete Company Address
+                    amplify.request.define('deleteCompanyAddress', 'ajax', {
+                        url: ist.siteUrl + '/Api/Address',
+                        dataType: 'json',
+                        type: 'DELETE'
+                    });
+                    // Define request to Delete Company Contact
+                    amplify.request.define('deleteCompanyContact', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyContact',
+                        dataType: 'json',
+                        type: 'DELETE'
+                    });
+                    // Define request to Get Address Validation check
+                    amplify.request.define('validateAddressToDelete', 'ajax', {
+                        url: ist.siteUrl + '/Api/Address',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to Save Product Category
+                    amplify.request.define('saveProductCategory', 'ajax', {
+                        url: ist.siteUrl + '/Api/ProductCategory',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
                     isInitialized = true;
                 }
             },
@@ -147,6 +212,16 @@
                     data: params
                 });
             },
+             // get Campaign Base Data
+            getCampaignBaseData = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getCampaignBaseData',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
+
             // searchCompanyTerritory
             searchCompanyTerritory = function (params, callbacks) {
                 initialize();
@@ -258,6 +333,96 @@
                     data: params
                 });
             },
+        // validate Company To Delete
+        validateCompanyToDelete = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'validateCompanyToDelete',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
+        // validate Address To Delete
+        validateAddressToDelete = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'validateAddressToDelete',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
+        // Save Product Category
+        saveProductCategory = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'saveProductCategory',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
+         // Save Company Territory
+            saveCompanyTerritory = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'saveCompanyTerritory',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
+         // Save Address
+            saveAddress = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'saveAddress',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
+         // Save Company Contact
+            saveCompanyContact = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'saveCompanyContact',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
+            // Delete Company Territory
+            deleteCompanyTerritory = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteCompanyTerritory',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
+            // Delete Company Address
+            deleteCompanyAddress = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteCompanyAddress',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
+            // Delete Company Contact
+            deleteCompanyContact = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteCompanyContact',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
         // save Store
         saveStore = function (param, callbacks) {
             initialize();
@@ -285,7 +450,17 @@
             getCmsPageLayoutWidget: getCmsPageLayoutWidget,
             getWidgetDetail: getWidgetDetail,
             getProductCategoryById: getProductCategoryById,
-            getItemsForWidgets: getItemsForWidgets
+            getItemsForWidgets: getItemsForWidgets,
+            saveProductCategory: saveProductCategory,
+            getCampaignBaseData: getCampaignBaseData,
+            validateCompanyToDelete: validateCompanyToDelete,
+            validateAddressToDelete: validateAddressToDelete,
+            saveCompanyTerritory: saveCompanyTerritory,
+            saveAddress: saveAddress,
+            saveCompanyContact: saveCompanyContact,
+            deleteCompanyTerritory: deleteCompanyTerritory,
+            deleteCompanyAddress: deleteCompanyAddress,
+            deleteCompanyContact: deleteCompanyContact
         };
     })();
 

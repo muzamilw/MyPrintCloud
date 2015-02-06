@@ -957,6 +957,7 @@ ul.nav li.selectedLava a
     width: 100%;
     text-align: left;
     border-top: 1px dashed #9E9E9E;
+    margin-top:20px;
 }
 
 #FooterContainer
@@ -2695,7 +2696,7 @@ span.radioBtnPaperTypeClass input
 
 .registering_item
 {
-    padding-top: 15px;
+    padding-top: 1px;
     font-size: 13px;
 }
 
@@ -4380,7 +4381,7 @@ width: 520px*/
 
 .SignUpButton
 {
-    background: url('../../images/Sign_up_Email.PNG');
+    background: url('/Content/Images/SignUp.PNG');
     background-repeat: no-repeat;
     height: 36px;
     border: 0px;
@@ -13468,7 +13469,7 @@ ul.LogBar li a
 
 .cntContactImagetxt
 {
-    font-size: 15px;
+    font-size: 13px;
     vertical-align: middle;
     height: 55px;
     padding-top: 10px;
@@ -13476,14 +13477,15 @@ ul.LogBar li a
 
 .cntEmailImageCntctUS
 {
-    font-size: 15px;
+    font-size: 13px;
     padding-top: 14px;
 }
 
 .cntAddressContactUS
 {
-    font-size: 15px;
-    width: 236px;
+    font-size: 13px;
+width: 230px;
+margin-top: 10px;
 }
 
 .cntgMapContactUs
@@ -13852,12 +13854,13 @@ ul.LogBar li a
 
 .tooltipCheckoutAvenior
 {
-    font-size: 14px;
+    font-size: 12px;
     color: #66615b;
     text-shadow: none;
     font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
-    margin-top: 26px;
-    text-align: left;
+  margin-top: 15px;
+text-align: left;
+margin-left: 5px;
 }
 
 .cnttxtBox
@@ -24354,7 +24357,7 @@ margin-right: 10px;
         padding-bottom: 40px;
         padding-left: 40px !important;
         padding-right: 40px !important;
-        height: 270px;
+        height: 295px;
         background-color: #f3f3f3;
         margin-right: 10px;
         -moz-border-radius: 5px;
@@ -26381,4 +26384,10 @@ background: #4D4D4D !important;
 .md-modal {
 
 background:white;
+}
+a:hover {
+text-decoration:none !important;
+}
+.registering_item > p {
+width:100%;
 }

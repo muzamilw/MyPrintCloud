@@ -1,0 +1,537 @@
+﻿@using MPC.Webstore.Common;
+@using MPC.Models.Common;
+@model MPC.Models.DomainModels.RequestQuote
+
+
+@using (Html.BeginForm(new { @enctype="multipart/form-data"}))
+{ 
+    
+<div class="content_area container">
+    <div class="left_right_padding row">
+        <div class="signin_heading_div">
+            
+        <label id="lblTitle" class="sign_in_heading">Request A Quote</label>
+
+        </div>
+
+      @if (ViewBag.LoginStatus == true)
+      {
+           
+        <div  class="get_in_touch_box_RFQ rounded_corners" id="divUserInfo" style="display:none">
+            <div class="smallContctUsAvenior float_left_simple">
+                
+                <label id="ltrlYourName">First Name :</label>
+                <div id="divYourNameRq" class="error_star" style="display: none;">
+                    *
+                </div>
+            </div>
+            <div class="TTL widthAvenior">
+                
+                @Html.TextBoxFor(model => model.FirstName, new { id = "txtBoxUserName", @class = "newTxtBox", placeholder = "FirstName", maxlength = 500 })
+            </div>
+            <div class="clearBoth">
+            </div>
+            <div class="smallContctUsAvenior float_left_simple">
+                
+                <label id="ltrlLastName">Last Name :</label>
+
+                <div id="ltrlLastNameRQ" class="error_star" style="display: none;">
+                    *
+                </div>
+            </div>
+            <div class="TTL widthAvenior">
+                
+                @Html.TextBoxFor(model => model.LastName, new { id = "txtBoxLastName", @class = "newTxtBox", placeholder = "LastName", maxlength = 500 })
+            </div>
+            <div class="clearBoth">
+            </div>
+            <div class="smallContctUsAvenior float_left_simple">
+                <label id="ltrlLastName">Email :</label>
+
+                <div id="divEmailRq" class="error_star" style="display: none;">
+                    *
+                </div>
+            </div>
+            <div class="TTL widthAvenior">
+                
+                @Html.TextBoxFor(model => model.Email, new { id = "txtBoxUserEmail", @class = "newTxtBox", placeholder = "Email", maxlength = 500 })
+            </div>
+            <div class="clearBoth">
+            </div>
+            <div class="smallContctUsAvenior float_left_simple">
+                
+                <label id="ltrlLastName">Phone :</label>
+                <div id="div1" class="error_star" style="display: none;">
+                    *
+                </div>
+            </div>
+            <div class="TTL widthAvenior">
+                
+                @Html.TextBoxFor(model => model.Mobile, new { id = "txtPhone", @class = "newTxtBox", placeholder = "Phone", maxlength = 500 })
+            </div>
+            <div class="clearBoth">
+            </div>
+            <br />
+            <br />
+            <div class="clearBoth">
+            </div>
+        </div>
+
+      }
+      else
+      { 
+       <div  class="get_in_touch_box_RFQ rounded_corners" id="divUserInfo" >
+            <div class="smallContctUsAvenior float_left_simple">
+                
+                <label id="ltrlYourName">First Name :</label>
+                <div id="divYourNameRq" class="error_star" style="display: none;">
+                    *
+                </div>
+            </div>
+            <div class="TTL widthAvenior">
+                
+                @Html.TextBoxFor(model => model.FirstName, new { id = "txtBoxUserName", @class = "newTxtBox", placeholder = "FirstName", maxlength = 500 })
+            </div>
+            <div class="clearBoth">
+            </div>
+            <div class="smallContctUsAvenior float_left_simple">
+                
+                <label id="ltrlLastName">Last Name :</label>
+
+                <div id="ltrlLastNameRQ" class="error_star" style="display: none;">
+                    *
+                </div>
+            </div>
+            <div class="TTL widthAvenior">
+                
+                @Html.TextBoxFor(model => model.LastName, new { id = "txtBoxLastName", @class = "newTxtBox", placeholder = "LastName", maxlength = 500 })
+            </div>
+            <div class="clearBoth">
+            </div>
+            <div class="smallContctUsAvenior float_left_simple">
+                <label id="ltrlLastName">Email :</label>
+
+                <div id="divEmailRq" class="error_star" style="display: none;">
+                    *
+                </div>
+            </div>
+            <div class="TTL widthAvenior">
+                
+                @Html.TextBoxFor(model => model.Email, new { id = "txtBoxUserEmail", @class = "newTxtBox", placeholder = "Email", maxlength = 500 })
+            </div>
+            <div class="clearBoth">
+            </div>
+            <div class="smallContctUsAvenior float_left_simple">
+                
+                <label id="ltrlLastName">Phone :</label>
+                <div id="div1" class="error_star" style="display: none;">
+                    *
+                </div>
+            </div>
+            <div class="TTL widthAvenior">
+                
+                @Html.TextBoxFor(model => model.Mobile, new { id = "txtPhone", @class = "newTxtBox", placeholder = "Phone", maxlength = 500 })
+            </div>
+            <div class="clearBoth">
+            </div>
+            <br />
+            <br />
+            <div class="clearBoth">
+            </div>
+        </div>
+      }
+        <div class="get_in_touch_box_RFQ rounded_corners">
+            <div class="smallContctUsAvenior float_left_simple">
+                
+                <label id="ltrlinquirytitle">Inquiry Title :</label>
+
+                <div id="InquiryTitleInd2" class="error_star" style="display: none;">
+                    *
+                </div>
+            </div>
+            <div class="TTL widthAvenior">
+               
+                @Html.TextBoxFor(model => model.Title, new { id = "txtInquiryTitle", @class = "newTxtBox", placeholder = "Inquiry Title", maxlength = 500 })
+            </div>
+            <div class="clearBoth">
+            </div>
+            <div class="smallContctUsAvenior float_left_simple">
+                
+                <label id="ltrlinquiryAttachement">Inquiry Attachment's :</label>
+            </div>
+            <div class="TTL widthAvenior">
+
+                @Html.TextBoxFor(model => model.InquiryAttachments, new { type = "file", @class = "newTxtBox" })
+            </div>
+            <br />
+            <br />
+            <div class="clearBoth">
+            </div>
+        </div>
+        <div class="height15">
+            &nbsp;
+        </div>
+        <div id="1">
+            <div class="get_in_touch_box_RFQ rounded_corners">
+                <div>
+                    <div class="smallContctUsAvenior float_left_simple">
+                        
+
+                        <label id="ltrlitemtitle">Item Title :</label>
+                        <div id="ItemTitleInd1" class="error_star" style="display: none;">
+                            *
+                        </div>
+                    </div>
+                    <div class="TTL widthAvenior">
+                        
+                        @Html.TextBoxFor(model => model.InquiryItemTitle1, new { id = "txtTitle1", @class = "newTxtBox", placeholder = "Txt Title", maxlength = 500 })
+                    </div>
+                    <div class="clear smallContctUsAvenior float_left_simple">
+                        
+                        <label id="ltrlitemnotes">Item Notes  :</label>
+                    </div>
+                    <div class="TTL widthAvenior">
+                        
+                        @Html.TextBoxFor(model => model.InquiryItemNotes1, new { id = "txtItemNote1", @class = "newTxtBox", placeholder = "Item Notes", maxlength = 500 })
+                    </div>
+                    <div class="clear smallContctUsAvenior float_left_simple">
+                        
+                        <label id="ltrldeliverydate">Desired Delivery  :</label>
+                    </div>
+                    <div class="TTL widthAvenior">
+                        <div id="datepicker"></div>
+                        
+                        
+                        @Html.TextBoxFor(model => model.InquiryItemDeliveryDate1, new { id = "txtInquiryDate1", @class = "newTxtBox Jdatepicker", placeholder = "Inquiry date", maxlength = 500 })
+                        
+                    </div>
+                    <div class="clearBoth">
+                    </div>
+                </div>
+            </div>
+            <div class="height15">
+                &nbsp;
+            </div>
+        </div>
+        
+        <div id="2" style="display: none;">
+            <div class="get_in_touch_box_RFQ rounded_corners">
+                <div>
+                    <div class="smallContctUsAvenior float_left_simple">
+                        
+
+                        <label id="ltrlitemtitle2">Item Title  :</label>
+
+                        <div id="ItemTitleInd2" class="error_star" style="display: none;">
+                            *
+                        </div>
+                    </div>
+                    <div class="TTL widthAvenior">
+                        
+
+                        @Html.TextBoxFor(model => model.InquiryItemTitle2, new { id = "txtTitle2", @class = "newTxtBox", placeholder = "txtTitle2", maxlength = 500 })
+                        
+                    </div>
+                    <div class="exit_container_RQ">
+                        <div class="exit_popup" title="Click to remove item." id="Remove2">
+                        </div>
+                    </div>
+                    <div class="clear smallContctUsAvenior float_left_simple">
+                       
+                        <label id="ltrlitemnotes2">Item Notes  :</label>
+                    </div>
+                    <div class="TTL widthAvenior">
+                        
+                        @Html.TextBoxFor(model => model.InquiryItemNotes2, new { id = "txtFirstName", @class = "newTxtBox", placeholder = "Item Notes ", maxlength = 500 })
+                    </div>
+                    <div class="clear smallContctUsAvenior float_left_simple">
+                       
+                        <label id="ltrldeliverydate2">Desired Delivery  :</label>
+                    </div>
+                    <div class="TTL widthAvenior">
+                        
+                        @Html.TextBoxFor(model => model.InquiryItemDeliveryDate2, new { id = "txtInquiryDate2", @class = "newTxtBox", placeholder = "Desired Delivery", maxlength = 500 })
+                        
+                    </div>
+                    <div class="clearBoth">
+                    </div>
+                </div>
+            </div>
+            <div class="height15">
+                &nbsp;
+            </div>
+        </div>
+        <div id="3" style="display: none;">
+            <div class="get_in_touch_box_RFQ rounded_corners">
+                <div>
+                    <div class="smallContctUsAvenior float_left_simple">
+                        
+                        <label id="ltrlitemtitle3">Item Title :</label>
+                        <div id="ItemTitleInd3" class="error_star" style="display: none;">
+                            *
+                        </div>
+                    </div>
+                    <div class="TTL widthAvenior">
+                      
+                        @Html.TextBoxFor(model => model.InquiryItemTitle3, new { id = "txtTitle3", @class = "newTxtBox", placeholder = "Item Title :", maxlength = 500, })
+                    </div>
+                    <div class="exit_container">
+                        <div class="exit_popup"  title="Click to remove item." id="Remove3">
+                        </div>
+                    </div>
+                    <div class="clear smallContctUsAvenior float_left_simple">
+                        
+                        <label id="ltrlitemnotes3">Item Notes :</label>
+                    </div>
+                    <div class="TTL widthAvenior">
+                        
+                        @Html.TextBoxFor(model => model.InquiryItemNotes3, new { id = "txtItemNote3", @class = "newTxtBox", placeholder = "Item Notes ", maxlength = 500 })
+                    </div>
+                    <div class="clear smallContctUsAvenior float_left_simple">
+                        
+                        <label id="ltrldeliverydate3">Desired Delivery  :</label>
+                    </div>
+                    <div class="TTL widthAvenior">
+                        
+                        @Html.TextBoxFor(model => model.InquiryItemDeliveryDate3, new { id = "txtInquiryDate3", @class = "newTxtBox", placeholder = "Desired Delivery ", maxlength = 500 })
+                        
+                    </div>
+                    <div class="clearBoth">
+                    </div>
+                </div>
+            </div>
+            <div class="height15">
+                &nbsp;
+            </div>
+        </div>
+        <div>
+            <i class="icon-plus"></i>
+            <a id="AddNewInquiryItemList">New</a>
+        </div>
+        <div class="quote_control_sec_btnsDiv float_left">
+
+            <div class="quote_send_button">
+               
+                <input id="btnSend" class="start_creating_btn rounded_corners5" type="submit" value="Send" />
+            </div>
+            <div class="quote_cancel_button">
+               
+                <input id="btnCancel" class="start_creating_btn rounded_corners5" type="button" value="Cancel" />
+            </div>
+           
+            <div class="clearBoth">
+            </div>
+        </div>
+        <div class="quote_lable_sec_btnDiv float_right">
+            @*<div id="divAddNew" class="cursor_pointer" onclick="AddNew();">
+                <div class="float_left">
+                    <img alt="" class="add_new" src="images/AddNew.png" title="Add New" />
+                </div>
+                <div class="new_caption">
+                    <asp:Literal ID="ltrladdNewitem" runat="server" Text="Add New Item"></asp:Literal>
+                </div>
+                <div class="clearBoth">
+                </div>
+            </div>*@
+        </div>
+        <div class="clearBoth">
+        </div>
+        <br />
+        <br />
+        <br />
+    </div>
+
+    <input type="hidden" id="hfNoOfRec" name="hfNoOfRec" value="1" />
+
+     @if (ViewBag.LoginStatus == true)
+     {
+        <input type="hidden" id="hfIsUserLoggedIn" name="hfIsUserLoggedIn" value="true" />
+     }
+     else
+     {
+    <input type="hidden" id="hfIsUserLoggedIn" name="hfIsUserLoggedIn" value="false" />
+
+     }
+</div>
+    
+
+}
+
+@section scripts{
+
+<script>
+   
+    
+
+    //    $(function () {
+    //$(document).ready(function () {
+       
+    //    $('.Jdatepicker').datepicker();
+        
+    //    $("#addNewInqItem").click(function () {
+    //        AddNew();
+    //    });
+    //});
+   
+        
+    //  });
+    $(document).ready(function () {
+     
+        
+        $("#txtInquiryDate1").datepicker();
+        $("#txtInquiryDate2").datepicker();
+        $("#txtInquiryDate3").datepicker();
+
+        $("#AddNewInquiryItemList").click(function () {
+
+
+            AddNew();
+
+        });
+        $("#Remove2").click(function () {
+
+            Remove(2);
+           
+
+        });
+        $("#Remove3").click(function () {
+
+
+            Remove(3);
+
+        });
+        function Remove(recNo) {
+            //Remove the view and Show the add new button
+            var Areusureuwnt2remove = "Are You Sure You Want To Remove It";
+            if (confirm(Areusureuwnt2remove)) {
+                $('#' + recNo).css('display', 'none');
+                $('#divAddNew').css('display', 'block');
+                $("#hfNoOfRec").val((recNo - 1));
+            }
+        }
+    });
+    function ShowGUI() {
+        
+        var numofRec = $("#hfNoOfRec").val();
+        if (numofRec >= 1) {
+            $('#1').css('display', 'block');
+        }
+        if (numofRec >= 2) {
+            $('#2').css('display', 'block');
+        }
+        if (numofRec >= 3) {
+            $('#3').css('display', 'block');
+            $('#divAddNew').css('display', 'none');
+        }
+    }
+    function AddNew() {
+
+        var isValid = true;
+       // isValid = Validate();
+       // alert(isValid);
+       if (isValid) {
+            var currentRec = parseInt($("#hfNoOfRec").val());
+            var numOfRec = currentRec + 1;
+            $("#hfNoOfRec").val(numOfRec);
+            ShowGUI();
+        }
+
+
+      
+
+        function Validate() {
+            var isValid = true;
+            var currentRec = parseInt($("#hfNoOfRec").val());
+            if (currentRec >= 1) {
+                if (!ValidateRec1())
+
+                    isValid = false;
+            }
+            if (currentRec >= 2) {
+                if (!ValidateRec2())
+                    isValid = false;
+            }
+            if (currentRec >= 3) {
+                if (!ValidateRec3())
+                    isValid = false;
+            }
+
+            return isValid;
+
+
+        }
+
+        function ValidateRec1() {
+            var errorMessage = '';
+            var isValid = true;
+            if ($("#hfIsUserLoggedIn").val() == "false") {
+                if ($("#txtBoxUserName").val().trim() == '') {
+                    var inquirytitlexreq = "<%= Resources.MyResource.yourNameRequired %>";
+                    errorMessage = errorMessage + inquirytitlexreq + "<br>";
+                    $('#divYourNameRq').css('display', 'block');
+                    isValid = false;
+                }
+                else {
+                    $('#divYourNameRq').css('display', 'none');
+                }
+                if ($("#txtBoxLastName").val().trim() == '') {
+                    var inquirytitlexreq = "<%= Resources.MyResource.yourNameRequiredLast %>";
+                    errorMessage = errorMessage + inquirytitlexreq + "<br>";
+                    $('#ltrlLastNameRQ').css('display', 'block');
+                    isValid = false;
+                }
+                else {
+                    $('#ltrlLastNameRQ').css('display', 'none');
+                }
+                //yourNameRequiredLast
+                if ($("#txtBoxUserEmail").val().trim() == '') {
+                    var inquirytitlexreq = "<%= Resources.MyResource.yourEmailRequired %>";
+                    errorMessage = errorMessage + inquirytitlexreq + "<br>";
+                    $('#divEmailRq').css('display', 'block');
+                    isValid = false;
+                }
+                else {
+                    $('#divEmailRq').css('display', 'none');
+                }
+            }
+        }
+
+        function ValidateRec2() {
+            var errorMessage = '';
+            var isValid = true;
+            if ($("#txtTitle2").val().trim() == '') {
+                var itemtitle2xreq = "<%= Resources.MyResource.itemtitle2xreq %>";
+                errorMessage = errorMessage + itemtitle2xreq + "<br>";
+                $("#ItemTitleInd2").css('display', 'block');
+                isValid = false;
+            }
+            else {
+                $('#ItemTitleInd2').css('display', 'none');
+            }
+            if (!isValid) {
+                ShowPopup('Message', errorMessage);
+            }
+            return isValid;
+        }
+
+        function ValidateRec3() {
+            var errorMessage = '';
+            var isValid = true;
+            if ($("#txtTitle3").val().trim() == '') {
+                var itemtitle3xreq = "<%= Resources.MyResource.itemtitle3xreq %>";
+                errorMessage = errorMessage + itemtitle3xreq + "<br>";
+                $('#ItemTitleInd3').css('display', 'block');
+                isValid = false;
+            }
+            else {
+                $('#ItemTitleInd3').css('display', 'none');
+            }
+            if (!isValid) {
+                ShowPopup('Message', errorMessage);
+            }
+            return isValid;
+        }
+
+    }
+</script>
+}

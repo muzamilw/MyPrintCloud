@@ -108,19 +108,7 @@ namespace MPC.Repository.Repositories
             recordds = recordds.OrderBy(s => s.SortOrder).ToList();
             return recordds;
         }
-
-        //public ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId)
-        //{
-        //        if (CompanyId > 0)
-        //        {
-        //            return db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.CompanyId == CompanyId && i.OptionSequence == 1).FirstOrDefault();
-        //        }
-        //        else
-        //        {
-        //            return db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.CompanyId == null && i.OptionSequence == 1).FirstOrDefault();
-        //        }
-        //}
-
+        
         public ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId)
         {
             if (CompanyId > 0)
@@ -272,15 +260,9 @@ namespace MPC.Repository.Repositories
                         }
 
                     }
-                    List<FieldVariable> lstFieldVariabes = GeyFieldVariablesByItemID(itemID);
-                    if (lstFieldVariabes != null && lstFieldVariabes.Count > 0)
-                    {
-                        List<Models.Common.TemplateVariable> lstPageControls = new List<Models.Common.TemplateVariable>();
-                        CompanyContact contact = db.CompanyContacts.Where(c => c.ContactId == objContactID).FirstOrDefault();
-                        lstPageControls = ResolveVariables(lstFieldVariabes, contact);
-                        ResolveTemplateVariables(clonedTemplate.ProductId, contact, StoreMode.Corp, lstPageControls);
-                    }
-
+                // here 
+                   
+                    VariablesResolve(itemID,clonedTemplate.ProductId,objContactID);
                 }
 
             }
@@ -308,6 +290,28 @@ namespace MPC.Repository.Repositories
                 throw new Exception("Nothing happened");
 
             return newItem;
+        }
+
+        // resolve c
+        public void VariablesResolve(long ItemID, long ProductID, long objContactID)
+        {
+            try
+            {
+                List<FieldVariable> lstFieldVariabes = GeyFieldVariablesByItemID(ItemID);
+                    if (lstFieldVariabes != null && lstFieldVariabes.Count > 0)
+                    {
+                        List<Models.Common.TemplateVariable> lstPageControls = new List<Models.Common.TemplateVariable>();
+                        CompanyContact contact = db.CompanyContacts.Where(c => c.ContactId == objContactID).FirstOrDefault();
+                        lstPageControls = ResolveVariables(lstFieldVariabes, contact);
+                        ResolveTemplateVariables(ProductID, contact, lstPageControls);
+                    }
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+
         }
         // gettting field variables by itemid
         public List<FieldVariable> GeyFieldVariablesByItemID(long itemId)
@@ -417,6 +421,7 @@ namespace MPC.Repository.Repositories
                 Template oTemplate = clonedTemplate;
 
                 //copy the background of pages
+               
                 foreach (TemplatePage oTemplatePage in db.TemplatePages.Where(g => g.ProductId == result).ToList())
                 {
 
@@ -443,13 +448,18 @@ namespace MPC.Repository.Repositories
 
 
                 //skip concatinating the path if its a placeholder, cuz place holder is kept in a different path and doesnt need to be copied.
-                oTemplate.TemplateObjects.Where(tempObject => tempObject.ObjectType == 3 && tempObject.IsQuickText != true).ToList().ForEach(item =>
-                {
-                    
-                    string filepath = item.ContentString.Substring(item.ContentString.IndexOf("/Designer/Organisation" + OrganisationID.ToString() +"/Templates/") + ("/Designer/Organisation" + OrganisationID.ToString() + "/Templates/").Length, item.ContentString.Length - ((item.ContentString.IndexOf("/Designer/Organisation" + OrganisationID.ToString() + "/Templates/") + "/Designer/Organisation" + OrganisationID.ToString() + "/Templates/").Length));
-                    item.ContentString = "Designer/Organisation" + OrganisationID.ToString() + "/Templates/" + result.ToString() + filepath.Substring(filepath.IndexOf("/"), filepath.Length - filepath.IndexOf("/"));
+             
+               if(oTemplate.TemplateObjects != null)
+              {
+                  oTemplate.TemplateObjects.Where(tempObject => tempObject.ObjectType == 3 && tempObject.IsQuickText != true).ToList().ForEach(item =>
+                  {
 
-                });
+                      string filepath = item.ContentString.Substring(item.ContentString.IndexOf("/Designer/Organisation" + OrganisationID.ToString() + "/Templates/") + ("/Designer/Organisation" + OrganisationID.ToString() + "/Templates/").Length, item.ContentString.Length - ((item.ContentString.IndexOf("/Designer/Organisation" + OrganisationID.ToString() + "/Templates/") + "/Designer/Organisation" + OrganisationID.ToString() + "/Templates/").Length));
+                      item.ContentString = "Designer/Organisation" + OrganisationID.ToString() + "/Templates/" + result.ToString() + filepath.Substring(filepath.IndexOf("/"), filepath.Length - filepath.IndexOf("/"));
+
+                  });
+              }
+              
                 //foreach (var item in dbContext.TemplateObjects.Where(g => g.ProductID == result && g.ObjectType == 3))
                 //{
                 //    string filepath = item.ContentString.Substring(item.ContentString.IndexOf("DesignEngine/Designer/Products/") + "DesignEngine/Designer/Products/".Length, item.ContentString.Length - (item.ContentString.IndexOf("DesignEngine/Designer/Products/") + "DesignEngine/Designer/Products/".Length));
@@ -463,41 +473,44 @@ namespace MPC.Repository.Repositories
 
 
                 //var backimgs = dbContext.TemplateBackgroundImages.Where(g => g.ProductID == result);
+               if(oTemplate.TemplateBackgroundImages != null)
+               {
+                   oTemplate.TemplateBackgroundImages.ToList().ForEach(item =>
+                   {
 
-                oTemplate.TemplateBackgroundImages.ToList().ForEach(item =>
-                {
+                       string filePath = drURL + item.ImageName;
+                       string filename;
 
-                    string filePath = drURL + item.ImageName;
-                    string filename;
+                       string ext = Path.GetExtension(item.ImageName);
 
-                    string ext = Path.GetExtension(item.ImageName);
-
-                    // generate thumbnail 
-                    if (!ext.Contains("svg"))
-                    {
-                        string[] results = item.ImageName.Split(new string[] { ext }, StringSplitOptions.None);
-                        string destPath = results[0] + "_thumb" + ext;
-                        string ThumbPath = drURL + destPath;
-                        FileInfo oFileThumb = new FileInfo(ThumbPath);
-                        if (oFileThumb.Exists)
-                        {
-                            string oThumbName = oFileThumb.Name;
-                            oFileThumb.CopyTo(drURL + result.ToString() + "/" + oThumbName, true);
-                        }
-                        //  objSvc.GenerateThumbNail(sourcePath, destPath, 98);
-                    }
-
-
-                    FileInfo oFile = new FileInfo(filePath);
-
-                    if (oFile.Exists)
-                    {
-                        filename = oFile.Name;
-                        item.ImageName = result.ToString() + "/" + oFile.CopyTo(drURL + result.ToString() + "/" + filename, true).Name;
-                    }
+                       // generate thumbnail 
+                       if (!ext.Contains("svg"))
+                       {
+                           string[] results = item.ImageName.Split(new string[] { ext }, StringSplitOptions.None);
+                           string destPath = results[0] + "_thumb" + ext;
+                           string ThumbPath = drURL + destPath;
+                           FileInfo oFileThumb = new FileInfo(ThumbPath);
+                           if (oFileThumb.Exists)
+                           {
+                               string oThumbName = oFileThumb.Name;
+                               oFileThumb.CopyTo(drURL + result.ToString() + "/" + oThumbName, true);
+                           }
+                           //  objSvc.GenerateThumbNail(sourcePath, destPath, 98);
+                       }
 
 
-                });
+                       FileInfo oFile = new FileInfo(filePath);
+
+                       if (oFile.Exists)
+                       {
+                           filename = oFile.Name;
+                           item.ImageName = result.ToString() + "/" + oFile.CopyTo(drURL + result.ToString() + "/" + filename, true).Name;
+                       }
+
+
+                   });
+               }
+               
 
 
                 db.SaveChanges();
@@ -661,7 +674,7 @@ namespace MPC.Repository.Repositories
 
         #region "dynamic resolve template Variables"
         // resolve variables in templates
-        public bool ResolveTemplateVariables(long productID, CompanyContact objContact, StoreMode objMode, List<Models.Common.TemplateVariable> lstPageControls)
+        public bool ResolveTemplateVariables(long productID, CompanyContact objContact, List<Models.Common.TemplateVariable> lstPageControls)
         {
 
             string CompanyLogo = "";
@@ -1324,8 +1337,18 @@ namespace MPC.Repository.Repositories
                         clonedTemplate = RemoveTemplates(tblItem.TemplateId.HasValue ? (int)tblItem.TemplateId : (int?)null);
 
                     //Section cost centeres
-                    tblItem.ItemSections.ToList().ForEach(itemSection => itemSection.SectionCostcentres.ToList().ForEach(sectCost => db.SectionCostcentres.Remove(sectCost)));
-
+                    //tblItem.ItemSections.ToList().ForEach(itemSection => itemSection.SectionCostcentres.ToList().ForEach(sectCost => db.SectionCostcentres.Remove(sectCost)));
+                    tblItem.ItemSections.ToList().ForEach(itemSection =>
+                    {
+                        List<SectionCostcentre> listOfSectionCC = db.SectionCostcentres.Where(sec => sec.ItemSectionId == itemSection.ItemSectionId).ToList();
+                        if (listOfSectionCC != null) 
+                        {
+                                listOfSectionCC.ToList().ForEach(SectionCC =>
+                                                    {
+                                                        db.SectionCostcentres.Remove(SectionCC);
+                                                    });
+                        }
+                    });
 
                     //Item Section
                     tblItem.ItemSections.ToList().ForEach(itemsect => db.ItemSections.Remove(itemsect));
@@ -1745,8 +1768,8 @@ namespace MPC.Repository.Repositories
         /// <returns></returns>
         public long UpdateTemporaryCustomerOrderWithRealCustomer(long TemporaryCustomerID, long realCustomerID, long realContactID, long replacedOrderdID, out List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved, out List<Template> clonedTemplateToRemoveList)
         {
-
-
+            try { 
+            db.Configuration.LazyLoadingEnabled = false;
             Estimate TemporaryOrder = null;
 
             Estimate ActualOrder = null;
@@ -1764,11 +1787,16 @@ namespace MPC.Repository.Repositories
             clonedTemplateToRemoveList = null;
 
             //Loads the dummy customer complete order
-            TemporaryOrder = db.Estimates.Where(order => order.CompanyId == TemporaryCustomerID && order.StatusId == (short)OrderStatus.ShoppingCart && order.isEstimate == false).FirstOrDefault();
+            TemporaryOrder = db.Estimates.Where(order => order.EstimateId == replacedOrderdID && order.StatusId == (short)OrderStatus.ShoppingCart && order.isEstimate == false).FirstOrDefault();
             ActualOrder = db.Estimates.Where(order => order.CompanyId == realCustomerID && order.ContactId == realContactID && order.StatusId == (short)OrderStatus.ShoppingCart && order.isEstimate == false).FirstOrDefault();
 
-
-            TemporaryContact = db.CompanyContacts.Where(i => i.CompanyId == TemporaryCustomerID).FirstOrDefault();
+            ActualOrder.CompanyName = "companyName";
+            ActualOrder.CreationTime = DateTime.Now;
+            ActualOrder.SectionFlagId = 3;
+            ActualOrder.AddressId = 159239;
+            ActualOrder.LockedBy = Convert.ToInt32(realContactID);
+            ActualOrder.CompanyId = realCustomerID;
+            TemporaryContact = db.CompanyContacts.Where(i => i.CompanyId == TemporaryOrder.CompanyId).FirstOrDefault();
 
             if (TemporaryContact != null)
             {
@@ -1785,7 +1813,7 @@ namespace MPC.Repository.Repositories
                 ActualContact.quickTitle = TemporaryContact.quickTitle;
                 ActualContact.quickWebsite = TemporaryContact.quickWebsite;
 
-                TemporaryBackgroundImageRec = db.TemplateBackgroundImages.Where(i => i.ContactCompanyId == TemporaryCustomerID && i.ContactId == TemporaryContact.ContactId).ToList();
+                TemporaryBackgroundImageRec = db.TemplateBackgroundImages.Where(i => i.ContactCompanyId == TemporaryOrder.CompanyId && i.ContactId == TemporaryContact.ContactId).ToList();
 
                 foreach (var temImge in TemporaryBackgroundImageRec)
                 {
@@ -1803,10 +1831,12 @@ namespace MPC.Repository.Repositories
                     orderID = ActualOrder.EstimateId;
                 }
 
+                List<Item> TemporaryOrderItems = db.Items.Include("ItemAttachments").Where(i => i.EstimateId == TemporaryOrder.EstimateId && i.StatusId == (short)OrderStatus.ShoppingCart).ToList();
+
                 //Attatchments
                 if (ActualOrder == null)
                 {
-                    TemporaryOrder.Items.ToList().ForEach(item =>
+                    TemporaryOrderItems.ToList().ForEach(item =>
                     {
                         item.ItemAttachments.ToList().ForEach(attatchment =>
                         {
@@ -1817,7 +1847,7 @@ namespace MPC.Repository.Repositories
                 }
                 else
                 {
-                    TemporaryOrder.Items.ToList().ForEach(item =>
+                    TemporaryOrderItems.ToList().ForEach(item =>
                     {
                         int PageNo = 1;
                         item.ItemAttachments.ToList().ForEach(attatchment =>
@@ -1845,7 +1875,7 @@ namespace MPC.Repository.Repositories
                 }
 
                 //item
-                TemporaryOrder.Items.ToList().ForEach(item =>
+                TemporaryOrderItems.ToList().ForEach(item =>
                 {
                     item.CompanyId = realCustomerID;
                     if (orderID > 0)
@@ -1862,7 +1892,7 @@ namespace MPC.Repository.Repositories
                 else
                 {
                     //remove dummy customer and its order
-                    RemoveCustomerAndOrder(TemporaryCustomerID, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTemplateToRemoveList);
+                   // RemoveCustomerAndOrder(TemporaryOrder.CompanyId, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTemplateToRemoveList);
                 }
 
 
@@ -1871,61 +1901,89 @@ namespace MPC.Repository.Repositories
             }
 
             return orderID;
+            }catch(Exception ex)
+            {
+                throw ex;
+                return 0;
+            }
         }
 
         private bool RemoveCustomerAndOrder(long TemporaryCustomerId, out List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved, out List<Template> clonedTemplateToRemoveList)
         {
-
-            List<ArtWorkAttatchment> artWorkAttaList = new List<ArtWorkAttatchment>();
-            List<Template> clonedTemplateList = new List<Template>();
-
-
-            Estimate TemporaryCustomerOrder = null;
-
-            //Loads the dummy customer complete order
-            Company customer = db.Companies.Where(cust => cust.CompanyId == TemporaryCustomerId).FirstOrDefault();
-            if (customer != null && (customer.IsCustomer == 0 || customer.TypeId == (int)CompanyTypes.TemporaryCustomer))
+            try
             {
-                TemporaryCustomerOrder = db.Estimates.Where(order => order.CompanyId == TemporaryCustomerId && order.StatusId == (short)OrderStatus.ShoppingCart && order.isEstimate == false).FirstOrDefault();
-                if (TemporaryCustomerOrder != null)
+                List<ArtWorkAttatchment> artWorkAttaList = new List<ArtWorkAttatchment>();
+                List<Template> clonedTemplateList = new List<Template>();
+
+
+                Estimate TemporaryCustomerOrder = null;
+
+                //Loads the dummy customer complete order
+                Company customer = db.Companies.Include("CompanyContacts").Where(cust => cust.CompanyId == TemporaryCustomerId).FirstOrDefault();
+                if (customer != null && (customer.IsCustomer == 0 || customer.TypeId == (int)CompanyTypes.TemporaryCustomer))
                 {
-                    //order items
-                    TemporaryCustomerOrder.Items.ToList().ForEach(item =>
+                    TemporaryCustomerOrder = db.Estimates.Where(order => order.CompanyId == TemporaryCustomerId && order.StatusId == (short)OrderStatus.ShoppingCart && order.isEstimate == false).FirstOrDefault();
+                    List<Item> TemporaryOrderItems = db.Items.Include("ItemAttachments").Include("ItemSections").Where(i => i.EstimateId == TemporaryCustomerOrder.EstimateId && i.StatusId == (short)OrderStatus.ShoppingCart).ToList();
+
+                    if (TemporaryCustomerOrder != null)
                     {
-                        //remove item and template complete structure
-
-                        List<ArtWorkAttatchment> itemAttment = null;
-
-                        Template cloneTemp = null;
-
-                        RemoveCloneItem(item, out itemAttment, out cloneTemp);
-
-                        if (itemAttment != null)
-                            artWorkAttaList.AddRange(itemAttment); // builds a list of whole Attatchments to be removed physically
-
-                        if (cloneTemp != null && clonedTemplateList.Find(tempInList => tempInList.ProductId == cloneTemp.ProductId) == null)
+                        //order items
+                        TemporaryCustomerOrder.Items.ToList().ForEach(item =>
                         {
-                            clonedTemplateList.Add(cloneTemp);
-                        }
+                            //remove item and template complete structure
 
-                    });
+                            List<ArtWorkAttatchment> itemAttment = null;
 
-                    //order 
-                    db.Estimates.Remove(TemporaryCustomerOrder);
+                            Template cloneTemp = null;
+
+                            RemoveCloneItem(item, out itemAttment, out cloneTemp);
+
+                            if (itemAttment != null)
+                                artWorkAttaList.AddRange(itemAttment); // builds a list of whole Attatchments to be removed physically
+
+                            if (cloneTemp != null && clonedTemplateList.Find(tempInList => tempInList.ProductId == cloneTemp.ProductId) == null)
+                            {
+                                clonedTemplateList.Add(cloneTemp);
+                            }
+
+                        });
+
+                        //order 
+                        db.Estimates.Remove(TemporaryCustomerOrder);
+                    }
+
+                    List<Address> addressesList = db.Addesses.Where(a => a.CompanyId == customer.CompanyId).ToList();
+                    if (addressesList != null)
+                    {
+                        addressesList.ToList().ForEach(addr => db.Addesses.Remove(addr));
+                    }
+
+                    customer.CompanyContacts.ToList().ForEach(contacts => db.CompanyContacts.Remove(contacts));
+                    //remove Customer
+                    db.Companies.Remove(customer);
                 }
 
-                customer.Addresses.ToList().ForEach(addr => db.Addesses.Remove(addr));
-                customer.CompanyContacts.ToList().ForEach(contacts => db.CompanyContacts.Remove(contacts));
-                //remove Customer
-                db.Companies.Remove(customer);
-            }
+                orderAllItemsAttatchmentsListToBeRemoved = artWorkAttaList;
+                clonedTemplateToRemoveList = clonedTemplateList;
 
-            orderAllItemsAttatchmentsListToBeRemoved = artWorkAttaList;
-            clonedTemplateToRemoveList = clonedTemplateList;
-            return true;
+                return true;
+            }
+            catch (Exception ex) 
+            {
+                throw ex;
+            }
         }
 
-        public Item GetItemByOrderID(long OrderID)
+        public List<usp_GetRealEstateProducts_Result> GetRealEstateProductsByCompanyID(long CompanyId)
+        {
+            List<usp_GetRealEstateProducts_Result> lstProducts = new List<usp_GetRealEstateProducts_Result>();
+
+            lstProducts = db.usp_GetRealEstateProducts(Convert.ToInt32(CompanyId)).ToList();
+
+            return lstProducts;
+        }
+
+ public Item GetItemByOrderID(long OrderID)
         {
             try
             {
@@ -1936,6 +1994,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+        
         /// <summary>
         /// Get Items For Widgets 
         /// </summary>
@@ -2269,6 +2328,7 @@ namespace MPC.Repository.Repositories
                 
                 List<TemplatePage> oPages = null;
                 db.Configuration.LazyLoadingEnabled = false;
+                bool hasOverlayPdf = false;
                 oPages = db.TemplatePages.Where(g => g.ProductId == templateID && (g.IsPrintable == true || g.IsPrintable == null)).ToList();
 
                 UpdateItemName(itemID, DesignName);
@@ -2310,31 +2370,35 @@ namespace MPC.Repository.Repositories
 
                     if (!System.IO.Directory.Exists(virtualFolderPth))
                         System.IO.Directory.CreateDirectory(virtualFolderPth);
-
-
-                    foreach (var item in oPages)
+                   // if (Item.isMultipagePDF == true)
+                    if (false)
                     {
                         //saving Page1  or Side 1 
                         //string fileName = ItemID.ToString() + " Side" + item.PageNo + ".pdf";
                         DateTime OrderCreationDate = Order.CreationDate ?? DateTime.Now;
-                        string fileName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") + OrderCreationDate.Day.ToString() + "-" + Item.ProductCode + "-" + Order.Order_Code + "-" + Item.ItemCode + "-" + "Side" + item.PageNo.ToString(); //GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString(), virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
-                        string overlayName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") + OrderCreationDate.Day.ToString() + "-" + Item.ProductCode + "-" + Order.Order_Code + "-" + Item.ItemCode + "-" + "Side" + item.PageNo.ToString() + "overlay";//GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString() + "overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
+                        string fileName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") + OrderCreationDate.Day.ToString() + "-" + Item.ProductCode + "-" + Order.Order_Code + "-" + Item.ItemCode + "-" + "Side1"; //GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString(), virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
+                        string overlayName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") + OrderCreationDate.Day.ToString() + "-" + Item.ProductCode + "-" + Order.Order_Code + "-" + Item.ItemCode + "-" + "Side1overlay" ;//GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString() + "overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
 
 
                         string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName + ".pdf");
                         string overlayCompleteAddress = System.IO.Path.Combine(virtualFolderPth, overlayName + ".pdf");
 
                         //copying file from original location to attachments location
-                        System.IO.File.Copy(DesignerPath + item.ProductId.ToString() + "/p" + item.PageNo + ".pdf", fileCompleteAddress, true);
-                        // coping the over lay file if exisit 
-                        if (item.hasOverlayObjects == true)
+                        System.IO.File.Copy(DesignerPath + templateID.ToString() + "/pages.pdf", fileCompleteAddress, true);
+                        foreach (var page in oPages)
                         {
-                            System.IO.File.Copy(DesignerPath + item.ProductId.ToString() + "/p" + item.PageNo + "overlay.pdf", overlayCompleteAddress, true);
+                            if (page.hasOverlayObjects == true)
+                                hasOverlayPdf = true;
+                        }
+                        // coping the over lay file if exisit 
+                        if (hasOverlayPdf)
+                        {
+                            System.IO.File.Copy(DesignerPath + templateID.ToString() + "/pagesoverlay.pdf", overlayCompleteAddress, true);
                             attatcment = new ArtWorkAttatchment();
                             attatcment.FileName = overlayName;
                             attatcment.FileExtention = ".pdf";
                             attatcment.FolderPath = folderPath;
-                            attatcment.FileTitle = "Side" + item.PageNo.ToString() + "overlay";
+                            attatcment.FileTitle = "Side1overlay";
                             uplodedArtWorkList.Add(attatcment);
                         }
                         //System.IO.File.WriteAllBytes(fileCompleteAddress, PDFSide1HighRes);
@@ -2344,12 +2408,52 @@ namespace MPC.Repository.Repositories
                         attatcment.FileName = fileName;
                         attatcment.FileExtention = ".pdf";
                         attatcment.FolderPath = folderPath;
-                        attatcment.FileTitle = "Side" + item.PageNo.ToString();
+                        attatcment.FileTitle = "Side1" ;
                         uplodedArtWorkList.Add(attatcment);
                         GenerateThumbnailForPdf(ThumbnailPath, true);
                     }
+                    else
+                    {
 
 
+                        foreach (var item in oPages)
+                        {
+                            //saving Page1  or Side 1 
+                            //string fileName = ItemID.ToString() + " Side" + item.PageNo + ".pdf";
+                            DateTime OrderCreationDate = Order.CreationDate ?? DateTime.Now;
+                            string fileName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") + OrderCreationDate.Day.ToString() + "-" + Item.ProductCode + "-" + Order.Order_Code + "-" + Item.ItemCode + "-" + "Side" + item.PageNo.ToString(); //GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString(), virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
+                            string overlayName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") + OrderCreationDate.Day.ToString() + "-" + Item.ProductCode + "-" + Order.Order_Code + "-" + Item.ItemCode + "-" + "Side" + item.PageNo.ToString() + "overlay";//GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString() + "overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
+
+
+                            string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName + ".pdf");
+                            string overlayCompleteAddress = System.IO.Path.Combine(virtualFolderPth, overlayName + ".pdf");
+
+                            //copying file from original location to attachments location
+                            System.IO.File.Copy(DesignerPath + item.ProductId.ToString() + "/p" + item.PageNo + ".pdf", fileCompleteAddress, true);
+                            // coping the over lay file if exisit 
+                            if (item.hasOverlayObjects == true)
+                            {
+                                System.IO.File.Copy(DesignerPath + item.ProductId.ToString() + "/p" + item.PageNo + "overlay.pdf", overlayCompleteAddress, true);
+                                attatcment = new ArtWorkAttatchment();
+                                attatcment.FileName = overlayName;
+                                attatcment.FileExtention = ".pdf";
+                                attatcment.FolderPath = folderPath;
+                                attatcment.FileTitle = "Side" + item.PageNo.ToString() + "overlay";
+                                uplodedArtWorkList.Add(attatcment);
+                            }
+                            //System.IO.File.WriteAllBytes(fileCompleteAddress, PDFSide1HighRes);
+                            string ThumbnailPath = fileCompleteAddress;
+
+                            attatcment = new ArtWorkAttatchment();
+                            attatcment.FileName = fileName;
+                            attatcment.FileExtention = ".pdf";
+                            attatcment.FolderPath = folderPath;
+                            attatcment.FileTitle = "Side" + item.PageNo.ToString();
+                            uplodedArtWorkList.Add(attatcment);
+                            GenerateThumbnailForPdf(ThumbnailPath, true);
+                        }
+
+                    }
                     //creating the attachment the attachment for the first time.
                     bool result = CreateUploadYourArtWork(itemID, customerID, uplodedArtWorkList);
 
@@ -2365,7 +2469,7 @@ namespace MPC.Repository.Repositories
                     if (!System.IO.Directory.Exists(virtualFolderPth))
                         System.IO.Directory.CreateDirectory(virtualFolderPth);
                     int index = 0;
-                    foreach (var oPage in oPages)
+                    if (false)//Item.isMultipagePDF == true
                     {
                         ArtWorkAttatchment oPage1Attachment = oLstAttachments[index];
                         index = index + 1;
@@ -2374,10 +2478,10 @@ namespace MPC.Repository.Repositories
                         {
                             string fileName = oPage1Attachment.FileName;
                             string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
-                            string sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + ".pdf";
+                            string sourcePath = DesignerPath + templateID.ToString() + "/pages.pdf";
                             if (fileName.Contains("overlay"))
                             {
-                                sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + "overlay.pdf";
+                                sourcePath = DesignerPath + templateID.ToString() + "/pagesoverlay.pdf";
                                 System.IO.File.Copy(sourcePath, fileCompleteAddress, true);
                             }
                             else
@@ -2390,10 +2494,46 @@ namespace MPC.Repository.Repositories
                             }
 
                         }
-                        if (oPage.hasOverlayObjects == true)
+                        foreach (var page in oPages)
+                        {
+                            if (page.hasOverlayObjects == true)
+                                hasOverlayPdf = true;
+                        }
+                        if (hasOverlayPdf == true)
                         {
                             oPage1Attachment = oLstAttachments[index];
                             index = index + 1;
+                            if (oPage1Attachment != null)
+                            {
+                                string fileName = oPage1Attachment.FileName;
+                                string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+                                string sourcePath = DesignerPath + templateID.ToString() + "/pages.pdf";
+                                if (fileName.Contains("overlay"))
+                                {
+                                    sourcePath = DesignerPath + templateID.ToString() + "/pagesoverlay.pdf";
+                                    System.IO.File.Copy(sourcePath, fileCompleteAddress, true);
+                                }
+                                else
+                                {
+                                    System.IO.File.Copy(sourcePath, fileCompleteAddress, true);
+                                    //System.IO.File.WriteAllBytes(fileCompleteAddress, PDFSide1HighRes);
+                                    string ThumbnailPath = fileCompleteAddress;
+                                    //System.IO.File.WriteAllBytes( System.Web.HttpContext.Current.Server.MapPath(  System.IO.Path.Combine(Web2Print.UI.Common.Utils.GetAppBasePath() +  oPage1Attachment.FolderPath, oPage1Attachment.FileName)), PDFSide1HighRes);
+                                    GenerateThumbnailForPdf(ThumbnailPath, true);
+                                }
+
+                            }
+
+                        }
+                    }
+                    else
+                    {
+
+                        foreach (var oPage in oPages)
+                        {
+                            ArtWorkAttatchment oPage1Attachment = oLstAttachments[index];
+                            index = index + 1;
+                            //ArtWorkAttatchment oPage1Attachment = oLstAttachments.Where(g => g.FileTitle == oPage.PageName).Single();
                             if (oPage1Attachment != null)
                             {
                                 string fileName = oPage1Attachment.FileName;
@@ -2414,9 +2554,34 @@ namespace MPC.Repository.Repositories
                                 }
 
                             }
+                            if (oPage.hasOverlayObjects == true)
+                            {
+                                oPage1Attachment = oLstAttachments[index];
+                                index = index + 1;
+                                if (oPage1Attachment != null)
+                                {
+                                    string fileName = oPage1Attachment.FileName;
+                                    string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+                                    string sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + ".pdf";
+                                    if (fileName.Contains("overlay"))
+                                    {
+                                        sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + "overlay.pdf";
+                                        System.IO.File.Copy(sourcePath, fileCompleteAddress, true);
+                                    }
+                                    else
+                                    {
+                                        System.IO.File.Copy(sourcePath, fileCompleteAddress, true);
+                                        //System.IO.File.WriteAllBytes(fileCompleteAddress, PDFSide1HighRes);
+                                        string ThumbnailPath = fileCompleteAddress;
+                                        //System.IO.File.WriteAllBytes( System.Web.HttpContext.Current.Server.MapPath(  System.IO.Path.Combine(Web2Print.UI.Common.Utils.GetAppBasePath() +  oPage1Attachment.FolderPath, oPage1Attachment.FileName)), PDFSide1HighRes);
+                                        GenerateThumbnailForPdf(ThumbnailPath, true);
+                                    }
+
+                                }
+
+                            }
 
                         }
-
                     }
 
                 }
@@ -2638,6 +2803,32 @@ namespace MPC.Repository.Repositories
                 throw;
             }
 
+        }
+
+        public Item GetItemByOrderItemID(long ItemID,long OrderID)
+        {
+            try
+            {
+                return db.Items.Where(g => g.RefItemId == ItemID && g.EstimateId == OrderID && g.IsOrderedItem == false).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+        public bool isTemporaryOrder(long orderId, long customerId, long contactId) 
+        {
+            Estimate Order = db.Estimates.Where(o => o.EstimateId == orderId && o.StatusId == (short)OrderStatus.ShoppingCart && o.isEstimate == false).FirstOrDefault();
+
+            if (Order != null && Order.CompanyId == customerId && Order.ContactId == contactId)
+            {
+                return false; // order is real
+            }
+            else 
+            {
+                return true; // order is dummy
+            }
         }
         #endregion
     }

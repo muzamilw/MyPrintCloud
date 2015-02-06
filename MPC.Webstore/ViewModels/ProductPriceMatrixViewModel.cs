@@ -9,7 +9,7 @@ namespace MPC.Webstore.ViewModels
     {
         public string Quantity { get; set; }
      
-        public double Price { get; set; }
+        public string Price { get; set; }
 
         public int ItemID { get; set; }
         public double QtyRangeFrom { get; set; }

@@ -76,6 +76,10 @@ namespace MPC.Repository.Repositories
         {
             return db.Addesses.Where(s => s.CompanyId == StoreID && s.IsDefaultAddress == true);
         }
+        public IEnumerable<Address> GetAllAddressByStoreId(long storeId)
+        {
+            return db.Addesses.Where(s => s.CompanyId == storeId );
+        }
         public Address GetAddressByID(long AddressID)
         {
             try
@@ -131,13 +135,14 @@ namespace MPC.Repository.Repositories
 
         public List<Address> GetContactCompanyAddressesList(long customerID)
         {
-            var query = from Addr in db.Addesses
-                        orderby Addr.AddressName
-                        where Addr.CompanyId == customerID && Addr.isArchived == false
-                        select Addr;
-
-            return query.ToList();
-
+            try
+            {
+                return db.Addesses.Where(a => a.CompanyId == customerID && a.isArchived == false).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
         }
 

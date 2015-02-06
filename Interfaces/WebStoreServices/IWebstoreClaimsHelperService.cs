@@ -14,5 +14,6 @@ namespace MPC.Interfaces.WebStoreServices
         long loginContactRoleID();
         long loginContactTerritoryID();
         bool isUserLoggedIn();
+        bool removeAuthenticationClaim();
     }
 }

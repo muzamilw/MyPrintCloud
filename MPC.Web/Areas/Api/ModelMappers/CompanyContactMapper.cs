@@ -16,6 +16,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                    {
                        ContactId = source.ContactId,
                        AddressId = source.AddressId,
+                       TerritoryId = source.TerritoryId,
                        CompanyId = source.CompanyId,
                        FirstName = source.FirstName,
                        MiddleName = source.MiddleName,
@@ -44,7 +45,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        URL = source.URL,
                        IsEmailSubscription = source.IsEmailSubscription,
                        IsNewsLetterSubscription = source.IsNewsLetterSubscription,
-                       image = source.ImageBytes,
+                       ContactProfileImage = source.ImageBytes,
                        quickFullName = source.quickFullName,
                        quickTitle = source.quickTitle,
                        quickCompanyName = source.quickCompanyName,
@@ -63,7 +64,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        CreditLimit = source.CreditLimit,
                        isArchived = source.isArchived,
                        ContactRoleId = source.ContactRoleId,
-                       TerritoryId = source.TerritoryId,
+                       //TerritoryId = source.TerritoryId,
                        ClaimIdentifer = source.ClaimIdentifer,
                        AuthentifiedBy = source.AuthentifiedBy,
                        IsPayByPersonalCreditCard = source.IsPayByPersonalCreditCard,
@@ -98,6 +99,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        canPlaceDirectOrder = source.canPlaceDirectOrder,
                        OrganisationId = source.OrganisationId,
                        FileName = source.FileName
+                       //CompanyTerritory = source.BussinessAddress.Territory.CreateFrom(),
+                       //Address = source.BussinessAddress != null? source.BussinessAddress.CreateFrom() : null,
+                       
                    };
         }
 

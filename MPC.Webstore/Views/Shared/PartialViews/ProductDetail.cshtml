@@ -13,8 +13,8 @@
 		string lblTaxLabel = string.Empty; 
 		stockOptions = ViewData["Stocks"] as List<ItemStockOption>;
 }
-        @Styles.Render("~/Content/js-image-slider-detail")
-        @Styles.Render("~/Content/jquery.rating")
+		@Styles.Render("~/Content/js-image-slider-detail")
+
 		@section metatags
 		{
 		@if (ViewBag.MetaTitle != null)
@@ -34,7 +34,10 @@
 		<meta name="keywords" content="@ViewBag.MetaKeywords" />
 		}
 		}
-		<div class="container content_area">
+		<link href="~/Content/jquery.rating.css" rel="stylesheet" />
+	   @using (Html.BeginForm())
+	   {
+			<div class="container content_area">
 
 		
 			<div class="left_right_padding">
@@ -54,20 +57,25 @@
 
 									@if (ViewBag.TemplateID > 0)
 									{
-									<div id="divFaourites" class=" ">
+									<div id="divFaourites" class="">
 										@if (ViewBag.isAllowBackOrder)
-										{
+                                        {
 
-											 <button id="btnEditThisDesign" value="Design Now"
-												class="start_creating_btn_prodDetail_orng rounded_corners5 marginBtm10 padding0imp"
-												onclick="btnEditThisDesign_Click" >@Html.Raw(Html.GetKeyValueFromResourceFile("btnDesignNow", UserCookieManager.StoreId))</button>
-										}
-										else
-										{
-											<button id="btnEditThisDesign" value="Design Now"
-													class="start_creating_btn_prodDetail_orng rounded_corners5 marginBtm10 padding0imp"
-													 disabled onclick="btnEditThisDesign_Click" >@Html.Raw(Html.GetKeyValueFromResourceFile("btnDesignNow", UserCookieManager.StoreId))</button>
-										}
+
+                                            <button id="btnEditThisDesign" value="Design Now"
+                                                    class="start_creating_btn_prodDetail_orng rounded_corners5 marginBtm10 padding0imp"
+                                                    onclick="return ShowDesignNow();">
+                                                @Html.Raw(Html.GetKeyValueFromResourceFile("btnDesignNow", UserCookieManager.StoreId))
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button id="btnEditThisDesign" value="Design Now"
+                                                    class="start_creating_btn_prodDetail_orng rounded_corners5 marginBtm10 padding0imp"
+                                                    onclick="return ShowDesignNow();">
+                                                @Html.Raw(Html.GetKeyValueFromResourceFile("btnDesignNow", UserCookieManager.StoreId))
+                                            </button>
+                                        }
 
 										@*@if (ViewBag.Count > 0)
 										{
@@ -127,36 +135,40 @@
 								</div>
 								}
 								@*..*@
-								@if (Model.IsUploadImage == true && (Model.ProductType == (int)ProductType.FinishedGoodWithBanner || Model.ProductType == (int)ProductType.FinishedGoodWithImageRotator))
+								@if (Model.ProductType == (int)ProductType.FinishedGoodWithBanner || Model.ProductType == (int)ProductType.FinishedGoodWithImageRotator)
 								{
 									if (ViewBag.TemplateID == 0)
 									{
 										if (ViewBag.isAllowBackOrder)
 										{
 											<button id="btnUploadDesign" value="ADD TO CART"
-													class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" onclick="UploadDesign('@ViewBag.btnUploadDesignPath'); " >@Html.Raw(Html.GetKeyValueFromResourceFile("lnkADDTOCART", UserCookieManager.StoreId))</button>
-                                        }
-                                        else
-                                        {
-                                            <button id="btnUploadDesign" value="ADD TO CART"
-                                                    class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" disabled onclick="UploadDesign('@ViewBag.btnUploadDesignPath'); ">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkADDTOCART", UserCookieManager.StoreId))</button>
+													class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" onclick="return UploadDesign('@ViewBag.btnUploadDesignPath'); " >@Html.Raw(Html.GetKeyValueFromResourceFile("lnkADDTOCART", UserCookieManager.StoreId))</button>
+										}
+										else
+										{
+											<button id="btnUploadDesign" value="ADD TO CART"
+													class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" disabled onclick="return UploadDesign('@ViewBag.btnUploadDesignPath'); ">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkADDTOCART", UserCookieManager.StoreId))</button>
                                         }
                                         //  @Resources.MyResource.lnkADDTOCART replace with this language file
                                     }
                                 }
                                 else
                                 {
-                                        if (ViewBag.isAllowBackOrder)
-                                        {
-											<button id="btnUploadDesign" value="Upload files"
-													class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" onclick="UploadDesign('@ViewBag.btnUploadDesignPath'); ">@Html.Raw(Html.GetKeyValueFromResourceFile("front", UserCookieManager.StoreId))</button>
-										}
-										else
-										{
-											<button id="btnUploadDesign" value="Upload files"
-													class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" disabled onclick="UploadDesign('@ViewBag.btnUploadDesignPath'); ">@Html.Raw(Html.GetKeyValueFromResourceFile("front", UserCookieManager.StoreId))</button>
-										}
-					            }
+                                    if (ViewBag.isAllowBackOrder)
+                                    {
+                                        <button id="btnUploadDesign" value="Upload files"
+                                                class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" onclick="return UploadDesign('@ViewBag.btnUploadDesignPath'); ">
+                                            @Html.Raw(Html.GetKeyValueFromResourceFile("front", UserCookieManager.StoreId))
+                                            </button>
+                                    }
+                                    else
+                                    {
+                                        <button id="btnUploadDesign" value="Upload files"
+                                                class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" disabled onclick="return UploadDesign('@ViewBag.btnUploadDesignPath'); ">
+                                            @Html.Raw(Html.GetKeyValueFromResourceFile("front", UserCookieManager.StoreId))
+                                        </button>
+                                    }
+                                }
 								
 							  
 							   @{
@@ -231,14 +243,14 @@
 								<label id="lbl_TemplateName">@Html.Raw(Html.GetKeyValueFromResourceFile("templateName", UserCookieManager.StoreId))</label><br />
 								<label id="lblTemplateName">@ViewBag.TemplateName</label><br />
 								<br />
-								<select class="ratingDisabled input keepwhitespace" id="ratingControlUser" >
-									<option value="0" selected="selected">Template Rating </option>
-									<option value="1">Template Rating </option>
-									<option value="2">Template Rating</option>
-									<option value="3">Template Rating</option>
-									<option value="4">Template Rating</option>
-								</select>
-		  
+
+								<div title="" class="ui-rating">
+									<a class="ui-rating-star ui-rating-empty 4 3 2 1 0" title="Template Rating "></a>
+									<a class="ui-rating-star ui-rating-empty 4 3 2 1" title="Template Rating "></a>
+									<a class="ui-rating-star ui-rating-empty 4 3 2" title="Template Rating"></a>
+										 <a class="ui-rating-star ui-rating-empty 4 3" title="Template Rating"></a>
+										 <a class="ui-rating-star ui-rating-empty 4" title="Template Rating"></a>
+								</div>
 								@if (ViewBag.IsFavoriteDesign == true)
 								{
 								<div id="divFavoriteInd" class="active_star margin0-sm" title="Click to Remove Favorite">
@@ -253,12 +265,12 @@
 								<div id="divFavoriteInd"  class="passive_star margin0-sm" title="Click to Add as Favorite">
 									&nbsp;
 								</div>
-                            
-                                    <p class="spanMarkCount spanFavouriteItem margin0-sm" id="lbl_Mark_Favourite">
-                                @Html.Raw(Html.GetKeyValueFromResourceFile("lblMarkFavourite", UserCookieManager.StoreId))
-                                     </p>
+							
+									<p class="spanMarkCount spanFavouriteItem margin0-sm" id="lbl_Mark_Favourite">
+								@Html.Raw(Html.GetKeyValueFromResourceFile("lblMarkFavourite", UserCookieManager.StoreId))
+									 </p>
 
-                                }
+								}
 
 								@if (ViewBag.TemplateID > 0)
 								{
@@ -334,7 +346,7 @@
 
 								<div class="box_catCode">
 									<div class="mrginBtm">
-                                        <label ID="lbl_Specifications" class="marginall5 ProductDetailH2" runat="server">@Html.Raw(Html.GetKeyValueFromResourceFile("lblSpecifications", UserCookieManager.StoreId))</label>
+										<label ID="lbl_Specifications" class="marginall5 ProductDetailH2" runat="server">@Html.Raw(Html.GetKeyValueFromResourceFile("lblSpecifications", UserCookieManager.StoreId))</label>
 									</div>
 									<label id="lblCategoryCode" class="marginall5">@ViewBag.lblCategoryCode</label>
 									<br />
@@ -343,11 +355,11 @@
 									</p>
 									<br />
 									@if (ViewData["CostCentersList"] != null)
-                                    {
-                                        <label id="lbl_RefiningOptions" class="marginall5 ProductDetailH2">
-                                            @Html.Raw(Html.GetKeyValueFromResourceFile("lblRefinngOpt", UserCookieManager.StoreId))
-                                        </label>
-                                    }
+									{
+										<label id="lbl_RefiningOptions" class="marginall5 ProductDetailH2">
+											@Html.Raw(Html.GetKeyValueFromResourceFile("lblRefinngOpt", UserCookieManager.StoreId))
+										</label>
+									}
 									<div class="marginall5 ProductDetailRefOptions">
 										@*<asp:BulletedList ID="BulletedListExtras" runat="server" CssClass="ProductDetailRefOptionsUL">
 										</asp:BulletedList>*@
@@ -396,7 +408,7 @@
 									<label id="lbl_HandyInformation" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnIdeas", UserCookieManager.StoreId))</label>
 									<div class="rounded_corners paddingLeft10px paddingBottom10px handyInfocnt">
 										<br />
-										<label id="lblHintsandTips2" class="show_as_it_is">@Model.TipsAndHints.Replace("\r\n", replaceWith).Replace("\n", replaceWith).Replace("\r", replaceWith);</label>
+										<label id="lblHintsandTips2" class="show_as_it_is">@Model.TipsAndHints</label>
 									</div>
 								</div>
 								}
@@ -653,7 +665,7 @@
 									<label id="lbl_Product_Description" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProdDescHeadingText", UserCookieManager.StoreId))</label>
 									<div class="displayBlock rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
 										<br />
-										<label id="lblProductSpecifications" class="show_as_it_is">@Model.ProductSpecification.Replace("\r\n", replaceWith).Replace("\n", replaceWith).Replace("\r", replaceWith);</label>
+										<label id="lblProductSpecifications" class="show_as_it_is">@Model.ProductSpecification</label>
 										<br />
 									</div>
 								</div>
@@ -671,7 +683,7 @@
 									<label id="lbl_HandyInformation" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnIdeas", UserCookieManager.StoreId))</label>
 									<div class="rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
 										<br />
-										<label id="lblHintsandTips" class="show_as_it_is">@Model.TipsAndHints.Replace("\r\n", replaceWith).Replace("\n", replaceWith).Replace("\r", replaceWith);</label>
+										<label id="lblHintsandTips" class="show_as_it_is">@Model.TipsAndHints</label>
 									</div>
 								</div>
 							</div>
@@ -804,12 +816,12 @@
 					&nbsp;
 				</div>
 				<br />
-				<asp:Label ID="lblMsgDisp" runat="server" Visible="false" />
+				@*<asp:Label ID="lblMsgDisp" runat="server" Visible="false" />*@
 
 				<input type="hidden" id="hfTemplateName" value="@ViewBag.hfTemplateName" />
 				<input type="hidden" id="txtNoOfPages" value='@ViewBag.txtNoOfPages' />
 				<input type="hidden" id="txtTemplateID" value='@ViewBag.txtTemplateID' />
-				<input type="hidden" id="hfEditTempType" value="@ViewBag.hfEditTempType" />
+				<input type="hidden" id="hfEditTempType" name="hfEditTempType" value="@ViewBag.hfEditTempType" />
 				<input type="hidden" id="hfContactId" value="@ViewBag.hfContactI" />
 				<input type="hidden" id="hfCategoryId" value="@ViewBag.hfCategoryId" />
 				<input type="hidden" id="hfItemId" value="@Model.ItemId" />
@@ -821,15 +833,16 @@
 				<input type="hidden" ID="hfFbShareLink"  Value="@ViewBag.hfFbShareLink" />
 
 
-				<asp:HiddenField ID="txtHiddenProdItemPrice" Value="0" runat="server" />
+				@*<asp:HiddenField ID="txtHiddenProdItemPrice" Value="0" runat="server" />
 				<asp:HiddenField ID="txtHiddenAddonTotal" Value="0" runat="server" />
 
 
 				<asp:HiddenField ID="hfState" runat="server" ClientIDMode="Predictable" />
 				<asp:HiddenField ID="hfBrokerMarkup" runat="server" Value="0" />
-				<asp:HiddenField ID="hfContactMarkup" runat="server" Value="0" />
+				<asp:HiddenField ID="hfContactMarkup" runat="server" Value="0" />*@
 			</div>
-			<uc5:RRViews ID="pnlRViews" runat="server" />
+	   }
+			@*<uc5:RRViews ID="pnlRViews" runat="server" />*@
 			<br />
 			<br />
 			@section scripts
@@ -837,9 +850,9 @@
 			@Scripts.Render("~/bundles/SliderDetail")
 			
 			<script src="~/Scripts/PopUp.js"></script>
-        <script src="~/Scripts/jquery.rating.js"></script>
+		<script src="~/Scripts/jquery.rating.js"></script>
 			<script type="text/javascript">
-           
+		   
 				function displayFileUploadPopup(btnUploadFile) {
 
 					var result = false;
@@ -1072,17 +1085,7 @@
 				} //findSelectedPaperTypeRadio
 
 				function LoginPopUp() {
-					var CheckLogin = '<%=IsLogin %>';
-					if (parseInt(CheckLogin) > 0) {
-						return true;
-					}
-					else {
-						var returnUrl = '<%=ReturnUrl %>';
-						var message = '<div style="text-align:left;padding-left:90px;">Add to Favorites to mark this template as a favorites in your profile, please register or login first</div><br><a href="../Signup.aspx?' + returnUrl + '" style="padding-right:20px;">Register</a><a href="../Login.aspx?' + returnUrl + '">Login</a>';
-
-						ShowPopup('Message', message);
-						return false;
-					}
+					return true;
 				}
 
 				function findSelectedQtyRadio() {
@@ -1146,131 +1149,132 @@
 					fjs.parentNode.insertBefore(js, fjs);
 				}(document, 'script', 'facebook-jssdk'));</script>
 			<script type="text/javascript">
-    function OpenNewWindowToSahre() {
-        var WindHref = window.location.href;
-        while (WindHref.indexOf(";") > 0) {
-            WindHref = WindHref.replace(";", "%3B");
+	function OpenNewWindowToSahre() {
+		var WindHref = window.location.href;
+		while (WindHref.indexOf(";") > 0) {
+			WindHref = WindHref.replace(";", "%3B");
 
-        }
+		}
 
-        var w = 620;
-        var h = 360;
-        var left = (screen.width / 2) - (w / 2);
-        var top = (screen.height / 2) - (h / 2);
-        window.open("https://twitter.com/intent/tweet?original_referer=" + WindHref + "&related=jasoncosta&text=-%20UK&tw_p=tweetbutton&url=" + WindHref, "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-        return false;
-    }
+		var w = 620;
+		var h = 360;
+		var left = (screen.width / 2) - (w / 2);
+		var top = (screen.height / 2) - (h / 2);
+		window.open("https://twitter.com/intent/tweet?original_referer=" + WindHref + "&related=jasoncosta&text=-%20UK&tw_p=tweetbutton&url=" + WindHref, "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+		return false;
+	}
 
-    function OpenNewWindowToSahreWithFaceBook() {
+	function OpenNewWindowToSahreWithFaceBook() {
 
-        var WindHref = $("#hfFbShareLink").val();
-        while (WindHref.indexOf(";") > 0) {
-            WindHref = WindHref.replace(";", "%3B");
+		var WindHref = $("#hfFbShareLink").val();
+		while (WindHref.indexOf(";") > 0) {
+			WindHref = WindHref.replace(";", "%3B");
 
-        }
-        WindHref = WindHref.replace(":", "%3A");
-        while (WindHref.indexOf("/") > 0) {
-            WindHref = WindHref.replace("/", "%2F");
+		}
+		WindHref = WindHref.replace(":", "%3A");
+		while (WindHref.indexOf("/") > 0) {
+			WindHref = WindHref.replace("/", "%2F");
 
-        }
-        while (WindHref.indexOf("=") > 0) {
-            WindHref = WindHref.replace("=", "%3D");
+		}
+		while (WindHref.indexOf("=") > 0) {
+			WindHref = WindHref.replace("=", "%3D");
 
-        }
-        while (WindHref.indexOf("&") > 0) {
-            WindHref = WindHref.replace("&", "%26");
+		}
+		while (WindHref.indexOf("&") > 0) {
+			WindHref = WindHref.replace("&", "%26");
 
-        }
-        WindHref = WindHref.replace("?", "%3F");
-        //var htm = "<div class='clearfix UIShareStage_Preview'><div class='lfloat _ohe'><div class=UIShareStage_Image><img class='UIShareStage_Image img' src=;w=154&amp;h=154&amp;url=https%3A%2F%2Ffbstatic-a.akamaihd.net%2Frsrc.php%2Fv2%2Fy6%2Fr%2FYQEGe6GxI_M.png&amp;cfs=1&amp;upscale alt=></div></div><div class='UIShareStage_ShareContent _42ef'><div class=UIShareStage_Title><span dir=ltr>Social Plugins</span></div><div class=UIShareStage_Subtitle>developers.facebook.com</div><div class=UIShareStage_Summary><p class=UIShareStage_BottomMargin>Social plugins let you see what your friends have liked, commented on or shared on sites across the web.</p></div></div></div>";
-        var w = 620;
-        var h = 360;
-        var left = (screen.width / 2) - (w / 2);
-        var top = (screen.height / 2) - (h / 2);
-        window.open("https://www.facebook.com/sharer.php?app_id=1421343758131537&sdk=joey&u=" + WindHref + "&display=popup", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-        return false;
-    }
+		}
+		WindHref = WindHref.replace("?", "%3F");
+		//var htm = "<div class='clearfix UIShareStage_Preview'><div class='lfloat _ohe'><div class=UIShareStage_Image><img class='UIShareStage_Image img' src=;w=154&amp;h=154&amp;url=https%3A%2F%2Ffbstatic-a.akamaihd.net%2Frsrc.php%2Fv2%2Fy6%2Fr%2FYQEGe6GxI_M.png&amp;cfs=1&amp;upscale alt=></div></div><div class='UIShareStage_ShareContent _42ef'><div class=UIShareStage_Title><span dir=ltr>Social Plugins</span></div><div class=UIShareStage_Subtitle>developers.facebook.com</div><div class=UIShareStage_Summary><p class=UIShareStage_BottomMargin>Social plugins let you see what your friends have liked, commented on or shared on sites across the web.</p></div></div></div>";
+		var w = 620;
+		var h = 360;
+		var left = (screen.width / 2) - (w / 2);
+		var top = (screen.height / 2) - (h / 2);
+		window.open("https://www.facebook.com/sharer.php?app_id=1421343758131537&sdk=joey&u=" + WindHref + "&display=popup", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+		return false;
+	}
 
-    function ShareOnLinkIn() {
+	function ShareOnLinkIn() {
 
-        var WindHref = $("#hfFbShareLink").val();
-        while (WindHref.indexOf(";") > 0) {
-            WindHref = WindHref.replace(";", "%3B");
+		var WindHref = $("#hfFbShareLink").val();
+		while (WindHref.indexOf(";") > 0) {
+			WindHref = WindHref.replace(";", "%3B");
 
-        }
-        WindHref = WindHref.replace(":", "%3A");
-        while (WindHref.indexOf("/") > 0) {
-            WindHref = WindHref.replace("/", "%2F");
+		}
+		WindHref = WindHref.replace(":", "%3A");
+		while (WindHref.indexOf("/") > 0) {
+			WindHref = WindHref.replace("/", "%2F");
 
-        }
-        while (WindHref.indexOf("=") > 0) {
-            WindHref = WindHref.replace("=", "%3D");
+		}
+		while (WindHref.indexOf("=") > 0) {
+			WindHref = WindHref.replace("=", "%3D");
 
-        }
-        while (WindHref.indexOf("&") > 0) {
-            WindHref = WindHref.replace("&", "%26");
+		}
+		while (WindHref.indexOf("&") > 0) {
+			WindHref = WindHref.replace("&", "%26");
 
-        }
-        WindHref = WindHref.replace("?", "%3F");
-        //var htm = "<div class='clearfix UIShareStage_Preview'><div class='lfloat _ohe'><div class=UIShareStage_Image><img class='UIShareStage_Image img' src=;w=154&amp;h=154&amp;url=https%3A%2F%2Ffbstatic-a.akamaihd.net%2Frsrc.php%2Fv2%2Fy6%2Fr%2FYQEGe6GxI_M.png&amp;cfs=1&amp;upscale alt=></div></div><div class='UIShareStage_ShareContent _42ef'><div class=UIShareStage_Title><span dir=ltr>Social Plugins</span></div><div class=UIShareStage_Subtitle>developers.facebook.com</div><div class=UIShareStage_Summary><p class=UIShareStage_BottomMargin>Social plugins let you see what your friends have liked, commented on or shared on sites across the web.</p></div></div></div>";
-        var w = 620;
-        var h = 360;
-        var left = (screen.width / 2) - (w / 2);
-        var top = (screen.height / 2) - (h / 2);
-        window.open("http://www.linkedin.com/cws/share?url=" + WindHref + "&original_referer=" + WindHref + "&token=&isFramed=false&lang=en_US&_ts=1401271443305.631", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-        return false;
-    }
-
-
-    function ShareOnGooglePl() {
-
-        var WindHref = $("#hfFbShareLink").val();
-        while (WindHref.indexOf(";") > 0) {
-            WindHref = WindHref.replace(";", "%3B");
-
-        }
-        WindHref = WindHref.replace(":", "%3A");
-        while (WindHref.indexOf("/") > 0) {
-            WindHref = WindHref.replace("/", "%2F");
-
-        }
-        while (WindHref.indexOf("=") > 0) {
-            WindHref = WindHref.replace("=", "%3D");
-
-        }
-        while (WindHref.indexOf("&") > 0) {
-            WindHref = WindHref.replace("&", "%26");
-
-        }
-        WindHref = WindHref.replace("?", "%3F");
-        //var htm = "<div class='clearfix UIShareStage_Preview'><div class='lfloat _ohe'><div class=UIShareStage_Image><img class='UIShareStage_Image img' src=;w=154&amp;h=154&amp;url=https%3A%2F%2Ffbstatic-a.akamaihd.net%2Frsrc.php%2Fv2%2Fy6%2Fr%2FYQEGe6GxI_M.png&amp;cfs=1&amp;upscale alt=></div></div><div class='UIShareStage_ShareContent _42ef'><div class=UIShareStage_Title><span dir=ltr>Social Plugins</span></div><div class=UIShareStage_Subtitle>developers.facebook.com</div><div class=UIShareStage_Summary><p class=UIShareStage_BottomMargin>Social plugins let you see what your friends have liked, commented on or shared on sites across the web.</p></div></div></div>";
-        var w = 620;
-        var h = 360;
-        var left = (screen.width / 2) - (w / 2);
-        var top = (screen.height / 2) - (h / 2);
-        window.open("https://plus.google.com/share?url=" + WindHref, "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-        return false;
-    }
+		}
+		WindHref = WindHref.replace("?", "%3F");
+		//var htm = "<div class='clearfix UIShareStage_Preview'><div class='lfloat _ohe'><div class=UIShareStage_Image><img class='UIShareStage_Image img' src=;w=154&amp;h=154&amp;url=https%3A%2F%2Ffbstatic-a.akamaihd.net%2Frsrc.php%2Fv2%2Fy6%2Fr%2FYQEGe6GxI_M.png&amp;cfs=1&amp;upscale alt=></div></div><div class='UIShareStage_ShareContent _42ef'><div class=UIShareStage_Title><span dir=ltr>Social Plugins</span></div><div class=UIShareStage_Subtitle>developers.facebook.com</div><div class=UIShareStage_Summary><p class=UIShareStage_BottomMargin>Social plugins let you see what your friends have liked, commented on or shared on sites across the web.</p></div></div></div>";
+		var w = 620;
+		var h = 360;
+		var left = (screen.width / 2) - (w / 2);
+		var top = (screen.height / 2) - (h / 2);
+		window.open("http://www.linkedin.com/cws/share?url=" + WindHref + "&original_referer=" + WindHref + "&token=&isFramed=false&lang=en_US&_ts=1401271443305.631", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+		return false;
+	}
 
 
+	function ShareOnGooglePl() {
 
-    $(document).ready(function () {
+		var WindHref = $("#hfFbShareLink").val();
+		while (WindHref.indexOf(";") > 0) {
+			WindHref = WindHref.replace(";", "%3B");
 
-        var hiddenFieldID1 = "input[id$=txtTemplateID]";
-        var templateId = @ViewBag.TemplateID;
+		}
+		WindHref = WindHref.replace(":", "%3A");
+		while (WindHref.indexOf("/") > 0) {
+			WindHref = WindHref.replace("/", "%2F");
 
-        var itemId = $('#hfItemId').val();
-        var templatename = $('#hfTemplateName').val();
-        var categoryId = $('#hfCategoryId').val();
+		}
+		while (WindHref.indexOf("=") > 0) {
+			WindHref = WindHref.replace("=", "%3D");
 
-        //                tabify('tabs1', 'MainContent_btnProductDetails')
-        //  $("#ifrm").attr("src", 'matchingsetpopup.aspx?templatename=' + templatename + "&ProductCategoryId=" + categoryId + "&ItemID=" + itemId);
-        var type = "@ViewBag.hfEditTempType"; 
-					alert(type);
+		}
+		while (WindHref.indexOf("&") > 0) {
+			WindHref = WindHref.replace("&", "%26");
+
+		}
+		WindHref = WindHref.replace("?", "%3F");
+		//var htm = "<div class='clearfix UIShareStage_Preview'><div class='lfloat _ohe'><div class=UIShareStage_Image><img class='UIShareStage_Image img' src=;w=154&amp;h=154&amp;url=https%3A%2F%2Ffbstatic-a.akamaihd.net%2Frsrc.php%2Fv2%2Fy6%2Fr%2FYQEGe6GxI_M.png&amp;cfs=1&amp;upscale alt=></div></div><div class='UIShareStage_ShareContent _42ef'><div class=UIShareStage_Title><span dir=ltr>Social Plugins</span></div><div class=UIShareStage_Subtitle>developers.facebook.com</div><div class=UIShareStage_Summary><p class=UIShareStage_BottomMargin>Social plugins let you see what your friends have liked, commented on or shared on sites across the web.</p></div></div></div>";
+		var w = 620;
+		var h = 360;
+		var left = (screen.width / 2) - (w / 2);
+		var top = (screen.height / 2) - (h / 2);
+		window.open("https://plus.google.com/share?url=" + WindHref, "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+		return false;
+	}
+
+
+
+	$(document).ready(function () {
+
+		var hiddenFieldID1 = "input[id$=txtTemplateID]";
+		var templateId = @ViewBag.TemplateID;
+
+		var itemId = $('#hfItemId').val();
+		var templatename = $('#hfTemplateName').val();
+		var categoryId = $('#hfCategoryId').val();
+
+		//                tabify('tabs1', 'MainContent_btnProductDetails')
+		//  $("#ifrm").attr("src", 'matchingsetpopup.aspx?templatename=' + templatename + "&ProductCategoryId=" + categoryId + "&ItemID=" + itemId);
+		var type = "@ViewBag.hfEditTempType"; 
+					
 					if (type != "FinishedGood") {
 						$('.passive_star').toggle(function () {
+							
 							if (LoginPopUp()) {
-
+							   
 								$(this).removeClass('passive_star').addClass('active_star');
 								$(this).attr('title', 'Click to remove favorite');
 								$(".spanFavouriteItem").html("Unmark as favorite");
@@ -1282,7 +1286,7 @@
 								var Count = "(" + (parseInt(FinalFavCount, 10) + 1) + ")";
 								$('.FavCount').html(Count);
 							}
-						}, function () {
+						}, function () { 
 							if (LoginPopUp()) {
 								$(this).removeClass('active_star').addClass('passive_star');
 								$(this).attr('title', 'Click to add favorite');
@@ -1330,42 +1334,69 @@
 					var type = $('#hfEditTempType').val();
 
 					if (type != "FinishedGood") {
-					    var ratingIndex = @ViewBag.ratingControlUserSelectedIndex;
-            $("#ratingControlUser").val(ratingIndex);
-            $.noConflict();
-            $("#ratingControlUser").rating({ showCancel: false, disabled: true });
-            //                tabify("tabs5", "MainContent_btnMatchingSets");
-            $(".width93per").css("width", "98%");
-        } else if (type == "FinishedGood") {
-            alert();
-            $(".width93per").css("width", "98%");
-        }
+						var ratingIndex = @ViewBag.ratingControlUserSelectedIndex;
+						
+						$("."+ ratingIndex).removeClass('ui-rating-empty').addClass('ui-rating-full');
+			//$("#ratingControlUser").val(3);
+			//$.noConflict();
+			//$(".ratingDisabled").rating({ showCancel: false, disabled: true });
+			//                tabify("tabs5", "MainContent_btnMatchingSets");
+			$(".width93per").css("width", "98%");
+		} else if (type == "FinishedGood") {
+			alert();
+			$(".width93per").css("width", "98%");
+		}
 
-    });
+	});
 
 
 
-    function SavedFarorite(templateId, isFavorite) {
+	function SavedFarorite(templateId, isFavorite) {
 
-        var contactId = $('#hfContactId').val();
-        var itemId = $('#hfItemId').val();
-        var categoryId = $('#hfCategoryId').val();
+		var contactId = $('#hfContactId').val();
+		var itemId = $('#hfItemId').val();
+		var categoryId = $('#hfCategoryId').val();
 
-        //alert(templateId + "  " + itemId + " " + categoryId);
-        if (parseInt(contactId) > 0) {
+		//alert(templateId + "  " + itemId + " " + categoryId);
+		if (parseInt(contactId) > 0) {
 
-            Web2Print.UI.Services.WebStoreUtility.AddUpdateFavDesign(templateId, itemId, contactId, categoryId, isFavorite, OnSuccess);
-        }
-    }
+			Web2Print.UI.Services.WebStoreUtility.AddUpdateFavDesign(templateId, itemId, contactId, categoryId, isFavorite, OnSuccess);
+		}
+	}
 
-    function OnSuccess(responce) {
+	function OnSuccess(responce) {
 
-    }
+	}
 
-    function UploadDesign(path) {
-        window.location.href = path;
+	function UploadDesign(path) {
+	   
+	    window.location.href = path;
+	    return false;
 
-    }
+	}
+	function ShowDesignNow()
+	{
+	    
+	    var EditType = "@ViewBag.hfEditTempType";
+	    var ItemID = "@Model.ItemId";
+	    var TempID = "@ViewBag.TemplateID";
+
+	    if (EditType == "NoTemplate") {
+	        window.location.href = "/EditDesign/''/" + EditType + "/" + ItemID + "/" + TempID;
+	       
+	    } else if (EditType == "SameTemplate") {
+	        //alert("2");
+	        ShowPopUpDesignNow('Alert!', 'You already have the same template in designer mode Would you like to resume your design or start from scratch ?','SameTemplate',ItemID,TempID)
+	        
+	       
+	    } else if (EditType == "SameItem") {
+	        // alert();
+	        ShowPopUpDesignNow('Alert!', 'you already have another template in designer mode. Would you like to continue modifiing the design or create new','SameItem',ItemID,TempID)
+	        
+	    }
+	    return false;
+
+	}
 
 
 			</script>

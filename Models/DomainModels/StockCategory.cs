@@ -25,7 +25,7 @@ namespace MPC.Models.DomainModels
         public short? Flag2 { get; set; }
         public short? Flag3 { get; set; }
         public short? Flag4 { get; set; }
-        public int CompanyId { get; set; }
+        public long OrganisationId { get; set; }
         public virtual ICollection<StockSubCategory> StockSubCategories { get; set; }
         public virtual ICollection<StockItem> StockItems { get; set; }
     }

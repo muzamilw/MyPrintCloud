@@ -49,5 +49,10 @@ namespace MPC.Models.ResponseModels
         /// </summary>
         public IEnumerable<RegistrationQuestion> RegistrationQuestions { get; set; }
 
+        /// <summary>
+        /// Organisation
+        /// </summary>
+        public Organisation Organisation { get; set; }
+
     }
 }

@@ -1,25 +1,10 @@
-﻿﻿@{
-    ViewBag.Title = "Edit banner";
-}
-
-<div class="modal fade" id="myEditBannerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+﻿
+<div class="modal fade my-modal" id="myEditBannerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div style="width: 838px;" class="modal-dialog" data-bind="with:$root.selectedCompanyBanner">
         <div class="modal-content">
-            <div class="row">
-                <br />
-                <div class="col-lg-12">
-                    <h4 class="group-header">Banner Detail</h4>
-                </div>
-                <div class="col-lg-12 col-md-8 col-sm-8" style="padding-bottom:10px;">
-                    <div class="col-xs-10">
-                    </div>
-                    <div class="col-xs-1">
-                        <button type="button" class="btn btn-primary pull-right" data-bind="click:$root.onSaveCompanyBanner, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
-                    </div>
-                    <div class="col-xs-1">
-                        <button type="button" class="btn btn-default pull-right" data-bind="click:$root.onCloseCompanyBanner">Close</button>
-                    </div>
-                </div>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Banner Detail</h4>
             </div>
             <div class="col-lg-12 form-horizontal outerDiv-Padding">
                 <div class="form-group">
@@ -31,20 +16,16 @@
                             </a>
 
                         </div>
-
-
                         <label class="control-label text-right tooltip-float">Banner main Image (PNG 400 X 250 pixels)</label>
-
                     </div>
-
                     <div class="col-lg-4">
                         <img style="min-height: 200px; width: 270px;" data-bind="attr: { src: fileBinary }" />
                         @*<span class="help-block text-right"></span>*@
                     </div>
                     <div class="col-lg-1">
-                        <div class="fileUpload btn btn-primary">
+                        <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromCompanyBanner">
                             <span>....</span>
-                            <input type="file" class="upload" id="image_files"  data-bind="files: { onLoaded: $root.MultipleImageFilesLoadedCallback, fileFilter: 'image.*'}" />
+                            @*<input type="file" class="upload" id="image_files" data-bind="files: { onLoaded: $root.MultipleImageFilesLoadedCallback, fileFilter: 'image.*'}" />*@
                         </div>
                     </div>
                 </div>
@@ -154,6 +135,9 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <hr />
+                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveCompanyBanner, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
+                <button type="button" class="btn btn-default" data-bind="click:$root.onCloseCompanyBanner" style="margin-left: 0px;">Close</button>
             </div>
         </div>
     </div>

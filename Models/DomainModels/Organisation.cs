@@ -161,6 +161,21 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public bool? ShowBleedArea { get; set; }
 
+        /// <summary>
+        /// is Xero Integration Required
+        /// </summary>
+        public bool? isXeroIntegrationRequired { get; set; }
+
+        /// <summary>
+        /// XeroApiId
+        /// </summary>
+        public string XeroApiId { get; set; }
+
+        /// <summary>
+        /// XeroApiKey
+        /// </summary>
+        public string XeroApiKey { get; set; }
+
         #endregion
         
         #region Reference Properties
@@ -179,6 +194,21 @@ namespace MPC.Models.DomainModels
         /// Global Language
         /// </summary>
         public virtual GlobalLanguage GlobalLanguage { get; set; }
+
+        /// <summary>
+        /// Length Unit
+        /// </summary>
+        public virtual LengthUnit LengthUnit { get; set; }
+
+        /// <summary>
+        /// Weight Unit
+        /// </summary>
+        public virtual WeightUnit WeightUnit { get; set; }
+
+        /// <summary>
+        /// Currency
+        /// </summary>
+        public virtual Currency Currency { get; set; }
 
         /// <summary>
         /// Cms Skin Page Widgets

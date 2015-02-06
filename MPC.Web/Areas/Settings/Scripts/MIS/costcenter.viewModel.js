@@ -12,6 +12,18 @@ define("costcenter/costcenter.viewModel",
                     // Active
                     costCentersList = ko.observableArray([]),
                     errorList = ko.observableArray([]),
+                    // Cost Center Types
+                    costCenterTypes = ko.observableArray([]),
+                    // System Users as Resources
+                    costCenterResources = ko.observableArray([]),
+                    // Nominal Codes
+                    nominalCodes = ko.observableArray([]),
+                    costCenterVariables = ko.observableArray([]),
+                    // Markups
+                    markups = ko.observableArray([]),
+                    // Cost Center Categories
+                    costCenterCategories = ko.observableArray([]),
+                    workInstructions = ko.observableArray([]),
                     // #region Busy Indicators
                     isLoadingCostCenter = ko.observable(false),
                     // #endregion Busy Indicators
@@ -74,7 +86,7 @@ define("costcenter/costcenter.viewModel",
                                 if (data != null) {
                                     pager().totalCount(data.RowCount);
                                     _.each(data.CostCenters, function(item) {
-                                        var module = model.costCenterClientMapper(item);
+                                        var module = model.costCenterListView.Create(item);
                                         costCentersList.push(module);
                                     });
                                 }
@@ -96,13 +108,10 @@ define("costcenter/costcenter.viewModel",
                         return flag;
                     },
                     //Save Cost Center
-                    saveCostCenter = function(item) {
-                        if (selectedCostCenter() != undefined && doBeforeSave()) {
-                            if (selectedCostCenter().costCentreId() > 0) {
-                                saveEdittedCostCenter();
-                            } else {
-                                saveNewCostCenter(item);
-                            }
+                    saveCostCenter = function () {
+                        errorList.removeAll();
+                        if (doBeforeSave()) {
+                            saveEdittedCostCenter(callback);
                         }
                     },
                     //Save NEW Cost Center
@@ -120,38 +129,39 @@ define("costcenter/costcenter.viewModel",
                         });
                     },
                     //Save EDIT Cost Center
-                    saveEdittedCostCenter = function() {
-                        dataservice.saveCostCenter(selectedCostCenter().convertToServerData(), {
-                            success: function(data) {
-                                var newItem = model.costCenterClientMapper(data);
-                                var newObjtodelete = costCentersList.find(function(temp) {
-                                    return temp.costCenterId() == newItem.costCenterId();
-                                });
-                                costCentersList.remove(newObjtodelete);
-                                costCentersList.push(newItem);
-                                view.hideCostCenterDialog();
+                    saveEdittedCostCenter = function (callback) {
+                        dataservice.saveCostCenter(model.costCenterServerMapper(selectedCostCenter()), {
+                            success: function (data) {
+                                if (callback && typeof callback === "function") {
+                                    callback();
+                                }
                                 toastr.success("Successfully save.");
                             },
-                            error: function(exceptionMessage, exceptionType) {
+                            error: function (exceptionMessage, exceptionType) {
+
                                 if (exceptionType === ist.exceptionType.CaresGeneralException) {
+
                                     toastr.error(exceptionMessage);
+
                                 } else {
+
                                     toastr.error("Failed to save.");
+
                                 }
+
                             }
                         });
                     },
                     //On Edit Click Of Cost Center
                     onEditItem = function (oCostCenter) {
                         errorList.removeAll();
-                       // selectedCostCenter(oCostCenter);
+                        getCostCentersBaseData();
                         dataservice.getCostCentreById({
-                            id: oCostCenter.costCentreId(),
+                            id: oCostCenter.costCenterId(),
                         }, {
                             success: function (data) {
                                 if (data != null) {
                                     selectedCostCenter(model.costCenterClientMapper(data));
-                                    selectedCostCenter().reset();
                                     showCostCenterDetail();
                                 }
                             },
@@ -184,6 +194,41 @@ define("costcenter/costcenter.viewModel",
                     showCostCenterDetail = function () {
                         isEditorVisible(true);
                     },
+                    // Get Base
+                    getCostCentersBaseData = function () {
+                        dataservice.getBaseData({
+                            success: function (data) {
+                                //costCenter Calculation Types
+                                costCenterTypes.removeAll();
+                                ko.utils.arrayPushAll(costCenterTypes(), data.CalculationTypes);
+                                costCenterTypes.valueHasMutated();
+                                //Cost Center Categories
+                                costCenterCategories.removeAll();
+                                ko.utils.arrayPushAll(costCenterCategories(), data.CostCenterCategories);
+                                costCenterCategories.valueHasMutated();
+                                //Nominal Codes
+                                nominalCodes.removeAll();
+                                ko.utils.arrayPushAll(nominalCodes(), data.NominalCodes);
+                                nominalCodes.valueHasMutated();
+                                //Markups
+                                markups.removeAll();
+                                ko.utils.arrayPushAll(markups(), data.Markups);
+                                markups.valueHasMutated();
+                                //Variables
+                                costCenterVariables.removeAll();
+                                ko.utils.arrayPushAll(costCenterVariables(), data.CostCentreVariables);
+                                costCenterVariables.valueHasMutated();
+
+                                //Cost Center Resources
+                                costCenterResources.removeAll();
+                                ko.utils.arrayPushAll(costCenterResources(), data.CostCenterResources);
+                                costCenterResources.valueHasMutated();
+                            },
+                            error: function () {
+                                toastr.error("Failed to base data.");
+                            }
+                        });
+                    },
                     // #region Observables
                     // Initialize the view model
                     initialize = function(specifiedView) {
@@ -191,6 +236,7 @@ define("costcenter/costcenter.viewModel",
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         pager(pagination.Pagination({ PageSize: 10 }, costCentersList, getCostCenters));
                         getCostCenters();
+                       // getCostCentersBaseData();
                     };
                     
                 return {
@@ -218,7 +264,14 @@ define("costcenter/costcenter.viewModel",
                     initialize: initialize,
                     isEditorVisible: isEditorVisible,
                     closeCostCenterDetail: closeCostCenterDetail,
-                    showCostCenterDetail: showCostCenterDetail
+                    showCostCenterDetail: showCostCenterDetail,
+                    getCostCentersBaseData: getCostCentersBaseData,
+                    costCenterTypes: costCenterTypes,
+                    costCenterCategories: costCenterCategories,
+                    nominalCodes: nominalCodes,
+                    markups: markups,
+                    costCenterResources: costCenterResources,
+                    costCenterVariables: costCenterVariables
                 };
             })()
         };

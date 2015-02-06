@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
@@ -139,6 +140,17 @@ namespace MPC.Implementation.MISServices
                 }
             }
         }
+
+
+        /// <summary>
+        /// Get Phrase Fields By Section Id
+        /// </summary>
+        public IEnumerable<PhraseField> GetPhraseFiledsBySectionId(long sectionId)
+        {
+            return phraseFieldRepository.GetPhraseFieldsBySectionId(sectionId).ToList();
+        }
+
+
         #endregion
     }
 }

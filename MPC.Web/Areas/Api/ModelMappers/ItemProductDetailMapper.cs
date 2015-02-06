@@ -27,7 +27,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsQtyLimit = source.isQtyLimit,
                 QtyLimit = source.QtyLimit,
                 DeliveryTimeSupplier1 = source.DeliveryTimeSupplier1,
-                DeliveryTimeSupplier2 = source.DeliveryTimeSupplier2
+                DeliveryTimeSupplier2 = source.DeliveryTimeSupplier2,
+                IsPrintItem = source.isPrintItem
             };
         }
 
@@ -50,7 +51,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isQtyLimit = source.IsQtyLimit,
                 QtyLimit = source.QtyLimit,
                 DeliveryTimeSupplier1 = source.DeliveryTimeSupplier1,
-                DeliveryTimeSupplier2 = source.DeliveryTimeSupplier2
+                DeliveryTimeSupplier2 = source.DeliveryTimeSupplier2,
+                isPrintItem = source.IsPrintItem
             };
         }
 

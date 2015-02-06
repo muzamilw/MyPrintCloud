@@ -1,13 +1,8 @@
-﻿@{
-    ViewBag.Title = "Media gallery screen";
-}
-
-
-
-<div class="modal fade" id="myMediaGalleryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+﻿
+<div class="modal fade my-modal" id="myMediaGalleryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 50000">
     <div style="width: 838px;" class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" >
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Media Library</h4>
             </div>
@@ -23,19 +18,22 @@
                 &nbsp;
             </div>
             <div class="fileSelectedContainer">
-                <span>1 file selected</span>
-                <a>Edit&nbsp;|</a><a>&nbsp;Clear</a>
+                @*<span>1 file selected</span>
+                    <a>Edit&nbsp;|</a><a>&nbsp;Clear</a>*@
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveMedia">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
             </div>
         </div>
     </div>
 
     <script id="mediaGalleryItemTemplate" type="text/html">
-        <li class="col-md-3 col-sm-3 col-xs-6">
+        <li class="col-md-3 col-sm-3 col-xs-6 " data-bind="click:$root.selectMediaFile ">
             @*<a href="#" class="photo-box image-link" style="background-image: url('/Content/themes/Centaurus/img/samples/hdr/small/img_6.jpg');"></a>*@
+            <div class="checkboxGray" data-bind="visible:isSelected()">
+                <i class="fa fa-check"></i>
+            </div>
             <div class="photo-box image-link" data-bind="style:{backgroundImage:' url('+fileSource()+')'}"></div>
             <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
         </li>

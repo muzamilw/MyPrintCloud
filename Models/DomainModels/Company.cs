@@ -95,12 +95,12 @@ namespace MPC.Models.DomainModels
         public bool? includeEmailBrokerArtworkOrderXML { get; set; }
         public bool? includeEmailBrokerArtworkOrderJobCard { get; set; }
         public bool? makeEmailBrokerArtworkOrderProductionReady { get; set; }
-        public long? SalesAndOrderManagerId1 { get; set; }
-        public long? SalesAndOrderManagerId2 { get; set; }
-        public long? ProductionManagerId1 { get; set; }
-        public long? ProductionManagerId2 { get; set; }
-        public long? StockNotificationManagerId1 { get; set; }
-        public long? StockNotificationManagerId2 { get; set; }
+        public Guid? SalesAndOrderManagerId1 { get; set; }
+        public Guid? SalesAndOrderManagerId2 { get; set; }
+        public Guid? ProductionManagerId1 { get; set; }
+        public Guid? ProductionManagerId2 { get; set; }
+        public Guid? StockNotificationManagerId1 { get; set; }
+        public Guid? StockNotificationManagerId2 { get; set; }
         public bool? IsDeliveryTaxAble { get; set; }
         public bool? IsDisplayDeliveryOnCheckout { get; set; }
         public long? DeliveryPickUpAddressId { get; set; }
@@ -150,20 +150,11 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<StockItem> StockItems { get; set; }
         public virtual ICollection<CmsOffer> CmsOffers { get; set; }
         public virtual ICollection<MediaLibrary> MediaLibraries { get; set; }
+        public virtual ICollection<CompanyCostCentre> CompanyCostCentres { get; set; }
+
 
         #region Additional Properties
-        /// <summary>
-        /// Store Backgroud Image Image Source
-        /// </summary>
-        [NotMapped]
-        public string StoreBackgroudImageImageSource { get; set; }
-
-        /// <summary>
-        /// Store Backgroud Image File Name
-        /// </summary>
-        [NotMapped]
-        public string StoreBackgroudImageFileName { get; set; }
-
+      
         /// <summary>
         /// Default Sprite Source
         /// </summary>
@@ -179,6 +170,16 @@ namespace MPC.Models.DomainModels
         /// </summary>
         [NotMapped]
         public string UserDefinedSpriteFileName { get; set; }
+
+        /// <summary>
+        /// Store Background File
+        /// </summary>
+        public string StoreBackgroundFile { get; set; }
+
+        /// <summary>
+        /// Logo Image Bytes
+        /// </summary>
+        public string ImageBytes { get; set; }
         #endregion
     }
 }

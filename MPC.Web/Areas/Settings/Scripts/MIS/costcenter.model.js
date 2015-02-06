@@ -1,11 +1,11 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function(ko) {
-   var CostCenter = function () {
+    var CostCenter = function() {
 
         var
             self,
             costCentreId = ko.observable(),
             name = ko.observable(),
-            description = ko.observable().extend({ required: true }),
+            description = ko.observable(),
             type = ko.observable().extend({ required: true }),
             typeName = ko.observable(),
             createdBy = ko.observable(),
@@ -87,7 +87,7 @@
             flagId = ko.observable().extend({ required: true }),
             isScheduleable = ko.observable().extend({ required: true }),
             isPrintOnJobCard = ko.observable(),
-            webStoreDesc = ko.observable().extend({ required: true }),
+            webStoreDesc = ko.observable(),
             isPublished = ko.observable(),
             estimateProductionTime = ko.observable(),
             mainImageUrl = ko.observable(),
@@ -95,6 +95,8 @@
             deliveryCharges = ko.observable().extend({ required: true }),
             xeroAccessCode = ko.observable(),
             organisationId = ko.observable().extend({ required: true }),
+            costCenterResource = ko.observableArray([]),
+            costCenterInstructions = ko.observableArray([]),
             errors = ko.validation.group({
                 name: name,
                 type: type,
@@ -109,112 +111,181 @@
             hasChanges = ko.computed(function() {
                 return dirtyFlag.isDirty();
             }),
-            
+
             reset = function() {
                 dirtyFlag.reset();
             };
         self = {
             costCentreId: costCentreId,
             name: name,
-        description:description,
-        type: type,
-        typeName:typeName,
-        createdBy:createdBy,
-        lockedBy:lockedBy,
-        lastModifiedBy:lastModifiedBy,
-        minimumCost:minimumCost,
-        setupCost:setupCost,
-        setupTime:setupTime,
-        defaultVa:defaultVa,
-        defaultVaId:defaultVaId,
-        overHeadRate:overHeadRate,
-        hourlyCharge:hourlyCharge,
-        costPerThousand:costPerThousand,
-        creationDate:creationDate,
-        lastModifiedDate:lastModifiedDate,
-        preferredSupplierId:preferredSupplierId,
-        codeFileName:codeFileName,
-        nominalCode:nominalCode,
-        completionTime:completionTime,
-        headerCode:headerCode,
-        middleCode:middleCode,
-        footerCode:footerCode,
-        strCostPlantParsed:strCostPlantParsed,
-        strCostPlantUnParsed:strCostPlantUnParsed,
-        strCostLabourParsed:strCostLabourParsed,
-        strCostLabourUnParsed:strCostLabourUnParsed,
-        strCostMaterialParsed:strCostMaterialParsed,
-        strCostMaterialUnParsed:strCostMaterialUnParsed,
-        strPricePlantParsed:strPricePlantParsed,
-        strPricePlantUnParsed:strPricePlantUnParsed,
-        strPriceLabourParsed:strPriceLabourParsed,
-        strPriceLabourUnParsed:strPriceLabourUnParsed,
-        strPriceMaterialParsed:strPriceMaterialParsed,
-        strPriceMaterialUnParsed:strPriceMaterialUnParsed,
-        strActualCostPlantParsed:strActualCostPlantParsed,
-        strActualCostPlantUnParsed:strActualCostPlantUnParsed,
-        strActualCostLabourParsed:strActualCostLabourParsed,
-        strActualCostLabourUnParsed:strActualCostLabourUnParsed,
-        strActualCostMaterialParsed:strActualCostMaterialParsed,
-        strActualCostMaterialUnParsed:strActualCostMaterialUnParsed,
-        strTimeParsed:strTimeParsed,
-        strTimeUnParsed:strTimeUnParsed,
-        isDisabled:isDisabled,
-        isDirectCost:isDirectCost,
-        setupSpoilage:setupSpoilage,
-        runningSpoilage:runningSpoilage,
-        calculationMethodType:calculationMethodType,
-        noOfHours:noOfHours,
-        perHourCost:perHourCost,
-        perHourPrice:perHourPrice,
-        unitQuantity:unitQuantity,
-        quantitySourceType:quantitySourceType,
-        quantityVariableId:quantityVariableId,
-        quantityQuestionString:quantityQuestionString,
-        quantityQuestionDefaultValue:quantityQuestionDefaultValue,
-        quantityCalculationString:quantityCalculationString,
-        costPerUnitQuantity:costPerUnitQuantity,
-        pricePerUnitQuantity:pricePerUnitQuantity,
-        timePerUnitQuantity:timePerUnitQuantity,
-        timeRunSpeed:timeRunSpeed,
-        timeNoOfPasses:timeNoOfPasses,
-        timeSourceType:timeSourceType,
-        timeVariableId:timeVariableId,
-        timeQuestionString:timeQuestionString,
-        timeQuestionDefaultValue:timeQuestionDefaultValue,
-        timeCalculationString:timeCalculationString,
-        priority:priority,
-        costQuestionString: costQuestionString,
-        costDefaultValue:costDefaultValue,
-        priceQuestionString:priceQuestionString,
-        priceDefaultValue:priceDefaultValue,
-        estimatedTimeQuestionString: estimatedTimeQuestionString,
-        estimatedTimeDefaultValue:estimatedTimeDefaultValue,
-        sequence:sequence,
-        completeCode:completeCode,
-        itemDescription:itemDescription,
-        companyId:companyId,
-        systemTypeId:systemTypeId,
-        flagId:flagId,
-        isScheduleable:isScheduleable,
-        isPrintOnJobCard:isPrintOnJobCard,
-        webStoreDesc:webStoreDesc,
-        isPublished:isPublished,
-        estimateProductionTime:estimateProductionTime,
-        mainImageUrl:mainImageUrl,
-        thumbnailImageUrl:thumbnailImageUrl,
-        deliveryCharges:deliveryCharges,
-        xeroAccessCode:xeroAccessCode,
-        organisationId:organisationId,
+            description: description,
+            type: type,
+            typeName: typeName,
+            createdBy: createdBy,
+            lockedBy: lockedBy,
+            lastModifiedBy: lastModifiedBy,
+            minimumCost: minimumCost,
+            setupCost: setupCost,
+            setupTime: setupTime,
+            defaultVa: defaultVa,
+            defaultVaId: defaultVaId,
+            overHeadRate: overHeadRate,
+            hourlyCharge: hourlyCharge,
+            costPerThousand: costPerThousand,
+            creationDate: creationDate,
+            lastModifiedDate: lastModifiedDate,
+            preferredSupplierId: preferredSupplierId,
+            codeFileName: codeFileName,
+            nominalCode: nominalCode,
+            completionTime: completionTime,
+            headerCode: headerCode,
+            middleCode: middleCode,
+            footerCode: footerCode,
+            strCostPlantParsed: strCostPlantParsed,
+            strCostPlantUnParsed: strCostPlantUnParsed,
+            strCostLabourParsed: strCostLabourParsed,
+            strCostLabourUnParsed: strCostLabourUnParsed,
+            strCostMaterialParsed: strCostMaterialParsed,
+            strCostMaterialUnParsed: strCostMaterialUnParsed,
+            strPricePlantParsed: strPricePlantParsed,
+            strPricePlantUnParsed: strPricePlantUnParsed,
+            strPriceLabourParsed: strPriceLabourParsed,
+            strPriceLabourUnParsed: strPriceLabourUnParsed,
+            strPriceMaterialParsed: strPriceMaterialParsed,
+            strPriceMaterialUnParsed: strPriceMaterialUnParsed,
+            strActualCostPlantParsed: strActualCostPlantParsed,
+            strActualCostPlantUnParsed: strActualCostPlantUnParsed,
+            strActualCostLabourParsed: strActualCostLabourParsed,
+            strActualCostLabourUnParsed: strActualCostLabourUnParsed,
+            strActualCostMaterialParsed: strActualCostMaterialParsed,
+            strActualCostMaterialUnParsed: strActualCostMaterialUnParsed,
+            strTimeParsed: strTimeParsed,
+            strTimeUnParsed: strTimeUnParsed,
+            isDisabled: isDisabled,
+            isDirectCost: isDirectCost,
+            setupSpoilage: setupSpoilage,
+            runningSpoilage: runningSpoilage,
+            calculationMethodType: calculationMethodType,
+            noOfHours: noOfHours,
+            perHourCost: perHourCost,
+            perHourPrice: perHourPrice,
+            unitQuantity: unitQuantity,
+            quantitySourceType: quantitySourceType,
+            quantityVariableId: quantityVariableId,
+            quantityQuestionString: quantityQuestionString,
+            quantityQuestionDefaultValue: quantityQuestionDefaultValue,
+            quantityCalculationString: quantityCalculationString,
+            costPerUnitQuantity: costPerUnitQuantity,
+            pricePerUnitQuantity: pricePerUnitQuantity,
+            timePerUnitQuantity: timePerUnitQuantity,
+            timeRunSpeed: timeRunSpeed,
+            timeNoOfPasses: timeNoOfPasses,
+            timeSourceType: timeSourceType,
+            timeVariableId: timeVariableId,
+            timeQuestionString: timeQuestionString,
+            timeQuestionDefaultValue: timeQuestionDefaultValue,
+            timeCalculationString: timeCalculationString,
+            priority: priority,
+            costQuestionString: costQuestionString,
+            costDefaultValue: costDefaultValue,
+            priceQuestionString: priceQuestionString,
+            priceDefaultValue: priceDefaultValue,
+            estimatedTimeQuestionString: estimatedTimeQuestionString,
+            estimatedTimeDefaultValue: estimatedTimeDefaultValue,
+            sequence: sequence,
+            completeCode: completeCode,
+            itemDescription: itemDescription,
+            companyId: companyId,
+            systemTypeId: systemTypeId,
+            flagId: flagId,
+            isScheduleable: isScheduleable,
+            isPrintOnJobCard: isPrintOnJobCard,
+            webStoreDesc: webStoreDesc,
+            isPublished: isPublished,
+            estimateProductionTime: estimateProductionTime,
+            mainImageUrl: mainImageUrl,
+            thumbnailImageUrl: thumbnailImageUrl,
+            deliveryCharges: deliveryCharges,
+            xeroAccessCode: xeroAccessCode,
+            organisationId: organisationId,
+            costCenterResource: costCenterResource,
+            costCenterInstructions: costCenterInstructions,
             dirtyFlag: dirtyFlag,
             errors: errors,
             isValid: isValid,
             hasChanges: hasChanges,
             reset: reset
-    };
+        };
         return self;
     };
 
+    costCenterListView = function (specifiedCostCentreId, specifiedName, specifiedDescription, specifiedType, specifiedCalType
+                            ) {
+        var
+            self,
+            //Unique ID
+            costCenterId = ko.observable(specifiedCostCentreId),
+            //Name
+            name = ko.observable(specifiedName),
+            //Description
+            description = ko.observable(specifiedDescription),
+            //Type
+            type = ko.observable(specifiedType),
+            calculationMethodType = ko.observable(specifiedCalType),
+
+            convertToServerData = function () {
+                return {
+                    CostCentreId: costCenterId(),
+                }
+            };
+        self = {
+            costCenterId: costCenterId,
+            name: name,
+            description: description,
+            type: type,
+            calculationMethodType:calculationMethodType,
+            convertToServerData: convertToServerData,
+        };
+        return self;
+    };
+  
+    costCenterListView.Create = function (source) {
+        return new costCenterListView(source.CostCentreId, source.Name, source.Description, source.Type, source.CalculationMethodType);
+    };
+    //Cost Center Instructions for Client
+    workInstruction = function (specifiedInstructionId, specifiedInstruction, specifiedCostCenterOption, specifiedCostCentreId) {
+        var self,
+            instructionId = ko.observable(specifiedInstructionId),
+            instruction = ko.observarble(specifiedInstruction),
+            costCenterOption = ko.observable(specifiedCostCenterOption),
+            costCentreId = ko.observable(specifiedCostCentreId),
+             dirtyFlag = new ko.dirtyFlag({
+                 instruction: instruction
+             }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            convertToServerData = function () {
+                return {
+                    Instruction: instruction(),
+                    InstructionId : instructionId(),
+                    CostCentreId : costCentreId(),
+                    CostCenterOption: costCenterOption()
+                }
+            };
+        self = {
+            instructionId: instructionId,
+            instruction: instruction,
+            costCenterOption: costCenterOption,
+            convertToServerData: convertToServerData
+        };
+        return self;
+
+    };
+    workInstruction.CreateForClient = function (source) {
+        return new workInstruction(source.InstructionId, source.Instruction, source.CostCenterOption);
+    };
     var costCenterClientMapper = function(source) {
         var oCostCenter = new CostCenter();
         oCostCenter.costCentreId(source.CostCentreId);
@@ -309,6 +380,10 @@
         oCostCenter.deliveryCharges(source.DeliveryCharges);
         oCostCenter.xeroAccessCode(source.XeroAccessCode);
         oCostCenter.organisationId(source.OrganisationId);
+       
+        //_.each(source.CostcentreInstructions, function (item) {
+        //    oCostCenter.costCenterInstructions.push(workInstruction.CreateForClient(item));
+        //});
         return oCostCenter;
 
     };
@@ -405,12 +480,14 @@
         result.DeliveryCharges = source.deliveryCharges();
         result.XeroAccessCode = source.xeroAccessCode();
         result.OrganisationId = source.organisationId();
+        result.CostcentreInstructions = source.costCenterInstructions();
         return result;
     };
     
     return {
         CostCenter: CostCenter,
         costCenterClientMapper: costCenterClientMapper,
-        costCenterServerMapper: costCenterServerMapper
+        costCenterServerMapper: costCenterServerMapper,
+        costCenterListView: costCenterListView
     };
 });

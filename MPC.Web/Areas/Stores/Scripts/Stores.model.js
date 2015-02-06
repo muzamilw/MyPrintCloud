@@ -123,9 +123,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         specifiedSalesAndOrderManagerId1, specifiedSalesAndOrderManagerId2, specifiedProductionManagerId1, specifiedProductionManagerId2,
         specifiedStockNotificationManagerId1, specifiedStockNotificationManagerId2, specifiedisDisplayBanners, specifiedisStoreModePrivate, specifiedisTextWatermark,
         specifiedWatermarkText, specifiedisBrokerPaymentRequired, specifiedisBrokerCanAcceptPaymentOnline, specifiedcanUserPlaceOrderWithoutApproval,
-        specifiedisIncludeVAT, specifiedincludeEmailBrokerArtworkOrderReport, specifiedincludeEmailBrokerArtworkOrderXML, specifiedincludeEmailBrokerArtworkOrderJobCard,
+        specifiedisIncludeVAT, specifiedincludeEmailBrokerArtworkOrderReport, specifiedincludeEmailBrokerArtworkOrderXML, specifiedincludeEmailBrokerArtworkOrderJobCard
+        , specifiedIsDeliveryTaxAble, specifiedPickupAddressId,
         specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreImageFileBinary, specifiedStoreBackgroudImageSource, specifiedIsShowGoogleMap,
-        specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName, specifiedCustomCSS
+        specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName, specifiedCustomCSS, specifiedStoreBackgroundImage, specifiedStoreImagePath
     ) {
         var self,
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
@@ -143,13 +144,15 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             webMasterTag = ko.observable(specifiedWebMasterTag),
             webAnalyticCode = ko.observable(specifiedWebAnalyticCode),
             type = ko.observable(),
-            webAccessCode = ko.observable(specifiedWebAccessCode).extend({
-                required: {
-                    onlyIf: function () {
-                        return type() == 3;
-                    }
-                }
-            }),
+            storeImagePath = ko.observable(specifiedStoreImagePath),
+            //webAccessCode = ko.observable(specifiedWebAccessCode).extend({
+            //    required: {
+            //        onlyIf: function () {
+            //            return type() == 3;
+            //        }
+            //    }
+            //}),
+            webAccessCode = ko.observable(specifiedWebAccessCode).extend({ required: true }),
             twitterUrl = ko.observable(specifiedTwitterUrl),
             facebookUrl = ko.observable(specifiedFacebookUrl),
             linkedinUrl = ko.observable(specifiedLinkedinUrl),
@@ -162,7 +165,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             productionManagerId1 = ko.observable(specifiedProductionManagerId1),
             productionManagerId2 = ko.observable(specifiedProductionManagerId2),
             stockNotificationManagerId1 = ko.observable(specifiedStockNotificationManagerId1),
-            stockNotificationManagerId2 = ko.observable(specifiedStockNotificationManagerId2),/////
+            stockNotificationManagerId2 = ko.observable(specifiedStockNotificationManagerId2), /////
             isStoreModePrivate = ko.observable(specifiedisStoreModePrivate),
             isTextWatermark = ko.observable(specifiedisTextWatermark),
             watermarkText = ko.observable(specifiedWatermarkText),
@@ -174,6 +177,24 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             includeEmailBrokerArtworkOrderXML = ko.observable(specifiedincludeEmailBrokerArtworkOrderXML),
             includeEmailBrokerArtworkOrderJobCard = ko.observable(specifiedincludeEmailBrokerArtworkOrderJobCard),
             makeEmailBrokerArtworkOrderProductionReady = ko.observable(specifiedmakeEmailBrokerArtworkOrderProductionReady),
+            // isDeliveryTaxAble = ko.observable(specifiedIsDeliveryTaxAble),
+            // is Delivery TaxAble
+            isDeliveryTaxAble = ko.observable(!specifiedIsDeliveryTaxAble ? 2 : 1),
+            // is Delivery TaxAble ui
+            isDeliveryTaxAbleUi = ko.computed({
+                read: function () {
+                    return '' + isDeliveryTaxAble();
+                },
+                write: function (value) {
+                    var deliveryTaxAble = parseInt(value);
+                    if (deliveryTaxAble === isDeliveryTaxAble()) {
+                        return;
+                    }
+
+                    isDeliveryTaxAble(deliveryTaxAble);
+                }
+            }),
+            pickupAddressId = ko.observable(specifiedPickupAddressId),
             //store Image
             storeImageFileBinary = ko.observable(specifiedStoreImageFileBinary),
             storeImageName = ko.observable(),
@@ -206,8 +227,12 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             products = ko.observableArray([]),
             //Media Libraries
             mediaLibraries = ko.observableArray([]),
+            //Company Cost Center
+            companyCostCenters = ko.observableArray([]),
             //store Backgroud Image Image Source
             storeBackgroudImageImageSource = ko.observable(specifiedStoreBackgroudImageSource),
+            //store Backgroud Image Path
+            storeBackgroudImagePath = ko.observable(specifiedStoreBackgroundImage),
             //store Backgroud Image File Name
             storeBackgroudImageFileName = ko.observable(),
             defaultSpriteImageSource = ko.observable(specifiedDefaultSpriteImageSource),
@@ -247,6 +272,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 notes: notes,
                 webAccessCode: webAccessCode,
                 twitterUrl: twitterUrl,
+                mediaLibraries: mediaLibraries,
                 facebookUrl: facebookUrl,
                 linkedinUrl: linkedinUrl,
                 facebookAppId: facebookAppId,
@@ -287,7 +313,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 storeBackgroudImageFileName: storeBackgroudImageFileName,
                 isShowGoogleMap: isShowGoogleMap,
                 customCSS: customCSS,
-                companyDomains: companyDomains
+                companyDomains: companyDomains,
+                isDeliveryTaxAble: isDeliveryTaxAble,
+                pickupAddressId: pickupAddressId
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -318,6 +346,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.FacebookAppKey = source.facebookAppKey();
                 result.TwitterAppId = source.twitterAppId();
                 result.TwitterAppKey = source.twitterAppKey();
+                result.StoreImagePath = source.storeImagePath();
                 result.SalesAndOrderManagerId1 = source.salesAndOrderManagerId1();
                 result.SalesAndOrderManagerId2 = source.salesAndOrderManagerId2();
                 result.ProductionManagerId1 = source.productionManagerId1();
@@ -332,11 +361,14 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.isBrokerCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline();
                 result.canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval();
                 result.isIncludeVAT = source.isIncludeVAT();
+                // result.StoreBackgroundImage = source.storeBackgroudImagePath();
                 result.includeEmailBrokerArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport();
                 result.includeEmailBrokerArtworkOrderXML = source.includeEmailBrokerArtworkOrderXML();
                 result.includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard();
                 result.makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady();
                 result.isDisplayBanners = source.isDisplayBanners();
+                result.IsDeliveryTaxAble = source.isDeliveryTaxAble() === 2 ? false : true;
+                result.PickupAddressId = source.pickupAddressId();
                 result.CompanyType = source.companyType() != undefined ? CompanyType().convertToServerData(source.companyType()) : null;
                 result.CustomCSS = source.customCSS();
                 result.RaveReviews = [];
@@ -356,6 +388,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.CompanyDomains = [];
                 _.each(source.companyDomains(), function (item) {
                     result.CompanyDomains.push(item.convertToServerData());
+                });
+                result.CompanyCostCenters = [];
+                _.each(source.companyCostCenters(), function (item) {
+                    result.CompanyCostCenters.push(item.convertToServerData());
                 });
                 //_.each(source.users(), function (item) {
                 //    result.CompanyContacts.push(item.convertToServerData());
@@ -383,16 +419,17 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.EdittedProducts = [];
                 result.Deletedproducts = [];
                 result.Campaigns = [];
+                result.CompanyCostCentres = [];
                 _.each(source.paymentGateway(), function (item) {
                     result.PaymentGateways.push(item.convertToServerData());
                 });
 
                 result.ColorPalletes = [];
-                result.StoreBackgroudImageImageSource = source.storeBackgroudImageImageSource();
+                result.StoreBackgroundFile = source.storeBackgroudImageImageSource();
                 result.StoreBackgroudImageFileName = source.storeBackgroudImageFileName();
                 //#endregion
                 result.ImageName = source.storeImageName() === undefined ? null : source.storeImageName();
-                result.ImageBytes = source.image() === undefined ? null : source.image();
+                result.ImageBytes = source.storeImageFileBinary() === undefined ? null : source.storeImageFileBinary();
                 result.DefaultSpriteSource = source.defaultSpriteImageSource() === undefined ? null : source.defaultSpriteImageSource();
                 result.UserDefinedSpriteSource = source.userDefinedSpriteImageSource() === undefined ? null : source.userDefinedSpriteImageSource();
                 result.UserDefinedSpriteFileName = source.userDefinedSpriteImageFileName() === undefined ? null : source.userDefinedSpriteImageFileName();
@@ -405,6 +442,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 dirtyFlag.reset();
             };
         self = {
+            //#region SELF
             companyId: companyId,
             name: name,
             status: status,
@@ -434,6 +472,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             stockNotificationManagerId2: stockNotificationManagerId2,
             twitterAppKey: twitterAppKey,
             companyType: companyType,
+            storeImagePath: storeImagePath,
             isStoreModePrivate: isStoreModePrivate,
             isTextWatermark: isTextWatermark,
             watermarkText: watermarkText,
@@ -461,22 +500,28 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             paymentMethod: paymentMethod,
             productCategories: productCategories,
             products: products,
+            isDeliveryTaxAble: isDeliveryTaxAble,
             storeBackgroudImageImageSource: storeBackgroudImageImageSource,
             storeBackgroudImageFileName: storeBackgroudImageFileName,
+            storeBackgroudImagePath: storeBackgroudImagePath,
             isShowGoogleMap: isShowGoogleMap,
             defaultSpriteImageSource: defaultSpriteImageSource,
             defaultSpriteImageFileName: defaultSpriteImageFileName,
             userDefinedSpriteImageSource: userDefinedSpriteImageSource,
             userDefinedSpriteImageFileName: userDefinedSpriteImageFileName,
+            isDeliveryTaxAbleUi: isDeliveryTaxAbleUi,
+            pickupAddressId: pickupAddressId,
             customCSS: customCSS,
             companyDomains: companyDomains,
             mediaLibraries: mediaLibraries,
+            companyCostCenters: companyCostCenters,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,
             reset: reset
+            //#endregion
         };
         return self;
     };
@@ -520,6 +565,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.includeEmailBrokerArtworkOrderReport,
             source.includeEmailBrokerArtworkOrderXML,
             source.includeEmailBrokerArtworkOrderJobCard,
+            source.isDeliveryTaxAble,
+            source.pickupAddressId,
             source.makeEmailBrokerArtworkOrderProductionReady
         );
         //result.companyType(CompanyType.CreateFromClientModel(source.companyType));
@@ -546,6 +593,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         });
         _.each(source.productCategories, function (item) {
             result.productCategories.push(ProductCategoryListView.CreateFromClientModel(item));
+        });
+        _.each(source.companyCostCenters, function (item) {
+            result.companyCostCenters.push(CostCenter.CreateFromClientModel(item));
         });
         return result;
     };
@@ -590,6 +640,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.includeEmailBrokerArtworkOrderReport,
             source.includeEmailBrokerArtworkOrderXML,
             source.includeEmailBrokerArtworkOrderJobCard,
+            source.IsDeliveryTaxAble,
+            source.PickupAddressId,
             source.makeEmailBrokerArtworkOrderProductionReady,
             source.ImageSource,
             source.StoreBackgroudImageSource,
@@ -597,7 +649,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.DefaultSpriteImageSource,
             source.UserDefinedSpriteImageSource,
             source.UserDefinedSpriteFileName,
-            source.CustomCSS
+            source.CustomCSS,
+            source.StoreBackgroundImage,
+            source.StoreImagePath
         );
 
         store.companyType(CompanyType.Create(source.CompanyType));
@@ -626,7 +680,17 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         _.each(source.CompanyCmykColors, function (item) {
             store.companyCMYKColors.push(CompanyCMYKColor.Create(item));
         });
-        _.each(source.ContactCompanies, function (item) {
+        var temp = [];
+        _.each(source.CompanyDomains, function (item) {
+            temp.push(CompanyDomain.Create(item));
+            //If first item is pushing then it is the mandatory one
+            if (temp.length == 1) {
+                temp[0].isMandatoryDomain(true);
+            }
+        });
+        store.companyDomains(temp.reverse());
+        //_.each(source.ContactCompanies, function (item) {
+        _.each(source.CompanyContacts, function (item) {
             store.users.push(CompanyContact.Create(item));
         });
         _.each(source.PaymentGateways, function (item) {
@@ -640,6 +704,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         //});
         _.each(source.ProductCategoriesListView, function (item) {
             store.productCategories.push(ProductCategory.Create(item));
+        });
+        _.each(source.CompanyCostCentres, function (item) {
+            store.companyCostCenters.push(CostCenter.Create(item));
         });
         ////Add Store Products/Items in store product model
         //var mapper = new storeProductModel.Item();
@@ -895,10 +962,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             colorId = ko.observable(specifiedColorId),
             companyId = ko.observable(specifiedCompanyId),
             colorName = ko.observable(specifiedColorName).extend({ required: true }),
-            colorC = ko.observable(specifiedColorC).extend({ required: true }),
-            colorM = ko.observable(specifiedColorM).extend({ required: true }),
-            colorY = ko.observable(specifiedColorY).extend({ required: true }),
-            colorK = ko.observable(specifiedColorK).extend({ required: true }),
+            colorC = ko.observable(specifiedColorC).extend({ required: true, number: true, min: 0, max: 200 }),
+            colorM = ko.observable(specifiedColorM).extend({ required: true, number: true, min: 0, max: 200 }),
+            colorY = ko.observable(specifiedColorY).extend({ required: true, number: true, min: 0, max: 200 }),
+            colorK = ko.observable(specifiedColorK).extend({ required: true, number: true, min: 0, max: 200 }),
             // Errors
             errors = ko.validation.group({
                 colorName: colorName,
@@ -1168,9 +1235,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // #region ______________  A D D R E S S   _________________
 
     // ReSharper disable once InconsistentNaming
-    var Address = function (specifiedAddressId, specifiedCompanyId, specifiedAddressName, specifiedAddress1, specifiedAddress2, specifiedAddress3, specifiedCity, specifiedState, specifiedCountry, specifiedPostCode, specifiedFax,
+    var Address = function (specifiedAddressId, specifiedCompanyId, specifiedAddressName, specifiedAddress1, specifiedAddress2, specifiedAddress3, specifiedCity, specifiedState, specifiedCountry, specifiedStateName, specifiedCountryName, specifiedPostCode, specifiedFax,
         specifiedEmail, specifiedURL, specifiedTel1, specifiedTel2, specifiedExtension1, specifiedExtension2, specifiedReference, specifiedFAO, specifiedIsDefaultAddress, specifiedIsDefaultShippingAddress,
-        specifiedisArchived, specifiedTerritoryId, specifiedGeoLatitude, specifiedGeoLongitude, specifiedisPrivate,
+        specifiedisArchived, specifiedTerritoryId, specifiedTerritoryName, specifiedGeoLatitude, specifiedGeoLongitude, specifiedisPrivate,
         specifiedisDefaultTerrorityBilling, specifiedisDefaultTerrorityShipping, specifiedOrganisationId) {
         var
             self,
@@ -1183,6 +1250,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             city = ko.observable(specifiedCity),
             state = ko.observable(specifiedState),
             country = ko.observable(specifiedCountry),
+            stateName = ko.observable(specifiedStateName),
+            countryName = ko.observable(specifiedCountryName),
             postCode = ko.observable(specifiedPostCode),
             fax = ko.observable(specifiedFax),
             email = ko.observable(specifiedEmail),
@@ -1196,16 +1265,19 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isDefaultAddress = ko.observable(specifiedIsDefaultAddress),
             isDefaultShippingAddress = ko.observable(specifiedIsDefaultShippingAddress),
             isArchived = ko.observable(specifiedisArchived),
-            territoryId = ko.observable(specifiedTerritoryId),
+            territoryId = ko.observable(specifiedTerritoryId).extend({ required: true }),
+            territoryName = ko.observable(specifiedTerritoryName),
             geoLatitude = ko.observable(specifiedGeoLatitude),
             geoLongitude = ko.observable(specifiedGeoLongitude),
             isPrivate = ko.observable(specifiedisPrivate),
             isDefaultTerrorityBilling = ko.observable(specifiedisDefaultTerrorityBilling),
             isDefaultTerrorityShipping = ko.observable(specifiedisDefaultTerrorityShipping),
             organisationId = ko.observable(specifiedOrganisationId),
+            territory = ko.observable(),
             // Errors
             errors = ko.validation.group({
-                addressName: addressName
+                addressName: addressName,
+                territoryId: territoryId
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -1279,7 +1351,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     isPrivate: isPrivate(),
                     isDefaultTerrorityBilling: isDefaultTerrorityBilling(),
                     isDefaultTerrorityShipping: isDefaultTerrorityShipping(),
-                    OrganisationId: organisationId()
+                    OrganisationId: organisationId(),
+                    //Territory: territory().convertToServerData(),
                 };
             },
             // Reset
@@ -1296,6 +1369,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             city: city,
             state: state,
             country: country,
+            stateName: stateName,
+            countryName: countryName,
             postCode: postCode,
             fax: fax,
             email: email,
@@ -1316,6 +1391,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isDefaultTerrorityBilling: isDefaultTerrorityBilling,
             isDefaultTerrorityShipping: isDefaultTerrorityShipping,
             organisationId: organisationId,
+            territory: territory,
+            territoryName: territoryName,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1336,6 +1413,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.city,
             source.state,
             source.country,
+            source.stateName,
+            source.countryName,
             source.postCode,
             source.fax,
             source.email,
@@ -1350,6 +1429,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.isDefaultShippingAddress,
             source.isArchived,
             source.territoryId,
+            source.territoryName,
             source.geoLatitude,
             source.geoLongitude,
             source.isPrivate,
@@ -1369,6 +1449,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.City,
             source.State,
             source.Country,
+            source.StateName,
+            source.CountryName,
             source.PostCode,
             source.Fax,
             source.Email,
@@ -1383,6 +1465,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.IsDefaultShippingAddress,
             source.isArchived,
             source.TerritoryId,
+            source.TerritoryName,
             source.GeoLatitude,
             source.GeoLongitude,
             source.isPrivate,
@@ -1397,24 +1480,26 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // #region ______________  Company Banner   _________________
 
     // ReSharper disable once InconsistentNaming
-    var CompanyBanner = function (specifiedCompanyBannerId, specifiedHeading, specifiedDescription, specifiedItemURL, specifiedButtonURL, specifiedCompanySetId, specifiedImageSource) {
+    var CompanyBanner = function (specifiedCompanyBannerId, specifiedHeading, specifiedDescription, specifiedItemURL, specifiedButtonURL, specifiedCompanySetId,
+        specifiedImageSource, specifiedImageURL) {
         var self,
             id = ko.observable(specifiedCompanyBannerId),
             heading = ko.observable(specifiedHeading).extend({ required: true }),
             description = ko.observable(specifiedDescription),
             itemURL = ko.observable(specifiedItemURL),
             buttonURL = ko.observable(specifiedButtonURL),
-            companySetId = ko.observable(specifiedCompanySetId),
+            companySetId = ko.observable(specifiedCompanySetId).extend({ required: true }),
             filename = ko.observable(""),
             fileBinary = ko.observable(specifiedImageSource),
             fileType = ko.observable(),
             imageSource = ko.observable(specifiedImageSource),
+            filePath = ko.observable(specifiedImageURL),
             //Set Name For List View
             setName = ko.observable(),
             // Errors
             errors = ko.validation.group({
-                //companySetId: companySetId,
-                heading: heading
+                heading: heading,
+                companySetId: companySetId
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -1443,8 +1528,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.ItemURL = source.itemURL() === undefined ? null : source.itemURL();
                 result.ButtonURL = source.buttonURL() === undefined ? null : source.buttonURL();
                 result.CompanySetId = source.companySetId() === undefined ? null : source.companySetId();
-                result.FileName = source.filename() === undefined ? null : source.filename();
-                result.Bytes = source.fileBinary() === undefined ? null : source.fileBinary();
+                result.ImageURL = source.filePath() === undefined ? null : source.filePath();
                 return result;
             },
             // Reset
@@ -1463,6 +1547,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             fileBinary: fileBinary,
             fileType: fileType,
             imageSource: imageSource,
+            filePath: filePath,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1481,7 +1566,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.ItemURL,
             source.ButtonURL,
             source.CompanySetId,
-            source.ImageSource
+            source.ImageSource,
+            source.ImageURL
         );
     };
     CompanyBanner.CreateFromClientModel = function (source) {
@@ -1567,64 +1653,164 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // #region ______________ Email _________________
 
     // ReSharper disable once InconsistentNaming
-    var Campaign = function (specifiedCampaignId, specifiedCampaignName, specifiedEmailEvent, specifiedStartDateTime, specifiedIsEnabled, specifiedSendEmailAfterDays
-        , specifiedEventName, specifiedCampaignType) {
+    var Campaign = function (specifiedCampaignId, specifiedCampaignName, specifiedDescription, specifiedCampaignType, specifiedIsEnabled, specifiedStartDateTime
+        , specifiedIncludeCustomers, specifiedIncludeSuppliers, specifiedIncludeProspects, specifiedIncludeNewsLetterSubscribers, specifiedIncludeFlag, specifiedFlagIDs,
+        specifiedCustomerTypeIDs, specifiedGroupIDs, specifiedSubjectA, specifiedHTMLMessageA, specifiedFromName, specifiedFromAddress, specifiedReturnPathAddress,
+        specifiedReplyToAddress, specifiedEmailLogFileAddress2, specifiedEmailEvent, specifiedEventName, specifiedSendEmailAfterDays, specifiedIncludeType,
+        specifiedIncludeCorporateCustomers, specifiedEnableLogFiles, specifiedEmailLogFileAddress3
+        ) {
         var self,
             id = ko.observable(specifiedCampaignId),
             campaignName = ko.observable(specifiedCampaignName).extend({ required: true }),
-            emailEventId = ko.observable(specifiedEmailEvent),
-            startDateTime = ko.observable(specifiedStartDateTime !== undefined ? moment(specifiedStartDateTime, ist.utcFormat).toDate() : undefined),
-            isEnabled = ko.observable(specifiedIsEnabled),
-            sendEmailAfterDays = ko.observable(specifiedSendEmailAfterDays).extend({ number: true }),
-            eventName = ko.observable(specifiedEventName),
+            description = ko.observable(specifiedDescription),
             campaignType = ko.observable(specifiedCampaignType),
-                // Errors
-            errors = ko.validation.group({
-                campaignName: campaignName,
-                sendEmailAfterDays: sendEmailAfterDays,
+            isEnabled = ko.observable(specifiedIsEnabled),
+            startDateTime = ko.observable(specifiedStartDateTime !== undefined ? moment(specifiedStartDateTime, ist.utcFormat).toDate() : undefined).extend({
+                required: {
+                    message: "Start Date is required",
+                    onlyIf: function () {
+                        return campaignType() === 3;
+                    }
+                }
             }),
-            // Is Valid 
-            isValid = ko.computed(function () {
-                return errors().length === 0 ? true : false;
-            }),
+        includeCustomers = ko.observable(specifiedIncludeCustomers),
+        includeSuppliers = ko.observable(specifiedIncludeSuppliers),
+        includeProspects = ko.observable(specifiedIncludeProspects),
+        includeNewsLetterSubscribers = ko.observable(specifiedIncludeNewsLetterSubscribers),
+        includeFlag = ko.observable(specifiedIncludeFlag),
+        flagIDs = ko.observable(specifiedFlagIDs),
+        customerTypeIDs = ko.observable(specifiedCustomerTypeIDs),
+        groupIDs = ko.observable(specifiedGroupIDs),
+        subjectA = ko.observable(specifiedSubjectA).extend({ required: true }),
+        hTMLMessageA = ko.observable(specifiedHTMLMessageA),
+        fromName = ko.observable(specifiedFromName),
+        fromAddress = ko.observable(specifiedFromAddress),
+        returnPathAddress = ko.observable(specifiedReturnPathAddress),
+        replyToAddress = ko.observable(specifiedReplyToAddress),
+        emailLogFileAddress2 = ko.observable(specifiedEmailLogFileAddress2).extend({ email: true }),
+        emailEventId = ko.observable(specifiedEmailEvent),
+        eventName = ko.observable(specifiedEventName),
+        sendEmailAfterDays = ko.observable(specifiedSendEmailAfterDays).extend({ number: true }),
+        campaignImages = ko.observableArray([]),
+        includeType = ko.observable(specifiedIncludeType),
+        includeCorporateCustomers = ko.observable(specifiedIncludeCorporateCustomers),
+        enableLogFiles = ko.observable(specifiedEnableLogFiles),
+        emailLogFileAddress3 = ko.observable(specifiedEmailLogFileAddress3).extend({ email: true }),
 
-            // ReSharper disable InconsistentNaming
-            dirtyFlag = new ko.dirtyFlag({
-                campaignName: campaignName,
-                emailEventId: emailEventId,
-                startDateTime: startDateTime,
-                isEnabled: isEnabled,
-                sendEmailAfterDays: sendEmailAfterDays
-            }),
-            // Has Changes
-            hasChanges = ko.computed(function () {
-                return dirtyFlag.isDirty();
-            }),
-            //Convert To Server
-            convertToServerData = function (source) {
-                var result = {};
-                result.CampaignId = source.id() === undefined ? 0 : source.id();
-                result.CampaignName = source.campaignName() === undefined ? null : source.campaignName();
-                result.EmailEvent = source.emailEventId() === undefined ? null : source.emailEventId();
-                result.StartDateTime = (startDateTime() === undefined || startDateTime() === null) ? null : moment(startDateTime()).format(ist.utcFormat);
-                result.IsEnabled = source.isEnabled() === undefined ? null : source.isEnabled();
-                result.SendEmailAfterDays = source.sendEmailAfterDays() === undefined ? null : source.sendEmailAfterDays();
-                result.CampaignType = source.campaignType() === undefined ? null : source.campaignType();
-                return result;
-            },
-            // Reset
-            reset = function () {
-                dirtyFlag.reset();
-            };
+        // Errors
+        errors = ko.validation.group({
+            campaignName: campaignName,
+            emailLogFileAddress3: emailLogFileAddress3,
+            sendEmailAfterDays: sendEmailAfterDays,
+            emailLogFileAddress2: emailLogFileAddress2,
+            startDateTime: startDateTime,
+        }),
+        // Is Valid 
+        isValid = ko.computed(function () {
+            return errors().length === 0 ? true : false;
+        }),
+
+        // ReSharper disable InconsistentNaming
+        dirtyFlag = new ko.dirtyFlag({
+            campaignName: campaignName,
+            description: description,
+            campaignType: campaignType,
+            isEnabled: isEnabled,
+            startDateTime: startDateTime,
+            includeCustomers: includeCustomers,
+            includeSuppliers: includeSuppliers,
+            includeProspects: includeProspects,
+            includeNewsLetterSubscribers: includeNewsLetterSubscribers,
+            includeFlag: includeFlag,
+            flagIDs: flagIDs,
+            customerTypeIDs: customerTypeIDs,
+            groupIDs: groupIDs,
+            subjectA: subjectA,
+            hTMLMessageA: hTMLMessageA,
+            fromName: fromName,
+            fromAddress: fromAddress,
+            returnPathAddress: returnPathAddress,
+            replyToAddress: replyToAddress,
+            emailLogFileAddress2: emailLogFileAddress2,
+            emailEventId: emailEventId,
+            sendEmailAfterDays: sendEmailAfterDays,
+            campaignImages: campaignImages,
+            includeType: includeType,
+            includeCorporateCustomers: includeCorporateCustomers,
+            enableLogFiles: enableLogFiles,
+            emailLogFileAddress3: emailLogFileAddress3,
+        }),
+        // Has Changes
+        hasChanges = ko.computed(function () {
+            return dirtyFlag.isDirty();
+        }),
+        //Convert To Server
+        convertToServerData = function (source) {
+            var result = {};
+            result.CampaignId = source.id() === undefined ? 0 : source.id();
+            result.CampaignName = source.campaignName() === undefined ? null : source.campaignName();
+            result.Description = source.description() === undefined ? null : source.description();
+            result.CampaignType = source.campaignType() === undefined ? null : source.campaignType();
+            result.IsEnabled = source.isEnabled() === undefined ? false : source.isEnabled();
+            result.StartDateTime = (startDateTime() === undefined || startDateTime() === null) ? null : moment(startDateTime()).format(ist.utcFormat);
+            result.IncludeCustomers = (source.includeCustomers() === undefined || source.includeCustomers() === null) ? false : source.includeCustomers();
+            result.IncludeSuppliers = source.includeSuppliers() === undefined ? false : source.includeSuppliers();
+            result.IncludeProspects = source.includeProspects() === undefined ? false : source.includeProspects();
+            result.IncludeNewsLetterSubscribers = source.includeNewsLetterSubscribers() === undefined ? false : source.includeNewsLetterSubscribers();
+            result.IncludeFlag = source.includeFlag() === undefined ? null : source.includeFlag();
+            result.FlagIDs = source.flagIDs() === undefined ? null : source.flagIDs();
+            result.CustomerTypeIDs = source.customerTypeIDs() === undefined ? null : source.customerTypeIDs();
+            result.GroupIDs = source.groupIDs() === undefined ? null : source.groupIDs();
+            result.SubjectA = source.subjectA() === undefined ? null : source.subjectA();
+            result.HTMLMessageA = source.hTMLMessageA() === undefined ? null : source.hTMLMessageA();
+            result.FromName = source.fromName() === undefined ? null : source.fromName();
+            result.FromAddress = source.fromAddress() === undefined ? null : source.fromAddress();
+            result.ReturnPathAddress = source.returnPathAddress() === undefined ? null : source.returnPathAddress();
+            result.ReplyToAddress = source.replyToAddress() === undefined ? null : source.replyToAddress();
+            result.EmailLogFileAddress2 = source.emailLogFileAddress2() === undefined ? null : source.emailLogFileAddress2();
+            result.EmailEvent = source.emailEventId() === undefined ? null : source.emailEventId();
+            result.SendEmailAfterDays = source.sendEmailAfterDays() === undefined ? null : source.sendEmailAfterDays();
+            result.IncludeType = source.includeType() === undefined ? false : source.includeType();
+            result.IncludeCorporateCustomers = source.includeCorporateCustomers() === undefined ? false : source.includeCorporateCustomers();
+            result.EnableLogFiles = source.enableLogFiles() === undefined ? false : source.enableLogFiles();
+            result.EmailLogFileAddress3 = source.emailLogFileAddress3() === undefined ? null : source.emailLogFileAddress3();
+            result.CampaignImages = [];
+            return result;
+        },
+        // Reset
+        reset = function () {
+            dirtyFlag.reset();
+        };
         self = {
             id: id,
             campaignName: campaignName,
-            emailEventId: emailEventId,
-            startDateTime: startDateTime,
-            isEnabled: isEnabled,
-            sendEmailAfterDays: sendEmailAfterDays,
-            eventName: eventName,
+            description: description,
             campaignType: campaignType,
+            isEnabled: isEnabled,
+            startDateTime: startDateTime,
+            includeCustomers: includeCustomers,
+            includeSuppliers: includeSuppliers,
+            includeProspects: includeProspects,
+            includeNewsLetterSubscribers: includeNewsLetterSubscribers,
+            includeFlag: includeFlag,
+            flagIDs: flagIDs,
+            customerTypeIDs: customerTypeIDs,
+            groupIDs: groupIDs,
+            subjectA: subjectA,
+            hTMLMessageA: hTMLMessageA,
+            fromName: fromName,
+            fromAddress: fromAddress,
+            returnPathAddress: returnPathAddress,
+            replyToAddress: replyToAddress,
+            emailLogFileAddress2: emailLogFileAddress2,
+            emailEventId: emailEventId,
+            eventName: eventName,
+            sendEmailAfterDays: sendEmailAfterDays,
+            campaignImages: campaignImages,
+            includeType: includeType,
+            includeCorporateCustomers: includeCorporateCustomers,
+            enableLogFiles: enableLogFiles,
+            emailLogFileAddress3: emailLogFileAddress3,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1638,13 +1824,33 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         return new Campaign(
             source.CampaignId,
             source.CampaignName,
-            source.EmailEvent,
-            source.StartDateTime,
+            source.Description,
+            source.CampaignType,
             source.IsEnabled,
-            source.SendEmailAfterDays,
+            source.StartDateTime,
+            source.IncludeCustomers,
+            source.IncludeSuppliers,
+            source.IncludeProspects,
+            source.IncludeNewsLetterSubscribers,
+            source.IncludeFlag,
+            source.FlagIDs,
+            source.CustomerTypeIDs,
+            source.GroupIDs,
+            source.SubjectA,
+            source.HTMLMessageA,
+            source.FromName,
+            source.FromAddress,
+            source.ReturnPathAddress,
+            source.ReplyToAddress,
+            source.EmailLogFileAddress2,
+            source.EmailEvent,
             source.EventName,
-            source.CampaignType
-        );
+            source.SendEmailAfterDays,
+            source.IncludeType,
+            source.IncludeCorporateCustomers,
+            source.EnableLogFiles,
+            source.EmailLogFileAddress3
+      );
     };
     Campaign.CreateFromClientModel = function (source) {
         return new Campaign(
@@ -1660,12 +1866,135 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     };
     // #endregion ______________ Email _________________
 
+
+    // #region ______________ Campaign Section _________________
+    var CampaignSection = function (specifiedSectionId, specifiedSectionName) {
+        var self,
+            id = ko.observable(specifiedSectionId),
+            sectionName = ko.observable(specifiedSectionName),
+            //Is Expanded
+            isExpanded = ko.observable(false),
+            campaignEmailVariables = ko.observableArray([]);
+
+        self = {
+            id: id,
+            sectionName: sectionName,
+            isExpanded: isExpanded,
+            campaignEmailVariables: campaignEmailVariables,
+        };
+        return self;
+    };
+    CampaignSection.Create = function (source) {
+        return new CampaignSection(source.SectionId, source.SectionName);
+    };
+
+    var CampaignEmailVariable = function (specifiedVariableId, specifiedVariableName) {
+        var self,
+            id = ko.observable(specifiedVariableId),
+            variableName = ko.observable(specifiedVariableName);
+
+        self = {
+            id: id,
+            variableName: variableName,
+        };
+        return self;
+    };
+    CampaignEmailVariable.Create = function (source) {
+        return new CampaignEmailVariable(source.VariableId, source.VariableName);
+    };
+
+    var CampaignImage = function (specifiedCampaignImageId, specifiedCampaignId, specifiedImagePath, specifiedImageName, specifiedImageSource) {
+        var self,
+            id = ko.observable(specifiedCampaignImageId),
+            campaignId = ko.observable(specifiedCampaignId),
+            imagePath = ko.observable(specifiedImagePath),
+            imageName = ko.observable(specifiedImageName),
+            imageSource = ko.observable(specifiedImageSource);
+        //Convert To Server
+        convertToServerData = function (source) {
+            var result = {};
+            result.CampaignImageId = source.id() === undefined ? 0 : source.id();
+            result.CampaignId = source.campaignId() === undefined ? 0 : source.campaignId();
+            result.ImagePath = source.imagePath() === undefined ? 0 : source.imagePath();
+            result.ImageName = source.imageName() === undefined ? 0 : source.imageName();
+            result.ImageByteSource = source.imageSource() === undefined ? 0 : source.imageSource();
+            return result;
+        },
+        self = {
+            id: id,
+            campaignId: campaignId,
+            imagePath: imagePath,
+            imageName: imageName,
+            imageSource: imageSource,
+            convertToServerData: convertToServerData,
+        };
+        return self;
+    };
+    CampaignImage.Create = function (source) {
+        return new CampaignImage(source.CampaignImageId, source.CampaignId, source.ImagePath, source.ImageName, source.ImageSource);
+    };
+
+    var SectionFlag = function (specifiedSectionFlagId, specifiedFlagName) {
+        var self,
+            id = ko.observable(specifiedSectionFlagId),
+            name = ko.observable(specifiedFlagName),
+            isChecked = ko.observable(false);
+
+        self = {
+            id: id,
+            name: name,
+            isChecked: isChecked,
+        };
+        return self;
+    };
+    SectionFlag.Create = function (source) {
+        return new SectionFlag(source.SectionFlagId, source.FlagName);
+    };
+
+
+    var CampaignCompanyType = function (specifiedTypeId, specifiedTypeName) {
+        var self,
+            id = ko.observable(specifiedTypeId),
+            name = ko.observable(specifiedTypeName),
+            isChecked = ko.observable(false);
+
+        self = {
+            id: id,
+            name: name,
+            isChecked: isChecked,
+        };
+        return self;
+    };
+    CampaignCompanyType.Create = function (source) {
+        return new CampaignCompanyType(source.TypeId, source.TypeName);
+    };
+
+    var Group = function (specifiedGroupId, specifiedGroupName) {
+        var self,
+            id = ko.observable(specifiedGroupId),
+            name = ko.observable(specifiedGroupName),
+            isChecked = ko.observable(false);
+
+        self = {
+            id: id,
+            name: name,
+            isChecked: isChecked,
+        };
+        return self;
+    };
+    Group.Create = function (source) {
+        return new Group(source.GroupId, source.GroupName);
+    };
+
+
+    // #endregion ______________ Campaign Section _________________
+
     // #region ______________  CMS Page   _________________
 
     // ReSharper disable once InconsistentNaming
     var CMSPage = function (specifiedPageId, specifiedPageTitle, specifiedPageKeywords, specifiedMetaTitle, specifiedMetaDescriptionContent, specifiedMetaCategoryContent,
         specifiedMetaRobotsContent, specifiedMetaAuthorContent, specifiedMetaLanguageContent, specifiedMetaRevisitAfterContent, specifiedCategoryId, specifiedPageHTML,
-        specifiedImageSource, specifiedDefaultPageKeyWords, specifiedFileName) {
+        specifiedImageSource, specifiedDefaultPageKeyWords, specifiedFileName, specifiedPageBanner) {
         var self,
             id = ko.observable(specifiedPageId),
             pageTitle = ko.observable(specifiedPageTitle).extend({ required: true }),
@@ -1682,6 +2011,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             imageSrc = ko.observable(specifiedImageSource),
             fileName = ko.observable(specifiedFileName),
             defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
+            pageBanner = ko.observable(specifiedPageBanner),
             // Errors
             errors = ko.validation.group({
                 pageTitle: pageTitle,
@@ -1694,7 +2024,21 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
 
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
-
+                pageTitle: pageTitle,
+                pageKeywords: pageKeywords,
+                metaTitle: metaTitle,
+                metaDescriptionContent: metaDescriptionContent,
+                metaCategoryContent: metaCategoryContent,
+                metaRobotsContent: metaRobotsContent,
+                metaAuthorContent: metaAuthorContent,
+                metaLanguageContent: metaLanguageContent,
+                metaRevisitAfterContent: metaRevisitAfterContent,
+                categoryId: categoryId,
+                pageHTML: pageHTML,
+                imageSrc: imageSrc,
+                fileName: fileName,
+                defaultPageKeyWords: defaultPageKeyWords,
+                pageBanner: pageBanner,
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -1717,6 +2061,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.PageHTML = source.pageHTML() === undefined ? null : source.pageHTML();
                 result.FileName = source.fileName() === undefined ? null : source.fileName();
                 result.Bytes = source.imageSrc() === undefined ? null : source.imageSrc();
+                result.PageBanner = source.pageBanner() === undefined ? null : source.pageBanner();
                 return result;
             },
             // Reset
@@ -1739,6 +2084,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             imageSrc: imageSrc,
             fileName: fileName,
             defaultPageKeyWords: defaultPageKeyWords,
+            pageBanner: pageBanner,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1765,7 +2111,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.PageHTML,
             source.ImageSource,
             source.DefaultPageKeyWords,
-            source.FileName
+            source.FileName,
+            source.PageBanner
 
         );
     };
@@ -1957,12 +2304,16 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             canUserEditProfile = ko.observable(specifiedCanUserEditProfile),
             canPlaceDirectOrder = ko.observable(specifiedcanPlaceDirectOrder),
             organisationId = ko.observable(specifiedOrganisationId),
-            bussinessAddressId = ko.observable(specifiedBussinessAddressId),
+            bussinessAddressId = ko.observable(specifiedBussinessAddressId).extend({ required: true }),
             fileName = ko.observable(),
+            bussinessAddress = ko.observable(),
+            shippingAddress = ko.observable(),
+
             // Errors
             errors = ko.validation.group({
                 firstName: firstName,
-                email: email
+                email: email,
+                bussinessAddressId: bussinessAddressId
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -2081,7 +2432,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     JobTitle: jobTitle(),
                     DOB: dOB(),
                     Notes: notes(),
-                    IsDefaultContact: isDefaultContact(),
+                    IsDefaultContact: isDefaultContact() == true ? 1: 0,
                     HomeAddress1: homeAddress1(),
                     HomeAddress2: homeAddress2(),
                     HomeCity: homeCity(),
@@ -2148,7 +2499,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     canPlaceDirectOrder: canPlaceDirectOrder(),
                     OrganisationId: organisationId(),
                     BussinessAddressId: bussinessAddressId(),
-                    FileName: fileName()
+                    FileName: fileName(),
+                    //BussinessAddress: bussinessAddress() != undefined ? bussinessAddress().convertToServerData(): null,
+                    //ShippingAddress: shippingAddress() != undefined ? shippingAddress().convertToServerData() : null,
                 };
             },
             // Reset
@@ -2241,6 +2594,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             organisationId: organisationId,
             bussinessAddressId: bussinessAddressId,
             fileName: fileName,
+            bussinessAddress: bussinessAddress,
+            shippingAddress: shippingAddress,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -2482,7 +2837,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         return self;
     };
     Role.CreateFromClientModel = function (source) {
-        return new roleName(
+        return new Role(
             source.roleId,
             source.rolesName
             );
@@ -3358,12 +3713,13 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     //#region ___________________C O M P A N Y   D O M A I N ______________________________
 
     // ReSharper disable once InconsistentNaming
-    var CompanyDomain = function (specifiedCompanyDomainId, specifiedDomain) {
+    var CompanyDomain = function (specifiedCompanyDomainId, specifiedDomain, specifiedCompanyId) {
         var // Unique key
             companyDomainId = ko.observable(specifiedCompanyDomainId || 0),
             // Domain
             domain = ko.observable(specifiedDomain || undefined).extend({ required: true }),
-
+            companyId = ko.observable(specifiedCompanyId || undefined),
+            isMandatoryDomain = ko.observable(false),
             errors = ko.validation.group({
                 domain: domain
             }),
@@ -3374,31 +3730,44 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             // True if the product has been changed
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
-                domain: domain
+                domain: domain,
+                companyId: companyId
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
                 return dirtyFlag.isDirty();
-            });
+            }),
+             convertToServerData = function () {
+                 return {
+                     CompanyDomainId: companyDomainId() === undefined ? 0 : companyDomainId(),
+                     Domain: domain(),
+                     CompanyId: companyId(),
+                 };
+             };
         return {
             companyDomainId: companyDomainId,
             domain: domain,
+            companyId: companyId,
+            isMandatoryDomain: isMandatoryDomain,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
+            convertToServerData: convertToServerData
         };
     };
     CompanyDomain.CreateFromClientModel = function (source) {
         return new CompanyDomain(
             source.companyDomainId,
-            source.domain
+            source.domain,
+            source.CompanyId
             );
     };
     CompanyDomain.Create = function (source) {
         var companyDomain = new CompanyDomain(
             source.CompanyDomainId,
-            source.Domain
+            source.Domain,
+            source.CompanyId
             );
         return companyDomain;
     };
@@ -3413,8 +3782,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             itemId = ko.observable(specifiedItemId),
             offerType = ko.observable(specifiedOfferType),
             itemName = ko.observable(specifiedItemName),
-           sortOrder = ko.observable(specifiedSortOrder),
-           companyId = ko.observable(),
+            sortOrder = ko.observable(specifiedSortOrder),
+            companyId = ko.observable(),
         //Convert To Server
         convertToServerData = function () {
             return {
@@ -3454,11 +3823,13 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     var MediaLibrary = function (specifiedMediaId, specifiedFilePath, specifiedFileName, specifiedFileType, specifiedCompanyId, specifiedImageSource) {
         var self,
             id = ko.observable(specifiedMediaId),
+            fakeId = ko.observable(),
             filePath = ko.observable(specifiedFilePath),
             fileName = ko.observable(specifiedFileName),
             fileType = ko.observable(specifiedFileType),
             companyId = ko.observable(specifiedCompanyId),
             fileSource = ko.observable(specifiedImageSource),
+            isSelected = ko.observable(false),
 
         //Convert To Server
         convertToServerData = function () {
@@ -3469,15 +3840,18 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 FileType: fileType(),
                 CompanyId: companyId(),
                 FileSource: fileSource(),
+                FakeId: fakeId(),
             };
         };
         self = {
             id: id,
+            fakeId: fakeId,
             filePath: filePath,
             fileName: fileName,
             fileType: fileType,
             companyId: companyId,
             fileSource: fileSource,
+            isSelected: isSelected,
             convertToServerData: convertToServerData,
         };
         return self;
@@ -3494,6 +3868,73 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
 
     // #endregion ______________ MediaLibrary _________________
 
+    // #region ______________ C O S T   C E N T E R_________________
+    // ReSharper disable once InconsistentNaming
+    var CostCenter = function (specifiedCostCentreId, specifiedName) {
+
+        var self,
+            costCentreId = ko.observable(specifiedCostCentreId),
+            name = ko.observable(specifiedName),
+            isSelected = ko.observable(),
+            // Errors
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                costCentreId: costCentreId,
+                name: name,
+
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function () {
+                return {
+                    CostCentreId: costCentreId(),
+                    Name: name(),
+                };
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            costCentreId: costCentreId,
+            name: name,
+            isSelected: isSelected,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    CostCenter.CreateFromClientModel = function (source) {
+        return new CostCenter(
+            source.costCentreId,
+            source.name
+            );
+    };
+    CostCenter.Create = function (source) {
+        var costCenter = new CostCenter(
+            source.CostCentreId,
+            source.Name
+            );
+        return costCenter;
+    };
+    // #endregion 
+
+    //#region ______________ R E T U R N ______________
     return {
         StoreListView: StoreListView,
         Store: Store,
@@ -3525,5 +3966,13 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         CmsOffer: CmsOffer,
         CompanyDomain: CompanyDomain,
         MediaLibrary: MediaLibrary,
+        CostCenter: CostCenter,
+        CampaignSection: CampaignSection,
+        CampaignEmailVariable: CampaignEmailVariable,
+        CampaignImage: CampaignImage,
+        SectionFlag: SectionFlag,
+        CampaignCompanyType: CampaignCompanyType,
+        Group: Group,
     };
+    // #endregion 
 });

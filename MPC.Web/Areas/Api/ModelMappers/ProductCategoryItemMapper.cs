@@ -22,6 +22,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 CategoryId = source.CategoryId,
                 ItemId = source.ItemId,
+                CategoryName = source.ProductCategory != null ? source.ProductCategory.CategoryName : string.Empty,
                 ProductCategoryItemId = source.ProductCategoryItemId
             };
         }
