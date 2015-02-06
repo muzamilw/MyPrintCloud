@@ -1018,7 +1018,7 @@
             $("#lblPostCdeBilSip").html("");
             //                //Set Selected Value to add new Mode
 
-            if (ddlBilling.val() != "0") {
+            if (ddlBilling.val() != "") {
                 //ddlBilling.val("0");
 
                 //txtBillingName.val("");
@@ -1040,11 +1040,21 @@
             }
 
             $('#ddlBilling option').each(function () {
-                if ($(this).val() == $("#ddlDelivery").val()) {
-                    $(this).css('display', 'none');
-                }
-            });
+                if (ddlDelivery.val() != "") {
+                 
+                    if ($(this).val() == $("#ddlDelivery").val()) {
+                        $(this).css('display', 'none');
 
+                    }
+                    else{
+                        $(this).css('display', 'block');
+                    }
+                }
+              
+            });
+           $('#ddlBilling option:eq(2)').attr('selected', 'selected');
+         //   $('#divBilling').val(5);
+            OnChangeBillingAddress();
         }
 
 
@@ -1456,7 +1466,7 @@
         var addressId = $('#ddlDelivery').val();
         var jsonData = (@Html.Raw(Json.Encode(Model.ShippingAddresses))) ;
         // $.parseJSON($('#JsonAddressContainer').val());console.log(jsonData);
-
+       
         if(jsonData != null)
         {
             for(var i = 0; i <jsonData.length;i++)
@@ -1612,6 +1622,7 @@
                         {
                             $(this).css("display","block");
                         }
+
                     });
                 }
 
