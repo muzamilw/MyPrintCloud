@@ -1293,7 +1293,15 @@ namespace MPC.Webstore.Controllers
 
                 deliveryAdd.IsDefaultShippingAddress = model.ShippingAddress.IsDefaultShippingAddress;
 
-                deliveryAdd.IsDefaultAddress = model.ShippingAddress.IsDefaultShippingAddress;
+                if(IsDefaultAddress == "true")
+                {
+                    deliveryAdd.IsDefaultAddress = true;
+                }
+                else
+                {
+                    deliveryAdd.IsDefaultAddress = false;
+                }
+              
 
             }
 
@@ -1363,7 +1371,16 @@ namespace MPC.Webstore.Controllers
 
                     billingAdd.IsDefaultShippingAddress = model.BillingAddress.IsDefaultShippingAddress;
 
-                    billingAdd.IsDefaultAddress = model.BillingAddress.IsDefaultShippingAddress;
+                    string IsDefaultAddress = Request.Form["txthdnDeliveryDefaultAddress"];
+                    if(IsDefaultAddress == "true")
+                    {
+                        billingAdd.IsDefaultAddress = true;
+                    }
+                    else
+                    {
+                        billingAdd.IsDefaultAddress = false;
+                    }
+                  
                 }
             }
 
