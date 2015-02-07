@@ -107,7 +107,7 @@ function b4(imgSrc) {
     $.each(LiImgs, function (i, IT) {
         
         if (imgSrc.indexOf(IT.ImageName) != -1) {
-            console.log(IT);
+         
             IW = IT.ImageWidth;
             IH = IT.ImageHeight;
             if (he > wd)
@@ -2133,7 +2133,7 @@ function j9_21(DT) {
     while (imgName.indexOf('%20') != -1)
         imgName = imgName.replace("%20", " ");
 
-    var path = "./Designer/Products/" + imgName;
+    var path = "" + imgName;
     j8(path);
 }
 function k0() {
