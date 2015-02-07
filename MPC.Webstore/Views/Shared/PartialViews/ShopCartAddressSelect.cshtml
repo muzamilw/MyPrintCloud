@@ -852,7 +852,7 @@
                                 <input type="hidden" value="false" id="txthdnBillingDefaultAddress" name="txthdnBillingDefaultAddress" />
                             }
                         }
-                        
+                        <input type="hidden" value="True" name="isSameBillingAddress" id="isSameBillingAddress" />
                     </div>
                    }
         
@@ -997,12 +997,13 @@
            // $("#ltrlShipTo").html(BillShippTO);
             SetNewControlValues();
 
-
+            $('#isSameBillingAddress').val("True");
             $('#divBilling').css('display', 'none');
         }
         else {
             //
             // $("#MainContent_chkBoxDeliverySameAsBilling").removeattr("checked");
+            $('#isSameBillingAddress').val("False");
             if ($("#hfIsDefaultBilling").val() != "1") {
                 EnableTextBoxes();
             }
@@ -1054,22 +1055,13 @@
             });
            $('#ddlBilling option:eq(2)').attr('selected', 'selected');
          //   $('#divBilling').val(5);
-            OnChangeBillingAddress();
+         //   OnChangeBillingAddress();
         }
 
 
     }
 
-    function billingSameAsDeliveryScript() {
-
-        if (ddlBilling.val() == ddlDelivery.val()) {
-
-            SetNewControlValues();
-        }
-        else {
-
-        }
-    }
+   
 
     function getthecheckbox() {
         BillingSameAsDeliveryScriptCheckBox();
@@ -1560,8 +1552,8 @@
                     else{
                         $('#txthdnBillingDefaultAddress').val("false");
                     }
-                    $('#ddShippingCountry').val(cAdrres.CountryId);
-                    $('#ddShippingState').val(cAdrres.StateId);
+                    $('#BillingCountryDropDown').val(cAdrres.CountryId);
+                    $('#ddBillingState').val(cAdrres.StateId);
 
 
 
