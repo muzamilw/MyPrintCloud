@@ -17,7 +17,7 @@ using MPC.Models.ModelMappers;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using MPC.Repository.Repositories;
-
+using MPC.Models.Common;
 namespace MPC.Implementation.MISServices
 {
     public class CompanyService : ICompanyService
@@ -67,7 +67,7 @@ namespace MPC.Implementation.MISServices
         private readonly IItemProductDetailRepository itemProductDetailRepository;
         private readonly ICompanyDomainRepository companyDomainRepository;
         private readonly ICostCentreMatrixRepository costCentreMatrixRepositry;
-        //private readonly ICostCentreQuestionRepository companyDomainRepository;
+      //  private readonly MPC.Interfaces.Repository.que companyDomainRepository;
         //#endregion
 
         /// <summary>
@@ -2314,7 +2314,7 @@ namespace MPC.Implementation.MISServices
                 costCentre = costCentreRepository.GetCostCentersByOrganisationID(OrganisationID);
                 ObjExportOrg.CostCentre = costCentre;
 
-               // ObjExportOrg.CostCentreQuestion = costcentreq
+              //  ObjExportOrg.CostCentreQuestion = costcentreq
 
                 // for cost centre answers
 

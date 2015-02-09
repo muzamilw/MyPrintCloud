@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -164,9 +165,9 @@
     <Compile Include="WebStoreServices\ICompanyService.cs" />
     <Compile Include="MISServices\IMyOrganizationService.cs" />
     <Compile Include="WebStoreServices\ICompanyBannerService.cs" />
-    <Compile Include="WebStoreServices\ICostCentreQuestionRepository.cs" />
+    <Compile Include="Repository\ICostCentreQuestionRepository.cs" />
     <Compile Include="WebStoreServices\ICostCentreService.cs" />
-    <Compile Include="WebStoreServices\ICostCentreVariableRepository.cs" />
+    <Compile Include="Repository\ICostCentreVariableRepository.cs" />
     <Compile Include="WebStoreServices\IExecutionService.cs" />
     <Compile Include="WebStoreServices\IImagePermissionsService.cs" />
     <Compile Include="WebStoreServices\IListingService.cs" />

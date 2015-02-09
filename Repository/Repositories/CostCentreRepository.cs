@@ -798,6 +798,8 @@ namespace MPC.Repository.Repositories
 
         }
         #endregion
+	#region "Compile Binaries"
+        #endregion
 
         #region exportOrgFunctions
 
