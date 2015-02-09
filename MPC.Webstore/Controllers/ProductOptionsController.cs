@@ -261,7 +261,8 @@ namespace MPC.Webstore.Controllers
                     SetupCost = addOn.SetupCost,
                     MinimumCost = addOn.MinimumCost,
                     ActualPrice = addOn.AddOnPrice ?? 0.0,
-                    StockOptionId = addOn.ItemStockId
+                    StockOptionId = addOn.ItemStockId,
+                    Description = ""
                 };
                 AddonObjectList.Add(addOnsObject);
             }

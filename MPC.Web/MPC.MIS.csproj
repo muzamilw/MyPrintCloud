@@ -289,8 +289,10 @@
     <Compile Include="Areas\Api\ModelMappers\GetOrdersResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemSectionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\LookupMethodMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachineInkCoverageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineListMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachineResourcesMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MediaLibraryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductCategoryItemMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PhraseFieldMapper.cs" />
@@ -2686,6 +2688,7 @@
     <Content Include="Scripts\underscore-min.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -2720,7 +2723,6 @@
     <Content Include="Views\Estimate\EstimatesList.cshtml" />
     <Content Include="Views\Estimate\ItemDetail.cshtml" />
     <Content Include="Views\Estimate\SectionDetail.cshtml" />
-    <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\LoginFull.cshtml" />
     <Content Include="Views\Order\OrderDetail.cshtml" />
     <Content Include="Views\Order\OrderItemDetail.cshtml" />

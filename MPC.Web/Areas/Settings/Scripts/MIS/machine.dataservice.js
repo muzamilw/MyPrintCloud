@@ -28,12 +28,12 @@ define("machine/machine.dataservice", function () {
                         type: 'GET'
                     });
 
-                    // Define request to delete MachineList
-                    //amplify.request.define('deleteMachine', 'ajax', {
-                    //    url: ist.siteUrl + '/Api/MachineList',
-                    //    dataType: 'json',
-                    //    type: 'DELETE'
-                    //});
+                    //  Define request to archive MachineList
+                    amplify.request.define('archiveMachine', 'ajax', {
+                        url: ist.siteUrl + '/Api/Machine',
+                        dataType: 'json',
+                        type: 'POST'
+                    });
                     //// Define request to save New MachineList
                     //amplify.request.define('saveNewMachine', 'ajax', {
                     //    url: ist.siteUrl + '/Api/MachineList',
@@ -94,16 +94,16 @@ define("machine/machine.dataservice", function () {
                     error: callbacks.error,
                     data: params
                 });
-            };
-        //deleteMachine = function (params, callbacks) {
-        //    initialize();
-        //    return amplify.request({
-        //        resourceId: 'deleteMachine',
-        //        success: callbacks.success,
-        //        error: callbacks.error,
-        //        data: params
-        //    });
-        //},
+            },
+        archiveMachine = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'archiveMachine',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: params
+            });
+        };
         //// Save New paper Sheet
         //saveNewMachine = function (param, callbacks) {
         //    initialize();
@@ -129,7 +129,8 @@ define("machine/machine.dataservice", function () {
             GetMachineList: GetMachineList,
             getMachineById: getMachineById,
             GetLookupMethodList: GetLookupMethodList,
-            getStockItemsList: getStockItemsList
+            getStockItemsList: getStockItemsList,
+            archiveMachine: archiveMachine
             
         };
     })();
