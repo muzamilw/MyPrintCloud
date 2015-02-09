@@ -10,13 +10,10 @@
 <script>
    $(document).ready(function () 
    {
-
        var ColorPickerId;
-
        $(".Color").click(function ()
        {
            ColorPickerId = this.id;
-          
            $("#" + ColorPickerId).ColorPicker
            ({
            color: '',
@@ -32,14 +29,10 @@
            },
            onChange: function (hsb, hex, rgb)
            {
-
-               $("#" + ColorPickerId).css("background-color", "#" + hex);
-              
+                $("#" + ColorPickerId).css("background-color", "#" + hex);
            }
        });
-
-
-       });
+   });
 
    
    });
