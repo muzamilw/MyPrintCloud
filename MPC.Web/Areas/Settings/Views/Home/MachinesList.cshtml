@@ -24,8 +24,8 @@
                 <div class="main-box clearfix">
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#tab-presses" data-toggle="tab">Presses</a></li>
-                            <li><a href="#tab-Guillotine" data-toggle="tab">Guillotine</a></li>
+                            <li class="active"><a href="#tab-presses" data-bind="click: $root.GetMachineListForAll" data-toggle="tab">Presses</a></li>
+                            <li><a href="#tab-Guillotine" data-bind="click: $root.GetMachineListForGuillotine" data-toggle="tab">Guillotine</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="tab-presses">
@@ -63,7 +63,7 @@
                                 </div>
 
                             </div>
-                            <div class="tab-pane fade " id="tab-Guillotine">
+                            <div class="tab-pane fade " id="tab-Guillotine" >
                                 <div class="col-lg-12">
                                     <div class="main-box no-header clearfix">
                                         <div class="main-box-body clearfix">
@@ -72,18 +72,26 @@
                                                     <thead>
                                                         <tr>
                                                             <th><span>Machine Name</span></th>
-                                                            <th><span></span></th>
-                                                            <th class="text-center"><span>Calculation Method</span></th>
-                                                            <th><span></span></th>
+                                                            <th><span>Max Sheet Size</span></th>
+                                                            <th><span>Min Sheet Size</span></th>
+                                                            <th><span>Calculation Method</span></th>
                                                             <th>&nbsp;</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody></tbody>
+                                                    <tbody>
+                                                        <!-- ko template: { name: 'itemMachineTemplate' , foreach: $root.machineList } -->
+                                                        <!-- /ko -->
+
+                                                    </tbody>
                                                 </table>
                                             </div>
                                         </div>
                                     </div>
-                                    
+                                    <div id="pagerDiv">
+                                        <!-- ko with: pager -->
+                                        @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                        <!-- /ko -->
+                                    </div>
 
                                 </div>
                             </div>
