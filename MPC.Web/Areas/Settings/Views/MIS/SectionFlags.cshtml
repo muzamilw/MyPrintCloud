@@ -1,0 +1,286 @@
+﻿@{
+    ViewBag.Title = "Section Flags";
+}
+@section leftmenue {
+}
+<script src="~/Areas/Settings/Scripts/MIS/spectrum.js"></script>
+
+<style>
+    li 
+    {
+        cursor:pointer;
+    }
+</style>
+        <div class="row" id="divSalesPipeline">
+            <div>
+                <form method="post" enctype="multipart/form-data">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <ol class="breadcrumb">
+                                    <li><a href="~/Dashboard/Index">Home</a></li>
+                                    <li>Settings</li>
+                                    <li>MIS Settings</li>
+                                    <li class="active"><span>SECTION FLAGS</span></li>
+                                </ol>
+                                <div class="clearfix">
+                                    <h1 class="pull-left">Section Flags</h1>
+                                    <div style="display:none;">
+                                        <p> Please corresct these errors.</p>
+                                        <table id="table">
+                                            <tbody>
+                                                <!-- ko template: { name: 'itemErrorTemplate' , foreach: $root.errorList } -->
+                                                <!-- /ko -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="prefixesdata">
+                            <button class="btn  btn-info" style="float: right;margin-bottom: 10px;margin-right: 15px;" id="saveBtn" data-bind="click: $root.onSavePrefixes, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
+                            <div class="col-lg-12 main-box clearfix" style="padding-bottom:30px;">
+                                <div class="main-box-body" style="padding:20px;">
+                                    <div class="col-md-3" style="width:auto;padding-bottom:20px;max-height:600px;overflow-y:scroll;">
+                                    <ul style="list-style-type:none;">
+                                        <li>Activities</li>
+                                        <li>Add Coustomer</li>
+                                        <li>Add Delivery</li>
+                                        <li>Add Inventory</li>
+                                        <li>Invoices</li>
+                                        <li>Add Purchase</li>
+                                        <li>Rate</li>
+                                        <li>Add Supplier</li>
+                                        <li>Add User</li>
+                                        <li>Address Tags</li>
+                                        <li>Store Tags</li>
+                                        <li>Calenders</li>
+                                        <li>Contact Management</li>
+                                        <li>Contancts Tags</li>
+                                        <li>Corporate Store Tags</li>
+                                        <li>Cost Centers</li>
+                                        <li>CRM</li>
+                                        <li>Customers Price Matrix</li>
+                                        <li>Customers Web Users</li>
+                                        <li>Customers</li>
+                                        <li>Delete Customers</li>
+                                        <li>Delete Delivery</li>
+                                        <li>Delete Invoice</li>
+                                        <li>Delete Purchase</li>
+                                        <li>Delete Role</li>
+                                        <li>Delete Supplier</li>
+                                        <li>Delete User</li>
+                                        <li>Delivery</li>
+                                        <li>E-Procurement</li>
+                                        <li>Enquries</li>
+                                        <li>Estimate Details</li>
+                                        <li>Estimates</li>
+                                        <li>Export Invoice</li>
+                                        <li>Finish Goods</li>
+                                        <li>Goods Receive Note</li>
+                                        <li>Help</li>
+                                        <li>Inventory</li>
+                                        <li>Invoices</li>
+                                        <li>Item Catalogue</li>
+                                        <li>Item Flags</li>
+                                        <li>Job Activity List</li>
+                                        <li>Job Production</li>
+                                        <li>Machines</li>
+                                        <li>Marketing Brief Tags</li>
+                                        <li>Orders</li>
+                                        <li>Pagination</li>
+                                        <li>Pink Registeration</li>
+                                        <li>PipeLine Details</li>
+                                        <li>Product</li>
+                                        <li>Product Library</li>
+                                        <li>Product Section</li>
+                                        <li>Purchases</li>
+                                        <li>Registeration</li>
+                                        <li>Report Designer</li>
+                                        <li>Sales Commissions</li>
+                                        <li>Sale Pipelines</li>
+                                        <li>Sales Targets</li>
+                                        <li>Sechuling</li>
+                                        <li>Settings</li>
+                                        <li>Stores</li>
+                                        <li>Store Tags</li>
+                                        <li>Supplier Address</li>
+                                        <li>Supplier Contacts</li>
+                                        <li>Supplier Information</li>
+                                        <li>Suppliers</li>
+                                        <li>Tasks</li>
+                                        <li>Template Library</li>
+                                    </ul> 
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="col-md-12 form-horizontal" style="margin-left:18px;">
+                                            <h3>Section Flags</h3>
+                                        </div>
+                                        <div class="col-md-12 form-horizontal" style="margin-left:18px;">
+                                            <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.onCreateNewMarkup">
+                                                <i class="fa fa-plus-circle fa-lg" style="cursor:pointer"></i>&nbsp;Add
+                                            </a>
+
+                                            <table id="chartOfAccountTablle" class="table table-striped table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <td align="left" class="text-style" style="width:30%;">
+                                                            Name
+                                                        </td>
+                                                        <td align="left" class="text-style" style="width:30%;">
+                                                            Description
+                                                        </td>
+                                                        <td align="left" class="text-style" style="width:20%;">
+                                                            Color
+                                                        </td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="width:35%"><input type="text" class="form-control" id="txtCompanyName" value="99"></td>
+                                                        <td style="width:35%;">
+                                                            <input type="text" class="form-control" id="txtCompanyName" value="99">
+                                                        </td>
+                                                        <td style="width:20%;">
+                                                            10
+                                                        </td>
+
+                                                        <td>
+
+                                                            <a href="#" class="table-link danger">
+                                                                <span class="fa-stack">
+                                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                                </span>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:35%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
+                                                        <td style="width:35%;">
+                                                            <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
+                                                        </td>
+                                                        <td style="width:20%;">
+                                                            20
+                                                        </td>
+
+                                                        <td>
+
+                                                            <a href="#" class="table-link danger">
+                                                                <span class="fa-stack">
+                                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                                </span>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:35%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
+                                                        <td style="width:35%;">
+                                                            <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
+                                                        </td>
+                                                        <td style="width:20%;">
+                                                            30
+                                                        </td>
+
+                                                        <td>
+
+                                                            <a href="#" class="table-link danger">
+                                                                <span class="fa-stack">
+                                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                                </span>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:35%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
+                                                        <td style="width:35%;">
+                                                            <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
+                                                        </td>
+                                                        <td style="width:20%;">
+                                                            40
+                                                        </td>
+
+                                                        <td>
+
+                                                            <a href="#" class="table-link danger">
+                                                                <span class="fa-stack">
+                                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                                </span>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:35%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
+                                                        <td style="width:35%;">
+                                                            <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
+                                                        </td>
+                                                        <td style="width:20%;">
+                                                            60
+                                                        </td>
+
+                                                        <td>
+
+                                                            <a href="#" class="table-link danger">
+                                                                <span class="fa-stack">
+                                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                                </span>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:35%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
+                                                        <td style="width:35%;">
+                                                            <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
+                                                        </td>
+                                                        <td style="width:20%;"></td>
+
+                                                        <td>
+
+                                                            <a href="#" class="table-link danger">
+                                                                <span class="fa-stack">
+                                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                                </span>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:35%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
+                                                        <td style="width:35%;">
+                                                            <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
+                                                        </td>
+                                                        <td style="width:20%;">
+                                                            80
+                                                        </td>
+
+                                                        <td>
+
+                                                            <a href="#" class="table-link danger">
+                                                                <span class="fa-stack">
+                                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                                </span>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+
+
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
+                                      
+                                    </div>
+                    </div>
+                    </div>
+                    </form>
+            </div>
+        </div>
+     
+

@@ -1,4 +1,4 @@
-﻿$("#uploadImagesMB ,#IdUploadBackgrounds").click(function () {
+﻿$("#uploadImagesMB ,#IdUploadBackgrounds,#uploadBackgroundMn").click(function () {
      $("#imageUploader").click();
    // $("#fontUploader").click();
     //animatedcollapse.toggle('textPropertPanel');

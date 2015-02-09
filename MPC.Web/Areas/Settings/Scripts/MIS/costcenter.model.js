@@ -232,6 +232,7 @@
             //Type
             type = ko.observable(specifiedType),
             calculationMethodType = ko.observable(specifiedCalType),
+
             convertToServerData = function () {
                 return {
                     CostCentreId: costCenterId(),
@@ -252,8 +253,38 @@
         return new costCenterListView(source.CostCentreId, source.Name, source.Description, source.Type, source.CalculationMethodType);
     };
     //Cost Center Instructions for Client
-    costCenterInstructions.CreateForClient = function (source) {
-        return new costCenterInstructions(source.InstructionId, source.Instruction, source.CostCenterOption);
+    workInstruction = function (specifiedInstructionId, specifiedInstruction, specifiedCostCenterOption, specifiedCostCentreId) {
+        var self,
+            instructionId = ko.observable(specifiedInstructionId),
+            instruction = ko.observarble(specifiedInstruction),
+            costCenterOption = ko.observable(specifiedCostCenterOption),
+            costCentreId = ko.observable(specifiedCostCentreId),
+             dirtyFlag = new ko.dirtyFlag({
+                 instruction: instruction
+             }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            convertToServerData = function () {
+                return {
+                    Instruction: instruction(),
+                    InstructionId : instructionId(),
+                    CostCentreId : costCentreId(),
+                    CostCenterOption: costCenterOption()
+                }
+            };
+        self = {
+            instructionId: instructionId,
+            instruction: instruction,
+            costCenterOption: costCenterOption,
+            convertToServerData: convertToServerData
+        };
+        return self;
+
+    };
+    workInstruction.CreateForClient = function (source) {
+        return new workInstruction(source.InstructionId, source.Instruction, source.CostCenterOption);
     };
     var costCenterClientMapper = function(source) {
         var oCostCenter = new CostCenter();
@@ -349,7 +380,10 @@
         oCostCenter.deliveryCharges(source.DeliveryCharges);
         oCostCenter.xeroAccessCode(source.XeroAccessCode);
         oCostCenter.organisationId(source.OrganisationId);
-        oCostCenter.costCenterInstructions(source.CostcentreInstructions);
+       
+        //_.each(source.CostcentreInstructions, function (item) {
+        //    oCostCenter.costCenterInstructions.push(workInstruction.CreateForClient(item));
+        //});
         return oCostCenter;
 
     };

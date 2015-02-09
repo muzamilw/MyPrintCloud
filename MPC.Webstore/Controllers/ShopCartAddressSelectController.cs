@@ -1293,12 +1293,21 @@ namespace MPC.Webstore.Controllers
 
                 deliveryAdd.IsDefaultShippingAddress = model.ShippingAddress.IsDefaultShippingAddress;
 
-                deliveryAdd.IsDefaultAddress = model.ShippingAddress.IsDefaultShippingAddress;
+                if(IsDefaultAddress == "true")
+                {
+                    deliveryAdd.IsDefaultAddress = true;
+                }
+                else
+                {
+                    deliveryAdd.IsDefaultAddress = false;
+                }
+              
 
             }
 
             //string hfchkBoxDeliverySameAsBilling = Request.Form["hfchkBoxDeliverySameAsBilling"];
-            string hfchkBoxDeliverySameAsBilling = model.chkBoxDeliverySameAsBilling;
+            string hfchkBoxDeliverySameAsBilling = Request.Form["isSameBillingAddress"];
+           // string hfchkBoxDeliverySameAsBilling = model.chkBoxDeliverySameAsBilling;
             if (hfchkBoxDeliverySameAsBilling == "False")
             {
                 //billing delivery
@@ -1363,7 +1372,16 @@ namespace MPC.Webstore.Controllers
 
                     billingAdd.IsDefaultShippingAddress = model.BillingAddress.IsDefaultShippingAddress;
 
-                    billingAdd.IsDefaultAddress = model.BillingAddress.IsDefaultShippingAddress;
+                    string IsDefaultAddress = Request.Form["txthdnBillingDefaultAddress"];
+                    if(IsDefaultAddress == "true")
+                    {
+                        billingAdd.IsDefaultAddress = true;
+                    }
+                    else
+                    {
+                        billingAdd.IsDefaultAddress = false;
+                    }
+                  
                 }
             }
 

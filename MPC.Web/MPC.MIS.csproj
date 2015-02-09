@@ -31,6 +31,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -251,6 +252,7 @@
     <Compile Include="Areas\Api\Controllers\AddressController.cs" />
     <Compile Include="Areas\Api\Controllers\CampaignBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />
+    <Compile Include="Areas\Api\Controllers\CrmSupplierController.cs" />
     <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Api\Controllers\GetItemsForWidgetsController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterBaseController.cs" />
@@ -315,6 +317,8 @@
     <Compile Include="Areas\Api\Models\CostCentreType.cs" />
     <Compile Include="Areas\Api\Models\CostCentreDropDown.cs" />
     <Compile Include="Areas\Api\Models\CostCentreVariable.cs" />
+    <Compile Include="Areas\Api\Models\CrmSupplierListViewModel.cs" />
+    <Compile Include="Areas\Api\Models\CrmSupplierResponse.cs" />
     <Compile Include="Areas\Api\Models\Estimate.cs" />
     <Compile Include="Areas\Api\Models\EstimateListView.cs" />
     <Compile Include="Areas\Api\Models\CustomerListViewModel.cs" />
@@ -597,6 +601,7 @@
     <Content Include="Areas\Settings\Scripts\MIS\prefix.view.js" />
     <Content Include="Areas\Settings\Scripts\MIS\costcenter.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\prefix.viewModel.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\spectrum.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.view.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.dataservice.js" />
@@ -1571,6 +1576,13 @@
     <Content Include="Content\less\Inventory.less" />
     <Content Include="Areas\Stores\Views\Stores\_ItemsForWidgetDialog.cshtml" />
     <Content Include="Areas\Settings\Views\Home\LookupMethods.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\_GuillotineClickCharge.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\_SpeedWeight.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\_PerHour.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\_MeterPerHour.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\_ClickChargeZone.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\_ClickChargeLookUp.cshtml" />
+    <Content Include="Areas\Settings\Views\MIS\SalesPipeLine.cshtml" />
     <Content Include="Areas\Products\Views\Home\_SignatureEdit.cshtml" />
     <Content Include="Content\less\PaperSheet.less" />
     <Content Include="Content\less\InventoryCategory.less" />
@@ -1589,12 +1601,17 @@
     <Content Include="Areas\CRM\Views\Home\CompaniesDetail.cshtml" />
     <Content Include="Areas\CRM\Views\Home\ContactCompanies.cshtml" />
     <Content Include="Areas\CRM\Views\Home\SupplierDetail.cshtml" />
+    <Content Include="Areas\CRM\Scripts\crm.supplier.viewModel.js" />
+    <Content Include="Areas\CRM\Scripts\crm.supplier.model.js" />
+    <Content Include="Areas\CRM\Scripts\crm.supplier.dataservice.js" />
+    <Content Include="Areas\CRM\Scripts\crm.supplier.view.js" />
     <Content Include="Areas\Orders\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Orders\Views\Home\Index.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Orders\Views\web.config" />
     <Content Include="Areas\Orders\Views\Home\_Orders.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_OrderDetail.cshtml" />
+    <Content Include="Areas\Settings\Views\MIS\SectionFlags.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />

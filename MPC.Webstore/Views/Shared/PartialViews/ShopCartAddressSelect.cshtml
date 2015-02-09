@@ -824,20 +824,43 @@
                         <input type="hidden" value="@BillingAddress.IsDefaultShippingAddress" id="txthdnBillingDefaultShippingAddress" />
                         <input type="hidden" value="@ShippingAddress.AddressId" id="txthdnDeliveryAddressID" />
                         <input type="hidden" value="@ShippingAddress.IsDefaultShippingAddress" name="txthdnDeliveryDefaultShippingAddress" id="txthdnDeliveryDefaultShippingAddress" />
-                        <input type="hidden" value="@ShippingAddress.IsDefaultAddress" id="txthdnDeliveryDefaultAddress" />
+                        @if (ShippingAddress != null)
+                        {
+                            if (ShippingAddress.IsDefaultAddress == true)
+                            {
+                                <input type="hidden" value="true" id="txthdnDeliveryDefaultAddress" name="txthdnDeliveryDefaultAddress" />
+                            }
+                            else
+                            {
+                                <input type="hidden" value="false" id="txthdnDeliveryDefaultAddress" name="txthdnDeliveryDefaultAddress" />
+                            }
+                        }
+                       
                         <input type="hidden" value="@GrandTotal" name="hfGrandTotal" id="hfGrandTotal" />
                         <input type="hidden" value="@Model.chkBoxDeliverySameAsBilling" id="hfchkBoxDeliverySameAsBilling" />
                       
                         <input type="hidden" value=@Html.Raw(Json.Encode(ViewBag.shippingAddress)) id="JsonAddressContainer" />
 
+                        @if (BillingAddress != null)
+                        {
+                            if (BillingAddress.IsDefaultAddress == true)
+                            {
+                                <input type="hidden" value="true" id="txthdnBillingDefaultAddress" name="txthdnBillingDefaultAddress" />
+                            }
+                            else
+                            {
+                                <input type="hidden" value="false" id="txthdnBillingDefaultAddress" name="txthdnBillingDefaultAddress" />
+                            }
+                        }
+                        <input type="hidden" value="True" name="isSameBillingAddress" id="isSameBillingAddress" />
                     </div>
                    }
         
-        @*<asp:HiddenField ID="txthdnBillingDefaultAddress"  Value="false" />
+     
       
    
        
-        <asp:HiddenField ID="txtVoucherDiscountRate"  Value="0" />
+        @*<asp:HiddenField ID="txtVoucherDiscountRate"  Value="0" />
         <asp:HiddenField ID="hfIsCorporate"  />
         <asp:HiddenField ID="hfBrokerContactCompany"  Value="0" />
         <asp:HiddenField ID="hfISBrokerSelected"  Value="0" />
@@ -974,12 +997,13 @@
            // $("#ltrlShipTo").html(BillShippTO);
             SetNewControlValues();
 
-
+            $('#isSameBillingAddress').val("True");
             $('#divBilling').css('display', 'none');
         }
         else {
             //
             // $("#MainContent_chkBoxDeliverySameAsBilling").removeattr("checked");
+            $('#isSameBillingAddress').val("False");
             if ($("#hfIsDefaultBilling").val() != "1") {
                 EnableTextBoxes();
             }
@@ -995,7 +1019,7 @@
             $("#lblPostCdeBilSip").html("");
             //                //Set Selected Value to add new Mode
 
-            if (ddlBilling.val() != "0") {
+            if (ddlBilling.val() != "") {
                 //ddlBilling.val("0");
 
                 //txtBillingName.val("");
@@ -1017,26 +1041,27 @@
             }
 
             $('#ddlBilling option').each(function () {
-                if ($(this).val() == $("#ddlDelivery").val()) {
-                    $(this).css('display', 'none');
+                if (ddlDelivery.val() != "") {
+                 
+                    if ($(this).val() == $("#ddlDelivery").val()) {
+                        $(this).css('display', 'none');
+
+                    }
+                    else{
+                        $(this).css('display', 'block');
+                    }
                 }
+              
             });
-
+           $('#ddlBilling option:eq(2)').attr('selected', 'selected');
+         //   $('#divBilling').val(5);
+         //   OnChangeBillingAddress();
         }
 
 
     }
 
-    function billingSameAsDeliveryScript() {
-
-        if (ddlBilling.val() == ddlDelivery.val()) {
-
-            SetNewControlValues();
-        }
-        else {
-
-        }
-    }
+   
 
     function getthecheckbox() {
         BillingSameAsDeliveryScriptCheckBox();
@@ -1433,7 +1458,7 @@
         var addressId = $('#ddlDelivery').val();
         var jsonData = (@Html.Raw(Json.Encode(Model.ShippingAddresses))) ;
         // $.parseJSON($('#JsonAddressContainer').val());console.log(jsonData);
-
+       
         if(jsonData != null)
         {
             for(var i = 0; i <jsonData.length;i++)
@@ -1449,7 +1474,14 @@
                     $('#txtShipContact').val(cAdrres.Tel1);
                     $('#txthdnDeliveryAddressID').val(cAdrres.AddressID);
                     $('#txthdnDeliveryDefaultShippingAddress').val(cAdrres.IsDefaultShippingAddress);
-                    $('#txthdnDeliveryDefaultAddress').val(cAdrres.IsDefaultAddress);
+                    if(cAdrres.IsDefaultShippingAddress == true)
+                    {
+                        $('#txthdnDeliveryDefaultAddress').val("true");
+                    }
+                    else{
+                        $('#txthdnDeliveryDefaultAddress').val("false");
+                    }
+                   
                     $('#ddShippingCountry').val(cAdrres.CountryId);
                     $('#ddShippingState').val(cAdrres.StateId);
 
@@ -1511,9 +1543,17 @@
                     $('#txtContactNumber').val(cAdrres.Tel1);
                     $('#txthdnBillingAddressID').val(cAdrres.AddressID);
                     $('#txthdnBillingDefaultShippingAddress').val(cAdrres.IsDefaultShippingAddress);
-                    $('#txthdnBillingDefaultAddress').val(cAdrres.IsDefaultAddress);
-                    $('#ddShippingCountry').val(cAdrres.CountryId);
-                    $('#ddShippingState').val(cAdrres.StateId);
+                   
+                    
+                    if(cAdrres.IsDefaultAddress == true)
+                    {
+                        $('#txthdnBillingDefaultAddress').val("true");
+                    }
+                    else{
+                        $('#txthdnBillingDefaultAddress').val("false");
+                    }
+                    $('#BillingCountryDropDown').val(cAdrres.CountryId);
+                    $('#ddBillingState').val(cAdrres.StateId);
 
 
 
@@ -1574,6 +1614,7 @@
                         {
                             $(this).css("display","block");
                         }
+
                     });
                 }
 
