@@ -37,6 +37,7 @@ namespace MPC.MIS
                 .Include("~/Scripts/jquery.blockUI.js")
                 .Include("~/Scripts/spectrum.js")
                 .Include("~/Scripts/Ace/colorpicker.js")
+                .Include("~/Content/themes/Centaurus/js/fullcalendar.min.js")
                 .Include("~/Scripts/json2.js")
                 .Include("~/Scripts/knockout-3.1.0.js")
                 .Include("~/Scripts/knockout.mapping-latest.js")

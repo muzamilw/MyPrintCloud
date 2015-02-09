@@ -191,7 +191,14 @@ require(["ko", "knockout-validation"], function (ko) {
             }
         }
     };
+    function getDateFromCell(td, calInstance) {
+        var cellPos = {
+            row: td.parents('tbody').children().index(td.parent()),
+            col: td.parent().children().index(td)
+        };
 
+        return calInstance.fullCalendar('getView').cellToDate(cellPos);
+    };
     ko.bindingHandlers.fullCalendar = {
         // This method is called to initialize the node, and will also be called again if you change what the grid is bound to
         update: function (element, viewModelAccessor) {
@@ -201,9 +208,53 @@ require(["ko", "knockout-validation"], function (ko) {
             $(element).fullCalendar({
                 events: ko.utils.unwrapObservable(viewModel.events),
                 header: viewModel.header,
-                editable: viewModel.editable
+                editable: viewModel.editable,
+                //droppable: true,
+               // dropAccept: '#external-events div.external-eventt',
+                eventClick: this.eventClick,
+                eventDrop: this.eventDropOrResize,
+                eventResize: this.eventDropOrResize
             });
-            $(element).fullCalendar('gotoDate', ko.utils.unwrapObservable(viewModel.viewDate));
+            $(element).fullCalendar('gotoDate', ko.utils.unwrapObservable(viewModel.viewDate))
+            .find('td').each(function () {
+                $(this).droppable({
+                    // greedy: false,
+                    accept: "#external-events div.external-event",
+                    drop: function (event, ui) {
+
+                        var ddrop = getDateFromCell($(this), $(element));
+                        var date = $(this).data().date;
+                        var eventObject = $(ui.draggable).data('eventObject');
+                        //eventObject.start = ddrop;
+                        //eventObject.end = ddrop;
+                        //if ($(ui.draggable).data('dropped') == false) {
+
+                        //}
+                        // retrieve the dropped element's stored Event Object
+                        var originalEventObject = $(this).data('eventObject');
+
+                        // we need to copy it, so that multiple events don't have a reference to the same object
+                        var copiedEventObject = $.extend({}, originalEventObject);
+
+                        // assign it the date that was reported
+                        //copiedEventObject.start = date;
+                        copiedEventObject.start = ddrop;
+                        copiedEventObject.allDay = false;
+                        copiedEventObject.title = $(ui.draggable).text();
+                        // copy label class from the event object
+                        var labelClass = $(ui.draggable).data().eventclass;
+
+                        if (labelClass) {
+                            copiedEventObject.className = labelClass;
+                        }
+
+                        // render the event on the calendar
+                        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+                        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+                        return true;
+                    }
+                });
+            });
         }
     };
 
@@ -239,20 +290,6 @@ require(["ko", "knockout-validation"], function (ko) {
                         }
                     });
                 };
-
-                //if (droppable) {
-                //    var newInstance = CKEDITOR.instances['content'];
-                //    newInstance.drop(true);
-                //    //newInstance.container.find('.cke_contents').$.droppable({
-                //    //    tolerance: 'pointer',
-                //    //    hoverClass: 'dragHover',
-                //    //    activeClass: 'dragActive',
-                //    //    drop: function (evt, ui) {
-                //    //        droppable(ui.helper.data('ko.draggable.data'), context, evt);
-                //    //    }
-                //    //});
-                //}
-
 
                 $element.on('input, change, keyup, mouseup', function () {
                     if (!isSubscriberChange) {

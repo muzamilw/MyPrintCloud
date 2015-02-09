@@ -570,6 +570,10 @@
     <Content Include="Areas\Common\Scripts\clientSidePagination.js" />
     <Content Include="Areas\Common\Scripts\supplier.model.js" />
     <Content Include="Areas\Common\Scripts\pagination.js" />
+    <Content Include="Areas\CRM\Scripts\calendar.dataservice.js" />
+    <Content Include="Areas\CRM\Scripts\calendar.model.js" />
+    <Content Include="Areas\CRM\Scripts\calendar.view.js" />
+    <Content Include="Areas\CRM\Scripts\calendar.viewModel.js" />
     <Content Include="Areas\Orders\Scripts\order.dataservice.js" />
     <Content Include="Areas\Orders\Scripts\order.model.js" />
     <Content Include="Areas\Orders\Scripts\order.view.js" />
