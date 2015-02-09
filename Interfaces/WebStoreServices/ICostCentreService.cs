@@ -25,21 +25,21 @@ namespace MPC.Interfaces.WebStoreServices
 
         void SaveCostCentre(long _CostCentreID, long OrganisationId, string OrganisationName);
 
-        double ExecuteVariable(ref object[] oParamsArray, int VariableID);
+       // double ExecuteVariable(ref object[] oParamsArray, int VariableID);
 
-       // double ExecuteResource(ref object[] oParamsArray, long ResourceID, string ReturnValue);
+       //// double ExecuteResource(ref object[] oParamsArray, long ResourceID, string ReturnValue);
 
-        double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, out double Price, out double PerQtyQty);
-        double ExecuteQuestion(ref object[] oParamsArray, int QuestionID, long CostCentreID);
-        double ExecuteMatrix(ref object[] oParamsArray, int MatrixID, long CostCentreID);
+       // double ExecuteUserStockItem(int StockID, StockPriceType StockPriceType, out double Price, out double PerQtyQty);
+       // double ExecuteQuestion(ref object[] oParamsArray, int QuestionID, long CostCentreID);
+       // double ExecuteMatrix(ref object[] oParamsArray, int MatrixID, long CostCentreID);
 
-        CostCentre GetCostCentreByID(long CostCentreID);
+       CostCentre GetCostCentreByID(long CostCentreID);
 
-        CostCentre GetCostCentreSummaryByID(long CostCentreID);
+       // CostCentre GetCostCentreSummaryByID(long CostCentreID);
 
-        CostCentre GetSystemCostCentre(long SystemTypeID, long OrganisationID);
-        string test();
-        CostCentre GetCostCentersByID(long costCenterID);
+       // CostCentre GetSystemCostCentre(long SystemTypeID, long OrganisationID);
+       // string test();
+       // CostCentre GetCostCentersByID(long costCenterID);
     }
 
 

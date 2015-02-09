@@ -702,5 +702,15 @@ namespace MPC.Implementation.WebStoreServices
             _inquiryAttachmentRepository.SaveInquiryAttachments(InquiryAttachments);
         
        }
+
+       public ItemSection GetItemFirstSectionByItemId(long ItemId)
+       {
+           return _ItemRepository.GetItemFirstSectionByItemId(ItemId);
+
+       }
+       public ItemSection UpdateItemFirstSectionByItemId(long ItemId, int Quantity)
+       {
+           return _ItemRepository.UpdateItemFirstSectionByItemId(ItemId, Quantity);
+       }
     }
 }
