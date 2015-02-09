@@ -46,13 +46,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
 
-        //public IEnumerable<LookupMethod> GetLookupMethodList()
-        //{
-
-        //    return _machineService.GetAllLookupMethod().Select(s => s.LookupMethodMapper());
-
-        //}
-
+       
         #endregion
     }
 }

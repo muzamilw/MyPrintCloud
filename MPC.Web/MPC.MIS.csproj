@@ -288,8 +288,10 @@
     <Compile Include="Areas\Api\ModelMappers\GetOrdersResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemSectionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\LookupMethodMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachineInkCoverageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineListMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachineResourcesMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MediaLibraryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductCategoryItemMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PhraseFieldMapper.cs" />

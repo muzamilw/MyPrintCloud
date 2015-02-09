@@ -104,11 +104,15 @@ namespace MPC.Repository.Repositories
 
         public MachineResponseModel GetMachineByID(long MachineID)
         {
+           // Machine ms = DbSet.Where(g => g.MachineId == MachineID).FirstOrDefault();
             return new MachineResponseModel
             {
                 machine = DbSet.Where(g => g.MachineId == MachineID).SingleOrDefault(),
                 lookupMethods = GetAllLookupMethodList(),
-                Markups = GetAllMarkupList()
+                Markups = GetAllMarkupList(),
+                StockItemforInk = GetAllStockItemforInk(),
+                MachineResources= GetAllMachineResources()
+
             };
 
             
@@ -130,15 +134,15 @@ namespace MPC.Repository.Repositories
         {
             return db.Markups;
         }
+        public IEnumerable<StockItem> GetAllStockItemforInk()
+        {
+            return db.StockItems.Where(g => g.CategoryId == 2).ToList();
+        }
+        public IEnumerable<MachineResource> GetAllMachineResources()
+        {
+            return db.MachineResources;
+        }
 
-
-        //protected override IDbSet<LookupMethod> LookupMethd
-        //{
-        //    get
-        //    {
-        //        return db.LookupMethods;
-        //    }
-        //}
-
+      
     }
 }
