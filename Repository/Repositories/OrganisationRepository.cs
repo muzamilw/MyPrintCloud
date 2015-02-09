@@ -58,6 +58,12 @@ namespace MPC.Repository.Repositories
             return DbSet.FirstOrDefault(cs => cs.OrganisationId == organisationId);
         }
 
+        public Organisation GetOrganizatiobByOrganisationID(long organisationId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+            return db.Organisations.Where(o => o.OrganisationId == organisationId).FirstOrDefault();
+        }
         #endregion
     }
 }
