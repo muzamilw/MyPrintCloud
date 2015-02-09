@@ -45,7 +45,13 @@ namespace MPC.MIS.Areas.Api.Controllers
             };
         }
 
+        public bool archiveMachine(long machineId)
+        {
 
+            return _machineService.archiveMachine(machineId);
+          
+
+        }
        
         #endregion
     }

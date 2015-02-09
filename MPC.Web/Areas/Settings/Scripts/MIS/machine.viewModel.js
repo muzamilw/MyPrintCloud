@@ -50,17 +50,17 @@ define("machine/machine.viewModel",
                     //        }
                     //    });
                     //},
-                    //onDeleteCostCenter = function (oMachine) {
-                    //    if (!oMachine.CostCentreId()) {
-                    //        machineList.remove(oMachine);
-                    //        return;
-                    //    }
-                    //    // Ask for confirmation
-                    //    confirmation.afterProceed(function () {
-                    //        deleteCostCenter(oMachine);
-                    //    });
-                    //    confirmation.show();
-                    //},
+                    onArchiveMachine = function (oMachine) {
+                        if (!oMachine.MachineId()) {
+                            machineList.remove(oMachine);
+                            return;
+                        }
+                        // Ask for confirmation
+                        confirmation.afterProceed(function () {
+                            archiveMachine(oMachine);
+                        });
+                        confirmation.show();
+                    },
                     getStockItemsList = function () {
                         dataservice.getStockItemsList({
                             SearchString: null,
@@ -259,7 +259,8 @@ define("machine/machine.viewModel",
                     getStockItemsList: getStockItemsList,
                     onPapperSizeStockItemPopup: onPapperSizeStockItemPopup,
                     onPlateStockItemPopup: onPlateStockItemPopup,
-                    categoryID: categoryID
+                    categoryID: categoryID,
+                    onArchiveMachine: onArchiveMachine
                   
                 };
             })()

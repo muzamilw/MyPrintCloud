@@ -2688,6 +2688,7 @@
     <Content Include="Scripts\underscore-min.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -2722,7 +2723,6 @@
     <Content Include="Views\Estimate\EstimatesList.cshtml" />
     <Content Include="Views\Estimate\ItemDetail.cshtml" />
     <Content Include="Views\Estimate\SectionDetail.cshtml" />
-    <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\LoginFull.cshtml" />
     <Content Include="Views\Order\OrderDetail.cshtml" />
     <Content Include="Views\Order\OrderItemDetail.cshtml" />

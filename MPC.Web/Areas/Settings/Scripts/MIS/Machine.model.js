@@ -82,7 +82,7 @@
                     new OrientationModel({ id: "2", name: "Short Side" })]),
             lookupList = ko.observableArray([]),
             markupList = ko.observableArray([]),
-            StockItemforInkList = ko.observableArray([]),
+            
             MachineResourcesAllList = ko.observableArray([]),
             MachineInkCoverages = ko.observableArray([]),
             gutterdepth = ko.observable(),
@@ -221,7 +221,7 @@
             hasChanges: hasChanges,
             reset: reset,
             markupList: markupList,
-            StockItemforInkList: StockItemforInkList,
+           
             MachineInkCoverages: MachineInkCoverages
            // MachineResourcesAllList: MachineResourcesAllList
         };
@@ -263,12 +263,13 @@
         };
     }
 
-    var MachineInkCoveragesListClientMapper = function (source) {
+    var MachineInkCoveragesListClientMapper = function (source, StockItemforInkList) {
         return {
             Id : source.Id,
             SideInkOrder : source.SideInkOrder,
             SideInkOrderCoverage : source.SideInkOrderCoverage,
-            MachineId : source.MachineId
+            MachineId: source.MachineId,
+            StockItemforInkList: StockItemforInkList
         };
     };
 
@@ -384,16 +385,19 @@
         //omachine.MachineInkCoverages.removeAll();
         //ko.utils.arrayPushAll(omachine.MachineInkCoverages(), source.machine.MachineInkCoverages);
         //omachine.MachineInkCoverages.valueHasMutated();
+       
+        var StockItemforInkList = ko.observableArray([]);
+        StockItemforInkList.removeAll();
+        ko.utils.arrayPushAll(StockItemforInkList(), source.StockItemforInk);
+        StockItemforInkList.valueHasMutated();
 
         _.each(source.machine.MachineInkCoverages, function (item) {
-            var module = MachineInkCoveragesListClientMapper(item);
+            var module = MachineInkCoveragesListClientMapper(item, StockItemforInkList);
             omachine.MachineInkCoverages.push(module);
 
         })
 
-        omachine.StockItemforInkList.removeAll();
-        ko.utils.arrayPushAll(omachine.StockItemforInkList(), source.StockItemforInk);
-        omachine.StockItemforInkList.valueHasMutated();
+       
 
 
 
