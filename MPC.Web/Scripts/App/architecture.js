@@ -192,6 +192,22 @@ require(["ko", "knockout-validation"], function (ko) {
         }
     };
 
+    ko.bindingHandlers.fullCalendar = {
+        // This method is called to initialize the node, and will also be called again if you change what the grid is bound to
+        update: function (element, viewModelAccessor) {
+            var viewModel = viewModelAccessor();
+            element.innerHTML = "";
+
+            $(element).fullCalendar({
+                events: ko.utils.unwrapObservable(viewModel.events),
+                header: viewModel.header,
+                editable: viewModel.editable
+            });
+            $(element).fullCalendar('gotoDate', ko.utils.unwrapObservable(viewModel.viewDate));
+        }
+    };
+
+
     ko.bindingHandlers.editor = {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
             var value = valueAccessor();
