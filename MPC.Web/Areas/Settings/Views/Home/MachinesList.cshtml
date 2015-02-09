@@ -39,7 +39,7 @@
                                                             <th><span>Machine Name</span></th>
                                                             <th><span>Max Sheet Size</span></th>
                                                             <th><span>Min Sheet Size</span></th>
-                                                            <th class="text-center"><span>Calculation Method</span></th>
+                                                            <th ><span>Calculation Method</span></th>
                                                             <th>&nbsp;</th>
                                                         </tr>
                                                     </thead>
@@ -96,7 +96,8 @@
     @Html.Partial("~/Areas/Settings/Views/Home/MachinesDetail.cshtml")
 </div>
 <script id="itemMachineTemplate" type="text/html">
-    <tr data-bind="click: $root.selectItem, css: { selectedRow: $data === $root.selectedMachine}">
+    @*<tr data-bind="click: $root.selectItem, css: { selectedRow: $data === $root.selectedMachine}">*@
+    <tr>
         <td>
             <a href="#" data-bind="text:MachineName, click: $root.onEditItem" class="user-link"></a>
             <span data-bind="text:Description" class="user-subhead machine-list-margin"></span>
@@ -105,11 +106,28 @@
         <td><span data-bind="text: minimumsheetwidth"> </span><span>*</span> <span data-bind="text: minimumsheetheight"> </span>  </td>
         
         <td data-bind="text: LookupMethodName"></td>
-        <td id="actionColumn"></td>
+        <td id="actionColumn">
+            <!-- ko template: { name: "MachineActionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+            <!-- /ko -->
+
+        </td>
     </tr>
 </script>
 
-
+<script id="MachineActionsTemplate" type="text/html">
+    <a href="#" class="table-link danger" data-bind="click : $root.onArchiveMachine" style="float: right">
+        <span class="fa-stack ">
+            <i class="fa fa-square fa-stack-2x"></i>
+            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+    <a class="table-link" data-bind="click : $root.onEditItem" style="float: right">
+        <span class="fa-stack">
+            <i class="fa fa-square fa-stack-2x "></i>
+            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</script>
 @section Scripts{
     <script src="~/Scripts/jquery.form.js"></script>
     <script>

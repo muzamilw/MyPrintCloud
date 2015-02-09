@@ -24,7 +24,7 @@
         <div class="StocksDelivryContainer col-md-8 col-lg-8 col-xs-12 col-sm-12">
             <div id="divStockOptions" class="float_left_simple LGBC rounded_corners width730" style="padding: 5px;">
                 <div id="lbl_Options" class="SelectQtyContainer textAlignLeft">
-                   @Html.Raw(Html.GetKeyValueFromResourceFile("lnkltrlSelectQty", UserCookieManager.StoreId))
+                    @Html.Raw(Html.GetKeyValueFromResourceFile("lnkltrlSelectQty", UserCookieManager.StoreId))
                 </div>
                 <div class="white_background rounded_corners divStk">
                     <div class="float_left_simple Width100Percent">
@@ -55,7 +55,7 @@
                                     string stockClassName = "rbStockType" + StockCount;
                                     if (StockCount == 1)
                                     {
-                                        
+
                                         <div class=float_left_simple style="height:55px;">
                                             <input type=radio name=StockPaper checked data-id="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
                                             <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
@@ -82,30 +82,33 @@
                         <div class="width365pxM250p">
                             @foreach (var costcenter in ViewData["CostCenters"] as List<MPC.Models.Common.AddOnCostsCenter>)
                             {
-                             <div class="CostCenterItems" data-StockId="@costcenter.ItemStockId" style="display:none;">
-                                    <div class="float_left_simple spacerbottom" style="width: 120px;">
-                                        <img class="RfgImgCs" src=@Html.GetAppBasePath()@costcenter.AddOnImage />
-                                    </div>
-                                    <div class="extra_item float_left_simple">
-                                        <input id="@costcenter.ProductAddOnID" type="checkbox" name="addOnChecks" class="checkBoxAdOnPriceCheckBox backgroundIMg" />
-                                        <label class="margin5 colorBlack">@costcenter.AddOnName</label>
-                                        <div class="extra_pricing float_right">
-                                            <label id="lblAddOnPrice">@ViewBag.Currency@costcenter.AddOnPrice</label>
+                                    <div class="CostCenterItems" data-stockid="@costcenter.ItemStockId" style="display:none;">
+                                        <div class="float_left_simple spacerbottom" style="width: 120px;">
+                                            <img class="RfgImgCs" src=@Html.GetAppBasePath()@costcenter.AddOnImage />
                                         </div>
-                                        <label class="checkBoxAdOnDesc marginLeft">@costcenter.WebStoreDesc</label>
+                                        <div class="extra_item float_left_simple">
+                                            <input id="@costcenter.ProductAddOnID" type="checkbox" name="addOnChecks" class="checkBoxAdOnPriceCheckBox backgroundIMg" />
+                                            <label class="margin5 colorBlack">@costcenter.AddOnName</label>
+                                            <div class="extra_pricing float_right">
+                                                @if (costcenter.Type != 4)
+                                                {
+                                                    <label id="lblAddOnPrice">@ViewBag.Currency@costcenter.AddOnPrice</label>
+                                                }
+                                            </div>
+                                            <label class="checkBoxAdOnDesc marginLeft">@costcenter.WebStoreDesc</label>
+                                            <div class="clearBoth">
+                                                &nbsp;
+                                            </div>
+                                        </div>
                                         <div class="clearBoth">
                                             &nbsp;
                                         </div>
-                                    </div>
-                                    <div class="clearBoth">
-                                        &nbsp;
-                                    </div>
-                                 <div class="BorderLG_LP">
-                                     &nbsp;
-                                 </div>
+                                        <div class="BorderLG_LP">
+                                            &nbsp;
+                                        </div>
 
-                                 </div>
-                                  
+                                    </div>
+
                             }
                     </div>
 
@@ -118,25 +121,25 @@
         </div>
         <div class="signin_heading_div float_left_simple UploadContainerCs">
             <label id="lbl_UploadArtWork" class="textAlignLeft float_left_simple">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadArtWork", UserCookieManager.StoreId))</label>
-                @if (ViewData["Templates"] == null)
-                {
-                    <label id="ltrlUpFlH" class="textAlignLeft float_left_simple Fsize19">Upload artwork design</label>
-                        <div class="FormatContainer">
-                <div id="lbl_PremittedFormat" class="float_left_simple Fsize12 lbFormat">
-                    @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_PremittedFormat", UserCookieManager.StoreId))
-                            </div>
-                            <div>
-                                <img id="imgpdf" alt="" src="~/images/pdfFormat.PNG" class="float_left_simple FormatedImgs" />
-                                <img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" />
-                                <img id="imgjpg" alt="" src="~/images/jpgFormat.PNG" class="float_left_simple FormatedImgs" />
-                                <img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" />
-                            </div>
-                        </div>
-                }
-                else
-                {
-                    <label id="ltrlUpFlH" class="textAlignLeft float_left_simple Fsize19">Proof</label>
-                }
+            @if (ViewData["Templates"] == null)
+            {
+                <label id="ltrlUpFlH" class="textAlignLeft float_left_simple Fsize19">Upload artwork design</label>
+                <div class="FormatContainer">
+                    <div id="lbl_PremittedFormat" class="float_left_simple Fsize12 lbFormat">
+                        @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_PremittedFormat", UserCookieManager.StoreId))
+                    </div>
+                    <div>
+                        <img id="imgpdf" alt="" src="~/images/pdfFormat.PNG" class="float_left_simple FormatedImgs" />
+                        <img id="imgpng" alt="" src="~/images/pngFormat.PNG" class="float_left_simple FormatedImgs" />
+                        <img id="imgjpg" alt="" src="~/images/jpgFormat.PNG" class="float_left_simple FormatedImgs" />
+                        <img id="imggif" alt="" src="~/images/gifFormat.PNG" class="float_left_simple FormatedImgs" />
+                    </div>
+                </div>
+            }
+            else
+            {
+                <label id="ltrlUpFlH" class="textAlignLeft float_left_simple Fsize19">Proof</label>
+            }
             <div class="float_left_simple LGBC rounded_corners paddingLeft5px H4B
                      UplodArkworkContainer">
                 <div class="white_background rounded_corners padding10 SidesContainerCS">
@@ -146,27 +149,27 @@
                         <div class="rptContainers">
                             @if (ViewBag.AttachmentCount == 0)
                             {
-                            <div onclick="return ShowArtworkPanel();" class="artworkarrow">
-                                <img id="ImgArrow" alt="" src="/Content/Images/artwork_arrow_icons.png" style="width: 60px;" /><br />
-                                <label id="lbl_SupplyArtWork" style="font-size: 16px; font-weight: bold;">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkSupplyartwork", UserCookieManager.StoreId))</label><br />
-                                <label id="lbl_AddMultipleFiles" style="font-size: 13px;">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkAddmultiplefiles", UserCookieManager.StoreId))</label>
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
+                                <div onclick="return ShowArtworkPanel();" class="artworkarrow">
+                                    <img id="ImgArrow" alt="" src="/Content/Images/artwork_arrow_icons.png" style="width: 60px;" /><br />
+                                    <label id="lbl_SupplyArtWork" style="font-size: 16px; font-weight: bold;">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkSupplyartwork", UserCookieManager.StoreId))</label><br />
+                                    <label id="lbl_AddMultipleFiles" style="font-size: 13px;">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkAddmultiplefiles", UserCookieManager.StoreId))</label>
+                                </div>
+                                <div class="clearBoth">
+                                    &nbsp;
+                                </div>
                             }
                             else
                             {
-                            foreach (var artworkFile in ViewData["ArtworkAttachments"] as List<MPC.Models.DomainModels.ItemAttachment>)
-                            {
-                                    <div id="DivSide1" class="LGBC BD_PCS rounded_corners" >
+                                foreach (var artworkFile in ViewData["ArtworkAttachments"] as List<MPC.Models.DomainModels.ItemAttachment>)
+                                {
+                                    <div id="DivSide1" class="LGBC BD_PCS rounded_corners">
                                         <div class="DeleteIconPP">
                                             <asp:button id="DeleteBtn2" cssclass="delete_icon_img " onclientclick="return confirm('Are you sure you want to delete this Design?');"
                                                         commandname="DeleteDesign" />
                                         </div>
                                         <a id="hlSide1">
                                             <div class="PDTC_LP FI_PCS">
-                                           
+
                                                 <img class="full_img_ThumbnailPath_LP" src="@artworkFile.FolderPath@artworkFile.FileName@imagePath" />
                                             </div>
                                         </a>
@@ -174,7 +177,7 @@
                                             <label id="lblFront" class="">@artworkFile.FileName</label>
                                         </div>
                                     </div>
-                            }
+                                }
                             }
 
                             <div class="clearBoth">
@@ -190,27 +193,27 @@
                     else
                     {
                         <div class="rptContainers">
-                            @foreach (var templateItem in ViewData["Templates"] as List<MPC.Webstore.Models.TemplateViewData>)                            {
+                            @foreach (var templateItem in ViewData["Templates"] as List<MPC.Webstore.Models.TemplateViewData>)
+                            {
+                                    <div class="LGBC BD_PCS rounded_corners">
+                                        <a id="hlSide1">
+                                            <div class="PDTC_LP FI_PCS">
+                                                <img class="full_img_ThumbnailPath_LP" src="@templateItem.FolderPath@templateItem.FileName@imagePath" />
 
-                                <div class="LGBC BD_PCS rounded_corners">
-                                <a id="hlSide1">
-                                <div class="PDTC_LP FI_PCS">
-                                <img class="full_img_ThumbnailPath_LP" src="@templateItem.FolderPath@templateItem.FileName@imagePath" />
+                                            </div>
+                                        </a>
+                                        <div class="confirm_design LGBC" style="display: none;">
+                                            <label id="lblFront" class="ProdtPricedisplayNoneCs DisplayNoneCSS6"></label>
+                                        </div>
+                                        <div class="modify_button_container" style="position: absolute; padding: 0px; margin-top: -27px;">
+                                            <div>
+                                                <input type="button" class="btn_brown_small" value="Modify" onclick="RediredToDesigner('@templateItem.TemplateName', @templateItem.TemplateId , @templateItem.ItemId , @templateItem.CustomerId , @templateItem.ContactId , @templateItem.isCalledFrom , @templateItem.OrganisationID , @templateItem.printCropMarks.ToString().ToLower() , @templateItem.printWaterMark.ToString().ToLower() , @templateItem.isEmbedded.ToString().ToLower() , @templateItem.CategoryId);" />
 
-                                </div>
-                                </a>
-                                <div class="confirm_design LGBC" style="display: none;">
-                                <label id="lblFront" class="ProdtPricedisplayNoneCs DisplayNoneCSS6"></label>
-                                </div>
-                                <div class="modify_button_container" style="position: absolute; padding: 0px; margin-top: -27px;">
-                                <div>
-                                    <input type="button" class="btn_brown_small" value="Modify" onclick="RediredToDesigner('@templateItem.TemplateName', @templateItem.TemplateId , @templateItem.ItemId , @templateItem.CustomerId , @templateItem.ContactId , @templateItem.isCalledFrom , @templateItem.OrganisationID , @templateItem.printCropMarks.ToString().ToLower() , @templateItem.printWaterMark.ToString().ToLower() , @templateItem.isEmbedded.ToString().ToLower() , @templateItem.CategoryId);" />
-                              
-                                </div>
-                                </div>
-                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                             }
-                        </div>
+                    </div>
                         <div id="MoreSidesCont" class="ViewTemSidesCS" style="display:none;">
                             <label id="lbl_ViewMore">@Html.Raw(Html.GetKeyValueFromResourceFile("lblViewMore", UserCookieManager.StoreId))</label><br />
                             <label id="lbl_DesignerMode">@Html.Raw(Html.GetKeyValueFromResourceFile("lblDesignerMode", UserCookieManager.StoreId))</label>
@@ -245,7 +248,7 @@
                         }
                         else
                         {
-                            <input  type="text" id="rangedQuantityOrdered" class="dropdownBorderCS Width60pixel Mleft10 Fsize17" onblur="CalculatePriceBaseOnRangedQuantity();" />
+                            <input type="text" id="rangedQuantityOrdered" class="dropdownBorderCS Width60pixel Mleft10 Fsize17" onblur="CalculatePriceBaseOnRangedQuantity();" />
                         }
 
                         <input type="button" onclick="CalculatePriceBaseOnRangedQuantity(); return false;" class="go_button rounded_corners5 width35pix"
@@ -258,17 +261,17 @@
                             {
                                 if (ViewBag.SelectedQuantity != null)
                                 {
-                                    if(ViewBag.SelectedQuantity == quantity.Quantity)
+                                    if (ViewBag.SelectedQuantity == quantity.Quantity)
                                     {
-                                        <option value="@quantity.PriceMatrixId" selected>@quantity.Quantity</option>
+                                            <option value="@quantity.PriceMatrixId" selected>@quantity.Quantity</option>
                                     }
-                                    
+
                                 }
-                                else 
+                                else
                                 {
                                     <option value="@quantity.PriceMatrixId">@quantity.Quantity</option>
                                 }
-                                    
+
                             }
 
                     </select>
@@ -292,13 +295,13 @@
                     <label id="lbl_Total" class="float_left_simple">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTotalHeadingText", UserCookieManager.StoreId))</label>
                     @if (MPC.Webstore.Common.UserCookieManager.isIncludeTax == true)
                     {
-                        @*<label id="lblTaxLabel" class="Fsize13 float_right marginLeft">inc. VAT</label>*@
+                        @*<label id="lblTaxLabel" class="Fsize13 float_right marginLeft">inc. VAT</label>*@<label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label>
                     }
                     else
                     {
-                        @*<label id="lblTaxLabel" class="Fsize13 float_right marginLeft">ex. VAT</label>*@
+                        @*<label id="lblTaxLabel" class="Fsize13 float_right marginLeft">ex. VAT</label>*@<label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label>
                     }
-                    <label id="lblGrossTotal" class="float_right"></label>
+                    <label id="lblGrossTotal" class="float_right">@ViewBag.Currency @ViewBag.ClonedItem.Qty1NetTotal</label>
                 </div>
                 @if (ViewBag.IsStockControl == true)
                 {
@@ -430,70 +433,70 @@
                                 }
                                 <div id="matrixItemColumn1" class="mattPriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
                                     <span id='1_PriceMatrixID_@matrix.PriceMatrixId' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PricePaperType1.ToString())'>
-                                        <label id="lblMatt">@ViewBag.Currency @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PricePaperType1.ToString()) </label>
+                                        <label id="lblMatt">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PricePaperType1.ToString()) </label>
 
 
                                     </span>
                                 </div>
                                 <div id="matrixItemColumn2" class="glossyPriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
                                     <span id='2_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PricePaperType2'>
-                                        <label id="lblGlossy">@ViewBag.Currency @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PricePaperType2.ToString())</label>
+                                        <label id="lblGlossy">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PricePaperType2.ToString())</label>
 
                                     </span>
                                 </div>
                                 <div id="matrixItemColumn3" class="premiumMattPriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
                                     <span id='3_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PricePaperType3'>
-                                        <label id="lblPremiumMatt">@ViewBag.Currency @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PricePaperType3.ToString())</label>
+                                        <label id="lblPremiumMatt">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PricePaperType3.ToString())</label>
 
 
                                     </span>
                                 </div>
                                 <div id="matrixItemColumn4" class="Stock4PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
                                     <span id='4_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType4'>
-                                        <label id="lblForthStock">@ViewBag.Currency @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType4.ToString())</label>
+                                        <label id="lblForthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType4.ToString())</label>
 
                                     </span>
                                 </div>
                                 <div id="matrixItemColumn5" class="Stock5PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
                                     <span id='5_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType5'>
-                                        <label id="lblFifthStock">@ViewBag.Currency @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType5.ToString())</label>
+                                        <label id="lblFifthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType5.ToString())</label>
                                         <label id="lblFifthStockDiscountedPrice" class="custom_colorTS" style="display:none;">@matrix.PriceStockType5</label>
 
                                     </span>
                                 </div>
                                 <div id="matrixItemColumn6" class="Stock6PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
                                     <span id='6_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType6'>
-                                        <label id="lblSixthStock">@ViewBag.Currency @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType6.ToString())</label>
+                                        <label id="lblSixthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType6.ToString())</label>
 
                                     </span>
                                 </div>
                                 <div id="matrixItemColumn7" class="Stock7PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
                                     <span id='7_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType7'>
-                                        <label id="lblSevenStock">@ViewBag.Currency  @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType7.ToString())</label>
+                                        <label id="lblSevenStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType7.ToString())</label>
 
                                     </span>
                                 </div>
                                 <div id="matrixItemColumn8" class="Stock8PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
                                     <span id='8_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType8'>
-                                        <label id="lblEightStock">@ViewBag.Currency @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType8.ToString())</label>
+                                        <label id="lblEightStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType8.ToString())</label>
 
                                     </span>
                                 </div>
                                 <div id="matrixItemColumn9" class="Stock9PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
                                     <span id='9_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType9'>
-                                        <label id="lblNinthStock">@ViewBag.Currency @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType9.ToString())</label>
+                                        <label id="lblNinthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType9.ToString())</label>
 
                                     </span>
                                 </div>
                                 <div id="matrixItemColumn10" class="Stock10PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
                                     <span id='10_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType10'>
-                                        <label id="lblTenthStock">@ViewBag.Currency @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType10.ToString())</label>
+                                        <label id="lblTenthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType10.ToString())</label>
 
                                     </span>
                                 </div>
                                 <div id="matrixItemColumn11" class="Stock11PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
                                     <span id='11_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType11'>
-                                        <label id="lblElevenStock">@ViewBag.Currency @MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType11.ToString())</label>
+                                        <label id="lblElevenStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType11.ToString())</label>
 
                                     </span>
                                 </div>
@@ -528,6 +531,7 @@
 <input type="hidden" value=@Html.Raw(Json.Encode(ViewBag.JasonPriceMatrix)) class="JsonPriceMatrixValue" />
 <input type="hidden" value=@Html.Raw(Json.Encode(ViewBag.JsonAddonCostCentre)) class="JsonAddonCostCentreValue" />
 <input type="hidden" id="uploadedImageSide" value="@ViewBag.AttachmentCount" />
+<input type="hidden" id="costCentreQueueItems" value="" />
 </div>
 <br />
 </div>
@@ -537,13 +541,13 @@
         @if (!string.IsNullOrEmpty(ViewBag.Item.File1) || !string.IsNullOrEmpty(ViewBag.Item.File2) || !string.IsNullOrEmpty(ViewBag.Item.File3) || !string.IsNullOrEmpty(ViewBag.Item.File4))
         {
             <div id="lbl_DownloadTemplates" class="DownloadExmContainer">
-               @Html.Raw(Html.GetKeyValueFromResourceFile("lblDownloadTemplate", UserCookieManager.StoreId))
+                @Html.Raw(Html.GetKeyValueFromResourceFile("lblDownloadTemplate", UserCookieManager.StoreId))
             </div>
             <div id="lbl_CreateUploadTemplates" class="DExmlbl">
                 @Html.Raw(Html.GetKeyValueFromResourceFile("lblDEmple", UserCookieManager.StoreId))
-              
+
             </div>
-            
+
             <div id="PnlUploaderDownloadIcons" style="text-align: left;">
                 @if (!string.IsNullOrEmpty(ViewBag.Item.File1))
                 {
@@ -690,7 +694,7 @@
     var isPriceSelected = 0;
 
     $(document).ready(function () {
-        
+
         $('input:radio[name=StockPaper]:checked').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
         $('input:radio[name=StockPaper]:checked').next().css("background-color", "white");
 
@@ -717,7 +721,7 @@
     });
 
     function ConfirmCart() {
-
+        alert(isPriceSelected);
         if (isPriceSelected == 0) {
             ShowPopUp("Message", "Please check your details to proceed.");
             return false;
@@ -1021,7 +1025,7 @@
         var GrossTotal = itemPrice + addOnPrice;
         GrossTotal = "@ViewBag.Currency" + GrossTotal.toFixed(2).toString();
 
-        var isShowPricing = 1;//'<%=isCorporatePricingshown %>';
+        var isShowPricing = 1;
 
         if (isShowPricing == 1) {
             if (IsInt == -1) {
@@ -1033,7 +1037,7 @@
         else {
             $('#lblGrossTotal').css("display", "none");
         }
-        if (GrossTotal > 0) {
+        if ((itemPrice + addOnPrice) > 0) {
             isPriceSelected = 1;
         }
 
@@ -1115,7 +1119,7 @@
                     //if it is per quantity type then we will (qty * priceperunitqty) + setupcost
 
                     var actualPrice = selectedCheckBox.ActualPrice;
-                    
+
                     if (selectedCheckBox.Type == 2) {
 
                         if (isRanged) {
@@ -1134,23 +1138,17 @@
 
                             }
                         }
-                        checkedPriceTotal = checkedPriceTotal + parseFloat(actualPrice); 
+                        checkedPriceTotal = checkedPriceTotal + parseFloat(actualPrice);
 
-                    }else if(selectedCheckBox.Type == 4){// call cost centre service to get value
-                        
-                        ShowLoader();
-                        $.getJSON("/webstoreapi/costCenter/GetDateTimeString/" + selectedCheckBox.CostCenterId + "/null",
-                      function (DT) {
-
-                          ShowCostCentrePopup(DT[2]);
-     
-                      });
-                    
+                    }
+                    else if(selectedCheckBox.Type == 4){// gets the value from the label
+                        checkedPriceTotal = checkedPriceTotal + parseFloat($(val).next().next().children(':first').text().replace("@ViewBag.Currency", ""));
+                       
                     }else{
                         checkedPriceTotal = checkedPriceTotal + parseFloat(actualPrice);
 
                     }
-                    
+
                     selectedAddonsList = selectedAddonsList + JSON.stringify(selectedCheckBox, null, 2);
 
                 }
@@ -1192,7 +1190,7 @@
         var addOnJasonData = jQuery.parseJSON($('.JsonAddonCostCentreValue').val());
 
         $(".checkBoxAdOnPriceCheckBox").each(function (i, val) {
-           
+
             if (addOnJasonData != null) {
 
                 for (var i = 0; i < $(addOnJasonData).length; i++) {
@@ -1219,9 +1217,10 @@
                     actualPrice = "@ViewBag.Currency" + (actualPrice).toFixed(2).toString();
                     $(val).next().next().children(':first').html(actualPrice);
                 }
-                //else if(selectedCheckBox.Type == 4){
-                //    $(val).attr('onclick', 'PromptForValues('+ selectedCheckBox.CostCenterId +');');
-                //}
+                else if(selectedCheckBox.Type == 4){
+
+                    $(val).attr('onclick', 'PromptForValues('+ selectedCheckBox.CostCenterId +', '+ $(val).attr('id') +', \"New\");');
+                }
             }
         });
 
@@ -1326,8 +1325,41 @@
         window.location.href = URL;
     }
 
-    function PromptForValues(CostCentreId){
-        
+    function PromptForValues(CostCentreId, ControlId, Mode){
+
+        var quantityOrdered = $("#VMQuantityOrdered").val() == "" ? null : $("#VMQuantityOrdered").val();
+        if($("#" + ControlId).is(':checked')) {
+            if(Mode == 1){
+                ShowLoader();
+
+                var to;
+                to = "/webstoreapi/costCenter/GetDateTimeString?parameter1=" + CostCentreId + "&parameter2=" + @ViewBag.ClonedItem.ItemId + "&parameter3=" + quantityOrdered + "&parameter4=Modify";
+                var options = {
+                    type: "POST",
+                    url: to,
+                    data: $("#costCentreQueueItems").val(),
+                    contentType: "application/json",
+                    async: true,
+                    success: function (response) {
+                        ShowCostCentrePopup(response[2], CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "Modify", "@ViewBag.Currency");
+                    },
+                    error: function (msg) { alert("Error occured "); console.log(msg); }
+                };
+                var returnText = $.ajax(options).responseText;
+
+            }
+            else
+            {
+
+                ShowLoader();
+                $.getJSON("/webstoreapi/costCenter/GetDateTimeString/" + CostCentreId + "/"+ @ViewBag.ClonedItem.ItemId +"/"+ quantityOrdered +"/New/null",
+                  function (DT) {
+
+                      ShowCostCentrePopup(DT[2], CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New","@ViewBag.Currency");
+
+                  });
+            }
+        }
     }
 </script>
 }

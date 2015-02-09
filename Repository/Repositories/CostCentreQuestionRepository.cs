@@ -89,5 +89,40 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        public List<CostCentreQuestion> GetCostCentreQuestionsByOID(long OrganisationID,out List<CostCentreAnswer> CostAnswers)
+        {
+            try
+            {
+                List<CostCentreQuestion> questions = db.CostCentreQuestions.Where(a => a.CompanyId == OrganisationID).ToList();
+                List<CostCentreAnswer> costCentreAnswers = new List<CostCentreAnswer>();
+                 List<CostCentreAnswer> answers = new List<CostCentreAnswer>();
+                if(questions != null && questions.Count > 0)
+                {
+                    foreach(var question in questions)
+                    {
+                        answers = db.CostCentreAnswers.Where(c => c.QuestionId == question.Id).ToList();
+                       if(answers != null && answers.Count > 0)
+                       {
+                           foreach(var ans in answers)
+                           {
+                               costCentreAnswers.Add(ans);
+                           }
+                       }
+                        
+                    }
+
+                }
+                CostAnswers = costCentreAnswers;
+                return db.CostCentreQuestions.Where(a => a.CompanyId == OrganisationID).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Load Answer", ex);
+            }
+        }
+
+       
+
     }
 }
