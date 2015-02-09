@@ -612,7 +612,7 @@ namespace MPC.Implementation.WebStoreServices
         {
 
 
-            logoPath = System.Web.Hosting.HostingEnvironment.MapPath("~/");
+            logoPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content");
             XImage oImg = new XImage();
             Bitmap img = null;
             try
@@ -2476,6 +2476,7 @@ namespace MPC.Implementation.WebStoreServices
             }
             if (mode == 2)
             {
+                _templateBackgroundImagesService.DeleteTemplateBackgroundImages(localTemplateID, organisationID);
                 _templateRepository.SaveTemplateLocally(oTemplate, oTemplatePages, oTemplateObjects, oTemplateImages, oTemplateFonts, organisationID, out fontsToDownload, mode, localTemplateID);
             }
             foreach (var objFont in fontsToDownload)

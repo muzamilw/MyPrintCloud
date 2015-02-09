@@ -6142,7 +6142,7 @@ background-repeat: no-repeat;background-position-x: 14px;
     background-color: #3f4652;
     text-align: left;
     border-top-right-radius: 7px;
-    /*border-bottom-right-radius: 7px;*/
+    border-bottom-right-radius: 7px;
 }
 
 
@@ -6582,4 +6582,14 @@ margin: auto !important;
  .maskingControls ,.txtManadatoryControl
  {
      display:none;
+ }
+ .bkTextBoxes 
+ {
+     line-height: 15px !important;
+padding-top: 7px !important;
+ }
+ .previewfontStyles 
+ {
+     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+font-size: 18px;
  }
