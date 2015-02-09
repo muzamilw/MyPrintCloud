@@ -301,7 +301,7 @@
                     {
                         @*<label id="lblTaxLabel" class="Fsize13 float_right marginLeft">ex. VAT</label>*@<label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label>
                     }
-                    <label id="lblGrossTotal" class="float_right">@ViewBag.Currency @ViewBag.ClonedItem.Qty1NetTotal</label>
+                    <label id="lblGrossTotal" class="float_right">@ViewBag.Currency 0.00</label>
                 </div>
                 @if (ViewBag.IsStockControl == true)
                 {
@@ -721,7 +721,6 @@
     });
 
     function ConfirmCart() {
-        alert(isPriceSelected);
         if (isPriceSelected == 0) {
             ShowPopUp("Message", "Please check your details to proceed.");
             return false;
@@ -1040,7 +1039,6 @@
         if ((itemPrice + addOnPrice) > 0) {
             isPriceSelected = 1;
         }
-
     }
 
     // returns the the selected stock no
@@ -1143,7 +1141,7 @@
                     }
                     else if(selectedCheckBox.Type == 4){// gets the value from the label
                         checkedPriceTotal = checkedPriceTotal + parseFloat($(val).next().next().children(':first').text().replace("@ViewBag.Currency", ""));
-                       
+
                     }else{
                         checkedPriceTotal = checkedPriceTotal + parseFloat(actualPrice);
 

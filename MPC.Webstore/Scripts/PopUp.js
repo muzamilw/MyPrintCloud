@@ -231,7 +231,7 @@ function DesignNow(callFrom,EditType,ItemID,TemplateID)
 var CcQueueItems = null;
 var idsToValidate = "";
 function ShowCostCentrePopup(CostCentreQueueItems, CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Mode, Currency) {
-    alert(Currency);
+   
     CcQueueItems = CostCentreQueueItems;
     var innerHtml = "";
     var Heading = "Please enter the following details of Cost Centre";
