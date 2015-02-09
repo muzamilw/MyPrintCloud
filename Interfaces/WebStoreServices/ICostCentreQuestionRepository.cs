@@ -15,5 +15,7 @@ namespace MPC.Interfaces.WebStoreServices
         CostCentreQuestion LoadQuestion(int QuestionID);
 
         List<CostCentreAnswer> LoadAnswer(int QuestionID);
+
+        List<CostCentreQuestion> GetCostCentreQuestionsByOID(long OrganisationID, out List<CostCentreAnswer> CostAnswers);
     }
 }

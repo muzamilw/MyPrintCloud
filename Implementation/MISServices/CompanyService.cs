@@ -66,6 +66,8 @@ namespace MPC.Implementation.MISServices
         private readonly ISectionFlagRepository sectionFlagRepository;
         private readonly IItemProductDetailRepository itemProductDetailRepository;
         private readonly ICompanyDomainRepository companyDomainRepository;
+        private readonly ICostCentreMatrixRepository costCentreMatrixRepositry;
+        //private readonly ICostCentreQuestionRepository companyDomainRepository;
         //#endregion
 
         /// <summary>
@@ -2069,7 +2071,7 @@ namespace MPC.Implementation.MISServices
         IStateRepository stateRepository,
         ISectionFlagRepository sectionFlagRepository,
         IItemProductDetailRepository itemProductDetailRepository,
-            ICompanyDomainRepository companyDomainRepository)
+            ICompanyDomainRepository companyDomainRepository, ICostCentreMatrixRepository costCentreMatrixRepositry)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
@@ -2112,6 +2114,7 @@ namespace MPC.Implementation.MISServices
             this.sectionFlagRepository = sectionFlagRepository;
             this.itemProductDetailRepository = itemProductDetailRepository;
             this.companyDomainRepository = companyDomainRepository;
+            this.costCentreMatrixRepositry = costCentreMatrixRepositry;
 
         }
         #endregion
@@ -2287,6 +2290,139 @@ namespace MPC.Implementation.MISServices
             companyRepository.SaveChanges();
             return companyResponse.Company;
         }
+        #endregion
+
+        #region ExportOrganisation
+
+        public void ExportOrganisation(long OrganisationID)
+        {
+            try
+            {
+                ExportOrganisation ObjExportOrg = new Models.Common.ExportOrganisation();
+                List<CostCentre> costCentre = new  List<CostCentre>();
+                List<CostCentreMatrixDetail> costCentreMatrixDetail = new  List<CostCentreMatrixDetail>();
+                List<CostCentreAnswer> CostCentreAnswers = new List<CostCentreAnswer>();
+              
+
+                // get organisation to export
+                ObjExportOrg.Organisation = organisationRepository.GetOrganizatiobByOrganisationID(OrganisationID);
+
+                // for paper size add organisationid in papersize
+               // ObjExportOrg.PaperSizes = //
+
+                // get costcentres based on organisationid 
+                costCentre = costCentreRepository.GetCostCentersByOrganisationID(OrganisationID);
+                ObjExportOrg.CostCentre = costCentre;
+
+               // ObjExportOrg.CostCentreQuestion = costcentreq
+
+                // for cost centre answers
+
+                // workinstructions based on costcentreid
+                if(costCentre != null && costCentre.Count > 0)
+                {
+                    foreach(var cost in costCentre)
+                    {
+                        // get instrction for each cost centre
+                        if(cost.CostcentreInstructions != null)
+                        {
+                             List<CostcentreInstruction> instructions = cost.CostcentreInstructions.ToList();
+                             if(instructions != null && instructions.Count > 0)
+                             {
+                                 foreach(var ins in instructions)
+                                 {
+                                    
+                                     ObjExportOrg.CostcentreInstruction.Add(ins); 
+                                 }
+                             }
+                        
+                        }
+                       
+                    }
+                     
+                }
+
+                // get cost centre matrix based on organisationID
+                ObjExportOrg.CostCentreMatrix = costCentreMatrixRepositry.GetMatrixByOrganisationID(OrganisationID,out costCentreMatrixDetail);
+
+                // cost centre matrix detail for each cost centre
+                ObjExportOrg.CostCentreMatrixDetail = costCentreMatrixDetail;
+
+                // set cost centre resources
+                if (costCentre != null && costCentre.Count > 0)
+                {
+                    foreach (var cost in costCentre)
+                    {
+                        // get CostcentreResources for each cost centre
+                        if (cost.CostcentreResources != null)
+                        {
+                            List<CostcentreResource> resources = cost.CostcentreResources.ToList();
+                            if (resources != null && resources.Count > 0)
+                            {
+                                foreach (var res in resources)
+                                {
+                                    ObjExportOrg.CostcentreResource.Add(res);
+                                }
+                            }
+
+                        }
+
+                    }
+
+                }
+
+                // set costcentre work instructions choices based on cost centre work instructions
+                if (costCentre != null && costCentre.Count > 0)
+                {
+                    foreach (var cost in costCentre)
+                    {
+                        // get instrction for each cost centre
+                        if (cost.CostcentreInstructions != null)
+                        {
+                            List<CostcentreInstruction> instructions = cost.CostcentreInstructions.ToList();
+                            if (instructions != null && instructions.Count > 0)
+                            {
+                                foreach (var ins in instructions)
+                                {
+                                    if(ins.CostcentreWorkInstructionsChoices != null)
+                                    {
+                                        List<CostcentreWorkInstructionsChoice> choices = ins.CostcentreWorkInstructionsChoices.ToList();
+
+                                       if (choices != null && choices.Count > 0)
+                                       {
+                                            foreach(var choice in choices)
+                                            {
+                                                ObjExportOrg.CostcentreWorkInstructionsChoice.Add(choice);
+                                            }
+                                       }
+                                        
+                                    }
+                                   
+                                }
+                            }
+
+                        }
+
+                    }
+
+                }
+
+                //
+
+
+               
+
+             
+            }
+            catch(Exception ex)
+            {
+                throw new MPCException(ex.ToString(), OrganisationID);
+            }
+
+        }
+      
+        
+
         #endregion
     }
 }

@@ -10,5 +10,7 @@ namespace MPC.Interfaces.Repository
     {
         Organisation GetOrganizatiobByID();
         Organisation GetOrganizatiobByID(long organisationId);
+
+        Organisation GetOrganizatiobByOrganisationID(long organisationId);
     }
 }

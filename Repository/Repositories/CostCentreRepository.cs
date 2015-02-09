@@ -798,5 +798,22 @@ namespace MPC.Repository.Repositories
 
         }
         #endregion
+
+        #region exportOrgFunctions
+
+        public List<CostCentre> GetCostCentersByOrganisationID(long OrganisationID)
+        {
+            try
+            {
+               return db.CostCentres.Where(c => c.OrganisationId == OrganisationID).ToList();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        
+        #endregion
     }
 }
