@@ -36,5 +36,18 @@ namespace MPC.MIS.Areas.Settings.Controllers
         {
             return View();
         }
+
+        public ActionResult SalesPipeLine()
+        { 
+        
+           return View();
+        
+        }
+        public ActionResult SectionFlags()
+        {
+
+            return View();
+        
+        }
     }
 }

@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -198,6 +199,7 @@
     <Compile Include="Repositories\CurrencyRepository.cs" />
     <Compile Include="Repositories\EmailEventRepository.cs" />
     <Compile Include="Repositories\FavoriteDesignRepository.cs" />
+    <Compile Include="Repositories\EstimateRepository.cs" />
     <Compile Include="Repositories\GetItemsListViewRepository.cs" />
     <Compile Include="Repositories\GlobalLanguageRepository.cs" />
     <Compile Include="Repositories\GroupRepository.cs" />

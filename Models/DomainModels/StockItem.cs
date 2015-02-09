@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
 {
+    [Serializable()]
     /// <summary>
     /// Stock Item Domain MOdel
     /// </summary>
