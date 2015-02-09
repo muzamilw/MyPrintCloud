@@ -59,11 +59,13 @@
 </div>
 
 <script id="stockItemListTemplate" type="text/html">
-    <tr>
-        <td data-bind="text:name"></td>
-        <td data-bind="text:category">  </td>     
-        <td data-bind="text: location"></td>
-        <td data-bind="text: weight"></td>
-   </tr>
+    <tr data-bind="event: { dblclick: $root.OnSelectDefaultPaper}">
+        <td data-bind="text:name, event: { dblclick: $root.OnSelectDefaultPaper}"></td>
+        <td data-bind="text:category , event: { dblclick: $root.OnSelectDefaultPaper}">  </td>
+        <td data-bind="text: location, event: { dblclick: $root.OnSelectDefaultPaper}"></td>
+        <td data-bind="text: weight, event: { dblclick: $root.OnSelectDefaultPaper}"></td>
+        @*<td data-bind="text: weight, event: { dblclick: function(){alert('test');}}"></td>*@
+
+    </tr>
 </script>
 
