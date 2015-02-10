@@ -37,6 +37,9 @@ define("calendar/calendar.viewModel",
                  eventClick = function (fcEvent) {
                      var a = fcEvent;
                  },
+                newEventAdd = function (fcEvent) {
+                    var a = fcEvent;
+                },
 
                     items = ko.observableArray([
                         {
@@ -85,44 +88,29 @@ define("calendar/calendar.viewModel",
                         }
                     ]),
                     viewDate = ko.observable(Date.now()),
-                    externalEvents = ko.observableArray([]);
-                externalEvents.push(model.ExternalEvents("My Event1"));
-                externalEvents.push(model.ExternalEvents("My Event2"));
-                externalEvents.push(model.ExternalEvents("My Event3"));
-
-                draggedExternalEvent = function (source) {
-                    return {
-                        row: source.$parent,
-                        externalEvent: source.$data
-                    };
-                },
-                mycCalender = new fullCalendar.viewModel({
-                    events: items,
-                    header: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'month,agendaWeek,agendaDay'
-                    },
-                    editable: true,
-                   // droppable: true,
-                    //dropAccept: '#external-events div.external-event',
-                    viewDate: viewDate,
-                    // drop: eventDropOrResize
-                });
+                   mycCalender = new fullCalendar.viewModel({
+                       events: items,
+                       header: {
+                           left: 'prev,next today',
+                           center: 'title',
+                           right: 'month,agendaWeek,agendaDay'
+                       },
+                       editable: true,
+                       selectable: true,
+                       selectHelper: true,
+                   });
 
                 //Initialize
                 initialize = function (specifiedView) {
                     view = specifiedView;
                     ko.applyBindings(view.viewModel, view.bindingRoot);
                 };
-               
-                return {
 
+                return {
+                    items: items,
                     //Utility Functiions
                     initialize: initialize,
                     mycCalender: mycCalender,
-                    externalEvents: externalEvents,
-                    draggedExternalEvent: draggedExternalEvent,
                 };
             })()
         };

@@ -145,6 +145,7 @@
     </Compile>
     <Compile Include="MISServices\AddressService.cs" />
     <Compile Include="MISServices\AuthorizationChecker.cs" />
+    <Compile Include="MISServices\CalendarService.cs" />
     <Compile Include="MISServices\CampaignService.cs" />
     <Compile Include="MISServices\CategoryService.cs" />
     <Compile Include="MISServices\ClaimsSecurityService.cs" />
