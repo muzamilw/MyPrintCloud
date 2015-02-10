@@ -3,8 +3,43 @@
 }
 @section leftmenue {
 }
-<script src="~/Areas/Settings/Scripts/MIS/spectrum.js"></script>
 
+<script src="~/Content/themes/Centaurus/js/jquery.js"></script>
+<link href="~/Content/colorpicker.css" rel="stylesheet" />
+<script src="~/Scripts/Ace/colorpicker.js"></script>
+<script>
+   $(document).ready(function () 
+   {
+       var ColorPickerId;
+       $(".Color").click(function ()
+       {
+           ColorPickerId = this.id;
+           $("#" + ColorPickerId).ColorPicker
+           ({
+           color: '',
+           onShow: function (colpkr)
+           {
+               $(colpkr).fadeIn(500);
+               return false;
+           },
+           onHide: function (colpkr)
+           {
+               $(colpkr).fadeOut(500);
+               return false;
+           },
+           onChange: function (hsb, hex, rgb)
+           {
+                $("#" + ColorPickerId).css("background-color", "#" + hex);
+           }
+       });
+   });
+
+   
+   });
+       
+
+      
+</script>
 <style>
     li 
     {
@@ -42,75 +77,911 @@
                             <div class="col-lg-12 main-box clearfix" style="padding-bottom:30px;">
                                 <div class="main-box-body" style="padding:20px;">
                                     <div class="col-md-3" style="width:auto;padding-bottom:20px;max-height:600px;overflow-y:scroll;">
-                                    <ul style="list-style-type:none;">
-                                        <li>Activities</li>
-                                        <li>Add Coustomer</li>
-                                        <li>Add Delivery</li>
-                                        <li>Add Inventory</li>
-                                        <li>Invoices</li>
-                                        <li>Add Purchase</li>
-                                        <li>Rate</li>
-                                        <li>Add Supplier</li>
-                                        <li>Add User</li>
-                                        <li>Address Tags</li>
-                                        <li>Store Tags</li>
-                                        <li>Calenders</li>
-                                        <li>Contact Management</li>
-                                        <li>Contancts Tags</li>
-                                        <li>Corporate Store Tags</li>
-                                        <li>Cost Centers</li>
-                                        <li>CRM</li>
-                                        <li>Customers Price Matrix</li>
-                                        <li>Customers Web Users</li>
-                                        <li>Customers</li>
-                                        <li>Delete Customers</li>
-                                        <li>Delete Delivery</li>
-                                        <li>Delete Invoice</li>
-                                        <li>Delete Purchase</li>
-                                        <li>Delete Role</li>
-                                        <li>Delete Supplier</li>
-                                        <li>Delete User</li>
-                                        <li>Delivery</li>
-                                        <li>E-Procurement</li>
-                                        <li>Enquries</li>
-                                        <li>Estimate Details</li>
-                                        <li>Estimates</li>
-                                        <li>Export Invoice</li>
-                                        <li>Finish Goods</li>
-                                        <li>Goods Receive Note</li>
-                                        <li>Help</li>
-                                        <li>Inventory</li>
-                                        <li>Invoices</li>
-                                        <li>Item Catalogue</li>
-                                        <li>Item Flags</li>
-                                        <li>Job Activity List</li>
-                                        <li>Job Production</li>
-                                        <li>Machines</li>
-                                        <li>Marketing Brief Tags</li>
-                                        <li>Orders</li>
-                                        <li>Pagination</li>
-                                        <li>Pink Registeration</li>
-                                        <li>PipeLine Details</li>
-                                        <li>Product</li>
-                                        <li>Product Library</li>
-                                        <li>Product Section</li>
-                                        <li>Purchases</li>
-                                        <li>Registeration</li>
-                                        <li>Report Designer</li>
-                                        <li>Sales Commissions</li>
-                                        <li>Sale Pipelines</li>
-                                        <li>Sales Targets</li>
-                                        <li>Sechuling</li>
-                                        <li>Settings</li>
-                                        <li>Stores</li>
-                                        <li>Store Tags</li>
-                                        <li>Supplier Address</li>
-                                        <li>Supplier Contacts</li>
-                                        <li>Supplier Information</li>
-                                        <li>Suppliers</li>
-                                        <li>Tasks</li>
-                                        <li>Template Library</li>
-                                    </ul> 
+                                        <div class="category" id="nestable2">
+                                            <ol class="dd-list">
+                                                <!-- ko template: { name: 'sectionIemTemplate', foreach: $root.sections }-->
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Accounts</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Activities</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Add Customer</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Add Delivery</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Add Inventory</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Add Invoices</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Add Job Activity</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Add Purchase</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Add Role</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Add Supplier</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Add User</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Address Tags</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Broker Store Tags</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Calenders</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Contact Management</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Contacts Tags</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Corporate  Store Tags</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Cost Centers</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">CRM</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Customer Price Matrix</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Customer Web Users</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Customers</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Delete Customers</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Delete Delivery</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Delete Invoice</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Delete Purchase</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Delete Role</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Delete Supplier</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Delete User</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Delivery</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">E-Procurement</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Enquiries</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Estimate Details</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Estimates</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Export Invoice</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Finish Goods</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Goods Receive Notes</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Help</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Inventory</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Invoices</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Item Catalogue</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Item Flags</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Job Activity List</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Job Production</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Machines</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Marketing Brief Tags</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Orders</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Pagination</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Pink Registeration</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">PipeLine Detail</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Product</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Product Library</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Product Section</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Purchases</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Registeration</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Report Designer</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Sales Commissions</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Sales PipeLines</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Sales Targets</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Scheduling</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Settings</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Store</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Store Tags</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Supplier Addresses</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Supplier Contacts</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Supplier Information</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Suppliers</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Tasks</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                                <li class="dd-item dd-item-list" data-id="15">
+                                                    <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
+                                                    <div class="dd-handle">
+                                                        <span data-bind="text: name">Template Library</span>
+                                                        <div class="nested-links">
+                                                            <a href="#" class="nested-link" title="Edit Category"></a>
+                                                        </div>
+                                                    </div>
+                                                    <ol class="dd-list" data-bind="visible:isExpanded()" style="display: none;">
+                                                        <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }--><!-- /ko -->
+                                                    </ol>
+                                                </li>
+
+                                               
+                                                <!-- /ko -->
+                                            </ol>
+                                        </div>
+                                     
                                     </div>
                                     <div class="col-md-9">
                                         <div class="col-md-12 form-horizontal" style="margin-left:18px;">
@@ -141,8 +1012,11 @@
                                                         <td style="width:35%;">
                                                             <input type="text" class="form-control" id="txtCompanyName" value="99">
                                                         </td>
-                                                        <td style="width:20%;">
-                                                            10
+                                                        <td style="width:10%;">
+                                                            <div data-bind="with:colorPalette">
+
+                                                                <div class="Color" id="colorPick" style="border:none;width:30px;height:30px;background-color:#808080;cursor:pointer;" />
+                                                            </div>
                                                         </td>
 
                                                         <td>
@@ -156,12 +1030,37 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width:35%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
-                                                        <td style="width:35%;">
+                                                        <td style="width:40%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
+                                                        <td style="width:40%;">
                                                             <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
                                                         </td>
-                                                        <td style="width:20%;">
-                                                            20
+                                                        <td style="width:10%;">
+                                                            <div data-bind="with:colorPalette">
+                                                              
+                                                                <input class="Color" id="colorPick1" style="border:none;width:30px;height:30px;background-color:#808080;cursor:pointer;" />
+                                                           </div>
+</td>
+
+                                                        <td>
+
+                                                            <a href="#" class="table-link danger">
+                                                                <span class="fa-stack">
+                                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                                </span>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:40%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
+                                                        <td style="width:40%;">
+                                                            <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
+                                                        </td>
+                                                        <td style="width:10%;">
+                                                            <div data-bind="with:colorPalette">
+
+                                                                <input class="Color" id="colorPick2" style="border:none;width:30px;height:30px;background-color:#808080;cursor:pointer;" />
+                                                            </div>
                                                         </td>
 
                                                         <td>
@@ -175,12 +1074,15 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width:35%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
-                                                        <td style="width:35%;">
+                                                        <td style="width:40%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
+                                                        <td style="width:40%;">
                                                             <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
                                                         </td>
-                                                        <td style="width:20%;">
-                                                            30
+                                                        <td style="width:10%;">
+                                                            <div data-bind="with:colorPalette">
+
+                                                                <input class="Color" id="colorPick3" style="border:none;width:30px;height:30px;background-color:#808080;cursor:pointer;" />
+                                                            </div>
                                                         </td>
 
                                                         <td>
@@ -194,12 +1096,15 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width:35%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
-                                                        <td style="width:35%;">
+                                                        <td style="width:40%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
+                                                        <td style="width:40%;">
                                                             <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
                                                         </td>
-                                                        <td style="width:20%;">
-                                                            40
+                                                        <td style="width:10%;">
+                                                            <div data-bind="with:colorPalette">
+
+                                                                <input class="Color" id="colorPick4" style="border:none;width:30px;height:30px;background-color:#808080;cursor:pointer;" />
+                                                            </div>             
                                                         </td>
 
                                                         <td>
@@ -213,14 +1118,17 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width:35%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
-                                                        <td style="width:35%;">
+                                                        <td style="width:40%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
+                                                        <td style="width:40%;">
                                                             <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
                                                         </td>
-                                                        <td style="width:20%;">
-                                                            60
-                                                        </td>
+                                                        <td style="width:10%;">
+                                                            <div data-bind="with:colorPalette">
 
+                                                                <input class="Color" id="colorPick5" style="border:none;width:30px;height:30px;background-color:#808080;cursor:pointer;" />
+                                                            </div>
+                                                        </td>
+                                                       
                                                         <td>
 
                                                             <a href="#" class="table-link danger">
@@ -232,29 +1140,15 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width:35%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
-                                                        <td style="width:35%;">
+                                                        <td style="width:40%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
+                                                        <td style="width:40%;">
                                                             <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
                                                         </td>
-                                                        <td style="width:20%;"></td>
+                                                        <td style="width:10%;">
+                                                            <div data-bind="with:colorPalette">
 
-                                                        <td>
-
-                                                            <a href="#" class="table-link danger">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="width:35%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
-                                                        <td style="width:35%;">
-                                                            <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
-                                                        </td>
-                                                        <td style="width:20%;">
-                                                            80
+                                                                <input class="Color" id="colorPick6" style="border:none;width:30px;height:30px;background-color:#808080;cursor:pointer;" />
+                                                            </div>
                                                         </td>
 
                                                         <td>

@@ -1,0 +1,25 @@
+﻿CREATE TABLE [dbo].[ItemPriceMatrix] (
+    [PriceMatrixId]    BIGINT     IDENTITY (1, 1) NOT NULL,
+    [Quantity]         INT        NULL,
+    [Price]            FLOAT (53) NULL,
+    [ItemId]           BIGINT     NULL,
+    [PricePaperType1]  FLOAT (53) CONSTRAINT [DF__tbl_Produ__Price__06D9889D] DEFAULT ((0)) NULL,
+    [PricePaperType2]  FLOAT (53) CONSTRAINT [DF__tbl_Produ__Price__07CDACD6] DEFAULT ((0)) NULL,
+    [PricePaperType3]  FLOAT (53) CONSTRAINT [DF__tbl_Produ__Price__08C1D10F] DEFAULT ((0)) NULL,
+    [QtyRangeFrom]     INT        NULL,
+    [QtyRangeTo]       INT        NULL,
+    [SupplierId]       INT        NULL,
+    [PriceStockType4]  FLOAT (53) NULL,
+    [PriceStockType5]  FLOAT (53) NULL,
+    [PriceStockType6]  FLOAT (53) NULL,
+    [PriceStockType7]  FLOAT (53) NULL,
+    [PriceStockType8]  FLOAT (53) NULL,
+    [PriceStockType9]  FLOAT (53) NULL,
+    [PriceStockType10] FLOAT (53) NULL,
+    [PriceStockType11] FLOAT (53) NULL,
+    [FlagId]           INT        NULL,
+    [SupplierSequence] INT        NULL,
+    CONSTRAINT [PK_tbl_finishedgoodpricematrix] PRIMARY KEY CLUSTERED ([PriceMatrixId] ASC),
+    CONSTRAINT [FK_tbl_items_PriceMatrix_tbl_items] FOREIGN KEY ([ItemId]) REFERENCES [dbo].[Items] ([ItemId]) ON DELETE CASCADE
+);
+

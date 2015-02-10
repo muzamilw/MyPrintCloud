@@ -1,0 +1,27 @@
+﻿CREATE TABLE [dbo].[PaginationProfile] (
+    [Id]                 INT          IDENTITY (1, 1) NOT NULL,
+    [Code]               VARCHAR (50) NULL,
+    [Description]        TEXT         NULL,
+    [Priority]           INT          NULL,
+    [Pages]              INT          NULL,
+    [PaperSizeId]        INT          NULL,
+    [LookupMethodId]     INT          NULL,
+    [Orientation]        INT          NULL,
+    [FinishStyleId]      INT          NULL,
+    [MinHeight]          FLOAT (53)   NULL,
+    [Minwidth]           FLOAT (53)   NULL,
+    [Maxheight]          FLOAT (53)   NULL,
+    [MaxWidth]           FLOAT (53)   NULL,
+    [MinWeight]          FLOAT (53)   NULL,
+    [MaxWeight]          FLOAT (53)   NULL,
+    [MaxNoOfColors]      INT          NULL,
+    [GrainDirection]     VARCHAR (50) NULL,
+    [NumberUp]           INT          NULL,
+    [NoOfDifferentTypes] INT          NULL,
+    [LockedBy]           INT          NULL,
+    [CompanyId]          INT          CONSTRAINT [DF__tbl_pagin__Compa__2D12A970] DEFAULT (0) NOT NULL,
+    [FlagId]             INT          CONSTRAINT [DF__tbl_pagin__FlagI__2E06CDA9] DEFAULT (0) NULL,
+    [SystemSiteId]       INT          CONSTRAINT [DF__tbl_pagin__Syste__2EFAF1E2] DEFAULT (0) NOT NULL,
+    CONSTRAINT [PK_tbl_pagination_profile] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+

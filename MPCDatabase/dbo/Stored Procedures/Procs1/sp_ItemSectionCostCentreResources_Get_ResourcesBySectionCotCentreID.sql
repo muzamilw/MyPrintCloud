@@ -1,0 +1,12 @@
+﻿CREATE PROCEDURE dbo.sp_ItemSectionCostCentreResources_Get_ResourcesBySectionCotCentreID
+(
+@SectionCostcentreID int
+)
+AS
+SELECT tbl_section_costcentre_resources.SectionCostCentreResourceID,
+tbl_section_costcentre_resources.SectionCostcentreID,tbl_section_costcentre_resources.ResourceID,tbl_section_costcentre_resources.ResourceTime,
+tbl_systemusers.UserName as Name
+FROM tbl_systemusers 
+INNER JOIN tbl_section_costcentre_resources ON (tbl_systemusers.SystemUserID = tbl_section_costcentre_resources.ResourceID) 
+WHERE tbl_section_costcentre_resources.SectionCostcentreID = @SectionCostcentreID
+	RETURN
