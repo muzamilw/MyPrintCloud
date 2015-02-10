@@ -1,0 +1,25 @@
+﻿CREATE TABLE [dbo].[RegionalsSetting] (
+    [Laguage]           INT          IDENTITY (1, 1) NOT NULL,
+    [LanguageValue]     VARCHAR (50) NULL,
+    [Color]             VARCHAR (50) NULL,
+    [ColorValue]        VARCHAR (50) NULL,
+    [Organization]      VARCHAR (50) NULL,
+    [OrganizationValue] VARCHAR (50) NULL,
+    [State]             VARCHAR (50) NULL,
+    [StateValue]        VARCHAR (50) NULL,
+    [Centre]            VARCHAR (50) NULL,
+    [CentreValue]       VARCHAR (50) NULL,
+    [ZipCode]           VARCHAR (50) NULL,
+    [ZipCodeValue]      VARCHAR (50) NULL,
+    [Metre]             VARCHAR (50) NULL,
+    [MetreValue]        VARCHAR (50) NULL,
+    [Weight]            VARCHAR (50) NULL,
+    [WeightValue]       VARCHAR (50) NULL,
+    [PaperMeasure]      VARCHAR (50) NULL,
+    [PaperMeasureValue] VARCHAR (50) NULL,
+    [License]           VARCHAR (50) NULL,
+    [LicenceMeasure]    VARCHAR (50) NULL,
+    [IsSelected]        SMALLINT     NULL,
+    CONSTRAINT [PK_tbl_regionalsettings] PRIMARY KEY CLUSTERED ([Laguage] ASC)
+);
+

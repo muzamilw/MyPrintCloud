@@ -158,6 +158,7 @@
     <Compile Include="DomainModels\CmsOffer.cs" />
     <Compile Include="DomainModels\CompanyVariableIcon.cs" />
     <Compile Include="DomainModels\CostCentreAnswer.cs" />
+    <Compile Include="DomainModels\CostCenterChoice.cs" />
     <Compile Include="DomainModels\CostcentreInstruction.cs" />
     <Compile Include="DomainModels\CostCentreMatrix.cs" />
     <Compile Include="DomainModels\CostCentreMatrixDetail.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="DomainModels\FavoriteDesign.cs" />
     <Compile Include="DomainModels\Group.cs" />
     <Compile Include="DomainModels\ImagePermission.cs" />
+    <Compile Include="DomainModels\InkCoverageGroup.cs" />
     <Compile Include="DomainModels\ItemStockUpdateHistory.cs" />
     <Compile Include="DomainModels\Listing.cs" />
     <Compile Include="DomainModels\ListingAgent.cs" />
@@ -186,6 +188,7 @@
     <Compile Include="DomainModels\MachineCategory.cs" />
     <Compile Include="DomainModels\MachineInkCoverage.cs" />
     <Compile Include="DomainModels\MachineResource.cs" />
+    <Compile Include="DomainModels\MachineSpoilage.cs" />
     <Compile Include="DomainModels\MediaLibrary.cs" />
     <Compile Include="DomainModels\Phrase.cs" />
     <Compile Include="DomainModels\PhraseField.cs" />
@@ -194,6 +197,8 @@
     <Compile Include="DomainModels\ProductCategoryItem.cs" />
     <Compile Include="DomainModels\ProductMarketBriefAnswer.cs" />
     <Compile Include="DomainModels\ProductMarketBriefQuestion.cs" />
+    <Compile Include="DomainModels\Report.cs" />
+    <Compile Include="DomainModels\ReportNote.cs" />
     <Compile Include="DomainModels\RequestQuote.cs" />
     <Compile Include="DomainModels\Role.cs" />
     <Compile Include="DomainModels\sp_GetTemplateImages_Result.cs" />

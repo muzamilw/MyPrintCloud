@@ -1,0 +1,7 @@
+﻿CREATE PROCEDURE dbo.sp_ItemSectionCostCentreResources_Delete_ResourceBySectionCostCentreResourceID
+(
+	@SectionCostCentreResourceID int
+)
+AS
+	Delete  from  tbl_section_costcentre_resources  WHERE tbl_section_costcentre_resources.SectionCostCentreResourceID = @SectionCostCentreResourceID
+	RETURN
