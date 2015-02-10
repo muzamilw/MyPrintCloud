@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 
-namespace MPC.Interfaces.WebStoreServices
+namespace MPC.Interfaces.Repository
 {
     public interface ICostCentreQuestionRepository
     {

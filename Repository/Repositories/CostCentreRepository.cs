@@ -807,7 +807,9 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-               return db.CostCentres.Where(c => c.OrganisationId == OrganisationID).ToList();
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
+                return db.CostCentres.Include("CostcentreInstruction").Include("CostcentreResource").Include("CostcentreWorkInstructionsChoice").Where(c => c.OrganisationId == OrganisationID).ToList();
             }
             catch(Exception ex)
             {
