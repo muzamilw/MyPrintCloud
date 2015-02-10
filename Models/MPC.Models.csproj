@@ -192,6 +192,8 @@
     <Compile Include="DomainModels\MediaLibrary.cs" />
     <Compile Include="DomainModels\Phrase.cs" />
     <Compile Include="DomainModels\PhraseField.cs" />
+    <Compile Include="DomainModels\PipeLineProduct.cs" />
+    <Compile Include="DomainModels\PipeLineSource.cs" />
     <Compile Include="DomainModels\ProductCategoriesView.cs" />
     <Compile Include="DomainModels\ProductCategoryItemCustom.cs" />
     <Compile Include="DomainModels\ProductCategoryItem.cs" />

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets511001E2D23D6D6BBCE023DBE29F4D01DB31D5AC6BEB5353813B285850D677ED))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsC811BE355C649661F529F18865A35708F99A48691386ECAF6B83533A22F04ED5))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,19 +17,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets511001E2D23D6D6BBCE023DBE29F4D01DB31D5AC6BEB5353813B285850D677ED : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsC811BE355C649661F529F18865A35708F99A48691386ECAF6B83533A22F04ED5 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets511001E2D23D6D6BBCE023DBE29F4D01DB31D5AC6BEB5353813B285850D677ED()
+        public ViewsForBaseEntitySetsC811BE355C649661F529F18865A35708F99A48691386ECAF6B83533A22F04ED5()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "4839aea7beb11d4fec14b4c6835d4c5b5a446d459d0ee95e4675518deaa6fd04";
-            this.HashOverAllExtentViews = "287a3acfd9a41fb37907be4833f4d5052e235d68780c3e7d0fa3931b2ce43fac";
-            this.ViewCount = 290;
+            this.HashOverMappingClosure = "1495d2f93234739b75fd6ddacb0b1bb264213f8ca37a3a9579063fa5216250b4";
+            this.HashOverAllExtentViews = "92c4018b387202cfdd26491efa0d71d20badfa2bdadae5ab398cdbef9d7dd22f";
+            this.ViewCount = 294;
         }
         
         /// <Summary>
@@ -1196,6 +1196,22 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 289))
             {
                 return GetView289();
+            }
+            if ((index == 290))
+            {
+                return GetView290();
+            }
+            if ((index == 291))
+            {
+                return GetView291();
+            }
+            if ((index == 292))
+            {
+                return GetView292();
+            }
+            if ((index == 293))
+            {
+                return GetView293();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -10798,6 +10814,74 @@ namespace Edm_EntityMappingGeneratedViews
             T.isDefault AS ReportNote_isDefault, 
             True AS _from0
         FROM DomainModelsStoreContainer.ReportNote AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.PipeLineProduct
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView290()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.PipeLineProduct", @"
+    SELECT VALUE -- Constructing PipeLineProduct
+        [DomainModels.Store.PipeLineProduct](T1.PipeLineProduct_ProductId, T1.PipeLineProduct_Description)
+    FROM (
+        SELECT 
+            T.ProductId AS PipeLineProduct_ProductId, 
+            T.Description AS PipeLineProduct_Description, 
+            True AS _from0
+        FROM BaseDbContext.PipeLineProducts AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.PipeLineProducts
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView291()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.PipeLineProducts", @"
+    SELECT VALUE -- Constructing PipeLineProducts
+        [DomainModels.PipeLineProduct](T1.PipeLineProduct_ProductId, T1.PipeLineProduct_Description)
+    FROM (
+        SELECT 
+            T.ProductId AS PipeLineProduct_ProductId, 
+            T.Description AS PipeLineProduct_Description, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.PipeLineProduct AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.PipeLineSource
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView292()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.PipeLineSource", @"
+    SELECT VALUE -- Constructing PipeLineSource
+        [DomainModels.Store.PipeLineSource](T1.PipeLineSource_SourceId, T1.PipeLineSource_Description)
+    FROM (
+        SELECT 
+            T.SourceId AS PipeLineSource_SourceId, 
+            T.Description AS PipeLineSource_Description, 
+            True AS _from0
+        FROM BaseDbContext.PipeLineSources AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.PipeLineSources
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView293()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.PipeLineSources", @"
+    SELECT VALUE -- Constructing PipeLineSources
+        [DomainModels.PipeLineSource](T1.PipeLineSource_SourceId, T1.PipeLineSource_Description)
+    FROM (
+        SELECT 
+            T.SourceId AS PipeLineSource_SourceId, 
+            T.Description AS PipeLineSource_Description, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.PipeLineSource AS T
     ) AS T1");
         }
     }

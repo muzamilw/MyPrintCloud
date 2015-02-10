@@ -261,6 +261,8 @@
         <EntityTypeShape EntityType="DomainModels.MachineSpoilage" Width="1.5" PointX="5.375" PointY="36.875" />
         <EntityTypeShape EntityType="DomainModels.Report" Width="1.5" PointX="37.375" PointY="29.875" />
         <EntityTypeShape EntityType="DomainModels.ReportNote" Width="1.5" PointX="37.375" PointY="12.75" />
+        <EntityTypeShape EntityType="DomainModels.PipeLineProduct" Width="1.5" PointX="37.375" PointY="36.875" />
+        <EntityTypeShape EntityType="DomainModels.PipeLineSource" Width="1.5" PointX="38.375" PointY="0.875" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
