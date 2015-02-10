@@ -3,6 +3,7 @@
 }
 @section leftmenue {
 }
+
 <div data-bind="visible: $root.isEditorVisible()" style="display: none">
     <form method="post" enctype="multipart/form-data" id="fileUploadForm">
         <div class="col-lg-12">
@@ -68,7 +69,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the store that will be displayed on the web." data-original-title="" title="">
+                                                        <a  class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Your Coustomer Name or Store Name" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -82,7 +83,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="The store type determines how a store is accessed." data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Retail B2C Store Type or Corporate B2B Private Store" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -115,7 +116,7 @@
                                                 @*data-bind="visible: type() == 'Corporate' || type() == 3"*@
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Code to access your store http://pinkcards.com/corporatedemo/login" data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Unique code for the Webstore, creates a unique URL (No Hyphens or Spaces) ABC Print = abcprint" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -146,7 +147,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="ex. (999) 999-9999" data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Default Phone Number displayed on main page" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -163,7 +164,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="User notes for the store." data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Internal Use Only for CRM Notes" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -291,7 +292,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Opening date of account - format mm-dd-yyyy" data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Date when your customers account was opened with your business *optional*" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -305,7 +306,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Store's Account Manager " data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your employee who is responsible for managing accounts (normally a customer service representative – CSR) this users details will be populated on order reports" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -324,7 +325,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="GST registration number will be used for invoices" data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter your customers ABN, VAT ID, PST or Tax identification number. " data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -339,7 +340,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="GST reference number will be used for accounts" data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter your customers ABN, VAT ID, PST or Tax reference number" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -360,7 +361,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Facebook Page URL - e.g. https://www.facebook.com/Pinkcards" data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Facebook URL for social media icons displayed on the store (https://www.facebook.com/MyPrintCloud)" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -374,7 +375,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Facilitate user to login/Register from their Facebook account. You can get Your Facebook app Id from https://developers.facebook.com/apps" data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Facebook Application ID e.g. (https://developers.facebook.com/apps)" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -388,7 +389,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Facilitate user to login/Register from their Facebook account. You can get Your Facebook app key from https://developers.facebook.com/apps" data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Key provided when you have applied for APP ID" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -402,7 +403,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Twitter Page URL - e.g. https://www.twitter.com/Pinkcards " data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Twitter Account URL for social media icons displayed on the store" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -416,7 +417,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Facilitate user to login/Register from their twitter account. You can get Your Twitter app Id from https://dev.twitter.com/" data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Twitter Application ID ( https://dev.twitter.com/apps/new)" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -430,7 +431,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Facilitate user to login/Register from their twitter account. You can get Your Twitter app Id from https://dev.twitter.com/" data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Key Provided when you have applied for APP ID" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -444,7 +445,8 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Linkedin Page URL - e.g. https://www.linkedin.com/" data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your LinkedIn account URL for social media icons displayed on the store.
+(https://www.linkedin.com/company/my-print-cloud?trk=top_nav_home)" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -458,7 +460,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter corporate home title" data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Store Home page URL used within template population  (http://www.myprintcloud.com/)" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -2104,7 +2106,17 @@
 @Html.Partial("~/Areas/Stores/Views/Shared/_ProductCategoryDetail.cshtml")
 
 @section Scripts {
+    <script src="http://mpc/Scripts/jquery.min.js"></script>
+    <script src="http://mpc/Scripts/jquery-1.10.2.js"></script>
     <script src="~/Content/themes/Centaurus/js/jquery.magnific-popup.min.js"></script>
+
+    <script>
+        $(document).ready(function ()
+        {
+           
+            $('.bs-example-tooltips a').popover();
+        });
+    </script>
 
     <script type="text/javascript">
         var editor = ace.edit("editor");
@@ -2114,13 +2126,13 @@
         editor.setDisplayIndentGuides(false);
 
 
-        $(document).ready(function () {
-            $('.bs-example-tooltips a').popover();
-            $('#listores').addClass('active');
-            $(".fa fa-upload").click(function () {
-                $("input[id='my_file']").click();
-            });
-        });
+        //$(document).ready(function () {
+        //    $('.bs-example-tooltips a').popover();
+        //    $('#listores').addClass('active');
+        //    $(".fa fa-upload").click(function () {
+        //        $("input[id='my_file']").click();
+        //    });
+        //});
 
 
         function HideItemsGrid(IsHide) {

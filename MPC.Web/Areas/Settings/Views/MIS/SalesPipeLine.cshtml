@@ -55,46 +55,39 @@
                                                 <br />
                                                 <div class="col-md-6 form-horizontal">
                                                     <div class="form-group">
-                                                        <div class="col-lg-4 text-right">
-
+                                                        <div class="col-lg-5 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
-
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border="" 0"="" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Address Line 1." data-original-title="" title="">
+                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sales Person Name" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
-
                                                             </div>
                                                             <label for="txtCompanyName" class="control-label text-right tooltip-float">Sales Person</label>
-
                                                         </div>
-
                                                         <div class="col-lg-6">
                                                             <select id="state" class="form-control" data-bind="options: $root.filteredStates  , optionsText: 'StateName', optionsValue: 'StateId' ,value:state,validationtooltip:state"><option value="1">Lucas Padolsiki</option><option value="1">Bastin Schwenstigier</option></select>
                                                             <span class="help-block text-right"></span>
                                                         </div>
-
                                                     </div>
 
-                                                    <div class="form-group">
-                                                        <div class="col-lg-4 text-right">
-
-                                                            <div class="bs-example-tooltips tooltip-float-width">
-
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border="" 0"="" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Address Line 1." data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                                </a>
-
+                                                    
+                                                        <div class="form-group">
+                                                            <div class="col-lg-5 text-right">
+                                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sales Year" data-original-title="" title="">
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
+                                                                </div>
+                                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Sales Year</label>
                                                             </div>
-                                                            <label for="txtCompanyName" class="control-label text-right tooltip-float">Sales Year</label>
-
+                                                            <div class="col-lg-6">
+                                                                <select id="state" class="form-control" data-bind="options: $root.filteredStates  , optionsText: 'StateName', optionsValue: 'StateId' ,value:state,validationtooltip:state"><option value="1">2011</option><option value="1">2012</option><option value="1">2013</option><option value="1">2014</option><option value="1">2015</option><option value="1">2016</option><option value="1">2011</option><option value="1">2017</option><option value="1">2018</option><option value="1">2019</option><option value="1">2020</option><option value="1">2021</option><option value="1">2022</option><option value="1">2023</option><option value="1">2024</option><option value="1">2025</option></select>
+                                                                <span class="help-block text-right"></span>
+                                                            </div>
                                                         </div>
 
-                                                        <div class="col-lg-6">
-                                                            <select id="state" class="form-control" data-bind="options: $root.filteredStates  , optionsText: 'StateName', optionsValue: 'StateId' ,value:state,validationtooltip:state"><option value="1">2011</option><option value="1">2012</option><option value="1">2013</option><option value="1">2014</option><option value="1">2015</option><option value="1">2016</option><option value="1">2011</option><option value="1">2017</option><option value="1">2018</option><option value="1">2019</option><option value="1">2020</option><option value="1">2021</option><option value="1">2022</option><option value="1">2023</option><option value="1">2024</option><option value="1">2025</option></select>
-                                                            <span class="help-block text-right"></span>
-                                                        </div>
 
-                                                    </div>
+                                                   
+                                                    
 
 
                                                     <div class="table-responsive">
@@ -112,13 +105,14 @@
                                                             </thead>
                                                             <tbody>
                                                                 <tr>
-                                                                    <td style="width:45%;">
+                                                                    <td style="width:30%;">
                                                                         January
                                                                     </td>
-                                                                    <td style="width:45%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;"/>
+                                                                    <td style="width:100%;">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">$</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+                                                                            
                                                                         </div>
                                                                     </td>
 
@@ -133,13 +127,14 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="width:45%;">
+                                                                    <td style="width:30%;">
                                                                         Febuary
                                                                     </td>
-                                                                    <td style="width:45%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;" />
+                                                                    <td style="width:100%;">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">$</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+                                                                            
                                                                         </div>
                                                                     </td>
 
@@ -155,13 +150,14 @@
                                                                 </tr>
 
                                                                 <tr>
-                                                                    <td style="width:45%;">
+                                                                    <td style="width:30%;">
                                                                         March
                                                                     </td>
-                                                                    <td style="width:45%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;" />
+                                                                    <td style="width:100%;">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">$</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+                                                                           
                                                                         </div>
                                                                     </td>
 
@@ -176,13 +172,14 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="width:45%;">
+                                                                    <td style="width:30%;">
                                                                         April
                                                                     </td>
-                                                                    <td style="width:45%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;" />
+                                                                    <td style="width:100%;">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">$</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+
                                                                         </div>
                                                                     </td>
 
@@ -197,13 +194,14 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="width:45%;">
+                                                                    <td style="width:30%;">
                                                                         May
                                                                     </td>
-                                                                    <td style="width:45%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;" />
+                                                                    <td style="width:100%;">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">$</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+
                                                                         </div>
                                                                     </td>
 
@@ -218,13 +216,14 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="width:45%;">
+                                                                    <td style="width:30%;">
                                                                         June
                                                                     </td>
-                                                                    <td style="width:45%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;" />
+                                                                    <td style="width:100%;">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">$</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+
                                                                         </div>
                                                                     </td>
 
@@ -239,13 +238,14 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="width:45%;">
+                                                                    <td style="width:30%;">
                                                                         July
                                                                     </td>
-                                                                    <td style="width:45%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;" />
+                                                                    <td style="width:100%;">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">$</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+
                                                                         </div>
                                                                     </td>
 
@@ -260,13 +260,14 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="width:45%;">
+                                                                    <td style="width:30%;">
                                                                         August
                                                                     </td>
-                                                                    <td style="width:45%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;" />
+                                                                    <td style="width:100%;">
+                                                                         <div class="input-group">
+                                                                            <span class="input-group-addon">$</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+
                                                                         </div>
                                                                     </td>
 
@@ -281,13 +282,14 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="width:45%;">
+                                                                    <td style="width:30%;">
                                                                         September
                                                                     </td>
-                                                                    <td style="width:45%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;" />
+                                                                    <td style="width:100%;">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">$</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+
                                                                         </div>
                                                                     </td>
 
@@ -302,13 +304,14 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="width:40%">
+                                                                    <td style="width:30%">
                                                                         Octuber
                                                                     </td>
-                                                                    <td style="width:45%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;" />
+                                                                    <td style="width:100%;">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">$</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+
                                                                         </div>
                                                                     </td>
 
@@ -323,13 +326,14 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="width:40%">
+                                                                    <td style="width:30%">
                                                                         November
                                                                     </td>
-                                                                    <td style="width:45%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;" />
+                                                                    <td style="width:100%;">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">$</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+
                                                                         </div>
                                                                     </td>
 
@@ -344,13 +348,14 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="width:40%">
+                                                                    <td style="width:30%">
                                                                         December
                                                                     </td>
-                                                                    <td style="width:45%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;" />
+                                                                    <td style="width:100%;">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">$</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+
                                                                         </div>
                                                                     </td>
 
@@ -408,9 +413,10 @@
                                                                         <input type="text" class="form-control" id="txtCompanyName" placeholder="Month" data-bind="value:name , validationTooltip:name">
                                                                     </td>
                                                                     <td style="width:45%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">%</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;" />
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">%</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+
                                                                         </div>
                                                                     </td>
 
@@ -429,9 +435,10 @@
                                                                         <input type="text" class="form-control" id="txtCompanyName" placeholder="Month" data-bind="value:name , validationTooltip:name">
                                                                     </td>
                                                                     <td style="width:45%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">%</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;" />
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">%</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+
                                                                         </div>
                                                                     </td>
 
@@ -450,9 +457,10 @@
                                                                         <input type="text" class="form-control" id="txtCompanyName" placeholder="Month" data-bind="value:name , validationTooltip:name">
                                                                     </td>
                                                                     <td style="width:45%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">%</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;" />
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">%</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+
                                                                         </div>
                                                                     </td>
 
@@ -784,9 +792,10 @@
                                                                 <tr>
                                                                     <td style="width:50%"><input type="text" class="form-control" id="txtCompanyName"  data-bind="value:name , validationTooltip:name"></td>
                                                                     <td style="width:40%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:38px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">%</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;" />
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">$</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+
                                                                         </div>
                                                                     </td>
 
@@ -803,9 +812,10 @@
                                                                 <tr>
                                                                     <td style="width:50%"><input type="text" class="form-control" id="txtCompanyName"  data-bind="value:name , validationTooltip:name"></td>
                                                                     <td style="width:40%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:38px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">%</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;" />
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">$</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+
                                                                         </div>
                                                                     </td>
 
@@ -822,9 +832,10 @@
                                                                 <tr>
                                                                     <td style="width:50%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
                                                                     <td style="width:40%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:38px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">%</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;" />
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">$</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+
                                                                         </div>
                                                                     </td>
 
@@ -841,9 +852,10 @@
                                                                 <tr>
                                                                     <td style="width:50%"><input type="text" class="form-control" id="txtCompanyName"  data-bind="value:name , validationTooltip:name"></td>
                                                                     <td style="width:40%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:38px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">%</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;" />
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">$</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+
                                                                         </div>
                                                                     </td>
 
@@ -860,9 +872,10 @@
                                                                 <tr>
                                                                     <td style="width:50%"><input type="text" class="form-control" id="txtCompanyName"  data-bind="value:name , validationTooltip:name"></td>
                                                                     <td style="width:40%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:38px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">%</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;" />
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">$</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+
                                                                         </div>
                                                                     </td>
 
@@ -879,9 +892,10 @@
                                                                 <tr>
                                                                     <td style="width:50%"><input type="text" class="form-control" id="txtCompanyName"  data-bind="value:name , validationTooltip:name"></td>
                                                                     <td style="width:40%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:38px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">%</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;" />
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">$</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+
                                                                         </div>
                                                                     </td>
 
@@ -898,9 +912,10 @@
                                                                 <tr>
                                                                     <td style="width:50%"><input type="text" class="form-control" id="txtCompanyName"  data-bind="value:name , validationTooltip:name"></td>
                                                                     <td style="width:40%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:38px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">%</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;" />
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">$</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+
                                                                         </div>
                                                                     </td>
 
@@ -917,9 +932,10 @@
                                                                 <tr>
                                                                     <td style="width:50%"><input type="text" class="form-control" id="txtCompanyName"  data-bind="value:name , validationTooltip:name"></td>
                                                                     <td style="width:40%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:38px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">%</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;" />
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">$</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+
                                                                         </div>
                                                                     </td>
 
@@ -936,9 +952,10 @@
                                                                 <tr>
                                                                     <td style="width:50%"><input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name"></td>
                                                                     <td style="width:40%;">
-                                                                        <div class="aligndivs" style="width:100%;">
-                                                                            <span class="input-group-addon" style="width:38px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">%</span>
-                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:78%;" />
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">$</span>
+                                                                            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0">
+
                                                                         </div>
                                                                     </td>
 
@@ -998,7 +1015,11 @@
                                                                         <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
                                                                     </td>
                                                                     <td style="width:20%;">
-                                                                        10
+                                                                        <div data-bind="with:colorPalette">
+
+                                                                            <div class="Color" id="colorPick" style="border:none;width:30px;height:30px;background-color:#808080;cursor:pointer;">
+                                                                            </div>
+                                                                        </div>
                                                                     </td>
 
                                                                     <td>
@@ -1017,7 +1038,11 @@
                                                                         <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
                                                                     </td>
                                                                     <td style="width:20%;">
-                                                                        20
+                                                                        <div data-bind="with:colorPalette">
+
+                                                                            <div class="Color" id="colorPick1" style="border:none;width:30px;height:30px;background-color:#808080;cursor:pointer;">
+                                                                            </div>
+                                                                        </div>
                                                                     </td>
 
                                                                     <td>
@@ -1036,7 +1061,11 @@
                                                                         <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
                                                                     </td>
                                                                     <td style="width:20%;">
-                                                                        30
+                                                                        <div data-bind="with:colorPalette">
+
+                                                                            <div class="Color" id="colorPick2" style="border:none;width:30px;height:30px;background-color:#808080;cursor:pointer;">
+                                                                            </div>
+                                                                        </div>
                                                                     </td>
 
                                                                     <td>
@@ -1055,7 +1084,11 @@
                                                                         <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
                                                                     </td>
                                                                     <td style="width:20%;">
-                                                                        40
+                                                                        <div data-bind="with:colorPalette">
+
+                                                                            <div class="Color" id="colorPick3" style="border:none;width:30px;height:30px;background-color:#808080;cursor:pointer;">
+                                                                            </div>
+                                                                        </div>
                                                                     </td>
 
                                                                     <td>
@@ -1074,7 +1107,11 @@
                                                                         <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
                                                                     </td>
                                                                     <td style="width:20%;">
-                                                                        60
+                                                                        <div data-bind="with:colorPalette">
+
+                                                                            <div class="Color" id="colorPick4" style="border:none;width:30px;height:30px;background-color:#808080;cursor:pointer;">
+                                                                            </div>
+                                                                        </div>
                                                                     </td>
 
                                                                     <td>
@@ -1093,7 +1130,11 @@
                                                                         <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
                                                                     </td>
                                                                     <td style="width:20%;">
-                                                                        
+                                                                        <div data-bind="with:colorPalette">
+
+                                                                            <div class="Color" id="colorPick5" style="border:none;width:30px;height:30px;background-color:#808080;cursor:pointer;">
+                                                                            </div>
+                                                                        </div>
                                                                     </td>
 
                                                                     <td>
@@ -1112,7 +1153,11 @@
                                                                         <input type="text" class="form-control" id="txtCompanyName" data-bind="value:name , validationTooltip:name">
                                                                     </td>
                                                                     <td style="width:20%;">
-                                                                        80
+                                                                        <div data-bind="with:colorPalette">
+
+                                                                            <div class="Color" id="colorPick6" style="border:none;width:30px;height:30px;background-color:#808080;cursor:pointer;">
+                                                                            </div>
+                                                                        </div>
                                                                     </td>
 
                                                                     <td>
@@ -1245,9 +1290,43 @@
             </div>
         </div>
         @section Scripts{
-            <script>
 
-                $(function () {
+<script>
+    $(document).ready(function () {
+        var ColorPickerId;
+        $(".Color").click(function () {
+            ColorPickerId = this.id;
+            $("#" + ColorPickerId).ColorPicker
+            ({
+                color: '',
+                onShow: function (colpkr) {
+                    $(colpkr).fadeIn(500);
+                    return false;
+                },
+                onHide: function (colpkr) {
+                    $(colpkr).fadeOut(500);
+                    return false;
+                },
+                onChange: function (hsb, hex, rgb) {
+                    $("#" + ColorPickerId).css("background-color", "#" + hex);
+                }
+            });
+        });
+
+
+    });
+
+
+
+</script>
+
+            <script>
+                $(document).ready(function ()
+                {
+                    $('.bs-example-tooltips a').popover();
+                });
+                $(function ()
+                {
                     $('#lisettings').addClass('active');
                     $('#limissettings').addClass('active');
                     $('#liprefixes').addClass('active');
