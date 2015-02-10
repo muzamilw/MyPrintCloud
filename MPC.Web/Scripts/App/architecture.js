@@ -201,60 +201,25 @@ require(["ko", "knockout-validation"], function (ko) {
     };
     ko.bindingHandlers.fullCalendar = {
         // This method is called to initialize the node, and will also be called again if you change what the grid is bound to
-        update: function (element, viewModelAccessor) {
+        update: function (element, viewModelAccessor, allBindingsAccessor) {
             var viewModel = viewModelAccessor();
             element.innerHTML = "";
+            var itemList = allBindingsAccessor().itemsList;
 
             $(element).fullCalendar({
                 events: ko.utils.unwrapObservable(viewModel.events),
                 header: viewModel.header,
                 editable: viewModel.editable,
+                selectable: true,
                 //droppable: true,
-               // dropAccept: '#external-events div.external-eventt',
+                // dropAccept: '#external-events div.external-eventt',
                 eventClick: this.eventClick,
                 eventDrop: this.eventDropOrResize,
-                eventResize: this.eventDropOrResize
+                eventResize: this.eventDropOrResize,
+                select:this.newEventAdd
             });
-            $(element).fullCalendar('gotoDate', ko.utils.unwrapObservable(viewModel.viewDate))
-            .find('td').each(function () {
-                $(this).droppable({
-                    // greedy: false,
-                    accept: "#external-events div.external-event",
-                    drop: function (event, ui) {
+            $(element).fullCalendar('gotoDate', ko.utils.unwrapObservable(viewModel.viewDate));
 
-                        var ddrop = getDateFromCell($(this), $(element));
-                        var date = $(this).data().date;
-                        var eventObject = $(ui.draggable).data('eventObject');
-                        //eventObject.start = ddrop;
-                        //eventObject.end = ddrop;
-                        //if ($(ui.draggable).data('dropped') == false) {
-
-                        //}
-                        // retrieve the dropped element's stored Event Object
-                        var originalEventObject = $(this).data('eventObject');
-
-                        // we need to copy it, so that multiple events don't have a reference to the same object
-                        var copiedEventObject = $.extend({}, originalEventObject);
-
-                        // assign it the date that was reported
-                        //copiedEventObject.start = date;
-                        copiedEventObject.start = ddrop;
-                        copiedEventObject.allDay = false;
-                        copiedEventObject.title = $(ui.draggable).text();
-                        // copy label class from the event object
-                        var labelClass = $(ui.draggable).data().eventclass;
-
-                        if (labelClass) {
-                            copiedEventObject.className = labelClass;
-                        }
-
-                        // render the event on the calendar
-                        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-                        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-                        return true;
-                    }
-                });
-            });
         }
     };
 
