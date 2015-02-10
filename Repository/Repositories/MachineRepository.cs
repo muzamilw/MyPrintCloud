@@ -170,7 +170,7 @@ namespace MPC.Repository.Repositories
         {
             return db.MachineResources;
         }
-
+        
       
     }
 }

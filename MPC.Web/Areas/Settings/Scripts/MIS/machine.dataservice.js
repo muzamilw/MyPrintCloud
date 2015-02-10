@@ -17,17 +17,21 @@ define("machine/machine.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
-                    amplify.request.define('GetLookupMethodList', 'ajax', {
-                        url: ist.siteUrl + '/Api/Machine',
-                        dataType: 'json',
-                        type: 'GET'
-                    });
-                    amplify.request.define('getStockItemsList', 'ajax', {
+                    //amplify.request.define('GetLookupMethodList', 'ajax', {
+                    //    url: ist.siteUrl + '/Api/Machine',
+                    //    dataType: 'json',
+                    //    type: 'GET'
+                    //});
+                    amplify.request.define('getStockItemsListforProduct', 'ajax', {
                         url: ist.siteUrl + '/Api/StockItems',
                         dataType: 'json',
                         type: 'GET'
                     });
-
+                    amplify.request.define('GetAllStockItemList', 'ajax', {
+                        url: ist.siteUrl + '/Api/StockItems',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     //  Define request to archive MachineList
                     amplify.request.define('archiveMachine', 'ajax', {
                         url: ist.siteUrl + '/Api/Machine',
@@ -36,14 +40,14 @@ define("machine/machine.dataservice", function () {
                     });
                     //// Define request to save New MachineList
                     //amplify.request.define('saveNewMachine', 'ajax', {
-                    //    url: ist.siteUrl + '/Api/MachineList',
+                    //    url: ist.siteUrl + '/Api/Machine',
                     //    dataType: 'json',
                     //    decoder: amplify.request.decoders.istStatusDecoder,
                     //    type: 'Put'
                     //});
                     //// Define request to save Machine
                     //amplify.request.define('saveMachine', 'ajax', {
-                    //    url: ist.siteUrl + '/Api/MachineList',
+                    //    url: ist.siteUrl + '/Api/Machine',
                     //    dataType: 'json',
                     //    decoder: amplify.request.decoders.istStatusDecoder,
                     //    type: 'POST'
@@ -67,19 +71,28 @@ define("machine/machine.dataservice", function () {
                 });
             },
             // Get Machine List
-            GetLookupMethodList = function (params, callbacks) {
+            //GetLookupMethodList = function (params, callbacks) {
+            //    initialize();
+            //    return amplify.request({
+            //        resourceId: 'GetLookupMethodList',
+            //        success: callbacks.success,
+            //        error: callbacks.error,
+            //        data: params
+            //    });
+            //},
+          GetAllStockItemList = function (params, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'GetLookupMethodList',
+                    resourceId: 'GetAllStockItemList',
+                    data: params,
                     success: callbacks.success,
                     error: callbacks.error,
-                    data: params
                 });
             },
             getStockItemsList = function (params, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'getStockItemsList',
+                    resourceId: 'getStockItemsListforProduct',
                     data: params,
                     success: callbacks.success,
                     error: callbacks.error,
@@ -128,9 +141,10 @@ define("machine/machine.dataservice", function () {
         return {
             GetMachineList: GetMachineList,
             getMachineById: getMachineById,
-            GetLookupMethodList: GetLookupMethodList,
+            //GetLookupMethodList: GetLookupMethodList,
             getStockItemsList: getStockItemsList,
-            archiveMachine: archiveMachine
+            archiveMachine: archiveMachine,
+            GetAllStockItemList: GetAllStockItemList
             
         };
     })();

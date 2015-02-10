@@ -51,7 +51,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default btn-myModal-close" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
             </div>
         </div>
@@ -60,10 +60,10 @@
 
 <script id="stockItemListTemplate" type="text/html">
     <tr data-bind="event: { dblclick: $root.OnSelectDefaultPaper}">
-        <td data-bind="text:name, event: { dblclick: $root.OnSelectDefaultPaper}"></td>
-        <td data-bind="text:category , event: { dblclick: $root.OnSelectDefaultPaper}">  </td>
-        <td data-bind="text: location, event: { dblclick: $root.OnSelectDefaultPaper}"></td>
-        <td data-bind="text: weight, event: { dblclick: $root.OnSelectDefaultPaper}"></td>
+        <td data-bind="text:name"></td>
+        <td data-bind="text:category">  </td>
+        <td data-bind="text: location"></td>
+        <td data-bind="text: weight"></td>
         @*<td data-bind="text: weight, event: { dblclick: function(){alert('test');}}"></td>*@
 
     </tr>
