@@ -1,0 +1,26 @@
+﻿CREATE TABLE [dbo].[StockItemsStaging] (
+    [stock_code_internal]   NVARCHAR (255) NULL,
+    [category_name]         NVARCHAR (255) NULL,
+    [sub_category_name]     NVARCHAR (255) NULL,
+    [supplier_name]         NVARCHAR (255) NULL,
+    [supplier_product_code] NVARCHAR (255) NULL,
+    [item_name]             NVARCHAR (255) NULL,
+    [description]           NVARCHAR (255) NULL,
+    [item_size_height]      NVARCHAR (255) NULL,
+    [item_size_width]       NVARCHAR (255) NULL,
+    [weight]                NVARCHAR (255) NULL,
+    [colour]                NVARCHAR (255) NULL,
+    [sheet_or_roll]         NVARCHAR (255) NULL,
+    [roll_width]            NVARCHAR (255) NULL,
+    [roll_length]           NVARCHAR (255) NULL,
+    [pack_qty]              FLOAT (53)     NULL,
+    [cost_per_pack]         MONEY          NULL,
+    [ink_absorbtion]        NVARCHAR (255) NULL,
+    [opening_balance]       NVARCHAR (255) NULL,
+    [re_order_threshhold]   NVARCHAR (255) NULL,
+    [re_order_qty]          NVARCHAR (255) NULL,
+    [basis_area]            NVARCHAR (255) NULL,
+    [unit_of_measure]       NVARCHAR (255) NULL,
+    [barcode]               NVARCHAR (255) NULL
+);
+
