@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
@@ -15,15 +16,15 @@ namespace MPC.Implementation.MISServices
         #region Private
         
         private readonly IEstimateRepository estimateRepository;
+        private readonly ISectionFlagRepository sectionFlagRepository;
         
         #endregion
-
         #region Constructor
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public OrderService(IEstimateRepository estimateRepository)
+        public OrderService(IEstimateRepository estimateRepository, ISectionFlagRepository sectionFlagRepository)
         {
             if (estimateRepository == null)
             {
@@ -31,10 +32,10 @@ namespace MPC.Implementation.MISServices
             }
 
             this.estimateRepository = estimateRepository;
+            this.sectionFlagRepository = sectionFlagRepository;
         }
 
         #endregion
-
         #region Public
         
         /// <summary>
@@ -69,6 +70,13 @@ namespace MPC.Implementation.MISServices
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Get base data for order
+        /// </summary>
+        public IEnumerable<SectionFlag> GetBaseData()
+        {
+            return sectionFlagRepository.GetFlagsForOrders();
+        }
         #endregion
     }
 }

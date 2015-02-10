@@ -102,6 +102,14 @@ namespace MPC.Repository.Repositories
 
             }
         }
+
+        /// <summary>
+        /// Get Base data for orders
+        /// </summary>
+        public IEnumerable<SectionFlag> GetFlagsForOrders()
+        {
+            return DbSet.Where(flag => flag.SectionId == 54).ToList();
+        }
         #endregion
     }
 }
