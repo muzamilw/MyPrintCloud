@@ -17,7 +17,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Name = source.Name,
                 Type = source.Type,
                 LockedBy = source.LockedBy,
-                CompanyId = source.CompanyId,
+                OrganisationId = source.OrganisationId,
                 FlagId = source.FlagId,
                 SystemSiteId = source.SystemSiteId
 

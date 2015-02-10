@@ -1,4 +1,5 @@
 ﻿using MPC.Models.DomainModels;
+using System.Collections.Generic;
 
 namespace MPC.Interfaces.Repository
 {
@@ -18,5 +19,7 @@ namespace MPC.Interfaces.Repository
         /// Markup use in Prefix 
         /// </summary>
         bool PrefixUseMarkupId(long markupId);
+
+        List<Prefix> GetPrefixesByOrganisationID(long organisationID);
     }
 }

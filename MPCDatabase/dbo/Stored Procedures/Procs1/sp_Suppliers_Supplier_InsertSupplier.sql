@@ -1,0 +1,57 @@
+﻿CREATE PROCEDURE [dbo].[sp_Suppliers_Supplier_InsertSupplier]
+	(
+	   @SupplierName varchar(100),
+	   @AccountNumber varchar(10), 
+	   @SupplierTypeID int ,
+	   @URL varchar(30),
+	   @ISBN varchar(30),
+	   @Notes nvarchar(3000),
+	   @CreditLimit float,
+	   @DefaultMarkUpID int,
+	   @DefaultNominalCode int,
+	   @AccountOpenDate datetime,
+	   @CreditReference varchar(50), 
+	   @Terms nvarchar(3000),
+	   @AccountBalance float,
+	   @SupplierCreationDate datetime,
+	   @VATRegNumber varchar(50), 
+	   @VATRegReference varchar(50), 
+	   @BankName varchar(50), 
+	   @BankAddress1 varchar(255),
+	   @BankAddress2 varchar(255),
+	   @BankCity varchar(30),
+	   @BankState varchar(30), 
+	   @BankPostCode varchar(30), 
+	   @BankCountry varchar(30),
+	   @BankPhone varchar(30), 
+	   @BankFax varchar(30),
+	   @BankExtension varchar(30),
+	   @BankAccountType varchar(30), 
+	   @BankSortCode varchar(30),
+       @BankBacsRef varchar(255), 
+       @BankAccountNo varchar(30),
+       @BankAccounName varchar(50),
+       @IsDisabled smallint,
+       @IsParaentCompany int,
+       @ParaentCompanyID int, 
+       @FlagID int,
+       @SystemSiteID int,
+       @DepartmentID int
+	)
+AS
+	INSERT INTO tbl_ContactCompanies (Name,AccountNumber,
+       TypeID,URL,ISBN,Notes,CreditLimit,DefaultMarkUpID,DefaultNominalCode,AccountOpenDate,
+       CreditReference,Terms,AccountBalance,CreationDate,VATRegNumber,VATRegReference,
+       
+     --  BankName,BankAddress1,BankAddress2,BankCity,BankState,BankPostCode,BankCountry,BankPhone,BankExtension,
+      -- BankAccountType,BankSortCode,BankBacsRef,BankAccountNo,BankAccounName,BankFax,
+       IsDisabled,IsParaentCompany,ParaentCompanyID,FlagID,SystemSiteID,DepartmentID,IsCustomer,IsGeneral) 
+       
+       VALUES (@SupplierName,@BankAccountNo,@SupplierTypeID,@URL,@ISBN,@Notes,@CreditLimit,@DefaultMarkUpID,
+       @DefaultNominalCode,@AccountOpenDate,@CreditReference,@Terms,@AccountBalance,
+       @SupplierCreationDate,@VATRegNumber,@VATRegReference,
+       --@BankName,@BankAddress1,@BankAddress2,
+      -- @BankCity,@BankState,@BankPostCode,@BankCountry,@BankPhone,@BankExtension,@BankAccountType,@BankSortCode,
+     -- @BankBacsRef,@BankAccountNo,@BankAccounName,@BankFax,
+       @IsDisabled,@IsParaentCompany,@ParaentCompanyID,@FlagID,@SystemSiteID,@DepartmentID,2,0)
+	RETURN

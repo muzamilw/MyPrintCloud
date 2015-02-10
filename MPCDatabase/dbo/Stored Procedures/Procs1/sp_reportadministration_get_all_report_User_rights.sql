@@ -1,0 +1,4 @@
+﻿CREATE PROCEDURE dbo.sp_reportadministration_get_all_report_User_rights
+AS
+	select userReportID,SystemUserID,ReportID,ReportCategoryID from tbl_userreports
+	RETURN
