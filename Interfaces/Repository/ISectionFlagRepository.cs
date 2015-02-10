@@ -33,5 +33,10 @@ namespace MPC.Interfaces.Repository
         /// Get Section Flags for Campaign
         /// </summary>
         IEnumerable<SectionFlag> GetAllForCampaign();
+
+        /// <summary>
+        /// Get Base data for orders
+        /// </summary>
+        IEnumerable<SectionFlag> GetFlagsForOrders();
     }
 }

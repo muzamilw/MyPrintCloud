@@ -1,4 +1,5 @@
-﻿using MPC.Models.DomainModels;
+﻿using System.Collections.Generic;
+using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 
@@ -28,5 +29,10 @@ namespace MPC.Interfaces.MISServices
         /// Save Order
         /// </summary>
         Estimate SaveOrder(Estimate estimate);
+
+        /// <summary>
+        /// Get base data for order
+        /// </summary>
+        IEnumerable<SectionFlag> GetBaseData();
     }
 }

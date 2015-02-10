@@ -85,6 +85,14 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(sf => sf.SectionId == (int)SectionEnum.Customers && sf.OrganisationId == OrganisationId).ToList();
         }
+
+        /// <summary>
+        /// Get Base data for orders
+        /// </summary>
+        public IEnumerable<SectionFlag> GetFlagsForOrders()
+        {
+            return DbSet.Where(flag => flag.SectionId == 54).ToList();
+        }
         #endregion
     }
 }
