@@ -51,7 +51,7 @@ namespace MPC.Interfaces.MISServices
         /// Used in Products
         /// </summary>
         InventorySearchResponse GetStockItems(StockItemRequestModel request);
-
+        IEnumerable<StockItem> GetAllStockItemList();
         /// <summary>
         /// Get Item Price Matrices for Section Flag & Item 
         /// </summary>
