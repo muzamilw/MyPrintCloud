@@ -34,7 +34,8 @@ namespace MPC.Implementation.MISServices
         }
         public bool archiveMachine(long machineId)
         {
-            return true;
+            
+            return _machineRepository.archiveMachine(machineId);
         }
         public MachineResponseModel GetMachineById(long id)
         {

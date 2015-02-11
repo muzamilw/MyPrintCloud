@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 using System.Web.Http;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
+
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -44,11 +42,13 @@ namespace MPC.MIS.Areas.Api.Controllers
                 RowCount = result.RowCount
             };
         }
+       
 
-        public bool archiveMachine(long machineId)
+        [HttpPost]
+        public Machine Post(Machine omachineId)
         {
-
-            return _machineService.archiveMachine(machineId);
+            return omachineId;
+            //return _machineService.archiveMachine(machineId);
           
 
         }

@@ -163,18 +163,7 @@ namespace MPC.Repository.Repositories
         }
         public IEnumerable<LookupMethod> GetAllLookupMethodList()
         {
-            List<LookupMethod> lookuplist = new List<LookupMethod>();
-            for (int i = 0; i < 10; i++)
-            {
-                LookupMethod lpm = new LookupMethod();
-                lpm.MethodId = i;
-                lpm.Name = i + "th Name";
-                lookuplist.Add(lpm);
-            }
-
-
-            return lookuplist;
-           // return db.LookupMethods;
+           return db.LookupMethods;
         }
         public IEnumerable<StockItem> GetStockItemsForPaperSizePlate()
         {

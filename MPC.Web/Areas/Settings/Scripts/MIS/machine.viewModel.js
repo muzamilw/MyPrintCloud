@@ -67,8 +67,23 @@ define("machine/machine.viewModel",
                             return;
                         }
                         // Ask for confirmation
+  
+                        confirmation.messageText("Do you want to Archive this Machine?");
                         confirmation.afterProceed(function () {
-                            archiveMachine(oMachine);
+                            dataservice.archiveMachine({
+                                machineId: oMachine.MachineId()
+                            },
+                            {
+                                success: function (data) {
+                                    toastr.error("Archiveed Machine");
+                                },
+                                error: function (response) {
+                                    toastr.error("Failed to Archive Machine" + response);
+                                }
+                            });
+                        });
+                        confirmation.afterCancel(function () {
+                            //navigateToUrl(element);
                         });
                         confirmation.show();
                     },
