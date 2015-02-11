@@ -45,14 +45,14 @@ namespace MPC.MIS.Areas.Api.Controllers
             };
         }
 
+        public bool archiveMachine(long machineId)
+        {
 
-        //public IEnumerable<LookupMethod> GetLookupMethodList()
-        //{
+            return _machineService.archiveMachine(machineId);
+          
 
-        //    return _machineService.GetAllLookupMethod().Select(s => s.LookupMethodMapper());
-
-        //}
-
+        }
+       
         #endregion
     }
 }

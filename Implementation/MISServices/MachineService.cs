@@ -32,7 +32,7 @@ namespace MPC.Implementation.MISServices
         {
             return machine;
         }
-        public bool Delete(long machineId)
+        public bool archiveMachine(long machineId)
         {
             return true;
         }

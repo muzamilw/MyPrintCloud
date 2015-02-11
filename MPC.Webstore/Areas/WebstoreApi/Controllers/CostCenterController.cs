@@ -22,6 +22,8 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
         private readonly ICostCentreService _CostCentreService;
 
+        private readonly IItemService _ItemService;
+
         #endregion
         #region Constructor
 
@@ -29,15 +31,16 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         /// Constructor
         /// </summary>
         /// <param name="companyService"></param>
-        public CostCenterController(ICostCentreService CostCentreService)
+        public CostCenterController(ICostCentreService CostCentreService, IItemService ItemService)
         {
             this._CostCentreService = CostCentreService;
+            this._ItemService = ItemService;
         }
 
         #endregion
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public HttpResponseMessage GetDateTimeString(string parameter1, List<QuestionQueueItem> parameter2)
+        public HttpResponseMessage GetDateTimeString(string parameter1, string parameter2, string parameter3, string parameter4, List<QuestionQueueItem> parameter5)
         {
 
             AppDomain _AppDomain = null;
@@ -68,16 +71,21 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 CostCentreLoaderFactory _CostCentreLaoderFactory = (CostCentreLoaderFactory)_AppDomain.CreateInstance("MPC.Interfaces", "MPC.Interfaces.WebStoreServices.CostCentreLoaderFactory").Unwrap();
                 _CostCentreLaoderFactory.InitializeLifetimeService();
 
-                if (parameter2 != null)
+                if (parameter4 == "New")
                 {
-                    _CostCentreParamsArray[1] = CostCentreExecutionMode.ExecuteMode;
-                    _CostCentreParamsArray[2] = parameter2;
+                    if (parameter5 != null)
+                    {
+                        _CostCentreParamsArray[1] = CostCentreExecutionMode.ExecuteMode;
+                        _CostCentreParamsArray[2] = parameter5;
+                    }
+                    else
+                    {
+                        _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
+                        _CostCentreParamsArray[2] = new List<QuestionQueueItem>();
+                    }
                 }
-                else 
-                {
-                    _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
-                    _CostCentreParamsArray[2] = new List<QuestionQueueItem>();
-                }
+              
+               
                 //_CostCentreParamsArray(0) = Common.g_GlobalData;
                 //GlobalData
                
@@ -87,18 +95,39 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 _CostCentreParamsArray[3] = CostCentreQueue;
                 //CostCentreQueue
                 _CostCentreParamsArray[4] = 1;
-                //MultipleQuantities
+
                 _CostCentreParamsArray[5] = 1;
+                //MultipleQuantities
+                
                 //CurrentQuantity
                 _CostCentreParamsArray[6] = new List<StockQueueItem>();
                 //StockQueue
                 _CostCentreParamsArray[7] = new List<InputQueueItem>();
                 //InputQueue
-                _CostCentreParamsArray[8] = new ItemSection(); //this._CurrentItemDTO.ItemSection(this._CurrentCostCentreIndex);
+                
+                if (parameter3 == "null" || parameter3 == null)
+                {
+                    // get first item section
+                    _CostCentreParamsArray[8] = _ItemService.GetItemFirstSectionByItemId(Convert.ToInt64(parameter2));
+                }
+                else
+                {
+                    // update quantity in item section and return
+                    _CostCentreParamsArray[8] = _ItemService.UpdateItemFirstSectionByItemId(Convert.ToInt64(parameter2), Convert.ToInt32(parameter3));
+                    //first update item section quatity
+                    //persist queue
+                    // run multiple cost centre
+                    // after calculating cost centre 
+
+                }
+                 
+              
                 _CostCentreParamsArray[9] = 1;
 
 
                 CostCentre oCostCentre = _CostCentreService.GetCostCentreByID(Convert.ToInt64(parameter1));
+
+               
 
                 CostCentreQueue.Add(new CostCentreQueueItem(oCostCentre.CostCentreId, oCostCentre.Name, 1, oCostCentre.CodeFileName, null, oCostCentre.SetupSpoilage, oCostCentre.RunningSpoilage));
 
@@ -107,14 +136,34 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 _oLocalObject = _CostCentreLaoderFactory.Create(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\" + OrganizationName + "UserCostCentres.dll", "UserCostCentres." + oCostCentre.CodeFileName, null);
                 _oRemoteObject = (ICostCentreLoader)_oLocalObject;
 
-                CostCentreCostResult oResult = _oRemoteObject.returnCost(ref _CostCentreParamsArray);
-                if (parameter2 != null)
+                CostCentreCostResult oResult = null;
+
+                if (parameter4 == "Modify")
                 {
+                    _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
+                    _CostCentreParamsArray[2] = parameter5.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList();
+                }
+                else 
+                {
+                    oResult = _oRemoteObject.returnCost(ref _CostCentreParamsArray);
+
+                }
+
+                if (parameter5 != null && parameter4 != "Modify")
+                {
+                    
                     
                     JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
                     GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
 
-                    return Request.CreateResponse(HttpStatusCode.OK, oResult.SetupCost);
+                    double actualPrice = oResult.TotalCost;
+
+                    if (actualPrice < oCostCentre.MinimumCost && oCostCentre.MinimumCost != 0)
+                    {
+                        actualPrice = oCostCentre.MinimumCost ?? 0;
+                    }
+                   
+                    return Request.CreateResponse(HttpStatusCode.OK, actualPrice);
                 }
                 else 
                 {
@@ -137,5 +186,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             }
 
         }
+
+        
     }
 }

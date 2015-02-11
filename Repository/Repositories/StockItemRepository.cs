@@ -115,6 +115,19 @@ namespace MPC.Repository.Repositories
             return new InventorySearchResponse { StockItems = stockItems, TotalCount = DbSet.Count(query) };
         }
 
+        public List<StockItem> GetStockItemsByOrganisationID(long OrganisationID)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
+                return db.StockItems.Include("StockCostAndPrice").Where(o => o.OrganisationId == OrganisationID).ToList();
+            } 
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
     }
 }
