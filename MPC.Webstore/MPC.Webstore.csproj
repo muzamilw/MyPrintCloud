@@ -287,6 +287,8 @@
     <Compile Include="Controllers\ContactDetailController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\OrderConfirmationController.cs" />
+    <Compile Include="Controllers\OrderPolicySaveController.cs" />
+    <Compile Include="Controllers\PersonalDetailAndOrderPolicyController.cs" />
     <Compile Include="Controllers\ProductDetailController.cs" />
     <Compile Include="Controllers\DomainController.cs" />
     <Compile Include="Controllers\AllProductsController.cs" />
@@ -504,6 +506,7 @@
     <Content Include="Content\Images\SocialSprite.png" />
     <Content Include="Content\Images\sprite.png" />
     <Content Include="Content\jquery-ui.min.css" />
+    <Content Include="Content\Images\upload_your_picture.png" />
     <Content Include="Scripts\fullcalendar.min.js" />
     <Content Include="Content\Images\star.gif" />
     <Content Include="Content\Images\Twitter.png" />
@@ -692,6 +695,8 @@
     <Content Include="Views\Shared\PartialViews\pages.cshtml" />
     <Content Include="Views\Shared\PartialViews\RequestQuote.cshtml" />
     <Content Include="Views\Shared\PartialViews\RealEstateImageSlider.cshtml" />
+    <Content Include="Views\Shared\PartialViews\PersonalDetailAndOrderPolicy.cshtml" />
+    <Content Include="Views\Shared\PartialViews\OrderPolicySave.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -700,6 +705,8 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
+    <Folder Include="Views\OrderPolicySave\" />
+    <Folder Include="Views\PersonalDetailAndOrderPolicy\" />
     <Folder Include="Views\RequestQuote\" />
   </ItemGroup>
   <ItemGroup>

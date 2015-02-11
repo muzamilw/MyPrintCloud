@@ -68,6 +68,7 @@ namespace MPC.Interfaces.WebStoreServices
 
        
         bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode);
+        Estimate GetLastOrderByContactId(long ContactId);
 
     }
 }

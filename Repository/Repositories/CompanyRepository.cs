@@ -321,7 +321,6 @@ namespace MPC.Repository.Repositories
 
             salt = ComputeHash(plainText, "SHA1", null);
 
-
             return salt;
         }
         private static string ComputeHash(string plainText,
@@ -368,8 +367,6 @@ namespace MPC.Repository.Repositories
             // hash object as a common (abstract) base class. We will specify the
             // actual hashing algorithm class later during object creation.
             HashAlgorithm hash;
-
-
 
             // Make sure hashing algorithm name is specified.
             //if (hashAlgorithm == null)
@@ -429,7 +426,6 @@ namespace MPC.Repository.Repositories
 
         public string SystemWeight(long OrganisationID)
         {
-          
             try
             {
                
@@ -447,8 +443,6 @@ namespace MPC.Repository.Repositories
 
             }
 
-            
-            
         }
         public string SystemLength(long OrganisationID)
         {

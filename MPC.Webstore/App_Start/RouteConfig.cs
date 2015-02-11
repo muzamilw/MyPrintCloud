@@ -29,11 +29,22 @@ namespace MPC.Webstore
                  , "store/{name}"
                  , new { controller = "Domain", action = "Index", name = "" });
 
+            routes.MapRoute(
+           "ContactDetail",
+           "ContactDetail",
+           new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+        );
 
             routes.MapRoute(
            "RequestQuote",
            "RequestQuote",
            new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+        );
+
+            routes.MapRoute(
+           "orderPolicy",
+           "PersonalDetailAndOrderPolicy/SaveOrderPolicy",
+           new { controller = "PersonalDetailAndOrderPolicy", action = "SaveOrderPolicy", id = UrlParameter.Optional }
         );
 
             routes.MapRoute(
