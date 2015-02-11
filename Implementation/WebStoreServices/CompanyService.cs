@@ -100,8 +100,8 @@ namespace MPC.Implementation.WebStoreServices
 
             policy = new CacheItemPolicy();
             policy.Priority = CacheItemPriority.NotRemovable;
-            policy.SlidingExpiration =
-            TimeSpan.FromMinutes(5);
+            //policy.SlidingExpiration =
+            //    TimeSpan.FromMinutes(5);
             policy.RemovedCallback = null;
 
             Dictionary<long, MyCompanyDomainBaseReponse> stores = cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>;
@@ -180,8 +180,8 @@ namespace MPC.Implementation.WebStoreServices
 
             policy = new CacheItemPolicy();
             policy.Priority = CacheItemPriority.NotRemovable;
-            policy.SlidingExpiration =
-                TimeSpan.FromMinutes(5);
+            //policy.SlidingExpiration =
+            //    TimeSpan.FromMinutes(5);
             policy.RemovedCallback = null;
 
             Dictionary<long, MyCompanyDomainBaseReponse> stores = cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>;

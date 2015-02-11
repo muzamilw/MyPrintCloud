@@ -5,7 +5,7 @@
 @section leftmenue {
 }
 <div class="row" data-bind="visible: $root.isEditorVisible()" style="display: none">
-    <div class="col-lg-12">
+    <div class="col-lg-12" data-bind="with: selectedMachine()">
         <div class="row">
             <div class="col-lg-12">
                 <ol class="breadcrumb">
@@ -13,7 +13,7 @@
                     <li><a href="/Settings/Home/MachinesList">Machine List</a></li>
                     <li class="active"><span>Machine Detail</span></li>
                 </ol>
-                <h1>Machine Detail GTO 46 2 Colour</h1>
+                <h1 data-bind="text:MachineName"></h1>
             </div>
         </div>
         <div class="row" id="user-profile">
@@ -49,8 +49,8 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtMachienName" placeholder="Enter Machine Name"  > @*data-bind="value: MachineName"*@
-                                                <span class="help-block text-right"></span>
+                                                <input type="text" class="form-control" id="txtMachienName" placeholder="Enter Machine Name" data-bind="value:MachineName">
+                                                <span class=" help-block text-right"></span>
                                             </div>
 
                                         </div>
@@ -69,7 +69,7 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <textarea class="form-control" placeholder="Enter Description" id="descMachines" rows="3"></textarea>
+                                                <textarea class="form-control" placeholder="Enter Description" id="descMachines" rows="3" data-bind="value:Description"></textarea>
                                                 <span class="help-block text-right"></span>
                                             </div>
 
@@ -80,7 +80,7 @@
 
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Value add percentage." data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Value add percentage." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -89,13 +89,7 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <select class="form-control">
-                                                    <option>M 10</option>
-                                                    <option>M 20</option>
-                                                    <option>M 30</option>
-                                                    <option>M 40</option>
-                                                    <option>M 50</option>
-                                                </select>
+                                                <select class="form-control" data-bind="options:markupList, optionsText: 'MarkUpName', optionsValue:'MarkUpId', value:MarkupId"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
 
@@ -115,7 +109,7 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtPriority" placeholder="Enter Priority" value="1000">
+                                                <input type="text" class="form-control" id="txtPriority" placeholder="Enter Priority" data-bind="value:Priority">
                                                 <span class="help-block text-right"></span>
                                             </div>
 
@@ -164,7 +158,7 @@
 
                                                 <div class="col-xs-5">
 
-                                                    <input type="text" class="form-control txtBox-contentAlignRight" value="20" id="qty11" />
+                                                    <input type="text" class="form-control txtBox-contentAlignRight" value="20" id="qty11" data-bind="value:minimumsheetwidth" />
                                                     <span class="help-block text-right">Width (inch)</span>
                                                 </div>
                                                 <div class="col-xs-2" style="text-align: center;margin-top: 8px;">
@@ -172,7 +166,7 @@
                                                 </div>
                                                 <div class="col-xs-5">
 
-                                                    <input type="text" class="form-control txtBox-contentAlignRight" value="14" id="qty31" />
+                                                    <input type="text" class="form-control txtBox-contentAlignRight" value="14" id="qty31" data-bind="value:minimumsheetheight" />
                                                     <span class="help-block text-right">Height (inch)</span>
                                                 </div>
 
@@ -197,7 +191,7 @@
 
                                                 <div class="col-xs-5">
 
-                                                    <input type="text" class="form-control txtBox-contentAlignRight" value="120" id="qty11" />
+                                                    <input type="text" class="form-control txtBox-contentAlignRight" value="120" id="qty11" data-bind="value:maximumsheetwidth" />
                                                     <span class="help-block text-right">Width (inch)</span>
                                                 </div>
                                                 <div class="col-xs-2" style="text-align: center;margin-top: 8px;">
@@ -207,7 +201,7 @@
                                                 </div>
                                                 <div class="col-xs-5">
 
-                                                    <input type="text" class="form-control txtBox-contentAlignRight" value="80" id="qty31" />
+                                                    <input type="text" class="form-control txtBox-contentAlignRight" value="80" id="qty31" data-bind="value:maximumsheetheight" />
                                                     <span class="help-block text-right">Height (inch)</span>
                                                 </div>
 
@@ -232,7 +226,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div>
-                                                    <input type="text" value="350" placeholder="Enter Maximum Sheet Weight" class="form-control txtBox-contentAlignRight" id="Estimateitle" />
+                                                    <input type="text" value="350" placeholder="Enter Maximum Sheet Weight" class="form-control txtBox-contentAlignRight" id="Estimateitle" data-bind="value:maximumsheetweight" />
                                                     <span class="help-block text-right">lbs</span>
 
                                                 </div>
@@ -243,7 +237,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Stock for Signature" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Stock for Signature" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -256,21 +250,21 @@
                                             </div>
                                             <div class="col-lg-6">
 
-                                                <input type="text" class="form-control OpenStockPopup-Class" id="txtStock" style="width:88%" disabled="disabled" value="Laser Guarantee 100gsm SRA2">
-                                                <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right">
+                                                <select class="form-control OpenStockPopup-Class" id="txtStock" style="width:88%" disabled="disabled" data-bind="options:$root.stockItemListForDropdown, optionsText:'name',optionsValue:'id' ,value:DefaultPaperId"></select>
+                                                <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right" data-bind="click: $root.onPapperSizeStockItemPopup">
                                                     <i class="fa fa-lg"></i>&nbsp;....
                                                 </a>
 
 
                                             </div>
                                         </div>
-
+                                        
                                         <div class="form-group PressControls">
                                             <div class="col-lg-3 text-right">
 
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Order Flag." data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Order Flag." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -279,11 +273,7 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <select class="form-control">
-                                                    <option>Long Side</option>
-                                                    <option>Short Side</option>
-
-                                                </select>
+                                                <select class="form-control" data-bind="options: Orientation, optionsText: 'name', optionsValue: 'id', value: gripsideorientaion"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
 
@@ -293,7 +283,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Estimate Title" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Estimate Title" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -306,7 +296,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div>
-                                                    <input type="text" value="0.25" placeholder="Enter Grip Depth" class="form-control txtBox-contentAlignRight" id="Estimateitle" />
+                                                    <input type="text" placeholder="Enter Grip Depth" class="form-control txtBox-contentAlignRight" data-bind="value:gripdepth" />
                                                     <span class="help-block text-right">inch</span>
 
                                                 </div>
@@ -331,7 +321,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div>
-                                                    <input type="text" value="0.4" placeholder="Enter Head Depth" class="form-control txtBox-contentAlignRight" id="Estimateitle" />
+                                                    <input type="text" placeholder="Enter Head Depth" class="form-control txtBox-contentAlignRight" data-bind="value:headdepth" />
                                                     <span class="help-block text-right">inch</span>
 
                                                 </div>
@@ -343,7 +333,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Estimate Title" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;"  data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Estimate Title" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -356,7 +346,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div>
-                                                    <input type="text" value="0.2" placeholder="Enter Side Gutter Depth" class="form-control txtBox-contentAlignRight" id="Estimateitle" />
+                                                    <input type="text" placeholder="Enter Side Gutter Depth" class="form-control txtBox-contentAlignRight" data-bind="value:gutterdepth" />
                                                     <span class="help-block text-right">inch</span>
 
                                                 </div>
@@ -376,7 +366,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate for machine" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;"  data-container="body" data-toggle="popover" data-placement="right" data-content="Plate for machine" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -388,7 +378,7 @@
                                             <div class="col-lg-6">
                                                 <div class="col-xs-1" style="padding-left: 0px;margin-top: 5px;">
                                                     <div class="checkbox-nice">
-                                                        <input type="checkbox" id="checkbox-12" checked="checked" />
+                                                        <input type="checkbox" id="checkbox-12" data-bind="checked: isplateused" />
                                                         <label for="checkbox-12">
 
                                                         </label>
@@ -396,7 +386,7 @@
                                                 </div>
                                                 <div class="col-xs-11">
                                                     <input type="text" class="form-control OpenStockPopup-Class" id="txtStock" style="width:85%" disabled="disabled" value="Laser Guarantee 100gsm SRA2">
-                                                    <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right">
+                                                    <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right" data-bind="click: $root.onPlateStockItemPopup">
                                                         <i class="fa fa-lg"></i>&nbsp;....
                                                     </a>
                                                 </div>
@@ -409,7 +399,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate for machine" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;"  data-container="body" data-toggle="popover" data-placement="right" data-content="Plate for machine" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -420,7 +410,7 @@
 
                                             <div class="col-lg-6">
                                                 <div class="checkbox-nice" style="margin-top: 5px;">
-                                                    <input type="checkbox" id="checkbox-13" checked="checked" />
+                                                    <input type="checkbox" id="checkbox-13" data-bind="checked: iswashupused" />
                                                     <label for="checkbox-13">
 
                                                     </label>
@@ -435,7 +425,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate for machine" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate for machine" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -446,7 +436,7 @@
 
                                             <div class="col-lg-6">
                                                 <div class="checkbox-nice" style="margin-top: 5px;">
-                                                    <input type="checkbox" id="checkbox-14" checked="checked" />
+                                                    <input type="checkbox" id="checkbox-14" data-bind="checked: ismakereadyused" />
                                                     <label for="checkbox-14">
 
                                                     </label>
@@ -459,7 +449,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate for machine" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate for machine" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -470,7 +460,7 @@
 
                                             <div class="col-lg-6">
                                                 <div class="checkbox-nice" style="margin-top: 5px;">
-                                                    <input type="checkbox" style="margin-top: 5px;" id="checkbox-15" checked="checked" />
+                                                    <input type="checkbox" style="margin-top: 5px;" id="checkbox-15" data-bind="checked:isPerfecting" />
                                                     <label for="checkbox-15">
 
                                                     </label>
@@ -494,7 +484,7 @@
 
                                             <div class="col-lg-6">
                                                 <div class="checkbox-nice">
-                                                    <input type="checkbox" style="margin-top: 5px;" id="checkbox-16" checked="checked" />
+                                                    <input type="checkbox" style="margin-top: 5px;" id="checkbox-16" data-bind="checked:IsMaxColorLimit" />
                                                     <label for="checkbox-16">
 
                                                     </label>
@@ -508,7 +498,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Estimate Title" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;"data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Estimate Title" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -521,7 +511,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div>
-                                                    <input type="text" value="4" placeholder="Enter Number" class="form-control txtBox-contentAlignRight" style="width: 20%;" id="Estimateitle" />
+                                                    <input type="text" value="4" placeholder="Enter Number" class="form-control txtBox-contentAlignRight" style="width: 20%;" data-bind="value:InkChargeForUniqueColors" />
                                                     <span class="help-block text-right"></span>
 
                                                 </div>
@@ -551,7 +541,7 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control txtBox-contentAlignRight" id="txtMachienName" style="width:25%;" placeholder="Enter Setup Charge" value="20">
+                                                <input type="text" class="form-control txtBox-contentAlignRight" id="txtMachienName" style="width:25%;" placeholder="Enter Setup Charge" data-bind="value: SetupCharge">
                                                 <span class="help-block text-right"></span>
                                             </div>
 
@@ -572,7 +562,7 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control txtBox-contentAlignRight" style="width:25%;" id="txtMachienName" placeholder="Minimum Running Charge" value="20">
+                                                <input type="text" class="form-control txtBox-contentAlignRight" style="width:25%;" id="txtMachienName" placeholder="Minimum Running Charge" data-bind="value: MinimumCharge">
                                                 <span class="help-block text-right"></span>
                                             </div>
 
@@ -593,7 +583,7 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control txtBox-contentAlignRight" style="width:25%;" id="txtMachienName" placeholder="Enter Volume of Ink Duct Per Head" value="1">
+                                                <input type="text" class="form-control txtBox-contentAlignRight" style="width:25%;" id="txtMachienName" placeholder="Enter Volume of Ink Duct Per Head" data-bind="value: MinInkDuctqty">
                                                 <span class="help-block text-right" style="width:25%;">lbs</span>
                                             </div>
 
@@ -615,7 +605,7 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control txtBox-contentAlignRight" style="width:25%;" id="txtMachienName" placeholder="Enter Premium Per Head" value="1">
+                                                <input type="text" class="form-control txtBox-contentAlignRight" style="width:25%;" id="txtMachienName" placeholder="Enter Premium Per Head" data-bind="value: worknturncharge">
                                                 <span class="help-block text-right" style="width:25%;">lbs</span>
                                             </div>
 
@@ -626,22 +616,18 @@
 
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Value add percentage." data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Value add percentage." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
                                                 </div>
                                                 <label class="control-label text-right tooltip-float">Select Calculation Method</label>
                                             </div>
-
+                                            @*$root.lookupMethods*@
                                             <div class="col-lg-6">
-                                                <select class="form-control">
-                                                    <option>Speed Weight Calculation Formula 2</option>
-                                                    <option>Per Hour Lookup</option>
-                                                    <option>Meter per Hour</option>
-                                                    <option>Click Charge Lookup</option>
-                                                    <option>Commercial Click Charge</option>
-                                                </select>
+                                                <select class="form-control" data-bind="options: lookupList, optionsText: 'Name', optionsValue: 'MethodId', value: LookupMethodId"></select>
+
+                                              
                                                 <span class="help-block text-right"></span>
                                             </div>
 
@@ -672,7 +658,7 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" style="width:25%;" id="txtMachienName" value="1">
+                                                <input type="text" class="form-control" style="width:25%;" id="txtMachienName" data-bind="value:InkChargeForUniqueColors">
                                                 <span class="help-block text-right" style="width:25%;"></span>
                                             </div>
 
@@ -702,218 +688,10 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
+                                                            <!-- ko template: { name: 'InkCoverageMachineTemplate' , foreach: MachineInkCoverages } -->
+                                                            <!-- /ko -->
 
-                                                                <td>
-                                                                    <select class="form-control">
-                                                                        <option>Blue</option>
-                                                                        <option>Blue C</option>
-                                                                        <option>Process Black</option>
-                                                                        <option>Process Cyan</option>
-                                                                        <option>Process Magenta</option>
-                                                                        <option>Process Yellow</option>
-                                                                        <option>Purple C</option>
-                                                                        <option>Violet C</option>
-                                                                        <option>Yellow 012 C</option>
-
-                                                                    </select>
-                                                                </td>
-
-                                                                <td>
-                                                                    <select class="form-control">
-                                                                        <option>Low 10%</option>
-                                                                        <option>Medium 20%</option>
-                                                                        <option>High 50%</option>
-                                                                        <option>Moderate 30.6%</option>
-                                                                        <option>Very High 60%</option>
-                                                                        <option>Much High 60%</option>
-                                                                    </select>
-                                                                </td>
-
-
-                                                            </tr>
-
-                                                            <tr>
-
-                                                                <td>
-                                                                    <select class="form-control">
-                                                                        <option>Blue</option>
-                                                                        <option>Blue C</option>
-                                                                        <option>Process Black</option>
-                                                                        <option>Process Cyan</option>
-                                                                        <option>Process Magenta</option>
-                                                                        <option>Process Yellow</option>
-                                                                        <option>Purple C</option>
-                                                                        <option>Violet C</option>
-                                                                        <option>Yellow 012 C</option>
-
-                                                                    </select>
-                                                                </td>
-
-                                                                <td>
-                                                                    <select class="form-control">
-                                                                        <option>Low 10%</option>
-                                                                        <option>Medium 20%</option>
-                                                                        <option>High 50%</option>
-                                                                        <option>Moderate 30.6%</option>
-                                                                        <option>Very High 60%</option>
-                                                                        <option>Much High 60%</option>
-                                                                    </select>
-                                                                </td>
-
-
-                                                            </tr>
-                                                            <tr>
-
-                                                                <td>
-                                                                    <select class="form-control">
-                                                                        <option>Blue</option>
-                                                                        <option>Blue C</option>
-                                                                        <option>Process Black</option>
-                                                                        <option>Process Cyan</option>
-                                                                        <option>Process Magenta</option>
-                                                                        <option>Process Yellow</option>
-                                                                        <option>Purple C</option>
-                                                                        <option>Violet C</option>
-                                                                        <option>Yellow 012 C</option>
-
-                                                                    </select>
-                                                                </td>
-
-                                                                <td>
-                                                                    <select class="form-control">
-                                                                        <option>Low 10%</option>
-                                                                        <option>Medium 20%</option>
-                                                                        <option>High 50%</option>
-                                                                        <option>Moderate 30.6%</option>
-                                                                        <option>Very High 60%</option>
-                                                                        <option>Much High 60%</option>
-                                                                    </select>
-                                                                </td>
-
-
-                                                            </tr>
-
-                                                            <tr>
-
-                                                                <td>
-                                                                    <select class="form-control">
-                                                                        <option>Blue</option>
-                                                                        <option>Blue C</option>
-                                                                        <option>Process Black</option>
-                                                                        <option>Process Cyan</option>
-                                                                        <option>Process Magenta</option>
-                                                                        <option>Process Yellow</option>
-                                                                        <option>Purple C</option>
-                                                                        <option>Violet C</option>
-                                                                        <option>Yellow 012 C</option>
-
-                                                                    </select>
-                                                                </td>
-
-                                                                <td>
-                                                                    <select class="form-control">
-                                                                        <option>Low 10%</option>
-                                                                        <option>Medium 20%</option>
-                                                                        <option>High 50%</option>
-                                                                        <option>Moderate 30.6%</option>
-                                                                        <option>Very High 60%</option>
-                                                                        <option>Much High 60%</option>
-                                                                    </select>
-                                                                </td>
-
-
-                                                            </tr>
-                                                            <tr>
-
-                                                                <td>
-                                                                    <select class="form-control">
-                                                                        <option>Blue</option>
-                                                                        <option>Blue C</option>
-                                                                        <option>Process Black</option>
-                                                                        <option>Process Cyan</option>
-                                                                        <option>Process Magenta</option>
-                                                                        <option>Process Yellow</option>
-                                                                        <option>Purple C</option>
-                                                                        <option>Violet C</option>
-                                                                        <option>Yellow 012 C</option>
-
-                                                                    </select>
-                                                                </td>
-
-                                                                <td>
-                                                                    <select class="form-control">
-                                                                        <option>Low 10%</option>
-                                                                        <option>Medium 20%</option>
-                                                                        <option>High 50%</option>
-                                                                        <option>Moderate 30.6%</option>
-                                                                        <option>Very High 60%</option>
-                                                                        <option>Much High 60%</option>
-                                                                    </select>
-                                                                </td>
-
-
-                                                            </tr>
-                                                            <tr>
-
-                                                                <td>
-                                                                    <select class="form-control">
-                                                                        <option>Blue</option>
-                                                                        <option>Blue C</option>
-                                                                        <option>Process Black</option>
-                                                                        <option>Process Cyan</option>
-                                                                        <option>Process Magenta</option>
-                                                                        <option>Process Yellow</option>
-                                                                        <option>Purple C</option>
-                                                                        <option>Violet C</option>
-                                                                        <option>Yellow 012 C</option>
-
-                                                                    </select>
-                                                                </td>
-
-                                                                <td>
-                                                                    <select class="form-control">
-                                                                        <option>Low 10%</option>
-                                                                        <option>Medium 20%</option>
-                                                                        <option>High 50%</option>
-                                                                        <option>Moderate 30.6%</option>
-                                                                        <option>Very High 60%</option>
-                                                                        <option>Much High 60%</option>
-                                                                    </select>
-                                                                </td>
-
-
-                                                            </tr>
-                                                            <tr>
-
-                                                                <td>
-                                                                    <select class="form-control">
-                                                                        <option>Blue</option>
-                                                                        <option>Blue C</option>
-                                                                        <option>Process Black</option>
-                                                                        <option>Process Cyan</option>
-                                                                        <option>Process Magenta</option>
-                                                                        <option>Process Yellow</option>
-                                                                        <option>Purple C</option>
-                                                                        <option>Violet C</option>
-                                                                        <option>Yellow 012 C</option>
-
-                                                                    </select>
-                                                                </td>
-
-                                                                <td>
-                                                                    <select class="form-control">
-                                                                        <option>Low 10%</option>
-                                                                        <option>Medium 20%</option>
-                                                                        <option>High 50%</option>
-                                                                        <option>Moderate 30.6%</option>
-                                                                        <option>Very High 60%</option>
-                                                                        <option>Much High 60%</option>
-                                                                    </select>
-                                                                </td>
-
-
-                                                            </tr>
+                                                            
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -1080,6 +858,25 @@
         </div>
     </div>
 </div>
+
+<script id="InkCoverageMachineTemplate" type="text/html">
+
+    <tr>
+
+        <td>
+            <select class="form-control" data-bind="options:StockItemforInkList, optionsText: 'ItemName', optionsValue: 'StockItemId', value:SideInkOrder"></select>
+        </td>
+
+        <td>
+            @*<select class="form-control">
+                    <option>Low 10%</option>
+                </select>*@
+        </td>
+
+
+    </tr>
+</script>
+
   @Html.Partial("Product/_SelectStock")
 @section Scripts {
     <script src="~/Content/themes/Centaurus/js/jquery-ui.custom.min.js"></script>

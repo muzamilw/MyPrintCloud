@@ -44,17 +44,26 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(cs => cs.OrganisationId == OrganisationId).ToList();
         }
+
         /// <summary>
         /// Get Organisation By ID
         /// </summary>
-        /// <param name="OID"></param>
-        /// <returns></returns>
-        public Organisation GetOrganizatiobByID(long OrganisationId)
+        public Organisation GetOrganizatiobByID()
         {
-            return DbSet.Where(cs => cs.OrganisationId == OrganisationId).FirstOrDefault();
+            return DbSet.FirstOrDefault(cs => cs.OrganisationId == OrganisationId);
         }
-        
 
+        public Organisation GetOrganizatiobByID(long organisationId)
+        {
+            return DbSet.FirstOrDefault(cs => cs.OrganisationId == organisationId);
+        }
+
+        public Organisation GetOrganizatiobByOrganisationID(long organisationId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+            return db.Organisations.Where(o => o.OrganisationId == organisationId).FirstOrDefault();
+        }
         #endregion
     }
 }

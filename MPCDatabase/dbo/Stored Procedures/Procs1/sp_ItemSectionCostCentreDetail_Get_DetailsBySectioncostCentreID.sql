@@ -1,0 +1,12 @@
+﻿CREATE PROCEDURE [dbo].[sp_ItemSectionCostCentreDetail_Get_DetailsBySectioncostCentreID]
+(
+	@SectionCostCentreID int
+)
+AS
+SELECT tbl_section_costcentre_detail.SectionCostCentreDetailId,tbl_section_costcentre_detail.CostPrice,
+tbl_section_costcentre_detail.SectionCostCentreID,
+tbl_section_costcentre_detail.StockId,tbl_section_costcentre_detail.SupplierID, tbl_section_costcentre_detail.Qty1,tbl_section_costcentre_detail.Qty2,
+tbl_section_costcentre_detail.Qty3,
+tbl_section_costcentre_detail.ActualQtyUsed FROM tbl_section_costcentre_detail 
+WHERE tbl_section_costcentre_detail.SectionCostCentreID = @SectionCostCentreID
+	RETURN

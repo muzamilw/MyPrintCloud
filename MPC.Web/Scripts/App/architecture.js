@@ -191,6 +191,38 @@ require(["ko", "knockout-validation"], function (ko) {
             }
         }
     };
+    function getDateFromCell(td, calInstance) {
+        var cellPos = {
+            row: td.parents('tbody').children().index(td.parent()),
+            col: td.parent().children().index(td)
+        };
+
+        return calInstance.fullCalendar('getView').cellToDate(cellPos);
+    };
+    ko.bindingHandlers.fullCalendar = {
+        // This method is called to initialize the node, and will also be called again if you change what the grid is bound to
+        update: function (element, viewModelAccessor, allBindingsAccessor) {
+            var viewModel = viewModelAccessor();
+            element.innerHTML = "";
+            var itemList = allBindingsAccessor().itemsList;
+
+            $(element).fullCalendar({
+                events: ko.utils.unwrapObservable(viewModel.events),
+                header: viewModel.header,
+                editable: viewModel.editable,
+                selectable: true,
+                //droppable: true,
+                // dropAccept: '#external-events div.external-eventt',
+                eventClick: this.eventClick,
+                eventDrop: this.eventDropOrResize,
+                eventResize: this.eventDropOrResize,
+                select:this.newEventAdd
+            });
+            $(element).fullCalendar('gotoDate', ko.utils.unwrapObservable(viewModel.viewDate));
+
+        }
+    };
+
 
     ko.bindingHandlers.editor = {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
@@ -223,20 +255,6 @@ require(["ko", "knockout-validation"], function (ko) {
                         }
                     });
                 };
-
-                //if (droppable) {
-                //    var newInstance = CKEDITOR.instances['content'];
-                //    newInstance.drop(true);
-                //    //newInstance.container.find('.cke_contents').$.droppable({
-                //    //    tolerance: 'pointer',
-                //    //    hoverClass: 'dragHover',
-                //    //    activeClass: 'dragActive',
-                //    //    drop: function (evt, ui) {
-                //    //        droppable(ui.helper.data('ko.draggable.data'), context, evt);
-                //    //    }
-                //    //});
-                //}
-
 
                 $element.on('input, change, keyup, mouseup', function () {
                     if (!isSubscriberChange) {

@@ -12,6 +12,7 @@
         public int IsFixed { get; set; }
         public string Region { get; set; }
         public bool? IsArchived { get; set; }
+        public long? OrganisationId { get; set; }
 
         #endregion
     }

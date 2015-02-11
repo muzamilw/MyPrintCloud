@@ -1,0 +1,128 @@
+﻿@{
+    ViewBag.Title = "Companies List";
+}
+@section leftmenue {
+}
+<div class="row" id="crmBindingRoot">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li><a href="~/Dashboard/Index">Home</a></li>
+                    <li class="active"><span>Customers</span></li>
+                </ol>
+                <div class="clearfix">
+                    <h1 class="pull-left">Customers</h1>
+                </div>
+                <div class="pull-right top-page-ui">
+                    <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
+                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Customer
+                    </a>
+                </div>
+                <div id="addStore">
+                    &nbsp;
+                </div> <br />
+                <!-- ko template: { name: 'filterTemplate' } -->
+                <!-- /ko -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="main-box no-header clearfix">
+                    <div class="main-box-body clearfix">
+                        <div class="table-responsive">
+                            <table class="table user-list">
+                                <thead>
+                                    <tr>
+                                        <th><span>Company</span></th>
+                                        <th><span>Created</span></th>
+                                        <th class="text-center"><span>Status</span></th>
+                                        <th><span>Email</span></th>
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- ko  foreach: $root.customersForListView  -->
+                                    <tr>
+                                        <td>
+                                            <img src="~/Content/themes/Centaurus/img/samples/logos/1.jpg" alt="" />
+                                            <a href="/CRM/Home/CompaniesDetail" class="user-link" data-bind="text:name"></a>
+                                            <span class="user-subhead">Broker Store</span>
+                                        </td>
+                                        <td>
+                                            <p data-bind="dateString:creationdate"></p>
+                                        </td>
+                                        <td class="text-center">
+                                            <span data-bind="text:status,css:statusClass"></span>
+                                        </td>
+                                        <td>
+                                            <a href="/CRM/Home/CompaniesDetail">
+                                                <p data-bind="text:email"></p>
+                                            </a>
+                                        </td>
+                                        <td style="width: 20%;">
+                                            <a href="#" class="table-link">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                            <a href="/CRM/Home/ContactCompanyDetail" class="table-link">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                            <a href="#" class="table-link danger">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <!-- /ko -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div id="pagerDiv">
+                    <!-- ko with: pager -->
+                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                    <!-- /ko -->
+                </div>
+                <div id="pagerDiv">
+                </div>
+            </div>
+        </div>
+        <script id="filterTemplate" type="text/html">
+            <div class="filter-body" id="filter">
+                <div class="filter-block pull-left">
+                    <div class="pull-left spanfilterlbl">
+                        Search &nbsp;
+                    </div>
+                    <div class="form-group pull-left">
+                        <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter,">
+                        <i class="fa fa-search search-icon"></i>
+                    </div>
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-primary" data-bind="click:$root.getStores,event:{click:$root.searchButtonHandler}">Search</button>
+                        <button type="reset" class="btn btn-default" data-bind="click:$root.resetFilterSection,event:{click:$root.resetButtonHandler}">Reset</button>
+                    </div>
+                </div>
+                <div class="clearfix">
+                </div>
+            </div>
+        </script>
+
+    </div>
+</div>
+@section Scripts{
+    <script>
+        require(["crm/crm.view", "common/confirmation.view"]);
+        $(function () {
+            $('#licrm').addClass('active');
+        });
+    </script>
+}

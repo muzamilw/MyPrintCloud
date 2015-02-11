@@ -17,5 +17,6 @@ namespace MPC.Models.Common
         public List<TemplatePage> objPages = null;
         public bool isRoundCornerrs = false;
         public int organisationId = 0;
+        public bool isMultiPageProduct = false;
     }
 }

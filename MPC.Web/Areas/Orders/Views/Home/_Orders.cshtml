@@ -1,0 +1,112 @@
+﻿<div class="row" data-bind="visible: !isOrderDetailsVisible()">
+    <div class="col-lg-12">
+        <div class="pull-right">
+            <button id="open-wizard" data-bind="click: createOrder" class="btn btn-primary pull-right">
+                <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Order
+            </button>
+        </div>
+    </div>
+    <div>
+        &nbsp;
+    </div>
+    <div>
+        <div class="col-lg-12">
+            <!-- ko template: { name: 'orderFilterTemplate' } -->
+            <!-- /ko -->
+            <div class="clearfix">
+            </div>
+            <div class="main-box-body main-box clearfix">
+                <div class="table-responsive">
+                    <table id="OrderListtbl" class="table user-list">
+                        <thead>
+                            <tr>
+                                <th><span>Company / Title</span></th>
+                                <th><span>Creation Date</span></th>
+                                <th class="text-center"><span>Flag</span></th>
+                                <th><span>Order Code</span></th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- ko template: { name: 'orderListViewTemplate', foreach: orders } -->
+                            <!-- /ko -->
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="clearfix">
+            </div>
+        </div>
+    </div>
+
+    @* Filter Template *@
+    <script id="orderFilterTemplate" type="text/html">
+        <div class="filter-body">
+            <div class="filter-block pull-left">
+                <div class="pull-left spanfilterlbl">
+                    Search: &nbsp;
+                </div>
+                <div class="form-group pull-left">
+                    <input type="text" class="form-control" placeholder="Search..." data-bind="value: filterText">
+                    <i class="fa fa-search search-icon"></i>
+                </div>
+                <div class="pull-left">
+                    <button type="submit" class="btn btn-primary" data-bind="click: filterOrders">Search</button>
+                    <button type="reset" class="btn btn-default" data-bind="click: resetFilter">Reset</button>
+                </div>
+            </div>
+            <div class="clearfix">
+            </div>
+        </div>
+    </script>
+
+    @* Action Template *@
+    <script id="orderActionTemplate" type="text/html">
+        <a href="#" class="table-link">
+            <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+        <a class="table-link" >
+            <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+        <a href="#" class="table-link danger">
+            <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+    </script>
+
+    @* List View Template *@
+    <script id="orderListViewTemplate" type="text/html">
+        <tr>
+            <td>
+                <img src="../../Content/themes/Centaurus/img/samples/logos/1.jpg" alt="" />
+                <a data-bind=" text: name" class="user-link"></a>
+                <span class="user-subhead" data-bind="text: estimateName"></span>
+            </td>
+           
+            <td>
+                <span data-bind="dateString: creationDate"></span>
+            </td>
+            <td class="text-center">
+                <span class="label label-success"  data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>
+            </td>
+            <td>
+                <span data-bind="text: orderCode"></span>
+            </td>
+            <td style="width: 20%;">
+                <!-- ko template: { name: 'orderActionTemplate' } -->
+                <!-- /ko -->
+            </td>
+        </tr>
+    </script>
+
+</div>
+

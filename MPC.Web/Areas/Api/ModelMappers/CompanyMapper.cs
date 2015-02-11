@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Web;
 using MPC.MIS.Areas.Api.Models;
@@ -339,6 +340,26 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
         }
 
+        public static ApiModels.CrmSupplierListViewModel CrmSupplierListViewCreateFrom(this DomainModels.Company source)
+        {
+            byte[] bytes = null;
+            if (source.Image != null && File.Exists(source.Image))
+            {
+                bytes = source.Image != null ? File.ReadAllBytes(source.Image) : null;
+            }
+            return new ApiModels.CrmSupplierListViewModel
+            {
+                AccountNumber = source.AccountNumber,
+                CompanyId = source.CompanyId,
+                IsCustomer = source.IsCustomer,
+                Name = source.Name,
+                Status = source.Status,
+                URL = source.URL,
+                CreatedDate =  source.CreationDate,
+               // Email = source.c todo
+                Image = bytes
+            };
+        }
         #endregion
     }
 }

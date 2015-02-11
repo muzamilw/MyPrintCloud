@@ -899,6 +899,7 @@ namespace MPC.Models.ModelMappers
             target.IsStockControl = source.IsStockControl;
             target.SortOrder = source.SortOrder;
             target.ItemLastUpdateDateTime = DateTime.Now;
+            target.CompanyId = source.CompanyId;
            
             // Update Images
             UpdateImages(source, target);

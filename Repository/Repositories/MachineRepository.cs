@@ -9,17 +9,6 @@ using Microsoft.Practices.Unity;
 using System.Collections.Generic;
 using MPC.Models.Common;
 using System;
-using System.Data.Entity;
-using Microsoft.Practices.Unity;
-using MPC.Interfaces.Repository;
-using MPC.Models.DomainModels;
-using MPC.Models.RequestModels;
-using MPC.Models.ResponseModels;
-using MPC.Repository.BaseRepository;
-using System.Collections.Generic;
-using System.Linq;
-using MPC.Models.Common;
-using System;
 using System.Linq.Expressions;
 
 namespace MPC.Repository.Repositories
@@ -54,7 +43,7 @@ namespace MPC.Repository.Repositories
 
         }
         #endregion
-        public MachineResponseModel GetAllMachine(MachineRequestModel request)
+        public MachineListResponseModel GetAllMachine(MachineRequestModel request)
         {
 
             //var result = from t in db.Machines
@@ -62,9 +51,20 @@ namespace MPC.Repository.Repositories
             //             select t;
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
+            Expression<Func<Machine, bool>> query;
+            if (request.isGuillotineList)
+            {
+                 query = machine => (machine.IsDisabled == false && machine.MachineCatId==4);
+            }
+            else
+            {
+                query = machine => (machine.IsDisabled == false && machine.MachineCatId != 4);
+            }
 
+           
             var machineList = request.IsAsc
-                ? DbSet.OrderBy(OrderByClause[request.MachineOrderBy])
+                ? DbSet.Where(query)
+                .OrderBy(OrderByClause[request.MachineOrderBy])
                 .Skip(fromRow)
                 .Take(toRow)
                 .ToList()
@@ -73,10 +73,11 @@ namespace MPC.Repository.Repositories
                 .Take(toRow)
                 .ToList();
 
-            return new MachineResponseModel
+            return new MachineListResponseModel
             {
-                RowCount = DbSet.Count(),
-                MachineList = machineList
+                RowCount = DbSet.Count(query),
+                MachineList = machineList,
+                lookupMethod = db.LookupMethods
 
             };
 
@@ -106,14 +107,43 @@ namespace MPC.Repository.Repositories
             return new MachineSearchResponse { Machines = machines, TotalCount = DbSet.Count(query) };
         }
 
+
         public Machine Find(int id)
         {
             return DbSet.Find(id);
         }
-
-        public Machine GetMachineByID(long MachineID)
+        public bool archiveMachine(long id)
         {
-            return DbSet.Where(g => g.MachineId == MachineID).SingleOrDefault();
+            try
+            {
+                Machine machine = db.Machines.Where(g => g.MachineId == id).SingleOrDefault();
+                machine.IsDisabled = true;
+                db.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                
+                throw ex;
+            }
+
+            
+        }
+        public MachineResponseModel GetMachineByID(long MachineID)
+        {
+           // Machine ms = DbSet.Where(g => g.MachineId == MachineID).FirstOrDefault();
+            return new MachineResponseModel
+            {
+                machine = DbSet.Where(g => g.MachineId == MachineID).SingleOrDefault(),
+                lookupMethods = GetAllLookupMethodList(),
+                Markups = GetAllMarkupList(),
+                StockItemforInk = GetAllStockItemforInk(),
+                MachineResources= GetAllMachineResources()
+
+            };
+
+            
         }
 
 
@@ -124,6 +154,23 @@ namespace MPC.Repository.Repositories
                 return db.Machines;
             }
         }
-
+        public IEnumerable<LookupMethod> GetAllLookupMethodList()
+        {
+            return db.LookupMethods;
+        }
+        public IEnumerable<Markup> GetAllMarkupList()
+        {
+            return db.Markups;
+        }
+        public IEnumerable<StockItem> GetAllStockItemforInk()
+        {
+            return db.StockItems.Where(g => g.CategoryId == 2).ToList();
+        }
+        public IEnumerable<MachineResource> GetAllMachineResources()
+        {
+            return db.MachineResources;
+        }
+        
+      
     }
 }

@@ -23,6 +23,7 @@ define("costcenter/costcenter.viewModel",
                     markups = ko.observableArray([]),
                     // Cost Center Categories
                     costCenterCategories = ko.observableArray([]),
+                    workInstructions = ko.observableArray([]),
                     // #region Busy Indicators
                     isLoadingCostCenter = ko.observable(false),
                     // #endregion Busy Indicators
@@ -161,7 +162,6 @@ define("costcenter/costcenter.viewModel",
                             success: function (data) {
                                 if (data != null) {
                                     selectedCostCenter(model.costCenterClientMapper(data));
-                                    selectedCostCenter().reset();
                                     showCostCenterDetail();
                                 }
                             },

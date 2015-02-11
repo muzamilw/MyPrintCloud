@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "MIS 2014 Calender";
+}
+@section leftmenue {
+}
+<div class="row" id="fullCalendarBinding">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li><a href="#">Home</a></li>
+                    <li class="active"><span>Calendar</span></li>
+                </ol>
+                <h1>Calendar</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="main-box">
+                    <div class="main-box-body clearfix">
+                        @*<div id="calendar"></div>*@
+                        <div id="calendar" data-bind="fullCalendar: $root.mycCalender, itemsList: $root.items" data-eventclass="label-primary"> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @*<script src="~/Content/themes/Centaurus/js/fullcalendar.min.js"></script>*@
+    <script>
+        require(["calendar/calendar.view"]);
+
+    </script>
+}

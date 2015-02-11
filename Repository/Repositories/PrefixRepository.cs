@@ -6,6 +6,7 @@ using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
+using System.Collections.Generic;
 
 namespace MPC.Repository.Repositories
 {
@@ -78,6 +79,10 @@ namespace MPC.Repository.Repositories
         public bool PrefixUseMarkupId(long markupId)
         {
             return db.Prefixes.Count(p => p.MarkupId == markupId) > 0;
+        }
+        public List<Prefix> GetPrefixesByOrganisationID(long organisationID)
+        {
+            return db.Prefixes.Where(p => p.OrganisationId == organisationID).ToList();
         }
         #endregion
 

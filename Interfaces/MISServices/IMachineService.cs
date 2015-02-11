@@ -8,12 +8,13 @@ namespace MPC.Interfaces.MISServices
 {
     public interface IMachineService
     {
-        MachineResponseModel GetAll(MachineRequestModel request);
+        MachineListResponseModel GetAll(MachineRequestModel request);
         Machine Add(Machine machine);
         Machine Update(Machine machine);
-        bool Delete(long machineId);
-        Machine GetMachineById(long id);
-        
+        bool archiveMachine(long machineId);
+        MachineResponseModel GetMachineById(long id);
+       // IEnumerable<LookupMethod> GetAllLookupMethod();
+
         
     }
 }

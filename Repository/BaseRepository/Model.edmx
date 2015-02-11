@@ -623,6 +623,16 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="Icon" Type="varchar" MaxLength="255" />
           <Property Name="ContactCompanyId" Type="bigint" />
         </EntityType>
+        <EntityType Name="CostCenterChoice">
+          <Key>
+            <PropertyRef Name="CostCenterChoiceId" />
+          </Key>
+          <Property Name="CostCenterChoiceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChoiceLabel" Type="varchar" MaxLength="255" />
+          <Property Name="ChoiceValue" Type="float" />
+          <Property Name="CostCenterId" Type="int" />
+          <Property Name="CostCenterOption" Type="int" />
+        </EntityType>
         <EntityType Name="CostCentre">
           <Key>
             <PropertyRef Name="CostCentreId" />
@@ -1123,6 +1133,16 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TerritoryID" Type="bigint" />
           <Property Name="ImageId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="InkCoverageGroup">
+          <Key>
+            <PropertyRef Name="CoverageGroupId" />
+          </Key>
+          <Property Name="CoverageGroupId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupName" Type="varchar" MaxLength="50" />
+          <Property Name="Percentage" Type="float" />
+          <Property Name="IsFixed" Type="int" Nullable="false" />
+          <Property Name="SystemSiteId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Inquiry">
           <Key>
@@ -2005,7 +2025,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="Name" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="Type" Type="bigint" />
           <Property Name="LockedBy" Type="int" />
-          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="OrganisationID" Type="int" Nullable="false" />
           <Property Name="FlagId" Type="int" />
           <Property Name="SystemSiteId" Type="int" Nullable="false" />
         </EntityType>
@@ -2040,7 +2060,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="gripsideorientaion" Type="int" />
           <Property Name="gutterdepth" Type="float" />
           <Property Name="headdepth" Type="float" />
-          <Property Name="Va" Type="float" />
+          <Property Name="MarkupId" Type="bigint" />
           <Property Name="PressSizeRatio" Type="float" />
           <Property Name="Description" Type="text" Nullable="false" />
           <Property Name="Priority" Type="float" />
@@ -2074,6 +2094,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="WashupTime" Type="float" />
           <Property Name="ReelMakereadyTime" Type="float" />
           <Property Name="LookupMethodId" Type="bigint" />
+          <Property Name="OrganisationId" Type="bigint" />
         </EntityType>
         <EntityType Name="MachineCategory">
           <Key>
@@ -2100,6 +2121,16 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="MachineId" Type="int" />
           <Property Name="ResourceId" Type="uniqueidentifier" />
         </EntityType>
+        <EntityType Name="MachineSpoilage">
+          <Key>
+            <PropertyRef Name="MachineSpoilageId" />
+          </Key>
+          <Property Name="MachineSpoilageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MachineId" Type="int" />
+          <Property Name="SetupSpoilage" Type="int" />
+          <Property Name="RunningSpoilage" Type="real" />
+          <Property Name="NoOfColors" Type="int" />
+        </EntityType>
         <EntityType Name="Markup">
           <Key>
             <PropertyRef Name="MarkUpId" />
@@ -2125,7 +2156,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Key>
             <PropertyRef Name="OrganisationId" />
           </Key>
-          <Property Name="OrganisationId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrganisationId" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="OrganisationName" Type="varchar" MaxLength="100" />
           <Property Name="Address1" Type="varchar" MaxLength="255" />
           <Property Name="Address2" Type="varchar" MaxLength="255" />
@@ -2188,6 +2219,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="IsFixed" Type="int" Nullable="false" />
           <Property Name="Region" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="isArchived" Type="bit" />
+          <Property Name="OrganisationId" Type="bigint" />
         </EntityType>
         <EntityType Name="PaymentGateway">
           <Key>
@@ -2227,6 +2259,21 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="FieldName" Type="varchar" MaxLength="50" />
           <Property Name="SectionId" Type="int" />
           <Property Name="SortOrder" Type="int" />
+          <Property Name="OrganisationId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="PipeLineProduct">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="PipeLineSource">
+          <Key>
+            <PropertyRef Name="SourceId" />
+          </Key>
+          <Property Name="SourceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="prefix">
           <Key>
@@ -2401,6 +2448,49 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           </Key>
           <Property Name="QuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Question" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="ReportId" />
+          </Key>
+          <Property Name="ReportId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Path" Type="varchar" MaxLength="100" />
+          <Property Name="FileName" Type="varchar" MaxLength="50" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+          <Property Name="ReportDataSource" Type="ntext" />
+          <Property Name="NameSpace" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsExternal" Type="int" Nullable="false" />
+          <Property Name="IsFixed" Type="int" Nullable="false" />
+          <Property Name="ReportTemplate" Type="text" />
+          <Property Name="ReportTemplateOriginal" Type="text" />
+          <Property Name="IsEditable" Type="smallint" Nullable="false" />
+          <Property Name="ParentReportId" Type="int" Nullable="false" />
+          <Property Name="IsByReflection" Type="smallint" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="IsSystemReport" Type="smallint" />
+          <Property Name="ReportOrder" Type="int" Nullable="false" />
+          <Property Name="HasSubReport" Type="bit" />
+          <Property Name="SubReportTemplate" Type="text" />
+          <Property Name="SubReportDataSource" Type="text" />
+          <Property Name="OrganisationId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="ReportNote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FootNotes" Type="text" />
+          <Property Name="HeadNotes" Type="text" />
+          <Property Name="AdvertitorialNotes" Type="text" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="ReportCategoryId" Type="int" />
+          <Property Name="SystemSiteId" Type="int" Nullable="false" />
+          <Property Name="ReportBanner" Type="nvarchar" MaxLength="400" />
+          <Property Name="ReportTitle" Type="varchar" MaxLength="200" />
+          <Property Name="BannerAbsolutePath" Type="varchar" MaxLength="300" />
+          <Property Name="isDefault" Type="bit" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -3662,6 +3752,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Organisation_Currency">
+          <End Role="Currency" Type="Self.Currency" Multiplicity="0..1" />
+          <End Role="Organisation" Type="Self.Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="CurrencyId" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="CurrencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Organisation_GlobalLanguage">
           <End Role="GlobalLanguage" Type="Self.GlobalLanguage" Multiplicity="0..1" />
           <End Role="Organisation" Type="Self.Organisation" Multiplicity="*" />
@@ -3671,6 +3773,30 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="Organisation">
               <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Organisation_LengthUnit">
+          <End Role="LengthUnit" Type="Self.LengthUnit" Multiplicity="0..1" />
+          <End Role="Organisation" Type="Self.Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LengthUnit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="SystemLengthUnit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Organisation_WeightUnit">
+          <End Role="WeightUnit" Type="Self.WeightUnit" Multiplicity="0..1" />
+          <End Role="Organisation" Type="Self.Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WeightUnit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="SystemWeightUnit" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4611,6 +4737,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="CompanyDomain" EntityType="Self.CompanyDomain" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyTerritory" EntityType="Self.CompanyTerritory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyType" EntityType="Self.CompanyType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CostCenterChoice" EntityType="Self.CostCenterChoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CostCentre" EntityType="Self.CostCentre" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CostCentreAnswer" EntityType="Self.CostCentreAnswer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CostcentreInstruction" EntityType="Self.CostcentreInstruction" Schema="dbo" store:Type="Tables" />
@@ -4637,6 +4764,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="GlobalLanguage" EntityType="Self.GlobalLanguage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Groups" EntityType="Self.Groups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ImagePermissions" EntityType="Self.ImagePermissions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InkCoverageGroup" EntityType="Self.InkCoverageGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inquiry" EntityType="Self.Inquiry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InquiryAttachment" EntityType="Self.InquiryAttachment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InquiryItem" EntityType="Self.InquiryItem" Schema="dbo" store:Type="Tables" />
@@ -4670,6 +4798,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="MachineCategory" EntityType="Self.MachineCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MachineInkCoverage" EntityType="Self.MachineInkCoverage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MachineResource" EntityType="Self.MachineResource" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MachineSpoilage" EntityType="Self.MachineSpoilage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Markup" EntityType="Self.Markup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MediaLibrary" EntityType="Self.MediaLibrary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Organisation" EntityType="Self.Organisation" Schema="dbo" store:Type="Tables" />
@@ -4680,6 +4809,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="PaymentMethod" EntityType="Self.PaymentMethod" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Phrase" EntityType="Self.Phrase" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhraseField" EntityType="Self.PhraseField" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PipeLineProduct" EntityType="Self.PipeLineProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PipeLineSource" EntityType="Self.PipeLineSource" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="prefix" EntityType="Self.prefix" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PrePayment" EntityType="Self.PrePayment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
@@ -4688,6 +4819,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="ProductMarketBriefQuestion" EntityType="Self.ProductMarketBriefQuestion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RaveReview" EntityType="Self.RaveReview" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RegistrationQuestion" EntityType="Self.RegistrationQuestion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Report" EntityType="Self.Report" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportNote" EntityType="Self.ReportNote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Section" EntityType="Self.Section" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SectionCostcentre" EntityType="Self.SectionCostcentre" Schema="dbo" store:Type="Tables" />
@@ -5053,8 +5186,20 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Company" EntitySet="Company" />
             <End Role="MediaLibrary" EntitySet="MediaLibrary" />
           </AssociationSet>
+          <AssociationSet Name="FK_Organisation_Currency" Association="Self.FK_Organisation_Currency">
+            <End Role="Currency" EntitySet="Currency" />
+            <End Role="Organisation" EntitySet="Organisation" />
+          </AssociationSet>
           <AssociationSet Name="FK_Organisation_GlobalLanguage" Association="Self.FK_Organisation_GlobalLanguage">
             <End Role="GlobalLanguage" EntitySet="GlobalLanguage" />
+            <End Role="Organisation" EntitySet="Organisation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Organisation_LengthUnit" Association="Self.FK_Organisation_LengthUnit">
+            <End Role="LengthUnit" EntitySet="LengthUnit" />
+            <End Role="Organisation" EntitySet="Organisation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Organisation_WeightUnit" Association="Self.FK_Organisation_WeightUnit">
+            <End Role="WeightUnit" EntitySet="WeightUnit" />
             <End Role="Organisation" EntitySet="Organisation" />
           </AssociationSet>
           <AssociationSet Name="FK_PageCategory_CmsPage" Association="Self.FK_PageCategory_CmsPage">
@@ -5964,6 +6109,25 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="Address" EntitySet="Addresses" />
             <End Role="CompanyContact" EntitySet="CompanyContacts" />
           </AssociationSet>
+          <AssociationSet Name="FK_Organisation_Currency" Association="DomainModels.FK_Organisation_Currency">
+            <End Role="Currency" EntitySet="Currencies" />
+            <End Role="Organisation" EntitySet="Organisations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Organisation_LengthUnit" Association="DomainModels.FK_Organisation_LengthUnit">
+            <End Role="LengthUnit" EntitySet="LengthUnits" />
+            <End Role="Organisation" EntitySet="Organisations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Organisation_WeightUnit" Association="DomainModels.FK_Organisation_WeightUnit">
+            <End Role="WeightUnit" EntitySet="WeightUnits" />
+            <End Role="Organisation" EntitySet="Organisations" />
+          </AssociationSet>
+          <EntitySet Name="CostCenterChoices" EntityType="DomainModels.CostCenterChoice" />
+          <EntitySet Name="InkCoverageGroups" EntityType="DomainModels.InkCoverageGroup" />
+          <EntitySet Name="MachineSpoilages" EntityType="DomainModels.MachineSpoilage" />
+          <EntitySet Name="Reports" EntityType="DomainModels.Report" />
+          <EntitySet Name="ReportNotes" EntityType="DomainModels.ReportNote" />
+          <EntitySet Name="PipeLineProducts" EntityType="DomainModels.PipeLineProduct" />
+          <EntitySet Name="PipeLineSources" EntityType="DomainModels.PipeLineSource" />
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -6235,6 +6399,9 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="isXeroIntegrationRequired" Type="Boolean" />
           <Property Name="XeroApiId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="XeroApiKey" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Currency" Relationship="DomainModels.FK_Organisation_Currency" FromRole="Organisation" ToRole="Currency" />
+          <NavigationProperty Name="LengthUnit" Relationship="DomainModels.FK_Organisation_LengthUnit" FromRole="Organisation" ToRole="LengthUnit" />
+          <NavigationProperty Name="WeightUnit" Relationship="DomainModels.FK_Organisation_WeightUnit" FromRole="Organisation" ToRole="WeightUnit" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -6249,6 +6416,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="IsFixed" Type="Int32" Nullable="false" />
           <Property Name="Region" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IsArchived" Type="Boolean" />
+          <Property Name="OrganisationId" Type="Int64" />
         </EntityType>
         <EntityType Name="ProductCategory">
           <Key>
@@ -6720,6 +6888,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="Pound" Type="Double" />
           <Property Name="GSM" Type="Double" />
           <Property Name="KG" Type="Double" />
+          <NavigationProperty Name="Organisations" Relationship="DomainModels.FK_Organisation_WeightUnit" FromRole="WeightUnit" ToRole="Organisation" />
         </EntityType>
         <EntityType Name="CompanyContact">
           <Key>
@@ -8362,6 +8531,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="MM" Type="Double" />
           <Property Name="CM" Type="Double" />
           <Property Name="Inch" Type="Double" />
+          <NavigationProperty Name="Organisations" Relationship="DomainModels.FK_Organisation_LengthUnit" FromRole="LengthUnit" ToRole="Organisation" />
         </EntityType>
         <EntityType Name="PaperBasisArea">
           <Key>
@@ -8785,6 +8955,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="CurrencyId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CurrencyCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CurrencyName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Organisations" Relationship="DomainModels.FK_Organisation_Currency" FromRole="Currency" ToRole="Organisation" />
         </EntityType>
         <EntityType Name="Prefix">
           <Key>
@@ -10212,6 +10383,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="SortOrder" Type="Int32" />
           <NavigationProperty Name="Section" Relationship="DomainModels.fk_sectionId" FromRole="PhraseField" ToRole="Section" />
           <NavigationProperty Name="Phrases" Relationship="DomainModels.FK_Phrase_PhraseField" FromRole="PhraseField" ToRole="Phrase" />
+          <Property Name="OrganisationId" Type="Int64" />
         </EntityType>
         <Association Name="fk_sectionId">
           <End Type="DomainModels.Section" Role="Section" Multiplicity="0..1" />
@@ -10500,9 +10672,9 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="Type" Type="Int64" />
           <Property Name="LockedBy" Type="Int32" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
           <Property Name="FlagId" Type="Int32" />
           <Property Name="SystemSiteId" Type="Int32" Nullable="false" />
+          <Property Name="OrganisationID" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Machine">
           <Key>
@@ -10535,7 +10707,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="gripsideorientaion" Type="Int32" />
           <Property Name="gutterdepth" Type="Double" />
           <Property Name="headdepth" Type="Double" />
-          <Property Name="Va" Type="Double" />
           <Property Name="PressSizeRatio" Type="Double" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Priority" Type="Double" />
@@ -10572,6 +10743,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <NavigationProperty Name="MachineResources" Relationship="DomainModels.FK_tbl_machines_tbl_machine_resource" FromRole="Machine" ToRole="MachineResource" />
           <Property Name="LookupMethodId" Type="Int64" />
           <NavigationProperty Name="ItemSections" Relationship="DomainModels.FK_ItemSection_Machine" FromRole="Machine" ToRole="ItemSection" />
+          <Property Name="MarkupId" Type="Int64" />
+          <Property Name="OrganisationId" Type="Int64" />
         </EntityType>
         <EntityType Name="MachineInkCoverage">
           <Key>
@@ -10725,6 +10898,129 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Organisation_Currency">
+          <End Type="DomainModels.Currency" Role="Currency" Multiplicity="0..1" />
+          <End Type="DomainModels.Organisation" Role="Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="CurrencyId" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="CurrencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Organisation_LengthUnit">
+          <End Type="DomainModels.LengthUnit" Role="LengthUnit" Multiplicity="0..1" />
+          <End Type="DomainModels.Organisation" Role="Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LengthUnit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="SystemLengthUnit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Organisation_WeightUnit">
+          <End Type="DomainModels.WeightUnit" Role="WeightUnit" Multiplicity="0..1" />
+          <End Type="DomainModels.Organisation" Role="Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WeightUnit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="SystemWeightUnit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CostCenterChoice">
+          <Key>
+            <PropertyRef Name="CostCenterChoiceId" />
+          </Key>
+          <Property Name="CostCenterChoiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChoiceLabel" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ChoiceValue" Type="Double" />
+          <Property Name="CostCenterId" Type="Int32" />
+          <Property Name="CostCenterOption" Type="Int32" />
+        </EntityType>
+        <EntityType Name="InkCoverageGroup">
+          <Key>
+            <PropertyRef Name="CoverageGroupId" />
+          </Key>
+          <Property Name="CoverageGroupId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Percentage" Type="Double" />
+          <Property Name="IsFixed" Type="Int32" Nullable="false" />
+          <Property Name="SystemSiteId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MachineSpoilage">
+          <Key>
+            <PropertyRef Name="MachineSpoilageId" />
+          </Key>
+          <Property Name="MachineSpoilageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MachineId" Type="Int32" />
+          <Property Name="SetupSpoilage" Type="Int32" />
+          <Property Name="RunningSpoilage" Type="Single" />
+          <Property Name="NoOfColors" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="ReportId" />
+          </Key>
+          <Property Name="ReportId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Path" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FileName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReportDataSource" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NameSpace" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IsExternal" Type="Int32" Nullable="false" />
+          <Property Name="IsFixed" Type="Int32" Nullable="false" />
+          <Property Name="ReportTemplate" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ReportTemplateOriginal" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsEditable" Type="Int16" Nullable="false" />
+          <Property Name="ParentReportId" Type="Int32" Nullable="false" />
+          <Property Name="IsByReflection" Type="Int16" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="IsSystemReport" Type="Int16" />
+          <Property Name="ReportOrder" Type="Int32" Nullable="false" />
+          <Property Name="HasSubReport" Type="Boolean" />
+          <Property Name="SubReportTemplate" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SubReportDataSource" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="OrganisationId" Type="Int64" />
+        </EntityType>
+        <EntityType Name="ReportNote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FootNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="HeadNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AdvertitorialNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="ReportCategoryId" Type="Int32" />
+          <Property Name="SystemSiteId" Type="Int32" Nullable="false" />
+          <Property Name="ReportBanner" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="ReportTitle" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="BannerAbsolutePath" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="isDefault" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="PipeLineProduct">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PipeLineSource">
+          <Key>
+            <PropertyRef Name="SourceId" />
+          </Key>
+          <Property Name="SourceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10979,6 +11275,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="PaperSizes">
             <EntityTypeMapping TypeName="DomainModels.PaperSize">
               <MappingFragment StoreEntitySet="PaperSize">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="IsArchived" ColumnName="isArchived" />
                 <ScalarProperty Name="Region" ColumnName="Region" />
                 <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
@@ -13950,6 +14247,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="PhraseFields">
             <EntityTypeMapping TypeName="DomainModels.PhraseField">
               <MappingFragment StoreEntitySet="PhraseField">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
                 <ScalarProperty Name="SectionId" ColumnName="SectionId" />
                 <ScalarProperty Name="FieldName" ColumnName="FieldName" />
@@ -14142,9 +14440,9 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="LookupMethods">
             <EntityTypeMapping TypeName="DomainModels.LookupMethod">
               <MappingFragment StoreEntitySet="LookupMethod">
+                <ScalarProperty Name="OrganisationID" ColumnName="OrganisationID" />
                 <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
                 <ScalarProperty Name="FlagId" ColumnName="FlagId" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="LockedBy" ColumnName="LockedBy" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -14155,6 +14453,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Machines">
             <EntityTypeMapping TypeName="DomainModels.Machine">
               <MappingFragment StoreEntitySet="Machine">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="MarkupId" ColumnName="MarkupId" />
                 <ScalarProperty Name="LookupMethodId" ColumnName="LookupMethodId" />
                 <ScalarProperty Name="ReelMakereadyTime" ColumnName="ReelMakereadyTime" />
                 <ScalarProperty Name="WashupTime" ColumnName="WashupTime" />
@@ -14188,7 +14488,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="Priority" ColumnName="Priority" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="PressSizeRatio" ColumnName="PressSizeRatio" />
-                <ScalarProperty Name="Va" ColumnName="Va" />
                 <ScalarProperty Name="headdepth" ColumnName="headdepth" />
                 <ScalarProperty Name="gutterdepth" ColumnName="gutterdepth" />
                 <ScalarProperty Name="gripsideorientaion" ColumnName="gripsideorientaion" />
@@ -14273,6 +14572,100 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="GroupDescription" ColumnName="GroupDescription" />
                 <ScalarProperty Name="GroupName" ColumnName="GroupName" />
                 <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CostCenterChoices">
+            <EntityTypeMapping TypeName="DomainModels.CostCenterChoice">
+              <MappingFragment StoreEntitySet="CostCenterChoice">
+                <ScalarProperty Name="CostCenterOption" ColumnName="CostCenterOption" />
+                <ScalarProperty Name="CostCenterId" ColumnName="CostCenterId" />
+                <ScalarProperty Name="ChoiceValue" ColumnName="ChoiceValue" />
+                <ScalarProperty Name="ChoiceLabel" ColumnName="ChoiceLabel" />
+                <ScalarProperty Name="CostCenterChoiceId" ColumnName="CostCenterChoiceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InkCoverageGroups">
+            <EntityTypeMapping TypeName="DomainModels.InkCoverageGroup">
+              <MappingFragment StoreEntitySet="InkCoverageGroup">
+                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
+                <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
+                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="CoverageGroupId" ColumnName="CoverageGroupId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MachineSpoilages">
+            <EntityTypeMapping TypeName="DomainModels.MachineSpoilage">
+              <MappingFragment StoreEntitySet="MachineSpoilage">
+                <ScalarProperty Name="NoOfColors" ColumnName="NoOfColors" />
+                <ScalarProperty Name="RunningSpoilage" ColumnName="RunningSpoilage" />
+                <ScalarProperty Name="SetupSpoilage" ColumnName="SetupSpoilage" />
+                <ScalarProperty Name="MachineId" ColumnName="MachineId" />
+                <ScalarProperty Name="MachineSpoilageId" ColumnName="MachineSpoilageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reports">
+            <EntityTypeMapping TypeName="DomainModels.Report">
+              <MappingFragment StoreEntitySet="Report">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="SubReportDataSource" ColumnName="SubReportDataSource" />
+                <ScalarProperty Name="SubReportTemplate" ColumnName="SubReportTemplate" />
+                <ScalarProperty Name="HasSubReport" ColumnName="HasSubReport" />
+                <ScalarProperty Name="ReportOrder" ColumnName="ReportOrder" />
+                <ScalarProperty Name="IsSystemReport" ColumnName="IsSystemReport" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="IsByReflection" ColumnName="IsByReflection" />
+                <ScalarProperty Name="ParentReportId" ColumnName="ParentReportId" />
+                <ScalarProperty Name="IsEditable" ColumnName="IsEditable" />
+                <ScalarProperty Name="ReportTemplateOriginal" ColumnName="ReportTemplateOriginal" />
+                <ScalarProperty Name="ReportTemplate" ColumnName="ReportTemplate" />
+                <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
+                <ScalarProperty Name="IsExternal" ColumnName="IsExternal" />
+                <ScalarProperty Name="NameSpace" ColumnName="NameSpace" />
+                <ScalarProperty Name="ReportDataSource" ColumnName="ReportDataSource" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ReportId" ColumnName="ReportId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportNotes">
+            <EntityTypeMapping TypeName="DomainModels.ReportNote">
+              <MappingFragment StoreEntitySet="ReportNote">
+                <ScalarProperty Name="isDefault" ColumnName="isDefault" />
+                <ScalarProperty Name="BannerAbsolutePath" ColumnName="BannerAbsolutePath" />
+                <ScalarProperty Name="ReportTitle" ColumnName="ReportTitle" />
+                <ScalarProperty Name="ReportBanner" ColumnName="ReportBanner" />
+                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
+                <ScalarProperty Name="ReportCategoryId" ColumnName="ReportCategoryId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="AdvertitorialNotes" ColumnName="AdvertitorialNotes" />
+                <ScalarProperty Name="HeadNotes" ColumnName="HeadNotes" />
+                <ScalarProperty Name="FootNotes" ColumnName="FootNotes" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PipeLineProducts">
+            <EntityTypeMapping TypeName="DomainModels.PipeLineProduct">
+              <MappingFragment StoreEntitySet="PipeLineProduct">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PipeLineSources">
+            <EntityTypeMapping TypeName="DomainModels.PipeLineSource">
+              <MappingFragment StoreEntitySet="PipeLineSource">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SourceId" ColumnName="SourceId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

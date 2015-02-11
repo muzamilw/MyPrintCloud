@@ -28,19 +28,31 @@ namespace MPC.MIS.Areas.Api.Controllers
 
 
         #region Public
-        public Machine GetMachine(long id)
+        public MachineResponse Get(long id)
         {
-            return _machineService.GetMachineById(id).CreateFrom();
+            return _machineService.GetMachineById(id).CreateFrom() ;
+            
+           
         }
-        public MachineResponse GetMachineList([FromUri] MachineRequestModel request)
+
+        public MachineListResponse GetMachineList([FromUri] MachineRequestModel request)
         {
             var result = _machineService.GetAll(request);
-            return new MachineResponse
+            return new MachineListResponse
             {
-                machine = result.MachineList.Select(s => s.ListViewModelCreateFrom()),
+                machine = result.MachineList.Select(s => s.ListViewModelCreateFrom(result.lookupMethod)),
                 RowCount = result.RowCount
             };
         }
+
+        public bool archiveMachine(long machineId)
+        {
+
+            return _machineService.archiveMachine(machineId);
+          
+
+        }
+       
         #endregion
     }
 }

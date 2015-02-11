@@ -143,6 +143,7 @@ namespace MPC.Webstore.Controllers
                     ViewData["Templates"] = null;
                 }
 
+              
                 ViewBag.SelectedStockItemId = clonedItem.ItemSections.FirstOrDefault().StockItemID1;
                 ViewBag.SelectedQuantity = clonedItem.Qty1;
 
@@ -260,7 +261,8 @@ namespace MPC.Webstore.Controllers
                     SetupCost = addOn.SetupCost,
                     MinimumCost = addOn.MinimumCost,
                     ActualPrice = addOn.AddOnPrice ?? 0.0,
-                    StockOptionId = addOn.ItemStockId
+                    StockOptionId = addOn.ItemStockId,
+                    Description = ""
                 };
                 AddonObjectList.Add(addOnsObject);
             }

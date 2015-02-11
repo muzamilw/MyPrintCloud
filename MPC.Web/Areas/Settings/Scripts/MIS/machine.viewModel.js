@@ -12,6 +12,9 @@ define("machine/machine.viewModel",
                     // Active
                     machineList = ko.observableArray([]),
                     errorList = ko.observableArray([]),
+                    stockItemList = ko.observableArray([]),
+                    stockItemListForDropdown = ko.observableArray([]),
+                    stockItemgPager = ko.observable(),
                     // #region Busy Indicators
                     isLoadingMachineList = ko.observable(false),
                     // #endregion Busy Indicators
@@ -24,16 +27,17 @@ define("machine/machine.viewModel",
                     searchFilter = ko.observable(),
                     isEditorVisible = ko.observable(),
                     selectedMachine = ko.observable(),
-                    templateToUse = function (omachine) {
-                        return (omachine === selectedMachine() ? 'editMachineTemplate' : 'itemMachineTemplate');
-                    },
+                    categoryID = ko.observable(),
+                    isGuillotineList = ko.observable(),
+                    UpdatedPapperStockID = ko.observable(),
+                   // templateToUse = 'itemMachineTemplate',
                     makeEditable = ko.observable(false),
-                    createNewMachine = function () {
-                        var oMachine = new model.machine();
-                        editorViewModel.selectItem(oMachine);
-                        openEditDialog();
-                    },
-                    //Delete Cost Center
+                    //createNewMachine = function () {
+                    //    var oMachine = new model.machine();
+                    //    editorViewModel.selectItem(oMachine);
+                    //    openEditDialog();
+                    //},
+                    //Delete Machine
                     //deleteMachine = function (oMachine) {
                     //    dataservice.deleteMachine({
                     //        CostCentreId: oMachine.CostCentreId(),
@@ -49,17 +53,48 @@ define("machine/machine.viewModel",
                     //        }
                     //    });
                     //},
-                    //onDeleteCostCenter = function (oMachine) {
-                    //    if (!oMachine.CostCentreId()) {
-                    //        machineList.remove(oMachine);
-                    //        return;
-                    //    }
-                    //    // Ask for confirmation
-                    //    confirmation.afterProceed(function () {
-                    //        deleteCostCenter(oMachine);
-                    //    });
-                    //    confirmation.show();
-                    //},
+                    GetMachineListForGuillotine = function () {
+                        isGuillotineList = true;
+                       getMachines();
+                    },
+                    GetMachineListForAll = function () {
+                         isGuillotineList = false;
+                         getMachines();
+                     },
+                    onArchiveMachine = function (oMachine) {
+                        if (!oMachine.MachineId()) {
+                            machineList.remove(oMachine);
+                            return;
+                        }
+                        // Ask for confirmation
+                        confirmation.afterProceed(function () {
+                            archiveMachine(oMachine);
+                        });
+                        confirmation.show();
+                    },
+                    getStockItemsList = function () {
+                        dataservice.getStockItemsList({
+                            SearchString: null,
+                            PageSize: stockItemgPager().pageSize(),
+                            PageNo: stockItemgPager().currentPage(),
+                            CategoryId: categoryID,
+                        }, {
+                            success: function (data) {
+                                stockItemList.removeAll();
+                                if (data && data.TotalCount > 0) {
+                                    stockItemgPager().totalCount(data.TotalCount);
+                                    _.each(data.StockItems, function (item) {
+                                        var stockItem = model.StockItemMapper(item)
+                                        stockItemList.push(stockItem);
+                                    });
+                                    
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to load stock items" + response);
+                            }
+                        });
+                    },
                     getMachines = function () {
                         isLoadingMachineList(true);
                         dataservice.GetMachineList({
@@ -67,7 +102,8 @@ define("machine/machine.viewModel",
                             PageSize: pager().pageSize(),
                             PageNo: pager().currentPage(),
                             SortBy: sortOn(),
-                            IsAsc: sortIsAsc()
+                            IsAsc: sortIsAsc(),
+                            isGuillotineList: isGuillotineList
                         }, {
                             success: function (data) {
                                 machineList.removeAll();
@@ -142,17 +178,52 @@ define("machine/machine.viewModel",
                     //    });
                     //},
                     //On Edit Click Of Machine
-                    onEditMachineItem = function (oMachine) {
+                    OnSelectDefaultPaper = function (ostockItem) {
+                        $("#txtStock").val(ostockItem.id);
+                        $(".btn-myModal-close").click();
+                       
+                        
+
+                    }
+                    onPapperSizeStockItemPopup = function () {
+                        stockItemgPager(new pagination.Pagination({ PageSize: 5 }, stockItemList, getStockItemsList)),
+                        categoryID(1);
+                        getStockItemsList();
+                    }
+                    onPlateStockItemPopup = function () {
+                        stockItemgPager(new pagination.Pagination({ PageSize: 5 }, stockItemList, getStockItemsList)),
+                        categoryID(4);
+                        getStockItemsList();
+                    }
+                    onEditItem = function (oMachine) {
                         errorList.removeAll();
-                        // selectedMachine(oMachine);
                         dataservice.getMachineById({
                             id: oMachine.MachineId(),
                         }, {
                             success: function (data) {
                                 if (data != null) {
-                                    selectedMachine(model.machineListClientMapper(data));
+                                    selectedMachine(model.machineClientMapper(data));
                                     selectedMachine().reset();
                                     showMachineDetail();
+                                    dataservice.GetAllStockItemList({
+                                        stockID:10,
+                                    }, {
+                                        success: function (data) {
+                                            stockItemListForDropdown.removeAll();
+                                            if (data && data.TotalCount > 0) {
+                                                _.each(data, function (item) {
+                                                    var stockItem = model.StockItemMapper(item)
+                                                    stockItemListForDropdown.push(stockItem);
+                                                });
+
+                                            }
+                                        },
+                                        error: function (response) {
+                                            toastr.error("Failed to load stock items" + response);
+                                        }
+                                    });
+
+                                    
                                 }
                             },
                             error: function (response) {
@@ -161,7 +232,7 @@ define("machine/machine.viewModel",
                         });
                     },
                     openEditDialog = function () {
-                        view.showCostCenterDialog();
+                        view.showMachineDetail();
                     },
                     closeEditDialog = function () {
                         if (selectedMachine() != undefined) {
@@ -187,6 +258,7 @@ define("machine/machine.viewModel",
                     // #region Observables
                     // Initialize the view model
                     initialize = function (specifiedView) {
+                        isGuillotineList: false;
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         pager(pagination.Pagination({ PageSize: 10 }, machineList, getMachines));
@@ -198,12 +270,15 @@ define("machine/machine.viewModel",
                     machineList: machineList,
                     selectedMachine: selectedMachine,
                     isLoadingMachineList: isLoadingMachineList,
+                    stockItemList: stockItemList,
+                    stockItemListForDropdown:stockItemListForDropdown,
                     //deleteCostCenter: deleteCostCenter,
                     //onDeleteCostCenter: onDeleteCostCenter,
                     sortOn: sortOn,
                     sortIsAsc: sortIsAsc,
                     pager: pager,
-                    templateToUse: templateToUse,
+                    stockItemgPager:stockItemgPager,
+                  //  templateToUse: templateToUse,
                     makeEditable: makeEditable,
                     //createNewCostCenter: createNewCostCenter,
                     getMachines: getMachines,
@@ -211,14 +286,26 @@ define("machine/machine.viewModel",
                     //saveCostCenter: saveCostCenter,
                     //saveNewCostCenter: saveNewCostCenter,
                     // saveEdittedCostCenter: saveEdittedCostCenter,
-                    //openEditDialog: openEditDialog,
-                    //closeEditDialog: closeEditDialog,
+                    openEditDialog: openEditDialog,
+                    closeEditDialog: closeEditDialog,
                     searchFilter: searchFilter,
-                    onEditMachineItem: onEditMachineItem,
+                    onEditItem: onEditItem,
                     initialize: initialize,
                     isEditorVisible: isEditorVisible,
                     closeMachineDetail: closeMachineDetail,
-                    showMachineDetail: showMachineDetail
+                    showMachineDetail: showMachineDetail,
+                    getStockItemsList: getStockItemsList,
+                    onPapperSizeStockItemPopup: onPapperSizeStockItemPopup,
+                    onPlateStockItemPopup: onPlateStockItemPopup,
+                    categoryID: categoryID,
+                    onArchiveMachine: onArchiveMachine,
+                    isGuillotineList: isGuillotineList,
+                    GetMachineListForGuillotine: GetMachineListForGuillotine,
+                    GetMachineListForAll: GetMachineListForAll,
+                    OnSelectDefaultPaper: OnSelectDefaultPaper,
+                    UpdatedPapperStockID: UpdatedPapperStockID
+
+                  
                 };
             })()
         };
