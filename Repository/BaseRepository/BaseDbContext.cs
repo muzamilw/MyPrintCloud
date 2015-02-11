@@ -563,6 +563,26 @@ namespace MPC.Repository.BaseRepository
         public DbSet<ReportNote> ReportNotes { get; set; }
 
         /// <summary>
+        /// PipeLineProduct DbSet
+        /// </summary>
+        public DbSet<PipeLineProduct> PipeLineProducts { get; set; }
+
+        /// <summary>
+        /// PipeLineSource DbSet
+        /// </summary>
+        public DbSet<PipeLineSource> PipeLineSources { get; set; }
+
+        /// <summary>
+        /// Activity DbSet
+        /// </summary>
+        public DbSet<Activity> Activities { get; set; }
+
+        /// <summary>
+        /// Activity Type DbSet
+        /// </summary>
+        public DbSet<ActivityType> ActivityTypes { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
 // ReSharper disable InconsistentNaming

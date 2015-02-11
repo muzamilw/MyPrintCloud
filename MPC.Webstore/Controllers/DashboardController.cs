@@ -52,7 +52,7 @@ namespace MPC.Webstore.Controllers
                 Detail.Name = "Contact Info"; //(string)GetGlobalResourceObject("MyResource", "ltrlcontactdetails");
                 Detail.Description = "Description"; //(string)GetGlobalResourceObject("MyResource", "ltrlupdateurcontactdeatails");
                 Detail.ImageURL = "<i class='fa fa-user'></i>";
-                Detail.PageNavigateURl = "/UserProfile.aspx";
+                Detail.PageNavigateURl = "/ContactDetail";
                 Detail.IsChangePassword = false;
                 DashBordItems.Add(Detail);
 

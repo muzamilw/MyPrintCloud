@@ -63,11 +63,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         return self;
     };
     companyContactViewListModel.Create = function (source) {
-
-        var customer = new companyContactViewListModel(source.ContactId, source.CompanyId, source.FirstName ,
-            source.Email, source.isWebAccess, source.isPlaceOrder, source.IsApprover, source.IsPricingshown,
-            source.CreditLimit, source.quickPhone, source.CompanyName);
-        return customer;
+        var contact = new companyContactViewListModel(source.ContactId, source.CompanyId, source.FirstName,
+            source.Email, source.isWebAccess, source.isPlaceOrder, source.IsApprover, source.IsPricingshsource, 
+            source.CreditLimit, source.ContactRoleId, source.quickPhone, source.CompanyName);
+        return contact;
     };
     return {
         companyContactViewListModel: companyContactViewListModel

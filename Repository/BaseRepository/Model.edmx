@@ -5,6 +5,60 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="DomainModels.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Activity">
+          <Key>
+            <PropertyRef Name="ActivityId" />
+          </Key>
+          <Property Name="ActivityId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ActivityTypeId" Type="int" Nullable="false" />
+          <Property Name="ActivityCode" Type="varchar" MaxLength="50" />
+          <Property Name="ActivityRef" Type="varchar" MaxLength="500" />
+          <Property Name="ActivityDate" Type="datetime" />
+          <Property Name="ActivityTime" Type="datetime" Nullable="false" />
+          <Property Name="ActivityStartTime" Type="datetime" />
+          <Property Name="ActivityEndTime" Type="datetime" />
+          <Property Name="ActivityProbability" Type="int" />
+          <Property Name="ActivityPrice" Type="int" />
+          <Property Name="ActivityUnit" Type="int" />
+          <Property Name="ActivityNotes" Type="ntext" />
+          <Property Name="IsActivityAlarm" Type="int" Nullable="false" />
+          <Property Name="AlarmDate" Type="datetime" />
+          <Property Name="AlarmTime" Type="datetime" />
+          <Property Name="ActivityLink" Type="int" Nullable="false" />
+          <Property Name="IsCustomerActivity" Type="bit" />
+          <Property Name="ContactId" Type="int" />
+          <Property Name="SystemUserId" Type="uniqueidentifier" />
+          <Property Name="IsPrivate" Type="bit" />
+          <Property Name="IsComplete" Type="int" Nullable="false" />
+          <Property Name="CompletionDate" Type="datetime" />
+          <Property Name="CompletionTime" Type="datetime" />
+          <Property Name="CompletionSuccess" Type="int" />
+          <Property Name="CompletionResult" Type="varchar" MaxLength="100" />
+          <Property Name="CompletedBy" Type="int" />
+          <Property Name="IsFollowedUp" Type="int" />
+          <Property Name="FollowedActivityId" Type="int" />
+          <Property Name="LastModifiedDate" Type="datetime" />
+          <Property Name="LastModifiedtime" Type="datetime" />
+          <Property Name="LastModifiedBy" Type="int" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CampaignId" Type="int" />
+          <Property Name="IsLocked" Type="smallint" />
+          <Property Name="LockedBy" Type="int" />
+          <Property Name="SystemSiteId" Type="int" />
+          <Property Name="CompanyId" Type="bigint" />
+          <Property Name="ProductTypeId" Type="int" />
+          <Property Name="SourceId" Type="int" />
+          <Property Name="FlagId" Type="int" />
+        </EntityType>
+        <EntityType Name="ActivityType">
+          <Key>
+            <PropertyRef Name="ActivityTypeId" />
+          </Key>
+          <Property Name="ActivityTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ActivityName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ActivityDescription" Type="varchar" MaxLength="50" />
+          <Property Name="ActivityColor" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="AddressId" />
@@ -347,7 +401,7 @@
           <Property Name="DefaultNominalCode" Type="int" Nullable="false" />
           <Property Name="DefaultMarkUpId" Type="int" Nullable="false" />
           <Property Name="AccountOpenDate" Type="datetime" />
-          <Property Name="AccountManagerId" Type="int" Nullable="false" />
+          <Property Name="AccountManagerId" Type="uniqueidentifier" />
           <Property Name="Status" Type="smallint" Nullable="false" />
           <Property Name="IsCustomer" Type="smallint" Nullable="false" />
           <Property Name="Notes" Type="nvarchar" MaxLength="3000" />
@@ -1016,7 +1070,6 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="SuccessChanceId" Type="int" />
           <Property Name="LockedBy" Type="int" Nullable="false" />
           <Property Name="AddressId" Type="int" Nullable="false" />
-          <Property Name="CompanyName" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="SectionFlagId" Type="int" Nullable="false" />
           <Property Name="SourceId" Type="int" />
           <Property Name="ProductId" Type="int" />
@@ -1193,9 +1246,8 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="InvoiceCode" Type="varchar" MaxLength="100" />
           <Property Name="InvoiceType" Type="int" />
           <Property Name="InvoiceName" Type="varchar" MaxLength="255" />
-          <Property Name="ContactCompanyID" Type="int" />
-          <Property Name="ContactId" Type="int" />
-          <Property Name="ContactCompany" Type="varchar" MaxLength="50" />
+          <Property Name="CompanyId" Type="bigint" />
+          <Property Name="ContactId" Type="bigint" />
           <Property Name="OrderNo" Type="varchar" MaxLength="50" />
           <Property Name="InvoiceStatus" Type="int" />
           <Property Name="InvoiceTotal" Type="float" />
@@ -1217,7 +1269,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="NotesUpdateDateTime" Type="datetime" />
           <Property Name="NotesUpdatedByUserID" Type="int" />
           <Property Name="SystemSiteId" Type="int" />
-          <Property Name="EstimateId" Type="int" />
+          <Property Name="EstimateId" Type="bigint" />
           <Property Name="IsRead" Type="bit" />
           <Property Name="IsProformaInvoice" Type="bit" />
           <Property Name="IsPrinted" Type="bit" />
@@ -2260,6 +2312,20 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="SectionId" Type="int" />
           <Property Name="SortOrder" Type="int" />
           <Property Name="OrganisationId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="PipeLineProduct">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="PipeLineSource">
+          <Key>
+            <PropertyRef Name="SourceId" />
+          </Key>
+          <Property Name="SourceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="prefix">
           <Key>
@@ -3306,6 +3372,18 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="unc_path" Type="nvarchar" MaxLength="4000" />
           <Property Name="fileTableName" Type="varchar" MaxLength="17" Nullable="false" />
         </EntityType>
+        <Association Name="FK__Activity__Compan__2D3FF3FE">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="Activity" Type="Self.Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Activity">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Address__Country__1765C178">
           <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
           <End Role="Address" Type="Self.Address" Multiplicity="*" />
@@ -4699,6 +4777,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Parameter Name="ContactCompanyID" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="DomainModelsStoreContainer">
+          <EntitySet Name="Activity" EntityType="Self.Activity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ActivityType" EntityType="Self.ActivityType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Campaign" EntityType="Self.Campaign" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CampaignEmailQueue" EntityType="Self.CampaignEmailQueue" Schema="dbo" store:Type="Tables" />
@@ -4795,6 +4875,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="PaymentMethod" EntityType="Self.PaymentMethod" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Phrase" EntityType="Self.Phrase" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhraseField" EntityType="Self.PhraseField" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PipeLineProduct" EntityType="Self.PipeLineProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PipeLineSource" EntityType="Self.PipeLineSource" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="prefix" EntityType="Self.prefix" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PrePayment" EntityType="Self.PrePayment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
@@ -5026,6 +5108,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
     [TemplateFileTableView].[fileTableName] AS [fileTableName]
     FROM [dbo].[TemplateFileTableView] AS [TemplateFileTableView]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK__Activity__Compan__2D3FF3FE" Association="Self.FK__Activity__Compan__2D3FF3FE">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Activity" EntitySet="Activity" />
+          </AssociationSet>
           <AssociationSet Name="FK__Address__Country__1765C178" Association="Self.FK__Address__Country__1765C178">
             <End Role="Country" EntitySet="Country" />
             <End Role="Address" EntitySet="Address" />
@@ -6110,6 +6196,14 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="MachineSpoilages" EntityType="DomainModels.MachineSpoilage" />
           <EntitySet Name="Reports" EntityType="DomainModels.Report" />
           <EntitySet Name="ReportNotes" EntityType="DomainModels.ReportNote" />
+          <EntitySet Name="PipeLineProducts" EntityType="DomainModels.PipeLineProduct" />
+          <EntitySet Name="PipeLineSources" EntityType="DomainModels.PipeLineSource" />
+          <EntitySet Name="Activities" EntityType="DomainModels.Activity" />
+          <EntitySet Name="ActivityTypes" EntityType="DomainModels.ActivityType" />
+          <AssociationSet Name="FK__Activity__Compan__2D3FF3FE" Association="DomainModels.FK__Activity__Compan__2D3FF3FE">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Activity" EntitySet="Activities" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -6126,7 +6220,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="DefaultNominalCode" Type="Int32" Nullable="false" />
           <Property Name="DefaultMarkUpId" Type="Int32" Nullable="false" />
           <Property Name="AccountOpenDate" Type="DateTime" Precision="3" />
-          <Property Name="AccountManagerId" Type="Int32" Nullable="false" />
+          <Property Name="AccountManagerId" Type="Guid" />
           <Property Name="Status" Type="Int16" Nullable="false" />
           <Property Name="IsCustomer" Type="Int16" Nullable="false" />
           <Property Name="Notes" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
@@ -6239,6 +6333,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="isCalculateTaxByService" Type="Boolean" />
           <NavigationProperty Name="MediaLibraries" Relationship="DomainModels.FK_MediaLibrary_Company" FromRole="Company" ToRole="MediaLibrary" />
           <NavigationProperty Name="CompanyCostCentres" Relationship="DomainModels.FK_CompanyCostCentre_Company" FromRole="Company" ToRole="CompanyCostCentre" />
+          <NavigationProperty Name="Activities" Relationship="DomainModels.FK__Activity__Compan__2D3FF3FE" FromRole="Company" ToRole="Activity" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -8165,7 +8260,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="SuccessChanceId" Type="Int32" />
           <Property Name="LockedBy" Type="Int32" Nullable="false" />
           <Property Name="AddressId" Type="Int32" Nullable="false" />
-          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="SectionFlagId" Type="Int32" Nullable="false" />
           <Property Name="SourceId" Type="Int32" />
           <Property Name="ProductId" Type="Int32" />
@@ -8445,9 +8539,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="InvoiceCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="InvoiceType" Type="Int32" />
           <Property Name="InvoiceName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ContactCompanyID" Type="Int32" />
-          <Property Name="ContactId" Type="Int32" />
-          <Property Name="ContactCompany" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ContactId" Type="Int64" />
           <Property Name="OrderNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="InvoiceStatus" Type="Int32" />
           <Property Name="InvoiceTotal" Type="Double" />
@@ -8469,7 +8561,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="NotesUpdateDateTime" Type="DateTime" Precision="3" />
           <Property Name="NotesUpdatedByUserID" Type="Int32" />
           <Property Name="SystemSiteId" Type="Int32" />
-          <Property Name="EstimateId" Type="Int32" />
+          <Property Name="EstimateId" Type="Int64" />
           <Property Name="IsRead" Type="Boolean" />
           <Property Name="IsProformaInvoice" Type="Boolean" />
           <Property Name="IsPrinted" Type="Boolean" />
@@ -8482,6 +8574,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="OrganisationId" Type="Int64" />
           <NavigationProperty Name="InvoiceDetails" Relationship="DomainModels.FK_tbl_invoicedetails_tbl_invoices" FromRole="Invoice" ToRole="InvoiceDetail" />
           <NavigationProperty Name="Items" Relationship="DomainModels.FK_tbl_items_tbl_invoices" FromRole="Invoice" ToRole="Item" />
+          <Property Name="CompanyId" Type="Int64" />
         </EntityType>
         <EntityType Name="InvoiceDetail">
           <Key>
@@ -10656,7 +10749,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="LockedBy" Type="Int32" />
           <Property Name="FlagId" Type="Int32" />
           <Property Name="SystemSiteId" Type="Int32" Nullable="false" />
-          <Property Name="OrganisationID" Type="Int32" Nullable="false" />
+          <Property Name="OrganisationId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Machine">
           <Key>
@@ -10989,6 +11082,87 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="BannerAbsolutePath" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <Property Name="isDefault" Type="Boolean" />
         </EntityType>
+        <EntityType Name="PipeLineProduct">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PipeLineSource">
+          <Key>
+            <PropertyRef Name="SourceId" />
+          </Key>
+          <Property Name="SourceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Activity">
+          <Key>
+            <PropertyRef Name="ActivityId" />
+          </Key>
+          <Property Name="ActivityId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ActivityTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ActivityCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ActivityRef" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ActivityDate" Type="DateTime" Precision="3" />
+          <Property Name="ActivityTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ActivityStartTime" Type="DateTime" Precision="3" />
+          <Property Name="ActivityEndTime" Type="DateTime" Precision="3" />
+          <Property Name="ActivityProbability" Type="Int32" />
+          <Property Name="ActivityPrice" Type="Int32" />
+          <Property Name="ActivityUnit" Type="Int32" />
+          <Property Name="ActivityNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActivityAlarm" Type="Int32" Nullable="false" />
+          <Property Name="AlarmDate" Type="DateTime" Precision="3" />
+          <Property Name="AlarmTime" Type="DateTime" Precision="3" />
+          <Property Name="ActivityLink" Type="Int32" Nullable="false" />
+          <Property Name="IsCustomerActivity" Type="Boolean" />
+          <Property Name="ContactId" Type="Int32" />
+          <Property Name="SystemUserId" Type="Guid" />
+          <Property Name="IsPrivate" Type="Boolean" />
+          <Property Name="IsComplete" Type="Int32" Nullable="false" />
+          <Property Name="CompletionDate" Type="DateTime" Precision="3" />
+          <Property Name="CompletionTime" Type="DateTime" Precision="3" />
+          <Property Name="CompletionSuccess" Type="Int32" />
+          <Property Name="CompletionResult" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CompletedBy" Type="Int32" />
+          <Property Name="IsFollowedUp" Type="Int32" />
+          <Property Name="FollowedActivityId" Type="Int32" />
+          <Property Name="LastModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="LastModifiedtime" Type="DateTime" Precision="3" />
+          <Property Name="LastModifiedBy" Type="Int32" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CampaignId" Type="Int32" />
+          <Property Name="IsLocked" Type="Int16" />
+          <Property Name="LockedBy" Type="Int32" />
+          <Property Name="SystemSiteId" Type="Int32" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="ProductTypeId" Type="Int32" />
+          <Property Name="SourceId" Type="Int32" />
+          <Property Name="FlagId" Type="Int32" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK__Activity__Compan__2D3FF3FE" FromRole="Activity" ToRole="Company" />
+        </EntityType>
+        <EntityType Name="ActivityType">
+          <Key>
+            <PropertyRef Name="ActivityTypeId" />
+          </Key>
+          <Property Name="ActivityTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ActivityName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ActivityDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ActivityColor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK__Activity__Compan__2D3FF3FE">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.Activity" Role="Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Activity">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -12590,7 +12764,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="SourceId" ColumnName="SourceId" />
                 <ScalarProperty Name="SectionFlagId" ColumnName="SectionFlagId" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
                 <ScalarProperty Name="AddressId" ColumnName="AddressId" />
                 <ScalarProperty Name="LockedBy" ColumnName="LockedBy" />
                 <ScalarProperty Name="SuccessChanceId" ColumnName="SuccessChanceId" />
@@ -12726,6 +12899,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Invoices">
             <EntityTypeMapping TypeName="DomainModels.Invoice">
               <MappingFragment StoreEntitySet="Invoice">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="XeroAccessCode" ColumnName="XeroAccessCode" />
                 <ScalarProperty Name="FootNotes" ColumnName="FootNotes" />
@@ -12758,9 +12932,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="InvoiceTotal" ColumnName="InvoiceTotal" />
                 <ScalarProperty Name="InvoiceStatus" ColumnName="InvoiceStatus" />
                 <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
-                <ScalarProperty Name="ContactCompany" ColumnName="ContactCompany" />
                 <ScalarProperty Name="ContactId" ColumnName="ContactId" />
-                <ScalarProperty Name="ContactCompanyID" ColumnName="ContactCompanyID" />
                 <ScalarProperty Name="InvoiceName" ColumnName="InvoiceName" />
                 <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
                 <ScalarProperty Name="InvoiceCode" ColumnName="InvoiceCode" />
@@ -14408,7 +14580,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="LookupMethods">
             <EntityTypeMapping TypeName="DomainModels.LookupMethod">
               <MappingFragment StoreEntitySet="LookupMethod">
-                <ScalarProperty Name="OrganisationID" ColumnName="OrganisationID" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationID" />
                 <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
                 <ScalarProperty Name="FlagId" ColumnName="FlagId" />
                 <ScalarProperty Name="LockedBy" ColumnName="LockedBy" />
@@ -14618,6 +14790,78 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="HeadNotes" ColumnName="HeadNotes" />
                 <ScalarProperty Name="FootNotes" ColumnName="FootNotes" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PipeLineProducts">
+            <EntityTypeMapping TypeName="DomainModels.PipeLineProduct">
+              <MappingFragment StoreEntitySet="PipeLineProduct">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PipeLineSources">
+            <EntityTypeMapping TypeName="DomainModels.PipeLineSource">
+              <MappingFragment StoreEntitySet="PipeLineSource">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Activities">
+            <EntityTypeMapping TypeName="DomainModels.Activity">
+              <MappingFragment StoreEntitySet="Activity">
+                <ScalarProperty Name="FlagId" ColumnName="FlagId" />
+                <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+                <ScalarProperty Name="ProductTypeId" ColumnName="ProductTypeId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
+                <ScalarProperty Name="LockedBy" ColumnName="LockedBy" />
+                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+                <ScalarProperty Name="CampaignId" ColumnName="CampaignId" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+                <ScalarProperty Name="LastModifiedtime" ColumnName="LastModifiedtime" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="FollowedActivityId" ColumnName="FollowedActivityId" />
+                <ScalarProperty Name="IsFollowedUp" ColumnName="IsFollowedUp" />
+                <ScalarProperty Name="CompletedBy" ColumnName="CompletedBy" />
+                <ScalarProperty Name="CompletionResult" ColumnName="CompletionResult" />
+                <ScalarProperty Name="CompletionSuccess" ColumnName="CompletionSuccess" />
+                <ScalarProperty Name="CompletionTime" ColumnName="CompletionTime" />
+                <ScalarProperty Name="CompletionDate" ColumnName="CompletionDate" />
+                <ScalarProperty Name="IsComplete" ColumnName="IsComplete" />
+                <ScalarProperty Name="IsPrivate" ColumnName="IsPrivate" />
+                <ScalarProperty Name="SystemUserId" ColumnName="SystemUserId" />
+                <ScalarProperty Name="ContactId" ColumnName="ContactId" />
+                <ScalarProperty Name="IsCustomerActivity" ColumnName="IsCustomerActivity" />
+                <ScalarProperty Name="ActivityLink" ColumnName="ActivityLink" />
+                <ScalarProperty Name="AlarmTime" ColumnName="AlarmTime" />
+                <ScalarProperty Name="AlarmDate" ColumnName="AlarmDate" />
+                <ScalarProperty Name="IsActivityAlarm" ColumnName="IsActivityAlarm" />
+                <ScalarProperty Name="ActivityNotes" ColumnName="ActivityNotes" />
+                <ScalarProperty Name="ActivityUnit" ColumnName="ActivityUnit" />
+                <ScalarProperty Name="ActivityPrice" ColumnName="ActivityPrice" />
+                <ScalarProperty Name="ActivityProbability" ColumnName="ActivityProbability" />
+                <ScalarProperty Name="ActivityEndTime" ColumnName="ActivityEndTime" />
+                <ScalarProperty Name="ActivityStartTime" ColumnName="ActivityStartTime" />
+                <ScalarProperty Name="ActivityTime" ColumnName="ActivityTime" />
+                <ScalarProperty Name="ActivityDate" ColumnName="ActivityDate" />
+                <ScalarProperty Name="ActivityRef" ColumnName="ActivityRef" />
+                <ScalarProperty Name="ActivityCode" ColumnName="ActivityCode" />
+                <ScalarProperty Name="ActivityTypeId" ColumnName="ActivityTypeId" />
+                <ScalarProperty Name="ActivityId" ColumnName="ActivityId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ActivityTypes">
+            <EntityTypeMapping TypeName="DomainModels.ActivityType">
+              <MappingFragment StoreEntitySet="ActivityType">
+                <ScalarProperty Name="ActivityColor" ColumnName="ActivityColor" />
+                <ScalarProperty Name="ActivityDescription" ColumnName="ActivityDescription" />
+                <ScalarProperty Name="ActivityName" ColumnName="ActivityName" />
+                <ScalarProperty Name="ActivityTypeId" ColumnName="ActivityTypeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

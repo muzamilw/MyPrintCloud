@@ -13,7 +13,7 @@
                     });
                 };
             },
-            // get Customer list of list view
+            // get contact list of list view
             getContactsForListView = function (params, callbacks) {
                 initialize();
                 return amplify.request({

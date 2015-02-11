@@ -5,7 +5,7 @@ define("crm/contacts.viewModel",
     ["jquery", "amplify", "ko", "crm/contacts.dataservice", "crm/contacts.model", "common/confirmation.viewModel", "common/pagination", "common/sharedNavigation.viewModel"],
     function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVm) {
         var ist = window.ist || {};
-        ist.crm = {
+        ist.contacts = {
             viewModel: (function () {
                 var //View
                 view,
@@ -22,7 +22,7 @@ define("crm/contacts.viewModel",
                 // Gets customers for list view
                 getCompanyContacts = function() {
                     dataservice.getContactsForListView({
-                        SearchString: searchFilter(),
+                        SearchFilter: searchFilter(),
                         PageSize: pager().pageSize(),
                         PageNo: pager().currentPage(),
                         SortBy: sortOn(),
@@ -30,7 +30,7 @@ define("crm/contacts.viewModel",
                     },
                     {
                         success: function (data) {
-                        if (data != null) {
+                            if (data != null) {
                             companyContactsForListView.removeAll();
                             pager().totalCount(data.RowCount);
                             _.each(data.CompanyContacts, function (customer) {
@@ -71,5 +71,5 @@ define("crm/contacts.viewModel",
                 };
             })()
         };
-        return ist.crm.viewModel;
+        return ist.contacts.viewModel;
     });
