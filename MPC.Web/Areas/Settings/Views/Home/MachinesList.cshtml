@@ -24,8 +24,8 @@
                 <div class="main-box clearfix">
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#tab-presses" data-toggle="tab">Presses</a></li>
-                            <li><a href="#tab-Guillotine" data-toggle="tab">Guillotine</a></li>
+                            <li class="active"><a href="#tab-presses" data-bind="click: $root.GetMachineListForAll" data-toggle="tab">Presses</a></li>
+                            <li><a href="#tab-Guillotine" data-bind="click: $root.GetMachineListForGuillotine" data-toggle="tab">Guillotine</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="tab-presses">
@@ -39,7 +39,7 @@
                                                             <th><span>Machine Name</span></th>
                                                             <th><span>Max Sheet Size</span></th>
                                                             <th><span>Min Sheet Size</span></th>
-                                                            <th class="text-center"><span>Calculation Method</span></th>
+                                                            <th ><span>Calculation Method</span></th>
                                                             <th>&nbsp;</th>
                                                         </tr>
                                                     </thead>
@@ -63,7 +63,7 @@
                                 </div>
 
                             </div>
-                            <div class="tab-pane fade " id="tab-Guillotine">
+                            <div class="tab-pane fade " id="tab-Guillotine" >
                                 <div class="col-lg-12">
                                     <div class="main-box no-header clearfix">
                                         <div class="main-box-body clearfix">
@@ -72,18 +72,26 @@
                                                     <thead>
                                                         <tr>
                                                             <th><span>Machine Name</span></th>
-                                                            <th><span></span></th>
-                                                            <th class="text-center"><span>Calculation Method</span></th>
-                                                            <th><span></span></th>
+                                                            <th><span>Max Sheet Size</span></th>
+                                                            <th><span>Min Sheet Size</span></th>
+                                                            <th><span>Calculation Method</span></th>
                                                             <th>&nbsp;</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody></tbody>
+                                                    <tbody>
+                                                        <!-- ko template: { name: 'itemMachineTemplate' , foreach: $root.machineList } -->
+                                                        <!-- /ko -->
+
+                                                    </tbody>
                                                 </table>
                                             </div>
                                         </div>
                                     </div>
-                                    
+                                    <div id="pagerDiv">
+                                        <!-- ko with: pager -->
+                                        @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                        <!-- /ko -->
+                                    </div>
 
                                 </div>
                             </div>
@@ -96,7 +104,8 @@
     @Html.Partial("~/Areas/Settings/Views/Home/MachinesDetail.cshtml")
 </div>
 <script id="itemMachineTemplate" type="text/html">
-    <tr data-bind="click: $root.selectItem, css: { selectedRow: $data === $root.selectedMachine}">
+    @*<tr data-bind="click: $root.selectItem, css: { selectedRow: $data === $root.selectedMachine}">*@
+    <tr>
         <td>
             <a href="#" data-bind="text:MachineName, click: $root.onEditItem" class="user-link"></a>
             <span data-bind="text:Description" class="user-subhead machine-list-margin"></span>
@@ -105,11 +114,28 @@
         <td><span data-bind="text: minimumsheetwidth"> </span><span>*</span> <span data-bind="text: minimumsheetheight"> </span>  </td>
         
         <td data-bind="text: LookupMethodName"></td>
-        <td id="actionColumn"></td>
+        <td id="actionColumn">
+            <!-- ko template: { name: "MachineActionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+            <!-- /ko -->
+
+        </td>
     </tr>
 </script>
 
-
+<script id="MachineActionsTemplate" type="text/html">
+    <a href="#" class="table-link danger" data-bind="click : $root.onArchiveMachine" style="float: right">
+        <span class="fa-stack ">
+            <i class="fa fa-square fa-stack-2x"></i>
+            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+    <a class="table-link" data-bind="click : $root.onEditItem" style="float: right">
+        <span class="fa-stack">
+            <i class="fa fa-square fa-stack-2x "></i>
+            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</script>
 @section Scripts{
     <script src="~/Scripts/jquery.form.js"></script>
     <script>

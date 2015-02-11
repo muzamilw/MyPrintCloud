@@ -4363,6 +4363,9 @@ input[type="radio"] {
 .OpenStockPopup-Class {
     width: 90%;
     float: left;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+
 }
 
 .OpenStockPopup-Class1 {

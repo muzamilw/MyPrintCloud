@@ -142,6 +142,9 @@ var spPanel = "";
 var spBkPanel = "";
 var previewUrl = "/designerapi/Template/Preview/";
 var productionFolderPath = "";
+var allowPdfDownload = false;
+var allowImgDownload = false;
+var isMultiPageProduct = false;
 function buildParams() {
   
 	printCropMarks = locVars[locVars.length - 3];

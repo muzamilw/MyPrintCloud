@@ -800,5 +800,26 @@ namespace MPC.Repository.Repositories
 
         }
         #endregion
+	     #region "Compile Binaries"
+        #endregion
+
+        #region exportOrgFunctions
+
+        public List<CostCentre> GetCostCentersByOrganisationID(long OrganisationID)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
+                return db.CostCentres.Include("CostcentreInstruction").Include("CostcentreResource").Include("CostcentreWorkInstructionsChoice").Where(c => c.OrganisationId == OrganisationID).ToList();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        
+        #endregion
     }
 }

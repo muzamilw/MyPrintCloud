@@ -128,6 +128,35 @@ namespace MPC.Repository.Repositories
                 throw new Exception("GetMatrixDetail", ex);
             }
         }
+        public List<CostCentreMatrix> GetMatrixByOrganisationID(long OrganisationID,out List<CostCentreMatrixDetail> matrixDetail)
+        {
+            try
+            {
+                List<CostCentreMatrix> matrices = db.CostCentreMatrices.Where(o => o.CompanyId == OrganisationID).ToList();
+                List<CostCentreMatrixDetail> lstMatrixDetail = new List<CostCentreMatrixDetail>();
+                if(matrices != null && matrices.Count > 0)
+                {
+                    foreach(var mat in matrices)
+                    {
+                        List<CostCentreMatrixDetail> matrixDetails = db.CostCentreMatrixDetails.Where(c => c.MatrixId == mat.MatrixId).ToList();
+                        if (matrixDetails != null && matrixDetails.Count > 0)
+                        {
+                            foreach (var MDetail in matrixDetails)
+                            {
+                                lstMatrixDetail.Add(MDetail);
+
+                            }
+                        }
+                    }
+                }
+                matrixDetail = lstMatrixDetail;
+                return matrices;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetMatrixDetail", ex);
+            }
+        }
         #endregion
     }
 }

@@ -538,6 +538,41 @@ namespace MPC.Repository.BaseRepository
         public DbSet<Group> Groups { get; set; }
 
         /// <summary>
+        /// CostCenterChoice DbSet
+        /// </summary>
+        public DbSet<CostCenterChoice> CostCenterChoices { get; set; }
+        
+        /// <summary>
+        /// InkCoverageGroup DbSet
+        /// </summary>
+        public DbSet<InkCoverageGroup> InkCoverageGroups { get; set; }
+        
+        /// <summary>
+        /// MachineSpoilage DbSet
+        /// </summary>
+        public DbSet<MachineSpoilage> MachineSpoilages { get; set; }
+        
+        /// <summary>
+        /// Report DbSet
+        /// </summary>
+        public DbSet<Report> Reports { get; set; }
+        
+        /// <summary>
+        /// ReportNote DbSet
+        /// </summary>
+        public DbSet<ReportNote> ReportNotes { get; set; }
+
+        /// <summary>
+        /// PipeLineProduct DbSet
+        /// </summary>
+        public DbSet<PipeLineProduct> PipeLineProducts { get; set; }
+
+        /// <summary>
+        /// PipeLineSource DbSet
+        /// </summary>
+        public DbSet<PipeLineSource> PipeLineSources { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
 // ReSharper disable InconsistentNaming
