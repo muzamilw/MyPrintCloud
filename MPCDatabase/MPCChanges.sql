@@ -35,6 +35,14 @@ alter table Activity
 add foreign key (CompanyId)
 references Company(CompanyId)
 
+drop index Activity.SystemUserID
+
+alter table activity
+drop constraint DF__tbl_activ__Syste__0DAF0CB0
+
+alter table activity
+alter column SystemUserId uniqueidentifier
+
 exec sp_rename 'Invoice.ContactCompanyId', 'CompanyId', 'Column'
 
 alter table Invoice
@@ -51,5 +59,12 @@ alter column EstimateId bigint
 
 alter table Estimate
 drop column companyname
+
+alter table company
+drop constraint DF__tbl_custo__Accou__30C33EC3
+
+alter table company
+alter column accountmanagerid uniqueidentifier null
+
 
 GO
