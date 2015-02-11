@@ -6,13 +6,10 @@ using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Security.Claims;
-using System.Web;
 using Microsoft.Practices.Unity;
 using MPC.Common;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
-using MPC.Models.DomainModels;
 
 namespace MPC.Repository.BaseRepository
 {
@@ -20,7 +17,7 @@ namespace MPC.Repository.BaseRepository
     /// Base Repository
     /// </summary>
     /// 
-    [Serializable()]
+    [Serializable]
     public abstract class BaseRepository<TDomainClass> : IBaseRepository<TDomainClass, long>
        where TDomainClass : class
     {
@@ -37,7 +34,6 @@ namespace MPC.Repository.BaseRepository
 
         #endregion
         #region Constructor
-
         /// <summary>
         /// Constructor
         /// </summary>
@@ -67,7 +63,9 @@ namespace MPC.Repository.BaseRepository
         /// </summary>
         public virtual TDomainClass Create()
         {
+// ReSharper disable SuggestUseVarKeywordEvident
             TDomainClass result = container.Resolve<TDomainClass>();
+// ReSharper restore SuggestUseVarKeywordEvident
             return result;
         }
         /// <summary>
@@ -150,13 +148,14 @@ namespace MPC.Repository.BaseRepository
             get
             {
                 IEnumerable<OrganisationClaimValue> organisationClaimValues = ClaimHelper.GetClaimsByType<OrganisationClaimValue>(MpcClaimTypes.Organisation);
-                return organisationClaimValues != null && organisationClaimValues.Any() ? organisationClaimValues.ElementAt(0).OrganisationId : 1;
+                return organisationClaimValues != null && organisationClaimValues.Any() ? organisationClaimValues.ElementAt(0).OrganisationId : 0;
                 
             }
         }
         
         /// <summary>
         /// Logged in User Identity
+        /// Name of Logged In User
         /// </summary>
         public string LoggedInUserIdentity
         {
@@ -165,10 +164,23 @@ namespace MPC.Repository.BaseRepository
                 IEnumerable<NameClaimValue> nameClaimValues = ClaimHelper.GetClaimsByType<NameClaimValue>(MpcClaimTypes.MisUser);
                 return nameClaimValues != null && nameClaimValues.Any()
                     ? nameClaimValues.ElementAt(0).Name
-                    : "MyPrintCloud";
+                    : "N/A";
             }
         }
 
+        /// <summary>
+        /// Logged in User Id
+        /// </summary>
+        public Guid LoggedInUserId
+        {
+            get
+            {
+                IEnumerable<SystemUserClaimValue> systemUserClaimValues = ClaimHelper.GetClaimsByType<SystemUserClaimValue>(MpcClaimTypes.SystemUser);
+                return systemUserClaimValues != null && systemUserClaimValues.Any()
+                    ? systemUserClaimValues.ElementAt(0).SystemUserId
+                    : Guid.Empty;
+            }
+        }
 
         #endregion
 

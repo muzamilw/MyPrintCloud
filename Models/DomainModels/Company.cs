@@ -20,7 +20,7 @@ namespace MPC.Models.DomainModels
         public int DefaultNominalCode { get; set; }
         public int DefaultMarkUpId { get; set; }
         public DateTime? AccountOpenDate { get; set; }
-        public int AccountManagerId { get; set; }
+        public Guid? AccountManagerId { get; set; }
         public short Status { get; set; }
         public short IsCustomer { get; set; }
         public string Notes { get; set; }
@@ -151,7 +151,7 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<CmsOffer> CmsOffers { get; set; }
         public virtual ICollection<MediaLibrary> MediaLibraries { get; set; }
         public virtual ICollection<CompanyCostCentre> CompanyCostCentres { get; set; }
-
+        public virtual ICollection<Activity> Activities { get; set; }
 
         #region Additional Properties
       
