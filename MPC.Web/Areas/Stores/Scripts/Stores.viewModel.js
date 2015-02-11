@@ -2481,7 +2481,7 @@ define("stores/stores.viewModel",
                                 haveIsDefaultTerritory = true;
                             }
                         });
-                        _.each(selectedStore().addresses(), function (territory) {
+                        _.each(selectedStore().addresses(), function (address) {
                             if (address.isDefaultTerrorityBilling()) {
                                 haveIsBillingDefaultAddress = true;
                             }
