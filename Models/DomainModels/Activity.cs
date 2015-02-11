@@ -24,7 +24,7 @@ namespace MPC.Models.DomainModels
         public int ActivityLink { get; set; }
         public bool? IsCustomerActivity { get; set; }
         public int? ContactId { get; set; }
-        public int SystemUserId { get; set; }
+        public Guid? SystemUserId { get; set; }
         public bool? IsPrivate { get; set; }
         public int IsComplete { get; set; }
         public DateTime? CompletionDate { get; set; }

@@ -1559,7 +1559,4 @@
     <Build Include="Security\clydo_adnan_1.sql" />
     <None Include="MPCChanges.sql" />
   </ItemGroup>
-  <ItemGroup>
-    <RefactorLog Include="MPCDatabase.refactorlog" />
-  </ItemGroup>
 </Project>

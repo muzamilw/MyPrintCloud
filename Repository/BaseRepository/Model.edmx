@@ -27,7 +27,7 @@
           <Property Name="ActivityLink" Type="int" Nullable="false" />
           <Property Name="IsCustomerActivity" Type="bit" />
           <Property Name="ContactId" Type="int" />
-          <Property Name="SystemUserId" Type="int" Nullable="false" />
+          <Property Name="SystemUserId" Type="uniqueidentifier" />
           <Property Name="IsPrivate" Type="bit" />
           <Property Name="IsComplete" Type="int" Nullable="false" />
           <Property Name="CompletionDate" Type="datetime" />
@@ -401,7 +401,7 @@
           <Property Name="DefaultNominalCode" Type="int" Nullable="false" />
           <Property Name="DefaultMarkUpId" Type="int" Nullable="false" />
           <Property Name="AccountOpenDate" Type="datetime" />
-          <Property Name="AccountManagerId" Type="int" Nullable="false" />
+          <Property Name="AccountManagerId" Type="uniqueidentifier" />
           <Property Name="Status" Type="smallint" Nullable="false" />
           <Property Name="IsCustomer" Type="smallint" Nullable="false" />
           <Property Name="Notes" Type="nvarchar" MaxLength="3000" />
@@ -6220,7 +6220,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="DefaultNominalCode" Type="Int32" Nullable="false" />
           <Property Name="DefaultMarkUpId" Type="Int32" Nullable="false" />
           <Property Name="AccountOpenDate" Type="DateTime" Precision="3" />
-          <Property Name="AccountManagerId" Type="Int32" Nullable="false" />
+          <Property Name="AccountManagerId" Type="Guid" />
           <Property Name="Status" Type="Int16" Nullable="false" />
           <Property Name="IsCustomer" Type="Int16" Nullable="false" />
           <Property Name="Notes" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
@@ -11118,7 +11118,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="ActivityLink" Type="Int32" Nullable="false" />
           <Property Name="IsCustomerActivity" Type="Boolean" />
           <Property Name="ContactId" Type="Int32" />
-          <Property Name="SystemUserId" Type="Int32" Nullable="false" />
+          <Property Name="SystemUserId" Type="Guid" />
           <Property Name="IsPrivate" Type="Boolean" />
           <Property Name="IsComplete" Type="Int32" Nullable="false" />
           <Property Name="CompletionDate" Type="DateTime" Precision="3" />

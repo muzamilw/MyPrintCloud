@@ -102,7 +102,7 @@
 
                                                         </div>*@
                                                     <div class="btn-group" data-toggle="buttons">
-                                                        <label data-bind="css: { active: (type() == 1)}, click: function () { type(1); }, clickBubble: false" class="btn btn-primary">
+                                                        <label data-bind="css: { active: (type() == 4)}, click: function () { type(4); }, clickBubble: false" class="btn btn-primary">
                                                             Retail
                                                         </label>
                                                         <label data-bind="css: { active: (type() == 3)}, click: function () { type(3); }, clickBubble: false" class="btn btn-primary">
@@ -313,13 +313,17 @@
                                                     <label class="control-label text-right tooltip-float">Account Manager</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <select class="form-control">
+                                                   
+                                                    <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'userName',optionsValue:'systemUserId', value: $root.selectedStore().accountManagerId"></select>   @*,value: $root.selectedClaimFilterListitem*@
+                                                        <span class="help-block text-right"></span>
+                                                   
+                                                    @*<select class="form-control">
                                                         <option>Johan Doe</option>
                                                         <option>Gary McCutting</option>
                                                         <option>David Nol</option>
                                                         <option>Lucas Eyre</option>
                                                         <option>Leaona Pilling</option>
-                                                    </select>
+                                                    </select>*@
                                                 </div>
                                             </div>
                                             <div class="form-group">

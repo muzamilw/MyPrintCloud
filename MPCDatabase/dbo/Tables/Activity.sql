@@ -49,16 +49,6 @@ CREATE NONCLUSTERED INDEX [CompletedBy]
 
 
 GO
-CREATE NONCLUSTERED INDEX [SupplierContactID]
-    ON [dbo].[Activity]([SupplierContactId] ASC);
-
-
-GO
-CREATE NONCLUSTERED INDEX [CustomerContactID]
-    ON [dbo].[Activity]([ContactId] ASC);
-
-
-GO
 CREATE NONCLUSTERED INDEX [SystemUserID]
     ON [dbo].[Activity]([SystemUserId] ASC);
 
