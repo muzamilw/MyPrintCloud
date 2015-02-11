@@ -9,18 +9,27 @@ define("crm/crm.viewModel",
             viewModel: (function () {
                 var //View
                 view,
+                //#region ___________ OBSERVABLES
                 // Search filter 
                 searchFilter = ko.observable(),
-                // Customers array for list view
-                customersForListView = ko.observableArray(),
                 // Pager for pagging
                 pager = ko.observable(),
                 // Sort On
                 sortOn = ko.observable(1),
                 // Sort In Ascending
                 sortIsAsc = ko.observable(true),
+                
+                isEditorVisible = ko.observable(false),
+                //#endregion
+
+                //#region ___________ OBSERVABLE ARRAYS
+                // Customers array for list view
+                customersForListView = ko.observableArray(),
+                //#endregion
+
+                //#region ___________ LIST VIEW
                 // Gets customers for list view
-                getCustomers = function() {
+                getCustomers = function () {
                     dataservice.getCustomersForListView({
                         SearchString: searchFilter(),
                         PageSize: pager().pageSize(),
@@ -29,30 +38,42 @@ define("crm/crm.viewModel",
                         IsAsc: sortIsAsc()
                     },
                     {
-                    success: function(data) {
-                        if (data != null) {
-                            customersForListView.removeAll();
-                            pager().totalCount(data.RowCount);
-                            _.each(data.Customers, function(customer) {
-                                var customerModel = new model.customerViewListModel.Create(customer);
-                                customersForListView.push(customerModel);
-                            });
-                        }
-                    },
-                    error: function() {
+                        success: function (data) {
+                            if (data != null) {
+                                customersForListView.removeAll();
+                                pager().totalCount(data.RowCount);
+                                _.each(data.Customers, function (customer) {
+                                    var customerModel = new model.customerViewListModel.Create(customer);
+                                    customersForListView.push(customerModel);
+                                });
+                            }
+                        },
+                        error: function () {
                             toastr.error("Error: Failed To load Customers!");
                         }
                     });
                 },
+
                 // Search button handler
                 searchButtonHandler = function () {
                     getCustomers();
                 },
                 //  Reset button handler
-                resetButtonHandler=function() {
+                resetButtonHandler = function () {
                     searchFilter(null);
                     getCustomers();
                 },
+                //#endregion
+                
+                //#region CREATE NEW STORE
+                onCreateNewStore = function() {
+                    isEditorVisible(true);
+                },
+                closeEditDialog = function() {
+                    isEditorVisible(false);
+                },
+                //#endregion
+               
                 //Initialize
                initialize = function (specifiedView) {
                    view = specifiedView;
@@ -64,10 +85,13 @@ define("crm/crm.viewModel",
                     initialize: initialize,
                     pager:pager,
                     searchFilter: searchFilter,
+                    isEditorVisible: isEditorVisible,
                     customersForListView: customersForListView,
                     searchButtonHandler: searchButtonHandler,
                     resetButtonHandler: resetButtonHandler,
-                    sharedNavigationVm: sharedNavigationVm
+                    sharedNavigationVm: sharedNavigationVm,
+                    onCreateNewStore: onCreateNewStore,
+                    closeEditDialog: closeEditDialog
                 };
             })()
         };

@@ -99,7 +99,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
         //}
-        if (source.IsCustomer == 1) {
+        if (source.IsCustomer == 4) {//changed from 1
             store.type("Retail Customer");
         }
             //else if (source.IsCustomer == 2) {
@@ -658,12 +658,16 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
         //}
-        if (source.IsCustomer == 1) {
-            store.type("1");
+        //else if (source.IsCustomer == 2) {
+        //    store.type("Prospect");
+        //}
+        //if (source.IsCustomer == 1) {
+        //    store.type("1");
+        //}
+        if (source.IsCustomer == 4) {
+            store.type("4");
         }
-            //else if (source.IsCustomer == 2) {
-            //    store.type("Prospect");
-            //}
+            
         else if (source.IsCustomer == 3) {
             store.type("3");
         }
