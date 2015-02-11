@@ -20,7 +20,7 @@ namespace MPC.Models.DomainModels
         public int DefaultNominalCode { get; set; }
         public int DefaultMarkUpId { get; set; }
         public DateTime? AccountOpenDate { get; set; }
-        public int AccountManagerId { get; set; }
+        public Guid? AccountManagerId { get; set; }
         public short Status { get; set; }
         public short IsCustomer { get; set; }
         public string Notes { get; set; }
