@@ -87,7 +87,9 @@
                                             <img class="RfgImgCs" src=@Html.GetAppBasePath()@costcenter.AddOnImage />
                                         </div>
                                         <div class="extra_item float_left_simple">
+                                            
                                             <input id="@costcenter.ProductAddOnID" type="checkbox" name="addOnChecks" class="checkBoxAdOnPriceCheckBox backgroundIMg" />
+                                           
                                             <label class="margin5 colorBlack">@costcenter.AddOnName</label>
                                             <div class="extra_pricing float_right">
                                                 @if (costcenter.Type != 4)
@@ -301,7 +303,7 @@
                     {
                         @*<label id="lblTaxLabel" class="Fsize13 float_right marginLeft">ex. VAT</label>*@<label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label>
                     }
-                    <label id="lblGrossTotal" class="float_right">@ViewBag.Currency @ViewBag.ClonedItem.Qty1NetTotal</label>
+                    <label id="lblGrossTotal" class="float_right">@ViewBag.Currency 0.00</label>
                 </div>
                 @if (ViewBag.IsStockControl == true)
                 {
@@ -721,7 +723,6 @@
     });
 
     function ConfirmCart() {
-        alert(isPriceSelected);
         if (isPriceSelected == 0) {
             ShowPopUp("Message", "Please check your details to proceed.");
             return false;
@@ -1040,7 +1041,6 @@
         if ((itemPrice + addOnPrice) > 0) {
             isPriceSelected = 1;
         }
-
     }
 
     // returns the the selected stock no
@@ -1087,27 +1087,63 @@
 
         var selectedCheckBox = null;
 
+        var unCheckedBox = null;
+
         var JsonToSubmit = [];
 
         var itemsList = '';
 
+        // all available cost centres
         var addOnJasonData = jQuery.parseJSON($('.JsonAddonCostCentreValue').val());
 
+        var alreadyAddedCostCentres = null;
+
+        if($("#VMJsonAddOns").val() != ""){
+
+            if($("#VMJsonAddOns").val().length == 2){
+                alreadyAddedCostCentres = null;
+            }else{
+                alreadyAddedCostCentres = jQuery.parseJSON($("#VMJsonAddOns").val());
+            }
+
+        }
+        var isUpdateJson = 0;
         var selectedAddonsList = "";
         $(".checkBoxAdOnPriceCheckBox").each(function (i, val) {
 
-            //  $(this).css("height", "18px");
-            // $(this).css("width", "21px");
-
-            // $(this).css("opacity", "0");
             if ($(val).is(':checked')) {
-                //$(this).parent().css("background-image", "url('../../images/tick-box.png')");
 
                 if (addOnJasonData != null) {
 
                     for (var i = 0; i < $(addOnJasonData).length; i++) {
                         if ($(addOnJasonData)[i].Id == $(val).attr('id')) {
-                            JsonToSubmit.push($(addOnJasonData)[i]);
+                            if(alreadyAddedCostCentres != null){
+                                var breakLoop = 0;
+                                var isRecordAdded = 0;
+                                for (var q = 0; q < $(alreadyAddedCostCentres).length; q++) {
+                                    // if ticked cost centre is already added to the jason queue then pick the cos centre from jason queue
+                                    if(alreadyAddedCostCentres[q].CostCenterId == $(addOnJasonData)[i].CostCenterId){
+
+                                        JsonToSubmit.push(alreadyAddedCostCentres[q]);
+                                        breakLoop = 1;
+                                        isRecordAdded = 1;
+                                        break;
+                                    }
+
+                                    if(breakLoop == 1){
+                                        breakLoop = 0;
+                                        break;
+                                    }
+                                }
+                                // else pick the item from actual costcentres queue
+                                if(isRecordAdded == 0){
+                                    JsonToSubmit.push($(addOnJasonData)[i]);
+                                }
+                            }else{
+                                //pick the item from actual costcentres queue
+                                JsonToSubmit.push($(addOnJasonData)[i]);
+                            }
+
                             selectedCheckBox = $(addOnJasonData)[i];
                             break;
                         }
@@ -1142,8 +1178,18 @@
 
                     }
                     else if(selectedCheckBox.Type == 4){// gets the value from the label
-                        checkedPriceTotal = checkedPriceTotal + parseFloat($(val).next().next().children(':first').text().replace("@ViewBag.Currency", ""));
-                       
+                        if($(val).next().next().children(':first').text() == ""){
+
+                        }else{
+
+                            checkedPriceTotal = checkedPriceTotal + parseFloat($(val).next().next().children(':first').text().replace("@ViewBag.Currency", ""));
+                        }
+
+                        if(!$(val).hasClass('userDefined')){
+                            $(val).addClass('userDefined');
+                        }
+
+
                     }else{
                         checkedPriceTotal = checkedPriceTotal + parseFloat(actualPrice);
 
@@ -1153,12 +1199,16 @@
 
                 }
             } else {
-                $(this).parent().css("background-image", "url('../../images/square-final.png')");
+                // in case of user defined cost centre remove the calculated price and modify button when this costcentre will be un checked
+                if($(val).hasClass('userDefined')){
+                    $(val).next().next().html('');
+                }
             }
 
-            $("#VMJsonAddOns").val(JSON.stringify(JsonToSubmit));
+            $("#VMJsonAddOns").val( JSON.stringify(JsonToSubmit));
+
             selectedCheckBox = null;
-            //JsonToSubmit = [];
+
         });
 
         $('#lblExtra').html(itemsList);
@@ -1205,7 +1255,7 @@
                 // check the costcenter if its type is fixed then we will take its setup cost
                 //if it is per quantity type then we will (qty * priceperunitqty) + setupcost
                 var actualPrice = selectedCheckBox.ActualPrice;
-
+                alert(selectedCheckBox.isChecked);
                 if (selectedCheckBox.Type == 2) {
 
                     actualPrice = (orderedQuantity * actualPrice) + selectedCheckBox.SetupCost;
@@ -1216,11 +1266,25 @@
                     }
                     actualPrice = "@ViewBag.Currency" + (actualPrice).toFixed(2).toString();
                     $(val).next().next().children(':first').html(actualPrice);
+                    
+
                 }
                 else if(selectedCheckBox.Type == 4){
-
+                    if(selectedCheckBox.isChecked == true){
+                        $(val).next().next().html('<label>' + "@ViewBag.Currency" + selectedCheckBox.ActualPrice + '</label>' + '<a onclick="PromptForValues(' + selectedCheckBox.CostCenterId + ',' + $(val).attr('id') + ', 1);" >Modify</a> ');
+                        
+                    }
                     $(val).attr('onclick', 'PromptForValues('+ selectedCheckBox.CostCenterId +', '+ $(val).attr('id') +', \"New\");');
                 }
+
+                if("@ViewBag.Mode" == "Modify"){
+                    if(selectedCheckBox.isChecked == true){
+                        $(val).click();
+                    }
+                    $("#costCentreQueueItems").val(@ViewBag.CostCentreQueueItems);
+                }
+
+                
             }
         });
 
@@ -1341,7 +1405,7 @@
                     contentType: "application/json",
                     async: true,
                     success: function (response) {
-                        ShowCostCentrePopup(response[2], CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "Modify", "@ViewBag.Currency");
+                        ShowCostCentrePopup(response[2], CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "Modify", "@ViewBag.Currency", TotalItemPrice);
                     },
                     error: function (msg) { alert("Error occured "); console.log(msg); }
                 };
@@ -1355,7 +1419,7 @@
                 $.getJSON("/webstoreapi/costCenter/GetDateTimeString/" + CostCentreId + "/"+ @ViewBag.ClonedItem.ItemId +"/"+ quantityOrdered +"/New/null",
                   function (DT) {
 
-                      ShowCostCentrePopup(DT[2], CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New","@ViewBag.Currency");
+                      ShowCostCentrePopup(DT[2], CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New","@ViewBag.Currency", TotalItemPrice);
 
                   });
             }
