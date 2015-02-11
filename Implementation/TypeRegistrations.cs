@@ -61,6 +61,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<IAddressService, AddressService>();
             unityContainer.RegisterType<ICompanyContactService, CompanyContactService>();
             unityContainer.RegisterType<ICrmSupplierService, CrmSupplierService>();
+            unityContainer.RegisterType<ICalendarService, CalendarService>();
             unityContainer.RegisterType<ICustomerService, CustomerService>();
             unityContainer.RegisterType<MISInterfaces.IOrderService, MISImplementation.OrderService>();
         }

@@ -34,6 +34,7 @@ namespace MPC.MIS
 
             bundles.Add(new ScriptBundle("~/Bundle/BaseLibs")
                 .Include("~/Scripts/jquery-ui-1.10.4.js")
+                .Include("~/Scripts/jquery-ui-timepicker-addon.js")
                 .Include("~/Scripts/jquery.blockUI.js")
                 .Include("~/Scripts/spectrum.js")
                 .Include("~/Scripts/Ace/colorpicker.js")

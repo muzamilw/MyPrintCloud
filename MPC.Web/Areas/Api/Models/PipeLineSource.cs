@@ -1,7 +1,7 @@
-﻿namespace MPC.Models.DomainModels
+﻿namespace MPC.MIS.Areas.Api.Models
 {
     /// <summary>
-    /// Pipe Line Source Domain Model
+    /// PipeLine Source Api Model
     /// </summary>
     public class PipeLineSource
     {
