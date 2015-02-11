@@ -95,6 +95,30 @@ namespace MPC.Repository.Repositories
             
         }
 
+
+        /// <summary>
+        /// get id's of cost center except webstore cost cnetre 216 of first section of cloned item 
+        /// </summary>
+        /// <param name="StockOptionID"></param>
+        /// <param name="CompanyID"></param>
+        /// <returns></returns>
+        public List<SectionCostcentre> GetClonedItemAddOnCostCentres(long ItemId)
+        {
+            try
+            {
+
+                long itemSectionId = db.ItemSections.Where(i => i.ItemId == ItemId && i.SectionNo == 1).Select(i => i.ItemSectionId).FirstOrDefault();
+
+                return db.SectionCostcentres.Where(s => s.ItemSectionId == itemSectionId && s.CostCentreId != 216).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
         #endregion
     }
 }
