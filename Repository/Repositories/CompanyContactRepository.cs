@@ -7,6 +7,7 @@ using System.Text;
 using Microsoft.Practices.Unity;
 using MPC.Models.DomainModels;
 using MPC.Interfaces.Repository;
+using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
 using System.Data.Entity;
@@ -17,6 +18,14 @@ namespace MPC.Repository.Repositories
 {
 	public class CompanyContactRepository : BaseRepository<CompanyContact>, ICompanyContactRepository
 	{
+
+        #region Private
+        private readonly Dictionary<ContactByColumn, Func<CompanyContact, object>> contactOrderByClause = new Dictionary<ContactByColumn, Func<CompanyContact, object>>
+                    {
+                        {ContactByColumn.Code, d => d.Company.Name}
+                    };
+        #endregion
+
 		public CompanyContactRepository(IUnityContainer container)
 			: base(container)
 		{
@@ -28,6 +37,39 @@ namespace MPC.Repository.Repositories
 				return db.CompanyContacts;
 			}
 		}
+
+        ///// <summary>
+        ///// Get Compnay Contacts
+        ///// </summary>
+        //public CompanyContactResponse GetCompanyContacts(CompanyContactRequestModel request)
+        //{
+        //    int fromRow = (request.PageNo - 1) * request.PageSize;
+        //    int toRow = request.PageSize;
+        //    bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
+        //    Expression<Func<CompanyContact, bool>> query =
+        //        s =>
+        //            (isStringSpecified && (s.Company.Name.Contains(request.SearchString)) &&
+        //            s.OrganisationId == OrganisationId && s.isArchived != true);
+
+        //    int rowCount = DbSet.Count(query);
+        //    IEnumerable<CompanyContact> companies = request.IsAsc
+        //        ? DbSet.Where(query)
+        //            .OrderBy(contactOrderByClause[request.ContactByColumn])
+        //            .Skip(fromRow)
+        //            .Take(toRow)
+        //            .ToList()
+        //        : DbSet.Where(query)
+        //            .OrderByDescending(contactOrderByClause[request.ContactByColumn])
+        //            .Skip(fromRow)
+        //            .Take(toRow)
+        //            .ToList();
+        //    return new CompanyContactResponse
+        //    {
+        //        RowCount = rowCount,
+        //        CompanyContacts = companies
+        //    };
+        //}
+
 
 		public CompanyContact GetContactUser(string email, string password)
 		{
@@ -552,6 +594,37 @@ namespace MPC.Repository.Repositories
 				CompanyContacts = companyContacts
 			};
 		}
+        public CompanyContactResponse GetCompanyContactsForCrm (CompanyContactRequestModel request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            bool isSearchFilterSpecified = !string.IsNullOrEmpty(request.SearchFilter);
+
+            Expression<Func<CompanyContact, bool>> query =
+                s =>
+                    (isSearchFilterSpecified && (s.Email.Contains(request.SearchFilter)) ||
+                     (s.quickCompanyName.Contains(request.SearchFilter)) ||
+                     !isSearchFilterSpecified) && (s.Company.IsCustomer == 0 || s.Company.IsCustomer == 2);
+
+            int rowCount = DbSet.Count(query);
+            // ReSharper disable once ConditionalTernaryEqualBranch
+            IEnumerable<CompanyContact> companyContacts = request.IsAsc
+                ? DbSet.Where(query)
+                    .OrderByDescending(x => x.CompanyId)
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList()
+                : DbSet.Where(query)
+                    .OrderByDescending(x => x.CompanyId)
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList();
+            return new CompanyContactResponse
+            {
+                RowCount = rowCount,
+                CompanyContacts = companyContacts
+            };
+        }
 
 		public CompanyContact GetContactByEmailAndMode(string Email, int Type, long customerID)
 		{

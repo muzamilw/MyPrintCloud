@@ -251,6 +251,7 @@
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\AddressController.cs" />
     <Compile Include="Areas\Api\Controllers\CampaignBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\CompanyContactForCrmController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />
     <Compile Include="Areas\Api\Controllers\CrmSupplierController.cs" />
     <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
@@ -578,6 +579,10 @@
     <Content Include="Areas\CRM\Scripts\calendar.model.js" />
     <Content Include="Areas\CRM\Scripts\calendar.view.js" />
     <Content Include="Areas\CRM\Scripts\calendar.viewModel.js" />
+    <Content Include="Areas\CRM\Scripts\contacts.dataservice.js" />
+    <Content Include="Areas\CRM\Scripts\contacts.model.js" />
+    <Content Include="Areas\CRM\Scripts\contacts.view.js" />
+    <Content Include="Areas\CRM\Scripts\contacts.viewModel.js" />
     <Content Include="Areas\Orders\Scripts\order.dataservice.js" />
     <Content Include="Areas\Orders\Scripts\order.model.js" />
     <Content Include="Areas\Orders\Scripts\order.view.js" />
@@ -1620,6 +1625,7 @@
     <Content Include="Areas\Orders\Views\Home\_Orders.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_OrderDetail.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\SectionFlags.cshtml" />
+    <Content Include="Areas\CRM\Views\Home\Contacts.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
@@ -2791,6 +2797,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Api\Views\Address\" />
     <Folder Include="Areas\Api\Views\Category\" />
+    <Folder Include="Areas\Api\Views\CompanyContactForCrm\" />
     <Folder Include="Areas\Api\Views\CompanyContact\" />
     <Folder Include="Areas\Api\Views\CompanyProduct\" />
     <Folder Include="Areas\Api\Views\Customer\" />

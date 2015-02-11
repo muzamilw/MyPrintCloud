@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using MPC.Models.DomainModels;
 using MPC.Models.Common;
+using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Interfaces.Repository
 {
@@ -22,6 +24,7 @@ namespace MPC.Interfaces.Repository
             Models.RequestModels.CompanyContactRequestModel request);
 
         CompanyContact GetContactByEmailAndMode(string Email, int Type, long customerID);
+        CompanyContactResponse GetCompanyContactsForCrm(CompanyContactRequestModel request);
 
         string GeneratePasswordHash(string plainText);
 
@@ -91,5 +94,7 @@ namespace MPC.Interfaces.Repository
         long GetContactIdByRole(long CompanyID, int Role);
         long GetContactAddressID(long cID);
         IEnumerable<CompanyContact> GetCompanyContactsByCompanyId(long companyId);
+
+       
     }
 }
