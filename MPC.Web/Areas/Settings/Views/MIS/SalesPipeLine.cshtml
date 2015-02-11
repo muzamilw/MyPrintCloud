@@ -1292,22 +1292,27 @@
         @section Scripts{
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function ()
+    {
         var ColorPickerId;
-        $(".Color").click(function () {
+        $(".Color").click(function ()
+        {
             ColorPickerId = this.id;
             $("#" + ColorPickerId).ColorPicker
             ({
                 color: '',
-                onShow: function (colpkr) {
+                onShow: function (colpkr)
+                {
                     $(colpkr).fadeIn(500);
                     return false;
                 },
-                onHide: function (colpkr) {
+                onHide: function (colpkr)
+                {
                     $(colpkr).fadeOut(500);
                     return false;
                 },
-                onChange: function (hsb, hex, rgb) {
+                onChange: function (hsb, hex, rgb)
+                {
                     $("#" + ColorPickerId).css("background-color", "#" + hex);
                 }
             });
