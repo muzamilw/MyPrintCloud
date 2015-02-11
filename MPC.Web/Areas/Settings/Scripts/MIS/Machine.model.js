@@ -82,8 +82,8 @@
                     new OrientationModel({ id: "2", name: "Short Side" })]),
             lookupList = ko.observableArray([]),
             markupList = ko.observableArray([]),
-            
-            MachineResourcesAllList = ko.observableArray([]),
+            stockItemListForPaperSizePlate = ko.observableArray([]),
+            MachineSpoilageItems = ko.observableArray([]),
             MachineInkCoverages = ko.observableArray([]),
             gutterdepth = ko.observable(),
             headdepth = ko.observable(),
@@ -221,9 +221,9 @@
             hasChanges: hasChanges,
             reset: reset,
             markupList: markupList,
-           
-            MachineInkCoverages: MachineInkCoverages
-           // MachineResourcesAllList: MachineResourcesAllList
+            stockItemListForPaperSizePlate:stockItemListForPaperSizePlate,
+            MachineInkCoverages: MachineInkCoverages,
+            MachineSpoilageItems: MachineSpoilageItems
         };
         return self;
     };
@@ -238,16 +238,16 @@
         self.MethodId = ko.observable(data.MethodId);
         self.Name = ko.observable(data.Name);
     }
-    CreateStockItem = function (specifiedId, specifiedName, specifiedCategoryName, specifiedLocation, specifiedWeight, specifiedDescription) {
-        return {
-            id: specifiedId,
-            name: specifiedName,
-            category: specifiedCategoryName,
-            location: specifiedLocation,
-            weight: specifiedWeight,
-            description: specifiedDescription
-        };
-    }
+    //CreateStockItem = function (specifiedId, specifiedName, specifiedCategoryName, specifiedLocation, specifiedWeight, specifiedDescription) {
+    //    return {
+    //        id: specifiedId,
+    //        name: specifiedName,
+    //        category: specifiedCategoryName,
+    //        location: specifiedLocation,
+    //        weight: specifiedWeight,
+    //        description: specifiedDescription
+    //    };
+    //}
 
     var lookupMethodListClientMapper = function (source) {
         var olookup = new lookupMethod();
@@ -263,13 +263,14 @@
         };
     }
 
-    var MachineInkCoveragesListClientMapper = function (source, StockItemforInkList) {
+    var MachineInkCoveragesListClientMapper = function (source, StockItemforInkList, InkCoveragItems) {
         return {
             Id : source.Id,
             SideInkOrder : source.SideInkOrder,
             SideInkOrderCoverage : source.SideInkOrderCoverage,
             MachineId: source.MachineId,
-            StockItemforInkList: StockItemforInkList
+            StockItemforInkList: StockItemforInkList,
+            InkCoveragItems: InkCoveragItems
         };
     };
 
@@ -290,8 +291,26 @@
 
     };
     var StockItemMapper = function (source) {
-        return new CreateStockItem(source.StockItemId, source.ItemName, source.CategoryName, source.StockLocation, source.ItemWeight, source.ItemDescription);
+        return {
+            id: source.StockItemId,
+            name: source.ItemName,
+            category: source.CategoryName,
+            location: source.StockLocation,
+            weight: source.ItemWeight
+        };
+
+
+       // return new CreateStockItem(source.StockItemId, source.ItemName, source.CategoryName, source.StockLocation, source.ItemWeight, source.ItemDescription);
     };
+
+    var MachineSpoilageItemsMapper = function (source) {
+        return {
+            SetupSpoilage : source.SetupSpoilage,
+            RunningSpoilage : source.RunningSpoilage,
+            NoOfColors: source.NoOfColors
+        };
+        
+    }
     var machineListServerMapper = function (source) {
         var result = {};
         result.Description= source.description;
@@ -378,10 +397,25 @@
         omachine.lookupList.removeAll();
         ko.utils.arrayPushAll(omachine.lookupList(), source.lookupMethods);
         omachine.lookupList.valueHasMutated();
+
         omachine.markupList.removeAll();
         ko.utils.arrayPushAll(omachine.markupList(), source.Markups);
         omachine.markupList.valueHasMutated();
         
+        
+        omachine.stockItemListForPaperSizePlate.removeAll();
+        ko.utils.arrayPushAll(omachine.stockItemListForPaperSizePlate(), source.StockItemsForPaperSizePlate);
+        omachine.stockItemListForPaperSizePlate.valueHasMutated();
+
+        _.each(source.MachineSpoilageItems, function (item) {
+            omachine.MachineSpoilageItems.push(MachineSpoilageItemsMapper(item));
+        });
+
+
+        //omachine.MachineSpoilageItems.removeAll();
+        //ko.utils.arrayPushAll(omachine.MachineSpoilageItems, source.MachineSpoilageItems);
+        //omachine.MachineSpoilageItems.valueHasMutated();
+
         //omachine.MachineInkCoverages.removeAll();
         //ko.utils.arrayPushAll(omachine.MachineInkCoverages(), source.machine.MachineInkCoverages);
         //omachine.MachineInkCoverages.valueHasMutated();
@@ -391,8 +425,15 @@
         ko.utils.arrayPushAll(StockItemforInkList(), source.StockItemforInk);
         StockItemforInkList.valueHasMutated();
 
+        var InkCoveragItemsList = ko.observableArray([]);
+        InkCoveragItemsList.removeAll();
+        ko.utils.arrayPushAll(InkCoveragItemsList(), source.InkCoveragItems);
+        InkCoveragItemsList.valueHasMutated();
+       
+
+
         _.each(source.machine.MachineInkCoverages, function (item) {
-            var module = MachineInkCoveragesListClientMapper(item, StockItemforInkList);
+            var module = MachineInkCoveragesListClientMapper(item, StockItemforInkList, InkCoveragItemsList);
             omachine.MachineInkCoverages.push(module);
 
         })

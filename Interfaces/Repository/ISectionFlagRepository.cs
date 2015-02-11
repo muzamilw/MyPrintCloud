@@ -35,5 +35,9 @@ namespace MPC.Interfaces.Repository
         IEnumerable<SectionFlag> GetAllForCampaign();
         List<SectionFlag> GetSectionFlagsByOrganisationID(long OID);
 
+        /// <summary>
+        /// Get Base data for orders
+        /// </summary>
+        IEnumerable<SectionFlag> GetFlagsForOrders();
     }
 }

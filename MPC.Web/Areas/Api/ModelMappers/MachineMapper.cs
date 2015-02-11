@@ -34,8 +34,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 machine = source.machine.CreateFrom(),
                 lookupMethods = source.lookupMethods.Select(s => s.CreateFrom()),
                 Markups= source.Markups.Select(s=>s.CreateFrom()),
-                StockItemforInk = source.StockItemforInk.Select(s => s.CreateFromDetail()),
-                MachineResources = source.MachineResources.Select(s=>s.CreateFrom())
+                StockItemforInk = source.StockItemforInk.Select(s => s.CreateFromDetailForMachine()),
+                StockItemsForPaperSizePlate = source.StockItemsForPaperSizePlate.Select(s => s.CreateFromDetailForMachine()),
+                MachineSpoilageItems = source.MachineSpoilageItems.Select(s=>s.CreateFrom()),
+                // MachineResources = source.MachineResources.Select(s=>s.CreateFrom()),
+                InkCoveragItems = source.InkCoveragItems.Select(s => s.CreateFrom())
             };
 
         }

@@ -15,8 +15,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 bytes = source.Image != null ? File.ReadAllBytes(source.Image) : null;
             }
-            DomainModels.LookupMethod LookupMethod = source.LookupMethodId != null ? lookupMthd.Where(g => g.MethodId == source.LookupMethodId).FirstOrDefault() : null;
-           
+          //  DomainModels.LookupMethod LookupMethod = source.LookupMethodId != null ? lookupMthd.Where(g => g.MethodId == source.LookupMethodId).FirstOrDefault() : null;
+            DomainModels.LookupMethod LookupMethod = null;
             return new ApiModels.MachineList
             {
                 MachineId= source.MachineId,

@@ -13,7 +13,7 @@ define("machine/machine.viewModel",
                     machineList = ko.observableArray([]),
                     errorList = ko.observableArray([]),
                     stockItemList = ko.observableArray([]),
-                    stockItemListForDropdown = ko.observableArray([]),
+                    
                     stockItemgPager = ko.observable(),
                     // #region Busy Indicators
                     isLoadingMachineList = ko.observable(false),
@@ -179,12 +179,16 @@ define("machine/machine.viewModel",
                     //},
                     //On Edit Click Of Machine
                     OnSelectDefaultPaper = function (ostockItem) {
-                        $("#txtStock").val(ostockItem.id);
+                        if (ostockItem.category == "Plates") {
+                            $("#ddl-plateid").val(ostockItem.id);
+                        } else if (ostockItem.category == "Paper") {
+                            $("#ddl-paperSizeId").val(ostockItem.id);
+                        }
                         $(".btn-myModal-close").click();
-                       
-                        
 
                     }
+
+
                     onPapperSizeStockItemPopup = function () {
                         stockItemgPager(new pagination.Pagination({ PageSize: 5 }, stockItemList, getStockItemsList)),
                         categoryID(1);
@@ -205,24 +209,6 @@ define("machine/machine.viewModel",
                                     selectedMachine(model.machineClientMapper(data));
                                     selectedMachine().reset();
                                     showMachineDetail();
-                                    dataservice.GetAllStockItemList({
-                                        stockID:10,
-                                    }, {
-                                        success: function (data) {
-                                            stockItemListForDropdown.removeAll();
-                                            if (data && data.TotalCount > 0) {
-                                                _.each(data, function (item) {
-                                                    var stockItem = model.StockItemMapper(item)
-                                                    stockItemListForDropdown.push(stockItem);
-                                                });
-
-                                            }
-                                        },
-                                        error: function (response) {
-                                            toastr.error("Failed to load stock items" + response);
-                                        }
-                                    });
-
                                     
                                 }
                             },
@@ -271,7 +257,7 @@ define("machine/machine.viewModel",
                     selectedMachine: selectedMachine,
                     isLoadingMachineList: isLoadingMachineList,
                     stockItemList: stockItemList,
-                    stockItemListForDropdown:stockItemListForDropdown,
+                    
                     //deleteCostCenter: deleteCostCenter,
                     //onDeleteCostCenter: onDeleteCostCenter,
                     sortOn: sortOn,

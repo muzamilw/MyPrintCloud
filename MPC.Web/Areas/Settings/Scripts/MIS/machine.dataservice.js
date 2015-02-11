@@ -27,11 +27,7 @@ define("machine/machine.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
-                    amplify.request.define('GetAllStockItemList', 'ajax', {
-                        url: ist.siteUrl + '/Api/StockItems',
-                        dataType: 'json',
-                        type: 'GET'
-                    });
+                   
                     //  Define request to archive MachineList
                     amplify.request.define('archiveMachine', 'ajax', {
                         url: ist.siteUrl + '/Api/Machine',
@@ -80,15 +76,7 @@ define("machine/machine.dataservice", function () {
             //        data: params
             //    });
             //},
-          GetAllStockItemList = function (params, callbacks) {
-                initialize();
-                return amplify.request({
-                    resourceId: 'GetAllStockItemList',
-                    data: params,
-                    success: callbacks.success,
-                    error: callbacks.error,
-                });
-            },
+          
             getStockItemsList = function (params, callbacks) {
                 initialize();
                 return amplify.request({
@@ -143,8 +131,7 @@ define("machine/machine.dataservice", function () {
             getMachineById: getMachineById,
             //GetLookupMethodList: GetLookupMethodList,
             getStockItemsList: getStockItemsList,
-            archiveMachine: archiveMachine,
-            GetAllStockItemList: GetAllStockItemList
+            archiveMachine: archiveMachine
             
         };
     })();

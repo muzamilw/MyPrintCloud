@@ -75,7 +75,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CreationTime = source.CreationTime,
                 SectionFlagId = source.SectionFlagId,
                 OrderCode = source.Order_Code,
-                IsEstimate = source.isEstimate
+                IsEstimate = source.isEstimate,
+                ItemsCount = source.Items!=null ? source.Items.Count :0
             };
 
             return estimate;

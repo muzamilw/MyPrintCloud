@@ -2261,6 +2261,20 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="SortOrder" Type="int" />
           <Property Name="OrganisationId" Type="bigint" />
         </EntityType>
+        <EntityType Name="PipeLineProduct">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="PipeLineSource">
+          <Key>
+            <PropertyRef Name="SourceId" />
+          </Key>
+          <Property Name="SourceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="prefix">
           <Key>
             <PropertyRef Name="PrefixId" />
@@ -4795,6 +4809,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="PaymentMethod" EntityType="Self.PaymentMethod" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Phrase" EntityType="Self.Phrase" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhraseField" EntityType="Self.PhraseField" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PipeLineProduct" EntityType="Self.PipeLineProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PipeLineSource" EntityType="Self.PipeLineSource" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="prefix" EntityType="Self.prefix" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PrePayment" EntityType="Self.PrePayment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
@@ -6110,6 +6126,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="MachineSpoilages" EntityType="DomainModels.MachineSpoilage" />
           <EntitySet Name="Reports" EntityType="DomainModels.Report" />
           <EntitySet Name="ReportNotes" EntityType="DomainModels.ReportNote" />
+          <EntitySet Name="PipeLineProducts" EntityType="DomainModels.PipeLineProduct" />
+          <EntitySet Name="PipeLineSources" EntityType="DomainModels.PipeLineSource" />
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -10989,6 +11007,20 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="BannerAbsolutePath" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <Property Name="isDefault" Type="Boolean" />
         </EntityType>
+        <EntityType Name="PipeLineProduct">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PipeLineSource">
+          <Key>
+            <PropertyRef Name="SourceId" />
+          </Key>
+          <Property Name="SourceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -14618,6 +14650,22 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="HeadNotes" ColumnName="HeadNotes" />
                 <ScalarProperty Name="FootNotes" ColumnName="FootNotes" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PipeLineProducts">
+            <EntityTypeMapping TypeName="DomainModels.PipeLineProduct">
+              <MappingFragment StoreEntitySet="PipeLineProduct">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PipeLineSources">
+            <EntityTypeMapping TypeName="DomainModels.PipeLineSource">
+              <MappingFragment StoreEntitySet="PipeLineSource">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SourceId" ColumnName="SourceId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -45,10 +45,6 @@ namespace MPC.Repository.Repositories
         #endregion
         public MachineListResponseModel GetAllMachine(MachineRequestModel request)
         {
-
-            //var result = from t in db.Machines
-            //             join x in db.LookupMethods on t.MachineId equals x.MethodId
-            //             select t;
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
             Expression<Func<Machine, bool>> query;
@@ -139,14 +135,25 @@ namespace MPC.Repository.Repositories
                 lookupMethods = GetAllLookupMethodList(),
                 Markups = GetAllMarkupList(),
                 StockItemforInk = GetAllStockItemforInk(),
-                MachineResources= GetAllMachineResources()
+                StockItemsForPaperSizePlate = GetStockItemsForPaperSizePlate(),
+                MachineSpoilageItems = GetMachineSpoilageItems(MachineID),
+               // MachineResources= GetAllMachineResources(),
+                InkCoveragItems = GetInkCoveragItems()
 
             };
 
             
         }
 
+        public IEnumerable<MachineSpoilage> GetMachineSpoilageItems(long machineId)
+        {
+            return db.MachineSpoilages.Where(g => g.MachineId == machineId).ToList();
+        }
 
+        public IEnumerable<InkCoverageGroup> GetInkCoveragItems()
+        {
+            return db.InkCoverageGroups;
+        }
         protected override IDbSet<Machine> DbSet
         {
             get
@@ -156,7 +163,23 @@ namespace MPC.Repository.Repositories
         }
         public IEnumerable<LookupMethod> GetAllLookupMethodList()
         {
-            return db.LookupMethods;
+            List<LookupMethod> lookuplist = new List<LookupMethod>();
+            for (int i = 0; i < 10; i++)
+            {
+                LookupMethod lpm = new LookupMethod();
+                lpm.MethodId = i;
+                lpm.Name = i + "th Name";
+                lookuplist.Add(lpm);
+            }
+
+
+            return lookuplist;
+           // return db.LookupMethods;
+        }
+        public IEnumerable<StockItem> GetStockItemsForPaperSizePlate()
+        {
+            return db.StockItems.Where(g => g.CategoryId == 1 || g.CategoryId == 4).ToList();
+
         }
         public IEnumerable<Markup> GetAllMarkupList()
         {
