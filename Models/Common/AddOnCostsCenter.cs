@@ -76,5 +76,9 @@ namespace MPC.Models.Common
         public int Priority { get; set; }
 
         public long ItemStockId { get; set; }
+
+        public string CostCentreDescription { get; set; }
+
+        public string CostCentreJsonData { get; set; }
     }
 }

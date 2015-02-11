@@ -12,6 +12,7 @@ define("calendar/calendar.viewModel",
                     view,
                     //Active Calender Activity
                  selectedActivity = ko.observable(),
+                 selectedCompany = ko.observable(),
                  companySearchFilter = ko.observable(),
                   pager = ko.observable(),
                  fullCalendar = {
@@ -32,8 +33,10 @@ define("calendar/calendar.viewModel",
                 eventClick = function (fcEvent) {
                     var a = fcEvent;
                 },
-                newEventAdd = function (fcEvent) {
-                    var a = fcEvent;
+                newEventAdd = function (addNewActivityEvent) {
+                    var newAddActivity = model.Activity();
+                    newAddActivity.startDateTime(addNewActivityEvent);
+                    selectedActivity(newAddActivity);
                     view.showCalendarActivityDialog();
                 },
                 sectionFlags = ko.observableArray([]),
@@ -76,7 +79,6 @@ define("calendar/calendar.viewModel",
                 items = ko.observableArray([]);
                 var newActivity = model.Activity();
                 newActivity.title("test");
-                //newActivity.startDateTime(new Date());
                 var copiedEventObject = $.extend({}, newActivity);
                 // assign it the date that was reported
                 copiedEventObject.start = newActivity.startDateTime();
@@ -114,9 +116,10 @@ define("calendar/calendar.viewModel",
                         success: function (data) {
                             if (data != null) {
                                 companies.removeAll();
-                                _.each(data, function (item) {
+                                _.each(data.Companies, function (item) {
                                     companies.push(model.Company.Create(item));
                                 });
+                                pager().totalCount(data.TotalCount);
                             }
                         },
                         error: function (response) {
@@ -127,10 +130,35 @@ define("calendar/calendar.viewModel",
 
                 searchCompany = function () {
                     getCompanies();
-                }
+                },
                 resetCompany = function () {
                     companySearchFilter(undefined);
                     getCompanies();
+                },
+                selectCompany = function (company) {
+                    selectedActivity().companyName(company.name());
+                    selectedActivity().contactCompanyId(company.id());
+                    selectedCompany(company);
+                    hideCompanyDialog();
+                },
+                onSaveActivity = function (activity) {
+                    if (dobeforesave()) {
+                        var addEvent = $.extend({}, activity);
+                        // assign it the date that was reported
+                        addEvent.start = activity.startDateTime();
+                        addEvent.end = activity.endDateTime();
+                        addEvent.title = activity.title();
+                        items.push(addEvent);
+                        view.hideCalendarActivityDialog();
+                    }
+                },
+                dobeforesave = function () {
+                    var flag = true;
+                    if (!selectedActivity().isValid()) {
+                        selectedActivity().errors.showAllMessages();
+                        flag = false;
+                    }
+                    return flag;
                 }
                 //Initialize
                 initialize = function (specifiedView) {
@@ -143,6 +171,8 @@ define("calendar/calendar.viewModel",
                 return {
                     selectedActivity: selectedActivity,
                     companySearchFilter: companySearchFilter,
+                    selectCompany: selectCompany,
+                    selectedCompany: selectedCompany,
                     pager: pager,
                     items: items,
                     sectionFlags: sectionFlags,
@@ -158,6 +188,7 @@ define("calendar/calendar.viewModel",
                     hideCompanyDialog: hideCompanyDialog,
                     searchCompany: searchCompany,
                     resetCompany: resetCompany,
+                    onSaveActivity: onSaveActivity,
                 };
             })()
         };

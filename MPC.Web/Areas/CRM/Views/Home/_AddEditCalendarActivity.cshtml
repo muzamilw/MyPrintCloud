@@ -1,6 +1,6 @@
 ﻿
 <div class="modal fade my-modal" id="calendarActivityModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none">
-    <div style="width: 838px;" class="modal-dialog">
+    <div style="width: 838px;" class="modal-dialog" data-bind="with:$root.selectedActivity">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -20,7 +20,7 @@
                             <label for="owner" class="control-label text-right tooltip-float">Owner</label>
                         </div>
                         <div class="col-lg-7">
-                            <select class="form-control" id="owner" data-bind="options: $root.systemUsers, optionsText: 'UserName', optionsValue: 'SystemUserId'"></select>
+                            <select class="form-control" id="owner" data-bind="options: $root.systemUsers, optionsText: 'UserName', optionsValue: 'SystemUserId',value:systemUserId"></select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -33,7 +33,7 @@
                             <label for="subject" class="control-label text-right tooltip-float">Subject</label>
                         </div>
                         <div class="col-lg-7">
-                            <input type="text" class="form-control" id="txtItemUrl">
+                            <input type="text" class="form-control" id="txtItemUrl" data-bind="value:title,validationTooltip:title">
                         </div>
                     </div>
                     <div class="form-group">
@@ -46,7 +46,7 @@
                             <label for="activity" class="control-label text-right tooltip-float">Activity</label>
                         </div>
                         <div class="col-lg-7">
-                            <select class="form-control" id="activity" data-bind="options: $root.systemUsers, optionsText: 'UserName', optionsValue: 'SystemUserId'"></select>
+                            <select class="form-control" id="activity" data-bind="options: $root.systemUsers, optionsText: 'UserName', optionsValue: 'SystemUserId',value:activityTypeId"></select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -89,7 +89,7 @@
                             <label for="customer" class="control-label text-right tooltip-float">Customer</label>
                         </div>
                         <div class="col-lg-7">
-                            <input type="text" class="form-control" id="customer" disabled>
+                            <input type="text" class="form-control" id="customer" disabled data-bind="value:companyName">
                         </div>
                     </div>
                     <div class="form-group">
@@ -102,7 +102,7 @@
                             <label for="contact" class="control-label text-right tooltip-float">Contact</label>
                         </div>
                         <div class="col-lg-7">
-                            <select class="form-control" id="contact" data-bind="options: $root.companyContacts, optionsText: 'Name', optionsValue: 'ContactId'"></select>
+                            <select class="form-control" id="contact" data-bind="options: $root.companyContacts, optionsText: 'Name', optionsValue: 'ContactId',value:contactId"></select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -115,7 +115,7 @@
                             <label for="product" class="control-label text-right tooltip-float">Product Type</label>
                         </div>
                         <div class="col-lg-7">
-                            <select class="form-control" id="product" data-bind="options: $root.pipeLineProducts, optionsText: 'Description', optionsValue: 'ProductId'"></select>
+                            <select class="form-control" id="product" data-bind="options: $root.pipeLineProducts, optionsText: 'Description', optionsValue: 'ProductId',value:productTypeId"></select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -128,7 +128,7 @@
                             <label for="description" class="control-label text-right tooltip-float">Description</label>
                         </div>
                         <div class="col-lg-7">
-                            <textarea class="form-control" id="description" rows="4"></textarea>
+                            <textarea class="form-control" id="description" rows="4" data-bind="value:activityNotes"></textarea>
                         </div>
                     </div>
                 </div>
@@ -143,7 +143,7 @@
                             <label for="flag" class="control-label text-right tooltip-float">Flag</label>
                         </div>
                         <div class="col-lg-7">
-                            <input type="text" class="form-control" id="txtItemUrl">
+                            <select class="form-control" id="product" data-bind="options: $root.pipeLineProducts, optionsText: 'Description', optionsValue: 'ProductId',value:flagId"></select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -156,7 +156,7 @@
                             <label for="startDateTime" class="control-label text-right tooltip-float">Start Date Time</label>
                         </div>
                         <div class="col-lg-7">
-                            <input type="text" class="form-control" id="startDateTime">
+                            <input type="text" class="form-control" id="startDateTime" data-bind="datetimepicker:startDateTime">
                         </div>
                     </div>
                     <div class="form-group">
@@ -169,7 +169,7 @@
                             <label for="endDateTime" class="control-label text-right tooltip-float">End Date Time</label>
                         </div>
                         <div class="col-lg-7">
-                            <input type="text" class="form-control" id="endDateTime">
+                            <input type="text" class="form-control" id="endDateTime" data-bind="datetimepicker:endDateTime">
                         </div>
                     </div>
                     <div class="form-group">
@@ -183,7 +183,7 @@
                         </div>
                         <div class="col-lg-7">
                             <div class="checkbox-nice">
-                                <input type="checkbox" id="linkToContact" />
+                                <input type="checkbox" id="linkToContact" data-bind="checked:isCustomerActivity" />
                                 <label for="linkToContact">Link to Contact</label>
                             </div>
                         </div>
@@ -198,7 +198,7 @@
                         </div>
                         <div class="col-lg-7">
                             <div class="checkbox-nice">
-                                <input type="checkbox" id="privateToContact" />
+                                <input type="checkbox" id="privateToContact" data-bind="checked:isPrivate" />
                                 <label for="privateToContact">Private Contact</label>
                             </div>
                         </div>
@@ -213,7 +213,7 @@
                             <label for="product" class="control-label text-right tooltip-float">Source</label>
                         </div>
                         <div class="col-lg-7">
-                            <select class="form-control" id="product" data-bind="options: $root.pipeLineSources, optionsText: 'Description', optionsValue: 'SourceId'"></select>
+                            <select class="form-control" id="product" data-bind="options: $root.pipeLineSources, optionsText: 'Description', optionsValue: 'SourceId',value:sourceId"></select>
                         </div>
                     </div>
                 </div>
@@ -221,7 +221,7 @@
 
             <div class="modal-footer">
                 <hr />
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveActivity">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
             </div>
         </div>

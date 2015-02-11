@@ -33,6 +33,23 @@ namespace MPC.Implementation.MISServices
                                                 Name = user.FullName
                                             }),
                                         typeof(NameClaimValue).AssemblyQualifiedName));
+                
+                if (string.IsNullOrEmpty(user.Id))
+                {
+                    return;
+                }
+
+                Guid userId;
+                if (Guid.TryParse(user.Id, out userId))
+                {
+                    claimsIdentity.AddClaim(new Claim(MpcClaimTypes.SystemUser,
+                        ClaimHelper.Serialize(
+                            new SystemUserClaimValue
+                            {
+                                SystemUserId = userId
+                            }),
+                        typeof(SystemUserClaimValue).AssemblyQualifiedName));        
+                }
             }
         }
         
@@ -45,7 +62,9 @@ namespace MPC.Implementation.MISServices
             List<AccessRight> accessRights = user.RoleSections.SelectMany(roleSection => roleSection.Section.AccessRights).ToList();
             foreach (AccessRight accessRight in accessRights)
             {
+// ReSharper disable SuggestUseVarKeywordEvident
                 Claim claim = new Claim(MpcClaimTypes.AccessRight,
+// ReSharper restore SuggestUseVarKeywordEvident
                                         ClaimHelper.Serialize(
                                             new AccessRightClaimValue 
                                             { 
@@ -65,7 +84,9 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private static void AddRoleClaims(MisUser user, ClaimsIdentity claimsIdentity)
         {
+// ReSharper disable SuggestUseVarKeywordEvident
             Claim claim = new Claim(MpcClaimTypes.MisRole,
+// ReSharper restore SuggestUseVarKeywordEvident
                                         ClaimHelper.Serialize(
                                             new MisRoleClaimValue { Role = user.Role }),
                                         typeof(MisRoleClaimValue).AssemblyQualifiedName);
@@ -77,7 +98,9 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private static void AddOrganisationClaims(MisUser user, ClaimsIdentity claimsIdentity)
         {
+// ReSharper disable SuggestUseVarKeywordEvident
             Claim claim = new Claim(MpcClaimTypes.Organisation,
+// ReSharper restore SuggestUseVarKeywordEvident
                                         ClaimHelper.Serialize(
                                             new OrganisationClaimValue { OrganisationId = user.OrganisationId }),
                                         typeof(OrganisationClaimValue).AssemblyQualifiedName);

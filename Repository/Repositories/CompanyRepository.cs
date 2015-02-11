@@ -130,7 +130,7 @@ namespace MPC.Repository.Repositories
             Expression<Func<Company, bool>> query =
                 s =>
                     (isStringSpecified && (s.Name.Contains(request.SearchString)) ||
-                     !isStringSpecified) && s.IsCustomer == 0;
+                     !isStringSpecified) && s.IsCustomer == 2 && s.OrganisationId==OrganisationId;
 
             int rowCount = DbSet.Count(query);
             IEnumerable<Company> companies =
@@ -324,7 +324,6 @@ namespace MPC.Repository.Repositories
 
             salt = ComputeHash(plainText, "SHA1", null);
 
-
             return salt;
         }
         private static string ComputeHash(string plainText,
@@ -371,8 +370,6 @@ namespace MPC.Repository.Repositories
             // hash object as a common (abstract) base class. We will specify the
             // actual hashing algorithm class later during object creation.
             HashAlgorithm hash;
-
-
 
             // Make sure hashing algorithm name is specified.
             //if (hashAlgorithm == null)
@@ -432,7 +429,6 @@ namespace MPC.Repository.Repositories
 
         public string SystemWeight(long OrganisationID)
         {
-
             try
             {
 
@@ -449,8 +445,6 @@ namespace MPC.Repository.Repositories
                 throw ex;
 
             }
-
-
 
         }
         public string SystemLength(long OrganisationID)
@@ -486,7 +480,7 @@ namespace MPC.Repository.Repositories
             Expression<Func<Company, bool>> query =
                 s =>
                     (isStringSpecified && (s.Name.Contains(request.SearchString)) ||
-                     !isStringSpecified) && s.IsCustomer == request.IsCustomerType;
+                     !isStringSpecified) && s.IsCustomer == request.IsCustomerType && s.OrganisationId==OrganisationId;
 
             int rowCount = DbSet.Count(query);
             IEnumerable<Company> companies =

@@ -25,6 +25,7 @@ namespace MPC.Repository.Repositories
         {
             get
             {
+                
                 return db.CompanyContacts;
             }
         }
@@ -427,6 +428,13 @@ namespace MPC.Repository.Repositories
             db.Configuration.LazyLoadingEnabled = false;
             return db.CompanyContacts.Where(c => c.ContactId == ContactID).FirstOrDefault();
         }
+        public CompanyTerritory GetCcompanyByTerritoryID(Int64 CompanyId)
+        {
+            var Query = (from Comp in db.Companies join Tero in db.CompanyTerritories on Comp.CompanyId equals Tero.CompanyId where Tero.CompanyId ==CompanyId select Tero).FirstOrDefault();
+            return Query;
+
+        }
+
         public CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName)
         {
             if (regContact != null)
@@ -875,6 +883,86 @@ namespace MPC.Repository.Repositories
         {
             return db.CompanyContacts.Where(x => x.CompanyId == companyId && x.OrganisationId == OrganisationId);
         }
+
+        //Update The CompnayContact for The Retail Customer
+        public void UpdateCompanyContactForRetail(CompanyContact Instance)
+        {
+            try
+            {
+
+                CompanyContact oContct = db.CompanyContacts.Where(c => c.ContactId == Instance.ContactId).FirstOrDefault();
+                if (oContct != null)
+                {
+                    oContct.FirstName = Instance.FirstName;
+                    oContct.LastName = Instance.LastName;
+                    oContct.Email = Instance.Email;
+                    oContct.JobTitle = Instance.JobTitle;
+                    oContct.HomeTel1 = Instance.HomeTel1;
+                    oContct.Mobile = Instance.Mobile;
+                    oContct.FAX = Instance.FAX;
+                    oContct.quickWebsite = Instance.quickWebsite;
+                    oContct.image = Instance.image;
+                    oContct.IsEmailSubscription = Instance.IsEmailSubscription;
+                    oContct.IsNewsLetterSubscription = Instance.IsNewsLetterSubscription;
+                    db.CompanyContacts.Attach(oContct);
+
+                    db.Entry(oContct).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+            catch(Exception ex)
+            {
+
+                throw ex;
+
+            }
+        }
+        //Update The CompnayContact for The Corporate Customer
+        public void UpdateCompanyContactForCorporate(CompanyContact Instance)
+        {
+            try
+            {
+                CompanyContact oContct = db.CompanyContacts.Where(c => c.ContactId == Instance.ContactId).FirstOrDefault();
+                if (oContct != null)
+                {
+                    oContct.FirstName = Instance.FirstName;
+                    oContct.LastName = Instance.LastName;
+                    oContct.Email = Instance.Email;
+                    oContct.JobTitle = Instance.JobTitle;
+                    oContct.HomeTel1 = Instance.HomeTel1;
+                    oContct.Mobile = Instance.Mobile;
+                    oContct.FAX = Instance.FAX;
+                    oContct.quickWebsite = Instance.quickWebsite;
+                    oContct.image = Instance.image;
+                    oContct.IsEmailSubscription = Instance.IsEmailSubscription;
+                    oContct.IsNewsLetterSubscription = Instance.IsNewsLetterSubscription;
+                    oContct.POBoxAddress = Instance.POBoxAddress;
+                    oContct.CorporateUnit = Instance.CorporateUnit;
+                    oContct.OfficeTradingName = Instance.OfficeTradingName;
+                    oContct.ContractorName = Instance.ContractorName;
+                    oContct.BPayCRN = Instance.BPayCRN;
+                    oContct.ABN = Instance.ABN;
+                    oContct.ACN = Instance.ACN;
+                    oContct.AdditionalField1 = Instance.AdditionalField1;
+                    oContct.AdditionalField2 = Instance.AdditionalField2;
+                    oContct.AdditionalField3 = Instance.AdditionalField3;
+                    oContct.AdditionalField4 = Instance.AdditionalField4;
+                    oContct.AdditionalField5 = Instance.AdditionalField5;
+
+                    db.CompanyContacts.Attach(oContct);
+
+                    db.Entry(oContct).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            
+            }
+
+        }
+
     }
 }
 

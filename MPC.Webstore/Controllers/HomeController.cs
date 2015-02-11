@@ -79,7 +79,7 @@ namespace MPC.Webstore.Controllers
         #endregion
 
 
-
+        
         public ActionResult Index()
         {
             SetUserClaim(UserCookieManager.OrganisationID);
@@ -89,8 +89,6 @@ namespace MPC.Webstore.Controllers
             ObjectCache cache = MemoryCache.Default;
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
             ViewBag.StyleSheet = "/mpc_content/Assets/" + UserCookieManager.OrganisationID + "/" + UserCookieManager.StoreId + "/Site.css";  
-
-           
 
             List<MPC.Models.DomainModels.CmsSkinPageWidget> model = null;
 
