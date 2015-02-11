@@ -1,42 +1,25 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function (ko) {
     var
 
-    //Stock Cost And Price
-    StockCostAndPrice = function (specifiedCostPriceId, specifiedCostPrice, specifiedPackCostPrice, specifiedFromDate, specifiedToDate, specifiedCostOrPriceIdentifier) {
+    //Activity
+    Activity = function (specifiedActivityId, specifiedActivityRef, specifiedStartDateTime, specifiedEndDateTime) {
         var
             self,
-            //cost Price Id
-            costPriceId = ko.observable(specifiedCostPriceId),
-            //Cost Price
-            costPrice = ko.observable(specifiedCostPrice).extend({ required: true, number: true }),
-            //Pack Cost Price
-            packCostPrice = ko.observable(specifiedPackCostPrice),
-             //To Date 
-            toDate = ko.observable(specifiedToDate === null ? moment().toDate() : moment(specifiedToDate, ist.utcFormat).toDate()).extend({ required: true }),
-            //From Date
-            fromDate = ko.observable(specifiedFromDate === null ? moment().toDate() : moment(specifiedFromDate, ist.utcFormat).toDate()).extend({ required: true }),
-                //Cost Or Price Identifier
-            costOrPriceIdentifier = ko.observable(specifiedCostOrPriceIdentifier),
-            // Formatted From Date
-             formattedFromDate = ko.computed({
-                 read: function () {
-                     return fromDate() !== undefined ? moment(fromDate(), ist.datePattern).toDate() : undefined;
-                 }
-             }),
-             // Formatted To Date
-             formattedToDate = ko.computed({
-                 read: function () {
-                     return toDate() !== undefined ? moment(toDate()).format(ist.datePattern) : undefined;
-                 }
-             }),
-              isInvalidPeriod = ko.computed(function () {
-                  return toDate() < fromDate();
-              }),
+            //Activity Id
+            id = ko.observable(specifiedActivityId),
+            //Subject
+            title = ko.observable(specifiedActivityRef).extend({ required: true }),
+            //Start Date Time
+            startDateTime = ko.observable((specifiedStartDateTime === null || specifiedStartDateTime === undefined) ? new Date() : moment(specifiedStartDateTime, ist.utcFormat)),
+            //End Date Time
+            endDateTime = ko.observable((specifiedEndDateTime === null || specifiedEndDateTime === undefined) ? null : moment(specifiedEndDateTime, ist.utcFormat)),
+           // className = ko.observable("label-primary"),
+
+            isInvalidPeriod = ko.computed(function () {
+                return endDateTime() < startDateTime();
+            }),
              // Errors
             errors = ko.validation.group({
-                costPrice: costPrice,
-                fromDate: fromDate,
-                toDate: toDate,
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -66,16 +49,10 @@
                 dirtyFlag.reset();
             };
         self = {
-            costPriceId: costPriceId,
-            costPrice: costPrice,
-            packCostPrice: packCostPrice,
-            fromDate: fromDate,
-            toDate: toDate,
-            formattedFromDate: formattedFromDate,
-            formattedToDate: formattedToDate,
-            costOrPriceIdentifier: costOrPriceIdentifier,
-            isValid: isValid,
-            errors: errors,
+            id: id,
+            title: title,
+            startDateTime: startDateTime,
+            endDateTime: endDateTime,
             isInvalidPeriod: isInvalidPeriod,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
@@ -84,21 +61,31 @@
         };
         return self;
     };
-    //Stock Cost And Price Item For Client Factory
-    StockCostAndPrice.Create = function () {
-        return new StockCostAndPrice(0, 0, 0, null, null, 0);
+    //Activity Create 
+    Activity.Create = function (source) {
+        return new Activity();
     };
 
-    ExternalEvents = function (specifiedName) {
-        var
-              //cost Price Id
+    Company = function (specifiedCompanyId, specifiedName, specifiedURL, specifiedCreationDate) {
+        var self,
+            id = ko.observable(specifiedCompanyId),
             name = ko.observable(specifiedName),
-             self = {
-                 name: name
-             };
+        url = ko.observable(specifiedURL),
+        creationDate = ko.observable(specifiedCreationDate);
+        self = {
+            id: id,
+            name: name,
+            url: url,
+            creationDate: creationDate,
+        };
         return self;
-    }
+    };
+    //Stock Cost And Price Item For Client Factory
+    Company.Create = function (source) {
+        return new Company(source.CompanyId, source.Name, source.URL, source.CreationDate);
+    };
     return {
-        ExternalEvents: ExternalEvents,
+        Activity: Activity,
+        Company: Company,
     };
 });

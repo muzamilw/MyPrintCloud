@@ -98,6 +98,8 @@ namespace MPC.Repository
             unityContainer.RegisterType<ICostCenterTypeRepository, CostCenterTypeRepository>();
             unityContainer.RegisterType<IItemSectionRepository, ItemSectionRepository>();
             unityContainer.RegisterType<IEstimateRepository, EstimateRepository>();
+            unityContainer.RegisterType<IPipeLineProductRepository, PipeLineProductRepository>();
+            unityContainer.RegisterType<IPipeLineSourceRepository, PipeLineSourceRepository>();
         }
     }
 }

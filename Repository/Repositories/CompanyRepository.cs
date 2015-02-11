@@ -95,7 +95,7 @@ namespace MPC.Repository.Repositories
             Expression<Func<Company, bool>> query =
                 s =>
                     (isStringSpecified && (s.Name.Contains(request.SearchString)) && (isTypeSpecified && s.TypeId == type || !isTypeSpecified) && s.OrganisationId == OrganisationId && s.isArchived != true ||
-                     !isStringSpecified && s.OrganisationId == OrganisationId && s.isArchived != true 
+                     !isStringSpecified && s.OrganisationId == OrganisationId && s.isArchived != true
                      );
 
             int rowCount = DbSet.Count(query);
@@ -169,7 +169,7 @@ namespace MPC.Repository.Repositories
         }
         public long CreateCustomer(string CompanyName, bool isEmailSubscriber, bool isNewsLetterSubscriber, CompanyTypes customerType, string RegWithSocialMedia, long OrganisationId, CompanyContact contact = null)
         {
-             bool isCreateTemporaryCompany = true;
+            bool isCreateTemporaryCompany = true;
             if ((int)customerType == (int)CompanyTypes.TemporaryCustomer)
             {
                 Company ContactCompany = db.Companies.Where(c => c.TypeId == (int)customerType && c.OrganisationId == OrganisationId).FirstOrDefault();
@@ -178,7 +178,7 @@ namespace MPC.Repository.Repositories
                     isCreateTemporaryCompany = false;
                     return ContactCompany.CompanyId;
                 }
-                else 
+                else
                 {
                     isCreateTemporaryCompany = true;
                 }
@@ -287,7 +287,7 @@ namespace MPC.Repository.Repositories
 
                 return customerID;
             }
-            else 
+            else
             {
                 return 0;
             }
@@ -432,26 +432,26 @@ namespace MPC.Repository.Repositories
 
         public string SystemWeight(long OrganisationID)
         {
-          
+
             try
             {
-               
-                var qry =  from systemWeight in db.WeightUnits
-                            join organisation in db.Organisations on systemWeight.Id equals organisation.SystemWeightUnit
-                            where organisation.OrganisationId == OrganisationID
-                            select systemWeight.UnitName;
+
+                var qry = from systemWeight in db.WeightUnits
+                          join organisation in db.Organisations on systemWeight.Id equals organisation.SystemWeightUnit
+                          where organisation.OrganisationId == OrganisationID
+                          select systemWeight.UnitName;
 
                 return qry.ToString();
-                
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
 
             }
 
-            
-            
+
+
         }
         public string SystemLength(long OrganisationID)
         {
@@ -465,15 +465,42 @@ namespace MPC.Repository.Repositories
 
                 return qry.ToString();
 
-              //  return db.Organisations.Where(o => o.OrganisationId == OrganisationID).Select(s => s.SystemLengthUnit ?? 0).FirstOrDefault();
+                //  return db.Organisations.Where(o => o.OrganisationId == OrganisationID).Select(s => s.SystemLengthUnit ?? 0).FirstOrDefault();
             }
             catch (Exception ex)
             {
                 throw ex;
 
             }
-        
+
         }
-      
+
+        /// <summary>
+        /// Get Company By Is Customer Type
+        /// </summary>
+        public CompanySearchResponseForCalendar GetByIsCustomerType(CompanyRequestModelForCalendar request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
+            Expression<Func<Company, bool>> query =
+                s =>
+                    (isStringSpecified && (s.Name.Contains(request.SearchString)) ||
+                     !isStringSpecified) && s.IsCustomer == request.IsCustomerType;
+
+            int rowCount = DbSet.Count(query);
+            IEnumerable<Company> companies =
+                DbSet.Where(query).OrderByDescending(x => x.Name)
+                     .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList();
+
+            return new CompanySearchResponseForCalendar
+            {
+                TotalCount = rowCount,
+                Companies = companies
+            };
+        }
+
     }
 }
