@@ -108,9 +108,10 @@ define("costcenter/costcenter.viewModel",
                         return flag;
                     },
                     //Save Cost Center
-                    saveCostCenter = function () {
+                    saveCostCenter = function (callback) {
                         errorList.removeAll();
                         if (doBeforeSave()) {
+                            
                             saveEdittedCostCenter(callback);
                         }
                     },
@@ -135,6 +136,8 @@ define("costcenter/costcenter.viewModel",
                                 if (callback && typeof callback === "function") {
                                     callback();
                                 }
+                                selectedCostCenter().reset();
+                                getCostCenters();
                                 toastr.success("Successfully save.");
                             },
                             error: function (exceptionMessage, exceptionType) {
@@ -162,6 +165,7 @@ define("costcenter/costcenter.viewModel",
                             success: function (data) {
                                 if (data != null) {
                                     selectedCostCenter(model.costCenterClientMapper(data));
+                                    selectedCostCenter().reset();
                                     showCostCenterDetail();
                                 }
                             },
@@ -227,6 +231,15 @@ define("costcenter/costcenter.viewModel",
                             error: function () {
                                 toastr.error("Failed to base data.");
                             }
+                        });
+                    },
+                    updateSelectedResources = function () {
+                        _.each(selectedCostCenter().costCenterResource(), function (resource) {
+                            var selectedResource;
+                            selectedResource = _.find(costCenterResources(), function (resourceItem) {
+                                return resourceItem.costCentreId() === resource.costCentreId();
+                            });
+                            selectedCostCenter.isSelected(true);
                         });
                     },
                     // #region Observables

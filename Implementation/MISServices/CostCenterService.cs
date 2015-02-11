@@ -1,10 +1,15 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Text;
+using System.Web;
+using Microsoft.VisualBasic;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
+using CalculationMethods = MPC.Models.Common.CostCentrCalculationMethods;
 
 namespace MPC.Implementation.MISServices
 {
@@ -75,8 +80,9 @@ namespace MPC.Implementation.MISServices
 
         public CostCentre Update(CostCentre costcenter)
         {
-           // _costCenterRepository.Update(costcenter);
-           // _costCenterRepository.SaveChanges();
+            _costCenterRepository.Update(costcenter);
+            SaveCostCentre(costcenter, _costCenterRepository.OrganisationId, "PinkCards");
+            
             return costcenter;
         }
         public bool Delete(long costcenterId)
@@ -107,387 +113,799 @@ namespace MPC.Implementation.MISServices
             };
         }
 
+        public void SaveCostCentre(CostCentre costcenter, long OrganisationId, string OrganisationName)
+        {
+            long _CostCentreID = costcenter.CostCentreId;
+            //creating a costcentre code file and updating it and compile it.
+            bool IsNewCostCentre = false;
+            CostCentreTemplate oTemplate = _costCenterRepository.LoadCostCentreTemplate(2);
+            string Header, Footer, Middle;
+            double SetupCost = costcenter.SetupCost ?? 0;
+            int SetupTime = costcenter.SetupTime ?? 0;
+            double MinCost = costcenter.MinimumCost ?? 0;
+            double DefaultProfitMargin = costcenter.DefaultVA ?? 0;
+            string sCostPlant = string.Empty;
+            string sCostLabour = string.Empty;
+            string sCostStock = string.Empty;
+            string sTime = string.Empty;
+            string sPricePlant = string.Empty;
+            string sPriceLabour = string.Empty;
+            string sPriceStock = string.Empty;
+            string sActualPlantCost = "";
+            string sActualStockCost = "";
+            string sActualLabourCost = "";
+            StringBuilder sCode = new StringBuilder();
+
+            if (costcenter.CalculationMethodType == (int)CalculationMethods.Fixed)
+            {
+                sCostPlant = " {cinput,id=\"1\",question=\"" + costcenter.CostQuestionString + "\",type=\"0\",InputType=\"0\",value=\"" + costcenter.CostDefaultValue + "\"} ";
+                sPricePlant = " {cinput,id=\"2\",question=\"" + costcenter.PriceQuestionString + "\",type=\"0\",InputType=\"0\",value=\"" + costcenter.PriceDefaultValue + "\"} ";
+                sTime = " {cinput,id=\"3\",question=\"" + costcenter.EstimatedTimeQuestionString + "\",type=\"0\",InputType=\"0\",value=\"" + costcenter.EstimatedTimeDefaultValue + "\"} ";
+                sCostPlant = TokenParse(sCostPlant);
+                sPricePlant = TokenParse(sPricePlant);
+                sTime = TokenParse(sTime);
+            }
+            else if (costcenter.CalculationMethodType == (int)CalculationMethods.QuantityBase)
+            {
+                string sCodeString = string.Empty;
+                if (costcenter.QuantitySourceType == 1)
+                {
+                    var varName = _costCentreVariableRepository.LoadVariable(costcenter.QuantityVariableId??0);
+                    sCodeString = "Dim vQuantity as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.QuantityVariableId) + "\",Name=\"" + varName != null? varName.Name : "" + "\"}" + Environment.NewLine; 
+                    sCodeString += "EstimatedPlantCost =  {cinput,id=\"1\",question=\"Setup Cost\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupCost) + "\"} " + "  + (" + "{cinput,id=\"2\",question=\"Cost Per Unit Quantity\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.CostPerUnitQuantity) + "\"} * vQuantity )";
+                    sCostPlant += sCodeString;
+
+                    sCodeString = "Dim vQuantity as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.QuantityVariableId) + "\",Name=\"" + varName != null ? varName.Name : "" + "\"}" + Environment.NewLine; 
+                    sCodeString += "QuotedPlantPrice =  " + "{cinput,id=\"1\",question=\"Setup Cost\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupCost) + "\"} " + "  + (" + "{cinput,id=\"4\",question=\"Price Per Unit Quantity\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.PricePerUnitQuantity) + "\"} * vQuantity )";
+                    sPricePlant += sCodeString;
+
+                    sCodeString = "EstimatedTime =  " + "{cinput,id=\"5\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} " + " + ( " + "{cinput,id=\"6\",question=\"Time per Unit Quantity\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimePerUnitQuantity) + "\"} * vQuantity )";
+                    sTime += sCodeString;
+                }
+                else if (costcenter.QuantitySourceType == 2)
+                {
+                    sCodeString = "Dim vQuantity as Integer =  {cinput,id=\"1\",question=\"" + costcenter.QuantityQuestionString + "\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.QuantityQuestionDefaultValue) + "\"} " + Environment.NewLine;
+                    sCodeString += "EstimatedPlantCost =  " + "{cinput,id=\"2\",question=\"Setup Cost\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupCost) + "\"} " + "  + (" + "{cinput,id=\"3\",question=\"Cost Per Unit Quantity\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.CostPerUnitQuantity) + "\"} * vQuantity ) ";
+                    sCostPlant += sCodeString;
+
+                    sCodeString = "Dim vQuantity as Integer =  {cinput,id=\"1\",question=\"" + costcenter.QuantityQuestionString + "\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.QuantityQuestionDefaultValue) + "\"} " + Environment.NewLine;
+                    sCodeString += "QuotedPlantPrice =  " + "{cinput,id=\"2\",question=\"Setup Cost\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupCost) + "\"} " + "  + (" + "{cinput,id=\"5\",question=\"Price Per Unit Quantity\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.PricePerUnitQuantity) + "\"} * vQuantity ) ";
+                    sPricePlant += sCodeString;
+
+                    sCodeString = "EstimatedTime =  " + "{cinput,id=\"6\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} " + " + ( " + "{cinput,id=\"7\",question=\"Time per Unit Quantity\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimePerUnitQuantity) + "\"} * vQuantity ) ";
+                    sTime += sCodeString;
+                }
+            }
+            else if (costcenter.CalculationMethodType == (int)CalculationMethods.PerHour)
+            {
+                string sCodeString = string.Empty;
+                if (costcenter.TimeSourceType == 1)
+                {
+                    var varName = _costCentreVariableRepository.LoadVariable(costcenter.TimeVariableId??0);
+                    sCodeString = "Dim vNoOfHours as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.TimeVariableId) + "\",Name=\"" + varName != null ? varName.Name : "" + "\"}" + Environment.NewLine; 
+                    sCodeString += "EstimatedPlantCost = {cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} +  ((vNoOfHours * {cinput,id=\"3\",question=\"Cost Per Hour\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.PerHourCost) + "\"} ) *  {cinput,id=\"4\",question=\"Passes\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimeNoOfPasses)+ "\"} ) ";
+                    sCostPlant += sCodeString;
+
+                    sCodeString = "Dim vNoOfHours as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.TimeVariableId) + "\",Name=\"" + varName != null ? varName.Name : "" + "\"}" + Environment.NewLine; 
+                    sCodeString += "QuotedPlantPrice = {cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} +  ((vNoOfHours * {cinput,id=\"5\",question=\"Price Per Hour\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.PerHourCost) + "\"} ) *  {cinput,id=\"4\",question=\"Passes\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimeNoOfPasses) + "\"} ) ";
+                    sPricePlant += sCodeString;
+
+                    sCodeString = "EstimatedTime = (vNoOfHours + " + "{cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} " + " ) ";
+                    sTime += sCodeString;
+                }
+                else if (costcenter.TimeSourceType == 2)
+                {
+                    sCodeString = "Dim vNoOfHours as Integer =  {cinput,id=\"6\",question=\"" + costcenter.TimeQuestionString + "\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} " + Environment.NewLine;
+                    sCodeString += "EstimatedPlantCost = {cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} +  ((vNoOfHours * {cinput,id=\"3\",question=\"Cost Per Hour\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.PerHourCost) + "\"} ) *  {cinput,id=\"4\",question=\"Passes\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimeNoOfPasses) + "\"} ) ";
+                    sCostPlant += sCodeString;
+
+                    sCodeString = "Dim vNoOfHours as Integer =  {cinput,id=\"6\",question=\"" + costcenter.TimeQuestionString + "\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimeQuestionDefaultValue) + "\"} " + Environment.NewLine;
+                    sCodeString += "QuotedPlantPrice = {cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} +  ((vNoOfHours * {cinput,id=\"5\",question=\"Price Per Hour\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.PerHourCost) + "\"} ) *  {cinput,id=\"4\",question=\"Passes\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimeNoOfPasses) + "\"} ) ";
+                    sPricePlant += sCodeString;
+
+                    sCodeString = "EstimatedTime = (vNoOfHours + " + "{cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} " + " ) ";
+                    sTime += sCodeString;
+                }
+            }
+            else if (costcenter.CalculationMethodType == (int)CalculationMethods.FormulaBase)
+            {
+                
+                // Set Cost Strings
+                if (string.IsNullOrEmpty(costcenter.strCostPlantUnParsed))
+                    sCostPlant = "EstimatedPlantCost = 0";
+                else
+                    sCostPlant = costcenter.strCostPlantUnParsed;
+                if (string.IsNullOrEmpty(costcenter.strCostLabourUnParsed))
+                    sCostLabour = "EstimatedLabourCost = 0";
+                else
+                    sCostLabour = costcenter.strCostLabourUnParsed;
+                if (string.IsNullOrEmpty(costcenter.strCostMaterialUnParsed))
+                    sCostStock = "EstimatedMaterialCost = 0";
+                else
+                    sCostStock = costcenter.strCostMaterialUnParsed;
+                if (string.IsNullOrEmpty(costcenter.strTimeUnParsed))
+                    sTime = "EstimatedTime = 0";
+                else
+                    sTime = costcenter.strTimeUnParsed;
+
+                // Set Price Strings
+                if (string.IsNullOrEmpty(costcenter.strPricePlantUnParsed))
+                    sPricePlant = "EstimatedPlantCost = 0";
+                else
+                    sPricePlant = costcenter.strPricePlantUnParsed;
+                if (string.IsNullOrEmpty(costcenter.strPriceLabourUnParsed))
+                    sPriceLabour = "EstimatedLabourCost = 0";
+                else
+                    sPriceLabour = costcenter.strPriceLabourUnParsed;
+                if (string.IsNullOrEmpty(costcenter.strPriceMaterialUnParsed))
+                    sPriceStock = "EstimatedMaterialCost = 0";
+                else
+                    sPriceStock = costcenter.strPriceMaterialUnParsed;
+                                
+                //sCostPlant = TokenParse("EstimatedPlantCost = {SystemVariable, ID=\"1\",Name=\"Number of unique Inks used on Side 1\"} * {question, ID=\"13\",caption=\"How many boxes\"} * {matrix, ID=\"19\",Name=\"Super Formula Matrix\"} * {question, ID=\"34\",caption=\"How many sections to fold?\"} * {question, ID=\"51\",caption=\"Multiple Options\"} ");
+                
+                sCostPlant = TokenParse(sCostPlant);
+                sCostLabour = TokenParse(sCostLabour);
+                sCostStock = TokenParse(sCostStock);
+                sTime = TokenParse(sTime);
+
+                sPricePlant = TokenParse(sPricePlant);
+                sPriceLabour = TokenParse(sPriceLabour);
+                sPriceStock = TokenParse(sPriceStock);
+            }
+            
+            {
+                char spacechar = '\0';
+                spacechar = (char)95;
+                //replacing any unwanted characters in the costcentrename and create file name
+
+                Header = oTemplate.Header.Substring(0, oTemplate.Header.IndexOf("''<cost>") - 2);
+                Middle = oTemplate.Middle.Substring(0, oTemplate.Middle.IndexOf("''<price>") - 2);
+                Footer = oTemplate.Footer;
+
+                //'getting new Cost centreID from Database
+
+                if (_CostCentreID == 0)
+                {
+                    _CostCentreID = this.GetMaxCostCentreID();
+                    IsNewCostCentre = true;
+                }
+
+
+                //'replacing the CostCentre name and ID in the header string
+                Header = Header.Replace("ccname", "CLS_" + _CostCentreID.ToString());
+                Header = Header.Replace("<ccid>", _CostCentreID.ToString());
+
+                //replacing the attribs of cost centre
+                Header = Header.Replace("<ccsc>", SetupCost.ToString());
+                Header = Header.Replace("<ccst>", SetupTime.ToString());
+                Header = Header.Replace("<ccmc>", MinCost.ToString());
+                Header = Header.Replace("<ccva>", DefaultProfitMargin.ToString());
+
+                //'now making a code file string
+
+                sCode.Append(Header);
+                sCode.Append(Environment.NewLine + "''<cost>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''<plant>" + Environment.NewLine);
+                sCode.Append(sCostPlant);
+                sCode.Append(Environment.NewLine + "''</plant>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''<labour>" + Environment.NewLine);
+                sCode.Append(sCostLabour);
+                sCode.Append(Environment.NewLine + "''</labour>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''<material>" + Environment.NewLine);
+                sCode.Append(sCostStock);
+                sCode.Append(Environment.NewLine + "''</material>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''<time>" + Environment.NewLine);
+                sCode.Append(sTime);
+                sCode.Append(Environment.NewLine + "''</time>" + Environment.NewLine);
+
+                sCode.Append(Environment.NewLine + "''</cost>" + Environment.NewLine);
+
+                sCode.Append(Middle);
+
+                sCode.Append(Environment.NewLine + "''<price>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''<plant>" + Environment.NewLine);
+                sCode.Append(sPricePlant);
+                sCode.Append(Environment.NewLine + "''</plant>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''<labour>" + Environment.NewLine);
+                sCode.Append(sPriceLabour);
+                sCode.Append(Environment.NewLine + "''</labour>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''<material>" + Environment.NewLine);
+                sCode.Append(sPriceStock);
+                sCode.Append(Environment.NewLine + "''</material>" + Environment.NewLine);
+                sCode.Append(Environment.NewLine + "''</price>" + Environment.NewLine);
+
+
+                //process the footer here..
+                //since footer also contains the ActualCOST area, we have to remove that AREA
+                //and replace it with the new ACTUAL COST code
+
+                //our code is between ''<actualcost>   and  ''</actualcost>
+                int iStart = 0;
+                int iStart2 = 0;
+                int iLength = 0;
+                string sActualCostString = null;
+
+                sActualCostString = "''<plant>" + sActualPlantCost + "''</plant>" + "''</material>" + sActualStockCost + "''</material>" + "''</labour>" + sActualLabourCost + "''</labour>";
+
+                iStart = Footer.IndexOf("''<actualcost>") + 14;
+                iStart2 = Footer.IndexOf("''</actualcost>");
+                Footer.Remove(iStart, iStart2 - iStart);
+                Footer.Insert(iStart, sActualCostString);
+
+                sCode.Append(Footer);
+
+
+                CostCentre oCostCentre = GetCostCentreById(_CostCentreID);
+
+
+                oCostCentre.CodeFileName = "CLS_" + _CostCentreID.ToString();
+                string oSource = "";
+
+                //Get Complete Code of the CostCentre from the DB and Recompile it with the new changes
+                List<CostCentre> oAllCostCentresCode = GetCompleteCodeofAllCostCentres(OrganisationId);
+
+
+                //oSource += "Imports Infinity" + Environment.NewLine;
+                oSource += "Imports System" + Environment.NewLine;
+                oSource += "Imports System.Data" + Environment.NewLine;
+                oSource += "Imports Microsoft.VisualBasic" + Environment.NewLine;
+                //oSource += System.Configuration.ConfigurationSettings.AppSettings("DALProviderNameSpace") + Environment.NewLine;
+                oSource += "Imports MPC.Implementation.MISServices" + Environment.NewLine;
+                oSource += "imports MPC.Models.DomainModels" + Environment.NewLine;
+                oSource += "imports MPC.Models.Common" + Environment.NewLine;
+                oSource += "Imports System.Reflection" + Environment.NewLine;
+                oSource += "Imports Microsoft.Practices.Unity" + Environment.NewLine;
+                oSource += "Imports ICostCentreService = MPC.Interfaces.MISServices.ICostCentersService" + Environment.NewLine;
+                oSource += "Namespace UserCostCentres" + Environment.NewLine;
+
+
+                if (IsNewCostCentre == true)
+                {
+                    string Str = sCode.ToString();
+                    Str = Str.Replace("Namespace UserCostCentres", "");
+
+                    Str = Str.Replace("End Namespace", "");
+
+                    oSource += Environment.NewLine + Str + Environment.NewLine;
+
+                }
+
+                if (oAllCostCentresCode != null)
+                {
+                    foreach (var oOtherCostCentre in oAllCostCentresCode)
+                    {
+                        string Str = "";
+                        if (_CostCentreID == oOtherCostCentre.CostCentreId)
+                        {
+                            Str = sCode.ToString();
+                        }
+                        else
+                        {
+                            Str = oOtherCostCentre.CompleteCode;
+                        }
+
+
+                        Str = Str.Replace("Namespace UserCostCentres", "");
+                        Str = Str.Replace("End Namespace", "");
+
+                        oSource += Environment.NewLine + Str + Environment.NewLine;
+
+                    }
+                }
+                else
+                {
+                    string Str = "";
+                    Str = sCode.ToString();
+                    Str = Str.Replace("Namespace UserCostCentres", "");
+                    Str = Str.Replace("End Namespace", "");
+                    oSource += Environment.NewLine + Str + Environment.NewLine;
+                }
+
+                oSource += "End Namespace" + Environment.NewLine;
+
+                //'if compilation fails then delete the code file
+
+                System.IO.FileStream oFileStream; ;
+                //string oCompanyName = OrganisationName;
+
+                //replacing any unwanted characters in the CompanyNames and create file name
+
+                bool IsCompiled = true;
+
+                try
+                {
+                    //Compile Code of CostCentres
+                    CompileBinaries(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\", oSource, OrganisationName);
+
+                    //Get CostCentre File Open it in Read Mode
+                    oFileStream = System.IO.File.OpenRead(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\" + OrganisationName + "UserCostCentres.dll");
+
+                    //Get Byte Array of the file and write it in the db
+                    byte[] CostCentreByte = new byte[Convert.ToInt32(oFileStream.Length - 1) + 1];
+
+                    oFileStream.Read(CostCentreByte, 0, Convert.ToInt32(oFileStream.Length - 1));
+
+                    CostCentreByte = null;
+                }
+                catch (Exception ex)
+                {
+                    //    BLL.CostCentres.CostCentre.DeleteCodeFile(sCostCentreFileName, Application.StartupPath.ToString + "\binaries\")
+                    IsCompiled = false;
+                    throw new Exception("Error Compiling Costcentre", ex);
+
+                }
+                finally
+                {
+
+                    oFileStream = null;
+
+                }
+
+                oCostCentre.CompleteCode = sCode.ToString();
+            }
+            _costCenterRepository.UpdateCostCentre(costcenter);
+        }
+
+        public string TokenParse(string sText)
+        {
+            try
+            {
+                string ChangedStr = "";
+                string[] oBeforeStr = sText.Split('{');
+                ChangedStr = oBeforeStr[0];
+                if (oBeforeStr.Length > 1)
+                {
+                    for (int i = 1; i <= oBeforeStr.Length - 1; i++)
+                    {
+                        string[] oAfterStr = oBeforeStr[i].Split('}');
+                        if (oAfterStr.Length == 2)
+                        {
+                            string oReplaceStr = ReplaceTag(oAfterStr[0]);
+                            if (!string.IsNullOrEmpty(oReplaceStr))
+                            {
+                                if (oAfterStr[1].Split('}').Length > 1)
+                                {
+                                    throw new Exception("Invalid Calculation String.");
+                                    return "";
+                                }
+                                ChangedStr += oReplaceStr + oAfterStr[1];
+                            }
+                            else
+                            {
+                                return "";
+                            }
+                        }
+                        else
+                        {
+                            throw new Exception("Invalid Calculation String.");
+                            return "";
+                        }
+                    }
+                }
+                else
+                {
+                    string[] oAfterStr = sText.Split('}');
+                    if (oAfterStr.Length > 1)
+                    {
+                        throw new Exception("Invalid Tag.");
+                        return "";
+                    }
+                }
+                return ChangedStr;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Token Parse", ex);
+            }
+        }
+
+        public string ReplaceTag(string sText)
+        {
+            try
+            {
+                string[] oSpiltTokens = sText.Split(',');
+                // For i As Integer = 0 To oSpiltTokens.Length - 1
+
+                if (oSpiltTokens.Length > 1)
+                {
+
+                    string[] GetID = oSpiltTokens[1].Split('\"');
+                    string[] GetReturnValue = null;
+                    string[] GetValue = null;
+
+                    switch (oSpiltTokens[0].ToLower())
+                    {
+
+
+                        case "systemvariable":
+                            GetID = oSpiltTokens[1].Split('\"');
+                            if (GetID.Length == 3)
+                            {
+                                return " _CostCentreService.ExecuteVariable(ParamsArray ,\"" + GetID[1] + "\") ";
+                            }
+                            else
+                            {
+                                throw new Exception("Invalid Calculation String.");
+                                return "";
+                            }
+
+                            break;
+                        case "question":
+                            GetID = oSpiltTokens[1].Split('\"');
+                            if (GetID.Length == 3)
+                            {
+                                return " _CostCentreService.ExecuteQuestion(ParamsArray,\"" + GetID[1] + "\",CostCentreID) ";
+                            }
+                            else
+                            {
+                                throw new Exception("Invalid Calculation String.");
+                                return "";
+                            }
+
+                            break;
+                        case "subcostcentre":
+
+                            GetID = oSpiltTokens[1].Split('\"');
+                            GetReturnValue = oSpiltTokens[3].Split('\"');
+                            if (GetID.Length == 3)
+                            {
+                                return " _CostCentreService.ExecuteCostCentre(ParamsArray,\"" + GetID[1] + "\",\"" + GetReturnValue[1] + "\") ";
+                            }
+                            else
+                            {
+                                throw new Exception("Invalid Calculation String.");
+                                return "";
+                            }
+
+                            break;
+                        case "resource":
+
+                            GetID = oSpiltTokens[1].Split('\"');
+                            GetReturnValue = oSpiltTokens[3].Split('\"');
+                            if (GetID.Length == 3 & GetReturnValue.Length == 3)
+                            {
+                                return " _CostCentreService.ExecuteResource(ParamsArray,\"" + GetID[1] + "\",\"" + GetReturnValue[1] + "\") ";
+                            }
+                            else
+                            {
+                                throw new Exception("Invalid Calculation String.");
+                                return "";
+                            }
+
+                            break;
+                        case "stock":
+
+                            GetID = oSpiltTokens[1].Split('\"');
+                            string[] GetName = oSpiltTokens[2].Split('\"');
+                            string[] GetQType = oSpiltTokens[3].Split('\"');
+                            //Like per unit , per package
+                            string[] GetQtyType = oSpiltTokens[4].Split('\"');
+                            //Qty,Variable or string
+                            GetValue = oSpiltTokens[5].Split('\"');
+
+                            if (((GetID.Length == 3 & GetName.Length == 3) & (GetQType.Length == 3 & GetQtyType.Length == 3) & GetValue.Length == 3))
+                            {
+                                return " _CostCentreService.ExecuteStockItem(ParamsArray,\"" + GetID[1] + "\",\"" + GetName[1] + "\",\"" + GetQtyType[1] + "\",\"" + GetValue[1] + "\",\"" + GetQType[1] + "\",cint(CostCentreID)) ";
+                            }
+                            else
+                            {
+                                throw new Exception("Invalid Calculation String.");
+                                return "";
+                            }
+
+                            break;
+                        case "matrix":
+
+                            GetID = oSpiltTokens[1].Split('\"');
+                            if (GetID.Length == 3)
+                            {
+                                return " _CostCentreService.ExecuteMatrix(ParamsArray,\"" + GetID[1] + "\",cint(CostCentreID)) ";
+                            }
+                            else
+                            {
+                                throw new Exception("Invalid Calculation String.");
+                                return "";
+                            }
+
+                            break;
+                        case "cinput":
+
+                            GetID = oSpiltTokens[1].Split('\"');
+                            string[] GetQuestion = oSpiltTokens[2].Split('\"');
+                            string[] GetTypes = oSpiltTokens[3].Split('\"');
+                            string[] GetInputTypes = oSpiltTokens[4].Split('\"');
+                            GetValue = oSpiltTokens[5].Split('\"');
+
+                            if ((((GetID.Length == 3 & GetQuestion.Length == 3) & (GetTypes.Length == 3 & GetValue.Length == 3)) & GetInputTypes.Length == 3))
+                            {
+                                return " _CostCentreService.ExecuteInput(ParamsArray,\"" + GetID[1] + "\",\"" + GetQuestion[1] + "\"," + GetTypes[1] + "," + GetInputTypes[1] + ",\"" + GetValue[1] + "\",cint(CostCentreID)) ";
+                            }
+                            else
+                            {
+                                throw new Exception("Invalid Calculation String.");
+                                return "";
+                            }
+
+                            break;
+                        default:
+                            throw new Exception("Invalid Calculation String.");
+                            return "";
+                    }
+                }
+                else
+                {
+                    return "";
+                }
+                //Next
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("", ex);
+            }
+        }
+
+        /// <summary>
+        ///     Compile the code with the source frovided (Source provided will be in the form of text string)and generate dll.
+        /// </summary>
+        ///         ''' 
+        public object CompileBinaries(string sOutputPath, string Source, string CompanyName)
+        {
+            try
+            {
+                VBCodeProvider csc = new VBCodeProvider();
+                ICodeCompiler icc = csc.CreateCompiler();
+                ICodeParser icp = csc.CreateParser();
+                string errorString = null;
+
+                //// Set input params for the compiler
+                CompilerParameters co = new CompilerParameters();
+                co.OutputAssembly = sOutputPath + CompanyName + "UserCostCentres.dll";
+                //co.OutputAssembly = "c:\UserCostCentres.dll"
+
+                co.GenerateInMemory = false;
+
+
+                ///'''Dim assemblyFileName As String
+                ///'''assemblyFileName = [Assembly].GetExecutingAssembly().GetName().CodeBase
+                ///'''co.ReferencedAssemblies.Add(assemblyFileName.Substring("file:///".Length))
+                ///'''co.ReferencedAssemblies.Add(sOutputPath + "CostCentreEngine.dll")
+                ///'''
+                ///'''
+
+                ///////////////////////////////////
+                //// Add available assemblies - this should be enough
+                //for /////////the simplest            // applications.
+                //System.Reflection.Assembly oAsm = default(System.Reflection.Assembly);
+
+
+
+                foreach (var oAsm in AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    //If Not (oAsm.GetType Is System.Reflection.Emit.AssemblyBuilder) Then
+                    //co.ReferencedAssemblies.Add(oAsm.Location)
+                    //End If
+
+                    if ((!object.ReferenceEquals(oAsm.GetType(), typeof(System.Reflection.Emit.AssemblyBuilder))) && !oAsm.IsDynamic)
+                    {
+                        if (oAsm.Location.Length > 0)
+                        {
+                            co.ReferencedAssemblies.Add(oAsm.Location);
+                        }
+                    }
+                }
+
+                //Dim oFile As New IO.StreamWriter("c:/Test/Test.txt")
+                //oFile.Write(Source)
+                //oFile.Close()
+
+
+
+
+
+                //For iCounter As Integer = co.ReferencedAssemblies.Count - 1 To 0 Step -1
+                //    If co.ReferencedAssemblies.Item(icounter).Trim() = String.Empty Then
+                //        co.ReferencedAssemblies.RemoveAt(icounter)
+                //    End If
+                //Next
+
+                //co.ReferencedAssemblies.Add("E:\Development\Infinity\Infinity.UI\bin\Infinity.Componetns.CostCentreLoader.dll")
+                //co.ReferencedAssemblies.Add("system.data.dll")
+                //co.ReferencedAssemblies.Add("system.xml.dll")
+                //co.ReferencedAssemblies.Add("system.drawing.dll")
+
+                //co.ReferencedAssemblies.Add(sOutputPath + "ByteFX.Data.dll")
+                //////////////////////////////////
+                co.IncludeDebugInformation = true;
+                //co.TreatWarningsAsErrors = True
+                //co.CompilerOptions
+                //co.WarningLevel = 1
+
+                //// we want to genereate a DLL
+                co.GenerateExecutable = false;
+
+                //here we will have to retrieve the names of all vb files in binaries folder and pass them to compiler for compilation
+
+
+
+                //source(0) = "costcentre.vb"
+                //source(1) = "assemblyinfo.vb"
+                //source(2) = "assemblyinfo.vb"
+
+                //// Run the compiling process
+
+                CompilerResults result = icc.CompileAssemblyFromSource(co, Source);
+
+
+                //Dim result As CompilerResults = icc.CompileAssemblyFromSourceBatch(co, source)
+
+                if (result.Errors.HasErrors == true)
+                {
+                    int iCounter = 0;
+                    for (iCounter = 0; iCounter <= result.Errors.Count - 1; iCounter++)
+                    {
+                        errorString += result.Errors[iCounter].ToString() + Environment.NewLine;
+                    }
+                    result = null;
+                    Source = null;
+                    co = null;
+                    throw new Exception("Compilation Errors : " + errorString + "<br><br> Output :");
+                }
+                else
+                {
+                    result = null;
+                    Source = null;
+                    co = null;
+                }
+                return null;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        ///     Compile the code and return the errors.
+        /// </summary>
+        ///
+        public CompilerResults CompileSource(string Source)
+        {
+            try
+            {
+                VBCodeProvider csc = new VBCodeProvider();
+                ICodeCompiler icc = csc.CreateCompiler();
+                ICodeParser icp = csc.CreateParser();
+                string errorString = null;
+
+                //// Set input params for the compiler
+                CompilerParameters co = new CompilerParameters();
+                //co.OutputAssembly = "c:\UserCostCentres.dll"
+
+                co.GenerateInMemory = true;
+
+
+                ///'''Dim assemblyFileName As String
+                ///'''assemblyFileName = [Assembly].GetExecutingAssembly().GetName().CodeBase
+                ///'''co.ReferencedAssemblies.Add(assemblyFileName.Substring("file:///".Length))
+                ///'''co.ReferencedAssemblies.Add(sOutputPath + "CostCentreEngine.dll")
+                ///'''
+                ///'''
+
+                ///////////////////////////////////
+                //// Add available assemblies - this should be enough
+                //for /////////the simplest            // applications.
+                //System.Reflection.Assembly oAsm = default(System.Reflection.Assembly);
+
+                foreach (System.Reflection.Assembly oAsm in AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    //If Not (oAsm.GetType Is System.Reflection.Emit.AssemblyBuilder) Then
+                    //co.ReferencedAssemblies.Add(oAsm.Location)
+                    //End If
+
+                    if ((!object.ReferenceEquals(oAsm.GetType(), typeof(System.Reflection.Emit.AssemblyBuilder))) && !oAsm.IsDynamic)
+                    {
+                        co.ReferencedAssemblies.Add(oAsm.Location);
+                    }
+
+                }
+
+                for (int iCounter = co.ReferencedAssemblies.Count - 1; iCounter >= 0; iCounter += -1)
+                {
+                    if (co.ReferencedAssemblies[iCounter].Trim() == string.Empty)
+                    {
+                        co.ReferencedAssemblies.RemoveAt(iCounter);
+                    }
+                }
+
+                //co.ReferencedAssemblies.Add("E:\Development\Infinity\Infinity.UI\bin\Infinity.Componetns.CostCentreLoader.dll")
+                //co.ReferencedAssemblies.Add("system.data.dll")
+                //co.ReferencedAssemblies.Add("system.xml.dll")
+                //co.ReferencedAssemblies.Add("system.drawing.dll")
+
+                //co.ReferencedAssemblies.Add(sOutputPath + "ByteFX.Data.dll")
+                //////////////////////////////////
+                co.IncludeDebugInformation = false;
+                //co.TreatWarningsAsErrors = True
+                //co.CompilerOptions
+                //co.WarningLevel = 1
+
+                //// we want to genereate a DLL
+                co.GenerateExecutable = false;
+
+                //here we will have to retrieve the names of all vb files in binaries folder and pass them to compiler for compilation
+
+
+
+                //source(0) = "costcentre.vb"
+                //source(1) = "assemblyinfo.vb"
+                //source(2) = "assemblyinfo.vb"
+
+                //// Run the compiling process
+
+                CompilerResults result = icc.CompileAssemblyFromSource(co, Source);
+
+
+                //Dim result As CompilerResults = icc.CompileAssemblyFromSourceBatch(co, source)
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        ///     Get Max CostCentreID
+        /// </summary>
+        ///         ''' 
+        public long GetMaxCostCentreID()
+        {
+            try
+            {
+                return _costCenterRepository.GetMaxCostCentreID();
+
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetMaxCostCentreID", ex);
+            }
+        }
+        /// <summary>
+        ///     Load Pre Defined Cost Centre Template in DB
+        /// </summary>
+        ///         ''' 
+        public CostCentreTemplate LoadCostCentreTemplate(int TemplateID)
+        {
+            try
+            {
+
+                return _costCenterRepository.LoadCostCentreTemplate(TemplateID);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("LoadCostCentreTemplate", ex);
+            }
+        }
+        /// <summary>
+        ///    A Datatable with only code attribute will return a complete code of one site
+        /// </summary>
+        ///         ''' 
+        public List<CostCentre> GetCompleteCodeofAllCostCentres(long OrganisationId)
+        {
+            try
+            {
+                return _costCenterRepository.GetCompleteCodeofAllCostCentres(OrganisationId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetCompleteCodeofAllCostCentres", ex);
+            }
+        }
 
-//        private void LoadTree()
-//{
-//    //Dim oConnection As MySqlConnection
-//    try {
-//        //    oConnection = BLL.Common.GetConnection
-
-
-//        DataTable oTblCCCategories = default(DataTable);
-//        DataTable oTblCostCentres = default(DataTable);
-//        DataTable oTblVarCategories = default(DataTable);
-//        DataTable oTblVariables = default(DataTable);
-//        DataTable oTBlQuestions = default(DataTable);
-//        DataTable oTblMatrices = default(DataTable);
-//        DataRow oRow = default(DataRow);
-//        DataRow oRow1 = default(DataRow);
-//        DataRow[] oRowList = null;
-
-//        RefTree.Nodes.Clear();
-
-
-//        oTblCCCategories = BLL.CostCentres.CostCentre.ReturnCostCentreCategories(Common.g_GlobalData);
-//        oTblCostCentres = BLL.CostCentres.CostCentre.GetCostCentreList(Common.g_GlobalData);
-//        //Adding Cost Centre Root Node
-//        UltraTreeNode oRootNode = default(UltraTreeNode);
-//        UltraTreeNode oCcCatNode = default(UltraTreeNode);
-//        UltraTreeNode oCcNode = default(UltraTreeNode);
-//        UltraTreeNode oCcParamNode = default(UltraTreeNode);
-
-//        RefTree.Nodes.Add(new UltraTreeNode());
-//        RefTree.Nodes(0).Text = "CostCentres";
-//        RefTree.Nodes(0).DataKey = "ccroot";
-//        RefTree.Nodes(0).Tag = "null";
-//        RefTree.Nodes(0).Override.NodeAppearance.Image = new Bitmap(typeof(UI.MainForm), "costcentre.gif");
-
-
-//        //Dim oStyle As Style
-
-//        //iterating in the top level Categories
-//        int iCounter = 0;
-//        int ycounter = 0;
-//        Bitmap oBitmap = default(Bitmap);
-
-
-//        foreach ( oRow in oTblCCCategories.Rows) {
-//            if (Convert.ToInt32(oRow.Item("TypeID")) == 2) {
-//                oBitmap = new Bitmap(typeof(UI.MainForm), "CC-origination.gif");
-//            } else if (Convert.ToInt32(oRow.Item("TypeID")) == 4) {
-//                oBitmap = new Bitmap(typeof(UI.MainForm), "CC-prePress.gif");
-//            } else if (Convert.ToInt32(oRow.Item("TypeID")) == 6) {
-//                oBitmap = new Bitmap(typeof(UI.MainForm), "CC-postPress.gif");
-//            } else if (Convert.ToInt32(oRow.Item("TypeID")) == 8) {
-//                oBitmap = new Bitmap(typeof(UI.MainForm), "CC-others.gif");
-//            } else if (Convert.ToInt32(oRow.Item("TypeID")) == 9) {
-//                oBitmap = new Bitmap(typeof(UI.MainForm), "CC-bindry.gif");
-//            } else if (Convert.ToInt32(oRow.Item("TypeID")) == 10) {
-//                oBitmap = new Bitmap(typeof(UI.MainForm), "CC-finishing.gif");
-//            } else if (Convert.ToInt32(oRow.Item("TypeID")) == 11) {
-//                oBitmap = new Bitmap(typeof(UI.MainForm), "CC-supliyer.gif");
-//            }
-//            //adding the node
-//            RefTree.Nodes(0).Nodes.Add(new UltraTreeNode());
-//            RefTree.Nodes(0).Nodes(iCounter).Text = Convert.ToString(oRow.Item("TypeName"));
-//            RefTree.Nodes(0).Nodes(iCounter).DataKey = "cccat";
-//            RefTree.Nodes(0).Nodes(iCounter).Tag = "null";
-//            RefTree.Nodes(0).Nodes(iCounter).Override.NodeAppearance.Image = oBitmap;
-
-
-//            //finding the costcentres from costcentreTable
-//            oRowList = oTblCostCentres.Select("type = " + oRow.Item("TypeID").ToString);
-
-//            ycounter = 0;
-//            //'iterating in the searched List of CostcEntres.. and now adding their sub nodes
-//            foreach ( oRow1 in oRowList) {
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes.Add(new UltraTreeNode());
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Text = Convert.ToString(oRow1.Item("Name"));
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Override.NodeAppearance.Image = oBitmap;
-
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).DataKey = "ccname";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Tag = "null";
-//                //RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).ImageUrl = "../../images/icons/costcentre.gif"
-
-//                //    'we have one cost centre.. adding 4 sub nodes nodes
-
-//                //adding two properties Total Price and Toral Cost
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes.Add(new UltraTreeNode());
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(0).Text = "Total Cost";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(0).DataKey = "ccproperty";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(0).Tag = "{SubCostCentre, ID=##" + oRow1.Item("CostCentreID").ToString + "##,Name=##" + Convert.ToString(oRow1.Item("Name")) + "##,ReturnValue=##TotalCost##}";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(0).Override.NodeAppearance.Image = oBitmap;
-
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes.Add(new UltraTreeNode());
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(1).Text = "Total Price";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(1).DataKey = "ccproperty";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(1).Tag = "{SubCostCentre, ID=##" + oRow1.Item("CostCentreID").ToString + "##,Name=##" + Convert.ToString(oRow1.Item("Name")) + "##,ReturnValue=##TotalPrice##}";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(1).Override.NodeAppearance.Image = oBitmap;
-
-//                //cost centre Properties w.r.t Price and Cost 
-
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes.Add(new UltraTreeNode());
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(2).Text = "Plant Cost";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(2).DataKey = "ccproperty";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(2).Tag = "{SubCostCentre, ID=##" + oRow1.Item("CostCentreID").ToString + "##,Name=##" + Convert.ToString(oRow1.Item("Name")) + "##,ReturnValue=##PlantCost##}";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(2).Override.NodeAppearance.Image = oBitmap;
-
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes.Add(new UltraTreeNode());
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(3).Text = "Resource Cost";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(3).DataKey = "ccproperty";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(3).Tag = "{SubCostCentre, ID=##" + oRow1.Item("CostCentreID").ToString + "##,Name=##" + Convert.ToString(oRow1.Item("Name")) + "##,ReturnValue=##ResourceCost##}";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(3).Override.NodeAppearance.Image = oBitmap;
-
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes.Add(new UltraTreeNode());
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(4).Text = "Stock Cost";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(4).DataKey = "ccproperty";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(4).Tag = "{SubCostCentre, ID=##" + oRow1.Item("CostCentreID").ToString + "##,Name=##" + Convert.ToString(oRow1.Item("Name")) + "##,ReturnValue=##StockCost##}";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(4).Override.NodeAppearance.Image = oBitmap;
-
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes.Add(new UltraTreeNode());
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(5).Text = "Plant Price";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(5).DataKey = "ccproperty";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(5).Tag = "{SubCostCentre, ID=##" + oRow1.Item("CostCentreID").ToString + "##,Name=##" + Convert.ToString(oRow1.Item("Name")) + "##,ReturnValue=##PlantPrice##}";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(5).Override.NodeAppearance.Image = oBitmap;
-
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes.Add(new UltraTreeNode());
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(6).Text = "Resource Price";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(6).DataKey = "ccproperty";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(6).Tag = "{SubCostCentre, ID=##" + oRow1.Item("CostCentreID").ToString + "##,Name=##" + Convert.ToString(oRow1.Item("Name")) + "##,ReturnValue=##ResourcePrice##}";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(6).Override.NodeAppearance.Image = oBitmap;
-
-
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes.Add(new UltraTreeNode());
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(7).Text = "StockPrice";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(7).DataKey = "ccproperty";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(7).Tag = "{SubCostCentre, ID=##" + oRow1.Item("CostCentreID").ToString + "##,Name=##" + Convert.ToString(oRow1.Item("Name")) + "##,ReturnValue=##StockPrice##}";
-//                RefTree.Nodes(0).Nodes(iCounter).Nodes(ycounter).Nodes(7).Override.NodeAppearance.Image = oBitmap;
-
-
-//                ycounter += 1;
-
-//            }
-
-//            //oCCNode.Nodes.Add(New Infragistics.WebUI.UltraWebNavigator.Node(oRow.Item("TypeName"), oStyle))
-//            iCounter += 1;
-//        }
-//        oBitmap = null;
-//        oTblCCCategories = null;
-//        oTblCostCentres = null;
-
-//        //adding variables
-
-//        RefTree.Nodes.Add(new UltraTreeNode());
-//        RefTree.Nodes(1).Text = "Variables";
-//        RefTree.Nodes(1).DataKey = "varroot";
-//        RefTree.Nodes(1).Tag = "null";
-//        RefTree.Nodes(1).Override.NodeAppearance.Image = new Bitmap(typeof(UI.MainForm), "variables.gif");
-
-//        //loading variable Related Information
-//        oTblVarCategories = BLL.CostCentres.Variables.returnVariableCateogories(Common.g_GlobalData);
-//        oTblVariables = BLL.CostCentres.Variables.returnLoadVariableList(Common.g_GlobalData);
-
-//        //iterating in categories
-//        iCounter = 0;
-//        foreach ( oRow in oTblVarCategories.Rows) {
-//            Bitmap ooBitmap = default(Bitmap);
-//            //Booklet 
-//            if (Convert.ToInt32(oRow.Item("CategoryID")) == 1) {
-//                ooBitmap = new Bitmap(typeof(UI.MainForm), "V-booklet.gif");
-//            //Charge
-//            } else if (Convert.ToInt32(oRow.Item("CategoryID")) == 2) {
-//                ooBitmap = new Bitmap(typeof(UI.MainForm), "V-charges.gif");
-//            //Colors
-//            } else if (Convert.ToInt32(oRow.Item("CategoryID")) == 3) {
-//                ooBitmap = new Bitmap(typeof(UI.MainForm), "V-colors.gif");
-//            //Guilotine
-//            } else if (Convert.ToInt32(oRow.Item("CategoryID")) == 4) {
-//                ooBitmap = new Bitmap(typeof(UI.MainForm), "V-guillotine.gif");
-//            //Imposition 
-//            } else if (Convert.ToInt32(oRow.Item("CategoryID")) == 5) {
-//                ooBitmap = new Bitmap(typeof(UI.MainForm), "V-imposition.gif");
-//            //Item quantity
-//            } else if (Convert.ToInt32(oRow.Item("CategoryID")) == 6) {
-//                ooBitmap = new Bitmap(typeof(UI.MainForm), "V-itemQuantity.gif");
-//            //Plate film
-//            } else if (Convert.ToInt32(oRow.Item("CategoryID")) == 7) {
-//                ooBitmap = new Bitmap(typeof(UI.MainForm), "V-filmPlate.gif");
-//            //Press Makeready
-//            } else if (Convert.ToInt32(oRow.Item("CategoryID")) == 8) {
-//                ooBitmap = new Bitmap(typeof(UI.MainForm), "V-pressMakeready.gif");
-//            //Press Variables
-//            } else if (Convert.ToInt32(oRow.Item("CategoryID")) == 9) {
-//                ooBitmap = new Bitmap(typeof(UI.MainForm), "V-press.gif");
-//            //Section
-//            } else if (Convert.ToInt32(oRow.Item("CategoryID")) == 10) {
-//                ooBitmap = new Bitmap(typeof(UI.MainForm), "V-section.gif");
-//            //stock
-//            } else if (Convert.ToInt32(oRow.Item("CategoryID")) == 11) {
-//                ooBitmap = new Bitmap(typeof(UI.MainForm), "V-stock.gif");
-//            //weight
-//            } else if (Convert.ToInt32(oRow.Item("CategoryID")) == 12) {
-//                ooBitmap = new Bitmap(typeof(UI.MainForm), "V-weight.gif");
-//            //costcente
-//            } else if (Convert.ToInt32(oRow.Item("CategoryID")) == 13) {
-//                ooBitmap = new Bitmap(typeof(UI.MainForm), "V-costcentre.gif");
-//            }
-//            //adding the node
-
-//            RefTree.Nodes(1).Nodes.Add(new UltraTreeNode());
-//            RefTree.Nodes(1).Nodes(iCounter).Text = Convert.ToString(oRow.Item("Name"));
-//            RefTree.Nodes(1).Nodes(iCounter).DataKey = "varcat";
-//            RefTree.Nodes(1).Nodes(iCounter).Tag = "null";
-//            RefTree.Nodes(1).Nodes(iCounter).Override.NodeAppearance.Image = ooBitmap;
-
-//            ///If iCounter = 0 Then
-//            ///    RefTree.Nodes(1).Nodes(iCounter).ImageUrl = "../../images/icons/plant-variable.gif"
-//            ///ElseIf iCounter = 1 Then
-//            ///    RefTree.Nodes(1).Nodes(iCounter).ImageUrl = "../../images/icons/estimate-variable.gif"
-//            ///ElseIf iCounter = 2 Then
-//            ///    RefTree.Nodes(1).Nodes(iCounter).ImageUrl = "../../images/icons/other-variable.gif"
-//            ///Else
-//            ///    RefTree.Nodes(1).Nodes(iCounter).ImageUrl = "../../images/icons/other-variable.gif"
-//            ///End If
-
-//            //finding the costcentres from costcentreTable
-//            oRowList = oTblVariables.Select("CategoryID = " + oRow.Item("CategoryId").ToString);
-
-//            ycounter = 0;
-//            //'iterating in the searched List of CostcEntres.. and now adding their sub nodes
-
-//            foreach ( oRow1 in oRowList) {
-//                RefTree.Nodes(1).Nodes(iCounter).Nodes.Add(new UltraTreeNode());
-//                RefTree.Nodes(1).Nodes(iCounter).Nodes(ycounter).Text = Convert.ToString(oRow1.Item("Name"));
-//                RefTree.Nodes(1).Nodes(iCounter).Nodes(ycounter).DataKey = "varname";
-//                RefTree.Nodes(1).Nodes(iCounter).Nodes(ycounter).Tag = "{SystemVariable, ID=##" + oRow1.Item("VarId").ToString + "##,Name=##" + Convert.ToString(oRow1.Item("Name")) + "##}";
-//                RefTree.Nodes(1).Nodes(iCounter).Nodes(ycounter).Override.NodeAppearance.Image = ooBitmap;
-
-//                //If iCounter = 0 Then
-//                //    RefTree.Nodes(1).Nodes(iCounter).Nodes(ycounter).ImageUrl = "../../images/icons/plant-variable.gif"
-//                //ElseIf iCounter = 1 Then
-//                //    RefTree.Nodes(1).Nodes(iCounter).Nodes(ycounter).ImageUrl = "../../images/icons/estimate-variable.gif"
-//                //ElseIf iCounter = 2 Then
-//                //    RefTree.Nodes(1).Nodes(iCounter).Nodes(ycounter).ImageUrl = "../../images/icons/other-variable.gif"
-//                //End If
-
-
-
-//                ycounter += 1;
-//            }
-//            iCounter += 1;
-//            ooBitmap = null;
-//        }
-
-//        oTblVarCategories = null;
-//        oTblVariables = null;
-
-
-
-
-//        //loading Resources
-//        DataTable oTblResources = default(DataTable);
-//        oTblResources = BLL.UserManager.Users.GetUserTable(Common.g_GlobalData);
-
-//        RefTree.Nodes.Add(new UltraTreeNode());
-//        RefTree.Nodes(2).Text = "Resources";
-//        RefTree.Nodes(2).DataKey = "resroot";
-//        RefTree.Nodes(2).Tag = "null";
-//        Bitmap oBitmapR = new Bitmap(typeof(UI.MainForm), "resourses.gif");
-//        RefTree.Nodes(2).Override.NodeAppearance.Image = oBitmapR;
-//        //iterating in resources
-//        iCounter = 0;
-//        foreach ( oRow in oTblResources.Rows) {
-//            //adding the node
-//            RefTree.Nodes(2).Nodes.Add(new UltraTreeNode());
-//            RefTree.Nodes(2).Nodes(iCounter).Text = Convert.ToString(oRow.Item("FullName"));
-//            RefTree.Nodes(2).Nodes(iCounter).DataKey = "resname";
-//            RefTree.Nodes(2).Nodes(iCounter).Tag = "{resource, ID=##" + oRow.Item("SystemUserID").ToString + "##,Name=##" + oRow.Item("FullName").ToString + "##,returnvalue=##costperhour##}";
-//            RefTree.Nodes(2).Nodes(iCounter).Override.NodeAppearance.Image = oBitmapR;
-//            iCounter += 1;
-//        }
-
-//        oBitmapR = null;
-
-//        oTblResources = null;
-
-//        //adding Questions
-//        oTBlQuestions = BLL.CostCentres.Questions.LoadQuestionsList(Common.g_GlobalData);
-
-//        RefTree.Nodes.Add(new UltraTreeNode());
-//        RefTree.Nodes(3).Text = "Questions";
-//        RefTree.Nodes(3).DataKey = "QuestionRoot";
-//        RefTree.Nodes(3).Tag = "questionroot";
-//        RefTree.Nodes(3).Key = "QuestionRoot";
-//        Bitmap oBitmapQ = new Bitmap(typeof(UI.MainForm), "questions.gif");
-//        RefTree.Nodes(3).Override.NodeAppearance.Image = oBitmapQ;
-
-//        //iterating in Questions
-//        iCounter = 0;
-//        foreach ( oRow in oTBlQuestions.Rows) {
-//            //adding the node
-//            RefTree.Nodes(3).Nodes.Add(new UltraTreeNode());
-//            RefTree.Nodes(3).Nodes(iCounter).Text = Convert.ToString(oRow.Item("QuestionString"));
-//            RefTree.Nodes(3).Nodes(iCounter).DataKey = oRow.Item("ID").ToString;
-//            RefTree.Nodes(3).Nodes(iCounter).Key = "Q" + oRow.Item("ID").ToString;
-//            RefTree.Nodes(3).Nodes(iCounter).Tag = "{question, ID=##" + oRow.Item("ID").ToString + "##,caption=##" + Convert.ToString(oRow.Item("QuestionString")) + "##}";
-//            RefTree.Nodes(3).Nodes(iCounter).Override.NodeAppearance.Image = oBitmapQ;
-//            iCounter += 1;
-//        }
-
-//        oBitmapQ = null;
-
-//        oTBlQuestions = null;
-
-
-//        oTblMatrices = BLL.CostCentres.CostMatix.getCostMatixiesList(Common.g_GlobalData);
-//        //adding CostMatrix Node
-
-//        RefTree.Nodes.Add(new UltraTreeNode());
-//        RefTree.Nodes(4).Text = "Matrices";
-//        RefTree.Nodes(4).Tag = "matricesroot";
-//        RefTree.Nodes(4).DataKey = "matricesroot";
-//        RefTree.Nodes(4).Key = "matricesroot";
-//        Bitmap oBitmapC = new Bitmap(typeof(UI.MainForm), "matrices.gif");
-//        RefTree.Nodes(4).Override.NodeAppearance.Image = oBitmapC;
-//        //iterating in Questions
-//        iCounter = 0;
-//        foreach ( oRow in oTblMatrices.Rows) {
-//            //adding the node
-//            RefTree.Nodes(4).Nodes.Add(new UltraTreeNode());
-//            RefTree.Nodes(4).Nodes(iCounter).Text = Convert.ToString(oRow.Item("Name"));
-//            RefTree.Nodes(4).Nodes(iCounter).DataKey = oRow.Item("MatrixID").ToString;
-//            RefTree.Nodes(4).Nodes(iCounter).Key = "M" + oRow.Item("MatrixID").ToString;
-//            RefTree.Nodes(4).Nodes(iCounter).Tag = "{matrix, ID=##" + oRow.Item("MatrixID").ToString + "##,Name=##" + Convert.ToString(oRow.Item("Name")) + "##}";
-//            RefTree.Nodes(4).Nodes(iCounter).Override.NodeAppearance.Image = oBitmapC;
-//            iCounter += 1;
-//        }
-
-//        oBitmapC = null;
-//        oTblMatrices.Dispose();
-
-//        DataTable oTbleClickChargeLookupZone = default(DataTable);
-//        oTbleClickChargeLookupZone = BLL.LookupMethods.ClickChargeZone.Read(Common.g_GlobalData);
-//        //adding Click charge LookupZone Node
-
-//        RefTree.Nodes.Add(new UltraTreeNode());
-//        RefTree.Nodes(5).Text = "Lookup";
-//        RefTree.Nodes(5).Tag = "Lookuproot";
-//        RefTree.Nodes(5).DataKey = "Lookuproot";
-//        RefTree.Nodes(5).Key = "Lookuproot";
-//        //Dim oBitmapC As Bitmap = New Bitmap(GetType(UI.MainForm), "matrices.gif")
-//        //RefTree.Nodes(4).Override.NodeAppearance.Image = oBitmapC
-//        //iterating in Questions
-//        iCounter = 0;
-//        foreach ( oRow in oTbleClickChargeLookupZone.Rows) {
-//            //adding the node
-//            RefTree.Nodes(5).Nodes.Add(new UltraTreeNode());
-//            RefTree.Nodes(5).Nodes(iCounter).Text = Convert.ToString(oRow.Item("Name"));
-//            RefTree.Nodes(5).Nodes(iCounter).DataKey = oRow.Item("MethodID").ToString;
-//            RefTree.Nodes(5).Nodes(iCounter).Key = "L" + oRow.Item("MethodID").ToString;
-//            RefTree.Nodes(5).Nodes(iCounter).Tag = "clickchargezonelookupmethod";
-//            // RefTree.Nodes(5).Nodes(iCounter).Override.NodeAppearance.Image = oBitmapC
-//            iCounter += 1;
-//        }
-
-//        oBitmapC = null;
-//        oTblMatrices.Dispose();
-
-
-//        //adding Stock Node
-
-//        RefTree.Nodes.Add(new UltraTreeNode());
-//        RefTree.Nodes(6).Text = "Stock Items";
-//        RefTree.Nodes(6).Tag = "stock";
-//        RefTree.Nodes(6).DataKey = "stockroot";
-//        RefTree.Nodes(6).Override.NodeAppearance.Image = new Bitmap(typeof(UI.MainForm), "stockItem.png");
-
-//        //RefTree.ExpandAll(ExpandAllType.Always)
-//    } 
-//    catch (Exception ex) 
-//    {
-//        throw new Exception("Load tree", ex);
-//    }
-//        }
         #endregion
 
     }

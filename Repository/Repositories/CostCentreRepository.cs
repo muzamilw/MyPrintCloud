@@ -756,6 +756,8 @@ namespace MPC.Repository.Repositories
                 throw new Exception("ExecuteUserStockItem", ex);
             }
         }
+
+        
         #endregion
 
         #region AddressSelect
