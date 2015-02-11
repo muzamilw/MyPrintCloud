@@ -9,5 +9,9 @@ namespace MPC.Interfaces.Repository
     {
         StockCategoryResponse SearchStockCategory(StockCategoryRequestModel request);
 
+        List<StockCategory> GetStockCategoriesByOrganisationID(long OrganisationID);
+
+       
+
     }
 }

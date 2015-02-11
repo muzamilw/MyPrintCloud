@@ -31,13 +31,13 @@ namespace MPC.Models.Common
         public List<CostcentreWorkInstructionsChoice> CostcentreWorkInstructionsChoice { get; set; }
 
         public List<StockCategory> StockCategory { get; set; }
+        public List<StockSubCategory> StockSubCategory { get; set; }
 
         public List<StockItem> StockItem { get; set; }
 
-        // delivery carriers missing
-        //public List<StockItem> StockItem { get; set; }
+        public List<StockCostAndPrice> StockCostAndPrice { get; set; }
 
-        // sales pipeline missing
+        // delivery carriers missing
         //public List<StockItem> StockItem { get; set; }
 
 
@@ -48,6 +48,8 @@ namespace MPC.Models.Common
         //public List<Reports> Reports { get; set; }
 
         public List<Prefix> Prefixes { get; set; }
+
+      
 
 
         public List<Machine> Machines { get; set; }

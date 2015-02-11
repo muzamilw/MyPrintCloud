@@ -5,7 +5,7 @@ namespace MPC.Models.RequestModels
     public class MachineRequestModel : GetPagedListRequest
     {
         public long MachineId { get; set; }
-
+        public bool isGuillotineList { get; set; }
         /// <summary>
         /// Paper Sheet By Column for sorting
         /// </summary>

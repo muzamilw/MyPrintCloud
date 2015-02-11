@@ -237,7 +237,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Stock for Signature" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Stock for Signature" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -250,7 +250,7 @@
                                             </div>
                                             <div class="col-lg-6">
 
-                                                <input type="text" class="form-control OpenStockPopup-Class" id="txtStock" style="width:88%" disabled="disabled" value="Laser Guarantee 100gsm SRA2">
+                                                <select class="form-control OpenStockPopup-Class" id="txtStock" style="width:88%" disabled="disabled" data-bind="options:$root.stockItemListForDropdown, optionsText:'name',optionsValue:'id' ,value:DefaultPaperId"></select>
                                                 <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right" data-bind="click: $root.onPapperSizeStockItemPopup">
                                                     <i class="fa fa-lg"></i>&nbsp;....
                                                 </a>
@@ -258,7 +258,7 @@
 
                                             </div>
                                         </div>
-
+                                        
                                         <div class="form-group PressControls">
                                             <div class="col-lg-3 text-right">
 

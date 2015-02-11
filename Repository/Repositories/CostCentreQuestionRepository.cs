@@ -1,4 +1,5 @@
 ﻿using Microsoft.Practices.Unity;
+using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;

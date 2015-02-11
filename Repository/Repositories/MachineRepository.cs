@@ -51,14 +51,17 @@ namespace MPC.Repository.Repositories
             //             select t;
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
-            //Expression<Func<CostCentre, bool>> query2 =
-            //  oCostCenter => oCostCenter.Type != 1 && oCostCenter.IsDisabled == 0 && oCostCenter.OrganisationId == OrganisationId;
-            //Expression<Func<Machine, bool>> query1 =
-            //               machine =>
-            //                   (string.IsNullOrEmpty(request.SearchString) || machine.MachineName.Contains(request.SearchString));
+            Expression<Func<Machine, bool>> query;
+            if (request.isGuillotineList)
+            {
+                 query = machine => (machine.IsDisabled == false && machine.MachineCatId==4);
+            }
+            else
+            {
+                query = machine => (machine.IsDisabled == false && machine.MachineCatId != 4);
+            }
 
-            Expression<Func<Machine, bool>> query = machine => (machine.IsDisabled == false);
-
+           
             var machineList = request.IsAsc
                 ? DbSet.Where(query)
                 .OrderBy(OrderByClause[request.MachineOrderBy])
@@ -167,7 +170,7 @@ namespace MPC.Repository.Repositories
         {
             return db.MachineResources;
         }
-
+        
       
     }
 }
