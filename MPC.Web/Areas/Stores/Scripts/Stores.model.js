@@ -334,7 +334,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.AvatRegNumber = source.avatRegNumber();
                 result.PvatRegReference = source.avatRegReference();
                 result.PhoneNo = source.phoneNo();
-                result.IsCustomer = source.isCustomer();
+                //result.IsCustomer = source.isCustomer();
+                result.IsCustomer = source.type();
                 result.Notes = source.notes();
                 result.WebMasterTag = source.webMasterTag();
                 result.WebAnalyticCode = source.webAnalyticCode();

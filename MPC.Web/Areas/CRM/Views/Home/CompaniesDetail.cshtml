@@ -42,10 +42,12 @@
                             <li class="active"><a href="#tab-newsfeed" data-toggle="tab">General Info</a></li>
                             @* <li><a href="#tab-WebDetails" data-toggle="tab">Web Details</a></li>*@
                             <li><a href="#tab-territory" data-toggle="tab">User & Addresses</a></li>
+                            <!--ko if: $root.selectedStore() !== undefined-->
                             <li><a href="#tab-DAM" data-toggle="tab">DAM</a></li>
                             @*<li><a href="#tab-contacts" data-toggle="tab">Users</a></li>*@
                             <li><a href="#tab-orders" data-toggle="tab">Orders</a></li>
                             <li><a href="#tab-invoices" data-toggle="tab">Invoices</a></li>
+                            <!-- /ko -->
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="tab-newsfeed">
@@ -617,7 +619,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
-                                    @*<h3 class="group-header">Users</h3>
+                                    <h3 class="group-header">Users</h3>
                                     <div class="col-lg-12 clearfix">
                                         <header class="main-box-header clearfix">
                                             <div class="filter-block form-group pull-left col-xs-4">
@@ -663,7 +665,7 @@
                                                                         <a data-toggle="modal" href="#myContactProfileModal">Ryan Gossling</a>
                                                                     </div>
                                                                     <div class="time online">
-                                                                        ryan@gmail.com - Online
+                                                                        ryassdsaasn@gmail.com - Online
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -866,7 +868,7 @@
                                                 </ul>
                                             </div>
                                         </footer>
-                                    </div>*@
+                                    </div>
                                 </div>
 
                             </div>

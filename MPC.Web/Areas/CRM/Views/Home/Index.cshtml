@@ -43,7 +43,7 @@
                                 </thead>
                                 <tbody>
                                     <!-- ko  foreach: $root.customersForListView  -->
-                                    <tr>
+                                    <tr data-bind="click: $root.selectStore">
                                         <td>
                                             <img src="~/Content/themes/Centaurus/img/samples/logos/1.jpg" alt="" />
                                             <a href="/CRM/Home/CompaniesDetail" class="user-link" data-bind="text:name"></a>

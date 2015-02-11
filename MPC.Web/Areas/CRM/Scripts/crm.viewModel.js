@@ -8,18 +8,20 @@ define("crm/crm.viewModel",
         ist.crm = {
             viewModel: (function () {
                 var //View
-                view,
-                //#region ___________ OBSERVABLES
-                // Search filter 
-                searchFilter = ko.observable(),
-                // Pager for pagging
-                pager = ko.observable(),
-                // Sort On
-                sortOn = ko.observable(1),
-                // Sort In Ascending
-                sortIsAsc = ko.observable(true),
-                
-                isEditorVisible = ko.observable(false),
+                    view,
+                    //#region ___________ OBSERVABLES
+                    // Search filter 
+                    searchFilter = ko.observable(),
+                    // Pager for pagging
+                    pager = ko.observable(),
+                    // Sort On
+                    sortOn = ko.observable(1),
+                    // Sort In Ascending
+                    sortIsAsc = ko.observable(true),
+
+                    isEditorVisible = ko.observable(false),
+                    //Selected Store
+                    selectedStore = ko.observable(),
                 //#endregion
 
                 //#region ___________ OBSERVABLE ARRAYS
@@ -63,10 +65,17 @@ define("crm/crm.viewModel",
                     searchFilter(null);
                     getCustomers();
                 },
+                // Select Store
+                selectStore = function(store) {
+                    if (selectedStore() !== store) {
+                        selectedStore(store);
+                    }
+                },
                 //#endregion
                 
                 //#region CREATE NEW STORE
-                onCreateNewStore = function() {
+                onCreateNewStore = function () {
+                    selectedStore(undefined);
                     isEditorVisible(true);
                 },
                 closeEditDialog = function() {
@@ -91,7 +100,9 @@ define("crm/crm.viewModel",
                     resetButtonHandler: resetButtonHandler,
                     sharedNavigationVm: sharedNavigationVm,
                     onCreateNewStore: onCreateNewStore,
-                    closeEditDialog: closeEditDialog
+                    closeEditDialog: closeEditDialog,
+                    selectStore: selectStore,
+                    selectedStore: selectedStore
                 };
             })()
         };
