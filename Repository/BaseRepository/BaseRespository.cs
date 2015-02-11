@@ -37,7 +37,6 @@ namespace MPC.Repository.BaseRepository
 
         #endregion
         #region Constructor
-
         /// <summary>
         /// Constructor
         /// </summary>
@@ -168,7 +167,6 @@ namespace MPC.Repository.BaseRepository
                     : "MyPrintCloud";
             }
         }
-
 
         #endregion
 
