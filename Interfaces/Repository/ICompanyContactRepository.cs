@@ -91,5 +91,8 @@ namespace MPC.Interfaces.Repository
         long GetContactIdByRole(long CompanyID, int Role);
         long GetContactAddressID(long cID);
         IEnumerable<CompanyContact> GetCompanyContactsByCompanyId(long companyId);
+        CompanyTerritory GetCcompanyByTerritoryID(Int64 ContactId);
+        void UpdateCompanyContactForRetail(CompanyContact Instance);
+        void UpdateCompanyContactForCorporate(CompanyContact Instance);
     }
 }

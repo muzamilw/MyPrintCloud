@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MPC.Interfaces.Repository
@@ -60,6 +61,9 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         string LoggedInUserIdentity { get; }
 
-       
+        /// <summary>
+        /// Logged in user Id
+        /// </summary>
+        Guid LoggedInUserId { get; }
     }
 }

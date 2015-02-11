@@ -17,6 +17,9 @@ using MPC.Models.ModelMappers;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using MPC.Repository.Repositories;
+using MPC.Models.Common;
+using Ionic.Zip;
+using System.IO;
 
 namespace MPC.Implementation.MISServices
 {
@@ -66,6 +69,9 @@ namespace MPC.Implementation.MISServices
         private readonly ISectionFlagRepository sectionFlagRepository;
         private readonly IItemProductDetailRepository itemProductDetailRepository;
         private readonly ICompanyDomainRepository companyDomainRepository;
+        private readonly ICostCentreMatrixRepository costCentreMatrixRepositry;
+        private readonly ICostCentreQuestionRepository CostCentreQuestionRepository;
+        private readonly IStockCategoryRepository StockCategoryRepository;
         //#endregion
 
         /// <summary>
@@ -2069,7 +2075,8 @@ namespace MPC.Implementation.MISServices
         IStateRepository stateRepository,
         ISectionFlagRepository sectionFlagRepository,
         IItemProductDetailRepository itemProductDetailRepository,
-            ICompanyDomainRepository companyDomainRepository)
+            ICompanyDomainRepository companyDomainRepository, ICostCentreMatrixRepository costCentreMatrixRepositry, ICostCentreQuestionRepository CostCentreQuestionRepository,
+            IStockCategoryRepository StockCategoryRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
@@ -2112,6 +2119,9 @@ namespace MPC.Implementation.MISServices
             this.sectionFlagRepository = sectionFlagRepository;
             this.itemProductDetailRepository = itemProductDetailRepository;
             this.companyDomainRepository = companyDomainRepository;
+            this.costCentreMatrixRepositry = costCentreMatrixRepositry;
+            this.CostCentreQuestionRepository = CostCentreQuestionRepository;
+            this.StockCategoryRepository = StockCategoryRepository;
 
         }
         #endregion
@@ -2287,6 +2297,283 @@ namespace MPC.Implementation.MISServices
             companyRepository.SaveChanges();
             return companyResponse.Company;
         }
+        #endregion
+
+        #region ExportOrganisation
+
+        public void ExportOrganisation(long OrganisationID)
+        {
+            try
+            {
+                #region OrganisationEntities
+                ExportOrganisation ObjExportOrg = new Models.Common.ExportOrganisation();
+                Organisation organisation = new Organisation();
+                List<CostCentre> costCentre = new  List<CostCentre>();
+                List<CostCentreMatrixDetail> costCentreMatrixDetail = new  List<CostCentreMatrixDetail>();
+                List<CostCentreAnswer> CostCentreAnswers = new List<CostCentreAnswer>();
+                List<StockCategory> StockCategories = new List<StockCategory>();
+                List<StockSubCategory> StockSubCategories = new List<StockSubCategory>();
+                List<StockItem> StockItems = new List<StockItem>();
+              
+
+                // get organisation to export
+               organisation = organisationRepository.GetOrganizatiobByOrganisationID(OrganisationID);
+               ObjExportOrg.Organisation = organisation;
+
+                // for paper size add organisationid in papersize
+               // ObjExportOrg.PaperSizes = //
+
+                // get costcentres based on organisationid 
+                costCentre = costCentreRepository.GetCostCentersByOrganisationID(OrganisationID);
+                ObjExportOrg.CostCentre = costCentre;
+
+                ObjExportOrg.CostCentreQuestion = CostCentreQuestionRepository.GetCostCentreQuestionsByOID(OrganisationID,out CostCentreAnswers);
+
+                // for cost centre answers
+                ObjExportOrg.CostCentreAnswer = CostCentreAnswers;
+
+                // workinstructions based on costcentreid
+                if(costCentre != null && costCentre.Count > 0)
+                {
+                    foreach(var cost in costCentre)
+                    {
+                        // get instrction for each cost centre
+                        if(cost.CostcentreInstructions != null)
+                        {
+                             List<CostcentreInstruction> instructions = cost.CostcentreInstructions.ToList();
+                             if(instructions != null && instructions.Count > 0)
+                             {
+                                 foreach(var ins in instructions)
+                                 {
+                                    
+                                     ObjExportOrg.CostcentreInstruction.Add(ins); 
+                                 }
+                             }
+                        
+                        }
+                       
+                    }
+                     
+                }
+
+                // get cost centre matrix based on organisationID
+                ObjExportOrg.CostCentreMatrix = costCentreMatrixRepositry.GetMatrixByOrganisationID(OrganisationID,out costCentreMatrixDetail);
+
+                // cost centre matrix detail for each cost centre
+                ObjExportOrg.CostCentreMatrixDetail = costCentreMatrixDetail;
+
+                // set cost centre resources
+                if (costCentre != null && costCentre.Count > 0)
+                {
+                    foreach (var cost in costCentre)
+                    {
+                        // get CostcentreResources for each cost centre
+                        if (cost.CostcentreResources != null)
+                        {
+                            List<CostcentreResource> resources = cost.CostcentreResources.ToList();
+                            if (resources != null && resources.Count > 0)
+                            {
+                                foreach (var res in resources)
+                                {
+                                    ObjExportOrg.CostcentreResource.Add(res);
+                                }
+                            }
+
+                        }
+
+                    }
+
+                }
+
+                // set costcentre work instructions choices based on cost centre work instructions
+                if (costCentre != null && costCentre.Count > 0)
+                {
+                    foreach (var cost in costCentre)
+                    {
+                        // get instrction for each cost centre
+                        if (cost.CostcentreInstructions != null)
+                        {
+                            List<CostcentreInstruction> instructions = cost.CostcentreInstructions.ToList();
+                            if (instructions != null && instructions.Count > 0)
+                            {
+                                foreach (var ins in instructions)
+                                {
+                                    if(ins.CostcentreWorkInstructionsChoices != null)
+                                    {
+                                        List<CostcentreWorkInstructionsChoice> choices = ins.CostcentreWorkInstructionsChoices.ToList();
+
+                                       if (choices != null && choices.Count > 0)
+                                       {
+                                            foreach(var choice in choices)
+                                            {
+                                                ObjExportOrg.CostcentreWorkInstructionsChoice.Add(choice);
+                                            }
+                                       }
+                                        
+                                    }
+                                   
+                                }
+                            }
+
+                        }
+
+                    }
+
+                }
+
+                // cost centre choices is missing
+
+
+                // get stockcategories based on organisation ID
+               StockCategories = StockCategoryRepository.GetStockCategoriesByOrganisationID(OrganisationID);
+               ObjExportOrg.StockCategory = StockCategories;
+
+
+
+                // set stock subcategories of stock categories
+                if(StockCategories != null && StockCategories.Count > 0)
+                {
+                    foreach(var stock in StockCategories)
+                    {
+                       if (stock.StockSubCategories != null && stock.StockSubCategories.Count > 0)
+                       {
+                           foreach (var stockSubCat in stock.StockSubCategories)
+                           {
+                               ObjExportOrg.StockSubCategory.Add(stockSubCat);
+                           }
+                       }
+                    }
+                }
+
+
+                // get stockitems based on organisationID
+                StockItems = stockItemRepository.GetStockItemsByOrganisationID(OrganisationID);
+                ObjExportOrg.StockItem = StockItems;
+
+                // set stock sale and price
+                if(StockItems != null)
+                {
+                    if(StockItems.Count > 0)
+                    {
+                        foreach(var stock in StockItems)
+                        {
+                            if(stock.StockCostAndPrices != null)
+                            {
+                                if(stock.StockCostAndPrices.Count > 0)
+                                {
+                                    foreach(var costP in stock.StockCostAndPrices)
+                                    {
+                                        ObjExportOrg.StockCostAndPrice.Add(costP);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Delivery carriers structure is not defined yet
+
+
+                // reports table not added
+
+                // get prefixes based on organisationID
+                ObjExportOrg.Prefixes = prefixRepository.GetPrefixesByOrganisationID(OrganisationID);
+
+                // add OID in machines 
+
+                // rename companyid to organisationid in lookupMethods
+
+                // Phrases of organisation
+
+                // add organisationID in phrase fields
+
+                // section flags of organisation
+                ObjExportOrg.SectionFlags = sectionFlagRepository.GetSectionFlagsByOrganisationID(OrganisationID);
+                #endregion
+
+
+                #region ExportFiles
+                
+                
+                using (ZipFile zip = new ZipFile())
+                {
+                    // export MIS logo in Organisation
+                    if (organisation != null)
+                    {
+
+                        if (organisation.MISLogo != null)
+                        {
+                            string FilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations" + organisation.MISLogo;
+                            if (File.Exists(FilePath))
+                            {
+                                ZipEntry r = zip.AddFile(FilePath, "");
+                                r.Comment = "MIS Logo for an organisation";
+
+                            }
+                        }
+
+
+                    }
+
+                    // export cost centre images
+                   if(costCentre != null && costCentre.Count > 0)
+                   {
+                       foreach(var objCost in costCentre)
+                       {
+                           if(objCost.ThumbnailImageURL != null)
+                           {
+                               string FilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/CostCentres" +objCost.ThumbnailImageURL;
+                               if (File.Exists(FilePath))
+                               {
+                                   ZipEntry r = zip.AddFile(FilePath, "");
+                                   r.Comment = "Thumbnail image for cost centre";
+
+                               }
+                           }
+                           if (objCost.MainImageURL != null)
+                           {
+                               string FilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/CostCentres" + objCost.MainImageURL;
+                               if (File.Exists(FilePath))
+                               {
+                                   ZipEntry r = zip.AddFile(FilePath, "");
+                                   r.Comment = "Main image for cost centre";
+
+                               }
+                           }
+                       }
+                   }
+
+                   // export report banner
+
+                   zip.Comment = "This zip archive was created to export complete organisation";
+                   string sDirectory = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations";
+                   string name = DateTime.Now + "_ExportedZip" + OrganisationID;
+                   string sZipFileName = string.Empty;
+                   if (Path.HasExtension(name))
+                       sZipFileName = name;
+                   else
+                       sZipFileName = name + ".zip";
+                   if (System.IO.Directory.Exists(sDirectory))
+                   {
+                       zip.Save(sDirectory + "\\" + sZipFileName);
+                   }
+                }
+              
+
+                #endregion
+
+
+
+            }
+            catch(Exception ex)
+            {
+                throw new MPCException(ex.ToString(), OrganisationID);
+            }
+
+        }
+      
+        
+
         #endregion
     }
 }

@@ -51,9 +51,20 @@ namespace MPC.Repository.Repositories
             //             select t;
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
+            Expression<Func<Machine, bool>> query;
+            if (request.isGuillotineList)
+            {
+                 query = machine => (machine.IsDisabled == false && machine.MachineCatId==4);
+            }
+            else
+            {
+                query = machine => (machine.IsDisabled == false && machine.MachineCatId != 4);
+            }
 
+           
             var machineList = request.IsAsc
-                ? DbSet.OrderBy(OrderByClause[request.MachineOrderBy])
+                ? DbSet.Where(query)
+                .OrderBy(OrderByClause[request.MachineOrderBy])
                 .Skip(fromRow)
                 .Take(toRow)
                 .ToList()
@@ -64,7 +75,7 @@ namespace MPC.Repository.Repositories
 
             return new MachineListResponseModel
             {
-                RowCount = DbSet.Count(),
+                RowCount = DbSet.Count(query),
                 MachineList = machineList,
                 lookupMethod = db.LookupMethods
 
@@ -101,14 +112,35 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Find(id);
         }
+        public bool archiveMachine(long id)
+        {
+            try
+            {
+                Machine machine = db.Machines.Where(g => g.MachineId == id).SingleOrDefault();
+                machine.IsDisabled = true;
+                db.SaveChanges();
 
+                return true;
+            }
+            catch (Exception ex)
+            {
+                
+                throw ex;
+            }
+
+            
+        }
         public MachineResponseModel GetMachineByID(long MachineID)
         {
+           // Machine ms = DbSet.Where(g => g.MachineId == MachineID).FirstOrDefault();
             return new MachineResponseModel
             {
                 machine = DbSet.Where(g => g.MachineId == MachineID).SingleOrDefault(),
                 lookupMethods = GetAllLookupMethodList(),
-                Markups = GetAllMarkupList()
+                Markups = GetAllMarkupList(),
+                StockItemforInk = GetAllStockItemforInk(),
+                MachineResources= GetAllMachineResources()
+
             };
 
             
@@ -130,15 +162,15 @@ namespace MPC.Repository.Repositories
         {
             return db.Markups;
         }
-
-
-        //protected override IDbSet<LookupMethod> LookupMethd
-        //{
-        //    get
-        //    {
-        //        return db.LookupMethods;
-        //    }
-        //}
-
+        public IEnumerable<StockItem> GetAllStockItemforInk()
+        {
+            return db.StockItems.Where(g => g.CategoryId == 2).ToList();
+        }
+        public IEnumerable<MachineResource> GetAllMachineResources()
+        {
+            return db.MachineResources;
+        }
+        
+      
     }
 }

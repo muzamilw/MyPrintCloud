@@ -33,7 +33,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 machine = source.machine.CreateFrom(),
                 lookupMethods = source.lookupMethods.Select(s => s.CreateFrom()),
-                Markups= source.Markups.Select(s=>s.CreateFrom())
+                Markups= source.Markups.Select(s=>s.CreateFrom()),
+                StockItemforInk = source.StockItemforInk.Select(s => s.CreateFromDetail()),
+                MachineResources = source.MachineResources.Select(s=>s.CreateFrom())
             };
 
         }
@@ -106,9 +108,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 MakeReadyTime = source.MakeReadyTime,
                 WashupTime = source.WashupTime,
                 ReelMakereadyTime = source.ReelMakereadyTime,
-                LookupMethodId=source.LookupMethodId
-                //MachineInkCoverages = source.MachineInkCoverages,
-                //MachineResources = source.MachineResources
+                LookupMethodId=source.LookupMethodId,
+                MachineInkCoverages = source.MachineInkCoverages.Select(g=>g.CreateFrom()).ToList()
+               
             };
         }
 

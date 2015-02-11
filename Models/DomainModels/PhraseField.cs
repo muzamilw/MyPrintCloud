@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MPC.Models.DomainModels
 {
@@ -15,6 +11,7 @@ namespace MPC.Models.DomainModels
         public string FieldName { get; set; }
         public int? SectionId { get; set; }
         public int? SortOrder { get; set; }
+        public long? OrganisationId { get; set; }
 
         public virtual Section Section { get; set; }
         public virtual ICollection<Phrase> Phrases { get; set; }
