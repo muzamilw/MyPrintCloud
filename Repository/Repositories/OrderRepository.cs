@@ -76,8 +76,6 @@ namespace MPC.Repository.Repositories
 
             orderObject.OrganisationId = OrganisationId;
 
-            orderObject.CompanyName = "N/A";
-
             orderObject.ContactId = ContactId;
 
             orderObject.isEstimate = false;

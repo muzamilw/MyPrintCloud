@@ -1790,7 +1790,6 @@ namespace MPC.Repository.Repositories
             TemporaryOrder = db.Estimates.Where(order => order.EstimateId == replacedOrderdID && order.StatusId == (short)OrderStatus.ShoppingCart && order.isEstimate == false).FirstOrDefault();
             ActualOrder = db.Estimates.Where(order => order.CompanyId == realCustomerID && order.ContactId == realContactID && order.StatusId == (short)OrderStatus.ShoppingCart && order.isEstimate == false).FirstOrDefault();
 
-            ActualOrder.CompanyName = "companyName";
             ActualOrder.CreationTime = DateTime.Now;
             ActualOrder.SectionFlagId = 3;
             ActualOrder.AddressId = 159239;

@@ -263,6 +263,9 @@
         <EntityTypeShape EntityType="DomainModels.ReportNote" Width="1.5" PointX="37.375" PointY="12.75" />
         <EntityTypeShape EntityType="DomainModels.PipeLineProduct" Width="1.5" PointX="37.375" PointY="36.875" />
         <EntityTypeShape EntityType="DomainModels.PipeLineSource" Width="1.5" PointX="38.375" PointY="0.875" />
+        <EntityTypeShape EntityType="DomainModels.Activity" Width="1.5" PointX="3" PointY="46.875" />
+        <EntityTypeShape EntityType="DomainModels.ActivityType" Width="1.5" PointX="38.375" PointY="3.75" />
+        <AssociationConnector Association="DomainModels.FK__Activity__Compan__2D3FF3FE" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
