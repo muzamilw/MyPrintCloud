@@ -16,7 +16,6 @@ namespace MPC.Implementation.MISServices
         #region Private
 
         private readonly IProductCategoryRepository productCategoryRepository;
-        private readonly IProductCategoryFileTableViewRepository productCategoryFileTableViewRepository;
         
         //#region Private Methods
         private ProductCategory Create(ProductCategory productCategory)
@@ -37,10 +36,9 @@ namespace MPC.Implementation.MISServices
 
         #region Constructor
 
-        public CategoryService(IProductCategoryRepository productCategoryRepository, IProductCategoryFileTableViewRepository productCategoryFileTableViewRepository)
+        public CategoryService(IProductCategoryRepository productCategoryRepository)
         {
             this.productCategoryRepository = productCategoryRepository;
-            this.productCategoryFileTableViewRepository = productCategoryFileTableViewRepository;
         }
         #endregion
 

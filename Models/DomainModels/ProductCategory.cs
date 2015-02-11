@@ -62,9 +62,7 @@ namespace MPC.Models.DomainModels
         public bool? IsShowStockStatus { get; set; }
         public bool? IsShowProductDescription { get; set; }
         public bool? IsShowProductShortDescription { get; set; }
-        public Guid? ImageStreamId { get; set; }
-        public Guid? ThumbnailStreamId { get; set; }
-
+        
         public virtual Company Company { get; set; }
         public virtual ICollection<ProductCategoryItem> ProductCategoryItems { get; set; }
 

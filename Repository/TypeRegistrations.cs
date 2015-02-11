@@ -1,6 +1,5 @@
 ﻿using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
-using MPC.Interfaces.WebStoreServices;
 using MPC.Repository.BaseRepository;
 using MPC.Repository.Repositories;
 
@@ -65,11 +64,9 @@ namespace MPC.Repository
             unityContainer.RegisterType<IItemAddOnCostCentreRepository, ItemAddonCostCentreRepository>();
             unityContainer.RegisterType<ICostCentreRepository, CostCentreRepository>();
             unityContainer.RegisterType<IEmailEventRepository, EmailEventRepository>();
-            unityContainer.RegisterType<IMpcFileTableViewRepository, MpcFileTableViewRepository>();
             unityContainer.RegisterType<IPaymentGatewayRepository, PaymentGatewayRepository>();
             unityContainer.RegisterType<IPaymentMethodRepository, PaymentMethodRepository>();
             unityContainer.RegisterType<IWidgetRepository, WidgetRepository>();
-            unityContainer.RegisterType<IOrganisationFileTableViewRepository, OrganisationFileTableViewRepository>();
             unityContainer.RegisterType<IItemPriceMatrixRepository, ItemPriceMatrixRepository>();
             unityContainer.RegisterType<IItemStateTaxRepository, ItemStateTaxRepository>();
             unityContainer.RegisterType<IStateRepository, StateRepository>();
@@ -77,7 +74,6 @@ namespace MPC.Repository
             unityContainer.RegisterType<IItemStockControlRepository, ItemStockControlRepository>();
             unityContainer.RegisterType<ITemplateObjectRepository, TemplateObjectRepository>();
             unityContainer.RegisterType<ITemplateColorStylesRepository, TemplateColorStylesRepository>();
-            unityContainer.RegisterType<IProductCategoryFileTableViewRepository, ProductCategoryFileTableViewRepository>();
             unityContainer.RegisterType<ITemplateFontsRepository, TemplateFontsRepository>();
             unityContainer.RegisterType<IItemProductDetailRepository, ItemProductDetailRepository>();
             unityContainer.RegisterType<ITemplateBackgroundImagesRepository, TemplateBackgroundImagesRepository>();
@@ -98,6 +94,8 @@ namespace MPC.Repository
             unityContainer.RegisterType<ICostCenterTypeRepository, CostCenterTypeRepository>();
             unityContainer.RegisterType<IItemSectionRepository, ItemSectionRepository>();
             unityContainer.RegisterType<IEstimateRepository, EstimateRepository>();
+            unityContainer.RegisterType<IPipeLineProductRepository, PipeLineProductRepository>();
+            unityContainer.RegisterType<IPipeLineSourceRepository, PipeLineSourceRepository>();
         }
     }
 }

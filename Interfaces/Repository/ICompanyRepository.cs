@@ -42,7 +42,10 @@ namespace MPC.Interfaces.Repository
 
         string SystemLength(long OrganisationID);
 
-        
+        /// <summary>
+        /// Get Company By Is Customer Type
+        /// </summary>
+        CompanySearchResponseForCalendar GetByIsCustomerType(CompanyRequestModelForCalendar request);
 
     }
 }
