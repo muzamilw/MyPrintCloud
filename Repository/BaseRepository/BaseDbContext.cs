@@ -573,6 +573,16 @@ namespace MPC.Repository.BaseRepository
         public DbSet<PipeLineSource> PipeLineSources { get; set; }
 
         /// <summary>
+        /// Activity DbSet
+        /// </summary>
+        public DbSet<Activity> Activities { get; set; }
+
+        /// <summary>
+        /// Activity Type DbSet
+        /// </summary>
+        public DbSet<ActivityType> ActivityTypes { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
 // ReSharper disable InconsistentNaming

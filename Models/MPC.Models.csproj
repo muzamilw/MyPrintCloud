@@ -118,6 +118,7 @@
     <Compile Include="Common\ExportOrganisation.cs" />
     <Compile Include="Common\InlineTextStyles.cs" />
     <Compile Include="Common\FileTableCaption.cs" />
+    <Compile Include="Common\SystemUserClaimValue.cs" />
     <Compile Include="Common\OrderByColumn.cs" />
     <Compile Include="Common\MachineListColumns.cs" />
     <Compile Include="Common\MachineByColumn.cs" />
@@ -154,6 +155,8 @@
     <Compile Include="Common\USTaxInfo.cs" />
     <Compile Include="Common\Utility.cs" />
     <Compile Include="Common\ValidationInfo.cs" />
+    <Compile Include="DomainModels\Activity.cs" />
+    <Compile Include="DomainModels\ActivityType.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CmsOffer.cs" />
     <Compile Include="DomainModels\CompanyVariableIcon.cs" />

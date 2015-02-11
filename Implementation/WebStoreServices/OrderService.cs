@@ -381,5 +381,17 @@ namespace MPC.Implementation.WebStoreServices
             }
         }
 
+        public Estimate GetLastOrderByContactId(long ContactId)
+        {
+            try
+            {
+                return _OrderRepository.GetLastOrderByContactID(ContactId);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }

@@ -6,9 +6,11 @@
 }
 <script src="http://mpc/Scripts/jquery.min.js"></script>
 <script src="http://mpc/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Content/themes/Centaurus/js/jquery.magnific-popup.min.js"></script>
 <script>
     $(document).ready(function ()
     {
+        
         $("ol#treeviewSpeedWeight").hide();
         $("ol#treeviewPerHour").hide();
         $("ol#treeviewClickChargeZone").hide();
@@ -35,6 +37,7 @@
             return false;
         });
        
+        $('.bs-example-tooltips a').popover();
     });
 </script>
 <style>
@@ -202,11 +205,13 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+        
+    </div>
+    
 </div>
 @section Scripts{
     <script>
+       
         $(function () {
             $('#lisettings').addClass('active');
             $('#limissettings').addClass('active');
