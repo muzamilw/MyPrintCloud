@@ -85,6 +85,8 @@
     <Compile Include="MISServices\IPhraseLibraryService.cs" />
     <Compile Include="MISServices\IPrefixService.cs" />
     <Compile Include="MISServices\IStockCategoryService.cs" />
+    <Compile Include="Repository\IActivityRepository.cs" />
+    <Compile Include="Repository\IActivityTypeRepository.cs" />
     <Compile Include="Repository\ICampaignRepository.cs" />
     <Compile Include="Repository\IColorPalleteRepository.cs" />
     <Compile Include="Repository\ICompanyCMYKColorRepository.cs" />

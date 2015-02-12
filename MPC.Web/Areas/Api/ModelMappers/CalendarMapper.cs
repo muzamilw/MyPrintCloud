@@ -23,6 +23,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PipeLineProducts = source.PipeLineProducts.Select(pl => pl.CreateFrom()).ToList(),
                 PipeLineSources = source.PipeLineSources.Select(pls => pls.CreateFrom()).ToList(),
                 SystemUsers = source.SystemUsers.Select(su => su.CreateFrom()).ToList(),
+                ActivityTypes = source.ActivityTypes.Select(su => su.CreateFromDropDown()).ToList(),
+                LoggedInUserId = source.LoggedInUserId,
             };
         }
         #endregion

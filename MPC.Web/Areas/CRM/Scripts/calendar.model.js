@@ -2,9 +2,9 @@
     var
 
     //Activity
-    Activity = function (specifiedActivityId,specifiedSystemUserId, specifiedActivityRef, specifiedActivityTypeId, specifiedContactCompanyId, specifiedContactId,
+    Activity = function (specifiedActivityId, specifiedSystemUserId, specifiedActivityRef, specifiedActivityTypeId, specifiedContactCompanyId, specifiedContactId,
         specifiedProductTypeId, specifiedSourceId, specifiedFlagId, specifiedStartDateTime, specifiedEndDateTime, specifiedIsCustomerActivity, specifiedIsPrivate,
-        specifiedCompanyName, specifiedActivityNotes) {
+        specifiedCompanyName, specifiedActivityNotes, specifiedIsCustomerType) {
         var
         self,
         //Activity Id
@@ -22,14 +22,15 @@
         startDateTime = ko.observable((specifiedStartDateTime === null || specifiedStartDateTime === undefined) ? new Date() : moment(specifiedStartDateTime, ist.utcFormat)),
         //End Date Time
         endDateTime = ko.observable((specifiedEndDateTime === null || specifiedEndDateTime === undefined) ? null : moment(specifiedEndDateTime, ist.utcFormat)),
-
-       isCustomerActivity = ko.observable(specifiedIsCustomerActivity),
+        isCustomerActivity = ko.observable(specifiedIsCustomerActivity),
         isPrivate = ko.observable(specifiedIsPrivate),
         companyName = ko.observable(specifiedCompanyName),
         activityNotes = ko.observable(specifiedActivityNotes),
-                 isInvalidPeriod = ko.computed(function () {
-                     return endDateTime() < startDateTime();
-                 }),
+        isCustomerType = ko.observable(specifiedIsCustomerType),
+
+        isInvalidPeriod = ko.computed(function () {
+            return endDateTime() < startDateTime();
+        }),
         // Errors
         errors = ko.validation.group({
             title: title
@@ -53,15 +54,15 @@
                 SystemUserId: systemUserId(),
                 ActivityRef: title(),
                 ActivityTypeId: activityTypeId(),
-                ContactCompanyId: packCostPrice(),
-                ContactId: packCostPrice(),
-                ProductTypeId: packCostPrice(),
-                SourceId: packCostPrice(),
-                FlagId: packCostPrice(),
-                ActivityStartTime: fromDate() === undefined || fromDate() === null ? null : moment(fromDate()).format(ist.utcFormat),
-                ActivityEndTime: toDate() === undefined || toDate() === null ? null : moment(toDate()).format(ist.utcFormat),
-                IsCustomerActivity: costOrPriceIdentifier(),
-                IsPrivate: costOrPriceIdentifier(),
+                CompanyId: contactCompanyId(),
+                ContactId: contactId(),
+                ProductTypeId: productTypeId(),
+                SourceId: sourceId(),
+                FlagId: flagId(),
+                ActivityStartTime: startDateTime() === undefined || startDateTime() === null ? null : moment(startDateTime()).format(ist.utcFormat),
+                ActivityEndTime: endDateTime() === undefined || endDateTime() === null ? null : moment(endDateTime()).format(ist.utcFormat),
+                IsCustomerActivity: isCustomerActivity(),
+                IsPrivate: isPrivate(),
                 ActivityNotes: activityNotes(),
             }
         },
@@ -86,6 +87,7 @@
             companyName: companyName,
             activityNotes: activityNotes,
             isInvalidPeriod: isInvalidPeriod,
+            isCustomerType: isCustomerType,
             dirtyFlag: dirtyFlag,
             isValid: isValid,
             errors: errors,
@@ -97,8 +99,8 @@
     };
     //Activity Create 
     Activity.Create = function (source) {
-        return new Activity(source.ActivityId,source.SystemUserId, source.ActivityRef, source.ActivityTypeId, source.ContactCompanyId, source.ContactId, source.ProductTypeId, source.SourceId,
-            source.FlagId, source.ActivityStartTime, source.ActivityEndTime, source.IsCustomerActivity, source.IsPrivate, source.CompanyName, source.ActivityNotes);
+        return new Activity(source.ActivityId, source.SystemUserId, source.ActivityRef, source.ActivityTypeId, source.CompanyId, source.ContactId, source.ProductTypeId, source.SourceId,
+            source.FlagId, source.ActivityStartTime, source.ActivityEndTime, source.IsCustomerActivity, source.IsPrivate, source.CompanyName, source.ActivityNotes, source.IsCustomerType);
     };
 
     Company = function (specifiedCompanyId, specifiedName, specifiedURL, specifiedCreationDate) {

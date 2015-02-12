@@ -30,9 +30,9 @@ define("calendar/calendar.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
-                    // Define request to save Inventory
-                    amplify.request.define('saveInventory', 'ajax', {
-                        url: ist.siteUrl + '/Api/Inventory',
+                    // Define request to save Activity
+                    amplify.request.define('saveActivity', 'ajax', {
+                        url: ist.siteUrl + '/Api/Calendar',
                         dataType: 'json',
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
@@ -73,11 +73,11 @@ define("calendar/calendar.dataservice", function () {
                 });
             },
 
-           // Save Inventory
-            saveInventory = function (param, callbacks) {
+           // Save Activity
+            saveActivity = function (param, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'saveInventory',
+                    resourceId: 'saveActivity',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: param
@@ -87,7 +87,7 @@ define("calendar/calendar.dataservice", function () {
         return {
             getCalendarBase: getCalendarBase,
             deleteInventory: deleteInventory,
-            saveInventory: saveInventory,
+            saveActivity: saveActivity,
             getCompanyByCustomerType: getCompanyByCustomerType,
         };
     })();

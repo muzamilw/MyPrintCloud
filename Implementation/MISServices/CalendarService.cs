@@ -25,6 +25,8 @@ namespace MPC.Implementation.MISServices
         private readonly IPipeLineSourceRepository pipeLineSourceRepository;
         private readonly ISectionFlagRepository sectionFlagRepository;
         private readonly ICompanyRepository companyRepository;
+        private readonly IActivityTypeRepository activityTypeRepository;
+        private readonly IActivityRepository activityRepository;
 
         #endregion
 
@@ -35,7 +37,8 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public CalendarService(ISystemUserRepository systemUserRepository, ICompanyContactRepository companyContactRepository,
             IPipeLineProductRepository pipeLineProductRepository, IPipeLineSourceRepository pipeLineSourceRepository,
-            ISectionFlagRepository sectionFlagRepository, ICompanyRepository companyRepository)
+            ISectionFlagRepository sectionFlagRepository, ICompanyRepository companyRepository, IActivityTypeRepository activityTypeRepository,
+            IActivityRepository activityRepository)
         {
             this.systemUserRepository = systemUserRepository;
             this.companyContactRepository = companyContactRepository;
@@ -43,6 +46,8 @@ namespace MPC.Implementation.MISServices
             this.pipeLineSourceRepository = pipeLineSourceRepository;
             this.sectionFlagRepository = sectionFlagRepository;
             this.companyRepository = companyRepository;
+            this.activityTypeRepository = activityTypeRepository;
+            this.activityRepository = activityRepository;
         }
 
         #endregion
@@ -59,6 +64,8 @@ namespace MPC.Implementation.MISServices
                 PipeLineProducts = pipeLineProductRepository.GetAll(),
                 PipeLineSources = pipeLineSourceRepository.GetAll(),
                 CompanyContacts = companyContactRepository.GetAll(),
+                ActivityTypes = activityTypeRepository.GetAll(),
+                LoggedInUserId = activityTypeRepository.LoggedInUserId,
                 SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.CRM),
             };
         }
@@ -71,6 +78,66 @@ namespace MPC.Implementation.MISServices
             return companyRepository.GetByIsCustomerType(request);
         }
 
+        /// <summary>
+        /// Save Activity
+        /// </summary>
+        public int SaveActivity(Activity activity)
+        {
+            Activity dbVersionActivity = activityRepository.Find(activity.ActivityId);
+            if (dbVersionActivity == null)
+            {
+                return AddActivity(activity);
+            }
+            else
+            {
+                return UpdateActivity(activity, dbVersionActivity);
+            }
+        }
+
+        /// <summary>
+        /// Add Activity
+        /// </summary>
+        public int AddActivity(Activity activity)
+        {
+            activity.SystemUserId = activityRepository.LoggedInUserId;
+            activityRepository.Add(activity);
+            activityRepository.SaveChanges();
+            return activity.ActivityId;
+        }
+        /// <summary>
+        /// Update Activity
+        /// </summary>
+        public int UpdateActivity(Activity activity, Activity dbVersionActivity)
+        {
+            activity.ActivityTypeId = dbVersionActivity.ActivityTypeId;
+            activity.ContactId = dbVersionActivity.ContactId;
+            activity.SourceId = dbVersionActivity.SourceId;
+            activity.ActivityEndTime = dbVersionActivity.ActivityEndTime;
+            activity.ActivityNotes = dbVersionActivity.ActivityNotes;
+            activity.ActivityRef = dbVersionActivity.ActivityRef;
+            activity.ActivityStartTime = dbVersionActivity.ActivityStartTime;
+            activity.CompanyId = dbVersionActivity.CompanyId;
+            activity.FlagId = dbVersionActivity.FlagId;
+            activity.IsCustomerActivity = dbVersionActivity.IsCustomerActivity;
+            activity.IsPrivate = dbVersionActivity.IsPrivate;
+            activity.ProductTypeId = dbVersionActivity.ProductTypeId;
+            activity.SystemUserId = dbVersionActivity.SystemUserId;
+            activityRepository.SaveChanges();
+            return activity.ActivityId;
+        }
+
+        /// <summary>
+        /// Delete Activity
+        /// </summary>
+        public void DeleteActivity(int activityId)
+        {
+            Activity activity = activityRepository.Find(activityId);
+            if (activity != null)
+            {
+                activityRepository.Delete(activity);
+                activityRepository.SaveChanges();
+            }
+        }
         #endregion
     }
 }

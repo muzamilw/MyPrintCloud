@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using MPC.Models.DomainModels;
+﻿using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 
@@ -20,5 +19,16 @@ namespace MPC.Interfaces.MISServices
         /// Get Companies By Is Customer Type
         /// </summary>
         CompanySearchResponseForCalendar GetCompaniesByCustomerType(CompanyRequestModelForCalendar request);
+
+
+        /// <summary>
+        /// Save Activity
+        /// </summary>
+        int SaveActivity(Activity activity);
+
+        /// <summary>
+        /// Delete Activity
+        /// </summary>
+        void DeleteActivity(int activityId);
     }
 }

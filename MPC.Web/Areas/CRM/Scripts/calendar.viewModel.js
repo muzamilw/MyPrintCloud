@@ -14,6 +14,7 @@ define("calendar/calendar.viewModel",
                  selectedActivity = ko.observable(),
                  selectedCompany = ko.observable(),
                  companySearchFilter = ko.observable(),
+                 loggedInUserId = ko.observable(),
                   pager = ko.observable(),
                  fullCalendar = {
                      // Defines a view model class you can use to populate a calendar
@@ -36,6 +37,7 @@ define("calendar/calendar.viewModel",
                 newEventAdd = function (addNewActivityEvent) {
                     var newAddActivity = model.Activity();
                     newAddActivity.startDateTime(addNewActivityEvent);
+                    newAddActivity.isCustomerType("1");
                     selectedActivity(newAddActivity);
                     view.showCalendarActivityDialog();
                 },
@@ -45,6 +47,7 @@ define("calendar/calendar.viewModel",
                 pipeLineSources = ko.observableArray([]),
                 systemUsers = ko.observableArray([]),
                 companies = ko.observableArray([]),
+                activityTypes = ko.observableArray([]),
 
                 // Get Base
                 getBase = function () {
@@ -70,6 +73,13 @@ define("calendar/calendar.viewModel",
                             systemUsers.removeAll();
                             ko.utils.arrayPushAll(systemUsers(), data.SystemUsers);
                             systemUsers.valueHasMutated();
+                            //Activity Types
+                            activityTypes.removeAll();
+                            ko.utils.arrayPushAll(activityTypes(), data.ActivityTypes);
+                            activityTypes.valueHasMutated();
+
+                            loggedInUserId(data.LoggedInUserId);
+
                         },
                         error: function () {
                             toastr.error("Failed to load base data.");
@@ -149,9 +159,34 @@ define("calendar/calendar.viewModel",
                         addEvent.end = activity.endDateTime();
                         addEvent.title = activity.title();
                         items.push(addEvent);
-                        view.hideCalendarActivityDialog();
+                        saveActivity();
                     }
                 },
+
+                saveActivity = function () {
+                    dataservice.saveActivity(selectedActivity().convertToServerData(), {
+                        success: function (data) {
+                            if (data !== null) {
+                                selectedActivity().id(data);
+                            }
+                            view.hideCalendarActivityDialog();
+                            toastr.success("Successfully save.");
+                        },
+                        error: function (exceptionMessage, exceptionType) {
+
+                            if (exceptionType === ist.exceptionType.CaresGeneralException) {
+
+                                toastr.error(exceptionMessage);
+
+                            } else {
+
+                                toastr.error("Failed to save.");
+
+                            }
+
+                        }
+                    });
+                }
                 dobeforesave = function () {
                     var flag = true;
                     if (!selectedActivity().isValid()) {
@@ -165,7 +200,7 @@ define("calendar/calendar.viewModel",
                     view = specifiedView;
                     ko.applyBindings(view.viewModel, view.bindingRoot);
                     pager(pagination.Pagination({ PageSize: 10 }, companies, getCompanies));
-                    //getBase();
+                    getBase();
                 };
 
                 return {
@@ -173,6 +208,7 @@ define("calendar/calendar.viewModel",
                     companySearchFilter: companySearchFilter,
                     selectCompany: selectCompany,
                     selectedCompany: selectedCompany,
+                    loggedInUserId: loggedInUserId,
                     pager: pager,
                     items: items,
                     sectionFlags: sectionFlags,
@@ -181,6 +217,7 @@ define("calendar/calendar.viewModel",
                     pipeLineSources: pipeLineSources,
                     systemUsers: systemUsers,
                     companies: companies,
+                    activityTypes: activityTypes,
                     //Utility Functiions
                     initialize: initialize,
                     mycCalender: mycCalender,
