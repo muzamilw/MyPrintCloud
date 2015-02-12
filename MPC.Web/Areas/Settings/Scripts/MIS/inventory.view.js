@@ -34,6 +34,12 @@ define("inventory/inventory.view",
                         $(element).focus();
                     }, 1000);
                 },
+                // Initialize Label Popovers
+                initializeLabelPopovers = function () {
+                    // ReSharper disable UnknownCssClass
+                    $('.bs-example-tooltips a').popover();
+                // ReSharper restore UnknownCssClass
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -45,6 +51,7 @@ define("inventory/inventory.view",
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
                 gotoElement: gotoElement,
+                initializeLabelPopovers: initializeLabelPopovers
             };
         })(inventoryViewModel);
 

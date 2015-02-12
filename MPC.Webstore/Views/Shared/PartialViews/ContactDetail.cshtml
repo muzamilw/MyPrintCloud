@@ -102,11 +102,7 @@
                     <br />
                 </div>
                     }
-                    else
-                    {
-                        <div id="CompanyNameOfBroker" style="display:none"></div>
-
-                    }
+                  
                             <div id="WebsiteUrlOfBroker">
                                 <div class="smallContctUsAvenior float_left_simple" id="divwebsite">
                                     Website
@@ -290,10 +286,8 @@
                                         <div class="smallContctUsAvenior float_left_simple" id="div3">
                                         </div>
                                         <div class="TTL widthAvenior">
-                                            
-                                            
 
-                                            @if(Model.image != null)
+                                         @if(Model.image != null)
                                          {
                                                 <img src="@Html.GetAppBasePath()@Model.image" id="imgContactPicture" alt="" class="user_image_container float_left_simple" />
                                          }
@@ -314,15 +308,6 @@
                                         </div>
                                         <div class="TTL widthAvenior">
 
-                                            @*<input id="chkEmailMeOffers" text="Notify me of marketing and promotions" type="checkbox" tabindex="10" checked="@Model.IsEmailSubscription" />*@
-                                            @*@Html.CheckBoxFor(model=>model.IsEmailSubscription)*@
-                                            @*@Html.EditorFor(model => model.IsEmailSubscription, new { id = "EmailDescription", text = "Notify me of marketing and promotions" })*@
-                                            @*<input id="Select" name="MarketAndPromotion" type="checkbox" value="true" />*@
-                                            
-                                            @*@if (Model.IsEmailSubscription == true)
-                                            {
-                                                <input id="Select" name="MarketAndPromotion" type="checkbox" value="true" checked /><p> Notify me of marketing and promotions</p>
-                                            }*@
                                             @if(Model.IsEmailSubscription==true)
                                             { 
                                             <input id="Select" name="MarketAndPromotion" type="checkbox" value="true" checked /><p> Notify me of marketing and promotions</p>
@@ -353,9 +338,6 @@
                                             }
                                             <input name="NewsLetterSubscription" type="hidden" value="false" />
                                             
-                                           
-                                            
-                                            
                                         </div>
                                         <div class="clearBoth">
                                         </div>
@@ -372,8 +354,7 @@
                                             <input id="btnCancel" type="button" value="Cancel" class="start_creating_btn rounded_corners5" tabindex="15" />
                                         </div>
                                     </div>
-                                    
-                                    
+
                                     <div class="clearBoth">
                                     </div>
                                     <br />

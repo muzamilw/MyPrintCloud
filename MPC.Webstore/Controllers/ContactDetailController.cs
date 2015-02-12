@@ -27,10 +27,14 @@ namespace MPC.Webstore.Controllers
         {
             
             CompanyContact contact = _myCompanyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
-            Company Company = _myCompanyService.GetCompanyByCompanyID(_webstoreAuthorizationChecker.loginContactCompanyID());
-            if (Company != null)
+            if (UserCookieManager.StoreMode ==(int)StoreMode.Retail)
             {
-                ViewBag.CompanyName = Company.Name;
+                Company Company = _myCompanyService.GetCompanyByCompanyID(_webstoreAuthorizationChecker.loginContactCompanyID());
+                if (Company != null)
+                {
+                    ViewBag.CompanyName = Company.Name;
+                }
+
             }
             if (contact != null)
             {
@@ -81,6 +85,7 @@ namespace MPC.Webstore.Controllers
                if (Company != null)
                {
                    Company.Name = Request.Form["txtCompanyName"].ToString();
+                   Company.CompanyId = _webstoreAuthorizationChecker.loginContactCompanyID();
                    _myCompanyService.UpdateCompany(Company);
                }
                _myCompanyService.UpdateCompanyContactForRetail(UpdateContact);
