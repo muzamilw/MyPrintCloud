@@ -41,7 +41,7 @@ namespace MPC.Interfaces.Repository
         string SystemWeight(long OrganisationID);
 
         string SystemLength(long OrganisationID);
-
+        void UpdateCompanyName(Company Instance);
         
 
     }
