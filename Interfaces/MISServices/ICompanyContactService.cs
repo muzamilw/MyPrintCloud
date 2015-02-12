@@ -25,5 +25,15 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         bool DeleteContactForCrm(long companyContactId);
 
+        /// <summary>
+        /// Get Base Data
+        /// </summary>
+        CompanyBaseResponse GetBaseData();
+
+        /// <summary>
+        /// Get Contact Detail
+        /// </summary>
+        CompanyBaseResponse GetContactDetail(short companyId);
+
     }
 }

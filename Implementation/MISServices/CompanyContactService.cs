@@ -10,6 +10,10 @@ namespace MPC.Implementation.MISServices
     public class CompanyContactService : ICompanyContactService
     {
          private readonly ICompanyContactRepository companyContactRepository;
+        private readonly ICompanyTerritoryRepository companyTerritoryRepository;
+        private readonly ICompanyContactRoleRepository companyContactRoleRepository;
+        private readonly IRegistrationQuestionRepository registrationQuestionRepository;
+        private readonly IAddressRepository addressRepository;
          private CompanyContact Create(CompanyContact companyContact)
          {
              UpdateDefaultBehaviourOfContactCompany(companyContact);
@@ -43,10 +47,15 @@ namespace MPC.Implementation.MISServices
         }
         #region Constructor
 
-         public CompanyContactService(ICompanyContactRepository companyContactRepository)
-        {
-            this.companyContactRepository = companyContactRepository;
-        }
+         public CompanyContactService(ICompanyContactRepository companyContactRepository, ICompanyTerritoryRepository companyTerritoryRepository, ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository, IAddressRepository addressRepository)
+         {
+             this.companyContactRepository = companyContactRepository;
+             this.companyTerritoryRepository = companyTerritoryRepository;
+             this.companyContactRoleRepository = companyContactRoleRepository;
+             this.registrationQuestionRepository = registrationQuestionRepository;
+             this.addressRepository = addressRepository;
+         }
+
         #endregion
 
         /// <summary>
@@ -92,6 +101,28 @@ namespace MPC.Implementation.MISServices
             return Update(companyContact);
         }
 
-       
+        /// <summary>
+        /// Get Base Data
+        /// </summary>
+        public CompanyBaseResponse GetBaseData()
+        {
+            return new CompanyBaseResponse
+            {
+                CompanyContactRoles = companyContactRoleRepository.GetAll(),
+                RegistrationQuestions = registrationQuestionRepository.GetAll(),
+            };   
+        }
+
+        /// <summary>
+        /// Get Contact Detail
+        /// </summary>
+        public CompanyBaseResponse GetContactDetail(short companyId)
+        {
+            return new CompanyBaseResponse
+            {
+                CompanyTerritories = companyTerritoryRepository.GetAllCompanyTerritories(companyId),
+                Addresses = addressRepository.GetAllAddressByStoreId(companyId),
+            }; 
+        }
     }
 }

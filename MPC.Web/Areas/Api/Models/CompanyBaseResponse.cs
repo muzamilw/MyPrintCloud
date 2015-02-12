@@ -19,6 +19,8 @@ namespace MPC.MIS.Areas.Api.Models
         public IEnumerable<Widget> Widgets { get; set; }
         public IEnumerable<CmsPageDropDown> CmsPageDropDownList { get; set; }
         public IEnumerable<CostCentreDropDown> CostCenterDropDownList { get; set; }
+        public IEnumerable<CountryDropDown> CountryDropDowns { get; set; }
+        public IEnumerable<StateDropDown> StateDropDowns { get; set; }
 
 
         /// <summary>

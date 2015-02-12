@@ -260,5 +260,19 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 RowCount = response.RowCount
             };
         }
+
+        /// <summary>
+        /// Base Data Mapper
+        /// </summary>
+        public static CompanyBaseResponse CreateFrom(this MPC.Models.ResponseModels.CompanyBaseResponse result)
+        {
+            return new CompanyBaseResponse
+            {
+                CompanyContactRoles = result.CompanyContactRoles != null ? result.CompanyContactRoles.Select(x => x.CreateFrom()) : null,
+                RegistrationQuestions = result.RegistrationQuestions != null ? result.RegistrationQuestions.Select(x => x.CreateFromDropDown()) : null,
+                Addresses = result.Addresses!=null ? result.Addresses.Select(address=> address.CreateFrom()):null,
+                CompanyTerritories = result.CompanyTerritories!=null ? result.CompanyTerritories.Select(territory=> territory.CreateFrom()):null,
+            }; 
+        }
     }
 }

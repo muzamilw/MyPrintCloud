@@ -253,6 +253,7 @@
     <Compile Include="Areas\Api\Controllers\CalendarBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\CalendarController.cs" />
     <Compile Include="Areas\Api\Controllers\CampaignBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\CompanyContactBaseForCrmController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCrmController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />
     <Compile Include="Areas\Api\Controllers\CrmSupplierController.cs" />
@@ -2810,6 +2811,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Api\Views\Address\" />
     <Folder Include="Areas\Api\Views\Category\" />
+    <Folder Include="Areas\Api\Views\CompanyContactBaseForCrm\" />
     <Folder Include="Areas\Api\Views\CompanyContactForCrm\" />
     <Folder Include="Areas\Api\Views\CompanyContact\" />
     <Folder Include="Areas\Api\Views\CompanyProduct\" />

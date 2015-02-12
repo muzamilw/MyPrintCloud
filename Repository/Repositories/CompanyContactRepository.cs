@@ -621,7 +621,7 @@ namespace MPC.Repository.Repositories
                     (contact.MiddleName.Contains(request.SearchFilter)) ||
                     (contact.LastName.Contains(request.SearchFilter)) ||
                     (contact.quickCompanyName.Contains(request.SearchFilter))) &&
-                    (contact.Company.IsCustomer == 0 || contact.Company.IsCustomer == 2) && contact.isArchived==false;
+                    (contact.Company.IsCustomer == 0 || contact.Company.IsCustomer == 1) && contact.isArchived==false;
 
             int rowCount = DbSet.Count(query);
             IEnumerable<CompanyContact> companyContacts = request.IsAsc

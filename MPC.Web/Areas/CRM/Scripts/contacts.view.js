@@ -16,11 +16,16 @@ define("crm/contacts.view",
                 if (!bindingRoot) {
                     return;
                 }
+            },
+            // Show Contact Company the dialog
+            showCompanyContactDetailDialog = function() {
+                $("#myContactProfileModal").modal("show");
             };
             initialize();
             return {
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
+                showCompanyContactDetailDialog: showCompanyContactDetailDialog
             };
         })(contactsViewModel);
 
