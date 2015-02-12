@@ -16,6 +16,10 @@ namespace MPC.Interfaces.Repository
         bool UpdateMachine(Machine machine);
         //   List<Machine> GetMachineList();
         MachineSearchResponse GetMachinesForProduct(MachineSearchRequestModel request);
+
+        List<Machine> GetMachinesByOrganisationID(long OID);
+
+        List<LookupMethod> getLookupmethodsbyOrganisationID(long OID);
     }
 }
 

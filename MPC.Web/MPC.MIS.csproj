@@ -631,7 +631,6 @@
     <Content Include="Areas\Settings\Scripts\MIS\prefix.view.js" />
     <Content Include="Areas\Settings\Scripts\MIS\costcenter.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\prefix.viewModel.js" />
-    <Content Include="Areas\Settings\Scripts\MIS\spectrum.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.view.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.dataservice.js" />

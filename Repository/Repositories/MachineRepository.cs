@@ -204,6 +204,28 @@ namespace MPC.Repository.Repositories
             return db.MachineResources;
         }
         
+        public List<Machine> GetMachinesByOrganisationID(long OID)
+        {
+            try
+            {
+                return db.Machines.Where(o => o.OrganisationId == OID).ToList();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<LookupMethod> getLookupmethodsbyOrganisationID(long OID)
+        {
+            try
+            {
+                return db.LookupMethods.Where(o => o.OrganisationId == OID).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
       
     }
 }

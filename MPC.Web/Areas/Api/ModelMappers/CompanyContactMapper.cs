@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
 
@@ -247,6 +249,15 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 ContactId = source.ContactId,
                 Name = source.FirstName
+            };
+        }
+
+        public static CompanyContactResponse CreateFrom(this MPC.Models.ResponseModels.CompanyContactResponse response)
+        {
+            return new CompanyContactResponse
+            {
+                CompanyContacts = response.CompanyContacts.Select(contact => contact.CreateFrom()),
+                RowCount = response.RowCount
             };
         }
     }
