@@ -308,6 +308,14 @@ define("stores/stores.viewModel",
                     selectedStore().userDefinedSpriteImageSource(data);
                     selectedStore().userDefinedSpriteImageFileName(file.name);
                 },
+                //Update: If store is creating and user select this store as Retail
+                //  Then Create one new default territory and select this territory in all new creating address and user
+
+                createNewTerritoryForRetailStore = ko.computed(function() {
+                    if (selectedStore() != undefined) {
+
+                    }
+                }),
 
                 //#endregion _____________________  S T O R E ____________________
 
