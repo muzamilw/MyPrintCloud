@@ -42,7 +42,6 @@ namespace MPC.Models.DomainModels
         public short? IsLocked { get; set; }
         public int? LockedBy { get; set; }
         public int? SystemSiteId { get; set; }
-        public int? ContactCompanyId { get; set; }
         public int? ProductTypeId { get; set; }
         public int? SourceId { get; set; }
         public int? FlagId { get; set; }
