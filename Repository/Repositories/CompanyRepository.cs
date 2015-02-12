@@ -151,6 +151,12 @@ namespace MPC.Repository.Repositories
             db.Configuration.LazyLoadingEnabled = false;
             return db.Companies.FirstOrDefault(c => c.CompanyId == companyId);
         }
+        public Company GetStoreByStoreId(long companyId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+            return db.Companies.Include("CompanyDomain").Include("CmsOffer").Include("MediaLibrary").Include("CompanyBannerSet").Include("CompanyBannerSet.CompanyBanner").Include("CmsPage").Include("RaveReview").Include("CompanyTerritory").Include("Address").Include("CompanyContact").Include("ProductCategory").Include("Items").Include("Items.ItemSection").Include("Items.ItemSection.SectionCostcentre").Include("Items.ItemSection.SectionCostcentre.SectionCostCentreResource").Include("PaymentGateway").Include("CmsSkinPageWidget").Include("CompanyCostCentre").Include("CompanyCMYKColor").FirstOrDefault(c => c.CompanyId == companyId);
+        }
 
         /// <summary>
         /// Get Company Price Flag id for Price Matrix in webstore

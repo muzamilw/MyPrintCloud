@@ -42,6 +42,7 @@ namespace MPC.Interfaces.Repository
 
         string SystemLength(long OrganisationID);
 
+        Company GetStoreByStoreId(long companyId);
         
 
     }
