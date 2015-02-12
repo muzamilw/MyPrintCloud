@@ -22,7 +22,14 @@ namespace MPC.MIS.Areas.CRM.Controllers
             return View();
         }
 
-       
+        /// <summary>
+        /// Contacts
+        /// </summary>
+        public ActionResult Contacts()
+        {
+            return View();
+        }
+
         public ActionResult ContactCompanies()
         {
             return View();
