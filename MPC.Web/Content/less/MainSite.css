@@ -106,9 +106,6 @@
 #productBinding .filter-block .form-group {
   margin-bottom: 0;
 }
-#productBinding #stockDialog #stockDialogMainContainer {
-  width: 838px;
-}
 #productBinding #pressDialog #pressDialogMainContainer {
   width: 838px;
 }
@@ -424,4 +421,7 @@
 }
 #inventoryCategoriesBinding #detailArea {
   margin-top: 3px;
+}
+#stockDialog #stockDialogMainContainer {
+  width: 838px;
 }

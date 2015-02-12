@@ -3,8 +3,8 @@
 */
 define("product/product.viewModel",
     ["jquery", "amplify", "ko", "product/product.dataservice", "product/product.model", "common/pagination", "common/confirmation.viewModel",
-        "common/phraseLibrary.viewModel", "common/sharedNavigation.viewModel"],
-    function ($, amplify, ko, dataservice, model, pagination, confirmation, phraseLibrary, shared) {
+        "common/phraseLibrary.viewModel", "common/sharedNavigation.viewModel", "common/stockItem.viewModel"],
+    function ($, amplify, ko, dataservice, model, pagination, confirmation, phraseLibrary, shared, stockDialog) {
         var ist = window.ist || {};
         ist.product = {
             viewModel: (function () {
@@ -17,8 +17,6 @@ define("product/product.viewModel",
                     productsToRelate = ko.observableArray([]),
                     // Error List
                     errorList = ko.observableArray([]),
-                    // Stock Items
-                    stockItems = ko.observableArray([]),
                     // Press Items
                     pressItems = ko.observableArray([]),
                     // Cost Centres
@@ -106,8 +104,6 @@ define("product/product.viewModel",
                     pager = ko.observable(new pagination.Pagination({ PageSize: 5 }, products)),
                     // Pagination For Item Relater Dialog
                     itemRelaterPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, productsToRelate)),
-                    // Pagination For Stock Item Dialog
-                    stockDialogPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, stockItems)),
                     // Pagination For Press Dialog
                     pressDialogPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, pressItems)),
                     // Current Page - Editable
@@ -139,7 +135,6 @@ define("product/product.viewModel",
                             openStockItemDialog(stockCategoryId);
                         },
                         onSelectStockItem: function () {
-                            closeStockItemDialog();
                         },
                         onUpdateItemAddonCostCentre: function () {
                             openItemAddonCostCentreDialog();
@@ -164,10 +159,6 @@ define("product/product.viewModel",
                     itemStateTaxConstructorParams = { countries: countries(), states: states() },
                     // Selected Job Description
                     selectedJobDescription = ko.observable(),
-                    // Stock Dialog Filter
-                    stockDialogFilter = ko.observable(),
-                    // Stock Dialog Cat Filter
-                    stockDialogCatFilter = ko.observable(),
                     // press Dialog Filter
                     pressDialogFilter = ko.observable(),
                     //#endregion
@@ -334,40 +325,11 @@ define("product/product.viewModel",
                     selectJobDescription = function (jobDescription, e) {
                         selectedJobDescription(e.currentTarget.id);
                     },
-                    // Search Stock Items
-                    searchStockItems = function () {
-                        stockDialogPager().reset();
-                        getStockItems();
-                    },
-                    // Reset Stock Items
-                    resetStockItems = function () {
-                        // Reset Text 
-                        resetStockDialogFilters();
-                        // Filter Record
-                        searchStockItems();
-                    },
-                    // Reset Stock Dialog Filters
-                    resetStockDialogFilters = function () {
-                        // Reset Text 
-                        stockDialogFilter(undefined);
-                        // Reset Category
-                        stockDialogCatFilter(undefined);
-                    },
                     // Open Stock Item Dialog
                     openStockItemDialog = function (stockCategoryId) {
-                        // Reset Stock Dialog Filters
-                        resetStockDialogFilters();
-                        
-                        if (stockCategoryId) {
-                            stockDialogCatFilter(stockCategoryId);
-                        }
-
-                        view.showStockItemDialog();
-                        searchStockItems();
-                    },
-                    // Close Stock Item Dialog
-                    closeStockItemDialog = function () {
-                        view.hideStockItemDialog();
+                        stockDialog.show(function(stockItem) {
+                            selectedProduct().onSelectStockItem(stockItem);
+                        }, stockCategoryId, false);
                     },
                     // Search Press Items
                     searchPressItems = function () {
@@ -540,11 +502,9 @@ define("product/product.viewModel",
 
                         pager(new pagination.Pagination({ PageSize: 5 }, products, getItems));
 
-                        itemRelaterPager(new pagination.Pagination({ PageSize: 5 }, productsToRelate, getItemsToRelate)),
-
-                        stockDialogPager(new pagination.Pagination({ PageSize: 5 }, stockItems, getStockItems)),
+                        itemRelaterPager(new pagination.Pagination({ PageSize: 5 }, productsToRelate, getItemsToRelate));
                         
-                        pressDialogPager(new pagination.Pagination({ PageSize: 5 }, pressItems, getPressItems)),
+                        pressDialogPager(new pagination.Pagination({ PageSize: 5 }, pressItems, getPressItems));
 
                         // Get Base Data
                         getBaseData();
@@ -628,17 +588,6 @@ define("product/product.viewModel",
                         // Push to Original Array
                         ko.utils.arrayPushAll(productsToRelate(), itemsList);
                         productsToRelate.valueHasMutated();
-                    },
-                    // Map Stock Items 
-                    mapStockItems = function (data) {
-                        var itemsList = [];
-                        _.each(data, function (item) {
-                            itemsList.push(model.StockItem.Create(item));
-                        });
-
-                        // Push to Original Array
-                        ko.utils.arrayPushAll(stockItems(), itemsList);
-                        stockItems.valueHasMutated();
                     },
                     // Map Press Items 
                     mapPressItems = function (data) {
@@ -1022,26 +971,6 @@ define("product/product.viewModel",
                             }
                         });
                     },
-                    // Get Stock Items
-                    getStockItems = function () {
-                        dataservice.getStockItems({
-                            SearchString: stockDialogFilter(),
-                            PageSize: stockDialogPager().pageSize(),
-                            PageNo: stockDialogPager().currentPage(),
-                            CategoryId: stockDialogCatFilter(),
-                        }, {
-                            success: function (data) {
-                                stockItems.removeAll();
-                                if (data && data.TotalCount > 0) {
-                                    stockDialogPager().totalCount(data.TotalCount);
-                                    mapStockItems(data.StockItems);
-                                }
-                            },
-                            error: function (response) {
-                                toastr.error("Failed to load stock items" + response);
-                            }
-                        });
-                    },
                     // Get Press Items
                     getPressItems = function () {
                         dataservice.getMachines({
@@ -1181,9 +1110,6 @@ define("product/product.viewModel",
                     productsToRelate: productsToRelate,
                     selectedJobDescription: selectedJobDescription,
                     itemFileTypes: itemFileTypes,
-                    stockDialogPager: stockDialogPager,
-                    stockDialogFilter: stockDialogFilter,
-                    stockItems: stockItems,
                     costCentres: costCentres,
                     sectionFlags: sectionFlags,
                     suppliers: suppliers,
@@ -1219,10 +1145,6 @@ define("product/product.viewModel",
                     onAddRelatedItem: onAddRelatedItem,
                     saveVideo: saveVideo,
                     selectJobDescription: selectJobDescription,
-                    searchStockItems: searchStockItems,
-                    resetStockItems: resetStockItems,
-                    openStockItemDialog: openStockItemDialog,
-                    closeStockItemDialog: closeStockItemDialog,
                     openItemAddonCostCentreDialog: openItemAddonCostCentreDialog,
                     closeItemAddonCostCentreDialog: closeItemAddonCostCentreDialog,
                     gotoElement: gotoElement,
