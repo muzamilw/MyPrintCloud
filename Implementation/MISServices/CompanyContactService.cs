@@ -1,6 +1,9 @@
-﻿using MPC.Interfaces.MISServices;
+﻿using System.Windows.Forms;
+using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Implementation.MISServices
 {
@@ -46,6 +49,13 @@ namespace MPC.Implementation.MISServices
         }
         #endregion
 
+        /// <summary>
+        /// Get Company Contacts
+        /// </summary>
+        public CompanyContactResponse SearchCompanyContacts(CompanyContactRequestModel request)
+        {
+            return companyContactRepository.GetCompanyContactsForCrm(request);
+        }
         public bool Delete(long companyContactId)
         {
             var dbCompanyContact = companyContactRepository.GetContactByID(companyContactId);
@@ -57,6 +67,22 @@ namespace MPC.Implementation.MISServices
             }
             return false;
         }
+
+        /// <summary>
+        /// Deletion for Crm
+        /// </summary>
+        public bool DeleteContactForCrm(long companyContactId)
+        {
+            var dbCompanyContact = companyContactRepository.GetContactByID(companyContactId);
+            if (dbCompanyContact != null)
+            {
+                dbCompanyContact.isArchived = true;
+                companyContactRepository.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
         public CompanyContact Save(CompanyContact companyContact)
         {
             if (companyContact.ContactId == 0)
@@ -65,5 +91,7 @@ namespace MPC.Implementation.MISServices
             }
             return Update(companyContact);
         }
+
+       
     }
 }

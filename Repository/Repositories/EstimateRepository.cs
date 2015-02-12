@@ -78,7 +78,8 @@ namespace MPC.Repository.Repositories
             Expression<Func<Estimate, bool>> query =
                 item =>
                     ((string.IsNullOrEmpty(request.SearchString) || (item.Company != null && item.Company.Name.Contains(request.SearchString))) &&
-                    !item.isEstimate.HasValue && item.OrganisationId == OrganisationId);
+                    (item.isEstimate.HasValue && !item.isEstimate.Value) &&
+                    item.OrganisationId == OrganisationId);
 
             IEnumerable<Estimate> items = request.IsAsc
                ? DbSet.Where(query)

@@ -49,8 +49,6 @@ namespace MPC.Implementation.MISServices
         private readonly ICmsSkinPageWidgetRepository cmsSkinPageWidgetRepository;
         private readonly IProductCategoryRepository productCategoryRepository;
         private readonly IOrganisationRepository organisationRepository;
-        private readonly IOrganisationFileTableViewRepository mpcFileTableViewRepository;
-        private readonly IProductCategoryFileTableViewRepository productCategoryFileTableViewRepository;
         private readonly IGetItemsListViewRepository itemsListViewRepository;
         private readonly IItemRepository itemRepository;
         private readonly IItemStockOptionRepository itemStockOptionRepository;
@@ -2063,7 +2061,7 @@ namespace MPC.Implementation.MISServices
             , ICompanyBannerRepository companyBannerRepository, ICompanyContactRepository companyContactRepository, ICmsPageRepository cmsPageRepository,
              IPageCategoryRepository pageCategoryRepository, IEmailEventRepository emailEventRepository, IPaymentMethodRepository paymentMethodRepository,
             IPaymentGatewayRepository paymentGatewayRepository, IWidgetRepository widgetRepository, ICmsSkinPageWidgetRepository cmsSkinPageWidgetRepository, IProductCategoryRepository productCategoryRepository,
-            IOrganisationRepository organisationRepository, IOrganisationFileTableViewRepository mpcFileTableViewRepository, IProductCategoryFileTableViewRepository productCategoryFileTableViewRepository,
+            IOrganisationRepository organisationRepository,
             IItemRepository itemRepository, IGetItemsListViewRepository itemsListViewRepository, IItemStockOptionRepository itemStockOptionRepository,
             IPrefixRepository prefixRepository, IItemVdpPriceRepository itemVdpPriceRepository,
             IItemVideoRepository itemVideoRepository,
@@ -2101,8 +2099,6 @@ namespace MPC.Implementation.MISServices
             this.cmsSkinPageWidgetRepository = cmsSkinPageWidgetRepository;
             this.productCategoryRepository = productCategoryRepository;
             this.organisationRepository = organisationRepository;
-            this.mpcFileTableViewRepository = mpcFileTableViewRepository;
-            this.productCategoryFileTableViewRepository = productCategoryFileTableViewRepository;
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
             this.itemStockOptionRepository = itemStockOptionRepository;

@@ -68,6 +68,7 @@
     <Compile Include="Data\SecurityAccessRight.cs" />
     <Compile Include="MISServices\IAddressService.cs" />
     <Compile Include="MISServices\IAuthorizationChecker.cs" />
+    <Compile Include="MISServices\ICalendarService.cs" />
     <Compile Include="MISServices\ICampaignService.cs" />
     <Compile Include="MISServices\ICategoryService.cs" />
     <Compile Include="MISServices\IClaimsSecurityService.cs" />
@@ -117,15 +118,14 @@
     <Compile Include="Repository\IItemProductDetailRepository.cs" />
     <Compile Include="Repository\IListingRepository.cs" />
     <Compile Include="Repository\IMachineRepository.cs" />
-    <Compile Include="Repository\IOrganisationFileTableViewRepository.cs" />
-    <Compile Include="Repository\IMpcFileTableViewRepository.cs" />
     <Compile Include="Repository\IOrderRepository.cs" />
     <Compile Include="Repository\IPaymentGatewayRepository.cs" />
     <Compile Include="Repository\IPaymentMethodRepository.cs" />
     <Compile Include="Repository\IPhraseFieldRepository.cs" />
     <Compile Include="Repository\IPhraseRespository.cs" />
-    <Compile Include="Repository\IProductCategoryFileTableViewRepository.cs" />
+    <Compile Include="Repository\IPipeLineProductRepository.cs" />
     <Compile Include="Repository\IReportRepository.cs" />
+    <Compile Include="Repository\IPipeLineSourceRepository.cs" />
     <Compile Include="Repository\IStateRepository.cs" />
     <Compile Include="Repository\ICostCenterTypeRepository.cs" />
     <Compile Include="Repository\ITemplateBackgroundImagesRepository.cs" />

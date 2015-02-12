@@ -15,43 +15,23 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3 hidden-xs hidden-sm">
-                <div class="main-box" id="external-events">
-                    <header class="main-box-header clearfix">
-                        <h2>Draggable Events</h2>
-                    </header>
-                    <div class="main-box-body clearfix">
-                        <!-- ko template: { name: 'eventItemTemplate', foreach: $root.externalEvents  }-->
-                        <!-- /ko -->
-                        
-                        <div class="form-group">
-                            <label class="checkbox-inline">
-                                <input type="checkbox" id="drop-remove" value="option1">
-                                Remove after drop
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <div class="main-box">
                     <div class="main-box-body clearfix">
                         @*<div id="calendar"></div>*@
-                        <div id="calendar" data-bind="fullCalendar: $root.mycCalender" data-eventclass="label-primary"> </div>
+                        <div id="calendar" data-bind="fullCalendar: $root.mycCalender, itemsList: $root.items" data-eventclass="label-primary"> </div>
                     </div>
                 </div>
             </div>
         </div>
+        @Html.Partial("~/Areas/CRM/Views/Home/_AddEditCalendarActivity.cshtml")
+     
     </div>
 </div>
 @section Scripts {
     @*<script src="~/Content/themes/Centaurus/js/fullcalendar.min.js"></script>*@
     <script>
         require(["calendar/calendar.view"]);
-       
+
     </script>
 }
-
-<script id="eventItemTemplate" type="text/html">
-    <div class="external-event label-primary" data-eventclass="label-primary" data-bind="text: $data.name(),drag: $root.draggedExternalEvent"></div>
-</script>

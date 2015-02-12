@@ -168,11 +168,13 @@ define("stores/stores.viewModel",
                     if (selectedStore() && selectedStore().webAccessCode() != undefined) {
                         if (selectedStore().companyDomains().length == 0) {
                             selectedStore().companyDomains.splice(0, 0, new model.CompanyDomain());
-                            selectedStore().companyDomains()[0].domain(window.location.host + '/' + selectedStore().webAccessCode() + '/login');
+                            //selectedStore().companyDomains()[0].domain(window.location.host + '/' + selectedStore().webAccessCode() + '/login');
+                            selectedStore().companyDomains()[0].domain(window.location.host + '/store/' + selectedStore().webAccessCode());
                         } else if (selectedStore().companyDomains().length > 0) {
                             _.each(selectedStore().companyDomains(), function (companyDomain) {
                                 if (companyDomain.isMandatoryDomain()) {
-                                    companyDomain.domain(window.location.host + '/' + selectedStore().webAccessCode() + '/login');
+                                    //companyDomain.domain(window.location.host + '/' + selectedStore().webAccessCode() + '/login');
+                                    companyDomain.domain(window.location.host + '/store/' + selectedStore().webAccessCode());
                                 }
                             });
                         }
@@ -209,12 +211,14 @@ define("stores/stores.viewModel",
                 },
                 //On Edit Click Of Store
                 onEditItem = function (item) {
-
+                    $('.bs-example-tooltips a').popover();
                     editorViewModel.selectItem(item);
                     openEditDialog();
                     $('.nav-tabs').children().removeClass('active');
                     $('#generalInfoTab').addClass('active');
+                    $('.bs-example-tooltips a').popover();
                     sharedNavigationVM.initialize(selectedStore, function (saveCallback) { saveStore(saveCallback); });
+                    $('.bs-example-tooltips a').popover();
                 },
                 //On Edit Click Of Store
                 onCreateNewStore = function () {
@@ -2479,7 +2483,7 @@ define("stores/stores.viewModel",
                                 haveIsDefaultTerritory = true;
                             }
                         });
-                        _.each(selectedStore().addresses(), function (territory) {
+                        _.each(selectedStore().addresses(), function (address) {
                             if (address.isDefaultTerrorityBilling()) {
                                 haveIsBillingDefaultAddress = true;
                             }
@@ -2758,6 +2762,7 @@ define("stores/stores.viewModel",
                 //Open Store Dialog
                 openEditDialog = function () {
                     isEditorVisible(true);
+                    
                     getStoreForEditting();
                     view.initializeForm();
                     getBaseData();

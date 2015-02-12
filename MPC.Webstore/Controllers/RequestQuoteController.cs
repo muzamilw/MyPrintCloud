@@ -47,7 +47,7 @@ namespace MPC.Webstore.Controllers
 
         }
         [HttpPost]
-        public ActionResult Index(RequestQuote Model, string hfNoOfRec, HttpPostedFileBase Request)
+        public ActionResult Index(RequestQuote Model, HttpPostedFileBase uploadFile, string hfNoOfRec)
         {
             Inquiry NewInqury = new Inquiry();
 
@@ -111,7 +111,7 @@ namespace MPC.Webstore.Controllers
             {
                 if (Request.ContentLength < iMaxFileSize)
                 {
-                    FillAttachments(result, Request);
+                    FillAttachments(result, uploadFile);
                 }
             }
             if (result > 0)
@@ -238,7 +238,7 @@ namespace MPC.Webstore.Controllers
             if (Request != null)
             {
                 List<InquiryAttachment> listOfAttachment = new List<InquiryAttachment>();
-                string folderPath = "Attachments" + "/" + UserCookieManager.OrganisationID + "/" + UserCookieManager.StoreId + "/" + inquiryID + "";
+                string folderPath = "/mpc_content/Attachments/" + "/" + UserCookieManager.OrganisationID + "/" + UserCookieManager.StoreId + "/" + inquiryID + "";
                 string virtualFolderPth = string.Empty;
 
                 virtualFolderPth = @Server.MapPath(folderPath);

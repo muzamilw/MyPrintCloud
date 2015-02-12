@@ -76,8 +76,6 @@ namespace MPC.Repository.Repositories
 
             orderObject.OrganisationId = OrganisationId;
 
-            orderObject.CompanyName = "N/A";
-
             orderObject.ContactId = ContactId;
 
             orderObject.isEstimate = false;
@@ -1704,6 +1702,16 @@ namespace MPC.Repository.Repositories
             return true;
 
         }
+        public  Estimate GetLastOrderByContactID(long contactID)
+        {
+
+            List<Estimate> ordesList = db.Estimates.Where(order => order.ContactId == contactID && order.isEstimate == false).Take(1).ToList();
+                if (ordesList.Count > 0)
+                    return ordesList[0];
+                else
+                    return null;
+        }
+
 
     }
 }

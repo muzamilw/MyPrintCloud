@@ -13,6 +13,8 @@ define("order/order.viewModel",
                     // #region Arrays
                     // orders
                     orders = ko.observableArray([]),
+                     // flag coulus
+                    sectionFlags = ko.observableArray([]),
                     // Errors List
                     errorList = ko.observableArray([]),
                     // #endregion Arrays
@@ -86,8 +88,7 @@ define("order/order.viewModel",
                         pager(new pagination.Pagination({ PageSize: 5 }, orders, getOrders));
 
                         // Get Base Data
-                        //getBaseData();
-
+                        getBaseData();
                         // Get Orders
                         getOrders();
 
@@ -96,9 +97,9 @@ define("order/order.viewModel",
                     mapOrders = function (data) {
                         var ordersList = [];
                         _.each(data, function (order) {
+                            order.FlagColor = getSectionFlagColor(order.SectionFlagId);
                             ordersList.push(model.Estimate.Create(order));
                         });
-
                         // Push to Original Array
                         ko.utils.arrayPushAll(orders(), ordersList);
                         orders.valueHasMutated();
@@ -156,7 +157,9 @@ define("order/order.viewModel",
                         dataservice.getBaseData({
                             success: function (data) {
                                 if (data) {
-                                    
+                                    _.each(data, function (sectionFlag) {
+                                        sectionFlags.push(model.SectionFlag.Create(sectionFlag));
+                                    });
                                 }
                             },
                             error: function (response) {
@@ -164,19 +167,27 @@ define("order/order.viewModel",
                             }
                         });
                     },
+                    // Get Section flag color
+                    getSectionFlagColor = function (sectionFlagId) {
+                        var sectionFlg = sectionFlags.find(function (sectionFlag) {
+                            return sectionFlag.id == sectionFlagId;
+                        });
+
+                        if (!sectionFlg) {
+                            return undefined;
+                        }
+
+                        return sectionFlg.color;
+                    },
                     // Save Order
                     saveOrder = function (callback, navigateCallback) {
                         var order = selectedOrder().convertToServerData();
-                       
                         dataservice.saveOrder(order, {
                             success: function (data) {
                                 if (!selectedOrder().id()) {
                                     // Update Id
                                     selectedOrder().id(data.OrderId);
-
-                                    // Update Min Price
-                                    selectedOrder().miniPrice(data.MinPrice || 0);
-
+                                    
                                     // Add to top of list
                                     orders.splice(0, 0, selectedOrder());
                                 }
@@ -240,7 +251,6 @@ define("order/order.viewModel",
                             }
                         });
                     },
-                    
                     // Get Orders
                     getOrders = function () {
                         isLoadingOrders(true);

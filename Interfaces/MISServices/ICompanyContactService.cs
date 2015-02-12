@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MPC.Models.DomainModels;
+﻿using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Interfaces.MISServices
 {
@@ -12,14 +9,21 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Save
         /// </summary>
-        /// <param name="companyContact"></param>
-        /// <returns></returns>
         CompanyContact Save(CompanyContact companyContact);
         /// <summary>
         /// Delete
         /// </summary>
-        /// <param name="companyContactId"></param>
-        /// <returns></returns>
         bool Delete(long companyContactId);
+
+        /// <summary>
+        /// Get Company Contacts
+        /// </summary>
+        CompanyContactResponse SearchCompanyContacts(CompanyContactRequestModel request);
+
+        /// <summary>
+        /// Deletion for Crm
+        /// </summary>
+        bool DeleteContactForCrm(long companyContactId);
+
     }
 }

@@ -4,7 +4,6 @@ using MPC.Implementation.MISServices;
 using MPC.Implementation.WebStoreServices;
 using MPC.Interfaces.Logger;
 using MPC.Interfaces.MISServices;
-using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using webstoreInterfaces = MPC.Interfaces.WebStoreServices;
 using webstoreImplementation = MPC.Implementation.WebStoreServices;
@@ -55,13 +54,14 @@ namespace MPC.Implementation
             unityContainer.RegisterType<ICostCentreService, CostCentreService>();
             unityContainer.RegisterType<IListingService, ListingService>();
             unityContainer.RegisterType<IImagePermissionsService, ImagePermissionService>();
-            unityContainer.RegisterType<MISInterfaces.ICostCentersService, MISImplementation.CostCenterService>();
-            unityContainer.RegisterType<MISInterfaces.IMachineService, MISImplementation.MachineService>();
+            unityContainer.RegisterType<ICostCentersService, CostCenterService>();
+            unityContainer.RegisterType<IMachineService, MachineService>();
             unityContainer.RegisterType<Interfaces.WebStoreServices.ICampaignService, WebStoreServices.CampaignService>();
             unityContainer.RegisterType<ICompanyTerritoryService, CompanyTerritoryService>();
             unityContainer.RegisterType<IAddressService, AddressService>();
             unityContainer.RegisterType<ICompanyContactService, CompanyContactService>();
             unityContainer.RegisterType<ICrmSupplierService, CrmSupplierService>();
+            unityContainer.RegisterType<ICalendarService, CalendarService>();
             unityContainer.RegisterType<ICustomerService, CustomerService>();
             unityContainer.RegisterType<MISInterfaces.IOrderService, MISImplementation.OrderService>();
         }

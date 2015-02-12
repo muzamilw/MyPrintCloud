@@ -276,61 +276,6 @@ namespace MPC.Repository.BaseRepository
         public DbSet<TemplateObject> TemplateObjects { get; set; }
 
         /// <summary>
-        /// Organisation File Table View DbSet
-        /// </summary>
-        public DbSet<OrganisationFileTableView> OrganisationFileTableViews { get; set; }
-
-        /// <summary>
-        /// Artwork File Table View DbSet
-        /// </summary>
-        public DbSet<ArtworkFileTableView> ArtworkFileTableViews { get; set; }
-
-        /// <summary>
-        /// Attachment File Table View DbSet
-        /// </summary>
-        public DbSet<AttachmentFileTableView> AttachmentFileTableViews { get; set; }
-
-        /// <summary>
-        /// Category File Table View DbSet
-        /// </summary>
-        public DbSet<CategoryFileTableView> CategoryFileTableViews { get; set; }
-
-        /// <summary>
-        /// CompanyBanner File Table View DbSet
-        /// </summary>
-        public DbSet<CompanyBannerFileTableView> CompanyBannerFileTableViews { get; set; }
-
-        /// <summary>
-        /// CostCentre File Table View DbSet
-        /// </summary>
-        public DbSet<CostCentreFileTableView> CostCentreFileTableViews { get; set; }
-
-        /// <summary>
-        /// Media File Table View DbSet
-        /// </summary>
-        public DbSet<MediaFileTableView> MediaFileTableViews { get; set; }
-
-        /// <summary>
-        /// Product File Table View DbSet
-        /// </summary>
-        public DbSet<ProductFileTableView> ProductFileTableViews { get; set; }
-
-        /// <summary>
-        /// SecondaryPage File Table View DbSet
-        /// </summary>
-        public DbSet<SecondaryPageFileTableView> SecondaryPageFileTableViews { get; set; }
-
-        /// <summary>
-        /// Store File Table View DbSet
-        /// </summary>
-        public DbSet<StoreFileTableView> StoreFileTableViews { get; set; }
-
-        /// <summary>
-        /// Template File Table View DbSet
-        /// </summary>
-        public DbSet<TemplateFileTableView> TemplateFileTableViews { get; set; }
-
-        /// <summary>
         /// Product Market Brief Question DbSet
         /// </summary>
         public DbSet<ProductMarketBriefQuestion> ProductMarketBriefQuestions { get; set; }
@@ -563,6 +508,26 @@ namespace MPC.Repository.BaseRepository
         public DbSet<ReportNote> ReportNotes { get; set; }
 
         /// <summary>
+        /// PipeLineProduct DbSet
+        /// </summary>
+        public DbSet<PipeLineProduct> PipeLineProducts { get; set; }
+
+        /// <summary>
+        /// PipeLineSource DbSet
+        /// </summary>
+        public DbSet<PipeLineSource> PipeLineSources { get; set; }
+
+        /// <summary>
+        /// Activity DbSet
+        /// </summary>
+        public DbSet<Activity> Activities { get; set; }
+
+        /// <summary>
+        /// Activity Type DbSet
+        /// </summary>
+        public DbSet<ActivityType> ActivityTypes { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
 // ReSharper disable InconsistentNaming
@@ -582,69 +547,7 @@ namespace MPC.Repository.BaseRepository
 
             return newTemplateId.HasValue ? newTemplateId.Value : 0;
         }
-
-        /// <summary>
-        /// Stored Procedure to Add File to FileTable
-        /// </summary>
-// ReSharper disable InconsistentNaming
-        public int MPCFileTable_Add(string filename, byte[] filedata, string pathlocator, string fileTableName, bool isDirectory = false)
-// ReSharper restore InconsistentNaming
-        {
-            var filenameParameter = filename != null ?
-                new ObjectParameter("filename", filename) :
-                new ObjectParameter("filename", typeof(string));
-
-            var filedataParameter = filedata != null ?
-                new ObjectParameter("filedata", filedata) :
-                new ObjectParameter("filedata", typeof(byte[]));
-
-            var pathLocatorParameter = !string.IsNullOrEmpty(pathlocator) ?
-               new ObjectParameter("pathlocator", pathlocator) :
-               new ObjectParameter("pathlocator", typeof(string));
-
-            var fileTableParameter = fileTableName != null ?
-                new ObjectParameter("fileTableName", fileTableName) :
-                new ObjectParameter("fileTableName", typeof(string));
-
-            var isDirectoryParameter = new ObjectParameter("isdirectory", isDirectory);
-
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseDbContext.MPCFileTable_Add", filenameParameter, filedataParameter,
-                pathLocatorParameter, isDirectoryParameter, fileTableParameter);
-        }
-
-        /// <summary>
-        /// Stored Procedure to Delete File from FileTable
-        /// </summary>
-// ReSharper disable InconsistentNaming
-        public int MPCFileTable_Del(Guid docId, string fileTableName)
-// ReSharper restore InconsistentNaming
-        {
-            var docIdParameter = new ObjectParameter("docId", docId);
-            var fileTableParameter = fileTableName != null ?
-                new ObjectParameter("fileTableName", fileTableName) :
-                new ObjectParameter("fileTableName", typeof(string));
-
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseDbContext.MPCFileTable_Del", docIdParameter, fileTableParameter);
-        }
-
-        /// <summary>
-        /// Get New Path Locator
-        /// </summary>
-        public string GetNewPathLocator(string filePath, string fileTableName)
-        {
-            var filePathParameter = filePath != null ?
-                new ObjectParameter("filePath", filePath) :
-                new ObjectParameter("filePath", typeof(string));
-
-            var fileTableParameter = fileTableName != null ?
-                new ObjectParameter("fileTableName", fileTableName) :
-                new ObjectParameter("fileTableName", typeof(string));
-
-            ObjectResult<string> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("BaseDbContext.GetNewPathLocator", filePathParameter,
-                fileTableParameter);
-            return result.FirstOrDefault();
-        }
-
+        
         /// <summary>
         /// GetUsedFonts Updated 
         /// </summary>
