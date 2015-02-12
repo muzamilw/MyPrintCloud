@@ -37,22 +37,7 @@ define("machine/machine.viewModel",
                     //    editorViewModel.selectItem(oMachine);
                     //    openEditDialog();
                     //},
-                    //Delete Machine
-                    //deleteMachine = function (oMachine) {
-                    //    dataservice.deleteMachine({
-                    //        CostCentreId: oMachine.CostCentreId(),
-                    //    }, {
-                    //        success: function (data) {
-                    //            if (data != null) {
-                    //                machineList.remove(oMachine);
-                    //                toastr.success(" Deleted Successfully !");
-                    //            }
-                    //        },
-                    //        error: function (response) {
-                    //            toastr.error("Failed to Delete . Error: " + response);
-                    //        }
-                    //    });
-                    //},
+                    
                     GetMachineListForGuillotine = function () {
                         isGuillotineList = true;
                        getMachines();
@@ -70,15 +55,17 @@ define("machine/machine.viewModel",
   
                         confirmation.messageText("Do you want to Archive this Machine?");
                         confirmation.afterProceed(function () {
-                            dataservice.archiveMachine({
+                            dataservice.deleteMachine({
                                 machineId: oMachine.MachineId()
                             },
                             {
                                 success: function (data) {
-                                    toastr.error("Archiveed Machine");
+                                    machineList.remove(oMachine);
+                                    toastr.success(" Deleted Successfully !");
+                                    
                                 },
                                 error: function (response) {
-                                    toastr.error("Failed to Archive Machine" + response);
+                                    toastr.error("Failed to Delete Machine" + response);
                                 }
                             });
                         });
@@ -138,24 +125,25 @@ define("machine/machine.viewModel",
                         });
                     },
                     //Do Before Save
-                    //doBeforeSave = function () {
-                    //    var flag = true;
-                    //    if (!selectedMachine().isValid()) {
-                    //        selectedMachine().errors.showAllMessages();
-                    //        flag = false;
-                    //    }
-                    //    return flag;
-                    //},
-                    ////Save Cost Center
-                    //saveCostCenter = function (item) {
-                    //    if (selectedMachine() != undefined && doBeforeSave()) {
-                    //        if (selectedMachine().costCentreId() > 0) {
-                    //            saveEdittedCostCenter();
-                    //        } else {
-                    //            saveNewCostCenter(item);
-                    //        }
-                    //    }
-                    //},
+                    doBeforeSave = function () {
+                        var flag = true;
+                        if (!selectedMachine().isValid()) {
+                            selectedMachine().errors.showAllMessages();
+                            flag = false;
+                        }
+                        return flag;
+                    },
+                    //Save Machine
+                    saveMachine = function (item) {
+                        if (selectedMachine() != undefined && doBeforeSave()) {
+                            if (selectedMachine().MachineId() > 0) {
+                                saveEdittedMachine();
+                            }
+                            //else {
+                            //    saveNewMachine(item);
+                            //}
+                        }
+                    },
                     ////Save NEW Cost Center
                     //saveNewCostCenter = function () {
                     //    dataservice.saveNewCostCenter(selectedMachine().convertToServerData(), {
@@ -171,27 +159,22 @@ define("machine/machine.viewModel",
                     //    });
                     //},
                     ////Save EDIT Cost Center
-                    //saveEdittedCostCenter = function () {
-                    //    dataservice.saveCostCenter(selectedMachine().convertToServerData(), {
-                    //        success: function (data) {
-                    //            var newItem = model.costCenterClientMapper(data);
-                    //            var newObjtodelete = machineList.find(function (temp) {
-                    //                return temp.costCenterId() == newItem.costCenterId();
-                    //            });
-                    //            machineList.remove(newObjtodelete);
-                    //            machineList.push(newItem);
-                    //            view.hideMachineDialog();
-                    //            toastr.success("Successfully save.");
-                    //        },
-                    //        error: function (exceptionMessage, exceptionType) {
-                    //            if (exceptionType === ist.exceptionType.CaresGeneralException) {
-                    //                toastr.error(exceptionMessage);
-                    //            } else {
-                    //                toastr.error("Failed to save.");
-                    //            }
-                    //        }
-                    //    });
-                    //},
+                    saveEdittedMachine = function () {
+                        //var omachine = model.machineServerMapper(selectedMachine());
+                        dataservice.saveMachine(model.machineServerMapper(selectedMachine()), {
+                            success: function (data) {
+                                
+                                toastr.success("Successfully save.");
+                            },
+                            error: function (exceptionMessage, exceptionType) {
+                                if (exceptionType === ist.exceptionType.CaresGeneralException) {
+                                    toastr.error(exceptionMessage);
+                                } else {
+                                    toastr.error("Failed to save.");
+                                }
+                            }
+                        });
+                    },
                     //On Edit Click Of Machine
                     OnSelectDefaultPaper = function (ostockItem) {
                         if (ostockItem.category == "Plates") {
@@ -283,10 +266,10 @@ define("machine/machine.viewModel",
                     makeEditable: makeEditable,
                     //createNewCostCenter: createNewCostCenter,
                     getMachines: getMachines,
-                    //doBeforeSave: doBeforeSave,
-                    //saveCostCenter: saveCostCenter,
+                    doBeforeSave: doBeforeSave,
+                    saveMachine: saveMachine,
                     //saveNewCostCenter: saveNewCostCenter,
-                    // saveEdittedCostCenter: saveEdittedCostCenter,
+                    saveEdittedMachine: saveEdittedMachine,
                     openEditDialog: openEditDialog,
                     closeEditDialog: closeEditDialog,
                     searchFilter: searchFilter,

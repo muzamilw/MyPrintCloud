@@ -273,7 +273,14 @@
             InkCoveragItems: InkCoveragItems
         };
     };
-
+    var MachineInkCoveragesServerMapper = function (source) {
+        return {
+            Id: source.Id,
+            SideInkOrder: source.SideInkOrder,
+            SideInkOrderCoverage: source.SideInkOrderCoverage,
+            MachineId: source.MachineId
+        };
+    };
     var machineListClientMapper = function (source) {
 
         var omachineList = new machineList();
@@ -446,6 +453,90 @@
     
         return omachine;
     };
+    var machineServerMapper = function (machine) {
+        var omachine = {};
+        omachine.MachineId = machine.MachineId();
+        omachine.MachineName = machine.MachineName;
+        omachine.MachineCatId = machine.MachineCatId();
+        omachine.ColourHeads = machine.ColourHeads();
+        omachine.isPerfecting = machine.isPerfecting();
+        omachine.SetupCharge = machine.SetupCharge();
+        omachine.WashupPrice = machine.WashupPrice();
+        omachine.WashupCost = machine.WashupCost();
+        omachine.MinInkDuctqty = machine.MinInkDuctqty();
+        omachine.worknturncharge = machine.worknturncharge();
+        omachine.MakeReadyCost = machine.MakeReadyCost();
+        omachine.DefaultFilmId = machine.DefaultFilmId();
+        omachine.DefaultPlateId = machine.DefaultPlateId();
+        omachine.DefaultPaperId = machine.DefaultPaperId();
+        omachine.isfilmused = machine.isfilmused();
+        omachine.isplateused = machine.isplateused();
+        omachine.ismakereadyused = machine.ismakereadyused();
+        omachine.iswashupused = machine.iswashupused();
+        omachine.maximumsheetweight = machine.maximumsheetweight();
+        omachine.maximumsheetheight = machine.maximumsheetheight();
+        omachine.maximumsheetwidth = machine.maximumsheetwidth();
+        omachine.minimumsheetheight = machine.minimumsheetheight();
+        omachine.minimumsheetwidth = machine.minimumsheetwidth();
+        omachine.gripdepth = machine.gripdepth();
+        omachine.gripsideorientaion = machine.gripsideorientaion();
+        omachine.gutterdepth = machine.gutterdepth();
+        omachine.headdepth = machine.headdepth();
+        omachine.MarkupId = machine.MarkupId();
+        omachine.PressSizeRatio = machine.PressSizeRatio();
+        omachine.Description = machine.Description();
+        omachine.Priority = machine.Priority();
+        omachine.DirectCost = machine.DirectCost();
+        omachine.Image = machine.Image();
+        omachine.MinimumCharge = machine.MinimumCharge();
+        omachine.CostPerCut = machine.CostPerCut();
+        omachine.PricePerCut = machine.PricePerCut();
+        omachine.IsAdditionalOption = machine.IsAdditionalOption();
+        omachine.IsDisabled = machine.IsDisabled();
+        omachine.LockedBy = machine.LockedBy();
+        omachine.CylinderSizeId = machine.CylinderSizeId();
+        omachine.MaxItemAcrossCylinder = machine.MaxItemAcrossCylinder();
+        omachine.Web1MRCost = machine.Web1MRCost();
+        omachine.Web1MRPrice = machine.Web1MRPrice();
+        omachine.Web2MRCost = machine.Web2MRCost();
+        omachine.Web2MRPrice = machine.Web2MRPrice();
+        omachine.ReelMRCost = machine.ReelMRCost();
+        omachine.ReelMRPrice = machine.ReelMRPrice();
+        omachine.IsMaxColorLimit = machine.IsMaxColorLimit();
+        omachine.PressUtilization = machine.PressUtilization();
+        omachine.MakeReadyPrice = machine.MakeReadyPrice();
+        omachine.InkChargeForUniqueColors = machine.InkChargeForUniqueColors();
+        omachine.CompanyId = machine.CompanyId();
+        omachine.FlagId = machine.FlagId();
+        omachine.IsScheduleable = machine.IsScheduleable();
+        omachine.SystemSiteId = machine.SystemSiteId();
+        omachine.SpoilageType = machine.SpoilageType();
+        omachine.SetupTime = machine.SetupTime();
+        omachine.TimePerCut = machine.TimePerCut();
+        omachine.MakeReadyTime = machine.MakeReadyTime();
+        omachine.WashupTime = machine.WashupTime();
+        omachine.ReelMakereadyTime = machine.ReelMakereadyTime();
+        omachine.Maximumsheetweight = machine.Maximumsheetweight();
+        omachine.Maximumsheetheight = machine.Maximumsheetheight();
+        omachine.Maximumsheetwidth = machine.Maximumsheetwidth();
+        omachine.Minimumsheetheight = machine.Minimumsheetheight();
+        omachine.Minimumsheetwidth = machine.Minimumsheetwidth();
+        omachine.LookupMethodId = machine.LookupMethodId();
+                
+        //_.each(source.MachineSpoilageItems, function (item) {
+        //    omachine.MachineSpoilageItems.push(MachineSpoilageItemsMapper(item));
+        //});
+
+
+        //_.each(machine.MachineInkCoverages, function (item) {
+        //    var module = MachineInkCoveragesServerMapper(item);
+        //    omachine.MachineInkCoverages.push(module);
+
+        //})
+
+
+        return omachine;
+    };
     return {
         machineList: machineList,
         machineListClientMapper: machineListClientMapper,
@@ -455,6 +546,8 @@
         lookupMethodListClientMapper:lookupMethodListClientMapper,
         machineClientMapper: machineClientMapper,
         StockItemMapper: StockItemMapper,
-        MachineInkCoveragesListClientMapper: MachineInkCoveragesListClientMapper
+        MachineInkCoveragesListClientMapper: MachineInkCoveragesListClientMapper,
+        MachineInkCoveragesServerMapper: MachineInkCoveragesServerMapper,
+        machineServerMapper: machineServerMapper
     };
 });

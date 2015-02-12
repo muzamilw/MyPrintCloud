@@ -42,17 +42,24 @@ namespace MPC.MIS.Areas.Api.Controllers
                 RowCount = result.RowCount
             };
         }
-       
 
-        [HttpPost]
-        public bool Post(long machineId)
+        [HttpDelete]
+        public bool Delete(MachineDeleteRequest request)
         {
-            //return omachineId;
-            return _machineService.archiveMachine(machineId);
+            return _machineService.archiveMachine(request.machineId);
           
 
         }
-       
+        [HttpPost]
+        //public bool PostMachine(MachineUpdateRequestModel request)
+        public Machine Post(Machine machine)
+        {
+
+           _machineService.UpdateMachine(machine.CreateFrom());
+           return machine;
+
+
+        }
         #endregion
     }
 }

@@ -342,7 +342,9 @@
     <Compile Include="Areas\Api\Models\GroupForCampaign.cs" />
     <Compile Include="Areas\Api\Models\CostcentreWorkInstructionsChoice.cs" />
     <Compile Include="Areas\Api\Models\InkCoverageGroup.cs" />
+    <Compile Include="Areas\Api\Models\MachineDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\MachineSpoilage.cs" />
+    <Compile Include="Areas\Api\Models\MachineUpdateRequestModel.cs" />
     <Compile Include="Areas\Api\Models\OrderDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\ItemDesignerTemplateBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemForWidgets.cs" />

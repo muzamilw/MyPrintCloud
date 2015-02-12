@@ -136,7 +136,7 @@ namespace MPC.Repository.Repositories
                 Markups = GetAllMarkupList(),
                 StockItemforInk = GetAllStockItemforInk(),
                 StockItemsForPaperSizePlate = GetStockItemsForPaperSizePlate(),
-                MachineSpoilageItems = GetMachineSpoilageItems(MachineID),
+                 MachineSpoilageItems = GetMachineSpoilageItems(MachineID),
                // MachineResources= GetAllMachineResources(),
                 InkCoveragItems = GetInkCoveragItems()
 
@@ -144,7 +144,28 @@ namespace MPC.Repository.Repositories
 
             
         }
+        public bool UpdateMachine(Machine machine)
+        {
+            try
+            {
+                Machine omachine = db.Machines.Where(s => s.MachineId == machine.MachineId).SingleOrDefault();
+                omachine = machine;
+                if (db.SaveChanges() > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                
+                throw ex;
+            }
 
+        }
         public IEnumerable<MachineSpoilage> GetMachineSpoilageItems(long machineId)
         {
             return db.MachineSpoilages.Where(g => g.MachineId == machineId).ToList();

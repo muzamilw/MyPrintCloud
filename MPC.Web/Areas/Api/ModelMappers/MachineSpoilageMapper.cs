@@ -21,5 +21,17 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             };
 
         }
+        public static DomainModels.MachineSpoilage CreateFrom(this MachineSpoilage source)
+        {
+            return new DomainModels.MachineSpoilage
+            {
+                MachineSpoilageId = source.MachineSpoilageId,
+                MachineId = source.MachineId,
+                SetupSpoilage = source.SetupSpoilage,
+                RunningSpoilage = source.RunningSpoilage,
+                NoOfColors = source.NoOfColors
+            };
+
+        }
     }
 }
