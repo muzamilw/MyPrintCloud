@@ -191,5 +191,6 @@ namespace MPC.Interfaces.WebStoreServices
         void UpdateContactCompany(CompanyContact Instance);
         void UpdateCompanyContactForRetail(CompanyContact Instance);
         void  UpdateCompanyContactForCorporate(CompanyContact Instance);
+        void UpdateCompanyName(Company Instance);
     }
 }

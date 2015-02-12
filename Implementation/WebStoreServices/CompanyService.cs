@@ -852,6 +852,12 @@ namespace MPC.Implementation.WebStoreServices
 
         }
         #endregion
+
+        public void UpdateCompanyName(Company Instance)
+        {
+            _CompanyRepository.UpdateCompanyName(Instance);
+        
+        }
     }
 
 

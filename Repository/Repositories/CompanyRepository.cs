@@ -468,7 +468,24 @@ namespace MPC.Repository.Repositories
             }
 
         }
+        //Update Just Company Name 
+        public void UpdateCompanyName(Company Instance)
+        {
+            try
+            {
+                Company Company = db.Companies.Where(i => i.CompanyId == Instance.CompanyId).FirstOrDefault(); 
+                Company.Name = Instance.Name;
+                db.Companies.Attach(Company);
+                db.Entry(Company).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
 
+                throw ex;
+            
+            }
+        }
         /// <summary>
         /// Get Company By Is Customer Type
         /// </summary>
