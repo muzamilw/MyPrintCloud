@@ -4,7 +4,7 @@ using DomainModels = MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
-    
+
     public static class CompanyContactMapper
     {
         /// <summary>
@@ -101,7 +101,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        FileName = source.FileName
                        //CompanyTerritory = source.BussinessAddress.Territory.CreateFrom(),
                        //Address = source.BussinessAddress != null? source.BussinessAddress.CreateFrom() : null,
-                       
+
                    };
         }
 
@@ -124,6 +124,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        ContactId = source.ContactId,
                        AddressId = source.AddressId,
                        CompanyId = source.CompanyId,
+                       CompanyName = source.Company != null ? source.Company.Name: "",
                        FirstName = source.FirstName,
                        MiddleName = source.MiddleName,
                        LastName = source.LastName,
@@ -234,6 +235,18 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SecretAnswer = source.SecretAnswer,
                 IsEmailSubscription = source.IsEmailSubscription,
                 IsNewsLetterSubscription = source.IsNewsLetterSubscription,
+            };
+        }
+
+        /// <summary>
+        /// Crete From Domain Model
+        /// </summary>
+        public static CompanyContactDropDown CreateFromDropDown(this DomainModels.CompanyContact source)
+        {
+            return new CompanyContactDropDown
+            {
+                ContactId = source.ContactId,
+                Name = source.FirstName
             };
         }
     }

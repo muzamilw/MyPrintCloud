@@ -25,7 +25,7 @@ define("common/supplier.viewModel",
                     //Search Filter
                     searchSupplierFilter = ko.observable(),
                     //#region Array
-                    suppliers = ko.observableArray([]);
+                    suppliers = ko.observableArray([]),
                 //Company Types
                 companyTypes = ko.observableArray([]),
                 //Markups

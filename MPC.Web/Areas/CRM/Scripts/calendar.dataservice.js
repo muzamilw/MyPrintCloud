@@ -11,16 +11,10 @@ define("calendar/calendar.dataservice", function () {
             initialize = function () {
                 if (!isInitialized) {
 
-                    // Define request to get Stock Items
-                    amplify.request.define('getInventoriesList', 'ajax', {
-                        url: ist.siteUrl + '/Api/Inventory',
-                        dataType: 'json',
-                        type: 'GET'
-                    });
 
-                    // Define request to get Inventory base 
-                    amplify.request.define('getInventoryBase', 'ajax', {
-                        url: ist.siteUrl + '/Api/InventoryBase',
+                    // Define request to get Calendar base 
+                    amplify.request.define('getCalendarBase', 'ajax', {
+                        url: ist.siteUrl + '/Api/CalendarBase',
                         dataType: 'json',
                         type: 'GET'
                     });
@@ -30,9 +24,9 @@ define("calendar/calendar.dataservice", function () {
                         dataType: 'json',
                         type: 'DELETE'
                     });
-                    // Define request to Get Inventory By Id
-                    amplify.request.define('getInventoryById', 'ajax', {
-                        url: ist.siteUrl + '/Api/Inventory',
+                    // Define request to Get Company By Customer Type
+                    amplify.request.define('getCompanyByCustomerType', 'ajax', {
+                        url: ist.siteUrl + '/Api/Calendar',
                         dataType: 'json',
                         type: 'GET'
                     });
@@ -48,21 +42,12 @@ define("calendar/calendar.dataservice", function () {
                 }
             },
 
-            // get Stock items
-            getInventoriesList = function (params, callbacks) {
+
+             // Get Calendar Base
+            getCalendarBase = function (callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'getInventoriesList',
-                    success: callbacks.success,
-                    error: callbacks.error,
-                    data: params
-                });
-            },
-             // Get My Organization Base
-            getInventoryBase = function (callbacks) {
-                initialize();
-                return amplify.request({
-                    resourceId: 'getInventoryBase',
+                    resourceId: 'getCalendarBase',
                     success: callbacks.success,
                     error: callbacks.error,
                 });
@@ -77,11 +62,11 @@ define("calendar/calendar.dataservice", function () {
                     data: params
                 });
             },
-             // Get Inventory Detail By ID
-            getInventoryById = function (params, callbacks) {
+             //Get Company By Customer Type
+            getCompanyByCustomerType = function (params, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'getInventoryById',
+                    resourceId: 'getCompanyByCustomerType',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
@@ -100,11 +85,10 @@ define("calendar/calendar.dataservice", function () {
             };
 
         return {
-            getInventoriesList: getInventoriesList,
-            getInventoryBase: getInventoryBase,
+            getCalendarBase: getCalendarBase,
             deleteInventory: deleteInventory,
             saveInventory: saveInventory,
-            getInventoryById: getInventoryById,
+            getCompanyByCustomerType: getCompanyByCustomerType,
         };
     })();
 

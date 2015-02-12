@@ -147,11 +147,6 @@ namespace MPC.Models.DomainModels
         public long? LanguageId { get; set; }
 
         /// <summary>
-        /// MIS Logo Stream Id
-        /// </summary>
-        public Guid? MISLogoStreamId { get; set; }
-
-        /// <summary>
         /// Bleed Area Size
         /// </summary>
         public double? BleedAreaSize { get; set; }

@@ -12,6 +12,7 @@ define("crm/crm.view",
                 viewModel = specifiedViewModel,
                // binding root
                bindingRoot = $("#crmBindingRoot")[0],
+               
             // Initialize
             initialize = function () {
                 if (!bindingRoot) {

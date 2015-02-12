@@ -34,6 +34,7 @@ define("product/product.view",
                 // Show Video the dialog
                 showVideoDialog = function () {
                     $("#productVideoDialog").modal("show");
+                    initializeLabelPopovers();
                 },
                 // Hide Video the dialog
                 hideVideoDialog = function () {
@@ -58,6 +59,7 @@ define("product/product.view",
                 // Show ItemAddonCostCentre the dialog
                 showItemAddonCostCentreDialog = function () {
                     $("#itemAddonCostCentreDialog").modal("show");
+                    initializeLabelPopovers();
                 },
                 // Hide ItemAddonCostCentre the dialog
                 hideItemAddonCostCentreDialog = function () {
@@ -74,6 +76,7 @@ define("product/product.view",
                 // Show Signature dialog
                 showSignatureDialog = function () {
                     $("#signatureEdit").modal("show");
+                    initializeLabelPopovers();
                 },
                 // Hide Signature dialog
                 hideSignatureDialog = function () {
@@ -357,6 +360,10 @@ define("product/product.view",
                         }
                     });
                 },
+                // Initialize Label Popovers
+                initializeLabelPopovers = function() {
+                    $('.bs-example-tooltips a').popover();
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -391,7 +398,8 @@ define("product/product.view",
                 showSignatureDialog: showSignatureDialog,
                 hideSignatureDialog: hideSignatureDialog,
                 showPressDialog: showPressDialog,
-                hidePressDialog: hidePressDialog
+                hidePressDialog: hidePressDialog,
+                initializeLabelPopovers: initializeLabelPopovers
             };
         })(productViewModel);
 

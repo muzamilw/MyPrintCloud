@@ -35,6 +35,14 @@ alter table Activity
 add foreign key (CompanyId)
 references Company(CompanyId)
 
+drop index Activity.SystemUserID
+
+alter table activity
+drop constraint DF__tbl_activ__Syste__0DAF0CB0
+
+alter table activity
+alter column SystemUserId uniqueidentifier
+
 exec sp_rename 'Invoice.ContactCompanyId', 'CompanyId', 'Column'
 
 alter table Invoice
@@ -51,5 +59,61 @@ alter column EstimateId bigint
 
 alter table Estimate
 drop column companyname
+
+alter table company
+drop constraint DF__tbl_custo__Accou__30C33EC3
+
+alter table company
+alter column accountmanagerid uniqueidentifier null
+
+drop table ArtworkFileTable
+
+drop table AttachmentFileTable
+
+alter table ProductCategory
+drop constraint FK__ProductCa__Image__1B36525C
+
+alter table ProductCategory
+drop constraint FK__ProductCa__Thumb__1C2A7695
+
+alter table ProductCategory
+drop column ImageStreamId
+
+alter table ProductCategory
+drop column ThumbnailStreamId
+
+drop table CategoryFileTable
+
+drop table CompanyBannerFileTable
+
+drop table CostCentreFileTable
+
+drop table MediaFileTable
+
+drop table MPCFileTable
+
+alter table Organisation
+drop constraint FK_OrganisationFileTable_Organisation
+
+alter table Organisation
+drop column MISLogoStreamId
+
+drop table OrganisationFileTable
+
+drop table ProductFileTable
+
+drop table SecondaryPageFileTable
+
+drop table StoreFileTable
+
+drop table TemplateFileTable
+
+drop function GetMPCFileTableNewPathLocator
+
+drop procedure GetNewPathLocator
+
+drop procedure MPCFileTable_Add
+
+drop procedure MPCFileTable_Del
 
 GO
