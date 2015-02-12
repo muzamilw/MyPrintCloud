@@ -26,6 +26,7 @@ define("calendar/calendar.viewModel",
                 activityTypes = ko.observableArray([]),
                 items = ko.observableArray([]),
 
+
                 fullCalendar = {
                     // Defines a view model class you can use to populate a calendar
                     viewModel: function (configuration) {
@@ -38,6 +39,7 @@ define("calendar/calendar.viewModel",
                     }
                 };
 
+
                 //Call on Drop or resize Activity
                 eventDropOrResize = function (calenderActivity) {
                     var activity = model.Activity();
@@ -47,26 +49,27 @@ define("calendar/calendar.viewModel",
                     selectedActivity(activity);
                     saveActivityOnDropOrResize();
                 },
-                 saveActivityOnDropOrResize = function () {
-                     dataservice.saveActivityDropOrResize(selectedActivity().convertToServerData(), {
-                         success: function (data) {
-                             toastr.success("Successfully save.");
-                         },
-                         error: function (exceptionMessage, exceptionType) {
+                //Save For Drop Or resize Activity
+                saveActivityOnDropOrResize = function () {
+                    dataservice.saveActivityDropOrResize(selectedActivity().convertToServerData(), {
+                        success: function (data) {
+                            toastr.success("Successfully save.");
+                        },
+                        error: function (exceptionMessage, exceptionType) {
 
-                             if (exceptionType === ist.exceptionType.CaresGeneralException) {
+                            if (exceptionType === ist.exceptionType.CaresGeneralException) {
 
-                                 toastr.error(exceptionMessage);
+                                toastr.error(exceptionMessage);
 
-                             } else {
+                            } else {
 
-                                 toastr.error("Failed to save.");
+                                toastr.error("Failed to save.");
 
-                             }
+                            }
 
-                         }
-                     });
-                 }
+                        }
+                    });
+                }
 
                 //Call click on activity for edit
                 eventClick = function (activity) {
@@ -142,7 +145,13 @@ define("calendar/calendar.viewModel",
                         }
                     });
                 },
-
+                //items.push({
+                //    title: 'Birthday Party',
+                //    start: new Date(),
+                //    //className: '',
+                //    backgroundColor: '#FF1919',
+                //    allDay: false
+                //});
                 // viewDate = ko.observable(Date.now()),
                 mycCalender = new fullCalendar.viewModel({
                     events: items,
@@ -161,7 +170,7 @@ define("calendar/calendar.viewModel",
                     view.showCompanyDialog();
                     getCompanies();
                 }
-
+                //Set IS Customer Type
                 getIsCustomerType = function () {
                     if (selectedActivity().isCustomerType() === "1") {
                         return 1;
@@ -231,9 +240,14 @@ define("calendar/calendar.viewModel",
                                 if (selectedActivity().id() === undefined) {
                                     selectedActivity().id(data);
                                     var activity = selectedActivity();
+
+                                    var sectionFlag = sectionFlags.find(function (sFlag) {
+                                        return sFlag.SectionFlagId == activity.flagId();
+                                    });
                                     items.push({
                                         id: activity.id(),
                                         title: activity.subject(),
+                                        backgroundColor: sectionFlag.FlagColor,
                                         start: activity.startDateTime(),
                                         end: activity.endDateTime(),
                                     });
