@@ -118,14 +118,13 @@
     <Compile Include="Repository\IItemProductDetailRepository.cs" />
     <Compile Include="Repository\IListingRepository.cs" />
     <Compile Include="Repository\IMachineRepository.cs" />
-    <Compile Include="Repository\IOrganisationFileTableViewRepository.cs" />
-    <Compile Include="Repository\IMpcFileTableViewRepository.cs" />
     <Compile Include="Repository\IOrderRepository.cs" />
     <Compile Include="Repository\IPaymentGatewayRepository.cs" />
     <Compile Include="Repository\IPaymentMethodRepository.cs" />
     <Compile Include="Repository\IPhraseFieldRepository.cs" />
     <Compile Include="Repository\IPhraseRespository.cs" />
-    <Compile Include="Repository\IProductCategoryFileTableViewRepository.cs" />
+    <Compile Include="Repository\IPipeLineProductRepository.cs" />
+    <Compile Include="Repository\IPipeLineSourceRepository.cs" />
     <Compile Include="Repository\IStateRepository.cs" />
     <Compile Include="Repository\ICostCenterTypeRepository.cs" />
     <Compile Include="Repository\ITemplateBackgroundImagesRepository.cs" />

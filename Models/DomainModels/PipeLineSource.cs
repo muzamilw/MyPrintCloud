@@ -1,7 +1,7 @@
 ﻿namespace MPC.Models.DomainModels
 {
     /// <summary>
-    /// PipeLine Source Domain Model
+    /// Pipe Line Source Domain Model
     /// </summary>
     public class PipeLineSource
     {

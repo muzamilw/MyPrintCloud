@@ -1266,13 +1266,13 @@
                     }
                     actualPrice = "@ViewBag.Currency" + (actualPrice).toFixed(2).toString();
                     $(val).next().next().children(':first').html(actualPrice);
-                    
+
 
                 }
                 else if(selectedCheckBox.Type == 4){
                     if(selectedCheckBox.isChecked == true){
                         $(val).next().next().html('<label>' + "@ViewBag.Currency" + selectedCheckBox.ActualPrice + '</label>' + '<a onclick="PromptForValues(' + selectedCheckBox.CostCenterId + ',' + $(val).attr('id') + ', 1);" >Modify</a> ');
-                        
+
                     }
                     $(val).attr('onclick', 'PromptForValues('+ selectedCheckBox.CostCenterId +', '+ $(val).attr('id') +', \"New\");');
                 }
@@ -1281,10 +1281,11 @@
                     if(selectedCheckBox.isChecked == true){
                         $(val).click();
                     }
+                    console.log(@ViewBag.CostCentreQueueItems);
                     $("#costCentreQueueItems").val(@ViewBag.CostCentreQueueItems);
                 }
 
-                
+
             }
         });
 
