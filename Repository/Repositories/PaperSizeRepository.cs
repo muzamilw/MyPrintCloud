@@ -99,6 +99,17 @@ namespace MPC.Repository.Repositories
             return paperSheetResponse;
         }
 
+        public List<PaperSize> GetPaperByOrganisation(long OrganisationID)
+        {
+            try
+            {
+                return db.PaperSizes.Where(o => o.OrganisationId == OrganisationId).ToList();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
     }
 }

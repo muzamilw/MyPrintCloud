@@ -42,8 +42,8 @@ define("inventoryCategory/inventoryCategory.viewModel",
                         editorViewModel.selectItem(stockCategory);
                         selectedStockCategory(stockCategory);
                         isStockCategoryEditorVisible(true);
-
                         sharedNavigationVM.initialize(selectedStockCategory, function (saveCallback) { saveStockCategory(saveCallback); });
+                        view.initializeLabelPopovers();
                     },
                     //On Edit Click Of Stock Category
                     onEditItem = function (item) {
@@ -160,6 +160,7 @@ define("inventoryCategory/inventoryCategory.viewModel",
                     openEditDialog = function () {
                         isStockCategoryEditorVisible(true);
                         getStockCategoryForEditting();
+                        view.initializeLabelPopovers();
                     },
                     //Get Stock Categogy For editting
                     getStockCategoryForEditting = function () {
@@ -199,6 +200,8 @@ define("inventoryCategory/inventoryCategory.viewModel",
                             confirmation.show();
                             return;
                         }
+                        
+                        isStockCategoryEditorVisible(false);
                     },
                     ///*** Stock Sub Categories Region ***
 

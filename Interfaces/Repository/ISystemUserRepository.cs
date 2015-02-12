@@ -7,5 +7,7 @@ namespace MPC.Interfaces.Repository
     {
         IEnumerable<SystemUser> GetAll();
         SystemUser GetSalesManagerById(long SytemUserId);
+
+        List<SystemUser> GetSystemUSersByOrganisationID(long OrganisationID);
     }
 }

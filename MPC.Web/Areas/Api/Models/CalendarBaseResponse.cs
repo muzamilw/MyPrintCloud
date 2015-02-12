@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.Models
 {
@@ -8,10 +10,11 @@ namespace MPC.MIS.Areas.Api.Models
     public class CalendarBaseResponse
     {
         public IEnumerable<SystemUserDropDown> SystemUsers { get; set; }
-        public IEnumerable<CompanyContactDropDown> CompanyContacts { get; set; }
         public IEnumerable<PipeLineProduct> PipeLineProducts { get; set; }
         public IEnumerable<PipeLineSource> PipeLineSources { get; set; }
         public IEnumerable<SectionFlagDropDown> SectionFlags { get; set; }
-        //public IEnumerable<Activity> Activities { get; set; }
+        public IEnumerable<ActivityTypeDropDown> ActivityTypes { get; set; }
+        public IEnumerable<ActivityListView> Activities { get; set; }
+        public Guid LoggedInUserId { get; set; }
     }
 }

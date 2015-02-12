@@ -249,6 +249,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\ActivityDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\AddressController.cs" />
     <Compile Include="Areas\Api\Controllers\CalendarBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\CalendarController.cs" />
@@ -271,6 +272,8 @@
     <Compile Include="Areas\Api\Controllers\MachineController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionsForPhraseLibraryController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductMachinesController.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ActivityMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ActivityTypeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CalendarMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CampaignEmailVariableMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CampaignImageMapper.cs" />
@@ -290,6 +293,7 @@
     <Compile Include="Areas\Api\ModelMappers\CostCentreDropDownMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CustomerMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GroupMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\InkCoverageGroupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemDesignerTemplateBaseResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\EstimateMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GetOrdersResponseMapper.cs" />
@@ -299,6 +303,7 @@
     <Compile Include="Areas\Api\ModelMappers\MachineListMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineResourcesMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachineSpoilageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MediaLibraryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PipeLineProductMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PipeLineSourceMapper.cs" />
@@ -306,6 +311,9 @@
     <Compile Include="Areas\Api\ModelMappers\PhraseFieldMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PhraseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SectionMapper.cs" />
+    <Compile Include="Areas\Api\Models\Activity.cs" />
+    <Compile Include="Areas\Api\Models\ActivityListView.cs" />
+    <Compile Include="Areas\Api\Models\ActivityTypeDropDown.cs" />
     <Compile Include="Areas\Api\Models\CalendarBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\CampaignBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\CampaignEmailVariable.cs" />
@@ -340,6 +348,10 @@
     <Compile Include="Areas\Api\Models\GetOrdersResponse.cs" />
     <Compile Include="Areas\Api\Models\GroupForCampaign.cs" />
     <Compile Include="Areas\Api\Models\CostcentreWorkInstructionsChoice.cs" />
+    <Compile Include="Areas\Api\Models\InkCoverageGroup.cs" />
+    <Compile Include="Areas\Api\Models\MachineDeleteRequest.cs" />
+    <Compile Include="Areas\Api\Models\MachineSpoilage.cs" />
+    <Compile Include="Areas\Api\Models\MachineUpdateRequestModel.cs" />
     <Compile Include="Areas\Api\Models\OrderDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\ItemDesignerTemplateBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemForWidgets.cs" />
@@ -574,7 +586,11 @@
     <Compile Include="ViewModels\RightsManagement\RightsManagementViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Common\Scripts\stockItem.dataservice.js" />
     <Content Include="Areas\Common\Scripts\phraseLibrary.dataservice.js" />
+    <Content Include="Areas\Common\Scripts\stockItem.model.js" />
+    <Content Include="Areas\Common\Scripts\stockItem.view.js" />
+    <Content Include="Areas\Common\Scripts\stockItem.viewModel.js" />
     <Content Include="Areas\Common\Scripts\sharedNavigation.viewModel.js" />
     <Content Include="Areas\Common\Scripts\supplier.dataservice.js" />
     <Content Include="Areas\Common\Scripts\phraseLibrary.model.js" />
@@ -790,6 +806,9 @@
     </Content>
     <Content Include="Content\less\Products.css">
       <DependentUpon>Products.less</DependentUpon>
+    </Content>
+    <Content Include="Content\less\StockItemDialog.css">
+      <DependentUpon>StockItemDialog.less</DependentUpon>
     </Content>
     <Content Include="Content\less\Store.css">
       <DependentUpon>Store.less</DependentUpon>
@@ -1569,7 +1588,6 @@
     <Content Include="Areas\Common\Views\Shared\_SupplierEditor.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\AddEditSecondaryPage.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_EditSecondaryPageCategories.cshtml" />
-    <Content Include="Areas\Products\Views\Home\_StockDialog.cshtml" />
     <Content Include="Areas\Products\Views\Home\_ItemAddonCostCentre.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_MediaGalleryScreen.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_AddEditEmailCampaign.cshtml" />
@@ -1640,6 +1658,8 @@
     <Content Include="Areas\CRM\Views\Home\_AddEditCalendarActivity.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_CompanyDialog.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_SelectCompany.cshtml" />
+    <Content Include="Areas\Common\Views\Shared\_StockDialog.cshtml" />
+    <Content Include="Content\less\StockItemDialog.less" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />

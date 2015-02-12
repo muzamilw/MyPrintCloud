@@ -14,8 +14,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 Id = source.Id,
                 MachineId = source.MachineId,
-                ResourceId = source.ResourceId,
-                Machine = source.Machine.CreateFrom()
+                ResourceId = source.ResourceId
+               
             };
 
         }

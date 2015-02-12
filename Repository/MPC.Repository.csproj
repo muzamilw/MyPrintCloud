@@ -175,6 +175,8 @@
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ActivityRepository.cs" />
+    <Compile Include="Repositories\ActivityTypeRepository.cs" />
     <Compile Include="Repositories\AddressRepository.cs" />
     <Compile Include="Repositories\CampaignRepository.cs" />
     <Compile Include="Repositories\CategoryTerritoryRepository.cs" />
@@ -226,6 +228,7 @@
     <Compile Include="Repositories\PaymentMethodRepository.cs" />
     <Compile Include="Repositories\PhraseFieldRepository.cs" />
     <Compile Include="Repositories\PhraseRespository.cs" />
+    <Compile Include="Repositories\ReportRepository.cs" />
     <Compile Include="Repositories\StateRepository.cs" />
     <Compile Include="Repositories\CostCenterTypeRepository.cs" />
     <Compile Include="Repositories\TemplateBackgroundImagesRepository.cs" />

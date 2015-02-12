@@ -89,7 +89,7 @@ namespace MPC.Implementation.MISServices
         {
             Organisation organization = organisationRepository.Find(organisationRepository.OrganisationId);
             IEnumerable<Markup> markups = markupRepository.GetAll();
-            if (markups != null)
+            if (markups != null && markups.Count() > 0)
             {
                 organization.MarkupId = markupRepository.GetAll().First(x => x.IsDefault != null).MarkUpId;
             }
