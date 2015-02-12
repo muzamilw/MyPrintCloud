@@ -10,6 +10,7 @@ namespace MPC.MIS.Areas.Api.Models
         public long ContactId { get; set; }
         public long AddressId { get; set; }
         public long CompanyId { get; set; }
+        public string CompanyName { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }

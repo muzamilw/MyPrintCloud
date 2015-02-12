@@ -355,9 +355,20 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Name = source.Name,
                 Status = source.Status,
                 URL = source.URL,
-                CreatedDate =  source.CreationDate,
-               // Email = source.c todo
+                CreatedDate = source.CreationDate,
+                // Email = source.c todo
                 Image = bytes
+            };
+        }
+
+        public static CompanyForCalender CreateFromForCalendar(this DomainModels.Company source)
+        {
+            return new CompanyForCalender
+            {
+                CompanyId = source.CompanyId,
+                Name = source.Name,
+                CreationDate = source.CreationDate,
+                URL = source.URL,
             };
         }
         #endregion

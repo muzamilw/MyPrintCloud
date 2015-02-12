@@ -168,11 +168,13 @@ define("stores/stores.viewModel",
                     if (selectedStore() && selectedStore().webAccessCode() != undefined) {
                         if (selectedStore().companyDomains().length == 0) {
                             selectedStore().companyDomains.splice(0, 0, new model.CompanyDomain());
-                            selectedStore().companyDomains()[0].domain(window.location.host + '/' + selectedStore().webAccessCode() + '/login');
+                            //selectedStore().companyDomains()[0].domain(window.location.host + '/' + selectedStore().webAccessCode() + '/login');
+                            selectedStore().companyDomains()[0].domain(window.location.host + '/store/' + selectedStore().webAccessCode());
                         } else if (selectedStore().companyDomains().length > 0) {
                             _.each(selectedStore().companyDomains(), function (companyDomain) {
                                 if (companyDomain.isMandatoryDomain()) {
-                                    companyDomain.domain(window.location.host + '/' + selectedStore().webAccessCode() + '/login');
+                                    //companyDomain.domain(window.location.host + '/' + selectedStore().webAccessCode() + '/login');
+                                    companyDomain.domain(window.location.host + '/store/' + selectedStore().webAccessCode());
                                 }
                             });
                         }
@@ -2481,7 +2483,7 @@ define("stores/stores.viewModel",
                                 haveIsDefaultTerritory = true;
                             }
                         });
-                        _.each(selectedStore().addresses(), function (territory) {
+                        _.each(selectedStore().addresses(), function (address) {
                             if (address.isDefaultTerrorityBilling()) {
                                 haveIsBillingDefaultAddress = true;
                             }

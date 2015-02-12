@@ -13,7 +13,23 @@ define("calendar/calendar.view",
                 viewModel = specifiedViewModel,
                 // Binding root used with knockout
                 bindingRoot = $("#fullCalendarBinding")[0],
-
+                // Show Calendar Activity dialog
+                showCalendarActivityDialog = function () {
+                    $("#calendarActivityModal").modal("show");
+                },
+                // Hide Calendar Activity dialog
+                hideCalendarActivityDialog = function () {
+                    $("#calendarActivityModal").modal("hide");
+                },
+                  // Show Company dialog
+                showCompanyDialog = function () {
+                    $("#companyDialog").modal("show");
+                },
+                // Hide Company dialog
+                hideCompanyDialog = function () {
+                    $("#companyDialog").modal("hide");
+                },
+                
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -24,6 +40,10 @@ define("calendar/calendar.view",
             return {
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
+                showCalendarActivityDialog: showCalendarActivityDialog,
+                hideCalendarActivityDialog: hideCalendarActivityDialog,
+                showCompanyDialog: showCompanyDialog,
+                hideCompanyDialog: hideCompanyDialog,
             };
         })(calendarViewModel);
 

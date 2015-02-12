@@ -106,6 +106,7 @@
     <Compile Include="Common\CategoryRegion.cs" />
     <Compile Include="Common\CmsPageModel.cs" />
     <Compile Include="Common\Constants.cs" />
+    <Compile Include="Common\ContactByColumn.cs" />
     <Compile Include="Common\ContactClaimValue.cs" />
     <Compile Include="Common\CostCentreMatrix.cs" />
     <Compile Include="Common\CostCentreQuestion.cs" />
@@ -209,15 +210,6 @@
     <Compile Include="DomainModels\sp_GetTemplateImages_Result.cs" />
     <Compile Include="DomainModels\sp_GetUsedFontsUpdated_Result.cs" />
     <Compile Include="DomainModels\TemplateColorStyle.cs" />
-    <Compile Include="DomainModels\TemplateFileTableView.cs" />
-    <Compile Include="DomainModels\StoreFileTableView.cs" />
-    <Compile Include="DomainModels\SecondaryPageFileTableView.cs" />
-    <Compile Include="DomainModels\ProductFileTableView.cs" />
-    <Compile Include="DomainModels\MediaFileTableView.cs" />
-    <Compile Include="DomainModels\CostCentreFileTableView.cs" />
-    <Compile Include="DomainModels\CompanyBannerFileTableView.cs" />
-    <Compile Include="DomainModels\CategoryFileTableView.cs" />
-    <Compile Include="DomainModels\AttachmentFileTableView.cs" />
     <Compile Include="DomainModels\Campaign.cs" />
     <Compile Include="DomainModels\CampaignEmailQueue.cs" />
     <Compile Include="DomainModels\CampaignEmailVariable.cs" />
@@ -266,9 +258,6 @@
     <Compile Include="DomainModels\ItemVDPPrice.cs" />
     <Compile Include="DomainModels\ItemVideo.cs" />
     <Compile Include="DomainModels\LengthUnit.cs" />
-    <Compile Include="DomainModels\ArtworkFileTableView.cs" />
-    <Compile Include="DomainModels\OrganisationFileTableView.cs" />
-    <Compile Include="DomainModels\MPCFileTableView.cs" />
     <Compile Include="DomainModels\Prefix.cs" />
     <Compile Include="DomainModels\PageCategory.cs" />
     <Compile Include="DomainModels\PaperBasisArea.cs" />
@@ -341,6 +330,7 @@
     <Compile Include="RequestModels\AddressRequestModel.cs" />
     <Compile Include="RequestModels\CompanyProductSearchRequestModel.cs" />
     <Compile Include="RequestModels\CompanyRequestModel.cs" />
+    <Compile Include="RequestModels\CompanyRequestModelForCalendar.cs" />
     <Compile Include="RequestModels\CompanySavingModel.cs" />
     <Compile Include="RequestModels\CompanyTerritoryRequestModel.cs" />
     <Compile Include="RequestModels\CompanyContactRequestModel.cs" />
@@ -365,6 +355,7 @@
     <Compile Include="ResponseModels\CmsPageWithWidgetList.cs" />
     <Compile Include="ResponseModels\CompanyBaseResponse.cs" />
     <Compile Include="ResponseModels\CompanyResponse.cs" />
+    <Compile Include="ResponseModels\CompanySearchResponseForCalendar.cs" />
     <Compile Include="ResponseModels\CompanyTerritoryResponse.cs" />
     <Compile Include="ResponseModels\CompanyContactResponse.cs" />
     <Compile Include="ResponseModels\CostCenterBaseResponse.cs" />
