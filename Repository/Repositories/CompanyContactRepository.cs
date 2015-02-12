@@ -46,6 +46,13 @@ namespace MPC.Repository.Repositories
             return DbSet.Where(cc => cc.OrganisationId == OrganisationId).ToList();
         }
 
+        /// <summary>
+        /// Get All By Company ID
+        /// </summary>
+        public IEnumerable<CompanyContact> GetContactsByCompanyId(long companyId)
+        {
+            return DbSet.Where(cc => cc.CompanyId == companyId).ToList();
+        }
         ///// <summary>
         ///// Get Compnay Contacts
         ///// </summary>

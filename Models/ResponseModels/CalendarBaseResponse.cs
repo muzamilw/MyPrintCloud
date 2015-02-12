@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MPC.Models.DomainModels;
 
 namespace MPC.Models.ResponseModels
@@ -13,6 +14,8 @@ namespace MPC.Models.ResponseModels
         public IEnumerable<PipeLineProduct> PipeLineProducts { get; set; }
         public IEnumerable<PipeLineSource> PipeLineSources { get; set; }
         public IEnumerable<SectionFlag> SectionFlags { get; set; }
-        //public IEnumerable<Activity> Activities { get; set; }
+        public IEnumerable<ActivityType> ActivityTypes { get; set; }
+        public IEnumerable<Activity> Activities { get; set; }
+        public Guid LoggedInUserId { get; set; }
     }
 }
