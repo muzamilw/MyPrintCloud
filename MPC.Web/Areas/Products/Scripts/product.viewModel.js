@@ -239,6 +239,9 @@ define("product/product.viewModel",
                         shared.initialize(selectedProduct, function(navigateCallback) {
                             onSaveProduct(null, null, navigateCallback);
                         });
+                        
+                        // Initialize Label Popovers
+                        view.initializeLabelPopovers();
                     },
                     // On Close Editor
                     onCloseProductEditor = function () {

@@ -250,7 +250,10 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\AddressController.cs" />
+    <Compile Include="Areas\Api\Controllers\CalendarBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\CalendarController.cs" />
     <Compile Include="Areas\Api\Controllers\CampaignBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\CompanyContactForCrmController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />
     <Compile Include="Areas\Api\Controllers\CrmSupplierController.cs" />
     <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
@@ -267,6 +270,7 @@
     <Compile Include="Areas\Api\Controllers\MachineController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionsForPhraseLibraryController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductMachinesController.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CalendarMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CampaignEmailVariableMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CampaignImageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CategoryTypeMapper.cs" />
@@ -297,10 +301,13 @@
     <Compile Include="Areas\Api\ModelMappers\MachineResourcesMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineSpoilageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MediaLibraryMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PipeLineProductMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PipeLineSourceMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductCategoryItemMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PhraseFieldMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PhraseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SectionMapper.cs" />
+    <Compile Include="Areas\Api\Models\CalendarBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\CampaignBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\CampaignEmailVariable.cs" />
     <Compile Include="Areas\Api\Models\CampaignImage.cs" />
@@ -310,8 +317,11 @@
     <Compile Include="Areas\Api\Models\ColorPallete.cs" />
     <Compile Include="Areas\Api\Models\CompanyAddressDeleteModel.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDeleteModel.cs" />
+    <Compile Include="Areas\Api\Models\CompanyContactDropDown.cs" />
     <Compile Include="Areas\Api\Models\CompanyCostCentre.cs" />
     <Compile Include="Areas\Api\Models\CompanyDomain.cs" />
+    <Compile Include="Areas\Api\Models\CompanyForCalender.cs" />
+    <Compile Include="Areas\Api\Models\CompanySearchResponseForCalendar.cs" />
     <Compile Include="Areas\Api\Models\CompanyTerritoryDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\CostCenterListViewModel.cs" />
     <Compile Include="Areas\Api\Models\CostCenterBaseResponse.cs" />
@@ -461,6 +471,8 @@
     <Compile Include="Areas\Api\Models\PaymentGateway.cs" />
     <Compile Include="Areas\Api\Models\PaymentGatewayResponse.cs" />
     <Compile Include="Areas\Api\Models\PaymentMethod.cs" />
+    <Compile Include="Areas\Api\Models\PipeLineProduct.cs" />
+    <Compile Include="Areas\Api\Models\PipeLineSource.cs" />
     <Compile Include="Areas\Api\Models\PrePayment.cs" />
     <Compile Include="Areas\Api\Models\ProductCategoryForTemplate.cs" />
     <Compile Include="Areas\Api\Models\ProductCategoryDropDown.cs" />
@@ -582,6 +594,10 @@
     <Content Include="Areas\CRM\Scripts\calendar.model.js" />
     <Content Include="Areas\CRM\Scripts\calendar.view.js" />
     <Content Include="Areas\CRM\Scripts\calendar.viewModel.js" />
+    <Content Include="Areas\CRM\Scripts\contacts.dataservice.js" />
+    <Content Include="Areas\CRM\Scripts\contacts.model.js" />
+    <Content Include="Areas\CRM\Scripts\contacts.view.js" />
+    <Content Include="Areas\CRM\Scripts\contacts.viewModel.js" />
     <Content Include="Areas\Orders\Scripts\order.dataservice.js" />
     <Content Include="Areas\Orders\Scripts\order.model.js" />
     <Content Include="Areas\Orders\Scripts\order.view.js" />
@@ -1624,6 +1640,10 @@
     <Content Include="Areas\Orders\Views\Home\_Orders.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_OrderDetail.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\SectionFlags.cshtml" />
+    <Content Include="Areas\CRM\Views\Home\Contacts.cshtml" />
+    <Content Include="Areas\CRM\Views\Home\_AddEditCalendarActivity.cshtml" />
+    <Content Include="Areas\CRM\Views\Home\_CompanyDialog.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_SelectCompany.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
@@ -2795,6 +2815,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Api\Views\Address\" />
     <Folder Include="Areas\Api\Views\Category\" />
+    <Folder Include="Areas\Api\Views\CompanyContactForCrm\" />
     <Folder Include="Areas\Api\Views\CompanyContact\" />
     <Folder Include="Areas\Api\Views\CompanyProduct\" />
     <Folder Include="Areas\Api\Views\Customer\" />

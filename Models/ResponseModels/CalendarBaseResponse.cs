@@ -10,6 +10,9 @@ namespace MPC.Models.ResponseModels
     {
         public IEnumerable<SystemUser> SystemUsers { get; set; }
         public IEnumerable<CompanyContact> CompanyContacts { get; set; }
-        //public IEnumerable<p> CompanyContacts { get; set; }
+        public IEnumerable<PipeLineProduct> PipeLineProducts { get; set; }
+        public IEnumerable<PipeLineSource> PipeLineSources { get; set; }
+        public IEnumerable<SectionFlag> SectionFlags { get; set; }
+        //public IEnumerable<Activity> Activities { get; set; }
     }
 }
