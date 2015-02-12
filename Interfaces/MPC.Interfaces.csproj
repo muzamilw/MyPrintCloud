@@ -126,6 +126,7 @@
     <Compile Include="Repository\IPhraseFieldRepository.cs" />
     <Compile Include="Repository\IPhraseRespository.cs" />
     <Compile Include="Repository\IPipeLineProductRepository.cs" />
+    <Compile Include="Repository\IReportRepository.cs" />
     <Compile Include="Repository\IPipeLineSourceRepository.cs" />
     <Compile Include="Repository\IStateRepository.cs" />
     <Compile Include="Repository\ICostCenterTypeRepository.cs" />

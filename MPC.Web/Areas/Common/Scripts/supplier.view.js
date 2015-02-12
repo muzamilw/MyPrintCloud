@@ -23,6 +23,12 @@ define("common/supplier.view",
                          }
                      });
                  },
+                // Initialize Label Popovers
+                initializeLabelPopovers = function () {
+                    // ReSharper disable UnknownCssClass
+                    $('.bs-example-tooltips a').popover();
+                    // ReSharper restore UnknownCssClass
+                },
                 saveImage = function () {
                     $("#fileUploadForm").submit();
                 },
@@ -63,7 +69,8 @@ define("common/supplier.view",
                 showSupplierDialog: showSupplierDialog,
                 hideSupplierDialog: hideSupplierDialog,
                 saveImage: saveImage,
-                initializeForm: initializeForm
+                initializeForm: initializeForm,
+                initializeLabelPopovers: initializeLabelPopovers
             };
         })(ist.supplier.viewModel);
 

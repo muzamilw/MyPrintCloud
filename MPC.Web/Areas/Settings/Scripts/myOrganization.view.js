@@ -47,6 +47,12 @@ define("myOrganization/myOrganization.view",
                         $(element).focus();
                     }, 1000);
                 },
+                // Initialize Label Popovers
+                initializeLabelPopovers = function () {
+                    // ReSharper disable UnknownCssClass
+                    $('.bs-example-tooltips a').popover();
+                    // ReSharper restore UnknownCssClass
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -58,7 +64,8 @@ define("myOrganization/myOrganization.view",
                 bindingRoot: bindingRoot,
                 initializeForm: initializeForm,
                 viewModel: viewModel,
-                gotoElement: gotoElement
+                gotoElement: gotoElement,
+                initializeLabelPopovers: initializeLabelPopovers
             };
         })(myOrganizationViewModel);
 

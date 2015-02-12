@@ -292,6 +292,7 @@
     <Compile Include="Areas\Api\ModelMappers\CostCentreDropDownMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CustomerMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GroupMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\InkCoverageGroupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemDesignerTemplateBaseResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\EstimateMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GetOrdersResponseMapper.cs" />
@@ -301,6 +302,7 @@
     <Compile Include="Areas\Api\ModelMappers\MachineListMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineResourcesMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachineSpoilageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MediaLibraryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PipeLineProductMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PipeLineSourceMapper.cs" />
@@ -345,6 +347,10 @@
     <Compile Include="Areas\Api\Models\GetOrdersResponse.cs" />
     <Compile Include="Areas\Api\Models\GroupForCampaign.cs" />
     <Compile Include="Areas\Api\Models\CostcentreWorkInstructionsChoice.cs" />
+    <Compile Include="Areas\Api\Models\InkCoverageGroup.cs" />
+    <Compile Include="Areas\Api\Models\MachineDeleteRequest.cs" />
+    <Compile Include="Areas\Api\Models\MachineSpoilage.cs" />
+    <Compile Include="Areas\Api\Models\MachineUpdateRequestModel.cs" />
     <Compile Include="Areas\Api\Models\OrderDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\ItemDesignerTemplateBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemForWidgets.cs" />
@@ -631,7 +637,6 @@
     <Content Include="Areas\Settings\Scripts\MIS\prefix.view.js" />
     <Content Include="Areas\Settings\Scripts\MIS\costcenter.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\prefix.viewModel.js" />
-    <Content Include="Areas\Settings\Scripts\MIS\spectrum.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.view.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.dataservice.js" />

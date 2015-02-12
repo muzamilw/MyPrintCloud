@@ -172,6 +172,15 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StockCostAndPrices = source.StockCostAndPrices != null ? source.StockCostAndPrices.Select(cp => cp.CreateFrom()).ToList() : null
             };
         }
+        public static ApiModels.StockItem CreateFromDetailForMachine(this DomainModels.StockItem source)
+        {
+            return new ApiModels.StockItem
+            {
+                StockItemId = source.StockItemId,
+                ItemName = source.ItemName                
+            };
+        }
+        
         #endregion
 
     }

@@ -211,14 +211,11 @@ define("stores/stores.viewModel",
                 },
                 //On Edit Click Of Store
                 onEditItem = function (item) {
-                    $('.bs-example-tooltips a').popover();
                     editorViewModel.selectItem(item);
                     openEditDialog();
                     $('.nav-tabs').children().removeClass('active');
                     $('#generalInfoTab').addClass('active');
-                    $('.bs-example-tooltips a').popover();
                     sharedNavigationVM.initialize(selectedStore, function (saveCallback) { saveStore(saveCallback); });
-                    $('.bs-example-tooltips a').popover();
                 },
                 //On Edit Click Of Store
                 onCreateNewStore = function () {
@@ -241,6 +238,7 @@ define("stores/stores.viewModel",
                         getItemsForWidgets();
                     }
                     sharedNavigationVM.initialize(selectedStore, function (saveCallback) { saveStore(saveCallback); });
+                    view.initializeLabelPopovers();
                 },
                 //To Show/Hide Edit Section
                 isStoreEditorVisible = ko.observable(false),
@@ -2766,6 +2764,7 @@ define("stores/stores.viewModel",
                     getStoreForEditting();
                     view.initializeForm();
                     getBaseData();
+                    view.initializeLabelPopovers();
                 },
                 //Get Store For editting
                 getStoreForEditting = function () {
