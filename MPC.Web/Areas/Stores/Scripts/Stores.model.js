@@ -2313,6 +2313,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             fileName = ko.observable(),
             bussinessAddress = ko.observable(),
             shippingAddress = ko.observable(),
+            stateName = ko.observable(),
+            
 
             // Errors
             errors = ko.validation.group({
@@ -2601,6 +2603,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             fileName: fileName,
             bussinessAddress: bussinessAddress,
             shippingAddress: shippingAddress,
+            stateName: stateName,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,

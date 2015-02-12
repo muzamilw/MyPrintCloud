@@ -70,10 +70,10 @@
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
                             </div>
-                            <label for="txtCity" class="control-label text-right tooltip-float">City</label>
+                            <label for="txtCountry" class="control-label text-right tooltip-float">Country</label>
                         </div>
                         <div class="col-lg-7">
-                            <input type="text" class="form-control" id="txtCity" data-bind="value: city">
+                            <select id="country" class="form-control" data-bind="options: $root.countries , optionsText: 'CountryName', optionsValue: 'CountryId' ,value:country,validationtooltip:country"></select>
                         </div>
                     </div>
                     <div class="form-group ">
@@ -86,7 +86,7 @@
                             <label for="txtState" class="control-label text-right tooltip-float">State</label>
                         </div>
                         <div class="col-lg-7">
-                            <input type="text" class="form-control" id="txtState" data-bind="value: state">
+                            <select id="state" class="form-control" data-bind="options: $root.filteredStates  , optionsText: 'StateName', optionsValue: 'StateId' ,value:state,validationtooltip:state"></select>
                         </div>
                     </div>
                     <div class="form-group ">
@@ -96,12 +96,13 @@
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
                             </div>
-                            <label for="txtCountry" class="control-label text-right tooltip-float">Country</label>
+                            <label for="txtCity" class="control-label text-right tooltip-float">City</label>
                         </div>
                         <div class="col-lg-7">
-                            <input type="text" class="form-control" id="txtCountry" data-bind="value: country">
+                            <input type="text" class="form-control" id="txtCity" data-bind="value: city">
                         </div>
                     </div>
+                    
                     <div class="form-group ">
                         <div class="col-lg-5 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
@@ -205,6 +206,7 @@
                             <input type="text" class="form-control" id="txtReference" data-bind="value: reference">
                         </div>
                     </div>
+                    <!--ko if: $root.selectedStore().type() != 4-->
                     <div class="form-group ">
                         <div class="col-lg-5 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
@@ -216,9 +218,10 @@
                             <label for="txtReference" class="control-label text-right tooltip-float">Territory</label>
                         </div>
                         <div class="col-lg-7">
-                            <select class="form-control col-lg-4" data-bind="options:$root.addressCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Choose...', value: territoryId"></select>
+                            <select class="form-control col-lg-4" data-bind="options:$root.addressCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId', value: territoryId"></select> @*,optionsCaption: 'Choose...'*@
                         </div>
                     </div>
+                    <!--/ko-->
                     <div class="form-group ">
                         <div class="col-lg-5 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
@@ -261,6 +264,7 @@
                             <input type="text" class="form-control" id="txtGeoLongitude" data-bind="value: geoLongitude">
                         </div>
                     </div>
+                    <!--ko if: $root.selectedStore().type() != 4-->
                     <div class="form-group">
                         <label class="col-md-9 text-right" for="switchTerritoryDBillAdd">&nbsp;&nbsp;Territory Default Billing Address</label>
                         <div class="col-md-3">
@@ -285,6 +289,7 @@
                             </div>
                         </div>
                     </div>
+                    <!--/ko-->
                     <div class="form-group">
                         <label class="col-md-9 text-right" for="switchCompDAdd">&nbsp;&nbsp;Company Default Address</label>
                         <div class="col-md-3">

@@ -2186,7 +2186,9 @@ namespace MPC.Implementation.MISServices
                        PaymentMethods = paymentMethodRepository.GetAll().ToList(),
                        EmailEvents = emailEventRepository.GetAll(),
                        Widgets = widgetRepository.GetAll(),
-                       CostCentres = costCentreRepository.GetAllCompanyCentersByOrganisationId().ToList()//GetAllCompanyCentersByCompanyId
+                       CostCentres = costCentreRepository.GetAllCompanyCentersByOrganisationId().ToList(),//GetAllCompanyCentersByCompanyId
+                       States = stateRepository.GetAll(),
+                       Countries = countryRepository.GetAll()
                    };
         }
         public CompanyBaseResponse GetBaseDataForNewCompany()
@@ -2200,6 +2202,8 @@ namespace MPC.Implementation.MISServices
                 PaymentMethods = paymentMethodRepository.GetAll().ToList(),
                 EmailEvents = emailEventRepository.GetAll(),
                 Widgets = widgetRepository.GetAll(),
+                States = stateRepository.GetAll(),
+                Countries = countryRepository.GetAll()
             };
         }
         public void SaveFile(string filePath, long companyId)
