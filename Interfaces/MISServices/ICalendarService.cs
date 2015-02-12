@@ -1,4 +1,5 @@
-﻿using MPC.Models.DomainModels;
+﻿using System.Collections.Generic;
+using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 
@@ -27,8 +28,23 @@ namespace MPC.Interfaces.MISServices
         int SaveActivity(Activity activity);
 
         /// <summary>
+        /// Save Activity On Drop Or Resize IN Calendar
+        /// </summary>
+        void SaveActivityDropOrResize(Activity activity);
+
+        /// <summary>
         /// Delete Activity
         /// </summary>
         void DeleteActivity(int activityId);
+
+        /// <summary>
+        ///  Activity Detail By ID
+        /// </summary>
+        Activity ActivityDetail(int activityId);
+
+        /// <summary>
+        /// Get Company Contacts By Company ID
+        /// </summary>
+        IEnumerable<CompanyContact> GetCompanyContactsByCompanyId(long companyId);
     }
 }

@@ -11,7 +11,7 @@
         id = ko.observable(specifiedActivityId),
         systemUserId = ko.observable(specifiedSystemUserId),
         //Subject
-        title = ko.observable(specifiedActivityRef).extend({ required: true }),
+        subject = ko.observable(specifiedActivityRef).extend({ required: true }),
         activityTypeId = ko.observable(specifiedActivityTypeId),
         contactCompanyId = ko.observable(specifiedContactCompanyId),
         contactId = ko.observable(specifiedContactId),
@@ -19,21 +19,20 @@
         sourceId = ko.observable(specifiedSourceId),
         flagId = ko.observable(specifiedFlagId),
          //Start Date Time
-        startDateTime = ko.observable((specifiedStartDateTime === null || specifiedStartDateTime === undefined) ? new Date() : moment(specifiedStartDateTime, ist.utcFormat)),
+        startDateTime = ko.observable((specifiedStartDateTime === null || specifiedStartDateTime === undefined) ? new Date() : moment(specifiedStartDateTime, ist.utcFormat).toDate()),
         //End Date Time
-        endDateTime = ko.observable((specifiedEndDateTime === null || specifiedEndDateTime === undefined) ? null : moment(specifiedEndDateTime, ist.utcFormat)),
+        endDateTime = ko.observable((specifiedEndDateTime === null || specifiedEndDateTime === undefined) ? new Date() : moment(specifiedEndDateTime, ist.utcFormat).toDate()),
         isCustomerActivity = ko.observable(specifiedIsCustomerActivity),
         isPrivate = ko.observable(specifiedIsPrivate),
         companyName = ko.observable(specifiedCompanyName),
         activityNotes = ko.observable(specifiedActivityNotes),
-        isCustomerType = ko.observable(specifiedIsCustomerType),
-
-        isInvalidPeriod = ko.computed(function () {
-            return endDateTime() < startDateTime();
-        }),
+        isCustomerType = ko.observable((specifiedIsCustomerType === null || specifiedIsCustomerType === undefined) ? "1" : specifiedIsCustomerType.toString()),
+         isInvalidPeriod = ko.computed(function () {
+             return endDateTime() < startDateTime();
+         }),
         // Errors
         errors = ko.validation.group({
-            title: title
+            subject: subject
         }),
         // Is Valid 
         isValid = ko.computed(function () {
@@ -52,7 +51,7 @@
             return {
                 ActivityId: id(),
                 SystemUserId: systemUserId(),
-                ActivityRef: title(),
+                ActivityRef: subject(),
                 ActivityTypeId: activityTypeId(),
                 CompanyId: contactCompanyId(),
                 ContactId: contactId(),
@@ -73,7 +72,7 @@
         self = {
             id: id,
             systemUserId: systemUserId,
-            title: title,
+            subject: subject,
             activityTypeId: activityTypeId,
             contactCompanyId: contactCompanyId,
             contactId: contactId,

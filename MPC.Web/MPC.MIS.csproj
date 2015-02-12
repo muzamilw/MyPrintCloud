@@ -249,6 +249,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\ActivityDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\AddressController.cs" />
     <Compile Include="Areas\Api\Controllers\CalendarBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\CalendarController.cs" />
@@ -308,6 +309,7 @@
     <Compile Include="Areas\Api\ModelMappers\PhraseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SectionMapper.cs" />
     <Compile Include="Areas\Api\Models\Activity.cs" />
+    <Compile Include="Areas\Api\Models\ActivityListView.cs" />
     <Compile Include="Areas\Api\Models\ActivityTypeDropDown.cs" />
     <Compile Include="Areas\Api\Models\CalendarBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\CampaignBaseResponse.cs" />

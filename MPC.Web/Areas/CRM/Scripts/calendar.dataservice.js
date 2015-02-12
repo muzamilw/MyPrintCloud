@@ -18,12 +18,25 @@ define("calendar/calendar.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
-                    // Define request to delete Inventory
-                    amplify.request.define('deleteInventory', 'ajax', {
-                        url: ist.siteUrl + '/Api/Inventory',
+                    // Define request to delete Activity
+                    amplify.request.define('deleteActivity', 'ajax', {
+                        url: ist.siteUrl + '/Api/Calendar',
                         dataType: 'json',
                         type: 'DELETE'
                     });
+                    // Define request to Get Activity Detail By Id
+                    amplify.request.define('getActivityDetailById', 'ajax', {
+                        url: ist.siteUrl + '/Api/ActivityDetail',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to Get Company Contact By CompanyId
+                    amplify.request.define('getCompanyContactByCompanyId', 'ajax', {
+                        url: ist.siteUrl + '/Api/CalendarBase',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
                     // Define request to Get Company By Customer Type
                     amplify.request.define('getCompanyByCustomerType', 'ajax', {
                         url: ist.siteUrl + '/Api/Calendar',
@@ -37,7 +50,13 @@ define("calendar/calendar.dataservice", function () {
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
-
+                    // Define request to save Activity ON Drop Or resize
+                    amplify.request.define('saveActivityDropOrResize', 'ajax', {
+                        url: ist.siteUrl + '/Api/ActivityDetail',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
                     isInitialized = true;
                 }
             },
@@ -52,11 +71,11 @@ define("calendar/calendar.dataservice", function () {
                     error: callbacks.error,
                 });
             },
-            // delete Inventory
-            deleteInventory = function (params, callbacks) {
+            // delete Activity
+            deleteActivity = function (params, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'deleteInventory',
+                    resourceId: 'deleteActivity',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
@@ -72,8 +91,39 @@ define("calendar/calendar.dataservice", function () {
                     data: params
                 });
             },
-
-           // Save Activity
+             //Get Activity Detail By Id
+            getActivityDetailById = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getActivityDetailById',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            //get Company Contact By Company Id
+            getCompanyContactByCompanyId = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getCompanyContactByCompanyId',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            
+           // CalendarBase
+        // Save Activity
+        saveActivityDropOrResize = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'saveActivityDropOrResize',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
+        // Save Activity
             saveActivity = function (param, callbacks) {
                 initialize();
                 return amplify.request({
@@ -86,9 +136,12 @@ define("calendar/calendar.dataservice", function () {
 
         return {
             getCalendarBase: getCalendarBase,
-            deleteInventory: deleteInventory,
+            deleteActivity: deleteActivity,
             saveActivity: saveActivity,
             getCompanyByCustomerType: getCompanyByCustomerType,
+            getActivityDetailById: getActivityDetailById,
+            saveActivityDropOrResize: saveActivityDropOrResize,
+            getCompanyContactByCompanyId: getCompanyContactByCompanyId,
         };
     })();
 

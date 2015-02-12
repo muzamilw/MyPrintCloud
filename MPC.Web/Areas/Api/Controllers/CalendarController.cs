@@ -63,6 +63,19 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
             return calendarService.SaveActivity(activity.CreateFrom());
         }
+
+        /// <summary>
+        /// Delete Stock Item
+        /// </summary>
+        [ApiException]
+        public void Delete(Activity activity)
+        {
+            if (activity == null || !ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+            calendarService.DeleteActivity(activity.ActivityId);
+        }
         #endregion
     }
 }

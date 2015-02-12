@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
@@ -63,13 +64,21 @@ namespace MPC.Implementation.MISServices
                 SystemUsers = systemUserRepository.GetAll(),
                 PipeLineProducts = pipeLineProductRepository.GetAll(),
                 PipeLineSources = pipeLineSourceRepository.GetAll(),
-                CompanyContacts = companyContactRepository.GetAll(),
                 ActivityTypes = activityTypeRepository.GetAll(),
                 LoggedInUserId = activityTypeRepository.LoggedInUserId,
+                Activities = activityRepository.GetActivitiesByUserId(),
                 SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.CRM),
             };
         }
 
+        /// <summary>
+        /// Get Company Contacts By Company ID
+        /// </summary>
+        public IEnumerable<CompanyContact> GetCompanyContactsByCompanyId(long companyId)
+        {
+            return companyContactRepository.GetContactsByCompanyId(companyId);
+
+        }
         /// <summary>
         /// Get Companies By Is Customer Type
         /// </summary>
@@ -99,7 +108,8 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public int AddActivity(Activity activity)
         {
-            activity.SystemUserId = activityRepository.LoggedInUserId;
+            //activity.SystemUserId = activityRepository.LoggedInUserId;
+            activity.ActivityTime = DateTime.Now;
             activityRepository.Add(activity);
             activityRepository.SaveChanges();
             return activity.ActivityId;
@@ -109,23 +119,37 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public int UpdateActivity(Activity activity, Activity dbVersionActivity)
         {
-            activity.ActivityTypeId = dbVersionActivity.ActivityTypeId;
-            activity.ContactId = dbVersionActivity.ContactId;
-            activity.SourceId = dbVersionActivity.SourceId;
-            activity.ActivityEndTime = dbVersionActivity.ActivityEndTime;
-            activity.ActivityNotes = dbVersionActivity.ActivityNotes;
-            activity.ActivityRef = dbVersionActivity.ActivityRef;
-            activity.ActivityStartTime = dbVersionActivity.ActivityStartTime;
-            activity.CompanyId = dbVersionActivity.CompanyId;
-            activity.FlagId = dbVersionActivity.FlagId;
-            activity.IsCustomerActivity = dbVersionActivity.IsCustomerActivity;
-            activity.IsPrivate = dbVersionActivity.IsPrivate;
-            activity.ProductTypeId = dbVersionActivity.ProductTypeId;
-            activity.SystemUserId = dbVersionActivity.SystemUserId;
+            dbVersionActivity.ActivityTypeId = activity.ActivityTypeId;
+            dbVersionActivity.ContactId = activity.ContactId;
+            dbVersionActivity.SourceId = activity.SourceId;
+            dbVersionActivity.ActivityEndTime = activity.ActivityEndTime;
+            dbVersionActivity.ActivityNotes = activity.ActivityNotes;
+            dbVersionActivity.ActivityRef = activity.ActivityRef;
+            dbVersionActivity.ActivityStartTime = activity.ActivityStartTime;
+            dbVersionActivity.CompanyId = activity.CompanyId;
+            dbVersionActivity.FlagId = activity.FlagId;
+            dbVersionActivity.IsCustomerActivity = activity.IsCustomerActivity;
+            dbVersionActivity.IsPrivate = activity.IsPrivate;
+            dbVersionActivity.ProductTypeId = activity.ProductTypeId;
+            dbVersionActivity.SystemUserId = activity.SystemUserId;
             activityRepository.SaveChanges();
             return activity.ActivityId;
         }
 
+        /// <summary>
+        /// Save Activity On Drop Or Resize IN Calendar
+        /// </summary>
+        public void SaveActivityDropOrResize(Activity activity)
+        {
+            Activity dbVersionActivity = activityRepository.Find(activity.ActivityId);
+            if (dbVersionActivity != null)
+            {
+                dbVersionActivity.ActivityEndTime = activity.ActivityEndTime;
+                dbVersionActivity.ActivityStartTime = activity.ActivityStartTime;
+                activityRepository.SaveChanges();
+            }
+
+        }
         /// <summary>
         /// Delete Activity
         /// </summary>
@@ -138,6 +162,15 @@ namespace MPC.Implementation.MISServices
                 activityRepository.SaveChanges();
             }
         }
+
+        /// <summary>
+        ///  Activity Detail By ID
+        /// </summary>
+        public Activity ActivityDetail(int activityId)
+        {
+            return activityRepository.Find(activityId);
+        }
+
         #endregion
     }
 }

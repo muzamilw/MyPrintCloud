@@ -43,6 +43,7 @@ namespace MPC.Repository.Repositories
         public IEnumerable<Activity> GetActivitiesByUserId()
         {
             return DbSet.Where(a => a.SystemUserId == LoggedInUserId).ToList();
+            //return DbSet.ToList();
         }
         #endregion
     }
