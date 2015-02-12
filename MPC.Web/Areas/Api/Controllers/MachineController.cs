@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using System.Web.Mvc;
+//using System.Web.Mvc;
 using System.Web.Http;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
@@ -45,10 +45,10 @@ namespace MPC.MIS.Areas.Api.Controllers
        
 
         [HttpPost]
-        public Machine Post(Machine omachineId)
+        public bool Post(long machineId)
         {
-            return omachineId;
-            //return _machineService.archiveMachine(machineId);
+            //return omachineId;
+            return _machineService.archiveMachine(machineId);
           
 
         }
