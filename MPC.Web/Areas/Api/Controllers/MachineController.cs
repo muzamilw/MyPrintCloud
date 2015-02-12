@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Linq;
+//using System.Web.Mvc;
 using System.Web.Http;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
+
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -45,14 +43,23 @@ namespace MPC.MIS.Areas.Api.Controllers
             };
         }
 
-        public bool archiveMachine(long machineId)
+        [HttpDelete]
+        public bool Delete(MachineDeleteRequest request)
         {
-
-            return _machineService.archiveMachine(machineId);
+            return _machineService.archiveMachine(request.machineId);
           
 
         }
-       
+        [HttpPost]
+        //public bool PostMachine(MachineUpdateRequestModel request)
+        public Machine Post(Machine machine)
+        {
+
+           _machineService.UpdateMachine(machine.CreateFrom());
+           return machine;
+
+
+        }
         #endregion
     }
 }

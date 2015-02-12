@@ -19,10 +19,18 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 MachineId = source.MachineId
             };
 
-
+        }
+        public static DomainModels.MachineInkCoverage CreateFrom(this APIDomainModels.MachineInkCoverage source)
+        {
+            return new DomainModels.MachineInkCoverage
+            {
+                Id = source.Id,
+                SideInkOrder = source.SideInkOrder,
+                SideInkOrderCoverage = source.SideInkOrderCoverage,
+                MachineId = source.MachineId
+            };
 
         }
-
 
     }
 }

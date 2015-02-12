@@ -20,5 +20,10 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         CompanyContactResponse SearchCompanyContacts(CompanyContactRequestModel request);
 
+        /// <summary>
+        /// Deletion for Crm
+        /// </summary>
+        bool DeleteContactForCrm(long companyContactId);
+
     }
 }

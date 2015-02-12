@@ -38,12 +38,11 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         public CompanyContactResponse Get([FromUri] CompanyContactRequestModel request)
         {
-            var result = companyService.SearchCompanyContacts(request);
-            return new CompanyContactResponse
+            if (request == null || !ModelState.IsValid)
             {
-                CompanyContacts = result.CompanyContacts.Select(x => x.CreateFrom()),
-                RowCount = result.RowCount
-            };
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+            return companyService.SearchCompanyContacts(request).CreateFrom();
         }
 
         /// <summary>

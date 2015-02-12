@@ -67,6 +67,22 @@ namespace MPC.Implementation.MISServices
             }
             return false;
         }
+
+        /// <summary>
+        /// Deletion for Crm
+        /// </summary>
+        public bool DeleteContactForCrm(long companyContactId)
+        {
+            var dbCompanyContact = companyContactRepository.GetContactByID(companyContactId);
+            if (dbCompanyContact != null)
+            {
+                dbCompanyContact.isArchived = true;
+                companyContactRepository.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
         public CompanyContact Save(CompanyContact companyContact)
         {
             if (companyContact.ContactId == 0)

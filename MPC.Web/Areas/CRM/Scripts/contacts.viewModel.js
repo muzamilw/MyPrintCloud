@@ -53,6 +53,23 @@ define("crm/contacts.viewModel",
                     searchFilter(null);
                     getCompanyContacts();
                 },
+                deleteContactbuttonHandler = function (contact) {
+                    // Ask for confirmation
+                    confirmation.afterProceed(function () {
+                        dataservice.deleteContact({
+                            CompanyContactId: contact.contactId(),
+                        },
+                                          {
+                                              success: function (data) {
+                                                  toastr.success("Contact successfuly deleted!");
+                                              },
+                                              error: function () {
+                                                  toastr.error("Error: Failed To delete Contact!");
+                                              }
+                                          });
+                    });
+                    confirmation.show();
+                },
                 //Initialize
                initialize = function (specifiedView) {
                    view = specifiedView;
@@ -67,7 +84,8 @@ define("crm/contacts.viewModel",
                     companyContactsForListView: companyContactsForListView,
                     searchButtonHandler: searchButtonHandler,
                     resetButtonHandler: resetButtonHandler,
-                    sharedNavigationVm: sharedNavigationVm
+                    sharedNavigationVm: sharedNavigationVm,
+                    deleteContactbuttonHandler: deleteContactbuttonHandler
                 };
             })()
         };

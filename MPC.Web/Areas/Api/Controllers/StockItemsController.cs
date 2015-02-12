@@ -53,15 +53,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
             return itemService.GetStockItems(request).CreateFrom();
         }
-        public IEnumerable<StockItem> GetAllStockItemList([FromUri] long stockID)
-        {
-            //return new StockItemResponse
-            //{
-            //    StockItems = 
-            //};
-            return itemService.GetAllStockItemList().Select(g => g.CreateFromDetail());
-        }
-
+       
        
         
         #endregion
