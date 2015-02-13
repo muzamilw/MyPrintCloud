@@ -1671,6 +1671,12 @@
     <Content Include="Content\less\Orders.less" />
     <Content Include="Areas\Orders\Views\Home\_OrderItemDetail.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_OrderSectionDetail.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_UserProfileDetails.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_AddEditTerritory.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_AddEditCMYKColors.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_RaveReviews.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_ProductsFilter.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_ChooseUsIcon.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
