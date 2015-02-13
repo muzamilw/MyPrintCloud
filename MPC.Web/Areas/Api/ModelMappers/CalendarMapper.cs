@@ -23,7 +23,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PipeLineSources = source.PipeLineSources != null ? source.PipeLineSources.Select(pls => pls.CreateFrom()).ToList() : null,
                 SystemUsers = source.SystemUsers != null ? source.SystemUsers.Select(su => su.CreateFrom()).ToList() : null,
                 ActivityTypes = source.ActivityTypes != null ? source.ActivityTypes.Select(su => su.CreateFromDropDown()).ToList() : null,
-                Activities = source.Activities != null ? source.Activities.Select(su => su.CreateFromListView()).ToList() : null,
                 LoggedInUserId = source.LoggedInUserId,
             };
         }

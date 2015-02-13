@@ -14,7 +14,6 @@ namespace MPC.MIS.Areas.Api.Models
         public IEnumerable<PipeLineSource> PipeLineSources { get; set; }
         public IEnumerable<SectionFlagDropDown> SectionFlags { get; set; }
         public IEnumerable<ActivityTypeDropDown> ActivityTypes { get; set; }
-        public IEnumerable<ActivityListView> Activities { get; set; }
         public Guid LoggedInUserId { get; set; }
     }
 }

@@ -11,6 +11,6 @@ namespace MPC.MIS.Areas.Api.Models
         public DateTime? ActivityStartTime { get; set; }
         public DateTime? ActivityEndTime { get; set; }
         public string ActivityRef { get; set; }
-        public string FlagColor { get; set; }
+        public int? FlagId { get; set; }
     }
 }

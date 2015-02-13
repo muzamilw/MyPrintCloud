@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using Microsoft.Practices.Unity;
@@ -38,12 +39,16 @@ namespace MPC.Repository.Repositories
         #region Public
 
         /// <summary>
-        ///Get Activities By Sytem User Id
+        ///Get Activities By Sytem User Id Of Current Month
         /// </summary>
-        public IEnumerable<Activity> GetActivitiesByUserId()
+        public IEnumerable<Activity> GetActivitiesByUserId(DateTime? startDateTime, DateTime? endDateTime)
         {
-            return DbSet.Where(a => a.SystemUserId == LoggedInUserId).ToList();
-            //return DbSet.ToList();
+            //DateTime today = DateTime.Today;
+            //int daysInMonth = DateTime.DaysInMonth(today.Year, today.Month);
+
+            //DateTime startOfMonth = new DateTime(today.Year, today.Month, 1);
+            //DateTime endOfMonth = new DateTime(today.Year, today.Month, daysInMonth);
+            return DbSet.Where(a => a.SystemUserId == LoggedInUserId && a.ActivityStartTime >= startDateTime && a.ActivityEndTime < endDateTime).ToList();
         }
         #endregion
     }
