@@ -149,7 +149,72 @@ namespace MPC.Repository.Repositories
             try
             {
                 Machine omachine = db.Machines.Where(s => s.MachineId == machine.MachineId).SingleOrDefault();
-                omachine = machine;
+                omachine.MachineId = machine.MachineId;
+                omachine.MachineName = machine.MachineName;
+                omachine.MachineCatId = machine.MachineCatId;
+                omachine.ColourHeads = machine.ColourHeads;
+                omachine.isPerfecting = machine.isPerfecting;
+                omachine.SetupCharge = machine.SetupCharge;
+                omachine.WashupPrice = machine.WashupPrice;
+                omachine.WashupCost = machine.WashupCost;
+                omachine.MinInkDuctqty = machine.MinInkDuctqty;
+                omachine.worknturncharge = machine.worknturncharge;
+                omachine.MakeReadyCost = machine.MakeReadyCost;
+                omachine.DefaultFilmId = machine.DefaultFilmId;
+                omachine.DefaultPlateId = machine.DefaultPlateId;
+                omachine.DefaultPaperId = machine.DefaultPaperId;
+                omachine.isfilmused = machine.isfilmused;
+                omachine.isplateused = machine.isplateused;
+                omachine.ismakereadyused = machine.ismakereadyused;
+                omachine.iswashupused = machine.iswashupused;
+                omachine.maximumsheetweight = machine.maximumsheetweight;
+                omachine.maximumsheetheight = machine.maximumsheetheight;
+                omachine.maximumsheetwidth = machine.maximumsheetwidth;
+                omachine.minimumsheetheight = machine.minimumsheetheight;
+                omachine.minimumsheetwidth = machine.minimumsheetwidth;
+                omachine.gripdepth = machine.gripdepth;
+                omachine.gripsideorientaion = machine.gripsideorientaion;
+                omachine.gutterdepth = machine.gutterdepth;
+                omachine.headdepth = machine.headdepth;
+                omachine.MarkupId = machine.MarkupId;
+                omachine.PressSizeRatio = machine.PressSizeRatio;
+                omachine.Description = machine.Description;
+                omachine.Priority = machine.Priority;
+                omachine.DirectCost = machine.DirectCost;
+                omachine.Image = machine.Image;
+                omachine.MinimumCharge = machine.MinimumCharge;
+                omachine.CostPerCut = machine.CostPerCut;
+                omachine.PricePerCut = machine.PricePerCut;
+                omachine.IsAdditionalOption = machine.IsAdditionalOption;
+                omachine.IsDisabled = machine.IsDisabled;
+                omachine.LockedBy = machine.LockedBy;
+                omachine.CylinderSizeId = machine.CylinderSizeId;
+                omachine.MaxItemAcrossCylinder = machine.MaxItemAcrossCylinder;
+                omachine.Web1MRCost = machine.Web1MRCost;
+                omachine.Web1MRPrice = machine.Web1MRPrice;
+                omachine.Web2MRCost = machine.Web2MRCost;
+                omachine.Web2MRPrice = machine.Web2MRPrice;
+                omachine.ReelMRCost = machine.ReelMRCost;
+                omachine.ReelMRPrice = machine.ReelMRPrice;
+                omachine.IsMaxColorLimit = machine.IsMaxColorLimit;
+                omachine.PressUtilization = machine.PressUtilization;
+                omachine.MakeReadyPrice = machine.MakeReadyPrice;
+                omachine.InkChargeForUniqueColors = machine.InkChargeForUniqueColors;
+                omachine.CompanyId = machine.CompanyId;
+                omachine.FlagId = machine.FlagId;
+                omachine.IsScheduleable = machine.IsScheduleable;
+                omachine.SystemSiteId = machine.SystemSiteId;
+                omachine.SpoilageType = machine.SpoilageType;
+                omachine.SetupTime = machine.SetupTime;
+                omachine.TimePerCut = machine.TimePerCut;
+                omachine.MakeReadyTime = machine.MakeReadyTime;
+                omachine.WashupTime = machine.WashupTime;
+                omachine.ReelMakereadyTime = machine.ReelMakereadyTime;
+                omachine.LookupMethodId = machine.LookupMethodId;
+                omachine.OrganisationId = machine.OrganisationId;
+
+
+              //  omachine = machine;
                 if (db.SaveChanges() > 0)
                 {
                     return true;

@@ -139,6 +139,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isplateused = source.isplateused,
                 ismakereadyused = source.ismakereadyused,
                 iswashupused = source.iswashupused,
+                Image=null,
                 maximumsheetweight = source.maximumsheetweight,
                 maximumsheetheight = source.maximumsheetheight,
                 maximumsheetwidth = source.maximumsheetwidth,
@@ -181,8 +182,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 MakeReadyTime = source.MakeReadyTime,
                 WashupTime = source.WashupTime,
                 ReelMakereadyTime = source.ReelMakereadyTime,
-                LookupMethodId = source.LookupMethodId,
-                MachineInkCoverages = source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList()
+                LookupMethodId = source.LookupMethodId//,
+               // MachineInkCoverages = source.MachineInkCoverages != null ? source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList() : null,
+             
 
             };
         }

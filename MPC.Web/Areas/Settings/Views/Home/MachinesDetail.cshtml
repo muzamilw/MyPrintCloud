@@ -249,9 +249,11 @@
 
                                             </div>
                                             <div class="col-lg-6">
-                                               
+                                                @*<input type="text" disabled="disabled" style="width: 278px;float: left;" class="form-control" data-bind="value: stockItemName">*@
+
+
                                                 <select class="form-control OpenStockPopup-Class" id="ddl-paperSizeId" style="width:88%" disabled="disabled" data-bind="options:stockItemListForPaperSizePlate, optionsText:'ItemName',optionsValue:'StockItemId' ,value:DefaultPaperId"></select>
-                                                <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right" data-bind="click: $root.onPapperSizeStockItemPopup">
+                                                <a data-toggle="modal" class="btn btn-primary pull-right" data-bind="click: $root.onPapperSizeStockItemPopup">
                                                     <i class="fa fa-lg"></i>&nbsp;....
                                                 </a>
 
@@ -784,7 +786,7 @@
     
 </script>
 
-  @Html.Partial("Product/_SelectStock")
+  @*@Html.Partial("Product/_SelectStock")*@
 
 @*@section Scripts {
     <script src="~/Content/themes/Centaurus/js/jquery-ui.custom.min.js"></script>

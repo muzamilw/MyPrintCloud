@@ -2,8 +2,8 @@
     Module with the view model for the Machine List.
 */
 define("machine/machine.viewModel",
-    ["jquery", "amplify", "ko", "machine/machine.dataservice", "machine/machine.model", "common/confirmation.viewModel", "common/pagination"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination) {
+    ["jquery", "amplify", "ko", "machine/machine.dataservice", "machine/machine.model", "common/confirmation.viewModel", "common/pagination", "common/stockItem.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, stockDialog) {
         var ist = window.ist || {};
         ist.machine = {
             viewModel: (function () {
@@ -144,24 +144,12 @@ define("machine/machine.viewModel",
                             //}
                         }
                     },
-                    ////Save NEW Cost Center
-                    //saveNewCostCenter = function () {
-                    //    dataservice.saveNewCostCenter(selectedMachine().convertToServerData(), {
-                    //        success: function (data) {
-                    //            selectedMachine().costCenterId(data.costCenterId);
-                    //            machineList.splice(0, 0, selectedMachine());
-                    //            view.hideMachineDialog();
-                    //            toastr.success("Successfully save.");
-                    //        },
-                    //        error: function (response) {
-                    //            toastr.error("Failed to save." + response);
-                    //        }
-                    //    });
-                    //},
-                    ////Save EDIT Cost Center
+                    
+
+                    //Save EDIT Machine
                     saveEdittedMachine = function () {
-                        //var omachine = model.machineServerMapper(selectedMachine());
-                        dataservice.saveMachine(model.machineServerMapper(selectedMachine()) , {
+                       
+                        dataservice.saveMachine({ machine: model.machineServerMapper(selectedMachine()) }, {
                             success: function (data) {
                                 
                                 toastr.success("Successfully save.");
@@ -185,18 +173,27 @@ define("machine/machine.viewModel",
                         $(".btn-myModal-close").click();
 
                     }
-
+                    onSelectStockItem= function () {
+                    },
 
                     onPapperSizeStockItemPopup = function () {
-                        stockItemgPager(new pagination.Pagination({ PageSize: 5 }, stockItemList, getStockItemsList)),
-                        categoryID(1);
-                        getStockItemsList();
-                    }
+                        //stockItemgPager(new pagination.Pagination({ PageSize: 5 }, stockItemList, getStockItemsList)),
+                        //categoryID(1);
+                        //getStockItemsList();
+                        openStockItemDialog(1);
+                    },
                     onPlateStockItemPopup = function () {
-                        stockItemgPager(new pagination.Pagination({ PageSize: 5 }, stockItemList, getStockItemsList)),
-                        categoryID(4);
-                        getStockItemsList();
-                    }
+                        openStockItemDialog(4);
+
+                        //stockItemgPager(new pagination.Pagination({ PageSize: 5 }, stockItemList, getStockItemsList)),
+                        //categoryID(4);
+                        //getStockItemsList();
+                    },
+                    openStockItemDialog = function (stockCategoryId) {
+                        stockDialog.show(function (stockItem) {
+                            selectedMachine().onSelectStockItem(stockItem);
+                        }, stockCategoryId, false);
+                    },
                     onEditItem = function (oMachine) {
                         errorList.removeAll();
                         dataservice.getMachineById({
@@ -287,7 +284,9 @@ define("machine/machine.viewModel",
                     GetMachineListForGuillotine: GetMachineListForGuillotine,
                     GetMachineListForAll: GetMachineListForAll,
                     OnSelectDefaultPaper: OnSelectDefaultPaper,
-                    UpdatedPapperStockID: UpdatedPapperStockID
+                    UpdatedPapperStockID: UpdatedPapperStockID,
+                    openStockItemDialog: openStockItemDialog,
+                    onSelectStockItem: onSelectStockItem
 
                   
                 };

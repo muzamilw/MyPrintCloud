@@ -57,13 +57,13 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
         
         [ApiException]
-        //public bool Post(MachineUpdateRequestModel request)
-        public Machine Post(Machine machine)
+        public bool Post(MachineUpdateRequestModel request)
+       // public Machine Post(Machine machine)
         
         {
 
-         //  _machineService.UpdateMachine(machine.CreateFrom());
-            return machine;
+            return _machineService.UpdateMachine(request.machine.CreateFrom());
+           
 
 
         }
