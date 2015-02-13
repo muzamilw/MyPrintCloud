@@ -1198,26 +1198,22 @@ define("stores/stores.viewModel",
                 }),
                 selectBussinessAddress = ko.computed(function () {
                     if (selectedCompanyContact() != undefined && selectedCompanyContact().addressId() != undefined) {
-                        selectedBussinessAddressId(selectedCompanyContact().addressId());
                     }
                     if (selectedBussinessAddressId() != undefined) {
                         _.each(allCompanyAddressesList(), function (item) {
                             if (item.addressId() == selectedBussinessAddressId()) {
                                 selectedBussinessAddress(item);
-                                //selectedBussinessAddress().stateName(getStateNameByStateId(selectedBussinessAddress().state()));
                                 if (item.city() == null) {
                                     selectedBussinessAddress().city(undefined);
                                 }
                                 if (item.state() == null) {
                                     selectedBussinessAddress().state(undefined);
                                 }
-                                //selectedCompanyContact().bussinessAddressId(item.addressId());
                                 if (selectedCompanyContact() != undefined) {
                                     selectedCompanyContact().bussinessAddressId(item.addressId());
                                     selectedCompanyContact().addressId(item.addressId());
                                     _.each(states(), function (state) {
                                         if (state.StateId == item.state()) {
-                                            //selectedCompanyContact().stateName(state.StateName);
                                             selectedBussinessAddress().stateName(state.StateName);
                                         }
                                     });
@@ -1228,9 +1224,22 @@ define("stores/stores.viewModel",
                     if (selectedBussinessAddressId() == undefined) {
                         selectedBussinessAddress(undefined);
                         if (selectedCompanyContact() != undefined) {
-                            selectedCompanyContact().bussinessAddressId(undefined);
+                            //selectedCompanyContact().bussinessAddressId(undefined);
                         }
                     }
+                    //if (isSavingNewCompanyContact != undefined && isSavingNewCompanyContact() && selectedStore().companyId() == undefined) {
+
+                    //    _.each(newAddresses(), function (address) {
+                    //        if (address.isDefaultTerrorityBilling()) {
+                    //            selectedBussinessAddressId(address.addressId());
+                    //        }
+                    //    });
+                    //    _.each(newCompanyTerritories(), function (territory) {
+                    //        if (territory.isDefault()) {
+                    //            selectedCompanyContact().territoryId(territory.territoryId());
+                    //        }
+                    //    });
+                    //}
                 }),
                 selectShippingAddress = ko.computed(function () {
                     if (selectedShippingAddressId() != undefined) {
@@ -1257,9 +1266,16 @@ define("stores/stores.viewModel",
                     if (selectedShippingAddressId() == undefined) {
                         selectedShippingAddress(undefined);
                         if (selectedCompanyContact() != undefined) {
-                            selectedCompanyContact().shippingAddressId(undefined);
+                           // selectedCompanyContact().shippingAddressId(undefined);
                         }
                     }
+                    //if (isSavingNewCompanyContact != undefined && isSavingNewCompanyContact() && selectedStore().companyId() == undefined) {
+                    //    _.each(newAddresses(), function (address) {
+                    //        if (address.isDefaultTerrorityShipping()) {
+                    //            selectedShippingAddressId(address.addressId());
+                    //        }
+                    //    });
+                    //}
                 }),
                 //Get State Name By State Id
                
@@ -1327,14 +1343,43 @@ define("stores/stores.viewModel",
                     isSavingNewAddress(true);
                     //Update If Store is creating new and it is Retail then 
                     //Make the first address isBilling and shipping as Default and sets its territory
-                    if (newAddresses != undefined && newAddresses().length == 0 ) {
-                        if (newCompanyTerritories().length > 0) {
-                            selectedAddress().territoryId(newCompanyTerritories()[0].territoryId());
+                    if (selectedStore().type() == 4 && selectedStore().companyId() == undefined) {
+                        if (newAddresses != undefined && newAddresses().length == 0) {
+                            if (newCompanyTerritories().length > 0) {
+                                selectedAddress().territoryId(newCompanyTerritories()[0].territoryId());
+                            }
+                            selectedAddress().isDefaultTerrorityBilling(true);
+                            selectedAddress().isDefaultTerrorityShipping(true);
+                            selectedAddress().isDefaultAddress(true);
                         }
-                        
-                        selectedAddress().isDefaultTerrorityBilling(true);
-                        selectedAddress().isDefaultTerrorityShipping(true);
-                        selectedAddress().isDefaultAddress(true);
+                        if (newAddresses().length > 0) {
+                            if (newCompanyTerritories().length > 0) {
+                                selectedAddress().territoryId(newCompanyTerritories()[0].territoryId());
+                            }
+                        }
+                    }
+                    if (selectedStore().type() == 3 && selectedStore().companyId() == undefined) {
+                        if (newAddresses != undefined && newAddresses().length == 0) {
+                            if (newCompanyTerritories().length > 0) {
+                                _.each(newCompanyTerritories(), function(territory) {
+                                    if (territory.isDefault()) {
+                                        selectedAddress().territoryId(territory.territoryId());
+                                    }
+                                });
+                            }
+                            selectedAddress().isDefaultTerrorityBilling(true);
+                            selectedAddress().isDefaultTerrorityShipping(true);
+                            selectedAddress().isDefaultAddress(true);
+                        }
+                        if (newAddresses().length > 0) {
+                            if (newCompanyTerritories().length > 0) {
+                                _.each(newCompanyTerritories(), function (territory) {
+                                    if (territory.isDefault()) {
+                                        selectedAddress().territoryId(territory.territoryId());
+                                    }
+                                });
+                            }
+                        }
                     }
                     view.showAddressDialog();
                 },
@@ -1860,27 +1905,28 @@ define("stores/stores.viewModel",
                 templateToUseCompanyContacts = function (companyContact) {
                     return (companyContact === selectedCompanyContact() ? 'editCompanyContactTemplate' : 'itemCompanyContactTemplate');
                 },
-                //Get Default Billing Address
-                getDefaultBillingAddress = function() {
-                    _.each(newAddresses(), function(address) {
-                        if (address.isDefaultTerrorityBilling()) {
-                            return address.addressId();
-                        }
-                    });
-                },
-                //Get Default Shipping Address
-                getDefaultShippingAddress = function () {
-                    _.each(newAddresses(), function (address) {
-                        if (address.isDefaultTerrorityShipping()) {
-                            return address.addressId();
-                        }
-                    });
-                },
+                ////Get Default Billing Address
+                //getDefaultBillingAddress = function() {
+                //    _.each(newAddresses(), function(address) {
+                //        if (address.isDefaultTerrorityBilling()) {
+                //            return address.addressId();
+                //        }
+                //    });
+                //},
+                ////Get Default Shipping Address
+                //getDefaultShippingAddress = function () {
+                //    _.each(newAddresses(), function (address) {
+                //        if (address.isDefaultTerrorityShipping()) {
+                //            return address.addressId();
+                //        }
+                //    });
+                //},
                 //Create CompanyContact
                 onCreateNewCompanyContact = function () {
                     var user = new model.CompanyContact();
-                    selectedBussinessAddressId(undefined);
+                    //selectedBussinessAddressId(undefined);
                     selectedShippingAddressId(undefined);
+                    isSavingNewCompanyContact(true);
                     selectedCompanyContact(user);
                     if (selectedStore().type() == 4) {
                         if (newAddresses != undefined && newAddresses().length == 0) {
@@ -1889,21 +1935,52 @@ define("stores/stores.viewModel",
                             }
                         }
                     }
-                    _.each(newAddresses(), function (address) {
-                        if (address.isDefaultTerrorityBilling()) {
-                            selectedBussinessAddressId(address.addressId());
+                    if (isSavingNewCompanyContact != undefined && isSavingNewCompanyContact() && selectedStore().companyId() == undefined) {
+                        _.each(newCompanyTerritories(), function (territory) {
+                            if (territory.isDefault()) {
+                                selectedCompanyContact().territoryId(territory.territoryId());
+                            }
+                        });
+                        _.each(newAddresses(), function (address) {
+                            //Billing Address Id Selection
+                            if (address.isDefaultTerrorityBilling() && address.territoryId() === selectedCompanyContact().territoryId()) {
+                                selectedBussinessAddressId(address.addressId());
+                                selectedCompanyContact().bussinessAddressId(address.addressId());
+                            }
+                            //Shipping Address Id Selection
+                            if (address.isDefaultTerrorityShipping() && address.territoryId() === selectedCompanyContact().territoryId()) {
+                                selectedShippingAddressId(address.addressId());
+                                selectedCompanyContact().shippingAddressId(address.addressId());
+                            }
+                        });
+                       
+                        //_.each(newAddresses(), function (address) {
+                        //    if (address.isDefaultTerrorityShipping()) {
+                        //        selectedShippingAddressId(address.addressId());
+                        //        selectedCompanyContact().shippingAddressId(address.addressId());
+                        //    }
+                        //});
+                       
+                        //select isDefaultContact for the very first contact by defaault
+                        if (newCompanyContacts().length == 0) {
+                            selectedCompanyContact().isDefaultContact(true);
                         }
-                    });
-                    _.each(newAddresses(), function (address) {
-                        if (address.isDefaultTerrorityShipping()) {
-                            selectedShippingAddressId(address.addressId());
-                        }
-                    });
+                    }
+                    //_.each(newAddresses(), function (address) {
+                    //    if (address.isDefaultTerrorityBilling()) {
+                    //        selectedBussinessAddressId(address.addressId());
+                    //    }
+                    //});
+                    //_.each(newAddresses(), function (address) {
+                    //    if (address.isDefaultTerrorityShipping()) {
+                    //        selectedShippingAddressId(address.addressId());
+                    //    }
+                    //});
                     //selectedBussinessAddressId(getDefaultBillingAddress());
                     //selectedShippingAddressId(getDefaultShippingAddress());
                     //for the first time of contact creation make default shipping address and default billing address, as the selected shipping and billing respectively.
 
-                    isSavingNewCompanyContact(true);
+                   
                     view.showCompanyContactDialog();
                 },
                 // Delete CompanyContact
@@ -1957,7 +2034,7 @@ define("stores/stores.viewModel",
                 },
                 onCloseCompanyContact = function () {
                     selectedCompanyContact(undefined);
-                    //selectedBussinessAddressId(undefined);
+                    selectedBussinessAddressId(undefined);
                     view.hideCompanyContactDialog();
                     isSavingNewCompanyContact(false);
                 },
