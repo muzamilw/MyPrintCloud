@@ -456,7 +456,7 @@
     var machineServerMapper = function (machine) {
         var omachine = {};
         omachine.MachineId = machine.MachineId();
-        omachine.MachineName = machine.MachineName;
+        omachine.MachineName = machine.MachineName();
         omachine.MachineCatId = machine.MachineCatId();
         omachine.ColourHeads = machine.ColourHeads();
         omachine.isPerfecting = machine.isPerfecting();

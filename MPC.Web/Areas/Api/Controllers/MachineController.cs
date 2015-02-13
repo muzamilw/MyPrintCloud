@@ -1,10 +1,16 @@
 ﻿using System.Linq;
-//using System.Web.Mvc;
+using MPC.WebBase.Mvc;
 using System.Web.Http;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
+
+//using System;
+//using System.Net;
+//using System.Web;
+//using System.Web.Http;
+
 
 
 namespace MPC.MIS.Areas.Api.Controllers
@@ -50,13 +56,15 @@ namespace MPC.MIS.Areas.Api.Controllers
           
 
         }
+        [ApiException]
         [HttpPost]
-        //public bool PostMachine(MachineUpdateRequestModel request)
+        //public bool Post(MachineUpdateRequestModel request)
         public Machine Post(Machine machine)
+        
         {
 
-           _machineService.UpdateMachine(machine.CreateFrom());
-           return machine;
+         //  _machineService.UpdateMachine(machine.CreateFrom());
+            return machine;
 
 
         }
