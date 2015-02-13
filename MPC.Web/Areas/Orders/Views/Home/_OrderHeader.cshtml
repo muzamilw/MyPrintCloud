@@ -4,9 +4,10 @@
         <div class="col-lg-6">
             <div class="form-group">
                 <div class="col-lg-4 text-right">
+@* ReSharper disable UnknownCssClass *@
                     <div class="bs-example-tooltips tooltip-float-width">
 
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Customer for Estimate" data-original-title="" title="">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Customer for Estimate" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
 
@@ -19,28 +20,18 @@
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <input type="text" class="form-control OpenStockPopup-Class1" id="txtStock" disabled="disabled" value="Unbound Printers" />
-                        <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right">
+                        <input type="text" class="form-control OpenStockPopup-Class1" id="txtCompany" data-bind="value: companyName, enable: false" />
+                        <a data-bind="click: $root.openCompanyDialog" href="#" class="btn btn-primary pull-right">
                             <i class="fa fa-lg"></i>&nbsp;....
                         </a>
-
-                        @* <div class="profile-message-btn text-center Float-right-PopupBtn-Stock">
-                                <a href="#" class="btn btn-success">
-                                    <i class="fa"></i>
-                                    ....
-                                </a>
-                            </div>*@
                     </div>
-                    @* <span class="help-block text-right"></span>*@
                 </div>
             </div>
-
             <div class="form-group">
                 <div class="col-lg-4 text-right">
-
                     <div class="bs-example-tooltips tooltip-float-width">
 
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Contact of Company." data-original-title="" title="">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Contact of Company." data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
 
@@ -49,38 +40,22 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <select class="form-control">
-                        <option>John  Methews</option>
-                        <option>Richard</option>
-                        <option>Smith</option>
-                        <option>John</option>
-                        <option>Lucas</option>
+                    <select class="form-control" data-bind="options: $root.companyContacts, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: contactId">
                     </select>
-
-
                     <span class="help-block text-right"></span>
                 </div>
-
             </div>
             <div class="form-group">
                 <div class="col-lg-4 text-right">
-
                     <div class="bs-example-tooltips tooltip-float-width">
-
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Address Name." data-original-title="" title="">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Address Name." data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
-
                     </div>
                     <label class="control-label text-right tooltip-float">Address Name</label>
                 </div>
-
                 <div class="col-lg-6">
-                    <select class="form-control">
-                        <option>Main Office Address</option>
-                        <option>Site Address</option>
-                        <option>Home Address</option>
-                    </select>
+                    <select class="form-control" data-bind="options: $root.companyAddresses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: addressId"></select>
                     <span class="help-block text-right"></span>
                 </div>
 
@@ -88,156 +63,98 @@
             <div class="form-group">
                 <div class="col-lg-4 text-right">
                     <div class="bs-example-tooltips tooltip-float-width">
-
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Address 1" data-original-title="" title="">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Address 1" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
-
                     </div>
-
-
-
                     <label class="control-label tooltip-float">Address 1</label>
-
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6" data-bind="with: $root.selectedAddress">
                     <div>
-                        <input type="text" class="form-control" disabled="disabled" value="23 streat London UK" id="Estimateitle" />
-
-
+                        <input type="text" class="form-control" id="address1" data-bind="value: address1, enable: false" />
                     </div>
-
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-lg-4 text-right">
                     <div class="bs-example-tooltips tooltip-float-width">
-
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Address 2" data-original-title="" title="">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Address 2" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
-
                     </div>
-
-
-
                     <label class="control-label tooltip-float">Address 2</label>
-
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6" data-bind="with: $root.selectedAddress">
                     <div>
-                        <input type="text" class="form-control" value="23 streat London UK" disabled="disabled" id="Estimateitle" />
-
-
+                        <input type="text" class="form-control" data-bind="value: address2, enable: false" id="address2" />
                     </div>
-
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-lg-4 text-right">
                     <div class="bs-example-tooltips tooltip-float-width">
-
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Telephone" data-original-title="" title="">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Telephone" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
-
                     </div>
-
-
-
                     <label class="control-label tooltip-float">Telephone</label>
-
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6" data-bind="with: $root.selectedAddress">
                     <div>
-                        <input type="text" disabled="disabled" value="111-222-333" class="form-control" id="telephone">
-
-
+                        <input type="text" data-bind="value: telephone1, enable: false" class="form-control" id="telephone">
                     </div>
-
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-lg-4 text-right">
                     <div class="bs-example-tooltips tooltip-float-width">
-
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Email" data-original-title="" title="">
-
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Email" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
-
                     </div>
-
-
-
                     <label class="control-label tooltip-float">Email</label>
-
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6" data-bind="with: $root.selectedCompanyContact">
                     <div>
-                        <input type="text" disabled="disabled" value="total@goldwell.com" class="form-control" id="email">
-
-
+                        <input type="text" data-bind="value: email, enable: false" class="form-control" id="email">
                     </div>
-
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-lg-4 text-right">
                     <div class="bs-example-tooltips tooltip-float-width">
-
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Estimate Title" data-original-title="" title="">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Estimate Title" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
-
                     </div>
-
-
-
                     <label class="control-label tooltip-float">Order Title</label>
-
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <input type="text" value="Double-Sided A4" placeholder="Enter Order Title" class="form-control" id="Estimateitle" />
-
-
+                        <input type="text" data-bind="value: name, validationTooltip: name, validationOnElement: name" placeholder="Enter Order Title" class="form-control" id="EstimateTitle" />
                     </div>
-
                 </div>
             </div>
-
-
         </div>
-
         <div class="col-lg-6">
-
             <div class="form-group">
                 <div class="col-lg-4 text-right">
-
                     <div class="bs-example-tooltips tooltip-float-width">
-
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Online Order" data-original-title="" title="">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Online Order" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
-
                     </div>
                     <label class="control-label text-right tooltip-float">Order Type</label>
                 </div>
-
                 <div class="col-lg-6" style="margin-top:5px;">
-                    <span style="font-weight:bold;font-size:15px;color:red;">Online Order </span>
+                    <span id="orderType" data-bind="text: isDirectSaleUi"></span>
                 </div>
-
             </div>
-
-
             <div class="form-group">
                 <div class="col-lg-4 text-right">
-
                     <div class="bs-example-tooltips tooltip-float-width">
 
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Is Credit Approved." data-original-title="" title="">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Is Credit Approved." data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
 
@@ -247,7 +164,7 @@
 
                 <div class="col-lg-6" style="margin-top:5px;">
                     <ul style="list-style: none">
-                        <li class="product-has-feature">
+                        <li class="product-has-nofeature" data-bind="css: { 'product-has-feature' : isCreditApproved, 'product-has-nofeature' : !isCreditApproved() }">
                         </li>
                     </ul>
                 </div>
@@ -258,7 +175,7 @@
 
                     <div class="bs-example-tooltips tooltip-float-width">
 
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="P/O Number." data-original-title="" title="">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="P/O Number." data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
 
@@ -268,7 +185,7 @@
 
                 <div class="col-lg-6" style="margin-top:5px;">
                     <ul style="list-style: none">
-                        <li class="product-has-nofeature">
+                        <li class="product-has-nofeature" data-bind="css: { 'product-has-feature' : isOfficialOrder, 'product-has-nofeature' : !isOfficialOrder() }">
                         </li>
 
                     </ul>
@@ -280,7 +197,7 @@
 
                     <div class="bs-example-tooltips tooltip-float-width">
 
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Order Flag." data-original-title="" title="">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Order Flag." data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
 
@@ -289,14 +206,7 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <select class="form-control">
-                        <option>Hight Priority</option>
-                        <option>Normal</option>
-                        <option>Convert to Order</option>
-                        <option>Order Not Complete</option>
-                        <option>Estimate Ready for Order</option>
-                        <option>Finish Good High Priority</option>
-                    </select>
+                    <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: sectionFlagId"></select>
                     <span class="help-block text-right"></span>
                 </div>
 
@@ -306,7 +216,7 @@
                 <div class="col-lg-4 text-right">
                     <div class="bs-example-tooltips tooltip-float-width">
 
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Order date." data-original-title="" title="">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Order date." data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
 
@@ -315,8 +225,7 @@
                 </div>
                 <div class="col-lg-6">
 
-                    <input type="text" class="form-control" id="datepickerDate">
-
+                    <input type="text" class="form-control" id="orderDate" data-bind="datepicker: orderDate">
                 </div>
             </div>
 
@@ -326,7 +235,7 @@
                 <div class="col-lg-4 text-right">
                     <div class="bs-example-tooltips tooltip-float-width">
 
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select delivery date." data-original-title="" title="">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Select delivery date." data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
 
@@ -335,7 +244,7 @@
                 </div>
                 <div class="col-lg-6">
 
-                    <input type="text" class="form-control" id="datepickerStartDDate">
+                    <input type="text" class="form-control" id="datepickerStartDDate" data-bind="datepicker: startDeliveryDate">
 
                 </div>
             </div>
@@ -343,7 +252,7 @@
                 <div class="col-lg-4 text-right">
                     <div class="bs-example-tooltips tooltip-float-width">
 
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select finish date." data-original-title="" title="">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Select finish date." data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
 
@@ -352,7 +261,7 @@
                 </div>
                 <div class="col-lg-6">
 
-                    <input type="text" class="form-control" id="datepickerFinishDDate">
+                    <input type="text" class="form-control" id="datepickerFinishDDate" data-bind="datepicker: finishDeliveryDate">
 
                 </div>
             </div>
@@ -385,10 +294,6 @@
                 <div class="col-lg-12 clearfix">
                     <header class="main-box-header clearfix">
                         <div class="filter-block pull-right">
-
-                            @* <a href="#" class="btn btn-primary pull-right">
-                                    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add New Product
-                                </a>*@
 
                         </div>
                     </header>
@@ -492,7 +397,7 @@
                 <div class="col-lg-4 text-right">
                     <div class="bs-example-tooltips tooltip-float-width">
 
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Order Header" data-original-title="" title="">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Order Header" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
 
@@ -505,7 +410,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <textarea class="form-control" placeholder="Enter Order Header" id="EstimateHeader" rows="3"></textarea>
+                        <textarea class="form-control" placeholder="Enter Order Header" id="EstimateHeader" rows="3" data-bind="value: headNotes"></textarea>
 
 
                     </div>
@@ -518,7 +423,7 @@
                 <div class="col-lg-4 text-right">
                     <div class="bs-example-tooltips tooltip-float-width">
 
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Order Footer" data-original-title="" title="">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Order Footer" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
 
@@ -531,7 +436,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <textarea class="form-control" placeholder="Enter Order Footer" id="estimateFooter" rows="3"></textarea>
+                        <textarea class="form-control" placeholder="Enter Order Footer" id="estimateFooter" rows="3" data-bind="value: footNotes"></textarea>
 
 
                     </div>
@@ -540,7 +445,7 @@
             </div>
         </div>
 
-
+        @* ReSharper restore UnknownCssClass *@
 
     </div>
 </div>
