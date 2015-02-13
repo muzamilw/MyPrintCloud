@@ -884,6 +884,7 @@
                                         <div class="col-lg-12">
                                             <div class=" form-horizontal clearfix">
                                                 <div class="col-lg-6">
+                                                    <!--ko if: $root.selectedStore().type() != 4-->
                                                     <div class="form-group ">
                                                         <div class="col-lg-5 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
@@ -895,9 +896,10 @@
                                                             <label for="ddTerritory" class="control-label text-right tooltip-float">Territory</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <select class="form-control " id="ddTerritory" data-bind="options:$root.contactCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Choose...', value: territoryId"></select>
+                                                            <select class="form-control " id="ddTerritory" data-bind="options:$root.contactCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId', value: territoryId"></select>   @*,optionsCaption: 'Choose...'*@
                                                         </div>
                                                     </div>
+                                                    <!--/ko-->
                                                     <div class="form-group ">
                                                         <div class="col-lg-5 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
@@ -909,7 +911,7 @@
                                                             <label for="ddbussinessAddress" class="control-label text-right tooltip-float">Bussiness Address</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <select class="form-control " id="ddTerritory" data-bind="options:$root.bussinessAddresses,optionsText:'addressName',optionsValue:'addressId',optionsCaption: 'Choose...',value: $root.selectedBussinessAddressId, validationToolTip: bussinessAddressId"></select>
+                                                            <select class="form-control " id="ddTerritory" data-bind="options:$root.bussinessAddresses,optionsText:'addressName',optionsValue:'addressId',value: $root.selectedBussinessAddressId, validationToolTip: bussinessAddressId"></select> @*,optionsCaption: 'Choose...'*@
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -950,11 +952,12 @@
                                                             <label for="txtBAddState" class="control-label text-right tooltip-float">State</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtBAddState" disabled="disabled" data-bind="value: $root.selectedBussinessAddress()!= undefined && $root.selectedBussinessAddress().state() != undefined ? $root.selectedBussinessAddress().state():''">
+                                                            <input type="text" class="form-control" id="txtBAddState" disabled="disabled" data-bind="value: $root.selectedBussinessAddress()!= undefined && $root.selectedBussinessAddress().state() != undefined ? $root.selectedBussinessAddress().stateName():''">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
+                                                    <!--ko if: $root.selectedStore().type() != 4-->
                                                     <div class="form-group " style="height:35px;">
                                                         <div class="col-lg-5 text-right">
                                                         </div>
@@ -963,6 +966,7 @@
                                                             &nbsp;
                                                         </div>
                                                     </div>
+                                                    <!--/ko-->
                                                     <div class="form-group ">
                                                         <div class="col-lg-5 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
@@ -974,7 +978,7 @@
                                                             <label for="ddshippingAddress" class="control-label text-right tooltip-float">Shipping Address</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <select class="form-control " id="ddTerritory" data-bind="options:$root.shippingAddresses,optionsText:'addressName',optionsValue:'addressId',optionsCaption: 'Choose...',value: $root.selectedShippingAddressId"></select>
+                                                            <select class="form-control " id="ddTerritory" data-bind="options:$root.shippingAddresses,optionsText:'addressName',optionsValue:'addressId',value: $root.selectedShippingAddressId"></select>  @*,optionsCaption: 'Choose...'*@
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -1016,7 +1020,7 @@
                                                             <label for="txtShippAddState" class="control-label text-right tooltip-float">State</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtShippAddState" disabled="disabled" data-bind="value: $root.selectedShippingAddress()!= undefined && $root.selectedShippingAddress().state() != undefined ? $root.selectedShippingAddress().state():''">
+                                                            <input type="text" class="form-control" id="txtShippAddState" disabled="disabled" data-bind="value: $root.selectedShippingAddress()!= undefined && $root.selectedShippingAddress().state() != undefined ? $root.selectedShippingAddress().stateName():''">
                                                         </div>
                                                     </div>
                                                 </div>
