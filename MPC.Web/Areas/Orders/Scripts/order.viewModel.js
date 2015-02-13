@@ -30,7 +30,7 @@ define("order/order.viewModel",
                     selectedOrder = ko.observable(),
                     // Page Header 
                     pageHeader = ko.computed(function () {
-                        return selectedOrder() && selectedOrder().orderName() ? selectedOrder().orderName() : 'Orders';
+                        return selectedOrder() && selectedOrder().estimateName() ? selectedOrder().estimateName() : 'Orders';
                     }),
                     // Sort On
                     sortOn = ko.observable(1),
