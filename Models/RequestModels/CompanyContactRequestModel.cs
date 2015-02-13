@@ -11,6 +11,7 @@ namespace MPC.Models.RequestModels
 
 
         public long CompanyId { get; set; }
+        public long TerritoryId { get; set; }
 
         /// <summary>
         /// Contact By Column for sorting

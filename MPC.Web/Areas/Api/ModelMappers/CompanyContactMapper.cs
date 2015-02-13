@@ -272,6 +272,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 RegistrationQuestions = result.RegistrationQuestions != null ? result.RegistrationQuestions.Select(x => x.CreateFromDropDown()) : null,
                 Addresses = result.Addresses!=null ? result.Addresses.Select(address=> address.CreateFrom()):null,
                 CompanyTerritories = result.CompanyTerritories!=null ? result.CompanyTerritories.Select(territory=> territory.CreateFrom()):null,
+                StateDropDowns = result.States!=null ? result.States.Select(state=> state.CreateFromDropDown()):null,
             }; 
         }
     }

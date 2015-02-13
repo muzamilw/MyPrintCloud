@@ -161,7 +161,7 @@ define("machine/machine.viewModel",
                     ////Save EDIT Cost Center
                     saveEdittedMachine = function () {
                         //var omachine = model.machineServerMapper(selectedMachine());
-                        dataservice.saveMachine(model.machineServerMapper(selectedMachine()), {
+                        dataservice.saveMachine(model.machineServerMapper(selectedMachine()) , {
                             success: function (data) {
                                 
                                 toastr.success("Successfully save.");

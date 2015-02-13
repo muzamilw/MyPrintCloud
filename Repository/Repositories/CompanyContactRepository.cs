@@ -590,12 +590,13 @@ namespace MPC.Repository.Repositories
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
             bool isSearchFilterSpecified = !string.IsNullOrEmpty(request.SearchFilter);
+            bool isTerritoryFilterSpecified = request.TerritoryId != 0;
 
             Expression<Func<CompanyContact, bool>> query =
                 s =>
                     (isSearchFilterSpecified && (s.Email.Contains(request.SearchFilter)) ||
                      (s.quickCompanyName.Contains(request.SearchFilter)) ||
-                     !isSearchFilterSpecified) && s.CompanyId == request.CompanyId;//&& s.OrganisationId == OrganisationId
+                     !isSearchFilterSpecified) && s.CompanyId == request.CompanyId && s.isArchived != true &&((isTerritoryFilterSpecified && s.TerritoryId == request.TerritoryId )|| !isTerritoryFilterSpecified) ;//&& s.OrganisationId == OrganisationId
 
             int rowCount = DbSet.Count(query);
             // ReSharper disable once ConditionalTernaryEqualBranch
@@ -628,7 +629,8 @@ namespace MPC.Repository.Repositories
                     (contact.MiddleName.Contains(request.SearchFilter)) ||
                     (contact.LastName.Contains(request.SearchFilter)) ||
                     (contact.quickCompanyName.Contains(request.SearchFilter))) &&
-                    (contact.Company.IsCustomer == 0 || contact.Company.IsCustomer == 1) && contact.isArchived==false;
+                    (contact.Company.IsCustomer == 0 || contact.Company.IsCustomer == 1) && 
+                    (contact.isArchived == false || contact.isArchived == null);
 
             int rowCount = DbSet.Count(query);
             IEnumerable<CompanyContact> companyContacts = request.IsAsc

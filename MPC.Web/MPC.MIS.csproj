@@ -805,6 +805,9 @@
     <Content Include="Content\less\PaperSheet.css">
       <DependentUpon>PaperSheet.less</DependentUpon>
     </Content>
+    <Content Include="Content\less\Orders.css">
+      <DependentUpon>Orders.less</DependentUpon>
+    </Content>
     <Content Include="Content\less\Products.css">
       <DependentUpon>Products.less</DependentUpon>
     </Content>
@@ -1661,6 +1664,20 @@
     <Content Include="Areas\Stores\Views\Shared\_SelectCompany.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_StockDialog.cshtml" />
     <Content Include="Content\less\StockItemDialog.less" />
+    <Content Include="Areas\Orders\Views\Home\_OrderHeader.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_OrderSchedule.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_OrderCreditApproval.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_OrderDeliverySchedule.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_OrderPrePayments.cshtml" />
+    <Content Include="Content\less\Orders.less" />
+    <Content Include="Areas\Orders\Views\Home\_OrderItemDetail.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_OrderSectionDetail.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_UserProfileDetails.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_AddEditTerritory.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_AddEditCMYKColors.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_RaveReviews.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_ProductsFilter.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_ChooseUsIcon.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
@@ -2923,7 +2940,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>43063</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
