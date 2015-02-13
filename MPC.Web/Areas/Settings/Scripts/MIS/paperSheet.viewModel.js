@@ -158,6 +158,7 @@ define("paperSheet/paperSheet.viewModel",
                     //Open Paper Sheet Dialog
                     openEditDialog = function () {
                         view.showPaperSheetDialog();
+                        view.initializeLabelPopovers();
                     },
                     //CLose Paper Sheet Dialog
                     closeEditDialog = function () {

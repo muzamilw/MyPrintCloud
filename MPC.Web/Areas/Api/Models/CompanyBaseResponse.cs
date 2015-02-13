@@ -21,6 +21,8 @@ namespace MPC.MIS.Areas.Api.Models
         public IEnumerable<CostCentreDropDown> CostCenterDropDownList { get; set; }
         public IEnumerable<CountryDropDown> Countries { get; set; }
         public IEnumerable<StateDropDown> States { get; set; }
+        public IEnumerable<CountryDropDown> CountryDropDowns { get; set; }
+        public IEnumerable<StateDropDown> StateDropDowns { get; set; }
 
         /// <summary>
         /// Default Sprite Image

@@ -1,9 +1,10 @@
-﻿using System.Linq;
-using System.Web.Http;
-using MPC.Interfaces.MISServices;
+﻿using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
+using System.Net;
+using System.Web;
+using System.Web.Http;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -34,12 +35,35 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         public CompanyContactResponse Get([FromUri] CompanyContactRequestModel request)
         {
-            MPC.Models.ResponseModels.CompanyContactResponse response = companyContactService.SearchCompanyContacts(request);
-            return new CompanyContactResponse
+            if (request == null || !ModelState.IsValid)
             {
-                CompanyContacts = response.CompanyContacts.Select(contact => contact.CreateFrom()),
-                RowCount = response.RowCount
-            };
+                throw new HttpException((int) HttpStatusCode.BadRequest, "Invalid Request");
+            }
+            return companyContactService.SearchCompanyContacts(request).CreateFrom();
+        }
+
+        /// <summary>
+        /// Delete Contact
+        /// </summary>
+        public bool Delete(CompanyContactDeleteModel request)
+        {
+            if (request == null || !ModelState.IsValid || request.CompanyContactId <= 0)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
+            }
+            return companyContactService.DeleteContactForCrm(request.CompanyContactId);
+        }
+
+        /// <summary>
+        /// Get Addresses / Compnay Contacts
+        /// </summary>
+        public CompanyBaseResponse Get([FromUri] short companyId)
+        {
+            if (companyId <= 0 || !ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+            return companyContactService.GetContactDetail(companyId).CreateFrom();
         }
         #endregion
     }

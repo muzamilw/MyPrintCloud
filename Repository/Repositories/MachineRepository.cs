@@ -45,10 +45,6 @@ namespace MPC.Repository.Repositories
         #endregion
         public MachineListResponseModel GetAllMachine(MachineRequestModel request)
         {
-
-            //var result = from t in db.Machines
-            //             join x in db.LookupMethods on t.MachineId equals x.MethodId
-            //             select t;
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
             Expression<Func<Machine, bool>> query;
@@ -139,14 +135,46 @@ namespace MPC.Repository.Repositories
                 lookupMethods = GetAllLookupMethodList(),
                 Markups = GetAllMarkupList(),
                 StockItemforInk = GetAllStockItemforInk(),
-                MachineResources= GetAllMachineResources()
+                StockItemsForPaperSizePlate = GetStockItemsForPaperSizePlate(),
+                 MachineSpoilageItems = GetMachineSpoilageItems(MachineID),
+               // MachineResources= GetAllMachineResources(),
+                InkCoveragItems = GetInkCoveragItems()
 
             };
 
             
         }
+        public bool UpdateMachine(Machine machine)
+        {
+            try
+            {
+                Machine omachine = db.Machines.Where(s => s.MachineId == machine.MachineId).SingleOrDefault();
+                omachine = machine;
+                if (db.SaveChanges() > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                
+                throw ex;
+            }
 
+        }
+        public IEnumerable<MachineSpoilage> GetMachineSpoilageItems(long machineId)
+        {
+            return db.MachineSpoilages.Where(g => g.MachineId == machineId).ToList();
+        }
 
+        public IEnumerable<InkCoverageGroup> GetInkCoveragItems()
+        {
+            return db.InkCoverageGroups;
+        }
         protected override IDbSet<Machine> DbSet
         {
             get
@@ -156,7 +184,12 @@ namespace MPC.Repository.Repositories
         }
         public IEnumerable<LookupMethod> GetAllLookupMethodList()
         {
-            return db.LookupMethods;
+           return db.LookupMethods;
+        }
+        public IEnumerable<StockItem> GetStockItemsForPaperSizePlate()
+        {
+            return db.StockItems.Where(g => g.CategoryId == 1 || g.CategoryId == 4).ToList();
+
         }
         public IEnumerable<Markup> GetAllMarkupList()
         {
@@ -171,6 +204,28 @@ namespace MPC.Repository.Repositories
             return db.MachineResources;
         }
         
+        public List<Machine> GetMachinesByOrganisationID(long OID)
+        {
+            try
+            {
+                return db.Machines.Where(o => o.OrganisationId == OID).ToList();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<LookupMethod> getLookupmethodsbyOrganisationID(long OID)
+        {
+            try
+            {
+                return db.LookupMethods.Where(o => o.OrganisationId == OID).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
       
     }
 }

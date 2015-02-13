@@ -13,6 +13,10 @@ define("crm/contacts.viewModel",
                 searchFilter = ko.observable(),
                 // Customers array for list view
                 companyContactsForListView = ko.observableArray(),
+                // address list
+                contactAddresses = ko.observableArray(),
+                // company Territories array for list view
+                companyTerritories = ko.observableArray(),
                 // Pager for pagging
                 pager = ko.observable(),
                 // Sort On
@@ -53,11 +57,56 @@ define("crm/contacts.viewModel",
                     searchFilter(null);
                     getCompanyContacts();
                 },
+                deleteContactbuttonHandler = function(contact) {
+                    // Ask for confirmation
+                    confirmation.afterProceed(function() {
+                        dataservice.deleteContact({
+                            CompanyContactId: contact.contactId(),
+                        },
+                        {
+                            success: function(data) {
+                                toastr.success("Contact successfuly deleted!");
+                            },
+                            error: function() {
+                                toastr.error("Error: Failed To delete Contact!");
+                            }
+                        });
+                    });
+                    confirmation.show();
+                },
+                editContactbuttonHandler = function (contact) {
+                    getContactDetail(contact.cmpanyId());
+                    view.showCompanyContactDetailDialog();
+                },
+                 // Gets Base Data
+                getBaseData = function () {
+                    dataservice.getbaseData({},
+                    {
+                        success: function (data) {
+                            debugger;
+                        },
+                        error: function () {
+                            toastr.error("Error: Failed To load Base data!");
+                        }
+                    });
+                },
+                getContactDetail = function(companyId) {
+                    dataservice.getContactsDetail({ companyId: companyId },
+                    {
+                        success: function (data) {
+                            debugger;
+                        },
+                        error: function() {
+                            toastr.error("Error: Failed To load Base data!");
+                        }
+                    });
+                },
                 //Initialize
                initialize = function (specifiedView) {
                    view = specifiedView;
                    ko.applyBindings(view.viewModel, view.bindingRoot);
                    pager(new pagination.Pagination({ PageSize: 5 }, companyContactsForListView, getCompanyContacts));
+                   getBaseData();
                    getCompanyContacts();
                };
                 return {
@@ -67,7 +116,11 @@ define("crm/contacts.viewModel",
                     companyContactsForListView: companyContactsForListView,
                     searchButtonHandler: searchButtonHandler,
                     resetButtonHandler: resetButtonHandler,
-                    sharedNavigationVm: sharedNavigationVm
+                    sharedNavigationVm: sharedNavigationVm,
+                    deleteContactbuttonHandler: deleteContactbuttonHandler,
+                    editContactbuttonHandler: editContactbuttonHandler,
+                    contactAddresses: contactAddresses,
+                    companyTerritories: companyTerritories
                 };
             })()
         };

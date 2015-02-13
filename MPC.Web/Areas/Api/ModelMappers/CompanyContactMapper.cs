@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
 
@@ -248,6 +250,29 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ContactId = source.ContactId,
                 Name = source.FirstName
             };
+        }
+
+        public static CompanyContactResponse CreateFrom(this MPC.Models.ResponseModels.CompanyContactResponse response)
+        {
+            return new CompanyContactResponse
+            {
+                CompanyContacts = response.CompanyContacts.Select(contact => contact.CreateFrom()),
+                RowCount = response.RowCount
+            };
+        }
+
+        /// <summary>
+        /// Base Data Mapper
+        /// </summary>
+        public static CompanyBaseResponse CreateFrom(this MPC.Models.ResponseModels.CompanyBaseResponse result)
+        {
+            return new CompanyBaseResponse
+            {
+                CompanyContactRoles = result.CompanyContactRoles != null ? result.CompanyContactRoles.Select(x => x.CreateFrom()) : null,
+                RegistrationQuestions = result.RegistrationQuestions != null ? result.RegistrationQuestions.Select(x => x.CreateFromDropDown()) : null,
+                Addresses = result.Addresses!=null ? result.Addresses.Select(address=> address.CreateFrom()):null,
+                CompanyTerritories = result.CompanyTerritories!=null ? result.CompanyTerritories.Select(territory=> territory.CreateFrom()):null,
+            }; 
         }
     }
 }

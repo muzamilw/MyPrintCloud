@@ -44,6 +44,11 @@ namespace MPC.Repository.Repositories
             return db.SystemUsers.FirstOrDefault();
             //db.SystemUsers.Where(s => s.SystemUserId == SytemUserId).FirstOrDefault();
         }
+        public List<SystemUser> GetSystemUSersByOrganisationID(long OrganisationID)
+        {
+            return db.SystemUsers.Where(s => s.OrganizationId == OrganisationID).ToList();
+            //db.SystemUsers.Where(s => s.SystemUserId == SytemUserId).FirstOrDefault();
+        }
         #endregion
     }
 }
