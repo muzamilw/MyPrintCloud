@@ -1617,6 +1617,11 @@
     <Content Include="Areas\Orders\Views\Home\_OrderDetail.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\SectionFlags.cshtml" />
     <Content Include="Areas\DeliveryNotes\Views\Home\DeliveryNote.cshtml" />
+    <Content Include="Areas\DeliveryNotes\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\DeliveryNotes\Views\web.config" />
+    <Content Include="Areas\DeliveryNotes\Views\Home\_partialDeliveryNote.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\PurchaseOrders.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_partialpurchaseOrders.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />

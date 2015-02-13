@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace MPC.MIS.Areas.Orders
+namespace MPC.MIS.Areas.DeliveryNotes
 {
     /// <summary>
     /// Orders Area Registration
@@ -11,16 +11,16 @@ namespace MPC.MIS.Areas.Orders
         {
             get 
             {
-                return "Delivery Notes";
+                return "DeliveryNotes";
             }
         }
 
         public override void RegisterArea(AreaRegistrationContext context) 
         {
             context.MapRoute(
-                "Orders_default",
+                "delivery_default",
                 "DeliveryNotes/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional },
+                new { action = "DeliveryNote", id = UrlParameter.Optional },
                 namespaces: new[] { "MPC.MIS.Areas.DeliveryNotes.Controllers" }
             );
         }

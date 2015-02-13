@@ -1,8 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Web;
 using System.Web.Mvc;
+using MPC.Interfaces.Data;
+using MPC.Interfaces.MISServices;
+using MPC.Models.Common;
+using MPC.WebBase.Mvc;
+
 
 namespace MPC.MIS.Areas.DeliveryNotes.Controllers
 {
@@ -12,6 +16,12 @@ namespace MPC.MIS.Areas.DeliveryNotes.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+        public ActionResult DeliveryNote()
+        {
+
+            return View();
+        
         }
     }
 }

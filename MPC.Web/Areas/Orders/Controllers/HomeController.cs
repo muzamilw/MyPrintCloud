@@ -24,5 +24,12 @@ namespace MPC.MIS.Areas.Orders.Controllers
         {
             return View();
         }
+
+        public ActionResult PurchaseOrders()
+        {
+
+            return View();
+
+        }
     }
 }
