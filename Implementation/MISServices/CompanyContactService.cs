@@ -14,6 +14,7 @@ namespace MPC.Implementation.MISServices
         private readonly ICompanyContactRoleRepository companyContactRoleRepository;
         private readonly IRegistrationQuestionRepository registrationQuestionRepository;
         private readonly IAddressRepository addressRepository;
+        private readonly IStateRepository stateRepository;
          private CompanyContact Create(CompanyContact companyContact)
          {
              UpdateDefaultBehaviourOfContactCompany(companyContact);
@@ -47,13 +48,14 @@ namespace MPC.Implementation.MISServices
         }
         #region Constructor
 
-         public CompanyContactService(ICompanyContactRepository companyContactRepository, ICompanyTerritoryRepository companyTerritoryRepository, ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository, IAddressRepository addressRepository)
+         public CompanyContactService(ICompanyContactRepository companyContactRepository, ICompanyTerritoryRepository companyTerritoryRepository, ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository, IAddressRepository addressRepository, IStateRepository stateRepository)
          {
              this.companyContactRepository = companyContactRepository;
              this.companyTerritoryRepository = companyTerritoryRepository;
              this.companyContactRoleRepository = companyContactRoleRepository;
              this.registrationQuestionRepository = registrationQuestionRepository;
              this.addressRepository = addressRepository;
+             this.stateRepository = stateRepository;
          }
 
         #endregion
@@ -110,6 +112,7 @@ namespace MPC.Implementation.MISServices
             {
                 CompanyContactRoles = companyContactRoleRepository.GetAll(),
                 RegistrationQuestions = registrationQuestionRepository.GetAll(),
+                States = stateRepository.GetAll()
             };   
         }
 
