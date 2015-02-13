@@ -18,11 +18,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new CalendarBaseResponse()
             {
-                SectionFlags = source.SectionFlags.Select(s => s.CreateFromDropDown()).ToList(),
-                CompanyContacts = source.CompanyContacts.Select(cc => cc.CreateFromDropDown()).ToList(),
-                PipeLineProducts = source.PipeLineProducts.Select(pl => pl.CreateFrom()).ToList(),
-                PipeLineSources = source.PipeLineSources.Select(pls => pls.CreateFrom()).ToList(),
-                SystemUsers = source.SystemUsers.Select(su => su.CreateFrom()).ToList(),
+                SectionFlags = source.SectionFlags != null ? source.SectionFlags.Select(s => s.CreateFromDropDown()).ToList() : null,
+                PipeLineProducts = source.PipeLineProducts != null ? source.PipeLineProducts.Select(pl => pl.CreateFrom()).ToList() : null,
+                PipeLineSources = source.PipeLineSources != null ? source.PipeLineSources.Select(pls => pls.CreateFrom()).ToList() : null,
+                SystemUsers = source.SystemUsers != null ? source.SystemUsers.Select(su => su.CreateFrom()).ToList() : null,
+                ActivityTypes = source.ActivityTypes != null ? source.ActivityTypes.Select(su => su.CreateFromDropDown()).ToList() : null,
+                Activities = source.Activities != null ? source.Activities.Select(su => su.CreateFromListView()).ToList() : null,
+                LoggedInUserId = source.LoggedInUserId,
             };
         }
         #endregion

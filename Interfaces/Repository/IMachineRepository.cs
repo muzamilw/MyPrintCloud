@@ -13,8 +13,13 @@ namespace MPC.Interfaces.Repository
         // bool UpdateSystemMachine(long MachineID, string Name, string Description);
         MachineResponseModel GetMachineByID(long MachineID);
         bool archiveMachine(long id);
+        bool UpdateMachine(Machine machine);
         //   List<Machine> GetMachineList();
         MachineSearchResponse GetMachinesForProduct(MachineSearchRequestModel request);
+
+        List<Machine> GetMachinesByOrganisationID(long OID);
+
+        List<LookupMethod> getLookupmethodsbyOrganisationID(long OID);
     }
 }
 

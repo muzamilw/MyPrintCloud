@@ -115,6 +115,7 @@ define("common/supplier.viewModel",
                         addSupplier(model.Supplier.Create());
                         view.initializeForm();
                         isSupplierEditorVisible(true);
+                        view.initializeLabelPopovers();
                     },
                 // Get Base
                     getBase = function () {

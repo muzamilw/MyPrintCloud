@@ -5,6 +5,7 @@ using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
+using System;
 
 namespace MPC.Repository.Repositories
 {
@@ -51,6 +52,18 @@ namespace MPC.Repository.Repositories
         public IEnumerable<PhraseField> GetPhraseFieldsBySectionId(long sectionId)
         {
             return DbSet.Where(p => p.SectionId == sectionId).ToList();
+        }
+
+        public List<PhraseField> GetPhraseFieldsByOrganisationID(long OID)
+        {
+            try
+            {
+                return db.PhraseFields.Where(p => p.OrganisationId == OID).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         #endregion
     }

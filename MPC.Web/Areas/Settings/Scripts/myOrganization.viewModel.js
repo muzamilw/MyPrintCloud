@@ -141,6 +141,8 @@ define("myOrganization/myOrganization.viewModel",
 
                                 getMyOrganizationById();
 
+                                view.initializeLabelPopovers();
+
                                 if (callBack && typeof callBack === 'function') {
                                     callBack();
                                 }

@@ -21,7 +21,8 @@ namespace MPC.Models.ResponseModels
         public IEnumerable<CmsPage> CmsPages { get; set; }
         public IEnumerable<CostCentre> CostCentres { get; set; }
 
-
+        public IEnumerable<Country> Countries { get; set; }
+        public IEnumerable<State> States { get; set; }
        
         // public IEnumerable<Department> Departments { get; set; }
         // public IEnumerable<AccountManager> AccountManagers { get; set; }

@@ -1576,10 +1576,7 @@ namespace MPC.Implementation.MISServices
             return stockItemRepository.GetStockItemsForProduct(request);
         }
 
-        public IEnumerable<StockItem> GetAllStockItemList()
-        {
-            return stockItemRepository.GetAll();
-        }
+        
 
         /// <summary>
         /// Get Item Price Matrices for Item by Section Flag

@@ -805,19 +805,50 @@ namespace MPC.Repository.Repositories
 
         #region exportOrgFunctions
 
-        public List<CostCentre> GetCostCentersByOrganisationID(long OrganisationID)
+        public List<CostCentre> GetCostCentersByOrganisationID(long OrganisationID,out List<CostCenterChoice> CostCentreChoices)
         {
             try
             {
+                List<CostCentre> CostCentres = new List<CostCentre>();
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
-                return db.CostCentres.Include("CostcentreInstruction").Include("CostcentreResource").Include("CostcentreWorkInstructionsChoice").Where(c => c.OrganisationId == OrganisationID).ToList();
+                List<CostCenterChoice> choices = new  List<CostCenterChoice>();
+                List<CostCenterChoice> Lstchoices = new List<CostCenterChoice>();
+                CostCentres = db.CostCentres.Include("CostcentreInstruction").Include("CostcentreResource").Include("CostcentreWorkInstructionsChoice").Where(c => c.OrganisationId == OrganisationID).ToList();
+
+                if(CostCentres != null && CostCentres.Count > 0)
+                {
+                    foreach(var cost in CostCentres)
+                    {
+                        if(cost.CostCentreId != null)
+                        {
+                            choices = db.CostCenterChoices.Where(c => c.CostCenterId == cost.CostCentreId).ToList();
+                            if(choices != null && choices.Count > 0)
+                            {
+                                foreach(var ch in choices)
+                                {
+                                    Lstchoices.Add(ch);
+                                }
+
+                            }
+                        }
+
+
+                       
+                      
+                    }
+                }
+
+                CostCentreChoices = Lstchoices;
+                return CostCentres;
             }
             catch(Exception ex)
             {
                 throw ex;
             }
         }
+
+
 
         
         #endregion
