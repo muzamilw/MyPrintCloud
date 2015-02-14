@@ -1,0 +1,112 @@
+﻿@{
+    ViewBag.Title = "Company Contacts";
+}
+@section leftmenue {
+}
+<div class="row" id="contactsBindingRoot">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li><a href="~/Dashboard/Index">Home</a></li>
+                    <li class="active"><span>Contacts</span></li>
+                </ol>
+                <div class="clearfix">
+                    <h1 class="pull-left">Contacts</h1>
+                </div>
+               
+                <div id="addStore">
+                    &nbsp;
+                </div> <br />
+                <!-- ko template: { name: 'filterTemplate' } -->
+                <!-- /ko -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="main-box no-header clearfix">
+                    <div class="main-box-body clearfix">
+                        <div class="table-responsive">
+                            <table class="table user-list">
+                                <thead>
+                                    <tr>
+                                        <th><span>Name</span></th>
+                                        <th><span>Email</span></th>
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- ko  foreach: $root.companyContactsForListView  -->
+                                    <tr>
+                                        <td>
+                                            <img src="~/Content/themes/Centaurus/img/samples/logos/1.jpg" alt="" />
+                                            <a class="user-link" data-bind="text:name"></a> 
+                                            <span data-bind="text:companyName"></span> 
+                                        </td>
+                                        <td>
+                                            <span data-bind="text:email"></span> <br/> <span data-bind="text:phone"></span>
+                                        </td>
+                                        <td style="width: 20%;">
+                                            <a  class="table-link">
+                                                <span class="fa-stack" data-bind="click:$root.editContactbuttonHandler">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                            <a  class="table-link danger">
+                                                <span class="fa-stack" data-bind="click:$root.deleteContactbuttonHandler">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <!-- /ko -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div id="pagerDiv">
+                    <!-- ko with: pager -->
+                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                    <!-- /ko -->
+                </div>
+                <div id="pagerDiv">
+                </div>
+            </div>
+        </div>
+        <script id="filterTemplate" type="text/html">
+            <div class="filter-body" id="filter">
+                <div class="filter-block pull-left">
+                    <div class="pull-left spanfilterlbl">
+                        Search &nbsp;
+                    </div>
+                    <div class="form-group pull-left">
+                        <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter,">
+                        <i class="fa fa-search search-icon"></i>
+                    </div>
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-primary" data-bind="click:$root.getStores,event:{click:$root.searchButtonHandler}">Search</button>
+                        <button type="reset" class="btn btn-default" data-bind="click:$root.resetFilterSection,event:{click:$root.resetButtonHandler}">Reset</button>
+                    </div>
+                </div>
+                <div class="clearfix">
+                </div>
+            </div>
+        </script>
+
+    </div>
+</div>
+<!-- ko stopBinding: true -->
+@Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
+@Html.Partial("Widgets/_UserProfileDetails")
+<!-- /ko -->
+@section Scripts{
+    <script>
+        require(["crm/contacts.view", "common/confirmation.view"]);
+        $(function () {
+            $('#licrm').addClass('active');
+        });
+    </script>
+}

@@ -162,17 +162,6 @@
         <AssociationConnector Association="DomainModels.FK_EventEmail_Campaign" />
         <AssociationConnector Association="DomainModels.FK_PaymentGateway_Company" />
         <EntityTypeShape EntityType="DomainModels.GetCategoryProduct" Width="1.5" PointX="28.75" PointY="0.75" />
-        <EntityTypeShape EntityType="DomainModels.ArtworkFileTableView" Width="1.5" PointX="27.375" PointY="23.875" />
-        <EntityTypeShape EntityType="DomainModels.AttachmentFileTableView" Width="1.5" PointX="25.375" PointY="15.625" />
-        <EntityTypeShape EntityType="DomainModels.CategoryFileTableView" Width="1.5" PointX="28.75" PointY="8.125" />
-        <EntityTypeShape EntityType="DomainModels.CompanyBannerFileTableView" Width="1.5" PointX="28.75" PointY="12.375" />
-        <EntityTypeShape EntityType="DomainModels.CostCentreFileTableView" Width="1.5" PointX="28.625" PointY="17.125" />
-        <EntityTypeShape EntityType="DomainModels.MediaFileTableView" Width="1.5" PointX="29.375" PointY="21.875" />
-        <EntityTypeShape EntityType="DomainModels.OrganisationFileTableView" Width="1.5" PointX="29.375" PointY="24.625" />
-        <EntityTypeShape EntityType="DomainModels.ProductFileTableView" Width="1.5" PointX="25.375" PointY="18.125" />
-        <EntityTypeShape EntityType="DomainModels.SecondaryPageFileTableView" Width="1.5" PointX="29.375" PointY="27.375" />
-        <EntityTypeShape EntityType="DomainModels.StoreFileTableView" Width="1.5" PointX="29.375" PointY="30" />
-        <EntityTypeShape EntityType="DomainModels.TemplateFileTableView" Width="1.5" PointX="31.375" PointY="0.875" />
         <EntityTypeShape EntityType="DomainModels.ItemStateTax" Width="1.5" PointX="11" PointY="44.75" />
         <AssociationConnector Association="DomainModels.FK_ItemStateTax_Country" />
         <AssociationConnector Association="DomainModels.FK_ItemStateTax_Items" />
@@ -263,6 +252,9 @@
         <EntityTypeShape EntityType="DomainModels.ReportNote" Width="1.5" PointX="37.375" PointY="12.75" />
         <EntityTypeShape EntityType="DomainModels.PipeLineProduct" Width="1.5" PointX="37.375" PointY="36.875" />
         <EntityTypeShape EntityType="DomainModels.PipeLineSource" Width="1.5" PointX="38.375" PointY="0.875" />
+        <EntityTypeShape EntityType="DomainModels.Activity" Width="1.5" PointX="3" PointY="46.875" />
+        <EntityTypeShape EntityType="DomainModels.ActivityType" Width="1.5" PointX="38.375" PointY="3.75" />
+        <AssociationConnector Association="DomainModels.FK__Activity__Compan__2D3FF3FE" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

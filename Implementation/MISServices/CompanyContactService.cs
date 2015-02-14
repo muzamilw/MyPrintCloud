@@ -1,12 +1,19 @@
-﻿using MPC.Interfaces.MISServices;
+﻿using System.Windows.Forms;
+using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Implementation.MISServices
 {
     public class CompanyContactService : ICompanyContactService
     {
          private readonly ICompanyContactRepository companyContactRepository;
+        private readonly ICompanyTerritoryRepository companyTerritoryRepository;
+        private readonly ICompanyContactRoleRepository companyContactRoleRepository;
+        private readonly IRegistrationQuestionRepository registrationQuestionRepository;
+        private readonly IAddressRepository addressRepository;
          private CompanyContact Create(CompanyContact companyContact)
          {
              UpdateDefaultBehaviourOfContactCompany(companyContact);
@@ -40,12 +47,24 @@ namespace MPC.Implementation.MISServices
         }
         #region Constructor
 
-         public CompanyContactService(ICompanyContactRepository companyContactRepository)
-        {
-            this.companyContactRepository = companyContactRepository;
-        }
+         public CompanyContactService(ICompanyContactRepository companyContactRepository, ICompanyTerritoryRepository companyTerritoryRepository, ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository, IAddressRepository addressRepository)
+         {
+             this.companyContactRepository = companyContactRepository;
+             this.companyTerritoryRepository = companyTerritoryRepository;
+             this.companyContactRoleRepository = companyContactRoleRepository;
+             this.registrationQuestionRepository = registrationQuestionRepository;
+             this.addressRepository = addressRepository;
+         }
+
         #endregion
 
+        /// <summary>
+        /// Get Company Contacts
+        /// </summary>
+        public CompanyContactResponse SearchCompanyContacts(CompanyContactRequestModel request)
+        {
+            return companyContactRepository.GetCompanyContactsForCrm(request);
+        }
         public bool Delete(long companyContactId)
         {
             var dbCompanyContact = companyContactRepository.GetContactByID(companyContactId);
@@ -57,6 +76,22 @@ namespace MPC.Implementation.MISServices
             }
             return false;
         }
+
+        /// <summary>
+        /// Deletion for Crm
+        /// </summary>
+        public bool DeleteContactForCrm(long companyContactId)
+        {
+            var dbCompanyContact = companyContactRepository.GetContactByID(companyContactId);
+            if (dbCompanyContact != null)
+            {
+                dbCompanyContact.isArchived = true;
+                companyContactRepository.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
         public CompanyContact Save(CompanyContact companyContact)
         {
             if (companyContact.ContactId == 0)
@@ -64,6 +99,30 @@ namespace MPC.Implementation.MISServices
                 return Create(companyContact);
             }
             return Update(companyContact);
+        }
+
+        /// <summary>
+        /// Get Base Data
+        /// </summary>
+        public CompanyBaseResponse GetBaseData()
+        {
+            return new CompanyBaseResponse
+            {
+                CompanyContactRoles = companyContactRoleRepository.GetAll(),
+                RegistrationQuestions = registrationQuestionRepository.GetAll(),
+            };   
+        }
+
+        /// <summary>
+        /// Get Contact Detail
+        /// </summary>
+        public CompanyBaseResponse GetContactDetail(short companyId)
+        {
+            return new CompanyBaseResponse
+            {
+                CompanyTerritories = companyTerritoryRepository.GetAllCompanyTerritories(companyId),
+                Addresses = addressRepository.GetAllAddressByStoreId(companyId),
+            }; 
         }
     }
 }

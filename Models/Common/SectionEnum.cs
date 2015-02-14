@@ -18,6 +18,11 @@
         /// <summary>
         /// Customers
         /// </summary>
-        Customers = 17
+        Customers = 17,
+
+        /// <summary>
+        /// CRM
+        /// </summary>
+        CRM = 32
     }
 }

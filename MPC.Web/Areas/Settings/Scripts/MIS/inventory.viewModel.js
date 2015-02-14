@@ -473,6 +473,7 @@ define("inventory/inventory.viewModel",
                     // Show Inventory Editor
                     showInventoryEditor = function () {
                         isInventoryEditorVisible(true);
+                        view.initializeLabelPopovers();
                     },
                       // Template Chooser
                     templateToUse = function (costItem) {

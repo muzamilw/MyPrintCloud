@@ -79,7 +79,7 @@ namespace MPC.Implementation.WebStoreServices
             this._countryRepository = countryRepository;
             this._favoriteRepository = favoriteRepository;
         }
-
+        
         #endregion
 
         #region Public
@@ -91,7 +91,7 @@ namespace MPC.Implementation.WebStoreServices
 
         public MyCompanyDomainBaseReponse GetStoreFromCache(long companyId)
         {
-
+            
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
             CacheItemPolicy policy = null;
@@ -809,9 +809,55 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
-    
+        public CompanyTerritory GetCcompanyByTerritoryID(Int64 ContactId)
+        {
+            try
+            {
+                return _CompanyContactRepository.GetCcompanyByTerritoryID(ContactId);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
 
+        public void UpdateCompanyOrderingPolicy(Company Instance)
+        {
+
+            _CompanyRepository.Update(Instance);
+            _CompanyRepository.SaveChanges();
+        }
+        public void UpdateCompany(Company Instance)
+        {
+
+            _CompanyRepository.Update(Instance);
+            _CompanyRepository.SaveChanges();
+        }
+        public void UpdateContactCompany(CompanyContact Instance)
+        {
+            _CompanyContactRepository.Update(Instance);
+            _CompanyContactRepository.SaveChanges();
+        }
+
+        public void UpdateCompanyContactForRetail(CompanyContact Instance)
+        {
+            _CompanyContactRepository.UpdateCompanyContactForRetail(Instance);
+
+
+        }
+        public void  UpdateCompanyContactForCorporate(CompanyContact Instance)
+        {
+
+            _CompanyContactRepository.UpdateCompanyContactForCorporate(Instance);
+
+        }
         #endregion
+
+        public void UpdateCompanyName(Company Instance)
+        {
+            _CompanyRepository.UpdateCompanyName(Instance);
+        
+        }
     }
 
 

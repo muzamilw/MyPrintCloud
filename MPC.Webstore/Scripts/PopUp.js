@@ -230,8 +230,8 @@ function DesignNow(callFrom,EditType,ItemID,TemplateID)
 }
 var CcQueueItems = null;
 var idsToValidate = "";
-function ShowCostCentrePopup(CostCentreQueueItems, CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Mode, Currency) {
-    alert(Currency);
+function ShowCostCentrePopup(CostCentreQueueItems, CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Mode, Currency, ItemPrice) {
+   
     CcQueueItems = CostCentreQueueItems;
     var innerHtml = "";
     var Heading = "Please enter the following details of Cost Centre";
@@ -325,7 +325,7 @@ function ShowCostCentrePopup(CostCentreQueueItems, CostCentreId, ClonedItemId, S
     }
    
 
-    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title left_align">' + Heading + '</h4></div><div class="modal-body left_align"><div id="CCErrorMesgContainer"></div>' + innerHtml + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" class="btn btn-primary" onclick="ValidateCostCentreControl(' + CostCentreId + ',' + ClonedItemId + ',' + SelectedCostCentreCheckBoxId + ',&#34; ' + Currency + '&#34;);">Continue</button></div></div></div>';
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title left_align">' + Heading + '</h4></div><div class="modal-body left_align"><div id="CCErrorMesgContainer"></div>' + innerHtml + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" class="btn btn-primary" onclick="ValidateCostCentreControl(' + CostCentreId + ',' + ClonedItemId + ',' + SelectedCostCentreCheckBoxId + ',&#34; ' + Currency + '&#34; ,' + ItemPrice + ');">Continue</button></div></div></div>';
    
 
     var bws = getBrowserHeight();
@@ -415,7 +415,7 @@ function SetMatrixAnswer(Answer, MatrixId)
     document.getElementById("FormulaMatrixLayer").style.display = "none";
 }
 
-function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Currency) {
+function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Currency, ItemPrice) {
 
     var arrayOfIds = idsToValidate.split(",");
     
@@ -500,10 +500,8 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
             if (desriptionOfCostCentre == "") {
                 desriptionOfCostCentre =  $(val).parent().prev().children().text() + $(val).val();
             } else {
-                desriptionOfCostCentre = desriptionOfCostCentre + "<br/>" + $(val).parent().prev().children().text() + $(val).val();
+                desriptionOfCostCentre = desriptionOfCostCentre + "  " + $(val).parent().prev().children().text() + $(val).val() + ".";
             }
-            
-           
         });
          
       
@@ -529,17 +527,27 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
                         if ($(updatedAddOns)[i].CostCenterId == 335) {
                             $(updatedAddOns)[i].ActualPrice = response;
                             $(updatedAddOns)[i].Description = desriptionOfCostCentre;
+                            $(updatedAddOns)[i].CostCentreJasonData = jsonObjects;
                             break;
                         }
                     }
 
                     var JsonToReSubmit = [];
-
+                    var totalVal = 0;
                     for (var i = 0; i < $(updatedAddOns).length; i++) {
                         JsonToReSubmit.push($(updatedAddOns)[i]);
+                        if ($(updatedAddOns)[i].Type == 4) {
+                            totalVal = parseFloat(totalVal) + parseFloat(response);
+                        } else {
+                            var actualP = ($("#VMQuantityOrdered").val() * $(updatedAddOns)[i].ActualPrice) + $(updatedAddOns)[i].SetupCost;
+                            if (actualP < $(updatedAddOns)[i].MinimumCost && $(updatedAddOns)[i].MinimumCost != 0) {
+                                actualP = $(updatedAddOns)[i].MinimumCost;
+                            }
+                            totalVal = parseFloat(totalVal) + parseFloat(actualP);
+                        }
                         console.log($(updatedAddOns)[i]);
                     }
-                    displayTotalPrice(0, response);
+                    displayTotalPrice(ItemPrice, totalVal);
                     $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + Currency + response + '</label>' + '<a onclick="PromptForValues(' + CostCentreId + ',' + SelectedCostCentreCheckBoxId + ', 1);" >Modify</a> ');
                     $("#VMJsonAddOns").val(JSON.stringify(JsonToReSubmit));
                 }
@@ -557,4 +565,32 @@ function HideLoader() {
 
     document.getElementById("layer").style.display = "none";
     document.getElementById("innerLayer").style.display = "none";
+}
+
+function ShowOrderingPolicyPopUp(title, Tvalue) {
+     
+   
+     //<textarea name="Text1" cols="40" rows="5" class="rounded_corners5 text_boxPolicy" id="txtPolicy" readonly="readonly" >@ViewBag.CorpCompany.CorporateOrderingPolicy</textarea>
+   // var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + title + '</h4></div><div class="modal-body"> <input type="text" id="txtOrderPolicy"  class="rounded_corners5 text_box" value=' + Tvalue + ' /><div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" id="OrderSave" class="btn btn-primary" onclick="Order()">Save</button></div></div>';
+    var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + title + '</h4></div><div class="modal-body"> <textarea type="text" id="txtOrderPolicy" cols="40" rows="5"  class="rounded_corners5 text_box" >' + Tvalue + '</textarea><div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" id="OrderSave" class="btn btn-primary" onclick="Order()">Save</button></div></div>';
+    var bws = getBrowserHeight();
+    var shadow = document.getElementById("innerLayer");
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 500) / 2);
+    var top = parseInt((bws.height - 170) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+
+    document.getElementById("innerLayer").style.top = top + "px";
+    document.getElementById("innerLayer").style.left = left + "px";
+
+    document.getElementById("innerLayer").style.width = "500px";
+    document.getElementById("innerLayer").style.height = "170px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
 }

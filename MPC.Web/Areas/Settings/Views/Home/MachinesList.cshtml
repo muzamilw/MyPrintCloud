@@ -102,6 +102,9 @@
         </div>
     </div>
     @Html.Partial("~/Areas/Settings/Views/Home/MachinesDetail.cshtml")
+    <!-- ko stopBinding: true -->
+    @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
+    <!-- /ko -->
 </div>
 <script id="itemMachineTemplate" type="text/html">
     @*<tr data-bind="click: $root.selectItem, css: { selectedRow: $data === $root.selectedMachine}">*@

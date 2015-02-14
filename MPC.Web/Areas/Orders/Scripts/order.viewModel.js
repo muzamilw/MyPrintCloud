@@ -30,7 +30,7 @@ define("order/order.viewModel",
                     selectedOrder = ko.observable(),
                     // Page Header 
                     pageHeader = ko.computed(function () {
-                        return selectedOrder() && selectedOrder().orderName() ? selectedOrder().orderName() : 'Orders';
+                        return selectedOrder() && selectedOrder().estimateName() ? selectedOrder().estimateName() : 'Orders';
                     }),
                     // Sort On
                     sortOn = ko.observable(1),
@@ -95,13 +95,11 @@ define("order/order.viewModel",
                     },
                     // Map Orders 
                     mapOrders = function (data) {
-                        debugger;
                         var ordersList = [];
                         _.each(data, function (order) {
                             order.FlagColor = getSectionFlagColor(order.SectionFlagId);
                             ordersList.push(model.Estimate.Create(order));
                         });
-                        debugger;
                         // Push to Original Array
                         ko.utils.arrayPushAll(orders(), ordersList);
                         orders.valueHasMutated();
@@ -171,12 +169,15 @@ define("order/order.viewModel",
                     },
                     // Get Section flag color
                     getSectionFlagColor = function (sectionFlagId) {
-                        var color = null;
-                        _.each(sectionFlags(), function (sectionFlag) {
-                            if (sectionFlag.id == sectionFlagId)
-                                color= sectionFlag.color;
+                        var sectionFlg = sectionFlags.find(function (sectionFlag) {
+                            return sectionFlag.id == sectionFlagId;
                         });
-                        return color;
+
+                        if (!sectionFlg) {
+                            return undefined;
+                        }
+
+                        return sectionFlg.color;
                     },
                     // Save Order
                     saveOrder = function (callback, navigateCallback) {
@@ -186,10 +187,7 @@ define("order/order.viewModel",
                                 if (!selectedOrder().id()) {
                                     // Update Id
                                     selectedOrder().id(data.OrderId);
-
-                                    // Update Min Price
-                                    selectedOrder().miniPrice(data.MinPrice || 0);
-
+                                    
                                     // Add to top of list
                                     orders.splice(0, 0, selectedOrder());
                                 }
@@ -253,7 +251,6 @@ define("order/order.viewModel",
                             }
                         });
                     },
-                    
                     // Get Orders
                     getOrders = function () {
                         isLoadingOrders(true);

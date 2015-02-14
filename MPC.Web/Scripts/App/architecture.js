@@ -204,8 +204,7 @@ require(["ko", "knockout-validation"], function (ko) {
         update: function (element, viewModelAccessor, allBindingsAccessor) {
             var viewModel = viewModelAccessor();
             element.innerHTML = "";
-            var itemList = allBindingsAccessor().itemsList;
-
+          
             $(element).fullCalendar({
                 events: ko.utils.unwrapObservable(viewModel.events),
                 header: viewModel.header,
