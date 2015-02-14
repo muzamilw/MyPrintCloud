@@ -40,11 +40,11 @@
                                     <tr>
                                         <td>
                                             <img src="~/Content/themes/Centaurus/img/samples/logos/1.jpg" alt="" />
-                                            <a class="user-link" data-bind="text:name"></a> 
+                                            <a class="user-link" data-bind="text: firstName "></a> 
                                             <span data-bind="text:companyName"></span> 
                                         </td>
                                         <td>
-                                            <span data-bind="text:email"></span> <br/> <span data-bind="text:phone"></span>
+                                            <span data-bind="text:email"></span> <br/> <span data-bind="text:quickPhone"></span>
                                         </td>
                                         <td style="width: 20%;">
                                             <a  class="table-link">
@@ -95,12 +95,11 @@
                 </div>
             </div>
         </script>
-
+        @Html.Partial("Widgets/_UserProfileDetails")
     </div>
 </div>
 <!-- ko stopBinding: true -->
 @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
-@Html.Partial("Widgets/_UserProfileDetails")
 <!-- /ko -->
 @section Scripts{
     <script>

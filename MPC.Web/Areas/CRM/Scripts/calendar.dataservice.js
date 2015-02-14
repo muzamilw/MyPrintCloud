@@ -39,6 +39,12 @@ define("calendar/calendar.dataservice", function () {
 
                     // Define request to Get Company By Customer Type
                     amplify.request.define('getCompanyByCustomerType', 'ajax', {
+                        url: ist.siteUrl + '/Api/GetCompaniesForCalendar',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to Get Company By Customer Type
+                    amplify.request.define('getActivies', 'ajax', {
                         url: ist.siteUrl + '/Api/Calendar',
                         dataType: 'json',
                         type: 'GET'
@@ -91,6 +97,17 @@ define("calendar/calendar.dataservice", function () {
                     data: params
                 });
             },
+              //Get Activities
+            getActivies = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getActivies',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            
              //Get Activity Detail By Id
             getActivityDetailById = function (params, callbacks) {
                 initialize();
@@ -136,6 +153,7 @@ define("calendar/calendar.dataservice", function () {
 
         return {
             getCalendarBase: getCalendarBase,
+            getActivies: getActivies,
             deleteActivity: deleteActivity,
             saveActivity: saveActivity,
             getCompanyByCustomerType: getCompanyByCustomerType,

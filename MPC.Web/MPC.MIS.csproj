@@ -259,6 +259,7 @@
     <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />
     <Compile Include="Areas\Api\Controllers\CrmSupplierController.cs" />
     <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
+    <Compile Include="Areas\Api\Controllers\GetCompaniesForCalendarController.cs" />
     <Compile Include="Areas\Api\Controllers\GetItemsForWidgetsController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\GetPhraseFiledsBySectionController.cs" />

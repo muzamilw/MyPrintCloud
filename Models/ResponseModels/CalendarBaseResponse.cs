@@ -15,7 +15,6 @@ namespace MPC.Models.ResponseModels
         public IEnumerable<PipeLineSource> PipeLineSources { get; set; }
         public IEnumerable<SectionFlag> SectionFlags { get; set; }
         public IEnumerable<ActivityType> ActivityTypes { get; set; }
-        public IEnumerable<Activity> Activities { get; set; }
         public Guid LoggedInUserId { get; set; }
     }
 }

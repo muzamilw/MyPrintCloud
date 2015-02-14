@@ -46,5 +46,10 @@ namespace MPC.Interfaces.MISServices
         /// Get Company Contacts By Company ID
         /// </summary>
         IEnumerable<CompanyContact> GetCompanyContactsByCompanyId(long companyId);
+
+        /// <summary>
+        /// Get Activities
+        /// </summary>
+        IEnumerable<Activity> GetActivities(ActivityRequestModel request);
     }
 }
