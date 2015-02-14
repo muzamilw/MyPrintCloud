@@ -39,7 +39,7 @@ namespace MPC.MIS.Areas.Api.Controllers
            
         }
 
-        public MachineListResponse GetMachineList([FromUri] MachineRequestModel request)
+        public MachineListResponse Get([FromUri] MachineRequestModel request)
         {
             var result = _machineService.GetAll(request);
             return new MachineListResponse
@@ -49,15 +49,14 @@ namespace MPC.MIS.Areas.Api.Controllers
             };
         }
 
-        [HttpDelete]
         public bool Delete(MachineDeleteRequest request)
         {
             return _machineService.archiveMachine(request.machineId);
           
 
         }
+        
         [ApiException]
-        [HttpPost]
         //public bool Post(MachineUpdateRequestModel request)
         public Machine Post(Machine machine)
         

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MPC.Models.DomainModels;
 
 namespace MPC.Interfaces.Repository
@@ -11,6 +12,6 @@ namespace MPC.Interfaces.Repository
         /// <summary>
         ///Get Activities By Sytem User Id
         /// </summary>
-        IEnumerable<Activity> GetActivitiesByUserId();
+        IEnumerable<Activity> GetActivitiesByUserId(DateTime? startDateTime, DateTime? endDateTime);
     }
 }

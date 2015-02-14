@@ -37,6 +37,7 @@ define("machine/machine.dataservice", function () {
                     amplify.request.define('saveMachine', 'ajax', {
                         url: ist.siteUrl + '/Api/Machine',
                         dataType: 'json',
+                        contentType: 'application/json; charset=utf-8',
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
@@ -88,16 +89,15 @@ define("machine/machine.dataservice", function () {
                 error: callbacks.error,
                 data: params
             });
-        };
-        
-        //// Save Machine 
+        },
+            //// Save Machine 
         saveMachine = function (param, callbacks) {
             initialize();
             return amplify.request({
                 resourceId: 'saveMachine',
                 success: callbacks.success,
                 error: callbacks.error,
-                data: param
+                data: JSON.stringify(param)
             });
         };
 

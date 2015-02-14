@@ -259,11 +259,11 @@
     <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />
     <Compile Include="Areas\Api\Controllers\CrmSupplierController.cs" />
     <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
+    <Compile Include="Areas\Api\Controllers\GetCompaniesForCalendarController.cs" />
     <Compile Include="Areas\Api\Controllers\GetItemsForWidgetsController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\GetPhraseFiledsBySectionController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemCloneController.cs" />
-    <Compile Include="Areas\Api\Controllers\OrderBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemDesignerTemplateBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemPriceMatrixController.cs" />
@@ -499,7 +499,6 @@
     <Compile Include="Areas\Api\Models\SectionForPhraseLibrary.cs" />
     <Compile Include="Areas\Api\Models\State.cs" />
     <Compile Include="Areas\Api\Models\StateDropDown.cs" />
-    <Compile Include="Areas\Api\Models\StockItemResponse.cs" />
     <Compile Include="Areas\Api\Models\SupplierBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\SupplierForInventory.cs" />
     <Compile Include="Areas\Api\Models\SupplierSearchResponseForInventory.cs" />
@@ -515,6 +514,8 @@
     <Compile Include="Areas\Api\Models\Widget.cs" />
     <Compile Include="Areas\Api\Controllers\PaperSheetBaseController.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
+    <Compile Include="Areas\DeliveryNotes\Controllers\HomeController.cs" />
+    <Compile Include="Areas\DeliveryNotes\DeliveryNoteAreaRegistration.cs" />
     <Compile Include="Areas\Orders\Controllers\HomeController.cs" />
     <Compile Include="Areas\Orders\OrdersAreaRegistration.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
@@ -603,10 +604,6 @@
     <Content Include="Areas\Common\Scripts\clientSidePagination.js" />
     <Content Include="Areas\Common\Scripts\supplier.model.js" />
     <Content Include="Areas\Common\Scripts\pagination.js" />
-    <Content Include="Areas\CRM\Scripts\calendar.dataservice.js" />
-    <Content Include="Areas\CRM\Scripts\calendar.model.js" />
-    <Content Include="Areas\CRM\Scripts\calendar.view.js" />
-    <Content Include="Areas\CRM\Scripts\calendar.viewModel.js" />
     <Content Include="Areas\CRM\Scripts\contacts.dataservice.js" />
     <Content Include="Areas\CRM\Scripts\contacts.model.js" />
     <Content Include="Areas\CRM\Scripts\contacts.view.js" />
@@ -803,6 +800,9 @@
     </Content>
     <Content Include="Content\less\PaperSheet.css">
       <DependentUpon>PaperSheet.less</DependentUpon>
+    </Content>
+    <Content Include="Content\less\Orders.css">
+      <DependentUpon>Orders.less</DependentUpon>
     </Content>
     <Content Include="Content\less\Products.css">
       <DependentUpon>Products.less</DependentUpon>
@@ -1654,12 +1654,32 @@
     <Content Include="Areas\Orders\Views\Home\_Orders.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_OrderDetail.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\SectionFlags.cshtml" />
+    <Content Include="Areas\DeliveryNotes\Views\Home\DeliveryNote.cshtml" />
+    <Content Include="Areas\DeliveryNotes\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\DeliveryNotes\Views\web.config" />
+    <Content Include="Areas\DeliveryNotes\Views\Home\_partialDeliveryNote.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\PurchaseOrders.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_partialpurchaseOrders.cshtml" />
     <Content Include="Areas\CRM\Views\Home\Contacts.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_AddEditCalendarActivity.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_CompanyDialog.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_SelectCompany.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_StockDialog.cshtml" />
     <Content Include="Content\less\StockItemDialog.less" />
+    <Content Include="Areas\Orders\Views\Home\_OrderHeader.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_OrderSchedule.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_OrderCreditApproval.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_OrderDeliverySchedule.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_OrderPrePayments.cshtml" />
+    <Content Include="Content\less\Orders.less" />
+    <Content Include="Areas\Orders\Views\Home\_OrderItemDetail.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_OrderSectionDetail.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_UserProfileDetails.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_AddEditTerritory.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_AddEditCMYKColors.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_RaveReviews.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_ProductsFilter.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_ChooseUsIcon.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
@@ -2837,11 +2857,12 @@
     <Folder Include="Areas\Api\Views\CompanyProduct\" />
     <Folder Include="Areas\Api\Views\Customer\" />
     <Folder Include="Areas\Api\Views\Machine\" />
-    <Folder Include="Areas\Api\Views\OrderBase\" />
     <Folder Include="Areas\Api\Views\PaperSheetBaseApi\" />
     <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
     <Folder Include="Areas\CRM\Models\" />
+    <Folder Include="Areas\DeliveryNotes\Models\" />
+    <Folder Include="Areas\DeliveryNotes\Scripts\" />
     <Folder Include="Areas\Orders\Models\" />
     <Folder Include="Areas\Products\Models\" />
     <Folder Include="Areas\Settings\Models\" />
@@ -2922,7 +2943,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>43063</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

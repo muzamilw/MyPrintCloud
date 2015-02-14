@@ -17,15 +17,16 @@ define("calendar/calendar.viewModel",
                     companySearchFilter = ko.observable(),
                     loggedInUserId = ko.observable(),
                     pager = ko.observable(),
-                   sectionFlags = ko.observableArray([]),
-                companyContacts = ko.observableArray([]),
-                pipeLineProducts = ko.observableArray([]),
-                pipeLineSources = ko.observableArray([]),
-                systemUsers = ko.observableArray([]),
-                companies = ko.observableArray([]),
-                activityTypes = ko.observableArray([]),
-                items = ko.observableArray([]),
-
+                    sectionFlags = ko.observableArray([]),
+                    companyContacts = ko.observableArray([]),
+                    pipeLineProducts = ko.observableArray([]),
+                    pipeLineSources = ko.observableArray([]),
+                    systemUsers = ko.observableArray([]),
+                    companies = ko.observableArray([]),
+                    activityTypes = ko.observableArray([]),
+                    items = ko.observableArray([]),
+                    //items =[],
+                    activities = [];
 
                 fullCalendar = {
                     // Defines a view model class you can use to populate a calendar
@@ -34,6 +35,7 @@ define("calendar/calendar.viewModel",
                         this.header = configuration.header;
                         this.editable = configuration.editable;
                         this.viewDate = configuration.viewDate || ko.observable(new Date());
+                        this.defaultView = configuration.defaultView || ko.observable();
                         //this.droppable = configuration.droppable;
                         //this.dropAccept = configuration.dropAccept;
                     }
@@ -78,13 +80,41 @@ define("calendar/calendar.viewModel",
                     selectedActivity(model.Activity());
                     view.showCalendarActivityDialog();
                 },
+                //loadPage = ko.observable(false);
+                loadPage = true;
+                var start;
+                var end;
+                var lastView = ko.observable('month');
+                viewEventClick = function (viewClick) {
+
+                    if (start !== moment(viewClick.start) && end !== moment(viewClick.end) && (loadPage || lastView() !== viewClick.name)) {
+                        start = moment(viewClick.start);
+                        end = moment(viewClick.end);
+                        lastView(viewClick.name);
+                        getActivies(moment(viewClick.start).format(ist.utcFormat), moment(viewClick.end).format(ist.utcFormat));
+                    }
+                        loadPage = false;
+                        // items([]);
+                    },
+
+                dayEventClick = function (date, jsEvent, view1) {
+                    //if (!loadPage) {
+                    //    return;
+                    //}
+                    //getActivies(moment(date.start).format(ist.utcFormat), moment(date.end).format(ist.utcFormat));
+                    //items([]);
+                    // ko.utils.arrayPushAll(items(), activities);
+                    //items.valueHasMutated();
+                    alert("test");
+                },
                 //Add new Activity
                 newEventAdd = function (addNewActivityEvent) {
                     var newAddActivity = model.Activity();
                     newAddActivity.startDateTime(addNewActivityEvent);
+                    newAddActivity.endDateTime(addNewActivityEvent);
                     newAddActivity.isCustomerType("1");
-                    //newAddActivity.systemUserId(loggedInUserId());
-                    newAddActivity.systemUserId("7e20d462-c881-4d05-9e91-4c619385333b");
+                    newAddActivity.systemUserId(loggedInUserId());
+                    //newAddActivity.systemUserId("7e20d462-c881-4d05-9e91-4c619385333b");
                     selectedActivity(newAddActivity);
                     view.showCalendarActivityDialog();
                 },
@@ -129,16 +159,6 @@ define("calendar/calendar.viewModel",
                             activityTypes.valueHasMutated();
 
                             loggedInUserId(data.LoggedInUserId);
-
-                            _.each(data.Activities, function (item) {
-                                items.push({
-                                    id: item.ActivityId,
-                                    title: item.ActivityRef,
-                                    start: item.ActivityStartTime,
-                                    end: item.ActivityEndTime,
-                                });
-                            });
-
                         },
                         error: function () {
                             toastr.error("Failed to load base data.");
@@ -163,6 +183,7 @@ define("calendar/calendar.viewModel",
                     editable: true,
                     selectable: true,
                     selectHelper: true,
+                    defaultView: lastView
                 }),
                 //Show
                 showCompanyDialog = function () {
@@ -208,6 +229,68 @@ define("calendar/calendar.viewModel",
                         }
                     });
                 },
+                //Get Activities
+                getActivies = function (startDate, EndDate) {
+                    getCalendarActivities(startDate, EndDate);
+                    //try {
+                    //    loadPage = false;
+                    //    getCalendarActivities(startDate, EndDate);
+                    //}
+                    //finally {
+                    //    // items([]);
+                    //    loadPage = true;
+                    //}
+
+                },
+               getCalendarActivities = function (startDate, EndDate) {
+                   dataservice.getActivies({
+                       StartDateTime: startDate,
+                       EndDateTime: EndDate,
+                   }, {
+                       success: function (data) {
+                           items.removeAll();
+                           //activities = [];
+                          //items = [];
+                           // activities = [];
+                           if (data != null) {
+
+                               _.each(data, function (item) {
+                                   var sectionFlag = sectionFlags.find(function (sFlag) {
+                                       return sFlag.SectionFlagId == item.FlagId;
+                                   });
+
+                                   //items.each(function(existItems) {
+                                   //    if (existItems.id === item.ActivityId) {
+                                   //        existItems.title = item.ActivityRef,
+                                   //            existItems.start = item.ActivityStartTime,
+                                   //            existItems.backgroundColor = sectionFlag != undefined ? sectionFlag.FlagColor : null,
+                                   //            existItems.end = item.ActivityEndTime;
+                                   //    }
+                                   //});
+
+
+                                   items.push({
+                                       id: item.ActivityId,
+                                       title: item.ActivityRef,
+                                       start: item.ActivityStartTime,
+                                       backgroundColor: sectionFlag != undefined ? sectionFlag.FlagColor : null,
+                                       end: item.ActivityEndTime
+                                   });
+                               });
+
+                                //ko.utils.arrayPushAll(items(), activities);
+                               //items.valueHasMutated();
+                               
+                           }
+
+
+                       },
+                       error: function (response) {
+
+                           toastr.error("Failed to load Detail . Error: ");
+                       }
+                   });
+               }
                 //Search Company
                 searchCompany = function () {
                     getCompanies();
@@ -236,18 +319,28 @@ define("calendar/calendar.viewModel",
                 saveActivity = function () {
                     dataservice.saveActivity(selectedActivity().convertToServerData(), {
                         success: function (data) {
-                            if (data !== null && loggedInUserId() === selectedActivity().systemUserId()) {
-                                if (selectedActivity().id() === undefined) {
-                                    selectedActivity().id(data);
-                                    var activity = selectedActivity();
+                            if (data !== null) { //&& loggedInUserId() === selectedActivity().systemUserId()
+                                var activity = selectedActivity();
 
-                                    var sectionFlag = sectionFlags.find(function (sFlag) {
-                                        return sFlag.SectionFlagId == activity.flagId();
-                                    });
+                                var sectionFlag = sectionFlags.find(function (sFlag) {
+                                    return sFlag.SectionFlagId == activity.flagId();
+                                });
+                                if (selectedActivity().id() === undefined) {
+                                    activity.id(data);
+
                                     items.push({
                                         id: activity.id(),
                                         title: activity.subject(),
-                                        backgroundColor: sectionFlag.FlagColor,
+                                        backgroundColor: sectionFlag != undefined ? sectionFlag.FlagColor : null,
+                                        start: activity.startDateTime(),
+                                        end: activity.endDateTime(),
+                                    });
+                                } else {
+                                    items.remove(selectedActivityForRemove());
+                                    items.push({
+                                        id: activity.id(),
+                                        title: activity.subject(),
+                                        backgroundColor: sectionFlag != undefined ? sectionFlag.FlagColor : null,
                                         start: activity.startDateTime(),
                                         end: activity.endDateTime(),
                                     });
@@ -330,7 +423,7 @@ define("calendar/calendar.viewModel",
                     selectedCompany: selectedCompany,
                     loggedInUserId: loggedInUserId,
                     pager: pager,
-                    items: items,
+                    //items: items,
                     sectionFlags: sectionFlags,
                     companyContacts: companyContacts,
                     pipeLineProducts: pipeLineProducts,
@@ -347,6 +440,7 @@ define("calendar/calendar.viewModel",
                     resetCompany: resetCompany,
                     onSaveActivity: onSaveActivity,
                     onDeleteActivity: onDeleteActivity,
+                    activities: activities,
                 };
             })()
         };

@@ -66,7 +66,6 @@ namespace MPC.Implementation.MISServices
                 PipeLineSources = pipeLineSourceRepository.GetAll(),
                 ActivityTypes = activityTypeRepository.GetAll(),
                 LoggedInUserId = activityTypeRepository.LoggedInUserId,
-                Activities = activityRepository.GetActivitiesByUserId(),
                 SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.CRM),
             };
         }
@@ -169,6 +168,15 @@ namespace MPC.Implementation.MISServices
         public Activity ActivityDetail(int activityId)
         {
             return activityRepository.Find(activityId);
+        }
+
+        /// <summary>
+        /// Get Activities
+        /// </summary>
+        public IEnumerable<Activity> GetActivities(ActivityRequestModel request)
+        {
+            return activityRepository.GetActivitiesByUserId(request.StartDateTime, request.EndDateTime);
+
         }
 
         #endregion
