@@ -122,8 +122,15 @@ define("order/order.viewModel",
                             return;
                         }
                         
+                        if (selectedOrder().companyId() === company.id) {
+                            return;
+                        }
+                        
                         selectedOrder().companyId(company.id);
                         selectedOrder().companyName(company.name);
+                        
+                        // Get Company Address and Contacts
+                        getBaseForCompany(company.id);
                     },
                     // Initialize the view model
                     initialize = function (specifiedView) {
@@ -137,16 +144,6 @@ define("order/order.viewModel",
                         
                         // Get Orders
                         getOrders();
-                        
-                        // Subscribe for Company Change
-                        selectedOrder().companyId.subscribe(function(value) {
-                            if (selectedOrder().companyId() === value) {
-                                return;
-                            }
-                            
-                            // Get Company Address and Contacts
-                            getBaseForCompany(value);
-                        });
                     },
                     // Map List
                     mapList = function(observableList, data, factory) {
