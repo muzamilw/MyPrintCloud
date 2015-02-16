@@ -13,8 +13,12 @@ define("order/order.viewModel",
                     // #region Arrays
                     // orders
                     orders = ko.observableArray([]),
-                     // flag coulus
+                    // flag colors
                     sectionFlags = ko.observableArray([]),
+                    // company contacts
+                    companyContacts = ko.observableArray([]),
+                    // Company Addresses
+                    companyAddresses = ko.observableArray([]),
                     // Errors List
                     errorList = ko.observableArray([]),
                     // #endregion Arrays
@@ -27,10 +31,10 @@ define("order/order.viewModel",
                     // filter
                     filterText = ko.observable(),
                     // Active Order
-                    selectedOrder = ko.observable(),
+                    selectedOrder = ko.observable(model.Estimate.Create({})),
                     // Page Header 
-                    pageHeader = ko.computed(function () {
-                        return selectedOrder() && selectedOrder().estimateName() ? selectedOrder().estimateName() : 'Orders';
+                    pageHeader = ko.computed(function() {
+                        return selectedOrder() && selectedOrder().name() ? selectedOrder().name() : 'Orders';
                     }),
                     // Sort On
                     sortOn = ko.observable(1),
@@ -38,6 +42,34 @@ define("order/order.viewModel",
                     sortIsAsc = ko.observable(true),
                     // Pagination
                     pager = ko.observable(new pagination.Pagination({ PageSize: 5 }, orders)),
+                    // Default Address
+                    defaultAddress = ko.observable(model.Address.Create({})),
+                    // Default Company Contact
+                    defaultCompanyContact = ko.observable(model.CompanyContact.Create({})),
+                    // Selected Address
+                    selectedAddress = ko.computed(function() {
+                        if (!selectedOrder() || !selectedOrder().addressId() || companyAddresses().length === 0) {
+                            return defaultAddress();
+                        }
+
+                        var addressResult = companyAddresses.find(function(address) {
+                            return address.id === selectedOrder().addressId();
+                        });
+
+                        return addressResult || defaultAddress();
+                    }),
+                    // Selected Company Contact
+                    selectedCompanyContact = ko.computed(function () {
+                        if (!selectedOrder() || !selectedOrder().contactId() || companyContacts().length === 0) {
+                            return defaultCompanyContact();
+                        }
+
+                        var contactResult = companyContacts.find(function (contact) {
+                            return contact.id === selectedOrder().contactId();
+                        });
+
+                        return contactResult || defaultCompanyContact();
+                    }),
                     // #endregion
                     // #region Utility Functions
                     // Create New Order
@@ -80,6 +112,10 @@ define("order/order.viewModel",
                         });
                         confirmation.show();
                     },
+                    // Open Company Dialog
+                    openCompanyDialog = function() {
+                        
+                    },
                     // Initialize the view model
                     initialize = function (specifiedView) {
                         view = specifiedView;
@@ -89,9 +125,30 @@ define("order/order.viewModel",
 
                         // Get Base Data
                         getBaseData();
+                        
                         // Get Orders
                         getOrders();
-
+                        
+                        // Subscribe for Company Change
+                        selectedOrder().companyId.subscribe(function(value) {
+                            if (selectedOrder().companyId() === value) {
+                                return;
+                            }
+                            
+                            // Get Company Address and Contacts
+                            getBaseForCompany(value);
+                        });
+                    },
+                    // Map List
+                    mapList = function(observableList, data, factory) {
+                        var list = [];
+                        _.each(data, function (item) {
+                            list.push(factory.Create(item));
+                        });
+                        
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(observableList(), list);
+                        observableList.valueHasMutated();
                     },
                     // Map Orders 
                     mapOrders = function (data) {
@@ -294,6 +351,28 @@ define("order/order.viewModel",
                                 toastr.error("Failed to load order details" + response);
                             }
                         });
+                    },
+                    // Get Company Base Data
+                    getBaseForCompany = function (id) {
+                        dataservice.getBaseForCompany({
+                            id: id
+                        }, {
+                            success: function (data) {
+                                companyAddresses.removeAll();
+                                companyContacts.removeAll();
+                                if (data) {
+                                    if (data.CompanyAddresses) {
+                                        mapList(companyAddresses, data.CompanyAddresses, model.Address);
+                                    }
+                                    if (data.CompanyContacts) {
+                                        mapList(companyContacts, data.CompanyContacts, model.CompanyContact);
+                                    }
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to load details for selected company" + response);
+                            }
+                        });
                     };
                 // #endregion Service Calls
 
@@ -310,6 +389,11 @@ define("order/order.viewModel",
                     filterText: filterText,
                     pageHeader: pageHeader,
                     shared: shared,
+                    selectedAddress: selectedAddress,
+                    selectedCompanyContact: selectedCompanyContact,
+                    companyContacts: companyContacts,
+                    companyAddresses: companyAddresses,
+                    sectionFlags: sectionFlags,
                     // Observables
                     // Utility Methods
                     initialize: initialize,
@@ -321,7 +405,8 @@ define("order/order.viewModel",
                     onCloseOrderEditor: onCloseOrderEditor,
                     onArchiveOrder: onArchiveOrder,
                     gotoElement: gotoElement,
-                    onCloneOrder: onCloneOrder
+                    onCloneOrder: onCloneOrder,
+                    openCompanyDialog: openCompanyDialog
                     // Utility Methods
                 };
             })()

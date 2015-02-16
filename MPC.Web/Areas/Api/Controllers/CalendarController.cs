@@ -41,14 +41,9 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Companies By Is Customer Type
         /// </summary>
-        public CompanySearchResponseForCalendar Get([FromUri]CompanyRequestModelForCalendar request)
+        public IEnumerable<ActivityListView> Get([FromUri]ActivityRequestModel request)
         {
-            var response = calendarService.GetCompaniesByCustomerType(request);
-            return new CompanySearchResponseForCalendar
-            {
-                Companies = response.Companies.Select(c => c.CreateFromForCalendar()),
-                TotalCount = response.TotalCount
-            };
+            return calendarService.GetActivities(request).Select(act => act.CreateFromListView());
         }
 
         /// <summary>
