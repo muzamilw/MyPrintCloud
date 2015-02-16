@@ -35,7 +35,6 @@ define("calendar/calendar.viewModel",
                         this.header = configuration.header;
                         this.editable = configuration.editable;
                         this.viewDate = configuration.viewDate || ko.observable(new Date());
-                        //this.defaultDate = moment('2014-05-15').format("YYYY-MM-DDTHH:mm:ssZZ");
                         this.defaultView = configuration.defaultView || ko.observable();
                         //this.droppable = configuration.droppable;
                         //this.dropAccept = configuration.dropAccept;
@@ -87,25 +86,18 @@ define("calendar/calendar.viewModel",
                 var end;
                 var lastView = ko.observable('month');
                 viewDate = ko.observable(new Date()),
-                   testView = ko.observable(2),
-                viewEventClick = function (viewClick) {
-                    if (start !== moment(viewClick.start) && end !== moment(viewClick.end) && (loadPage || lastView() !== viewClick.name)) {
-                        start = moment(viewClick.start);
-                        end = moment(viewClick.end);
-                        lastView(viewClick.name);
-                        getCalendarActivities(moment(viewClick.start).format(ist.utcFormat), moment(viewClick.end).format(ist.utcFormat));
-                    }
-                    //if (testView() === 1) {
-                    //    viewClick.start = viewDate1();
-                    //}
-                   // viewClick.start = viewDate1();
-                    //testView(viewClick);
-                    loadPage = false;
-                },
-
+               viewEventClick = function (viewClick) {
+                   if (start !== moment(viewClick.start) && end !== moment(viewClick.end) && (loadPage || lastView() !== viewClick.name)) {
+                       start = moment(viewClick.start);
+                       end = moment(viewClick.end);
+                       lastView(viewClick.name);
+                       getCalendarActivities(moment(viewClick.start).format(ist.utcFormat), moment(viewClick.end).format(ist.utcFormat));
+                   }
+                   loadPage = false;
+               },
+                //Get Activities For Next,Pre,Today click on
                 getActivitiesForNextPreTodayClick = function (currentView) {
-                   viewDate(currentView.start);
-                   testView(1);
+                    viewDate(currentView.start);
                     getCalendarActivities(moment(currentView.start).format(ist.utcFormat), moment(currentView.end).format(ist.utcFormat));
                 },
                 //Add new Activity
@@ -119,7 +111,6 @@ define("calendar/calendar.viewModel",
                     selectedActivity(newAddActivity);
                     view.showCalendarActivityDialog();
                 },
-
                 //delete Activity
                 onDeleteActivity = function (activity) {
                     dataservice.deleteActivity(selectedActivity().convertToServerData(), {
@@ -133,7 +124,6 @@ define("calendar/calendar.viewModel",
                         }
                     });
                 },
-
                 // Get Base
                 getBase = function () {
                     dataservice.getCalendarBase({
@@ -166,14 +156,7 @@ define("calendar/calendar.viewModel",
                         }
                     });
                 },
-                //items.push({
-                //    title: 'Birthday Party',
-                //    start: new Date(),
-                //    //className: '',
-                //    backgroundColor: '#FF1919',
-                //    allDay: false
-                //});
-
+                //
                 mycCalender = new fullCalendar.viewModel({
                     events: items,
                     header: {
@@ -186,7 +169,6 @@ define("calendar/calendar.viewModel",
                     selectHelper: true,
                     defaultView: lastView,
                     viewDate: viewDate,
-                    // defaultDate: moment('2014-05-15').format("YYYY-MM-DDTHH:mm:ssZZ")
                 }),
                 //Show
                 showCompanyDialog = function () {
@@ -232,14 +214,7 @@ define("calendar/calendar.viewModel",
                         }
                     });
                 },
-                //Get Activities
-               getActivies = function (viewClick) {
-                   // start = moment(viewClick.start);
-                   // end = moment(viewClick.end);
-                   //lastView(viewClick.name);
-                   // viewClick.calendar.gotoDate(start);
-
-               },
+               //Get Activities
                 getCalendarActivities = function (startDate, EndDate) {
                     dataservice.getActivies({
                         StartDateTime: startDate,

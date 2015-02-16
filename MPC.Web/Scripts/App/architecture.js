@@ -191,65 +191,39 @@ require(["ko", "knockout-validation"], function (ko) {
             }
         }
     };
-    function getDateFromCell(td, calInstance) {
-        var cellPos = {
-            row: td.parents('tbody').children().index(td.parent()),
-            col: td.parent().children().index(td)
-        };
-
-        return calInstance.fullCalendar('getView').cellToDate(cellPos);
-    };
     ko.bindingHandlers.fullCalendar = {
         // This method is called to initialize the node, and will also be called again if you change what the grid is bound to
         update: function (element, viewModelAccessor, allBindingsAccessor) {
             var viewModel = viewModelAccessor();
             element.innerHTML = "";
-            //var distevents = ko.utils.unwrapObservable(viewModel.events);
-            //var seen = [];
-            //var distinctEvents = _.filter(distevents, function (n) {
-            //    return seen.indexOf(n.id) == -1 && seen.push(n.id);
-            //});
-            var abc = $(element);
             $(element).fullCalendar({
                 events: ko.utils.unwrapObservable(viewModel.events),
-                //events: viewModel.events,
                 header: viewModel.header,
                 editable: viewModel.editable,
                 selectable: true,
                 cache: true,
                 defaultView: ko.utils.unwrapObservable(viewModel.defaultView),
-                //defaultDate: moment('2014-05-15').format("YYYY-MM-DDTHH:mm:ssZZ"),
-                //defaultDate: ko.utils.unwrapObservable(viewModel.defaultDate),
-                //defaultDate: ko.utils.unwrapObservable(viewModel.defaultView),
-                // default: true,
-                //droppable: true,
-                // dropAccept: '#external-events div.external-eventt',
                 eventClick: this.eventClick,
                 eventDrop: this.eventDropOrResize,
                 eventResize: this.eventDropOrResize,
                 select: this.newEventAdd,
                 viewDisplay: this.viewEventClick,
-                //monthClick:this.dayEventClick
-                //eventSources:this.dayEventClick
             });
 
 
             $(".fc-button-prev").click(function (event) {
-                // var date = $('#calendar').fullCalendar('getDate');
                 var view = $('#calendar').fullCalendar('getView');
                 ist.calendar.viewModel.getActivitiesForNextPreTodayClick(view);
-               // $(element).fullCalendar('gotoDate', Date.now());
             });
             $(".fc-button-next").click(function (event) {
                 var view = $('#calendar').fullCalendar('getView');
                 ist.calendar.viewModel.getActivitiesForNextPreTodayClick(view);
-               // $('#calendar').fullCalendar('next');
             });
             $(".fc-button-today").click(function (event) {
                 var view = $('#calendar').fullCalendar('getView');
                 ist.calendar.viewModel.getActivitiesForNextPreTodayClick(view);
             });
-             $(element).fullCalendar('gotoDate', ko.utils.unwrapObservable(viewModel.viewDate));;
+            $(element).fullCalendar('gotoDate', ko.utils.unwrapObservable(viewModel.viewDate));;
 
         }
     };
