@@ -35,6 +35,7 @@ define("calendar/calendar.viewModel",
                         this.header = configuration.header;
                         this.editable = configuration.editable;
                         this.viewDate = configuration.viewDate || ko.observable(new Date());
+                        //this.defaultDate = moment('2014-05-15').format("YYYY-MM-DDTHH:mm:ssZZ");
                         this.defaultView = configuration.defaultView || ko.observable();
                         //this.droppable = configuration.droppable;
                         //this.dropAccept = configuration.dropAccept;
@@ -85,27 +86,27 @@ define("calendar/calendar.viewModel",
                 var start;
                 var end;
                 var lastView = ko.observable('month');
+                viewDate = ko.observable(new Date()),
+                   testView = ko.observable(2),
                 viewEventClick = function (viewClick) {
-
                     if (start !== moment(viewClick.start) && end !== moment(viewClick.end) && (loadPage || lastView() !== viewClick.name)) {
                         start = moment(viewClick.start);
                         end = moment(viewClick.end);
                         lastView(viewClick.name);
-                        getActivies(moment(viewClick.start).format(ist.utcFormat), moment(viewClick.end).format(ist.utcFormat));
+                        getCalendarActivities(moment(viewClick.start).format(ist.utcFormat), moment(viewClick.end).format(ist.utcFormat));
                     }
-                        loadPage = false;
-                        // items([]);
-                    },
-
-                dayEventClick = function (date, jsEvent, view1) {
-                    //if (!loadPage) {
-                    //    return;
+                    //if (testView() === 1) {
+                    //    viewClick.start = viewDate1();
                     //}
-                    //getActivies(moment(date.start).format(ist.utcFormat), moment(date.end).format(ist.utcFormat));
-                    //items([]);
-                    // ko.utils.arrayPushAll(items(), activities);
-                    //items.valueHasMutated();
-                    alert("test");
+                   // viewClick.start = viewDate1();
+                    //testView(viewClick);
+                    loadPage = false;
+                },
+
+                getActivitiesForNextPreTodayClick = function (currentView) {
+                   viewDate(currentView.start);
+                   testView(1);
+                    getCalendarActivities(moment(currentView.start).format(ist.utcFormat), moment(currentView.end).format(ist.utcFormat));
                 },
                 //Add new Activity
                 newEventAdd = function (addNewActivityEvent) {
@@ -172,7 +173,7 @@ define("calendar/calendar.viewModel",
                 //    backgroundColor: '#FF1919',
                 //    allDay: false
                 //});
-                // viewDate = ko.observable(Date.now()),
+
                 mycCalender = new fullCalendar.viewModel({
                     events: items,
                     header: {
@@ -183,7 +184,9 @@ define("calendar/calendar.viewModel",
                     editable: true,
                     selectable: true,
                     selectHelper: true,
-                    defaultView: lastView
+                    defaultView: lastView,
+                    viewDate: viewDate,
+                    // defaultDate: moment('2014-05-15').format("YYYY-MM-DDTHH:mm:ssZZ")
                 }),
                 //Show
                 showCompanyDialog = function () {
@@ -230,67 +233,42 @@ define("calendar/calendar.viewModel",
                     });
                 },
                 //Get Activities
-                getActivies = function (startDate, EndDate) {
-                    getCalendarActivities(startDate, EndDate);
-                    //try {
-                    //    loadPage = false;
-                    //    getCalendarActivities(startDate, EndDate);
-                    //}
-                    //finally {
-                    //    // items([]);
-                    //    loadPage = true;
-                    //}
+               getActivies = function (viewClick) {
+                   // start = moment(viewClick.start);
+                   // end = moment(viewClick.end);
+                   //lastView(viewClick.name);
+                   // viewClick.calendar.gotoDate(start);
 
-                },
-               getCalendarActivities = function (startDate, EndDate) {
-                   dataservice.getActivies({
-                       StartDateTime: startDate,
-                       EndDateTime: EndDate,
-                   }, {
-                       success: function (data) {
-                           items.removeAll();
-                           //activities = [];
-                          //items = [];
-                           // activities = [];
-                           if (data != null) {
+               },
+                getCalendarActivities = function (startDate, EndDate) {
+                    dataservice.getActivies({
+                        StartDateTime: startDate,
+                        EndDateTime: EndDate,
+                    }, {
+                        success: function (data) {
+                            items.removeAll();
+                            if (data != null) {
+                                _.each(data, function (item) {
+                                    var sectionFlag = sectionFlags.find(function (sFlag) {
+                                        return sFlag.SectionFlagId == item.FlagId;
+                                    });
+                                    items.push({
+                                        id: item.ActivityId,
+                                        title: item.ActivityRef,
+                                        start: item.ActivityStartTime,
+                                        backgroundColor: sectionFlag != undefined ? sectionFlag.FlagColor : null,
+                                        end: item.ActivityEndTime
+                                    });
+                                });
+                            }
+                            // viewDate();
+                        },
+                        error: function (response) {
 
-                               _.each(data, function (item) {
-                                   var sectionFlag = sectionFlags.find(function (sFlag) {
-                                       return sFlag.SectionFlagId == item.FlagId;
-                                   });
-
-                                   //items.each(function(existItems) {
-                                   //    if (existItems.id === item.ActivityId) {
-                                   //        existItems.title = item.ActivityRef,
-                                   //            existItems.start = item.ActivityStartTime,
-                                   //            existItems.backgroundColor = sectionFlag != undefined ? sectionFlag.FlagColor : null,
-                                   //            existItems.end = item.ActivityEndTime;
-                                   //    }
-                                   //});
-
-
-                                   items.push({
-                                       id: item.ActivityId,
-                                       title: item.ActivityRef,
-                                       start: item.ActivityStartTime,
-                                       backgroundColor: sectionFlag != undefined ? sectionFlag.FlagColor : null,
-                                       end: item.ActivityEndTime
-                                   });
-                               });
-
-                                //ko.utils.arrayPushAll(items(), activities);
-                               //items.valueHasMutated();
-                               
-                           }
-
-
-                       },
-                       error: function (response) {
-
-                           toastr.error("Failed to load Detail . Error: ");
-                       }
-                   });
-               }
+                            toastr.error("Failed to load Detail . Error: ");
+                        }
+                    });
+                }
                 //Search Company
                 searchCompany = function () {
                     getCompanies();
@@ -441,6 +419,7 @@ define("calendar/calendar.viewModel",
                     onSaveActivity: onSaveActivity,
                     onDeleteActivity: onDeleteActivity,
                     activities: activities,
+                    getActivitiesForNextPreTodayClick: getActivitiesForNextPreTodayClick,
                 };
             })()
         };
