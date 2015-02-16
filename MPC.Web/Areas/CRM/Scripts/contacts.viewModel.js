@@ -33,13 +33,17 @@ define("crm/contacts.viewModel",
                 selectedShippingAddressId = ko.observable(),
                  // Sort In Ascending
                 sortIsAsc = ko.observable(true),
+                // Selected Bussiness Address
                 selectedBussinessAddress = ko.observable(),
+                // Selected Shipping Address
                 selectedShippingAddress = ko.observable(),
-
+                // Dummy variable
+                selectedStore = ko.observable(undefined),
                 // Selected Company
                 selectedCompanyContact = ko.observable(),
                 // Selected Role Id
                 contactRoleId = ko.observable(true),
+                // list of state
                 states = ko.observableArray(),
                 // Gets customers for list view
                 getCompanyContacts = function() {
@@ -70,11 +74,12 @@ define("crm/contacts.viewModel",
                 searchButtonHandler = function () {
                     getCompanyContacts();
                 },
-                //  Reset button handler
+                // Reset button handler
                 resetButtonHandler=function() {
                     searchFilter(null);
                     getCompanyContacts();
                 },
+                // Delete Contact button Handler 
                 deleteContactbuttonHandler = function(contact) {
                     // Ask for confirmation
                     confirmation.afterProceed(function() {
@@ -82,7 +87,9 @@ define("crm/contacts.viewModel",
                             CompanyContactId: contact.contactId(),
                         },
                         {
-                            success: function(data) {
+                            success: function () {
+                                companyContactsForListView.remove(contact);
+                                pager().totalCount( pager().totalCount()-1);
                                 toastr.success("Contact successfuly deleted!");
                             },
                             error: function() {
@@ -92,6 +99,7 @@ define("crm/contacts.viewModel",
                     });
                     confirmation.show();
                 },
+                // Edit Contact button Handler
                 editContactbuttonHandler = function (contact) {
                     selectedBussinessAddressId(contact.addressId());
                     selectedShippingAddressId(contact.shippingAddressId());
@@ -100,7 +108,7 @@ define("crm/contacts.viewModel",
                     getContactDetail(contact);
                     view.showCompanyContactDetailDialog();
                 },
-                 // Gets Base Data
+                 // Get Base Data
                 getBaseData = function () {
                     dataservice.getbaseData({},
                     {
@@ -129,6 +137,7 @@ define("crm/contacts.viewModel",
                         }
                     });
                 },
+                // Get Contact Detail
                 getContactDetail = function (contact) {
                     dataservice.getContactsDetail({ companyId: contact.companyId() },
                     {
@@ -137,26 +146,28 @@ define("crm/contacts.viewModel",
                                 // Address
                                 bussinessAddresses.removeAll();
                                 shippingAddresses.removeAll();
+
+                                // setting business address
+                                _.each(data.Addresses, function (item) {
+                                    var address = new model.Address.Create(item);
+                                    bussinessAddresses.push(address);
+
+                                    if (item.AddressId == contact.addressId()) {
+                                        selectedBussinessAddress(address);
+                                    }
+                                });
+                                //setting shipping address
                                 _.each(data.Addresses, function (item) {
                                     var address = new model.Address.Create(item);
                                     shippingAddresses.push(address);
-                                    bussinessAddresses.push(address);
-                                    if (item.AddressId == contact.addressId()) {
-                                        selectedBussinessAddress(address);
+                                    if (item.AddressId == contact.shippingAddressId()) {
                                         selectedShippingAddress(address);
                                     }
                                 });
                                 // State Setting for address
-                                _.each(states(), function (state) {
-                                    if (state.StateId == selectedBussinessAddress().stateId())
-                                        selectedBussinessAddress().state(state.StateName);
-                                });
-
+                                stateSettingForBusinessAddress();
                                 // State Setting for shipping address
-                                _.each(states(), function (state) {
-                                    if (state.StateId == selectedShippingAddress().stateId())
-                                        selectedShippingAddress().state(state.StateName);
-                                });
+                                stateSettingForShippingAddress();
                                 // Territories
                                 contactCompanyTerritoriesFilter.removeAll();
                                 _.each(data.CompanyTerritories, function (terror) {
@@ -171,6 +182,88 @@ define("crm/contacts.viewModel",
                         }
                     });
                 },
+                // Bussiness Address Updater
+                // ReSharper disable once UnusedLocals
+                updateBussinessAddress = ko.computed(function () {
+                    if (selectedCompanyContact() != undefined) {
+                        // setting business address
+                        _.each(bussinessAddresses(), function (item) {
+                            if (item.addressId() == selectedBussinessAddressId()) {
+                                selectedBussinessAddress(item);
+                                selectedCompanyContact().addressId(item.addressId());
+                                selectedCompanyContact().bussinessAddressId(item.addressId());
+                            }
+                        });
+                        stateSettingForBusinessAddress();
+                    }
+                }),
+                // ReSharper disable once UnusedLocals
+                // Shipping Address updater
+                updateShippingAddress = ko.computed(function () {
+                     if (selectedCompanyContact() != undefined) {
+                         // setting shipping address
+                         _.each(shippingAddresses(), function (item) {
+                             if (item.addressId() == selectedShippingAddressId()) {
+                                 selectedShippingAddress(item);
+                                 selectedCompanyContact().shippingAddressId(item.addressId());
+                             }
+                         });
+                         stateSettingForShippingAddress();
+                     }
+                 }),
+                 // State Setting for address
+                stateSettingForBusinessAddress= function() {
+                    _.each(states(), function (state) {
+                        if (state.StateId == selectedBussinessAddress().stateId())
+                            selectedBussinessAddress().state(state.StateName);
+                    });
+                },
+                 // State Setting for Shipping address
+                stateSettingForShippingAddress = function () {
+                    _.each(states(), function (state) {
+                        if (state.StateId == selectedShippingAddress().stateId())
+                            selectedShippingAddress().state(state.StateName);
+                    });
+                },
+                // Contact save buttoin handler
+                 onSaveCompanyContact = function() {
+                    if (doBeforeSaveCompanyContact()) {
+                        dataservice.saveCompanyContact(
+                            selectedCompanyContact().convertToServerData(),
+                            {
+                                success: function(data) {
+                                    if (data) {
+                                        toastr.success("Saved Successfully");
+                                        onCloseCompanyContact();
+                                    }
+                                },
+                                error: function(response) {
+                                    toastr.error("Error: Failed To Save Contact " + response);
+                                    onCloseCompanyContact();
+                                }
+                            });
+                    }
+                },
+                // ReSharper disable once InconsistentNaming
+                 UserProfileImageFileLoadedCallback = function (file, data) {
+                     selectedCompanyContact().image(data);
+                     selectedCompanyContact().fileName(file.name);
+                 },
+                // Close contact button handerl
+                 onCloseCompanyContact = function () {
+                      selectedCompanyContact(undefined);
+                      selectedBussinessAddressId(undefined);
+                      view.hideCompanyContactDialog();
+                  },
+                // Do Before Save CompanyContact
+                doBeforeSaveCompanyContact = function () {
+                    var flag = true;
+                    if (!selectedCompanyContact().isValid()) {
+                        selectedCompanyContact().errors.showAllMessages();
+                        flag = false;
+                    }
+                    return flag;
+                },
                 //Initialize
                initialize = function (specifiedView) {
                    view = specifiedView;
@@ -181,6 +274,8 @@ define("crm/contacts.viewModel",
                };
                 return {
                     initialize: initialize,
+                    onSaveCompanyContact: onSaveCompanyContact,
+                    onCloseCompanyContact:onCloseCompanyContact,
                     pager:pager,
                     searchFilter: searchFilter,
                     companyContactsForListView: companyContactsForListView,
@@ -200,7 +295,9 @@ define("crm/contacts.viewModel",
                     selectedBussinessAddress: selectedBussinessAddress,
                     selectedShippingAddress: selectedShippingAddress,
                     shippingAddresses: shippingAddresses,
-                    states: states
+                    states: states,
+                    selectedStore: selectedStore,
+                    UserProfileImageFileLoadedCallback: UserProfileImageFileLoadedCallback
                 };
             })()
         };
