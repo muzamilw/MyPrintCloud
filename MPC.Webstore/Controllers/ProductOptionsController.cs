@@ -144,10 +144,15 @@ namespace MPC.Webstore.Controllers
                 }
 
               
-                ViewBag.SelectedStockItemId = clonedItem.ItemSections.FirstOrDefault().StockItemID1;
+                ViewBag.SelectedStockItemId = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1;
                 ViewBag.SelectedQuantity = clonedItem.Qty1;
 
                 referenceItemId = clonedItem.RefItemId ?? 0;
+
+                if(UserCookieManager.OrderId == 0)
+                {
+                    UserCookieManager.OrderId = clonedItem.EstimateId ?? 0;
+                }
 
             }
             else if (!string.IsNullOrEmpty(TemplateId))// template case
@@ -163,7 +168,7 @@ namespace MPC.Webstore.Controllers
 
             ViewBag.AttachmentCount = clonedItem.ItemAttachments == null ? 0 : clonedItem.ItemAttachments.Count;
 
-            DefaultSettings(referenceItemId);
+            DefaultSettings(referenceItemId, ItemMode, clonedItem.ItemId);
             StoreBaseResopnse = null;
             return View("PartialViews/ProductOptions");
         }
@@ -198,7 +203,10 @@ namespace MPC.Webstore.Controllers
                         else
                         {
                             ccObject.Qty1NetTotal = addOn.ActualPrice;
+                            ccObject.CostCentreDescription = addOn.Description;
+                            ccObject.CostCentreJsonData = addOn.CostCentreJasonData;
                         }
+                        
                         ccObjectList.Add(ccObject);
                     }
                 }
@@ -227,7 +235,7 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-                DefaultSettings(Convert.ToInt64(ReferenceItemId));
+                DefaultSettings(Convert.ToInt64(ReferenceItemId), "", Convert.ToInt64(cartObject.ItemId));
 
                 return View("PartialViews/ProductOptions");
             }
@@ -235,7 +243,7 @@ namespace MPC.Webstore.Controllers
 
         }
 
-        private void DefaultSettings(long ReferenceItemId)
+        private void DefaultSettings(long ReferenceItemId, string mode, long ClonedItemId)
         {
             List<ProductPriceMatrixViewModel> PriceMatrixObjectList = null;
 
@@ -247,24 +255,110 @@ namespace MPC.Webstore.Controllers
 
             List<AddOnCostsCenter> listOfCostCentres = _myItemService.GetStockOptionCostCentres(Convert.ToInt64(ReferenceItemId), UserCookieManager.StoreId);
 
+            List<SectionCostcentre> selectedCostCentreIds = null;
+
+            if (mode == "Modify")
+            {
+                ViewBag.Mode = "Modify";
+                selectedCostCentreIds = _myItemService.GetClonedItemAddOnCostCentres(ClonedItemId);
+            }
+            else 
+            {
+                ViewBag.Mode = "";
+            }
             ViewData["CostCenters"] = listOfCostCentres;
 
             AddonObjectList = new List<AddOnCostCenterViewModel>();
 
+            string QueueItems = ""; 
+
             foreach (var addOn in listOfCostCentres)
             {
-                AddOnCostCenterViewModel addOnsObject = new AddOnCostCenterViewModel
+                if (selectedCostCentreIds != null)// this will run in case of modify mode and cost centres selected
                 {
-                    Id = addOn.ProductAddOnID,
-                    CostCenterId = addOn.CostCenterID,
-                    Type = addOn.Type,
-                    SetupCost = addOn.SetupCost,
-                    MinimumCost = addOn.MinimumCost,
-                    ActualPrice = addOn.AddOnPrice ?? 0.0,
-                    StockOptionId = addOn.ItemStockId
-                };
-                AddonObjectList.Add(addOnsObject);
+                    bool isAddedToList = false;
+                    foreach (var cItem in selectedCostCentreIds)
+                    {
+                        if (cItem.CostCentreId == addOn.CostCenterID)
+                        {
+                            if (addOn.Type == 4)
+                            {
+                                QueueItems = QueueItems + cItem.Qty2WorkInstructions;
+                                AddOnCostCenterViewModel addOnsObject = new AddOnCostCenterViewModel
+                                {
+                                    Id = addOn.ProductAddOnID,
+                                    CostCenterId = addOn.CostCenterID,
+                                    Type = addOn.Type,
+                                    SetupCost = addOn.SetupCost,
+                                    MinimumCost = addOn.MinimumCost,
+                                    ActualPrice = cItem.Qty1NetTotal ?? 0 ,
+                                    StockOptionId = addOn.ItemStockId,
+                                    Description = "",
+                                    isChecked = true,
+                                    CostCentreJasonData = cItem.Qty2WorkInstructions
+                                    
+                                };
+                                AddonObjectList.Add(addOnsObject);
+                            }
+                            else 
+                            {
+                                AddOnCostCenterViewModel addOnsObject = new AddOnCostCenterViewModel
+                                {
+                                    Id = addOn.ProductAddOnID,
+                                    CostCenterId = addOn.CostCenterID,
+                                    Type = addOn.Type,
+                                    SetupCost = addOn.SetupCost,
+                                    MinimumCost = addOn.MinimumCost,
+                                    ActualPrice = addOn.AddOnPrice ?? 0.0,
+                                    StockOptionId = addOn.ItemStockId,
+                                    Description = "",
+                                    isChecked = true
+                                };
+                                AddonObjectList.Add(addOnsObject);
+                            }
+                            
+                            isAddedToList = true;
+                            break;
+                        }
+                    }
+                   if(!isAddedToList)
+                   {
+                       isAddedToList = false;
+                       AddOnCostCenterViewModel addOnsObject = new AddOnCostCenterViewModel
+                       {
+                           Id = addOn.ProductAddOnID,
+                           CostCenterId = addOn.CostCenterID,
+                           Type = addOn.Type,
+                           SetupCost = addOn.SetupCost,
+                           MinimumCost = addOn.MinimumCost,
+                           ActualPrice = addOn.AddOnPrice ?? 0.0,
+                           StockOptionId = addOn.ItemStockId,
+                           Description = "",
+                           isChecked = false
+                       };
+                       AddonObjectList.Add(addOnsObject);
+                   }
+                }
+                else 
+                {
+                    AddOnCostCenterViewModel addOnsObject = new AddOnCostCenterViewModel
+                    {
+                        Id = addOn.ProductAddOnID,
+                        CostCenterId = addOn.CostCenterID,
+                        Type = addOn.Type,
+                        SetupCost = addOn.SetupCost,
+                        MinimumCost = addOn.MinimumCost,
+                        ActualPrice = addOn.AddOnPrice ?? 0.0,
+                        StockOptionId = addOn.ItemStockId,
+                        Description = "",
+                        isChecked = false
+                    };
+                    AddonObjectList.Add(addOnsObject);
+                }
+               
             }
+
+            ViewBag.CostCentreQueueItems = QueueItems;
 
             ViewBag.JsonAddonCostCentre = AddonObjectList;
 

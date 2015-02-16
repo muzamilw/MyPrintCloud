@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -67,6 +68,7 @@
     <Compile Include="Data\SecurityAccessRight.cs" />
     <Compile Include="MISServices\IAddressService.cs" />
     <Compile Include="MISServices\IAuthorizationChecker.cs" />
+    <Compile Include="MISServices\ICalendarService.cs" />
     <Compile Include="MISServices\ICampaignService.cs" />
     <Compile Include="MISServices\ICategoryService.cs" />
     <Compile Include="MISServices\IClaimsSecurityService.cs" />
@@ -83,6 +85,8 @@
     <Compile Include="MISServices\IPhraseLibraryService.cs" />
     <Compile Include="MISServices\IPrefixService.cs" />
     <Compile Include="MISServices\IStockCategoryService.cs" />
+    <Compile Include="Repository\IActivityRepository.cs" />
+    <Compile Include="Repository\IActivityTypeRepository.cs" />
     <Compile Include="Repository\ICampaignRepository.cs" />
     <Compile Include="Repository\IColorPalleteRepository.cs" />
     <Compile Include="Repository\ICompanyCMYKColorRepository.cs" />
@@ -116,14 +120,14 @@
     <Compile Include="Repository\IItemProductDetailRepository.cs" />
     <Compile Include="Repository\IListingRepository.cs" />
     <Compile Include="Repository\IMachineRepository.cs" />
-    <Compile Include="Repository\IOrganisationFileTableViewRepository.cs" />
-    <Compile Include="Repository\IMpcFileTableViewRepository.cs" />
     <Compile Include="Repository\IOrderRepository.cs" />
     <Compile Include="Repository\IPaymentGatewayRepository.cs" />
     <Compile Include="Repository\IPaymentMethodRepository.cs" />
     <Compile Include="Repository\IPhraseFieldRepository.cs" />
     <Compile Include="Repository\IPhraseRespository.cs" />
-    <Compile Include="Repository\IProductCategoryFileTableViewRepository.cs" />
+    <Compile Include="Repository\IPipeLineProductRepository.cs" />
+    <Compile Include="Repository\IReportRepository.cs" />
+    <Compile Include="Repository\IPipeLineSourceRepository.cs" />
     <Compile Include="Repository\IStateRepository.cs" />
     <Compile Include="Repository\ICostCenterTypeRepository.cs" />
     <Compile Include="Repository\ITemplateBackgroundImagesRepository.cs" />
@@ -164,9 +168,9 @@
     <Compile Include="WebStoreServices\ICompanyService.cs" />
     <Compile Include="MISServices\IMyOrganizationService.cs" />
     <Compile Include="WebStoreServices\ICompanyBannerService.cs" />
-    <Compile Include="WebStoreServices\ICostCentreQuestionRepository.cs" />
+    <Compile Include="Repository\ICostCentreQuestionRepository.cs" />
     <Compile Include="WebStoreServices\ICostCentreService.cs" />
-    <Compile Include="WebStoreServices\ICostCentreVariableRepository.cs" />
+    <Compile Include="Repository\ICostCentreVariableRepository.cs" />
     <Compile Include="WebStoreServices\IExecutionService.cs" />
     <Compile Include="WebStoreServices\IImagePermissionsService.cs" />
     <Compile Include="WebStoreServices\IListingService.cs" />

@@ -42,14 +42,7 @@ define("product/product.dataservice", function () {
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'DELETE'
                     });
-
-                    // Define request to get stock items
-                    amplify.request.define('getStockItems', 'ajax', {
-                        url: ist.siteUrl + '/Api/StockItems',
-                        dataType: 'json',
-                        type: 'GET'
-                    });
-
+                    
                     // Define request to get base data
                     amplify.request.define('getBaseData', 'ajax', {
                         url: ist.siteUrl + '/Api/ItemBase',
@@ -110,16 +103,6 @@ define("product/product.dataservice", function () {
                 initialize();
                 return amplify.request({
                     resourceId: 'getBaseDataForDesignerCategory',
-                    success: callbacks.success,
-                    error: callbacks.error,
-                });
-            },
-            // Get Stock Items
-            getStockItems = function (params, callbacks) {
-                initialize();
-                return amplify.request({
-                    resourceId: 'getStockItems',
-                    data: params,
                     success: callbacks.success,
                     error: callbacks.error,
                 });
@@ -210,7 +193,6 @@ define("product/product.dataservice", function () {
             getItems: getItems,
             saveItem: saveItem,
             archiveItem: archiveItem,
-            getStockItems: getStockItems,
             getBaseData: getBaseData,
             getItemPriceMatricesForItemByFlagId: getItemPriceMatricesForItemByFlagId,
             getProductCategoryChilds: getProductCategoryChilds,

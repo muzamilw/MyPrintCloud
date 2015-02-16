@@ -74,8 +74,8 @@ namespace MPC.MIS.Areas.Api.Models
         public double? Minimumsheetheight { get; set; }
         public double? Minimumsheetwidth { get; set; }
         public long? LookupMethodId { get; set; }
-        public virtual ICollection<MachineInkCoverage> MachineInkCoverages { get; set; }
-        public virtual ICollection<MachineResource> MachineResources { get; set; }
+        public IEnumerable<MachineInkCoverage> MachineInkCoverages { get; set; }
+       // public virtual ICollection<MachineResource> MachineResources { get; set; }
     }
 }
 

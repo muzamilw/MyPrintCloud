@@ -59,7 +59,7 @@
         <div class="container">
             <a href="~/Dashboard/Index" id="logo" class="my-navigator navbar-brand">
 
-                <img src="~/Content/themes/Centaurus/img/logo.png" alt="" class="normal-logo logo-white" />
+               
                 <img src="~/Content/themes/Centaurus/img/logo-black.png" alt="" class="normal-logo logo-black" />
                 <img src="~/Content/themes/Centaurus/img/logo-small.png" alt="" class="small-logo hidden-xs hidden-sm hidden" />
             </a>
@@ -216,7 +216,7 @@
                         </li>*@
                         <li class="dropdown profile-dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="" alt="" />
+                               Scarlett Johnson
                                 <span class="hidden-xs">
                                     @if (User != null && User.Identity != null)
                                     {
@@ -243,13 +243,16 @@
     </header>
     <div id="page-wrapper" class="container">
         <div class="row">
-            <div id="nav-col">
+        <div id="nav-col">
+                <img src="~/Content/themes/Centaurus/img/logo.png" alt="" class="normal-logo logo-white" height="40" width="180" style="margin-left:17px;margin-top:54px;" />
                 <section id="col-left" class="col-left-nano">
                     <div id="col-left-inner" class="col-left-nano-content">
                         <div id="user-left-box" class="clearfix hidden-sm hidden-xs">
-                            <img alt="Profile" src="" />
+                            
+                            
+
                             <div class="user-box">
-                                <span class="name">
+                            @*<span class="name">
                                     Welcome<br />
                                     @if (User != null && User.Identity != null)
                                     {
@@ -258,7 +261,7 @@
                                 </span>
                                 <span class="status">
                                     <i class="fa fa-circle"></i>Online
-                                </span>
+                                </span>*@
                             </div>
                         </div>
                         @RenderSection("leftmenue", required: false)
@@ -479,14 +482,14 @@
                                     </a>
                                     <ul class="submenu">
                                         <li class="left15pxback">
-                                            <a href="~/Home/PageUnAvailable" class="my-navigator">
+                                            <a href="~/DeliveryNotes/Home/DeliveryNote" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Awaiting</span>
                                                 <span class="label label-primary label-circle pull-right">11</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Home/PageUnAvailable" class="my-navigator">
+                                            <a href="~/DeliveryNotes/Home/DeliveryNote" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Delivered</span>
                                                 <span class="label label-primary label-circle pull-right">09</span>
@@ -495,7 +498,7 @@
                                     </ul>
                                 </li>
                                 <li id="lipurchases">
-                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
+                                    <a href="~/Orders/Home/PurchaseOrders" class="my-navigator">
                                         <i class="fa fa-calendar"></i>
                                         <span>Purchase Orders</span>
                                     </a>
@@ -562,8 +565,13 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
+                                                    <a href="~/Settings/MIS/SalesPipeLine">
                                                         Sales and Pipeline
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="~/Settings/MIS/SectionFlags">
+                                                        Section Flags
                                                     </a>
                                                 </li>
                                                 <li>
@@ -591,10 +599,11 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
+                                                    <a href="~/Settings/Home/LookupMethods">
                                                         Lookup Methods
                                                     </a>
                                                 </li>
+
                                             </ul>
                                         </li>
                                         <li id="lisystemsettings">

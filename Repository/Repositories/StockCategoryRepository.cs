@@ -83,6 +83,22 @@ namespace MPC.Repository.Repositories
                        StockCategories = stockCategories
                    };
         }
+        public List<StockCategory> GetStockCategoriesByOrganisationID(long OrganisationID)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
+               // List<StockCategory> stockcategories = new List<StockCategory>();
+                return db.StockCategories.Include("StockSubCategory").Where(s => s.OrganisationId == OrganisationID).ToList();
+                
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+
+            }
+        }
         #endregion
     }
 }

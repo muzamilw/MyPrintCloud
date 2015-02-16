@@ -61,6 +61,11 @@ namespace MPC.Interfaces.Repository
         double UpdateORderGrandTotal(long OrderID);
 
         bool SaveDilveryCostCenter(long orderId, CostCentre ChangedCostCenter);
+        Estimate GetLastOrderByContactID(long contactID);
+
+      
+
+      
 
     }
 }

@@ -230,55 +230,102 @@ function DesignNow(callFrom,EditType,ItemID,TemplateID)
 }
 var CcQueueItems = null;
 var idsToValidate = "";
-function ShowCostCentrePopup(CostCentreQueueItems) {
+function ShowCostCentrePopup(CostCentreQueueItems, CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Mode, Currency, ItemPrice) {
+   
     CcQueueItems = CostCentreQueueItems;
     var innerHtml = "";
-
+    var Heading = "Please enter the following details of Cost Centre";
     
+    if (Mode == "New") { // prompt in case of newly added cost centre
+        for (var i = 0; i < CostCentreQueueItems.length; i++) {
 
-    for (var i = 0; i < CostCentreQueueItems.length; i++) {
+            if (CostCentreQueueItems[i].ItemType == 1) { // text box
+                if (idsToValidate == "") {
+                    idsToValidate = 'txtBox' + CostCentreQueueItems[i].ID;
+                } else {
+                    idsToValidate = idsToValidate + ',' + 'txtBox' + CostCentreQueueItems[i].ID;
+                }
 
-       
-
-        if (CostCentreQueueItems[i].ItemType == 1) { // text box
-            if (idsToValidate == "") {
-                idsToValidate = 'txtBox' + CostCentreQueueItems[i].ID;
-            } else {
-                idsToValidate = idsToValidate + ',' + 'txtBox' + CostCentreQueueItems[i].ID;
+                innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>' + CostCentreQueueItems[i].VisualQuestion + '</label></div><div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id=txtBox' + CostCentreQueueItems[i].ID + ' data-id=' + CostCentreQueueItems[i].ID + ' /></div><br/><div class="clearBoth"></div>';
             }
-            
-            innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>' + CostCentreQueueItems[i].VisualQuestion + '</label></div><div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id=txtBox' + CostCentreQueueItems[i].ID + ' data-id=' + CostCentreQueueItems[i].ID + ' /></div><br/><div class="clearBoth"></div>';
+
+            if (CostCentreQueueItems[i].ItemType == 3) { // drop down
+
+                var OptionHtml = "";
+                var matrixTable = CostCentreQueueItems[i].MatrixTable;
+                for (var a = 0; a < CostCentreQueueItems[i].AnswersTable.length; a++) {
+                    OptionHtml = OptionHtml + '<option data-id=' + CostCentreQueueItems[i].ID + ' value=' + CostCentreQueueItems[i].AnswersTable[a].AnswerString + ' >' + CostCentreQueueItems[i].AnswersTable[a].AnswerString + '</option>'
+                }
+                innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>'
+                    + CostCentreQueueItems[i].VisualQuestion +
+                    '</label></div><div class="cost-centre-right-container"><select id=dropdown' + CostCentreQueueItems[i].ID + ' class="cost-centre-dropdowns CostCentreAnswersQueue">'
+                    + OptionHtml + '</select></div><br/><div class="clearBoth"></div>';
+            }
+            if (CostCentreQueueItems[i].ItemType == 4) { // formula matrix
+
+                if (idsToValidate == "") {
+                    idsToValidate = 'formulaMatrixBox' + CostCentreQueueItems[i].ID;
+                } else {
+                    idsToValidate = idsToValidate + ',' + 'formulaMatrixBox' + CostCentreQueueItems[i].ID;
+                }
+
+                innerHtml = innerHtml +
+                    '<div class="cost-centre-left-container"><label>Super Formula Matrix</label></div>' +
+                    '<div class="cost-centre-right-container"><input id=formulaMatrixBox' + CostCentreQueueItems[i].ID + ' type="text" disabled="disabled" ' +
+                    'style="float:left; margin-right:10px;"  data-id=' + CostCentreQueueItems[i].ID + ' class="CostCentreAnswersQueue" /> ' +
+                    '<input type="button" onclick="ShowFormulaMatrix(' + CostCentreQueueItems[i].RowCount + ',' + CostCentreQueueItems[i].ColumnCount + ',' + i + '); return false;" class="Matrix-select-button rounded_corners5 " value="Select" /></div><div class="clearBoth"></div>';
+            }
         }
+    } else if (Mode == "Modify") { // prompt in case of added cost centre
+        Heading = "Edit Cost Centre details";
+        for (var i = 0; i < CostCentreQueueItems.length; i++) {
 
-        if (CostCentreQueueItems[i].ItemType == 3) { // drop down
-            
-            var OptionHtml = "";
-            var matrixTable = CostCentreQueueItems[i].MatrixTable;
-            for (var a = 0; a < CostCentreQueueItems[i].AnswersTable.length; a++) {
-                OptionHtml = OptionHtml + '<option data-id=' + CostCentreQueueItems[i].ID + ' value=' + CostCentreQueueItems[i].AnswersTable[a].AnswerString + ' >' + CostCentreQueueItems[i].AnswersTable[a].AnswerString + '</option>'
-            }
-            innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>'
-                + CostCentreQueueItems[i].VisualQuestion +
-                '</label></div><div class="cost-centre-right-container"><select id=dropdown' + CostCentreQueueItems[i].ID + ' class="cost-centre-dropdowns CostCentreAnswersQueue">'
-                + OptionHtml + '</select></div><br/><div class="clearBoth"></div>';
-        }
-        if (CostCentreQueueItems[i].ItemType == 4) { // formula matrix
+            if (CostCentreQueueItems[i].ItemType == 1) { // text box
+                if (idsToValidate == "") {
+                    idsToValidate = 'txtBox' + CostCentreQueueItems[i].ID;
+                } else {
+                    idsToValidate = idsToValidate + ',' + 'txtBox' + CostCentreQueueItems[i].ID;
+                }
 
-            if (idsToValidate == "") {
-                idsToValidate = 'formulaMatrixBox' + CostCentreQueueItems[i].ID;
-            } else {
-                idsToValidate = idsToValidate + ',' + 'formulaMatrixBox' + CostCentreQueueItems[i].ID;
+                innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>' + CostCentreQueueItems[i].VisualQuestion + '</label></div><div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id=txtBox' + CostCentreQueueItems[i].ID + ' data-id=' + CostCentreQueueItems[i].ID + ' value=' + CostCentreQueueItems[i].Qty1Answer + ' /></div><br/><div class="clearBoth"></div>';
             }
 
-            innerHtml = innerHtml +
-                '<div class="cost-centre-left-container"><label>Super Formula Matrix</label></div>' +
-                '<div class="cost-centre-right-container"><input id=formulaMatrixBox' + CostCentreQueueItems[i].ID + ' type="text" disabled="disabled" ' +
-                'style="float:left; margin-right:10px;"  data-id=' + CostCentreQueueItems[i].ID + ' class="CostCentreAnswersQueue" /> ' +
-                '<input type="button" onclick="ShowFormulaMatrix(' + CostCentreQueueItems[i].RowCount + ',' + CostCentreQueueItems[i].ColumnCount + ',' + i + '); return false;" class="Matrix-select-button rounded_corners5 " value="Select" /></div><div class="clearBoth"></div>';
+            if (CostCentreQueueItems[i].ItemType == 3) { // drop down
+
+                var OptionHtml = "";
+                var matrixTable = CostCentreQueueItems[i].MatrixTable;
+                for (var a = 0; a < CostCentreQueueItems[i].AnswersTable.length; a++) {
+                    if (CostCentreQueueItems[i].AnswersTable[a].AnswerString == CostCentreQueueItems[i].Qty1Answer) {
+                        OptionHtml = OptionHtml + '<option data-id=' + CostCentreQueueItems[i].ID + ' value=' + CostCentreQueueItems[i].AnswersTable[a].AnswerString + ' selected>' + CostCentreQueueItems[i].AnswersTable[a].AnswerString + '</option>'
+                    } else {
+                        OptionHtml = OptionHtml + '<option data-id=' + CostCentreQueueItems[i].ID + ' value=' + CostCentreQueueItems[i].AnswersTable[a].AnswerString + ' >' + CostCentreQueueItems[i].AnswersTable[a].AnswerString + '</option>'
+                    }
+                    
+                }
+                innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>'
+                    + CostCentreQueueItems[i].VisualQuestion +
+                    '</label></div><div class="cost-centre-right-container"><select id=dropdown' + CostCentreQueueItems[i].ID + ' class="cost-centre-dropdowns CostCentreAnswersQueue">'
+                    + OptionHtml + '</select></div><br/><div class="clearBoth"></div>';
+            }
+            if (CostCentreQueueItems[i].ItemType == 4) { // formula matrix
+
+                if (idsToValidate == "") {
+                    idsToValidate = 'formulaMatrixBox' + CostCentreQueueItems[i].ID;
+                } else {
+                    idsToValidate = idsToValidate + ',' + 'formulaMatrixBox' + CostCentreQueueItems[i].ID;
+                }
+
+                innerHtml = innerHtml +
+                    '<div class="cost-centre-left-container"><label>Super Formula Matrix</label></div>' +
+                    '<div class="cost-centre-right-container"><input id=formulaMatrixBox' + CostCentreQueueItems[i].ID + ' type="text" disabled="disabled" ' +
+                    'style="float:left; margin-right:10px;"  data-id=' + CostCentreQueueItems[i].ID + ' class="CostCentreAnswersQueue" value=' + CostCentreQueueItems[i].Qty1Answer + ' /> ' +
+                    '<input type="button" onclick="ShowFormulaMatrix(' + CostCentreQueueItems[i].RowCount + ',' + CostCentreQueueItems[i].ColumnCount + ',' + i + '); return false;" class="Matrix-select-button rounded_corners5 " value="Select" /></div><div class="clearBoth"></div>';
+            }
         }
     }
+   
 
-    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title left_align">Please enter the following details of Cost Centre</h4></div><div class="modal-body left_align"><div id="CCErrorMesgContainer"></div>' + innerHtml + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" class="btn btn-primary" onclick="ValidateCostCentreControl();">Continue</button></div></div></div>';
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title left_align">' + Heading + '</h4></div><div class="modal-body left_align"><div id="CCErrorMesgContainer"></div>' + innerHtml + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" class="btn btn-primary" onclick="ValidateCostCentreControl(' + CostCentreId + ',' + ClonedItemId + ',' + SelectedCostCentreCheckBoxId + ',&#34; ' + Currency + '&#34; ,' + ItemPrice + ');">Continue</button></div></div></div>';
    
 
     var bws = getBrowserHeight();
@@ -368,7 +415,7 @@ function SetMatrixAnswer(Answer, MatrixId)
     document.getElementById("FormulaMatrixLayer").style.display = "none";
 }
 
-function ValidateCostCentreControl() {
+function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Currency, ItemPrice) {
 
     var arrayOfIds = idsToValidate.split(",");
     
@@ -427,7 +474,7 @@ function ValidateCostCentreControl() {
     } else if (isFormulaValidationError == 1) {
         $("#CCErrorMesgContainer").html("Please select value formula values ");
     } else {
-       
+        var desriptionOfCostCentre = "";
         $("#CCErrorMesgContainer").css("display", "none");
         $(".CostCentreAnswersQueue").each(function (i, val) {
             if ($(val).attr('data-id') == undefined) {
@@ -450,16 +497,21 @@ function ValidateCostCentreControl() {
                     }
                 });
             }
-            
+            if (desriptionOfCostCentre == "") {
+                desriptionOfCostCentre =  $(val).parent().prev().children().text() + $(val).val();
+            } else {
+                desriptionOfCostCentre = desriptionOfCostCentre + "  " + $(val).parent().prev().children().text() + $(val).val() + ".";
+            }
         });
-
-        console.log(CcQueueItems);
-        ShowLoader();
-       
-
+         
+      
         var jsonObjects = JSON.stringify(CcQueueItems, null, 2);
+        var populatedQueuItems = $("#costCentreQueueItems").val();
+        populatedQueuItems = populatedQueuItems + jsonObjects;
+        $("#costCentreQueueItems").val(populatedQueuItems);
+        
         var to;
-        to = "/webstoreapi/costCenter/GetDateTimeString?parameter1=335";
+        to = "/webstoreapi/costCenter/GetDateTimeString?parameter1=" + CostCentreId + "&parameter2=" + ClonedItemId + "&parameter3=" + $("#VMQuantityOrdered").val() + "&parameter4=New";
         var options = {
             type: "POST",
             url: to,
@@ -467,33 +519,44 @@ function ValidateCostCentreControl() {
             contentType: "application/json",
             async: true,
             success: function (response) {
+                ShowLoader();
                 var updatedAddOns = jQuery.parseJSON($('#VMJsonAddOns').val());
                 if (updatedAddOns != null) {
 
                     for (var i = 0; i < $(updatedAddOns).length; i++) {
                         if ($(updatedAddOns)[i].CostCenterId == 335) {
-                            alert(response);
-                            $(updatedAddOns)[i].SetupCost = response;
+                            $(updatedAddOns)[i].ActualPrice = response;
+                            $(updatedAddOns)[i].Description = desriptionOfCostCentre;
+                            $(updatedAddOns)[i].CostCentreJasonData = jsonObjects;
                             break;
                         }
                     }
 
                     var JsonToReSubmit = [];
-
+                    var totalVal = 0;
                     for (var i = 0; i < $(updatedAddOns).length; i++) {
-                        alert("push");
                         JsonToReSubmit.push($(updatedAddOns)[i]);
+                        if ($(updatedAddOns)[i].Type == 4) {
+                            totalVal = parseFloat(totalVal) + parseFloat(response);
+                        } else {
+                            var actualP = ($("#VMQuantityOrdered").val() * $(updatedAddOns)[i].ActualPrice) + $(updatedAddOns)[i].SetupCost;
+                            if (actualP < $(updatedAddOns)[i].MinimumCost && $(updatedAddOns)[i].MinimumCost != 0) {
+                                actualP = $(updatedAddOns)[i].MinimumCost;
+                            }
+                            totalVal = parseFloat(totalVal) + parseFloat(actualP);
+                        }
                         console.log($(updatedAddOns)[i]);
                     }
-
+                    displayTotalPrice(ItemPrice, totalVal);
+                    $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + Currency + response + '</label>' + '<a onclick="PromptForValues(' + CostCentreId + ',' + SelectedCostCentreCheckBoxId + ', 1);" >Modify</a> ');
                     $("#VMJsonAddOns").val(JSON.stringify(JsonToReSubmit));
                 }
-                console.log(updatedAddOns);
+                HideLoader();
             },
             error: function (msg) { alert("Error occured "); console.log(msg); }
         };
+        var returnText = $.ajax(options).responseText;
         
-        HideLoader();
     }
 
     
@@ -504,6 +567,30 @@ function HideLoader() {
     document.getElementById("innerLayer").style.display = "none";
 }
 
-function ExecuteCostCentre() {
+function ShowOrderingPolicyPopUp(title, Tvalue) {
+     
    
+     //<textarea name="Text1" cols="40" rows="5" class="rounded_corners5 text_boxPolicy" id="txtPolicy" readonly="readonly" >@ViewBag.CorpCompany.CorporateOrderingPolicy</textarea>
+   // var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + title + '</h4></div><div class="modal-body"> <input type="text" id="txtOrderPolicy"  class="rounded_corners5 text_box" value=' + Tvalue + ' /><div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" id="OrderSave" class="btn btn-primary" onclick="Order()">Save</button></div></div>';
+    var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + title + '</h4></div><div class="modal-body"> <textarea type="text" id="txtOrderPolicy" cols="40" rows="5"  class="rounded_corners5 text_box" >' + Tvalue + '</textarea><div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" id="OrderSave" class="btn btn-primary" onclick="Order()">Save</button></div></div>';
+    var bws = getBrowserHeight();
+    var shadow = document.getElementById("innerLayer");
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 500) / 2);
+    var top = parseInt((bws.height - 170) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+
+    document.getElementById("innerLayer").style.top = top + "px";
+    document.getElementById("innerLayer").style.left = left + "px";
+
+    document.getElementById("innerLayer").style.width = "500px";
+    document.getElementById("innerLayer").style.height = "170px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
 }

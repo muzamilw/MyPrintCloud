@@ -30,7 +30,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 OrderDate = source.Order_Date,
                 StartDeliveryDate = source.StartDeliveryDate,
                 FinishDeliveryDate = source.FinishDeliveryDate,
-                HeadNotes = source.FootNotes,
+                HeadNotes = source.HeadNotes,
+                FootNotes = source.FootNotes,
                 ArtworkByDate = source.ArtworkByDate,
                 DataByDate = source.DataByDate,
                 PaperByDate = source.PaperByDate,
@@ -75,7 +76,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CreationTime = source.CreationTime,
                 SectionFlagId = source.SectionFlagId,
                 OrderCode = source.Order_Code,
-                IsEstimate = source.isEstimate
+                IsEstimate = source.isEstimate,
+                ItemsCount = source.Items!=null ? source.Items.Count :0
             };
 
             return estimate;
@@ -101,7 +103,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Order_Date = source.OrderDate,
                 StartDeliveryDate = source.StartDeliveryDate,
                 FinishDeliveryDate = source.FinishDeliveryDate,
-                HeadNotes = source.FootNotes,
+                HeadNotes = source.HeadNotes,
+                FootNotes = source.FootNotes,
                 ArtworkByDate = source.ArtworkByDate,
                 DataByDate = source.DataByDate,
                 PaperByDate = source.PaperByDate,

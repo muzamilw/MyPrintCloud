@@ -10,8 +10,8 @@ namespace MPC.Interfaces.MISServices
     {
         MachineListResponseModel GetAll(MachineRequestModel request);
         Machine Add(Machine machine);
-        Machine Update(Machine machine);
-        bool Delete(long machineId);
+        bool UpdateMachine(Machine machine);
+        bool archiveMachine(long machineId);
         MachineResponseModel GetMachineById(long id);
        // IEnumerable<LookupMethod> GetAllLookupMethod();
 

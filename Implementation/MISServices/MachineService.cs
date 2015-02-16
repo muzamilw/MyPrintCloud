@@ -28,13 +28,13 @@ namespace MPC.Implementation.MISServices
         {
             return machine;
         }
-        public Machine Update(Machine machine)
+        public bool UpdateMachine(Machine machine)
         {
-            return machine;
+           return _machineRepository.UpdateMachine(machine);
         }
-        public bool Delete(long machineId)
+        public bool archiveMachine(long machineId)
         {
-            return true;
+            return _machineRepository.archiveMachine(machineId);
         }
         public MachineResponseModel GetMachineById(long id)
         {
@@ -45,10 +45,7 @@ namespace MPC.Implementation.MISServices
         {
             return _machineRepository.GetAllMachine(request);
         }
-        //public IEnumerable<LookupMethod> GetAllLookupMethod()
-        //{
-        //    return _machineRepository.GetAllLookupMethodList();
-        //}
+        
         #endregion
     }
 }

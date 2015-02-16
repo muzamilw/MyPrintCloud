@@ -6,6 +6,8 @@ using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -51,7 +53,9 @@ namespace MPC.MIS.Areas.Api.Controllers
 
             return itemService.GetStockItems(request).CreateFrom();
         }
-
+       
+       
+        
         #endregion
     }
 }

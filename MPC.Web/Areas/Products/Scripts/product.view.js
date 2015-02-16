@@ -34,6 +34,7 @@ define("product/product.view",
                 // Show Video the dialog
                 showVideoDialog = function () {
                     $("#productVideoDialog").modal("show");
+                    initializeLabelPopovers();
                 },
                 // Hide Video the dialog
                 hideVideoDialog = function () {
@@ -47,17 +48,10 @@ define("product/product.view",
                 hideRelatedItemDialog = function () {
                     $("#relatedProductDialog").modal("hide");
                 },
-                // Show StockItem the dialog
-                showStockItemDialog = function () {
-                    $("#stockDialog").modal("show");
-                },
-                // Hide StockItem the dialog
-                hideStockItemDialog = function () {
-                    $("#stockDialog").modal("hide");
-                },
                 // Show ItemAddonCostCentre the dialog
                 showItemAddonCostCentreDialog = function () {
                     $("#itemAddonCostCentreDialog").modal("show");
+                    initializeLabelPopovers();
                 },
                 // Hide ItemAddonCostCentre the dialog
                 hideItemAddonCostCentreDialog = function () {
@@ -74,6 +68,7 @@ define("product/product.view",
                 // Show Signature dialog
                 showSignatureDialog = function () {
                     $("#signatureEdit").modal("show");
+                    initializeLabelPopovers();
                 },
                 // Hide Signature dialog
                 hideSignatureDialog = function () {
@@ -357,6 +352,12 @@ define("product/product.view",
                         }
                     });
                 },
+                // Initialize Label Popovers
+                initializeLabelPopovers = function() {
+// ReSharper disable UnknownCssClass
+                    $('.bs-example-tooltips a').popover();
+// ReSharper restore UnknownCssClass
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -374,8 +375,6 @@ define("product/product.view",
                 hideVideoDialog: hideVideoDialog,
                 showRelatedItemDialog: showRelatedItemDialog,
                 hideRelatedItemDialog: hideRelatedItemDialog,
-                showStockItemDialog: showStockItemDialog,
-                hideStockItemDialog: hideStockItemDialog,
                 showItemAddonCostCentreDialog: showItemAddonCostCentreDialog,
                 hideItemAddonCostCentreDialog: hideItemAddonCostCentreDialog,
                 initializeDropZones: initializeDropZones,
@@ -391,7 +390,8 @@ define("product/product.view",
                 showSignatureDialog: showSignatureDialog,
                 hideSignatureDialog: hideSignatureDialog,
                 showPressDialog: showPressDialog,
-                hidePressDialog: hidePressDialog
+                hidePressDialog: hidePressDialog,
+                initializeLabelPopovers: initializeLabelPopovers
             };
         })(productViewModel);
 

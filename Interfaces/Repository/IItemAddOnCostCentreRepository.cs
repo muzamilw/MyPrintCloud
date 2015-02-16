@@ -17,5 +17,13 @@ namespace MPC.Interfaces.Repository
         /// <param name="CompanyID"></param>
         /// <returns></returns>
         List<string> GetProductItemAddOnCostCentres(long StockOptionID, long CompanyID);
+
+        /// <summary>
+        /// get id's of cost center except webstore cost cnetre 216 of first section of cloned item 
+        /// </summary>
+        /// <param name="StockOptionID"></param>
+        /// <param name="CompanyID"></param>
+        /// <returns></returns>
+        List<SectionCostcentre> GetClonedItemAddOnCostCentres(long ItemId);
     }
 }

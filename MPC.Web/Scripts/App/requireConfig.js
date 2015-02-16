@@ -22,6 +22,7 @@
             "costcenter": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
             "machine": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
             "crm": ist.siteUrl + "/Areas/CRM/Scripts",
+            "calendar": ist.siteUrl + "/Areas/CRM/Scripts",
             "order": ist.siteUrl + "/Areas/Orders/Scripts",
         }
     });

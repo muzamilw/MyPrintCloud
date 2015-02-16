@@ -1790,7 +1790,6 @@ namespace MPC.Repository.Repositories
             TemporaryOrder = db.Estimates.Where(order => order.EstimateId == replacedOrderdID && order.StatusId == (short)OrderStatus.ShoppingCart && order.isEstimate == false).FirstOrDefault();
             ActualOrder = db.Estimates.Where(order => order.CompanyId == realCustomerID && order.ContactId == realContactID && order.StatusId == (short)OrderStatus.ShoppingCart && order.isEstimate == false).FirstOrDefault();
 
-            ActualOrder.CompanyName = "companyName";
             ActualOrder.CreationTime = DateTime.Now;
             ActualOrder.SectionFlagId = 3;
             ActualOrder.AddressId = 159239;
@@ -2770,7 +2769,7 @@ namespace MPC.Repository.Repositories
         public Item GetClonedItemById(long itemId)
         {
             db.Configuration.LazyLoadingEnabled = false;
-            return db.Items.Include("ItemAttachments").Where(i => i.ItemId == itemId && i.EstimateId != null).FirstOrDefault();
+            return db.Items.Include("ItemAttachments").Include("ItemSections").Where(i => i.ItemId == itemId && i.EstimateId != null).FirstOrDefault();
             //return db.Items.Include("ItemPriceMatrices").Include("ItemSections").Where(i => i.IsPublished == true && i.ItemId == itemId && i.EstimateId == null).FirstOrDefault();
 
         }
@@ -2829,6 +2828,27 @@ namespace MPC.Repository.Repositories
             {
                 return true; // order is dummy
             }
+        }
+
+        public ItemSection GetItemFirstSectionByItemId(long ItemId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+            ItemSection oresult = db.ItemSections.Where(o => o.ItemId == ItemId && o.SectionNo == 1).FirstOrDefault();
+            return oresult;
+        }
+
+        public ItemSection UpdateItemFirstSectionByItemId(long ItemId, int Quantity)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+            ItemSection oresult = db.ItemSections.Where(o => o.ItemId == ItemId && o.SectionNo == 1).FirstOrDefault();
+            if(oresult != null)
+            {
+                oresult.Qty1 = Quantity;
+                db.SaveChanges();
+            }
+            return oresult;
         }
         #endregion
     }

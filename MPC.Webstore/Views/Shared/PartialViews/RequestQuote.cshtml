@@ -2,10 +2,9 @@
 @using MPC.Models.Common;
 @model MPC.Models.DomainModels.RequestQuote
 
+@using (Html.BeginForm("Index", "RequestQuote", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
 
-@using (Html.BeginForm(new { @enctype="multipart/form-data"}))
-{ 
-    
 <div class="content_area container">
     <div class="left_right_padding row">
         <div class="signin_heading_div">
@@ -160,8 +159,7 @@
                 <label id="ltrlinquiryAttachement">Inquiry Attachment's :</label>
             </div>
             <div class="TTL widthAvenior">
-
-                @Html.TextBoxFor(model => model.InquiryAttachments, new { type = "file", @class = "newTxtBox" })
+                <input type="file" name="uploadFile" class="newTxtBox" />
             </div>
             <br />
             <br />

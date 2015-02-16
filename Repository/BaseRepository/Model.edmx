@@ -5,6 +5,60 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="DomainModels.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Activity">
+          <Key>
+            <PropertyRef Name="ActivityId" />
+          </Key>
+          <Property Name="ActivityId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ActivityTypeId" Type="int" Nullable="false" />
+          <Property Name="ActivityCode" Type="varchar" MaxLength="50" />
+          <Property Name="ActivityRef" Type="varchar" MaxLength="500" />
+          <Property Name="ActivityDate" Type="datetime" />
+          <Property Name="ActivityTime" Type="datetime" Nullable="false" />
+          <Property Name="ActivityStartTime" Type="datetime" />
+          <Property Name="ActivityEndTime" Type="datetime" />
+          <Property Name="ActivityProbability" Type="int" />
+          <Property Name="ActivityPrice" Type="int" />
+          <Property Name="ActivityUnit" Type="int" />
+          <Property Name="ActivityNotes" Type="ntext" />
+          <Property Name="IsActivityAlarm" Type="int" Nullable="false" />
+          <Property Name="AlarmDate" Type="datetime" />
+          <Property Name="AlarmTime" Type="datetime" />
+          <Property Name="ActivityLink" Type="int" Nullable="false" />
+          <Property Name="IsCustomerActivity" Type="bit" />
+          <Property Name="ContactId" Type="int" />
+          <Property Name="SystemUserId" Type="uniqueidentifier" />
+          <Property Name="IsPrivate" Type="bit" />
+          <Property Name="IsComplete" Type="int" Nullable="false" />
+          <Property Name="CompletionDate" Type="datetime" />
+          <Property Name="CompletionTime" Type="datetime" />
+          <Property Name="CompletionSuccess" Type="int" />
+          <Property Name="CompletionResult" Type="varchar" MaxLength="100" />
+          <Property Name="CompletedBy" Type="int" />
+          <Property Name="IsFollowedUp" Type="int" />
+          <Property Name="FollowedActivityId" Type="int" />
+          <Property Name="LastModifiedDate" Type="datetime" />
+          <Property Name="LastModifiedtime" Type="datetime" />
+          <Property Name="LastModifiedBy" Type="int" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CampaignId" Type="int" />
+          <Property Name="IsLocked" Type="smallint" />
+          <Property Name="LockedBy" Type="int" />
+          <Property Name="SystemSiteId" Type="int" />
+          <Property Name="CompanyId" Type="bigint" />
+          <Property Name="ProductTypeId" Type="int" />
+          <Property Name="SourceId" Type="int" />
+          <Property Name="FlagId" Type="int" />
+        </EntityType>
+        <EntityType Name="ActivityType">
+          <Key>
+            <PropertyRef Name="ActivityTypeId" />
+          </Key>
+          <Property Name="ActivityTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ActivityName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ActivityDescription" Type="varchar" MaxLength="50" />
+          <Property Name="ActivityColor" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="AddressId" />
@@ -347,7 +401,7 @@
           <Property Name="DefaultNominalCode" Type="int" Nullable="false" />
           <Property Name="DefaultMarkUpId" Type="int" Nullable="false" />
           <Property Name="AccountOpenDate" Type="datetime" />
-          <Property Name="AccountManagerId" Type="int" Nullable="false" />
+          <Property Name="AccountManagerId" Type="uniqueidentifier" />
           <Property Name="Status" Type="smallint" Nullable="false" />
           <Property Name="IsCustomer" Type="smallint" Nullable="false" />
           <Property Name="Notes" Type="nvarchar" MaxLength="3000" />
@@ -622,6 +676,16 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="VariableId" Type="bigint" />
           <Property Name="Icon" Type="varchar" MaxLength="255" />
           <Property Name="ContactCompanyId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="CostCenterChoice">
+          <Key>
+            <PropertyRef Name="CostCenterChoiceId" />
+          </Key>
+          <Property Name="CostCenterChoiceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChoiceLabel" Type="varchar" MaxLength="255" />
+          <Property Name="ChoiceValue" Type="float" />
+          <Property Name="CostCenterId" Type="int" />
+          <Property Name="CostCenterOption" Type="int" />
         </EntityType>
         <EntityType Name="CostCentre">
           <Key>
@@ -1006,7 +1070,6 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="SuccessChanceId" Type="int" />
           <Property Name="LockedBy" Type="int" Nullable="false" />
           <Property Name="AddressId" Type="int" Nullable="false" />
-          <Property Name="CompanyName" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="SectionFlagId" Type="int" Nullable="false" />
           <Property Name="SourceId" Type="int" />
           <Property Name="ProductId" Type="int" />
@@ -1124,6 +1187,16 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="TerritoryID" Type="bigint" />
           <Property Name="ImageId" Type="bigint" />
         </EntityType>
+        <EntityType Name="InkCoverageGroup">
+          <Key>
+            <PropertyRef Name="CoverageGroupId" />
+          </Key>
+          <Property Name="CoverageGroupId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupName" Type="varchar" MaxLength="50" />
+          <Property Name="Percentage" Type="float" />
+          <Property Name="IsFixed" Type="int" Nullable="false" />
+          <Property Name="SystemSiteId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Inquiry">
           <Key>
             <PropertyRef Name="InquiryId" />
@@ -1173,9 +1246,8 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="InvoiceCode" Type="varchar" MaxLength="100" />
           <Property Name="InvoiceType" Type="int" />
           <Property Name="InvoiceName" Type="varchar" MaxLength="255" />
-          <Property Name="ContactCompanyID" Type="int" />
-          <Property Name="ContactId" Type="int" />
-          <Property Name="ContactCompany" Type="varchar" MaxLength="50" />
+          <Property Name="CompanyId" Type="bigint" />
+          <Property Name="ContactId" Type="bigint" />
           <Property Name="OrderNo" Type="varchar" MaxLength="50" />
           <Property Name="InvoiceStatus" Type="int" />
           <Property Name="InvoiceTotal" Type="float" />
@@ -1197,7 +1269,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="NotesUpdateDateTime" Type="datetime" />
           <Property Name="NotesUpdatedByUserID" Type="int" />
           <Property Name="SystemSiteId" Type="int" />
-          <Property Name="EstimateId" Type="int" />
+          <Property Name="EstimateId" Type="bigint" />
           <Property Name="IsRead" Type="bit" />
           <Property Name="IsProformaInvoice" Type="bit" />
           <Property Name="IsPrinted" Type="bit" />
@@ -2005,7 +2077,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="Name" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="Type" Type="bigint" />
           <Property Name="LockedBy" Type="int" />
-          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="OrganisationID" Type="int" Nullable="false" />
           <Property Name="FlagId" Type="int" />
           <Property Name="SystemSiteId" Type="int" Nullable="false" />
         </EntityType>
@@ -2074,6 +2146,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="WashupTime" Type="float" />
           <Property Name="ReelMakereadyTime" Type="float" />
           <Property Name="LookupMethodId" Type="bigint" />
+          <Property Name="OrganisationId" Type="bigint" />
         </EntityType>
         <EntityType Name="MachineCategory">
           <Key>
@@ -2100,6 +2173,16 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="MachineId" Type="int" />
           <Property Name="ResourceId" Type="uniqueidentifier" />
         </EntityType>
+        <EntityType Name="MachineSpoilage">
+          <Key>
+            <PropertyRef Name="MachineSpoilageId" />
+          </Key>
+          <Property Name="MachineSpoilageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MachineId" Type="int" />
+          <Property Name="SetupSpoilage" Type="int" />
+          <Property Name="RunningSpoilage" Type="real" />
+          <Property Name="NoOfColors" Type="int" />
+        </EntityType>
         <EntityType Name="Markup">
           <Key>
             <PropertyRef Name="MarkUpId" />
@@ -2125,7 +2208,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Key>
             <PropertyRef Name="OrganisationId" />
           </Key>
-          <Property Name="OrganisationId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrganisationId" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="OrganisationName" Type="varchar" MaxLength="100" />
           <Property Name="Address1" Type="varchar" MaxLength="255" />
           <Property Name="Address2" Type="varchar" MaxLength="255" />
@@ -2152,7 +2235,6 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="SystemWeightUnit" Type="bigint" />
           <Property Name="CurrencyId" Type="bigint" />
           <Property Name="LanguageId" Type="bigint" />
-          <Property Name="MISLogoStreamId" Type="uniqueidentifier" />
           <Property Name="BleedAreaSize" Type="float" />
           <Property Name="ShowBleedArea" Type="bit" />
           <Property Name="isXeroIntegrationRequired" Type="bit" />
@@ -2188,6 +2270,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="IsFixed" Type="int" Nullable="false" />
           <Property Name="Region" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="isArchived" Type="bit" />
+          <Property Name="OrganisationId" Type="bigint" />
         </EntityType>
         <EntityType Name="PaymentGateway">
           <Key>
@@ -2227,6 +2310,21 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="FieldName" Type="varchar" MaxLength="50" />
           <Property Name="SectionId" Type="int" />
           <Property Name="SortOrder" Type="int" />
+          <Property Name="OrganisationId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="PipeLineProduct">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="PipeLineSource">
+          <Key>
+            <PropertyRef Name="SourceId" />
+          </Key>
+          <Property Name="SourceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="prefix">
           <Key>
@@ -2353,8 +2451,6 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="IsShowStockStatus" Type="bit" />
           <Property Name="IsShowProductDescription" Type="bit" />
           <Property Name="IsShowProductShortDescription" Type="bit" />
-          <Property Name="ImageStreamId" Type="uniqueidentifier" />
-          <Property Name="ThumbnailStreamId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="ProductCategoryItem">
           <Key>
@@ -2401,6 +2497,49 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           </Key>
           <Property Name="QuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Question" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="ReportId" />
+          </Key>
+          <Property Name="ReportId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Path" Type="varchar" MaxLength="100" />
+          <Property Name="FileName" Type="varchar" MaxLength="50" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+          <Property Name="ReportDataSource" Type="ntext" />
+          <Property Name="NameSpace" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsExternal" Type="int" Nullable="false" />
+          <Property Name="IsFixed" Type="int" Nullable="false" />
+          <Property Name="ReportTemplate" Type="text" />
+          <Property Name="ReportTemplateOriginal" Type="text" />
+          <Property Name="IsEditable" Type="smallint" Nullable="false" />
+          <Property Name="ParentReportId" Type="int" Nullable="false" />
+          <Property Name="IsByReflection" Type="smallint" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="IsSystemReport" Type="smallint" />
+          <Property Name="ReportOrder" Type="int" Nullable="false" />
+          <Property Name="HasSubReport" Type="bit" />
+          <Property Name="SubReportTemplate" Type="text" />
+          <Property Name="SubReportDataSource" Type="text" />
+          <Property Name="OrganisationId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="ReportNote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FootNotes" Type="text" />
+          <Property Name="HeadNotes" Type="text" />
+          <Property Name="AdvertitorialNotes" Type="text" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="ReportCategoryId" Type="int" />
+          <Property Name="SystemSiteId" Type="int" Nullable="false" />
+          <Property Name="ReportBanner" Type="nvarchar" MaxLength="400" />
+          <Property Name="ReportTitle" Type="varchar" MaxLength="200" />
+          <Property Name="BannerAbsolutePath" Type="varchar" MaxLength="300" />
+          <Property Name="isDefault" Type="bit" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -2963,86 +3102,6 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="WidgetControlName" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'MPC.dbo.ArtworkFileTableView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="ArtworkFileTableView">
-          <Key>
-            <PropertyRef Name="stream_id" />
-            <PropertyRef Name="name" />
-            <PropertyRef Name="is_directory" />
-            <PropertyRef Name="fileTableName" />
-          </Key>
-          <Property Name="stream_id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="file_stream" Type="varbinary(max)" />
-          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="is_directory" Type="bit" Nullable="false" />
-          <Property Name="unc_path" Type="nvarchar" MaxLength="4000" />
-          <Property Name="fileTableName" Type="varchar" MaxLength="16" Nullable="false" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'MPC.dbo.AttachmentFileTableView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="AttachmentFileTableView">
-          <Key>
-            <PropertyRef Name="stream_id" />
-            <PropertyRef Name="name" />
-            <PropertyRef Name="is_directory" />
-            <PropertyRef Name="fileTableName" />
-          </Key>
-          <Property Name="stream_id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="file_stream" Type="varbinary(max)" />
-          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="is_directory" Type="bit" Nullable="false" />
-          <Property Name="unc_path" Type="nvarchar" MaxLength="4000" />
-          <Property Name="fileTableName" Type="varchar" MaxLength="19" Nullable="false" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'MPC.dbo.CategoryFileTableView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="CategoryFileTableView">
-          <Key>
-            <PropertyRef Name="stream_id" />
-            <PropertyRef Name="name" />
-            <PropertyRef Name="is_directory" />
-            <PropertyRef Name="fileTableName" />
-          </Key>
-          <Property Name="stream_id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="file_stream" Type="varbinary(max)" />
-          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="is_directory" Type="bit" Nullable="false" />
-          <Property Name="unc_path" Type="nvarchar" MaxLength="4000" />
-          <Property Name="fileTableName" Type="varchar" MaxLength="17" Nullable="false" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'MPC.dbo.CompanyBannerFileTableView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="CompanyBannerFileTableView">
-          <Key>
-            <PropertyRef Name="stream_id" />
-            <PropertyRef Name="name" />
-            <PropertyRef Name="is_directory" />
-            <PropertyRef Name="fileTableName" />
-          </Key>
-          <Property Name="stream_id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="file_stream" Type="varbinary(max)" />
-          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="is_directory" Type="bit" Nullable="false" />
-          <Property Name="unc_path" Type="nvarchar" MaxLength="4000" />
-          <Property Name="fileTableName" Type="varchar" MaxLength="22" Nullable="false" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'MPC.dbo.CostCentreFileTableView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="CostCentreFileTableView">
-          <Key>
-            <PropertyRef Name="stream_id" />
-            <PropertyRef Name="name" />
-            <PropertyRef Name="is_directory" />
-            <PropertyRef Name="fileTableName" />
-          </Key>
-          <Property Name="stream_id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="file_stream" Type="varbinary(max)" />
-          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="is_directory" Type="bit" Nullable="false" />
-          <Property Name="unc_path" Type="nvarchar" MaxLength="4000" />
-          <Property Name="fileTableName" Type="varchar" MaxLength="19" Nullable="false" />
-        </EntityType>
-        <!--Errors Found During Generation:
 warning 6002: The table/view 'MPC.dbo.GetCategoryProducts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="GetCategoryProducts">
           <Key>
@@ -3120,38 +3179,6 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="CompanyId" Type="bigint" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'MPC.dbo.MediaFileTableView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="MediaFileTableView">
-          <Key>
-            <PropertyRef Name="stream_id" />
-            <PropertyRef Name="name" />
-            <PropertyRef Name="is_directory" />
-            <PropertyRef Name="fileTableName" />
-          </Key>
-          <Property Name="stream_id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="file_stream" Type="varbinary(max)" />
-          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="is_directory" Type="bit" Nullable="false" />
-          <Property Name="unc_path" Type="nvarchar" MaxLength="4000" />
-          <Property Name="fileTableName" Type="varchar" MaxLength="14" Nullable="false" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'MPC.dbo.OrganisationFileTableView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="OrganisationFileTableView">
-          <Key>
-            <PropertyRef Name="stream_id" />
-            <PropertyRef Name="name" />
-            <PropertyRef Name="is_directory" />
-            <PropertyRef Name="fileTableName" />
-          </Key>
-          <Property Name="stream_id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="file_stream" Type="varbinary(max)" />
-          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="is_directory" Type="bit" Nullable="false" />
-          <Property Name="unc_path" Type="nvarchar" MaxLength="4000" />
-          <Property Name="fileTableName" Type="varchar" MaxLength="21" Nullable="false" />
-        </EntityType>
-        <!--Errors Found During Generation:
 warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ProductCategoriesView">
           <Key>
@@ -3166,70 +3193,18 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="CompanyId" Type="bigint" />
           <Property Name="DefaultItemTax" Type="float" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'MPC.dbo.ProductFileTableView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="ProductFileTableView">
-          <Key>
-            <PropertyRef Name="stream_id" />
-            <PropertyRef Name="name" />
-            <PropertyRef Name="is_directory" />
-            <PropertyRef Name="fileTableName" />
-          </Key>
-          <Property Name="stream_id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="file_stream" Type="varbinary(max)" />
-          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="is_directory" Type="bit" Nullable="false" />
-          <Property Name="unc_path" Type="nvarchar" MaxLength="4000" />
-          <Property Name="fileTableName" Type="varchar" MaxLength="16" Nullable="false" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'MPC.dbo.SecondaryPageFileTableView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="SecondaryPageFileTableView">
-          <Key>
-            <PropertyRef Name="stream_id" />
-            <PropertyRef Name="name" />
-            <PropertyRef Name="is_directory" />
-            <PropertyRef Name="fileTableName" />
-          </Key>
-          <Property Name="stream_id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="file_stream" Type="varbinary(max)" />
-          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="is_directory" Type="bit" Nullable="false" />
-          <Property Name="unc_path" Type="nvarchar" MaxLength="4000" />
-          <Property Name="fileTableName" Type="varchar" MaxLength="22" Nullable="false" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'MPC.dbo.StoreFileTableView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="StoreFileTableView">
-          <Key>
-            <PropertyRef Name="stream_id" />
-            <PropertyRef Name="name" />
-            <PropertyRef Name="is_directory" />
-            <PropertyRef Name="fileTableName" />
-          </Key>
-          <Property Name="stream_id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="file_stream" Type="varbinary(max)" />
-          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="is_directory" Type="bit" Nullable="false" />
-          <Property Name="unc_path" Type="nvarchar" MaxLength="4000" />
-          <Property Name="fileTableName" Type="varchar" MaxLength="14" Nullable="false" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="TemplateFileTableView">
-          <Key>
-            <PropertyRef Name="stream_id" />
-            <PropertyRef Name="name" />
-            <PropertyRef Name="is_directory" />
-            <PropertyRef Name="fileTableName" />
-          </Key>
-          <Property Name="stream_id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="file_stream" Type="varbinary(max)" />
-          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="is_directory" Type="bit" Nullable="false" />
-          <Property Name="unc_path" Type="nvarchar" MaxLength="4000" />
-          <Property Name="fileTableName" Type="varchar" MaxLength="17" Nullable="false" />
-        </EntityType>
+        <Association Name="FK__Activity__Compan__2D3FF3FE">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="Activity" Type="Self.Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Activity">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Address__Country__1765C178">
           <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
           <End Role="Address" Type="Self.Address" Multiplicity="*" />
@@ -4569,25 +4544,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
         <Function Name="funGetMiniumProductValue" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
           <Parameter Name="ItemID" Type="int" Mode="In" />
         </Function>
-        <Function Name="GetMPCFileTableNewPathLocator" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar(max)">
-          <Parameter Name="filePath" Type="nvarchar(max)" Mode="In" />
-          <Parameter Name="fileTableName" Type="nvarchar" Mode="In" />
-        </Function>
-        <Function Name="GetNewPathLocator" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="filePath" Type="nvarchar(max)" Mode="In" />
-          <Parameter Name="fileTableName" Type="nvarchar" Mode="In" />
-        </Function>
-        <Function Name="MPCFileTable_Add" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="filename" Type="nvarchar" Mode="In" />
-          <Parameter Name="filedata" Type="varbinary(max)" Mode="In" />
-          <Parameter Name="pathlocator" Type="nvarchar" Mode="In" />
-          <Parameter Name="isdirectory" Type="bit" Mode="In" />
-          <Parameter Name="fileTableName" Type="nvarchar" Mode="In" />
-        </Function>
-        <Function Name="MPCFileTable_Del" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="docId" Type="uniqueidentifier" Mode="In" />
-          <Parameter Name="fileTableName" Type="nvarchar" Mode="In" />
-        </Function>
         <Function Name="sp_cloneTemplate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TemplateID" Type="bigint" Mode="In" />
           <Parameter Name="submittedBy" Type="bigint" Mode="In" />
@@ -4623,6 +4579,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Parameter Name="ContactCompanyID" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="DomainModelsStoreContainer">
+          <EntitySet Name="Activity" EntityType="Self.Activity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ActivityType" EntityType="Self.ActivityType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Campaign" EntityType="Self.Campaign" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CampaignEmailQueue" EntityType="Self.CampaignEmailQueue" Schema="dbo" store:Type="Tables" />
@@ -4647,6 +4605,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="CompanyDomain" EntityType="Self.CompanyDomain" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyTerritory" EntityType="Self.CompanyTerritory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyType" EntityType="Self.CompanyType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CostCenterChoice" EntityType="Self.CostCenterChoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CostCentre" EntityType="Self.CostCentre" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CostCentreAnswer" EntityType="Self.CostCentreAnswer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CostcentreInstruction" EntityType="Self.CostcentreInstruction" Schema="dbo" store:Type="Tables" />
@@ -4673,6 +4632,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="GlobalLanguage" EntityType="Self.GlobalLanguage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Groups" EntityType="Self.Groups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ImagePermissions" EntityType="Self.ImagePermissions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InkCoverageGroup" EntityType="Self.InkCoverageGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inquiry" EntityType="Self.Inquiry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InquiryAttachment" EntityType="Self.InquiryAttachment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InquiryItem" EntityType="Self.InquiryItem" Schema="dbo" store:Type="Tables" />
@@ -4706,6 +4666,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="MachineCategory" EntityType="Self.MachineCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MachineInkCoverage" EntityType="Self.MachineInkCoverage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MachineResource" EntityType="Self.MachineResource" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MachineSpoilage" EntityType="Self.MachineSpoilage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Markup" EntityType="Self.Markup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MediaLibrary" EntityType="Self.MediaLibrary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Organisation" EntityType="Self.Organisation" Schema="dbo" store:Type="Tables" />
@@ -4716,6 +4677,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="PaymentMethod" EntityType="Self.PaymentMethod" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Phrase" EntityType="Self.Phrase" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhraseField" EntityType="Self.PhraseField" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PipeLineProduct" EntityType="Self.PipeLineProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PipeLineSource" EntityType="Self.PipeLineSource" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="prefix" EntityType="Self.prefix" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PrePayment" EntityType="Self.PrePayment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
@@ -4724,6 +4687,8 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySet Name="ProductMarketBriefQuestion" EntityType="Self.ProductMarketBriefQuestion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RaveReview" EntityType="Self.RaveReview" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RegistrationQuestion" EntityType="Self.RegistrationQuestion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Report" EntityType="Self.Report" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportNote" EntityType="Self.ReportNote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Section" EntityType="Self.Section" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SectionCostcentre" EntityType="Self.SectionCostcentre" Schema="dbo" store:Type="Tables" />
@@ -4755,56 +4720,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
     [CompanyVariableIcon].[Icon] AS [Icon], 
     [CompanyVariableIcon].[ContactCompanyId] AS [ContactCompanyId]
     FROM [dbo].[CompanyVariableIcon] AS [CompanyVariableIcon]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="ArtworkFileTableView" EntityType="Self.ArtworkFileTableView" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [ArtworkFileTableView].[stream_id] AS [stream_id], 
-    [ArtworkFileTableView].[file_stream] AS [file_stream], 
-    [ArtworkFileTableView].[name] AS [name], 
-    [ArtworkFileTableView].[is_directory] AS [is_directory], 
-    [ArtworkFileTableView].[unc_path] AS [unc_path], 
-    [ArtworkFileTableView].[fileTableName] AS [fileTableName]
-    FROM [dbo].[ArtworkFileTableView] AS [ArtworkFileTableView]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="AttachmentFileTableView" EntityType="Self.AttachmentFileTableView" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [AttachmentFileTableView].[stream_id] AS [stream_id], 
-    [AttachmentFileTableView].[file_stream] AS [file_stream], 
-    [AttachmentFileTableView].[name] AS [name], 
-    [AttachmentFileTableView].[is_directory] AS [is_directory], 
-    [AttachmentFileTableView].[unc_path] AS [unc_path], 
-    [AttachmentFileTableView].[fileTableName] AS [fileTableName]
-    FROM [dbo].[AttachmentFileTableView] AS [AttachmentFileTableView]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="CategoryFileTableView" EntityType="Self.CategoryFileTableView" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [CategoryFileTableView].[stream_id] AS [stream_id], 
-    [CategoryFileTableView].[file_stream] AS [file_stream], 
-    [CategoryFileTableView].[name] AS [name], 
-    [CategoryFileTableView].[is_directory] AS [is_directory], 
-    [CategoryFileTableView].[unc_path] AS [unc_path], 
-    [CategoryFileTableView].[fileTableName] AS [fileTableName]
-    FROM [dbo].[CategoryFileTableView] AS [CategoryFileTableView]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="CompanyBannerFileTableView" EntityType="Self.CompanyBannerFileTableView" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [CompanyBannerFileTableView].[stream_id] AS [stream_id], 
-    [CompanyBannerFileTableView].[file_stream] AS [file_stream], 
-    [CompanyBannerFileTableView].[name] AS [name], 
-    [CompanyBannerFileTableView].[is_directory] AS [is_directory], 
-    [CompanyBannerFileTableView].[unc_path] AS [unc_path], 
-    [CompanyBannerFileTableView].[fileTableName] AS [fileTableName]
-    FROM [dbo].[CompanyBannerFileTableView] AS [CompanyBannerFileTableView]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="CostCentreFileTableView" EntityType="Self.CostCentreFileTableView" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [CostCentreFileTableView].[stream_id] AS [stream_id], 
-    [CostCentreFileTableView].[file_stream] AS [file_stream], 
-    [CostCentreFileTableView].[name] AS [name], 
-    [CostCentreFileTableView].[is_directory] AS [is_directory], 
-    [CostCentreFileTableView].[unc_path] AS [unc_path], 
-    [CostCentreFileTableView].[fileTableName] AS [fileTableName]
-    FROM [dbo].[CostCentreFileTableView] AS [CostCentreFileTableView]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="GetCategoryProducts" EntityType="Self.GetCategoryProducts" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -4874,26 +4789,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
     [GetItemsListView].[CompanyId] AS [CompanyId]
     FROM [dbo].[GetItemsListView] AS [GetItemsListView]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="MediaFileTableView" EntityType="Self.MediaFileTableView" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [MediaFileTableView].[stream_id] AS [stream_id], 
-    [MediaFileTableView].[file_stream] AS [file_stream], 
-    [MediaFileTableView].[name] AS [name], 
-    [MediaFileTableView].[is_directory] AS [is_directory], 
-    [MediaFileTableView].[unc_path] AS [unc_path], 
-    [MediaFileTableView].[fileTableName] AS [fileTableName]
-    FROM [dbo].[MediaFileTableView] AS [MediaFileTableView]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="OrganisationFileTableView" EntityType="Self.OrganisationFileTableView" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [OrganisationFileTableView].[stream_id] AS [stream_id], 
-    [OrganisationFileTableView].[file_stream] AS [file_stream], 
-    [OrganisationFileTableView].[name] AS [name], 
-    [OrganisationFileTableView].[is_directory] AS [is_directory], 
-    [OrganisationFileTableView].[unc_path] AS [unc_path], 
-    [OrganisationFileTableView].[fileTableName] AS [fileTableName]
-    FROM [dbo].[OrganisationFileTableView] AS [OrganisationFileTableView]</DefiningQuery>
-          </EntitySet>
           <EntitySet Name="ProductCategoriesView" EntityType="Self.ProductCategoriesView" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ProductCategoriesView].[ProductCategoryId] AS [ProductCategoryId], 
@@ -4905,46 +4800,10 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
     [ProductCategoriesView].[DefaultItemTax] AS [DefaultItemTax]
     FROM [dbo].[ProductCategoriesView] AS [ProductCategoriesView]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="ProductFileTableView" EntityType="Self.ProductFileTableView" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [ProductFileTableView].[stream_id] AS [stream_id], 
-    [ProductFileTableView].[file_stream] AS [file_stream], 
-    [ProductFileTableView].[name] AS [name], 
-    [ProductFileTableView].[is_directory] AS [is_directory], 
-    [ProductFileTableView].[unc_path] AS [unc_path], 
-    [ProductFileTableView].[fileTableName] AS [fileTableName]
-    FROM [dbo].[ProductFileTableView] AS [ProductFileTableView]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="SecondaryPageFileTableView" EntityType="Self.SecondaryPageFileTableView" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [SecondaryPageFileTableView].[stream_id] AS [stream_id], 
-    [SecondaryPageFileTableView].[file_stream] AS [file_stream], 
-    [SecondaryPageFileTableView].[name] AS [name], 
-    [SecondaryPageFileTableView].[is_directory] AS [is_directory], 
-    [SecondaryPageFileTableView].[unc_path] AS [unc_path], 
-    [SecondaryPageFileTableView].[fileTableName] AS [fileTableName]
-    FROM [dbo].[SecondaryPageFileTableView] AS [SecondaryPageFileTableView]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="StoreFileTableView" EntityType="Self.StoreFileTableView" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [StoreFileTableView].[stream_id] AS [stream_id], 
-    [StoreFileTableView].[file_stream] AS [file_stream], 
-    [StoreFileTableView].[name] AS [name], 
-    [StoreFileTableView].[is_directory] AS [is_directory], 
-    [StoreFileTableView].[unc_path] AS [unc_path], 
-    [StoreFileTableView].[fileTableName] AS [fileTableName]
-    FROM [dbo].[StoreFileTableView] AS [StoreFileTableView]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="TemplateFileTableView" EntityType="Self.TemplateFileTableView" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [TemplateFileTableView].[stream_id] AS [stream_id], 
-    [TemplateFileTableView].[file_stream] AS [file_stream], 
-    [TemplateFileTableView].[name] AS [name], 
-    [TemplateFileTableView].[is_directory] AS [is_directory], 
-    [TemplateFileTableView].[unc_path] AS [unc_path], 
-    [TemplateFileTableView].[fileTableName] AS [fileTableName]
-    FROM [dbo].[TemplateFileTableView] AS [TemplateFileTableView]</DefiningQuery>
-          </EntitySet>
+          <AssociationSet Name="FK__Activity__Compan__2D3FF3FE" Association="Self.FK__Activity__Compan__2D3FF3FE">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Activity" EntitySet="Activity" />
+          </AssociationSet>
           <AssociationSet Name="FK__Address__Country__1765C178" Association="Self.FK__Address__Country__1765C178">
             <End Role="Country" EntitySet="Country" />
             <End Role="Address" EntitySet="Address" />
@@ -5781,17 +5640,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <Parameter Name="filePath" Mode="In" Type="String" />
             <Parameter Name="fileTableName" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="ArtworkFileTableViews" EntityType="DomainModels.ArtworkFileTableView" />
-          <EntitySet Name="AttachmentFileTableViews" EntityType="DomainModels.AttachmentFileTableView" />
-          <EntitySet Name="CategoryFileTableViews" EntityType="DomainModels.CategoryFileTableView" />
-          <EntitySet Name="CompanyBannerFileTableViews" EntityType="DomainModels.CompanyBannerFileTableView" />
-          <EntitySet Name="CostCentreFileTableViews" EntityType="DomainModels.CostCentreFileTableView" />
-          <EntitySet Name="MediaFileTableViews" EntityType="DomainModels.MediaFileTableView" />
-          <EntitySet Name="OrganisationFileTableViews" EntityType="DomainModels.OrganisationFileTableView" />
-          <EntitySet Name="ProductFileTableViews" EntityType="DomainModels.ProductFileTableView" />
-          <EntitySet Name="SecondaryPageFileTableViews" EntityType="DomainModels.SecondaryPageFileTableView" />
-          <EntitySet Name="StoreFileTableViews" EntityType="DomainModels.StoreFileTableView" />
-          <EntitySet Name="TemplateFileTableViews" EntityType="DomainModels.TemplateFileTableView" />
           <EntitySet Name="ItemStateTaxes" EntityType="DomainModels.ItemStateTax" />
           <AssociationSet Name="FK_ItemStateTax_Country" Association="DomainModels.FK_ItemStateTax_Country">
             <End Role="Country" EntitySet="Countries" />
@@ -6024,6 +5872,19 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             <End Role="WeightUnit" EntitySet="WeightUnits" />
             <End Role="Organisation" EntitySet="Organisations" />
           </AssociationSet>
+          <EntitySet Name="CostCenterChoices" EntityType="DomainModels.CostCenterChoice" />
+          <EntitySet Name="InkCoverageGroups" EntityType="DomainModels.InkCoverageGroup" />
+          <EntitySet Name="MachineSpoilages" EntityType="DomainModels.MachineSpoilage" />
+          <EntitySet Name="Reports" EntityType="DomainModels.Report" />
+          <EntitySet Name="ReportNotes" EntityType="DomainModels.ReportNote" />
+          <EntitySet Name="PipeLineProducts" EntityType="DomainModels.PipeLineProduct" />
+          <EntitySet Name="PipeLineSources" EntityType="DomainModels.PipeLineSource" />
+          <EntitySet Name="Activities" EntityType="DomainModels.Activity" />
+          <EntitySet Name="ActivityTypes" EntityType="DomainModels.ActivityType" />
+          <AssociationSet Name="FK__Activity__Compan__2D3FF3FE" Association="DomainModels.FK__Activity__Compan__2D3FF3FE">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Activity" EntitySet="Activities" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -6040,7 +5901,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="DefaultNominalCode" Type="Int32" Nullable="false" />
           <Property Name="DefaultMarkUpId" Type="Int32" Nullable="false" />
           <Property Name="AccountOpenDate" Type="DateTime" Precision="3" />
-          <Property Name="AccountManagerId" Type="Int32" Nullable="false" />
+          <Property Name="AccountManagerId" Type="Guid" />
           <Property Name="Status" Type="Int16" Nullable="false" />
           <Property Name="IsCustomer" Type="Int16" Nullable="false" />
           <Property Name="Notes" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
@@ -6153,6 +6014,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="isCalculateTaxByService" Type="Boolean" />
           <NavigationProperty Name="MediaLibraries" Relationship="DomainModels.FK_MediaLibrary_Company" FromRole="Company" ToRole="MediaLibrary" />
           <NavigationProperty Name="CompanyCostCentres" Relationship="DomainModels.FK_CompanyCostCentre_Company" FromRole="Company" ToRole="CompanyCostCentre" />
+          <NavigationProperty Name="Activities" Relationship="DomainModels.FK__Activity__Compan__2D3FF3FE" FromRole="Company" ToRole="Activity" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -6284,7 +6146,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="CurrencyId" Type="Int64" />
           <Property Name="LanguageId" Type="Int64" />
           <NavigationProperty Name="CmsSkinPageWidgets" Relationship="DomainModels.FK_tbl_cmsPageWidgets_tbl_cmsPages" FromRole="Organisation" ToRole="CmsSkinPageWidget" />
-          <Property Name="MISLogoStreamId" Type="Guid" />
           <Property Name="StateId" Type="Int64" />
           <Property Name="CountryId" Type="Int64" />
           <NavigationProperty Name="Country" Relationship="DomainModels.FK__Organisat__Count__16719D3F" FromRole="Organisation" ToRole="Country" />
@@ -6312,6 +6173,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="IsFixed" Type="Int32" Nullable="false" />
           <Property Name="Region" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IsArchived" Type="Boolean" />
+          <Property Name="OrganisationId" Type="Int64" />
         </EntityType>
         <EntityType Name="ProductCategory">
           <Key>
@@ -6372,8 +6234,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="IsShowProductShortDescription" Type="Boolean" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_tbl_ProductCategory_tbl_contactcompanies" FromRole="ProductCategory" ToRole="Company" />
           <NavigationProperty Name="ProductCategoryItems" Relationship="DomainModels.FK_ProductCategoryItem_ProductCategory" FromRole="ProductCategory" ToRole="ProductCategoryItem" />
-          <Property Name="ImageStreamId" Type="Guid" />
-          <Property Name="ThumbnailStreamId" Type="Guid" />
           </EntityType>
         <EntityType Name="Widget">
           <Key>
@@ -8078,7 +7938,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="SuccessChanceId" Type="Int32" />
           <Property Name="LockedBy" Type="Int32" Nullable="false" />
           <Property Name="AddressId" Type="Int32" Nullable="false" />
-          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="SectionFlagId" Type="Int32" Nullable="false" />
           <Property Name="SourceId" Type="Int32" />
           <Property Name="ProductId" Type="Int32" />
@@ -8358,9 +8217,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="InvoiceCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="InvoiceType" Type="Int32" />
           <Property Name="InvoiceName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ContactCompanyID" Type="Int32" />
-          <Property Name="ContactId" Type="Int32" />
-          <Property Name="ContactCompany" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ContactId" Type="Int64" />
           <Property Name="OrderNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="InvoiceStatus" Type="Int32" />
           <Property Name="InvoiceTotal" Type="Double" />
@@ -8382,7 +8239,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="NotesUpdateDateTime" Type="DateTime" Precision="3" />
           <Property Name="NotesUpdatedByUserID" Type="Int32" />
           <Property Name="SystemSiteId" Type="Int32" />
-          <Property Name="EstimateId" Type="Int32" />
+          <Property Name="EstimateId" Type="Int64" />
           <Property Name="IsRead" Type="Boolean" />
           <Property Name="IsProformaInvoice" Type="Boolean" />
           <Property Name="IsPrinted" Type="Boolean" />
@@ -8395,6 +8252,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="OrganisationId" Type="Int64" />
           <NavigationProperty Name="InvoiceDetails" Relationship="DomainModels.FK_tbl_invoicedetails_tbl_invoices" FromRole="Invoice" ToRole="InvoiceDetail" />
           <NavigationProperty Name="Items" Relationship="DomainModels.FK_tbl_items_tbl_invoices" FromRole="Invoice" ToRole="Item" />
+          <Property Name="CompanyId" Type="Int64" />
         </EntityType>
         <EntityType Name="InvoiceDetail">
           <Key>
@@ -9520,160 +9378,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="TemplateId" Type="Int64" />
           <Property Name="DesignerCategoryId" Type="Int32" />
         </EntityType>
-        <EntityType Name="ArtworkFileTableView">
-          <Key>
-            <PropertyRef Name="StreamId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="IsDirectory" />
-            <PropertyRef Name="FileTableName" />
-          </Key>
-          <Property Name="StreamId" Type="Guid" Nullable="false" />
-          <Property Name="FileStream" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="IsDirectory" Type="Boolean" Nullable="false" />
-          <Property Name="UncPath" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="FileTableName" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="AttachmentFileTableView">
-          <Key>
-            <PropertyRef Name="StreamId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="IsDirectory" />
-            <PropertyRef Name="FileTableName" />
-          </Key>
-          <Property Name="StreamId" Type="Guid" Nullable="false" />
-          <Property Name="FileStream" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="IsDirectory" Type="Boolean" Nullable="false" />
-          <Property Name="UncPath" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="FileTableName" Type="String" Nullable="false" MaxLength="19" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="CategoryFileTableView">
-          <Key>
-            <PropertyRef Name="StreamId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="IsDirectory" />
-            <PropertyRef Name="FileTableName" />
-          </Key>
-          <Property Name="StreamId" Type="Guid" Nullable="false" />
-          <Property Name="FileStream" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="IsDirectory" Type="Boolean" Nullable="false" />
-          <Property Name="UncPath" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="FileTableName" Type="String" Nullable="false" MaxLength="17" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="CompanyBannerFileTableView">
-          <Key>
-            <PropertyRef Name="StreamId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="IsDirectory" />
-            <PropertyRef Name="FileTableName" />
-          </Key>
-          <Property Name="StreamId" Type="Guid" Nullable="false" />
-          <Property Name="FileStream" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="IsDirectory" Type="Boolean" Nullable="false" />
-          <Property Name="UncPath" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="FileTableName" Type="String" Nullable="false" MaxLength="22" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="CostCentreFileTableView">
-          <Key>
-            <PropertyRef Name="StreamId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="IsDirectory" />
-            <PropertyRef Name="FileTableName" />
-          </Key>
-          <Property Name="StreamId" Type="Guid" Nullable="false" />
-          <Property Name="FileStream" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="IsDirectory" Type="Boolean" Nullable="false" />
-          <Property Name="UncPath" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="FileTableName" Type="String" Nullable="false" MaxLength="19" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="MediaFileTableView">
-          <Key>
-            <PropertyRef Name="StreamId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="IsDirectory" />
-            <PropertyRef Name="FileTableName" />
-          </Key>
-          <Property Name="StreamId" Type="Guid" Nullable="false" />
-          <Property Name="FileStream" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="IsDirectory" Type="Boolean" Nullable="false" />
-          <Property Name="UncPath" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="FileTableName" Type="String" Nullable="false" MaxLength="14" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="OrganisationFileTableView">
-          <Key>
-            <PropertyRef Name="StreamId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="IsDirectory" />
-            <PropertyRef Name="FileTableName" />
-          </Key>
-          <Property Name="StreamId" Type="Guid" Nullable="false" />
-          <Property Name="FileStream" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="IsDirectory" Type="Boolean" Nullable="false" />
-          <Property Name="UncPath" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="FileTableName" Type="String" Nullable="false" MaxLength="21" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="ProductFileTableView">
-          <Key>
-            <PropertyRef Name="StreamId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="IsDirectory" />
-            <PropertyRef Name="FileTableName" />
-          </Key>
-          <Property Name="StreamId" Type="Guid" Nullable="false" />
-          <Property Name="FileStream" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="IsDirectory" Type="Boolean" Nullable="false" />
-          <Property Name="UncPath" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="FileTableName" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="SecondaryPageFileTableView">
-          <Key>
-            <PropertyRef Name="StreamId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="IsDirectory" />
-            <PropertyRef Name="FileTableName" />
-          </Key>
-          <Property Name="StreamId" Type="Guid" Nullable="false" />
-          <Property Name="FileStream" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="IsDirectory" Type="Boolean" Nullable="false" />
-          <Property Name="UncPath" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="FileTableName" Type="String" Nullable="false" MaxLength="22" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="StoreFileTableView">
-          <Key>
-            <PropertyRef Name="StreamId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="IsDirectory" />
-            <PropertyRef Name="FileTableName" />
-          </Key>
-          <Property Name="StreamId" Type="Guid" Nullable="false" />
-          <Property Name="FileStream" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="IsDirectory" Type="Boolean" Nullable="false" />
-          <Property Name="UncPath" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="FileTableName" Type="String" Nullable="false" MaxLength="14" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="TemplateFileTableView">
-          <Key>
-            <PropertyRef Name="StreamId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="IsDirectory" />
-            <PropertyRef Name="FileTableName" />
-          </Key>
-          <Property Name="StreamId" Type="Guid" Nullable="false" />
-          <Property Name="FileStream" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="IsDirectory" Type="Boolean" Nullable="false" />
-          <Property Name="UncPath" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="FileTableName" Type="String" Nullable="false" MaxLength="17" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="ItemStateTax">
           <Key>
             <PropertyRef Name="ItemStateTaxId" />
@@ -10278,6 +9982,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="SortOrder" Type="Int32" />
           <NavigationProperty Name="Section" Relationship="DomainModels.fk_sectionId" FromRole="PhraseField" ToRole="Section" />
           <NavigationProperty Name="Phrases" Relationship="DomainModels.FK_Phrase_PhraseField" FromRole="PhraseField" ToRole="Phrase" />
+          <Property Name="OrganisationId" Type="Int64" />
         </EntityType>
         <Association Name="fk_sectionId">
           <End Type="DomainModels.Section" Role="Section" Multiplicity="0..1" />
@@ -10566,9 +10271,9 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="Type" Type="Int64" />
           <Property Name="LockedBy" Type="Int32" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
           <Property Name="FlagId" Type="Int32" />
           <Property Name="SystemSiteId" Type="Int32" Nullable="false" />
+          <Property Name="OrganisationId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Machine">
           <Key>
@@ -10638,6 +10343,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <Property Name="LookupMethodId" Type="Int64" />
           <NavigationProperty Name="ItemSections" Relationship="DomainModels.FK_ItemSection_Machine" FromRole="Machine" ToRole="ItemSection" />
           <Property Name="MarkupId" Type="Int64" />
+          <Property Name="OrganisationId" Type="Int64" />
         </EntityType>
         <EntityType Name="MachineInkCoverage">
           <Key>
@@ -10824,6 +10530,160 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
             </Principal>
             <Dependent Role="Organisation">
               <PropertyRef Name="SystemWeightUnit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CostCenterChoice">
+          <Key>
+            <PropertyRef Name="CostCenterChoiceId" />
+          </Key>
+          <Property Name="CostCenterChoiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChoiceLabel" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ChoiceValue" Type="Double" />
+          <Property Name="CostCenterId" Type="Int32" />
+          <Property Name="CostCenterOption" Type="Int32" />
+        </EntityType>
+        <EntityType Name="InkCoverageGroup">
+          <Key>
+            <PropertyRef Name="CoverageGroupId" />
+          </Key>
+          <Property Name="CoverageGroupId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Percentage" Type="Double" />
+          <Property Name="IsFixed" Type="Int32" Nullable="false" />
+          <Property Name="SystemSiteId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MachineSpoilage">
+          <Key>
+            <PropertyRef Name="MachineSpoilageId" />
+          </Key>
+          <Property Name="MachineSpoilageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MachineId" Type="Int32" />
+          <Property Name="SetupSpoilage" Type="Int32" />
+          <Property Name="RunningSpoilage" Type="Single" />
+          <Property Name="NoOfColors" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="ReportId" />
+          </Key>
+          <Property Name="ReportId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Path" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FileName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReportDataSource" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NameSpace" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IsExternal" Type="Int32" Nullable="false" />
+          <Property Name="IsFixed" Type="Int32" Nullable="false" />
+          <Property Name="ReportTemplate" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ReportTemplateOriginal" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsEditable" Type="Int16" Nullable="false" />
+          <Property Name="ParentReportId" Type="Int32" Nullable="false" />
+          <Property Name="IsByReflection" Type="Int16" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="IsSystemReport" Type="Int16" />
+          <Property Name="ReportOrder" Type="Int32" Nullable="false" />
+          <Property Name="HasSubReport" Type="Boolean" />
+          <Property Name="SubReportTemplate" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SubReportDataSource" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="OrganisationId" Type="Int64" />
+        </EntityType>
+        <EntityType Name="ReportNote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FootNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="HeadNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AdvertitorialNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="ReportCategoryId" Type="Int32" />
+          <Property Name="SystemSiteId" Type="Int32" Nullable="false" />
+          <Property Name="ReportBanner" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="ReportTitle" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="BannerAbsolutePath" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="isDefault" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="PipeLineProduct">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PipeLineSource">
+          <Key>
+            <PropertyRef Name="SourceId" />
+          </Key>
+          <Property Name="SourceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Activity">
+          <Key>
+            <PropertyRef Name="ActivityId" />
+          </Key>
+          <Property Name="ActivityId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ActivityTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ActivityCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ActivityRef" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ActivityDate" Type="DateTime" Precision="3" />
+          <Property Name="ActivityTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ActivityStartTime" Type="DateTime" Precision="3" />
+          <Property Name="ActivityEndTime" Type="DateTime" Precision="3" />
+          <Property Name="ActivityProbability" Type="Int32" />
+          <Property Name="ActivityPrice" Type="Int32" />
+          <Property Name="ActivityUnit" Type="Int32" />
+          <Property Name="ActivityNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActivityAlarm" Type="Int32" Nullable="false" />
+          <Property Name="AlarmDate" Type="DateTime" Precision="3" />
+          <Property Name="AlarmTime" Type="DateTime" Precision="3" />
+          <Property Name="ActivityLink" Type="Int32" Nullable="false" />
+          <Property Name="IsCustomerActivity" Type="Boolean" />
+          <Property Name="ContactId" Type="Int32" />
+          <Property Name="SystemUserId" Type="Guid" />
+          <Property Name="IsPrivate" Type="Boolean" />
+          <Property Name="IsComplete" Type="Int32" Nullable="false" />
+          <Property Name="CompletionDate" Type="DateTime" Precision="3" />
+          <Property Name="CompletionTime" Type="DateTime" Precision="3" />
+          <Property Name="CompletionSuccess" Type="Int32" />
+          <Property Name="CompletionResult" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CompletedBy" Type="Int32" />
+          <Property Name="IsFollowedUp" Type="Int32" />
+          <Property Name="FollowedActivityId" Type="Int32" />
+          <Property Name="LastModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="LastModifiedtime" Type="DateTime" Precision="3" />
+          <Property Name="LastModifiedBy" Type="Int32" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CampaignId" Type="Int32" />
+          <Property Name="IsLocked" Type="Int16" />
+          <Property Name="LockedBy" Type="Int32" />
+          <Property Name="SystemSiteId" Type="Int32" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="ProductTypeId" Type="Int32" />
+          <Property Name="SourceId" Type="Int32" />
+          <Property Name="FlagId" Type="Int32" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK__Activity__Compan__2D3FF3FE" FromRole="Activity" ToRole="Company" />
+        </EntityType>
+        <EntityType Name="ActivityType">
+          <Key>
+            <PropertyRef Name="ActivityTypeId" />
+          </Key>
+          <Property Name="ActivityTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ActivityName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ActivityDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ActivityColor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK__Activity__Compan__2D3FF3FE">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.Activity" Role="Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Activity">
+              <PropertyRef Name="CompanyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -11049,7 +10909,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="BleedAreaSize" ColumnName="BleedAreaSize" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="StateId" ColumnName="StateId" />
-                <ScalarProperty Name="MISLogoStreamId" ColumnName="MISLogoStreamId" />
                 <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
                 <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
                 <ScalarProperty Name="SystemWeightUnit" ColumnName="SystemWeightUnit" />
@@ -11081,6 +10940,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="PaperSizes">
             <EntityTypeMapping TypeName="DomainModels.PaperSize">
               <MappingFragment StoreEntitySet="PaperSize">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="IsArchived" ColumnName="isArchived" />
                 <ScalarProperty Name="Region" ColumnName="Region" />
                 <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
@@ -11096,8 +10956,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="ProductCategories">
             <EntityTypeMapping TypeName="DomainModels.ProductCategory">
               <MappingFragment StoreEntitySet="ProductCategory">
-                <ScalarProperty Name="ThumbnailStreamId" ColumnName="ThumbnailStreamId" />
-                <ScalarProperty Name="ImageStreamId" ColumnName="ImageStreamId" />
                 <ScalarProperty Name="IsShowProductShortDescription" ColumnName="IsShowProductShortDescription" />
                 <ScalarProperty Name="IsShowProductDescription" ColumnName="IsShowProductDescription" />
                 <ScalarProperty Name="IsShowStockStatus" ColumnName="IsShowStockStatus" />
@@ -12427,7 +12285,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="SourceId" ColumnName="SourceId" />
                 <ScalarProperty Name="SectionFlagId" ColumnName="SectionFlagId" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
                 <ScalarProperty Name="AddressId" ColumnName="AddressId" />
                 <ScalarProperty Name="LockedBy" ColumnName="LockedBy" />
                 <ScalarProperty Name="SuccessChanceId" ColumnName="SuccessChanceId" />
@@ -12563,6 +12420,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Invoices">
             <EntityTypeMapping TypeName="DomainModels.Invoice">
               <MappingFragment StoreEntitySet="Invoice">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="XeroAccessCode" ColumnName="XeroAccessCode" />
                 <ScalarProperty Name="FootNotes" ColumnName="FootNotes" />
@@ -12595,9 +12453,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="InvoiceTotal" ColumnName="InvoiceTotal" />
                 <ScalarProperty Name="InvoiceStatus" ColumnName="InvoiceStatus" />
                 <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
-                <ScalarProperty Name="ContactCompany" ColumnName="ContactCompany" />
                 <ScalarProperty Name="ContactId" ColumnName="ContactId" />
-                <ScalarProperty Name="ContactCompanyID" ColumnName="ContactCompanyID" />
                 <ScalarProperty Name="InvoiceName" ColumnName="InvoiceName" />
                 <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
                 <ScalarProperty Name="InvoiceCode" ColumnName="InvoiceCode" />
@@ -13319,8 +13175,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="MPCFileTable_Add" FunctionName="DomainModels.Store.MPCFileTable_Add" />
-          <FunctionImportMapping FunctionImportName="MPCFileTable_Del" FunctionName="DomainModels.Store.MPCFileTable_Del" />
           <EntitySetMapping Name="GetCategoryProducts">
             <EntityTypeMapping TypeName="DomainModels.GetCategoryProduct">
               <MappingFragment StoreEntitySet="GetCategoryProducts">
@@ -13357,326 +13211,6 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
                 <ScalarProperty Name="ItemId" ColumnName="ItemId" />
               </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetNewPathLocator" FunctionName="DomainModels.Store.GetNewPathLocator" />
-          <EntitySetMapping Name="ArtworkFileTableViews">
-            <EntityTypeMapping TypeName="DomainModels.ArtworkFileTableView">
-              <MappingFragment StoreEntitySet="ArtworkFileTableView">
-                <ScalarProperty Name="FileTableName" ColumnName="fileTableName" />
-                <ScalarProperty Name="UncPath" ColumnName="unc_path" />
-                <ScalarProperty Name="IsDirectory" ColumnName="is_directory" />
-                <ScalarProperty Name="Name" ColumnName="name" />
-                <ScalarProperty Name="FileStream" ColumnName="file_stream" />
-                <ScalarProperty Name="StreamId" ColumnName="stream_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-            <EntityTypeMapping TypeName="DomainModels.ArtworkFileTableView">
-              <ModificationFunctionMapping>
-                <InsertFunction FunctionName="DomainModels.Store.MPCFileTable_Add" >
-                  <ScalarProperty Name="FileTableName" ParameterName="fileTableName" />
-                  <ScalarProperty Name="IsDirectory" ParameterName="isdirectory" />
-                  <ScalarProperty Name="UncPath" ParameterName="pathlocator" />
-                  <ScalarProperty Name="FileStream" ParameterName="filedata" />
-                  <ScalarProperty Name="Name" ParameterName="filename" />
-                  <ResultBinding Name="StreamId" ColumnName="stream_id" />
-                  <ResultBinding Name="UncPath" ColumnName="unc_path" />
-                </InsertFunction>
-                <DeleteFunction FunctionName="DomainModels.Store.MPCFileTable_Del" >
-                  <ScalarProperty Name="FileTableName" ParameterName="fileTableName" />
-                  <ScalarProperty Name="StreamId" ParameterName="docId" />
-                </DeleteFunction>
-              </ModificationFunctionMapping>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AttachmentFileTableViews">
-            <EntityTypeMapping TypeName="DomainModels.AttachmentFileTableView">
-              <MappingFragment StoreEntitySet="AttachmentFileTableView">
-                <ScalarProperty Name="FileTableName" ColumnName="fileTableName" />
-                <ScalarProperty Name="UncPath" ColumnName="unc_path" />
-                <ScalarProperty Name="IsDirectory" ColumnName="is_directory" />
-                <ScalarProperty Name="Name" ColumnName="name" />
-                <ScalarProperty Name="FileStream" ColumnName="file_stream" />
-                <ScalarProperty Name="StreamId" ColumnName="stream_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-            <EntityTypeMapping TypeName="DomainModels.AttachmentFileTableView">
-              <ModificationFunctionMapping>
-                <InsertFunction FunctionName="DomainModels.Store.MPCFileTable_Add" >
-                  <ScalarProperty Name="FileTableName" ParameterName="fileTableName" />
-                  <ScalarProperty Name="IsDirectory" ParameterName="isdirectory" />
-                  <ScalarProperty Name="UncPath" ParameterName="pathlocator" />
-                  <ScalarProperty Name="FileStream" ParameterName="filedata" />
-                  <ScalarProperty Name="Name" ParameterName="filename" />
-                  <ResultBinding Name="StreamId" ColumnName="stream_id" />
-                  <ResultBinding Name="UncPath" ColumnName="unc_path" />
-                </InsertFunction>
-                <DeleteFunction FunctionName="DomainModels.Store.MPCFileTable_Del" >
-                  <ScalarProperty Name="FileTableName" ParameterName="fileTableName" />
-                  <ScalarProperty Name="StreamId" ParameterName="docId" />
-                </DeleteFunction>
-              </ModificationFunctionMapping>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CategoryFileTableViews">
-            <EntityTypeMapping TypeName="DomainModels.CategoryFileTableView">
-              <MappingFragment StoreEntitySet="CategoryFileTableView">
-                <ScalarProperty Name="FileTableName" ColumnName="fileTableName" />
-                <ScalarProperty Name="UncPath" ColumnName="unc_path" />
-                <ScalarProperty Name="IsDirectory" ColumnName="is_directory" />
-                <ScalarProperty Name="Name" ColumnName="name" />
-                <ScalarProperty Name="FileStream" ColumnName="file_stream" />
-                <ScalarProperty Name="StreamId" ColumnName="stream_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-            <EntityTypeMapping TypeName="DomainModels.CategoryFileTableView">
-              <ModificationFunctionMapping>
-                <InsertFunction FunctionName="DomainModels.Store.MPCFileTable_Add" >
-                  <ScalarProperty Name="FileTableName" ParameterName="fileTableName" />
-                  <ScalarProperty Name="IsDirectory" ParameterName="isdirectory" />
-                  <ScalarProperty Name="UncPath" ParameterName="pathlocator" />
-                  <ScalarProperty Name="FileStream" ParameterName="filedata" />
-                  <ScalarProperty Name="Name" ParameterName="filename" />
-                  <ResultBinding Name="StreamId" ColumnName="stream_id" />
-                  <ResultBinding Name="UncPath" ColumnName="unc_path" />
-                </InsertFunction>
-                <DeleteFunction FunctionName="DomainModels.Store.MPCFileTable_Del" >
-                  <ScalarProperty Name="FileTableName" ParameterName="fileTableName" />
-                  <ScalarProperty Name="StreamId" ParameterName="docId" />
-                </DeleteFunction>
-              </ModificationFunctionMapping>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CompanyBannerFileTableViews">
-            <EntityTypeMapping TypeName="DomainModels.CompanyBannerFileTableView">
-              <MappingFragment StoreEntitySet="CompanyBannerFileTableView">
-                <ScalarProperty Name="FileTableName" ColumnName="fileTableName" />
-                <ScalarProperty Name="UncPath" ColumnName="unc_path" />
-                <ScalarProperty Name="IsDirectory" ColumnName="is_directory" />
-                <ScalarProperty Name="Name" ColumnName="name" />
-                <ScalarProperty Name="FileStream" ColumnName="file_stream" />
-                <ScalarProperty Name="StreamId" ColumnName="stream_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-            <EntityTypeMapping TypeName="DomainModels.CompanyBannerFileTableView">
-              <ModificationFunctionMapping>
-                <InsertFunction FunctionName="DomainModels.Store.MPCFileTable_Add" >
-                  <ScalarProperty Name="FileTableName" ParameterName="fileTableName" />
-                  <ScalarProperty Name="IsDirectory" ParameterName="isdirectory" />
-                  <ScalarProperty Name="UncPath" ParameterName="pathlocator" />
-                  <ScalarProperty Name="FileStream" ParameterName="filedata" />
-                  <ScalarProperty Name="Name" ParameterName="filename" />
-                  <ResultBinding Name="StreamId" ColumnName="stream_id" />
-                  <ResultBinding Name="UncPath" ColumnName="unc_path" />
-                </InsertFunction>
-                <DeleteFunction FunctionName="DomainModels.Store.MPCFileTable_Del" >
-                  <ScalarProperty Name="FileTableName" ParameterName="fileTableName" />
-                  <ScalarProperty Name="StreamId" ParameterName="docId" />
-                </DeleteFunction>
-              </ModificationFunctionMapping>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CostCentreFileTableViews">
-            <EntityTypeMapping TypeName="DomainModels.CostCentreFileTableView">
-              <MappingFragment StoreEntitySet="CostCentreFileTableView">
-                <ScalarProperty Name="FileTableName" ColumnName="fileTableName" />
-                <ScalarProperty Name="UncPath" ColumnName="unc_path" />
-                <ScalarProperty Name="IsDirectory" ColumnName="is_directory" />
-                <ScalarProperty Name="Name" ColumnName="name" />
-                <ScalarProperty Name="FileStream" ColumnName="file_stream" />
-                <ScalarProperty Name="StreamId" ColumnName="stream_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-            <EntityTypeMapping TypeName="DomainModels.CostCentreFileTableView">
-              <ModificationFunctionMapping>
-                <InsertFunction FunctionName="DomainModels.Store.MPCFileTable_Add" >
-                  <ScalarProperty Name="FileTableName" ParameterName="fileTableName" />
-                  <ScalarProperty Name="IsDirectory" ParameterName="isdirectory" />
-                  <ScalarProperty Name="UncPath" ParameterName="pathlocator" />
-                  <ScalarProperty Name="FileStream" ParameterName="filedata" />
-                  <ScalarProperty Name="Name" ParameterName="filename" />
-                  <ResultBinding Name="StreamId" ColumnName="stream_id" />
-                  <ResultBinding Name="UncPath" ColumnName="unc_path" />
-                </InsertFunction>
-                <DeleteFunction FunctionName="DomainModels.Store.MPCFileTable_Del" >
-                  <ScalarProperty Name="FileTableName" ParameterName="fileTableName" />
-                  <ScalarProperty Name="StreamId" ParameterName="docId" />
-                </DeleteFunction>
-              </ModificationFunctionMapping>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MediaFileTableViews">
-            <EntityTypeMapping TypeName="DomainModels.MediaFileTableView">
-              <MappingFragment StoreEntitySet="MediaFileTableView">
-                <ScalarProperty Name="FileTableName" ColumnName="fileTableName" />
-                <ScalarProperty Name="UncPath" ColumnName="unc_path" />
-                <ScalarProperty Name="IsDirectory" ColumnName="is_directory" />
-                <ScalarProperty Name="Name" ColumnName="name" />
-                <ScalarProperty Name="FileStream" ColumnName="file_stream" />
-                <ScalarProperty Name="StreamId" ColumnName="stream_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-            <EntityTypeMapping TypeName="DomainModels.MediaFileTableView">
-              <ModificationFunctionMapping>
-                <InsertFunction FunctionName="DomainModels.Store.MPCFileTable_Add" >
-                  <ScalarProperty Name="FileTableName" ParameterName="fileTableName" />
-                  <ScalarProperty Name="IsDirectory" ParameterName="isdirectory" />
-                  <ScalarProperty Name="UncPath" ParameterName="pathlocator" />
-                  <ScalarProperty Name="FileStream" ParameterName="filedata" />
-                  <ScalarProperty Name="Name" ParameterName="filename" />
-                  <ResultBinding Name="StreamId" ColumnName="stream_id" />
-                  <ResultBinding Name="UncPath" ColumnName="unc_path" />
-                </InsertFunction>
-                <DeleteFunction FunctionName="DomainModels.Store.MPCFileTable_Del" >
-                  <ScalarProperty Name="FileTableName" ParameterName="fileTableName" />
-                  <ScalarProperty Name="StreamId" ParameterName="docId" />
-                </DeleteFunction>
-              </ModificationFunctionMapping>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OrganisationFileTableViews">
-            <EntityTypeMapping TypeName="DomainModels.OrganisationFileTableView">
-              <MappingFragment StoreEntitySet="OrganisationFileTableView">
-                <ScalarProperty Name="FileTableName" ColumnName="fileTableName" />
-                <ScalarProperty Name="UncPath" ColumnName="unc_path" />
-                <ScalarProperty Name="IsDirectory" ColumnName="is_directory" />
-                <ScalarProperty Name="Name" ColumnName="name" />
-                <ScalarProperty Name="FileStream" ColumnName="file_stream" />
-                <ScalarProperty Name="StreamId" ColumnName="stream_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-            <EntityTypeMapping TypeName="DomainModels.OrganisationFileTableView">
-              <ModificationFunctionMapping>
-                <InsertFunction FunctionName="DomainModels.Store.MPCFileTable_Add" >
-                  <ScalarProperty Name="FileTableName" ParameterName="fileTableName" />
-                  <ScalarProperty Name="IsDirectory" ParameterName="isdirectory" />
-                  <ScalarProperty Name="UncPath" ParameterName="pathlocator" />
-                  <ScalarProperty Name="FileStream" ParameterName="filedata" />
-                  <ScalarProperty Name="Name" ParameterName="filename" />
-                  <ResultBinding Name="StreamId" ColumnName="stream_id" />
-                  <ResultBinding Name="UncPath" ColumnName="unc_path" />
-                </InsertFunction>
-                <DeleteFunction FunctionName="DomainModels.Store.MPCFileTable_Del" >
-                  <ScalarProperty Name="FileTableName" ParameterName="fileTableName" />
-                  <ScalarProperty Name="StreamId" ParameterName="docId" />
-                </DeleteFunction>
-              </ModificationFunctionMapping>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ProductFileTableViews">
-            <EntityTypeMapping TypeName="DomainModels.ProductFileTableView">
-              <MappingFragment StoreEntitySet="ProductFileTableView">
-                <ScalarProperty Name="FileTableName" ColumnName="fileTableName" />
-                <ScalarProperty Name="UncPath" ColumnName="unc_path" />
-                <ScalarProperty Name="IsDirectory" ColumnName="is_directory" />
-                <ScalarProperty Name="Name" ColumnName="name" />
-                <ScalarProperty Name="FileStream" ColumnName="file_stream" />
-                <ScalarProperty Name="StreamId" ColumnName="stream_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-            <EntityTypeMapping TypeName="DomainModels.ProductFileTableView">
-              <ModificationFunctionMapping>
-                <InsertFunction FunctionName="DomainModels.Store.MPCFileTable_Add" >
-                  <ScalarProperty Name="FileTableName" ParameterName="fileTableName" />
-                  <ScalarProperty Name="IsDirectory" ParameterName="isdirectory" />
-                  <ScalarProperty Name="UncPath" ParameterName="pathlocator" />
-                  <ScalarProperty Name="FileStream" ParameterName="filedata" />
-                  <ScalarProperty Name="Name" ParameterName="filename" />
-                  <ResultBinding Name="StreamId" ColumnName="stream_id" />
-                  <ResultBinding Name="UncPath" ColumnName="unc_path" />
-                </InsertFunction>
-                <DeleteFunction FunctionName="DomainModels.Store.MPCFileTable_Del" >
-                  <ScalarProperty Name="FileTableName" ParameterName="fileTableName" />
-                  <ScalarProperty Name="StreamId" ParameterName="docId" />
-                </DeleteFunction>
-              </ModificationFunctionMapping>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SecondaryPageFileTableViews">
-            <EntityTypeMapping TypeName="DomainModels.SecondaryPageFileTableView">
-              <MappingFragment StoreEntitySet="SecondaryPageFileTableView">
-                <ScalarProperty Name="FileTableName" ColumnName="fileTableName" />
-                <ScalarProperty Name="UncPath" ColumnName="unc_path" />
-                <ScalarProperty Name="IsDirectory" ColumnName="is_directory" />
-                <ScalarProperty Name="Name" ColumnName="name" />
-                <ScalarProperty Name="FileStream" ColumnName="file_stream" />
-                <ScalarProperty Name="StreamId" ColumnName="stream_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-            <EntityTypeMapping TypeName="DomainModels.SecondaryPageFileTableView">
-              <ModificationFunctionMapping>
-                <InsertFunction FunctionName="DomainModels.Store.MPCFileTable_Add" >
-                  <ScalarProperty Name="FileTableName" ParameterName="fileTableName" />
-                  <ScalarProperty Name="IsDirectory" ParameterName="isdirectory" />
-                  <ScalarProperty Name="UncPath" ParameterName="pathlocator" />
-                  <ScalarProperty Name="FileStream" ParameterName="filedata" />
-                  <ScalarProperty Name="Name" ParameterName="filename" />
-                  <ResultBinding Name="StreamId" ColumnName="stream_id" />
-                  <ResultBinding Name="UncPath" ColumnName="unc_path" />
-                </InsertFunction>
-                <DeleteFunction FunctionName="DomainModels.Store.MPCFileTable_Del" >
-                  <ScalarProperty Name="FileTableName" ParameterName="fileTableName" />
-                  <ScalarProperty Name="StreamId" ParameterName="docId" />
-                </DeleteFunction>
-              </ModificationFunctionMapping>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="StoreFileTableViews">
-            <EntityTypeMapping TypeName="DomainModels.StoreFileTableView">
-              <MappingFragment StoreEntitySet="StoreFileTableView">
-                <ScalarProperty Name="FileTableName" ColumnName="fileTableName" />
-                <ScalarProperty Name="UncPath" ColumnName="unc_path" />
-                <ScalarProperty Name="IsDirectory" ColumnName="is_directory" />
-                <ScalarProperty Name="Name" ColumnName="name" />
-                <ScalarProperty Name="FileStream" ColumnName="file_stream" />
-                <ScalarProperty Name="StreamId" ColumnName="stream_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-            <EntityTypeMapping TypeName="DomainModels.StoreFileTableView">
-              <ModificationFunctionMapping>
-                <InsertFunction FunctionName="DomainModels.Store.MPCFileTable_Add" >
-                  <ScalarProperty Name="FileTableName" ParameterName="fileTableName" />
-                  <ScalarProperty Name="IsDirectory" ParameterName="isdirectory" />
-                  <ScalarProperty Name="UncPath" ParameterName="pathlocator" />
-                  <ScalarProperty Name="FileStream" ParameterName="filedata" />
-                  <ScalarProperty Name="Name" ParameterName="filename" />
-                  <ResultBinding Name="StreamId" ColumnName="stream_id" />
-                  <ResultBinding Name="UncPath" ColumnName="unc_path" />
-                </InsertFunction>
-                <DeleteFunction FunctionName="DomainModels.Store.MPCFileTable_Del" >
-                  <ScalarProperty Name="FileTableName" ParameterName="fileTableName" />
-                  <ScalarProperty Name="StreamId" ParameterName="docId" />
-                </DeleteFunction>
-              </ModificationFunctionMapping>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TemplateFileTableViews">
-            <EntityTypeMapping TypeName="DomainModels.TemplateFileTableView">
-              <MappingFragment StoreEntitySet="TemplateFileTableView">
-                <ScalarProperty Name="FileTableName" ColumnName="fileTableName" />
-                <ScalarProperty Name="UncPath" ColumnName="unc_path" />
-                <ScalarProperty Name="IsDirectory" ColumnName="is_directory" />
-                <ScalarProperty Name="Name" ColumnName="name" />
-                <ScalarProperty Name="FileStream" ColumnName="file_stream" />
-                <ScalarProperty Name="StreamId" ColumnName="stream_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-            <EntityTypeMapping TypeName="DomainModels.TemplateFileTableView">
-              <ModificationFunctionMapping>
-                <InsertFunction FunctionName="DomainModels.Store.MPCFileTable_Add" >
-                  <ScalarProperty Name="FileTableName" ParameterName="fileTableName" />
-                  <ScalarProperty Name="IsDirectory" ParameterName="isdirectory" />
-                  <ScalarProperty Name="UncPath" ParameterName="pathlocator" />
-                  <ScalarProperty Name="FileStream" ParameterName="filedata" />
-                  <ScalarProperty Name="Name" ParameterName="filename" />
-                  <ResultBinding Name="StreamId" ColumnName="stream_id" />
-                  <ResultBinding Name="UncPath" ColumnName="unc_path" />
-                </InsertFunction>
-                <DeleteFunction FunctionName="DomainModels.Store.MPCFileTable_Del" >
-                  <ScalarProperty Name="FileTableName" ParameterName="fileTableName" />
-                  <ScalarProperty Name="StreamId" ParameterName="docId" />
-                </DeleteFunction>
-              </ModificationFunctionMapping>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ItemStateTaxes">
@@ -14052,6 +13586,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="PhraseFields">
             <EntityTypeMapping TypeName="DomainModels.PhraseField">
               <MappingFragment StoreEntitySet="PhraseField">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
                 <ScalarProperty Name="SectionId" ColumnName="SectionId" />
                 <ScalarProperty Name="FieldName" ColumnName="FieldName" />
@@ -14244,9 +13779,9 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="LookupMethods">
             <EntityTypeMapping TypeName="DomainModels.LookupMethod">
               <MappingFragment StoreEntitySet="LookupMethod">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationID" />
                 <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
                 <ScalarProperty Name="FlagId" ColumnName="FlagId" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="LockedBy" ColumnName="LockedBy" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -14257,6 +13792,7 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
           <EntitySetMapping Name="Machines">
             <EntityTypeMapping TypeName="DomainModels.Machine">
               <MappingFragment StoreEntitySet="Machine">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="MarkupId" ColumnName="MarkupId" />
                 <ScalarProperty Name="LookupMethodId" ColumnName="LookupMethodId" />
                 <ScalarProperty Name="ReelMakereadyTime" ColumnName="ReelMakereadyTime" />
@@ -14375,6 +13911,156 @@ warning 6002: The table/view 'MPC.dbo.TemplateFileTableView' does not have a pri
                 <ScalarProperty Name="GroupDescription" ColumnName="GroupDescription" />
                 <ScalarProperty Name="GroupName" ColumnName="GroupName" />
                 <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CostCenterChoices">
+            <EntityTypeMapping TypeName="DomainModels.CostCenterChoice">
+              <MappingFragment StoreEntitySet="CostCenterChoice">
+                <ScalarProperty Name="CostCenterOption" ColumnName="CostCenterOption" />
+                <ScalarProperty Name="CostCenterId" ColumnName="CostCenterId" />
+                <ScalarProperty Name="ChoiceValue" ColumnName="ChoiceValue" />
+                <ScalarProperty Name="ChoiceLabel" ColumnName="ChoiceLabel" />
+                <ScalarProperty Name="CostCenterChoiceId" ColumnName="CostCenterChoiceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InkCoverageGroups">
+            <EntityTypeMapping TypeName="DomainModels.InkCoverageGroup">
+              <MappingFragment StoreEntitySet="InkCoverageGroup">
+                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
+                <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
+                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="CoverageGroupId" ColumnName="CoverageGroupId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MachineSpoilages">
+            <EntityTypeMapping TypeName="DomainModels.MachineSpoilage">
+              <MappingFragment StoreEntitySet="MachineSpoilage">
+                <ScalarProperty Name="NoOfColors" ColumnName="NoOfColors" />
+                <ScalarProperty Name="RunningSpoilage" ColumnName="RunningSpoilage" />
+                <ScalarProperty Name="SetupSpoilage" ColumnName="SetupSpoilage" />
+                <ScalarProperty Name="MachineId" ColumnName="MachineId" />
+                <ScalarProperty Name="MachineSpoilageId" ColumnName="MachineSpoilageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reports">
+            <EntityTypeMapping TypeName="DomainModels.Report">
+              <MappingFragment StoreEntitySet="Report">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="SubReportDataSource" ColumnName="SubReportDataSource" />
+                <ScalarProperty Name="SubReportTemplate" ColumnName="SubReportTemplate" />
+                <ScalarProperty Name="HasSubReport" ColumnName="HasSubReport" />
+                <ScalarProperty Name="ReportOrder" ColumnName="ReportOrder" />
+                <ScalarProperty Name="IsSystemReport" ColumnName="IsSystemReport" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="IsByReflection" ColumnName="IsByReflection" />
+                <ScalarProperty Name="ParentReportId" ColumnName="ParentReportId" />
+                <ScalarProperty Name="IsEditable" ColumnName="IsEditable" />
+                <ScalarProperty Name="ReportTemplateOriginal" ColumnName="ReportTemplateOriginal" />
+                <ScalarProperty Name="ReportTemplate" ColumnName="ReportTemplate" />
+                <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
+                <ScalarProperty Name="IsExternal" ColumnName="IsExternal" />
+                <ScalarProperty Name="NameSpace" ColumnName="NameSpace" />
+                <ScalarProperty Name="ReportDataSource" ColumnName="ReportDataSource" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ReportId" ColumnName="ReportId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportNotes">
+            <EntityTypeMapping TypeName="DomainModels.ReportNote">
+              <MappingFragment StoreEntitySet="ReportNote">
+                <ScalarProperty Name="isDefault" ColumnName="isDefault" />
+                <ScalarProperty Name="BannerAbsolutePath" ColumnName="BannerAbsolutePath" />
+                <ScalarProperty Name="ReportTitle" ColumnName="ReportTitle" />
+                <ScalarProperty Name="ReportBanner" ColumnName="ReportBanner" />
+                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
+                <ScalarProperty Name="ReportCategoryId" ColumnName="ReportCategoryId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="AdvertitorialNotes" ColumnName="AdvertitorialNotes" />
+                <ScalarProperty Name="HeadNotes" ColumnName="HeadNotes" />
+                <ScalarProperty Name="FootNotes" ColumnName="FootNotes" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PipeLineProducts">
+            <EntityTypeMapping TypeName="DomainModels.PipeLineProduct">
+              <MappingFragment StoreEntitySet="PipeLineProduct">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PipeLineSources">
+            <EntityTypeMapping TypeName="DomainModels.PipeLineSource">
+              <MappingFragment StoreEntitySet="PipeLineSource">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Activities">
+            <EntityTypeMapping TypeName="DomainModels.Activity">
+              <MappingFragment StoreEntitySet="Activity">
+                <ScalarProperty Name="FlagId" ColumnName="FlagId" />
+                <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+                <ScalarProperty Name="ProductTypeId" ColumnName="ProductTypeId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
+                <ScalarProperty Name="LockedBy" ColumnName="LockedBy" />
+                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+                <ScalarProperty Name="CampaignId" ColumnName="CampaignId" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+                <ScalarProperty Name="LastModifiedtime" ColumnName="LastModifiedtime" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="FollowedActivityId" ColumnName="FollowedActivityId" />
+                <ScalarProperty Name="IsFollowedUp" ColumnName="IsFollowedUp" />
+                <ScalarProperty Name="CompletedBy" ColumnName="CompletedBy" />
+                <ScalarProperty Name="CompletionResult" ColumnName="CompletionResult" />
+                <ScalarProperty Name="CompletionSuccess" ColumnName="CompletionSuccess" />
+                <ScalarProperty Name="CompletionTime" ColumnName="CompletionTime" />
+                <ScalarProperty Name="CompletionDate" ColumnName="CompletionDate" />
+                <ScalarProperty Name="IsComplete" ColumnName="IsComplete" />
+                <ScalarProperty Name="IsPrivate" ColumnName="IsPrivate" />
+                <ScalarProperty Name="SystemUserId" ColumnName="SystemUserId" />
+                <ScalarProperty Name="ContactId" ColumnName="ContactId" />
+                <ScalarProperty Name="IsCustomerActivity" ColumnName="IsCustomerActivity" />
+                <ScalarProperty Name="ActivityLink" ColumnName="ActivityLink" />
+                <ScalarProperty Name="AlarmTime" ColumnName="AlarmTime" />
+                <ScalarProperty Name="AlarmDate" ColumnName="AlarmDate" />
+                <ScalarProperty Name="IsActivityAlarm" ColumnName="IsActivityAlarm" />
+                <ScalarProperty Name="ActivityNotes" ColumnName="ActivityNotes" />
+                <ScalarProperty Name="ActivityUnit" ColumnName="ActivityUnit" />
+                <ScalarProperty Name="ActivityPrice" ColumnName="ActivityPrice" />
+                <ScalarProperty Name="ActivityProbability" ColumnName="ActivityProbability" />
+                <ScalarProperty Name="ActivityEndTime" ColumnName="ActivityEndTime" />
+                <ScalarProperty Name="ActivityStartTime" ColumnName="ActivityStartTime" />
+                <ScalarProperty Name="ActivityTime" ColumnName="ActivityTime" />
+                <ScalarProperty Name="ActivityDate" ColumnName="ActivityDate" />
+                <ScalarProperty Name="ActivityRef" ColumnName="ActivityRef" />
+                <ScalarProperty Name="ActivityCode" ColumnName="ActivityCode" />
+                <ScalarProperty Name="ActivityTypeId" ColumnName="ActivityTypeId" />
+                <ScalarProperty Name="ActivityId" ColumnName="ActivityId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ActivityTypes">
+            <EntityTypeMapping TypeName="DomainModels.ActivityType">
+              <MappingFragment StoreEntitySet="ActivityType">
+                <ScalarProperty Name="ActivityColor" ColumnName="ActivityColor" />
+                <ScalarProperty Name="ActivityDescription" ColumnName="ActivityDescription" />
+                <ScalarProperty Name="ActivityName" ColumnName="ActivityName" />
+                <ScalarProperty Name="ActivityTypeId" ColumnName="ActivityTypeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -1,0 +1,25 @@
+﻿CREATE TABLE [dbo].[PayPalResponse] (
+    [PayPalResponseId] BIGINT        IDENTITY (1, 1) NOT NULL,
+    [RequestId]        BIGINT        NULL,
+    [OrderId]          BIGINT        NULL,
+    [TransactionId]    VARCHAR (MAX) NULL,
+    [PaymentPrice]     FLOAT (53)    NULL,
+    [FirstName]        VARCHAR (300) NULL,
+    [LastName]         VARCHAR (300) NULL,
+    [Street]           VARCHAR (300) NULL,
+    [City]             VARCHAR (300) NULL,
+    [State]            VARCHAR (300) NULL,
+    [Zip]              VARCHAR (300) NULL,
+    [Country]          VARCHAR (300) NULL,
+    [IsSuccess]        BIT           NULL,
+    [ReasonFault]      VARCHAR (MAX) NULL,
+    [ResponseDate]     DATETIME      NULL,
+    [TransactionType]  VARCHAR (150) NULL,
+    [PaymentStatus]    VARCHAR (150) NULL,
+    [PaymentType]      VARCHAR (150) NULL,
+    [PayerEmail]       VARCHAR (300) NULL,
+    [PayerStatus]      VARCHAR (150) NULL,
+    [ReceiverEmail]    VARCHAR (300) NULL,
+    CONSTRAINT [PK_tbl_PayPalResponses] PRIMARY KEY CLUSTERED ([PayPalResponseId] ASC)
+);
+

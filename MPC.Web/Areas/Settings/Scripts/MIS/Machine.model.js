@@ -82,6 +82,9 @@
                     new OrientationModel({ id: "2", name: "Short Side" })]),
             lookupList = ko.observableArray([]),
             markupList = ko.observableArray([]),
+            stockItemListForPaperSizePlate = ko.observableArray([]),
+            MachineSpoilageItems = ko.observableArray([]),
+            MachineInkCoverages = ko.observableArray([]),
             gutterdepth = ko.observable(),
             headdepth = ko.observable(),
             MarkupId = ko.observable(),
@@ -217,7 +220,10 @@
             isValid: isValid,
             hasChanges: hasChanges,
             reset: reset,
-            markupList: markupList
+            markupList: markupList,
+            stockItemListForPaperSizePlate:stockItemListForPaperSizePlate,
+            MachineInkCoverages: MachineInkCoverages,
+            MachineSpoilageItems: MachineSpoilageItems
         };
         return self;
     };
@@ -232,21 +238,48 @@
         self.MethodId = ko.observable(data.MethodId);
         self.Name = ko.observable(data.Name);
     }
-    CreateStockItem = function (specifiedId, specifiedName, specifiedCategoryName, specifiedLocation, specifiedWeight, specifiedDescription) {
-        return {
-            id: specifiedId,
-            name: specifiedName,
-            category: specifiedCategoryName,
-            location: specifiedLocation,
-            weight: specifiedWeight,
-            description: specifiedDescription
-        };
-    }
+    //CreateStockItem = function (specifiedId, specifiedName, specifiedCategoryName, specifiedLocation, specifiedWeight, specifiedDescription) {
+    //    return {
+    //        id: specifiedId,
+    //        name: specifiedName,
+    //        category: specifiedCategoryName,
+    //        location: specifiedLocation,
+    //        weight: specifiedWeight,
+    //        description: specifiedDescription
+    //    };
+    //}
 
     var lookupMethodListClientMapper = function (source) {
         var olookup = new lookupMethod();
         olookup.MethodId(source.MethodId);
         olookup.Name(source.Name);
+    };
+    CreateMachineInkCoverage = function (specifiedId, specifiedName, specifiedCategoryName, specifiedLocation, specifiedWeight, specifiedDescription) {
+        return {
+            //Id = source.Id,
+            //SideInkOrder = source.SideInkOrder,
+            //SideInkOrderCoverage = source.SideInkOrderCoverage,
+            //MachineId = source.MachineId
+        };
+    }
+
+    var MachineInkCoveragesListClientMapper = function (source, StockItemforInkList, InkCoveragItems) {
+        return {
+            Id : source.Id,
+            SideInkOrder : source.SideInkOrder,
+            SideInkOrderCoverage : source.SideInkOrderCoverage,
+            MachineId: source.MachineId,
+            StockItemforInkList: StockItemforInkList,
+            InkCoveragItems: InkCoveragItems
+        };
+    };
+    var MachineInkCoveragesServerMapper = function (source) {
+        return {
+            Id: source.Id,
+            SideInkOrder: source.SideInkOrder,
+            SideInkOrderCoverage: source.SideInkOrderCoverage,
+            MachineId: source.MachineId
+        };
     };
     var machineListClientMapper = function (source) {
 
@@ -265,8 +298,26 @@
 
     };
     var StockItemMapper = function (source) {
-        return new CreateStockItem(source.StockItemId, source.ItemName, source.CategoryName, source.StockLocation, source.ItemWeight, source.ItemDescription);
+        return {
+            id: source.StockItemId,
+            name: source.ItemName,
+            category: source.CategoryName,
+            location: source.StockLocation,
+            weight: source.ItemWeight
+        };
+
+
+       // return new CreateStockItem(source.StockItemId, source.ItemName, source.CategoryName, source.StockLocation, source.ItemWeight, source.ItemDescription);
     };
+
+    var MachineSpoilageItemsMapper = function (source) {
+        return {
+            SetupSpoilage : source.SetupSpoilage,
+            RunningSpoilage : source.RunningSpoilage,
+            NoOfColors: source.NoOfColors
+        };
+        
+    }
     var machineListServerMapper = function (source) {
         var result = {};
         result.Description= source.description;
@@ -353,10 +404,137 @@
         omachine.lookupList.removeAll();
         ko.utils.arrayPushAll(omachine.lookupList(), source.lookupMethods);
         omachine.lookupList.valueHasMutated();
+
         omachine.markupList.removeAll();
         ko.utils.arrayPushAll(omachine.markupList(), source.Markups);
         omachine.markupList.valueHasMutated();
         
+        
+        omachine.stockItemListForPaperSizePlate.removeAll();
+        ko.utils.arrayPushAll(omachine.stockItemListForPaperSizePlate(), source.StockItemsForPaperSizePlate);
+        omachine.stockItemListForPaperSizePlate.valueHasMutated();
+
+        _.each(source.MachineSpoilageItems, function (item) {
+            omachine.MachineSpoilageItems.push(MachineSpoilageItemsMapper(item));
+        });
+
+
+        //omachine.MachineSpoilageItems.removeAll();
+        //ko.utils.arrayPushAll(omachine.MachineSpoilageItems, source.MachineSpoilageItems);
+        //omachine.MachineSpoilageItems.valueHasMutated();
+
+        //omachine.MachineInkCoverages.removeAll();
+        //ko.utils.arrayPushAll(omachine.MachineInkCoverages(), source.machine.MachineInkCoverages);
+        //omachine.MachineInkCoverages.valueHasMutated();
+       
+        var StockItemforInkList = ko.observableArray([]);
+        StockItemforInkList.removeAll();
+        ko.utils.arrayPushAll(StockItemforInkList(), source.StockItemforInk);
+        StockItemforInkList.valueHasMutated();
+
+        var InkCoveragItemsList = ko.observableArray([]);
+        InkCoveragItemsList.removeAll();
+        ko.utils.arrayPushAll(InkCoveragItemsList(), source.InkCoveragItems);
+        InkCoveragItemsList.valueHasMutated();
+       
+
+
+        _.each(source.machine.MachineInkCoverages, function (item) {
+            var module = MachineInkCoveragesListClientMapper(item, StockItemforInkList, InkCoveragItemsList);
+            omachine.MachineInkCoverages.push(module);
+
+        })
+
+       
+
+
+
+
+    
+        return omachine;
+    };
+    var machineServerMapper = function (machine) {
+        var omachine = {};
+        omachine.MachineId = machine.MachineId();
+        omachine.MachineName = machine.MachineName();
+        omachine.MachineCatId = machine.MachineCatId();
+        omachine.ColourHeads = machine.ColourHeads();
+        omachine.isPerfecting = machine.isPerfecting();
+        omachine.SetupCharge = machine.SetupCharge();
+        omachine.WashupPrice = machine.WashupPrice();
+        omachine.WashupCost = machine.WashupCost();
+        omachine.MinInkDuctqty = machine.MinInkDuctqty();
+        omachine.worknturncharge = machine.worknturncharge();
+        omachine.MakeReadyCost = machine.MakeReadyCost();
+        omachine.DefaultFilmId = machine.DefaultFilmId();
+        omachine.DefaultPlateId = machine.DefaultPlateId();
+        omachine.DefaultPaperId = machine.DefaultPaperId();
+        omachine.isfilmused = machine.isfilmused();
+        omachine.isplateused = machine.isplateused();
+        omachine.ismakereadyused = machine.ismakereadyused();
+        omachine.iswashupused = machine.iswashupused();
+        omachine.maximumsheetweight = machine.maximumsheetweight();
+        omachine.maximumsheetheight = machine.maximumsheetheight();
+        omachine.maximumsheetwidth = machine.maximumsheetwidth();
+        omachine.minimumsheetheight = machine.minimumsheetheight();
+        omachine.minimumsheetwidth = machine.minimumsheetwidth();
+        omachine.gripdepth = machine.gripdepth();
+        omachine.gripsideorientaion = machine.gripsideorientaion();
+        omachine.gutterdepth = machine.gutterdepth();
+        omachine.headdepth = machine.headdepth();
+        omachine.MarkupId = machine.MarkupId();
+        omachine.PressSizeRatio = machine.PressSizeRatio();
+        omachine.Description = machine.Description();
+        omachine.Priority = machine.Priority();
+        omachine.DirectCost = machine.DirectCost();
+        omachine.Image = machine.Image();
+        omachine.MinimumCharge = machine.MinimumCharge();
+        omachine.CostPerCut = machine.CostPerCut();
+        omachine.PricePerCut = machine.PricePerCut();
+        omachine.IsAdditionalOption = machine.IsAdditionalOption();
+        omachine.IsDisabled = machine.IsDisabled();
+        omachine.LockedBy = machine.LockedBy();
+        omachine.CylinderSizeId = machine.CylinderSizeId();
+        omachine.MaxItemAcrossCylinder = machine.MaxItemAcrossCylinder();
+        omachine.Web1MRCost = machine.Web1MRCost();
+        omachine.Web1MRPrice = machine.Web1MRPrice();
+        omachine.Web2MRCost = machine.Web2MRCost();
+        omachine.Web2MRPrice = machine.Web2MRPrice();
+        omachine.ReelMRCost = machine.ReelMRCost();
+        omachine.ReelMRPrice = machine.ReelMRPrice();
+        omachine.IsMaxColorLimit = machine.IsMaxColorLimit();
+        omachine.PressUtilization = machine.PressUtilization();
+        omachine.MakeReadyPrice = machine.MakeReadyPrice();
+        omachine.InkChargeForUniqueColors = machine.InkChargeForUniqueColors();
+        omachine.CompanyId = machine.CompanyId();
+        omachine.FlagId = machine.FlagId();
+        omachine.IsScheduleable = machine.IsScheduleable();
+        omachine.SystemSiteId = machine.SystemSiteId();
+        omachine.SpoilageType = machine.SpoilageType();
+        omachine.SetupTime = machine.SetupTime();
+        omachine.TimePerCut = machine.TimePerCut();
+        omachine.MakeReadyTime = machine.MakeReadyTime();
+        omachine.WashupTime = machine.WashupTime();
+        omachine.ReelMakereadyTime = machine.ReelMakereadyTime();
+        omachine.Maximumsheetweight = machine.Maximumsheetweight();
+        omachine.Maximumsheetheight = machine.Maximumsheetheight();
+        omachine.Maximumsheetwidth = machine.Maximumsheetwidth();
+        omachine.Minimumsheetheight = machine.Minimumsheetheight();
+        omachine.Minimumsheetwidth = machine.Minimumsheetwidth();
+        omachine.LookupMethodId = machine.LookupMethodId();
+                
+        //_.each(source.MachineSpoilageItems, function (item) {
+        //    omachine.MachineSpoilageItems.push(MachineSpoilageItemsMapper(item));
+        //});
+
+
+        //_.each(machine.MachineInkCoverages, function (item) {
+        //    var module = MachineInkCoveragesServerMapper(item);
+        //    omachine.MachineInkCoverages.push(module);
+
+        //})
+
+
         return omachine;
     };
     return {
@@ -367,6 +545,9 @@
         lookupMethod: lookupMethod,
         lookupMethodListClientMapper:lookupMethodListClientMapper,
         machineClientMapper: machineClientMapper,
-        StockItemMapper: StockItemMapper
+        StockItemMapper: StockItemMapper,
+        MachineInkCoveragesListClientMapper: MachineInkCoveragesListClientMapper,
+        MachineInkCoveragesServerMapper: MachineInkCoveragesServerMapper,
+        machineServerMapper: machineServerMapper
     };
 });

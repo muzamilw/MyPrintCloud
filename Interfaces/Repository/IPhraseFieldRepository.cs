@@ -12,5 +12,7 @@ namespace MPC.Interfaces.Repository
         /// Get All Phrase Field By Section Id
         /// </summary>
         IEnumerable<PhraseField> GetPhraseFieldsBySectionId(long sectionId);
+
+        List<PhraseField> GetPhraseFieldsByOrganisationID(long OID);
     }
 }
