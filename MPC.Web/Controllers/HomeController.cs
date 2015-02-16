@@ -85,6 +85,8 @@ namespace MPC.MIS.Controllers
             string fullName = "";
             string Plan = "";
             string email = "";
+            Boolean isTrial = false;
+            int trialCount = 0;
 
             if ( validationInfo != null)
             {
@@ -93,7 +95,8 @@ namespace MPC.MIS.Controllers
                 fullName = validationInfo.FullName;
                 Plan = validationInfo.Plan;
                 email = validationInfo.Email;
-
+                isTrial = validationInfo.IsTrial;
+                trialCount = validationInfo.TrialCount;
             }
             else
             {
@@ -115,6 +118,8 @@ namespace MPC.MIS.Controllers
                     SecurityStamp = "123",
                     Role = "Admin",
                     RoleId = 1,
+                    IsTrial = isTrial,
+                    TrialCount = trialCount,
                     OrganisationId = organisationId,
                     RoleSections = new List<RoleSection>
                     {

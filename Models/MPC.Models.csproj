@@ -119,6 +119,7 @@
     <Compile Include="Common\ExportOrganisation.cs" />
     <Compile Include="Common\InlineTextStyles.cs" />
     <Compile Include="Common\FileTableCaption.cs" />
+    <Compile Include="Common\IsTrialClaimValue.cs" />
     <Compile Include="Common\SystemUserClaimValue.cs" />
     <Compile Include="Common\OrderByColumn.cs" />
     <Compile Include="Common\MachineListColumns.cs" />
@@ -152,6 +153,7 @@
     <Compile Include="Common\ShoppingCart.cs" />
     <Compile Include="Common\StockCategoryByColumn.cs" />
     <Compile Include="Common\TemplateVariable.cs" />
+    <Compile Include="Common\TrialCountClaimValue.cs" />
     <Compile Include="Common\UserIdentityModel.cs" />
     <Compile Include="Common\USTaxInfo.cs" />
     <Compile Include="Common\Utility.cs" />
@@ -361,7 +363,6 @@
     <Compile Include="ResponseModels\CompanyContactResponse.cs" />
     <Compile Include="ResponseModels\CostCenterBaseResponse.cs" />
     <Compile Include="ResponseModels\GetOrdersResponse.cs" />
-    <Compile Include="ResponseModels\OrderBaseResponseForCompany.cs" />
     <Compile Include="ResponseModels\MachineResponseModel.cs" />
     <Compile Include="ResponseModels\MachineSearchResponse.cs" />
     <Compile Include="ResponseModels\ItemDesignerTemplateBaseResponse.cs" />
@@ -375,6 +376,7 @@
     <Compile Include="ResponseModels\MyCompanyDomainBaseReponse.cs" />
     <Compile Include="ResponseModels\MyOrganizationBaseResponse.cs" />
     <Compile Include="ResponseModels\CostCentersResponse.cs" />
+    <Compile Include="ResponseModels\OrderBaseResponseForCompany.cs" />
     <Compile Include="ResponseModels\PaperSheetBaseResponse.cs" />
     <Compile Include="ResponseModels\PaperSheetResponse.cs" />
     <Compile Include="ResponseModels\PaperSheetResponseModel.cs" />
