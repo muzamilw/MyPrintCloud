@@ -202,6 +202,7 @@ require(["ko", "knockout-validation"], function (ko) {
                 editable: viewModel.editable,
                 selectable: true,
                 cache: true,
+                default: false,
                 defaultView: ko.utils.unwrapObservable(viewModel.defaultView),
                 eventClick: this.eventClick,
                 eventDrop: this.eventDropOrResize,

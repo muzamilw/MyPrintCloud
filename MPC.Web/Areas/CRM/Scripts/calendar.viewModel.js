@@ -2,8 +2,8 @@
     Module with the view model for the Calendar.
 */
 define("calendar/calendar.viewModel",
-    ["jquery", "amplify", "ko", "calendar/calendar.dataservice", "calendar/calendar.model", "common/pagination"],
-    function ($, amplify, ko, dataservice, model, pagination) {
+    ["jquery", "amplify", "ko", "calendar/calendar.dataservice", "calendar/calendar.model", "common/companySelector.viewModel"],
+    function ($, amplify, ko, dataservice, model, companySelector) {
         var ist = window.ist || {};
         ist.calendar = {
             viewModel: (function () {
@@ -25,7 +25,6 @@ define("calendar/calendar.viewModel",
                     companies = ko.observableArray([]),
                     activityTypes = ko.observableArray([]),
                     items = ko.observableArray([]),
-                    //items =[],
                     activities = [];
 
                 fullCalendar = {
@@ -172,9 +171,10 @@ define("calendar/calendar.viewModel",
                 }),
                 //Show
                 showCompanyDialog = function () {
-                    companies.removeAll();
-                    view.showCompanyDialog();
-                    getCompanies();
+                    //companies.removeAll();
+                    //view.showCompanyDialog();
+                    //getCompanies();
+                    openCompanyDialog();
                 }
                 //Set IS Customer Type
                 getIsCustomerType = function () {
@@ -187,6 +187,7 @@ define("calendar/calendar.viewModel",
                     else if (selectedActivity().isCustomerType() === "0") {
                         return 0;
                     }
+                    return 1;
                 },
                 //Hide
                 hideCompanyDialog = function () {
@@ -214,7 +215,7 @@ define("calendar/calendar.viewModel",
                         }
                     });
                 },
-               //Get Activities
+                //Get Activities
                 getCalendarActivities = function (startDate, EndDate) {
                     dataservice.getActivies({
                         StartDateTime: startDate,
@@ -232,7 +233,8 @@ define("calendar/calendar.viewModel",
                                         title: item.ActivityRef,
                                         start: item.ActivityStartTime,
                                         backgroundColor: sectionFlag != undefined ? sectionFlag.FlagColor : null,
-                                        end: item.ActivityEndTime
+                                        end: item.ActivityEndTime,
+                                        allDay: false
                                     });
                                 });
                             }
@@ -244,24 +246,7 @@ define("calendar/calendar.viewModel",
                         }
                     });
                 }
-                //Search Company
-                searchCompany = function () {
-                    getCompanies();
-                },
-                //Reset Company Dialog
-                resetCompany = function () {
-                    companySearchFilter(undefined);
-                    getCompanies();
-                },
-                //On Select Company
-                selectCompany = function (company) {
-                    selectedActivity().companyName(company.name());
-                    selectedActivity().contactCompanyId(company.id());
-                    selectedCompany(company);
-                    hideCompanyDialog();
-                    companyContacts.removeAll();
-                    getCompanyContactByCompanyId(company);
-                },
+
                 //On Save Acivity
                 onSaveActivity = function (activity) {
                     if (dobeforesave()) {
@@ -287,6 +272,7 @@ define("calendar/calendar.viewModel",
                                         backgroundColor: sectionFlag != undefined ? sectionFlag.FlagColor : null,
                                         start: activity.startDateTime(),
                                         end: activity.endDateTime(),
+                                        allDay: false
                                     });
                                 } else {
                                     items.remove(selectedActivityForRemove());
@@ -296,6 +282,7 @@ define("calendar/calendar.viewModel",
                                         backgroundColor: sectionFlag != undefined ? sectionFlag.FlagColor : null,
                                         start: activity.startDateTime(),
                                         end: activity.endDateTime(),
+                                        allDay:false
                                     });
                                 }
                             }
@@ -344,7 +331,7 @@ define("calendar/calendar.viewModel",
                 //Get Company Contact By CompanyId
                 getCompanyContactByCompanyId = function (company) {
                     dataservice.getCompanyContactByCompanyId({
-                        companyId: company.id(),
+                        companyId: company.id,
                     }, {
                         success: function (data) {
                             if (data != null) {
@@ -360,20 +347,42 @@ define("calendar/calendar.viewModel",
                         }
                     });
                 },
+                // Open Company Dialog
+                 openCompanyDialog = function () {
+                     companySelector.show(onSelectCompany, getIsCustomerType());
+                 },
+                // On Select Company
+                 onSelectCompany = function (company) {
+                     if (!company) {
+                         return;
+                     }
 
+                     if (selectedActivity().contactCompanyId() === company.id) {
+                         return;
+                     }
+                     selectedActivity().companyName(company.name);
+                     selectedActivity().contactCompanyId(company.id);
+                     //selectedCompany(company);
+                     hideCompanyDialog();
+                     companyContacts.removeAll();
+                     getCompanyContactByCompanyId(company);
+
+                     //selectedOrder().companyId(company.id);
+                     //selectedOrder().companyName(company.name);
+
+                     //// Get Company Address and Contacts
+                     //getBaseForCompany(company.id);
+                 },
                 //Initialize
                 initialize = function (specifiedView) {
                     view = specifiedView;
                     ko.applyBindings(view.viewModel, view.bindingRoot);
-                    pager(pagination.Pagination({ PageSize: 10 }, companies, getCompanies));
+                    // pager(pagination.Pagination({ PageSize: 10 }, companies, getCompanies));
                     getBase();
                 };
 
                 return {
                     selectedActivity: selectedActivity,
-                    companySearchFilter: companySearchFilter,
-                    selectCompany: selectCompany,
-                    selectedCompany: selectedCompany,
                     loggedInUserId: loggedInUserId,
                     pager: pager,
                     //items: items,
@@ -389,8 +398,6 @@ define("calendar/calendar.viewModel",
                     mycCalender: mycCalender,
                     showCompanyDialog: showCompanyDialog,
                     hideCompanyDialog: hideCompanyDialog,
-                    searchCompany: searchCompany,
-                    resetCompany: resetCompany,
                     onSaveActivity: onSaveActivity,
                     onDeleteActivity: onDeleteActivity,
                     activities: activities,
