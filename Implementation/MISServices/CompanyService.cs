@@ -964,10 +964,12 @@ namespace MPC.Implementation.MISServices
         }
         private void UpdateContactProfileImage(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
-            if (companySavingModel.NewAddedCompanyContacts != null)
+            //if (companySavingModel.NewAddedCompanyContacts != null)
+            if (companyDbVersion.CompanyContacts != null)
             {
                 //Add New companyContacts
-                foreach (var companyContact in companySavingModel.NewAddedCompanyContacts)
+                //foreach (var companyContact in companySavingModel.NewAddedCompanyContacts)
+                foreach (var companyContact in companyDbVersion.CompanyContacts)
                 {
                     companyContact.image = SaveCompanyContactProfileImage(companyContact);
                 }
@@ -975,15 +977,16 @@ namespace MPC.Implementation.MISServices
             if (companySavingModel.EdittedCompanyContacts != null)
             {
                 //Update companyContacts
-                foreach (var companyContact in companySavingModel.EdittedCompanyContacts)
-                {
-                    if (File.Exists(companyContact.image))
-                    {
-                        //If already image exist
-                        File.Delete(companyContact.image);
-                    }
-                    companyContact.image = SaveCompanyContactProfileImage(companyContact);
-                }
+                //foreach (var companyContact in companySavingModel.EdittedCompanyContacts)        
+                //foreach (var companyContact in companyDbVersion.CompanyContacts)
+                //{
+                //    if (File.Exists(companyContact.image))
+                //    {
+                //        //If already image exist
+                //        File.Delete(companyContact.image);
+                //    }
+                //    companyContact.image = SaveCompanyContactProfileImage(companyContact, companyDbVersion);
+                //}
             }
         }
         /// <summary>
@@ -1158,7 +1161,7 @@ namespace MPC.Implementation.MISServices
         private void SaveStoreBackgroundImage(Company company, Company companyDbVersion)
         {
 
-            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + company.CompanyId);
+            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyDbVersion.CompanyId);
             if (company.StoreBackgroundFile != null)
             {
                 string base64 = company.StoreBackgroundFile.Substring(company.StoreBackgroundFile.IndexOf(',') + 1);
@@ -2023,7 +2026,7 @@ namespace MPC.Implementation.MISServices
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string savePath = directoryPath + "\\Contact_" + companyContact.ContactId + ".png";
+                string savePath = directoryPath + "\\" + companyContact.ContactId+ "_profile" + ".png";
                 File.WriteAllBytes(savePath, data);
                 return savePath;
             }

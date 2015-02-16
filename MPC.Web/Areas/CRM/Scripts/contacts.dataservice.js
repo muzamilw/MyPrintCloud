@@ -4,7 +4,7 @@
         var // True if initialized
             isInitialized = false,
             // Initialize
-            initialize = function () {
+            initialize = function() {
                 if (!isInitialized) {
                     amplify.request.define('getbaseData', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyContactBaseForCrm',
@@ -26,11 +26,17 @@
                         dataType: 'json',
                         type: 'DELETE'
                     });
+                    amplify.request.define('saveCompanyContact', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyContact',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
                 };
             },
 
             // get contact list of list view
-            getContactsForListView = function (params, callbacks) {
+            getContactsForListView = function(params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getContacts',
@@ -40,7 +46,7 @@
                 });
             },
             // get Contacts Detail
-            getContactsDetail = function (params, callbacks) {
+            getContactsDetail = function(params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getContactsDetail',
@@ -49,8 +55,8 @@
                     data: params
                 });
             },
-             // get base Data
-            getbaseData = function (params, callbacks) {
+            // get base Data
+            getbaseData = function(params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getbaseData',
@@ -59,8 +65,8 @@
                     data: params
                 });
             },
-              // get contact list of list view
-            deleteContact = function (params, callbacks) {
+            // get contact list of list view
+            deleteContact = function(params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'deleteContact',
@@ -68,12 +74,23 @@
                     error: callbacks.error,
                     data: params
                 });
+            },
+            // Save Company Contact
+            saveCompanyContact = function(param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'saveCompanyContact',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
             };
         return {
             getbaseData:getbaseData,
             getContactsForListView: getContactsForListView,
             deleteContact: deleteContact,
-            getContactsDetail: getContactsDetail
+            getContactsDetail: getContactsDetail,
+            saveCompanyContact: saveCompanyContact
         };
     })();
 

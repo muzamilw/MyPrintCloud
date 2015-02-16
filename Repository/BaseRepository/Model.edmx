@@ -2540,6 +2540,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="ReportTitle" Type="varchar" MaxLength="200" />
           <Property Name="BannerAbsolutePath" Type="varchar" MaxLength="300" />
           <Property Name="isDefault" Type="bit" />
+          <Property Name="OrganisationId" Type="bigint" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -10605,6 +10606,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="ReportTitle" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="BannerAbsolutePath" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <Property Name="isDefault" Type="Boolean" />
+          <Property Name="OrganisationId" Type="Int64" />
         </EntityType>
         <EntityType Name="PipeLineProduct">
           <Key>
@@ -13978,6 +13980,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <EntitySetMapping Name="ReportNotes">
             <EntityTypeMapping TypeName="DomainModels.ReportNote">
               <MappingFragment StoreEntitySet="ReportNote">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="isDefault" ColumnName="isDefault" />
                 <ScalarProperty Name="BannerAbsolutePath" ColumnName="BannerAbsolutePath" />
                 <ScalarProperty Name="ReportTitle" ColumnName="ReportTitle" />
