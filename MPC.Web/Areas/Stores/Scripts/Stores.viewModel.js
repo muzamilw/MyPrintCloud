@@ -442,6 +442,20 @@ define("stores/stores.viewModel",
                                     }
                                 });
                             });
+                            //check on client side, push all if new added work
+                            if (searchCompanyTerritoryFilter() == "" || searchCompanyTerritoryFilter() == undefined) {
+                                _.each(newCompanyTerritories(), function (companyTerritoryItem) {
+                                    selectedStore().companyTerritories.push(companyTerritoryItem);
+                                });
+                            }
+                            //check on client side, if filter is not null
+                            if (searchCompanyTerritoryFilter() != "" && searchCompanyTerritoryFilter() != undefined) {
+                                _.each(newCompanyTerritories(), function (companyTerritoryItem) {
+                                    if (companyTerritoryItem.territoryName().indexOf(searchCompanyTerritoryFilter()) != -1 || companyTerritoryItem.territoryCode().indexOf(searchCompanyTerritoryFilter()) != -1) {
+                                        selectedStore().companyTerritories.push(companyTerritoryItem);
+                                    }
+                                });
+                            }
                         },
                         error: function (response) {
                             toastr.error("Failed To Load Company territories" + response);
@@ -1318,6 +1332,20 @@ define("stores/stores.viewModel",
                                     }
                                 });
                             });
+                            //check on client side, push all if new added work
+                            if (searchAddressFilter() == "" || searchAddressFilter() == undefined) {
+                                _.each(newAddresses(), function (addressItem) {
+                                    selectedStore().addresses.push(addressItem);
+                                });
+                            }
+                            //check on client side, if filter is not null
+                            if (searchAddressFilter() != "" && searchAddressFilter() != undefined) {
+                                _.each(newAddresses(), function (addressItem) {
+                                    if (addressItem.addressName().indexOf(searchAddressFilter()) != -1) {
+                                        selectedStore().addresses.push(addressItem);
+                                    }
+                                });
+                            }
                         },
                         error: function (response) {
                             toastr.error("Failed To Load Addresses" + response);
@@ -1887,6 +1915,20 @@ define("stores/stores.viewModel",
                                     }
                                 });
                             });
+                            //check on client side, push all if new added work
+                            if (searchCompanyContactFilter() == "" || searchCompanyContactFilter() == undefined) {
+                                _.each(newCompanyContacts(), function (companyContactItem) {
+                                    selectedStore().users.push(companyContactItem);
+                                });
+                            }
+                            //check on client side, if filter is not null
+                            if (searchCompanyContactFilter() != "" && searchCompanyContactFilter() != undefined) {
+                                _.each(newCompanyContacts(), function (companyContactItem) {
+                                    if (companyContactItem.email().indexOf(searchCompanyContactFilter()) != -1 || companyContactItem.firstName().indexOf(searchCompanyContactFilter()) != -1) {
+                                        selectedStore().users.push(companyContactItem);
+                                    }
+                                });
+                            }
                         },
                         error: function (response) {
                             toastr.error("Failed To Load Users" + response);
@@ -2100,7 +2142,12 @@ define("stores/stores.viewModel",
                                 if (selectedCompanyContact().shippingAddressId() != undefined) {
                                     selectedCompanyContact().shippingAddress(getAddressByAddressId(selectedCompanyContact().shippingAddressId()));
                                 }
-                               
+                                //updating selected contact rolename
+                                _.each(roles(), function(role) {
+                                    if (role.roleId() == selectedCompanyContact().contactRoleId()) {
+                                        selectedCompanyContact().roleName(role.roleName());
+                                    }
+                                });
                                 newCompanyContacts.push(selectedCompanyContact());
                                 onCloseCompanyContact();
                             } else {
@@ -2114,6 +2161,12 @@ define("stores/stores.viewModel",
                                         edittedCompanyContacts.push(selectedCompanyContact());
                                     }
                                 }
+                                //updating selected contact rolename
+                                _.each(roles(), function (role) {
+                                    if (role.roleId() == selectedCompanyContact().contactRoleId()) {
+                                        selectedCompanyContact().roleName(role.roleName());
+                                    }
+                                });
                                 onCloseCompanyContact();
                             }
                         }

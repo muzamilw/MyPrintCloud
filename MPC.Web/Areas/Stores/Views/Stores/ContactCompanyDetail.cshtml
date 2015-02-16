@@ -587,7 +587,7 @@
                                                                 <th><a href="#"><span>Address Name</span></a></th>
                                                                 <th><a href="#"><span>City</span></a></th>
                                                                 @*<th><a href="#"><span>Territory</span></a></th>*@
-                                                                <th><a href="#"><span>Territory Default Shipping Address</span></a></th>
+                                                                <th><a href="#"><span>Company Default Shipping Address</span></a></th>
                                                                 <th><a href="#"><span>Company Default Address</span></a></th>
                                                             </tr>
                                                         </thead>
@@ -1960,27 +1960,36 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     <div class="img col-xs-3">
                         <img style="min-height: 20px; width: 20px;" data-bind="attr:{src: image}" alt="" />
                     </div>
-                    <div class="details">
+                    <div class="details col-lg-1">
                         <div class="name">
-                            <a data-toggle="modal" href="#" data-bind="text: firstName , validationToolTip:firstName"></a>
+                            <a data-toggle="modal" href="#" data-bind="text: firstName "></a>
                         </div>
-                        <div class="time online" data-bind="text: email, validationToolTip:email ">
+                        <div class="time online" data-bind="text: email">
                         </div>
                     </div>
                 </td>
                 <td>
                     <div class="type">
-                        <span class="label label-danger">User</span>
+                        <span class="label label-danger" data-bind="text: roleName "></span>
                     </div>
                 </td>
                 @*
                     <td data-bind="text: firstName "></td>
                     <td data-bind="text: contactRoleId"></td>*@
-                <td data-bind="text: isWebAccess"></td>
-                <td data-bind="text: isPlaceOrder() == true ? 'Yes' : 'No' "></td>
+                <td>
+                    <div class="type">
+                        <span data-bind="text: isWebAccess() == true ? 'Yes' : 'No' "></span>   @*class="label label-danger"*@
+                    </div>
+                </td>
+                
+                <td>
+                    <div class="type">
+                        <span class="label label-danger" data-bind="text: isPlaceOrder() == true ? 'Yes' : 'No' "></span>
+                    </div>
+                </td>
                 <td data-bind="text: canUserPlaceOrderWithoutApproval() == true ? 'Yes' : 'No' "></td>
                 <td data-bind="text: isPricingshown() == true ? 'Yes' : 'No' "></td>
-                <td data-bind="text: creditLimit() == true ? 'Yes' : 'No' "></td>
+                <td data-bind="text: creditLimit() != null ? '$ '+ creditLimit() +'.00' : '$ 0.00'"></td>
                 <td id="actionColumn" class="text-right">
                     <!-- ko template: { name: "actionsCompanyContactTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                     <!-- /ko -->
