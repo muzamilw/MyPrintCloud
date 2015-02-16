@@ -33,14 +33,14 @@ define("crm/contacts.viewModel",
                 selectedShippingAddressId = ko.observable(),
                  // Sort In Ascending
                 sortIsAsc = ko.observable(true),
-                // Selected Bussiness Address
                 selectedBussinessAddress = ko.observable(),
-                // Selected Shipping Address
                 selectedShippingAddress = ko.observable(),
-                // Dummy variable
-                selectedStore = ko.observable(undefined),
+
                 // Selected Company
                 selectedCompanyContact = ko.observable(),
+                // Selected Role Id
+                contactRoleId = ko.observable(true),
+                states = ko.observableArray(),
                 // Selected Role Id
                 contactRoleId = ko.observable(true),
                 // list of state
@@ -137,7 +137,6 @@ define("crm/contacts.viewModel",
                         }
                     });
                 },
-                // Get Contact Detail
                 getContactDetail = function (contact) {
                     dataservice.getContactsDetail({ companyId: contact.companyId() },
                     {
@@ -146,28 +145,26 @@ define("crm/contacts.viewModel",
                                 // Address
                                 bussinessAddresses.removeAll();
                                 shippingAddresses.removeAll();
-
-                                // setting business address
-                                _.each(data.Addresses, function (item) {
-                                    var address = new model.Address.Create(item);
-                                    bussinessAddresses.push(address);
-
-                                    if (item.AddressId == contact.addressId()) {
-                                        selectedBussinessAddress(address);
-                                    }
-                                });
-                                //setting shipping address
                                 _.each(data.Addresses, function (item) {
                                     var address = new model.Address.Create(item);
                                     shippingAddresses.push(address);
-                                    if (item.AddressId == contact.shippingAddressId()) {
+                                    bussinessAddresses.push(address);
+                                    if (item.AddressId == contact.addressId()) {
+                                        selectedBussinessAddress(address);
                                         selectedShippingAddress(address);
                                     }
                                 });
                                 // State Setting for address
-                                stateSettingForBusinessAddress();
+                                _.each(states(), function (state) {
+                                    if (state.StateId == selectedBussinessAddress().stateId())
+                                        selectedBussinessAddress().state(state.StateName);
+                                });
+
                                 // State Setting for shipping address
-                                stateSettingForShippingAddress();
+                                _.each(states(), function (state) {
+                                    if (state.StateId == selectedShippingAddress().stateId())
+                                        selectedShippingAddress().state(state.StateName);
+                                });
                                 // Territories
                                 contactCompanyTerritoriesFilter.removeAll();
                                 _.each(data.CompanyTerritories, function (terror) {
