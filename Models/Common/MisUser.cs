@@ -38,6 +38,16 @@ namespace MPC.Models.Common
         public string Role { get; set; }
 
         /// <summary>
+        /// Defines if user is in trial period
+        /// </summary>
+        public Boolean IsTrial { get; set; }
+
+        /// <summary>
+        /// Trial period count
+        /// </summary>
+        public int TrialCount { get; set; }
+
+        /// <summary>
         /// Role Sections - Sections that user has access rights to 
         /// </summary>
         public ICollection<RoleSection> RoleSections { get; set; }
