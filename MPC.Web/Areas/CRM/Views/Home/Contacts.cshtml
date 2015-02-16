@@ -41,9 +41,11 @@
                                     <tr>
                                         <td>
                                             <img data-bind="attr: { src: image }" alt="" />
+                                            <a class="user-link" data-bind="text: firstName "></a> 
+                                            <span data-bind="text:companyName"></span> 
                                         </td>
                                         <td>
-                                            <a class="user-link" data-bind="text: firstName "></a>
+                                            <span data-bind="text:email"></span> <br/> <span data-bind="text:quickPhone"></span>
                                         </td>
                                         <td>
                                             <span data-bind="text:email"></span> <br /> <span data-bind="text:quickPhone"></span>
@@ -97,7 +99,7 @@
                 </div>
             </div>
         </script>
-        @Html.Partial("~/Areas/Stores/Views/Shared/_UserProfileDetails.cshtml")
+        @Html.Partial("Widgets/_UserProfileDetails")
     </div>
 </div>
 <!-- ko stopBinding: true -->

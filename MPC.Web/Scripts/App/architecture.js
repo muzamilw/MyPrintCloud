@@ -196,8 +196,14 @@ require(["ko", "knockout-validation"], function (ko) {
         update: function (element, viewModelAccessor, allBindingsAccessor) {
             var viewModel = viewModelAccessor();
             element.innerHTML = "";
+            //var distevents = ko.utils.unwrapObservable(viewModel.events);
+            //var seen = [];
+            //var distinctEvents = _.filter(distevents, function (n) {
+            //    return seen.indexOf(n.id) == -1 && seen.push(n.id);
+            //});
             $(element).fullCalendar({
                 events: ko.utils.unwrapObservable(viewModel.events),
+                //events: viewModel.events,
                 header: viewModel.header,
                 editable: viewModel.editable,
                 selectable: true,
@@ -209,6 +215,8 @@ require(["ko", "knockout-validation"], function (ko) {
                 eventResize: this.eventDropOrResize,
                 select: this.newEventAdd,
                 viewDisplay: this.viewEventClick,
+                //monthClick:this.dayEventClick
+                //eventSources:this.dayEventClick
             });
 
 
@@ -225,6 +233,16 @@ require(["ko", "knockout-validation"], function (ko) {
                 ist.calendar.viewModel.getActivitiesForNextPreTodayClick(view);
             });
             $(element).fullCalendar('gotoDate', ko.utils.unwrapObservable(viewModel.viewDate));;
+            //});
+            //$(element).on('click', '.fc-button-next span', function () {
+            //    $(this).unbind('click');
+            //});
+            //    .on('.fc-button-next span').click(function () {
+
+            //    alert("next");
+
+            //})
+            // $(element).fullCalendar('gotoDate', ko.utils.unwrapObservable(viewModel.viewDate));;
 
         }
     };

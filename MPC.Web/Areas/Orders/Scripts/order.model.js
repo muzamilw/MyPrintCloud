@@ -315,12 +315,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Address Factory
     Address.Create = function (source) {
-        return new Address(source.AddressId, source.AddressName, source.Address1, source.Address2, source.Tel1);
+        return new Address(source.AddressId, source.AddressName, source.Address1, source.Address2, source.Telephone1);
     };
     
     // Company Contact Factory
     CompanyContact.Create = function (source) {
-        return new CompanyContact(source.ContactId, source.Name, source.Email);
+        return new CompanyContact(source.CompanyContactId, source.CompanyContactName, source.Email);
     };
 
     return {

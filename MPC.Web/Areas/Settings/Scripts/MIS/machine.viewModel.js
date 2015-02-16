@@ -2,8 +2,8 @@
     Module with the view model for the Machine List.
 */
 define("machine/machine.viewModel",
-    ["jquery", "amplify", "ko", "machine/machine.dataservice", "machine/machine.model", "common/confirmation.viewModel", "common/pagination"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination) {
+    ["jquery", "amplify", "ko", "machine/machine.dataservice", "machine/machine.model", "common/confirmation.viewModel", "common/pagination", "common/stockItem.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, stockDialog) {
         var ist = window.ist || {};
         ist.machine = {
             viewModel: (function () {
@@ -38,6 +38,16 @@ define("machine/machine.viewModel",
                     //    openEditDialog();
                     //},
                     
+                    gotoElement = function (validation) {
+                        view.gotoElement(validation.element);
+                    },
+                     setValidationSummary = function (selectedItem) {
+                         errorList.removeAll();
+                         if (selectedItem.Description.error) {
+                             errorList.push({ name: "Description is Required", element: selectedItem.Description.error });
+                         }
+                         
+                     },
                     GetMachineListForGuillotine = function () {
                         isGuillotineList = true;
                        getMachines();
@@ -129,10 +139,32 @@ define("machine/machine.viewModel",
                         var flag = true;
                         if (!selectedMachine().isValid()) {
                             selectedMachine().errors.showAllMessages();
+                            setValidationSummary(selectedMachine());
                             flag = false;
                         }
                         return flag;
                     },
+                    onCloseMachineEditor = function () {
+                        if (selectedMachine().hasChanges()) {
+                            confirmation.messageText("Do you want to save changes?");
+                            confirmation.afterProceed(saveMachine);
+                            confirmation.afterCancel(function () {
+                                selectedMachine().reset();
+                                CloseMachineEditor();
+                            });
+                            confirmation.show();
+                            return;
+                        }
+                        CloseMachineEditor();
+                    },
+
+                    CloseMachineEditor = function () {
+                        //selectedProduct(model.Item.Create({}, itemActions, itemStateTaxConstructorParams));
+                        //resetVideoCounter();
+                        isEditorVisible(false);
+                        errorList.removeAll();
+                    },
+
                     //Save Machine
                     saveMachine = function (item) {
                         if (selectedMachine() != undefined && doBeforeSave()) {
@@ -144,27 +176,17 @@ define("machine/machine.viewModel",
                             //}
                         }
                     },
-                    ////Save NEW Cost Center
-                    //saveNewCostCenter = function () {
-                    //    dataservice.saveNewCostCenter(selectedMachine().convertToServerData(), {
-                    //        success: function (data) {
-                    //            selectedMachine().costCenterId(data.costCenterId);
-                    //            machineList.splice(0, 0, selectedMachine());
-                    //            view.hideMachineDialog();
-                    //            toastr.success("Successfully save.");
-                    //        },
-                    //        error: function (response) {
-                    //            toastr.error("Failed to save." + response);
-                    //        }
-                    //    });
-                    //},
-                    ////Save EDIT Cost Center
+                    
+
+                    //Save EDIT Machine
                     saveEdittedMachine = function () {
-                        //var omachine = model.machineServerMapper(selectedMachine());
-                        dataservice.saveMachine(model.machineServerMapper(selectedMachine()) , {
+                       
+                        dataservice.saveMachine(model.machineServerMapper(selectedMachine()), {
                             success: function (data) {
-                                
+                                selectedMachine().reset();
+                                errorList.removeAll();
                                 toastr.success("Successfully save.");
+
                             },
                             error: function (exceptionMessage, exceptionType) {
                                 if (exceptionType === ist.exceptionType.CaresGeneralException) {
@@ -176,27 +198,39 @@ define("machine/machine.viewModel",
                         });
                     },
                     //On Edit Click Of Machine
-                    OnSelectDefaultPaper = function (ostockItem) {
-                        if (ostockItem.category == "Plates") {
-                            $("#ddl-plateid").val(ostockItem.id);
-                        } else if (ostockItem.category == "Paper") {
-                            $("#ddl-paperSizeId").val(ostockItem.id);
-                        }
-                        $(".btn-myModal-close").click();
+                    //onSelectStockItem = function () {
+                        
+                    //},
+                    //OnSelectDefaultPaper = function (ostockItem) {
+                        //if (ostockItem.category == "Plates") {
+                        //    $("#ddl-plateid").val(ostockItem.id);
+                        //} else if (ostockItem.category == "Paper") {
+                        //    $("#ddl-paperSizeId").val(ostockItem.id);
+                        //}
+                        //$(".btn-myModal-close").click();
 
-                    }
-
+                 //   }
+                   
 
                     onPapperSizeStockItemPopup = function () {
-                        stockItemgPager(new pagination.Pagination({ PageSize: 5 }, stockItemList, getStockItemsList)),
-                        categoryID(1);
-                        getStockItemsList();
-                    }
+                        //stockItemgPager(new pagination.Pagination({ PageSize: 5 }, stockItemList, getStockItemsList)),
+                        //categoryID(1);
+                        //getStockItemsList();
+                        openStockItemDialog(1);
+                    },
                     onPlateStockItemPopup = function () {
-                        stockItemgPager(new pagination.Pagination({ PageSize: 5 }, stockItemList, getStockItemsList)),
-                        categoryID(4);
-                        getStockItemsList();
-                    }
+                        openStockItemDialog(4);
+
+                        //stockItemgPager(new pagination.Pagination({ PageSize: 5 }, stockItemList, getStockItemsList)),
+                        //categoryID(4);
+                        //getStockItemsList();
+                    },
+                    openStockItemDialog = function (stockCategoryId) {
+                        stockDialog.show(function (stockItem) {
+                            selectedMachine().onSelectStockItem(stockItem);
+                            //onSelectStockItem(stockItem);
+                        }, stockCategoryId, false);
+                    },
                     onEditItem = function (oMachine) {
                         errorList.removeAll();
                         dataservice.getMachineById({
@@ -268,6 +302,7 @@ define("machine/machine.viewModel",
                     getMachines: getMachines,
                     doBeforeSave: doBeforeSave,
                     saveMachine: saveMachine,
+                    errorList:errorList,
                     //saveNewCostCenter: saveNewCostCenter,
                     saveEdittedMachine: saveEdittedMachine,
                     openEditDialog: openEditDialog,
@@ -286,8 +321,13 @@ define("machine/machine.viewModel",
                     isGuillotineList: isGuillotineList,
                     GetMachineListForGuillotine: GetMachineListForGuillotine,
                     GetMachineListForAll: GetMachineListForAll,
-                    OnSelectDefaultPaper: OnSelectDefaultPaper,
-                    UpdatedPapperStockID: UpdatedPapperStockID
+                   // OnSelectDefaultPaper: OnSelectDefaultPaper,
+                    UpdatedPapperStockID: UpdatedPapperStockID,
+                    openStockItemDialog: openStockItemDialog,
+                    onCloseMachineEditor: onCloseMachineEditor,
+                    CloseMachineEditor: CloseMachineEditor,
+                    gotoElement: gotoElement,
+                    setValidationSummary: setValidationSummary
 
                   
                 };
