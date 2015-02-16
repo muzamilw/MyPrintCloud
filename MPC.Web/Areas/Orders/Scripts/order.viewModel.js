@@ -3,8 +3,8 @@
 */
 define("order/order.viewModel",
     ["jquery", "amplify", "ko", "order/order.dataservice", "order/order.model", "common/pagination", "common/confirmation.viewModel",
-        "common/sharedNavigation.viewModel"],
-    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared) {
+        "common/sharedNavigation.viewModel", "common/companySelector.viewModel"],
+    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector) {
         var ist = window.ist || {};
         ist.order = {
             viewModel: (function () {
@@ -114,7 +114,16 @@ define("order/order.viewModel",
                     },
                     // Open Company Dialog
                     openCompanyDialog = function() {
+                        companySelector.show(onSelectCompany, 1);
+                    },
+                    // On Select Company
+                    onSelectCompany = function (company) {
+                        if (!company) {
+                            return;
+                        }
                         
+                        selectedOrder().companyId(company.id);
+                        selectedOrder().companyName(company.name);
                     },
                     // Initialize the view model
                     initialize = function (specifiedView) {
@@ -354,7 +363,7 @@ define("order/order.viewModel",
                     },
                     // Get Company Base Data
                     getBaseForCompany = function (id) {
-                        dataservice.getBaseForCompany({
+                        dataservice.getBaseDataForCompany({
                             id: id
                         }, {
                             success: function (data) {

@@ -252,6 +252,19 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             };
         }
 
+        /// <summary>
+        /// Crete From Domain Model
+        /// </summary>
+        public static CompanyContactDropDownForOrder CreateFromDropDownForOrder(this DomainModels.CompanyContact source)
+        {
+            return new CompanyContactDropDownForOrder
+            {
+                ContactId = source.ContactId,
+                Name = source.FirstName,
+                Email = source.Email
+            };
+        }
+
         public static CompanyContactResponse CreateFrom(this MPC.Models.ResponseModels.CompanyContactResponse response)
         {
             return new CompanyContactResponse
