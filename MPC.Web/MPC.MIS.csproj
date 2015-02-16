@@ -263,7 +263,6 @@
     <Compile Include="Areas\Api\Controllers\GetItemsForWidgetsController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\GetPhraseFiledsBySectionController.cs" />
-    <Compile Include="Areas\Api\Controllers\OrderBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseForCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemCloneController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderController.cs" />
@@ -614,10 +613,6 @@
     <Content Include="Areas\Common\Scripts\clientSidePagination.js" />
     <Content Include="Areas\Common\Scripts\supplier.model.js" />
     <Content Include="Areas\Common\Scripts\pagination.js" />
-    <Content Include="Areas\CRM\Scripts\calendar.dataservice.js" />
-    <Content Include="Areas\CRM\Scripts\calendar.model.js" />
-    <Content Include="Areas\CRM\Scripts\calendar.view.js" />
-    <Content Include="Areas\CRM\Scripts\calendar.viewModel.js" />
     <Content Include="Areas\CRM\Scripts\contacts.dataservice.js" />
     <Content Include="Areas\CRM\Scripts\contacts.model.js" />
     <Content Include="Areas\CRM\Scripts\contacts.view.js" />
