@@ -219,8 +219,10 @@ define("stores/stores.viewModel",
                 onEditItem = function (item) {
                     editorViewModel.selectItem(item);
                     openEditDialog();
-                    $('.nav-tabs').children().removeClass('active');
-                    $('#generalInfoTab').addClass('active');
+                    //$('.nav-tabs').children().removeClass('active');
+                    //$('#generalInfoTab').addClass('active');
+                    $('.nav-tabs li:first-child a').tab('show');
+                    $('.nav-tabs li:eq(0) a').tab('show');
                     sharedNavigationVM.initialize(selectedStore, function (saveCallback) { saveStore(saveCallback); });
                 },
                 //On Edit Click Of Store
@@ -990,7 +992,6 @@ define("stores/stores.viewModel",
                     if (campaignSectionFlags().length === 0) {
                         getCampaignBaseData();
                     }
-                    debugger;
                     if (selectedEmail().campaignType() === 3) {
                         resetEmailBaseDataArrays();
                         if (campaign.flagIDs() !== null && campaign.flagIDs() !== undefined) {

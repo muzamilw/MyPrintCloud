@@ -429,3 +429,8 @@
 #stockDialog #stockDialogMainContainer {
   width: 838px;
 }
+#orderBinding #tab-EstimateHeader #orderType {
+  font-weight: bold;
+  font-size: 15px;
+  color: red;
+}

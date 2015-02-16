@@ -38,6 +38,16 @@ define("machine/machine.viewModel",
                     //    openEditDialog();
                     //},
                     
+                    gotoElement = function (validation) {
+                        view.gotoElement(validation.element);
+                    },
+                     setValidationSummary = function (selectedItem) {
+                         errorList.removeAll();
+                         if (selectedItem.Description.error) {
+                             errorList.push({ name: "Description is Required", element: selectedItem.Description.error });
+                         }
+                         
+                     },
                     GetMachineListForGuillotine = function () {
                         isGuillotineList = true;
                        getMachines();
@@ -129,10 +139,32 @@ define("machine/machine.viewModel",
                         var flag = true;
                         if (!selectedMachine().isValid()) {
                             selectedMachine().errors.showAllMessages();
+                            setValidationSummary(selectedMachine());
                             flag = false;
                         }
                         return flag;
                     },
+                    onCloseMachineEditor = function () {
+                        if (selectedMachine().hasChanges()) {
+                            confirmation.messageText("Do you want to save changes?");
+                            confirmation.afterProceed(saveMachine);
+                            confirmation.afterCancel(function () {
+                                selectedMachine().reset();
+                                CloseMachineEditor();
+                            });
+                            confirmation.show();
+                            return;
+                        }
+                        CloseMachineEditor();
+                    },
+
+                    CloseMachineEditor = function () {
+                        //selectedProduct(model.Item.Create({}, itemActions, itemStateTaxConstructorParams));
+                        //resetVideoCounter();
+                        isEditorVisible(false);
+                        errorList.removeAll();
+                    },
+
                     //Save Machine
                     saveMachine = function (item) {
                         if (selectedMachine() != undefined && doBeforeSave()) {
@@ -149,10 +181,12 @@ define("machine/machine.viewModel",
                     //Save EDIT Machine
                     saveEdittedMachine = function () {
                        
-                        dataservice.saveMachine({ machine: model.machineServerMapper(selectedMachine()) }, {
+                        dataservice.saveMachine(model.machineServerMapper(selectedMachine()), {
                             success: function (data) {
-                                
+                                selectedMachine().reset();
+                                errorList.removeAll();
                                 toastr.success("Successfully save.");
+
                             },
                             error: function (exceptionMessage, exceptionType) {
                                 if (exceptionType === ist.exceptionType.CaresGeneralException) {
@@ -164,17 +198,19 @@ define("machine/machine.viewModel",
                         });
                     },
                     //On Edit Click Of Machine
-                    OnSelectDefaultPaper = function (ostockItem) {
-                        if (ostockItem.category == "Plates") {
-                            $("#ddl-plateid").val(ostockItem.id);
-                        } else if (ostockItem.category == "Paper") {
-                            $("#ddl-paperSizeId").val(ostockItem.id);
-                        }
-                        $(".btn-myModal-close").click();
+                    //onSelectStockItem = function () {
+                        
+                    //},
+                    //OnSelectDefaultPaper = function (ostockItem) {
+                        //if (ostockItem.category == "Plates") {
+                        //    $("#ddl-plateid").val(ostockItem.id);
+                        //} else if (ostockItem.category == "Paper") {
+                        //    $("#ddl-paperSizeId").val(ostockItem.id);
+                        //}
+                        //$(".btn-myModal-close").click();
 
-                    }
-                    onSelectStockItem= function () {
-                    },
+                 //   }
+                   
 
                     onPapperSizeStockItemPopup = function () {
                         //stockItemgPager(new pagination.Pagination({ PageSize: 5 }, stockItemList, getStockItemsList)),
@@ -192,6 +228,7 @@ define("machine/machine.viewModel",
                     openStockItemDialog = function (stockCategoryId) {
                         stockDialog.show(function (stockItem) {
                             selectedMachine().onSelectStockItem(stockItem);
+                            //onSelectStockItem(stockItem);
                         }, stockCategoryId, false);
                     },
                     onEditItem = function (oMachine) {
@@ -265,6 +302,7 @@ define("machine/machine.viewModel",
                     getMachines: getMachines,
                     doBeforeSave: doBeforeSave,
                     saveMachine: saveMachine,
+                    errorList:errorList,
                     //saveNewCostCenter: saveNewCostCenter,
                     saveEdittedMachine: saveEdittedMachine,
                     openEditDialog: openEditDialog,
@@ -283,10 +321,13 @@ define("machine/machine.viewModel",
                     isGuillotineList: isGuillotineList,
                     GetMachineListForGuillotine: GetMachineListForGuillotine,
                     GetMachineListForAll: GetMachineListForAll,
-                    OnSelectDefaultPaper: OnSelectDefaultPaper,
+                   // OnSelectDefaultPaper: OnSelectDefaultPaper,
                     UpdatedPapperStockID: UpdatedPapperStockID,
                     openStockItemDialog: openStockItemDialog,
-                    onSelectStockItem: onSelectStockItem
+                    onCloseMachineEditor: onCloseMachineEditor,
+                    CloseMachineEditor: CloseMachineEditor,
+                    gotoElement: gotoElement,
+                    setValidationSummary: setValidationSummary
 
                   
                 };

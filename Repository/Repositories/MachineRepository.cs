@@ -126,25 +126,37 @@ namespace MPC.Repository.Repositories
 
             
         }
+       
+        public string GetStockItemName(int? itemId)
+        {
+            if (itemId != null && itemId > 0)
+            {
+                StockItem SI= db.StockItems.Where(g => g.StockItemId == itemId).SingleOrDefault();
+                return SI.ItemName;
+            }
+            return "";
+        }
+
         public MachineResponseModel GetMachineByID(long MachineID)
         {
-           // Machine ms = DbSet.Where(g => g.MachineId == MachineID).FirstOrDefault();
+            Machine omachine = DbSet.Where(g => g.MachineId == MachineID).SingleOrDefault();
             return new MachineResponseModel
             {
-                machine = DbSet.Where(g => g.MachineId == MachineID).SingleOrDefault(),
+                machine = omachine,
                 lookupMethods = GetAllLookupMethodList(),
                 Markups = GetAllMarkupList(),
                 StockItemforInk = GetAllStockItemforInk(),
-                StockItemsForPaperSizePlate = GetStockItemsForPaperSizePlate(),
-                 MachineSpoilageItems = GetMachineSpoilageItems(MachineID),
-               // MachineResources= GetAllMachineResources(),
+                MachineSpoilageItems = GetMachineSpoilageItems(MachineID),
+                deFaultPaperSizeName = GetStockItemName(omachine.DefaultPaperId),
+                deFaultPlatesName = GetStockItemName(omachine.DefaultPlateId),
                 InkCoveragItems = GetInkCoveragItems()
 
             };
 
             
         }
-        public bool UpdateMachine(Machine machine)
+
+        public bool UpdateMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages)
         {
             try
             {
@@ -212,9 +224,23 @@ namespace MPC.Repository.Repositories
                 omachine.ReelMakereadyTime = machine.ReelMakereadyTime;
                 omachine.LookupMethodId = machine.LookupMethodId;
                 omachine.OrganisationId = machine.OrganisationId;
+              
 
+                foreach (var item in machine.MachineInkCoverages)
+                {
+                    MachineInkCoverage obj = db.MachineInkCoverages.Where(g => g.Id == item.Id).SingleOrDefault();
+                    obj.SideInkOrder = item.SideInkOrder;
+                    obj.SideInkOrderCoverage = item.SideInkOrderCoverage;
+                }
 
-              //  omachine = machine;
+                foreach (var item in MachineSpoilages)
+                {
+                    MachineSpoilage obj = db.MachineSpoilages.Where(g => g.MachineSpoilageId == item.MachineSpoilageId).SingleOrDefault();
+                    obj.RunningSpoilage = item.RunningSpoilage;
+                    obj.SetupSpoilage = item.SetupSpoilage;
+                    
+                }
+             
                 if (db.SaveChanges() > 0)
                 {
                     return true;
@@ -251,11 +277,11 @@ namespace MPC.Repository.Repositories
         {
            return db.LookupMethods;
         }
-        public IEnumerable<StockItem> GetStockItemsForPaperSizePlate()
-        {
-            return db.StockItems.Where(g => g.CategoryId == 1 || g.CategoryId == 4).ToList();
+        //public IEnumerable<StockItem> GetStockItemsForPaperSizePlate()
+        //{
+        //    return db.StockItems.Where(g => g.CategoryId == 1 || g.CategoryId == 4).ToList();
 
-        }
+        //}
         public IEnumerable<Markup> GetAllMarkupList()
         {
             return db.Markups;
