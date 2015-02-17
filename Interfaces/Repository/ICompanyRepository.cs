@@ -43,6 +43,8 @@ namespace MPC.Interfaces.Repository
         string SystemLength(long OrganisationID);
         void UpdateCompanyName(Company Instance);
         Company GetStoreByStoreId(long companyId);
+
+        ExportOrganisation ExportCompany(ExportOrganisation ObjExportOrg, long CompanyId);
         /// <summary>
         /// Get Company By Is Customer Type
         /// </summary>
