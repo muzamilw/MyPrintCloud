@@ -62,6 +62,7 @@ namespace MPC.Repository.Repositories
         {
             db.Configuration.LazyLoadingEnabled = false;
             db.Configuration.ProxyCreationEnabled = false;
+          
             return db.Organisations.Where(o => o.OrganisationId == organisationId).FirstOrDefault();
         }
         #endregion
