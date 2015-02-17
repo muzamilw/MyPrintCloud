@@ -20,18 +20,22 @@
                     <div class="main-box-body clearfix">
                         @*<div id="calendar"></div>*@
                         <div id="calendar" data-bind="fullCalendar: $root.mycCalender, itemsList: $root.items" data-eventclass="label-primary"> </div>
+                        @* data-bind="fullCalendar: $root.mycCalender, itemsList: $root.items" *@
                     </div>
                 </div>
             </div>
         </div>
         @Html.Partial("~/Areas/CRM/Views/Home/_AddEditCalendarActivity.cshtml")
-     
+
     </div>
 </div>
+<!-- ko stopBinding: true -->
+@Html.Partial("~/Areas/Common/Views/Shared/_CompanySelector.cshtml")
+<!-- /ko -->
 @section Scripts {
     @*<script src="~/Content/themes/Centaurus/js/fullcalendar.min.js"></script>*@
     <script>
-        require(["calendar/calendar.view"]);
+        require(["calendar/calendar.view", "common/companySelector.view"]);
 
     </script>
 }

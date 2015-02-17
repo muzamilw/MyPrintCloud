@@ -2,8 +2,8 @@
     Module with the view model for the Machine List.
 */
 define("machine/machine.viewModel",
-    ["jquery", "amplify", "ko", "machine/machine.dataservice", "machine/machine.model", "common/confirmation.viewModel", "common/pagination"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination) {
+    ["jquery", "amplify", "ko", "machine/machine.dataservice", "machine/machine.model", "common/confirmation.viewModel", "common/pagination", "common/stockItem.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, stockDialog) {
         var ist = window.ist || {};
         ist.machine = {
             viewModel: (function () {
@@ -13,7 +13,7 @@ define("machine/machine.viewModel",
                     machineList = ko.observableArray([]),
                     errorList = ko.observableArray([]),
                     stockItemList = ko.observableArray([]),
-                    stockItemListForDropdown = ko.observableArray([]),
+                    
                     stockItemgPager = ko.observable(),
                     // #region Busy Indicators
                     isLoadingMachineList = ko.observable(false),
@@ -37,22 +37,17 @@ define("machine/machine.viewModel",
                     //    editorViewModel.selectItem(oMachine);
                     //    openEditDialog();
                     //},
-                    //Delete Machine
-                    //deleteMachine = function (oMachine) {
-                    //    dataservice.deleteMachine({
-                    //        CostCentreId: oMachine.CostCentreId(),
-                    //    }, {
-                    //        success: function (data) {
-                    //            if (data != null) {
-                    //                machineList.remove(oMachine);
-                    //                toastr.success(" Deleted Successfully !");
-                    //            }
-                    //        },
-                    //        error: function (response) {
-                    //            toastr.error("Failed to Delete . Error: " + response);
-                    //        }
-                    //    });
-                    //},
+                    
+                    gotoElement = function (validation) {
+                        view.gotoElement(validation.element);
+                    },
+                     setValidationSummary = function (selectedItem) {
+                         errorList.removeAll();
+                         if (selectedItem.Description.error) {
+                             errorList.push({ name: "Description is Required", element: selectedItem.Description.error });
+                         }
+                         
+                     },
                     GetMachineListForGuillotine = function () {
                         isGuillotineList = true;
                        getMachines();
@@ -67,8 +62,25 @@ define("machine/machine.viewModel",
                             return;
                         }
                         // Ask for confirmation
+  
+                        confirmation.messageText("Do you want to Archive this Machine?");
                         confirmation.afterProceed(function () {
-                            archiveMachine(oMachine);
+                            dataservice.deleteMachine({
+                                machineId: oMachine.MachineId()
+                            },
+                            {
+                                success: function (data) {
+                                    machineList.remove(oMachine);
+                                    toastr.success(" Deleted Successfully !");
+                                    
+                                },
+                                error: function (response) {
+                                    toastr.error("Failed to Delete Machine" + response);
+                                }
+                            });
+                        });
+                        confirmation.afterCancel(function () {
+                            //navigateToUrl(element);
                         });
                         confirmation.show();
                     },
@@ -123,78 +135,102 @@ define("machine/machine.viewModel",
                         });
                     },
                     //Do Before Save
-                    //doBeforeSave = function () {
-                    //    var flag = true;
-                    //    if (!selectedMachine().isValid()) {
-                    //        selectedMachine().errors.showAllMessages();
-                    //        flag = false;
-                    //    }
-                    //    return flag;
-                    //},
-                    ////Save Cost Center
-                    //saveCostCenter = function (item) {
-                    //    if (selectedMachine() != undefined && doBeforeSave()) {
-                    //        if (selectedMachine().costCentreId() > 0) {
-                    //            saveEdittedCostCenter();
-                    //        } else {
-                    //            saveNewCostCenter(item);
-                    //        }
-                    //    }
-                    //},
-                    ////Save NEW Cost Center
-                    //saveNewCostCenter = function () {
-                    //    dataservice.saveNewCostCenter(selectedMachine().convertToServerData(), {
-                    //        success: function (data) {
-                    //            selectedMachine().costCenterId(data.costCenterId);
-                    //            machineList.splice(0, 0, selectedMachine());
-                    //            view.hideMachineDialog();
-                    //            toastr.success("Successfully save.");
-                    //        },
-                    //        error: function (response) {
-                    //            toastr.error("Failed to save." + response);
-                    //        }
-                    //    });
-                    //},
-                    ////Save EDIT Cost Center
-                    //saveEdittedCostCenter = function () {
-                    //    dataservice.saveCostCenter(selectedMachine().convertToServerData(), {
-                    //        success: function (data) {
-                    //            var newItem = model.costCenterClientMapper(data);
-                    //            var newObjtodelete = machineList.find(function (temp) {
-                    //                return temp.costCenterId() == newItem.costCenterId();
-                    //            });
-                    //            machineList.remove(newObjtodelete);
-                    //            machineList.push(newItem);
-                    //            view.hideMachineDialog();
-                    //            toastr.success("Successfully save.");
-                    //        },
-                    //        error: function (exceptionMessage, exceptionType) {
-                    //            if (exceptionType === ist.exceptionType.CaresGeneralException) {
-                    //                toastr.error(exceptionMessage);
-                    //            } else {
-                    //                toastr.error("Failed to save.");
-                    //            }
-                    //        }
-                    //    });
-                    //},
-                    //On Edit Click Of Machine
-                    OnSelectDefaultPaper = function (ostockItem) {
-                        $("#txtStock").val(ostockItem.id);
-                        $(".btn-myModal-close").click();
-                       
-                        
+                    doBeforeSave = function () {
+                        var flag = true;
+                        if (!selectedMachine().isValid()) {
+                            selectedMachine().errors.showAllMessages();
+                            setValidationSummary(selectedMachine());
+                            flag = false;
+                        }
+                        return flag;
+                    },
+                    onCloseMachineEditor = function () {
+                        if (selectedMachine().hasChanges()) {
+                            confirmation.messageText("Do you want to save changes?");
+                            confirmation.afterProceed(saveMachine);
+                            confirmation.afterCancel(function () {
+                                selectedMachine().reset();
+                                CloseMachineEditor();
+                            });
+                            confirmation.show();
+                            return;
+                        }
+                        CloseMachineEditor();
+                    },
 
-                    }
+                    CloseMachineEditor = function () {
+                        //selectedProduct(model.Item.Create({}, itemActions, itemStateTaxConstructorParams));
+                        //resetVideoCounter();
+                        isEditorVisible(false);
+                        errorList.removeAll();
+                    },
+
+                    //Save Machine
+                    saveMachine = function (item) {
+                        if (selectedMachine() != undefined && doBeforeSave()) {
+                            if (selectedMachine().MachineId() > 0) {
+                                saveEdittedMachine();
+                            }
+                            //else {
+                            //    saveNewMachine(item);
+                            //}
+                        }
+                    },
+                    
+
+                    //Save EDIT Machine
+                    saveEdittedMachine = function () {
+                       
+                        dataservice.saveMachine(model.machineServerMapper(selectedMachine()), {
+                            success: function (data) {
+                                selectedMachine().reset();
+                                errorList.removeAll();
+                                toastr.success("Successfully save.");
+
+                            },
+                            error: function (exceptionMessage, exceptionType) {
+                                if (exceptionType === ist.exceptionType.CaresGeneralException) {
+                                    toastr.error(exceptionMessage);
+                                } else {
+                                    toastr.error("Failed to save.");
+                                }
+                            }
+                        });
+                    },
+                    //On Edit Click Of Machine
+                    //onSelectStockItem = function () {
+                        
+                    //},
+                    //OnSelectDefaultPaper = function (ostockItem) {
+                        //if (ostockItem.category == "Plates") {
+                        //    $("#ddl-plateid").val(ostockItem.id);
+                        //} else if (ostockItem.category == "Paper") {
+                        //    $("#ddl-paperSizeId").val(ostockItem.id);
+                        //}
+                        //$(".btn-myModal-close").click();
+
+                 //   }
+                   
+
                     onPapperSizeStockItemPopup = function () {
-                        stockItemgPager(new pagination.Pagination({ PageSize: 5 }, stockItemList, getStockItemsList)),
-                        categoryID(1);
-                        getStockItemsList();
-                    }
+                        //stockItemgPager(new pagination.Pagination({ PageSize: 5 }, stockItemList, getStockItemsList)),
+                        //categoryID(1);
+                        //getStockItemsList();
+                        openStockItemDialog(1);
+                    },
                     onPlateStockItemPopup = function () {
-                        stockItemgPager(new pagination.Pagination({ PageSize: 5 }, stockItemList, getStockItemsList)),
-                        categoryID(4);
-                        getStockItemsList();
-                    }
+                        openStockItemDialog(4);
+
+                        //stockItemgPager(new pagination.Pagination({ PageSize: 5 }, stockItemList, getStockItemsList)),
+                        //categoryID(4);
+                        //getStockItemsList();
+                    },
+                    openStockItemDialog = function (stockCategoryId) {
+                        stockDialog.show(function (stockItem) {
+                            selectedMachine().onSelectStockItem(stockItem);
+                            //onSelectStockItem(stockItem);
+                        }, stockCategoryId, false);
+                    },
                     onEditItem = function (oMachine) {
                         errorList.removeAll();
                         dataservice.getMachineById({
@@ -205,24 +241,6 @@ define("machine/machine.viewModel",
                                     selectedMachine(model.machineClientMapper(data));
                                     selectedMachine().reset();
                                     showMachineDetail();
-                                    dataservice.GetAllStockItemList({
-                                        stockID:10,
-                                    }, {
-                                        success: function (data) {
-                                            stockItemListForDropdown.removeAll();
-                                            if (data && data.TotalCount > 0) {
-                                                _.each(data, function (item) {
-                                                    var stockItem = model.StockItemMapper(item)
-                                                    stockItemListForDropdown.push(stockItem);
-                                                });
-
-                                            }
-                                        },
-                                        error: function (response) {
-                                            toastr.error("Failed to load stock items" + response);
-                                        }
-                                    });
-
                                     
                                 }
                             },
@@ -271,7 +289,7 @@ define("machine/machine.viewModel",
                     selectedMachine: selectedMachine,
                     isLoadingMachineList: isLoadingMachineList,
                     stockItemList: stockItemList,
-                    stockItemListForDropdown:stockItemListForDropdown,
+                    
                     //deleteCostCenter: deleteCostCenter,
                     //onDeleteCostCenter: onDeleteCostCenter,
                     sortOn: sortOn,
@@ -282,10 +300,11 @@ define("machine/machine.viewModel",
                     makeEditable: makeEditable,
                     //createNewCostCenter: createNewCostCenter,
                     getMachines: getMachines,
-                    //doBeforeSave: doBeforeSave,
-                    //saveCostCenter: saveCostCenter,
+                    doBeforeSave: doBeforeSave,
+                    saveMachine: saveMachine,
+                    errorList:errorList,
                     //saveNewCostCenter: saveNewCostCenter,
-                    // saveEdittedCostCenter: saveEdittedCostCenter,
+                    saveEdittedMachine: saveEdittedMachine,
                     openEditDialog: openEditDialog,
                     closeEditDialog: closeEditDialog,
                     searchFilter: searchFilter,
@@ -302,8 +321,13 @@ define("machine/machine.viewModel",
                     isGuillotineList: isGuillotineList,
                     GetMachineListForGuillotine: GetMachineListForGuillotine,
                     GetMachineListForAll: GetMachineListForAll,
-                    OnSelectDefaultPaper: OnSelectDefaultPaper,
-                    UpdatedPapperStockID: UpdatedPapperStockID
+                   // OnSelectDefaultPaper: OnSelectDefaultPaper,
+                    UpdatedPapperStockID: UpdatedPapperStockID,
+                    openStockItemDialog: openStockItemDialog,
+                    onCloseMachineEditor: onCloseMachineEditor,
+                    CloseMachineEditor: CloseMachineEditor,
+                    gotoElement: gotoElement,
+                    setValidationSummary: setValidationSummary
 
                   
                 };

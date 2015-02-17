@@ -2,14 +2,6 @@
   background-color: #ff7e47;
   color: white;
 }
-#productBinding #tabsHeader {
-  border: 1px solid silver;
-  box-shadow: 1px 1px 1px silver;
-}
-#productBinding .set-filter-margin {
-  margin-top: 25px;
-  margin-bottom: 25px;
-}
 #productBinding .inactiveView {
   background-color: #ffffff;
   color: black;
@@ -20,12 +12,6 @@
 #productBinding #gridZoomSlider {
   width: 100%;
 }
-#productBinding .filter-block .form-group {
-  margin-bottom: 0;
-}
-#productBinding #stockDialog #stockDialogMainContainer {
-  width: 838px;
-}
 #productBinding #pressDialog #pressDialogMainContainer {
   width: 838px;
 }
@@ -34,14 +20,6 @@
 }
 #productBinding #itemAddonCostCentreDialog #itemAddonCostCentreDialogMainContainer {
   width: 838px;
-}
-#productBinding .form-group .input-group-addon {
-  text-decoration: none;
-  border: 0;
-  cursor: pointer;
-}
-#productBinding .form-group .input-group .input-group-addon {
-  border: 1px solid #ccc;
 }
 #productBinding .pricetable-itemPriceMatrix tr th#Qty {
   width: 12%;

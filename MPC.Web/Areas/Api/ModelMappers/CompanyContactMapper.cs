@@ -252,6 +252,19 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             };
         }
 
+        /// <summary>
+        /// Crete From Domain Model
+        /// </summary>
+        public static CompanyContactDropDownForOrder CreateFromDropDownForOrder(this DomainModels.CompanyContact source)
+        {
+            return new CompanyContactDropDownForOrder
+            {
+                ContactId = source.ContactId,
+                Name = source.FirstName,
+                Email = source.Email
+            };
+        }
+
         public static CompanyContactResponse CreateFrom(this MPC.Models.ResponseModels.CompanyContactResponse response)
         {
             return new CompanyContactResponse
@@ -259,6 +272,21 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyContacts = response.CompanyContacts.Select(contact => contact.CreateFrom()),
                 RowCount = response.RowCount
             };
+        }
+
+        /// <summary>
+        /// Base Data Mapper
+        /// </summary>
+        public static CompanyBaseResponse CreateFrom(this MPC.Models.ResponseModels.CompanyBaseResponse result)
+        {
+            return new CompanyBaseResponse
+            {
+                CompanyContactRoles = result.CompanyContactRoles != null ? result.CompanyContactRoles.Select(x => x.CreateFrom()) : null,
+                RegistrationQuestions = result.RegistrationQuestions != null ? result.RegistrationQuestions.Select(x => x.CreateFromDropDown()) : null,
+                Addresses = result.Addresses!=null ? result.Addresses.Select(address=> address.CreateFrom()):null,
+                CompanyTerritories = result.CompanyTerritories!=null ? result.CompanyTerritories.Select(territory=> territory.CreateFrom()):null,
+                StateDropDowns = result.States!=null ? result.States.Select(state=> state.CreateFromDropDown()):null,
+            }; 
         }
     }
 }

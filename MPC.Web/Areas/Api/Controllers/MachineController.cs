@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Linq;
+using MPC.WebBase.Mvc;
 using System.Web.Http;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
+
+//using System;
+//using System.Net;
+//using System.Web;
+//using System.Web.Http;
+
+
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -30,12 +34,12 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Public
         public MachineResponse Get(long id)
         {
-            return _machineService.GetMachineById(id).CreateFrom() ;
-            
-           
+            MachineResponse MR= _machineService.GetMachineById(id).CreateFrom() ;
+
+            return MR;
         }
 
-        public MachineListResponse GetMachineList([FromUri] MachineRequestModel request)
+        public MachineListResponse Get([FromUri] MachineRequestModel request)
         {
             var result = _machineService.GetAll(request);
             return new MachineListResponse
@@ -45,14 +49,23 @@ namespace MPC.MIS.Areas.Api.Controllers
             };
         }
 
-        public bool archiveMachine(long machineId)
+        public bool Delete(MachineDeleteRequest request)
         {
-
-            return _machineService.archiveMachine(machineId);
+            return _machineService.archiveMachine(request.machineId);
           
 
         }
-       
+        
+        [ApiException]
+        public bool Post(MachineUpdateRequestModel request)
+        
+        {
+
+            return _machineService.UpdateMachine(request.machine.CreateFrom(), request.MachineSpoilages.Select(g=>g.CreateFrom()));
+           
+
+
+        }
         #endregion
     }
 }

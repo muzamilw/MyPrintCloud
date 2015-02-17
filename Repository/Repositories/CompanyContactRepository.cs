@@ -46,6 +46,13 @@ namespace MPC.Repository.Repositories
             return DbSet.Where(cc => cc.OrganisationId == OrganisationId).ToList();
         }
 
+        /// <summary>
+        /// Get All By Company ID
+        /// </summary>
+        public IEnumerable<CompanyContact> GetContactsByCompanyId(long companyId)
+        {
+            return DbSet.Where(cc => cc.CompanyId == companyId).ToList();
+        }
         ///// <summary>
         ///// Get Compnay Contacts
         ///// </summary>
@@ -583,12 +590,13 @@ namespace MPC.Repository.Repositories
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
             bool isSearchFilterSpecified = !string.IsNullOrEmpty(request.SearchFilter);
+            bool isTerritoryFilterSpecified = request.TerritoryId != 0;
 
             Expression<Func<CompanyContact, bool>> query =
                 s =>
                     (isSearchFilterSpecified && (s.Email.Contains(request.SearchFilter)) ||
                      (s.quickCompanyName.Contains(request.SearchFilter)) ||
-                     !isSearchFilterSpecified) && s.CompanyId == request.CompanyId;//&& s.OrganisationId == OrganisationId
+                     !isSearchFilterSpecified) && s.CompanyId == request.CompanyId && s.isArchived != true &&((isTerritoryFilterSpecified && s.TerritoryId == request.TerritoryId )|| !isTerritoryFilterSpecified) ;//&& s.OrganisationId == OrganisationId
 
             int rowCount = DbSet.Count(query);
             // ReSharper disable once ConditionalTernaryEqualBranch
@@ -621,7 +629,8 @@ namespace MPC.Repository.Repositories
                     (contact.MiddleName.Contains(request.SearchFilter)) ||
                     (contact.LastName.Contains(request.SearchFilter)) ||
                     (contact.quickCompanyName.Contains(request.SearchFilter))) &&
-                    (contact.Company.IsCustomer == 0 || contact.Company.IsCustomer == 2) && contact.isArchived==false;
+                    (contact.Company.IsCustomer == 0 || contact.Company.IsCustomer == 1) && 
+                    (contact.isArchived == false || contact.isArchived == null);
 
             int rowCount = DbSet.Count(query);
             IEnumerable<CompanyContact> companyContacts = request.IsAsc
@@ -955,7 +964,7 @@ namespace MPC.Repository.Repositories
 
         public IEnumerable<CompanyContact> GetCompanyContactsByCompanyId(long companyId)
         {
-            return db.CompanyContacts.Where(x => x.CompanyId == companyId && x.OrganisationId == OrganisationId);
+            return db.CompanyContacts.Where(x => x.CompanyId == companyId && x.OrganisationId == OrganisationId).ToList();
         }
 
         //Update The CompnayContact for The Retail Customer

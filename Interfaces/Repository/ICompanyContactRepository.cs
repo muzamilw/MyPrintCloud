@@ -97,5 +97,10 @@ namespace MPC.Interfaces.Repository
         CompanyTerritory GetCcompanyByTerritoryID(Int64 ContactId);
         void UpdateCompanyContactForRetail(CompanyContact Instance);
         void UpdateCompanyContactForCorporate(CompanyContact Instance);
+
+        /// <summary>
+        /// Get All By Company ID
+        /// </summary>
+        IEnumerable<CompanyContact> GetContactsByCompanyId(long companyId);
     }
 }
