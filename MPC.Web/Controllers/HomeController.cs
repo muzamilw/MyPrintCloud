@@ -173,6 +173,48 @@ namespace MPC.MIS.Controllers
                                         RightName = "CanViewOrder",
                                         RightId = 1,
                                         SectionId = 1
+                                    },
+                                    new AccessRight
+                                    {
+                                        RightName = "CanViewDashboard",
+                                        RightId = 1,
+                                        SectionId = 1
+                                    },
+                                    new AccessRight
+                                    {
+                                        RightName = "CanViewCRM",
+                                        RightId = 1,
+                                        SectionId = 1
+                                    },
+                                    new AccessRight
+                                    {
+                                        RightName = "CanViewProspect",
+                                        RightId = 1,
+                                        SectionId = 1
+                                    },
+                                    new AccessRight
+                                    {
+                                        RightName = "CanViewSupplier",
+                                        RightId = 1,
+                                        SectionId = 1
+                                    },
+                                    new AccessRight
+                                    {
+                                        RightName = "CanViewCalendar",
+                                        RightId = 1,
+                                        SectionId = 1
+                                    },
+                                    new AccessRight
+                                    {
+                                        RightName = "CanViewContact",
+                                        RightId = 1,
+                                        SectionId = 1
+                                    },
+                                    new AccessRight
+                                    {
+                                        RightName = "CanViewStore",
+                                        RightId = 1,
+                                        SectionId = 1
                                     }
                                 }
                         
