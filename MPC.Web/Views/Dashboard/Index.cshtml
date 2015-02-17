@@ -13,7 +13,12 @@
         var width = $(window).width();
         total = width - 320;
         total = total / 3;
-        document.getElementById("trial-description").style.marginLeft = total + "px";
+        var element = document.getElementById("trial-description");
+        if (!element) {
+            return;
+        }
+        
+        element.style.marginLeft = total + "px";
     });
 </script>
 <script>
@@ -27,7 +32,12 @@
             total = width - 320;
             total = total / 3;
 
-            document.getElementById("trial-description").style.marginLeft = total + "px";
+            var element = document.getElementById("trial-description");
+            if (!element) {
+                return;
+            }
+
+            element.style.marginLeft = total + "px";
             
         });
 

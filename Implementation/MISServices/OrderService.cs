@@ -20,6 +20,8 @@ namespace MPC.Implementation.MISServices
         private readonly ISectionFlagRepository sectionFlagRepository;
         private readonly ICompanyContactRepository companyContactRepository;
         private readonly IAddressRepository addressRepository;
+        private readonly ISystemUserRepository systemUserRepository;
+        private readonly IPipeLineSourceRepository pipeLineSourceRepository;
 
         #endregion
         #region Constructor
@@ -28,7 +30,7 @@ namespace MPC.Implementation.MISServices
         /// Constructor
         /// </summary>
         public OrderService(IEstimateRepository estimateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyContactRepository companyContactRepository,
-            IAddressRepository addressRepository)
+            IAddressRepository addressRepository, ISystemUserRepository systemUserRepository, IPipeLineSourceRepository pipeLineSourceRepository)
         {
             if (estimateRepository == null)
             {
@@ -42,11 +44,21 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("addressRepository");
             }
+            if (systemUserRepository == null)
+            {
+                throw new ArgumentNullException("systemUserRepository");
+            }
+            if (pipeLineSourceRepository == null)
+            {
+                throw new ArgumentNullException("pipeLineSourceRepository");
+            }
 
             this.estimateRepository = estimateRepository;
             this.sectionFlagRepository = sectionFlagRepository;
             this.companyContactRepository = companyContactRepository;
             this.addressRepository = addressRepository;
+            this.systemUserRepository = systemUserRepository;
+            this.pipeLineSourceRepository = pipeLineSourceRepository;
         }
 
         #endregion
@@ -87,9 +99,14 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Get base data for order
         /// </summary>
-        public IEnumerable<SectionFlag> GetBaseData()
+        public OrderBaseResponse GetBaseData()
         {
-            return sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Order);
+            return new OrderBaseResponse
+                   {
+                       SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Order),
+                       SystemUsers = systemUserRepository.GetAll(),
+                       PipeLineSources = pipeLineSourceRepository.GetAll()
+                   };
         }
 
         /// <summary>

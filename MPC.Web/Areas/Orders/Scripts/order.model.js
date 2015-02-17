@@ -267,6 +267,22 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             };
     },
    
+    // System User Entity        
+    SystemUser = function (specifiedId, specifiedName) {
+        return {
+            id: specifiedId,
+            name: specifiedName
+        };
+    },
+    
+    // Pipeline Source Entity        
+    PipeLineSource = function (specifiedId, specifiedDescription) {
+        return {
+            id: specifiedId,
+            name: specifiedDescription
+        };
+    },
+
     // Address Entity
     Address = function(specifiedId, specifiedName, specifiedAddress1, specifiedAddress2, specifiedTelephone1) {
         return {            
@@ -322,6 +338,16 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     CompanyContact.Create = function (source) {
         return new CompanyContact(source.ContactId, source.Name, source.Email);
     };
+    
+    // System User Factory
+    SystemUser.Create = function (source) {
+        return new SystemUser(source.SystemUserId, source.UserName);
+    };
+    
+    // Pipeline Source Factory
+    PipeLineSource.Create = function (source) {
+        return new PipeLineSource(source.SourceId, source.Description);
+    };
 
     return {
         // Estimate Constructor
@@ -331,6 +357,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // Address Constructor
         Address: Address,
         // Company Contact Constructor
-        CompanyContact: CompanyContact
+        CompanyContact: CompanyContact,
+        // System User Constructor
+        SystemUser: SystemUser,
+        // PipeLine Source Constructor
+        PipeLineSource: PipeLineSource
     };
 });

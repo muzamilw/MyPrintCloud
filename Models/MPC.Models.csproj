@@ -378,6 +378,7 @@
     <Compile Include="ResponseModels\MyCompanyDomainBaseReponse.cs" />
     <Compile Include="ResponseModels\MyOrganizationBaseResponse.cs" />
     <Compile Include="ResponseModels\CostCentersResponse.cs" />
+    <Compile Include="ResponseModels\OrderBaseResponse.cs" />
     <Compile Include="ResponseModels\OrderBaseResponseForCompany.cs" />
     <Compile Include="ResponseModels\OrderStatusesResponse.cs" />
     <Compile Include="ResponseModels\PaperSheetBaseResponse.cs" />
