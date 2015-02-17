@@ -262,6 +262,7 @@
     <Compile Include="Areas\Api\Controllers\GetCompaniesForCalendarController.cs" />
     <Compile Include="Areas\Api\Controllers\GetItemsForWidgetsController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\GetOrderStatusesController.cs" />
     <Compile Include="Areas\Api\Controllers\GetPhraseFiledsBySectionController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseForCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemCloneController.cs" />
@@ -1400,6 +1401,10 @@
     <Content Include="Scripts\Ace\lib\ace\theme-clouds.js" />
     <Content Include="Scripts\Ace\lib\ace\theme-twilight.js" />
     <Content Include="Scripts\Ace\lib\ace\worker-css.js" />
+    <Content Include="Scripts\App\dashboard.dataservice.js" />
+    <Content Include="Scripts\App\dashboard.model.js" />
+    <Content Include="Scripts\App\dashboard.view.js" />
+    <Content Include="Scripts\App\dashboard.viewModel.js" />
     <Content Include="Scripts\knockout-ace.js" />
     <Content Include="Scripts\Ace\ace.js" />
     <Content Include="Scripts\Ace\colorpicker.js" />
@@ -2871,6 +2876,7 @@
     <Folder Include="Areas\Api\Views\CompanyContact\" />
     <Folder Include="Areas\Api\Views\CompanyProduct\" />
     <Folder Include="Areas\Api\Views\Customer\" />
+    <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
     <Folder Include="Areas\Api\Views\Machine\" />
     <Folder Include="Areas\Api\Views\PaperSheetBaseApi\" />
     <Folder Include="Areas\Common\Controllers\" />
