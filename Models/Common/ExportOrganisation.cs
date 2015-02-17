@@ -86,7 +86,7 @@ namespace MPC.Models.Common
         public List<SectionCostcentre> SectionCostcentre { get; set; }
         public List<SectionCostCentreResource> SectionCostCentreResource { get; set; }
 
-        public List<PaymentGateway> PaymentGateway { get; set; }
+        public List<PaymentGateway> PaymentGateways { get; set; }
 
         public List<CmsSkinPageWidget> CmsSkinPageWidget { get; set; }
 
@@ -94,6 +94,8 @@ namespace MPC.Models.Common
 
         public List<CompanyCMYKColor> CompanyCMYKColor { get; set; }
 
+
+        public List<Campaign> Campaigns { get; set; }
         
 
 

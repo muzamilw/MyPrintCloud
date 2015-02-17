@@ -528,6 +528,11 @@ namespace MPC.Repository.BaseRepository
         public DbSet<ActivityType> ActivityTypes { get; set; }
 
         /// <summary>
+        /// Variable Option DbSet
+        /// </summary>
+        public DbSet<VariableOption> VariableOptions { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
 // ReSharper disable InconsistentNaming

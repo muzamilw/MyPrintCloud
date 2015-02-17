@@ -1,4 +1,4 @@
-﻿using MPC.Models.DomainModels;
+﻿
 
 namespace MPC.Models.Common
 {
@@ -11,7 +11,6 @@ namespace MPC.Models.Common
         /// Organisation Id
         /// </summary>
         public long OrganisationId { get; set; }
-
       
     }
 }

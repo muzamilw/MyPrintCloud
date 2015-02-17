@@ -54,6 +54,7 @@ namespace MPC.Interfaces.MISServices
 
         void ExportOrganisation(long OrganisationID);
 
+        void ImportOrganisation();
         #endregion
     }
 }

@@ -56,6 +56,13 @@ define("order/order.dataservice", function () {
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    
+                    // Define request to get order by id
+                    amplify.request.define('getBaseDataForCompany', 'ajax', {
+                        url: ist.siteUrl + '/Api/OrderBaseForCompany',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
 
                     isInitialized = true;
                 }
@@ -65,6 +72,16 @@ define("order/order.dataservice", function () {
                 initialize();
                 return amplify.request({
                     resourceId: 'getBaseData',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
+            // Get Base For Company
+            getBaseDataForCompany = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getBaseDataForCompany',
+                    data: params,
                     success: callbacks.success,
                     error: callbacks.error,
                 });
@@ -126,7 +143,8 @@ define("order/order.dataservice", function () {
             saveOrder: saveOrder,
             archiveOrder: archiveOrder,
             getBaseData: getBaseData,
-            cloneOrder: cloneOrder
+            cloneOrder: cloneOrder,
+            getBaseDataForCompany: getBaseDataForCompany
         };
     })();
 

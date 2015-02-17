@@ -12,6 +12,15 @@ define("crm/crm.view",
                 viewModel = specifiedViewModel,
                // binding root
                bindingRoot = $("#crmBindingRoot")[0],
+               // Show Addressnthe dialog
+                showAddressDialog = function () {
+                    $("#myAddressSetModalForCrm").modal("show");
+                    initializeLabelPopovers();
+                },
+                // Hide Address the dialog
+                hideAddressDialog = function () {
+                    $("#myAddressSetModalForCrm").modal("hide");
+                },
                
             // Initialize
             initialize = function () {
@@ -23,6 +32,8 @@ define("crm/crm.view",
             return {
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
+                showAddressDialog: showAddressDialog,
+                hideAddressDialog: hideAddressDialog
             };
         })(crmViewModel);
 

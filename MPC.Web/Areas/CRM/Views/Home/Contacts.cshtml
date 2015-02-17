@@ -27,21 +27,22 @@
                 <div class="main-box no-header clearfix">
                     <div class="main-box-body clearfix">
                         <div class="table-responsive">
-                            <table class="table user-list">
+                            <table class="table user-list span12">
                                 <thead>
-                                    <tr>
-                                        <th><span>Name</span></th>
-                                        <th><span>Email</span></th>
-                                        <th>&nbsp;</th>
+                                    <tr class="span12">
+                                        <th class="col-lg-1"></th>
+                                        <th class="col-lg-3"><span>Name</span></th>
+                                        <th class="col-lg-3"><span>Email</span></th>
+                                        <th >&nbsp;</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <!-- ko  foreach: $root.companyContactsForListView  -->
                                     <tr>
                                         <td>
-                                            <img src="~/Content/themes/Centaurus/img/samples/logos/1.jpg" alt="" />
-                                            <a class="user-link" data-bind="text: firstName "></a>
-                                            <span data-bind="text:companyName"></span>
+                                            <img data-bind="attr: { src: image }" alt="" />
+                                            <a class="user-link" data-bind="text: firstName "></a> 
+                                            <span data-bind="text:companyName"></span> 
                                         </td>
                                         <td>
                                             <span data-bind="text:email"></span> <br /> <span data-bind="text:quickPhone"></span>
@@ -95,7 +96,6 @@
                 </div>
             </div>
         </script>
-        @Html.Partial("~/Areas/Stores/Views/Shared/_UserProfileDetails.cshtml")
     </div>
 </div>
 <!-- ko stopBinding: true -->

@@ -2,7 +2,7 @@
     Module with the view model for the crm
 */
 define("crm/crm.supplier.viewModel",
-    ["jquery", "amplify", "ko", "crm/crm.supplier.dataservice", "crm/crm.supplier.model", "common/confirmation.viewModel", "common/pagination", "common/sharedNavigation.viewModel"],
+    ["jquery", "amplify", "ko", "crm/crm.supplier.dataservice", "crm/crm.model", "common/confirmation.viewModel", "common/pagination", "common/sharedNavigation.viewModel"],
     function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVm) {
         var ist = window.ist || {};
         ist.crmSupplier = {
