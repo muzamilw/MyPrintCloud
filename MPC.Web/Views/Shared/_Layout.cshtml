@@ -216,7 +216,7 @@
                         </li>*@
                         <li class="dropdown profile-dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                               Scarlett Johnson
+                               
                                 <span class="hidden-xs">
                                     @if (User != null && User.Identity != null)
                                     {
@@ -498,11 +498,29 @@
                                     </ul>
                                 </li>
                                 <li id="lipurchases">
-                                    <a href="~/Orders/Home/PurchaseOrders" class="my-navigator">
-                                        <i class="fa fa-calendar"></i>
+                                    <a href="#" class="dropdown-toggle">
+                                        <i class="fa fa-users"></i>
                                         <span>Purchase Orders</span>
+                                        <i class="fa fa-chevron-circle-right drop-icon"></i>
                                     </a>
+                                    <ul class="submenu">
+                                        <li class="left15pxback">
+                                            <a href="~/Orders/Home/PurchaseOrders" class="my-navigator">
+                                                <i class="fa fa-table"></i>
+                                                <span>GRN</span>
+                                                <span class="label label-primary label-circle pull-right">11</span>
+                                            </a>
+                                        </li>
+                                        <li class="left15pxback">
+                                            <a href="~/Orders/Home/PurchaseOrdersPO" class="my-navigator">
+                                                <i class="fa fa-table"></i>
+                                                <span>PO</span>
+                                                <span class="label label-primary label-circle pull-right">09</span>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </li>
+                              
                                 <li id="liemails">
                                     <a href="~/Home/PageUnAvailable" class="my-navigator">
                                         <i class="fa fa-calendar"></i>

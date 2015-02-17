@@ -1680,6 +1680,9 @@
     <Content Include="Areas\Stores\Views\Shared\_RaveReviews.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_ProductsFilter.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_ChooseUsIcon.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\PurchaseOrdersPO.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_partialPurchaseorderOP.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_partialPurchaseorderGRN.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
