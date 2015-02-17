@@ -716,7 +716,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public int LiveStoresCountForDashboard()
         {
-            return DbSet.Count(company => company.isArchived == false || company.isArchived == null);
+            return DbSet.Count(company => !company.isArchived.HasValue && company.OrganisationId == OrganisationId);
         }
     }
 }
