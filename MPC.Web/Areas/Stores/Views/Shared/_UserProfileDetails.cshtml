@@ -749,26 +749,26 @@
                                                         <span class="help-block text-right"></span>
                                                     </div>
                                                 </div>
-                                                @*<div class="form-group">
+                                                <div class="form-group">
                                                         <div class="col-lg-8 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload Password"  data-content="Map On Contact" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
                                                             </div>
-                                                            <label for="switchCanPlaceOrder" class="control-label text-right tooltip-float">Can Place Order</label>
+                                                            <label for="switchIsPlaceOrder" class="control-label text-right tooltip-float">Can Place Order</label>
                                                         </div>
                                                         <div class="col-lg-4">
                                                             <div class="onoffswitch">
-                                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCanPlaceOrder" data-bind="checked: canPlaceDirectOrder">
-                                                                <label class="onoffswitch-label" for="switchCanPlaceOrder">
+                                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsPlaceOrder" data-bind="checked: isPlaceOrder">
+                                                                <label class="onoffswitch-label" for="switchIsPlaceOrder">
                                                                     <div class="onoffswitch-inner"></div>
                                                                     <div class="onoffswitch-switch"></div>
                                                                 </label>
                                                             </div>
                                                             <span class="help-block text-right"></span>
                                                         </div>
-                                                    </div>*@
+                                                    </div>
                                                 <div class="form-group">
                                                     <div class="col-lg-8 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
@@ -812,7 +812,7 @@
                                                         <span class="help-block text-right"></span>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="form-group" data-bind="visible: isPayByPersonalCreditCard()">
                                                     <div class="col-lg-8 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Check if Can Place Direct Order" data-original-title="" title="">
@@ -872,7 +872,26 @@
                                                         <span class="help-block text-right"></span>
                                                     </div>
                                                 </div>
-
+                                                <div class="form-group">
+                                                    <div class="col-lg-8 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Check if Can Edit Profile" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="switchIsPricingshown" class="control-label text-right tooltip-float">Can Display Prices on Web store</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="onoffswitch">
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsPricingshown" data-bind="checked: isPricingshown">
+                                                            <label class="onoffswitch-label" for="switchIsPricingshown">
+                                                                <div class="onoffswitch-inner"></div>
+                                                                <div class="onoffswitch-switch"></div>
+                                                            </label>
+                                                        </div>
+                                                        <span class="help-block text-right"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 
