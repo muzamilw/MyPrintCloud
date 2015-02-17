@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.SqlServer;
-using System.Linq;
-using System.Linq.Expressions;
-using Microsoft.Practices.Unity;
+﻿using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.Common;
@@ -12,6 +6,11 @@ using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace MPC.Repository.Repositories
 {
@@ -103,15 +102,15 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public OrderStatusesResponse GetOrderStatusesCount()
         {
-            List<Estimate> orders = DbSet.Where(estimate => estimate.isEstimate == false).ToList();
             return new OrderStatusesResponse
             {
-                PendingOrdersCount = orders.Count(order => order.StatusId == (short)OrderStatus.PendingOrder),
-                InProductionOrdersCount = orders.Count(order => order.StatusId == (short)OrderStatus.InProduction),
-                CompletedOrdersCount = orders.Count(order => order.StatusId == (short)OrderStatus.Completed_NotShipped),
-                UnConfirmedOrdersCount = orders.Count(order => order.StatusId == (short)OrderStatus.CancelledOrder),
-                TotalEarnings = DbSet.Sum(estimate => estimate.Estimate_Total),
-                CurrentMonthOdersCount = orders.Count(order =>order.Order_Date.HasValue && DateTime.Now.Month == order.Order_Date.Value.Month)
+                PendingOrdersCount = DbSet.Count(order =>order.OrganisationId==OrganisationId && order.StatusId == (short)OrderStatusEnum.PendingOrder && order.isEstimate == false),
+                InProductionOrdersCount = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.InProduction && order.isEstimate == false),
+                CompletedOrdersCount = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.CompletedOrders && order.isEstimate == false),
+                UnConfirmedOrdersCount = DbSet.Count(estimate => estimate.OrganisationId == OrganisationId && estimate.isEstimate == true),
+                TotalEarnings = DbSet.Where(order => order.OrganisationId == OrganisationId).Sum(estimate =>estimate.Estimate_Total ),
+                CurrentMonthOdersCount = DbSet.Count(order => order.OrganisationId == OrganisationId && order.Order_Date.HasValue && 
+                    order.isEstimate == false && DateTime.Now.Month == order.Order_Date.Value.Month)
             };
         }
 

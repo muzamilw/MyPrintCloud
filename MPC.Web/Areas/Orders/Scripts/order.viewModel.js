@@ -114,7 +114,7 @@ define("order/order.viewModel",
                     },
                     // Open Company Dialog
                     openCompanyDialog = function() {
-                        
+                        companySelector.show(onSelectCompany, 1);
                     },
                     // On Select Company
                     onSelectCompany = function (company) {
@@ -144,23 +144,6 @@ define("order/order.viewModel",
                         
                         // Get Orders
                         getOrders();
-                    },
-                    // Map List
-                    mapList = function(observableList, data, factory) {
-                        var list = [];
-                        _.each(data, function (item) {
-                            list.push(factory.Create(item));
-                        });
-                        
-                        // Subscribe for Company Change
-                        selectedOrder().companyId.subscribe(function(value) {
-                            if (selectedOrder().companyId() === value) {
-                                return;
-                            }
-                            
-                            // Get Company Address and Contacts
-                            getBaseForCompany(value);
-                        });
                     },
                     // Map List
                     mapList = function(observableList, data, factory) {
@@ -377,7 +360,7 @@ define("order/order.viewModel",
                     },
                     // Get Company Base Data
                     getBaseForCompany = function (id) {
-                        dataservice.getBaseForCompany({
+                        dataservice.getBaseDataForCompany({
                             id: id
                         }, {
                             success: function (data) {
