@@ -103,13 +103,15 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public OrderStatusesResponse GetOrderStatusesCount()
         {
-            List<Estimate> orders = DbSet.Where(estimate => estimate.isEstimate == false).ToList();
+            List<Estimate> allEstimates = DbSet.ToList();
+            List<Estimate> orders = allEstimates.Where(estimate => estimate.isEstimate == false).ToList();
+            List<Estimate> unConfirmedOrders = allEstimates.Where(estimate => estimate.isEstimate == true).ToList();
             return new OrderStatusesResponse
             {
-                PendingOrdersCount = orders.Count(order => order.StatusId == (short)OrderStatus.PendingOrder),
-                InProductionOrdersCount = orders.Count(order => order.StatusId == (short)OrderStatus.InProduction),
-                CompletedOrdersCount = orders.Count(order => order.StatusId == (short)OrderStatus.Completed_NotShipped),
-                UnConfirmedOrdersCount = orders.Count(order => order.StatusId == (short)OrderStatus.CancelledOrder),
+                PendingOrdersCount = orders.Count(order => order.StatusId == (short)OrderStatusEnum.PendingOrder),
+                InProductionOrdersCount = orders.Count(order => order.StatusId == (short)OrderStatusEnum.InProduction),
+                CompletedOrdersCount = orders.Count(order => order.StatusId == (short)OrderStatusEnum.CompletedOrders),
+                UnConfirmedOrdersCount = unConfirmedOrders.Count,
                 TotalEarnings = DbSet.Sum(estimate => estimate.Estimate_Total),
                 CurrentMonthOdersCount = orders.Count(order =>order.Order_Date.HasValue && DateTime.Now.Month == order.Order_Date.Value.Month)
             };
