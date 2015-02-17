@@ -1680,6 +1680,7 @@
     <Content Include="Areas\Stores\Views\Shared\_RaveReviews.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_ProductsFilter.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_ChooseUsIcon.cshtml" />
+    <Content Include="Areas\CRM\Views\Home\_AddEditAddressForCrm.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />

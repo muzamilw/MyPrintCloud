@@ -4,17 +4,35 @@
         var // True if initialized
             isInitialized = false,
             // Initialize
-            initialize = function () {
+            initialize = function() {
                 if (!isInitialized) {
                     amplify.request.define('getCompanies', 'ajax', {
                         url: ist.siteUrl + '/Api/Customer',
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Store By StoreId
+                    amplify.request.define('getStoreById', 'ajax', {
+                        url: ist.siteUrl + '/Api/Customer',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to get Address
+                    amplify.request.define('searchAddress', 'ajax', {
+                        url: ist.siteUrl + '/Api/Address',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to get CompanyContact
+                    amplify.request.define('searchCompanyContact', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyContact',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                 };
             },
             // get Customer list of list view
-            getCustomersForListView = function (params, callbacks) {
+            getCustomersForListView = function(params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getCompanies',
@@ -22,9 +40,42 @@
                     error: callbacks.error,
                     data: params
                 });
+            },
+            // get Store by id
+            getStoreById = function(params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getStoreById',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            // search Address
+            searchAddress = function(params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'searchAddress',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            // search Company Contact
+            searchCompanyContact = function(params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'searchCompanyContact',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
             };
         return {
-            getCustomersForListView: getCustomersForListView
+            getCustomersForListView: getCustomersForListView,
+            getStoreById: getStoreById,
+            searchAddress: searchAddress,
+            searchCompanyContact: searchCompanyContact
         };
     })();
 
