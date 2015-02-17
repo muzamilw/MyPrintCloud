@@ -519,5 +519,12 @@ namespace MPC.Repository.Repositories
             };
         }
 
+        /// <summary>
+        /// Count of live stores
+        /// </summary>
+        public int LiveStoresCountForDashboard()
+        {
+            return DbSet.Count(company => company.isArchived == false || company.isArchived == null);
+        }
     }
 }
