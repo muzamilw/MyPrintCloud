@@ -1154,6 +1154,13 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="SortOrder" Type="int" />
           <Property Name="KeyField" Type="varchar" MaxLength="100" />
           <Property Name="VariableType" Type="int" />
+          <Property Name="Scope" Type="int" />
+          <Property Name="WaterMark" Type="varchar" MaxLength="200" />
+          <Property Name="DefaultValue" Type="varchar" MaxLength="200" />
+          <Property Name="InputMask" Type="varchar" MaxLength="100" />
+          <Property Name="CompanyId" Type="bigint" />
+          <Property Name="OrganisationId" Type="bigint" />
+          <Property Name="IsSystem" Type="bit" />
         </EntityType>
         <EntityType Name="GlobalLanguage">
           <Key>
@@ -3075,6 +3082,15 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="TemplateId" Type="int" />
           <Property Name="VariableId" Type="int" />
         </EntityType>
+        <EntityType Name="VariableOption">
+          <Key>
+            <PropertyRef Name="VariableOptionId" />
+          </Key>
+          <Property Name="VariableOptionId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VariableId" Type="bigint" />
+          <Property Name="Value" Type="varchar" MaxLength="200" />
+          <Property Name="SortOrder" Type="int" />
+        </EntityType>
         <EntityType Name="VariableSection">
           <Key>
             <PropertyRef Name="VariableSectionId" />
@@ -4458,6 +4474,18 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_VariableOption_FieldVariable">
+          <End Role="FieldVariable" Type="Self.FieldVariable" Multiplicity="0..1" />
+          <End Role="VariableOption" Type="Self.VariableOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FieldVariable">
+              <PropertyRef Name="VariableId" />
+            </Principal>
+            <Dependent Role="VariableOption">
+              <PropertyRef Name="VariableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_webcmsPages_tbl_cmsPageCategory">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="CmsPage" Type="Self.CmsPage" Multiplicity="*" />
@@ -4711,6 +4739,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <EntitySet Name="TemplateObject" EntityType="Self.TemplateObject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TemplatePage" EntityType="Self.TemplatePage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TemplateVariable" EntityType="Self.TemplateVariable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VariableOption" EntityType="Self.VariableOption" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VariableSection" EntityType="Self.VariableSection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WeightUnit" EntityType="Self.WeightUnit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Widgets" EntityType="Self.Widgets" Schema="dbo" store:Type="Tables" />
@@ -5216,6 +5245,10 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <AssociationSet Name="FK_tbl_stockitems_tbl_stocksubcategories" Association="Self.FK_tbl_stockitems_tbl_stocksubcategories">
             <End Role="StockSubCategory" EntitySet="StockSubCategory" />
             <End Role="StockItem" EntitySet="StockItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VariableOption_FieldVariable" Association="Self.FK_VariableOption_FieldVariable">
+            <End Role="FieldVariable" EntitySet="FieldVariable" />
+            <End Role="VariableOption" EntitySet="VariableOption" />
           </AssociationSet>
           <AssociationSet Name="FK_webcmsPages_tbl_cmsPageCategory" Association="Self.FK_webcmsPages_tbl_cmsPageCategory">
             <End Role="Company" EntitySet="Company" />
@@ -5885,6 +5918,11 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <AssociationSet Name="FK__Activity__Compan__2D3FF3FE" Association="DomainModels.FK__Activity__Compan__2D3FF3FE">
             <End Role="Company" EntitySet="Companies" />
             <End Role="Activity" EntitySet="Activities" />
+          </AssociationSet>
+          <EntitySet Name="VariableOptions" EntityType="DomainModels.VariableOption" />
+          <AssociationSet Name="FK_VariableOption_FieldVariable" Association="DomainModels.FK_VariableOption_FieldVariable">
+            <End Role="FieldVariable" EntitySet="FieldVariables" />
+            <End Role="VariableOption" EntitySet="VariableOptions" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
@@ -9174,6 +9212,14 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="SortOrder" Type="Int32" />
           <Property Name="KeyField" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="VariableType" Type="Int32" />
+          <Property Name="Scope" Type="Int32" />
+          <Property Name="WaterMark" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DefaultValue" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="InputMask" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <Property Name="IsSystem" Type="Boolean" />
+          <NavigationProperty Name="VariableOptions" Relationship="DomainModels.FK_VariableOption_FieldVariable" FromRole="FieldVariable" ToRole="VariableOption" />
         </EntityType>
         <EntityType Name="TemplateVariable">
           <Key>
@@ -10686,6 +10732,28 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
             </Principal>
             <Dependent Role="Activity">
               <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VariableOption">
+          <Key>
+            <PropertyRef Name="VariableOptionId" />
+          </Key>
+          <Property Name="VariableOptionId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VariableId" Type="Int64" />
+          <Property Name="Value" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="SortOrder" Type="Int32" />
+          <NavigationProperty Name="FieldVariable" Relationship="DomainModels.FK_VariableOption_FieldVariable" FromRole="VariableOption" ToRole="FieldVariable" />
+        </EntityType>
+        <Association Name="FK_VariableOption_FieldVariable">
+          <End Type="DomainModels.FieldVariable" Role="FieldVariable" Multiplicity="0..1" />
+          <End Type="DomainModels.VariableOption" Role="VariableOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FieldVariable">
+              <PropertyRef Name="VariableId" />
+            </Principal>
+            <Dependent Role="VariableOption">
+              <PropertyRef Name="VariableId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -13058,6 +13126,13 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <EntitySetMapping Name="FieldVariables">
             <EntityTypeMapping TypeName="DomainModels.FieldVariable">
               <MappingFragment StoreEntitySet="FieldVariable">
+                <ScalarProperty Name="IsSystem" ColumnName="IsSystem" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="InputMask" ColumnName="InputMask" />
+                <ScalarProperty Name="DefaultValue" ColumnName="DefaultValue" />
+                <ScalarProperty Name="WaterMark" ColumnName="WaterMark" />
+                <ScalarProperty Name="Scope" ColumnName="Scope" />
                 <ScalarProperty Name="VariableType" ColumnName="VariableType" />
                 <ScalarProperty Name="KeyField" ColumnName="KeyField" />
                 <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
@@ -14064,6 +14139,16 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
                 <ScalarProperty Name="ActivityDescription" ColumnName="ActivityDescription" />
                 <ScalarProperty Name="ActivityName" ColumnName="ActivityName" />
                 <ScalarProperty Name="ActivityTypeId" ColumnName="ActivityTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VariableOptions">
+            <EntityTypeMapping TypeName="DomainModels.VariableOption">
+              <MappingFragment StoreEntitySet="VariableOption">
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="VariableId" ColumnName="VariableId" />
+                <ScalarProperty Name="VariableOptionId" ColumnName="VariableOptionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -44,6 +44,12 @@ define("common/sharedNavigation.viewModel",
                             saveFunctionCallback(navigateToUrl);
                         }
                     },
+                    // Reset 
+                    reset = function () {
+                        if (selectedScreenItem && selectedScreenItem() && selectedScreenItem().reset && typeof selectedScreenItem().reset === "function") {
+                            selectedScreenItem().reset();
+                        }
+                    },
                     // Initialize the view model
                     initialize = function (entity, callback) {
                         selectedScreenItem = entity;
@@ -68,6 +74,7 @@ define("common/sharedNavigation.viewModel",
                     saveFunctionCallback: saveFunctionCallback,
                     showConfirmationDialog: showConfirmationDialog,
                     initialize: initialize,
+                    reset: reset
                 };
             })()
         };

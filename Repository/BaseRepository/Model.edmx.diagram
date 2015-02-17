@@ -255,6 +255,8 @@
         <EntityTypeShape EntityType="DomainModels.Activity" Width="1.5" PointX="3" PointY="46.875" />
         <EntityTypeShape EntityType="DomainModels.ActivityType" Width="1.5" PointX="38.375" PointY="3.75" />
         <AssociationConnector Association="DomainModels.FK__Activity__Compan__2D3FF3FE" />
+        <EntityTypeShape EntityType="DomainModels.VariableOption" Width="1.5" PointX="25.625" PointY="16.5" />
+        <AssociationConnector Association="DomainModels.FK_VariableOption_FieldVariable" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
