@@ -3942,6 +3942,75 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     };
     // #endregion 
 
+    // #region ______________  Variable Defination   _________________
+
+    // ReSharper disable once InconsistentNaming
+    var VariableDefination = function (specifiedPageId) {
+        var self,
+            id = ko.observable(specifiedPageId),
+            pageTitle = ko.observable(specifiedPageTitle).extend({ required: true }),
+              // Errors
+            errors = ko.validation.group({
+                pageTitle: pageTitle,
+
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function (source) {
+                var result = {};
+                result.PageId = source.id() === undefined ? 0 : source.id();
+                return result;
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            id: id,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    //CMS Page Create Factory
+    VariableDefination.Create = function (source) {
+        return new VariableDefination(
+            source.PageId,
+            source.PageTitle,
+            source.PageKeywords,
+            source.Meta_Title,
+            source.Meta_DescriptionContent,
+            source.Meta_CategoryContent,
+            source.Meta_RobotsContent,
+            source.Meta_AuthorContent,
+            source.Meta_LanguageContent,
+            source.Meta_RevisitAfterContent,
+            source.CategoryId,
+            source.PageHTML,
+            source.ImageSource,
+            source.DefaultPageKeyWords,
+            source.FileName,
+            source.PageBanner
+
+        );
+    };
+    // #endregion ______________  CMS Page   _________________
+
     //#region ______________ R E T U R N ______________
     return {
         StoreListView: StoreListView,
@@ -3981,6 +4050,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         SectionFlag: SectionFlag,
         CampaignCompanyType: CampaignCompanyType,
         Group: Group,
+        VariableDefination: VariableDefination,
     };
     // #endregion 
 });
