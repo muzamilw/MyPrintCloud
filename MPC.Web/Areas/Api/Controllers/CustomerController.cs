@@ -43,6 +43,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                 RowCount = customers.RowCount
             };
         }
+        
         public CompanyResponse Get([FromUri]int companyId)
         {
             return companyService.GetCompanyById(companyId).CreateFromForCrm();
