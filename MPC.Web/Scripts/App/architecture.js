@@ -118,6 +118,21 @@ require(["ko", "knockout-validation"], function (ko) {
             return false;
         return string.substring(0, startsWith.length) === startsWith;
     };
+
+    ko.bindingHandlers.select2 = {
+        init: function (element, valueAccessor, allBindingsAccessor) {
+            var obj = valueAccessor(),
+                allBindings = allBindingsAccessor();
+            $(element).select2(obj);
+            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                $(element).select2('destroy');
+            });
+        },
+        update: function (element) {
+            $(element).trigger('change');
+        }
+    };
+
     function colorHelper(col) {
         if (col.length === 4) {
             var first = col[1] + col[1];
@@ -196,11 +211,6 @@ require(["ko", "knockout-validation"], function (ko) {
         update: function (element, viewModelAccessor, allBindingsAccessor) {
             var viewModel = viewModelAccessor();
             element.innerHTML = "";
-            //var distevents = ko.utils.unwrapObservable(viewModel.events);
-            //var seen = [];
-            //var distinctEvents = _.filter(distevents, function (n) {
-            //    return seen.indexOf(n.id) == -1 && seen.push(n.id);
-            //});
             $(element).fullCalendar({
                 events: ko.utils.unwrapObservable(viewModel.events),
                 //events: viewModel.events,

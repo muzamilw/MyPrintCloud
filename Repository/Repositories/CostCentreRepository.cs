@@ -812,8 +812,10 @@ namespace MPC.Repository.Repositories
                 db.Configuration.ProxyCreationEnabled = false;
                 List<CostCenterChoice> choices = new  List<CostCenterChoice>();
                 List<CostCenterChoice> Lstchoices = new List<CostCenterChoice>();
-                CostCentres = db.CostCentres.Include("CostcentreInstruction").Include("CostcentreResource").Include("CostcentreWorkInstructionsChoice").Where(c => c.OrganisationId == OrganisationID).ToList();
+                CostCentres = db.CostCentres.Include("CostcentreInstructions").Include("CostcentreResources").Include("CostcentreInstructions.CostcentreWorkInstructionsChoices").Where(c => c.OrganisationId == OrganisationID).ToList();
 
+                CostCentre ff = new CostCentre();
+                
                 if(CostCentres != null && CostCentres.Count > 0)
                 {
                     foreach(var cost in CostCentres)
