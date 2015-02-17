@@ -263,6 +263,7 @@
     <Compile Include="Areas\Api\Controllers\GetItemsForWidgetsController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\GetPhraseFiledsBySectionController.cs" />
+    <Compile Include="Areas\Api\Controllers\OrderBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseForCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemCloneController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderController.cs" />
