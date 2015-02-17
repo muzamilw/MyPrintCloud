@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using MPC.MIS.Areas.Api.Models;
@@ -250,6 +251,19 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 ContactId = source.ContactId,
                 Name = source.FirstName
+            };
+        }
+
+        /// <summary>
+        /// Crete From Domain Model
+        /// </summary>
+        public static CompanyContactDropDownForOrder CreateFromDropDownForOrder(this DomainModels.CompanyContact source)
+        {
+            return new CompanyContactDropDownForOrder
+            {
+                ContactId = source.ContactId,
+                Name = string.Format(CultureInfo.InvariantCulture, "{0} {1}", source.FirstName, source.LastName),
+                Email = source.Email
             };
         }
 

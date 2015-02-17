@@ -146,6 +146,15 @@ define("stores/stores.view",
                 hideMediaGalleryDialog = function () {
                     $("#myMediaGalleryModal").modal("hide");
                 },
+                 // Show Veriable Defination the dialog
+                showVeriableDefinationDialog = function () {
+                    $("#veriableDefinationModal").modal("show");
+                },
+                // Hide Veriable Defination the dialog
+                hideVeriableDefinationDialog = function () {
+                    $("#veriableDefinationModal").modal("hide");
+                },
+                
                 //#endregion
 
                initializeForm = function () {
@@ -197,6 +206,8 @@ define("stores/stores.view",
             return {
                 bindingRoot: bindingRoot,
                 showRaveReviewDialog: showRaveReviewDialog,
+                showVeriableDefinationDialog:showVeriableDefinationDialog,
+                hideVeriableDefinationDialog: hideVeriableDefinationDialog,
                 hideRaveReviewDialog: hideRaveReviewDialog,
                 showCompanyCMYKColorDialog: showCompanyCMYKColorDialog,
                 hideCompanyCMYKColorDialog: hideCompanyCMYKColorDialog,

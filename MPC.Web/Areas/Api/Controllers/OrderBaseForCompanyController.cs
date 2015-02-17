@@ -1,0 +1,55 @@
+﻿using System;
+using System.Net;
+using System.Web;
+using System.Web.Http;
+using MPC.Interfaces.MISServices;
+using MPC.MIS.Areas.Api.ModelMappers;
+using MPC.MIS.Areas.Api.Models;
+
+namespace MPC.MIS.Areas.Api.Controllers
+{
+    /// <summary>
+    /// Order Base API Controller
+    /// </summary>
+    public class OrderBaseForCompanyController : ApiController
+    {
+        #region Private
+
+        private readonly IOrderService orderService;
+
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public OrderBaseForCompanyController(IOrderService orderService)
+        {
+            if (orderService == null)
+            {
+                throw new ArgumentNullException("orderService");
+            }
+
+            this.orderService = orderService;
+        }
+
+        #endregion
+
+        #region Public
+
+        /// <summary>
+        /// Get Company Base Data
+        /// </summary>
+        public OrderBaseResponseForCompany Get(int id)
+        {
+            if (id <= 0)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+
+            return orderService.GetBaseDataForCompany(id).CreateFrom();
+        }
+
+        #endregion
+    }
+}

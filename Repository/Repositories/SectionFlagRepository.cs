@@ -60,7 +60,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<SectionFlag> GetSectionFlagBySectionId(long sectionId)
         {
-            return DbSet.Where(sf => sf.SectionId == sectionId).ToList();
+            return DbSet.Where(sf => sf.SectionId == sectionId && sf.OrganisationId == OrganisationId).ToList();
         }
 
         /// <summary>
@@ -103,13 +103,6 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        /// <summary>
-        /// Get Base data for orders
-        /// </summary>
-        public IEnumerable<SectionFlag> GetFlagsForOrders()
-        {
-            return DbSet.Where(flag => flag.SectionId == 54).ToList();
-        }
         #endregion
     }
 }

@@ -1,4 +1,7 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.IO;
+using System.Web;
+using System.Windows.Forms;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
@@ -20,11 +23,15 @@ namespace MPC.Implementation.MISServices
              UpdateDefaultBehaviourOfContactCompany(companyContact);
              companyContactRepository.Add(companyContact);
              companyContactRepository.SaveChanges();
+             companyContact.image = SaveCompanyContactProfileImage(companyContact);
+             companyContactRepository.Update(companyContact);
+             companyContactRepository.SaveChanges();
              return companyContact;
          }
          private CompanyContact Update(CompanyContact companyContact)
          {
              UpdateDefaultBehaviourOfContactCompany(companyContact);
+             companyContact.image = SaveCompanyContactProfileImage(companyContact);
              companyContactRepository.Update(companyContact);
              companyContactRepository.SaveChanges();
              return companyContact;
@@ -126,6 +133,30 @@ namespace MPC.Implementation.MISServices
                 CompanyTerritories = companyTerritoryRepository.GetAllCompanyTerritories(companyId),
                 Addresses = addressRepository.GetAllAddressByStoreId(companyId),
             }; 
+        }
+
+        /// <summary>
+        /// Save Images for Company Contact Profile Image
+        /// </summary>
+        private string SaveCompanyContactProfileImage(CompanyContact companyContact)
+        {
+            if (companyContact.ContactProfileImage != null)
+            {
+                string base64 = companyContact.ContactProfileImage.Substring(companyContact.ContactProfileImage.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyContactRepository.OrganisationId + "/" + companyContact.CompanyId + "/Contacts");
+
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                string savePath = directoryPath + "\\" + companyContact.ContactId + "_profile" + ".png";
+                File.WriteAllBytes(savePath, data);
+                return savePath;
+            }
+            return null;
         }
     }
 }

@@ -257,6 +257,7 @@ define("product/product.viewModel",
                         selectedRegionId(undefined);
                         selectedCategoryTypeId(undefined);
                         errorList.removeAll();
+                        shared.reset();
                     },
                     // On Archive
                     onArchiveProduct = function (item) {

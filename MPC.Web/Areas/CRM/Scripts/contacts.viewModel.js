@@ -139,6 +139,7 @@ define("crm/contacts.viewModel",
                 },
                 getContactDetail = function (contact) {
                     dataservice.getContactsDetail({ companyId: contact.companyId() },
+                    dataservice.getContactsDetail({ companyId: contact.companyId() },
                     {
                         success: function (data) {
                             if (data != null) {
@@ -171,6 +172,8 @@ define("crm/contacts.viewModel",
                                     var territory = new model.CompanyTerritory.Create(terror);
                                     contactCompanyTerritoriesFilter.push(territory);
                                 });
+                                selectedCompanyContact(contact);
+                            }
                                 selectedCompanyContact(contact);
                             }
                         },
