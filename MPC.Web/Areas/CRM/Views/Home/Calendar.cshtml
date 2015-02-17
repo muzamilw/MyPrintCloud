@@ -12,6 +12,11 @@
                     <li class="active"><span>Calendar</span></li>
                 </ol>
                 <h1>Calendar</h1>
+                @*<div class="col-lg-6">
+                        <select class="form-control" data-bind="select2: { formatResult: formatResult,formatSelection: formatSelection }, value: $root.selected, foreach: $root.sectionFlags">
+                            <option class="form-control" data-bind="text: FlagName, attr: { 'data-color': FlagColor, value: SectionFlagId }"></option>
+                        </select>
+                    </div>*@
             </div>
         </div>
         <div class="row">
@@ -20,7 +25,6 @@
                     <div class="main-box-body clearfix">
                         @*<div id="calendar"></div>*@
                         <div id="calendar" data-bind="fullCalendar: $root.mycCalender, itemsList: $root.items" data-eventclass="label-primary"> </div>
-                        @* data-bind="fullCalendar: $root.mycCalender, itemsList: $root.items" *@
                     </div>
                 </div>
             </div>
