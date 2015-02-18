@@ -9,7 +9,7 @@ namespace MPC.MIS.Areas.CRM.Controllers
     /// <summary>
     /// CRM Home Controller 
     /// </summary>
-    //[SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewCrm })]
+    [SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewCrm })]
     public class HomeController : Controller
     {
         #region Private
@@ -21,7 +21,7 @@ namespace MPC.MIS.Areas.CRM.Controllers
         /// <summary>
         /// Shows Compnies List
         /// </summary>
-        //[SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewProspect })]
+        [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewProspect })]
         public ActionResult Index()
         {
             return View();
@@ -30,7 +30,7 @@ namespace MPC.MIS.Areas.CRM.Controllers
         /// <summary>
         /// Contacts
         /// </summary>
-        //[SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewContact })]
+        [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewContact })]
         public ActionResult Contacts()
         {
             return View();
