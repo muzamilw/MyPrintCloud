@@ -2048,7 +2048,7 @@ define("stores/stores.viewModel",
                         }
                             //#endregion
                         else {
-                            if (companyContact.contactId() < 0) {
+                            if (companyContact.contactId() < 0 || companyContact.contactId() == undefined) {
 
                                 _.each(newCompanyContacts(), function (item) {
                                     if (item.contactId() == companyContact.contactId()) {
