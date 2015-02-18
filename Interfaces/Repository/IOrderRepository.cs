@@ -65,5 +65,7 @@ namespace MPC.Interfaces.Repository
 
         List<Order> GetOrdersListByContactID(long contactUserID, OrderStatus? orderStatus,string fromDate, string  toDate, string orderRefNumber, int pageSize, int pageNumber) ;
         List<Order> GetOrdersListExceptPendingOrdersByContactID(long contactUserID, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, int pageSize, int pageNumber);
+      
+
     }
 }

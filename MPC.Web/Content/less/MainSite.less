@@ -82,6 +82,42 @@
     margin-left: 0;
 }
 
+/* Form Group in Details Page */
+
+.filter-block {
+    .form-group {
+        margin-bottom: 0;
+    }
+}
+        
+.form-group {
+    .input-group-addon {
+        text-decoration: none;
+        border: 0;
+        cursor: pointer;
+    }
+
+    .input-group {
+        .input-group-addon {
+            border: 1px solid #ccc;
+        }
+    }
+}
+
+.my-tabsHeader {
+    border: 1px solid silver;
+    -moz-box-shadow: 1px 1px 1px silver;
+    -webkit-box-shadow: 1px 1px 1px silver;
+    box-shadow: 1px 1px 1px silver;
+}
+
+.set-filter-margin {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+/* Form Group in Details Page */
+
 /* Validation Summary */
 
 .validationSummaryContainer {
@@ -108,3 +144,6 @@
 @import "Inventory";
 @import "PaperSheet";
 @import "InventoryCategory";
+@import "StockItemDialog";
+@import "Orders";
+@import "CompanySelector";

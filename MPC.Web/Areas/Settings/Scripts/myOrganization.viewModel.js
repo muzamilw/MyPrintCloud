@@ -146,6 +146,7 @@ define("myOrganization/myOrganization.viewModel",
                                 }
                             },
                             error: function () {
+                                view.initializeLabelPopovers();
                                 toastr.error(ist.resourceText.loadBaseDataFailedMsg);
                             }
                         });
@@ -278,9 +279,11 @@ define("myOrganization/myOrganization.viewModel",
                                 view.initializeForm();
                                 isLoadingMyOrganization(false);
                                 sharedNavigationVM.initialize(selectedMyOrganization, function (saveCallback) { onSaveMyOrganization(saveCallback); });
+                                view.initializeLabelPopovers();
                             },
                             error: function () {
                                 isLoadingMyOrganization(false);
+                                view.initializeLabelPopovers();
                                 toastr.error(ist.resourceText.loadAddChargeDetailFailedMsg);
                             }
                         });

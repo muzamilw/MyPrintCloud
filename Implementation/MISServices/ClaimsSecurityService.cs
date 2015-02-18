@@ -94,6 +94,27 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
+        /// Adds Trail User Claims
+        /// </summary>
+        private static void AddTrialUserClaims(MisUser user, ClaimsIdentity claimsIdentity)
+        {
+            // ReSharper disable once SuggestUseVarKeywordEvident
+            Claim isTrialClaim = new Claim(MpcClaimTypes.IsTrial,
+                                        ClaimHelper.Serialize(
+                                            new IsTrialClaimValue{ IsTrial = user.IsTrial }),
+                                        typeof(IsTrialClaimValue).AssemblyQualifiedName);
+
+            // ReSharper disable once SuggestUseVarKeywordEvident
+            Claim trailCountClaim = new Claim(MpcClaimTypes.TrialCount,
+                                        ClaimHelper.Serialize(
+                                            new TrialCountClaimValue { TrialCount = user.TrialCount }),
+                                        typeof(TrialCountClaimValue).AssemblyQualifiedName);
+            claimsIdentity.AddClaim(isTrialClaim);
+            claimsIdentity.AddClaim(trailCountClaim);
+        }
+        
+
+        /// <summary>
         /// Add Organisation Claims
         /// </summary>
         private static void AddOrganisationClaims(MisUser user, ClaimsIdentity claimsIdentity)
@@ -114,15 +135,14 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Add User Claims
         /// </summary>
-        /// <param name="user"></param>
-        /// <param name="claimsIdentity"></param>
         private void AddUserClaims(MisUser user, ClaimsIdentity claimsIdentity)
         {
             AddRoleClaims(user, claimsIdentity);
             AddOrganisationClaims(user, claimsIdentity);
             AddAccessRightClaims(user, claimsIdentity);
+            AddTrialUserClaims(user, claimsIdentity);
         }
-        
+
         #endregion
         
         #region Public
@@ -197,7 +217,18 @@ namespace MPC.Implementation.MISServices
             }
         }
 
-
+        /// <summary>
+        /// Sets claims for trial user
+        /// </summary>
+        public void GetTrialUserClaims(ref Boolean isTrial, ref int count)
+        {
+            IsTrialClaimValue trialClaimValue = ClaimHelper.GetClaimsByType<IsTrialClaimValue>(MpcClaimTypes.IsTrial).FirstOrDefault();
+            TrialCountClaimValue countClaimValue = ClaimHelper.GetClaimsByType<TrialCountClaimValue>(MpcClaimTypes.TrialCount).FirstOrDefault();
+            if (trialClaimValue != null)
+                isTrial = trialClaimValue.IsTrial;
+            if (countClaimValue != null)
+                count = countClaimValue.TrialCount;
+        }
         /// <summary>
         /// Identity provider as supplied by ACS
         /// </summary>

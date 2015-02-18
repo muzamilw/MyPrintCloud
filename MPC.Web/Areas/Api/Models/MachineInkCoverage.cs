@@ -12,6 +12,5 @@ namespace MPC.MIS.Areas.Api.Models
         public int? SideInkOrder { get; set; }
         public int? SideInkOrderCoverage { get; set; }
         public int? MachineId { get; set; }
-        public virtual Machine Machine { get; set; }
     }
 }

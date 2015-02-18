@@ -33,6 +33,11 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Get base data for order
         /// </summary>
-        IEnumerable<SectionFlag> GetBaseData();
+        OrderBaseResponse GetBaseData();
+
+        /// <summary>
+        /// Get base data for Specified Company
+        /// </summary>
+        OrderBaseResponseForCompany GetBaseDataForCompany(long companyId);
     }
 }

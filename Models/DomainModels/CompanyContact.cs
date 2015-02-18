@@ -103,6 +103,7 @@ namespace MPC.Models.DomainModels
         public virtual Address Address { get; set; }
         public virtual ICollection<FavoriteDesign> FavoriteDesigns { get; set; }
         public virtual Address ShippingAddress { get; set; }
+        public virtual ICollection<CompanyContactVariable> CompanyContactVariables { get; set; }
         
         [NotMapped]
         public string ContactProfileImage { get; set; }

@@ -1,4 +1,5 @@
-﻿using MPC.Models.DomainModels;
+﻿using MPC.Models.Common;
+using MPC.Models.DomainModels;
 
 namespace MPC.Interfaces.Repository
 {
@@ -12,5 +13,7 @@ namespace MPC.Interfaces.Repository
         Organisation GetOrganizatiobByID(long organisationId);
 
         Organisation GetOrganizatiobByOrganisationID(long organisationId);
+
+        void InsertOrganisation(Organisation org, ExportOrganisation objExpOrg);
     }
 }

@@ -15,6 +15,7 @@ define("stores/stores.view",
                 // Show Activity the dialog
                 showRaveReviewDialog = function () {
                     $("#rave").modal("show");
+                    initializeLabelPopovers();
                 },
                 // Hide Activity the dialog
                 hideRaveReviewDialog = function () {
@@ -22,6 +23,7 @@ define("stores/stores.view",
                 },
                 showCompanyTerritoryDialog = function () {
                     $("#myTerritorySetModal").modal("show");
+                    initializeLabelPopovers();
                 },
                 // Hide Activity the dialog
                 hideCompanyTerritoryDialog = function () {
@@ -31,6 +33,7 @@ define("stores/stores.view",
                 // ReSharper disable once InconsistentNaming
                 showCompanyCMYKColorDialog = function () {
                     $("#myCMYKColorModal").modal("show");
+                    initializeLabelPopovers();
                 },
                 // Hide Activity the dialog
                 // ReSharper disable once InconsistentNaming
@@ -40,6 +43,7 @@ define("stores/stores.view",
                 // Show Edit Banner the dialog
                 showEditBannerDialog = function () {
                     $("#myEditBannerModal").modal("show");
+                    initializeLabelPopovers();
                 },
                 // Hide Edit Banner the dialog
                 hideEditBannerDialog = function () {
@@ -48,6 +52,7 @@ define("stores/stores.view",
                 // Show Addressnthe dialog
                 showAddressDialog = function () {
                     $("#myAddressSetModal").modal("show");
+                    initializeLabelPopovers();
                 },
                 // Hide Address the dialog
                 hideAddressDialog = function () {
@@ -56,6 +61,7 @@ define("stores/stores.view",
                 // Show Contact Company the dialog
                 showCompanyContactDialog = function () {
                     $("#myContactProfileModal").modal("show");
+                    initializeLabelPopovers();
                 },
                 // Hide Company Contact the dialog
                 hideCompanyContactDialog = function () {
@@ -64,6 +70,7 @@ define("stores/stores.view",
                 // Show Add Banner Set the dialog
                 showSetBannerDialog = function () {
                     $("#mybannerSetModal").modal("show");
+                    initializeLabelPopovers();
                 },
                 // Hide  Add Banner Set the dialog
                 hideSetBannerDialog = function () {
@@ -72,6 +79,7 @@ define("stores/stores.view",
                 // Show Secondory Page the dialog
                 showSecondoryPageDialog = function () {
                     $("#secondaryPageAddDialog").modal("show");
+                    initializeLabelPopovers();
                 },
                 // Hide Secondory Page the dialog
                 hideSecondoryPageDialog = function () {
@@ -80,6 +88,7 @@ define("stores/stores.view",
                 // Show Secondary Page Category the dialog
                 showSecondaryPageCategoryDialog = function () {
                     $("#mySecondaryPageCategoryModal").modal("show");
+                    initializeLabelPopovers();
                 },
                 // Hide Secondary Page Category the dialog
                 hideSecondaryPageCategoryDialog = function () {
@@ -88,6 +97,7 @@ define("stores/stores.view",
                 // Show Email Camapaign the dialog
                 showEmailCamapaignDialog = function () {
                     $("#addEditCampaignEmailModal").modal("show");
+                    initializeLabelPopovers();
                 },
                 // Hide Email Camapaign the dialog
                 hideEmailCamapaignDialog = function () {
@@ -104,6 +114,7 @@ define("stores/stores.view",
                 // Show Product Category dialog
                 showStoreProductCategoryDialog = function () {
                     $("#myProductCategoryModal").modal("show");
+                    initializeLabelPopovers();
                 },
                 // Hide Product Category dialog
                 hideStoreProductCategoryDialog = function () {
@@ -112,6 +123,7 @@ define("stores/stores.view",
                 // show Payment Gateway Dialog
                 showPaymentGatewayDialog = function () {
                     $("#myPaymentGatewayModal").modal("show");
+                    initializeLabelPopovers();
                 },
                 // hide Payment Gateway Dialog 
                 hidePaymentGatewayDialog = function () {
@@ -120,6 +132,7 @@ define("stores/stores.view",
                 // show item sFor Widgets Dialog
                 showItemsForWidgetsDialog = function () {
                     $("#itemsForWidgetsDialog").modal("show");
+                    initializeLabelPopovers();
                 },
                 // hide items For Widgets Dialog
                 hideItemsForWidgetsDialog = function () {
@@ -133,6 +146,15 @@ define("stores/stores.view",
                 hideMediaGalleryDialog = function () {
                     $("#myMediaGalleryModal").modal("hide");
                 },
+                 // Show Veriable Defination the dialog
+                showVeriableDefinationDialog = function () {
+                    $("#veriableDefinationModal").modal("show");
+                },
+                // Hide Veriable Defination the dialog
+                hideVeriableDefinationDialog = function () {
+                    $("#veriableDefinationModal").modal("hide");
+                },
+                
                 //#endregion
 
                initializeForm = function () {
@@ -168,6 +190,12 @@ define("stores/stores.view",
                         $(element).focus();
                     }, 1000);
                 },
+                // Initialize Label Popovers
+                initializeLabelPopovers = function () {
+                    // ReSharper disable UnknownCssClass
+                    $('.bs-example-tooltips a').popover();
+                    // ReSharper restore UnknownCssClass
+                },
             // Initialize
             initialize = function () {
                 if (!bindingRoot) {
@@ -178,6 +206,8 @@ define("stores/stores.view",
             return {
                 bindingRoot: bindingRoot,
                 showRaveReviewDialog: showRaveReviewDialog,
+                showVeriableDefinationDialog:showVeriableDefinationDialog,
+                hideVeriableDefinationDialog: hideVeriableDefinationDialog,
                 hideRaveReviewDialog: hideRaveReviewDialog,
                 showCompanyCMYKColorDialog: showCompanyCMYKColorDialog,
                 hideCompanyCMYKColorDialog: hideCompanyCMYKColorDialog,
@@ -210,6 +240,7 @@ define("stores/stores.view",
                 initializeForm: initializeForm,
                 gotoElement: gotoElement,
                 viewModel: viewModel,
+                initializeLabelPopovers: initializeLabelPopovers
             };
         })(storesViewModel);
 

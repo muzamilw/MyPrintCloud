@@ -48,14 +48,6 @@ define("product/product.view",
                 hideRelatedItemDialog = function () {
                     $("#relatedProductDialog").modal("hide");
                 },
-                // Show StockItem the dialog
-                showStockItemDialog = function () {
-                    $("#stockDialog").modal("show");
-                },
-                // Hide StockItem the dialog
-                hideStockItemDialog = function () {
-                    $("#stockDialog").modal("hide");
-                },
                 // Show ItemAddonCostCentre the dialog
                 showItemAddonCostCentreDialog = function () {
                     $("#itemAddonCostCentreDialog").modal("show");
@@ -362,7 +354,9 @@ define("product/product.view",
                 },
                 // Initialize Label Popovers
                 initializeLabelPopovers = function() {
+// ReSharper disable UnknownCssClass
                     $('.bs-example-tooltips a').popover();
+// ReSharper restore UnknownCssClass
                 },
                 // Initialize
                 initialize = function () {
@@ -381,8 +375,6 @@ define("product/product.view",
                 hideVideoDialog: hideVideoDialog,
                 showRelatedItemDialog: showRelatedItemDialog,
                 hideRelatedItemDialog: hideRelatedItemDialog,
-                showStockItemDialog: showStockItemDialog,
-                hideStockItemDialog: hideStockItemDialog,
                 showItemAddonCostCentreDialog: showItemAddonCostCentreDialog,
                 hideItemAddonCostCentreDialog: hideItemAddonCostCentreDialog,
                 initializeDropZones: initializeDropZones,

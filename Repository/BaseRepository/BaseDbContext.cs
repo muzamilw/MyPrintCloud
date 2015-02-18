@@ -529,6 +529,26 @@ namespace MPC.Repository.BaseRepository
         public DbSet<ActivityType> ActivityTypes { get; set; }
 
         /// <summary>
+        /// Variable Option DbSet
+        /// </summary>
+        public DbSet<VariableOption> VariableOptions { get; set; }
+
+        /// <summary>
+        /// Company Contact Variable DbSet
+        /// </summary>
+        public DbSet<CompanyContactVariable> CompanyContactVariables { get; set; }
+
+        /// <summary>
+        /// Smart Form DbSet
+        /// </summary>
+        public DbSet<SmartForm> SmartForms { get; set; }
+
+        /// <summary>
+        /// Smart Form Detail DbSet
+        /// </summary>
+        public DbSet<SmartFormDetail> SmartFormDetails { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
 // ReSharper disable InconsistentNaming

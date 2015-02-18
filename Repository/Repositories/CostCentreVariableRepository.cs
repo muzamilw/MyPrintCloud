@@ -247,6 +247,15 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        public string GetVariableNameById(int iVariableId)
+        {
+            var objVariable = DbSet.Where(c => c.VarId == iVariableId).FirstOrDefault();
+            if (objVariable != null)
+                return objVariable.Name;
+            else
+                return string.Empty;
+        }
+
     
         #endregion
     }

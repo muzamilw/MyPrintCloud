@@ -13,9 +13,8 @@ namespace MPC.Models.Common
         public List<PaperSize> PaperSizes { get; set; }
 
         public List<CostCentre> CostCentre { get; set; }
-        
-        // add costcentrechoic table in edmx
-       // public List<CostCenterChoices> CostCentre { get; set; }
+
+        public List<CostCenterChoice> CostCenterChoice { get; set; }
 
         public List<CostCentreQuestion> CostCentreQuestion { get; set; }
 
@@ -39,18 +38,12 @@ namespace MPC.Models.Common
 
         // delivery carriers missing
         //public List<StockItem> StockItem { get; set; }
-
-
-        // reports table add in edmx
-        //public List<Reports> Reports { get; set; }
+        public List<Report> Reports { get; set; }
 
         // report notes table add in edmx
-        //public List<Reports> Reports { get; set; }
+        public List<ReportNote> ReportNote { get; set; }
 
         public List<Prefix> Prefixes { get; set; }
-
-      
-
 
         public List<Machine> Machines { get; set; }
 
@@ -61,6 +54,49 @@ namespace MPC.Models.Common
         public List<PhraseField> PhraseField { get; set; }
 
         public List<SectionFlag> SectionFlags { get; set; }
+
+        public Company Company { get; set; }
+
+        public List<CompanyDomain> CompanyDomain { get; set; }
+
+        public List<SystemUser> SystemUser { get; set; }
+
+        public List<CmsOffer> CmsOffer { get; set; }
+
+        public List<MediaLibrary> MediaLibrary { get; set; }
+
+        public List<CompanyBannerSet> CompanyBannerSet { get; set; }
+
+        public List<CompanyBanner> CompanyBanner { get; set; }
+
+        public List<CmsPage> SecondaryPages { get; set; }
+
+        public List<RaveReview> RaveReview { get; set; }
+
+        public List<CompanyTerritory> CompanyTerritory { get; set; }
+
+
+        public List<Address> Address { get; set; }
+
+        public List<CompanyContact> CompanyContact { get; set; }
+        public List<ProductCategory> ProductCategory { get; set; }
+
+        public List<Item> Items { get; set; }
+        public List<ItemSection> ItemSection { get; set; }
+        public List<SectionCostcentre> SectionCostcentre { get; set; }
+        public List<SectionCostCentreResource> SectionCostCentreResource { get; set; }
+
+        public List<PaymentGateway> PaymentGateways { get; set; }
+
+        public List<CmsSkinPageWidget> CmsSkinPageWidget { get; set; }
+
+        public List<CompanyCostCentre> CompanyCostCentre { get; set; }
+
+        public List<CompanyCMYKColor> CompanyCMYKColor { get; set; }
+
+
+        public List<Campaign> Campaigns { get; set; }
+        
 
 
 

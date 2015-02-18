@@ -12,6 +12,11 @@
                     <li class="active"><span>Calendar</span></li>
                 </ol>
                 <h1>Calendar</h1>
+                @*<div class="col-lg-6">
+                        <select class="form-control" data-bind="select2: { formatResult: formatResult,formatSelection: formatSelection }, value: $root.selected, foreach: $root.sectionFlags">
+                            <option class="form-control" data-bind="text: FlagName, attr: { 'data-color': FlagColor, value: SectionFlagId }"></option>
+                        </select>
+                    </div>*@
             </div>
         </div>
         <div class="row">
@@ -25,13 +30,16 @@
             </div>
         </div>
         @Html.Partial("~/Areas/CRM/Views/Home/_AddEditCalendarActivity.cshtml")
-     
+
     </div>
 </div>
+<!-- ko stopBinding: true -->
+@Html.Partial("~/Areas/Common/Views/Shared/_CompanySelector.cshtml")
+<!-- /ko -->
 @section Scripts {
     @*<script src="~/Content/themes/Centaurus/js/fullcalendar.min.js"></script>*@
     <script>
-        require(["calendar/calendar.view"]);
+        require(["calendar/calendar.view", "common/companySelector.view"]);
 
     </script>
 }
