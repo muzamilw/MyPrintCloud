@@ -667,15 +667,25 @@ namespace MPC.Repository.Repositories
 
         }
         //Update Just Company Name 
-        public void UpdateCompanyName(Company Instance)
+        public bool UpdateCompanyName(Company Instance)
         {
+            bool Result = false;
             try
             {
                 Company Company = db.Companies.Where(i => i.CompanyId == Instance.CompanyId).FirstOrDefault(); 
                 Company.Name = Instance.Name;
                 db.Companies.Attach(Company);
                 db.Entry(Company).State = EntityState.Modified;
-                db.SaveChanges();
+                if (db.SaveChanges() > 0)
+                {
+                    Result = true;
+
+                }
+                else
+                {
+                    Result = false;
+                
+                }
             }
             catch (Exception ex)
             {
@@ -683,6 +693,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
             
             }
+            return Result;
         }
         /// <summary>
         /// Get Company By Is Customer Type

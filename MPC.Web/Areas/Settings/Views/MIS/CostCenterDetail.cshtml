@@ -18,7 +18,7 @@
                     <div class="clearfix">
                         <h1 class="pull-left" data-bind="text: name()"></h1>
                         <div class="pull-right top-page-ui">
-                            <button type="button" class="btn btn-primary" data-bind="click: $root.saveCostCenter">
+                            <button type="button" class="btn btn-primary" data-bind="click: $root.saveCostCenter, enable: hasChanges, css: { 'btn-warning': hasChanges }">
                                 <span class="fa fa-save"></span>&nbsp;Save
                             </button>
                             <button type="button" class="btn btn-primary" data-bind="click: $root.closeCostCenterDetail">
@@ -36,6 +36,7 @@
                                     <li><a href="#tab-CostSetup" data-toggle="tab">Cost Setup</a></li>
                                     <li><a href="#tab-FixedCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 1">Fixed Calculation</a></li>
                                     <li><a href="#tab-QtyBaseCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 3">Quantity Base Calculation</a></li>
+                                    <li><a href="#tab-HourBaseCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 2">Hour Base Calculation</a></li>
                                     <li><a href="#tab-PlantCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 4">Plant Calculation</a></li>
                                     <li><a href="#tab-StockCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 4">Stock Calculation</a></li>
                                     <li><a href="#tab-LabourCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 4">Labour Calculation</a></li>
@@ -285,7 +286,7 @@
                                                         <label for="txtSetupCost" class="control-label text-right tooltip-float">Setup Cost</label>
                                                     </div>
                                                     <div class="col-lg-3">
-                                                        <input type="text" class="form-control" id="txtSetupCost" placeholder="Enter setup cost" data-bind="value: setupCost, validationTooltip: minimumCost">
+                                                        <input type="text" class="form-control" id="txtSetupCost" placeholder="Enter setup cost" data-bind="value: setupCost, validationTooltip: setupCost">
                                                         <span class="help-block text-right"> setup time</span>
                                                     </div>
                                                 </div>
@@ -531,7 +532,7 @@
 
                                         </div>
                                         <div class="col-lg-12 form-horizontal">
-                                            <h3 class="group-header">Quantity innput method </h3>
+                                            <h3 class="group-header">Quantity input method </h3>
                                             <div class="col-lg-9">
                                                 <div class="form-group">
                                                     <div class="col-lg-3 radio text-right">
@@ -582,6 +583,124 @@
                                                     </div>
                                                 </div>
                                                 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane clearfix fade" id="tab-HourBaseCalculation">
+                                        <div class="col-lg-12 form-horizontal">
+                                            <h3 class="group-header">Per Hour Calculation</h3>
+                                            <div class="col-lg-9">
+                                                <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Per Hour Cost" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="txtPerUnitHr" class="control-label text-right tooltip-float">Per Hour Cost</label>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <input type="text" class="form-control" id="txtPerUnitHr" placeholder="Enter Cost" data-bind="value: perHourCost, validationTooltip: perHourCost">
+                                                        <span class="help-block text-right">Per Hour Cost</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Per Hour Price" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="txtPricePerUnitHr" class="control-label text-right tooltip-float">Per Hour Price</label>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <input type="text" class="form-control" id="txtPricePerUnitHr" placeholder="Enter Price" data-bind="value: perHourPrice, validationTooltip: perHourPrice">
+                                                        <span class="help-block text-right">Per Hour Price</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Quantity Per Hour" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="txtTimePerUnitHr" class="control-label text-right tooltip-float">Quantity Per Hour</label>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <input type="text" class="form-control" id="txtTimePerUnitHr" placeholder="Enter Price" data-bind="value: unitQuantity, validationTooltip: unitQuantity">
+                                                        <span class="help-block text-right">Quantity Per Hour</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Number of Passes" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="txtPassesNumber" class="control-label text-right tooltip-float">Number of Passes</label>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <input type="text" class="form-control" id="txtPassesNumber" placeholder="Enter Price" data-bind="value: timeNoOfPasses, validationTooltip: timeNoOfPasses">
+                                                        <span class="help-block text-right">Number of Passes</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-12 form-horizontal">
+                                            <h3 class="group-header">Time input method </h3>
+                                            <div class="col-lg-9">
+                                                <div class="form-group">
+                                                    <div class="col-lg-3 radio text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width" style="margin-top: 0">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Time per unit quantity." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <input type="radio" name="optionsinput" id="rdioVariableInput" value="true">
+                                                        <label for="optionsinput">
+                                                            Use From variable
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <select id="ddlbVariablesList" class="form-control" data-bind="options: $root.costCenterVariables, optionsText: 'Name', optionsValue: 'VarId',value:timeVariableId"></select>
+                                                        <span class="help-block text-right">Select Variable</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-3 radio text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width" style="margin-top: 0">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Time per unit quantity." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <input type="radio" name="optionsinput" id="rdioPromptInput" value="false">
+                                                        <label for="optionsinput">
+                                                            Prompt Question
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <input type="text" class="form-control" id="txtInputPrompt" placeholder="Enter Promot Question" data-bind="value: timeQuestionString, validationTooltip: timeQuestionString">
+                                                        <span class="help-block text-right">Quantity prompt question</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-3 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Time per unit quantity." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="txtVariablePromptDefault" class="control-label text-right tooltip-float">Default Value</label>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <input type="text" class="form-control" id="txtVariablePromptDefault" placeholder="Enter Default Value" data-bind="value: timeQuestionDefaultValue, validationTooltip: timeQuestionDefaultValue">
+                                                        <span class="help-block text-right">Default value</span>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -710,7 +829,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strCostPlantUnParsed"></textarea>
+                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strCostMaterialUnParsed"></textarea>
                                                         <span class="help-block text-right">Estimated Cost</span>
                                                     </div>
                                                 </div>
@@ -737,7 +856,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strPricePlantUnParsed"></textarea>
+                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strPriceMaterialUnParsed"></textarea>
                                                         <span class="help-block text-right">Quoted Charge</span>
                                                     </div>
                                                 </div>
@@ -764,7 +883,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtPlantActualCost" rows="5" data-bind="value: strActualCostPlantUnParsed"></textarea>
+                                                        <textarea class="form-control" id="txtPlantActualCost" rows="5" data-bind="value: strActualCostMaterialUnParsed"></textarea>
                                                         <span class="help-block text-right">Actual Cost</span>
                                                     </div>
                                                 </div>
@@ -808,7 +927,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strCostPlantUnParsed"></textarea>
+                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strCostLabourUnParsed"></textarea>
                                                         <span class="help-block text-right">Estimated Cost</span>
                                                     </div>
                                                 </div>
@@ -835,7 +954,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strPricePlantUnParsed"></textarea>
+                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strPriceLabourUnParsed"></textarea>
                                                         <span class="help-block text-right">Quoted Charge</span>
                                                     </div>
                                                 </div>
@@ -862,7 +981,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtPlantActualCost" rows="5" data-bind="value: strActualCostPlantUnParsed"></textarea>
+                                                        <textarea class="form-control" id="txtPlantActualCost" rows="5" data-bind="value: strActualCostLabourUnParsed"></textarea>
                                                         <span class="help-block text-right">Actual Cost</span>
                                                     </div>
                                                 </div>
@@ -883,7 +1002,7 @@
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Time Calculation</h3>
                                             <div class="col-lg-9">
-                                                @*Estimated Cost*@
+                                                @*Estimated Time*@
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
@@ -906,64 +1025,11 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strCostPlantUnParsed"></textarea>
+                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strTimeUnParsed"></textarea>
                                                         <span class="help-block text-right">Estimated Cost</span>
                                                     </div>
                                                 </div>
-                                                @*Quoted Charge*@
-                                                <div class="form-group">
-                                                    <div class="col-lg-3 text-right">
-                                                        <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Quoted Charge" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-                                                        </div>
-                                                        <label for="chkPlantQuotedCharge" class="control-label text-right tooltip-float">Quoted Charge</label>
-                                                    </div>
-                                                    <div class="col-lg-3">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="chkPlantQuotedCharge" class="onoffswitch-checkbox" id="chkPlantQuotedCharge">
-                                                            <label class="onoffswitch-label" for="chkPlantQuotedCharge">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-lg-3"> </div>
-                                                    <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strPricePlantUnParsed"></textarea>
-                                                        <span class="help-block text-right">Quoted Charge</span>
-                                                    </div>
-                                                </div>
-                                                @*Actual Cost*@
-                                                <div class="form-group">
-                                                    <div class="col-lg-3 text-right">
-                                                        <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Actual Cost." data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-                                                        </div>
-                                                        <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Actual Cost</label>
-                                                    </div>
-                                                    <div class="col-lg-3">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="chkPlantActualCost" class="onoffswitch-checkbox" id="chkPlantActualCost">
-                                                            <label class="onoffswitch-label" for="chkPlantActualCost">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-lg-3"> </div>
-                                                    <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtPlantActualCost" rows="5" data-bind="value: strActualCostPlantUnParsed"></textarea>
-                                                        <span class="help-block text-right">Actual Cost</span>
-                                                    </div>
-                                                </div>
+                                               
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="clearfix">
@@ -1067,9 +1133,12 @@
 <script id="itemResourcesTemplate" type="text/html">
     <tr>
         <td data-bind="text: UserName"></td>              
-        <td><div class="form-group pull-right">
-                <div class="checkbox-nice">
-                    <input type="checkbox">
+        <td>
+            <div class="form-group">
+                <div class="checkbox-nice text-center">
+                    <input type="checkbox" data-bind="checked: isSelected, attr: { id: SystemUserId}">
+                    <label data-bind="attr: { for: SystemUserId}">
+                    </label>
                 </div>
             </div>
         </td>

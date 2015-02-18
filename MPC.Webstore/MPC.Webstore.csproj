@@ -302,6 +302,7 @@
     <Compile Include="Controllers\MarketingBriefController.cs" />
     <Compile Include="Controllers\ParentCategoriesController.cs" />
     <Compile Include="Controllers\ProductOptionsController.cs" />
+    <Compile Include="Controllers\ProductOrderHistoryController.cs" />
     <Compile Include="Controllers\RealEstateBannerController.cs" />
     <Compile Include="Controllers\RealEstateFooterController.cs" />
     <Compile Include="Controllers\RealEstateHeaderController.cs" />
@@ -345,6 +346,7 @@
     <Compile Include="ViewModels\MatchingSetViewModel.cs" />
     <Compile Include="ViewModels\ProductPriceMatrixViewModel.cs" />
     <Compile Include="ViewModels\RelatedItemViewModel.cs" />
+    <Compile Include="ViewModels\SearchOrderViewModel.cs" />
     <Compile Include="ViewModels\ShopCartAddressSelectViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -699,6 +701,7 @@
     <Content Include="Views\Shared\PartialViews\RealEstateImageSlider.cshtml" />
     <Content Include="Views\Shared\PartialViews\PersonalDetailAndOrderPolicy.cshtml" />
     <Content Include="Views\Shared\PartialViews\OrderPolicySave.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ProductOrderHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -709,6 +712,7 @@
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
     <Folder Include="Views\OrderPolicySave\" />
     <Folder Include="Views\PersonalDetailAndOrderPolicy\" />
+    <Folder Include="Views\ProductOrderHistory\" />
     <Folder Include="Views\RequestQuote\" />
   </ItemGroup>
   <ItemGroup>

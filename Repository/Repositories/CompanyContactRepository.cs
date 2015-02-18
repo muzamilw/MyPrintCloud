@@ -968,8 +968,9 @@ namespace MPC.Repository.Repositories
         }
 
         //Update The CompnayContact for The Retail Customer
-        public void UpdateCompanyContactForRetail(CompanyContact Instance)
+        public bool UpdateCompanyContactForRetail(CompanyContact Instance)
         {
+            bool Result = false;
             try
             {
 
@@ -990,7 +991,14 @@ namespace MPC.Repository.Repositories
                     db.CompanyContacts.Attach(oContct);
 
                     db.Entry(oContct).State = EntityState.Modified;
-                    db.SaveChanges();
+                    if (db.SaveChanges() > 0)
+                    {
+                        Result = true;
+                    }
+                    else
+                    {
+                        Result = false;
+                    }
                 }
             }
             catch(Exception ex)
@@ -999,10 +1007,12 @@ namespace MPC.Repository.Repositories
                 throw ex;
 
             }
+            return Result;
         }
         //Update The CompnayContact for The Corporate Customer
-        public void UpdateCompanyContactForCorporate(CompanyContact Instance)
+        public bool UpdateCompanyContactForCorporate(CompanyContact Instance)
         {
+            bool Result = false;
             try
             {
                 CompanyContact oContct = db.CompanyContacts.Where(c => c.ContactId == Instance.ContactId).FirstOrDefault();
@@ -1035,7 +1045,14 @@ namespace MPC.Repository.Repositories
                     db.CompanyContacts.Attach(oContct);
 
                     db.Entry(oContct).State = EntityState.Modified;
-                    db.SaveChanges();
+                    if (db.SaveChanges() > 0)
+                    {
+                        Result = true;
+                    }
+                    else
+                    {
+                        Result = false;
+                    }
                 }
             }
             catch (Exception ex)
@@ -1043,7 +1060,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
             
             }
-
+            return Result;
         }
 
         
