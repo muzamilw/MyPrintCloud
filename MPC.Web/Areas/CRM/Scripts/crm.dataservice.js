@@ -35,6 +35,13 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to save Store
+                    amplify.request.define('saveStore', 'ajax', {
+                        url: ist.siteUrl + '/Api/Company',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
                 };
             },
             // get Customer list of list view
@@ -86,13 +93,24 @@
                     error: callbacks.error,
                     data: params
                 });
+            },
+            // save Store
+            saveStore = function(param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'saveStore',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
             };
         return {
             getCustomersForListView: getCustomersForListView,
             getStoreById: getStoreById,
             searchAddress: searchAddress,
             searchCompanyContact: searchCompanyContact,
-            getBaseData: getBaseData
+            getBaseData: getBaseData,
+            saveStore: saveStore
         };
     })();
 

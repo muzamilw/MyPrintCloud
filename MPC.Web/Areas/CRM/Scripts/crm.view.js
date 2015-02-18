@@ -15,7 +15,7 @@ define("crm/crm.view",
                // Show Addressnthe dialog
                 showAddressDialog = function () {
                     $("#myAddressSetModalForCrm").modal("show");
-                    //initializeLabelPopovers();
+                    initializeLabelPopovers();
                 },
                 // Hide Address the dialog
                 hideAddressDialog = function () {
@@ -24,13 +24,39 @@ define("crm/crm.view",
                 // Show Contact Company the dialog
                 showCompanyContactDialog = function () {
                     $("#myContactProfileModalForCrm").modal("show");
-                    //initializeLabelPopovers();
+                    initializeLabelPopovers();
                 },
                 // Hide Company Contact the dialog
                 hideCompanyContactDialog = function () {
                     $("#myContactProfileModalForCrm").modal("hide");
                 },
-               
+                // Go To Element with Validation Errors
+                gotoElement = function (element) {
+                    var tab = $(element).closest(".tab-pane");
+                    if (!tab) {
+                        return;
+                    }
+
+                    var liElement = $('a[href=#' + tab.attr('id') + ']');
+                    if (!liElement) {
+                        return;
+                    }
+
+                    liElement.click();
+
+                    // Scroll to Element
+                    setTimeout(function () {
+                        window.scrollTo($(element).offset().left, $(element).offset().top - 50);
+                        // Focus on element
+                        $(element).focus();
+                    }, 1000);
+                },
+                // Initialize Label Popovers
+                initializeLabelPopovers = function () {
+                    // ReSharper disable UnknownCssClass
+                    $('.bs-example-tooltips a').popover();
+                    // ReSharper restore UnknownCssClass
+                },
             // Initialize
             initialize = function () {
                 if (!bindingRoot) {
@@ -44,7 +70,9 @@ define("crm/crm.view",
                 showAddressDialog: showAddressDialog,
                 hideAddressDialog: hideAddressDialog,
                 showCompanyContactDialog: showCompanyContactDialog,
-                hideCompanyContactDialog: hideCompanyContactDialog
+                hideCompanyContactDialog: hideCompanyContactDialog,
+                gotoElement: gotoElement,
+                initializeLabelPopovers: initializeLabelPopovers
             };
         })(crmViewModel);
 

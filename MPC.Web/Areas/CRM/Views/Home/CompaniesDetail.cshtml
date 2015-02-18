@@ -37,8 +37,8 @@
                     </div>
                     <div class="col-xs-4">
                     </div>
-                    <div class="col-xs-4" style="text-align: right; padding-right: 0px;">
-                        <button type="button" class="btn btn-primary btn-lg">
+                    <div class="col-xs-12" style="text-align: right; padding-right: 0px;">
+                        <button type="button" class="btn btn-primary btn-lg" data-bind="click: $root.saveStore">
                             <span class="fa fa-save"></span>&nbsp;Save
                         </button>
                         <button type="button" class="btn btn-primary btn-lg" data-bind="click: $root.closeEditDialog">
@@ -78,7 +78,7 @@
                                                 <label for="txtCompanyName" class="control-label text-right tooltip-float">Store Name</label>
                                             </div>
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtCompanyName" placeholder="Enter Store Name" data-bind="value: name, validationTooltip: name, validationOnElement: name">
+                                                <input type="text" name="Store Name" class="form-control" id="txtCompanyName" placeholder="Enter Store Name" data-bind="value: name, validationTooltip: name, validationOnElement: name">
                                                 <span class="help-block text-right">This will be used in defalt URL to pass on to your customer.</span>
                                             </div>
                                         </div>
@@ -93,7 +93,7 @@
                                                 <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Web Access Code</label>
                                             </div>
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtWebAccessCode" placeholder="Enter Web Access Code" data-bind="value: webAccessCode, validationTooltip: webAccessCode, validationOnElement: webAccessCode">
+                                                <input type="text" name="Web Access Code" class="form-control" id="txtWebAccessCode" placeholder="Enter Web Access Code" data-bind="value: webAccessCode, validationTooltip: webAccessCode, validationOnElement: webAccessCode">
                                                 <span class="help-block text-right">URL http://pinkcards.com/corporatedemo/login</span>
                                             </div>
                                         </div>
