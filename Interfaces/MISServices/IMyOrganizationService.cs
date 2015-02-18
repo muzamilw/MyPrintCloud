@@ -37,5 +37,7 @@ namespace MPC.Interfaces.MISServices
         void SaveFilePath(string path);
 
         LanguageEditor ReadResourceFileByLanguageId(long organisationId, long lanuageId);
+
+        
     }
 }
