@@ -548,6 +548,11 @@ namespace MPC.Repository.BaseRepository
         public DbSet<SmartFormDetail> SmartFormDetails { get; set; }
 
         /// <summary>
+        /// Delivery Carrier DbSet
+        /// </summary>
+        public DbSet<DeliveryCarrier> DeliveryCarriers { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
 // ReSharper disable InconsistentNaming

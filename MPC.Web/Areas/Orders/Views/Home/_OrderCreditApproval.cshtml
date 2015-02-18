@@ -5,14 +5,16 @@
             <div class="form-group">
                 <div class="col-lg-3 text-right">
 
-                    <label class="control-label text-right" for="switchSecondaryPages">Credit Approved</label>
+                    <label class="control-label text-right">Credit Approved</label>
+@* ReSharper disable UnknownCssClass *@
                     <span class="label label-circle-questions">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+@* ReSharper restore UnknownCssClass *@
                 </div>
 
                 <div class="col-lg-6">
                     <div class="onoffswitch">
-                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchEnableProduct" checked>
-                        <label class="onoffswitch-label" for="switchEnableProduct">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCreditApproved" data-bind="checked: isCreditApproved">
+                        <label class="onoffswitch-label" for="switchCreditApproved">
                             <div class="onoffswitch-inner"></div>
                             <div class="onoffswitch-switch"></div>
                         </label>
@@ -24,9 +26,10 @@
 
             <div class="form-group">
                 <div class="col-lg-3 text-right">
+@* ReSharper disable UnknownCssClass *@
                     <div class="bs-example-tooltips tooltip-float-width">
 
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Credit Limit" data-original-title="" title="">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Credit Limit" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
 
@@ -39,7 +42,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <input type="text" class="form-control" id="Estimateitle" />
+                        <input type="text" class="form-control" id="Estimateitle" data-bind="value: creditLimitForJob, enable: isCreditApproved" />
 
 
                     </div>
@@ -51,7 +54,7 @@
                 <div class="col-lg-3 text-right">
                     <div class="bs-example-tooltips tooltip-float-width">
 
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Credit Limit Set By" data-original-title="" title="">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Credit Limit Set By" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
 
@@ -64,7 +67,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <input type="text" class="form-control" id="Estimateitle" />
+                        <input type="text" class="form-control" id="CreditLimtSetBy" data-bind="value: creditLimitSetBy, enable: isCreditApproved" />
 
 
                     </div>
@@ -77,7 +80,7 @@
                 <div class="col-lg-3 text-right">
                     <div class="bs-example-tooltips tooltip-float-width">
 
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Credit Limit Set On" data-original-title="" title="">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Credit Limit Set On" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
 
@@ -90,7 +93,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <input type="text" class="form-control" id="datepickerOnCreditApprove">
+                        <input type="text" class="form-control" id="datepickerOnCreditApprove" data-bind="datepicker: creditLimitSetOnDateTime, enable: isCreditApproved">
 
 
                     </div>
@@ -101,13 +104,13 @@
             <div class="form-group">
                 <div class="col-lg-3 text-right">
 
-                    <label class="control-label text-right" for="switchSecondaryPages">Proceed without Credit Check</label>
+                    <label class="control-label text-right">Proceed without Credit Check</label>
                     <span class="label label-circle-questions">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                 </div>
 
                 <div class="col-lg-6">
                     <div class="onoffswitch">
-                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchEnableCredit" checked>
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchEnableCredit" data-bind="checked: isJobAllowedWoCreditCheck">
                         <label class="onoffswitch-label" for="switchEnableCredit">
                             <div class="onoffswitch-inner"></div>
                             <div class="onoffswitch-switch"></div>
@@ -122,7 +125,7 @@
                 <div class="col-lg-3 text-right">
                     <div class="bs-example-tooltips tooltip-float-width">
 
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Credit Limit Set By" data-original-title="" title="">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Credit Limit Set By" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
 
@@ -135,7 +138,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <input type="text" class="form-control" id="Estimateitle" />
+                        <input type="text" class="form-control" id="CreditCheckWoSetBy" data-bind="value: allowJobWoCreditCheckSetBy, enable: isJobAllowedWoCreditCheck" />
 
 
                     </div>
@@ -147,7 +150,7 @@
                 <div class="col-lg-3 text-right">
                     <div class="bs-example-tooltips tooltip-float-width">
 
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Credit Limit Set On" data-original-title="" title="">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Credit Limit Set On" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
 
@@ -160,7 +163,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <input type="text" class="form-control" id="datepickerOnCreditApprove2">
+                        <input type="text" class="form-control" id="datepickerOnCreditApprove2" data-bind="datepicker: allowJobWoCreditCheckSetOnDateTime, enable: isJobAllowedWoCreditCheck">
 
 
                     </div>
@@ -175,13 +178,13 @@
             <div class="form-group">
                 <div class="col-lg-3 text-right">
 
-                    <label class="control-label text-right" for="switchSecondaryPages">Official Order received from customer</label>
+                    <label class="control-label text-right">Official Order received from customer</label>
                     <span class="label label-circle-questions">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                 </div>
 
                 <div class="col-lg-6">
                     <div class="onoffswitch">
-                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchEnableProductOfficial" checked>
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchEnableProductOfficial" data-bind="checked: isOfficialOrder">
                         <label class="onoffswitch-label" for="switchEnableProductOfficial">
                             <div class="onoffswitch-inner"></div>
                             <div class="onoffswitch-switch"></div>
@@ -196,7 +199,7 @@
                 <div class="col-lg-3 text-right">
                     <div class="bs-example-tooltips tooltip-float-width">
 
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Customer PO Ref Number" data-original-title="" title="">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Customer PO Ref Number" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
 
@@ -209,7 +212,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <input type="text" class="form-control" id="Estimateitle" />
+                        <input type="text" class="form-control" id="customerPoRef" data-bind="value: customerPo, enable: isOfficialOrder" />
 
 
                     </div>
@@ -221,7 +224,7 @@
                 <div class="col-lg-3 text-right">
                     <div class="bs-example-tooltips tooltip-float-width">
 
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Credit Limit Set By" data-original-title="" title="">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Credit Limit Set By" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
 
@@ -234,7 +237,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <input type="text" class="form-control" id="Estimateitle" />
+                        <input type="text" class="form-control" id="officialOrderSetBy" data-bind="value: officialOrderSetBy, enable: isOfficialOrder" />
 
 
                     </div>
@@ -246,8 +249,8 @@
             <div class="form-group">
                 <div class="col-lg-3 text-right">
                     <div class="bs-example-tooltips tooltip-float-width">
-
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Credit Limit Set On" data-original-title="" title="">
+                        @* ReSharper restore UnknownCssClass *@
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Credit Limit Set On" data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
 
@@ -260,7 +263,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <input type="text" class="form-control" id="datepickerOnOfficialOrders">
+                        <input type="text" class="form-control" id="datepickerOnOfficialOrders" data-bind="datepicker: officialOrderSetOnDateTime, enable: isOfficialOrder">
 
 
                     </div>
