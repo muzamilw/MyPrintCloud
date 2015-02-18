@@ -3104,17 +3104,10 @@ namespace MPC.Implementation.MISServices
         {
             try
             {
+                long OrganisationID = 0;
                 string extractPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Organisations/ImportOrgansation");
                  string ReadPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Organisations/ExportedZip2.zip");
-                //using (ZipFile zip = ZipFile.Read(fileUpload.PostedFile.InputStream))
-                //{
-                //    ZipFile.
-
-                //    zip.ExtractToDirectory(zipPath, extractPath);
-                //    zip.ExtractAll(extractPath, ExtractExistingFileAction.DoNotOverwrite);
-                    
-                //}
-
+               
                 //string zipToUnpack = "C1P3SML.zip";
                 //string unpackDirectory = "Extracted Files";
                 using (ZipFile zip1 = ZipFile.Read(ReadPath))
@@ -3124,6 +3117,26 @@ namespace MPC.Implementation.MISServices
                     foreach (ZipEntry e in zip1)
                     {
                         e.Extract(extractPath, ExtractExistingFileAction.OverwriteSilently);
+                        string JsonFilePath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Organisations/ImportOrgansation/Json.txt");
+                        if(File.Exists(JsonFilePath))
+                        {
+                            string json = System.IO.File.ReadAllText(JsonFilePath);
+
+                            ExportOrganisation objExpOrg = JsonConvert.DeserializeObject<ExportOrganisation>(json);
+                            //List<TemplateObjects> lstTemplatesObjects = JsonConvert.DeserializeObject<List<TemplateObjects>>(res);
+                            //if(objExpOrg.Organisation != null)
+                            //{
+                             organisationRepository.InsertOrganisation(objExpOrg.Organisation,objExpOrg);
+                            //}
+                            //if(objExpOrg.PaperSizes != null && objExpOrg.PaperSizes.Count > 0)
+                            //{
+
+                            //}
+
+                        }
+                     
+                        
+
                     }
                 }
             }

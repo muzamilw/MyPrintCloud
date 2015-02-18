@@ -257,6 +257,13 @@
         <AssociationConnector Association="DomainModels.FK__Activity__Compan__2D3FF3FE" />
         <EntityTypeShape EntityType="DomainModels.VariableOption" Width="1.5" PointX="25.625" PointY="16.5" />
         <AssociationConnector Association="DomainModels.FK_VariableOption_FieldVariable" />
+        <EntityTypeShape EntityType="DomainModels.CompanyContactVariable" Width="1.5" PointX="15.5" PointY="78.75" />
+        <EntityTypeShape EntityType="DomainModels.SmartForm" Width="1.5" PointX="3" PointY="57.5" />
+        <EntityTypeShape EntityType="DomainModels.SmartFormDetail" Width="1.5" PointX="5.25" PointY="57.5" />
+        <AssociationConnector Association="DomainModels.FK_Invoice_Company" />
+        <AssociationConnector Association="DomainModels.FK_SmartForm_Company" />
+        <AssociationConnector Association="DomainModels.FK_CompanyContactVariable_CompanyContact" />
+        <AssociationConnector Association="DomainModels.FK_SmartFormDetail_SmartForm" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -163,6 +163,7 @@
     <Compile Include="DomainModels\ActivityType.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CmsOffer.cs" />
+    <Compile Include="DomainModels\CompanyContactVariable.cs" />
     <Compile Include="DomainModels\CompanyVariableIcon.cs" />
     <Compile Include="DomainModels\CostCentreAnswer.cs" />
     <Compile Include="DomainModels\CostCenterChoice.cs" />
@@ -178,6 +179,8 @@
     <Compile Include="DomainModels\CostcentreWorkInstructionsChoice.cs" />
     <Compile Include="DomainModels\CustomCopy.cs" />
     <Compile Include="DomainModels\FavoriteDesign.cs" />
+    <Compile Include="DomainModels\SmartForm.cs" />
+    <Compile Include="DomainModels\SmartFormDetail.cs" />
     <Compile Include="DomainModels\VariableOption.cs" />
     <Compile Include="DomainModels\Group.cs" />
     <Compile Include="DomainModels\ImagePermission.cs" />
