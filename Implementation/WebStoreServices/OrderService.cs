@@ -386,12 +386,24 @@ namespace MPC.Implementation.WebStoreServices
             try
             {
                 return _OrderRepository.GetLastOrderByContactID(ContactId);
+                
             }
             catch(Exception ex)
             {
                 throw ex;
             }
 
+         }
+        public List<Order> GetOrdersListByContactID(long contactUserID, OrderStatus? orderStatus,string fromDate, string toDate, string orderRefNumber, int pageSize, int pageNumber) 
+        {
+            return _OrderRepository.GetOrdersListByContactID(contactUserID, orderStatus, fromDate, toDate, orderRefNumber, pageSize, pageNumber);
+        
         }
+       public List<Order> GetOrdersListExceptPendingOrdersByContactID(long contactUserID, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, int pageSize, int pageNumber)
+        {
+            return _OrderRepository.GetOrdersListExceptPendingOrdersByContactID(contactUserID, orderStatus, fromDate, toDate, orderRefNumber, pageSize, pageNumber);
+        
+        }
+
     }
 }

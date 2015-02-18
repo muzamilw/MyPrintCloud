@@ -96,6 +96,8 @@ namespace MPC.Repository
             unityContainer.RegisterType<IEstimateRepository, EstimateRepository>();
             unityContainer.RegisterType<IPipeLineProductRepository, PipeLineProductRepository>();
             unityContainer.RegisterType<IPipeLineSourceRepository, PipeLineSourceRepository>();
+            unityContainer.RegisterType<IStatusRepository, StatusRepository>();
+            unityContainer.RegisterType<IReportRepository, ReportRepository>();
             unityContainer.RegisterType<IActivityTypeRepository, ActivityTypeRepository>();
             unityContainer.RegisterType<IActivityRepository, ActivityRepository>();
         }

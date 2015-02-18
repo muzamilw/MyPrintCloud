@@ -9,6 +9,8 @@
         try { if (!window.CloudFlare) { var CloudFlare = [{ verbose: 0, p: 0, byc: 0, owlid: "cf", bag2: 1, mirage2: 0, oracle: 0, paths: { cloudflare: "/cdn-cgi/nexp/dokv=88e434a982/" }, atok: "dd9c6b9d970c21043597a4fadd80e4dd", petok: "522fd99e7c7ba64b5097694a33e1b12f448f8fe0-1408352612-1800", zone: "adbee.technology", rocket: "0", apps: { "ga_key": { "ua": "UA-49262924-2", "ga_bs": "2" } } }]; !function (a, b) { a = document.createElement("script"), b = document.getElementsByTagName("script")[0], a.async = !0, a.src = "//ajax.cloudflare.com/cdn-cgi/nexp/dokv=97fb4d042e/cloudflare.min.js", b.parentNode.insertBefore(a, b) }() } } catch (e) { };
         //]]>
     </script>
+    <script src="~/Content/themes/Centaurus/js/jquery.js"></script>
+   
     <link href="~/Content/themes/Centaurus/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/themes/Centaurus/css/libs/font-awesome.css" type="text/css" rel="stylesheet" />
     <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/nanoscroller.css" type="text/css" />
@@ -53,17 +55,94 @@
         (function (b) { (function (a) { "__CF" in b && "DJS" in b.__CF ? b.__CF.DJS.push(a) : "addEventListener" in b ? b.addEventListener("load", a, !1) : b.attachEvent("onload", a) })(function () { "FB" in b && "Event" in FB && "subscribe" in FB.Event && (FB.Event.subscribe("edge.create", function (a) { _gaq.push(["_trackSocial", "facebook", "like", a]) }), FB.Event.subscribe("edge.remove", function (a) { _gaq.push(["_trackSocial", "facebook", "unlike", a]) }), FB.Event.subscribe("message.send", function (a) { _gaq.push(["_trackSocial", "facebook", "send", a]) })); "twttr" in b && "events" in twttr && "bind" in twttr.events && twttr.events.bind("tweet", function (a) { if (a) { var b; if (a.target && a.target.nodeName == "IFRAME") a: { if (a = a.target.src) { a = a.split("#")[0].match(/[^?=&]+=([^&]*)?/g); b = 0; for (var c; c = a[b]; ++b) if (c.indexOf("url") === 0) { b = unescape(c.split("=")[1]); break a } } b = void 0 } _gaq.push(["_trackSocial", "twitter", "tweet", b]) } }) }) })(window);
         /* ]]> */
     </script>
-</head>
-<body>
-    <header class="navbar" id="header-navbar">
-        <div class="container">
-            <a href="~/Dashboard/Index" id="logo" class="my-navigator navbar-brand">
+    <script>
+        $(document).ready(function ()
+        {
+          
+            $("#header-logo").hide();
+            $("#make-small-nav").click(function ()
+            {
+                $("#header-logo").toggle();
+                $("#menu-logo").toggle();
+            });
 
-               
-                <img src="~/Content/themes/Centaurus/img/logo-black.png" alt="" class="normal-logo logo-black" />
-                <img src="~/Content/themes/Centaurus/img/logo-small.png" alt="" class="small-logo hidden-xs hidden-sm hidden" />
+        });
+    </script>
+
+    <script>
+    $(document).ready(function () {
+
+        var width = $(window).width();
+        var total = width - 320;
+        var divison = total / 2;
+
+        document.getElementById("trial-description").style.left = divison + "px";
+
+    });
+    </script>
+    <script>
+        $(document).ready(function () {
+
+            $(window).resize(function () {
+
+                var width = $(window).width();
+                var total = width - 320;
+                var divison = total / 2;
+
+                document.getElementById("trial-description").style.left = divison + "px";
+            });
+
+        });
+    </script>
+
+    <style>
+        .trial-description {
+            top: 0;
+            position: fixed;
+            z-index: 10000;
+            background-color: white;
+            border-radius: 4px;
+            -webkit-box-shadow: 0px 0px 8px 2px gray;
+            -moz-box-shadow: 0px 0px 8px 2px gray;
+            box-shadow: 0px 0px 8px 2px gray;
+        }
+    </style>
+
+
+
+
+</head>
+<body class="theme-red">
+
+    <div class="trial-description" id="trial-description">
+        <table style="height:70px;width:320px;">
+            <tr>
+                <td style="padding-left:10px;width:150px;">
+                    <span style="color:red;font-weight:bold;">7 Days</span>&nbsp;<span style="color:gray;">left in trial</span>
+                </td>
+                <td style="width:120px;text-align:right;padding-right:10px;">
+                    <span style="color:gray;font-size:12px;">Questions ?</span>&nbsp;<span style="color:blue;font-size:12px;">Email Us!</span>
+                    <span style="color:green;font-size:12px;font-weight:bold;">Upgrade Now</span>
+                    <br />
+                    <span style="color:orange;font-size:12px;font-weight:bold;">Book a Go to Demo</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <header class="navbar" id="header-navbar">
+
+        
+        <div class="container">
+            
+            <a href="~/Dashboard/Index" id="header" class="my-navigator navbar-brand">
+                
+                <img src="~/Content/themes/Centaurus/img/logo.png" id="header-logo" alt="" class="normal-logo logo-white" height="25" width="170" style="margin-top:5px;" />
+                
             </a>
+          
             <div class="clearfix">
+               
                 <button class="navbar-toggle" data-target=".navbar-ex1-collapse" data-toggle="collapse" type="button">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="fa fa-bars"></span>
@@ -77,6 +156,63 @@
                         </li>
                     </ul>
                 </div>
+                <div id="config-tool" class="closed">
+                    <a id="config-tool-cog">
+                        <i class="fa fa-cog"></i>
+                    </a>
+                    <div id="config-tool-options">
+                        <h4>Layout Options</h4>
+                        <ul>
+                            <li>
+                                <div class="checkbox-nice">
+                                    <input type="checkbox" id="config-fixed-header" />
+                                    <label for="config-fixed-header">
+                                        Fixed Header
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox-nice">
+                                    <input type="checkbox" id="config-fixed-sidebar" />
+                                    <label for="config-fixed-sidebar">
+                                        Fixed Left Menu
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox-nice">
+                                    <input type="checkbox" id="config-fixed-footer" />
+                                    <label for="config-fixed-footer">
+                                        Fixed Footer
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                        <br />
+                        <h4>Skin Color</h4>
+                        <ul id="skin-colors" class="clearfix">
+                            <li>
+                                <a class="skin-changer" data-skin="" data-toggle="tooltip" title="Default" style="background-color: #34495e;"></a>
+                            </li>
+                            <li>
+                                <a class="skin-changer" data-skin="theme-white" data-toggle="tooltip" title="White/Green" style="background-color: #2ecc71;"></a>
+                            </li>
+                            <li>
+                                <a class="skin-changer blue-gradient" data-skin="theme-blue-gradient" data-toggle="tooltip" title="Gradient"></a>
+                            </li>
+                            <li>
+                                <a class="skin-changer" data-skin="theme-amethyst" data-toggle="tooltip" title="Amethyst" style="background-color: #9b59b6;"></a>
+                            </li>
+                            <li>
+                                <a class="skin-changer" data-skin="theme-blue" data-toggle="tooltip" title="Blue" style="background-color: #2980b9;"></a>
+                            </li>
+                            <li>
+                                <a class="skin-changer" data-skin="theme-red" data-toggle="tooltip" title="Red" style="background-color: #e74c3c;"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
                 <div class="nav-no-collapse pull-right" id="header-nav">
                     <ul class="nav navbar-nav pull-right">
                         @*<li class="mobile-search">
@@ -216,7 +352,6 @@
                         </li>*@
                         <li class="dropdown profile-dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                               Scarlett Johnson
                                 <span class="hidden-xs">
                                     @if (User != null && User.Identity != null)
                                     {
@@ -244,30 +379,18 @@
     <div id="page-wrapper" class="container">
         <div class="row">
         <div id="nav-col">
-                <img src="~/Content/themes/Centaurus/img/logo.png" alt="" class="normal-logo logo-white" height="40" width="180" style="margin-left:17px;margin-top:54px;" />
+
+          
+            <a id="menu-logo" href="~/Dashboard/Index">
+                <img src="~/Content/themes/Centaurus/img/logo.png" alt="" class="normal-logo logo-white" height="30" width="180" style="margin-left:17px;margin-top:50px;margin-bottom:50px;" />
+            </a>
                 <section id="col-left" class="col-left-nano">
                     <div id="col-left-inner" class="col-left-nano-content">
-                        <div id="user-left-box" class="clearfix hidden-sm hidden-xs">
-                            
-                            
-
-                            <div class="user-box">
-                            @*<span class="name">
-                                    Welcome<br />
-                                    @if (User != null && User.Identity != null)
-                                    {
-                                        @User.Identity.Name
-                                    }
-                                </span>
-                                <span class="status">
-                                    <i class="fa fa-circle"></i>Online
-                                </span>*@
-                            </div>
-                        </div>
+                        
                         @RenderSection("leftmenue", required: false)
                         @* Test left menue starts here*@
                         <div class="collapse navbar-collapse navbar-ex1-collapse" id="sidebar-nav">
-                            <ul class="nav nav-pills nav-stacked">
+                            <ul class="nav nav-pills nav-stacked" id="Navigation-bar">
                                 <li id="lidashboard">
                                     <a href="~/Dashboard/Index" class="my-navigator">
                                         <i class="fa fa-dashboard"></i>
@@ -498,11 +621,29 @@
                                     </ul>
                                 </li>
                                 <li id="lipurchases">
-                                    <a href="~/Orders/Home/PurchaseOrders" class="my-navigator">
-                                        <i class="fa fa-calendar"></i>
+                                    <a href="#" class="dropdown-toggle">
+                                        <i class="fa fa-users"></i>
                                         <span>Purchase Orders</span>
+                                        <i class="fa fa-chevron-circle-right drop-icon"></i>
                                     </a>
+                                    <ul class="submenu">
+                                        <li class="left15pxback">
+                                            <a href="~/Orders/Home/PurchaseOrders" class="my-navigator">
+                                                <i class="fa fa-table"></i>
+                                                <span>GRN</span>
+                                                <span class="label label-primary label-circle pull-right">11</span>
+                                            </a>
+                                        </li>
+                                        <li class="left15pxback">
+                                            <a href="~/Orders/Home/PurchaseOrdersPO" class="my-navigator">
+                                                <i class="fa fa-table"></i>
+                                                <span>PO</span>
+                                                <span class="label label-primary label-circle pull-right">09</span>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </li>
+                              
                                 <li id="liemails">
                                     <a href="~/Home/PageUnAvailable" class="my-navigator">
                                         <i class="fa fa-calendar"></i>
@@ -671,62 +812,7 @@
             </div>
         </div>
     </div>
-    <div id="config-tool" class="closed">
-        <a id="config-tool-cog">
-            <i class="fa fa-cog"></i>
-        </a>
-        <div id="config-tool-options">
-            <h4>Layout Options</h4>
-            <ul>
-                <li>
-                    <div class="checkbox-nice">
-                        <input type="checkbox" id="config-fixed-header" />
-                        <label for="config-fixed-header">
-                            Fixed Header
-                        </label>
-                    </div>
-                </li>
-                <li>
-                    <div class="checkbox-nice">
-                        <input type="checkbox" id="config-fixed-sidebar" />
-                        <label for="config-fixed-sidebar">
-                            Fixed Left Menu
-                        </label>
-                    </div>
-                </li>
-                <li>
-                    <div class="checkbox-nice">
-                        <input type="checkbox" id="config-fixed-footer" />
-                        <label for="config-fixed-footer">
-                            Fixed Footer
-                        </label>
-                    </div>
-                </li>
-            </ul>
-            <br />
-            <h4>Skin Color</h4>
-            <ul id="skin-colors" class="clearfix">
-                <li>
-                    <a class="skin-changer" data-skin="" data-toggle="tooltip" title="Default" style="background-color: #34495e;"></a>
-                </li>
-                <li>
-                    <a class="skin-changer" data-skin="theme-white" data-toggle="tooltip" title="White/Green" style="background-color: #2ecc71;"></a>
-                </li>
-                <li>
-                    <a class="skin-changer blue-gradient" data-skin="theme-blue-gradient" data-toggle="tooltip" title="Gradient"></a>
-                </li>
-                <li>
-                    <a class="skin-changer" data-skin="theme-amethyst" data-toggle="tooltip" title="Amethyst" style="background-color: #9b59b6;"></a>
-                </li>
-                <li>
-                    <a class="skin-changer" data-skin="theme-blue" data-toggle="tooltip" title="Blue" style="background-color: #2980b9;"></a>
-                </li>
-                <li>
-                    <a class="skin-changer" data-skin="theme-red" data-toggle="tooltip" title="Red" style="background-color: #e74c3c;"></a>
-                </li>
-            </ul>
-        </div>
-    </div>
+    
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/Bundle/BaseLibs")

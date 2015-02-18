@@ -1,5 +1,7 @@
 ﻿//using Microsoft.IdentityModel.Claims;
 //using Microsoft.IdentityModel.Web;
+
+using System;
 using MPC.Models.Common;
 using System.Security.Claims;
 
@@ -30,5 +32,7 @@ namespace MPC.Interfaces.MISServices
         /// Lookup name id and provider name
         /// </summary>
         void LookupIdentityClaimValues(ClaimsIdentity claimsIdentity, out string providerName, out string nameIdentifier);
+
+        void GetTrialUserClaims(ref Boolean isTrial, ref int count);
     }
 }

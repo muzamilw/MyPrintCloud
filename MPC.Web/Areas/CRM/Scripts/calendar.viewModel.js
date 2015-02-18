@@ -2,8 +2,8 @@
     Module with the view model for the Calendar.
 */
 define("calendar/calendar.viewModel",
-    ["jquery", "amplify", "ko", "calendar/calendar.dataservice", "calendar/calendar.model", "common/pagination"],
-    function ($, amplify, ko, dataservice, model, pagination) {
+    ["jquery", "amplify", "ko", "calendar/calendar.dataservice", "calendar/calendar.model", "common/companySelector.viewModel"],
+    function ($, amplify, ko, dataservice, model, companySelector) {
         var ist = window.ist || {};
         ist.calendar = {
             viewModel: (function () {
@@ -25,7 +25,6 @@ define("calendar/calendar.viewModel",
                     companies = ko.observableArray([]),
                     activityTypes = ko.observableArray([]),
                     items = ko.observableArray([]),
-                    //items =[],
                     activities = [];
 
                 fullCalendar = {
@@ -85,27 +84,20 @@ define("calendar/calendar.viewModel",
                 var start;
                 var end;
                 var lastView = ko.observable('month');
-                viewEventClick = function (viewClick) {
-
-                    if (start !== moment(viewClick.start) && end !== moment(viewClick.end) && (loadPage || lastView() !== viewClick.name)) {
-                        start = moment(viewClick.start);
-                        end = moment(viewClick.end);
-                        lastView(viewClick.name);
-                        getActivies(moment(viewClick.start).format(ist.utcFormat), moment(viewClick.end).format(ist.utcFormat));
-                    }
-                        loadPage = false;
-                        // items([]);
-                    },
-
-                dayEventClick = function (date, jsEvent, view1) {
-                    //if (!loadPage) {
-                    //    return;
-                    //}
-                    //getActivies(moment(date.start).format(ist.utcFormat), moment(date.end).format(ist.utcFormat));
-                    //items([]);
-                    // ko.utils.arrayPushAll(items(), activities);
-                    //items.valueHasMutated();
-                    alert("test");
+                viewDate = ko.observable(new Date()),
+               viewEventClick = function (viewClick) {
+                   if (start !== moment(viewClick.start) && end !== moment(viewClick.end) && (loadPage || lastView() !== viewClick.name)) {
+                       start = moment(viewClick.start);
+                       end = moment(viewClick.end);
+                       lastView(viewClick.name);
+                       getCalendarActivities(moment(viewClick.start).format(ist.utcFormat), moment(viewClick.end).format(ist.utcFormat));
+                   }
+                   loadPage = false;
+               },
+                //Get Activities For Next,Pre,Today click on
+                getActivitiesForNextPreTodayClick = function (currentView) {
+                    viewDate(currentView.start);
+                    getCalendarActivities(moment(currentView.start).format(ist.utcFormat), moment(currentView.end).format(ist.utcFormat));
                 },
                 //Add new Activity
                 newEventAdd = function (addNewActivityEvent) {
@@ -118,7 +110,6 @@ define("calendar/calendar.viewModel",
                     selectedActivity(newAddActivity);
                     view.showCalendarActivityDialog();
                 },
-
                 //delete Activity
                 onDeleteActivity = function (activity) {
                     dataservice.deleteActivity(selectedActivity().convertToServerData(), {
@@ -132,7 +123,6 @@ define("calendar/calendar.viewModel",
                         }
                     });
                 },
-
                 // Get Base
                 getBase = function () {
                     dataservice.getCalendarBase({
@@ -165,14 +155,7 @@ define("calendar/calendar.viewModel",
                         }
                     });
                 },
-                //items.push({
-                //    title: 'Birthday Party',
-                //    start: new Date(),
-                //    //className: '',
-                //    backgroundColor: '#FF1919',
-                //    allDay: false
-                //});
-                // viewDate = ko.observable(Date.now()),
+                //
                 mycCalender = new fullCalendar.viewModel({
                     events: items,
                     header: {
@@ -183,13 +166,15 @@ define("calendar/calendar.viewModel",
                     editable: true,
                     selectable: true,
                     selectHelper: true,
-                    defaultView: lastView
+                    defaultView: lastView,
+                    viewDate: viewDate,
                 }),
                 //Show
                 showCompanyDialog = function () {
-                    companies.removeAll();
-                    view.showCompanyDialog();
-                    getCompanies();
+                    //companies.removeAll();
+                    //view.showCompanyDialog();
+                    //getCompanies();
+                    openCompanyDialog();
                 }
                 //Set IS Customer Type
                 getIsCustomerType = function () {
@@ -202,6 +187,7 @@ define("calendar/calendar.viewModel",
                     else if (selectedActivity().isCustomerType() === "0") {
                         return 0;
                     }
+                    return 1;
                 },
                 //Hide
                 hideCompanyDialog = function () {
@@ -230,85 +216,37 @@ define("calendar/calendar.viewModel",
                     });
                 },
                 //Get Activities
-                getActivies = function (startDate, EndDate) {
-                    getCalendarActivities(startDate, EndDate);
-                    //try {
-                    //    loadPage = false;
-                    //    getCalendarActivities(startDate, EndDate);
-                    //}
-                    //finally {
-                    //    // items([]);
-                    //    loadPage = true;
-                    //}
+                getCalendarActivities = function (startDate, EndDate) {
+                    dataservice.getActivies({
+                        StartDateTime: startDate,
+                        EndDateTime: EndDate,
+                    }, {
+                        success: function (data) {
+                            items.removeAll();
+                            if (data != null) {
+                                _.each(data, function (item) {
+                                    var sectionFlag = sectionFlags.find(function (sFlag) {
+                                        return sFlag.SectionFlagId == item.FlagId;
+                                    });
+                                    items.push({
+                                        id: item.ActivityId,
+                                        title: item.ActivityRef,
+                                        start: item.ActivityStartTime,
+                                        backgroundColor: sectionFlag != undefined ? sectionFlag.FlagColor : null,
+                                        end: item.ActivityEndTime,
+                                        allDay: false
+                                    });
+                                });
+                            }
+                            // viewDate();
+                        },
+                        error: function (response) {
 
-                },
-               getCalendarActivities = function (startDate, EndDate) {
-                   dataservice.getActivies({
-                       StartDateTime: startDate,
-                       EndDateTime: EndDate,
-                   }, {
-                       success: function (data) {
-                           items.removeAll();
-                           //activities = [];
-                          //items = [];
-                           // activities = [];
-                           if (data != null) {
+                            toastr.error("Failed to load Detail . Error: ");
+                        }
+                    });
+                }
 
-                               _.each(data, function (item) {
-                                   var sectionFlag = sectionFlags.find(function (sFlag) {
-                                       return sFlag.SectionFlagId == item.FlagId;
-                                   });
-
-                                   //items.each(function(existItems) {
-                                   //    if (existItems.id === item.ActivityId) {
-                                   //        existItems.title = item.ActivityRef,
-                                   //            existItems.start = item.ActivityStartTime,
-                                   //            existItems.backgroundColor = sectionFlag != undefined ? sectionFlag.FlagColor : null,
-                                   //            existItems.end = item.ActivityEndTime;
-                                   //    }
-                                   //});
-
-
-                                   items.push({
-                                       id: item.ActivityId,
-                                       title: item.ActivityRef,
-                                       start: item.ActivityStartTime,
-                                       backgroundColor: sectionFlag != undefined ? sectionFlag.FlagColor : null,
-                                       end: item.ActivityEndTime
-                                   });
-                               });
-
-                                //ko.utils.arrayPushAll(items(), activities);
-                               //items.valueHasMutated();
-                               
-                           }
-
-
-                       },
-                       error: function (response) {
-
-                           toastr.error("Failed to load Detail . Error: ");
-                       }
-                   });
-               }
-                //Search Company
-                searchCompany = function () {
-                    getCompanies();
-                },
-                //Reset Company Dialog
-                resetCompany = function () {
-                    companySearchFilter(undefined);
-                    getCompanies();
-                },
-                //On Select Company
-                selectCompany = function (company) {
-                    selectedActivity().companyName(company.name());
-                    selectedActivity().contactCompanyId(company.id());
-                    selectedCompany(company);
-                    hideCompanyDialog();
-                    companyContacts.removeAll();
-                    getCompanyContactByCompanyId(company);
-                },
                 //On Save Acivity
                 onSaveActivity = function (activity) {
                     if (dobeforesave()) {
@@ -334,6 +272,7 @@ define("calendar/calendar.viewModel",
                                         backgroundColor: sectionFlag != undefined ? sectionFlag.FlagColor : null,
                                         start: activity.startDateTime(),
                                         end: activity.endDateTime(),
+                                        allDay: false
                                     });
                                 } else {
                                     items.remove(selectedActivityForRemove());
@@ -343,6 +282,7 @@ define("calendar/calendar.viewModel",
                                         backgroundColor: sectionFlag != undefined ? sectionFlag.FlagColor : null,
                                         start: activity.startDateTime(),
                                         end: activity.endDateTime(),
+                                        allDay: false
                                     });
                                 }
                             }
@@ -391,7 +331,7 @@ define("calendar/calendar.viewModel",
                 //Get Company Contact By CompanyId
                 getCompanyContactByCompanyId = function (company) {
                     dataservice.getCompanyContactByCompanyId({
-                        companyId: company.id(),
+                        companyId: company.id,
                     }, {
                         success: function (data) {
                             if (data != null) {
@@ -407,20 +347,51 @@ define("calendar/calendar.viewModel",
                         }
                     });
                 },
+                // Open Company Dialog
+                 openCompanyDialog = function () {
+                     companySelector.show(onSelectCompany, getIsCustomerType());
+                 },
+                 formatSelection = function (state) {
+                     return "<span style=\"height:20px;width:25px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
+                 },
 
+                formatResult = function (state) {
+                    return "<div style=\"height:20px;margin-right:10px;width:25px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
+                },
+                selected = ko.observable(),
+                // On Select Company
+                onSelectCompany = function (company) {
+                    if (!company) {
+                        return;
+                    }
+
+                    if (selectedActivity().contactCompanyId() === company.id) {
+                        return;
+                    }
+                    selectedActivity().companyName(company.name);
+                    selectedActivity().contactCompanyId(company.id);
+                    //selectedCompany(company);
+                    hideCompanyDialog();
+                    companyContacts.removeAll();
+                    getCompanyContactByCompanyId(company);
+
+                    //selectedOrder().companyId(company.id);
+                    //selectedOrder().companyName(company.name);
+
+                    //// Get Company Address and Contacts
+                    //getBaseForCompany(company.id);
+                },
                 //Initialize
-                initialize = function (specifiedView) {
-                    view = specifiedView;
-                    ko.applyBindings(view.viewModel, view.bindingRoot);
-                    pager(pagination.Pagination({ PageSize: 10 }, companies, getCompanies));
-                    getBase();
-                };
+               initialize = function (specifiedView) {
+                   view = specifiedView;
+                   ko.applyBindings(view.viewModel, view.bindingRoot);
+                   // pager(pagination.Pagination({ PageSize: 10 }, companies, getCompanies));
+                   getBase();
+               };
 
                 return {
                     selectedActivity: selectedActivity,
-                    companySearchFilter: companySearchFilter,
-                    selectCompany: selectCompany,
-                    selectedCompany: selectedCompany,
+                    selected: selected,
                     loggedInUserId: loggedInUserId,
                     pager: pager,
                     //items: items,
@@ -436,11 +407,12 @@ define("calendar/calendar.viewModel",
                     mycCalender: mycCalender,
                     showCompanyDialog: showCompanyDialog,
                     hideCompanyDialog: hideCompanyDialog,
-                    searchCompany: searchCompany,
-                    resetCompany: resetCompany,
                     onSaveActivity: onSaveActivity,
                     onDeleteActivity: onDeleteActivity,
                     activities: activities,
+                    getActivitiesForNextPreTodayClick: getActivitiesForNextPreTodayClick,
+                    formatSelection: formatSelection,
+                    formatResult: formatResult,
                 };
             })()
         };

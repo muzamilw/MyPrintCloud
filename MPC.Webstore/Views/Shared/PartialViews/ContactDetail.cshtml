@@ -3,14 +3,21 @@
 @using MPC.Models.Common;
 @using (Html.BeginForm("Index", "ContactDetail", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+
+ <div class="clearBoth">
+ </div>
 <div align="center" id="divUserProfile" >
+    @if (ViewBag.Message!=null &&ViewBag.Message!=string.Empty)
+    {
+    <div id="MessgeToDisply" class="rounded_corners messageBoxNew">@ViewBag.Message</div>
+    }
+    
     <div class="white-container-lightgrey-border rounded_corners">
         <div class="pad20">
             <div class="headingsAvenior float_left_simple">
 
             </div>
             <div class="cntdashBoardRetrunLink">
-                
             </div>
             <br />
             <div class="cntHalfRightProfile">
@@ -118,7 +125,7 @@
                                     
                                     <div id="coorporateUserFields">
                                         @if(UserCookieManager.StoreId==(int)StoreMode.Corp)
-                                        { 
+                                        {
                                         <div>
                                            
                                             <div class="smallContctUsAvenior float_left_simple" id="divtxtPOBox">
@@ -132,9 +139,9 @@
                                             </div>
                                             <br />
                                         </div>
-                                        }
-                                        @if (UserCookieManager.StoreId == (int)StoreMode.Corp)
-                                        { 
+                                       }
+                                       @if (UserCookieManager.StoreId == (int)StoreMode.Corp)
+                                        {
                                         <div>
                                             <div class="smallContctUsAvenior float_left_simple" id="divtxtCunit">
                                                 Business/Corporate Unit
@@ -293,7 +300,7 @@
                                          }
                                         else
                                          {
-                                                <img src="/Content/Images/upload_your_picture.png" id="imgContactPicture" alt="" class="user_image_container float_left_simple" />
+                                               <img src="/Content/Images/upload_your_picture.png" id="imgContactPicture" alt="" class="user_image_container float_left_simple" />
                                          }
                                             <input id="btnUploadFile" type="button" value="Upload Image" class="btnUploadImage_UP float_left_simple rounded_corners5" />
 
@@ -328,17 +335,17 @@
                                         <div class="TTL widthAvenior">
 
                                             @if(Model.IsNewsLetterSubscription==true)
-                                            { 
-                                            
-                                            <input id="News" name="NewsLetterSubscription" type="checkbox" value="true"  checked/><p> subscribe to Newsletters</p>
+                                            {
+
+                                                    <input id="News" name="NewsLetterSubscription" type="checkbox" value="true" checked /><p> subscribe to Newsletters</p>
                                             }
                                             else
-                                            { 
-                                            <input id="News" name="NewsLetterSubscription" type="checkbox" value="true" /><p> subscribe to Newsletters</p>
+                                            {
+                                                    <input id="News" name="NewsLetterSubscription" type="checkbox" value="true" /><p> subscribe to Newsletters</p>
                                             }
-                                            <input name="NewsLetterSubscription" type="hidden" value="false" />
-                                            
-                                        </div>
+                                              <input name="NewsLetterSubscription" type="hidden" value="false" />
+
+                                            </div>
                                         <div class="clearBoth">
                                         </div>
                                         <br />
@@ -359,6 +366,9 @@
                                     </div>
                                     <br />
                                 </div>
+            <div class="clearBoth">
+
+            </div>
     </div>
 </div>
     </div>

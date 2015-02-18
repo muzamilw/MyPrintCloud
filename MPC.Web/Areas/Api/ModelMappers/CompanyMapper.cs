@@ -107,7 +107,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StockNotificationManagerId2 = source.StockNotificationManagerId2,
                 IsDeliveryTaxAble = source.IsDeliveryTaxAble ?? false,
                 IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
-                DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
                 isBrokerPaymentRequired = source.isBrokerPaymentRequired == true ? "true" : "false",
                 isIncludeVAT = source.isIncludeVAT == true ? "true" : "false",
                 includeEmailBrokerArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport,
@@ -143,6 +142,120 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyDomains = source.CompanyDomains != null ? source.CompanyDomains.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCostCentres = source.CompanyCostCentres != null ? (source.CompanyCostCentres.Count != 0 ? source.CompanyCostCentres.FirstOrDefault().CostCentre != null ? source.CompanyCostCentres.Select(x => x.CostCentre).Select(x => x.CostCentreDropDownCreateFrom()).ToList() : null : null) : null
             };
+        }
+        /// <summary>
+        /// Crete From Domain Model
+        /// </summary>
+        public static Company CreateFromForCrm(this DomainModels.Company source)
+        {
+            byte[] bytes = null;
+            if (source.Image != null && File.Exists(source.Image))
+            {
+                bytes = source.Image != null ? File.ReadAllBytes(source.Image) : null;
+            }
+            byte[] storeBackgroundImageBytes = null;
+            if (source.StoreBackgroundImage != null && File.Exists(source.StoreBackgroundImage))
+            {
+                storeBackgroundImageBytes = source.StoreBackgroundImage != null ? File.ReadAllBytes(source.StoreBackgroundImage) : null;
+            }
+            byte[] spriteBytes = null;
+            string spritePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/sprite.png");
+            if (File.Exists(spritePath))
+            {
+                spriteBytes = File.ReadAllBytes(spritePath);
+            }
+            byte[] defaultSpriteBytes = null;
+            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png")))
+            {
+                defaultSpriteBytes = File.ReadAllBytes(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png"));
+            }
+            string defaultCss = string.Empty;
+
+            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/site.css")))
+            {
+                defaultCss = File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/site.css"));
+            }
+
+            return new Company
+            {
+                CompanyId = source.CompanyId,
+                Name = source.Name,
+                Image = bytes,
+                AccountNumber = source.AccountNumber,
+                URL = source.URL,
+                CreditReference = source.CreditReference,
+                CreditLimit = source.CreditLimit,
+                Terms = source.Terms,
+                TypeId = source.TypeId,
+                DefaultNominalCode = source.DefaultNominalCode,
+                DefaultMarkUpId = source.DefaultMarkUpId,
+                AccountOpenDate = source.AccountOpenDate,
+                AccountManagerId = source.AccountManagerId,
+                Status = source.Status,
+                IsCustomer = source.IsCustomer,
+                CustomCSS = defaultCss,
+                Notes = source.Notes,
+                IsDisabled = source.IsDisabled,
+                AccountBalance = source.AccountBalance,
+                CreationDate = source.CreationDate,
+                VATRegNumber = source.VATRegNumber,
+                VATRegReference = source.VATRegReference,
+                FlagId = source.FlagId,
+                PhoneNo = source.PhoneNo,
+                IsGeneral = source.IsGeneral,
+                WebAccessCode = source.WebAccessCode,
+                isArchived = source.isArchived,
+                PayByPersonalCredeitCard = source.PayByPersonalCredeitCard,
+                PONumberRequired = source.PONumberRequired,
+                ShowPrices = source.ShowPrices,
+                isDisplayBanners = source.isDisplayBanners,
+                isDisplayMenuBar = source.isDisplayMenuBar,
+                isDisplayBrokerSecondaryPages = source.isDisplayBrokerSecondaryPages,
+                isAllowRegistrationFromWeb = source.isAllowRegistrationFromWeb,
+                isBrokerCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline,
+                isDisplayFeaturedProducts = source.isDisplayFeaturedProducts,
+                isDisplayPromotionalProducts = source.isDisplayPromotionalProducts,
+                isDisplaySiteFooter = source.isDisplaySiteFooter,
+                isDisplaySiteHeader = source.isDisplaySiteHeader,
+                RedirectWebstoreURL = source.RedirectWebstoreURL,
+                isShowGoogleMap = source.isShowGoogleMap,
+                isTextWatermark = source.isTextWatermark == true ? "true" : "false",
+                WatermarkText = source.WatermarkText,
+                facebookAppId = source.facebookAppId,
+                facebookAppKey = source.facebookAppKey,
+                twitterAppId = source.twitterAppId,
+                twitterAppKey = source.twitterAppKey,
+                isStoreModePrivate = source.isStoreModePrivate == true ? "true" : "false",
+                TaxPercentageId = source.TaxPercentageId,
+                canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval,
+                CanUserEditProfile = source.CanUserEditProfile,
+                SalesAndOrderManagerId1 = source.SalesAndOrderManagerId1,
+                SalesAndOrderManagerId2 = source.SalesAndOrderManagerId2,
+                ProductionManagerId1 = source.ProductionManagerId1,
+                ProductionManagerId2 = source.ProductionManagerId2,
+                StockNotificationManagerId1 = source.StockNotificationManagerId1,
+                StockNotificationManagerId2 = source.StockNotificationManagerId2,
+                IsDeliveryTaxAble = source.IsDeliveryTaxAble ?? false,
+                IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
+                isBrokerPaymentRequired = source.isBrokerPaymentRequired == true ? "true" : "false",
+                isIncludeVAT = source.isIncludeVAT == true ? "true" : "false",
+                includeEmailBrokerArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport,
+                includeEmailBrokerArtworkOrderXML = source.includeEmailBrokerArtworkOrderXML,
+                includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard,
+                StoreBackgroundImage = source.StoreBackgroundImage,
+                makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady,
+                CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
+                PickupAddressId = source.PickupAddressId,
+                Addresses = source.Addresses != null ? source.Addresses.Take(10).Select(x => x.CreateFrom()).ToList() : null,
+                CompanyContacts =
+                    source.CompanyContacts != null ? source.CompanyContacts.Take(10).Select(x => x.CreateFrom()).ToList() : null,
+                StoreBackgroudImage = storeBackgroundImageBytes,
+                DefaultSpriteImage = defaultSpriteBytes,
+                UserDefinedSpriteImage = spriteBytes,
+                MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
+                CompanyContactCount = source.CompanyContacts != null ? source.CompanyContacts.Count : 0,
+                CompanyAddressesCount= source.Addresses != null ? source.Addresses.Count : 0
+                };
         }
 
         /// <summary>
@@ -212,7 +325,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StockNotificationManagerId2 = source.StockNotificationManagerId2,
                 IsDeliveryTaxAble = source.IsDeliveryTaxAble,
                 IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
-                DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
                 isBrokerPaymentRequired = source.isBrokerPaymentRequired == "true" ? true : false,
                 isIncludeVAT = source.isIncludeVAT == "true" ? true : false,
                 includeEmailBrokerArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport,
@@ -336,8 +448,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
                 }
             };
-
-
+        }
+        public static CompanyResponse CreateFromForCrm(this DomainResponseModel.CompanyResponse source)
+        {
+            return new CompanyResponse
+            {
+                Company = source.Company.CreateFromForCrm(),
+            };
         }
 
         public static ApiModels.CrmSupplierListViewModel CrmSupplierListViewCreateFrom(this DomainModels.Company source)
