@@ -1,11 +1,15 @@
 ﻿
 using System.Web.Mvc;
+using MPC.Interfaces.Data;
+using MPC.Models.Common;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.CRM.Controllers
 {
     /// <summary>
     /// CRM Home Controller 
     /// </summary>
+    [SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewCrm })]
     public class HomeController : Controller
     {
         #region Private
@@ -17,6 +21,7 @@ namespace MPC.MIS.Areas.CRM.Controllers
         /// <summary>
         /// Shows Compnies List
         /// </summary>
+        [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewProspect })]
         public ActionResult Index()
         {
             return View();
@@ -25,10 +30,12 @@ namespace MPC.MIS.Areas.CRM.Controllers
         /// <summary>
         /// Contacts
         /// </summary>
+        [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewContact })]
         public ActionResult Contacts()
         {
             return View();
         }
+
 
         public ActionResult ContactCompanies()
         {
@@ -42,6 +49,7 @@ namespace MPC.MIS.Areas.CRM.Controllers
         }
 
 
+        [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewCalendar })]
         public ActionResult Calendar()
         {
             return View();
@@ -89,7 +97,7 @@ namespace MPC.MIS.Areas.CRM.Controllers
             return View();
         }
 
-
+        [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewSupplier })]
         public ActionResult SuppliersList()
         {
 

@@ -50,5 +50,10 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         CompanySearchResponseForCalendar GetByIsCustomerType(CompanyRequestModelForCalendar request);
 
+        /// <summary>
+        /// Count of live stores
+        /// </summary>
+        int LiveStoresCountForDashboard();
+
     }
 }

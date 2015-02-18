@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using MPC.MIS.Areas.Api.Models;
@@ -207,6 +208,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        CanUserEditProfile = source.CanUserEditProfile,
                        canPlaceDirectOrder = source.canPlaceDirectOrder,
                        OrganisationId = source.OrganisationId,
+                       RoleName = source.CompanyContactRole != null ? source.CompanyContactRole.ContactRoleName : string.Empty,
                        FileName = fileName
                    };
         }
@@ -260,7 +262,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new CompanyContactDropDownForOrder
             {
                 ContactId = source.ContactId,
-                Name = source.FirstName,
+                Name = string.Format(CultureInfo.InvariantCulture, "{0} {1}", source.FirstName, source.LastName),
                 Email = source.Email
             };
         }

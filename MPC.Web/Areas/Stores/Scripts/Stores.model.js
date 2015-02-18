@@ -2224,7 +2224,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         specifiedShippingAddressId, specifiedisUserLoginFirstTime, specifiedquickMobileNumber, specifiedquickTwitterId, specifiedquickFacebookId, specifiedquickLinkedInId,
         specifiedquickOtherId, specifiedPOBoxAddress, specifiedCorporateUnit, specifiedOfficeTradingName, specifiedContractorName, specifiedBPayCRN, specifiedABN, specifiedACN,
         specifiedAdditionalField1, specifiedAdditionalField2, specifiedAdditionalField3, specifiedAdditionalField4, specifiedAdditionalField5, specifiedcanUserPlaceOrderWithoutApproval,
-        specifiedCanUserEditProfile, specifiedcanPlaceDirectOrder, specifiedOrganisationId, specifiedBussinessAddressId) {
+        specifiedCanUserEditProfile, specifiedcanPlaceDirectOrder, specifiedOrganisationId, specifiedBussinessAddressId, specifiedRoleName) {
         var self,
             contactId = ko.observable(specifiedContactId),
             addressId = ko.observable(specifiedAddressId),
@@ -2310,6 +2310,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             canPlaceDirectOrder = ko.observable(specifiedcanPlaceDirectOrder),
             organisationId = ko.observable(specifiedOrganisationId),
             bussinessAddressId = ko.observable(specifiedBussinessAddressId).extend({ required: true }),
+            roleName = ko.observable(specifiedRoleName),
             fileName = ko.observable(),
             bussinessAddress = ko.observable(),
             shippingAddress = ko.observable(),
@@ -2503,7 +2504,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     AdditionalField5: additionalField5(),
                     canUserPlaceOrderWithoutApproval: canUserPlaceOrderWithoutApproval(),
                     CanUserEditProfile: canUserEditProfile(),
-                    canPlaceDirectOrder: canPlaceDirectOrder(),
+                    canPlaceDirectOrder: !isPayByPersonalCreditCard()? false: canPlaceDirectOrder(),
                     OrganisationId: organisationId(),
                     BussinessAddressId: bussinessAddressId(),
                     FileName: fileName(),
@@ -2600,6 +2601,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             canPlaceDirectOrder: canPlaceDirectOrder,
             organisationId: organisationId,
             bussinessAddressId: bussinessAddressId,
+            roleName: roleName,
             fileName: fileName,
             bussinessAddress: bussinessAddress,
             shippingAddress: shippingAddress,
@@ -2788,6 +2790,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.canPlaceDirectOrder,
             source.OrganisationId,
             source.BussinessAddressId,
+            source.RoleName,
             source.FileName
         );
         return companyContact;
@@ -3942,6 +3945,75 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     };
     // #endregion 
 
+    // #region ______________  Variable Defination   _________________
+
+    // ReSharper disable once InconsistentNaming
+    var VariableDefination = function (specifiedPageId) {
+        var self,
+            id = ko.observable(specifiedPageId),
+            pageTitle = ko.observable(specifiedPageTitle).extend({ required: true }),
+              // Errors
+            errors = ko.validation.group({
+                pageTitle: pageTitle,
+
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function (source) {
+                var result = {};
+                result.PageId = source.id() === undefined ? 0 : source.id();
+                return result;
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            id: id,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    //CMS Page Create Factory
+    VariableDefination.Create = function (source) {
+        return new VariableDefination(
+            source.PageId,
+            source.PageTitle,
+            source.PageKeywords,
+            source.Meta_Title,
+            source.Meta_DescriptionContent,
+            source.Meta_CategoryContent,
+            source.Meta_RobotsContent,
+            source.Meta_AuthorContent,
+            source.Meta_LanguageContent,
+            source.Meta_RevisitAfterContent,
+            source.CategoryId,
+            source.PageHTML,
+            source.ImageSource,
+            source.DefaultPageKeyWords,
+            source.FileName,
+            source.PageBanner
+
+        );
+    };
+    // #endregion ______________  CMS Page   _________________
+
     //#region ______________ R E T U R N ______________
     return {
         StoreListView: StoreListView,
@@ -3981,6 +4053,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         SectionFlag: SectionFlag,
         CampaignCompanyType: CampaignCompanyType,
         Group: Group,
+        VariableDefination: VariableDefination,
     };
     // #endregion 
 });

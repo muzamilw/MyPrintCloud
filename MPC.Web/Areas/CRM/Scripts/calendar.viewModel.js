@@ -282,7 +282,7 @@ define("calendar/calendar.viewModel",
                                         backgroundColor: sectionFlag != undefined ? sectionFlag.FlagColor : null,
                                         start: activity.startDateTime(),
                                         end: activity.endDateTime(),
-                                        allDay:false
+                                        allDay: false
                                     });
                                 }
                             }
@@ -351,38 +351,47 @@ define("calendar/calendar.viewModel",
                  openCompanyDialog = function () {
                      companySelector.show(onSelectCompany, getIsCustomerType());
                  },
-                // On Select Company
-                 onSelectCompany = function (company) {
-                     if (!company) {
-                         return;
-                     }
-
-                     if (selectedActivity().contactCompanyId() === company.id) {
-                         return;
-                     }
-                     selectedActivity().companyName(company.name);
-                     selectedActivity().contactCompanyId(company.id);
-                     //selectedCompany(company);
-                     hideCompanyDialog();
-                     companyContacts.removeAll();
-                     getCompanyContactByCompanyId(company);
-
-                     //selectedOrder().companyId(company.id);
-                     //selectedOrder().companyName(company.name);
-
-                     //// Get Company Address and Contacts
-                     //getBaseForCompany(company.id);
+                 formatSelection = function (state) {
+                     return "<span style=\"height:20px;width:25px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
                  },
+
+                formatResult = function (state) {
+                    return "<div style=\"height:20px;margin-right:10px;width:25px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
+                },
+                selected = ko.observable(),
+                // On Select Company
+                onSelectCompany = function (company) {
+                    if (!company) {
+                        return;
+                    }
+
+                    if (selectedActivity().contactCompanyId() === company.id) {
+                        return;
+                    }
+                    selectedActivity().companyName(company.name);
+                    selectedActivity().contactCompanyId(company.id);
+                    //selectedCompany(company);
+                    hideCompanyDialog();
+                    companyContacts.removeAll();
+                    getCompanyContactByCompanyId(company);
+
+                    //selectedOrder().companyId(company.id);
+                    //selectedOrder().companyName(company.name);
+
+                    //// Get Company Address and Contacts
+                    //getBaseForCompany(company.id);
+                },
                 //Initialize
-                initialize = function (specifiedView) {
-                    view = specifiedView;
-                    ko.applyBindings(view.viewModel, view.bindingRoot);
-                    // pager(pagination.Pagination({ PageSize: 10 }, companies, getCompanies));
-                    getBase();
-                };
+               initialize = function (specifiedView) {
+                   view = specifiedView;
+                   ko.applyBindings(view.viewModel, view.bindingRoot);
+                   // pager(pagination.Pagination({ PageSize: 10 }, companies, getCompanies));
+                   getBase();
+               };
 
                 return {
                     selectedActivity: selectedActivity,
+                    selected: selected,
                     loggedInUserId: loggedInUserId,
                     pager: pager,
                     //items: items,
@@ -402,6 +411,8 @@ define("calendar/calendar.viewModel",
                     onDeleteActivity: onDeleteActivity,
                     activities: activities,
                     getActivitiesForNextPreTodayClick: getActivitiesForNextPreTodayClick,
+                    formatSelection: formatSelection,
+                    formatResult: formatResult,
                 };
             })()
         };

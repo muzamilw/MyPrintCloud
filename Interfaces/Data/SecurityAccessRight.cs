@@ -45,6 +45,41 @@
         /// <summary>
         /// Can View Order
         /// </summary>
-        CanViewOrder = 8
+        CanViewOrder = 8,
+
+        /// <summary>
+        /// Can View Dashboard
+        /// </summary>
+        CanViewDashboard = 9,
+
+        /// <summary>
+        /// Can View CRM
+        /// </summary>
+        CanViewCrm = 10,
+
+        /// <summary>
+        /// Can View Prospect
+        /// </summary>
+        CanViewProspect = 11,
+
+        /// <summary>
+        /// Can View Supplier
+        /// </summary>
+        CanViewSupplier = 12,
+
+        /// <summary>
+        /// Can View Calendar
+        /// </summary>
+        CanViewCalendar = 13,
+
+        /// <summary>
+        /// Can View Contacts
+        /// </summary>
+        CanViewContact = 14,
+
+        /// <summary>
+        /// Can View Store
+        /// </summary>
+        CanViewStore = 15
     }
 }

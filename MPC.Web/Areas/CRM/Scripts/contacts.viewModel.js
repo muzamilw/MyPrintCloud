@@ -295,7 +295,7 @@ define("crm/contacts.viewModel",
                     selectedBussinessAddress: selectedBussinessAddress,
                     selectedShippingAddress: selectedShippingAddress,
                     shippingAddresses: shippingAddresses,
-                    states: states
+                    states: states,
                     selectedStore: selectedStore,
                     UserProfileImageFileLoadedCallback: UserProfileImageFileLoadedCallback
                 };
