@@ -1,4 +1,6 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MPC.Models.DomainModels
 {
     /// <summary>
     /// Variable Option Domain Model
@@ -11,5 +13,10 @@
         public int? SortOrder { get; set; }
 
         public virtual FieldVariable FieldVariable { get; set; }
+
+        #region Additional Properties
+        [NotMapped]
+        public long? FakeId { get; set; }
+        #endregion
     }
 }

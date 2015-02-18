@@ -1,5 +1,4 @@
-﻿
-using MPC.MIS.Areas.Api.Models;
+﻿using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
