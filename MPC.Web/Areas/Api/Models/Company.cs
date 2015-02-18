@@ -151,6 +151,7 @@ namespace MPC.MIS.Areas.Api.Models
 
         public List<MediaLibrary> MediaLibraries { get; set; }
         public List<CostCentreDropDown> CompanyCostCentres { get; set; }
+        public List<FieldVariable> FieldVariables { get; set; }
        
 
         #region CMS Pages

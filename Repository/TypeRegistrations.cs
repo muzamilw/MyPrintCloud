@@ -99,6 +99,8 @@ namespace MPC.Repository
             unityContainer.RegisterType<IReportRepository, ReportRepository>();
             unityContainer.RegisterType<IActivityTypeRepository, ActivityTypeRepository>();
             unityContainer.RegisterType<IActivityRepository, ActivityRepository>();
+            unityContainer.RegisterType<IVariableOptionRepository, VariableOptionRepository>();
+            unityContainer.RegisterType<IFieldVariableRepository, FieldVariableRepository>();
         }
     }
 }

@@ -2792,7 +2792,19 @@ define("stores/stores.viewModel",
                     saveStore = function (callback) {
                         if (doBeforeSave()) {
                             var storeToSave = model.Store().convertToServerData(selectedStore());
-                            storeToSave.ColorPalletes.push(selectedStore().colorPalette().convertToServerData(selectedStore().colorPalette()));
+                            //storeToSave.ColorPalletes.push(selectedStore().colorPalette().convertToServerData(selectedStore().colorPalette()));
+
+                            //#region Field Variables
+                            if (selectedStore().companyId() === undefined) {
+                                _.each(fieldVariables(), function (fieldVariable) {
+                                    var field = fieldVariable.convertToServerData(fieldVariable);
+                                    _.each(fieldVariable.variableOptions(), function (optionItem) {
+                                        field.VariableOptions.push(optionItem.convertToServerData(optionItem));
+                                    });
+                                    storeToSave.FieldVariables.push(field);
+                                });
+                            }
+                            //endregion
                             //#region Company Territories
                             _.each(newCompanyTerritories(), function (territory) {
                                 storeToSave.NewAddedCompanyTerritories.push(territory.convertToServerData());
@@ -3818,6 +3830,8 @@ define("stores/stores.viewModel",
                     //#region ________ Field Variable___________
                     //Active Field Variable
                     selectedFieldVariable = ko.observable(),
+                    //Selected Field Option
+                    selectedFieldOption = ko.observable(),
                     //Field Variables List
                     fieldVariables = ko.observableArray([]),
                     //Variable Option Fake ID counter
@@ -3840,14 +3854,41 @@ define("stores/stores.viewModel",
                                 return type.id == fieldVariable.variableType();
                             });
                             fieldVariable.typeName(selectedType.name);
+                            //In Case of new company added
                             if (selectedStore().companyId() === undefined) {
                                 fieldVariables.splice(0, 0, fieldVariable);
                             } else {
-
+                                //In Case of Edit Company 
+                                var field = fieldVariable.convertToServerData(fieldVariable);
+                                _.each(fieldVariable.variableOptions(), function (optionItem) {
+                                    field.VariableOptions.push(optionItem.convertToServerData(optionItem));
+                                });
+                                saveFieldVariable(field);
                             }
 
                             view.hideVeriableDefinationDialog();
                         }
+                    },
+
+                    saveFieldVariable = function (fieldVariable) {
+                        dataservice.saveFieldVariable(fieldVariable, {
+                            success: function (data) {
+                                toastr.success("Successfully save.");
+                            },
+                            error: function (exceptionMessage, exceptionType) {
+
+                                if (exceptionType === ist.exceptionType.CaresGeneralException) {
+
+                                    toastr.error(exceptionMessage);
+
+                                } else {
+
+                                    toastr.error("Failed to save.");
+                                }
+
+                            }
+                        });
+
                     },
 
                     //Do Before Save Field Variable
@@ -3859,13 +3900,41 @@ define("stores/stores.viewModel",
                         }
                         return flag;
                     },
+                    //Add Field Option
+                    onAddFieldOption = function () {
+                        if (selectedFieldOption() === undefined || selectedFieldOption().isValid()) {
+                            var option = model.VariableOption();
+                            selectedFieldOption(option);
+                            selectedFieldVariable().variableOptions.splice(0, 0, option);
+                        }
+                    },
+                    //Edit Variable Option
+                     onEditVariableOption = function (option) {
+                         if (selectedFieldOption() === undefined || selectedFieldOption().isValid()) {
+                             selectedFieldOption(option);
+                         }
+
+                     },
+                     //Delete Variable Option
+                      onDeleteVariableOption = function (option) {
+                          if (selectedFieldOption() === option) {
+                              selectedFieldOption(undefined);
+                          }
+                          selectedFieldVariable().variableOptions.remove(option);
+                      },
+
+                    // Template Chooser
+                    templateToUseForVariableOption = function (vOption) {
+                        return (vOption === selectedFieldOption() ? 'editVariableOptionTemplate' : 'itemVariableOptionTemplate');
+                    },
+
                     //edit Field Variable
                     onEditFieldVariable = function (fieldVariable) {
                         if (selectedStore().companyId() === undefined) {
                             selectedFieldVariable(fieldVariable);
                             view.showVeriableDefinationDialog();
                         } else {
-                            
+
                         }
                     },
                     //variable Scope
@@ -3875,7 +3944,7 @@ define("stores/stores.viewModel",
                                              { id: 4, name: "Territory" }]);
                 //Varibale Types
                 varibaleTypes = ko.observableArray([{ id: 1, name: "Dropdown" },
-                                { id: 2, name: "Input" }]);
+                            { id: 2, name: "Input" }]);
 
                 //#endregion ________ Field Variable___________
 
@@ -4183,6 +4252,12 @@ define("stores/stores.viewModel",
                     onSaveFieldVariable: onSaveFieldVariable,
                     fieldVariables: fieldVariables,
                     onEditFieldVariable: onEditFieldVariable,
+                    selectedFieldOption: selectedFieldOption,
+                    // selectFieldOption: selectFieldOption,
+                    templateToUseForVariableOption: templateToUseForVariableOption,
+                    onEditVariableOption: onEditVariableOption,
+                    onDeleteVariableOption: onDeleteVariableOption,
+                    onAddFieldOption: onAddFieldOption,
                 };
                 //#endregion
             })()

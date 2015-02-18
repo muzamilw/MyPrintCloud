@@ -436,6 +436,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.UserDefinedSpriteFileName = source.userDefinedSpriteImageFileName() === undefined ? null : source.userDefinedSpriteImageFileName();
                 result.CmsOffers = [];
                 result.MediaLibraries = [];
+                result.FieldVariables = [];
                 return result;
             },
             // Reset
@@ -3949,7 +3950,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
 
     // ReSharper disable once InconsistentNaming
     var FieldVariable = function (specifiedVariableId, specifiedVariableName, specifiedVariableType, specifiedScope, specifiedWaterMark, specifiedDefaultValue,
-        specifiedInputMask, specifiedCompanyId, specifiedVariableTag, specifiedScopeName, specifiedTypeName) {
+        specifiedInputMask, specifiedCompanyId, specifiedVariableTag, specifiedScopeName, specifiedTypeName, specifiedVariableTitle) {
         var self,
             id = ko.observable(specifiedVariableId),
             variableName = ko.observable(specifiedVariableName).extend({ required: true }),
@@ -3962,6 +3963,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             variableTag = ko.observable(specifiedVariableTag),
             scopeName = ko.observable(specifiedScopeName),
             typeName = ko.observable(specifiedTypeName),
+            variableTitle = ko.observable(specifiedVariableTitle),
             variableOptions = ko.observableArray([]),
             // Errors
             errors = ko.validation.group({
@@ -3992,6 +3994,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.CompanyId = source.companyId() === undefined ? null : source.companyId();
                 result.InputMask = source.inputMask() === undefined ? null : source.inputMask();
                 result.VariableTag = source.variableTag() === undefined ? null : source.variableTag();
+                result.VariableTitle = source.variableTitle() === undefined ? null : source.variableTitle();
+                result.VariableOptions = [];
                 return result;
             },
         // Reset
@@ -4010,6 +4014,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             inputMask: inputMask,
             scopeName: scopeName,
             typeName: typeName,
+            variableTitle: variableTitle,
             variableOptions: variableOptions,
             isValid: isValid,
             errors: errors,
@@ -4031,7 +4036,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
              source.DefaultValue,
              source.InputMask,
              source.CompanyId,
-             source.VariableTag
+             source.VariableTag,
+             source.VariableTitle
             );
     };
     // #endregion ______________  Field Variable   _________________
