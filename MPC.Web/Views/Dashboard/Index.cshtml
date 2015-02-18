@@ -1,4 +1,5 @@
-﻿@{
+﻿@using System.Web.UI.WebControls
+@{
     ViewBag.Title = "MPC MIS 2014 Dashboard";
 }
 @section leftmenue {
@@ -12,9 +13,12 @@
         var width = $(window).width();
         total = width - 320;
         total = total / 3;
+        var element = document.getElementById("trial-description");
+        if (!element) {
+            return;
+        }
         
-        document.getElementById("trial-description").style.marginLeft = total + "px";
-
+        element.style.marginLeft = total + "px";
     });
 </script>
 <script>
@@ -28,7 +32,12 @@
             total = width - 320;
             total = total / 3;
 
-            document.getElementById("trial-description").style.marginLeft = total + "px";
+            var element = document.getElementById("trial-description");
+            if (!element) {
+                return;
+            }
+
+            element.style.marginLeft = total + "px";
             
         });
 
@@ -54,24 +63,26 @@
         
     }
 </style>
-
+@if (ViewBag.Istrial == true)
+{
     <div class="trial-description" id="trial-description">
-    <table style="height:70px;width:320px;">
-        <tr>
-            <td style="padding-left:10px;width:150px;">
-                <span style="color:red;font-weight:bold;">7 Days</span>&nbsp;<span style="color:gray;">left in trial</span>
-            </td>
-            <td style="width:120px;text-align:right;padding-right:10px;">
-                <span style="color:gray;font-size:12px;">Questions ?</span>&nbsp;<span style="color:blue;font-size:12px;">Email Us!</span>
-                <span style="color:green;font-size:12px;font-weight:bold;">Upgrade Now</span>
-                <br />
-                <span style="color:orange;font-size:12px;font-weight:bold;">Book a Go to Demo</span>
-            </td>
-        </tr>
-    </table>
-</div>
+        <table style="height: 70px; width: 320px;">
+            <tr>
+                <td style="padding-left: 10px; width: 150px;">
+                    <span style="color: red; font-weight: bold;">@ViewBag.TrialCount Days</span>&nbsp;<span style="color: gray;">left in trial</span>
+                </td>
+                <td style="width: 120px; text-align: right; padding-right: 10px;">
+                    <span style="color: gray; font-size: 12px;">Questions ?</span>&nbsp;<span style="color: blue; font-size: 12px;">Email Us!</span>
+                    <span style="color: green; font-size: 12px; font-weight: bold;">Upgrade Now</span>
+                    <br />
+                    <span style="color: orange; font-size: 12px; font-weight: bold;">Book a Go to Demo</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+}
 
-<div class="row">
+<div class="row" id="dashboardBindingRoot">
     <div class="col-lg-12">
         <div class="row">
             <div class="col-lg-12">
@@ -83,7 +94,6 @@
             </div>
         </div>
         <div class="row">
-
             <div class="col-lg-2" style="padding-right:0px;">
                 <a href="#" style="text-decoration:none">
                     <div class="main-box infographic-box" style="padding-bottom:0px;padding-left:8px;">
@@ -93,7 +103,6 @@
                     </div>
                 </a>
             </div>
-
             <div class="col-lg-3">
                 <a href="#" style="text-decoration:none">
                     <div class="main-box infographic-box" style="padding-bottom:0px;padding-left:8px;">
@@ -103,19 +112,16 @@
                     </div>
                 </a>
             </div>
-
             <div class="col-lg-2" style="padding-left:0px;padding-right:10px;">
                 <a href="#" style="text-decoration:none;">
                     <div class="main-box infographic-box" style="padding-left:10px;padding-right:8px;padding-bottom:0px;">
                         <i class="fa fa-shopping-cart emerald-bg" style="width:40px;height:40px;line-height:42px;font-size:25px;"></i>
-
                         <span>Create Store</span>
                         <span class="value">&nbsp;</span>
-
                     </div>
                 </a>
             </div>
-            <div class="col-lg-2" style="padding-right:0px;padding-left:0px;" >
+            <div class="col-lg-2" style="padding-right:0px;padding-left:0px;">
                 <a href="#" style="text-decoration:none;">
                     <div class="main-box infographic-box" style="padding-left:8px;padding-right:0px;padding-bottom:0px;">
                         <i class="fa fa-money green-bg" style="width:40px;height:40px;line-height:42px;font-size:25px;"></i>
@@ -148,25 +154,28 @@
                             <div class="row graph-nice-legend">
                                 <div class="graph-legend-row col-md-12 col-sm-4">
                                     <div class="graph-legend-row-inner">
-                                        <span class="graph-legend-name">Earnings
+                                        <span class="graph-legend-name">
+                                            Earnings
                                         </span>
-                                        <span class="graph-legend-value">&dollar;94.382
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="graph-legend-row col-md-12 col-sm-4">
-                                    <div class="graph-legend-row-inner">
-                                        <span class="graph-legend-name">Orders this Month
-                                        </span>
-                                        <span class="graph-legend-value">3.930
+                                        <span class="graph-legend-value" data-bind="text: $root.totalEarning">
                                         </span>
                                     </div>
                                 </div>
                                 <div class="graph-legend-row col-md-12 col-sm-4">
                                     <div class="graph-legend-row-inner">
-                                        <span class="graph-legend-name">Live Stores
+                                        <span class="graph-legend-name">
+                                            Orders this Month
                                         </span>
-                                        <span class="graph-legend-value">894
+                                        <span class="graph-legend-value" data-bind="text: $root.currentMonthOrdersCount">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="graph-legend-row col-md-12 col-sm-4">
+                                    <div class="graph-legend-row-inner">
+                                        <span class="graph-legend-name">
+                                            Live Stores
+                                        </span>
+                                        <span class="graph-legend-value" data-bind="text: $root.liveStoresCount">
                                         </span>
                                     </div>
                                 </div>
@@ -180,7 +189,7 @@
                     <div class="social-box col-md-12 col-sm-4 facebook">
                         <i class="fa fa-dashboard"></i>
                         <div class="clearfix">
-                            <span class="social-count">184</span>
+                            <span class="social-count" data-bind="text:$root.pendingOrdersCount"></span>
                             <span class="social-action">Pending Orders</span>
                         </div>
                         @*<span class="social-name">facebook</span>*@
@@ -188,7 +197,7 @@
                     <div class="social-box col-md-12 col-sm-4 twitter">
                         <i class="fa fa-calendar"></i>
                         <div class="clearfix">
-                            <span class="social-count">49</span>
+                            <span class="social-count" data-bind="text:$root.inProductionOrdersCount"></span>
                             <span class="social-action">In Production</span>
                         </div>
                         @*<span class="social-name">twitter</span>*@
@@ -196,15 +205,15 @@
                     <div class="social-box col-md-12 col-sm-4 google">
                         <i class="fa fa-file-text-o"></i>
                         <div class="clearfix">
-                            <span class="social-count">204</span>
+                            <span class="social-count" data-bind="text:$root.completedOrdersCount"></span>
                             <span class="social-action">Completed</span>
                         </div>
-                       @* <span class="social-name">google+</span>*@
+                        @* <span class="social-name">google+</span>*@
                     </div>
                     <div class="social-box col-md-12 col-sm-4 estimates">
                         <i class="fa fa-tasks"></i>
                         <div class="clearfix">
-                            <span class="social-count">26</span>
+                            <span class="social-count" data-bind="text:$root.canceledOrdersCount"></span>
                             <span class="social-action">Unconfirmed</span>
                         </div>
                     </div>
@@ -244,7 +253,8 @@
                                         <td>
                                             <a href="#">#8002</a>
                                         </td>
-                                        <td>2013/08/08
+                                        <td>
+                                            2013/08/08
                                         </td>
                                         <td>
                                             <a href="#">Robert De Niro</a>
@@ -252,7 +262,8 @@
                                         <td class="text-center">
                                             <span class="label label-success">Completed</span>
                                         </td>
-                                        <td class="text-right">&dollar; 825.50
+                                        <td class="text-right">
+                                            &dollar; 825.50
                                         </td>
                                         <td class="text-center" style="width: 15%;">
                                             <a href="#" class="table-link">
@@ -267,7 +278,8 @@
                                         <td>
                                             <a href="#">#5832</a>
                                         </td>
-                                        <td>2013/08/08
+                                        <td>
+                                            2013/08/08
                                         </td>
                                         <td>
                                             <a href="#">John Wayne</a>
@@ -275,7 +287,8 @@
                                         <td class="text-center">
                                             <span class="label label-warning">On hold</span>
                                         </td>
-                                        <td class="text-right">&dollar; 923.93
+                                        <td class="text-right">
+                                            &dollar; 923.93
                                         </td>
                                         <td class="text-center" style="width: 15%;">
                                             <a href="#" class="table-link">
@@ -290,7 +303,8 @@
                                         <td>
                                             <a href="#">#2547</a>
                                         </td>
-                                        <td>2013/08/08
+                                        <td>
+                                            2013/08/08
                                         </td>
                                         <td>
                                             <a href="#">Anthony Hopkins</a>
@@ -298,7 +312,8 @@
                                         <td class="text-center">
                                             <span class="label label-info">Pending</span>
                                         </td>
-                                        <td class="text-right">&dollar; 1.625.50
+                                        <td class="text-right">
+                                            &dollar; 1.625.50
                                         </td>
                                         <td class="text-center" style="width: 15%;">
                                             <a href="#" class="table-link">
@@ -313,7 +328,8 @@
                                         <td>
                                             <a href="#">#9274</a>
                                         </td>
-                                        <td>2013/08/08
+                                        <td>
+                                            2013/08/08
                                         </td>
                                         <td>
                                             <a href="#">Charles Chaplin</a>
@@ -321,7 +337,8 @@
                                         <td class="text-center">
                                             <span class="label label-danger">Cancelled</span>
                                         </td>
-                                        <td class="text-right">&dollar; 35.34
+                                        <td class="text-right">
+                                            &dollar; 35.34
                                         </td>
                                         <td class="text-center" style="width: 15%;">
                                             <a href="#" class="table-link">
@@ -336,7 +353,8 @@
                                         <td>
                                             <a href="#">#8463</a>
                                         </td>
-                                        <td>2013/08/08
+                                        <td>
+                                            2013/08/08
                                         </td>
                                         <td>
                                             <a href="#">Gary Cooper</a>
@@ -344,7 +362,8 @@
                                         <td class="text-center">
                                             <span class="label label-success">Completed</span>
                                         </td>
-                                        <td class="text-right">&dollar; 34.199.99
+                                        <td class="text-right">
+                                            &dollar; 34.199.99
                                         </td>
                                         <td class="text-center" style="width: 15%;">
                                             <a href="#" class="table-link">
@@ -438,7 +457,7 @@
                                             </div>
                                             <div class="text">
                                                 I don't think they tried to market it to the billionaire, spelunking,
-base-jumping crowd.
+                                                base-jumping crowd.
                                             </div>
                                         </div>
                                     </div>
@@ -455,8 +474,8 @@ base-jumping crowd.
                                             </div>
                                             <div class="text">
                                                 The path of the righteous man is beset on all sides by the iniquities of the
-selfish and the tyranny of evil men. Blessed is he who, in the name of charity and
-good will.
+                                                selfish and the tyranny of evil men. Blessed is he who, in the name of charity and
+                                                good will.
                                             </div>
                                         </div>
                                     </div>
@@ -473,8 +492,8 @@ good will.
                                             </div>
                                             <div class="text">
                                                 The path of the righteous man is beset on all sides by the iniquities of the
-selfish and the tyranny of evil men. Blessed is he who, in the name of charity and
-good will.
+                                                selfish and the tyranny of evil men. Blessed is he who, in the name of charity and
+                                                good will.
                                             </div>
                                         </div>
                                     </div>
@@ -491,7 +510,7 @@ good will.
                                             </div>
                                             <div class="text">
                                                 I don't think they tried to market it to the billionaire, spelunking,
-base-jumping crowd.
+                                                base-jumping crowd.
                                             </div>
                                         </div>
                                     </div>
@@ -508,8 +527,8 @@ base-jumping crowd.
                                             </div>
                                             <div class="text">
                                                 The path of the righteous man is beset on all sides by the iniquities of the
-selfish and the tyranny of evil men. Blessed is he who, in the name of charity and
-good will.
+                                                selfish and the tyranny of evil men. Blessed is he who, in the name of charity and
+                                                good will.
                                             </div>
                                         </div>
                                     </div>
@@ -526,8 +545,8 @@ good will.
                                             </div>
                                             <div class="text">
                                                 The path of the righteous man is beset on all sides by the iniquities of the
-selfish and the tyranny of evil men. Blessed is he who, in the name of charity and
-good will.
+                                                selfish and the tyranny of evil men. Blessed is he who, in the name of charity and
+                                                good will.
                                             </div>
                                         </div>
                                     </div>
@@ -544,7 +563,7 @@ good will.
                                             </div>
                                             <div class="text">
                                                 I don't think they tried to market it to the billionaire, spelunking,
-base-jumping crowd.
+                                                base-jumping crowd.
                                             </div>
                                         </div>
                                     </div>
@@ -561,8 +580,8 @@ base-jumping crowd.
                                             </div>
                                             <div class="text">
                                                 The path of the righteous man is beset on all sides by the iniquities of the
-selfish and the tyranny of evil men. Blessed is he who, in the name of charity and
-good will.
+                                                selfish and the tyranny of evil men. Blessed is he who, in the name of charity and
+                                                good will.
                                             </div>
                                         </div>
                                     </div>
@@ -718,7 +737,8 @@ good will.
                                                 <img src="~/Content/themes/Centaurus/img/samples/ipad.png" alt="" />
                                             </span>
                                             <span class="product clearfix">
-                                                <span class="name">iPad mini 32GB WiFi Black&Slate
+                                                <span class="name">
+                                                    iPad mini 32GB WiFi Black&Slate
                                                 </span>
                                                 <span class="price">
                                                     <i class="fa fa-money"></i>&dollar;320,00
@@ -735,7 +755,8 @@ good will.
                                                 <img src="~/Content/themes/Centaurus/img/samples/ipad.png" alt="" />
                                             </span>
                                             <span class="product clearfix">
-                                                <span class="name">iPad mini 16GB WiFi Black&Slate
+                                                <span class="name">
+                                                    iPad mini 16GB WiFi Black&Slate
                                                 </span>
                                                 <span class="price">
                                                     <i class="fa fa-money"></i>&dollar;273,68
@@ -752,7 +773,8 @@ good will.
                                                 <img src="~/Content/themes/Centaurus/img/samples/ipad.png" alt="" />
                                             </span>
                                             <span class="product clearfix">
-                                                <span class="name">iPad mini 32GB WiFi Cellular Black&Slate
+                                                <span class="name">
+                                                    iPad mini 32GB WiFi Cellular Black&Slate
                                                 </span>
                                                 <span class="price">
                                                     <i class="fa fa-money"></i>&dollar;447,29
@@ -769,7 +791,8 @@ good will.
                                                 <img src="~/Content/themes/Centaurus/img/samples/ipad.png" alt="" />
                                             </span>
                                             <span class="product clearfix">
-                                                <span class="name">iPad mini 32GB WiFi Cellular Black&Slate
+                                                <span class="name">
+                                                    iPad mini 32GB WiFi Cellular Black&Slate
                                                 </span>
                                                 <span class="price">
                                                     <i class="fa fa-money"></i>&dollar;447,29
@@ -1151,4 +1174,8 @@ good will.
             });
         });
     </script>
+     <script>
+    require(["dashboard.view", "common/confirmation.view"]);
+</script>
+
 }

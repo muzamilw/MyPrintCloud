@@ -34,9 +34,9 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Public
         public MachineResponse Get(long id)
         {
-            return _machineService.GetMachineById(id).CreateFrom() ;
-            
-           
+            MachineResponse MR= _machineService.GetMachineById(id).CreateFrom() ;
+
+            return MR;
         }
 
         public MachineListResponse Get([FromUri] MachineRequestModel request)
@@ -57,13 +57,12 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
         
         [ApiException]
-        //public bool Post(MachineUpdateRequestModel request)
-        public Machine Post(Machine machine)
+        public bool Post(MachineUpdateRequestModel request)
         
         {
 
-         //  _machineService.UpdateMachine(machine.CreateFrom());
-            return machine;
+            return _machineService.UpdateMachine(request.machine.CreateFrom(), request.MachineSpoilages.Select(g=>g.CreateFrom()));
+           
 
 
         }

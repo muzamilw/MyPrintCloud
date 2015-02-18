@@ -3,8 +3,8 @@
 */
 define("order/order.viewModel",
     ["jquery", "amplify", "ko", "order/order.dataservice", "order/order.model", "common/pagination", "common/confirmation.viewModel",
-        "common/sharedNavigation.viewModel"],
-    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared) {
+        "common/sharedNavigation.viewModel", "common/companySelector.viewModel"],
+    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector) {
         var ist = window.ist || {};
         ist.order = {
             viewModel: (function () {
@@ -19,6 +19,10 @@ define("order/order.viewModel",
                     companyContacts = ko.observableArray([]),
                     // Company Addresses
                     companyAddresses = ko.observableArray([]),
+                    // System Users
+                    systemUsers = ko.observableArray([]),
+                    // Pipeline Sources
+                    pipelineSources = ko.observableArray([]),
                     // Errors List
                     errorList = ko.observableArray([]),
                     // #endregion Arrays
@@ -114,7 +118,23 @@ define("order/order.viewModel",
                     },
                     // Open Company Dialog
                     openCompanyDialog = function() {
+                        companySelector.show(onSelectCompany, 1);
+                    },
+                    // On Select Company
+                    onSelectCompany = function (company) {
+                        if (!company) {
+                            return;
+                        }
                         
+                        if (selectedOrder().companyId() === company.id) {
+                            return;
+                        }
+                        
+                        selectedOrder().companyId(company.id);
+                        selectedOrder().companyName(company.name);
+                        
+                        // Get Company Address and Contacts
+                        getBaseForCompany(company.id);
                     },
                     // Initialize the view model
                     initialize = function (specifiedView) {
@@ -128,16 +148,6 @@ define("order/order.viewModel",
                         
                         // Get Orders
                         getOrders();
-                        
-                        // Subscribe for Company Change
-                        selectedOrder().companyId.subscribe(function(value) {
-                            if (selectedOrder().companyId() === value) {
-                                return;
-                            }
-                            
-                            // Get Company Address and Contacts
-                            getBaseForCompany(value);
-                        });
                     },
                     // Map List
                     mapList = function(observableList, data, factory) {
@@ -213,10 +223,14 @@ define("order/order.viewModel",
                     getBaseData = function () {
                         dataservice.getBaseData({
                             success: function (data) {
-                                if (data) {
-                                    _.each(data, function (sectionFlag) {
-                                        sectionFlags.push(model.SectionFlag.Create(sectionFlag));
-                                    });
+                                if (data.SectionFlags) {
+                                    mapList(sectionFlags, data.SectionFlags, model.SectionFlag);
+                                }
+                                if (data.SystemUsers) {
+                                    mapList(systemUsers, data.SystemUsers, model.SystemUser);
+                                }
+                                if (data.PipeLineSources) {
+                                    mapList(pipelineSources, data.PipeLineSources, model.PipeLineSource);
                                 }
                             },
                             error: function (response) {
@@ -354,7 +368,7 @@ define("order/order.viewModel",
                     },
                     // Get Company Base Data
                     getBaseForCompany = function (id) {
-                        dataservice.getBaseForCompany({
+                        dataservice.getBaseDataForCompany({
                             id: id
                         }, {
                             success: function (data) {
@@ -394,6 +408,8 @@ define("order/order.viewModel",
                     companyContacts: companyContacts,
                     companyAddresses: companyAddresses,
                     sectionFlags: sectionFlags,
+                    systemUsers: systemUsers,
+                    pipelineSources: pipelineSources,
                     // Observables
                     // Utility Methods
                     initialize: initialize,

@@ -55,7 +55,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         /// <summary>
-        /// Get Addresses / Compnay Contacts
+        /// Get contact's detail
         /// </summary>
         public CompanyBaseResponse Get([FromUri] short companyId)
         {

@@ -29,5 +29,17 @@
         /// System User Id
         /// </summary>
         public const string SystemUser = "http://schemas.2xb.com/2012/07/identity/claims/systemUser";
+
+        /// <summary>
+        /// Is User under Trial Period
+        /// </summary>
+        public const string IsTrial = "http://schemas.2xb.com/2012/07/identity/claims/isTrial";
+
+        /// <summary>
+        /// User Trial count
+        /// </summary>
+        public const string TrialCount = "http://schemas.2xb.com/2012/07/identity/claims/trialCount";
+
+
     }
 }

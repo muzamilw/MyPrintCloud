@@ -110,6 +110,22 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+        public void SavePaperSizes(List<PaperSize> sizes, long OrganisationID)
+        {
+            try
+            {
+                foreach(var size in sizes)
+                {
+                    size.OrganisationId = OrganisationID;
+                    db.PaperSizes.Add(size);
+                }
+              
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
     }
 }

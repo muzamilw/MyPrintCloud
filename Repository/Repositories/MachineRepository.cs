@@ -126,30 +126,121 @@ namespace MPC.Repository.Repositories
 
             
         }
+       
+        public string GetStockItemName(int? itemId)
+        {
+            if (itemId != null && itemId > 0)
+            {
+                StockItem SI= db.StockItems.Where(g => g.StockItemId == itemId).SingleOrDefault();
+                return SI.ItemName;
+            }
+            return "";
+        }
+
         public MachineResponseModel GetMachineByID(long MachineID)
         {
-           // Machine ms = DbSet.Where(g => g.MachineId == MachineID).FirstOrDefault();
+            Machine omachine = DbSet.Where(g => g.MachineId == MachineID).SingleOrDefault();
             return new MachineResponseModel
             {
-                machine = DbSet.Where(g => g.MachineId == MachineID).SingleOrDefault(),
+                machine = omachine,
                 lookupMethods = GetAllLookupMethodList(),
                 Markups = GetAllMarkupList(),
                 StockItemforInk = GetAllStockItemforInk(),
-                StockItemsForPaperSizePlate = GetStockItemsForPaperSizePlate(),
-                 MachineSpoilageItems = GetMachineSpoilageItems(MachineID),
-               // MachineResources= GetAllMachineResources(),
+                MachineSpoilageItems = GetMachineSpoilageItems(MachineID),
+                deFaultPaperSizeName = GetStockItemName(omachine.DefaultPaperId),
+                deFaultPlatesName = GetStockItemName(omachine.DefaultPlateId),
                 InkCoveragItems = GetInkCoveragItems()
 
             };
 
             
         }
-        public bool UpdateMachine(Machine machine)
+
+        public bool UpdateMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages)
         {
             try
             {
                 Machine omachine = db.Machines.Where(s => s.MachineId == machine.MachineId).SingleOrDefault();
-                omachine = machine;
+                omachine.MachineId = machine.MachineId;
+                omachine.MachineName = machine.MachineName;
+                omachine.MachineCatId = machine.MachineCatId;
+                omachine.ColourHeads = machine.ColourHeads;
+                omachine.isPerfecting = machine.isPerfecting;
+                omachine.SetupCharge = machine.SetupCharge;
+                omachine.WashupPrice = machine.WashupPrice;
+                omachine.WashupCost = machine.WashupCost;
+                omachine.MinInkDuctqty = machine.MinInkDuctqty;
+                omachine.worknturncharge = machine.worknturncharge;
+                omachine.MakeReadyCost = machine.MakeReadyCost;
+                omachine.DefaultFilmId = machine.DefaultFilmId;
+                omachine.DefaultPlateId = machine.DefaultPlateId;
+                omachine.DefaultPaperId = machine.DefaultPaperId;
+                omachine.isfilmused = machine.isfilmused;
+                omachine.isplateused = machine.isplateused;
+                omachine.ismakereadyused = machine.ismakereadyused;
+                omachine.iswashupused = machine.iswashupused;
+                omachine.maximumsheetweight = machine.maximumsheetweight;
+                omachine.maximumsheetheight = machine.maximumsheetheight;
+                omachine.maximumsheetwidth = machine.maximumsheetwidth;
+                omachine.minimumsheetheight = machine.minimumsheetheight;
+                omachine.minimumsheetwidth = machine.minimumsheetwidth;
+                omachine.gripdepth = machine.gripdepth;
+                omachine.gripsideorientaion = machine.gripsideorientaion;
+                omachine.gutterdepth = machine.gutterdepth;
+                omachine.headdepth = machine.headdepth;
+                omachine.MarkupId = machine.MarkupId;
+                omachine.PressSizeRatio = machine.PressSizeRatio;
+                omachine.Description = machine.Description;
+                omachine.Priority = machine.Priority;
+                omachine.DirectCost = machine.DirectCost;
+                omachine.Image = machine.Image;
+                omachine.MinimumCharge = machine.MinimumCharge;
+                omachine.CostPerCut = machine.CostPerCut;
+                omachine.PricePerCut = machine.PricePerCut;
+                omachine.IsAdditionalOption = machine.IsAdditionalOption;
+                omachine.IsDisabled = machine.IsDisabled;
+                omachine.LockedBy = machine.LockedBy;
+                omachine.CylinderSizeId = machine.CylinderSizeId;
+                omachine.MaxItemAcrossCylinder = machine.MaxItemAcrossCylinder;
+                omachine.Web1MRCost = machine.Web1MRCost;
+                omachine.Web1MRPrice = machine.Web1MRPrice;
+                omachine.Web2MRCost = machine.Web2MRCost;
+                omachine.Web2MRPrice = machine.Web2MRPrice;
+                omachine.ReelMRCost = machine.ReelMRCost;
+                omachine.ReelMRPrice = machine.ReelMRPrice;
+                omachine.IsMaxColorLimit = machine.IsMaxColorLimit;
+                omachine.PressUtilization = machine.PressUtilization;
+                omachine.MakeReadyPrice = machine.MakeReadyPrice;
+                omachine.InkChargeForUniqueColors = machine.InkChargeForUniqueColors;
+                omachine.CompanyId = machine.CompanyId;
+                omachine.FlagId = machine.FlagId;
+                omachine.IsScheduleable = machine.IsScheduleable;
+                omachine.SystemSiteId = machine.SystemSiteId;
+                omachine.SpoilageType = machine.SpoilageType;
+                omachine.SetupTime = machine.SetupTime;
+                omachine.TimePerCut = machine.TimePerCut;
+                omachine.MakeReadyTime = machine.MakeReadyTime;
+                omachine.WashupTime = machine.WashupTime;
+                omachine.ReelMakereadyTime = machine.ReelMakereadyTime;
+                omachine.LookupMethodId = machine.LookupMethodId;
+                omachine.OrganisationId = machine.OrganisationId;
+              
+
+                foreach (var item in machine.MachineInkCoverages)
+                {
+                    MachineInkCoverage obj = db.MachineInkCoverages.Where(g => g.Id == item.Id).SingleOrDefault();
+                    obj.SideInkOrder = item.SideInkOrder;
+                    obj.SideInkOrderCoverage = item.SideInkOrderCoverage;
+                }
+
+                foreach (var item in MachineSpoilages)
+                {
+                    MachineSpoilage obj = db.MachineSpoilages.Where(g => g.MachineSpoilageId == item.MachineSpoilageId).SingleOrDefault();
+                    obj.RunningSpoilage = item.RunningSpoilage;
+                    obj.SetupSpoilage = item.SetupSpoilage;
+                    
+                }
+             
                 if (db.SaveChanges() > 0)
                 {
                     return true;
@@ -186,11 +277,11 @@ namespace MPC.Repository.Repositories
         {
            return db.LookupMethods;
         }
-        public IEnumerable<StockItem> GetStockItemsForPaperSizePlate()
-        {
-            return db.StockItems.Where(g => g.CategoryId == 1 || g.CategoryId == 4).ToList();
+        //public IEnumerable<StockItem> GetStockItemsForPaperSizePlate()
+        //{
+        //    return db.StockItems.Where(g => g.CategoryId == 1 || g.CategoryId == 4).ToList();
 
-        }
+        //}
         public IEnumerable<Markup> GetAllMarkupList()
         {
             return db.Markups;

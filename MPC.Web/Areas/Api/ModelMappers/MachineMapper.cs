@@ -35,10 +35,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 lookupMethods = source.lookupMethods.Select(s => s.CreateFrom()),
                 Markups= source.Markups.Select(s=>s.CreateFrom()),
                 StockItemforInk = source.StockItemforInk.Select(s => s.CreateFromDetailForMachine()),
-                StockItemsForPaperSizePlate = source.StockItemsForPaperSizePlate.Select(s => s.CreateFromDetailForMachine()),
+                //StockItemsForPaperSizePlate = source.StockItemsForPaperSizePlate.Select(s => s.CreateFromDetailForMachine()),
                 MachineSpoilageItems = source.MachineSpoilageItems.Select(s=>s.CreateFrom()),
-                // MachineResources = source.MachineResources.Select(s=>s.CreateFrom()),
-                InkCoveragItems = source.InkCoveragItems.Select(s => s.CreateFrom())
+                InkCoveragItems = source.InkCoveragItems.Select(s => s.CreateFrom()),
+                deFaultPaperSizeName = source.deFaultPaperSizeName,
+                deFaultPlatesName = source.deFaultPlatesName
             };
 
         }
@@ -139,6 +140,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isplateused = source.isplateused,
                 ismakereadyused = source.ismakereadyused,
                 iswashupused = source.iswashupused,
+                Image=null,
                 maximumsheetweight = source.maximumsheetweight,
                 maximumsheetheight = source.maximumsheetheight,
                 maximumsheetwidth = source.maximumsheetwidth,
@@ -182,7 +184,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 WashupTime = source.WashupTime,
                 ReelMakereadyTime = source.ReelMakereadyTime,
                 LookupMethodId = source.LookupMethodId,
-                MachineInkCoverages = source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList()
+                MachineInkCoverages = source.MachineInkCoverages != null ? source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList() : null
+             
 
             };
         }

@@ -117,3 +117,11 @@ drop procedure MPCFileTable_Add
 drop procedure MPCFileTable_Del
 
 GO
+
+/* Execution Date: 16/02/2015 */
+GO
+
+ALTER TABLE ReportNote
+ADD OrganisationId bigint
+
+GO

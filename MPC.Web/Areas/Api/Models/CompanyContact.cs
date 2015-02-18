@@ -92,6 +92,7 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? canPlaceDirectOrder { get; set; }
         public long? OrganisationId { get; set; }
         public long? BussinessAddressId { get; set; }
+        public string RoleName { get; set; }
         public string FileName { get; set; }
 
         public Address BussinessAddress { get; set; }

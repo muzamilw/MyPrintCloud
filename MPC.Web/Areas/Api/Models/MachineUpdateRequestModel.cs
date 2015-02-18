@@ -9,5 +9,6 @@ namespace MPC.MIS.Areas.Api.Models
     public class MachineUpdateRequestModel
     {
         public Machine machine { get; set; }
+        public IEnumerable<MachineSpoilage> MachineSpoilages { get; set; }
     }
 }

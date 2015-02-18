@@ -25,6 +25,7 @@ namespace MPC.Webstore.Controllers
         #region Private
 
         private readonly ICompanyService _myCompanyService;
+        private readonly MPC.Interfaces.MISServices.ICompanyService _CompanyService;
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
         private readonly IItemService _ItemService;
         #endregion
@@ -34,7 +35,7 @@ namespace MPC.Webstore.Controllers
         /// Constructor
         /// </summary>
         public LoginController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker
-            , IItemService ItemService)
+            , IItemService ItemService, MPC.Interfaces.MISServices.ICompanyService _CompanyService)
         {
             if (myCompanyService == null)
             {
@@ -47,6 +48,7 @@ namespace MPC.Webstore.Controllers
             this._myCompanyService = myCompanyService;
             this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
             this._ItemService = ItemService;
+            this._CompanyService = _CompanyService;
         }
 
         #endregion
@@ -115,25 +117,27 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index(AccountViewModel model)
         {
 
+
+
             string returnUrl = string.Empty;
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
 
             if (ModelState.IsValid)
             {
-                CompanyContact user =  null;
-                 //MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-                 MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
-                 if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate))
-                 {
-                     user = _myCompanyService.GetCorporateUserByEmailAndPassword(model.Email, model.Password, UserCookieManager.StoreId);
-                 }
-                 else
-                 {
-                     user = _myCompanyService.GetRetailUser(model.Email, model.Password);
-                 }
+                CompanyContact user = null;
+                //MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+                if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate))
+                {
+                    user = _myCompanyService.GetCorporateUserByEmailAndPassword(model.Email, model.Password, UserCookieManager.StoreId);
+                }
+                else
+                {
+                    user = _myCompanyService.GetRetailUser(model.Email, model.Password);
+                }
 
-                 StoreBaseResopnse = null;
+                StoreBaseResopnse = null;
                 if (user != null)
                 {
                     if (model.KeepMeLoggedIn)
@@ -145,7 +149,7 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                   ViewBag.Message = "Invalid login attempt.";
+                    ViewBag.Message = "Invalid login attempt.";
                     return View("PartialViews/Login");
                 }
             }

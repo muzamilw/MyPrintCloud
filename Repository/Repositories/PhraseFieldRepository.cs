@@ -58,7 +58,10 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return db.PhraseFields.Where(p => p.OrganisationId == OID).ToList();
+                db.Configuration.LazyLoadingEnabled = false;
+
+                db.Configuration.ProxyCreationEnabled = false;
+                return db.PhraseFields.Include("Phrases").Where(p => p.OrganisationId == OID).ToList();
             }
             catch (Exception ex)
             {

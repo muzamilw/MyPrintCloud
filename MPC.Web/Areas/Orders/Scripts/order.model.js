@@ -267,6 +267,22 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             };
     },
    
+    // System User Entity        
+    SystemUser = function (specifiedId, specifiedName) {
+        return {
+            id: specifiedId,
+            name: specifiedName
+        };
+    },
+    
+    // Pipeline Source Entity        
+    PipeLineSource = function (specifiedId, specifiedDescription) {
+        return {
+            id: specifiedId,
+            name: specifiedDescription
+        };
+    },
+
     // Address Entity
     Address = function(specifiedId, specifiedName, specifiedAddress1, specifiedAddress2, specifiedTelephone1) {
         return {            
@@ -315,12 +331,22 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Address Factory
     Address.Create = function (source) {
-        return new Address(source.AddressId, source.AddressName, source.Address1, source.Address2, source.Telephone1);
+        return new Address(source.AddressId, source.AddressName, source.Address1, source.Address2, source.Tel1);
     };
     
     // Company Contact Factory
     CompanyContact.Create = function (source) {
-        return new CompanyContact(source.CompanyContactId, source.CompanyContactName, source.Email);
+        return new CompanyContact(source.ContactId, source.Name, source.Email);
+    };
+    
+    // System User Factory
+    SystemUser.Create = function (source) {
+        return new SystemUser(source.SystemUserId, source.UserName);
+    };
+    
+    // Pipeline Source Factory
+    PipeLineSource.Create = function (source) {
+        return new PipeLineSource(source.SourceId, source.Description);
     };
 
     return {
@@ -331,6 +357,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // Address Constructor
         Address: Address,
         // Company Contact Constructor
-        CompanyContact: CompanyContact
+        CompanyContact: CompanyContact,
+        // System User Constructor
+        SystemUser: SystemUser,
+        // PipeLine Source Constructor
+        PipeLineSource: PipeLineSource
     };
 });

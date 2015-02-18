@@ -102,8 +102,10 @@
         </div>
     </div>
     @Html.Partial("~/Areas/Settings/Views/Home/MachinesDetail.cshtml")
+   
     <!-- ko stopBinding: true -->
     @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
+    @Html.Partial("~/Areas/Common/Views/Shared/_StockDialog.cshtml")
     <!-- /ko -->
 </div>
 <script id="itemMachineTemplate" type="text/html">
@@ -141,8 +143,9 @@
 </script>
 @section Scripts{
     <script src="~/Scripts/jquery.form.js"></script>
+   
     <script>
-        require(["machine/machine.view", "common/confirmation.view"]);
+        require(["machine/machine.view", "common/confirmation.view", "common/stockItem.view"]);
         $(function () {
             $('#lisettings').addClass('active');
             $('#limissettings').addClass('active');

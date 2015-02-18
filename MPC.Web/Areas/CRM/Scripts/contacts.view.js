@@ -8,24 +8,29 @@ define("crm/contacts.view",
         ist.contacts.view = (function (specifiedViewModel) {
             var // View model 
                 viewModel = specifiedViewModel,
-               // binding root
-               bindingRoot = $("#contactsBindingRoot")[0],
+                // binding root
+                bindingRoot = $("#contactsBindingRoot")[0],
 
-            // Initialize
-            initialize = function () {
-                if (!bindingRoot) {
-                    return;
-                }
-            },
-            // Show Contact Company the dialog
-            showCompanyContactDetailDialog = function() {
-                $("#myContactProfileModal").modal("show");
-            };
+                // Initialize
+                initialize = function() {
+                    if (!bindingRoot) {
+                        return;
+                    }
+                },
+                // Show Contact Company the dialog
+                showCompanyContactDetailDialog = function() {
+                    $("#myContactProfileModal").modal("show");
+                },
+                // Hide Company Contact the dialog
+                hideCompanyContactDialog = function() {
+                    $("#myContactProfileModal").modal("hide");
+                };
             initialize();
             return {
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
-                showCompanyContactDetailDialog: showCompanyContactDetailDialog
+                showCompanyContactDetailDialog: showCompanyContactDetailDialog,
+                hideCompanyContactDialog: hideCompanyContactDialog
             };
         })(contactsViewModel);
 
