@@ -1703,6 +1703,9 @@
     <Content Include="Areas\Stores\Views\Shared\_RaveReviews.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_ProductsFilter.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_ChooseUsIcon.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\PurchaseOrdersPO.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_partialPurchaseorderOP.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_partialPurchaseorderGRN.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_AddEditAddressForCrm.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_CompanySelector.cshtml" />
     <Content Include="Content\less\CompanySelector.less" />
