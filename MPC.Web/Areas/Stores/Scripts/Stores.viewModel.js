@@ -442,20 +442,20 @@ define("stores/stores.viewModel",
                                         }
                                     });
                                 });
-                            //check on client side, push all if new added work
-                            if (searchCompanyTerritoryFilter() == "" || searchCompanyTerritoryFilter() == undefined) {
-                                _.each(newCompanyTerritories(), function (companyTerritoryItem) {
-                                    selectedStore().companyTerritories.push(companyTerritoryItem);
-                                });
-                            }
-                            //check on client side, if filter is not null
-                            if (searchCompanyTerritoryFilter() != "" && searchCompanyTerritoryFilter() != undefined) {
-                                _.each(newCompanyTerritories(), function (companyTerritoryItem) {
-                                    if (companyTerritoryItem.territoryName().indexOf(searchCompanyTerritoryFilter()) != -1 || companyTerritoryItem.territoryCode().indexOf(searchCompanyTerritoryFilter()) != -1) {
+                                //check on client side, push all if new added work
+                                if (searchCompanyTerritoryFilter() == "" || searchCompanyTerritoryFilter() == undefined) {
+                                    _.each(newCompanyTerritories(), function (companyTerritoryItem) {
                                         selectedStore().companyTerritories.push(companyTerritoryItem);
-                                    }
-                                });
-                            }
+                                    });
+                                }
+                                //check on client side, if filter is not null
+                                if (searchCompanyTerritoryFilter() != "" && searchCompanyTerritoryFilter() != undefined) {
+                                    _.each(newCompanyTerritories(), function (companyTerritoryItem) {
+                                        if (companyTerritoryItem.territoryName().indexOf(searchCompanyTerritoryFilter()) != -1 || companyTerritoryItem.territoryCode().indexOf(searchCompanyTerritoryFilter()) != -1) {
+                                            selectedStore().companyTerritories.push(companyTerritoryItem);
+                                        }
+                                    });
+                                }
                             },
                             error: function (response) {
                                 toastr.error("Failed To Load Company territories" + response);
@@ -1327,20 +1327,20 @@ define("stores/stores.viewModel",
                                         }
                                     });
                                 });
-                            //check on client side, push all if new added work
-                            if (searchAddressFilter() == "" || searchAddressFilter() == undefined) {
-                                _.each(newAddresses(), function (addressItem) {
-                                    selectedStore().addresses.push(addressItem);
-                                });
-                            }
-                            //check on client side, if filter is not null
-                            if (searchAddressFilter() != "" && searchAddressFilter() != undefined) {
-                                _.each(newAddresses(), function (addressItem) {
-                                    if (addressItem.addressName().indexOf(searchAddressFilter()) != -1) {
+                                //check on client side, push all if new added work
+                                if (searchAddressFilter() == "" || searchAddressFilter() == undefined) {
+                                    _.each(newAddresses(), function (addressItem) {
                                         selectedStore().addresses.push(addressItem);
-                                    }
-                                });
-                            }
+                                    });
+                                }
+                                //check on client side, if filter is not null
+                                if (searchAddressFilter() != "" && searchAddressFilter() != undefined) {
+                                    _.each(newAddresses(), function (addressItem) {
+                                        if (addressItem.addressName().indexOf(searchAddressFilter()) != -1) {
+                                            selectedStore().addresses.push(addressItem);
+                                        }
+                                    });
+                                }
                             },
                             error: function (response) {
                                 toastr.error("Failed To Load Addresses" + response);
@@ -1908,20 +1908,20 @@ define("stores/stores.viewModel",
                                         }
                                     });
                                 });
-                            //check on client side, push all if new added work
-                            if (searchCompanyContactFilter() == "" || searchCompanyContactFilter() == undefined) {
-                                _.each(newCompanyContacts(), function (companyContactItem) {
-                                    selectedStore().users.push(companyContactItem);
-                                });
-                            }
-                            //check on client side, if filter is not null
-                            if (searchCompanyContactFilter() != "" && searchCompanyContactFilter() != undefined) {
-                                _.each(newCompanyContacts(), function (companyContactItem) {
-                                    if (companyContactItem.email().indexOf(searchCompanyContactFilter()) != -1 || companyContactItem.firstName().indexOf(searchCompanyContactFilter()) != -1) {
+                                //check on client side, push all if new added work
+                                if (searchCompanyContactFilter() == "" || searchCompanyContactFilter() == undefined) {
+                                    _.each(newCompanyContacts(), function (companyContactItem) {
                                         selectedStore().users.push(companyContactItem);
-                                    }
-                                });
-                            }
+                                    });
+                                }
+                                //check on client side, if filter is not null
+                                if (searchCompanyContactFilter() != "" && searchCompanyContactFilter() != undefined) {
+                                    _.each(newCompanyContacts(), function (companyContactItem) {
+                                        if (companyContactItem.email().indexOf(searchCompanyContactFilter()) != -1 || companyContactItem.firstName().indexOf(searchCompanyContactFilter()) != -1) {
+                                            selectedStore().users.push(companyContactItem);
+                                        }
+                                    });
+                                }
                             },
                             error: function (response) {
                                 toastr.error("Failed To Load Users" + response);
@@ -2135,12 +2135,12 @@ define("stores/stores.viewModel",
                                     if (selectedCompanyContact().shippingAddressId() != undefined) {
                                         selectedCompanyContact().shippingAddress(getAddressByAddressId(selectedCompanyContact().shippingAddressId()));
                                     }
-                                //updating selected contact rolename
-                                _.each(roles(), function(role) {
-                                    if (role.roleId() == selectedCompanyContact().contactRoleId()) {
-                                        selectedCompanyContact().roleName(role.roleName());
-                                    }
-                                });
+                                    //updating selected contact rolename
+                                    _.each(roles(), function (role) {
+                                        if (role.roleId() == selectedCompanyContact().contactRoleId()) {
+                                            selectedCompanyContact().roleName(role.roleName());
+                                        }
+                                    });
                                     newCompanyContacts.push(selectedCompanyContact());
                                     onCloseCompanyContact();
                                 } else {
@@ -2154,12 +2154,12 @@ define("stores/stores.viewModel",
                                             edittedCompanyContacts.push(selectedCompanyContact());
                                         }
                                     }
-                                //updating selected contact rolename
-                                _.each(roles(), function (role) {
-                                    if (role.roleId() == selectedCompanyContact().contactRoleId()) {
-                                        selectedCompanyContact().roleName(role.roleName());
-                                    }
-                                });
+                                    //updating selected contact rolename
+                                    _.each(roles(), function (role) {
+                                        if (role.roleId() == selectedCompanyContact().contactRoleId()) {
+                                            selectedCompanyContact().roleName(role.roleName());
+                                        }
+                                    });
                                     onCloseCompanyContact();
                                 }
                             }
@@ -3815,19 +3815,69 @@ define("stores/stores.viewModel",
                     //#endregion
 
 
-                    //#region ________ MEDIA LIBRARY___________
+                    //#region ________ Field Variable___________
+                    //Active Field Variable
+                    selectedFieldVariable = ko.observable(),
+                    //Field Variables List
+                    fieldVariables = ko.observableArray([]),
+                    //Variable Option Fake ID counter
+                    fakeIdCounter = ko.observable(0),
+                    //Create New Field Variable
                     onAddVariableDefination = function () {
+                        selectedFieldVariable(model.FieldVariable());
                         view.showVeriableDefinationDialog();
                     },
+                     //Save Field Variable
+                    onSaveFieldVariable = function (fieldVariable) {
+                        if (doBeforeSaveFieldVariable()) {
 
-                    contextTypes = ko.observableArray([{ id: "1", name: "Store" },
-                                             { id: "2", name: "Contact" },
-                                             { id: "3", name: "Address" },
-                                             { id: "4", name: "Territory" }]);
-                varibaleTypes = ko.observableArray([{ id: "1", name: "Dropdown" },
-                                             { id: "2", name: "Input" }]);
+                            var selectedScope = _.find(contextTypes(), function (scope) {
+                                return scope.id == fieldVariable.scope();
+                            });
+                            fieldVariable.scopeName(selectedScope.name);
 
-                //#endregion ________ MEDIA LIBRARY___________
+                            var selectedType = _.find(varibaleTypes(), function (type) {
+                                return type.id == fieldVariable.variableType();
+                            });
+                            fieldVariable.typeName(selectedType.name);
+                            if (selectedStore().companyId() === undefined) {
+                                fieldVariables.splice(0, 0, fieldVariable);
+                            } else {
+
+                            }
+
+                            view.hideVeriableDefinationDialog();
+                        }
+                    },
+
+                    //Do Before Save Field Variable
+                    doBeforeSaveFieldVariable = function () {
+                        var flag = true;
+                        if (!selectedFieldVariable().isValid()) {
+                            selectedFieldVariable().errors.showAllMessages();
+                            flag = false;
+                        }
+                        return flag;
+                    },
+                    //edit Field Variable
+                    onEditFieldVariable = function (fieldVariable) {
+                        if (selectedStore().companyId() === undefined) {
+                            selectedFieldVariable(fieldVariable);
+                            view.showVeriableDefinationDialog();
+                        } else {
+                            
+                        }
+                    },
+                    //variable Scope
+                    contextTypes = ko.observableArray([{ id: 1, name: "Store" },
+                                             { id: 2, name: "Contact" },
+                                             { id: 3, name: "Address" },
+                                             { id: 4, name: "Territory" }]);
+                //Varibale Types
+                varibaleTypes = ko.observableArray([{ id: 1, name: "Dropdown" },
+                                { id: 2, name: "Input" }]);
+
+                //#endregion ________ Field Variable___________
 
 
                 //Initialize
@@ -4129,6 +4179,10 @@ define("stores/stores.viewModel",
                     onAddVariableDefination: onAddVariableDefination,
                     contextTypes: contextTypes,
                     varibaleTypes: varibaleTypes,
+                    selectedFieldVariable: selectedFieldVariable,
+                    onSaveFieldVariable: onSaveFieldVariable,
+                    fieldVariables: fieldVariables,
+                    onEditFieldVariable: onEditFieldVariable,
                 };
                 //#endregion
             })()
