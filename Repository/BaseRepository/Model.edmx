@@ -2215,7 +2215,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Key>
             <PropertyRef Name="OrganisationId" />
           </Key>
-          <Property Name="OrganisationId" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrganisationId" Type="bigint" Nullable="false" StoreGeneratedPattern="None" />
           <Property Name="OrganisationName" Type="varchar" MaxLength="100" />
           <Property Name="Address1" Type="varchar" MaxLength="255" />
           <Property Name="Address2" Type="varchar" MaxLength="255" />
@@ -6159,7 +6159,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Key>
             <PropertyRef Name="OrganisationId" />
           </Key>
-          <Property Name="OrganisationId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrganisationId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="OrganisationName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Address1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Address2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
