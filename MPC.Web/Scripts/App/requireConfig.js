@@ -5,7 +5,7 @@
     var ist = window.ist;
 
     requirejs.config({
-        baseUrl: "/Scripts/App",
+        baseUrl: ist.siteUrl + "/Scripts/App",
         waitSeconds: 20,
         paths: {
             "sammy": ist.siteUrl + "/Scripts/sammy-0.7.5.min",
