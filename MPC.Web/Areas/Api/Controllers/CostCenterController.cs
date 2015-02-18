@@ -37,7 +37,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             var result = _costCenterService.GetUserDefinedCostCenters(request);
             return new CostCenterResponse
             {
-                CostCenters = result.CostCenters.Select(s => s.CreateFrom()),
+                CostCenters = result.CostCenters.Select(s => s.ListViewModelCreateFrom()),
                 RowCount = result.RowCount
             };
         }
@@ -54,6 +54,8 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
             throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
         }
+
+       
         #endregion
     }
 }

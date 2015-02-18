@@ -13,6 +13,10 @@ using Microsoft.AspNet.Identity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
+using System.Configuration;
 
 namespace MPC.MIS.Controllers
 {
@@ -47,7 +51,7 @@ namespace MPC.MIS.Controllers
                 return RedirectToRoute("Login");
         }
 
-        public async Task<ActionResult> LoginFull()
+        public async Task<ActionResult> LoginFull(string token)
         {
             /*
              * Entry Point For MIS
@@ -56,8 +60,49 @@ namespace MPC.MIS.Controllers
              * On Call back, if user is authenticated then add Claims
              */
 
-            var organisationId = 1;//Request.QueryString["OrganisationId"];
-            var userId = "khurram";//Request.QueryString["UserId"];
+            ValidationInfo validationInfo = null;
+            using (var client = new HttpClient())
+            {
+
+
+                client.BaseAddress = new Uri(ConfigurationManager.AppSettings["MPCLoginAPIPath"]);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                string url = "login?token=" + token;
+                string responsestr = "";
+                var response = client.GetAsync(url);
+                if (response.Result.IsSuccessStatusCode)
+                {
+                    responsestr =  response.Result.Content.ReadAsStringAsync().Result;
+                    validationInfo =  JsonConvert.DeserializeObject<ValidationInfo>(responsestr);
+                }
+               
+            }
+
+            long organisationId = 0; //Request.QueryString["OrganisationId"];
+            string userId = ""; //Request.QueryString["UserId"];
+            string fullName = "";
+            string Plan = "";
+            string email = "";
+            Boolean isTrial = false;
+            int trialCount = 0;
+
+            if ( validationInfo != null)
+            {
+                organisationId = Convert.ToInt64( validationInfo.CustomerID);
+                userId = validationInfo.userId;
+                fullName = validationInfo.FullName;
+                Plan = validationInfo.Plan;
+                email = validationInfo.Email;
+                isTrial = validationInfo.IsTrial;
+                trialCount = validationInfo.TrialCount;
+            }
+            else
+            {
+                return Redirect(ConfigurationManager.AppSettings["MPCDashboardPath"]);
+            }
+
 
             // Authenticate User For this Site
             // TODO: AuthenticateUser() // will return user
@@ -66,12 +111,15 @@ namespace MPC.MIS.Controllers
                 IsAuthenticated = true,
                 User = new MisUser
                 {
-                    FullName = "khurram@innostark.com",
-                    UserName = "khurram@innostark.com",
-                    Email = "khurram@innostark.com",
+                    Id = userId,
+                    FullName = fullName,
+                    UserName = fullName,
+                    Email = email,
                     SecurityStamp = "123",
                     Role = "Admin",
                     RoleId = 1,
+                    IsTrial = isTrial,
+                    TrialCount = trialCount,
                     OrganisationId = organisationId,
                     RoleSections = new List<RoleSection>
                     {
@@ -119,6 +167,54 @@ namespace MPC.MIS.Controllers
                                         RightName = "CanViewProduct",
                                         RightId = 1,
                                         SectionId = 1
+                                    },
+                                    new AccessRight
+                                    {
+                                        RightName = "CanViewOrder",
+                                        RightId = 1,
+                                        SectionId = 1
+                                    },
+                                    new AccessRight
+                                    {
+                                        RightName = "CanViewDashboard",
+                                        RightId = 1,
+                                        SectionId = 1
+                                    },
+                                    new AccessRight
+                                    {
+                                        RightName = "CanViewCRM",
+                                        RightId = 1,
+                                        SectionId = 1
+                                    },
+                                    new AccessRight
+                                    {
+                                        RightName = "CanViewProspect",
+                                        RightId = 1,
+                                        SectionId = 1
+                                    },
+                                    new AccessRight
+                                    {
+                                        RightName = "CanViewSupplier",
+                                        RightId = 1,
+                                        SectionId = 1
+                                    },
+                                    new AccessRight
+                                    {
+                                        RightName = "CanViewCalendar",
+                                        RightId = 1,
+                                        SectionId = 1
+                                    },
+                                    new AccessRight
+                                    {
+                                        RightName = "CanViewContact",
+                                        RightId = 1,
+                                        SectionId = 1
+                                    },
+                                    new AccessRight
+                                    {
+                                        RightName = "CanViewStore",
+                                        RightId = 1,
+                                        SectionId = 1
                                     }
                                 }
                         
@@ -140,6 +236,14 @@ namespace MPC.MIS.Controllers
             }
 
             return RedirectToAction("Index", "Dashboard");
+        }
+
+        public async Task<ActionResult> Logout()
+        {
+            Thread.CurrentPrincipal = null;
+            HttpContext.User = null;
+            AuthenticationManager.SignOut(new[] { DefaultAuthenticationTypes.ApplicationCookie });
+            return Redirect(ConfigurationManager.AppSettings["MPCDashboardPath"]);
         }
 
         /// <summary>

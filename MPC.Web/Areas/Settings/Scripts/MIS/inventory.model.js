@@ -314,11 +314,11 @@
             costPrice = ko.observable(specifiedCostPrice).extend({ required: true, number: true }),
             //Pack Cost Price
             packCostPrice = ko.observable(specifiedPackCostPrice),
+             //To Date 
+            toDate = ko.observable(specifiedToDate === null ? moment().toDate() : moment(specifiedToDate, ist.utcFormat).toDate()).extend({ required: true }),
             //From Date
-            fromDate = ko.observable(specifiedFromDate === null ? undefined : moment(specifiedFromDate, ist.utcFormat).toDate()).extend({ required: true }),
-            //To Date 
-            toDate = ko.observable(specifiedToDate === null ? undefined : moment(specifiedToDate, ist.utcFormat).toDate()).extend({ required: true }),
-            //Cost Or Price Identifier
+            fromDate = ko.observable(specifiedFromDate === null ? moment().toDate() : moment(specifiedFromDate, ist.utcFormat).toDate()).extend({ required: true }),
+                //Cost Or Price Identifier
             costOrPriceIdentifier = ko.observable(specifiedCostOrPriceIdentifier),
             // Formatted From Date
              formattedFromDate = ko.computed({
@@ -332,6 +332,9 @@
                      return toDate() !== undefined ? moment(toDate()).format(ist.datePattern) : undefined;
                  }
              }),
+              isInvalidPeriod = ko.computed(function () {
+                  return toDate() < fromDate();
+              }),
              // Errors
             errors = ko.validation.group({
                 costPrice: costPrice,
@@ -376,6 +379,7 @@
             costOrPriceIdentifier: costOrPriceIdentifier,
             isValid: isValid,
             errors: errors,
+            isInvalidPeriod: isInvalidPeriod,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,

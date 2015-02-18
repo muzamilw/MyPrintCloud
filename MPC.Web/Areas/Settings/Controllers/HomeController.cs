@@ -2,11 +2,14 @@
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
+using MPC.Models.Common;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Settings.Controllers
 {
-    //[SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewSecurity })]
+    [SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewSecurity })]
     public class HomeController : Controller
     {
 
@@ -31,14 +34,14 @@ namespace MPC.MIS.Areas.Settings.Controllers
         }
         #endregion
         // GET: Settings/Home
-        //[SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
+        [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewSecurity })]
         public ActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        //[SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
+        [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
         public ActionResult MyOrganization(HttpPostedFileBase file, long organizationId)
         {
             if (file != null && file.InputStream != null)
@@ -73,6 +76,7 @@ namespace MPC.MIS.Areas.Settings.Controllers
             myOrganizationService.SaveFilePath(path);
         }
 
+        [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
         public ActionResult MyOrganization()
         {
             return View();
@@ -102,6 +106,12 @@ namespace MPC.MIS.Areas.Settings.Controllers
         public ActionResult PhraseLibrary()
         {
             return View();
+        }
+        public ActionResult LookupMethods()
+        {
+
+            return View();
+
         }
 
     }

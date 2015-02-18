@@ -26,6 +26,8 @@ define("paperSheet/paperSheet.viewModel",
                     editorViewModel = new ist.ViewModel(model.PaperSheet),
                     //Selected Paper Sheet
                     selectedPaperSheet = editorViewModel.itemForEditing,
+                    //Length Unit
+                    lengthUnit = ko.observable(),
                     //Template To Use
                     templateToUse = function (paperSheet) {
                         return (paperSheet === selectedPaperSheet() ? 'editPaperSheetTemplate' : 'itemPaperSheetTemplate');
@@ -36,6 +38,7 @@ define("paperSheet/paperSheet.viewModel",
                     createNewPaperSheet = function () {
                         var paperSheet = new model.PaperSheet();
                         editorViewModel.selectItem(paperSheet);
+                        selectedPaperSheet().isArchived(false);
                         openEditDialog();
                     },
                     //On Edit Click Of Paper Sheet
@@ -155,6 +158,7 @@ define("paperSheet/paperSheet.viewModel",
                     //Open Paper Sheet Dialog
                     openEditDialog = function () {
                         view.showPaperSheetDialog();
+                        view.initializeLabelPopovers();
                     },
                     //CLose Paper Sheet Dialog
                     closeEditDialog = function () {
@@ -172,17 +176,17 @@ define("paperSheet/paperSheet.viewModel",
                          searchFilter(undefined);
                          getPaperSheets();
                      },
-                    
+
                     // Get Base Data
                     getBaseData = function () {
                         dataservice.getBaseData({
                             success: function (data) {
                                 if (data) {
-
+                                    lengthUnit(data);
                                 }
                             },
                             error: function (response) {
-                                
+
                             }
                         });
                     },
@@ -232,6 +236,7 @@ define("paperSheet/paperSheet.viewModel",
                     resetFilterSection: resetFilterSection,
                     editorViewModel: editorViewModel,
                     onEditItem: onEditItem,
+                    lengthUnit: lengthUnit,
                     unit: unit,
                     getBaseData: getBaseData,
                     onClosePaperSheet: onClosePaperSheet,

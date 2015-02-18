@@ -20,7 +20,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SectionId = source.SectionId,
                 ParentId = source.ParentId,
                 SectionName = source.SectionName,
-                PhrasesFields = source.PhraseFields != null ? source.PhraseFields.Select(s => s.CreateFrom()).ToList() : null
+                //PhrasesFields = source.PhraseFields != null ? source.PhraseFields.Select(s => s.CreateFrom()).ToList() : null
             };
         }
 
@@ -44,6 +44,19 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new RequestModels.PhraseLibrarySaveModel
             {
                 Sections = source.Sections != null ? source.Sections.Select(s => s.CreateFrom()).ToList() : null
+            };
+        }
+
+        /// <summary>
+        /// Create From Domain Model
+        /// </summary>
+        public static Section CreateFromCampaign(this DomainModels.Section source)
+        {
+            return new Section
+            {
+                SectionId = source.SectionId,
+                SectionName = source.SectionName,
+                CampaignEmailVariables = source.CampaignEmailVariables != null ? source.CampaignEmailVariables.Select(cev => cev.CreateFrom()).ToList() : null
             };
         }
     }

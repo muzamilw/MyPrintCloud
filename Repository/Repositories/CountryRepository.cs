@@ -80,10 +80,7 @@ namespace MPC.Repository.Repositories
 
             try
             {
-               
                     return db.Countries.Where(a => a.CountryId == countryId).Select(c => c.CountryCode).FirstOrDefault();
-
-               
 
             }
             catch (Exception ex)

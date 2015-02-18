@@ -72,9 +72,31 @@ namespace MPC.Interfaces.Repository
          bool RemoveListOfDeliveryItemCostCenter(long OrderId);
 
          bool AddUpdateItemFordeliveryCostCenter(long orderId, long DeliveryCostCenterId, double DeliveryCost, long customerID, string DeliveryName, StoreMode Mode, bool isDeliveryTaxable, bool IstaxONService, double GetServiceTAX, double TaxRate);
-
+       
          Item GetItemByOrderItemID(long ItemID, long OrderID);
 
          void VariablesResolve(long ItemID, long ProductId, long objContactID);
+         /// <summary>
+         /// checks if the order is dummy, this function return true if the order is dummy and needs to replaced with real order else false
+         /// </summary>
+         /// <param name="orderId"></param>
+        /// <param name="customerId"></param>
+        /// <param name="contactId"></param>
+        /// <returns></returns>
+ 
+        bool isTemporaryOrder(long orderId, long customerId, long contactId);
+        /// <summary>
+        /// get item section
+        /// </summary>
+        /// <param name="ItemId"></param>
+        /// <returns></returns>
+        ItemSection GetItemFirstSectionByItemId(long ItemId);
+        /// <summary>
+        /// update quantity in item's first section
+        /// </summary>
+        /// <param name="ItemSectionId"></param>
+        /// <param name="Quantity"></param>
+        /// <returns></returns>
+        ItemSection UpdateItemFirstSectionByItemId(long ItemId, int Quantity);
     }
 }

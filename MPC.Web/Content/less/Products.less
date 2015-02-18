@@ -5,7 +5,7 @@
         background-color: #ff7e47;
         color: white;
     }    
-
+      
     .inactiveView
     {
         background-color: #ffffff;
@@ -22,17 +22,17 @@
         width: 100%;
     }
 
-    .filter-block
+    #pressDialog
     {
-        .form-group
+        #pressDialogMainContainer
         {
-            margin-bottom: 0;
+            width: 838px;
         }
     }
 
-    #stockDialog
+    #signatureEdit
     {
-        #stockDialogMainContainer
+        .modal-dialog
         {
             width: 838px;
         }
@@ -46,22 +46,26 @@
         }
     }
 
-    .form-group
+    .pricetable-itemPriceMatrix
     {
-        .input-group-addon
+        tr
         {
-            text-decoration: none; 
-            border: 0; 
-            cursor: pointer;
-        }
-
-        .input-group
-        {
-            .input-group-addon
+            th#Qty
             {
-                border: 1px solid #ccc;
+                width: 12%;
+            }
+
+            th#QtyRangeFrom, th#QtyRangeTo
+            {
+                width: 6%;
+            }
+
+            th.paperStockType
+            {
+                width: 8%;
             }
         }
+            
     }
 
     #tab-pricetable
@@ -87,28 +91,6 @@
             {
                 font-weight: bold;
             }
-        }
-
-        #tab-pricetable-itemPriceMatrix
-        {
-            tr
-            {
-                th#Qty
-                {
-                    width: 104px;
-                }
-
-                th#QtyRangeFrom, th#QtyRangeTo
-                {
-                    width: 104px;
-                }
-
-                th.paperStockType
-                {
-                    width: 10%;
-                }
-            }
-            
         }
     }
 

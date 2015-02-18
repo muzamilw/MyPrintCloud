@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using MPC.Webstore.Common;
 using Microsoft.Owin.Security;
 using System.Threading;
+using MPC.Models.Common;
 
 namespace MPC.Webstore.Controllers
 {
@@ -63,7 +64,16 @@ namespace MPC.Webstore.Controllers
             UserCookieManager.isRegisterClaims = 2;
           //  UserCookieManager.removeAllCookies();
            // _webstoreclaimHelper.removeAuthenticationClaim();
-            Response.Redirect("/"); 
+            if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+            {
+                Response.Redirect("/Login");
+            }
+            else
+            {
+                 Response.Redirect("/");
+
+            }
+            //Response.Redirect("/"); 
             return null;
 
         }

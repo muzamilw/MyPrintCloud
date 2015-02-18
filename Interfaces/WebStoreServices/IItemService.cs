@@ -123,5 +123,28 @@ namespace MPC.Interfaces.WebStoreServices
 
         Item GetItemByOrderItemID(long ItemID, long OrderID);
 
+        long AddInquiryAndItems(Inquiry Inquiry, List<InquiryItem> InquiryItems);
+        void AddInquiryAttachments(List<InquiryAttachment> InquiryAttachments);
+        /// <summary>
+        /// get item section
+        /// </summary>
+        /// <param name="ItemId"></param>
+        /// <returns></returns>
+        ItemSection GetItemFirstSectionByItemId(long ItemId);
+
+        /// <summary>
+        /// update quantity in item's first section
+        /// </summary>
+        /// <param name="ItemSectionId"></param>
+        /// <param name="Quantity"></param>
+        /// <returns></returns>
+        ItemSection UpdateItemFirstSectionByItemId(long ItemId, int Quantity);
+          /// <summary>
+        /// get id's of cost center except webstore cost cnetre 216 of first section of cloned item 
+        /// </summary>
+        /// <param name="StockOptionID"></param>
+        /// <param name="CompanyID"></param>
+        /// <returns></returns>
+        List<SectionCostcentre> GetClonedItemAddOnCostCentres(long ItemId);
     }
 }

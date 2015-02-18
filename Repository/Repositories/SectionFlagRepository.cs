@@ -6,6 +6,7 @@ using MPC.Interfaces.Repository;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
+using System;
 
 namespace MPC.Repository.Repositories
 {
@@ -59,7 +60,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<SectionFlag> GetSectionFlagBySectionId(long sectionId)
         {
-            return DbSet.Where(sf => sf.SectionId == sectionId).ToList();
+            return DbSet.Where(sf => sf.SectionId == sectionId && sf.OrganisationId == OrganisationId).ToList();
         }
 
         /// <summary>
@@ -76,6 +77,30 @@ namespace MPC.Repository.Repositories
         public IEnumerable<SectionFlag> GetAllForCustomerPriceIndex()
         {
             return DbSet.Where(sf => sf.SectionId == (int)SectionEnum.CustomerPriceMatrix).ToList();
+        }
+
+        /// <summary>
+        /// Get Section Flags for Campaign
+        /// </summary>
+        public IEnumerable<SectionFlag> GetAllForCampaign()
+        {
+            return DbSet.Where(sf => sf.SectionId == (int)SectionEnum.Customers && sf.OrganisationId == OrganisationId).ToList();
+        }
+
+        public List<SectionFlag> GetSectionFlagsByOrganisationID(long OID)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
+                
+                return db.SectionFlags.Where(s => s.OrganisationId == OID).ToList();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+
+            }
         }
 
         #endregion

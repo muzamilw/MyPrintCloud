@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -174,13 +175,17 @@
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ActivityRepository.cs" />
+    <Compile Include="Repositories\ActivityTypeRepository.cs" />
     <Compile Include="Repositories\AddressRepository.cs" />
     <Compile Include="Repositories\CampaignRepository.cs" />
     <Compile Include="Repositories\CategoryTerritoryRepository.cs" />
     <Compile Include="Repositories\ChartOfAccountRepository.cs" />
     <Compile Include="Repositories\CmsPageRepository.cs" />
+    <Compile Include="Repositories\CmsSkinPageWidgetParamRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Repositories\CmsSkinPageWidgetRepository.cs" />
-    <Compile Include="Repositories\CmsSkinPageWidgetParamRepository.cs" />
     <Compile Include="Repositories\ColorPalleteRepository.cs" />
     <Compile Include="Repositories\CompanyBannerRepository.cs" />
     <Compile Include="Repositories\CompanyCMYKColorRepository.cs" />
@@ -198,10 +203,18 @@
     <Compile Include="Repositories\CurrencyRepository.cs" />
     <Compile Include="Repositories\EmailEventRepository.cs" />
     <Compile Include="Repositories\FavoriteDesignRepository.cs" />
+    <Compile Include="Repositories\EstimateRepository.cs" />
     <Compile Include="Repositories\GetItemsListViewRepository.cs" />
     <Compile Include="Repositories\GlobalLanguageRepository.cs" />
+    <Compile Include="Repositories\GroupRepository.cs" />
     <Compile Include="Repositories\ImagePermissionRepository.cs" />
+    <Compile Include="Repositories\InquiryAttachmentRepository.cs" />
+    <Compile Include="Repositories\InquiryRepository.cs" />
+    <Compile Include="Repositories\ItemSectionRepository.cs" />
+    <Compile Include="Repositories\MachineRepository.cs" />
     <Compile Include="Repositories\ItemAttachmentRepository.cs" />
+    <Compile Include="Repositories\PipeLineProductRepository.cs" />
+    <Compile Include="Repositories\PipeLineSourceRepository.cs" />
     <Compile Include="Repositories\ProductCategoryItemRepository.cs" />
     <Compile Include="Repositories\ItemStateTaxRepository.cs" />
     <Compile Include="Repositories\ItemRelatedItemRepository.cs" />
@@ -212,15 +225,15 @@
     <Compile Include="Repositories\ItemPriceMatrixRepository.cs" />
     <Compile Include="Repositories\ItemProductDetailRepository.cs" />
     <Compile Include="Repositories\ListingRepository.cs" />
-    <Compile Include="Repositories\OrganisationFileTableViewRepository.cs" />
-    <Compile Include="Repositories\MpcFileTableViewRepository.cs" />
     <Compile Include="Repositories\OrderRepository.cs" />
     <Compile Include="Repositories\PaymentGatewayRepository.cs" />
     <Compile Include="Repositories\PaymentMethodRepository.cs" />
     <Compile Include="Repositories\PhraseFieldRepository.cs" />
     <Compile Include="Repositories\PhraseRespository.cs" />
-    <Compile Include="Repositories\ProductCategoryFileTableViewRepository.cs" />
+    <Compile Include="Repositories\ReportRepository.cs" />
     <Compile Include="Repositories\StateRepository.cs" />
+    <Compile Include="Repositories\CostCenterTypeRepository.cs" />
+    <Compile Include="Repositories\StatusRepository.cs" />
     <Compile Include="Repositories\TemplateBackgroundImagesRepository.cs" />
     <Compile Include="Repositories\TemplateColorStylesRepository.cs" />
     <Compile Include="Repositories\TemplateFontsRepository.cs" />
@@ -236,7 +249,6 @@
     <Compile Include="Repositories\MarkupRepository.cs" />
     <Compile Include="Repositories\PageCategoryRepository.cs" />
     <Compile Include="Repositories\PaperBasisAreaRepository.cs" />
-    <Compile Include="Repositories\PaperSheetRepository.cs" />
     <Compile Include="Repositories\PaperSizeRepository.cs" />
     <Compile Include="Repositories\RaveReviewRepository.cs" />
     <Compile Include="Repositories\RegistrationQuestionRepository.cs" />

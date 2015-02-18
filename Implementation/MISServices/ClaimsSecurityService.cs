@@ -33,6 +33,23 @@ namespace MPC.Implementation.MISServices
                                                 Name = user.FullName
                                             }),
                                         typeof(NameClaimValue).AssemblyQualifiedName));
+                
+                if (string.IsNullOrEmpty(user.Id))
+                {
+                    return;
+                }
+
+                Guid userId;
+                if (Guid.TryParse(user.Id, out userId))
+                {
+                    claimsIdentity.AddClaim(new Claim(MpcClaimTypes.SystemUser,
+                        ClaimHelper.Serialize(
+                            new SystemUserClaimValue
+                            {
+                                SystemUserId = userId
+                            }),
+                        typeof(SystemUserClaimValue).AssemblyQualifiedName));        
+                }
             }
         }
         
@@ -45,7 +62,9 @@ namespace MPC.Implementation.MISServices
             List<AccessRight> accessRights = user.RoleSections.SelectMany(roleSection => roleSection.Section.AccessRights).ToList();
             foreach (AccessRight accessRight in accessRights)
             {
+// ReSharper disable SuggestUseVarKeywordEvident
                 Claim claim = new Claim(MpcClaimTypes.AccessRight,
+// ReSharper restore SuggestUseVarKeywordEvident
                                         ClaimHelper.Serialize(
                                             new AccessRightClaimValue 
                                             { 
@@ -65,7 +84,9 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private static void AddRoleClaims(MisUser user, ClaimsIdentity claimsIdentity)
         {
+// ReSharper disable SuggestUseVarKeywordEvident
             Claim claim = new Claim(MpcClaimTypes.MisRole,
+// ReSharper restore SuggestUseVarKeywordEvident
                                         ClaimHelper.Serialize(
                                             new MisRoleClaimValue { Role = user.Role }),
                                         typeof(MisRoleClaimValue).AssemblyQualifiedName);
@@ -73,11 +94,34 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
+        /// Adds Trail User Claims
+        /// </summary>
+        private static void AddTrialUserClaims(MisUser user, ClaimsIdentity claimsIdentity)
+        {
+            // ReSharper disable once SuggestUseVarKeywordEvident
+            Claim isTrialClaim = new Claim(MpcClaimTypes.IsTrial,
+                                        ClaimHelper.Serialize(
+                                            new IsTrialClaimValue{ IsTrial = user.IsTrial }),
+                                        typeof(IsTrialClaimValue).AssemblyQualifiedName);
+
+            // ReSharper disable once SuggestUseVarKeywordEvident
+            Claim trailCountClaim = new Claim(MpcClaimTypes.TrialCount,
+                                        ClaimHelper.Serialize(
+                                            new TrialCountClaimValue { TrialCount = user.TrialCount }),
+                                        typeof(TrialCountClaimValue).AssemblyQualifiedName);
+            claimsIdentity.AddClaim(isTrialClaim);
+            claimsIdentity.AddClaim(trailCountClaim);
+        }
+        
+
+        /// <summary>
         /// Add Organisation Claims
         /// </summary>
         private static void AddOrganisationClaims(MisUser user, ClaimsIdentity claimsIdentity)
         {
+// ReSharper disable SuggestUseVarKeywordEvident
             Claim claim = new Claim(MpcClaimTypes.Organisation,
+// ReSharper restore SuggestUseVarKeywordEvident
                                         ClaimHelper.Serialize(
                                             new OrganisationClaimValue { OrganisationId = user.OrganisationId }),
                                         typeof(OrganisationClaimValue).AssemblyQualifiedName);
@@ -91,15 +135,14 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Add User Claims
         /// </summary>
-        /// <param name="user"></param>
-        /// <param name="claimsIdentity"></param>
         private void AddUserClaims(MisUser user, ClaimsIdentity claimsIdentity)
         {
             AddRoleClaims(user, claimsIdentity);
             AddOrganisationClaims(user, claimsIdentity);
             AddAccessRightClaims(user, claimsIdentity);
+            AddTrialUserClaims(user, claimsIdentity);
         }
-        
+
         #endregion
         
         #region Public
@@ -174,7 +217,18 @@ namespace MPC.Implementation.MISServices
             }
         }
 
-
+        /// <summary>
+        /// Sets claims for trial user
+        /// </summary>
+        public void GetTrialUserClaims(ref Boolean isTrial, ref int count)
+        {
+            IsTrialClaimValue trialClaimValue = ClaimHelper.GetClaimsByType<IsTrialClaimValue>(MpcClaimTypes.IsTrial).FirstOrDefault();
+            TrialCountClaimValue countClaimValue = ClaimHelper.GetClaimsByType<TrialCountClaimValue>(MpcClaimTypes.TrialCount).FirstOrDefault();
+            if (trialClaimValue != null)
+                isTrial = trialClaimValue.IsTrial;
+            if (countClaimValue != null)
+                count = countClaimValue.TrialCount;
+        }
         /// <summary>
         /// Identity provider as supplied by ACS
         /// </summary>

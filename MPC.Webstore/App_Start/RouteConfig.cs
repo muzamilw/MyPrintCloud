@@ -25,11 +25,31 @@ namespace MPC.Webstore
                  , new { controller = "Domain", action = "updateCache", name = "" });
 
 
+            routes.MapRoute("Orderhistory"
+              , "ProductOrderHistory"
+              , new { controller = "ProductOrderHistory", action = "Index", name = "" });
+
             routes.MapRoute("store"
                  , "store/{name}"
                  , new { controller = "Domain", action = "Index", name = "" });
 
-    
+            routes.MapRoute(
+           "ContactDetail",
+           "ContactDetail",
+           new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+        );
+
+            routes.MapRoute(
+           "RequestQuote",
+           "RequestQuote",
+           new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+        );
+
+            routes.MapRoute(
+           "orderPolicy",
+           "PersonalDetailAndOrderPolicy/SaveOrderPolicy",
+           new { controller = "PersonalDetailAndOrderPolicy", action = "SaveOrderPolicy", id = UrlParameter.Optional }
+        );
 
             routes.MapRoute(
              "AllProducts",
@@ -93,6 +113,11 @@ namespace MPC.Webstore
               new { controller = "Home", action = "Index", CategoryId = UrlParameter.Optional, ItemId = UrlParameter.Optional, ItemMode = UrlParameter.Optional, TemplateId = UrlParameter.Optional }
              );
             routes.MapRoute(
+              "ProductOptionCostCentre",
+              "ProductOptions/GetDateTimeString",
+              new { controller = "ProductOptions", action = "GetDateTimeString"}
+             );
+            routes.MapRoute(
              "MarketingBrief",
              "MarketingBrief/{ProductName}/{ItemID}",
              new { controller = "Home", action = "Index", ProductName = UrlParameter.Optional, ItemID = UrlParameter.Optional }
@@ -140,7 +165,16 @@ namespace MPC.Webstore
              "CloneItem/{id}",
              new { controller = "Category", action = "CloneItem", id = UrlParameter.Optional }
                );
-
+            routes.MapRoute(
+            "EditDesign",
+            "EditDesign/{DesignState}/{EditType}/{ItemID}/{TemplateId}",
+            new { controller = "ProductDetail", action = "EditDesign", DesignState = UrlParameter.Optional, EditType = UrlParameter.Optional,ItemID = UrlParameter.Optional, TemplateId = UrlParameter.Optional }
+              );
+              routes.MapRoute(
+            "RemoveProduct",
+            "RemoveProduct/{ItemID}/{OrderID}",
+            new { controller = "ShopCart", action = "RemoveProduct",ItemID = UrlParameter.Optional, OrderID = UrlParameter.Optional }
+              );
       
             routes.MapRoute(
                "Default", // Route name

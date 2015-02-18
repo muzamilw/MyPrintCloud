@@ -1,0 +1,419 @@
+﻿<div class="row edit-pertial">
+
+    <div class="row" id="prefixesdata" style="float:right;">
+        <div class="input-group">
+
+            <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="closeBtn"><i class="fa fa-times fa-lg"></i>&nbsp;Close</button>
+            <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn">
+                <i class="fa fa-floppy-o fa-lg"></i>&nbsp;Save
+            </button>
+
+            <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn"><i class="fa fa-minus-circle fa-lg"></i>&nbsp;Delete</button>
+            <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn"><i class="fa fa-print fa-lg"></i>&nbsp;Print</button>
+            <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn"><i class="fa fa-envelope fa-lg"></i>&nbsp;Post</button>
+
+        </div>
+    </div>
+    <div class="row" id="user-profile">
+        <div class="col-lg-12 col-md-8 col-sm-8">
+            <div class="main-box clearfix">
+                <div class="col-lg-12 form-horizontal" style="padding:30px;">
+                    <h3 class="group-header">General Information</h3>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <div class="col-lg-4 text-right">
+                                <div class="bs-example-tooltips tooltip-float-width">
+                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Customer for Estimate" data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                    </a>
+                                </div>
+
+                                <label class="control-label tooltip-float">Supplier</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <div>
+                                    <input type="text" class="form-control OpenStockPopup-Class1" id="txtStock" disabled="disabled" value="Total Goldwell Tools" style="width:80%;" />
+                                    <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right">
+                                        <i class="fa fa-lg"></i>&nbsp;....
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-4 text-right">
+                                <div class="bs-example-tooltips tooltip-float-width">
+                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Contact of Company." data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                    </a>
+                                </div>
+                                <label class="control-label text-right tooltip-float">Attention</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <select class="form-control">
+                                    <option>John  Methews</option>
+                                    <option>Richard</option>
+                                    <option>Smith</option>
+                                    <option>John</option>
+                                    <option>Lucas</option>
+                                </select>
+
+                                <span class="help-block text-right"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-4 text-right">
+                                <div class="bs-example-tooltips tooltip-float-width">
+                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Telephone" data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                    </a>
+                                </div>
+
+                                <label class="control-label tooltip-float">Telephone</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <div>
+                                    <input type="text" disabled="disabled" value="111-222-333" class="form-control" id="telephone">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-4 text-right">
+                                <div class="bs-example-tooltips tooltip-float-width">
+                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Email" data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                    </a>
+                                </div>
+
+                                <label class="control-label tooltip-float">Email</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <div>
+                                    <input type="text" disabled="disabled" value="total@goldwell.com" class="form-control" id="email">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-4 text-right">
+                                <div class="bs-example-tooltips tooltip-float-width">
+                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Estimate Title" data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                    </a>
+                                </div>
+
+                                <label class="control-label tooltip-float">Order Ref. No</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <div>
+                                    <input type="text" value="Double-Sided A4" placeholder="Enter Estimate Title" class="form-control" id="Estimateitle" />
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <div class="col-lg-5 text-right">
+                                <div class="bs-example-tooltips tooltip-float-width">
+                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Estimate Flag." data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                    </a>
+                                </div>
+                                <label class="control-label text-right tooltip-float">Status</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <span style="font-weight:bold;font-size:15px;color:red;">Awaiting Invoice </span>
+                                <span class="help-block text-right"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-5 text-right">
+                                <div class="bs-example-tooltips tooltip-float-width">
+                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Estimate Flag." data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                    </a>
+                                </div>
+                                <label class="control-label text-right tooltip-float">Delivery Flag</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <select class="form-control">
+                                    <option>Hight Priority</option>
+                                    <option>Normal</option>
+                                    <option>Convert to Order</option>
+                                    <option>Posted Invoice</option>
+                                    <option>Cancelled Invoice</option>
+                                    <option>Awaiting Invoice</option>
+                                </select>
+                                <span class="help-block text-right"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-5 text-right">
+                                <div class="bs-example-tooltips tooltip-float-width">
+                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Source for Estimate." data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                    </a>
+                                </div>
+                                <label class="control-label text-right tooltip-float">Purchase Date</label>
+                            </div>
+                            <div class="col-lg-6" style="height:45px;">
+
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input type="text" class="form-control" id="datepickerDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-5 text-right">
+                                <div class="bs-example-tooltips tooltip-float-width">
+                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Estimate Flag." data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                    </a>
+                                </div>
+                                <label class="control-label text-right tooltip-float">Type</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <select class="form-control">
+                                    <option>Hight Priority</option>
+                                    <option>Normal</option>
+                                    <option>Convert to Order</option>
+                                    <option>Posted Invoice</option>
+                                    <option>Cancelled Invoice</option>
+                                    <option>Awaiting Invoice</option>
+                                </select>
+                                <span class="help-block text-right"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" id="Carriers-PO">
+                            <div class="col-lg-5 text-right">
+                                <div class="bs-example-tooltips tooltip-float-width">
+                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Source for Estimate." data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                    </a>
+                                </div>
+                                <label class="control-label text-right tooltip-float">Carriers</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <select class="form-control">
+                                    <option>Lucas Eyre</option>
+                                    <option>Mark Temp</option>
+                                    <option>Smit Jones</option>
+                                    <option>Stephen</option>
+                                    <option>Gary McCutting</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="form-group" id="DeliveryDate-PO">
+                            <div class="col-lg-5 text-right">
+                                <div class="bs-example-tooltips tooltip-float-width">
+                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Source for Estimate." data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                    </a>
+                                </div>
+                                <label class="control-label text-right tooltip-float">Delivery Date</label>
+                            </div>
+                            <div class="col-lg-6" style="height:45px;">
+
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input type="text" class="form-control" id="datepickerDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" id="Reference1-PO">
+                            <div class="col-lg-5 text-right">
+                                <div class="bs-example-tooltips tooltip-float-width">
+                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select estimate date." data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                    </a>
+                                </div>
+                                <label class="control-label text-right tooltip-float">Refrence 1</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" id="datepickerDate">
+
+                            </div>
+                        </div>
+                        <div class="form-group" id="Reference2-PO">
+                            <div class="col-lg-5 text-right">
+                                <div class="bs-example-tooltips tooltip-float-width">
+                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select estimate date." data-original-title="" title="">
+                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                    </a>
+                                </div>
+                                <label class="control-label text-right tooltip-float">Refrence 2</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" id="datepickerDate">
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    @* <div class="col-lg-9 form-horizontal">*@
+
+                    @*</div>*@
+                </div>
+                <div class="col-lg-12 form-horizontal" style="margin-top: -18px;">
+                    <div>
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-primary dropdown-toggle" style="float: right; margin-bottom: 3px;" data-toggle="dropdown">Add New Product <span class="caret"></span></button>
+                                @*<ul class="dropdown-menu">
+                                    <li><a href="#">From Retail Store</a></li>
+                                    <li><a href="#">Cost Center</a></li>
+                                    <li><a href="#">Inventory Item</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Separated link</a></li>
+                                    </ul>*@
+                            </div>
+                        </div>
+                        <h3 class="group-header" style="margin-top: -21px;">Invoiced  Items</h3>
+
+                    </div>
+                    <div class="form-group" style="margin-top: -43px;">
+
+                        <div class="col-lg-12">
+                            <div class="col-lg-12 clearfix">
+                                <header class="main-box-header clearfix">
+                                    <div class="filter-block pull-right">
+
+                                    </div>
+                                </header>
+                                <div class="main-box-body clearfix">
+                                    <div class="partial-PO">
+                                        @Html.Partial("_partialPurchaseorderOP")
+                                    </div>
+                                    <div class="partial-GRN">
+                                        @Html.Partial("_partialPurchaseorderGRN")
+                                    </div>
+                                    <div class="col-lg-12 form-horizontal">
+                                        <div class="col-lg-6">
+                                            <div class="form-group" style="margin-left:-4px;">
+                                                <div class="col-lg-4 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select estimate date." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label class="control-label text-right tooltip-float">Comments</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" id="datepickerDate">
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group" style="margin-left:-4px;">
+                                                <div class="col-lg-4 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Source for Estimate." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label class="control-label text-right tooltip-float">Raised By</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <select class="form-control">
+                                                        <option>Lucas Eyre</option>
+                                                        <option>Mark Temp</option>
+                                                        <option>Smit Jones</option>
+                                                        <option>Stephen</option>
+                                                        <option>Gary McCutting</option>
+                                                    </select>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group" style="margin-left:-4px;">
+                                                <div class="col-lg-4 text-right">
+
+                                                    <label class="control-label text-right tooltip-float">Total Price</label>
+                                                </div>
+                                                <div class="col-lg-6">
+
+                                                    <label class="control-label text-right tooltip-float">$ 0</label>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" style="margin-left:-4px;">
+                                                <div class="col-lg-4 text-right">
+
+                                                    <label class="control-label text-right tooltip-float">Discount</label>
+                                                </div>
+                                                <div class="col-lg-6">
+
+                                                    <div class="input-group">
+
+                                                        <input type="text" class="form-control" id="datepickerDate" style="width:50%;">
+
+                                                        <select class="form-control" style="width:110px;">
+                                                            <option>%</option>
+                                                            <option>Currency</option>
+
+                                                        </select>
+                                                        <span class="help-block text-right"></span>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" style="margin-left:-4px;">
+                                                <div class="col-lg-4 text-right">
+
+                                                    <label class="control-label text-right tooltip-float">Net total</label>
+                                                </div>
+                                                <div class="col-lg-6">
+
+                                                    <label class="control-label text-right tooltip-float">$ 0</label>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" style="margin-left:-4px;">
+                                                <div class="col-lg-4 text-right">
+
+                                                    <label class="control-label text-right tooltip-float">Total Tax</label>
+                                                </div>
+                                                <div class="col-lg-6">
+
+                                                    <label class="control-label text-right tooltip-float">$ 0</label>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" style="margin-left:-4px;">
+                                                <div class="col-lg-4 text-right">
+
+                                                    <label class="control-label text-right tooltip-float">Grand Total</label>
+                                                </div>
+                                                <div class="col-lg-6">
+
+                                                    <label class="control-label text-right tooltip-float">$ 0</label>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

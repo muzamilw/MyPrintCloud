@@ -20,7 +20,7 @@ namespace MPC.Models.DomainModels
         public int DefaultNominalCode { get; set; }
         public int DefaultMarkUpId { get; set; }
         public DateTime? AccountOpenDate { get; set; }
-        public int AccountManagerId { get; set; }
+        public Guid? AccountManagerId { get; set; }
         public short Status { get; set; }
         public short IsCustomer { get; set; }
         public string Notes { get; set; }
@@ -95,15 +95,14 @@ namespace MPC.Models.DomainModels
         public bool? includeEmailBrokerArtworkOrderXML { get; set; }
         public bool? includeEmailBrokerArtworkOrderJobCard { get; set; }
         public bool? makeEmailBrokerArtworkOrderProductionReady { get; set; }
-        public long? SalesAndOrderManagerId1 { get; set; }
-        public long? SalesAndOrderManagerId2 { get; set; }
-        public long? ProductionManagerId1 { get; set; }
-        public long? ProductionManagerId2 { get; set; }
-        public long? StockNotificationManagerId1 { get; set; }
-        public long? StockNotificationManagerId2 { get; set; }
+        public Guid? SalesAndOrderManagerId1 { get; set; }
+        public Guid? SalesAndOrderManagerId2 { get; set; }
+        public Guid? ProductionManagerId1 { get; set; }
+        public Guid? ProductionManagerId2 { get; set; }
+        public Guid? StockNotificationManagerId1 { get; set; }
+        public Guid? StockNotificationManagerId2 { get; set; }
         public bool? IsDeliveryTaxAble { get; set; }
         public bool? IsDisplayDeliveryOnCheckout { get; set; }
-        public long? DeliveryPickUpAddressId { get; set; }
         public double? TaxRate { get; set; }
         public bool? IsDisplayDiscountVoucherCode { get; set; }
         public bool? IsDisplayCorporateBinding { get; set; }
@@ -150,6 +149,11 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<StockItem> StockItems { get; set; }
         public virtual ICollection<CmsOffer> CmsOffers { get; set; }
         public virtual ICollection<MediaLibrary> MediaLibraries { get; set; }
+        public virtual ICollection<CompanyCostCentre> CompanyCostCentres { get; set; }
+        public virtual ICollection<Activity> Activities { get; set; }
+        public virtual ICollection<SmartForm> SmartForms { get; set; }
+        public virtual ICollection<Invoice> Invoices { get; set; }
+        public virtual ICollection<FieldVariable> FieldVariables { get; set; }
 
         #region Additional Properties
       

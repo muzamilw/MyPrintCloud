@@ -3,9 +3,9 @@
         <div class="row" data-bind="with: selectedProduct">
             <div class="col-lg-12">
                 <div class="clearfix">
-                    <div class="pull-left">
-                        <a id="validationSummary" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Validation Summary', elementNode: 'validationSummaryPopup', popoverId: 'validationSummaryPopoverBody' }" style="display: none">Validation Summary</a>
-                        <div class="well well-small" id="validationSummaryPopup" style="display: none">
+                    <div class="pull-left validationSummaryContainer">
+                        <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopup', popoverId: 'validationSummaryPopoverBody' }" style="display: none">Validation Errors</a>
+                        <div class="well well-small validationSummaryModal" id="validationSummaryPopup" style="display: none">
                             <div id="validationSummaryPopoverBody">
                                 <ul data-bind="foreach: $root.errorList">
                                     <li>
@@ -25,7 +25,7 @@
         <div>&nbsp;</div>
         <div class="row" id="user-profile">
             <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="main-box clearfix">
+                <div class="main-box clearfix my-tabsHeader">
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs" data-bind="with: selectedProduct">
                             <li class="active"><a href="#tab-ProdNameAndImages" data-toggle="tab">Basic Details</a></li>
@@ -174,10 +174,8 @@
 
                                             </div>
                                             <div class="col-lg-6">
-                                                <label for="txtCompanyName" class="control-label">Home > Business Cards </label>
-                                                <label for="txtCompanyName" class="control-label">Home > Stationary Marketing > Marketing Material </label>
-                                                <label for="txtCompanyName" class="control-label">Home > Letter Heads </label>
-
+                                                <label class="control-label" data-bind="text: availableProductCategoryItems">
+                                                </label>
                                             </div>
                                         </div>
 
@@ -198,8 +196,8 @@
                                                 <div class="col-xs-1">  </div>
                                                 <div class="col-xs-6">
                                                     @*<a data-toggle="modal" href="#myModalss" class=" pull-right">
-                                                            <i class="fa fa-lg"></i>&nbsp;Create a new Category
-                                                        </a>*@
+                                                <i class="fa fa-lg"></i>&nbsp;Create a new Category
+                                            </a>*@
                                                 </div>
 
                                             </div>
@@ -214,25 +212,17 @@
                                                 <div class="profile-status">
 
                                                 </div>
-                                                <img src="~/Content/themes/Centaurus/img/samples/thumbnail2.png" alt="" class="profile-img img-responsive center-block" />
+                                                <img src="" alt="" data-bind="attr: { src: thumbnail }" class="profile-img img-responsive center-block" />
                                                 <div class="profile-label">
-                                                    <span class="label label-danger">Active</span>
-                                                </div>
-                                                <div class="profile-stars">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <span></span>
+                                                    <span class="label label-danger" data-bind="text: isArchived() ? 'In-Active' : 'Active', css:{ 'label-danger': isArchived, 'label-danger': !isArchived() }">Active</span>
                                                 </div>
                                                 <div class="profile-since">
 
                                                 </div>
                                                 <div class="profile-details">
                                                     <ul class="fa-ul">
-                                                        <li><i class="fa-li fa fa-cloud"></i>Published: <i class="fa" data-bind="css:{ 'fa-check': isPublished }"></i>  </li>
-                                                        <li><i class="fa-li fa fa-archive"></i>Enables: <i class="fa" data-bind="css:{ 'fa-check': isEnabled }"></i></li>
+                                                        <li><i class="fa-li fa fa-cloud"></i>Published: <i class="fa" data-bind="css:{ 'fa-check': isPublished, 'fa-times': !isPublished() }"></i>  </li>
+                                                        <li><i class="fa-li fa fa-archive"></i>Enables: <i class="fa" data-bind="css:{ 'fa-check': isEnabled, 'fa-times': !isEnabled() }"></i></li>
 
                                                     </ul>
                                                 </div>
@@ -427,19 +417,19 @@
                                     <div class="col-md-9">
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                <label for="txtCompanyName" class="control-label text-right"></label>
+                                                <label class="control-label text-right"></label>
 
                                             </div>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-9" data-bind="with: itemProductDetail">
                                                 <div class="radio">
-                                                    <input type="radio" name="optionsRadiosPrint" id="optionPrintYes" value="option1">
-                                                    <label for="optionPrintYes">
+                                                    <input type="radio" name="sectionOptionsRadiosPrint" id="sectionOptionPrintYes" data-bind="checked: isPrintItemUi" value="2">
+                                                    <label for="sectionOptionPrintYes">
                                                         No Print - No Signatures required ( no section need to be define)
                                                     </label>
                                                 </div>
                                                 <div class="radio">
-                                                    <input type="radio" name="optionsRadiosPrint" id="optionPrintNo" value="option2" checked>
-                                                    <label for="optionPrintNo">
+                                                    <input type="radio" name="sectionOptionsRadiosPrint" id="sectionOptionPrintNo" value="1" data-bind="checked: isPrintItemUi">
+                                                    <label for="sectionOptionPrintNo">
                                                         Digital Litho Print Paginations
                                                     </label>
                                                 </div>
@@ -448,7 +438,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-group" data-bind="visible: itemProductDetail().isPrintItemUi() === '1'">
                                             <div class="col-lg-3 text-right">
 
 
@@ -458,11 +448,11 @@
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" data-bind="visible: itemProductDetail().isPrintItemUi() === '1'">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Unique Signatures" data-original-title="" title="">
+                                                    <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Unique Signatures" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -474,15 +464,15 @@
                                             </div>
                                             <div class="col-lg-9">
                                                 <div class="col-xs-2">
-                                                    <input type="text" disabled="disabled" style="width:95px;" class="form-control" id="txtSection" value="1">
+                                                    <input type="text" disabled="disabled" style="width:95px;" class="form-control" id="txtSection" data-bind="value: itemSections().length">
                                                     <span style="width:100px;" class="help-block text-right">(up to 5 Permitted)</span>
 
                                                 </div>
                                                 <div class="col-xs-2" style="width:15%;">
-                                                    <button id="AddSection" type="button" style="float:left;" onclick="AddNewSection();" class="btn btn-success">
+                                                    <button id="AddSection" type="button" style="float:left;" data-bind="visible: canAddItemSection, click: addItemSection" class="btn btn-success">
                                                         <span class="fa"></span> +
                                                     </button>
-                                                    <button id="RemoveSection" type="button" style="float:right;display:none;" onclick="RemoveSection();" class="btn btn-danger">
+                                                    <button id="RemoveSection" type="button" style="float:right;display:none;" data-bind="visible: canRemoveItemSection, click: removeItemSection" class="btn btn-danger">
                                                         <span class="fa"></span>
                                                         -
                                                     </button>
@@ -494,290 +484,243 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12" style="margin-bottom:10px; margin-left:19%;">
-
+                                    <div class="col-lg-9" style="margin-bottom:10px; margin-left:19%;" data-bind="visible: itemProductDetail().isPrintItemUi() === '1'">
                                         <div id="mainDivSections">
-                                            <div class="col-xs-2">
-                                                <div id="Sec1">
-
-                                                    <input type="text" style="width:100px;float: left;" class="form-control" id="txtSectionName" value="Section 1">
-
-
-                                                    <a data-toggle="modal" href="#SigntureEdit" class="btn btn-primary pull-right">
-                                                        <i class="fa fa-lg"></i>&nbsp;....
-                                                    </a>
-
+                                            <!-- ko foreach: itemSections -->
+                                            <div class="col-xs-3">
+                                                <div class="col-xs-8">
+                                                    <input type="text" id="detailSectionName" class="form-control" data-bind="value: name, validationToolTip: name, validationOnElement: name">
                                                 </div>
-                                            </div>
-                                            <div class="col-xs-2">
-                                                <div id="Sec2" style="display:none;">
-                                                    <input type="text" style="width:100px;float: left;" class="form-control" id="txtSectionName" value="Section 2">
-
-
-                                                    <a data-toggle="modal" href="#SigntureEdit" class="btn btn-primary pull-right">
-                                                        <i class="fa fa-lg"></i>&nbsp;....
-                                                    </a>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-2">
-                                                <div id="Sec3" style="display:none;">
-
-                                                    <input type="text" style="width:100px;float: left;" class="form-control" id="txtSectionName" value="Section 3">
-
-
-                                                    <a data-toggle="modal" href="#SigntureEdit" class="btn btn-primary pull-right">
-                                                        <i class="fa fa-lg"></i>&nbsp;....
-                                                    </a>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-2">
-                                                <div id="Sec4" style="display:none;">
-                                                    <input type="text" style="width:100px;float: left;" class="form-control" id="txtSectionName" value="Section 4">
-
-
-                                                    <a data-toggle="modal" href="#SigntureEdit" class="btn btn-primary pull-right">
+                                                <div class="col-xs-4">
+                                                    <a href="#" data-bind="click: $root.editSectionSignature" class="btn btn-primary pull-right">
                                                         <i class="fa fa-lg"></i>&nbsp;....
                                                     </a>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-2">
-                                                <div id="Sec5" style="display:none;">
-
-                                                    <input type="text" style="width:100px;float: left;" class="form-control" id="txtSectionName" value="Section 5">
-
-
-                                                    <a data-toggle="modal" href="#SigntureEdit" class="btn btn-primary pull-right">
-                                                        <i class="fa fa-lg"></i>&nbsp;....
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-2"></div>
+                                            <!-- /ko -->
                                         </div>
-
                                     </div>
 
 
 
                                     @*<div class="col-lg-9">
-                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
-                                                      <div class="bs-example-tooltips tooltip-float-width">
+                                 <div class="form-group">
+                                    <div class="col-lg-3 text-right">
+                                          <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enable Stock Label" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enable Stock Label" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
-                                                     </div>
-
-
+                                         </div>
 
 
 
-                                                    <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Enable stock level</label>
-
-                                                </div>
-
-                                                <div class="col-lg-6">
-                                                      <div class="onoffswitch">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchStockLevelProduct" checked>
-                                                        <label class="onoffswitch-label" for="switchStockLevelProduct">
-                                                            <div class="onoffswitch-inner"></div>
-                                                            <div class="onoffswitch-switch"></div>
-                                                        </label>
-                                                    </div>
-                                                    <span class="help-block text-right"></span>
-                                                </div>
-                                             </div>
-                                                <div class="form-group">
-                                                    <div class="col-lg-3 text-right">
-                                                          <div class="bs-example-tooltips tooltip-float-width">
-
-                                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Quantities in Stock" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-
-                                                     </div>
 
 
-                                                        <label  class="control-label text-right tooltip-float">Quantity in Stock</label>
+                                        <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Enable stock level</label>
 
-                                                    </div>
-                                                    <div class="col-lg-9">
-                                                          <div style="width: 161px;">
+                                    </div>
 
-                                                      <input type="text" style="width:100px; float:left;" class="form-control" id="txtStockQty"  value="15">
+                                    <div class="col-lg-6">
+                                          <div class="onoffswitch">
+                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchStockLevelProduct" checked>
+                                            <label class="onoffswitch-label" for="switchStockLevelProduct">
+                                                <div class="onoffswitch-inner"></div>
+                                                <div class="onoffswitch-switch"></div>
+                                            </label>
+                                        </div>
+                                        <span class="help-block text-right"></span>
+                                    </div>
+                                 </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-3 text-right">
+                                              <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        @Html.Partial("Product/_AddStockQty")
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Quantities in Stock" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
-                                                      </div>
-
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
-                                                </div>
-                                               <div class="form-group">
-                                                        <div class="col-lg-3 text-right">
-                                                              <div class="bs-example-tooltips tooltip-float-width">
-
-                                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Thershold Quantity " data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-
-                                                     </div>
+                                         </div>
 
 
+                                            <label  class="control-label text-right tooltip-float">Quantity in Stock</label>
 
-                                                            <label  class="control-label text-right tooltip-float">Thershold Quantity</label>
+                                        </div>
+                                        <div class="col-lg-9">
+                                              <div style="width: 161px;">
 
-                                                        </div>
-                                                        <div class="col-lg-9">
-                                                            <input type="text" style="width:100px;" class="form-control" id="txtTHQty"  value="31">
-                                                            <span class="help-block text-right"></span>
-                                                        </div>
-                                               </div>
-                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
+                                          <input type="text" style="width:100px; float:left;" class="form-control" id="txtStockQty"  value="15">
 
-                                                              <div class="bs-example-tooltips tooltip-float-width">
+                                            @Html.Partial("Product/_AddStockQty")
 
-                                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Allow Back Order " data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                          </div>
 
-                                                             </div>
+                                            <span class="help-block text-right"></span>
+                                        </div>
+                                    </div>
+                                   <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                  <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <label class="control-label tooltip-float" for="switchFeaturedProduct">Allow Back Order</label>
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Thershold Quantity " data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
-                                                </div>
+                                         </div>
 
-                                                <div class="col-lg-6">
-                                                      <div class="onoffswitch">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchAlowBackOrder" checked>
-                                                        <label class="onoffswitch-label" for="switchAlowBackOrder">
-                                                            <div class="onoffswitch-inner"></div>
-                                                            <div class="onoffswitch-switch"></div>
-                                                        </label>
-                                                    </div>
-                                                    <span class="help-block text-right"></span>
-                                                </div>
-                                             </div>
-                                             <div class="form-group">
-                                                        <div class="col-lg-3 text-right">
 
-                                                              <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Stock Level History " data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                <label  class="control-label text-right tooltip-float">Thershold Quantity</label>
 
-                                                             </div>
-                                                            <label  class="control-label tooltip-float">Stock Level History</label>
-
-                                                        </div>
-                                                        <div class="col-lg-9">
-                                                              <div class="clearfix">
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                <th><span>Action</span></th>
-                                                                 <th style="width: 78px;"><span>Last Qty</span></th>
-                                                                <th style="width: 102px;"><span>Action Qty</span</th>
-                                                                <th style="text-align:center;"><span>Modified Date</span></th>
-                                                                <th style="width: 100px;">Modified By</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>Added
-                                                                </td>
-                                                                <td>
-                                                                    720
-                                                                </td>
-
-                                                                <td>820
-                                                                </td>
-                                                                <td class="text-center">
-                                                                   <span>15/09/2014</span>
-                                                                </td>
-                                                                <td  class="text-center">
-                                                                   <span >admin</span>
-                                                                </td>
-
-                                                            </tr>
-                                                              <tr>
-                                                                <td>Added
-                                                                </td>
-                                                                <td>
-                                                                    720
-                                                                </td>
-
-                                                                <td>200
-                                                                </td>
-                                                                <td class="text-center">
-                                                                   <span>05/09/2014</span>
-                                                                </td>
-                                                                <td  class="text-center">
-                                                                   <span >admin</span>
-                                                                </td>
-
-                                                            </tr>
-                                                             <tr>
-                                                                <td>Added
-                                                                </td>
-                                                                <td>
-                                                                    920
-                                                                </td>
-
-                                                                <td>300
-                                                                </td>
-                                                                <td class="text-center">
-                                                                   <span>07/09/2014</span>
-                                                                </td>
-                                                                <td  class="text-center">
-                                                                   <span >admin</span>
-                                                                </td>
-
-                                                            </tr>
-                                                             <tr>
-                                                                <td>Added
-                                                                </td>
-                                                                <td>
-                                                                    1220
-                                                                </td>
-
-                                                                <td>70
-                                                                </td>
-                                                                <td class="text-center">
-                                                                   <span>10/09/2014</span>
-                                                                </td>
-                                                                <td class="text-center">
-                                                                   <span >admin</span>
-                                                                </td>
-
-                                                            </tr>
-                                                             <tr>
-                                                                <td>Added
-                                                                </td>
-                                                                <td>
-                                                                    1290
-                                                                </td>
-
-                                                                <td>110
-                                                                </td>
-                                                                <td class="text-center">
-                                                                   <span>01/09/2014</span>
-                                                                </td>
-                                                                <td  class="text-center">
-                                                                   <span >admin</span>
-                                                                </td>
-
-                                                            </tr>
-
-                                                        </tbody>
-                                                    </table>
-                                                </div>
                                             </div>
-                                                        </div>
-                                               </div>
+                                            <div class="col-lg-9">
+                                                <input type="text" style="width:100px;" class="form-control" id="txtTHQty"  value="31">
+                                                <span class="help-block text-right"></span>
+                                            </div>
+                                   </div>
+                                 <div class="form-group">
+                                    <div class="col-lg-3 text-right">
 
-                                        </div>*@
+                                                  <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Allow Back Order " data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+
+                                                 </div>
+
+                                        <label class="control-label tooltip-float" for="switchFeaturedProduct">Allow Back Order</label>
+
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                          <div class="onoffswitch">
+                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchAlowBackOrder" checked>
+                                            <label class="onoffswitch-label" for="switchAlowBackOrder">
+                                                <div class="onoffswitch-inner"></div>
+                                                <div class="onoffswitch-switch"></div>
+                                            </label>
+                                        </div>
+                                        <span class="help-block text-right"></span>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+
+                                                  <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Stock Level History " data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+
+                                                 </div>
+                                                <label  class="control-label tooltip-float">Stock Level History</label>
+
+                                            </div>
+                                            <div class="col-lg-9">
+                                                  <div class="clearfix">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th><span>Action</span></th>
+                                                     <th style="width: 78px;"><span>Last Qty</span></th>
+                                                    <th style="width: 102px;"><span>Action Qty</span</th>
+                                                    <th style="text-align:center;"><span>Modified Date</span></th>
+                                                    <th style="width: 100px;">Modified By</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Added
+                                                    </td>
+                                                    <td>
+                                                        720
+                                                    </td>
+
+                                                    <td>820
+                                                    </td>
+                                                    <td class="text-center">
+                                                       <span>15/09/2014</span>
+                                                    </td>
+                                                    <td  class="text-center">
+                                                       <span >admin</span>
+                                                    </td>
+
+                                                </tr>
+                                                  <tr>
+                                                    <td>Added
+                                                    </td>
+                                                    <td>
+                                                        720
+                                                    </td>
+
+                                                    <td>200
+                                                    </td>
+                                                    <td class="text-center">
+                                                       <span>05/09/2014</span>
+                                                    </td>
+                                                    <td  class="text-center">
+                                                       <span >admin</span>
+                                                    </td>
+
+                                                </tr>
+                                                 <tr>
+                                                    <td>Added
+                                                    </td>
+                                                    <td>
+                                                        920
+                                                    </td>
+
+                                                    <td>300
+                                                    </td>
+                                                    <td class="text-center">
+                                                       <span>07/09/2014</span>
+                                                    </td>
+                                                    <td  class="text-center">
+                                                       <span >admin</span>
+                                                    </td>
+
+                                                </tr>
+                                                 <tr>
+                                                    <td>Added
+                                                    </td>
+                                                    <td>
+                                                        1220
+                                                    </td>
+
+                                                    <td>70
+                                                    </td>
+                                                    <td class="text-center">
+                                                       <span>10/09/2014</span>
+                                                    </td>
+                                                    <td class="text-center">
+                                                       <span >admin</span>
+                                                    </td>
+
+                                                </tr>
+                                                 <tr>
+                                                    <td>Added
+                                                    </td>
+                                                    <td>
+                                                        1290
+                                                    </td>
+
+                                                    <td>110
+                                                    </td>
+                                                    <td class="text-center">
+                                                       <span>01/09/2014</span>
+                                                    </td>
+                                                    <td  class="text-center">
+                                                       <span >admin</span>
+                                                    </td>
+
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                            </div>
+                                   </div>
+
+                            </div>*@
                                 </div>
 
                             </div>
@@ -883,7 +826,7 @@
                                                 <div class="main-box no-header clearfix">
                                                     <div class="main-box-body clearfix">
                                                         <div class="table-responsive">
-                                                            <table id="tab-pricetable-itemPriceMatrix" class="table table-striped table-hover">
+                                                            <table id="tab-pricetable-itemPriceMatrix" class="table table-striped table-hover pricetable-itemPriceMatrix">
                                                                 <thead>
                                                                     <!-- ko template: { name: 'headerPriceMatrixTemplate' } -->
                                                                     <!-- /ko -->
@@ -1148,7 +1091,7 @@
                                                 </div>
                                             </div>
                                             <!-- /ko -->
-                                            <div class="clearfix" id="supplierTabs">
+                                            <div class="clearfix" id="tabsHeader" style="margin-bottom:10px;">
                                                 <div class="tabs-wrapper profile-tabs">
                                                     <ul class="nav nav-tabs">
                                                         <li class="active"><a href="#tab-supplier1" data-toggle="tab">Supplier 1 Price Table</a></li>
@@ -1163,7 +1106,7 @@
                                                                     <div class="col-lg-9">
                                                                         <div class="clearfix">
                                                                             <div class="table-responsive">
-                                                                                <table class="table table-striped table-hover">
+                                                                                <table class="table table-striped table-hover pricetable-itemPriceMatrix">
                                                                                     <thead>
                                                                                         <!-- ko template: { name: 'headerPriceMatrixTemplate' } -->
                                                                                         <!-- /ko -->
@@ -1188,7 +1131,7 @@
                                                                         <div class="clearfix">
                                                                             <div class="table-responsive">
                                                                                 <div class="table-responsive">
-                                                                                    <table class="table table-striped table-hover">
+                                                                                    <table class="table table-striped table-hover pricetable-itemPriceMatrix">
                                                                                         <thead>
                                                                                             <!-- ko template: { name: 'headerPriceMatrixTemplate' } -->
                                                                                             <!-- /ko -->
@@ -1260,7 +1203,7 @@
                                     </div>
                                     <div class="col-lg-12">
 
-                                        <div class="clearfix" style="border:dotted;border-width:1px; border-color:lightgray;height:387px">
+                                        <div class="clearfix" id="tabsHeader" style="height:387px">
                                             <div class="tabs-wrapper profile-tabs">
                                                 <ul class="nav nav-tabs">
                                                     <li class="active"><a href="#tab-ProdSpec" data-toggle="tab">Product Spec</a></li>
@@ -1715,8 +1658,7 @@
                                                     <label class="control-label text-right tooltip-float">Region</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <select class="form-control" data-bind="options: $root.categoryRegions, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: $root.selectedRegionId">
-                                                    </select>
+                                                    <select class="form-control" data-bind="options: $root.categoryRegions, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: $root.selectedRegionId"></select>
                                                 </div>
                                             </div>
 
@@ -1731,8 +1673,7 @@
                                                     <label for="txtCompanyName" class="control-label text-right tooltip-float">Type</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <select class="form-control" data-bind="options: $root.categoryTypes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: $root.selectedCategoryTypeId">
-                                                    </select>
+                                                    <select class="form-control" data-bind="options: $root.categoryTypes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: $root.selectedCategoryTypeId"></select>
                                                 </div>
                                             </div>
 
@@ -2090,20 +2031,20 @@
     @* Item VdpPrice Template *@
     <script id="itemVdpPriceTemplate" type="text/html">
         <tr>
-            <td class="col-lg-2">
-                <input type="text" class="range-box-control" id="txtZiCodeRangeFrom" data-bind="value: clickRangeFrom" />
+            <td class="col-lg-4">
+                <input type="text" class="range-box-control" id="txtZiCodeRangeFrom" data-bind="value: clickRangeFrom" style="width:47%" />
                 -
-                <input type="text" class="range-box-control " id="txtZiCodeRangeTo" data-bind="value: clickRangeTo" />
+                <input type="text" class="range-box-control " id="txtZiCodeRangeTo" data-bind="value: clickRangeTo" style="width:47%" />
             </td>
 
-            <td class="col-lg-5">
-                <div class="input-group" style="width: 66%;margin-left: 20%;">
+            <td class="col-lg-4">
+                <div class="input-group" style="width: 95%;">
                     <span class="input-group-addon">$</span>
                     <input type="text" class="form-control" id="txtDelvPricePerKilo" data-bind="value: pricePerClick" /><span class="input-group-addon">per click</span>
                 </div>
             </td>
-            <td class="col-lg-5">
-                <div class="input-group" style="width: 59%;margin-left: 20%;">
+            <td class="col-lg-4">
+                <div class="input-group" style="width: 95%;">
                     <span class="input-group-addon">$</span>
                     <input type="text" class="form-control" id="txtMinimumCharge" data-bind="value: setupCharge" /><span class="input-group-addon">.00</span>
                 </div>
@@ -2275,12 +2216,12 @@
                     </div>
                     <div class="col-lg-6">
                         @*<div id="dropzone1" class="dropzonepl" style="min-height: 150px; width: 200px;">
-                            <form id="demo-upload1" class="dropzone dz-clickable" style="min-height: 150px; width: 200px;" action="#">
-                                <div class="dz-default dz-message">
-                                    <span>Drop file here to upload</span>
-                                </div>
-                            </form>
-                        </div>*@
+                                <form id="demo-upload1" class="dropzone dz-clickable" style="min-height: 150px; width: 200px;" action="#">
+                                    <div class="dz-default dz-message">
+                                        <span>Drop file here to upload</span>
+                                    </div>
+                                </form>
+                            </div>*@
                         <div class="pull-left">
                             <img style="min-height: 150px; width: 175px;" data-bind="attr: { src: image }" />
                         </div>
@@ -2478,7 +2419,7 @@
         <tr>
             <td data-bind="visible: $parent.isQtyRangedUi() === '2'">
                 <!-- ko if: !supplierId() -->
-                <input type="text" class="from-control" data-bind="value: quantity" />
+                <input type="text" class="form-control" data-bind="value: quantity" />
                 <!-- /ko -->
                 <!-- ko if: supplierId -->
                 <span data-bind="text: quantity"></span>
@@ -2486,7 +2427,7 @@
             </td>
             <td data-bind="visible: $parent.isQtyRangedUi() === '1'">
                 <!-- ko if: !supplierId() -->
-                <input type="text" class="from-control" data-bind="value: qtyRangedFrom" />
+                <input type="text" class="form-control" data-bind="value: qtyRangedFrom" />
                 <!-- /ko -->
                 <!-- ko if: supplierId -->
                 <span data-bind="text: qtyRangedFrom"></span>
@@ -2494,7 +2435,7 @@
             </td>
             <td data-bind="visible: $parent.isQtyRangedUi() === '1'">
                 <!-- ko if: !supplierId() -->
-                <input type="text" class="from-control" data-bind="value: qtyRangedTo" />
+                <input type="text" class="form-control" data-bind="value: qtyRangedTo" />
                 <!-- /ko -->
                 <!-- ko if: supplierId -->
                 <span data-bind="text: qtyRangedTo"></span>
@@ -2502,57 +2443,57 @@
             </td>
             <!-- ko with: $parent.stockOptionSequence1 -->
             <td>
-                <input type="text" class="from-control" data-bind="value: $parent.pricePaperType1" />
+                <input type="text" class="form-control" data-bind="value: $parent.pricePaperType1" />
             </td>
             <!-- /ko -->
             <!-- ko with: $parent.stockOptionSequence2 -->
             <td>
-                <input type="text" class="from-control" data-bind="value: $parent.pricePaperType2" />
+                <input type="text" class="form-control" data-bind="value: $parent.pricePaperType2" />
             </td>
             <!-- /ko -->
             <!-- ko with: $parent.stockOptionSequence3 -->
             <td>
-                <input type="text" class="from-control" data-bind="value: $parent.pricePaperType3" />
+                <input type="text" class="form-control" data-bind="value: $parent.pricePaperType3" />
             </td>
             <!-- /ko -->
             <!-- ko with: $parent.stockOptionSequence4 -->
             <td>
-                <input type="text" class="from-control" data-bind="value: $parent.priceStockType4" />
+                <input type="text" class="form-control" data-bind="value: $parent.priceStockType4" />
             </td>
             <!-- /ko -->
             <!-- ko with: $parent.stockOptionSequence5 -->
             <td>
-                <input type="text" class="from-control" data-bind="value: $parent.priceStockType5" />
+                <input type="text" class="form-control" data-bind="value: $parent.priceStockType5" />
             </td>
             <!-- /ko -->
             <!-- ko with: $parent.stockOptionSequence6 -->
             <td>
-                <input type="text" class="from-control" data-bind="value: $parent.priceStockType6" />
+                <input type="text" class="form-control" data-bind="value: $parent.priceStockType6" />
             </td>
             <!-- /ko -->
             <!-- ko with: $parent.stockOptionSequence7 -->
             <td>
-                <input type="text" class="from-control" data-bind="value: $parent.priceStockType7" />
+                <input type="text" class="form-control" data-bind="value: $parent.priceStockType7" />
             </td>
             <!-- /ko -->
             <!-- ko with: $parent.stockOptionSequence8 -->
             <td>
-                <input type="text" class="from-control" data-bind="value: $parent.priceStockType8" />
+                <input type="text" class="form-control" data-bind="value: $parent.priceStockType8" />
             </td>
             <!-- /ko -->
             <!-- ko with: $parent.stockOptionSequence9 -->
             <td>
-                <input type="text" class="from-control" data-bind="value: $parent.priceStockType9" />
+                <input type="text" class="form-control" data-bind="value: $parent.priceStockType9" />
             </td>
             <!-- /ko -->
             <!-- ko with: $parent.stockOptionSequence10 -->
             <td>
-                <input type="text" class="from-control" data-bind="value: $parent.priceStockType10" />
+                <input type="text" class="form-control" data-bind="value: $parent.priceStockType10" />
             </td>
             <!-- /ko -->
             <!-- ko with: $parent.stockOptionSequence11 -->
             <td>
-                <input type="text" class="from-control" data-bind="value: $parent.priceStockType11" />
+                <input type="text" class="form-control" data-bind="value: $parent.priceStockType11" />
             </td>
             <!-- /ko -->
         </tr>
@@ -2607,17 +2548,13 @@
         </tr>
     </script>
 
-    <!-- ko with: selectedProduct -->
-    @Html.Partial("_AddVideo")
-    @Html.Partial("_RelatedProductDialog")
-    @Html.Partial("_StockDialog")
-    @Html.Partial("_ItemAddonCostCentre")
-    <!-- /ko -->
-    
-    @Html.Partial("_ProductCategoryDialog")
 
+    <!-- ko with: selectedProduct -->
+    @Html.Partial("~/Areas/Products/Views/Home/_AddVideo.cshtml")
+    @Html.Partial("~/Areas/Products/Views/Home/_RelatedProductDialog.cshtml")
+    @Html.Partial("~/Areas/Products/Views/Home/_ItemAddonCostCentre.cshtml")
+    @Html.Partial("~/Areas/Products/Views/Home/_SignatureEdit.cshtml")
+    @Html.Partial("~/Areas/Products/Views/Home/_PressDialog.cshtml")
+    <!-- /ko -->
+    @Html.Partial("~/Areas/Products/Views/Home/_ProductCategoryDialog.cshtml")
 </div>
-@*  @Html.Partial("Product/_SignatureEdit")
-    @Html.Partial("Widgets/_PhraseLibrary")
-    @Html.Partial("Product/_SelectProductCategory")
-    @Html.Partial("Product/_SelectProductOption")*@

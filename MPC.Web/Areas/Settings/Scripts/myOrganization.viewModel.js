@@ -2,8 +2,9 @@
     Module with the view model for the My Organization.
 */
 define("myOrganization/myOrganization.viewModel",
-    ["jquery", "amplify", "ko", "myOrganization/myOrganization.dataservice", "myOrganization/myOrganization.model", "common/confirmation.viewModel", "common/pagination"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination) {
+    ["jquery", "amplify", "ko", "myOrganization/myOrganization.dataservice", "myOrganization/myOrganization.model", "common/confirmation.viewModel",
+        "common/pagination", "common/sharedNavigation.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM) {
         var ist = window.ist || {};
         ist.myOrganization = {
             viewModel: (function () {
@@ -145,6 +146,7 @@ define("myOrganization/myOrganization.viewModel",
                                 }
                             },
                             error: function () {
+                                view.initializeLabelPopovers();
                                 toastr.error(ist.resourceText.loadBaseDataFailedMsg);
                             }
                         });
@@ -159,6 +161,10 @@ define("myOrganization/myOrganization.viewModel",
                     },
                     // Select a Markup
                     selectMarkup = function (markup) {
+                        if (selectedMarkup() !== undefined && !selectedMarkup().isValid()) {
+                            return;
+                        }
+
                         if (selectedMarkup() !== markup) {
                             //update previous selected item to orginal markup list
                             if (selectedMarkup() !== undefined) {
@@ -179,6 +185,10 @@ define("myOrganization/myOrganization.viewModel",
                     },
                     // Select a Chart Of Accounts
                     selectChartOfAccounts = function (chartOfAcc) {
+
+                        if (selectedChartOfAccounts() !== undefined && !selectedChartOfAccounts().isValid()) {
+                            return;
+                        }
                         if (selectedChartOfAccounts() !== chartOfAcc) {
                             //update previous selected item to orginal Chart of Account list
                             if (selectedChartOfAccounts() !== undefined) {
@@ -219,13 +229,6 @@ define("myOrganization/myOrganization.viewModel",
                     },
                     //Create Chart Of Account
                     onCreateChartOfAccounts = function () {
-                        //var chartOfAcc = chartOfAccounts()[0];
-                        //if (chartOfAcc.name() !== undefined && chartOfAcc.accountNo() !== undefined) {
-                        //    chartOfAccounts.splice(0, 0, model.ChartOfAccount());
-                        //    selectedChartOfAccounts(chartOfAccounts()[0]);
-                        //    selectedMyOrganization().flagForChanges("Changes occur");
-                        //}
-
                         var chartOfAcc = filteredNominalCodes()[0];
                         if ((filteredNominalCodes().length === 0) || (chartOfAcc !== undefined && chartOfAcc !== null && chartOfAcc.name() !== undefined && chartOfAcc.accountNo() !== undefined && chartOfAcc.isValid())) {
                             var newChartOfAccount = model.ChartOfAccount();
@@ -275,15 +278,18 @@ define("myOrganization/myOrganization.viewModel",
                                 orgnizationImage(data.ImageSource);
                                 view.initializeForm();
                                 isLoadingMyOrganization(false);
+                                sharedNavigationVM.initialize(selectedMyOrganization, function (saveCallback) { onSaveMyOrganization(saveCallback); });
+                                view.initializeLabelPopovers();
                             },
                             error: function () {
                                 isLoadingMyOrganization(false);
+                                view.initializeLabelPopovers();
                                 toastr.error(ist.resourceText.loadAddChargeDetailFailedMsg);
                             }
                         });
                     },
                     // Save My Organization
-                    onSaveMyOrganization = function (myOrg) {
+                    onSaveMyOrganization = function (callback) {
                         errorList.removeAll();
                         //Selected Markup update in markup list
                         if (selectedMarkup() !== undefined) {
@@ -306,16 +312,16 @@ define("myOrganization/myOrganization.viewModel",
 
                         if (doBeforeSave() & doBeforeSaveMarkups() & doBeforeSaveChartOfAccounts()) {
                             //Markup List
-                            if (myOrg.markupsInMyOrganization.length !== 0) {
-                                myOrg.markupsInMyOrganization.removeAll();
+                            if (selectedMyOrganization().markupsInMyOrganization.length !== 0) {
+                                selectedMyOrganization().markupsInMyOrganization.removeAll();
                             }
-                            ko.utils.arrayPushAll(myOrg.markupsInMyOrganization(), markups());
+                            ko.utils.arrayPushAll(selectedMyOrganization().markupsInMyOrganization(), markups());
                             //Chart of Accounts List
-                            if (myOrg.chartOfAccountsInMyOrganization.length !== 0) {
-                                myOrg.chartOfAccountsInMyOrganization.removeAll();
+                            if (selectedMyOrganization().chartOfAccountsInMyOrganization.length !== 0) {
+                                selectedMyOrganization().chartOfAccountsInMyOrganization.removeAll();
                             }
-                            ko.utils.arrayPushAll(myOrg.chartOfAccountsInMyOrganization(), chartOfAccounts());
-                            saveMyOrganization(myOrg);
+                            ko.utils.arrayPushAll(selectedMyOrganization().chartOfAccountsInMyOrganization(), chartOfAccounts());
+                            saveMyOrganization(callback);
                         }
                     },
                     // Do Before Logic
@@ -324,43 +330,53 @@ define("myOrganization/myOrganization.viewModel",
                         if (!selectedMyOrganization().isValid()) {
                             selectedMyOrganization().errors.showAllMessages();
                             if (selectedMyOrganization().email.error != null) {
-                                errorList.push({ fieldId: "txtEmail", tabId: 1, name: "Email" });
+                                errorList.push({ name: selectedMyOrganization().email.domElement.name, element: selectedMyOrganization().email.domElement });
                             }
                             flag = false;
                         }
                         return flag;
                     },
+                     // Go To Element
+                  gotoElement = function (validation) {
+                      view.gotoElement(validation.element);
+                  },
                     // Do Before Logic
                     doBeforeSaveMarkups = function () {
                         var flag = true;
-                        _.each(markups(), function (markup, index) {
-                            if (!markup.isValid()) {
-                                markup.errors.showAllMessages();
-                                if (flag) {
-                                    if (markup.name.error != null || markup.rate.error != null) {
-                                        errorList.push({ fieldId: 'markupName,' + index, tabId: 2, name: "Invalid Markups" });
-                                    }
-                                }
+                        // Show Markup Item Errors
+                        var itemMarkupInvalid = markups.find(function (itemMarkup) {
+                            return !itemMarkup.isValid();
+                        });
+                        if (itemMarkupInvalid) {
+                            if (itemMarkupInvalid.name.error) {
+                                errorList.push({ name: "Name", element: itemMarkupInvalid.name.domElement });
                                 flag = false;
                             }
-                        });
+                            if (itemMarkupInvalid.rate.error) {
+                                errorList.push({ name: "Rate", element: itemMarkupInvalid.rate.domElement });
+                                flag = false;
+                            }
+                        }
+
                         return flag;
                     },
                     // Do Before Logic
                     doBeforeSaveChartOfAccounts = function () {
                         var flag = true;
-                        _.each(chartOfAccounts(), function (chartofAcc, index) {
-                            if (!chartofAcc.isValid()) {
-                                chartofAcc.errors.showAllMessages();
-                                if (flag) {
-                                    if (chartofAcc.name.error != null || chartofAcc.accountNo.error != null) {
-                                        errorList.push({ fieldId: 'nominalCodeName,' + index, tabId: 3, name: "Invalid Nominal Codes" });
-                                    }
-                                    flag = false;
-                                }
-                            }
+                        // Show Markup Item Errors
+                        var itemChartOfAccountInvalid = chartOfAccounts.find(function (chartOfAccount) {
+                            return !chartOfAccount.isValid();
                         });
-
+                        if (itemChartOfAccountInvalid) {
+                            if (itemChartOfAccountInvalid.name.error) {
+                                errorList.push({ name: "Nominal Code Name", element: itemChartOfAccountInvalid.name.domElement });
+                                flag = false;
+                            }
+                            if (itemChartOfAccountInvalid.accountNo.error) {
+                                errorList.push({ name: "Account No.", element: itemChartOfAccountInvalid.accountNo.domElement });
+                                flag = false;
+                            }
+                        }
                         return flag;
                     },
                     //Select tab click on error link
@@ -394,8 +410,8 @@ define("myOrganization/myOrganization.viewModel",
                         }
                     }, this),
                     // Save My Organization
-                    saveMyOrganization = function (myOrg) {
-                        dataservice.saveMyOrganization(model.CompanySitesServerMapper(myOrg), {
+                    saveMyOrganization = function (callback) {
+                        dataservice.saveMyOrganization(model.CompanySitesServerMapper(selectedMyOrganization()), {
                             success: function (data) {
                                 var orgId = data.OrganizationId;
                                 if (selectedMyOrganization().id() > 0) {
@@ -427,6 +443,9 @@ define("myOrganization/myOrganization.viewModel",
                                 }
                                 selectedMyOrganization().reset();
                                 toastr.success("Successfully save.");
+                                if (callback && typeof callback === "function") {
+                                    callback();
+                                }
                             },
                             error: function (exceptionMessage, exceptionType) {
 
@@ -588,6 +607,7 @@ define("myOrganization/myOrganization.viewModel",
                     searchNominalCode: searchNominalCode,
                     searchMarkup: searchMarkup,
                     getLanguageEditorDataByLanguageId: getLanguageEditorDataByLanguageId,
+                    gotoElement: gotoElement,
 
                 };
             })()

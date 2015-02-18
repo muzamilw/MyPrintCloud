@@ -17,39 +17,55 @@ define("myOrganization/myOrganization.view",
                      // Initialize Forms - For File Upload
                      $("#fileUploadForm").ajaxForm({
                          success: function () {
-                             //status("Uploading completed");
-                             //progressPercentage(uploadCompletedPercentage + "%");
-                             //processingId = data.DocumentFileKey;
-                             //requestProcessingStatus();
                              toastr.success("Uploading completed");
                              // viewModel.addVehicleItem().logo(undefined);
                          },
                          dataType: "json",
                          error: function () {
-                             //status("Uploading failed. Try again. (Error: " + xhr.statusText + " [" + xhr.status + "])");
-                             //showInputArea(true);
-                             //showProgressArea(false);
-                             //progressPercentage("0%");
-                             //alert(status());
-                             // toastr.error("Uploading failed. Try again.");
                              toastr.success("Uploading completed");
                          }
                      });
                  },
+                 // Go To Element with Validation Errors
+                gotoElement = function (element) {
+                    var tab = $(element).closest(".tab-pane");
+                    if (!tab) {
+                        return;
+                    }
+
+                    var liElement = $('a[href=#' + tab.attr('id') + ']');
+                    if (!liElement) {
+                        return;
+                    }
+
+                    liElement.click();
+
+                    // Scroll to Element
+                    setTimeout(function () {
+                        window.scrollTo($(element).offset().left, $(element).offset().top - 50);
+                        // Focus on element
+                        $(element).focus();
+                    }, 1000);
+                },
+                // Initialize Label Popovers
+                initializeLabelPopovers = function () {
+                    // ReSharper disable UnknownCssClass
+                    $('.bs-example-tooltips a').popover();
+                    // ReSharper restore UnknownCssClass
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
                         return;
                     }
-
-                    // Handle Sorting
-                    // handleSorting("tariffTypeTable", viewModel.sortOn, viewModel.sortIsAsc, viewModel.getTariffType);
                 };
             initialize();
             return {
                 bindingRoot: bindingRoot,
                 initializeForm: initializeForm,
-                viewModel: viewModel
+                viewModel: viewModel,
+                gotoElement: gotoElement,
+                initializeLabelPopovers: initializeLabelPopovers
             };
         })(myOrganizationViewModel);
 

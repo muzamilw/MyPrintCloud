@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -65,16 +66,28 @@
     <Compile Include="Common\ICostCentreLoader.cs" />
     <Compile Include="Data\AuthorizationCheckRequest.cs" />
     <Compile Include="Data\SecurityAccessRight.cs" />
+    <Compile Include="MISServices\IAddressService.cs" />
     <Compile Include="MISServices\IAuthorizationChecker.cs" />
+    <Compile Include="MISServices\ICalendarService.cs" />
+    <Compile Include="MISServices\ICampaignService.cs" />
     <Compile Include="MISServices\ICategoryService.cs" />
     <Compile Include="MISServices\IClaimsSecurityService.cs" />
+    <Compile Include="MISServices\ICompanyContactService.cs" />
     <Compile Include="MISServices\ICompanyService.cs" />
+    <Compile Include="MISServices\ICompanyTerritoryService.cs" />
+    <Compile Include="MISServices\ICrmSupplierService.cs" />
+    <Compile Include="MISServices\ICustomerService.cs" />
+    <Compile Include="MISServices\IDashboardService.cs" />
     <Compile Include="MISServices\IItemService.cs" />
     <Compile Include="MISServices\IInventoryService.cs" />
     <Compile Include="MISServices\ICostCentersService.cs" />
+    <Compile Include="MISServices\IMachineService.cs" />
+    <Compile Include="MISServices\IOrderService.cs" />
     <Compile Include="MISServices\IPhraseLibraryService.cs" />
     <Compile Include="MISServices\IPrefixService.cs" />
     <Compile Include="MISServices\IStockCategoryService.cs" />
+    <Compile Include="Repository\IActivityRepository.cs" />
+    <Compile Include="Repository\IActivityTypeRepository.cs" />
     <Compile Include="Repository\ICampaignRepository.cs" />
     <Compile Include="Repository\IColorPalleteRepository.cs" />
     <Compile Include="Repository\ICompanyCMYKColorRepository.cs" />
@@ -88,9 +101,14 @@
     <Compile Include="Repository\ICurrencyRepository.cs" />
     <Compile Include="Repository\IEmailEventRepository.cs" />
     <Compile Include="Repository\IFavoriteDesignRepository.cs" />
+    <Compile Include="Repository\IEstimateRepository.cs" />
     <Compile Include="Repository\IGetItemsListViewRepository.cs" />
     <Compile Include="Repository\IGlobalLanguageRepository.cs" />
+    <Compile Include="Repository\IGroupRepository.cs" />
     <Compile Include="Repository\IImagePermissionsRepository.cs" />
+    <Compile Include="Repository\IInquiryAttachmentRepository.cs" />
+    <Compile Include="Repository\IItemSectionRepository.cs" />
+    <Compile Include="Repository\IInquiryRepository.cs" />
     <Compile Include="Repository\IItemAttachmentRepository.cs" />
     <Compile Include="Repository\IIProductCategoryItemRepository.cs" />
     <Compile Include="Repository\IItemStateTaxRepository.cs" />
@@ -102,15 +120,18 @@
     <Compile Include="Repository\IItemPriceMatrixRepository.cs" />
     <Compile Include="Repository\IItemProductDetailRepository.cs" />
     <Compile Include="Repository\IListingRepository.cs" />
-    <Compile Include="Repository\IOrganisationFileTableViewRepository.cs" />
-    <Compile Include="Repository\IMpcFileTableViewRepository.cs" />
+    <Compile Include="Repository\IMachineRepository.cs" />
     <Compile Include="Repository\IOrderRepository.cs" />
     <Compile Include="Repository\IPaymentGatewayRepository.cs" />
     <Compile Include="Repository\IPaymentMethodRepository.cs" />
     <Compile Include="Repository\IPhraseFieldRepository.cs" />
     <Compile Include="Repository\IPhraseRespository.cs" />
-    <Compile Include="Repository\IProductCategoryFileTableViewRepository.cs" />
+    <Compile Include="Repository\IPipeLineProductRepository.cs" />
+    <Compile Include="Repository\IReportRepository.cs" />
+    <Compile Include="Repository\IPipeLineSourceRepository.cs" />
     <Compile Include="Repository\IStateRepository.cs" />
+    <Compile Include="Repository\ICostCenterTypeRepository.cs" />
+    <Compile Include="Repository\IStatusRepository.cs" />
     <Compile Include="Repository\ITemplateBackgroundImagesRepository.cs" />
     <Compile Include="Repository\ITemplateColorStylesRepository.cs" />
     <Compile Include="Repository\ITemplateFontsRepository.cs" />
@@ -149,9 +170,9 @@
     <Compile Include="WebStoreServices\ICompanyService.cs" />
     <Compile Include="MISServices\IMyOrganizationService.cs" />
     <Compile Include="WebStoreServices\ICompanyBannerService.cs" />
-    <Compile Include="WebStoreServices\ICostCentreQuestionRepository.cs" />
+    <Compile Include="Repository\ICostCentreQuestionRepository.cs" />
     <Compile Include="WebStoreServices\ICostCentreService.cs" />
-    <Compile Include="WebStoreServices\ICostCentreVariableRepository.cs" />
+    <Compile Include="Repository\ICostCentreVariableRepository.cs" />
     <Compile Include="WebStoreServices\IExecutionService.cs" />
     <Compile Include="WebStoreServices\IImagePermissionsService.cs" />
     <Compile Include="WebStoreServices\IListingService.cs" />
@@ -165,10 +186,10 @@
     <Compile Include="Repository\IOrganisationRepository.cs" />
     <Compile Include="Repository\ICompanyRepository.cs" />
     <Compile Include="Repository\IMarkupRepository.cs" />
-    <Compile Include="Repository\IPaperSheetRepository.cs" />
     <Compile Include="Repository\ITaxRateRepository.cs" />
     <Compile Include="WebStoreServices\IOrderService.cs" />
     <Compile Include="WebStoreServices\IItemService.cs" />
+    <Compile Include="WebStoreServices\IStatusService.cs" />
     <Compile Include="WebStoreServices\ITemplateBackgroundImagesService.cs" />
     <Compile Include="WebStoreServices\ITemplateColorStylesService.cs" />
     <Compile Include="WebStoreServices\ITemplateFontsService.cs" />
@@ -183,6 +204,10 @@
     <ProjectReference Include="..\Models\MPC.Models.csproj">
       <Project>{81067904-2176-4648-87AB-014B0D76B85E}</Project>
       <Name>MPC.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPC.Common\MPC.Common.csproj">
+      <Project>{4ba9e712-f447-4a6b-bae6-18eeb43087c6}</Project>
+      <Name>MPC.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

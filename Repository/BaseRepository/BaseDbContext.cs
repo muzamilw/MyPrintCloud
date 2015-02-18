@@ -13,7 +13,7 @@ namespace MPC.Repository.BaseRepository
     /// <summary>
     /// Base Db Context. Implements Identity Db Context over Application User
     /// </summary>
-    [Serializable()]
+    [Serializable]
     public sealed class BaseDbContext : DbContext
     {
         #region Private
@@ -203,6 +203,7 @@ namespace MPC.Repository.BaseRepository
         /// </summary>
         public DbSet<Template> Templates { get; set; }
 
+        public DbSet<Status> Statuses { get; set; }
         /// <summary>
         /// Get Minimum Product Value
         /// </summary>
@@ -213,7 +214,9 @@ namespace MPC.Repository.BaseRepository
                 throw new ArgumentException(LanguageResources.InvalidItem, "itemId");
             }
 
+// ReSharper disable SuggestUseVarKeywordEvident
             ObjectParameter itemIdParameter = new ObjectParameter("ItemId", itemId);
+// ReSharper restore SuggestUseVarKeywordEvident
             ObjectResult<double?> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<double?>("sp_GetMinimumProductValue", itemIdParameter);
 
             return result.FirstOrDefault() ?? 0;
@@ -272,61 +275,6 @@ namespace MPC.Repository.BaseRepository
         /// Template Object DbSet
         /// </summary>
         public DbSet<TemplateObject> TemplateObjects { get; set; }
-
-        /// <summary>
-        /// Organisation File Table View DbSet
-        /// </summary>
-        public DbSet<OrganisationFileTableView> OrganisationFileTableViews { get; set; }
-
-        /// <summary>
-        /// Artwork File Table View DbSet
-        /// </summary>
-        public DbSet<ArtworkFileTableView> ArtworkFileTableViews { get; set; }
-
-        /// <summary>
-        /// Attachment File Table View DbSet
-        /// </summary>
-        public DbSet<AttachmentFileTableView> AttachmentFileTableViews { get; set; }
-
-        /// <summary>
-        /// Category File Table View DbSet
-        /// </summary>
-        public DbSet<CategoryFileTableView> CategoryFileTableViews { get; set; }
-
-        /// <summary>
-        /// CompanyBanner File Table View DbSet
-        /// </summary>
-        public DbSet<CompanyBannerFileTableView> CompanyBannerFileTableViews { get; set; }
-
-        /// <summary>
-        /// CostCentre File Table View DbSet
-        /// </summary>
-        public DbSet<CostCentreFileTableView> CostCentreFileTableViews { get; set; }
-
-        /// <summary>
-        /// Media File Table View DbSet
-        /// </summary>
-        public DbSet<MediaFileTableView> MediaFileTableViews { get; set; }
-
-        /// <summary>
-        /// Product File Table View DbSet
-        /// </summary>
-        public DbSet<ProductFileTableView> ProductFileTableViews { get; set; }
-
-        /// <summary>
-        /// SecondaryPage File Table View DbSet
-        /// </summary>
-        public DbSet<SecondaryPageFileTableView> SecondaryPageFileTableViews { get; set; }
-
-        /// <summary>
-        /// Store File Table View DbSet
-        /// </summary>
-        public DbSet<StoreFileTableView> StoreFileTableViews { get; set; }
-
-        /// <summary>
-        /// Template File Table View DbSet
-        /// </summary>
-        public DbSet<TemplateFileTableView> TemplateFileTableViews { get; set; }
 
         /// <summary>
         /// Product Market Brief Question DbSet
@@ -526,78 +474,106 @@ namespace MPC.Repository.BaseRepository
         public DbSet<MachineResource> MachineResources { get; set; }
 
         /// <summary>
+        /// Machine Category DbSet
+        /// </summary>
+        public DbSet<MachineCategory> MachineCategories { get; set; }
+
+        /// <summary>
+        /// Group DbSet
+        /// </summary>
+        public DbSet<Group> Groups { get; set; }
+
+        /// <summary>
+        /// CostCenterChoice DbSet
+        /// </summary>
+        public DbSet<CostCenterChoice> CostCenterChoices { get; set; }
+        
+        /// <summary>
+        /// InkCoverageGroup DbSet
+        /// </summary>
+        public DbSet<InkCoverageGroup> InkCoverageGroups { get; set; }
+        
+        /// <summary>
+        /// MachineSpoilage DbSet
+        /// </summary>
+        public DbSet<MachineSpoilage> MachineSpoilages { get; set; }
+        
+        /// <summary>
+        /// Report DbSet
+        /// </summary>
+        public DbSet<Report> Reports { get; set; }
+        
+        /// <summary>
+        /// ReportNote DbSet
+        /// </summary>
+        public DbSet<ReportNote> ReportNotes { get; set; }
+
+        /// <summary>
+        /// PipeLineProduct DbSet
+        /// </summary>
+        public DbSet<PipeLineProduct> PipeLineProducts { get; set; }
+
+        /// <summary>
+        /// PipeLineSource DbSet
+        /// </summary>
+        public DbSet<PipeLineSource> PipeLineSources { get; set; }
+
+        /// <summary>
+        /// Activity DbSet
+        /// </summary>
+        public DbSet<Activity> Activities { get; set; }
+
+        /// <summary>
+        /// Activity Type DbSet
+        /// </summary>
+        public DbSet<ActivityType> ActivityTypes { get; set; }
+
+        /// <summary>
+        /// Variable Option DbSet
+        /// </summary>
+        public DbSet<VariableOption> VariableOptions { get; set; }
+
+        /// <summary>
+        /// Company Contact Variable DbSet
+        /// </summary>
+        public DbSet<CompanyContactVariable> CompanyContactVariables { get; set; }
+
+        /// <summary>
+        /// Smart Form DbSet
+        /// </summary>
+        public DbSet<SmartForm> SmartForms { get; set; }
+
+        /// <summary>
+        /// Smart Form Detail DbSet
+        /// </summary>
+        public DbSet<SmartFormDetail> SmartFormDetails { get; set; }
+
+        /// <summary>
+        /// Delivery Carrier DbSet
+        /// </summary>
+        public DbSet<DeliveryCarrier> DeliveryCarriers { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
+// ReSharper disable InconsistentNaming
         public long sp_cloneTemplate(long templateId, long submittedBy, string submittedByName)
+// ReSharper restore InconsistentNaming
         {
+// ReSharper disable SuggestUseVarKeywordEvident
             ObjectParameter templateIdParameter = new ObjectParameter("TemplateID", templateId);
+
             ObjectParameter submittedByParameter = new ObjectParameter("submittedBy", submittedBy);
             ObjectParameter submittedByNameParameter = new ObjectParameter("submittedByName", submittedByName);
+            // ReSharper restore SuggestUseVarKeywordEvident
+
             ObjectResult<long?> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<long?>("BaseDbContext.sp_cloneTemplate", templateIdParameter, submittedByParameter,
                 submittedByNameParameter);
             long? newTemplateId = result.FirstOrDefault();
 
             return newTemplateId.HasValue ? newTemplateId.Value : 0;
         }
-
-        /// <summary>
-        /// Stored Procedure to Add File to FileTable
-        /// </summary>
-        public int MPCFileTable_Add(string filename, byte[] filedata, string pathlocator, string fileTableName, bool isDirectory = false)
-        {
-            var filenameParameter = filename != null ?
-                new ObjectParameter("filename", filename) :
-                new ObjectParameter("filename", typeof(string));
-
-            var filedataParameter = filedata != null ?
-                new ObjectParameter("filedata", filedata) :
-                new ObjectParameter("filedata", typeof(byte[]));
-
-            var pathLocatorParameter = !string.IsNullOrEmpty(pathlocator) ?
-               new ObjectParameter("pathlocator", pathlocator) :
-               new ObjectParameter("pathlocator", typeof(string));
-
-            var fileTableParameter = fileTableName != null ?
-                new ObjectParameter("fileTableName", fileTableName) :
-                new ObjectParameter("fileTableName", typeof(string));
-
-            var isDirectoryParameter = new ObjectParameter("isdirectory", isDirectory);
-
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseDbContext.MPCFileTable_Add", filenameParameter, filedataParameter,
-                pathLocatorParameter, isDirectoryParameter, fileTableParameter);
-        }
-
-        /// <summary>
-        /// Stored Procedure to Delete File from FileTable
-        /// </summary>
-        public int MPCFileTable_Del(Guid docId, string fileTableName)
-        {
-            var docIdParameter = new ObjectParameter("docId", docId);
-            var fileTableParameter = fileTableName != null ?
-                new ObjectParameter("fileTableName", fileTableName) :
-                new ObjectParameter("fileTableName", typeof(string));
-
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseDbContext.MPCFileTable_Del", docIdParameter, fileTableParameter);
-        }
-
-        /// <summary>
-        /// Get New Path Locator
-        /// </summary>
-        public string GetNewPathLocator(string filePath, string fileTableName)
-        {
-            var filePathParameter = filePath != null ?
-                new ObjectParameter("filePath", filePath) :
-                new ObjectParameter("filePath", typeof(string));
-
-            var fileTableParameter = fileTableName != null ?
-                new ObjectParameter("fileTableName", fileTableName) :
-                new ObjectParameter("fileTableName", typeof(string));
-
-            ObjectResult<string> result = ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("BaseDbContext.GetNewPathLocator", filePathParameter,
-                fileTableParameter);
-            return result.FirstOrDefault();
-        }
-
+        
         /// <summary>
         /// GetUsedFonts Updated 
         /// </summary>
@@ -623,7 +599,9 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// Get Real Estate Products 
         /// </summary>
+// ReSharper disable InconsistentNaming
         public IEnumerable<usp_GetRealEstateProducts_Result> usp_GetRealEstateProducts(int? contactCompanyId)
+// ReSharper restore InconsistentNaming
         {
             var contactCompanyIdParameter = contactCompanyId.HasValue ?
                 new ObjectParameter("ContactCompanyID", contactCompanyId) :
@@ -636,7 +614,9 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// Get Template Images Result
         /// </summary>
+// ReSharper disable InconsistentNaming
         public IEnumerable<sp_GetTemplateImages_Result> sp_GetTemplateImages(int? isCalledFrom, int? imageSetType, long? templateId, long? contactCompanyId,
+// ReSharper restore InconsistentNaming
             long? contactId, long? territory, int? pageNumber, int? pageSize, string sortColumn, string search, ObjectParameter imageCount)
         {
             var isCalledFromParameter = isCalledFrom.HasValue ?
@@ -688,7 +668,9 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// Stored Procedure sp_CostCentreExecution_get_StockPriceByCalculationType
         /// </summary>
+// ReSharper disable InconsistentNaming
         public double sp_CostCentreExecution_get_StockPriceByCalculationType(int? stockId, int? calculationType, ObjectParameter returnPrice, ObjectParameter perQtyQty)
+// ReSharper restore InconsistentNaming
         {
             var stockIdParameter = stockId.HasValue ?
                 new ObjectParameter("StockID", stockId) :

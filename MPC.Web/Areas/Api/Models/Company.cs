@@ -21,7 +21,7 @@ namespace MPC.MIS.Areas.Api.Models
         public int DefaultNominalCode { get; set; }
         public int DefaultMarkUpId { get; set; }
         public DateTime? AccountOpenDate { get; set; }
-        public int AccountManagerId { get; set; }
+        public Guid? AccountManagerId { get; set; }
         public short Status { get; set; }
         public short IsCustomer { get; set; }
         public string Notes { get; set; }
@@ -99,16 +99,19 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? includeEmailBrokerArtworkOrderXML { get; set; }
         public bool? includeEmailBrokerArtworkOrderJobCard { get; set; }
         public bool? makeEmailBrokerArtworkOrderProductionReady { get; set; }
-        public long? SalesAndOrderManagerId1 { get; set; }
-        public long? SalesAndOrderManagerId2 { get; set; }
-        public long? ProductionManagerId1 { get; set; }
-        public long? ProductionManagerId2 { get; set; }
-        public long? StockNotificationManagerId1 { get; set; }
-        public long? StockNotificationManagerId2 { get; set; }
+        public Guid? SalesAndOrderManagerId1 { get; set; }
+        public Guid? SalesAndOrderManagerId2 { get; set; }
+        public Guid? ProductionManagerId1 { get; set; }
+        public Guid? ProductionManagerId2 { get; set; }
+        public Guid? StockNotificationManagerId1 { get; set; }
+        public Guid? StockNotificationManagerId2 { get; set; }
         public bool? IsDeliveryTaxAble { get; set; }
         public bool? IsDisplayDeliveryOnCheckout { get; set; }
-        public long? DeliveryPickUpAddressId { get; set; }
+        public long? PickupAddressId { get; set; }
         public long? BussinessAddressId { get; set; }
+        public int CompanyContactCount { get; set; }
+        public int CompanyAddressesCount { get; set; }
+
 
         #endregion
 
@@ -146,6 +149,8 @@ namespace MPC.MIS.Areas.Api.Models
         public List<CompanyDomain> CompanyDomains { get; set; }
 
         public List<MediaLibrary> MediaLibraries { get; set; }
+        public List<CostCentreDropDown> CompanyCostCentres { get; set; }
+       
 
         #region CMS Pages
 

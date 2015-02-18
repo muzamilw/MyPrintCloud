@@ -22,6 +22,7 @@ namespace MPC.MIS.Areas.Settings.Controllers
             return View();
         }
         // GET: Settings/InventoryCategory
+        [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewInventoryCategory })]
         public ActionResult InventoryCategory()
         {
             return View();
@@ -35,6 +36,19 @@ namespace MPC.MIS.Areas.Settings.Controllers
         public ActionResult CostCenters()
         {
             return View();
+        }
+
+        public ActionResult SalesPipeLine()
+        { 
+        
+           return View();
+        
+        }
+        public ActionResult SectionFlags()
+        {
+
+            return View();
+        
         }
     }
 }

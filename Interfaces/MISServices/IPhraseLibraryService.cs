@@ -22,5 +22,10 @@ namespace MPC.Interfaces.MISServices
         /// Save Phase Library
         /// </summary>
         void SavePhaseLibrary(PhraseLibrarySaveModel phaseLibrary);
+
+        /// <summary>
+        /// Get Phrase Fields By Section Id
+        /// </summary>
+        IEnumerable<PhraseField> GetPhraseFiledsBySectionId(long sectionId);
     }
 }

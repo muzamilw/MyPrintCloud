@@ -331,7 +331,7 @@ namespace MPC.Implementation.WebStoreServices
             }
         }
         public bool UpdateOrderWithDetailsToConfirmOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Address billingAdd, Address deliveryAdd, double grandOrderTotal,
-                                             string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde, long BrokerContactCompanyID)
+                                             string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde)
         {
             try
             {
@@ -340,7 +340,7 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     _AddressRepository.UpdateAddress(billingAdd, deliveryAdd, Objorder.CompanyId);
                     Prefix prefix = _prefixRepository.GetDefaultPrefix();
-                    return _OrderRepository.UpdateOrderWithDetailsToConfirmOrder(orderID, loggedInContactID, orderStatus, billingAdd, deliveryAdd, grandOrderTotal, yourReferenceNumber, specialInsTel, specialInsNotes, isCorpFlow, CurrntStoreMde, BrokerContactCompanyID, Objorder, prefix);
+                    return _OrderRepository.UpdateOrderWithDetailsToConfirmOrder(orderID, loggedInContactID, orderStatus, billingAdd, deliveryAdd, grandOrderTotal, yourReferenceNumber, specialInsTel, specialInsNotes, isCorpFlow, CurrntStoreMde, Objorder, prefix);
                 }
                 else
                 {
@@ -379,6 +379,30 @@ namespace MPC.Implementation.WebStoreServices
             {
                 throw ex;
             }
+        }
+
+        public Estimate GetLastOrderByContactId(long ContactId)
+        {
+            try
+            {
+                return _OrderRepository.GetLastOrderByContactID(ContactId);
+                
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+
+         }
+        public List<Order> GetOrdersListByContactID(long contactUserID, OrderStatus? orderStatus,string fromDate, string toDate, string orderRefNumber, int pageSize, int pageNumber) 
+        {
+            return _OrderRepository.GetOrdersListByContactID(contactUserID, orderStatus, fromDate, toDate, orderRefNumber, pageSize, pageNumber);
+        
+        }
+       public List<Order> GetOrdersListExceptPendingOrdersByContactID(long contactUserID, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, int pageSize, int pageNumber)
+        {
+            return _OrderRepository.GetOrdersListExceptPendingOrdersByContactID(contactUserID, orderStatus, fromDate, toDate, orderRefNumber, pageSize, pageNumber);
+        
         }
 
     }

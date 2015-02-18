@@ -17,9 +17,13 @@
             "inventorySubCategory": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
             "stores": ist.siteUrl + "/Areas/Stores/Scripts",
             "product": ist.siteUrl + "/Areas/Products/Scripts",
-            "dropzone": "/Scripts/dropzone-amd-module",
+            "dropzone": ist.siteUrl + "/Scripts/dropzone-amd-module",
             "prefix": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
             "costcenter": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
+            "machine": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
+            "crm": ist.siteUrl + "/Areas/CRM/Scripts",
+            "calendar": ist.siteUrl + "/Areas/CRM/Scripts",
+            "order": ist.siteUrl + "/Areas/Orders/Scripts",
         }
     });
 

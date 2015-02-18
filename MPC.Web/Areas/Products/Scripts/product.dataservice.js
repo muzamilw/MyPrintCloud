@@ -42,14 +42,7 @@ define("product/product.dataservice", function () {
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'DELETE'
                     });
-
-                    // Define request to get stock items
-                    amplify.request.define('getStockItems', 'ajax', {
-                        url: ist.siteUrl + '/Api/StockItems',
-                        dataType: 'json',
-                        type: 'GET'
-                    });
-
+                    
                     // Define request to get base data
                     amplify.request.define('getBaseData', 'ajax', {
                         url: ist.siteUrl + '/Api/ItemBase',
@@ -77,6 +70,21 @@ define("product/product.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    
+                    // Define request to get machines
+                    amplify.request.define('getMachines', 'ajax', {
+                        url: ist.siteUrl + '/Api/ProductMachines',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
+                    // Define request to clone Item
+                    amplify.request.define('cloneItem', 'ajax', {
+                        url: ist.siteUrl + '/Api/ItemClone',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
 
                     isInitialized = true;
                 }
@@ -99,11 +107,11 @@ define("product/product.dataservice", function () {
                     error: callbacks.error,
                 });
             },
-            // Get Stock Items
-            getStockItems = function (params, callbacks) {
+            // Get Product Machines
+            getMachines = function (params, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'getStockItems',
+                    resourceId: 'getMachines',
                     data: params,
                     success: callbacks.success,
                     error: callbacks.error,
@@ -149,6 +157,16 @@ define("product/product.dataservice", function () {
                     data: param
                 });
             },
+            // Clone Item
+            cloneItem = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'cloneItem',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
             // Get ItemPriceMatrices For Item By FlagId
             getItemPriceMatricesForItemByFlagId = function (params, callbacks) {
                 initialize();
@@ -175,11 +193,12 @@ define("product/product.dataservice", function () {
             getItems: getItems,
             saveItem: saveItem,
             archiveItem: archiveItem,
-            getStockItems: getStockItems,
             getBaseData: getBaseData,
             getItemPriceMatricesForItemByFlagId: getItemPriceMatricesForItemByFlagId,
             getProductCategoryChilds: getProductCategoryChilds,
-            getBaseDataForDesignerCategory: getBaseDataForDesignerCategory
+            getBaseDataForDesignerCategory: getBaseDataForDesignerCategory,
+            getMachines: getMachines,
+            cloneItem: cloneItem
         };
     })();
 

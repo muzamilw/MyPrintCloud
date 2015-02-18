@@ -34,9 +34,12 @@ namespace MPC.MIS
 
             bundles.Add(new ScriptBundle("~/Bundle/BaseLibs")
                 .Include("~/Scripts/jquery-ui-1.10.4.js")
+                .Include("~/Scripts/Plugins/forms/select/select2.js")
+                .Include("~/Scripts/jquery-ui-timepicker-addon.js")
                 .Include("~/Scripts/jquery.blockUI.js")
                 .Include("~/Scripts/spectrum.js")
                 .Include("~/Scripts/Ace/colorpicker.js")
+                .Include("~/Content/themes/Centaurus/js/fullcalendar.min.js")
                 .Include("~/Scripts/json2.js")
                 .Include("~/Scripts/knockout-3.1.0.js")
                 .Include("~/Scripts/knockout.mapping-latest.js")
@@ -62,21 +65,22 @@ namespace MPC.MIS
                 .Include("~/Content/CSS/toastr.css")
                 .Include("~/Content/colorpicker.css")
                 .Include("~/Content/CSS/spectrum.css")
-                      .Include("~/RichTextEditor/skins/moono/editor.css"));
+                .Include("~/RichTextEditor/skins/moono/editor.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
-                                        "~/Content/themes/base/jquery.ui.core.css",
-                                        "~/Content/themes/base/jquery.ui.resizable.css",
-                                        "~/Content/themes/base/jquery.ui.selectable.css",
-                                        "~/Content/themes/base/jquery.ui.accordion.css",
-                                        "~/Content/themes/base/jquery.ui.autocomplete.css",
-                                        "~/Content/themes/base/jquery.ui.button.css",
-                                        "~/Content/themes/base/jquery.ui.dialog.css",
-                                        "~/Content/themes/base/jquery.ui.slider.css",
-                                        "~/Content/themes/base/jquery.ui.tabs.css",
-                                        "~/Content/themes/base/jquery.ui.datepicker.css",
-                                        "~/Content/themes/base/jquery.ui.progressbar.css",
-                                        "~/Content/themes/base/jquery.ui.theme.css"));
+                "~/Content/themes/base/jquery.ui.core.css",
+                "~/Content/themes/base/jquery.ui.resizable.css",
+                "~/Content/themes/base/jquery.ui.selectable.css",
+                "~/Content/themes/base/jquery.ui.accordion.css",
+                "~/Content/themes/base/jquery.ui.autocomplete.css",
+                "~/Content/themes/base/jquery.ui.button.css",
+                "~/Content/themes/base/jquery.ui.dialog.css",
+                "~/Content/themes/base/jquery.ui.slider.css",
+                "~/Content/themes/base/jquery.ui.tabs.css",
+                "~/Content/themes/base/jquery.ui.datepicker.css",
+                "~/Content/themes/base/jquery.ui.progressbar.css",
+                "~/Content/themes/Centaurus/css/libs/select2.css",
+                "~/Content/themes/base/jquery.ui.theme.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/dropzonescripts").Include(
                    "~/Scripts/dropzone/dropzone.min.js"));

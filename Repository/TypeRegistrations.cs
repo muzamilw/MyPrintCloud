@@ -1,6 +1,5 @@
 ﻿using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
-using MPC.Interfaces.WebStoreServices;
 using MPC.Repository.BaseRepository;
 using MPC.Repository.Repositories;
 
@@ -16,13 +15,12 @@ namespace MPC.Repository
         /// </summary>
         public static void RegisterType(IUnityContainer unityContainer)
         {
-           // unityContainer.RegisterType<BaseDbContext>(new PerRequestLifetimeManager());
+            unityContainer.RegisterType<BaseDbContext>(new PerRequestLifetimeManager());
             unityContainer.RegisterType<IOrganisationRepository, OrganisationRepository>();
             unityContainer.RegisterType<IMarkupRepository, MarkupRepository>();
             unityContainer.RegisterType<ITaxRateRepository, TaxRateRepository>();
             unityContainer.RegisterType<IChartOfAccountRepository, ChartOfAccountRepository>();
             unityContainer.RegisterType<ICompanyDomainRepository, CompanyDomainRepository>();
-            unityContainer.RegisterType<IPaperSheetRepository, PaperSheetRepository>();
             unityContainer.RegisterType<ICompanyRepository, CompanyRepository>();
             unityContainer.RegisterType<IStockCategoryRepository, StockCategoryRepository>();
             unityContainer.RegisterType<IStockSubCategoryRepository, StockSubCategoryRepository>();
@@ -66,11 +64,9 @@ namespace MPC.Repository
             unityContainer.RegisterType<IItemAddOnCostCentreRepository, ItemAddonCostCentreRepository>();
             unityContainer.RegisterType<ICostCentreRepository, CostCentreRepository>();
             unityContainer.RegisterType<IEmailEventRepository, EmailEventRepository>();
-            unityContainer.RegisterType<IMpcFileTableViewRepository, MpcFileTableViewRepository>();
             unityContainer.RegisterType<IPaymentGatewayRepository, PaymentGatewayRepository>();
             unityContainer.RegisterType<IPaymentMethodRepository, PaymentMethodRepository>();
             unityContainer.RegisterType<IWidgetRepository, WidgetRepository>();
-            unityContainer.RegisterType<IOrganisationFileTableViewRepository, OrganisationFileTableViewRepository>();
             unityContainer.RegisterType<IItemPriceMatrixRepository, ItemPriceMatrixRepository>();
             unityContainer.RegisterType<IItemStateTaxRepository, ItemStateTaxRepository>();
             unityContainer.RegisterType<IStateRepository, StateRepository>();
@@ -78,7 +74,6 @@ namespace MPC.Repository
             unityContainer.RegisterType<IItemStockControlRepository, ItemStockControlRepository>();
             unityContainer.RegisterType<ITemplateObjectRepository, TemplateObjectRepository>();
             unityContainer.RegisterType<ITemplateColorStylesRepository, TemplateColorStylesRepository>();
-            unityContainer.RegisterType<IProductCategoryFileTableViewRepository, ProductCategoryFileTableViewRepository>();
             unityContainer.RegisterType<ITemplateFontsRepository, TemplateFontsRepository>();
             unityContainer.RegisterType<IItemProductDetailRepository, ItemProductDetailRepository>();
             unityContainer.RegisterType<ITemplateBackgroundImagesRepository, TemplateBackgroundImagesRepository>();
@@ -92,6 +87,19 @@ namespace MPC.Repository
             unityContainer.RegisterType<ICostCentreQuestionRepository, CostCentreQuestionRepository>();
             unityContainer.RegisterType<ICostCentreVariableRepository, CostCentreVariableRepository>();
             unityContainer.RegisterType<ICostCentreMatrixRepository, CostCentreMatrixRepository>();
+            unityContainer.RegisterType<IInquiryRepository, InquiryRepository>();
+            unityContainer.RegisterType<IInquiryAttachmentRepository, InquiryAttachmentRepository>();
+            unityContainer.RegisterType<IMachineRepository, MachineRepository>();
+            unityContainer.RegisterType<IGroupRepository, GroupRepository>();
+            unityContainer.RegisterType<ICostCenterTypeRepository, CostCenterTypeRepository>();
+            unityContainer.RegisterType<IItemSectionRepository, ItemSectionRepository>();
+            unityContainer.RegisterType<IEstimateRepository, EstimateRepository>();
+            unityContainer.RegisterType<IPipeLineProductRepository, PipeLineProductRepository>();
+            unityContainer.RegisterType<IPipeLineSourceRepository, PipeLineSourceRepository>();
+            unityContainer.RegisterType<IStatusRepository, StatusRepository>();
+            unityContainer.RegisterType<IReportRepository, ReportRepository>();
+            unityContainer.RegisterType<IActivityTypeRepository, ActivityTypeRepository>();
+            unityContainer.RegisterType<IActivityRepository, ActivityRepository>();
         }
     }
 }

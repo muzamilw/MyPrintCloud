@@ -79,7 +79,7 @@ namespace MPC.Implementation.WebStoreServices
             this._countryRepository = countryRepository;
             this._favoriteRepository = favoriteRepository;
         }
-
+        
         #endregion
 
         #region Public
@@ -91,7 +91,7 @@ namespace MPC.Implementation.WebStoreServices
 
         public MyCompanyDomainBaseReponse GetStoreFromCache(long companyId)
         {
-
+            
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
             CacheItemPolicy policy = null;
@@ -100,8 +100,8 @@ namespace MPC.Implementation.WebStoreServices
 
             policy = new CacheItemPolicy();
             policy.Priority = CacheItemPriority.NotRemovable;
-            policy.SlidingExpiration =
-                TimeSpan.FromMinutes(5);
+            //policy.SlidingExpiration =
+            //    TimeSpan.FromMinutes(5);
             policy.RemovedCallback = null;
 
             Dictionary<long, MyCompanyDomainBaseReponse> stores = cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>;
@@ -125,7 +125,7 @@ namespace MPC.Implementation.WebStoreServices
                 oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
                 oStore.SecondaryPages = AllPages.Where(s => s.CompanyId == oCompany.CompanyId).ToList();
                 oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
-                oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oCompany.OrganisationId));
+                oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oStore.Organisation.CurrencyId));
                 oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
                 oStore.StoreDetaultAddress = GetDefaultAddressByStoreID(companyId);
                 stores.Add(oCompany.CompanyId, oStore);
@@ -180,8 +180,8 @@ namespace MPC.Implementation.WebStoreServices
 
             policy = new CacheItemPolicy();
             policy.Priority = CacheItemPriority.NotRemovable;
-            policy.SlidingExpiration =
-                TimeSpan.FromMinutes(5);
+            //policy.SlidingExpiration =
+            //    TimeSpan.FromMinutes(5);
             policy.RemovedCallback = null;
 
             Dictionary<long, MyCompanyDomainBaseReponse> stores = cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>;
@@ -206,7 +206,7 @@ namespace MPC.Implementation.WebStoreServices
                 oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
                 oStore.SecondaryPages = AllPages.Where(s => s.CompanyId == oCompany.CompanyId).ToList();
                 oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
-                oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oCompany.OrganisationId));
+                oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oStore.Organisation.CurrencyId));
                 oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
                 oStore.StoreDetaultAddress = GetDefaultAddressByStoreID(companyId);
                 stores.Add(oCompany.CompanyId, oStore);
@@ -809,9 +809,52 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
-    
+        public CompanyTerritory GetCcompanyByTerritoryID(Int64 ContactId)
+        {
+            try
+            {
+                return _CompanyContactRepository.GetCcompanyByTerritoryID(ContactId);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
 
+        public void UpdateCompanyOrderingPolicy(Company Instance)
+        {
+
+            _CompanyRepository.Update(Instance);
+            _CompanyRepository.SaveChanges();
+        }
+     
+        public void UpdateContactCompany(CompanyContact Instance)
+        {
+            _CompanyContactRepository.Update(Instance);
+            _CompanyContactRepository.SaveChanges();
+        }
+
+        public bool UpdateCompanyContactForRetail(CompanyContact Instance)
+        {
+
+           return _CompanyContactRepository.UpdateCompanyContactForRetail(Instance);
+
+
+        }
+        public bool  UpdateCompanyContactForCorporate(CompanyContact Instance)
+        {
+
+           return  _CompanyContactRepository.UpdateCompanyContactForCorporate(Instance);
+
+        }
+        
         #endregion
+
+        public bool UpdateCompanyName(Company Instance)
+        {
+           return  _CompanyRepository.UpdateCompanyName(Instance);
+        
+        }
     }
 
 

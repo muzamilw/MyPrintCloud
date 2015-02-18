@@ -51,7 +51,7 @@ namespace MPC.Interfaces.MISServices
         /// Used in Products
         /// </summary>
         InventorySearchResponse GetStockItems(StockItemRequestModel request);
-
+       
         /// <summary>
         /// Get Item Price Matrices for Section Flag & Item 
         /// </summary>
@@ -61,5 +61,16 @@ namespace MPC.Interfaces.MISServices
         /// Get Base Data For Designer Template
         /// </summary>
         ItemDesignerTemplateBaseResponse GetBaseDataForDesignerTemplate();
+
+        /// <summary>
+        /// Get Machines for Press Selection Dialog
+        /// Used in Products
+        /// </summary>
+        MachineSearchResponse GetMachines(MachineSearchRequestModel request);
+
+        /// <summary>
+        /// Clone Product
+        /// </summary>
+        Item CloneProduct(long itemId);
     }
 }

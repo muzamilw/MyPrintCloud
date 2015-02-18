@@ -81,5 +81,26 @@ namespace MPC.Models.DomainModels
         }
 
         #endregion
+
+        #region Public
+
+        /// <summary>
+        /// Create Clone of Item Stock Option
+        /// </summary>
+        public void Clone(ItemStockOption target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemStockOption_InvalidItemStockOption, "target");
+            }
+
+            target.StockId = StockId;
+            target.StockLabel = StockLabel;
+            target.OptionSequence = OptionSequence;
+            target.ImageURL = ImageURL;
+
+        }
+
+        #endregion
     }
 }

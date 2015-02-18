@@ -76,8 +76,6 @@ namespace MPC.Repository.Repositories
 
             orderObject.OrganisationId = OrganisationId;
 
-            orderObject.CompanyName = "N/A";
-
             orderObject.ContactId = ContactId;
 
             orderObject.isEstimate = false;
@@ -318,8 +316,10 @@ namespace MPC.Repository.Repositories
                 StatusID = tblItem.Status.StatusId;
             if (tblItem.InvoiceId != null)
                 invoiceID = (int)tblItem.InvoiceId;
-            long productCategoryID = db.Items.Where(s => s.ItemId == tblItem.ItemId).Select(s => s.ItemId).FirstOrDefault();
-            string ProductName = db.ProductCategories.Where(p => p.ProductCategoryId == (int)productCategoryID).Select(s => s.CategoryName).FirstOrDefault();
+
+            long productCategoryID = db.ProductCategoryItems.Where(i => i.ItemId == tblItem.RefItemId).Select(s => s.CategoryId ?? 0).FirstOrDefault();
+        
+            string CategoryName = db.ProductCategories.Where(p => p.ProductCategoryId == productCategoryID).Select(s => s.CategoryName).FirstOrDefault();
             ProductItem prodItem = new ProductItem()
             {
 
@@ -328,7 +328,7 @@ namespace MPC.Repository.Repositories
                 EstimateID = tblItem.EstimateId,
                 InvoiceID = invoiceID,
                 ProductName = tblItem.ProductName,
-                ProductCategoryName = ProductName, //Product category Name
+                ProductCategoryName = CategoryName, //Product category Name
                 ProductCategoryID = (int)productCategoryID,
                 ImagePath = tblItem.ImagePath,
                 ThumbnailPath = tblItem.ThumbnailPath,
@@ -378,7 +378,7 @@ namespace MPC.Repository.Repositories
             ItemAttachment tblItemAttchment = null;
 
            
-                if (tblItem != null && tblItem.ItemAttachments.Count > 0)
+                if (tblItem.ItemAttachments != null && tblItem.ItemAttachments.Count > 0)
                 {
                     //Find the pdf he loaded
 
@@ -820,8 +820,7 @@ namespace MPC.Repository.Repositories
             }
 
 
-            tblOrder.OrderManagerId = (int)loggedInContactID;
-            tblOrder.Created_by = (int)loggedInContactID;
+            //tblOrder.Created_by = (int)loggedInContactID;
 
         }
         public DateTime AddBusinessdays(int ProductionDays, DateTime StartingDay)
@@ -992,15 +991,14 @@ namespace MPC.Repository.Repositories
         }
 
         public bool UpdateOrderWithDetailsToConfirmOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Address billingAdd, Address deliveryAdd, double grandOrderTotal,
-                                             string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde, long BrokerContactCompanyID, Estimate order, Prefix prefix)
+                                             string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde, Estimate order, Prefix prefix)
         {
             bool result = false;
             Estimate tblOrder = null;
             Company mdlCustomer = null;
-
-            DbTransaction dbTrans = null;
+   
             Organisation org = null;
-            Company oBrokerCompany = null;
+            
 
 
             using (var dbContextTransaction = db.Database.BeginTransaction())
@@ -1054,8 +1052,8 @@ namespace MPC.Repository.Repositories
                         Company ObjComp = db.Companies.Where(c => c.CompanyId == tblOrder.CompanyId).FirstOrDefault();
                         if (ObjComp != null)
                         {
-                            MgrIds.Add(ObjComp.StockNotificationManagerId1 ?? 0);
-                            MgrIds.Add(ObjComp.StockNotificationManagerId2 ?? 0);
+                            //MgrIds.Add(ObjComp.StockNotificationManagerId1 ?? 0);
+                            //MgrIds.Add(ObjComp.StockNotificationManagerId2 ?? 0);
                             org = db.Organisations.Where(o => o.OrganisationId == ObjComp.OrganisationId).FirstOrDefault();
                         }
 
@@ -1573,9 +1571,10 @@ namespace MPC.Repository.Repositories
 
                
 
-                listOfManagers = (from c in db.SystemUsers
-                                      where mangerList.Contains(c.SystemUserId)
-                                      select c).ToList();
+                //listOfManagers = 
+                    //(from c in db.SystemUsers
+                    //                  where mangerList.Contains(c.SystemUserId)
+                    //                  select c).ToList();
                     if (listOfManagers.Count() > 0)
                     {
                         Campaign stockCampaign = GetCampaignRecordByEmailEvent(emailevent);
@@ -1703,6 +1702,169 @@ namespace MPC.Repository.Repositories
             return true;
 
         }
+        public  Estimate GetLastOrderByContactID(long contactID)
+        {
 
-    }
-}
+            List<Estimate> ordesList = db.Estimates.Where(order => order.ContactId == contactID && order.isEstimate == false).Take(1).ToList();
+                if (ordesList.Count > 0)
+                    return ordesList[0];
+                else
+                    return null;
+        }
+        public List<Order> GetOrdersListByContactID(long contactUserID, OrderStatus? orderStatus,string fromDate,string toDate, string orderRefNumber, int pageSize, int pageNumber) 
+        {
+            List<Order> ordersList = null;
+            int resultsCount = 0;
+            int startIndex = 0;
+            DateTime resultFromDate;
+            DateTime resultToDate;
+
+            DateTime? actualFromDate = null;
+            DateTime? actualToDate = null;
+            
+            
+            int orderStatusID = (orderStatus.HasValue && (int)orderStatus.Value > 0) ? (int)orderStatus.Value : 0;
+
+            if (!string.IsNullOrWhiteSpace(fromDate)&& DateTime.TryParse(fromDate, out resultFromDate))
+                actualFromDate = resultFromDate;
+
+            if (!string.IsNullOrWhiteSpace(toDate) && DateTime.TryParse(toDate, out resultToDate))
+                actualToDate = resultToDate;
+
+            if (actualToDate.HasValue)
+            {
+                actualToDate = actualToDate.Value.AddHours(23);
+                actualToDate = actualToDate.Value.AddMinutes(59.5);
+
+            }
+
+                var query = from tblOrd in db.Estimates
+                            join tblStatuses in db.Statuses on tblOrd.StatusId equals tblStatuses.StatusId
+                            join tblContacts in db.CompanyContacts on tblOrd.ContactId equals tblContacts.ContactId
+                            join tblcompany in  db.Companies on tblContacts.CompanyId equals tblcompany.CompanyId
+                            orderby tblOrd.Order_Date descending
+                            where tblOrd.ContactId == contactUserID // only that specific user
+                            && tblOrd.isEstimate == false
+                            && tblStatuses.StatusType == 2 //The status type should be 2 only for orders
+                            && tblOrd.StatusId != (int)OrderStatus.ShoppingCart // Not Shopping Cart
+                            && tblOrd.StatusId != (int)OrderStatus.ArchivedOrder // Not Archived
+                            && tblOrd.StatusId == (orderStatusID > 0 ? (short?)orderStatusID : tblOrd.StatusId)
+                            && (tblOrd.CustomerPO.Contains(orderRefNumber)) //== ((orderRefNumber == null || orderRefNumber == "") ? tblOrd.CustomerPO : orderRefNumber) || tblcompany.Name.Contains(orderRefNumber) || tblContacts.FirstName.Contains(orderRefNumber) || tblContacts.LastName.Contains(orderRefNumber)) 
+                            && (actualFromDate.HasValue ? tblOrd.Order_Date >= actualFromDate : true)
+                            && (actualToDate.HasValue ? tblOrd.StartDeliveryDate <= actualToDate : true)
+
+                            select new Order()
+                            {
+                                OrderID = tblOrd.EstimateId,
+                                OrderCode = tblOrd.Order_Code,
+                                ProductName = tblOrd.Estimate_Name,
+                                StatusID = tblOrd.StatusId,
+                                StatusName = tblStatuses.StatusName,
+                                StatusTypeID = tblStatuses.StatusType,
+                                ContactUserID = tblOrd.ContactId,
+                                CustomerID = tblOrd.CompanyId,
+                                OrderDate = tblOrd.Order_Date,
+                                DeliveryDate = tblOrd.StartDeliveryDate,
+                                YourRef = tblOrd.CustomerPO,
+                                ClientStatusID = tblOrd.ClientStatus,
+                            };
+
+               // resultsCount = query.Count();
+               // if (resultsCount > 0 && resultsCount > pageSize)
+              //  {
+              //      startIndex = pageNumber - 1 * pageSize;
+               //     ordersList = query.Skip(startIndex).Take(pageSize).ToList(); //all records
+              //  }
+               // else
+               // {
+                    ordersList = query.ToList<Order>();
+               // }
+              // totalRecordsCount = resultsCount;
+
+                   return ordersList;
+            }
+
+        public  List<Order> GetOrdersListExceptPendingOrdersByContactID(long contactUserID, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, int pageSize, int pageNumber)
+        {
+
+            List<Order> ordersList = null;
+          //  int resultsCount = 0;
+          //  int startIndex = 0;
+            DateTime resultFromDate;
+            DateTime resultToDate;
+
+            DateTime? actualFromDate = null;
+            DateTime? actualToDate = null;
+
+            int orderStatusID = (orderStatus.HasValue && (int)orderStatus.Value > 0) ? (int)orderStatus.Value : 0;
+
+            if (!string.IsNullOrWhiteSpace(fromDate) && DateTime.TryParse(fromDate, out resultFromDate))
+                actualFromDate = resultFromDate;
+
+            if (!string.IsNullOrWhiteSpace(toDate) && DateTime.TryParse(toDate, out resultToDate))
+                actualToDate = resultToDate;
+
+
+
+            if (actualToDate.HasValue)
+            {
+                actualToDate = actualToDate.Value.AddHours(23);
+                actualToDate = actualToDate.Value.AddMinutes(59.5);
+
+            }
+
+                var query = from tblOrd in db.Estimates
+                            join tblStatuses in db.Statuses on tblOrd.StatusId equals tblStatuses.StatusId
+                            join tblContacts in db.CompanyContacts on tblOrd.ContactId equals tblContacts.ContactId
+                            join tblcompany in db.Companies on tblContacts.CompanyId equals tblcompany.CompanyId
+                            orderby tblOrd.Order_Date descending
+                            where tblOrd.ContactId == contactUserID // only that specific user
+                            && tblOrd.isEstimate == false
+                            && tblStatuses.StatusType == 2 //The status type should be 2 only for orders
+                            && tblOrd.StatusId != (int)OrderStatus.ShoppingCart // Not Shopping Cart
+                            && tblOrd.StatusId != (int)OrderStatus.ArchivedOrder // Not Archived
+                                // && tblOrd.StatusID != (int)OrderStatus.PendingCorporateApprovel // Not Archived
+                            && tblOrd.StatusId == (orderStatusID > 0 ? (short?)orderStatusID : tblOrd.StatusId)
+                            && (tblOrd.CustomerPO == ((orderRefNumber == null || orderRefNumber == "") ? tblOrd.CustomerPO : orderRefNumber) || tblcompany.Name.Contains(orderRefNumber) || tblContacts.FirstName.Contains(orderRefNumber) || tblContacts.LastName.Contains(orderRefNumber))
+                            && (actualFromDate.HasValue ? tblOrd.Order_Date >= actualFromDate : true)
+                            && (actualToDate.HasValue ? tblOrd.Order_Date <= actualToDate : true)
+
+                            select new Order()
+                            {
+                                OrderID = tblOrd.EstimateId,
+                                OrderCode = tblOrd.Order_Code,
+                                ProductName = tblOrd.Estimate_Name,
+                                StatusID = tblOrd.StatusId,
+                                StatusName = tblStatuses.StatusName,
+                                StatusTypeID = tblStatuses.StatusType,
+                                ContactUserID = tblOrd.ContactId,
+                                CustomerID = tblOrd.CompanyId,
+                                OrderDate = tblOrd.Order_Date,
+                                DeliveryDate = tblOrd.StartDeliveryDate,
+                                YourRef = tblOrd.CustomerPO,
+                                ClientStatusID = tblOrd.ClientStatus,
+                            };
+
+              //  resultsCount = query.Count();
+             //   if (resultsCount > 0 && resultsCount > pageSize)
+             //   {
+                  //  startIndex = OrderManager.GetStartPageIndex(pageNumber, pageSize);
+                  //  ordersList = query.Skip(startIndex).Take(pageSize).ToList(); //all records
+              //  }
+               // else
+               // {
+                    ordersList = query.ToList<Order>();
+              //  }
+            return ordersList;
+            }
+
+           // totalRecordsCount = resultsCount;
+            
+        }
+
+
+        }
+
+
+
+

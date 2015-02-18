@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -105,21 +106,32 @@
     <Compile Include="Common\CategoryRegion.cs" />
     <Compile Include="Common\CmsPageModel.cs" />
     <Compile Include="Common\Constants.cs" />
+    <Compile Include="Common\ContactByColumn.cs" />
     <Compile Include="Common\ContactClaimValue.cs" />
     <Compile Include="Common\CostCentreMatrix.cs" />
     <Compile Include="Common\CostCentreQuestion.cs" />
     <Compile Include="Common\CostCentreResults.cs" />
+    <Compile Include="Common\CustomerByColumn.cs" />
     <Compile Include="Common\DesignerDamImageWrapper.cs" />
     <Compile Include="Common\CostCentreResource.cs" />
     <Compile Include="Common\DesignerPostSettings.cs" />
     <Compile Include="Common\ExecutionQueue.cs" />
+    <Compile Include="Common\ExportOrganisation.cs" />
     <Compile Include="Common\InlineTextStyles.cs" />
     <Compile Include="Common\FileTableCaption.cs" />
+    <Compile Include="Common\Order.cs" />
+    <Compile Include="Common\IsTrialClaimValue.cs" />
+    <Compile Include="Common\OrderStatusEnum.cs" />
+    <Compile Include="Common\SystemUserClaimValue.cs" />
+    <Compile Include="Common\OrderByColumn.cs" />
+    <Compile Include="Common\MachineListColumns.cs" />
+    <Compile Include="Common\MachineByColumn.cs" />
     <Compile Include="Common\MatchingSets.cs" />
     <Compile Include="Common\CostCentersColumns.cs" />
     <Compile Include="Common\OrderDetail.cs" />
     <Compile Include="Common\QuickText.cs" />
     <Compile Include="Common\QuickTextData.cs" />
+    <Compile Include="Common\StockCategoryEnum.cs" />
     <Compile Include="Common\SectionEnum.cs" />
     <Compile Include="Common\ItemFileType.cs" />
     <Compile Include="Common\CompanyClaimValue.cs" />
@@ -143,13 +155,19 @@
     <Compile Include="Common\ShoppingCart.cs" />
     <Compile Include="Common\StockCategoryByColumn.cs" />
     <Compile Include="Common\TemplateVariable.cs" />
+    <Compile Include="Common\TrialCountClaimValue.cs" />
     <Compile Include="Common\UserIdentityModel.cs" />
     <Compile Include="Common\USTaxInfo.cs" />
     <Compile Include="Common\Utility.cs" />
+    <Compile Include="Common\ValidationInfo.cs" />
+    <Compile Include="DomainModels\Activity.cs" />
+    <Compile Include="DomainModels\ActivityType.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CmsOffer.cs" />
+    <Compile Include="DomainModels\CompanyContactVariable.cs" />
     <Compile Include="DomainModels\CompanyVariableIcon.cs" />
     <Compile Include="DomainModels\CostCentreAnswer.cs" />
+    <Compile Include="DomainModels\CostCenterChoice.cs" />
     <Compile Include="DomainModels\CostcentreInstruction.cs" />
     <Compile Include="DomainModels\CostCentreMatrix.cs" />
     <Compile Include="DomainModels\CostCentreMatrixDetail.cs" />
@@ -161,8 +179,14 @@
     <Compile Include="DomainModels\CostCentreVariableType.cs" />
     <Compile Include="DomainModels\CostcentreWorkInstructionsChoice.cs" />
     <Compile Include="DomainModels\CustomCopy.cs" />
+    <Compile Include="DomainModels\DeliveryCarrier.cs" />
     <Compile Include="DomainModels\FavoriteDesign.cs" />
+    <Compile Include="DomainModels\SmartForm.cs" />
+    <Compile Include="DomainModels\SmartFormDetail.cs" />
+    <Compile Include="DomainModels\VariableOption.cs" />
+    <Compile Include="DomainModels\Group.cs" />
     <Compile Include="DomainModels\ImagePermission.cs" />
+    <Compile Include="DomainModels\InkCoverageGroup.cs" />
     <Compile Include="DomainModels\ItemStockUpdateHistory.cs" />
     <Compile Include="DomainModels\Listing.cs" />
     <Compile Include="DomainModels\ListingAgent.cs" />
@@ -174,29 +198,27 @@
     <Compile Include="DomainModels\ListingVendor.cs" />
     <Compile Include="DomainModels\LookupMethod.cs" />
     <Compile Include="DomainModels\Machine.cs" />
+    <Compile Include="DomainModels\MachineCategory.cs" />
     <Compile Include="DomainModels\MachineInkCoverage.cs" />
     <Compile Include="DomainModels\MachineResource.cs" />
+    <Compile Include="DomainModels\MachineSpoilage.cs" />
     <Compile Include="DomainModels\MediaLibrary.cs" />
     <Compile Include="DomainModels\Phrase.cs" />
     <Compile Include="DomainModels\PhraseField.cs" />
+    <Compile Include="DomainModels\PipeLineProduct.cs" />
+    <Compile Include="DomainModels\PipeLineSource.cs" />
     <Compile Include="DomainModels\ProductCategoriesView.cs" />
     <Compile Include="DomainModels\ProductCategoryItemCustom.cs" />
     <Compile Include="DomainModels\ProductCategoryItem.cs" />
     <Compile Include="DomainModels\ProductMarketBriefAnswer.cs" />
     <Compile Include="DomainModels\ProductMarketBriefQuestion.cs" />
+    <Compile Include="DomainModels\Report.cs" />
+    <Compile Include="DomainModels\ReportNote.cs" />
+    <Compile Include="DomainModels\RequestQuote.cs" />
     <Compile Include="DomainModels\Role.cs" />
     <Compile Include="DomainModels\sp_GetTemplateImages_Result.cs" />
     <Compile Include="DomainModels\sp_GetUsedFontsUpdated_Result.cs" />
     <Compile Include="DomainModels\TemplateColorStyle.cs" />
-    <Compile Include="DomainModels\TemplateFileTableView.cs" />
-    <Compile Include="DomainModels\StoreFileTableView.cs" />
-    <Compile Include="DomainModels\SecondaryPageFileTableView.cs" />
-    <Compile Include="DomainModels\ProductFileTableView.cs" />
-    <Compile Include="DomainModels\MediaFileTableView.cs" />
-    <Compile Include="DomainModels\CostCentreFileTableView.cs" />
-    <Compile Include="DomainModels\CompanyBannerFileTableView.cs" />
-    <Compile Include="DomainModels\CategoryFileTableView.cs" />
-    <Compile Include="DomainModels\AttachmentFileTableView.cs" />
     <Compile Include="DomainModels\Campaign.cs" />
     <Compile Include="DomainModels\CampaignEmailQueue.cs" />
     <Compile Include="DomainModels\CampaignEmailVariable.cs" />
@@ -245,9 +267,6 @@
     <Compile Include="DomainModels\ItemVDPPrice.cs" />
     <Compile Include="DomainModels\ItemVideo.cs" />
     <Compile Include="DomainModels\LengthUnit.cs" />
-    <Compile Include="DomainModels\ArtworkFileTableView.cs" />
-    <Compile Include="DomainModels\OrganisationFileTableView.cs" />
-    <Compile Include="DomainModels\MPCFileTableView.cs" />
     <Compile Include="DomainModels\Prefix.cs" />
     <Compile Include="DomainModels\PageCategory.cs" />
     <Compile Include="DomainModels\PaperBasisArea.cs" />
@@ -303,6 +322,7 @@
     <Compile Include="ModelMappers\ItemStateTaxMapper.cs" />
     <Compile Include="ModelMappers\ItemStockOptionMapper.cs" />
     <Compile Include="ModelMappers\ItemProductDetailMapper.cs" />
+    <Compile Include="ModelMappers\ItemSectionMapper.cs" />
     <Compile Include="ModelMappers\ProductCategoryItemMapper.cs" />
     <Compile Include="ModelMappers\ItemVideoMapper.cs" />
     <Compile Include="ModelMappers\TemplatePageMapper.cs" />
@@ -316,16 +336,21 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="RequestModels\ActivityRequestModel.cs" />
     <Compile Include="RequestModels\AddressRequestModel.cs" />
     <Compile Include="RequestModels\CompanyProductSearchRequestModel.cs" />
     <Compile Include="RequestModels\CompanyRequestModel.cs" />
+    <Compile Include="RequestModels\CompanyRequestModelForCalendar.cs" />
     <Compile Include="RequestModels\CompanySavingModel.cs" />
     <Compile Include="RequestModels\CompanyTerritoryRequestModel.cs" />
     <Compile Include="RequestModels\CompanyContactRequestModel.cs" />
     <Compile Include="RequestModels\GetPagedListRequest.cs" />
+    <Compile Include="RequestModels\GetOrdersRequest.cs" />
+    <Compile Include="RequestModels\MachineSearchRequestModel.cs" />
     <Compile Include="RequestModels\ItemSearchRequestModel.cs" />
     <Compile Include="RequestModels\InventorySearchRequestModel.cs" />
     <Compile Include="RequestModels\CostCenterRequestModel.cs" />
+    <Compile Include="RequestModels\MachineRequestModel.cs" />
     <Compile Include="RequestModels\PaperSheetRequestModel.cs" />
     <Compile Include="RequestModels\PaymentGatewayRequestModel.cs" />
     <Compile Include="RequestModels\PhraseLibrarySaveModel.cs" />
@@ -335,11 +360,18 @@
     <Compile Include="RequestModels\StockCategoryRequestModel.cs" />
     <Compile Include="RequestModels\SupplierRequestModelForInventory.cs" />
     <Compile Include="ResponseModels\AddressResponse.cs" />
+    <Compile Include="ResponseModels\CalendarBaseResponse.cs" />
+    <Compile Include="ResponseModels\CampaignBaseResponse.cs" />
     <Compile Include="ResponseModels\CmsPageWithWidgetList.cs" />
     <Compile Include="ResponseModels\CompanyBaseResponse.cs" />
     <Compile Include="ResponseModels\CompanyResponse.cs" />
+    <Compile Include="ResponseModels\CompanySearchResponseForCalendar.cs" />
     <Compile Include="ResponseModels\CompanyTerritoryResponse.cs" />
     <Compile Include="ResponseModels\CompanyContactResponse.cs" />
+    <Compile Include="ResponseModels\CostCenterBaseResponse.cs" />
+    <Compile Include="ResponseModels\GetOrdersResponse.cs" />
+    <Compile Include="ResponseModels\MachineResponseModel.cs" />
+    <Compile Include="ResponseModels\MachineSearchResponse.cs" />
     <Compile Include="ResponseModels\ItemDesignerTemplateBaseResponse.cs" />
     <Compile Include="ResponseModels\ItemBaseResponse.cs" />
     <Compile Include="ResponseModels\InventoryBaseResponse.cs" />
@@ -347,9 +379,14 @@
     <Compile Include="ResponseModels\ItemSearchResponse.cs" />
     <Compile Include="ResponseModels\InventorySearchResponse.cs" />
     <Compile Include="ResponseModels\LanguageEditor.cs" />
+    <Compile Include="ResponseModels\MachineListResponseModel.cs" />
     <Compile Include="ResponseModels\MyCompanyDomainBaseReponse.cs" />
     <Compile Include="ResponseModels\MyOrganizationBaseResponse.cs" />
     <Compile Include="ResponseModels\CostCentersResponse.cs" />
+    <Compile Include="ResponseModels\OrderBaseResponse.cs" />
+    <Compile Include="ResponseModels\OrderBaseResponseForCompany.cs" />
+    <Compile Include="ResponseModels\OrderStatusesResponse.cs" />
+    <Compile Include="ResponseModels\PaperSheetBaseResponse.cs" />
     <Compile Include="ResponseModels\PaperSheetResponse.cs" />
     <Compile Include="ResponseModels\PaperSheetResponseModel.cs" />
     <Compile Include="ResponseModels\MyOrganizationSaveResponse.cs" />

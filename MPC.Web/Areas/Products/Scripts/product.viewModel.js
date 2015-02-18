@@ -3,8 +3,8 @@
 */
 define("product/product.viewModel",
     ["jquery", "amplify", "ko", "product/product.dataservice", "product/product.model", "common/pagination", "common/confirmation.viewModel",
-        "common/phraseLibrary.viewModel"],
-    function ($, amplify, ko, dataservice, model, pagination, confirmation, phraseLibrary) {
+        "common/phraseLibrary.viewModel", "common/sharedNavigation.viewModel", "common/stockItem.viewModel"],
+    function ($, amplify, ko, dataservice, model, pagination, confirmation, phraseLibrary, shared, stockDialog) {
         var ist = window.ist || {};
         ist.product = {
             viewModel: (function () {
@@ -17,8 +17,8 @@ define("product/product.viewModel",
                     productsToRelate = ko.observableArray([]),
                     // Error List
                     errorList = ko.observableArray([]),
-                    // Stock Items
-                    stockItems = ko.observableArray([]),
+                    // Press Items
+                    pressItems = ko.observableArray([]),
                     // Cost Centres
                     costCentres = ko.observableArray([]),
                     // Section Flags
@@ -47,6 +47,8 @@ define("product/product.viewModel",
                     categoryRegions = ko.observableArray([]),
                     // Category Types
                     categoryTypes = ko.observableArray([]),
+                    // Paper Sizes
+                    paperSizes = ko.observableArray([]),
                     // Selected Region Id
                     selectedRegionId = ko.observable(),
                     // Selected Category Type Id
@@ -102,8 +104,8 @@ define("product/product.viewModel",
                     pager = ko.observable(new pagination.Pagination({ PageSize: 5 }, products)),
                     // Pagination For Item Relater Dialog
                     itemRelaterPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, productsToRelate)),
-                    // Pagination For Stock Item Dialog
-                    stockDialogPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, stockItems)),
+                    // Pagination For Press Dialog
+                    pressDialogPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, pressItems)),
                     // Current Page - Editable
                     currentPageCustom = ko.computed({
                         read: function () {
@@ -129,11 +131,10 @@ define("product/product.viewModel",
                         onSelectRelatedItem: function () {
                             closeRelatedItemDialog();
                         },
-                        onChooseStockItem: function () {
-                            openStockItemDialog();
+                        onChooseStockItem: function (stockCategoryId) {
+                            openStockItemDialog(stockCategoryId);
                         },
                         onSelectStockItem: function () {
-                            closeStockItemDialog();
                         },
                         onUpdateItemAddonCostCentre: function () {
                             openItemAddonCostCentreDialog();
@@ -149,14 +150,18 @@ define("product/product.viewModel",
                         },
                         onPreBuiltTemplateSelected: function() {
                             selectPreBuiltTemplate();
+                        },
+                        onSelectPressItem: function () {
+                            closePressDialog();
                         }
                     },
                     // Item State Tax Constructor Params
                     itemStateTaxConstructorParams = { countries: countries(), states: states() },
                     // Selected Job Description
                     selectedJobDescription = ko.observable(),
-                    // Stock Dialog Filter
-                    stockDialogFilter = ko.observable(),
+                    // press Dialog Filter
+                    pressDialogFilter = ko.observable(),
+                    //#endregion
                     // #region Utility Functions
                     toggleView = function (data, e) {
                         view.changeView(e);
@@ -220,6 +225,14 @@ define("product/product.viewModel",
                         
                         // WIre up tab shown event
                         view.wireUpTabShownEvent();
+                        
+                        // Wire Up Navigation Control - If has Changes and user navigates to another page
+                        shared.initialize(selectedProduct, function(navigateCallback) {
+                            onSaveProduct(null, null, navigateCallback);
+                        });
+                        
+                        // Initialize Label Popovers
+                        view.initializeLabelPopovers();
                     },
                     // On Close Editor
                     onCloseProductEditor = function () {
@@ -243,6 +256,8 @@ define("product/product.viewModel",
                         selectedDesignerCategory(undefined);
                         selectedRegionId(undefined);
                         selectedCategoryTypeId(undefined);
+                        errorList.removeAll();
+                        shared.reset();
                     },
                     // On Archive
                     onArchiveProduct = function (item) {
@@ -311,26 +326,51 @@ define("product/product.viewModel",
                     selectJobDescription = function (jobDescription, e) {
                         selectedJobDescription(e.currentTarget.id);
                     },
-                    // Search Stock Items
-                    searchStockItems = function () {
-                        stockDialogPager().reset();
-                        getStockItems();
+                    // Open Stock Item Dialog
+                    openStockItemDialog = function (stockCategoryId) {
+                        stockDialog.show(function(stockItem) {
+                            selectedProduct().onSelectStockItem(stockItem);
+                        }, stockCategoryId, false);
+                    },
+                    // Search Press Items
+                    searchPressItems = function () {
+                        pressDialogPager().reset();
+                        getPressItems();
                     },
                     // Reset Stock Items
-                    resetStockItems = function () {
+                    resetPressItems = function () {
                         // Reset Text 
-                        stockDialogFilter(undefined);
+                        resetPressDialogFilter();
                         // Filter Record
-                        searchStockItems();
+                        searchPressItems();
+                    },
+                    // Reset Press Dialog Filter
+                    resetPressDialogFilter = function() {
+                        // Reset Text 
+                        pressDialogFilter(undefined);
                     },
                     // Open Stock Item Dialog
-                    openStockItemDialog = function () {
-                        view.showStockItemDialog();
-                        searchStockItems();
+                    openPressDialog = function () {
+                        resetPressDialogFilter();
+                        view.showPressDialog();
+                        searchPressItems();
                     },
                     // Close Stock Item Dialog
-                    closeStockItemDialog = function () {
-                        view.hideStockItemDialog();
+                    closePressDialog = function () {
+                        view.hidePressDialog();
+                    },
+                    // Edit Item Section
+                    editSectionSignature = function (itemSection) {
+                        selectedProduct().selectItemSection(itemSection);
+                        openSignatureDialog();
+                    },
+                    // Open Signature Dialog
+                    openSignatureDialog = function() {
+                        view.showSignatureDialog();
+                    },
+                    // Close Signature Dialog
+                    closeSignatureDialog = function () {
+                        view.hideSignatureDialog();
                     },
                     // Open Item Addon Cost Centre Dialog
                     openItemAddonCostCentreDialog = function () {
@@ -463,9 +503,9 @@ define("product/product.viewModel",
 
                         pager(new pagination.Pagination({ PageSize: 5 }, products, getItems));
 
-                        itemRelaterPager(new pagination.Pagination({ PageSize: 5 }, productsToRelate, getItemsToRelate)),
-
-                        stockDialogPager(new pagination.Pagination({ PageSize: 5 }, stockItems, getStockItems)),
+                        itemRelaterPager(new pagination.Pagination({ PageSize: 5 }, productsToRelate, getItemsToRelate));
+                        
+                        pressDialogPager(new pagination.Pagination({ PageSize: 5 }, pressItems, getPressItems));
 
                         // Get Base Data
                         getBaseData();
@@ -500,6 +540,28 @@ define("product/product.viewModel",
                             selectedProduct().scalar(designerCategory.scalarFactor);
                         });
                     },
+                    // #region For Store
+                    // Selected Company Id
+                    selectedCompany = ko.observable(),
+                    // Initialize the view model from Store
+                    initializeForStore = function(companyId) {
+                        if (selectedCompany() !== companyId) {
+                            selectedCompany(companyId);
+                        }
+
+                        var productDetailBinding = $("#productDetailBinding")[0];
+                        var productBinding = $("#productBinding")[0];
+                        setTimeout(function () {
+                            ko.cleanNode(productBinding);
+                            ko.cleanNode(productDetailBinding);
+                            ko.applyBindings(view.viewModel, productBinding);
+                            ko.applyBindings(view.viewModel, productDetailBinding);
+                        }, 1000);
+                        
+                        // Get Items for Store
+                        getItems();
+                    },
+                    // #endregion
                     // Map Products 
                     mapProducts = function (data) {
                         var itemsList = [];
@@ -528,16 +590,16 @@ define("product/product.viewModel",
                         ko.utils.arrayPushAll(productsToRelate(), itemsList);
                         productsToRelate.valueHasMutated();
                     },
-                    // Map Stock Items 
-                    mapStockItems = function (data) {
+                    // Map Press Items 
+                    mapPressItems = function (data) {
                         var itemsList = [];
                         _.each(data, function (item) {
-                            itemsList.push(model.StockItem.Create(item));
+                            itemsList.push(model.Machine.Create(item));
                         });
 
                         // Push to Original Array
-                        ko.utils.arrayPushAll(stockItems(), itemsList);
-                        stockItems.valueHasMutated();
+                        ko.utils.arrayPushAll(pressItems(), itemsList);
+                        pressItems.valueHasMutated();
                     },
                     // Filter Products to Relate
                     filterProductsToRelate = function () {
@@ -568,12 +630,12 @@ define("product/product.viewModel",
                         filterProducts();
                     },
                     // On Save Product
-                    onSaveProduct = function () {
+                    onSaveProduct = function (data, event, navigateCallback) {
                         if (!doBeforeSave()) {
                             return;
                         }
 
-                        saveProduct(closeProductEditor);
+                        saveProduct(closeProductEditor, navigateCallback);
                     },
                     // Do Before Save
                     doBeforeSave = function () {
@@ -584,6 +646,10 @@ define("product/product.viewModel",
                             flag = false;
                         }
                         return flag;
+                    },
+                    // On Clone Product
+                    onCloneProduct = function(data) {
+                        cloneProduct(data, openProductEditor);
                     },
                     // Go To Element
                     gotoElement = function (validation) {
@@ -694,6 +760,17 @@ define("product/product.viewModel",
                         ko.utils.arrayPushAll(categoryTypes(), itemsList);
                         categoryTypes.valueHasMutated();
                     },
+                    // Map Paper Sizes
+                    mapPaperSizes = function (data) {
+                        var itemsList = [];
+                        _.each(data, function (item) {
+                            itemsList.push(model.PaperSize.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(paperSizes(), itemsList);
+                        paperSizes.valueHasMutated();
+                    },
                     // Set Item Price Matrices to Current Item against selected Flag
                     setItemPriceMatricesToItem = function (itemPriceMatrices) {
                         // Only ask for confirmation if it is not a new product
@@ -715,6 +792,13 @@ define("product/product.viewModel",
                                 costCentres.removeAll();
                                 countries.removeAll();
                                 states.removeAll();
+                                sectionFlags.removeAll();
+                                suppliers.removeAll();
+                                productCategories.removeAll();
+                                templateCategories.removeAll();
+                                categoryRegions.removeAll();
+                                categoryTypes.removeAll();
+                                paperSizes.removeAll();
                                 if (data) {
                                     mapCostCentres(data.CostCentres);
 
@@ -741,6 +825,9 @@ define("product/product.viewModel",
                                     
                                     // Map Category Types
                                     mapCategoryTypes(data.CategoryTypes);
+                                    
+                                    // Map Paper Sizes
+                                    mapPaperSizes(data.PaperSizes);
 
                                     // Assign countries & states to StateTaxConstructorParam
                                     itemStateTaxConstructorParams.countries = countries();
@@ -789,8 +876,14 @@ define("product/product.viewModel",
                         });
                     },
                     // Save Product
-                    saveProduct = function (callback) {
-                        dataservice.saveItem(selectedProduct().convertToServerData(), {
+                    saveProduct = function (callback, navigateCallback) {
+                        var product = selectedProduct().convertToServerData();
+                        // If opened from store
+                        if (selectedCompany()) {
+                            product.CompanyId = selectedCompany();
+                        }
+                        
+                        dataservice.saveItem(product, {
                             success: function (data) {
                                 if (!selectedProduct().id()) {
                                     // Update Id
@@ -819,9 +912,35 @@ define("product/product.viewModel",
                                 if (callback && typeof callback === "function") {
                                     callback();
                                 }
+                                
+                                if (navigateCallback && typeof navigateCallback === "function") {
+                                    navigateCallback();
+                                }
                             },
                             error: function (response) {
                                 toastr.error("Failed to Save Product. Error: " + response);
+                            }
+                        });
+                    },
+                    // Clone Product
+                    cloneProduct = function (item, callback) {
+                        dataservice.cloneItem({ ItemId: item.id() }, {
+                            success: function (data) {
+                                if (data) {
+                                    var newItem = model.Item.Create(data, itemActions, itemStateTaxConstructorParams);
+                                    // Add to top of list
+                                    products.splice(0, 0, newItem);
+                                    selectedProduct(newItem);
+                                    
+                                    if (callback && typeof callback === "function") {
+                                        callback();
+                                    }
+                                }
+
+                                toastr.success("Cloned Successfully.");
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to Clone Product. Error: " + response);
                             }
                         });
                     },
@@ -853,22 +972,22 @@ define("product/product.viewModel",
                             }
                         });
                     },
-                    // Get Stock Items
-                    getStockItems = function () {
-                        dataservice.getStockItems({
-                            SearchString: stockDialogFilter(),
-                            PageSize: stockDialogPager().pageSize(),
-                            PageNo: stockDialogPager().currentPage()
+                    // Get Press Items
+                    getPressItems = function () {
+                        dataservice.getMachines({
+                            SearchString: pressDialogFilter(),
+                            PageSize: pressDialogPager().pageSize(),
+                            PageNo: pressDialogPager().currentPage()
                         }, {
                             success: function (data) {
-                                stockItems.removeAll();
+                                pressItems.removeAll();
                                 if (data && data.TotalCount > 0) {
-                                    stockDialogPager().totalCount(data.TotalCount);
-                                    mapStockItems(data.StockItems);
+                                    pressDialogPager().totalCount(data.TotalCount);
+                                    mapPressItems(data.Machines);
                                 }
                             },
                             error: function (response) {
-                                toastr.error("Failed to load stock items" + response);
+                                toastr.error("Failed to load Press items" + response);
                             }
                         });
                     },
@@ -878,7 +997,8 @@ define("product/product.viewModel",
                         dataservice.getItems({
                             SearchString: filterText(),
                             PageSize: pager().pageSize(),
-                            PageNo: pager().currentPage()
+                            PageNo: pager().currentPage(),
+                            CompanyId: selectedCompany()
                         }, {
                             success: function (data) {
                                 products.removeAll();
@@ -991,9 +1111,6 @@ define("product/product.viewModel",
                     productsToRelate: productsToRelate,
                     selectedJobDescription: selectedJobDescription,
                     itemFileTypes: itemFileTypes,
-                    stockDialogPager: stockDialogPager,
-                    stockDialogFilter: stockDialogFilter,
-                    stockItems: stockItems,
                     costCentres: costCentres,
                     sectionFlags: sectionFlags,
                     suppliers: suppliers,
@@ -1005,6 +1122,10 @@ define("product/product.viewModel",
                     selectedRegionId: selectedRegionId,
                     selectedCategoryTypeId: selectedCategoryTypeId,
                     selectedDesignerCategory: selectedDesignerCategory,
+                    pressDialogFilter: pressDialogFilter,
+                    pressDialogPager: pressDialogPager,
+                    pressItems: pressItems,
+                    paperSizes: paperSizes,
                     // Utility Methods
                     initialize: initialize,
                     resetFilter: resetFilter,
@@ -1025,10 +1146,6 @@ define("product/product.viewModel",
                     onAddRelatedItem: onAddRelatedItem,
                     saveVideo: saveVideo,
                     selectJobDescription: selectJobDescription,
-                    searchStockItems: searchStockItems,
-                    resetStockItems: resetStockItems,
-                    openStockItemDialog: openStockItemDialog,
-                    closeStockItemDialog: closeStockItemDialog,
                     openItemAddonCostCentreDialog: openItemAddonCostCentreDialog,
                     closeItemAddonCostCentreDialog: closeItemAddonCostCentreDialog,
                     gotoElement: gotoElement,
@@ -1038,7 +1155,17 @@ define("product/product.viewModel",
                     closeProductCategoryDialog: closeProductCategoryDialog,
                     updateCheckedStateForCategory: updateCheckedStateForCategory,
                     openPhraseLibrary: openPhraseLibrary,
-                    getBaseDataForDesignerCategory: getBaseDataForDesignerCategory
+                    getBaseDataForDesignerCategory: getBaseDataForDesignerCategory,
+                    openPressDialog: openPressDialog,
+                    resetPressItems: resetPressItems,
+                    searchPressItems: searchPressItems,
+                    closePressDialog: closePressDialog,
+                    editSectionSignature: editSectionSignature,
+                    closeSignatureDialog: closeSignatureDialog,
+                    onCloneProduct: onCloneProduct,
+                    // For Store
+                    initializeForStore: initializeForStore
+                    // For Store
                     // Utility Methods
 
                 };

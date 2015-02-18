@@ -51,11 +51,15 @@ $("#btnAdd").click(function (event) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
     }
-    if (canvas._activeObject) {
-        if (canvas._activeObject.type != "image") {
-            canvas.discardActiveObject();
-        }
+    if (canvas) {
 
+        var a0 = canvas.getActiveObject();
+        if (a0) {
+            if (a0.type != "image") {
+                canvas.discardActiveObject();
+            }
+
+        }
     }
     //var D1AO = canvas.getActiveObject();
     //var D1AG = canvas.getActiveGroup();

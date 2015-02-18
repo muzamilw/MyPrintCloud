@@ -13,6 +13,33 @@ define("inventory/inventory.view",
                 viewModel = specifiedViewModel,
                 // Binding root used with knockout
                 bindingRoot = $("#inventoryBinding")[0],
+                // Go To Element with Validation Errors
+                gotoElement = function (element) {
+                    var tab = $(element).closest(".tab-pane");
+                    if (!tab) {
+                        return;
+                    }
+
+                    var liElement = $('a[href=#' + tab.attr('id') + ']');
+                    if (!liElement) {
+                        return;
+                    }
+
+                    liElement.click();
+
+                    // Scroll to Element
+                    setTimeout(function () {
+                        window.scrollTo($(element).offset().left, $(element).offset().top - 50);
+                        // Focus on element
+                        $(element).focus();
+                    }, 1000);
+                },
+                // Initialize Label Popovers
+                initializeLabelPopovers = function () {
+                    // ReSharper disable UnknownCssClass
+                    $('.bs-example-tooltips a').popover();
+                // ReSharper restore UnknownCssClass
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -23,6 +50,8 @@ define("inventory/inventory.view",
             return {
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
+                gotoElement: gotoElement,
+                initializeLabelPopovers: initializeLabelPopovers
             };
         })(inventoryViewModel);
 

@@ -28,7 +28,6 @@ namespace MPC.Implementation.MISServices
         private readonly IOrganisationRepository organisationRepository;
         private readonly IMarkupRepository markupRepository;
         private readonly IChartOfAccountRepository chartOfAccountRepository;
-        private readonly IOrganisationFileTableViewRepository mpcFileTableViewRepository;
         private readonly IStateRepository stateRepository;
         private readonly ICountryRepository countryRepository;
         private readonly IPrefixRepository prefixRepository;
@@ -45,19 +44,14 @@ namespace MPC.Implementation.MISServices
         ///  Constructor
         /// </summary>
         public MyOrganizationService(IOrganisationRepository organisationRepository, IMarkupRepository markupRepository,
-         IChartOfAccountRepository chartOfAccountRepository, IOrganisationFileTableViewRepository mpcFileTableViewRepository,
+         IChartOfAccountRepository chartOfAccountRepository,
             ICountryRepository countryRepository, IStateRepository stateRepository, IPrefixRepository prefixRepository,
            ICurrencyRepository currencyRepository, IWeightUnitRepository weightUnitRepository, ILengthUnitRepository lengthUnitRepository,
             IGlobalLanguageRepository globalLanguageRepository)
         {
-            if (mpcFileTableViewRepository == null)
-            {
-                throw new ArgumentNullException("mpcFileTableViewRepository");
-            }
             this.organisationRepository = organisationRepository;
             this.markupRepository = markupRepository;
             this.chartOfAccountRepository = chartOfAccountRepository;
-            this.mpcFileTableViewRepository = mpcFileTableViewRepository;
             this.countryRepository = countryRepository;
             this.stateRepository = stateRepository;
             this.prefixRepository = prefixRepository;
@@ -95,7 +89,7 @@ namespace MPC.Implementation.MISServices
         {
             Organisation organization = organisationRepository.Find(organisationRepository.OrganisationId);
             IEnumerable<Markup> markups = markupRepository.GetAll();
-            if (markups != null)
+            if (markups != null && markups.Count() > 0)
             {
                 organization.MarkupId = markupRepository.GetAll().First(x => x.IsDefault != null).MarkUpId;
             }

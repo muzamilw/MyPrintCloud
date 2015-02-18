@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
 {
+    [Serializable()]
     /// <summary>
     /// Stock Item Domain MOdel
     /// </summary>
@@ -383,6 +384,11 @@ namespace MPC.Models.DomainModels
         /// Supplier
         /// </summary>
         public virtual Company Company { get; set; }
+
+        /// <summary>
+        /// Item Sections
+        /// </summary>
+        public virtual ICollection<ItemSection> ItemSections { get; set; }
 
         #endregion
 

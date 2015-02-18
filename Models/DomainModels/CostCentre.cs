@@ -84,7 +84,6 @@ namespace MPC.Models.DomainModels
         public int Sequence { get; set; }
         public string CompleteCode { get; set; }
         public string ItemDescription { get; set; }
-        public int CompanyId { get; set; }
         public int? SystemTypeId { get; set; }
         public int? FlagId { get; set; }
         public short IsScheduleable { get; set; }
@@ -134,11 +133,13 @@ namespace MPC.Models.DomainModels
         public long? OrganisationId { get; set; }
         public int? DeliveryType { get; set; }
         public string DeliveryServiceType { get; set; }
+        public long? CarrierId { get; set; }
 
         public virtual CostCentreType CostCentreType { get; set; }
         public virtual ICollection<SectionCostcentre> SectionCostcentres { get; set; }
         public virtual ICollection<ItemAddonCostCentre> ItemAddonCostCentres { get; set; }
         public virtual ICollection<CostcentreInstruction> CostcentreInstructions { get; set; }
         public virtual ICollection<CostcentreResource> CostcentreResources { get; set; }
+        public virtual ICollection<CompanyCostCentre> CompanyCostCentres { get; set; }
     }
 }

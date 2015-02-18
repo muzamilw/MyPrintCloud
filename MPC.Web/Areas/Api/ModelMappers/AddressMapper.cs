@@ -36,7 +36,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             };
         }
 
-        public static Models.Address CreateFrom(this DomainModels.Address source)
+        public static Address CreateFrom(this DomainModels.Address source)
         {
             return new Address
                    {
@@ -45,10 +45,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        AddressName = source.AddressName,
                        Address1 = source.Address1,
                        Address2 = source.Address2,
-                       Address3 = source.Address2,
+                       Address3 = source.Address3,
                        City = source.City,
                        StateId = source.StateId,
+                       StateName = source.State != null ? source.State.StateName : string.Empty,
                        CountryId = source.CountryId,
+                       CountryName = source.Country != null? source.Country.CountryName : string.Empty,
                        PostCode = source.PostCode,
                        Fax = source.Fax,
                        Email = source.Email,
@@ -69,10 +71,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        ContactId = source.ContactId,
                        isDefaultTerrorityBilling = source.isDefaultTerrorityBilling,
                        isDefaultTerrorityShipping = source.isDefaultTerrorityShipping,
-                       OrganisationId = source.OrganisationId,
+                       OrganisationId = source.OrganisationId
                    };
         }
-        public static DomainModels.Address CreateFrom(this Models.Address source)
+        public static DomainModels.Address CreateFrom(this Address source)
         {
             return new DomainModels.Address
             {
@@ -81,7 +83,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 AddressName = source.AddressName,
                 Address1 = source.Address1,
                 Address2 = source.Address2,
-                Address3 = source.Address2,
+                Address3 = source.Address3,
                 City = source.City,
                 StateId = source.StateId,
                 CountryId = source.CountryId,
@@ -105,8 +107,24 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ContactId = source.ContactId,
                 isDefaultTerrorityBilling = source.isDefaultTerrorityBilling,
                 isDefaultTerrorityShipping = source.isDefaultTerrorityShipping,
-                OrganisationId = source.OrganisationId,
+                OrganisationId = source.OrganisationId
             };
         }
+
+        /// <summary>
+        /// Create From For Order
+        /// </summary>
+        public static AddressDropDown CreateFromForOrder(this DomainModels.Address source)
+        {
+            return new AddressDropDown
+            {
+                AddressId = source.AddressId,
+                AddressName = source.AddressName,
+                Address1 = source.Address1,
+                Address2 = source.Address2,
+                Tel1 = source.Tel1
+            };
+        }
+
     }
 }

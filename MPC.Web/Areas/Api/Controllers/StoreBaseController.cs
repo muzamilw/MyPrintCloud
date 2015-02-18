@@ -44,6 +44,9 @@ namespace MPC.MIS.Areas.Api.Controllers
                        //PaymentMethods = result.PaymentMethods.Select(x=>x.CreateFrom()),
                        EmailEvents = result.EmailEvents != null ? result.EmailEvents.Select(x => x.CreateFrom()) : null,
                        Widgets = result.Widgets != null ? result.Widgets.Select(x => x.CreateFrom()) : null,
+                       CostCenterDropDownList = result.CostCentres != null ? result.CostCentres.Select(x => x.CostCentreDropDownCreateFrom()) : null,
+                       Countries = result.Countries != null ? result.Countries.Select(x=> x.CreateFromDropDown()): null,
+                       States = result.States != null ? result.States.Select(x=> x.CreateFromDropDown()): null
                        //CmsPageDropDownList = result.CmsPages.Select(x => x.CreateFromForDropDown())
                    };
         }
@@ -74,7 +77,10 @@ namespace MPC.MIS.Areas.Api.Controllers
                 EmailEvents = result.EmailEvents != null ? result.EmailEvents.Select(x => x.CreateFrom()) : null,
                 Widgets = result.Widgets != null ? result.Widgets.Select(x => x.CreateFrom()) : null,
                 DefaultSpriteImage = bytes,
-                DefaultCompanyCss = defaultCss
+                DefaultCompanyCss = defaultCss,
+                CostCenterDropDownList = result.CostCentres != null ? result.CostCentres.Select(x => x.CostCentreDropDownCreateFrom()) : null,
+                Countries = result.Countries != null ? result.Countries.Select(x => x.CreateFromDropDown()) : null,
+                States = result.States != null ? result.States.Select(x => x.CreateFromDropDown()) : null
             };
         }
         #endregion

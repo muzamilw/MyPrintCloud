@@ -87,43 +87,44 @@ namespace MPC.Implementation.WebStoreServices
                      //if found question in queue then use its values
                      if (bFlag == true)
                      {
+                         return Convert.ToDouble(QuestionItem.Qty1Answer);
                          //Return CDbl(item.Answer)
                          //if MultipleQutantities
                          //new multiple qty logic goes here
 
-                         if (CurrentQuantity <= MultipleQutantities)
-                         {
-                             switch (CurrentQuantity)
-                             {
-                                 case 1:
-                                     return Convert.ToDouble(QuestionItem.Qty1Answer);
-                                 case 2:
-                                     if (QuestionItem.Qty2Answer == 0)
-                                     {
-                                         return Convert.ToDouble(QuestionItem.Qty1Answer);
-                                     }
-                                     else
-                                     {
-                                         return Convert.ToDouble(QuestionItem.Qty2Answer);
-                                     }
-                                     break;
-                                 case 3:
-                                     if (Convert.ToDouble(QuestionItem.Qty3Answer) == 0)
-                                     {
-                                         return Convert.ToDouble(QuestionItem.Qty1Answer);
-                                     }
-                                     else
-                                     {
-                                         return Convert.ToDouble(QuestionItem.Qty3Answer);
-                                     }
+                         //if (CurrentQuantity <= MultipleQutantities)
+                         //{
+                         //    switch (CurrentQuantity)
+                         //    {
+                         //        case 1:
+                         //            return Convert.ToDouble(QuestionItem.Qty1Answer);
+                         //        case 2:
+                         //            if (QuestionItem.Qty2Answer == 0)
+                         //            {
+                         //                return Convert.ToDouble(QuestionItem.Qty1Answer);
+                         //            }
+                         //            else
+                         //            {
+                         //                return Convert.ToDouble(QuestionItem.Qty2Answer);
+                         //            }
+                         //            break;
+                         //        case 3:
+                         //            if (Convert.ToDouble(QuestionItem.Qty3Answer) == 0)
+                         //            {
+                         //                return Convert.ToDouble(QuestionItem.Qty1Answer);
+                         //            }
+                         //            else
+                         //            {
+                         //                return Convert.ToDouble(QuestionItem.Qty3Answer);
+                         //            }
 
-                                     break;
-                             }
-                         }
-                         else
-                         {
-                             throw new Exception("Invalid  Current Selected Multiple Quantitity");
-                         }
+                         //            break;
+                         //    }
+                         //}
+                         //else
+                         //{
+                         //    throw new Exception("Invalid  Current Selected Multiple Quantitity");
+                         //}
                      }
                      else
                      {
@@ -194,41 +195,42 @@ namespace MPC.Implementation.WebStoreServices
                      //if found question in queue then use its values
                      if (bFlag == true)
                      {
+                         return Convert.ToDouble(QuestionItem.Qty1Answer);
                          //Return CDbl(item.Answer)
                          //multiple qty logic goes here
 
-                         if (CurrentQuantity <= MultipleQutantities)
-                         {
-                             switch (CurrentQuantity)
-                             {
-                                 case 1:
-                                     return Convert.ToDouble(QuestionItem.Qty1Answer);
-                                 case 2:
-                                     if (Convert.ToDouble(QuestionItem.Qty2Answer) == 0)
-                                     {
-                                         return Convert.ToDouble(QuestionItem.Qty1Answer);
-                                     }
-                                     else
-                                     {
-                                         return Convert.ToDouble(QuestionItem.Qty2Answer);
-                                     }
-                                     break;
-                                 case 3:
-                                     if (Convert.ToDouble(QuestionItem.Qty3Answer) == 0)
-                                     {
-                                         return Convert.ToDouble(QuestionItem.Qty1Answer);
-                                     }
-                                     else
-                                     {
-                                         return Convert.ToDouble(QuestionItem.Qty3Answer);
-                                     }
-                                     break;
-                             }
-                         }
-                         else
-                         {
-                             throw new Exception("Invalid  Current Selected Multiple Quantitity");
-                         }
+                         //if (CurrentQuantity <= MultipleQutantities)
+                         //{
+                         //    switch (CurrentQuantity)
+                         //    {
+                         //        case 1:
+                         //            return Convert.ToDouble(QuestionItem.Qty1Answer);
+                         //        case 2:
+                         //            if (Convert.ToDouble(QuestionItem.Qty2Answer) == 0)
+                         //            {
+                         //                return Convert.ToDouble(QuestionItem.Qty1Answer);
+                         //            }
+                         //            else
+                         //            {
+                         //                return Convert.ToDouble(QuestionItem.Qty2Answer);
+                         //            }
+                         //            break;
+                         //        case 3:
+                         //            if (Convert.ToDouble(QuestionItem.Qty3Answer) == 0)
+                         //            {
+                         //                return Convert.ToDouble(QuestionItem.Qty1Answer);
+                         //            }
+                         //            else
+                         //            {
+                         //                return Convert.ToDouble(QuestionItem.Qty3Answer);
+                         //            }
+                         //            break;
+                         //    }
+                         //}
+                         //else
+                         //{
+                         //    throw new Exception("Invalid  Current Selected Multiple Quantitity");
+                         //}
                      }
                      else
                      {
@@ -243,7 +245,7 @@ namespace MPC.Implementation.WebStoreServices
                      //loading the Questions Information for populating in the Queue
                      MPC.Repository.Repositories.CostCentreExecution obj = new MPC.Repository.Repositories.CostCentreExecution();
                      CostCentreMatrix oMatrix = obj.GetMatrix(MatrixID);
-                     QuestionItem = new QuestionQueueItem(MatrixID, oMatrix.Name, CostCentreID, 4, oMatrix.Description, "", "", false, 0, 0, 0, 0, 0, oMatrix.RowsCount, oMatrix.ColumnsCount);
+                     QuestionItem = new QuestionQueueItem(MatrixID, oMatrix.Name, CostCentreID, 4, oMatrix.Description, "", "", false, 0, 0, 0, 0, 0, oMatrix.RowsCount, oMatrix.ColumnsCount, null, oMatrix.items);
                      QuestionQueue.Add(QuestionItem);
                      oMatrix = null;
 

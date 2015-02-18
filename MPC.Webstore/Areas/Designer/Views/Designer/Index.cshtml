@@ -5,6 +5,7 @@
     <link href="~/Content/Designer/DSv2.css" rel="stylesheet" />
     <link href="~/Content/Designer/jquery-sunny/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" />
     <link href="~/Content/Designer/p103.css" rel="stylesheet" />
+<link href="~/Content/Designer/jquery.cropbox.css" rel="stylesheet" />
     @*<link href="~/Scripts/Designer/a12/a66.css" rel="stylesheet" />*@
     <script src="~/Scripts/Designer/p55.js"></script>
     <script src="~/Scripts/Designer/p55-ease.js"></script>
@@ -25,7 +26,7 @@
             <li id="Template" class="layout"><a>Templates</a></li>
             <li id="Quick" class="QuickTxt"><a>Quick</a></li>
             <li id="btnAdd" class="text btnAdd"><a>Add</a></li>
-            <li id="backgrounds" class="backgrounds"><a>Bkgrounds</a></li>
+            <li id="backgrounds" class="backgrounds"><a>Canvas</a></li>
             <li id="uploads" class="uploads" style="display: none;"><a>Uploads</a></li>
             <li id="layersPanel" class="layersPanel"><a>Layers</a></li>
             <li id="layoutsPanel" class="layoutsPanel" style="display: none;"><a>Layouts</a></li>
@@ -68,30 +69,37 @@
                 <section class="layer scrollPaneImgDam">
                     <div class="innerDesigner browseCategories ">
                         <div class="AddBrowserCategories">
-                            <ul class="gallery photoGallery albumGallery categories laidOut UlAddMain TempUlAddMain" id="TempUlAddMain" style="height: 380px;">
-                              
-                                <li style="width: 109px; left: 0px; top: 0px;" class="AddBLr1c2">
-                                    <a title="Add text" class="btnAtext">
-                                        <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
-                                        <img id="AddText" src="" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />
-                                        <span class="text">Add Text</span>
-                                    </a>
+                            <ul class=" textControls UlAddMain TempUlAddMain" id="TempUlAddMain" style="height: 380px;">
+                                <li>
+                                    <a class=" SampleBtn btntxt btnAtext" id=" ">Add Text</a>
+                                    <a class=" SampleBtn btntxt btnAFrames" id=" ">Add Images</a>
+                                    <a class=" SampleBtn btntxt btnAShapes" id=" ">Add Shapes</a>
                                 </li>
-                                <li style="width: 109px; left: 109px; top: 0px;" class="AddBLr1c3">
-                                    <a title="Add Images" class="btnAFrames">
-                                        <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
-                                        <img id="Image" src="" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />
-                                        <span class="text">Images</span>
-                                    </a>
+                                <li>
+                                    <a class=" SampleBtn btntxt " id=" ">Add QR Code</a>
                                 </li>
-                                <li style="width: 109px; left: 218px; top: 0px;" class="AddBLr1c3">
-                                    <a title="Add Images" class="btnAShapes">
-                                        <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
-                                        <img src="~/Content/Designer/assets-v2/shapes.png" width="200" height="200" class="ShapesDisplay" alt="Folder thumbnail" style="height: 81px;" />
-                                        <span class="text">Shapes</span>
-                                    </a>
-                                </li>
-                               
+                                @*<li style="width: 109px; left: 0px; top: 0px;" class="AddBLr1c2">
+                <a title="Add text" class="btnAtext">
+                    <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
+                    <img id="AddText" src="" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />
+                    <span class="text">Add Text</span>
+                </a>
+            </li>*@
+                                @*<li style="width: 109px; left: 109px; top: 0px;" class="AddBLr1c3">
+                <a title="Add Images" class="btnAFrames">
+                    <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
+                    <img id="Image" src="" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />
+                    <span class="text">Images</span>
+                </a>
+            </li>
+            <li style="width: 109px; left: 218px; top: 0px;" class="AddBLr1c3">
+                <a title="Add Images" class="btnAShapes">
+                    <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
+                    <img src="~/Content/Designer/assets-v2/shapes.png" width="200" height="200" class="ShapesDisplay" alt="Folder thumbnail" style="height: 81px;" />
+                    <span class="text">Shapes</span>
+                </a>
+            </li>*@
+
                             </ul>
                         </div>
                         <section class="ImagesScrollContainer">
@@ -116,8 +124,14 @@
                                             <a class=" SampleBtn btntxt" id="btnAddheading">Add heading</a>
                                             <a class=" SampleBtn btntxt" id="btnAddSubtitle">Add as subtitle</a>
                                             <a class=" SampleBtn btntxt" id="btnaddbody">Add as body</a>
+                                            </li>
+                                        <li>
+                                            <a class=" SampleBtn btntxt" id="btnAddheading">CRM</a>
+                                            <a class=" SampleBtn btntxt" id="btnAddSubtitle">Text list</a>
+                                            <a class=" SampleBtn btntxt" id="btnaddbody">Upload font</a>
+                                        </li>
                                     </ul>
-                                    <ul class="gallery photoGallery albumGallery categories laidOut ulImagesSecTop" style="height: 129px;">
+                                    @*<ul class="gallery photoGallery albumGallery categories laidOut ulImagesSecTop" style="height: 129px;">
                                         <li style="width: 109px; left: 0px; top: 0px;" class="AddBLr1c3">
                                             <a title="CRM" class="btnACRM">
                                                 <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
@@ -141,7 +155,7 @@
                                             </a>
                                         </li>
 
-                                    </ul>
+                                    </ul>*@
                                 </div>
                             </section>
                             <section class="ImagesContainer AddPanels disappearing Addr1c3">
@@ -151,8 +165,19 @@
                                         <div class="inlineFolderGroup searchGroup hasContent browseCategories ImgsBrowserCategories " style="overflow: visible; border-bottom: none;">
                                             <div class="ulImagesSecTop">
                                                 <button class="btnBackFromImgs bkbtnIphone">Add</button>Back to Add
-                                                <ul class="gallery photoGallery albumGallery categories laidOut ulImagesSecTop" style="height: 129px;">
-                                                    <li style="width: 109px; left: 0px; top: 0px;" class="ImgLr1c1">
+                                                <ul class="textControls ulImagesSecTop" style="height: 129px;">
+                                                    <li>
+                                                        <a class=" SampleBtn btntxt btnFreeImgs" id=" ">Free Images</a>
+                                                        <a class=" SampleBtn btntxt btnIllustrations" id=" ">My Images</a>
+                                                        <a class=" SampleBtn btntxt btnFrames" id=" ">My Logos</a>
+                                                    </li>
+                                                    <li>
+                                                        <a class=" SampleBtn btntxt btnTemplateImages" id="" style="font-size:11px !important;">Template Images</a>
+                                                        <a title="Upload Images" id="uploadImagesMB" class=" SampleBtn btntxt ">
+                                                            Upload
+                                                        </a>
+                                                    </li>
+                                                    @*<li style="width: 109px; left: 0px; top: 0px;" class="ImgLr1c1">
                                                         <a title="Free Images" class="btnFreeImgs">
                                                             <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
                                                             <img id="FreeImages" src="" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />
@@ -172,7 +197,7 @@
                                                             <img id="MyLogos" src="" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />
                                                             <span class="text">My Logos</span>
                                                         </a>
-                                                    </li>
+                                                    </li>*@
 
                                                 </ul>
                                             </div>
@@ -204,7 +229,7 @@
                                                     </div>
                                                 </section>
                                             </section>
-                                            <ul class="gallery photoGallery albumGallery categories laidOut ulImagesSecTop" style="height: 129px;">
+                                            @*<ul class="gallery photoGallery albumGallery categories laidOut ulImagesSecTop" style="height: 129px;">
                                                 <li style="width: 109px; left: 0px; top: 0px;" class="ImgLr3c1">
                                                     <a title="Template Images" class="btnTemplateImages">
                                                         <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
@@ -219,7 +244,7 @@
                                                         <span class="text">Upload</span>
                                                     </a>
                                                 </li>
-                                            </ul>
+                                            </ul>*@
                                             <section class="ImagesScrollContainer ">
                                                 <section class="templateImagesContainer ImgPanels disappearing Imr3c1">
 
@@ -240,8 +265,12 @@
                                         <div class="inlineFolderGroup searchGroup hasContent browseCategories ImgsBrowserCategories " style="overflow: visible; border-bottom: none;">
                                             <div class="ulImagesSecTop">
                                                 <button class="btnBackFromShapes bkbtnIphone">Add</button>Back to Add
-                                                <ul class="gallery photoGallery albumGallery categories laidOut ulImagesSecTop" style="height: 129px;">
-                                                    <li style="width: 109px; left: 0px;" class="AddBLr1c3">
+                                                <ul class="textControls ulImagesSecTop" style="height: 129px;">
+                                                    <li>
+                                                        <a class=" SampleBtn btntxt CustomRectangleObj" id="">Rectangle</a>
+                                                        <a class=" SampleBtn btntxt CustomCircleObj" id="">Circle</a>
+                                                    </li>
+                                                    @*<li style="width: 109px; left: 0px;" class="AddBLr1c3">
                                                         <a title="Add Images" class="CustomRectangleObj">
                                                             <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
                                                             <img id="btnAddRectangle" src="" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />
@@ -254,7 +283,7 @@
                                                             <img id="btnAddCircle" src="" width="200" height="200" alt="Folder thumbnail" style="height: 81px;" />
                                                             <span class="text">Circle</span>
                                                         </a>
-                                                    </li>
+                                                    </li>*@
                                                 </ul>
                                             </div>
                                         </div>
@@ -271,8 +300,18 @@
                 <section class="layer bkDamScroller">
                     <div class="innerDesigner">
                         <div class="browseCategories bKimgBrowseCategories">
-                            <ul class="gallery photoGallery albumGallery categories laidOut bkMainPanels" style="height: 129px;">
-                                <li style="width: 109px; left: 0px; top: 0px;" class="bkr1c1">
+                            <ul class="textControls bkMainPanels" style="height: 129px;">
+                                <li>
+                                    <a class=" SampleBtn btntxt freeBackgrounds bkTextBoxes" id=" ">Free <br />Backgrounds</a>
+                                    <a class=" SampleBtn btntxt myBackgrounds bkTextBoxes" id=" ">My<br /> Backgrounds</a>
+                                    <a class=" SampleBtn btntxt templateBackgrounds bkTextBoxes" id=" ">Template <br />Backgrounds</a>
+                                </li>
+                                <li>
+                                    <a class=" SampleBtn btntxt BkColors bkTextBoxes" id=" ">Background <br />colours</a>
+                                    <a class=" SampleBtn btntxt  bkTextBoxes" id="uploadBackgroundMn">Upload<br /> Background</a>
+                                    <a class=" SampleBtn btntxt  bkTextBoxes" id="clearBackground">Clear <br />Backgrounds</a>
+                                </li>
+                                @*<li style="width: 109px; left: 0px; top: 0px;" class="bkr1c1">
                                     <a title="Free Backgrounds" class="freeBackgrounds">
                                         <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
                                         <img id="FreeBackgrounds" src="" width="200" height="200" alt="Upload folder thumbnail" style="height: 81px;" /><span class="text">Free Backgrounds</span>
@@ -289,7 +328,7 @@
                                         <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
                                         <img id="IdTemplateBackgrounds" src="" width="200" height="200" alt="Facebook folder thumbnail" style="height: 81px;" /><span class="text">Template Backgrounds</span>
                                     </a>
-                                </li>
+                                </li>*@
                             </ul>
                             <section class="ImagesScrollContainer">
                                 <section class="freeBkImgsContainer BkImgPanels disappearing bkImr1c1">
@@ -316,7 +355,7 @@
                                     </div>
                                 </section>
                             </section>
-                            <ul class="gallery photoGallery albumGallery categories laidOut bkMainPanels" style="height: 129px;">
+                            @*<ul class="gallery photoGallery albumGallery categories laidOut bkMainPanels" style="height: 129px;">
                                 <li style="width: 109px; left: 0px; top: 0px;" class="bkr2c1">
                                     <a title="Background colours" class="BkColors">
                                         <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
@@ -335,7 +374,7 @@
                                         <img id="ClearBackground" src="~/Content/Designer/assets-v2/white.jpg" width="200" height="200" alt="Clear Backgrounds" style="height: 81px;" /><span class="text">Clear Background</span>
                                     </a>
                                 </li>
-                            </ul>
+                            </ul>*@
                             
                             <section class="ImagesScrollContainer">
                                 <section class="freeBkImgsContainer BkImgPanels disappearing bkImr2c1 ">
@@ -473,11 +512,12 @@
                     <div class="innerDesigner">
                         <div class="searchGroup hasContent templateListULSG">
                             <div id="objPropertyPanel" class="ImageContainer">
-                                <div class="textPropertyPanel1" style="">
-                                    <div class="propertyPanelControlDiv imgthumbPreviewSlider" style="text-align:center;">
-                                        <img id="imgThumbPreview" height="80px" />
+                                <div class="propertyPanelControlDiv imgthumbPreviewSlider" style="text-align:center;padding: 0px 0px 0px 0px;width: 299px;">
+                                    <img id="imgThumbPreview" height="80px" style="max-width:300px;" />
 
-                                    </div>
+                                </div>
+                                <div class="textPropertyPanel1" style="">
+                                   
                                     <div class="propertyPanelControlDiv" style="width: 303px; text-align: center;">
                                         <button id="btnReplaceImage" title="Delete Object" class="buttonDesigner  imgthumbPreviewSliderBtn">
                                             Replace Image
@@ -496,10 +536,13 @@
                                             <button id="AddColorShape" class="BtnChngeClr" title="Colour picker">
                                                 Color
                                             </button>
+                                            <button id="" class="BtnChngeClr OpacityBtn" title="Colour picker">
+                                                Opacity
+                                            </button>
                                             <div class="inputObjectAlphaSlider"></div>
-                                            <button id="BtnImgRotateRight" class="BtnRotateRight" title="Rotate Right"></button>
+                                            <button id="BtnImgRotateRight" class="BtnRotateRight" title="Rotate Right" style="display:none;"></button>
 
-                                            <button id="BtnImgRotateLeft" class="BtnRotateLeft" title="Rotate Left"></button>
+                                            <button id="BtnImgRotateLeft" class="BtnRotateLeft" title="Rotate Left" style="display:none;"></button>
                                         </div>
 
                                         <div class="propertyPanelControlDiv" style="margin-top: 30px">
@@ -674,7 +717,7 @@
                                         </button>
                                     </div>
 
-                                    <div class="propertyPanelControlDiv" style="margin-top: 18px;">
+                                    <div class="propertyPanelControlDiv" style="margin-top: 18px; display:none;">
 
 
                                         <button id="BtnVarification" title="Upload Font" class="buttonDesigner">
@@ -1160,8 +1203,9 @@
         @*<iframe id="LargePreviewerIframe" class="LargePreviewerIframe" src="Previewer.aspx"></iframe>*@
     </div>
     <div id="PreviewerContainerDesigner" class="ui-corner-all propertyPanel">
+        <a class="PreviewerDownloadImg" onclick="k9_im()" target="_blank">Download Image </a>
         <a class="PreviewerDownloadPDF" onclick="k9()" target="_blank">Download PDF </a>
-        <div class="PreviewerContainerDesignerClose buttonDesigner" onclick="e6()">
+        <div class="PreviewerContainerDesignerClose buttonDesigner previewfontStyles" onclick="e6()">
             Close
         </div>
         <div class="previewerTitle">
@@ -1193,7 +1237,7 @@
                         <input type="email" name="userEmail2" id="userEmail2" class="clssInputProofing" style="display: none;" />
                     </div>
                 </div>
-                <button id="btnNextProofing" class="btnBlueProofing buttonDesigner">
+                <button id="btnNextProofing" class="btnBlueProofing buttonDesigner previewfontStyles">
                     NEXT
                 </button>
             </div>

@@ -1,8 +1,11 @@
-﻿namespace MPC.MIS.Areas.Api.Models
+﻿using System;
+
+namespace MPC.MIS.Areas.Api.Models
 {
     public class SystemUserDropDown
     {
-        public int SystemUserId { get; set; }
+        public Guid SystemUserId { get; set; }
         public string UserName { get; set; }
+        public bool isSelected { get; set; }
     }
 }

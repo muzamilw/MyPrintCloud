@@ -49,5 +49,12 @@ namespace MPC.Interfaces.MISServices
         /// Get Items For Widgets
         /// </summary>
         List<Item> GetItemsForWidgets();
+
+        #region exportOrganisation
+
+        void ExportOrganisation(long OrganisationID);
+
+        void ImportOrganisation();
+        #endregion
     }
 }

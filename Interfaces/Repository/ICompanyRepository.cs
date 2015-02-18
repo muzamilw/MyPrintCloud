@@ -41,8 +41,19 @@ namespace MPC.Interfaces.Repository
         string SystemWeight(long OrganisationID);
 
         string SystemLength(long OrganisationID);
+        bool UpdateCompanyName(Company Instance);
+        Company GetStoreByStoreId(long companyId);
 
+        ExportOrganisation ExportCompany(ExportOrganisation ObjExportOrg, long CompanyId);
+        /// <summary>
+        /// Get Company By Is Customer Type
+        /// </summary>
+        CompanySearchResponseForCalendar GetByIsCustomerType(CompanyRequestModelForCalendar request);
+
+        /// <summary>
+        /// Count of live stores
+        /// </summary>
+        int LiveStoresCountForDashboard();
         
-
     }
 }

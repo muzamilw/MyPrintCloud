@@ -1,37 +1,14 @@
-﻿@{
-    ViewBag.Title = "Add Edit Secondary Page";
-}
-
-
-<div class="modal fade" id="secondaryPageAddDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+﻿
+<div class="modal fade my-modal" id="secondaryPageAddDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div style="width: 838px;" class="modal-dialog" data-bind="with:$root.selectedSecondaryPage">
         <div class="modal-content">
-            <div class="modal-header">
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <ol class="breadcrumb">
-                        <li><a href="#">Stores</a></li>
-                        <li class="active"><span>SecondaryPage</span></li>
-                    </ol>
-                    <div class="clearfix">
-                        <h1 class="pull-left">Need Help</h1>
-                    </div>
-                </div>
-                <div class="col-lg-12 col-md-8 col-sm-8" style="padding-bottom:10px;">
-                    <div class="col-xs-10">
-                    </div>
-                    <div class="col-xs-1">
-                        <button type="button" class="btn btn-primary pull-right" data-bind="click:$root.onSaveSecondaryPage">Save</button>
-                    </div>
-                    <div class="col-xs-1">
-                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
+            <div class="modal-header" >
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Secondary Page Detail</h4>
             </div>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="main-box clearfix">
+                    <div class="main-box clearfix" id="tabsHeaderSecondarypage">
                         <div class="tabs-wrapper profile-tabs">
                             <ul class="nav nav-tabs">
                                 <li class="active"><a href="#tab-SecondaryPageDetail" data-toggle="tab">Page Details</a></li>
@@ -46,7 +23,7 @@
                                                 <div class="form-group ">
                                                     <div class="col-lg-5 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Title For Secondary Page" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
@@ -59,7 +36,7 @@
                                                 <div class="form-group ">
                                                     <div class="col-lg-5 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Category of Page" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
@@ -78,7 +55,7 @@
                                                     <div class="col-lg-5 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
 
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload new sprite image" data-original-title="" title="">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Banner from Media Library" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload new sprite image" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
 
@@ -114,9 +91,9 @@
                                                 </div>
 
                                                 <div class="col-lg-5">
-                                                    <a href="#" class="btn btn-primary pull-right" data-bind="click:$root.addDefaultPageKeyWords">
+                                                    <button class="btn btn-primary pull-right" data-bind="click:$root.addDefaultPageKeyWords,disable:$root.selectedStore().companyId()===undefined">
                                                         Load Defaults
-                                                    </a>
+                                                    </button>
                                                 </div>
                                             </div>
                                             <div class="form-group ">
@@ -124,7 +101,7 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Keywords List" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -148,7 +125,7 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Meta Title" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -168,7 +145,7 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Description Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -190,7 +167,7 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Category Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -210,7 +187,7 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Robot Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -230,7 +207,7 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Author Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -250,7 +227,7 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Language Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -270,7 +247,7 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Revist after contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
@@ -293,7 +270,7 @@
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="main-box clearfix">
-                                                <textarea name="html_link_content" id="content" data-bind="editor: pageHTML, valueUpdate: 'afterkeydown'">TEXT</textarea>
+                                                <textarea name="html_link_content" id="content" data-bind="editor: pageHTML, valueUpdate: 'afterkeydown'"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -304,6 +281,8 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveSecondaryPage, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
             </div>
         </div>
     </div>

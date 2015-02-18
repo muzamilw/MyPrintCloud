@@ -9,7 +9,7 @@ namespace MPC.Webstore.ViewModels
     {
         public string Quantity { get; set; }
      
-        public double Price { get; set; }
+        public string Price { get; set; }
 
         public int ItemID { get; set; }
         public double QtyRangeFrom { get; set; }
@@ -37,5 +37,11 @@ namespace MPC.Webstore.ViewModels
         public long Id { get; set; }
         public long CostCenterId { get; set; }
         public long StockOptionId { get; set; }
+        public string Description { get; set; }
+
+        public bool isChecked { get; set; }
+
+        // this will be set only in modify product case 
+        public string CostCentreJasonData { get; set; }
     }
 }

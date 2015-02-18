@@ -1,10 +1,13 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
 using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
-    
+
     public static class CompanyContactMapper
     {
         /// <summary>
@@ -15,7 +18,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new DomainModels.CompanyContact
                    {
                        ContactId = source.ContactId,
-                       AddressId = 192885,
+                       AddressId = source.AddressId,
+                       TerritoryId = source.TerritoryId,
                        CompanyId = source.CompanyId,
                        FirstName = source.FirstName,
                        MiddleName = source.MiddleName,
@@ -63,7 +67,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        CreditLimit = source.CreditLimit,
                        isArchived = source.isArchived,
                        ContactRoleId = source.ContactRoleId,
-                       TerritoryId = source.TerritoryId,
+                       //TerritoryId = source.TerritoryId,
                        ClaimIdentifer = source.ClaimIdentifer,
                        AuthentifiedBy = source.AuthentifiedBy,
                        IsPayByPersonalCreditCard = source.IsPayByPersonalCreditCard,
@@ -98,6 +102,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        canPlaceDirectOrder = source.canPlaceDirectOrder,
                        OrganisationId = source.OrganisationId,
                        FileName = source.FileName
+                       //CompanyTerritory = source.BussinessAddress.Territory.CreateFrom(),
+                       //Address = source.BussinessAddress != null? source.BussinessAddress.CreateFrom() : null,
+
                    };
         }
 
@@ -120,6 +127,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        ContactId = source.ContactId,
                        AddressId = source.AddressId,
                        CompanyId = source.CompanyId,
+                       CompanyName = source.Company != null ? source.Company.Name: "",
                        FirstName = source.FirstName,
                        MiddleName = source.MiddleName,
                        LastName = source.LastName,
@@ -200,6 +208,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        CanUserEditProfile = source.CanUserEditProfile,
                        canPlaceDirectOrder = source.canPlaceDirectOrder,
                        OrganisationId = source.OrganisationId,
+                       RoleName = source.CompanyContactRole != null ? source.CompanyContactRole.ContactRoleName : string.Empty,
                        FileName = fileName
                    };
         }
@@ -231,6 +240,55 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsEmailSubscription = source.IsEmailSubscription,
                 IsNewsLetterSubscription = source.IsNewsLetterSubscription,
             };
+        }
+
+        /// <summary>
+        /// Crete From Domain Model
+        /// </summary>
+        public static CompanyContactDropDown CreateFromDropDown(this DomainModels.CompanyContact source)
+        {
+            return new CompanyContactDropDown
+            {
+                ContactId = source.ContactId,
+                Name = source.FirstName
+            };
+        }
+
+        /// <summary>
+        /// Crete From Domain Model
+        /// </summary>
+        public static CompanyContactDropDownForOrder CreateFromDropDownForOrder(this DomainModels.CompanyContact source)
+        {
+            return new CompanyContactDropDownForOrder
+            {
+                ContactId = source.ContactId,
+                Name = string.Format(CultureInfo.InvariantCulture, "{0} {1}", source.FirstName, source.LastName),
+                Email = source.Email
+            };
+        }
+
+        public static CompanyContactResponse CreateFrom(this MPC.Models.ResponseModels.CompanyContactResponse response)
+        {
+            return new CompanyContactResponse
+            {
+                CompanyContacts = response.CompanyContacts.Select(contact => contact.CreateFrom()),
+                RowCount = response.RowCount
+            };
+        }
+
+        /// <summary>
+        /// Base Data Mapper
+        /// </summary>
+        public static CompanyBaseResponse CreateFrom(this MPC.Models.ResponseModels.CompanyBaseResponse result)
+        {
+            return new CompanyBaseResponse
+            {
+                CompanyContactRoles = result.CompanyContactRoles != null ? result.CompanyContactRoles.Select(x => x.CreateFrom()) : null,
+                RegistrationQuestions = result.RegistrationQuestions != null ? result.RegistrationQuestions.Select(x => x.CreateFromDropDown()) : null,
+                Addresses = result.Addresses!=null ? result.Addresses.Select(address=> address.CreateFrom()):null,
+                CompanyTerritories = result.CompanyTerritories!=null ? result.CompanyTerritories.Select(territory=> territory.CreateFrom()):null,
+                StateDropDowns = result.States!=null ? result.States.Select(state=> state.CreateFromDropDown()):null,
+            }; 
         }
     }
 }

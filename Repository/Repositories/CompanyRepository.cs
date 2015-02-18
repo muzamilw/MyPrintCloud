@@ -90,10 +90,13 @@ namespace MPC.Repository.Repositories
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
             bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
+            bool isTypeSpecified = request.CustomerType != null;
+            long type = request.CustomerType ?? 0;
             Expression<Func<Company, bool>> query =
                 s =>
-                    (isStringSpecified && (s.Name.Contains(request.SearchString)) && s.OrganisationId == OrganisationId && s.isArchived != true ||
-                     !isStringSpecified && s.OrganisationId == OrganisationId && s.isArchived != true);
+                    (isStringSpecified && (s.Name.Contains(request.SearchString)) && (isTypeSpecified && s.TypeId == type || !isTypeSpecified) && s.OrganisationId == OrganisationId && s.isArchived != true ||
+                     !isStringSpecified && s.OrganisationId == OrganisationId && s.isArchived != true
+                     );
 
             int rowCount = DbSet.Count(query);
             IEnumerable<Company> companies = request.IsAsc
@@ -127,7 +130,7 @@ namespace MPC.Repository.Repositories
             Expression<Func<Company, bool>> query =
                 s =>
                     (isStringSpecified && (s.Name.Contains(request.SearchString)) ||
-                     !isStringSpecified) && s.IsCustomer == 0;
+                     !isStringSpecified) && s.IsCustomer == 2 && s.OrganisationId==OrganisationId;
 
             int rowCount = DbSet.Count(query);
             IEnumerable<Company> companies =
@@ -148,6 +151,204 @@ namespace MPC.Repository.Repositories
             db.Configuration.LazyLoadingEnabled = false;
             return db.Companies.FirstOrDefault(c => c.CompanyId == companyId);
         }
+        public Company GetStoreByStoreId(long companyId)
+        {
+            //db.Configuration.LazyLoadingEnabled = false;
+            //db.Configuration.ProxyCreationEnabled = false;
+           // return db.Companies.Include("CompanyDomains").Include("CmsOffers").Include("MediaLibraries").Include("CompanyBannerSets").Include("CompanyBannerSets.CompanyBanners").Include("CmsPages").Include("RaveReviews").Include("CompanyTerritories").Include("Addresses").Include("CompanyContacts").Include("ProductCategories").Include("Items").Include("Items.ItemSections").Include("Items.ItemSections.SectionCostcentres").Include("Items.ItemSections.SectionCostcentres.SectionCostCentreResources").Include("PaymentGateways").Include("CmsSkinPageWidgets").Include("CompanyCostCentres").Include("CompanyCMYKColors").FirstOrDefault(c => c.CompanyId == companyId);
+            db.Configuration.LazyLoadingEnabled = true;
+            db.Configuration.ProxyCreationEnabled = true;
+            return db.Companies.Where(c => c.CompanyId == companyId).FirstOrDefault();
+        }
+        public ExportOrganisation ExportCompany(ExportOrganisation ObjExportOrg, long CompanyId)
+        {
+            try
+            {
+                List<ItemSection> ItemSections = new List<ItemSection>();
+                List<SectionCostcentre> SectionCostCentre = new List<SectionCostcentre>();
+                List<SectionCostCentreResource> SectionCostCentreResources = new List<SectionCostCentreResource>();
+
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
+
+                ObjExportOrg.Company = db.Companies.Where(c => c.CompanyId == CompanyId).FirstOrDefault();
+
+                // set Company Domain
+
+                ObjExportOrg.CompanyDomain = db.CompanyDomains.Where(c => c.CompanyId == CompanyId).Take(2).ToList();
+                
+
+              
+
+                // set cms offers
+                
+                ObjExportOrg.CmsOffer = db.CmsOffers.Where(c => c.CompanyId == CompanyId).Take(2).ToList();
+
+
+
+                ObjExportOrg.MediaLibrary = db.MediaLibraries.Where(c => c.CompanyId == CompanyId).Take(2).ToList();
+
+
+                List<CompanyBannerSet> bannerSets = new List<CompanyBannerSet>();
+                bannerSets = db.CompanyBannerSets.Include("CompanyBanners").Where(c => c.CompanyId == CompanyId).ToList();
+
+                List<CompanyBanner> Lstbanner = new List<CompanyBanner>();
+                // company banners
+                if (bannerSets != null)
+                {
+                    List<CompanyBannerSet> CompanyBannerSet = bannerSets;
+                    ObjExportOrg.CompanyBannerSet = CompanyBannerSet;
+                    if (CompanyBannerSet != null && CompanyBannerSet.Count > 0)
+                    {
+                        foreach (var banner in CompanyBannerSet)
+                        {
+                            if (banner.CompanyBanners != null)
+                            {
+                                if (banner.CompanyBanners.Count > 0)
+                                {
+                                    foreach (var bann in banner.CompanyBanners)
+                                    {
+                                        Lstbanner.Add(bann);
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                    ObjExportOrg.CompanyBanner = Lstbanner.Take(2).ToList();
+                }
+
+                // Secondary Pages
+
+                ObjExportOrg.SecondaryPages = db.CmsPages.Where(c => c.CompanyId == CompanyId).Take(2).ToList();
+
+                
+
+                // Rave Reviews
+
+                ObjExportOrg.RaveReview = db.RaveReviews.Where(r => r.CompanyId == CompanyId).Take(2).ToList();
+
+                
+
+                // CompanyTerritories
+
+
+                ObjExportOrg.CompanyTerritory = db.CompanyTerritories.Where(c => c.CompanyId == CompanyId).Take(2).ToList();
+               
+
+                // Addresses
+
+
+                ObjExportOrg.Address = db.Addesses.Where(a => a.CompanyId == CompanyId).Take(2).ToList();
+                
+
+                // contacts
+
+
+                ObjExportOrg.CompanyContact = db.CompanyContacts.Where(c => c.CompanyId == CompanyId).Take(2).ToList();
+                
+
+                // product Categories
+                
+                ObjExportOrg.ProductCategory = db.ProductCategories.Where(s => s.isPublished == true && s.isArchived == false && s.CompanyId == CompanyId).Take(2).ToList();
+                
+
+                // items
+               
+                 List<Item> items = db.Items.Where(i => i.IsPublished == true && i.IsArchived == false && i.CompanyId == CompanyId).Take(2).ToList();
+                    items = items.Take(2).ToList();
+
+                    ObjExportOrg.Items = items;
+
+                    if (items != null)
+                    {
+                        if (items.Count > 0)
+                        {
+                            foreach (var item in items)
+                            {
+                                // itemSections
+                                if (item.ItemSections != null)
+                                {
+
+                                    if (item.ItemSections != null && item.ItemSections.Count > 0)
+                                    {
+                                        // add item sections
+                                        foreach (var sec in item.ItemSections)
+                                        {
+                                            if (sec.SectionCostcentres != null)
+                                            {
+                                                if (sec.SectionCostcentres.Count > 0)
+                                                {
+                                                    // add section Costcentre
+                                                    foreach (var ss in sec.SectionCostcentres)
+                                                    {
+                                                        if (ss.SectionCostCentreResources != null)
+                                                        {
+                                                            if (ss.SectionCostCentreResources.Count > 0)
+                                                            {
+                                                                foreach (var res in ss.SectionCostCentreResources)
+                                                                {
+                                                                    SectionCostCentreResources.Add(res);
+                                                                }
+
+                                                            }
+                                                        }
+
+                                                        SectionCostCentre.Add(ss);
+                                                    }
+                                                }
+                                            }
+                                            ItemSections.Add(sec);
+                                        }
+                                    }
+                                }
+
+
+                            }
+                        }
+                        ObjExportOrg.ItemSection = ItemSections;
+                        ObjExportOrg.SectionCostcentre = SectionCostCentre;
+                        ObjExportOrg.SectionCostCentreResource = SectionCostCentreResources;
+                    }
+
+
+                
+
+
+                //  campaigns
+
+                ObjExportOrg.Campaigns = db.Campaigns.Where(c => c.CompanyId == CompanyId).ToList();
+
+                // payment gateways
+
+                ObjExportOrg.PaymentGateways = db.PaymentGateways.Where(c => c.CompanyId == CompanyId).Take(2).ToList();
+                
+
+
+
+                // cms skin page widgets
+               
+                ObjExportOrg.CmsSkinPageWidget = db.PageWidgets.Where(c => c.CompanyId == CompanyId).Take(2).ToList();
+                
+
+
+                // company cost centre
+               
+                ObjExportOrg.CompanyCostCentre = db.CompanyCostCentres.Take(2).ToList();
+                
+
+               // company cmyk colors
+                ObjExportOrg.CompanyCMYKColor = db.CompanyCmykColors.Take(2).ToList();
+
+
+                return ObjExportOrg;
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         /// <summary>
         /// Get Company Price Flag id for Price Matrix in webstore
@@ -166,7 +367,7 @@ namespace MPC.Repository.Repositories
         }
         public long CreateCustomer(string CompanyName, bool isEmailSubscriber, bool isNewsLetterSubscriber, CompanyTypes customerType, string RegWithSocialMedia, long OrganisationId, CompanyContact contact = null)
         {
-             bool isCreateTemporaryCompany = true;
+            bool isCreateTemporaryCompany = true;
             if ((int)customerType == (int)CompanyTypes.TemporaryCustomer)
             {
                 Company ContactCompany = db.Companies.Where(c => c.TypeId == (int)customerType && c.OrganisationId == OrganisationId).FirstOrDefault();
@@ -175,12 +376,11 @@ namespace MPC.Repository.Repositories
                     isCreateTemporaryCompany = false;
                     return ContactCompany.CompanyId;
                 }
-                else 
+                else
                 {
                     isCreateTemporaryCompany = true;
                 }
 
-            CompanyContact ContactPerson = null;
             }
 
             if (isCreateTemporaryCompany)
@@ -215,6 +415,7 @@ namespace MPC.Repository.Repositories
 
                 ContactCompany.IsCustomer = 0; //prospect
 
+                ContactCompany.OrganisationId = OrganisationId;
 
                 Markup OrgMarkup = db.Markups.Where(m => m.OrganisationId == OrganisationId && m.IsDefault == true).FirstOrDefault();
 
@@ -284,7 +485,7 @@ namespace MPC.Repository.Repositories
 
                 return customerID;
             }
-            else 
+            else
             {
                 return 0;
             }
@@ -320,7 +521,6 @@ namespace MPC.Repository.Repositories
 
 
             salt = ComputeHash(plainText, "SHA1", null);
-
 
             return salt;
         }
@@ -368,8 +568,6 @@ namespace MPC.Repository.Repositories
             // hash object as a common (abstract) base class. We will specify the
             // actual hashing algorithm class later during object creation.
             HashAlgorithm hash;
-
-
 
             // Make sure hashing algorithm name is specified.
             //if (hashAlgorithm == null)
@@ -429,26 +627,23 @@ namespace MPC.Repository.Repositories
 
         public string SystemWeight(long OrganisationID)
         {
-          
             try
             {
-               
-                var qry =  from systemWeight in db.WeightUnits
-                            join organisation in db.Organisations on systemWeight.Id equals organisation.SystemWeightUnit
-                            where organisation.OrganisationId == OrganisationID
-                            select systemWeight.UnitName;
+
+                var qry = from systemWeight in db.WeightUnits
+                          join organisation in db.Organisations on systemWeight.Id equals organisation.SystemWeightUnit
+                          where organisation.OrganisationId == OrganisationID
+                          select systemWeight.UnitName;
 
                 return qry.ToString();
-                
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
 
             }
 
-            
-            
         }
         public string SystemLength(long OrganisationID)
         {
@@ -462,15 +657,77 @@ namespace MPC.Repository.Repositories
 
                 return qry.ToString();
 
-              //  return db.Organisations.Where(o => o.OrganisationId == OrganisationID).Select(s => s.SystemLengthUnit ?? 0).FirstOrDefault();
+                //  return db.Organisations.Where(o => o.OrganisationId == OrganisationID).Select(s => s.SystemLengthUnit ?? 0).FirstOrDefault();
             }
             catch (Exception ex)
             {
                 throw ex;
 
             }
-        
+
         }
-      
+        //Update Just Company Name 
+        public bool UpdateCompanyName(Company Instance)
+        {
+            bool Result = false;
+            try
+            {
+                Company Company = db.Companies.Where(i => i.CompanyId == Instance.CompanyId).FirstOrDefault(); 
+                Company.Name = Instance.Name;
+                db.Companies.Attach(Company);
+                db.Entry(Company).State = EntityState.Modified;
+                if (db.SaveChanges() > 0)
+                {
+                    Result = true;
+
+                }
+                else
+                {
+                    Result = false;
+                
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            
+            }
+            return Result;
+        }
+        /// <summary>
+        /// Get Company By Is Customer Type
+        /// </summary>
+        public CompanySearchResponseForCalendar GetByIsCustomerType(CompanyRequestModelForCalendar request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
+            Expression<Func<Company, bool>> query =
+                s =>
+                    (isStringSpecified && (s.Name.Contains(request.SearchString)) ||
+                     !isStringSpecified) && s.IsCustomer == request.IsCustomerType && s.OrganisationId==OrganisationId;
+
+            int rowCount = DbSet.Count(query);
+            IEnumerable<Company> companies =
+                DbSet.Where(query).OrderByDescending(x => x.Name)
+                     .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList();
+
+            return new CompanySearchResponseForCalendar
+            {
+                TotalCount = rowCount,
+                Companies = companies
+            };
+        }
+
+        /// <summary>
+        /// Count of live stores
+        /// </summary>
+        public int LiveStoresCountForDashboard()
+        {
+            return DbSet.Count(company => !company.isArchived.HasValue && company.OrganisationId == OrganisationId);
+        }
     }
 }

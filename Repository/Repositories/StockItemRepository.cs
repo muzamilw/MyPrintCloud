@@ -97,6 +97,7 @@ namespace MPC.Repository.Repositories
             Expression<Func<StockItem, bool>> query =
                 stockItem =>
                     (string.IsNullOrEmpty(request.SearchString) || stockItem.ItemName.Contains(request.SearchString)) &&
+                    (!request.CategoryId.HasValue || request.CategoryId == stockItem.CategoryId) &&
                     stockItem.OrganisationId == OrganisationId;
 
             IEnumerable<StockItem> stockItems = request.IsAsc
@@ -114,6 +115,20 @@ namespace MPC.Repository.Repositories
             return new InventorySearchResponse { StockItems = stockItems, TotalCount = DbSet.Count(query) };
         }
 
+        public List<StockItem> GetStockItemsByOrganisationID(long OrganisationID)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
+                return db.StockItems.Include("StockCostAndPrices").Where(o => o.OrganisationId == OrganisationID).ToList();
+            } 
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+       
         #endregion
     }
 }

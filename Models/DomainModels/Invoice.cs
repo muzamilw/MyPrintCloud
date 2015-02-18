@@ -10,45 +10,45 @@ namespace MPC.Models.DomainModels
     {
         public long InvoiceId { get; set; }
         public string InvoiceCode { get; set; }
-        public Nullable<int> InvoiceType { get; set; }
+        public int? InvoiceType { get; set; }
         public string InvoiceName { get; set; }
-        public Nullable<int> ContactCompanyID { get; set; }
-        public Nullable<int> ContactId { get; set; }
-        public string ContactCompany { get; set; }
+        public long? CompanyId { get; set; }
+        public long? ContactId { get; set; }
         public string OrderNo { get; set; }
-        public Nullable<int> InvoiceStatus { get; set; }
-        public Nullable<double> InvoiceTotal { get; set; }
-        public Nullable<System.DateTime> InvoiceDate { get; set; }
-        public Nullable<int> LastUpdatedBy { get; set; }
-        public Nullable<System.DateTime> CreationDate { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
+        public int? InvoiceStatus { get; set; }
+        public double? InvoiceTotal { get; set; }
+        public DateTime? InvoiceDate { get; set; }
+        public Guid? LastUpdatedBy { get; set; }
+        public DateTime? CreationDate { get; set; }
+        public Guid? CreatedBy { get; set; }
         public string AccountNumber { get; set; }
         public string Terms { get; set; }
-        public Nullable<System.DateTime> InvoicePostingDate { get; set; }
-        public Nullable<int> InvoicePostedBy { get; set; }
-        public Nullable<int> LockedBy { get; set; }
-        public Nullable<int> AddressId { get; set; }
-        public Nullable<bool> IsArchive { get; set; }
-        public Nullable<double> TaxValue { get; set; }
-        public Nullable<double> GrandTotal { get; set; }
-        public Nullable<int> FlagID { get; set; }
+        public DateTime? InvoicePostingDate { get; set; }
+        public Guid? InvoicePostedBy { get; set; }
+        public Guid? LockedBy { get; set; }
+        public int? AddressId { get; set; }
+        public bool? IsArchive { get; set; }
+        public double? TaxValue { get; set; }
+        public double? GrandTotal { get; set; }
+        public int? FlagID { get; set; }
         public string UserNotes { get; set; }
-        public Nullable<System.DateTime> NotesUpdateDateTime { get; set; }
-        public Nullable<int> NotesUpdatedByUserID { get; set; }
-        public Nullable<int> SystemSiteId { get; set; }
-        public Nullable<int> EstimateId { get; set; }
-        public Nullable<bool> IsRead { get; set; }
-        public Nullable<bool> IsProformaInvoice { get; set; }
-        public Nullable<bool> IsPrinted { get; set; }
-        public Nullable<System.DateTime> LastUpdateDate { get; set; }
-        public Nullable<int> ReportSignedBy { get; set; }
-        public Nullable<System.DateTime> ReportLastPrintedDate { get; set; }
+        public DateTime? NotesUpdateDateTime { get; set; }
+        public int? NotesUpdatedByUserID { get; set; }
+        public int? SystemSiteId { get; set; }
+        public long? EstimateId { get; set; }
+        public bool? IsRead { get; set; }
+        public bool? IsProformaInvoice { get; set; }
+        public bool? IsPrinted { get; set; }
+        public DateTime? LastUpdateDate { get; set; }
+        public Guid? ReportSignedBy { get; set; }
+        public DateTime? ReportLastPrintedDate { get; set; }
         public string HeadNotes { get; set; }
         public string FootNotes { get; set; }
         public string XeroAccessCode { get; set; }
-        public Nullable<long> OrganisationId { get; set; }
+        public long? OrganisationId { get; set; }
 
         public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; }
         public virtual ICollection<Item> Items { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

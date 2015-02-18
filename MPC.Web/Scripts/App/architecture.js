@@ -118,6 +118,21 @@ require(["ko", "knockout-validation"], function (ko) {
             return false;
         return string.substring(0, startsWith.length) === startsWith;
     };
+
+    ko.bindingHandlers.select2 = {
+        init: function (element, valueAccessor, allBindingsAccessor) {
+            var obj = valueAccessor(),
+                allBindings = allBindingsAccessor();
+            $(element).select2(obj);
+            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                $(element).select2('destroy');
+            });
+        },
+        update: function (element) {
+            $(element).trigger('change');
+        }
+    };
+
     function colorHelper(col) {
         if (col.length === 4) {
             var first = col[1] + col[1];
@@ -191,6 +206,57 @@ require(["ko", "knockout-validation"], function (ko) {
             }
         }
     };
+    ko.bindingHandlers.fullCalendar = {
+        // This method is called to initialize the node, and will also be called again if you change what the grid is bound to
+        update: function (element, viewModelAccessor, allBindingsAccessor) {
+            var viewModel = viewModelAccessor();
+            element.innerHTML = "";
+            $(element).fullCalendar({
+                events: ko.utils.unwrapObservable(viewModel.events),
+                //events: viewModel.events,
+                header: viewModel.header,
+                editable: viewModel.editable,
+                selectable: true,
+                cache: true,
+                default: false,
+                defaultView: ko.utils.unwrapObservable(viewModel.defaultView),
+                eventClick: this.eventClick,
+                eventDrop: this.eventDropOrResize,
+                eventResize: this.eventDropOrResize,
+                select: this.newEventAdd,
+                viewDisplay: this.viewEventClick,
+                //monthClick:this.dayEventClick
+                //eventSources:this.dayEventClick
+            });
+
+
+            $(".fc-button-prev").click(function (event) {
+                var view = $('#calendar').fullCalendar('getView');
+                ist.calendar.viewModel.getActivitiesForNextPreTodayClick(view);
+            });
+            $(".fc-button-next").click(function (event) {
+                var view = $('#calendar').fullCalendar('getView');
+                ist.calendar.viewModel.getActivitiesForNextPreTodayClick(view);
+            });
+            $(".fc-button-today").click(function (event) {
+                var view = $('#calendar').fullCalendar('getView');
+                ist.calendar.viewModel.getActivitiesForNextPreTodayClick(view);
+            });
+            $(element).fullCalendar('gotoDate', ko.utils.unwrapObservable(viewModel.viewDate));;
+            //});
+            //$(element).on('click', '.fc-button-next span', function () {
+            //    $(this).unbind('click');
+            //});
+            //    .on('.fc-button-next span').click(function () {
+
+            //    alert("next");
+
+            //})
+            // $(element).fullCalendar('gotoDate', ko.utils.unwrapObservable(viewModel.viewDate));;
+
+        }
+    };
+
 
     ko.bindingHandlers.editor = {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
@@ -198,12 +264,14 @@ require(["ko", "knockout-validation"], function (ko) {
             var valueUnwrapped = ko.unwrap(value);
             var allBindings = allBindingsAccessor();
             var $element = $(element);
+            var droppable = allBindingsAccessor().drop;
             var myinstance = CKEDITOR.instances['content'];
             //check if my instance already exist
             if (myinstance !== undefined) {
                 CKEDITOR.remove(myinstance);
             }
             CKEDITOR.replace(element).setData(valueUnwrapped || $element.html());
+
             //CKEDITOR.appendTo(element).setData(valueUnwrapped || $element.html());
             if (ko.isObservable(value)) {
                 var isSubscriberChange = false;
@@ -221,6 +289,7 @@ require(["ko", "knockout-validation"], function (ko) {
                         }
                     });
                 };
+
                 $element.on('input, change, keyup, mouseup', function () {
                     if (!isSubscriberChange) {
                         isEditorChange = true;

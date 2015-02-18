@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 
 namespace MPC.MIS.Areas.Api.Models
 {
@@ -87,7 +88,6 @@ namespace MPC.MIS.Areas.Api.Models
         public int Sequence { get; set; }
         public string CompleteCode { get; set; }
         public string ItemDescription { get; set; }
-        public int CompanyId { get; set; }
         public int? SystemTypeId { get; set; }
         public int? FlagId { get; set; }
         public short IsScheduleable { get; set; }
@@ -135,6 +135,8 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? isFromMIS { get; set; }
         public string XeroAccessCode { get; set; }
         public long? OrganisationId { get; set; }
+        public ICollection<CostcentreInstruction> CostcentreInstructions { get; set; }
+        public ICollection<CostcentreResource> CostcentreResources { get; set; }
        
     }
 }

@@ -22,7 +22,7 @@
                         <div class="LCLB">
                             @if (item.ProductType == (int)ProductType.FinishedGoodWithBanner || item.ProductType == (int)ProductType.FinishedGoodWithImageRotator)
                             {
-                                <a id="hlProductDetail" href="">
+                                <a id="hlProductDetail" href="#">
                                     <div class="PDTC FI">
                                        
                                         <img id="imgThumbnail" class="full_img_ThumbnailPath" src='@Html.GetAppBasePath()@item.ThumbnailPath' />
@@ -32,7 +32,7 @@
                             }
                             else
                             {
-                                <a id="hlProductDetail" href="">
+                                <a id="hlProductDetail" href="# ">
                                     <div class="PDTC FI">
                      
                                         <img id="imgThumbnail" class="full_img_ThumbnailPath" src='@Html.GetAppBasePath()@item.ThumbnailPath' />

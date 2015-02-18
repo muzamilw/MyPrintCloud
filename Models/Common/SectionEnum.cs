@@ -13,6 +13,23 @@
         /// <summary>
         /// Inventory
         /// </summary>
-        Inventory = 23
+        Inventory = 23,
+
+        /// <summary>
+        /// Customers
+        /// </summary>
+        Customers = 17,
+
+        /// <summary>
+        /// CRM
+        /// </summary>
+// ReSharper disable InconsistentNaming
+        CRM = 32,
+// ReSharper restore InconsistentNaming
+
+        /// <summary>
+        /// Order
+        /// </summary>
+        Order = 54
     }
 }
