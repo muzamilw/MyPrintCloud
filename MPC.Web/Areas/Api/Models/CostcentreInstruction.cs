@@ -9,6 +9,6 @@ namespace MPC.MIS.Areas.Api.Models
         public int? CostCenterOption { get; set; }
 
         public virtual CostCentre CostCentre { get; set; }
-        public virtual ICollection<CostcentreWorkInstructionsChoice> CostcentreWorkInstructionsChoices { get; set; }
+        public ICollection<CostcentreWorkInstructionsChoice> CostcentreWorkInstructionsChoices { get; set; }
     }
 }
