@@ -147,7 +147,7 @@ namespace MPC.Webstore.Controllers
                         BCDetail.Description = "Description"; //(string)GetGlobalResourceObject("MyResource", "ltrlviewrocompletedo");
                     }
                     BCDetail.ImageURL = "<i class='fa fa-file-text-o'></i>";
-                    BCDetail.PageNavigateURl = "/ProductsOrdersHistory.aspx?OrderStatus=All";
+                    BCDetail.PageNavigateURl = "/ProductOrderHistory";
                     BCDashBordItems.Add(BCDetail);
 
                 }

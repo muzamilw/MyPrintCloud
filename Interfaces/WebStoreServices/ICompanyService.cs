@@ -187,10 +187,8 @@ namespace MPC.Interfaces.WebStoreServices
         string SystemLength(long OrganisationID);
         CompanyTerritory GetCcompanyByTerritoryID(Int64 ContactId);
         void UpdateCompanyOrderingPolicy(Company Instance);
-        void UpdateCompany(Company Instance);
-        void UpdateContactCompany(CompanyContact Instance);
-        void UpdateCompanyContactForRetail(CompanyContact Instance);
-        void  UpdateCompanyContactForCorporate(CompanyContact Instance);
-        void UpdateCompanyName(Company Instance);
+        bool UpdateCompanyContactForRetail(CompanyContact Instance);
+        bool  UpdateCompanyContactForCorporate(CompanyContact Instance);
+        bool UpdateCompanyName(Company Instance);
     }
 }

@@ -119,6 +119,7 @@
     <Compile Include="Common\ExportOrganisation.cs" />
     <Compile Include="Common\InlineTextStyles.cs" />
     <Compile Include="Common\FileTableCaption.cs" />
+    <Compile Include="Common\Order.cs" />
     <Compile Include="Common\SystemUserClaimValue.cs" />
     <Compile Include="Common\OrderByColumn.cs" />
     <Compile Include="Common\MachineListColumns.cs" />
