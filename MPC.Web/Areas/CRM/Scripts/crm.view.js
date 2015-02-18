@@ -15,11 +15,20 @@ define("crm/crm.view",
                // Show Addressnthe dialog
                 showAddressDialog = function () {
                     $("#myAddressSetModalForCrm").modal("show");
-                    initializeLabelPopovers();
+                    //initializeLabelPopovers();
                 },
                 // Hide Address the dialog
                 hideAddressDialog = function () {
                     $("#myAddressSetModalForCrm").modal("hide");
+                },
+                // Show Contact Company the dialog
+                showCompanyContactDialog = function () {
+                    $("#myContactProfileModalForCrm").modal("show");
+                    //initializeLabelPopovers();
+                },
+                // Hide Company Contact the dialog
+                hideCompanyContactDialog = function () {
+                    $("#myContactProfileModalForCrm").modal("hide");
                 },
                
             // Initialize
@@ -33,7 +42,9 @@ define("crm/crm.view",
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
                 showAddressDialog: showAddressDialog,
-                hideAddressDialog: hideAddressDialog
+                hideAddressDialog: hideAddressDialog,
+                showCompanyContactDialog: showCompanyContactDialog,
+                hideCompanyContactDialog: hideCompanyContactDialog
             };
         })(crmViewModel);
 

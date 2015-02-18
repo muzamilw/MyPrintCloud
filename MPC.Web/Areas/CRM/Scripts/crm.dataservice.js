@@ -29,6 +29,12 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Store
+                    amplify.request.define('getBaseData', 'ajax', {
+                        url: ist.siteUrl + '/Api/StoreBase',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                 };
             },
             // get Customer list of list view
@@ -70,12 +76,23 @@
                     error: callbacks.error,
                     data: params
                 });
+            },
+            // get Base Data By Store Id
+            getBaseData = function(params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getBaseData',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
             };
         return {
             getCustomersForListView: getCustomersForListView,
             getStoreById: getStoreById,
             searchAddress: searchAddress,
-            searchCompanyContact: searchCompanyContact
+            searchCompanyContact: searchCompanyContact,
+            getBaseData: getBaseData
         };
     })();
 

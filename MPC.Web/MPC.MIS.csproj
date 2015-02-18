@@ -1703,6 +1703,7 @@
     <Content Include="Areas\Common\Views\Shared\_CompanySelector.cshtml" />
     <Content Include="Content\less\CompanySelector.less" />
     <Content Include="Areas\Stores\Views\Stores\_AddEditVariableDefination.cshtml" />
+    <Content Include="Areas\CRM\Views\Home\_UserProfileDetailsForCrm.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
