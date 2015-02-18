@@ -15,15 +15,17 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Private
 
         private readonly ICustomerService customerService;
+        private readonly ICompanyService companyService;
 
         #endregion
         #region Constuctor
         /// <summary>
         /// Constructor
         /// </summary>
-        public CustomerController(ICustomerService customerService)
+        public CustomerController(ICustomerService customerService, ICompanyService companyService)
         {
             this.customerService = customerService;
+            this.companyService = companyService;
         }
 
         #endregion
@@ -40,6 +42,11 @@ namespace MPC.MIS.Areas.Api.Controllers
                 Customers = customers.Companies.Select(company => company.CreateFromCustomer()).ToList(),
                 RowCount = customers.RowCount
             };
+        }
+        
+        public CompanyResponse Get([FromUri]int companyId)
+        {
+            return companyService.GetCompanyById(companyId).CreateFromForCrm();
         }
         #endregion
     }

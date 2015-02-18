@@ -12,10 +12,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new CostcentreInstruction
             {
+                InstructionId = source.InstructionId,
                 Instruction = source.Instruction,
                 CostCentreId = source.CostCentreId,
-                CostCenterOption = source.CostCenterOption,
-                InstructionId = source.InstructionId
+                CostCenterOption = source.CostCenterOption
+                
             };
         }
 
@@ -23,10 +24,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new MPC.Models.DomainModels.CostcentreInstruction
             {
+                InstructionId = source.InstructionId,
                 Instruction = source.Instruction,
                 CostCentreId = source.CostCentreId,
-                CostCenterOption = source.CostCenterOption,
-                InstructionId = source.InstructionId
+                CostCenterOption = source.CostCenterOption
             };
         }
     }

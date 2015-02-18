@@ -90,7 +90,7 @@ namespace MPC.Repository.Repositories
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
                // List<StockCategory> stockcategories = new List<StockCategory>();
-                return db.StockCategories.Include("StockSubCategory").Where(s => s.OrganisationId == OrganisationID).ToList();
+                return db.StockCategories.Include("StockSubCategories").Where(s => s.OrganisationId == OrganisationID).ToList();
                 
             }
             catch(Exception ex)

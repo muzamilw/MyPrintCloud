@@ -30,9 +30,9 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Base Data for Orders
         /// </summary>
-        public IEnumerable<SectionFlagDropDown> Get()
+        public OrderBaseResponse Get()
         {
-            return orderService.GetBaseData().Select(flag => flag.CreateFromDropDown());
+            return orderService.GetBaseData().CreateFrom();
         }
 
         #endregion

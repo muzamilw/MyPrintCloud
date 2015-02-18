@@ -16,5 +16,6 @@
         public string ReportTitle { get; set; }
         public string BannerAbsolutePath { get; set; }
         public bool? isDefault { get; set; }
+        public long OrganisationId { get; set; }
     }
 }

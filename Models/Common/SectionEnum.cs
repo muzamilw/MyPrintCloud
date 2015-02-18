@@ -23,6 +23,13 @@
         /// <summary>
         /// CRM
         /// </summary>
-        CRM = 32
+// ReSharper disable InconsistentNaming
+        CRM = 32,
+// ReSharper restore InconsistentNaming
+
+        /// <summary>
+        /// Order
+        /// </summary>
+        Order = 54
     }
 }

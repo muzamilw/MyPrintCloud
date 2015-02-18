@@ -285,4 +285,12 @@ namespace MPC.Models.Common
         UPS = 2,
         Other = 3
     }
+
+    public enum CostCentrCalculationMethods
+    {
+        Fixed = 1,
+        PerHour = 2,
+        QuantityBase = 3,
+        FormulaBase = 4
+    }
 }

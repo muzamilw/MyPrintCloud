@@ -110,6 +110,8 @@ namespace MPC.MIS.Areas.Api.Models
         public long? DeliveryPickUpAddressId { get; set; }
         public long? PickupAddressId { get; set; }
         public long? BussinessAddressId { get; set; }
+        public int CompanyContactCount { get; set; }
+        public int CompanyAddressesCount { get; set; }
 
 
         #endregion
