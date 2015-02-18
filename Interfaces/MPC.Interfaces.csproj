@@ -78,6 +78,7 @@
     <Compile Include="MISServices\ICrmSupplierService.cs" />
     <Compile Include="MISServices\ICustomerService.cs" />
     <Compile Include="MISServices\IDashboardService.cs" />
+    <Compile Include="Repository\IFieldVariableRepository.cs" />
     <Compile Include="MISServices\IItemService.cs" />
     <Compile Include="MISServices\IInventoryService.cs" />
     <Compile Include="MISServices\ICostCentersService.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="Repository\ICompanyBannerSetRepository.cs" />
     <Compile Include="Repository\ISystemUserRepository.cs" />
     <Compile Include="Repository\IUserManagerRepository.cs" />
+    <Compile Include="Repository\IVariableOptionRepository.cs" />
     <Compile Include="Repository\IWeightUnitRepository.cs" />
     <Compile Include="Repository\IWidgetRepository.cs" />
     <Compile Include="WebStoreServices\ICampaignService.cs" />

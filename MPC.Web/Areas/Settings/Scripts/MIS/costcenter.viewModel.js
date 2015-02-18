@@ -26,6 +26,7 @@ define("costcenter/costcenter.viewModel",
                     workInstructions = ko.observableArray([]),
                     // #region Busy Indicators
                     isLoadingCostCenter = ko.observable(false),
+                    
                     // #endregion Busy Indicators
                     sortOn = ko.observable(1),
                     //Sort In Ascending
@@ -74,12 +75,14 @@ define("costcenter/costcenter.viewModel",
                     },
                     getCostCenters = function() {
                         isLoadingCostCenter(true);
+                        
                         dataservice.getCostCentersList({
                             CostCenterFilterText: searchFilter(),
                             PageSize: pager().pageSize(),
                             PageNo: pager().currentPage(),
                             SortBy: sortOn(),
-                            IsAsc: sortIsAsc()
+                            IsAsc: sortIsAsc(),
+                            CostCenterType: CostCenterType
                         }, {
                             success: function(data) {
                                 costCentersList.removeAll();
