@@ -312,7 +312,7 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <a href="~/Order/OrderItemDetail"><span>A4 Single Sided Flyer</span></a>
+                                            <a data-bind="click: $root.editItem"><span>A4 Single Sided Flyer</span></a>
                                         </td>
                                         <td>
                                             4000
@@ -448,5 +448,6 @@
         @* ReSharper restore UnknownCssClass *@
 
     </div>
+    @Html.Partial("_OrderItemDetail")
 </div>
 
