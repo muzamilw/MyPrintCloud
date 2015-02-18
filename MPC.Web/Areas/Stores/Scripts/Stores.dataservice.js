@@ -433,7 +433,7 @@
             },
 
 
-        // save Store
+        // save Field Variable
         saveFieldVariable = function (param, callbacks) {
             initialize();
             return amplify.request({

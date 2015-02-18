@@ -1979,6 +1979,8 @@ namespace MPC.Implementation.MISServices
 
             #endregion
             #endregion
+
+
         #endregion
             itemRepository.Update(item);
             itemRepository.SaveChanges();
@@ -2058,6 +2060,90 @@ namespace MPC.Implementation.MISServices
             return null;
         }
 
+        /// <summary>
+        /// Add Field Variable
+        /// </summary>
+        private long AddFieldVariable(FieldVariable fieldVariable)
+        {
+            fieldVariable.OrganisationId = fieldVariableRepository.OrganisationId;
+            fieldVariableRepository.Add(fieldVariable);
+            fieldVariableRepository.SaveChanges();
+            return fieldVariable.VariableId;
+        }
+
+        /// <summary>
+        /// Update Field Variable
+        /// </summary>
+        private long UpdateFieldVariable(FieldVariable fieldVariable)
+        {
+            FieldVariable fieldVariableDbVersion = fieldVariableRepository.Find(fieldVariable.VariableId);
+            if (fieldVariableDbVersion != null)
+            {
+                fieldVariableDbVersion.InputMask = fieldVariable.InputMask;
+                fieldVariableDbVersion.VariableName = fieldVariable.VariableName;
+                fieldVariableDbVersion.DefaultValue = fieldVariable.DefaultValue;
+                fieldVariableDbVersion.Scope = fieldVariable.Scope;
+                fieldVariableDbVersion.VariableTag = fieldVariable.VariableTag;
+                fieldVariableDbVersion.VariableTitle = fieldVariable.VariableTitle;
+                fieldVariableDbVersion.VariableType = fieldVariable.VariableType;
+                fieldVariableDbVersion.WaterMark = fieldVariable.WaterMark;
+                if (fieldVariable.VariableOptions != null)
+                {
+                    foreach (var item in fieldVariable.VariableOptions)
+                    {
+                        //New Added
+                        if (item.VariableOptionId == 0)
+                        {
+                            fieldVariableDbVersion.VariableOptions.Add(item);
+                        }
+                        else
+                        {
+                            //Update variable options
+                            VariableOption variableOption =
+                                fieldVariableDbVersion.VariableOptions.FirstOrDefault(
+                                    vo => vo.VariableOptionId == item.VariableOptionId);
+                            if (variableOption != null)
+                            {
+                                variableOption.Value = item.Value;
+                            }
+                        }
+                    }
+                }
+
+                #region Delete
+                //find missing items
+                List<VariableOption> missingVariableOptionListItems = new List<VariableOption>();
+                foreach (VariableOption dbversionVariableOptionItem in fieldVariableDbVersion.VariableOptions)
+                {
+                    if (fieldVariable.VariableOptions != null && fieldVariable.VariableOptions.All(x => x.VariableOptionId != dbversionVariableOptionItem.VariableOptionId))
+                    {
+                        missingVariableOptionListItems.Add(dbversionVariableOptionItem);
+                    }
+                    //In case user delete all variable Options
+                    if (fieldVariable.VariableOptions == null)
+                    {
+                        missingVariableOptionListItems.Add(dbversionVariableOptionItem);
+                    }
+                }
+
+
+                //remove missing items
+                foreach (VariableOption missingVariableOptionItem in missingVariableOptionListItems)
+                {
+                    VariableOption dbVersionMissingItem = fieldVariableDbVersion.VariableOptions.First(x => x.VariableOptionId == missingVariableOptionItem.VariableOptionId);
+                    if (dbVersionMissingItem.VariableOptionId > 0)
+                    {
+                        variableOptionRepository.Delete(dbVersionMissingItem);
+                        variableOptionRepository.SaveChanges();
+                    }
+                }
+                #endregion
+
+                fieldVariableRepository.SaveChanges();
+            }
+
+            return fieldVariable.VariableId;
+        }
         #endregion
 
         #region Constructor
@@ -2324,93 +2410,14 @@ namespace MPC.Implementation.MISServices
         {
             if (fieldVariable.VariableId == 0)
             {
-                AddFieldVariable(fieldVariable);
+                return AddFieldVariable(fieldVariable);
             }
             else
             {
-                UpdateFieldVariable(fieldVariable);
+                return UpdateFieldVariable(fieldVariable);
             }
-            return 0;
         }
 
-        private long AddFieldVariable(FieldVariable fieldVariable)
-        {
-            fieldVariable.OrganisationId = fieldVariableRepository.OrganisationId;
-            fieldVariableRepository.Add(fieldVariable);
-            fieldVariableRepository.SaveChanges();
-            return fieldVariable.VariableId;
-        }
-
-        private long UpdateFieldVariable(FieldVariable fieldVariable)
-        {
-            FieldVariable fieldVariableDbVersion = fieldVariableRepository.Find(fieldVariable.VariableId);
-            if (fieldVariableDbVersion != null)
-            {
-                fieldVariableDbVersion.InputMask = fieldVariable.InputMask;
-                fieldVariableDbVersion.VariableName = fieldVariable.VariableName;
-                fieldVariableDbVersion.DefaultValue = fieldVariable.DefaultValue;
-                fieldVariableDbVersion.Scope = fieldVariable.Scope;
-                fieldVariableDbVersion.VariableTag = fieldVariable.VariableTag;
-                fieldVariableDbVersion.VariableTitle = fieldVariable.VariableTitle;
-                fieldVariableDbVersion.VariableType = fieldVariable.VariableType;
-                fieldVariableDbVersion.WaterMark = fieldVariable.WaterMark;
-                if (fieldVariable.VariableOptions != null)
-                {
-                    foreach (var item in fieldVariable.VariableOptions)
-                    {
-                        //New Added
-                        if (item.VariableOptionId == 0)
-                        {
-                            fieldVariableDbVersion.VariableOptions.Add(item);
-                        }
-                        else
-                        {
-                            //Update variable options
-                            VariableOption variableOption =
-                                fieldVariableDbVersion.VariableOptions.FirstOrDefault(
-                                    vo => vo.VariableOptionId == item.VariableOptionId);
-                            if (variableOption != null)
-                            {
-                                variableOption.Value = item.Value;
-                            }
-                        }
-                    }
-                }
-
-                #region Delete
-                //find missing items
-                List<VariableOption> missingVariableOptionListItems = new List<VariableOption>();
-                foreach (VariableOption dbversionVariableOptionItem in fieldVariableDbVersion.VariableOptions)
-                {
-                    if (fieldVariable.VariableOptions != null && fieldVariable.VariableOptions.All(x => x.VariableOptionId != dbversionVariableOptionItem.VariableOptionId))
-                    {
-                        missingVariableOptionListItems.Add(dbversionVariableOptionItem);
-                    }
-                    //In case user delete all variable Options
-                    if (fieldVariable.VariableOptions == null)
-                    {
-                        missingVariableOptionListItems.Add(dbversionVariableOptionItem);
-                    }
-                }
-
-
-                //remove missing items
-                foreach (VariableOption missingVariableOptionItem in missingVariableOptionListItems)
-                {
-                    VariableOption dbVersionMissingItem = fieldVariableDbVersion.VariableOptions.First(x => x.VariableOptionId == missingVariableOptionItem.VariableOptionId);
-                    if (dbVersionMissingItem.VariableOptionId > 0)
-                    {
-                        variableOptionRepository.Delete(dbVersionMissingItem);
-                        variableOptionRepository.SaveChanges();
-                    }
-                }
-                #endregion
-
-                fieldVariableRepository.SaveChanges();
-            }
-
-            return fieldVariable.VariableId;
-        }
         #endregion
 
         #region ExportOrganisation

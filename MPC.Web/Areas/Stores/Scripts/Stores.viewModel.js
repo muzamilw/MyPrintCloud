@@ -2798,7 +2798,8 @@ define("stores/stores.viewModel",
                             if (selectedStore().companyId() === undefined) {
                                 _.each(fieldVariables(), function (fieldVariable) {
                                     var field = fieldVariable.convertToServerData(fieldVariable);
-                                    _.each(fieldVariable.variableOptions(), function (optionItem) {
+                                    _.each(fieldVariable.variableOptions(), function (optionItem, index) {
+                                        optionItem.sortOrder(index + 1);
                                         field.VariableOptions.push(optionItem.convertToServerData(optionItem));
                                     });
                                     storeToSave.FieldVariables.push(field);
@@ -3854,25 +3855,31 @@ define("stores/stores.viewModel",
                                 return type.id == fieldVariable.variableType();
                             });
                             fieldVariable.typeName(selectedType.name);
+
                             //In Case of new company added
                             if (selectedStore().companyId() === undefined) {
                                 fieldVariables.splice(0, 0, fieldVariable);
+                                view.hideVeriableDefinationDialog();
                             } else {
                                 //In Case of Edit Company 
                                 var field = fieldVariable.convertToServerData(fieldVariable);
-                                _.each(fieldVariable.variableOptions(), function (optionItem) {
+                                _.each(fieldVariable.variableOptions(), function (optionItem, index) {
+                                    optionItem.sortOrder(index + 1);
                                     field.VariableOptions.push(optionItem.convertToServerData(optionItem));
                                 });
-                                saveFieldVariable(field);
+                                saveField(field);
                             }
 
-                            view.hideVeriableDefinationDialog();
+
                         }
                     },
 
-                    saveFieldVariable = function (fieldVariable) {
+                    saveField = function (fieldVariable) {
                         dataservice.saveFieldVariable(fieldVariable, {
                             success: function (data) {
+                                view.hideVeriableDefinationDialog();
+                                selectedFieldVariable().id(data);
+                                fieldVariables.splice(0, 0, selectedFieldVariable());
                                 toastr.success("Successfully save.");
                             },
                             error: function (exceptionMessage, exceptionType) {
