@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="MISSvc" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://192.168.1.22/mis/Services/MISSvc.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://192.168.1.22/mis/Services/MISSvc.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://192.168.1.22/mis/Services/MISSvc.svc?xsd=xsd2" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IMISSvc_GenerateOrderArtworkArchive_InputMessage">
+    <wsdl:part name="parameters" element="tns:GenerateOrderArtworkArchive" />
+  </wsdl:message>
+  <wsdl:message name="IMISSvc_GenerateOrderArtworkArchive_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GenerateOrderArtworkArchiveResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMISSvc_DownloadImage_InputMessage">
+    <wsdl:part name="parameters" element="tns:DownloadImage" />
+  </wsdl:message>
+  <wsdl:message name="IMISSvc_DownloadImage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DownloadImageResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMISSvc_UploadImage_InputMessage">
+    <wsdl:part name="parameters" element="tns:UploadImage" />
+  </wsdl:message>
+  <wsdl:message name="IMISSvc_UploadImage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UploadImageResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMISSvc_CopyJobsToProduction_InputMessage">
+    <wsdl:part name="parameters" element="tns:CopyJobsToProduction" />
+  </wsdl:message>
+  <wsdl:message name="IMISSvc_CopyJobsToProduction_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CopyJobsToProductionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMISSvc_CopyAttachments_InputMessage">
+    <wsdl:part name="parameters" element="tns:CopyAttachments" />
+  </wsdl:message>
+  <wsdl:message name="IMISSvc_CopyAttachments_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CopyAttachmentsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMISSvc_CopyCoporateStoreHierarchy_InputMessage">
+    <wsdl:part name="parameters" element="tns:CopyCoporateStoreHierarchy" />
+  </wsdl:message>
+  <wsdl:message name="IMISSvc_CopyCoporateStoreHierarchy_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CopyCoporateStoreHierarchyResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMISSvc_DeleteContactCompany_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteContactCompany" />
+  </wsdl:message>
+  <wsdl:message name="IMISSvc_DeleteContactCompany_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteContactCompanyResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IMISSvc">
+    <wsdl:operation name="GenerateOrderArtworkArchive">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMISSvc/GenerateOrderArtworkArchive" message="tns:IMISSvc_GenerateOrderArtworkArchive_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMISSvc/GenerateOrderArtworkArchiveResponse" message="tns:IMISSvc_GenerateOrderArtworkArchive_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DownloadImage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMISSvc/DownloadImage" message="tns:IMISSvc_DownloadImage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMISSvc/DownloadImageResponse" message="tns:IMISSvc_DownloadImage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadImage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMISSvc/UploadImage" message="tns:IMISSvc_UploadImage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMISSvc/UploadImageResponse" message="tns:IMISSvc_UploadImage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CopyJobsToProduction">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMISSvc/CopyJobsToProduction" message="tns:IMISSvc_CopyJobsToProduction_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMISSvc/CopyJobsToProductionResponse" message="tns:IMISSvc_CopyJobsToProduction_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CopyAttachments">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMISSvc/CopyAttachments" message="tns:IMISSvc_CopyAttachments_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMISSvc/CopyAttachmentsResponse" message="tns:IMISSvc_CopyAttachments_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CopyCoporateStoreHierarchy">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMISSvc/CopyCoporateStoreHierarchy" message="tns:IMISSvc_CopyCoporateStoreHierarchy_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMISSvc/CopyCoporateStoreHierarchyResponse" message="tns:IMISSvc_CopyCoporateStoreHierarchy_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteContactCompany">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMISSvc/DeleteContactCompany" message="tns:IMISSvc_DeleteContactCompany_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMISSvc/DeleteContactCompanyResponse" message="tns:IMISSvc_DeleteContactCompany_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IMISSvc" type="tns:IMISSvc">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GenerateOrderArtworkArchive">
+      <soap:operation soapAction="http://tempuri.org/IMISSvc/GenerateOrderArtworkArchive" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DownloadImage">
+      <soap:operation soapAction="http://tempuri.org/IMISSvc/DownloadImage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadImage">
+      <soap:operation soapAction="http://tempuri.org/IMISSvc/UploadImage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyJobsToProduction">
+      <soap:operation soapAction="http://tempuri.org/IMISSvc/CopyJobsToProduction" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyAttachments">
+      <soap:operation soapAction="http://tempuri.org/IMISSvc/CopyAttachments" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyCoporateStoreHierarchy">
+      <soap:operation soapAction="http://tempuri.org/IMISSvc/CopyCoporateStoreHierarchy" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteContactCompany">
+      <soap:operation soapAction="http://tempuri.org/IMISSvc/DeleteContactCompany" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MISSvc">
+    <wsdl:port name="BasicHttpBinding_IMISSvc" binding="tns:BasicHttpBinding_IMISSvc">
+      <soap:address location="http://192.168.1.22/mis/Services/MISSvc.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

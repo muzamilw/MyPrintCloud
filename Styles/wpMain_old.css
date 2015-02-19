@@ -1,0 +1,1604 @@
+﻿.mainTableWidth
+{
+    width: 980px;
+    border: solid 0px;    
+}
+.topBar
+{
+    background-image: url(../images/masterpage/menu_bar.png);
+    background-position: top left;
+    background-repeat: no-repeat;
+    height: 37px;
+    width:980px;
+    vertical-align: middle;           
+}
+.generalTable
+{
+    border-style: none;
+    border-color: inherit;
+    border-width: medium;
+width: 99%;
+    }
+
+.topBarLeft
+{
+    text-align: left;
+}
+.topBarRight
+{
+    text-align: right;
+}
+.rightLinks
+{
+    padding: 0 2px 0 2px;
+}
+.topBarBottom1
+{
+    height: 7px;
+}
+.topBarBottom2
+{
+   height: 7px;
+}
+.topMainImageBar
+{
+    background-image: url(../images/Masterpage/header.png);
+    background-repeat:no-repeat;
+    background-position: top left;
+    vertical-align: middle;
+    height: 155px;
+    
+}
+.contentTopImage
+{
+    background-image: url(../images/sec_tBar_bg001.png);
+    background-position:bottom left;
+    background-repeat: no-repeat;
+    width: auto;
+    height: 20px;
+}
+.contentBg
+{
+    background-position: top left;
+    vertical-align:top;    
+}
+.contentPadding
+{
+    padding: 0px 12px 0px 12px;
+}
+
+.leftPanel
+{
+    width: 236px;
+    vertical-align: top;
+    padding-right: 4px;
+    padding-left: 4px;
+}
+
+.leftPanelDetail
+{
+    background-image: url(../images/Masterpage/updatePanel_VerticalSeparatorLines_2x62.png);
+    height:62px;
+    width:236px;
+    border-width:0px;
+}
+
+.contenBottomImage
+{
+    background-image: url(../images/Masterpage/bottombar.png);
+    background-position:top left;
+    background-repeat: no-repeat;
+    width: auto;
+    height: 56px;
+}
+
+.contenBottomImageWhite
+{
+    background-image: url(../images/Masterpage/bottomwhitebar.png);
+    background-position:top left;
+    background-repeat: no-repeat;
+    width: auto;
+    height: 35px;
+    width: 980px;
+}
+
+.midPanel
+{
+    vertical-align: top;
+    width: 743px;
+    padding-right: 10px;
+}
+.bottomLinks
+{
+    vertical-align: top;
+    text-align: left;       
+}
+.txtSearchBg
+{
+    background-image: url(../images/nlet_bg_001.png);
+    background-position:top;
+    background-repeat:no-repeat;
+    text-align: left;
+    vertical-align: middle;
+    width: 207px;
+    height: 37px;    
+}
+
+.section_row
+{
+    font-family: Arial, Helvetica, sans-serif, "Bauhaus 93";
+    font-size: 11px;
+    font-weight: normal;
+    color: Black;
+    text-decoration: none;
+    line-height: 18px;
+    text-align: center;
+    background-image: url(../images/masterpage/iconbar.png);
+    background-repeat:no-repeat;
+    background-position:left top;
+    height: 95px;
+    width: 731px;
+    padding: 4px;
+    background-position: center;
+}
+
+.section_row_pb
+{
+    font-family: Arial, Helvetica, sans-serif, "Bauhaus 93";
+    font-size: 11px;
+    font-weight: normal;
+    color: Black;
+    text-decoration: none;
+    line-height: 18px;
+    text-align: center;
+    background-image: url(../images/masterpage/iconbarpb.png);
+    background-repeat:no-repeat;
+    background-position:left top;
+    height: 120px;
+    width: 731px;
+    padding: 4px;
+    background-position: center;
+}
+
+.headblack02
+{
+    font-size:19px;
+    font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+    font-weight:bold;
+    color: #054E7A;
+    text-decoration:none;    
+    padding:0px;
+    margin:0px;
+}
+.headblack03
+{
+    font-family: Arial, Helvetica, sans-serif, "Bauhaus 93";
+    font-size: 14px;    
+    font-weight: bold;
+    color: red;
+}
+.headblack04
+{
+    font-family: Arial, Helvetica, sans-serif, "Bauhaus 93";
+    font-size: 11px;
+    line-height: 18px;
+    color:#222222;
+    width: 325px;
+}
+.headingRoundTop
+{
+    font-size:20px;
+    font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+    font-weight:bold;
+    color: #054E7A;
+    text-decoration:none;
+    padding-left: 10px;    
+    margin:0px;
+}
+.a4
+{
+    font-size:11px;
+    font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+    font-weight:bold;
+    color: #054E7A;
+    text-decoration:none;
+    line-height:18px;
+    padding:0px;
+    margin:0px;
+}
+
+.a4:visited {
+	color: #054E7A;
+}
+.a4:hover {
+	color: #000000;
+}
+.a4:active {
+	color: #054E7A;
+}
+.welcometxt
+{
+    font-family: Arial, Helvetica, sans-serif, "Bauhaus 93";
+    font-size: 11px;
+    font-weight: normal;
+    color: #666666;
+    text-decoration: none;
+    line-height: 18px;
+}
+.sectionheader
+{
+    
+    font-size:20px;
+    font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+    font-weight:bold;
+    color: #f16c18;
+    text-decoration:none;    
+    margin:0px;                 
+    text-align: left;    
+    vertical-align: middle;
+    
+}
+.sectionheader1
+{
+    font-family: Arial, Helvetica, sans-serif, "Bauhaus 93";
+    font-size: 24px;
+    line-height: 26px;
+    font-weight: bold;
+    color: #f16c18;
+    text-align: left;
+    text-indent: 0px;
+    vertical-align: bottom;
+    padding-left: 10px;
+    height: 50px;
+}
+.text
+{
+    font-size:11px;
+    font-family: Arial, Helvetica, sans-serif, "Bauhaus 93";
+    color: #333333;
+    text-decoration:none;    
+    margin:0px;
+}
+.ptext{
+    font-size:11px;
+    font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+    color: #333333;
+    text-decoration:none;
+    padding-left:2px;
+    margin:0px;
+}
+.gridLeftSide
+{
+    
+    height: 34px;
+    color: #FFFFFF;
+    background-image: url('../images/leftside.png');
+    background-position: bottom right;
+    background-repeat: no-repeat;    
+    width: 14px;        
+    font-weight:bold;
+    text-decoration:none;
+    padding-bottom:3px;
+    margin:0px;
+}
+.gridRightSide
+{
+    
+    height: 34px;
+    color: #FFFFFF;
+    background-image: url('../images/rightside.png');
+    background-position: bottom left;
+    background-repeat: no-repeat;    
+    vertical-align: middle;    
+    width: 14px;        
+    font-weight:bold;
+    text-decoration:none;    
+    margin:0px;
+}
+.gridMidBar
+{
+    
+    height: 28px;
+    text-align: left;    
+    color: #FFFFFF;
+    background-image: url('../images/midbar.png');
+    background-position: bottom;
+    background-repeat: repeat-x;
+    font-size:12px;
+    font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+    font-weight:bold;
+    text-decoration:none;
+    padding:0px 0px 3px 2px;
+    margin:0px;
+}
+.gridItemStyle
+{
+    font-size:12px;
+    font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+    color: #333333;
+    line-height:22px;
+    text-decoration:none;
+    padding:0px 0px 0px 2px;
+    margin:0px;   
+    text-align: left;
+    vertical-align: middle;
+}
+.gridItemStyle:active
+{
+    font-size:12px;
+    font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+    color: #333333;
+    line-height:22px;    
+    text-decoration: none;    
+}
+.gridItemStyle:visited
+{
+    font-size:12px;
+    font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+    color: #333333;
+    line-height:22px;    
+    text-decoration: none;
+}
+.gridItemStyle:hover
+{
+    font-size:12px;
+    font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+    color: #333333;
+    line-height:22px;    
+    text-decoration: none;
+}
+.gridFooterstyle
+{
+    font-size: 11px;
+    font-weight: bolder;
+    font-family: Arial, Helvetica, sans-serif, "Bauhaus 93";
+    text-decoration: none;
+    height: 24px;        
+}
+.roundContentBg
+{
+    font-size:12px;
+    font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+    color: #333333;    
+    text-decoration:none;
+    padding:0px 10px 0px 10px;
+    margin:0px;
+    text-align: left;
+    vertical-align: top;        
+}
+.gridItemStyleL
+{
+    font-size:12px;
+    color: #000;
+    font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+    background-image: url('../images/gridBg.png');
+    background-position: right;
+    background-repeat: repeat-y;
+    text-align: left;    
+    width: 14px;
+}
+.gridItemStyleR
+{
+    font-size:12px;
+    color: #000;
+    font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+    background-image: url('../images/gridBg.png');
+    background-position: left;
+    background-repeat: repeat-y;
+    text-align: left;
+    width: 14px;    
+}
+
+.gridBottomLeft
+{
+/*
+    background-image: url('../images/bottomLeft.png');
+    background-position: top right;
+    background-repeat: no-repeat;
+*/
+    text-align: left;
+    width: 14px;    
+    height: 12px;
+}
+.gridBottomRight
+{
+/*
+    background-image: url('../images/bottomRight.png');
+    background-position: top left;
+    background-repeat: no-repeat;    
+*/
+    width: 14px; 
+    height: 12px;   
+}
+.gridBottomMid
+{
+/*  
+    background-image: url('../images/bottomMid.png');
+    background-position: top;
+    background-repeat: repeat-x;        
+*/
+    height: 12px;   
+}
+
+.gridTopLeft
+{
+/*
+    background-image: url('../images/TopLeft.png');
+    background-position: bottom right;
+    background-repeat: no-repeat;
+*/
+    text-align: left;
+    width: 14px;    
+    height: 12px;
+}
+.gridTopRight
+{
+/*
+    background-image: url('../images/topRight.png');
+    background-position: bottom left;
+    background-repeat: no-repeat;    
+*/
+    width: 14px; 
+    height: 12px;   
+}
+.gridTopMid
+{
+/*
+    background-image: url('../images/topMid.png');
+    background-position: bottom;
+    background-repeat: repeat-x;        
+*/
+    height: 12px;   
+}
+
+
+.grdPagerBgNxPr
+{
+    font-size:11px;
+    color: #000;
+    font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+    background-image: url(../images/page_btnBG_001.png);
+    background-position: top;
+    background-repeat: repeat-x;
+    padding-bottom: 6px;
+}
+.txtBg
+{
+    background-image: url(../images/search_bg_001.png);
+    background-position: top right;
+    background-repeat: no-repeat;
+    height: 32px;
+    width: 192px;    
+}
+.txtLeft
+{
+    background-image: url(../images/txtLeft.png);
+    background-position: top right;
+    background-repeat: no-repeat;
+    height: 32px;
+    width: 13px;    
+}
+.txtMid
+{
+    background-image: url(../images/txtMid.png);
+    background-position: top top;
+    background-repeat: repeat-x;
+    height: 32px;
+    padding-right: 15px;
+   
+}
+.txtRight
+{
+    padding-top: 2px;    
+}
+.lineHeight22
+{
+    height: 22px;
+    vertical-align: middle;
+    padding: 1px 0px 1px 0px;
+}
+.row3
+{
+    font-family: Arial, Helvetica, sans-serif, "Bauhaus 93";
+    font-size: 12px;
+    font-weight: normal;
+    color: #333333;
+    text-decoration: none;
+    line-height: 12px;
+    text-align: left;
+    vertical-align: middle;    
+    height: 24px;
+}
+.row4
+{
+    font-family: Arial, Helvetica, sans-serif, "Bauhaus 93";
+    font-size: 12px;
+    font-weight: normal;
+    color: #333333;
+    text-decoration: none;
+    line-height: 12px;
+    text-align: left;
+    vertical-align: middle;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: none;
+    border-left-style: none;
+    height: 26px;
+    line-height: 16px;
+}
+.leftProfile
+{
+    text-align: left;
+    width: 25%;
+    padding: 2px 0px 2px 0px;
+}
+.rightProfile
+{
+    text-align: left;
+    width: 75%;
+    padding: 2px 0px 2px 0px;
+}
+.tableBg
+{    
+    font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+/*
+    background-image: url('../images/catSec_Cbg_001.png');
+    background-position: left;
+    background-repeat: repeat-y;
+*/
+    text-align: left;    
+}
+/* Instances Prices*/
+.leftCSelc
+{
+    background-image: url(../images/cal_lCR1.png);
+    background-position: bottom right;
+    background-repeat: no-repeat;            
+    height: 23px;
+    width: 5px
+}
+.leftC
+{
+    background-image: url(../images/calB_lCR1.png);
+    background-position: right;
+    background-repeat: no-repeat;        
+    border-bottom: solid 1px #666666;
+    height: 23px;
+    width: 5px
+}
+.midCSelc
+{
+    background-image: url(../images/cal_lBG1.png);
+    background-position: bottom right;
+    background-repeat: repeat-x;    
+    height: 23px;   
+}
+.midC
+{
+    background-image: url(../images/calB_lBG1.png);
+    background-position: right;
+    background-repeat: repeat-x;
+    border-bottom: solid 1px #666666;
+    height: 23px;   
+}
+.rightCSelc
+{
+    background-image: url(../images/cal_rCR1.png);
+    background-position: bottom left;
+    background-repeat: no-repeat;    
+    height: 23px;   
+    width: 10px
+}
+.rightC
+{
+    background-image: url(../images/calB_rCR1.png);
+    background-position: left;
+    background-repeat: no-repeat;
+    border-bottom: solid 1px #666666;
+    height: 23px;   
+    width: 10px
+}
+.leftSideTableT
+{
+    background-image: url(../images/limg_tBar001.png);
+    background-position:bottom left;
+    background-repeat:no-repeat;    
+    width: 252px;
+    height: 10px;
+}
+.leftSideTableM
+{
+    background-image: url(../images/lpanel_bg_001.png);
+    background-position:top left;
+    background-repeat: repeat-y;
+    padding: 0px 0px 2px 10px;
+    padding-right: 5px;
+    width: 237px;    
+}
+.leftSideTableB
+{
+    background-image: url(../images/limg_bBar001.png);
+    background-position:top left;
+    background-repeat:  no-repeat;    
+    width: 252px;    
+    height: 13px;
+}
+.leftBullet
+{
+    background-image:url(../images/calBuls1.png);
+    background-position: center 2px;
+    width: 14px;
+    height: 13px;
+    padding-right: 6px;
+}
+.headingWhite{
+    font-size:18px;
+    font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+    color: #ffffff;
+    text-decoration:none;    
+    margin:0px;
+    padding: 0px 0px 5px 0px;
+}
+.leftTabletxt{
+    font-size:14px;
+    font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+    text-decoration:none;
+    text-align: left;
+    color: #cccccc;
+    height: 25px;
+    padding:2px 0px 2px 0px;
+    margin:0px;
+}
+
+.leftTabletxt:visited {
+	color: #cccccc;
+}
+.leftTabletxt:hover {
+	color: #ffffff;
+}
+.leftTabletxt:active {
+	color: #cccccc;
+}
+.calin1 {
+font-size:14px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+text-decoration:none;
+color: #ce3f00;
+padding:0px;
+margin:0px;
+}
+
+.calin1:visited {
+	color: #ce3f00;
+}
+.calin1:hover {
+	color: #ffffff;
+}
+.calin1:active {
+	color: #ce3f00;
+}
+.prc1 {
+font-size:37px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+text-decoration:none;
+color: #333333;
+padding-left:4px;
+padding-right:4px;
+margin:0px;
+}
+.prc2 {
+font-size:16px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+text-decoration:none;
+color: #333333;
+padding-left:4px;
+padding-right:4px;
+margin:0px;
+}
+/*ajaxTabBillingTheme*/
+.leftCellSelc
+{
+    background-image: url(../images/tab_CRL001.png);
+    background-position: right;
+    background-repeat: no-repeat;        
+    height: 24px;
+    width: 8px
+}
+.leftCell
+{
+    background-image: url(../images/tab_CRL006.png);
+    background-position: right;
+    background-repeat: no-repeat;
+    margin-left: 10px;
+    height: 24px;
+    width: 8px
+}
+
+.midCellSelc
+{
+    background-image: url(../images/tab_BG001.png);
+    background-position: right;
+    background-repeat: repeat-x;
+    height: 24px;   
+}
+.midCell
+{
+    background-image: url(../images/tab_BG002.png);
+    background-position: right;
+    background-repeat: repeat-x;
+    height: 24px;   
+}
+.rightCellSelc
+{
+    background-image: url(../images/tab_CRR001.png);
+    background-position: left;
+    background-repeat: no-repeat;
+    height: 24px;   
+    width: 30px
+}
+.rightCellEnd
+{
+    background-image: url(../images/tab_CRR004.png);
+    background-position: left;
+    background-repeat: no-repeat;
+    height: 24px;   
+    width: 30px
+}
+.rightCellEnd2
+{
+    background-image: url(../images/tab_CRR003.png);
+    background-position: left;
+    background-repeat: no-repeat;
+    height: 24px;   
+    width: 30px
+}
+.rightCellEnd3
+{
+    background-image: url(../images/tab_CRR005.png);
+    background-position: left;
+    background-repeat: no-repeat;
+    height: 24px;   
+    width: 30px
+}
+.rightCell
+{
+    background-image: url(../images/tab_CRR002.png);
+    background-position: left;
+    background-repeat: no-repeat;
+    height: 24px;   
+    width: 30px
+}
+
+.ajaxTabBillingTheme .ajax__tab_header
+{
+       
+    font-size: 14px;
+    display: block; 
+    margin: 0px;
+    height: 20px;   
+}
+
+.ajaxTabBillingTheme .ajax__tab_header .ajax__tab_outer
+{       
+    margin: 0px;
+    margin-left: -4px;
+    height: 20px;
+}
+
+.txtBilling {
+    color:#666666;
+    font-family:Arial,Helvetica,sans-serif,"Bauhaus 93";
+    font-size:11px;
+    margin:0;
+    padding-right:6px;
+    text-decoration:none;
+}
+
+.ajaxTabBillingTheme .ajax__tab_body
+{
+    font-family: Arial,Helvetica,sans-serif,"Bauhaus 93";
+    font-size: 11px;
+    padding: 0px;
+    margin-top: -1px; 
+    
+}
+/*    
+.ajaxTabBillingTheme .ajax__tab_header .ajax_tab_tab
+{
+    
+}
+.ajaxTabBillingTheme .ajax__tab_header .ajax__tab_tab img
+{
+   
+}
+.ajaxTabBillingTheme .ajax__tab_header .ajax__tab_tab div
+{
+    
+}
+.ajaxTabBillingTheme .ajax__tab_active .ajax__tab_outer
+{
+   
+}
+.ajaxTabBillingTheme .ajax__tab_hover .ajax__tab_outer
+{
+   
+}
+
+.ajaxTabBillingTheme .ajax__tab_help
+{
+    
+}
+
+*/
+/*-------END--TABS--------------*/
+/* ajax__tab_msngallery-theme theme */
+.ajax__tab_msngallery-theme .ajax__tab_header
+{
+    background: url('../Images/tab-line.png') repeat-x 50% bottom;
+    font-size: 12px;
+    display: block;
+    color: #ffffff;
+    }
+.ajax__tab_msngallery-theme .ajax__tab_header .ajax__tab_outer
+{
+    background: url(../images/TabsHeader.png);
+    background-repeat: no-repeat;
+    padding: 1px 1px 0px 1px;
+    border-bottom: solid 2px #c1c6ca;
+    background-color: #edf2fb;
+    height: 32px;
+}
+.ajax__tab_msngallery-theme .ajax__tab_header .ajax_tab_tab
+{
+    padding: 6px 10px 6px 10px;
+    color: #444444;
+    display: block;
+    text-align: center;
+    width: 15%;
+    color: #ffffff;
+}
+.ajax__tab_msngallery-theme .ajax__tab_header .ajax__tab_tab img
+{
+    height: 33px;
+    width: 33px;
+}
+.ajax__tab_msngallery-theme .ajax__tab_header .ajax__tab_tab div
+{
+    font-family: Verdana, Arial, Sans-Serif;
+    font-weight: bold;
+    white-space: nowrap;
+    line-height: 145%;
+    font-size: 92%;
+}
+.ajax__tab_msngallery-theme .ajax__tab_active .ajax__tab_outer
+{
+    background: url(../images/TabsHeader.png);
+    background-repeat: no-repeat;
+    padding: 0px 0px 0px 0px;
+    border-bottom-color: #ffffff;
+    background-color: #ffffff;
+}
+.ajax__tab_msngallery-theme .ajax__tab_hover .ajax__tab_outer
+{
+    background: url(../images/TabsHeader.png);
+    background-repeat: no-repeat;
+    padding: 0px 0px 0px 0px;
+    border-bottom-color: #ffffff;
+    background-color: #ffffff;
+}
+.ajax__tab_msngallery-theme .ajax__tab_body
+{
+    font-family: verdana,tahoma,helvetica;
+    font-size: 10pt;
+    padding: 8px;
+    background-color: #ffffff;
+    border: solid 2px #c1c6ca;
+    border-top-width: 0;
+}
+.ajax__tab_msngallery-theme .ajax__tab_help
+{
+    background: url(../Images/help.png);
+    background-position: right;
+    background-repeat: no-repeat;
+    padding: 0px 0px 0px 0px;
+    border: solid 2px #c1c6ca;
+    border-bottom-color: #ffffff;
+    background-color: #ffffff;
+}
+
+/* Product Preview Styles*/
+.leftSide
+{
+    text-align: left;
+    width: 658px;
+    padding: 0px 2px 5px 0px;
+    vertical-align: top;
+}
+.midIcon
+{
+    width: 71px;
+    padding: 0px 0px 5px 1px;
+    vertical-align: top;
+}
+.rightSide
+{
+    width: 218px; 
+    padding: 0px 1px 5px 0px;    
+    vertical-align: top;
+}
+.topLeftHeader
+{
+    font-family: Arial, Helvetica, sans-serif, "Bauhaus 93";
+    font-size: 13px;
+    font-weight: bold;
+    color: #333333;
+    text-decoration: none;
+    text-align: left;
+    background-image: url(../images/LeftTopBar.png);
+    background-position: bottom left;    
+    background-repeat: no-repeat;
+    height: 29px;
+    width:646px;
+    padding-left: 10px;
+    
+}
+.midLeftHeader
+{       
+    height: 430px;
+    width:646px;        
+    text-align: center;
+    background-image: url(../images/leftTopMid.png);
+    background-position: left;
+    background-repeat: repeat-y;    
+    
+}
+.bottomLeftHeader
+{
+        
+    background-image: url(../images/LeftBottomBar.png);
+    background-position: top left;    
+    background-repeat: no-repeat;
+    height: 9px;
+    width:646px;    
+    
+}
+.topMidHeader
+{
+    background-image: url(../images/mTopBar.png);
+    background-position: top left;
+    background-repeat: no-repeat;
+    width: 68px;
+    height: 7px;    
+}
+.midMid
+{
+    background-image: url(../images/midMidBar.png);
+    background-position: top left;
+    background-repeat: repeat-y;
+    vertical-align: top;
+    text-align: center;
+    width: 68px;
+    height: 451px;    
+}
+.midTableLink
+{
+    font-family: Arial, Helvetica, sans-serif, "Bauhaus 93";
+    font-size: 11px;    
+    color: #333333;
+    font-weight:bold;
+    text-decoration: none;
+    text-align: center;
+    padding: 0px 2px 0px 2px;
+}
+.bottomMid
+{
+    background-image: url(../images/mBottomBar.png);
+    background-position: top left;
+    background-repeat: no-repeat;
+    width: 68px;
+    height: 10px;    
+}
+.rightBar1
+{
+    font-family: Arial, Helvetica, sans-serif, "Bauhaus 93";
+    font-size: 13px;
+    font-weight: bold;
+    color: #333333;
+    text-decoration: none;
+    text-align: left;    
+    vertical-align: middle;    
+    width:216px;
+    padding-left: 3px;
+}
+.rightBar1Right
+{
+        
+    background-image: url(../images/eQuant.png);
+    background-position: top left;
+    background-repeat: no-repeat;
+    vertical-align: middle;    
+    width:21px;
+    height: 22px;
+    padding: 0px 10px 0px 0px;
+}
+.rightBarBottom
+{
+    /*
+    background-image: url(../images/rightBarBottom.png);
+    background-position: top left;
+    background-repeat: no-repeat;      
+    width:216px;
+    height: 7px;
+    */
+}
+.normaltxt
+{
+    font-family: Arial, Helvetica, sans-serif, "Bauhaus 93";
+    font-size: 10px;    
+    color: #333333;
+    text-decoration: none;        
+}
+.txtRightBar
+{
+    font-family: Arial, Helvetica, sans-serif, "Bauhaus 93";
+    font-size: 11px;
+    font-weight: bold;    
+    color: #333333;    
+    text-decoration: none;
+    padding-left: 2px;
+    text-align: left;    
+}
+.txtLeftCell
+{
+    font-family: Arial, Helvetica, sans-serif, "Bauhaus 93";
+    font-size: 11px;    
+    color: #333333;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: left;
+    vertical-align: middle;
+    padding-left: 3px;
+    width: 90px;
+    height: 16px;
+}
+.rightBarCenter
+{
+    vertical-align: top;
+    height: 100%;
+}
+
+.rightBar2Right
+{
+        
+    background-image: url(../images/oNote.png);
+    background-position: top left;
+    background-repeat: no-repeat;
+    vertical-align: middle;    
+    width:25px;
+    height: 24px;
+    padding: 0px 10px 0px 0px;
+}
+.rightBar3Right
+{
+    background-image: url(../images/sNote.png);
+    background-position: top left;
+    background-repeat: no-repeat;
+    vertical-align: middle;    
+    width:21px;
+    height: 24px;
+    padding: 0px 10px 0px 0px;
+    margin-bottom: 2px;
+}
+.rightBar4Right
+{
+    background-image: url(../images/aInstru.png);
+    background-position: top left;
+    background-repeat: no-repeat;
+    vertical-align: middle;    
+    width:25px;
+    height: 26px;
+    padding: 0px 10px 0px 0px;
+    margin-bottom: 2px;
+}
+/* -- End ---*/
+
+.moduleIcon
+{
+    padding: 9px;
+    vertical-align: middle;
+    text-align: center;
+}
+.moduleTitle
+{
+    padding: 9px 2px 0px 2px;    
+    vertical-align:top;
+    text-align: left;
+    
+}
+.moduleTitlePB
+{
+    padding: 14px 2px 0px 2px;    
+    vertical-align:top;
+    text-align: left;
+    
+}
+.moduleBullets
+{
+    padding-top: 9px;
+    padding-left: 2px;
+    vertical-align: top;
+    text-align: left;
+}
+.errortext
+{
+    font-family: Arial, Helvetica, sans-serif, "Bauhaus 93";
+    font-size: 10px;
+    font-weight: normal;
+    color: red;
+    text-decoration: none;
+}
+.productLabel
+{
+    color:#222222;
+    font-family:Arial,Helvetica,sans-serif,"Bauhaus 93";
+    font-size:12px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+/* Product Builder Begin */
+.productBox {
+	margin: 15px 10px;
+	width: 150px;
+	min-height: 30px;
+	float: left;
+	text-align: center;
+}
+/* Product Builder End */
+
+/* Product Listing Begin */
+.productBox {
+	margin: 15px 10px;
+	width: 200px;
+	min-height: 30px;
+	float: left;
+	text-align: center;
+}
+.productIcon {
+	margin: 0 auto;
+}
+
+a.productIconLink, a.productIconLink:visited, a.productIconLink:active {
+	margin: 0 auto;
+	width: 160px;
+	height: 160px;
+	display: block;
+	text-decoration: none;
+	padding: 4px;
+}
+
+a.productIconLink:hover {
+	padding: 4px;
+	/*background: url('/images/frontend/back-icon-large.png') no-repeat;*/
+}
+
+.productTitle, a.productTitle, a.productTitle:visited, a.productTitle:active {
+	display: block;
+	font-size: 100%;
+	line-height: 120%;
+	font-weight: bold;
+	margin-top: 10px;
+	margin-bottom: 5px;
+	text-decoration: none;
+}
+
+.productDescription {
+	font-size: 95%;
+	line-height: 140%;
+	color: #666;
+	margin: 0px;
+}
+
+.productBox .note {
+	font-size: 90%;
+	font-weight: bold;
+	line-height: 130%;
+	color: #666;
+	margin: 0px;
+	margin-top: 5px;
+}
+/* Product Listing End */
+
+
+.modalPopup
+{           
+    margin: 0px;
+    padding: 0px;
+    border: solid 0px;
+    z-index: 1001;
+}
+
+.ppTopBar
+{
+    background-image: url(../images/ppTbar.png);
+    background-position: bottom left;
+    background-repeat:no-repeat;
+    width:461px;
+    height: 8px;
+}
+.ppCBar
+{
+    background-image: url(../images/ppCbg.png);
+    background-position: left;
+    background-repeat:repeat-y;        
+}
+.ppBBar
+{
+    background-image: url(../images/ppBbar.png);
+    background-position: top left;
+    background-repeat:no-repeat;
+    width:461px;
+    height: 9px;
+}
+.head{
+    font-size:12px;
+    font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+    font-weight:bold;
+    color: #33517e;
+    text-decoration:none;
+    padding-left:16px;
+    margin:0px;
+}
+.shead2
+{
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif, "Bauhaus 93";
+    font-weight: bold;
+    color: #3b3b3b;
+    text-decoration: none;
+    padding-left: 4px;
+    padding-top: 2px;
+    margin: 0px;
+}
+
+
+.ic {
+font-size:10px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+text-decoration:none;
+color: #333333;
+padding:0px;
+margin:0px;
+}
+.txt2
+{
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif, "Bauhaus 93";
+    color: #3b3b3b;
+    text-decoration: none;
+    padding-left: 16px;
+    margin: 0px;
+}
+.EstProdClass
+{
+    background-color: Transparent;
+    width: 200px;
+}
+.bill1 {
+font-size:14px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+text-decoration:none;
+color: #333333;
+padding-left:4px;
+padding-right:4px;
+margin:0px;
+}
+
+.bill1:visited {
+	color: #333333;
+}
+.bill1:hover {
+	color: #ffffff;
+}
+.bill1:active {
+	color: #333333;
+}
+
+.bill2 {
+font-size:14px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+text-decoration:none;
+color: #999999;
+padding-left:4px;
+padding-right:4px;
+margin:0px;
+}
+
+.bill2:visited {
+	color: #999999;
+}
+.bill2:hover {
+	color: #333333;
+}
+.bill2:active {
+	color: #999999;
+}
+.bill3 {
+font-size:14px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+text-decoration:none;
+color: #796d54;
+padding-left:4px;
+padding-right:4px;
+margin:0px;
+}
+
+.bill3:visited {
+	color: #796d54;
+}
+.bill3:hover {
+	color: #ffffff;
+}
+.bill3:active {
+	color: #796d54;
+}
+.HRuler
+{    
+    border-bottom: solid 1px #F8CDB3;    
+    border-top: solid 0px;
+    border-left: solid 0px;
+    border-right: solid 0px;
+    /*height: 1px;
+    background-color: #F8CDB3;*/
+}
+/*-- Login Page */
+.topLogin
+{
+    background-image: url(../images/loginTbg_001.png);
+    background-position: top left;
+    background-repeat: no-repeat;
+    height: 280px;
+    vertical-align: bottom;    
+}
+.bottomLogin
+{
+    background-image: url(../images/loginBbg_002.png);
+    background-position: top left;
+    background-repeat: no-repeat;
+    height: 193px;
+    vertical-align: top;
+}
+.loginBg
+{
+    background-image: url(../images/logoBG_001.png);
+    background-position: top left;
+    background-repeat:repeat-y;        
+}
+.loginBullet
+{
+    background-image: url(../images/loginARW_001.png);
+    background-position: top center;
+    background-repeat:no-repeat;
+    padding-right: 6px;
+    width: 12px;
+}
+.loginH1{
+font-size:24px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+text-decoration:none;
+color: #515050;
+padding:0px;
+margin:0px;
+}
+
+.loginH2{
+font-size:14px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+text-decoration:none;
+color: #393939;
+padding:0px;
+margin:0px;
+}
+
+.loginH3{
+font-size:14px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+text-decoration:none;
+color: #333333;
+padding:0px;
+margin:0px;
+}
+.loginH4{
+    font-size:22px;
+    font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+    text-decoration:none;
+    color: #333333;
+    padding:0px;
+    margin:0px;
+}
+.inputlgn {
+    background:none repeat scroll 0 0 #F2C972;
+    border:medium none;
+    color:#333333;
+    font-family:Arial,Helvetica,sans-serif,"Bauhaus 93";
+    font-size:14px;
+    line-height:17px;
+    margin:0;
+    padding:0;
+    text-decoration:none;
+    width:220px;
+}
+.logSL1{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+text-decoration:none;
+color: #333333;
+padding:0px;
+margin:0px;
+}
+
+.logSL1:visited {
+	color: #333333;
+}
+.logSL1:hover {
+	color: #000000;
+}
+.logSL1:active {
+	color: #333333;
+}
+
+
+.logSL2{
+    font-size:18px;
+    font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+    text-decoration:none;
+    color: #333333;
+    padding:0px;
+    margin:0px;
+}
+
+.logSL2:visited {
+	color: #333333;
+}
+.logSL2:hover {
+	color: #ffffff;
+}
+.logSL2:active {
+	color: #333333;
+}ogSL2:active {
+	color: #333333;
+}
+
+/* End */
+/* Order Summery*/
+.orderS1{
+font-size:18px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #f16c18;
+text-decoration:none;
+padding-left:6px;
+margin:0px;
+}
+.orderS2{
+    font-size:14px;
+    font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+    text-decoration:none;
+    color:#f16c18;
+    padding:0px;
+    margin:0px;
+}
+
+.orderS3{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+text-decoration:none;
+color:#3c3c3c;
+padding:0px;
+margin:0px;
+}
+
+.orderS4{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+text-decoration:none;
+color:#3c3c3c;
+padding:0px;
+margin:0px;
+}
+
+.orderS5{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+text-decoration:none;
+color:#3c3c3c;
+padding:0px;
+margin:0px;
+}
+/* End */
+/* Grid Style for Simple*/
+.gridHStyle
+{    
+    background-image: url('../images/BottomLine.png');
+    background-position: bottom left;
+    background-repeat: repeat-x;    
+    font-size:14px;
+    font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+    text-decoration:none;
+    color:#f16c18;
+    padding: 0px 0px 0px 5px;
+    margin:0px;
+    height: 20px;
+}
+.gridRStyle
+{    
+    background-image: url('../images/BottomLine.png');
+    background-position: bottom left;
+    background-repeat: repeat-x;    
+    font-size:12px;
+    font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+    text-decoration:none;
+    color:#3c3c3c;
+    padding:0px 0px 0px 5px;
+    margin:0px;
+    height: 20px;
+}
+.heightRow
+{
+    height: 24px;
+    vertical-align: middle;
+}
+.tdlabel
+{
+	text-align:right;
+	font-family:Arial, Verdana;
+	font-size:13px;	
+}
+.tdtextbox
+{
+	text-align:left;
+	font-family:Arial, Verdana;
+	font-size:13px;	
+}
+.errmessage
+{
+	font-size: 13px;
+	font-family: arial,verdana;
+	text-decoration: none;
+	text-align: left;
+	color: Red;
+}
+.bg_box {
+ /* background: url('../Images/Loginpage/bg-login-box.gif') top center no-repeat #fff;*/
+  border: 1px solid #ddd;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  outline: 3px solid #f4f4f4;
+  -moz-outline-radius: 22px;
+  -webkit-outline-radius: 22px;
+  margin: 50px auto 0 auto;
+  padding: 140px 30px 35px;
+  width: 500px;
+  min-height: 100px; }
+  
+.shadow {
+  background: url('../Images/Loginpage/shadow-login-box.png') no-repeat;
+  margin: 5px auto 42px auto;
+  width: 456px;
+  height: 42px; }
+  
+ .wp-forminstruction
+{
+	background-color: rgb(77, 165, 210);
+    font-family: Verdana, Arial, Helvetica, sans-serif; 
+    font-size: 12px; 
+    vertical-align: middle;    
+    padding-left:5px;  
+}
+.wp-instructionarea
+{ 		
+	border-bottom: gray 1px solid; 
+}
+
+
+
+/*End*/
