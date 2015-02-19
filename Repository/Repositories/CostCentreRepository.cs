@@ -628,9 +628,15 @@ namespace MPC.Repository.Repositories
 		{
 			int fromRow = (request.PageNo - 1) * request.PageSize;
 			int toRow = request.PageSize;
-			Expression<Func<CostCentre, bool>> query =
-				oCostCenter => oCostCenter.Type != 1 && oCostCenter.IsDisabled == 0 && oCostCenter.OrganisationId == OrganisationId;
-
+            Expression<Func<CostCentre, bool>> query;
+            if (request.CostCenterType != 0)
+            {
+                query = oCostCenter => oCostCenter.Type == request.CostCenterType && oCostCenter.IsDisabled == 0 && oCostCenter.OrganisationId == OrganisationId;
+            }
+            else
+            {
+                query = oCostCenter => oCostCenter.Type != 1 && oCostCenter.IsDisabled == 0 && oCostCenter.OrganisationId == OrganisationId;
+            }
 			var rowCount = DbSet.Count(query);
 			var costCenters = request.IsAsc
 				? DbSet.Where(query)
@@ -756,6 +762,8 @@ namespace MPC.Repository.Repositories
 				throw new Exception("ExecuteUserStockItem", ex);
 			}
 		}
+
+        
 		#endregion
 
 		#region AddressSelect

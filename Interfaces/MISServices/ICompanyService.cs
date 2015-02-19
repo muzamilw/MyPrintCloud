@@ -50,6 +50,11 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         List<Item> GetItemsForWidgets();
 
+        /// <summary>
+        /// Save Field Variable
+        /// </summary>
+        long SaveFieldVariable(FieldVariable fieldVariable);
+
         #region exportOrganisation
 
         void ExportOrganisation(long OrganisationID);

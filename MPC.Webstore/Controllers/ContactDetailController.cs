@@ -49,10 +49,8 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
        public ActionResult Index(CompanyContact Model, HttpPostedFileBase fuImageUpload,string MarketAndPromotion,string NewsLetterSubscription)
        {
-
-           var value = Model.IsEmailSubscription;
-           if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
-           {
+           
+               bool result = false;
                CompanyContact UpdateContact = new CompanyContact();
                UpdateContact.FirstName = Model.FirstName;
                UpdateContact.LastName = Model.LastName;
@@ -62,7 +60,8 @@ namespace MPC.Webstore.Controllers
                UpdateContact.Mobile = Model.Mobile;
                UpdateContact.FAX = Model.FAX;
                UpdateContact.quickWebsite = Model.quickWebsite;
-               UpdateContact.image = UpdateImage(fuImageUpload,Model);
+               UpdateContact.image = UpdateImage(fuImageUpload, Model);
+               UpdateContact.ContactId = _webstoreAuthorizationChecker.loginContactID();
                if (MarketAndPromotion.Equals("true"))
                {
                    UpdateContact.IsEmailSubscription = true;
@@ -80,63 +79,45 @@ namespace MPC.Webstore.Controllers
                    UpdateContact.IsNewsLetterSubscription = false;
                }
 
-               UpdateContact.ContactId = _webstoreAuthorizationChecker.loginContactID();
-               Company Company = _myCompanyService.GetCompanyByCompanyID(_webstoreAuthorizationChecker.loginContactCompanyID());
-               if (Company != null)
+               if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
                {
-                   Company.Name = Request.Form["txtCompanyName"].ToString();
-                   Company.CompanyId = _webstoreAuthorizationChecker.loginContactCompanyID();
-                   _myCompanyService.UpdateCompany(Company);
-               }
-               _myCompanyService.UpdateCompanyContactForRetail(UpdateContact);
-           }
-           else
-           {
-               CompanyContact uPdateContact = new CompanyContact();
-               uPdateContact.FirstName = Model.FirstName;
-               uPdateContact.LastName = Model.LastName;
-               uPdateContact.Email = Model.Email;
-               uPdateContact.JobTitle = Model.JobTitle;
-               uPdateContact.HomeTel1 = Model.HomeTel1;
-               uPdateContact.Mobile = Model.Mobile;
-               uPdateContact.FAX = Model.FAX;
-               uPdateContact.quickWebsite = Model.quickWebsite;
-               uPdateContact.image = UpdateImage(fuImageUpload,Model);
-               if (MarketAndPromotion.Equals("true"))
-               {
-                   uPdateContact.IsEmailSubscription = true;
+
+                   Company Company = _myCompanyService.GetCompanyByCompanyID(_webstoreAuthorizationChecker.loginContactCompanyID());
+                   if (Company != null)
+                   {
+                       Company.Name = Request.Form["txtCompanyName"].ToString();
+                       Company.CompanyId = _webstoreAuthorizationChecker.loginContactCompanyID();
+                       result = _myCompanyService.UpdateCompanyName(Company);
+                   }
+                   result = _myCompanyService.UpdateCompanyContactForRetail(UpdateContact);
                }
                else
                {
-                   uPdateContact.IsEmailSubscription = false;
+                   UpdateContact.POBoxAddress = Model.POBoxAddress;
+                   UpdateContact.CorporateUnit = Model.CorporateUnit;
+                   UpdateContact.OfficeTradingName = Model.OfficeTradingName;
+                   UpdateContact.ContractorName = Model.ContractorName;
+                   UpdateContact.BPayCRN = Model.BPayCRN;
+                   UpdateContact.ABN = Model.ABN;
+                   UpdateContact.ACN = Model.ACN;
+                   UpdateContact.AdditionalField1 = Model.AdditionalField1;
+                   UpdateContact.AdditionalField2 = Model.AdditionalField2;
+                   UpdateContact.AdditionalField3 = Model.AdditionalField3;
+                   UpdateContact.AdditionalField4 = Model.AdditionalField4;
+                   UpdateContact.AdditionalField5 = Model.AdditionalField5;
+                   UpdateContact.ContactId = _webstoreAuthorizationChecker.loginContactID();
+                   result = _myCompanyService.UpdateCompanyContactForCorporate(UpdateContact);
                }
-
-               if (NewsLetterSubscription.Equals("true"))
+               if (result)
                {
-                   uPdateContact.IsNewsLetterSubscription = true;
+                   ViewBag.Message = "Your profile updated successfully.";
                }
-
                else
                {
-
-                   uPdateContact.IsNewsLetterSubscription = false;
+                   ViewBag.Message = "Sorry, no profile updated.";
                }
-               uPdateContact.POBoxAddress = Model.POBoxAddress;
-               uPdateContact.CorporateUnit = Model.CorporateUnit;
-               uPdateContact.OfficeTradingName = Model.OfficeTradingName;
-               uPdateContact.ContractorName = Model.ContractorName;
-               uPdateContact.BPayCRN = Model.BPayCRN;
-               uPdateContact.ABN = Model.ABN;
-               uPdateContact.ACN = Model.ACN;
-               uPdateContact.AdditionalField1 = Model.AdditionalField1;
-               uPdateContact.AdditionalField2 = Model.AdditionalField2;
-               uPdateContact.AdditionalField3 = Model.AdditionalField3;
-               uPdateContact.AdditionalField4 = Model.AdditionalField4;
-               uPdateContact.AdditionalField5 = Model.AdditionalField5;
-               uPdateContact.ContactId = _webstoreAuthorizationChecker.loginContactID();
-               _myCompanyService.UpdateCompanyContactForCorporate(uPdateContact);
-           }
-           return View();
+           
+                return View("Index");
        }
 
         private string UpdateImage(HttpPostedFileBase Request, CompanyContact Model)
@@ -178,18 +159,6 @@ namespace MPC.Webstore.Controllers
         {
             if (!string.IsNullOrEmpty(previousFileToremove))
             {
-                        
-                //string fullPath = Request.MapPath("~/Images/Cakes/" + photoName);
-                //if (System.IO.File.Exists(fullPath))
-                //{
-                //    System.IO.File.Delete(fullPath);
-                //}
-
-               // string completePath=System.Web.HttpContext.Current.Server.MapPath(previousFileToremove);
-
-              //  var CompletePath = Request.MapPath(previousFileToremove);
-                
-
                 if (System.IO.File.Exists(previousFileToremove))
                 {
                     DeleteFile(previousFileToremove);

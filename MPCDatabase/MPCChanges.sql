@@ -125,3 +125,48 @@ ALTER TABLE ReportNote
 ADD OrganisationId bigint
 
 GO
+
+/* Execution Date: 18/02/2015 */
+
+Go
+alter table CostCentre add CarrierId bigint
+
+/* Object:  Table [dbo].[DeliveryCarrier]    Script Date: 2/18/2015 5:04:43 PM */
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[DeliveryCarrier](
+ [CarrierId] [bigint] IDENTITY(1,1) NOT NULL,
+ [CarrierName] [varchar](200) NULL,
+ [Url] [varchar](200) NULL,
+ [ApiKey] [varchar](150) NULL,
+ [ApiPassword] [varchar](150) NULL,
+ [isEnable] [bit] NULL,
+ CONSTRAINT [PK_DeliveryCarrier] PRIMARY KEY CLUSTERED 
+(
+ [CarrierId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER table items add printCropMarks bit null 
+ALTER table items add drawBleedArea bit null 
+ALTER table items add isMultipagePDF bit null 
+ALTER table items add drawWaterMarkTxt bit null 
+ALTER table items add allowPdfDownload bit null 
+ALTER table items add allowImageDownload bit null
+
+alter table company
+drop column DeliveryPickUpAddressId
+
+GO

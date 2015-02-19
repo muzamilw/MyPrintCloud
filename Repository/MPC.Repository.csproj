@@ -204,6 +204,7 @@
     <Compile Include="Repositories\EmailEventRepository.cs" />
     <Compile Include="Repositories\FavoriteDesignRepository.cs" />
     <Compile Include="Repositories\EstimateRepository.cs" />
+    <Compile Include="Repositories\FieldVariableRepository.cs" />
     <Compile Include="Repositories\GetItemsListViewRepository.cs" />
     <Compile Include="Repositories\GlobalLanguageRepository.cs" />
     <Compile Include="Repositories\GroupRepository.cs" />
@@ -233,6 +234,7 @@
     <Compile Include="Repositories\ReportRepository.cs" />
     <Compile Include="Repositories\StateRepository.cs" />
     <Compile Include="Repositories\CostCenterTypeRepository.cs" />
+    <Compile Include="Repositories\StatusRepository.cs" />
     <Compile Include="Repositories\TemplateBackgroundImagesRepository.cs" />
     <Compile Include="Repositories\TemplateColorStylesRepository.cs" />
     <Compile Include="Repositories\TemplateFontsRepository.cs" />
@@ -262,6 +264,7 @@
     <Compile Include="Repositories\SystemUserRepository.cs" />
     <Compile Include="Repositories\TaxRateRepository.cs" />
     <Compile Include="Repositories\UserManagerRepository.cs" />
+    <Compile Include="Repositories\VariableOptionRepository.cs" />
     <Compile Include="Repositories\WeightUnitRepository.cs" />
     <Compile Include="Repositories\WidgetRepository.cs" />
     <Compile Include="Service References\GlobalTemplateDesigner\Reference.cs" />

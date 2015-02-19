@@ -23,6 +23,8 @@ namespace MPC.Models.DomainModels
         public long? CompanyId { get; set; }
         public long? OrganisationId { get; set; }
         public bool? IsSystem { get; set; }
+        public string VariableTitle { get; set; }
+        public virtual Company Company { get; set; }
         public virtual ICollection<VariableOption> VariableOptions { get; set; }
     }
 }
