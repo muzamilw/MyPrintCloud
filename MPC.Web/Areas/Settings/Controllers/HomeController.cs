@@ -67,12 +67,14 @@ namespace MPC.MIS.Areas.Settings.Controllers
                 Directory.CreateDirectory(path);
             }
 
-            path = path + "\\Organisation" + organizationId + "_" + file.FileName + ".jpeg";
+            path = path + "\\" + file.FileName;
             if (System.IO.File.Exists(path))
             {
                 System.IO.File.Delete(path);
             }
             file.SaveAs(path);
+            int indexOf = path.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+            path = path.Substring(indexOf, path.Length - indexOf);
             myOrganizationService.SaveFilePath(path);
         }
 
