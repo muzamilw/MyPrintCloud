@@ -14,11 +14,11 @@
 
 <div class="content_area featuredProductsCarousel">
     <ul id="mycarousel" class="jcarousel-skin-tango">
-        @foreach (var listing in Model as List<string>)
+        @foreach (var listing in Model as List<MPC.Models.Common.TemplateVariable>)
         {
             <li style="width: 250px; margin-right: 10px;">
                 <div>
-                    <img src="../../@listing" alt="" style="height: 250px; width: 250px;" />
+                    <img src="../../@listing.Value" alt="" style="height: 250px; width: 250px;" />
                 </div>
             </li>
         }

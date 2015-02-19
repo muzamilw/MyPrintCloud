@@ -436,6 +436,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.UserDefinedSpriteFileName = source.userDefinedSpriteImageFileName() === undefined ? null : source.userDefinedSpriteImageFileName();
                 result.CmsOffers = [];
                 result.MediaLibraries = [];
+                result.FieldVariables = [];
                 return result;
             },
             // Reset
@@ -668,7 +669,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         if (source.IsCustomer == 4) {
             store.type("4");
         }
-            
+
         else if (source.IsCustomer == 3) {
             store.type("3");
         }
@@ -2315,7 +2316,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             bussinessAddress = ko.observable(),
             shippingAddress = ko.observable(),
             stateName = ko.observable(),
-            
+
 
             // Errors
             errors = ko.validation.group({
@@ -2440,7 +2441,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     JobTitle: jobTitle(),
                     DOB: dOB(),
                     Notes: notes(),
-                    IsDefaultContact: isDefaultContact() == true ? 1: 0,
+                    IsDefaultContact: isDefaultContact() == true ? 1 : 0,
                     HomeAddress1: homeAddress1(),
                     HomeAddress2: homeAddress2(),
                     HomeCity: homeCity(),
@@ -2504,7 +2505,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     AdditionalField5: additionalField5(),
                     canUserPlaceOrderWithoutApproval: canUserPlaceOrderWithoutApproval(),
                     CanUserEditProfile: canUserEditProfile(),
-                    canPlaceDirectOrder: !isPayByPersonalCreditCard()? false: canPlaceDirectOrder(),
+                    canPlaceDirectOrder: !isPayByPersonalCreditCard() ? false : canPlaceDirectOrder(),
                     OrganisationId: organisationId(),
                     BussinessAddressId: bussinessAddressId(),
                     FileName: fileName(),
@@ -3945,16 +3946,28 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     };
     // #endregion 
 
-    // #region ______________  Variable Defination   _________________
+    // #region ______________  Field Variable   _________________
 
     // ReSharper disable once InconsistentNaming
-    var VariableDefination = function (specifiedPageId) {
+    var FieldVariable = function (specifiedVariableId, specifiedVariableName, specifiedVariableType, specifiedScope, specifiedWaterMark, specifiedDefaultValue,
+        specifiedInputMask, specifiedCompanyId, specifiedVariableTag, specifiedScopeName, specifiedTypeName, specifiedVariableTitle) {
         var self,
-            id = ko.observable(specifiedPageId),
-            pageTitle = ko.observable(specifiedPageTitle).extend({ required: true }),
-              // Errors
+            id = ko.observable(specifiedVariableId),
+            variableName = ko.observable(specifiedVariableName).extend({ required: true }),
+            variableType = ko.observable(specifiedVariableType),
+            scope = ko.observable(specifiedScope),
+            waterMark = ko.observable(specifiedWaterMark),
+            defaultValue = ko.observable(specifiedDefaultValue),
+            inputMask = ko.observable((specifiedInputMask === undefined || specifiedInputMask === null) ? "xxx-xxxxx-xxxxx" : specifiedInputMask),
+            companyId = ko.observable(specifiedCompanyId),
+            variableTag = ko.observable(specifiedVariableTag),
+            scopeName = ko.observable(specifiedScopeName),
+            typeName = ko.observable(specifiedTypeName),
+            variableTitle = ko.observable(specifiedVariableTitle),
+            variableOptions = ko.observableArray([]),
+            // Errors
             errors = ko.validation.group({
-                pageTitle: pageTitle,
+                variableName: variableName,
 
             }),
             // Is Valid 
@@ -3972,15 +3985,37 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             //Convert To Server
             convertToServerData = function (source) {
                 var result = {};
-                result.PageId = source.id() === undefined ? 0 : source.id();
+                result.VariableId = source.id() === undefined ? 0 : source.id();
+                result.VariableName = source.variableName() === undefined ? null : source.variableName();
+                result.VariableType = source.variableType() === undefined ? null : source.variableType();
+                result.WaterMark = source.waterMark() === undefined ? null : source.waterMark();
+                result.Scope = source.scope() === undefined ? null : source.scope();
+                result.DefaultValue = source.defaultValue() === undefined ? null : source.defaultValue();
+                result.CompanyId = source.companyId() === undefined ? null : source.companyId();
+                result.InputMask = source.inputMask() === undefined ? null : source.inputMask();
+                result.VariableTag = source.variableTag() === undefined ? null : source.variableTag();
+                result.VariableTitle = source.variableTitle() === undefined ? null : source.variableTitle();
+                result.VariableOptions = [];
                 return result;
             },
-            // Reset
+        // Reset
             reset = function () {
                 dirtyFlag.reset();
             };
         self = {
             id: id,
+            variableName: variableName,
+            variableType: variableType,
+            scope: scope,
+            waterMark: waterMark,
+            defaultValue: defaultValue,
+            companyId: companyId,
+            variableTag: variableTag,
+            inputMask: inputMask,
+            scopeName: scopeName,
+            typeName: typeName,
+            variableTitle: variableTitle,
+            variableOptions: variableOptions,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -3990,29 +4025,89 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         };
         return self;
     };
-    //CMS Page Create Factory
-    VariableDefination.Create = function (source) {
-        return new VariableDefination(
-            source.PageId,
-            source.PageTitle,
-            source.PageKeywords,
-            source.Meta_Title,
-            source.Meta_DescriptionContent,
-            source.Meta_CategoryContent,
-            source.Meta_RobotsContent,
-            source.Meta_AuthorContent,
-            source.Meta_LanguageContent,
-            source.Meta_RevisitAfterContent,
-            source.CategoryId,
-            source.PageHTML,
-            source.ImageSource,
-            source.DefaultPageKeyWords,
-            source.FileName,
-            source.PageBanner
-
-        );
+    //Field Variable Create Factory
+    FieldVariable.Create = function (source) {
+        return new FieldVariable(
+            source.VariableId,
+             source.VariableName,
+             source.VariableType,
+             source.Scope,
+             source.WaterMark,
+             source.DefaultValue,
+             source.InputMask,
+             source.CompanyId,
+             source.VariableTag,
+             source.VariableTitle
+            );
     };
-    // #endregion ______________  CMS Page   _________________
+    // #endregion ______________  Field Variable   _________________
+
+    // #region ______________  Field Variable   _________________
+
+    // ReSharper disable once InconsistentNaming
+    var VariableOption = function (specifiedVariableOptionId, specifiedVariableName, specifiedValue, specifiedSortOrder) {
+        var self,
+            id = ko.observable(specifiedVariableOptionId),
+            variableId = ko.observable(specifiedVariableName),
+            value = ko.observable(specifiedValue).extend({ required: true }),
+            sortOrder = ko.observable(specifiedSortOrder),
+            fakeId = ko.observable(),
+
+            // Errors
+            errors = ko.validation.group({
+                value: value,
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function (source) {
+                var result = {};
+                result.VariableOptionId = source.id() === undefined ? 0 : source.id();
+                result.VariableId = source.variableId() === undefined ? 0 : source.variableId();
+                result.Value = source.value() === undefined ? null : source.value();
+                result.SortOrder = source.sortOrder() === undefined ? 0 : source.sortOrder();
+                result.FakeId = source.fakeId() === undefined ? 0 : source.fakeId();
+                return result;
+            },
+        // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            id: id,
+            variableId: variableId,
+            value: value,
+            sortOrder: sortOrder,
+            fakeId: fakeId,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    //Field Option Create Factory
+    VariableOption.Create = function (source) {
+        return new VariableOption(
+            source.VariableOptionId,
+             source.VariableId,
+             source.Value,
+             source.SortOrder
+            );
+    };
+    // #endregion ______________  Variable Option   _________________
 
     //#region ______________ R E T U R N ______________
     return {
@@ -4053,7 +4148,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         SectionFlag: SectionFlag,
         CampaignCompanyType: CampaignCompanyType,
         Group: Group,
-        VariableDefination: VariableDefination,
+        FieldVariable: FieldVariable,
+        VariableOption: VariableOption,
     };
     // #endregion 
 });

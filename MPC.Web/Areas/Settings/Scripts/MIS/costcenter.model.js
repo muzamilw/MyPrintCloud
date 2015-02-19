@@ -97,6 +97,8 @@
             organisationId = ko.observable(),
             costCenterResource = ko.observableArray([]),
             costCenterInstructions = ko.observableArray([]),
+            serviceTypesList = ko.observableArray([]),
+            deliveryServiceType = ko.observable(),
             errors = ko.validation.group({
                 name: name,
                 type: type,
@@ -254,7 +256,9 @@
             errors: errors,
             isValid: isValid,
             hasChanges: hasChanges,
-            reset: reset
+            reset: reset,
+            serviceTypesList: serviceTypesList,
+            deliveryServiceType: deliveryServiceType
         };
         return self;
     };
@@ -464,13 +468,55 @@
         oCostCenter.thumbnailImageUrl(source.ThumbnailImageURL);
         oCostCenter.deliveryCharges(source.DeliveryCharges);
         oCostCenter.xeroAccessCode(source.XeroAccessCode);
-        oCostCenter.organisationId(source.OrganisationId);       
+        oCostCenter.organisationId(source.OrganisationId);
+        oCostCenter.deliveryServiceType(source.DeliveryServiceType);
+        oCostCenter.serviceTypesList(ServiceTypesList());
         _.each(source.CostcentreInstructions, function (item) {
             oCostCenter.costCenterInstructions.push(costCenterInstruction.Create(item));
         });
         return oCostCenter;
 
     };
+    var ServiceTypeModel = function (data) {
+        var self = this;
+        self.name = ko.observable(data.name);
+    };
+    
+
+    var ServiceTypesList = function () {
+        ServiceTypesList = [];
+        ServiceTypesList.push(new ServiceTypeModel({ name: "EUROPE_FIRST_INTERNATIONAL_PRIORITY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_1_DAY_FREIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_2_DAY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_2_DAY_AM" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_2_DAY_FREIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_3_DAY_FREIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_DISTANCE_DEFERRED" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_EXPRESS_SAVER" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_FIRST_FREIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_FREIGHT_ECONOMY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_FREIGHT_PRIORITY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_GROUND" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_NEXT_DAY_AFTERNOON" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_NEXT_DAY_EARLY_MORNING" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_NEXT_DAY_END_OF_DAY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_NEXT_DAY_FREIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_NEXT_DAY_MID_MORNING" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "GROUND_HOME_DELIVERY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FIRST_OVERNIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "INTERNATIONAL_ECONOMY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "INTERNATIONAL_ECONOMY_FREIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "INTERNATIONAL_FIRST" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "INTERNATIONAL_PRIORITY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "INTERNATIONAL_PRIORITY_FREIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "PRIORITY_OVERNIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "SAME_DAY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "SAME_DAY_CITY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "SMART_POST" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "STANDARD_OVERNIGHT" }));
+        return ServiceTypesList;
+    };
+
     var costCenterServerMapper = function (source) {
         var result = {};
         result.CostCentreId = source.costCentreId();
@@ -562,6 +608,8 @@
         result.DeliveryCharges = source.deliveryCharges();
         result.XeroAccessCode = source.xeroAccessCode();
         result.OrganisationId = source.organisationId();
+        result.DeliveryServiceType = source.deliveryServiceType();
+        
         return result;
     };
     

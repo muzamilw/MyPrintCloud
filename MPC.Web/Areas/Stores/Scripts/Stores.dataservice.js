@@ -105,6 +105,14 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to save Field Variable
+                    amplify.request.define('saveFieldVariable', 'ajax', {
+                        url: ist.siteUrl + '/Api/FieldVariable',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
+
                     // Define request to Get Secondry Page By Id
                     amplify.request.define('getSecondryPageById', 'ajax', {
                         url: ist.siteUrl + '/Api/SecondaryPage',
@@ -423,6 +431,18 @@
                     data: param
                 });
             },
+
+
+        // save Field Variable
+        saveFieldVariable = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'saveFieldVariable',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
         // save Store
         saveStore = function (param, callbacks) {
             initialize();
@@ -460,7 +480,8 @@
             saveCompanyContact: saveCompanyContact,
             deleteCompanyTerritory: deleteCompanyTerritory,
             deleteCompanyAddress: deleteCompanyAddress,
-            deleteCompanyContact: deleteCompanyContact
+            deleteCompanyContact: deleteCompanyContact,
+            saveFieldVariable: saveFieldVariable,
         };
     })();
 

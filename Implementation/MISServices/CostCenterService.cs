@@ -23,12 +23,14 @@ namespace MPC.Implementation.MISServices
         private readonly ICostCenterTypeRepository _costcentreTypeRepository;
         private readonly IMarkupRepository _markupRepository;
         private readonly ICostCentreVariableRepository _costCentreVariableRepository;
+        private readonly IDeliveryCarrierRepository _deliveryCarrierRepository;
+
         #endregion
 
         #region Constructor
 
         public CostCenterService(ICostCentreRepository costCenterRepository, IChartOfAccountRepository chartOfAccountRepository, ISystemUserRepository systemUserRepository, ICostCenterTypeRepository costCenterTypeRepository,
-            IMarkupRepository markupRepository, ICostCentreVariableRepository costCentreVariableRepository)
+            IMarkupRepository markupRepository, ICostCentreVariableRepository costCentreVariableRepository, IDeliveryCarrierRepository deliveryCarrierRepository)
         {
             if (costCenterRepository == null)
             {
@@ -54,12 +56,17 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("costCentreVariableRepository");
             }
+            if (deliveryCarrierRepository == null)
+            {
+                throw new ArgumentNullException("deliveryCarrierRepository");
+            }
             this._costCenterRepository = costCenterRepository;
             this._chartOfAccountRepository = chartOfAccountRepository;
             this._systemUserRepository = systemUserRepository;
             this._costcentreTypeRepository = costCenterTypeRepository;
             this._markupRepository = markupRepository;
             this._costCentreVariableRepository = costCentreVariableRepository;
+            this._deliveryCarrierRepository = deliveryCarrierRepository;
         }
 
         #endregion
@@ -109,7 +116,8 @@ namespace MPC.Implementation.MISServices
                 CostCenterResources = _systemUserRepository.GetAll(),
                 NominalCodes = _chartOfAccountRepository.GetAll(),
                 Markups = _markupRepository.GetAll(),
-                CostCentreVariables = _costCentreVariableRepository.returnLoadVariableList()
+                CostCentreVariables = _costCentreVariableRepository.returnLoadVariableList(),
+                DeliveryCarriers = _deliveryCarrierRepository.GetAll()
             };
         }
 

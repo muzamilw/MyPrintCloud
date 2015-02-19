@@ -16,6 +16,7 @@ define("costcenter/costcenter.viewModel",
                     costCenterTypes = ko.observableArray([]),
                     // System Users as Resources
                     costCenterResources = ko.observableArray([]),
+                    deliveryCarriers = ko.observableArray([]),
                     // Nominal Codes
                     nominalCodes = ko.observableArray([]),
                     costCenterVariables = ko.observableArray([]),
@@ -26,6 +27,7 @@ define("costcenter/costcenter.viewModel",
                     workInstructions = ko.observableArray([]),
                     // #region Busy Indicators
                     isLoadingCostCenter = ko.observable(false),
+                    
                     // #endregion Busy Indicators
                     sortOn = ko.observable(1),
                     //Sort In Ascending
@@ -74,12 +76,14 @@ define("costcenter/costcenter.viewModel",
                     },
                     getCostCenters = function() {
                         isLoadingCostCenter(true);
+                        
                         dataservice.getCostCentersList({
                             CostCenterFilterText: searchFilter(),
                             PageSize: pager().pageSize(),
                             PageNo: pager().currentPage(),
                             SortBy: sortOn(),
-                            IsAsc: sortIsAsc()
+                            IsAsc: sortIsAsc(),
+                            CostCenterType: CostCenterType
                         }, {
                             success: function(data) {
                                 costCentersList.removeAll();
@@ -222,11 +226,15 @@ define("costcenter/costcenter.viewModel",
                                 costCenterVariables.removeAll();
                                 ko.utils.arrayPushAll(costCenterVariables(), data.CostCentreVariables);
                                 costCenterVariables.valueHasMutated();
-
+                                //
                                 //Cost Center Resources
                                 costCenterResources.removeAll();
                                 ko.utils.arrayPushAll(costCenterResources(), data.CostCenterResources);
                                 costCenterResources.valueHasMutated();
+                                //Delivery Carriers
+                                deliveryCarriers.removeAll();
+                                ko.utils.arrayPushAll(deliveryCarriers(), data.DeliveryCarriers);
+                                deliveryCarriers.valueHasMutated();
                             },
                             error: function () {
                                 toastr.error("Failed to base data.");
@@ -284,7 +292,8 @@ define("costcenter/costcenter.viewModel",
                     nominalCodes: nominalCodes,
                     markups: markups,
                     costCenterResources: costCenterResources,
-                    costCenterVariables: costCenterVariables
+                    costCenterVariables: costCenterVariables,
+                    deliveryCarriers: deliveryCarriers
                 };
             })()
         };
