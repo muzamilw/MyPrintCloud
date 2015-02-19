@@ -31,7 +31,69 @@ define("crm/crm.viewModel",
                     isLoadingStores = ko.observable(false),
                     //Selected Company Contact
                     selectedCompanyContact = ko.observable(),
+                    //Check if screen is Prospect Or Customer Screen
+                    isProspectOrCustomerScreen = ko.observable(false),
+                //#endregion
 
+                //#region ___________ SUPPLIER SCREEN ____________
+                //#region ____________OBSERVABLES____________
+                 //Pager
+                supplierpager = ko.observable(),
+                //Is Loading suppliers
+                isLoadingSuppliers = ko.observable(false),
+                //Search Filter
+                searchSupplierFilter = ko.observable(),
+                //Sort On
+                supplierSortOn = ko.observable(1),
+                 //Sort In Ascending
+                supplierSortIsAsc = ko.observable(true),
+                selectedSupplier = ko.observable(),
+                //#endregion
+
+                //#region ____________OBSERVABLE ARRAYS____________
+                //suppliers List
+                suppliers = ko.observableArray([]),
+                //#endregion
+
+                //#region ____________SUPPLIERS LIST VIEW____________
+
+                //GET Suppliers For Suppliers List View
+                getSuppliers = function () {
+                    isLoadingSuppliers(true);
+                    //dataservice.getStores({
+                    dataservice.getSuppliers({
+                        SearchString: searchSupplierFilter(),
+                        PageSize: supplierpager().pageSize(),
+                        PageNo: supplierpager().currentPage(),
+                        SortBy: supplierSortOn(),
+                        IsAsc: supplierSortIsAsc()
+                    }, {
+                        success: function (data) {
+                            suppliers.removeAll();
+                            if (data != null) {
+                                supplierpager().totalCount(data.RowCount);
+                                _.each(data.Companies, function (item) {
+                                    var module = model.CrmSupplierListViewModel.Create(item);
+                                    suppliers.push(module);
+                                });
+                            }
+                            isLoadingSuppliers(false);
+                        },
+                        error: function (response) {
+                            isLoadingSuppliers(false);
+                            toastr.error("Error: Failed To load Suppliers " + response);
+                        }
+                    });
+                },
+                //Template To Use
+                templateToUseSupplier = function (store) {
+                    return (store === selectedSupplier() ? 'itemSupplierTemplate' : 'itemSupplierTemplate');
+                },
+                resetSupplierFilterSection = function () {
+                    searchSupplierFilter(undefined);
+                    getSuppliers();
+                },
+                //#endregion
 
                 //#endregion
 
@@ -108,26 +170,26 @@ define("crm/crm.viewModel",
 
                 //#region ___________ COMPANY TERRITORY ______
                 companyTerritoryCounter = -1,
-                    addCompanyTerritoryCount = function () {
-                        companyTerritoryCounter = (companyTerritoryCounter - 1);
-                    },
-                    //function to create new default territory for Prospect Or customer screen
-                    createNewTerritoryForProspectOrCustomerStore = function () {
-                        //selectedStore is new
-                        //new CompanyTerritories have no record
-                        if (selectedStore() != undefined && newCompanyTerritories != undefined && selectedStore().type() != undefined
-                            && selectedStore().companyId() == undefined && newCompanyTerritories().length == 0 && selectedStore().type() == 0) {
-                            var companyTerritory = new model.CompanyTerritory();
-                            companyTerritory.territoryId(companyTerritoryCounter);
-                            addCompanyTerritoryCount();
-                            companyTerritory.territoryName('Default Retail Territory Name');
-                            companyTerritory.territoryCode('Default Retail Territory Code');
-                            companyTerritory.isDefault(true);
+                addCompanyTerritoryCount = function () {
+                    companyTerritoryCounter = (companyTerritoryCounter - 1);
+                },
+                //function to create new default territory for Prospect Or customer screen
+                createNewTerritoryForProspectOrCustomerStore = function () {
+                    //selectedStore is new
+                    //new CompanyTerritories have no record
+                    if (selectedStore() != undefined && newCompanyTerritories != undefined && selectedStore().type() != undefined
+                        && selectedStore().companyId() == undefined && newCompanyTerritories().length == 0 && selectedStore().type() == 0) {
+                        var companyTerritory = new model.CompanyTerritory();
+                        companyTerritory.territoryId(companyTerritoryCounter);
+                        addCompanyTerritoryCount();
+                        companyTerritory.territoryName('Default Retail Territory Name');
+                        companyTerritory.territoryCode('Default Retail Territory Code');
+                        companyTerritory.isDefault(true);
 
-                            selectedStore().companyTerritories.splice(0, 0, companyTerritory);
-                            newCompanyTerritories.push(companyTerritory);
-                        }
-                    },
+                        selectedStore().companyTerritories.splice(0, 0, companyTerritory);
+                        newCompanyTerritories.push(companyTerritory);
+                    }
+                },
 
                 //#endregion
 
@@ -912,16 +974,18 @@ define("crm/crm.viewModel",
                 //#region ___________ UTILITY FUNCTIONS ______
 
                 onCreateNewStore = function () {
-                    onCreateNewStoreForProspectOrCustomerScreen();
-                },
-                //Create New Store
-                onCreateNewStoreForProspectOrCustomerScreen = function () {
                     var store = new model.Store();
                     selectedStore(store);
-                    selectedStore().type(0);
+                    if (isProspectOrCustomerScreen()) {
+                        selectedStore().type(0);
+                        createNewTerritoryForProspectOrCustomerStore();
+                    }
+                    else {
+                        selectedStore().type(2);
+                    }
                     isEditorVisible(true);
-                    createNewTerritoryForProspectOrCustomerStore();
                 },
+               
 
                 //Close Edit Dialog
                 closeEditDialog = function () {
@@ -1223,23 +1287,42 @@ define("crm/crm.viewModel",
                initialize = function (specifiedView) {
                    view = specifiedView;
                    ko.applyBindings(view.viewModel, view.bindingRoot);
-                   pager(new pagination.Pagination({ PageSize: 5 }, customersForListView, getCustomers));
-                   getCustomers();
+                   if (isProspectOrCustomerScreen()) {
+                       pager(new pagination.Pagination({ PageSize: 5 }, customersForListView, getCustomers));
+                       getCustomers();
+                   }
+                   else {
+                       supplierpager(new pagination.Pagination({ PageSize: 5 }, suppliers, getSuppliers));
+                       getSuppliers();
+                   }
                    getBaseDataFornewCompany();
+                  
                };
                 //#endregion
 
                 //#region RETURN
                 return {
                     initialize: initialize,
+                    //#region Supplier Screen
+                    supplierpager: supplierpager,
+                    isLoadingSuppliers: isLoadingSuppliers,
+                    searchSupplierFilter: searchSupplierFilter,
+                    supplierSortOn: supplierSortOn,
+                    selectedSupplier: selectedSupplier,
+                    supplierSortIsAsc: supplierSortIsAsc,
+                    suppliers: suppliers,
+                    getSuppliers: getSuppliers,
+                    templateToUseSupplier: templateToUseSupplier,
+                    resetSupplierFilterSection: resetSupplierFilterSection,
+                    //#endregion
                     pager: pager,
                     searchFilter: searchFilter,
                     isEditorVisible: isEditorVisible,
+                    isProspectOrCustomerScreen: isProspectOrCustomerScreen,
                     customersForListView: customersForListView,
                     searchButtonHandler: searchButtonHandler,
                     resetButtonHandler: resetButtonHandler,
                     sharedNavigationVm: sharedNavigationVm,
-                    onCreateNewStoreForProspectOrCustomerScreen: onCreateNewStoreForProspectOrCustomerScreen,
                     closeEditDialog: closeEditDialog,
                     //selectStore: selectStore,
                     selectedStore: selectedStore,
