@@ -10,5 +10,7 @@ namespace MPC.Interfaces.Repository
     public interface IReportRepository
     {
         List<Report> GetReportsByOrganisationID(long OrganisationID);
+
+        List<ReportNote> GetReportNotesByOrganisationID(long OrganisationID);
     }
 }

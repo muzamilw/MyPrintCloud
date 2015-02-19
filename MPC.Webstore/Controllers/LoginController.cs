@@ -118,7 +118,6 @@ namespace MPC.Webstore.Controllers
         {
 
 
-
             string returnUrl = string.Empty;
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
