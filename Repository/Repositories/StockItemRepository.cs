@@ -121,13 +121,14 @@ namespace MPC.Repository.Repositories
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
-                return db.StockItems.Include("StockCostAndPrice").Where(o => o.OrganisationId == OrganisationID).ToList();
+                return db.StockItems.Include("StockCostAndPrices").Where(o => o.OrganisationId == OrganisationID).ToList();
             } 
             catch(Exception ex)
             {
                 throw ex;
             }
         }
+       
         #endregion
     }
 }

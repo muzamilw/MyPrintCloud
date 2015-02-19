@@ -119,6 +119,9 @@
     <Compile Include="Common\ExportOrganisation.cs" />
     <Compile Include="Common\InlineTextStyles.cs" />
     <Compile Include="Common\FileTableCaption.cs" />
+    <Compile Include="Common\Order.cs" />
+    <Compile Include="Common\IsTrialClaimValue.cs" />
+    <Compile Include="Common\OrderStatusEnum.cs" />
     <Compile Include="Common\SystemUserClaimValue.cs" />
     <Compile Include="Common\OrderByColumn.cs" />
     <Compile Include="Common\MachineListColumns.cs" />
@@ -152,6 +155,7 @@
     <Compile Include="Common\ShoppingCart.cs" />
     <Compile Include="Common\StockCategoryByColumn.cs" />
     <Compile Include="Common\TemplateVariable.cs" />
+    <Compile Include="Common\TrialCountClaimValue.cs" />
     <Compile Include="Common\UserIdentityModel.cs" />
     <Compile Include="Common\USTaxInfo.cs" />
     <Compile Include="Common\Utility.cs" />
@@ -160,6 +164,7 @@
     <Compile Include="DomainModels\ActivityType.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CmsOffer.cs" />
+    <Compile Include="DomainModels\CompanyContactVariable.cs" />
     <Compile Include="DomainModels\CompanyVariableIcon.cs" />
     <Compile Include="DomainModels\CostCentreAnswer.cs" />
     <Compile Include="DomainModels\CostCenterChoice.cs" />
@@ -174,7 +179,11 @@
     <Compile Include="DomainModels\CostCentreVariableType.cs" />
     <Compile Include="DomainModels\CostcentreWorkInstructionsChoice.cs" />
     <Compile Include="DomainModels\CustomCopy.cs" />
+    <Compile Include="DomainModels\DeliveryCarrier.cs" />
     <Compile Include="DomainModels\FavoriteDesign.cs" />
+    <Compile Include="DomainModels\SmartForm.cs" />
+    <Compile Include="DomainModels\SmartFormDetail.cs" />
+    <Compile Include="DomainModels\VariableOption.cs" />
     <Compile Include="DomainModels\Group.cs" />
     <Compile Include="DomainModels\ImagePermission.cs" />
     <Compile Include="DomainModels\InkCoverageGroup.cs" />
@@ -327,6 +336,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="RequestModels\ActivityRequestModel.cs" />
     <Compile Include="RequestModels\AddressRequestModel.cs" />
     <Compile Include="RequestModels\CompanyProductSearchRequestModel.cs" />
     <Compile Include="RequestModels\CompanyRequestModel.cs" />
@@ -373,6 +383,9 @@
     <Compile Include="ResponseModels\MyCompanyDomainBaseReponse.cs" />
     <Compile Include="ResponseModels\MyOrganizationBaseResponse.cs" />
     <Compile Include="ResponseModels\CostCentersResponse.cs" />
+    <Compile Include="ResponseModels\OrderBaseResponse.cs" />
+    <Compile Include="ResponseModels\OrderBaseResponseForCompany.cs" />
+    <Compile Include="ResponseModels\OrderStatusesResponse.cs" />
     <Compile Include="ResponseModels\PaperSheetBaseResponse.cs" />
     <Compile Include="ResponseModels\PaperSheetResponse.cs" />
     <Compile Include="ResponseModels\PaperSheetResponseModel.cs" />

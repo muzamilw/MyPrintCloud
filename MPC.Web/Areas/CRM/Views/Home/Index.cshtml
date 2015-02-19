@@ -47,10 +47,10 @@
                                         <td>
                                             <img src="~/Content/themes/Centaurus/img/samples/logos/1.jpg" alt="" />
                                             <a href="/CRM/Home/CompaniesDetail" class="user-link" data-bind="text:name"></a>
-                                            <span class="user-subhead">Broker Store</span>
+                                            <span class="user-subhead"></span>
                                         </td>
                                         <td>
-                                            <p data-bind="dateString:creationdate"></p>
+                                            <p data-bind="dateString: creationdate"></p>
                                         </td>
                                         <td class="text-center">
                                             <span data-bind="text:status,css:statusClass"></span>
@@ -67,7 +67,7 @@
                                                     <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
                                                 </span>
                                             </a>
-                                            <a href="/CRM/Home/ContactCompanyDetail" class="table-link">
+                                            <a class="table-link" data-bind="click: $root.onEditItem">
                                                 <span class="fa-stack">
                                                     <i class="fa fa-square fa-stack-2x"></i>
                                                     <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>

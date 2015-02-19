@@ -1,5 +1,4 @@
 ﻿
-
 define("crm/crm.supplier.model", ["ko", "underscore", "underscore-ko"], function (ko) {
     var
 

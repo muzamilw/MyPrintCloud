@@ -15,7 +15,7 @@
                             {
                                 <label class="col-md-2 col-lg-2 col-xs-12 smallCheckoutAvenior">@item.Name</label>
                                 <div class="TTL_Checkout ckecoutWidthAvenior col-md-8 col-lg-8 col-xs-12">
-                                    <input type="text" class="AveniorTxtBoxCheckout" value="@item.Value" />
+                                    <input type="text" name="@item.Name.Replace(" ", "").Trim()" class="AveniorTxtBoxCheckout" value="@item.Value" />
                                 </div>
                             }
                         }

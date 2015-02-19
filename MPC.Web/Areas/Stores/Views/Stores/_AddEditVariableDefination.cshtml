@@ -1,0 +1,231 @@
+﻿
+<div class="modal fade my-modal" id="veriableDefinationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div style="width: 838px;" class="modal-dialog" data-bind="with:$root.selectedFieldVariable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Variable Defination Detail</h4>
+            </div>
+            <div class="col-lg-12 form-horizontal outerDiv-Padding">
+                <div class="form-group">
+                    <div class="col-lg-3 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Variable Name" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+                        </div>
+                        <label for="name" class="control-label text-right tooltip-float">Variable Name</label>
+                    </div>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" id="name" data-bind="value:variableName,validationTooltip:variableName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-3 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Title" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+                        </div>
+                        <label for="title" class="control-label text-right tooltip-float">Title</label>
+                    </div>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" id="title" data-bind="value:variableTitle">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-3 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Watermark Value" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+                        </div>
+                        <label for="waterMark" class="control-label text-right tooltip-float">Watermark Value</label>
+                    </div>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" id="waterMark" data-bind="value:waterMark">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-3 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Variable Tag" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+                        </div>
+                        <label for="vTag" class="control-label text-right tooltip-float">Variable Tag</label>
+                    </div>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" id="vTag" data-bind="value:variableTag">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-3 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Context" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+                        </div>
+                        <label for="vTag" class="control-label text-right tooltip-float">Context</label>
+                    </div>
+                    <div class="col-lg-6">
+                        <select class="form-control" id="vTag" data-bind="options: $root.contextTypes, optionsText: 'name', optionsValue: 'id', value:scope"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-3 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Type" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+                        </div>
+                        <label for="vType" class="control-label text-right tooltip-float">Type</label>
+                    </div>
+                    <div class="col-lg-6">
+                        <select class="form-control" id="vType" data-bind="options: $root.varibaleTypes, optionsText: 'name', optionsValue: 'id',value:variableType"></select>
+                    </div>
+                </div>
+                <div class="form-group" data-bind="visible:variableType()=== 1">
+                    <div class="col-lg-3 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Dropdown Options" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+                        </div>
+                        <label for="vTag" class="control-label text-right tooltip-float">Dropdown Options</label>
+                    </div>
+                    <div class="col-lg-3">
+                        <a class="btn btn-primary pull-left" data-bind="click:$root.onAddFieldOption">
+                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Option
+                        </a>
+                    </div>
+                </div>
+                <div class="form-group" data-bind="visible:variableType()=== 1">
+                    <div class="col-lg-3 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                @*<span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@
+                            </a>
+                        </div>
+                        <label for="vTag" class="control-label text-right tooltip-float"></label>
+                    </div>
+                    <div class="col-lg-6" data-bind="visible:variableOptions().length > 0">
+                        <div class="inlineGrid" style="border: 1px solid silver">
+                            <div class="table-responsive">
+                                <table id="variableOptionTablle" class="table table-striped table-hover">
+                                    <thead>
+                                        @*<tr>
+                                                <th>&nbsp;</th>
+                                                <th>&nbsp;</th>
+                                            </tr>*@
+                                    </thead>
+                                    <tbody>
+                                        <!-- ko template: { name: $root.templateToUseForVariableOption , foreach: variableOptions } -->
+                                        <!-- /ko -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" data-bind="visible:variableType()===1">
+                    <div class="col-lg-3 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Default Value" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+                        </div>
+                        <label for="vTag" class="control-label text-right tooltip-float">Default Value</label>
+                    </div>
+                    <div class="col-lg-6">
+                        <select class="form-control" id="vTag" data-bind="options: variableOptions, optionsText: 'value', optionsValue: 'value', value:defaultValue"></select>
+                    </div>
+                </div>
+                <div class="form-group" data-bind="visible:variableType()===2">
+                    <div class="col-lg-3 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Default Value" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+                        </div>
+                        <label for="vTag" class="control-label text-right tooltip-float">Default Value</label>
+                    </div>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" id="vTag" data-bind="value:defaultValue">
+                    </div>
+                </div>
+                <div class="form-group" data-bind="visible:variableType()===2">
+                    <div class="col-lg-3 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Input Mask" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+                        </div>
+                        <label for="mask" class="control-label text-right tooltip-float">Input Mask</label>
+                    </div>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" id="mask" data-bind="value:inputMask">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <hr />
+                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveFieldVariable">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="editVariableOptionTemplate" type="text/html">
+    <tr>
+        <td>
+            <input class="form-control" data-bind="value: value, validationTooltip:value" />
+        </td>
+        <td>
+            <a href="#" class="table-link" data-bind="click: $root.onEditVariableOption" title="Edit">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+            <a href="#" class="table-link danger" data-bind="click: $root.onDeleteVariableOption" title="Delete">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+        </td>
+    </tr>
+</script>
+<script id="itemVariableOptionTemplate" type="text/html">
+    <tr>
+        <td data-bind="text: value"></td>
+        <td>
+            <a href="#" class="table-link" data-bind="click: $root.onEditVariableOption" title="Edit">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+            <a href="#" class="table-link danger" data-bind="click: $root.onDeleteVariableOption" title="Delete">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+        </td>
+    </tr>
+</script>
+@* Wizard Popup ends here*@

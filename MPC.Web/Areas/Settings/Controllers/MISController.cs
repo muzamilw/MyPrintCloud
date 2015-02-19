@@ -22,6 +22,7 @@ namespace MPC.MIS.Areas.Settings.Controllers
             return View();
         }
         // GET: Settings/InventoryCategory
+        [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewInventoryCategory })]
         public ActionResult InventoryCategory()
         {
             return View();

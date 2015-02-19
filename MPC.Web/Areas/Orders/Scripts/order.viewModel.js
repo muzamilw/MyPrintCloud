@@ -3,8 +3,8 @@
 */
 define("order/order.viewModel",
     ["jquery", "amplify", "ko", "order/order.dataservice", "order/order.model", "common/pagination", "common/confirmation.viewModel",
-        "common/sharedNavigation.viewModel"],
-    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared) {
+        "common/sharedNavigation.viewModel", "common/companySelector.viewModel"],
+    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector) {
         var ist = window.ist || {};
         ist.order = {
             viewModel: (function () {
@@ -13,8 +13,16 @@ define("order/order.viewModel",
                     // #region Arrays
                     // orders
                     orders = ko.observableArray([]),
-                     // flag coulus
+                    // flag colors
                     sectionFlags = ko.observableArray([]),
+                    // company contacts
+                    companyContacts = ko.observableArray([]),
+                    // Company Addresses
+                    companyAddresses = ko.observableArray([]),
+                    // System Users
+                    systemUsers = ko.observableArray([]),
+                    // Pipeline Sources
+                    pipelineSources = ko.observableArray([]),
                     // Errors List
                     errorList = ko.observableArray([]),
                     // #endregion Arrays
@@ -27,10 +35,10 @@ define("order/order.viewModel",
                     // filter
                     filterText = ko.observable(),
                     // Active Order
-                    selectedOrder = ko.observable(),
+                    selectedOrder = ko.observable(model.Estimate.Create({})),
                     // Page Header 
-                    pageHeader = ko.computed(function () {
-                        return selectedOrder() && selectedOrder().orderName() ? selectedOrder().orderName() : 'Orders';
+                    pageHeader = ko.computed(function() {
+                        return selectedOrder() && selectedOrder().name() ? selectedOrder().name() : 'Orders';
                     }),
                     // Sort On
                     sortOn = ko.observable(1),
@@ -38,6 +46,36 @@ define("order/order.viewModel",
                     sortIsAsc = ko.observable(true),
                     // Pagination
                     pager = ko.observable(new pagination.Pagination({ PageSize: 5 }, orders)),
+                    // Default Address
+                    defaultAddress = ko.observable(model.Address.Create({})),
+                    // Default Company Contact
+                    defaultCompanyContact = ko.observable(model.CompanyContact.Create({})),
+                    // Selected Address
+                    selectedAddress = ko.computed(function() {
+                        if (!selectedOrder() || !selectedOrder().addressId() || companyAddresses().length === 0) {
+                            return defaultAddress();
+                        }
+
+                        var addressResult = companyAddresses.find(function(address) {
+                            return address.id === selectedOrder().addressId();
+                        });
+
+                        return addressResult || defaultAddress();
+                    }),
+                    // Selected Company Contact
+                    selectedCompanyContact = ko.computed(function () {
+                        if (!selectedOrder() || !selectedOrder().contactId() || companyContacts().length === 0) {
+                            return defaultCompanyContact();
+                        }
+
+                        var contactResult = companyContacts.find(function (contact) {
+                            return contact.id === selectedOrder().contactId();
+                        });
+
+                        return contactResult || defaultCompanyContact();
+                    }),
+                    // Selected Product
+                    selectedProduct = ko.observable(),
                     // #endregion
                     // #region Utility Functions
                     // Create New Order
@@ -80,6 +118,47 @@ define("order/order.viewModel",
                         });
                         confirmation.show();
                     },
+                    // Open Company Dialog
+                    openCompanyDialog = function() {
+                        companySelector.show(onSelectCompany, 1);
+                    },
+                    // On Select Company
+                    onSelectCompany = function (company) {
+                        if (!company) {
+                            return;
+                        }
+                        
+                        if (selectedOrder().companyId() === company.id) {
+                            return;
+                        }
+                        
+                        selectedOrder().companyId(company.id);
+                        selectedOrder().companyName(company.name);
+                        
+                        // Get Company Address and Contacts
+                        getBaseForCompany(company.id);
+                    },
+                    // Add Item
+                    addItem = function() {
+                        // Open Product Selector Dialog
+                    },
+                    // Edit Item
+                    editItem = function(item) {
+                        selectedProduct(item);
+                        openItemDetail();
+                    },
+                    // Open Item Detail
+                    openItemDetail = function() {
+                        view.showItemDetailDialog();
+                    },
+                    // Close Item Detail
+                    closeItemDetail = function() {
+                        view.hideItemDetailDialog();
+                    },
+                    // Save Product
+                    saveProduct = function() {
+                            
+                    },
                     // Initialize the view model
                     initialize = function (specifiedView) {
                         view = specifiedView;
@@ -89,19 +168,28 @@ define("order/order.viewModel",
 
                         // Get Base Data
                         getBaseData();
+                        
                         // Get Orders
                         getOrders();
-
+                    },
+                    // Map List
+                    mapList = function(observableList, data, factory) {
+                        var list = [];
+                        _.each(data, function (item) {
+                            list.push(factory.Create(item));
+                        });
+                        
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(observableList(), list);
+                        observableList.valueHasMutated();
                     },
                     // Map Orders 
                     mapOrders = function (data) {
-                        debugger;
                         var ordersList = [];
                         _.each(data, function (order) {
                             order.FlagColor = getSectionFlagColor(order.SectionFlagId);
                             ordersList.push(model.Estimate.Create(order));
                         });
-                        debugger;
                         // Push to Original Array
                         ko.utils.arrayPushAll(orders(), ordersList);
                         orders.valueHasMutated();
@@ -158,10 +246,14 @@ define("order/order.viewModel",
                     getBaseData = function () {
                         dataservice.getBaseData({
                             success: function (data) {
-                                if (data) {
-                                    _.each(data, function (sectionFlag) {
-                                        sectionFlags.push(model.SectionFlag.Create(sectionFlag));
-                                    });
+                                if (data.SectionFlags) {
+                                    mapList(sectionFlags, data.SectionFlags, model.SectionFlag);
+                                }
+                                if (data.SystemUsers) {
+                                    mapList(systemUsers, data.SystemUsers, model.SystemUser);
+                                }
+                                if (data.PipeLineSources) {
+                                    mapList(pipelineSources, data.PipeLineSources, model.PipeLineSource);
                                 }
                             },
                             error: function (response) {
@@ -171,12 +263,15 @@ define("order/order.viewModel",
                     },
                     // Get Section flag color
                     getSectionFlagColor = function (sectionFlagId) {
-                        var color = null;
-                        _.each(sectionFlags(), function (sectionFlag) {
-                            if (sectionFlag.id == sectionFlagId)
-                                color= sectionFlag.color;
+                        var sectionFlg = sectionFlags.find(function (sectionFlag) {
+                            return sectionFlag.id == sectionFlagId;
                         });
-                        return color;
+
+                        if (!sectionFlg) {
+                            return undefined;
+                        }
+
+                        return sectionFlg.color;
                     },
                     // Save Order
                     saveOrder = function (callback, navigateCallback) {
@@ -186,10 +281,7 @@ define("order/order.viewModel",
                                 if (!selectedOrder().id()) {
                                     // Update Id
                                     selectedOrder().id(data.OrderId);
-
-                                    // Update Min Price
-                                    selectedOrder().miniPrice(data.MinPrice || 0);
-
+                                    
                                     // Add to top of list
                                     orders.splice(0, 0, selectedOrder());
                                 }
@@ -253,7 +345,6 @@ define("order/order.viewModel",
                             }
                         });
                     },
-                    
                     // Get Orders
                     getOrders = function () {
                         isLoadingOrders(true);
@@ -297,6 +388,28 @@ define("order/order.viewModel",
                                 toastr.error("Failed to load order details" + response);
                             }
                         });
+                    },
+                    // Get Company Base Data
+                    getBaseForCompany = function (id) {
+                        dataservice.getBaseDataForCompany({
+                            id: id
+                        }, {
+                            success: function (data) {
+                                companyAddresses.removeAll();
+                                companyContacts.removeAll();
+                                if (data) {
+                                    if (data.CompanyAddresses) {
+                                        mapList(companyAddresses, data.CompanyAddresses, model.Address);
+                                    }
+                                    if (data.CompanyContacts) {
+                                        mapList(companyContacts, data.CompanyContacts, model.CompanyContact);
+                                    }
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to load details for selected company" + response);
+                            }
+                        });
                     };
                 // #endregion Service Calls
 
@@ -313,6 +426,14 @@ define("order/order.viewModel",
                     filterText: filterText,
                     pageHeader: pageHeader,
                     shared: shared,
+                    selectedAddress: selectedAddress,
+                    selectedCompanyContact: selectedCompanyContact,
+                    companyContacts: companyContacts,
+                    companyAddresses: companyAddresses,
+                    sectionFlags: sectionFlags,
+                    systemUsers: systemUsers,
+                    pipelineSources: pipelineSources,
+                    selectedProduct: selectedProduct,
                     // Observables
                     // Utility Methods
                     initialize: initialize,
@@ -324,7 +445,13 @@ define("order/order.viewModel",
                     onCloseOrderEditor: onCloseOrderEditor,
                     onArchiveOrder: onArchiveOrder,
                     gotoElement: gotoElement,
-                    onCloneOrder: onCloneOrder
+                    onCloneOrder: onCloneOrder,
+                    openCompanyDialog: openCompanyDialog,
+                    closeItemDetail: closeItemDetail,
+                    openItemDetail: openItemDetail,
+                    addItem: addItem,
+                    editItem: editItem,
+                    saveProduct: saveProduct
                     // Utility Methods
                 };
             })()

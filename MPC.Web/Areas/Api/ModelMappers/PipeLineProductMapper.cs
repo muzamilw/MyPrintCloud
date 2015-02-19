@@ -8,7 +8,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
     /// </summary>
     public static class PipeLineProductMapper
     {
-
+        #region Public
         /// <summary>
         /// Create From Domain Model
         /// </summary>
@@ -20,5 +20,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Description = source.Description
             };
         }
+
+        #endregion
     }
 }

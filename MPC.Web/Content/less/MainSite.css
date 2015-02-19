@@ -69,6 +69,29 @@
 .closeSaveButtonMarginRemove {
   margin-left: 0;
 }
+/* Form Group in Details Page */
+.filter-block .form-group {
+  margin-bottom: 0;
+}
+.form-group .input-group-addon {
+  text-decoration: none;
+  border: 0;
+  cursor: pointer;
+}
+.form-group .input-group .input-group-addon {
+  border: 1px solid #ccc;
+}
+.my-tabsHeader {
+  border: 1px solid silver;
+  -moz-box-shadow: 1px 1px 1px silver;
+  -webkit-box-shadow: 1px 1px 1px silver;
+  box-shadow: 1px 1px 1px silver;
+}
+.set-filter-margin {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+/* Form Group in Details Page */
 /* Validation Summary */
 .validationSummaryContainer .validationSummaryLink {
   margin-left: 15px;
@@ -85,14 +108,6 @@
   background-color: #ff7e47;
   color: white;
 }
-#productBinding #tabsHeader {
-  border: 1px solid silver;
-  box-shadow: 1px 1px 1px silver;
-}
-#productBinding .set-filter-margin {
-  margin-top: 25px;
-  margin-bottom: 25px;
-}
 #productBinding .inactiveView {
   background-color: #ffffff;
   color: black;
@@ -103,12 +118,6 @@
 #productBinding #gridZoomSlider {
   width: 100%;
 }
-#productBinding .filter-block .form-group {
-  margin-bottom: 0;
-}
-#productBinding #stockDialog #stockDialogMainContainer {
-  width: 838px;
-}
 #productBinding #pressDialog #pressDialogMainContainer {
   width: 838px;
 }
@@ -117,14 +126,6 @@
 }
 #productBinding #itemAddonCostCentreDialog #itemAddonCostCentreDialogMainContainer {
   width: 838px;
-}
-#productBinding .form-group .input-group-addon {
-  text-decoration: none;
-  border: 0;
-  cursor: pointer;
-}
-#productBinding .form-group .input-group .input-group-addon {
-  border: 1px solid #ccc;
 }
 #productBinding .pricetable-itemPriceMatrix tr th#Qty {
   width: 12%;
@@ -424,4 +425,20 @@
 }
 #inventoryCategoriesBinding #detailArea {
   margin-top: 3px;
+}
+#stockDialog #stockDialogMainContainer {
+  width: 838px;
+}
+#orderBinding #tab-EstimateHeader #orderType {
+  font-weight: bold;
+  font-size: 15px;
+  color: red;
+}
+#companySelectorDialog .modal-dialog {
+  width: 838px;
+}
+#companySelectorDialog .filter-body {
+  margin-top: 15px;
+  margin-bottom: 30px;
+  height: 63px;
 }

@@ -1,0 +1,162 @@
+﻿
+@*@model IEnumerable<MPC.Models.Common.Order>*@
+@model MPC.Webstore.ViewModels.SearchOrderViewModel
+
+@{
+
+    var grid = new WebGrid(source: ViewBag.OrderList, canPage: true, rowsPerPage: 15);
+    grid.Pager(WebGridPagerModes.All);
+}
+
+
+
+<div class="content_area container">
+    <div class="left_right_padding row">
+        <div class="signin_heading_div float_left_simple dashboard_heading_signin">
+            <label class="sign_in_heading" id="HistryBtn">Order History</label>
+        </div>
+        <div class="dashBoardRetrunLink">
+         
+        </div>
+        <div class="clearBoth">
+
+        </div>
+        <div>
+            <div class="Width100Percent">
+                <div class="divSearchBar paddingBottom10px normalTextStyle rounded_corners">
+                    <div class="heading_h8 cntFilteringCritariaLeft">
+                        @*<asp:Literal ID="ltrlSearchOrder" runat="server" Text=" Search Orders"></asp:Literal>*@
+                        <label class="ltrlSearchOrder" id="HistryBtn">Search Orders</label>
+                    </div>
+                    <div>
+@using (Html.BeginForm("Index", "ProductOrderHistory", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+                        <table border="0" cellpadding="5" cellspacing="5" class="cntFilteringCritariaRight">
+                            <tr>
+                                <td>
+                                    <span id="spntdfromdate" class="heading_h8">From Date</span>
+                                </td>
+                                <td>
+                                    <span id="spntodate"class="heading_h8">To Date</span>
+                                </td>
+                                <td>
+                                    <span id="spntdorderref" class="heading_h8">Order Ref</span>
+                                </td>
+                                <td>
+                                    <span id="spntdorderstatus" class="heading_h8">Status</span>
+                                </td>
+                                <td>
+                                    <span id="spcClientStatus"  class="heading_h8"  style="visibility:hidden;">Client Status</span>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.TextBoxFor(model => model.FromData, new { id = "txtFromDate", @class = "text_box150 rounded_corners5", placeholder = "From Date", maxlength = 500, @readonly = "readonly" })
+                                </td>
+                                <td>
+                                  @Html.TextBoxFor(model=>model.ToDate, new { id = "txtToDate", @class = "text_box150 rounded_corners5", placeholder = "To Date", maxlength = 500, @readonly = "readonly" })
+                                </td>
+                                <td>
+
+                                    @Html.TextBoxFor(model=>model.poSearch, new { id = "txtOrderRefrence", @class = "text_box150 rounded_corners5", placeholder = "PO Search", maxlength = 500 })
+                                </td>
+                                <td>
+
+                                    @Html.DropDownListFor(model => model.SelectedOrder, (IEnumerable<SelectListItem>)@Model.DDOderStatus, "All", new { @class = "dropdown rounded_corners5", @id = "DDOderStatus" })
+
+                                </td>
+                                <td>
+                                   
+                                </td>
+                                <td>
+                                    <div class="float_left_simple">
+                                        
+                                        <input type="submit" value="Go" id="btnSearchOrders" class="start_creating_btn rounded_corners5" />
+
+                                    </div>
+                                    <div class="float_left_simple left_margin">
+                                       
+                                        <input type="button" id="btnClear" class="start_creating_btn rounded_corners5" value="Clear" />
+                                    </div>
+                                    <div class="clearBoth">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+}
+                    </div>
+                </div>
+            </div>
+            <div class="white_back_div rounded_corners">
+                <div class="PadingTop textAlignLeft">
+                    
+                    <label id="lblTxtOfRest" class="matchingTxtclass"></label>
+                </div>
+                <div class="Pad1020">
+                    <div class="Width100Percent">
+                        <div class="textAlignCenter paddingBottom10px normalTextStyle">
+                            <label id="lblMessage">No Record Found!</label>
+                        </div>
+                    </div>
+                    
+                    <div class="ProductOrderContainer">
+                       
+
+    @grid.GetHtml(
+    htmlAttributes: new { id = "OrderGrid" },
+    tableStyle: "table",
+    fillEmptyRows: false,
+    headerStyle: "header",
+    columns: new[] {
+
+    grid.Column("OrderCode","OrderCode"),
+    grid.Column("YourRef","YourRef"),
+    grid.Column("OrderDate","OrderDate"),
+    grid.Column("DeliveryDate","DeliveryDate"),
+    grid.Column("StatusName","StatusName"),
+    grid.Column("ClientStatusID","ClientStatusID"),
+    grid.Column("View", format:@<text>@Html.ActionLink("Select", "Submit",
+                new { name = item.OrderID }, new { @class = "myclass" }) </text>),
+    grid.Column("Reorder", format:@<text>@Html.ActionLink("Select", "Submit",
+                new { name = item.OrderID }, new { @class = "myclass" }) </text>),
+    
+    }
+    )
+    
+    
+                        @*<uc8:CustomPagerControl ID="grdViewOrdHistoryPager" runat="server" />
+                        <div>
+                            <%--Modal Popupextender--%>
+                            <ajaxToolkit:ModalPopupExtender ID="mpeOrderDetails" BehaviorID="mpeOrderDetails"
+                                                            TargetControlID="hdnTargetCtrlUpload" PopupControlID="pnlOrderDetails" BackgroundCssClass="ModalPopupBG"
+                                                            runat="server" Drag="true" DropShadow="false" />
+                            <input type="hidden" id="hdnTargetCtrlUpload" runat="server" />
+                            <asp:Panel ID="pnlOrderDetails" runat="server" CssClass="FileUploaderPopup_Mesgbox LCLB rounded_corners"
+                                       Style="display: none; width: 920px;">
+                                <div class="white_background pad20">
+                                    <uc9:OrderDetailsControl ID="orderDetailsControl" runat="server" />
+                                </div>
+                            </asp:Panel>
+                        </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+</div>
+}
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+            $("#txtFromDate").datepicker();
+            $("#txtToDate").datepicker();
+
+        });
+
+    </script>
+}

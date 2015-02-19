@@ -25,6 +25,10 @@ namespace MPC.Webstore
                  , new { controller = "Domain", action = "updateCache", name = "" });
 
 
+            routes.MapRoute("Orderhistory"
+              , "ProductOrderHistory"
+              , new { controller = "ProductOrderHistory", action = "Index", name = "" });
+
             routes.MapRoute("store"
                  , "store/{name}"
                  , new { controller = "Domain", action = "Index", name = "" });

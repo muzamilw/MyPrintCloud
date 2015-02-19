@@ -52,7 +52,7 @@
                                                         <div class="col-lg-4 text-right">
 
                                                             <div class="bs-example-tooltips tooltip-float-width">
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter your company name (Acme Printing)" data-original-title="" title="">
+                                                                <a class="input-group-addon" data-bind="tooltip: {title: 'Default tooltip'}" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter your company name (Acme Printing)" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -731,11 +731,21 @@
 
     <script src="~/Scripts/jquery.form.js"></script>
     <script>
+        $(document).ready(function ()
+        {
+
+            $('.bs-example-tooltips a').popover();
+
+        });
+
         require(["myOrganization/myOrganization.view", "common/confirmation.view"]);
-        $(function () {
+        $(function ()
+        {
             $('#lisettings').addClass('active');
             $('#ligeneralsettings').addClass('active');
             $('#limyorganization').addClass('active');
+            
+            $('.bs-example-tooltips a').popover();
         });
     </script>
 }

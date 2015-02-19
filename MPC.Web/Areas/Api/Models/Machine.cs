@@ -68,14 +68,10 @@ namespace MPC.MIS.Areas.Api.Models
         public double? MakeReadyTime { get; set; }
         public double? WashupTime { get; set; }
         public double? ReelMakereadyTime { get; set; }     
-        public double? Maximumsheetweight { get; set; }
-        public double? Maximumsheetheight { get; set; }
-        public double? Maximumsheetwidth { get; set; }
-        public double? Minimumsheetheight { get; set; }
-        public double? Minimumsheetwidth { get; set; }
+     
         public long? LookupMethodId { get; set; }
-        public virtual ICollection<MachineInkCoverage> MachineInkCoverages { get; set; }
-        public virtual ICollection<MachineResource> MachineResources { get; set; }
+        public IEnumerable<MachineInkCoverage> MachineInkCoverages { get; set; }
+       // public virtual ICollection<MachineResource> MachineResources { get; set; }
     }
 }
 

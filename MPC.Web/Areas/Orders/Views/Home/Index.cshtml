@@ -26,11 +26,12 @@
 </div>
 
 @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_CompanySelector.cshtml")
 
 @section Scripts{
     
     <script>
-        require(["order/order.view", "common/confirmation.view"]);
+        require(["order/order.view", "common/confirmation.view", "common/companySelector.view"]);
 
         $(function () {
             $('#liorderprocessing').addClass('active');

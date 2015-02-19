@@ -15,5 +15,15 @@ namespace MPC.Models.Common
 
         public string Plan { get; set; }
         public string Email { get; set; }
+
+        /// <summary>
+        /// Defines if user is in trial period
+        /// </summary>
+        public Boolean IsTrial { get; set; }
+
+        /// <summary>
+        /// Trial period count
+        /// </summary>
+        public int TrialCount { get; set; }
     }
 }

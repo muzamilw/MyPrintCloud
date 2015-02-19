@@ -473,6 +473,7 @@ define("inventory/inventory.viewModel",
                     // Show Inventory Editor
                     showInventoryEditor = function () {
                         isInventoryEditorVisible(true);
+                        view.initializeLabelPopovers();
                     },
                       // Template Chooser
                     templateToUse = function (costItem) {
@@ -480,7 +481,7 @@ define("inventory/inventory.viewModel",
                     },
                      // Select a Cost Item
                     selectCostItem = function (costItem) {
-                        if (selectedCostItem() != undefined && !selectedCostItem().isValid()) {
+                        if (selectedCostItem() !== undefined && !selectedCostItem().isValid()) {
                             return;
                         }
                         if (selectedCostItem() !== costItem) {

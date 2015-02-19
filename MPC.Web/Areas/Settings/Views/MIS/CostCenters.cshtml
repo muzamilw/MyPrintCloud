@@ -73,7 +73,7 @@
                     <a href="#" data-bind="text: name,click : $root.onEditItem"></a>
                 </td>
                 <td data-bind="text: description"></td>
-                <td data-bind="text: name"></td>
+                <td data-bind="text: type"></td>
                 <td>
                     <!-- ko if: calculationMethodType() == 1 -->
                     <span class="label label-success">Fixed</span>
@@ -127,6 +127,7 @@
     <script src="~/Scripts/jquery.form.js"></script>
     <script>
         require(["costcenter/costcenter.view", "common/confirmation.view"]);
+        var CostCenterType = 0;
         $(function () {
             $('#lisettings').addClass('active');
             $('#limissettings').addClass('active');

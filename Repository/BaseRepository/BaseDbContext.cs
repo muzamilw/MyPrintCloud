@@ -203,6 +203,7 @@ namespace MPC.Repository.BaseRepository
         /// </summary>
         public DbSet<Template> Templates { get; set; }
 
+        public DbSet<Status> Statuses { get; set; }
         /// <summary>
         /// Get Minimum Product Value
         /// </summary>
@@ -526,6 +527,31 @@ namespace MPC.Repository.BaseRepository
         /// Activity Type DbSet
         /// </summary>
         public DbSet<ActivityType> ActivityTypes { get; set; }
+
+        /// <summary>
+        /// Variable Option DbSet
+        /// </summary>
+        public DbSet<VariableOption> VariableOptions { get; set; }
+
+        /// <summary>
+        /// Company Contact Variable DbSet
+        /// </summary>
+        public DbSet<CompanyContactVariable> CompanyContactVariables { get; set; }
+
+        /// <summary>
+        /// Smart Form DbSet
+        /// </summary>
+        public DbSet<SmartForm> SmartForms { get; set; }
+
+        /// <summary>
+        /// Smart Form Detail DbSet
+        /// </summary>
+        public DbSet<SmartFormDetail> SmartFormDetails { get; set; }
+
+        /// <summary>
+        /// Delivery Carrier DbSet
+        /// </summary>
+        public DbSet<DeliveryCarrier> DeliveryCarriers { get; set; }
 
         /// <summary>
         /// Clone Template Stored Procedure
