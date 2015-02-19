@@ -297,6 +297,7 @@
     <Compile Include="Areas\Api\ModelMappers\CostCenterTypeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreDropDownMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CustomerMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\DeliveryCarrierMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\FieldVariableMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GroupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InkCoverageGroupMapper.cs" />
@@ -352,6 +353,7 @@
     <Compile Include="Areas\Api\Models\CostCentreVariable.cs" />
     <Compile Include="Areas\Api\Models\CrmSupplierListViewModel.cs" />
     <Compile Include="Areas\Api\Models\CrmSupplierResponse.cs" />
+    <Compile Include="Areas\Api\Models\DeliveryCarrier.cs" />
     <Compile Include="Areas\Api\Models\Estimate.cs" />
     <Compile Include="Areas\Api\Models\EstimateListView.cs" />
     <Compile Include="Areas\Api\Models\CustomerListViewModel.cs" />
@@ -1722,6 +1724,7 @@
     <Content Include="Content\less\CompanySelector.less" />
     <Content Include="Areas\Stores\Views\Stores\_AddEditVariableDefination.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_UserProfileDetailsForCrm.cshtml" />
+    <Content Include="Areas\CRM\Views\Home\_AddEditTerritoryForCrm.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />

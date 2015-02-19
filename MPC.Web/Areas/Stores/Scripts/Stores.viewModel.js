@@ -217,6 +217,7 @@ define("stores/stores.viewModel",
                     },
                     //On Edit Click Of Store
                     onEditItem = function (item) {
+                        resetObservableArrays();
                         editorViewModel.selectItem(item);
                         openEditDialog();
                         //$('.nav-tabs').children().removeClass('active');
@@ -228,8 +229,6 @@ define("stores/stores.viewModel",
                     //On Edit Click Of Store
                     onCreateNewStore = function () {
                         resetObservableArrays();
-                        filteredCompanyBanners.removeAll();
-                        companyBannerSetList.removeAll();
                         var store = new model.Store();
                         editorViewModel.selectItem(store);
                         selectedStore(store);
@@ -3291,7 +3290,7 @@ define("stores/stores.viewModel",
                     },
                     resetObservableArrays = function () {
                         companyTerritoryCounter = -1,
-                            selectedStore().addresses.removeAll();
+                         selectedStore().addresses.removeAll();
                         //allCompanyAddressesList().removeAll();
                         deletedAddresses.removeAll();
                         edittedAddresses.removeAll();
@@ -3321,6 +3320,10 @@ define("stores/stores.viewModel",
                         selectedItemForAdd(undefined);
                         productPriorityRadioOption("1");
                         errorList.removeAll();
+                        fieldVariables.removeAll();
+                        fieldVariablesOfContactType.removeAll();
+                        filteredCompanyBanners.removeAll();
+                        companyBannerSetList.removeAll();
                     },
                     //#endregion
 
@@ -3865,8 +3868,6 @@ define("stores/stores.viewModel",
                                 return scope.id == fieldVariable.scope();
                             });
                             fieldVariable.scopeName(selectedScope.name);
-                            fieldVariable.fakeId(fakeIdCounter() - 1);
-                            fakeIdCounter(fakeIdCounter() - 1);
                             var selectedType = _.find(varibaleTypes(), function (type) {
                                 return type.id == fieldVariable.variableType();
                             });
@@ -3877,7 +3878,8 @@ define("stores/stores.viewModel",
                             if (selectedStore().companyId() === undefined) {
                                 fieldVariables.splice(0, 0, fieldVariable);
                                 view.hideVeriableDefinationDialog();
-
+                                fieldVariable.fakeId(fakeIdCounter() - 1);
+                                fakeIdCounter(fakeIdCounter() - 1);
                                 //In Case of Context/Scope Type Contact
                                 if (fieldVariable.scope() === 2) {
                                     var contactVariable = model.CompanyContactVariable();
@@ -3904,9 +3906,14 @@ define("stores/stores.viewModel",
                     saveField = function (fieldVariable) {
                         dataservice.saveFieldVariable(fieldVariable, {
                             success: function (data) {
+                                if (selectedFieldVariable().id() === undefined) {
+                                    selectedFieldVariable().id(data);
+                                    fieldVariables.splice(0, 0, selectedFieldVariable());
+                                } else {
+                                    updateFieldVariable();
+                                }
+
                                 view.hideVeriableDefinationDialog();
-                                selectedFieldVariable().id(data);
-                                fieldVariables.splice(0, 0, selectedFieldVariable());
                                 toastr.success("Successfully save.");
                             },
                             error: function (exceptionMessage, exceptionType) {
@@ -3925,57 +3932,74 @@ define("stores/stores.viewModel",
 
                     },
 
-                    //Do Before Save Field Variable
-                    doBeforeSaveFieldVariable = function () {
-                        var flag = true;
-                        if (!selectedFieldVariable().isValid()) {
-                            selectedFieldVariable().errors.showAllMessages();
-                            flag = false;
-                        }
-                        return flag;
-                    },
-                    //Add Field Option
-                    onAddFieldOption = function () {
-                        if (selectedFieldOption() === undefined || selectedFieldOption().isValid()) {
-                            var option = model.VariableOption();
-                            selectedFieldOption(option);
-                            selectedFieldVariable().variableOptions.splice(0, 0, option);
-                        }
-                    },
-                    //Edit Variable Option
-                     onEditVariableOption = function (option) {
-                         if (selectedFieldOption() === undefined || selectedFieldOption().isValid()) {
-                             selectedFieldOption(option);
-                         }
+                    //Update Field variable
+                    updateFieldVariable = function () {
+                        var updatedFieldVariable = _.find(fieldVariables(), function (field) {
+                            return field.id() == selectedFieldVariable().id();
+                        });
+                        var selectedScope = _.find(contextTypes(), function (scope) {
+                            return scope.id == selectedFieldVariable().scope();
+                        });
+                        updatedFieldVariable.scopeName(selectedScope.name);
+                        var selectedType = _.find(varibaleTypes(), function (type) {
+                            return type.id == selectedFieldVariable().variableType();
+                        });
+                        updatedFieldVariable.typeName(selectedType.name);
 
-                     },
-                     //Delete Variable Option
-                      onDeleteVariableOption = function (option) {
-                          if (selectedFieldOption() === option) {
-                              selectedFieldOption(undefined);
-                          }
-                          selectedFieldVariable().variableOptions.remove(option);
-                      },
+                        updatedFieldVariable.variableName(selectedFieldVariable().variableName());
+                        updatedFieldVariable.variableTag(selectedFieldVariable().variableTag());
+                    }
+                //Do Before Save Field Variable
+                doBeforeSaveFieldVariable = function () {
+                    var flag = true;
+                    if (!selectedFieldVariable().isValid()) {
+                        selectedFieldVariable().errors.showAllMessages();
+                        flag = false;
+                    }
+                    return flag;
+                },
+                //Add Field Option
+                onAddFieldOption = function () {
+                    if (selectedFieldOption() === undefined || selectedFieldOption().isValid()) {
+                        var option = model.VariableOption();
+                        selectedFieldOption(option);
+                        selectedFieldVariable().variableOptions.splice(0, 0, option);
+                    }
+                },
+                //Edit Variable Option
+                 onEditVariableOption = function (option) {
+                     if (selectedFieldOption() === undefined || selectedFieldOption().isValid()) {
+                         selectedFieldOption(option);
+                     }
 
-                    // Template Chooser
-                    templateToUseForVariableOption = function (vOption) {
-                        return (vOption === selectedFieldOption() ? 'editVariableOptionTemplate' : 'itemVariableOptionTemplate');
-                    },
+                 },
+                //Delete Variable Option
+                  onDeleteVariableOption = function (option) {
+                      if (selectedFieldOption() === option) {
+                          selectedFieldOption(undefined);
+                      }
+                      selectedFieldVariable().variableOptions.remove(option);
+                  },
 
-                    //edit Field Variable
-                    onEditFieldVariable = function (fieldVariable) {
-                        if (selectedStore().companyId() === undefined) {
-                            selectedFieldVariable(fieldVariable);
-                            view.showVeriableDefinationDialog();
-                        } else {
-                            getFieldVariableDetail(fieldVariable);
-                        }
-                    },
-                    //variable Scope
-                    contextTypes = ko.observableArray([{ id: 1, name: "Store" },
-                                             { id: 2, name: "Contact" },
-                                             { id: 3, name: "Address" },
-                                             { id: 4, name: "Territory" }]);
+                // Template Chooser
+                templateToUseForVariableOption = function (vOption) {
+                    return (vOption === selectedFieldOption() ? 'editVariableOptionTemplate' : 'itemVariableOptionTemplate');
+                },
+
+                //edit Field Variable
+                onEditFieldVariable = function (fieldVariable) {
+                    if (selectedStore().companyId() === undefined) {
+                        selectedFieldVariable(fieldVariable);
+                        view.showVeriableDefinationDialog();
+                    } else {
+                        getFieldVariableDetail(fieldVariable);
+                    }
+                },
+                //variable Scope
+                contextTypes = ko.observableArray([{ id: 1, name: "Store" },
+                                         { id: 2, name: "Contact" },
+                                         { id: 3, name: "Address" },
+                                         { id: 4, name: "Territory" }]);
                 //Varibale Types
                 varibaleTypes = ko.observableArray([{ id: 1, name: "Dropdown" },
                         { id: 2, name: "Input" }]);

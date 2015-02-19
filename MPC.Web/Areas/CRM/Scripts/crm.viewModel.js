@@ -31,7 +31,69 @@ define("crm/crm.viewModel",
                     isLoadingStores = ko.observable(false),
                     //Selected Company Contact
                     selectedCompanyContact = ko.observable(),
+                    //Check if screen is Prospect Or Customer Screen
+                    isProspectOrCustomerScreen = ko.observable(false),
+                //#endregion
 
+                //#region ___________ SUPPLIER SCREEN ____________
+                //#region ____________OBSERVABLES____________
+                 //Pager
+                supplierpager = ko.observable(),
+                //Is Loading suppliers
+                isLoadingSuppliers = ko.observable(false),
+                //Search Filter
+                searchSupplierFilter = ko.observable(),
+                //Sort On
+                supplierSortOn = ko.observable(1),
+                 //Sort In Ascending
+                supplierSortIsAsc = ko.observable(true),
+                selectedSupplier = ko.observable(),
+                //#endregion
+
+                //#region ____________OBSERVABLE ARRAYS____________
+                //suppliers List
+                suppliers = ko.observableArray([]),
+                //#endregion
+
+                //#region ____________SUPPLIERS LIST VIEW____________
+
+                //GET Suppliers For Suppliers List View
+                getSuppliers = function () {
+                    isLoadingSuppliers(true);
+                    //dataservice.getStores({
+                    dataservice.getSuppliers({
+                        SearchString: searchSupplierFilter(),
+                        PageSize: supplierpager().pageSize(),
+                        PageNo: supplierpager().currentPage(),
+                        SortBy: supplierSortOn(),
+                        IsAsc: supplierSortIsAsc()
+                    }, {
+                        success: function (data) {
+                            suppliers.removeAll();
+                            if (data != null) {
+                                supplierpager().totalCount(data.RowCount);
+                                _.each(data.Companies, function (item) {
+                                    var module = model.CrmSupplierListViewModel.Create(item);
+                                    suppliers.push(module);
+                                });
+                            }
+                            isLoadingSuppliers(false);
+                        },
+                        error: function (response) {
+                            isLoadingSuppliers(false);
+                            toastr.error("Error: Failed To load Suppliers " + response);
+                        }
+                    });
+                },
+                //Template To Use
+                templateToUseSupplier = function (store) {
+                    return (store === selectedSupplier() ? 'itemSupplierTemplate' : 'itemSupplierTemplate');
+                },
+                resetSupplierFilterSection = function () {
+                    searchSupplierFilter(undefined);
+                    getSuppliers();
+                },
+                //#endregion
 
                 //#endregion
 
@@ -42,8 +104,6 @@ define("crm/crm.viewModel",
                 systemUsers = ko.observableArray([]),
                 //Contact Company Territories Filter
                 contactCompanyTerritoriesFilter = ko.observableArray([]),
-                // New Company Territories 
-                 newCompanyTerritories = ko.observableArray([]),
                 //Roles
                 roles = ko.observableArray([]),
                 //RegistrationQuestions
@@ -106,30 +166,293 @@ define("crm/crm.viewModel",
                 //},
                 //#endregion
 
-                //#region ___________ COMPANY TERRITORY ______
-                companyTerritoryCounter = -1,
+                // #region _________COMPANY TERRITORY ____________
+
+                    //Selected CompanyTerritory
+                    selectedCompanyTerritory = ko.observable(),
+                    //Deleted Company Territory 
+                    deletedCompanyTerritories = ko.observableArray([]),
+                    edittedCompanyTerritories = ko.observableArray([]),
+                    newCompanyTerritories = ko.observableArray([]),
+                    //Company Territory Pager
+                    companyTerritoryPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                    //CompanyTerritory Search Filter
+                    searchCompanyTerritoryFilter = ko.observable(),
+                    //Search Company Territory
+                    searchCompanyTerritory = function () {
+                        dataservice.searchCompanyTerritory({
+                            SearchFilter: searchCompanyTerritoryFilter(),
+                            CompanyId: selectedStore().companyId(),
+                            PageSize: companyTerritoryPager().pageSize(),
+                            PageNo: companyTerritoryPager().currentPage(),
+                            SortBy: sortOn(),
+                            IsAsc: sortIsAsc()
+                        }, {
+                            success: function (data) {
+                                companyTerritoryPager().totalCount(data.RowCount);
+                                selectedStore().companyTerritories.removeAll();
+                                _.each(data.CompanyTerritories, function (companyTerritoryItem) {
+                                    var companyTerritory = new model.CompanyTerritory.Create(companyTerritoryItem);
+                                    selectedStore().companyTerritories.push(companyTerritory);
+                                });
+                                _.each(edittedCompanyTerritories(), function (item) {
+                                    _.each(selectedStore().companyTerritories(), function (territoryItem) {
+                                        if (item.territoryId() == territoryItem.territoryId()) {
+                                            selectedStore().companyTerritories.remove(territoryItem);
+                                        }
+                                    });
+                                });
+                                _.each(deletedCompanyTerritories(), function (item) {
+                                    _.each(selectedStore().companyTerritories(), function (territoryItem) {
+                                        if (item.territoryId() == territoryItem.territoryId()) {
+                                            selectedStore().companyTerritories.remove(territoryItem);
+                                        }
+                                    });
+                                });
+                                //check on client side, push all if new added work
+                                if (searchCompanyTerritoryFilter() == "" || searchCompanyTerritoryFilter() == undefined) {
+                                    _.each(newCompanyTerritories(), function (companyTerritoryItem) {
+                                        selectedStore().companyTerritories.push(companyTerritoryItem);
+                                    });
+                                }
+                                //check on client side, if filter is not null
+                                if (searchCompanyTerritoryFilter() != "" && searchCompanyTerritoryFilter() != undefined) {
+                                    _.each(newCompanyTerritories(), function (companyTerritoryItem) {
+                                        if (companyTerritoryItem.territoryName().indexOf(searchCompanyTerritoryFilter()) != -1 || companyTerritoryItem.territoryCode().indexOf(searchCompanyTerritoryFilter()) != -1) {
+                                            selectedStore().companyTerritories.push(companyTerritoryItem);
+                                        }
+                                    });
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Failed To Load Company territories" + response);
+                            }
+                        });
+                    },
+                    companyTerritoryFilterSelected = ko.computed(function () {
+                        if (isEditorVisible() && selectedStore() != null && selectedStore() != undefined && selectedStore().companyId() !== undefined) {
+                            searchCompanyTerritory();
+                        }
+                    }),
+                    //isSavingNewCompanyTerritory
+                    isSavingNewCompanyTerritory = ko.observable(false),
+                    // Template Chooser For Rave Review
+                    templateToUseCompanyTerritories = function (companyTerritory) {
+                        return (companyTerritory === selectedCompanyTerritory() ? 'editCompanyTerritoryTemplate' : 'itemCompanyTerritoryTemplate');
+                    },
+                    //Create Company Territory
+                    onCreateNewCompanyTerritory = function () {
+                        var companyTerritory = new model.CompanyTerritory();
+                        selectedCompanyTerritory(companyTerritory);
+                        isSavingNewCompanyTerritory(true);
+                        view.showCompanyTerritoryDialog();
+                    },
+                    // Delete Company Territory
+                    onDeleteCompanyTerritory = function (companyTerritory) {
+                        //#region Db Saved Record Id > 0
+
+                        if (companyTerritory.companyId() > 0 && companyTerritory.territoryId() > 0) {
+                            //Check if company Territory is default and there exist any other territory to set its isDefualt flag to true
+                            //Or Company Territory is not default ones
+                            if (!companyTerritory.isDefault() || companyTerritory.isDefault() && selectedStore().companyTerritories().length > 1) {
+                                dataservice.deleteCompanyTerritory({
+                                    //companyTerritory: companyTerritory.convertToServerData()
+                                    CompanyTerritoryId: companyTerritory.territoryId()
+                                }, {
+                                    success: function (data) {
+                                        if (data) {
+                                            selectedStore().companyTerritories.remove(companyTerritory);
+                                            toastr.success("Deleted Successfully");
+                                            isLoadingStores(false);
+                                            //Updating Drop downs
+                                            _.each(addressCompanyTerritoriesFilter(), function (item) {
+                                                if (item.territoryId() == companyTerritory.territoryId()) {
+                                                    addressCompanyTerritoriesFilter.remove(item);
+                                                }
+                                            });
+                                            _.each(contactCompanyTerritoriesFilter(), function (item) {
+                                                if (item.territoryId() == companyTerritory.territoryId()) {
+                                                    contactCompanyTerritoriesFilter.remove(item);
+                                                }
+                                            });
+                                        } else {
+                                            toastr.error("Territory can not be deleted. It might exist in Address or Contact");
+                                        }
+                                    },
+                                    error: function (response) {
+                                        isLoadingStores(false);
+                                        toastr.error("Error: Failed To Delete Company Territory " + response);
+                                    }
+                                });
+
+                            } else {
+                                toastr.error("Make New Default territory first");
+                            }
+                        }
+                            //#endregion
+                            //#region Else Company territry is newly created
+                        else {
+                            if (companyTerritory.isDefault() && selectedStore().companyTerritories().length == 1) {
+                                toastr.error("Make New Default territory first");
+
+                            } else {
+                                // if (selectedStore() != undefined && (selectedStore().newAddedAddresses !== undefined && selectedStore().newAddedCompanyContacts !== undefined && selectedStore().newAddedAddresses().length > 0 || selectedStore().newAddedCompanyContacts().length > 0)) {
+                                var flag = true;
+                                if (newAddresses != undefined) {
+                                    _.each(newAddresses(), function (address) {
+                                        if (address.territoryId() == companyTerritory.territoryId()) {
+                                            toastr.error("Error: Territory can not deleted as it exist in new created address");
+                                            flag = false;
+                                        }
+                                    });
+                                }
+                                if (newCompanyContacts != undefined) {
+                                    _.each(newCompanyContacts(), function (contact) {
+                                        if (contact.territoryId() == companyTerritory.territoryId()) {
+                                            toastr.error("Error: Territory can not deleted as it exist in new created contact");
+                                            flag = false;
+                                        }
+                                    });
+                                }
+                                if (flag) {
+                                    _.each(newCompanyTerritories(), function (item) {
+                                        if (item.territoryId() == companyTerritory.territoryId()) {
+                                            newCompanyTerritories.remove(companyTerritory);
+                                        }
+                                    });
+
+                                    addressCompanyTerritoriesFilter.remove(companyTerritory);
+                                    contactCompanyTerritoriesFilter.remove(companyTerritory);
+                                    selectedStore().companyTerritories.remove(companyTerritory);
+                                    selectedStore().companyTerritories()[0].isDefault(true);
+                                    if (selectedStore().companyTerritories()[0].territoryId() > 0) {
+                                        edittedCompanyTerritories.push(selectedStore().companyTerritories()[0]);
+                                    }
+                                } else { //flag == false
+                                    toastr.error("Territory Exist in Address Or Contact. Please delete them first");
+                                }
+                                // }
+                            }
+
+                        }
+                        //#endregion
+                        return;
+                    },
+                    onEditCompanyTerritory = function (companyTerritory) {
+                        selectedCompanyTerritory(companyTerritory);
+                        isSavingNewCompanyTerritory(false);
+                        view.showCompanyTerritoryDialog();
+                    },
+                    onCloseCompanyTerritory = function () {
+                        selectedCompanyTerritory(undefined);
+                        view.hideCompanyTerritoryDialog();
+                        isSavingNewCompanyTerritory(false);
+                    },
+                    //Do Before Save Company Territory
+                    doBeforeSaveCompanyTerritory = function () {
+                        var flag = true;
+                        if (!selectedCompanyTerritory().isValid()) {
+                            selectedCompanyTerritory().errors.showAllMessages();
+                            flag = false;
+                        }
+                        return flag;
+                    },
+                    companyTerritoryCounter = -1,
                     addCompanyTerritoryCount = function () {
                         companyTerritoryCounter = (companyTerritoryCounter - 1);
                     },
-                    //function to create new default territory for Prospect Or customer screen
-                    createNewTerritoryForProspectOrCustomerStore = function () {
-                        //selectedStore is new
-                        //new CompanyTerritories have no record
-                        if (selectedStore() != undefined && newCompanyTerritories != undefined && selectedStore().type() != undefined
-                            && selectedStore().companyId() == undefined && newCompanyTerritories().length == 0 && selectedStore().type() == 0) {
-                            var companyTerritory = new model.CompanyTerritory();
-                            companyTerritory.territoryId(companyTerritoryCounter);
-                            addCompanyTerritoryCount();
-                            companyTerritory.territoryName('Default Retail Territory Name');
-                            companyTerritory.territoryCode('Default Retail Territory Code');
-                            companyTerritory.isDefault(true);
+                    onSaveCompanyTerritory = function () {
+                        if (doBeforeSaveCompanyTerritory()) {
+                            //#region If Store is Editting, CompanyId > 0
 
-                            selectedStore().companyTerritories.splice(0, 0, companyTerritory);
-                            newCompanyTerritories.push(companyTerritory);
+                            if (selectedStore().companyId() > 0) {
+                                selectedCompanyTerritory().companyId(selectedStore().companyId());
+                                dataservice.saveCompanyTerritory(
+                                    selectedCompanyTerritory().convertToServerData(),
+                                    {
+                                        success: function (data) {
+                                            if (data) {
+                                                var savedTerritory = model.CompanyTerritory.Create(data);
+                                                if (selectedCompanyTerritory().territoryId() <= 0 || selectedCompanyTerritory().territoryId() == undefined) {
+                                                    selectedStore().companyTerritories.splice(0, 0, savedTerritory);
+                                                }
+
+                                                if (savedTerritory.isDefault()) {
+                                                    _.each(selectedStore().companyTerritories(), function (item) {
+                                                        if (item.isDefault() == true) {
+                                                            item.isDefault(false);
+                                                        }
+                                                    });
+                                                }
+                                                toastr.success("Saved Successfully");
+                                                view.hideCompanyTerritoryDialog();
+                                            }
+                                        },
+                                        error: function (response) {
+                                            isLoadingStores(false);
+                                            toastr.error("Error: Failed To Save Company Territory " + response);
+                                        }
+                                    });
+
+                            }
+                                //#endregion
+                            else {
+                                //Is Saving New Territory
+                                if (selectedCompanyTerritory().territoryId() < 0) {
+                                    if (selectedCompanyTerritory().isDefault()) {
+                                        _.each(newCompanyTerritories(), function (territory) {
+                                            if (territory.isDefault() && territory.territoryId() != selectedCompanyTerritory().territoryId()) {
+                                                territory.isDefault(false);
+                                            }
+                                        });
+                                        _.each(selectedStore().companyTerritories(), function (territory) {
+                                            if (territory.isDefault() && territory.territoryId() != selectedCompanyTerritory().territoryId()) {
+                                                territory.isDefault(false);
+                                            }
+                                        });
+                                    }
+                                }
+                                if (selectedCompanyTerritory().territoryId() === undefined && isSavingNewCompanyTerritory() === true) {
+
+                                    selectedCompanyTerritory().territoryId(companyTerritoryCounter);
+                                    addCompanyTerritoryCount();
+                                    if (selectedCompanyTerritory().isDefault()) {
+                                        _.each(newCompanyTerritories(), function (territory) {
+                                            if (territory.isDefault()) {
+                                                territory.isDefault(false);
+                                            }
+                                        });
+                                        _.each(selectedStore().companyTerritories(), function (territory) {
+                                            if (territory.isDefault()) {
+                                                territory.isDefault(false);
+                                            }
+                                        });
+                                    }
+                                    selectedStore().companyTerritories.splice(0, 0, selectedCompanyTerritory());
+                                    newCompanyTerritories.push(selectedCompanyTerritory());
+                                    //Add territory in address drop down to use in saving address
+                                    addressCompanyTerritoriesFilter.push(selectedCompanyTerritory());
+                                    contactCompanyTerritoriesFilter.push(selectedCompanyTerritory());
+
+                                } else {
+                                    //pushing item in editted Company Territories List
+                                    if (selectedCompanyTerritory().companyId() != undefined) {
+                                        var match = ko.utils.arrayFirst(edittedCompanyTerritories(), function (item) {
+                                            return (selectedCompanyTerritory().territoryId() === item.territoryId());
+                                        });
+
+                                        if (!match || match == null) {
+                                            edittedCompanyTerritories.push(selectedCompanyTerritory());
+                                        }
+                                    }
+                                }
+
+                                view.hideCompanyTerritoryDialog();
+                            }
+
                         }
                     },
-
-                //#endregion
+                    // #endregion __________________ C O M P A N Y   T E R R I T O R Y __________________
 
                 // #region _________ADDRESSES _________________
 
@@ -350,7 +673,7 @@ define("crm/crm.viewModel",
                                 }
                             }
                         }
-                        if (selectedStore().type() == 3 && selectedStore().companyId() == undefined) {
+                        if (selectedStore().type() == 2 && selectedStore().companyId() == undefined) {
                             if (newAddresses != undefined && newAddresses().length == 0) {
                                 if (newCompanyTerritories().length > 0) {
                                     _.each(newCompanyTerritories(), function (territory) {
@@ -912,15 +1235,33 @@ define("crm/crm.viewModel",
                 //#region ___________ UTILITY FUNCTIONS ______
 
                 onCreateNewStore = function () {
-                    onCreateNewStoreForProspectOrCustomerScreen();
-                },
-                //Create New Store
-                onCreateNewStoreForProspectOrCustomerScreen = function () {
                     var store = new model.Store();
                     selectedStore(store);
-                    selectedStore().type(0);
+                    if (isProspectOrCustomerScreen()) {
+                        selectedStore().type(0);
+                        createNewTerritoryForProspectOrCustomerStore();
+                    }
+                    else {
+                        selectedStore().type(2);
+                    }
                     isEditorVisible(true);
-                    createNewTerritoryForProspectOrCustomerStore();
+                },
+                //function to create new default territory for Prospect Or customer screen
+                createNewTerritoryForProspectOrCustomerStore = function () {
+                    //selectedStore is new
+                    //new CompanyTerritories have no record
+                    if (selectedStore() != undefined && newCompanyTerritories != undefined && selectedStore().type() != undefined
+                        && selectedStore().companyId() == undefined && newCompanyTerritories().length == 0 && selectedStore().type() == 0) {
+                        var companyTerritory = new model.CompanyTerritory();
+                        companyTerritory.territoryId(companyTerritoryCounter);
+                        addCompanyTerritoryCount();
+                        companyTerritory.territoryName('Default Retail Territory Name');
+                        companyTerritory.territoryCode('Default Retail Territory Code');
+                        companyTerritory.isDefault(true);
+
+                        selectedStore().companyTerritories.splice(0, 0, companyTerritory);
+                        newCompanyTerritories.push(companyTerritory);
+                    }
                 },
 
                 //Close Edit Dialog
@@ -965,7 +1306,13 @@ define("crm/crm.viewModel",
                 //Open/Edit Store Dialog
                 openEditDialog = function (item) {
                     isEditorVisible(true);
-                    getStoreForEditting(item.id());
+                    if (isProspectOrCustomerScreen()) {
+                        getStoreForEditting(item.id());
+                    }
+                    else {
+                        getStoreForEditting(item.companyId());
+                    }
+                    
                     //view.initializeForm();
                     //getBaseData();
                     //view.initializeLabelPopovers();
@@ -1178,7 +1525,7 @@ define("crm/crm.viewModel",
                                         tempCustomerListView.email("");
                                         customersForListView.splice(0, 0, tempCustomerListView);
                                     }
-                                    
+
 
                                     // if (selectedStoreListView() && selectedStoreListView().companyId() == selectedStore().companyId()) {
                                     //_.each(customersForListView(), function (store) {
@@ -1223,31 +1570,48 @@ define("crm/crm.viewModel",
                initialize = function (specifiedView) {
                    view = specifiedView;
                    ko.applyBindings(view.viewModel, view.bindingRoot);
-                   pager(new pagination.Pagination({ PageSize: 5 }, customersForListView, getCustomers));
-                   getCustomers();
+                   if (isProspectOrCustomerScreen()) {
+                       pager(new pagination.Pagination({ PageSize: 5 }, customersForListView, getCustomers));
+                       getCustomers();
+                   }
+                   else {
+                       supplierpager(new pagination.Pagination({ PageSize: 5 }, suppliers, getSuppliers));
+                       getSuppliers();
+                   }
                    getBaseDataFornewCompany();
+
                };
                 //#endregion
 
                 //#region RETURN
                 return {
                     initialize: initialize,
+                    //#region Supplier Screen
+                    supplierpager: supplierpager,
+                    isLoadingSuppliers: isLoadingSuppliers,
+                    searchSupplierFilter: searchSupplierFilter,
+                    supplierSortOn: supplierSortOn,
+                    selectedSupplier: selectedSupplier,
+                    supplierSortIsAsc: supplierSortIsAsc,
+                    suppliers: suppliers,
+                    getSuppliers: getSuppliers,
+                    templateToUseSupplier: templateToUseSupplier,
+                    resetSupplierFilterSection: resetSupplierFilterSection,
+                    //#endregion
                     pager: pager,
                     searchFilter: searchFilter,
                     isEditorVisible: isEditorVisible,
+                    isProspectOrCustomerScreen: isProspectOrCustomerScreen,
                     customersForListView: customersForListView,
                     searchButtonHandler: searchButtonHandler,
                     resetButtonHandler: resetButtonHandler,
                     sharedNavigationVm: sharedNavigationVm,
-                    onCreateNewStoreForProspectOrCustomerScreen: onCreateNewStoreForProspectOrCustomerScreen,
                     closeEditDialog: closeEditDialog,
                     //selectStore: selectStore,
                     selectedStore: selectedStore,
                     systemUsers: systemUsers,
                     searchAddressFilter: searchAddressFilter,
 
-                    contactCompanyTerritoriesFilter: contactCompanyTerritoriesFilter,
-                    contactCompanyTerritoryFilter: contactCompanyTerritoryFilter,
                     onEditItem: onEditItem,
                     addressPager: addressPager,
                     contactCompanyPager: contactCompanyPager,
@@ -1280,6 +1644,22 @@ define("crm/crm.viewModel",
                     doBeforeSaveCompanyContact: doBeforeSaveCompanyContact,
                     onSaveCompanyContact: onSaveCompanyContact,
                     //#endregion Company Contacts
+                    //#region Company Territories
+                    selectedCompanyTerritory: selectedCompanyTerritory,
+                    companyTerritoryPager: companyTerritoryPager,
+                    searchCompanyTerritoryFilter: searchCompanyTerritoryFilter,
+                    searchCompanyTerritory: searchCompanyTerritory,
+                    isSavingNewCompanyTerritory: isSavingNewCompanyTerritory,
+                    templateToUseCompanyTerritories: templateToUseCompanyTerritories,
+                    onCreateNewCompanyTerritory: onCreateNewCompanyTerritory,
+                    onDeleteCompanyTerritory: onDeleteCompanyTerritory,
+                    onEditCompanyTerritory: onEditCompanyTerritory,
+                    onCloseCompanyTerritory: onCloseCompanyTerritory,
+                    onSaveCompanyTerritory: onSaveCompanyTerritory,
+                    contactCompanyTerritoriesFilter: contactCompanyTerritoriesFilter,
+                    contactCompanyTerritoryFilter: contactCompanyTerritoryFilter,
+                    addressTerritoryList: addressTerritoryList,
+                    //#endregion 
                     newCompanyTerritories: newCompanyTerritories,
                     roles: roles,
                     registrationQuestions: registrationQuestions,

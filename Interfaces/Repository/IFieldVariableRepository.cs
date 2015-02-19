@@ -13,7 +13,7 @@ namespace MPC.Interfaces.Repository
         /// <summary>
         ///Is Field Variable Name Or Tag Already Exist
         /// </summary>
-        string IsFiedlVariableNameOrTagDuplicate(string variableName, string variableTag, long companyId);
+        string IsFiedlVariableNameOrTagDuplicate(string variableName, string variableTag, long companyId, long variableId);
 
         /// <summary>
         /// Get Field Variables By Company Id

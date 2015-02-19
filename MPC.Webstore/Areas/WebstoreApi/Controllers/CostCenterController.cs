@@ -42,151 +42,170 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         [System.Web.Http.HttpGet]
         public HttpResponseMessage GetDateTimeString(string parameter1, string parameter2, string parameter3, string parameter4, List<QuestionQueueItem> parameter5)
         {
-
-            AppDomain _AppDomain = null;
-
-            try
+            if ((parameter4 == "Update" && parameter5 != null) || parameter4 != "Update")
             {
+                AppDomain _AppDomain = null;
 
-                string OrganizationName = "Test";
-                AppDomainSetup _AppDomainSetup = new AppDomainSetup();
-
-
-                object _oLocalObject;
-                ICostCentreLoader _oRemoteObject;
-
-                object[] _CostCentreParamsArray = new object[12];
-
-                _AppDomainSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
-                _AppDomainSetup.PrivateBinPath = Path.GetDirectoryName((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).LocalPath);
-
-
-                _AppDomain = AppDomain.CreateDomain("CostCentresDomain", null, _AppDomainSetup);
-                //Me._AppDomain.InitializeLifetimeService()
-
-                List<CostCentreQueueItem> CostCentreQueue = new List<CostCentreQueueItem>();
-
-
-                //Me._CostCentreLaoderFactory = CType(Me._AppDomain.CreateInstance(Common.g_GlobalData.AppSettings.ApplicationStartupPath + "\Infinity.Model.dll", "Infinity.Model.CostCentres.CostCentreLoaderFactory").Unwrap(), Model.CostCentres.CostCentreLoaderFactory)
-                CostCentreLoaderFactory _CostCentreLaoderFactory = (CostCentreLoaderFactory)_AppDomain.CreateInstance("MPC.Interfaces", "MPC.Interfaces.WebStoreServices.CostCentreLoaderFactory").Unwrap();
-                _CostCentreLaoderFactory.InitializeLifetimeService();
-
-                if (parameter4 == "New")
+                try
                 {
-                    if (parameter5 != null)
+
+                    string OrganizationName = "Test";
+                    AppDomainSetup _AppDomainSetup = new AppDomainSetup();
+
+
+                    object _oLocalObject;
+                    ICostCentreLoader _oRemoteObject;
+
+                    object[] _CostCentreParamsArray = new object[12];
+
+                    _AppDomainSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
+                    _AppDomainSetup.PrivateBinPath = Path.GetDirectoryName((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).LocalPath);
+
+
+                    _AppDomain = AppDomain.CreateDomain("CostCentresDomain", null, _AppDomainSetup);
+                    //Me._AppDomain.InitializeLifetimeService()
+
+                    List<CostCentreQueueItem> CostCentreQueue = new List<CostCentreQueueItem>();
+
+
+                    //Me._CostCentreLaoderFactory = CType(Me._AppDomain.CreateInstance(Common.g_GlobalData.AppSettings.ApplicationStartupPath + "\Infinity.Model.dll", "Infinity.Model.CostCentres.CostCentreLoaderFactory").Unwrap(), Model.CostCentres.CostCentreLoaderFactory)
+                    CostCentreLoaderFactory _CostCentreLaoderFactory = (CostCentreLoaderFactory)_AppDomain.CreateInstance("MPC.Interfaces", "MPC.Interfaces.WebStoreServices.CostCentreLoaderFactory").Unwrap();
+                    _CostCentreLaoderFactory.InitializeLifetimeService();
+
+                    if (parameter4 == "New")
                     {
-                        _CostCentreParamsArray[1] = CostCentreExecutionMode.ExecuteMode;
-                        _CostCentreParamsArray[2] = parameter5;
+                        if (parameter5 != null)
+                        {
+                            _CostCentreParamsArray[1] = CostCentreExecutionMode.ExecuteMode;
+                            _CostCentreParamsArray[2] = parameter5;
+                        }
+                        else
+                        {
+                            _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
+                            _CostCentreParamsArray[2] = new List<QuestionQueueItem>();
+                        }
+                    }
+
+                    if (parameter4 == "Update")
+                    {
+                        if (parameter5 != null)
+                        {
+                            _CostCentreParamsArray[1] = CostCentreExecutionMode.ExecuteMode;
+                            _CostCentreParamsArray[2] = parameter5;
+                        }
+                    }
+
+                    //_CostCentreParamsArray(0) = Common.g_GlobalData;
+                    //GlobalData
+
+                    //this mode will load the questionqueue
+
+                    //QuestionQueue / Execution Queue
+                    _CostCentreParamsArray[3] = CostCentreQueue;
+                    //CostCentreQueue
+                    _CostCentreParamsArray[4] = 1;
+
+                    _CostCentreParamsArray[5] = 1;
+                    //MultipleQuantities
+
+                    //CurrentQuantity
+                    _CostCentreParamsArray[6] = new List<StockQueueItem>();
+                    //StockQueue
+                    _CostCentreParamsArray[7] = new List<InputQueueItem>();
+                    //InputQueue
+
+                    if (parameter3 == "null" || parameter3 == null)
+                    {
+                        // get first item section
+                        _CostCentreParamsArray[8] = _ItemService.GetItemFirstSectionByItemId(Convert.ToInt64(parameter2));
                     }
                     else
                     {
-                        _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
-                        _CostCentreParamsArray[2] = new List<QuestionQueueItem>();
+                        // update quantity in item section and return
+                        _CostCentreParamsArray[8] = _ItemService.UpdateItemFirstSectionByItemId(Convert.ToInt64(parameter2), Convert.ToInt32(parameter3));
+                        //first update item section quatity
+                        //persist queue
+                        // run multiple cost centre
+                        // after calculating cost centre 
+
                     }
-                }
-              
-               
-                //_CostCentreParamsArray(0) = Common.g_GlobalData;
-                //GlobalData
-               
-                //this mode will load the questionqueue
-               
-                //QuestionQueue / Execution Queue
-                _CostCentreParamsArray[3] = CostCentreQueue;
-                //CostCentreQueue
-                _CostCentreParamsArray[4] = 1;
-
-                _CostCentreParamsArray[5] = 1;
-                //MultipleQuantities
-                
-                //CurrentQuantity
-                _CostCentreParamsArray[6] = new List<StockQueueItem>();
-                //StockQueue
-                _CostCentreParamsArray[7] = new List<InputQueueItem>();
-                //InputQueue
-                
-                if (parameter3 == "null" || parameter3 == null)
-                {
-                    // get first item section
-                    _CostCentreParamsArray[8] = _ItemService.GetItemFirstSectionByItemId(Convert.ToInt64(parameter2));
-                }
-                else
-                {
-                    // update quantity in item section and return
-                    _CostCentreParamsArray[8] = _ItemService.UpdateItemFirstSectionByItemId(Convert.ToInt64(parameter2), Convert.ToInt32(parameter3));
-                    //first update item section quatity
-                    //persist queue
-                    // run multiple cost centre
-                    // after calculating cost centre 
-
-                }
-                 
-              
-                _CostCentreParamsArray[9] = 1;
 
 
-                CostCentre oCostCentre = _CostCentreService.GetCostCentreByID(Convert.ToInt64(parameter1));
+                    _CostCentreParamsArray[9] = 1;
 
-               
 
-                CostCentreQueue.Add(new CostCentreQueueItem(oCostCentre.CostCentreId, oCostCentre.Name, 1, oCostCentre.CodeFileName, null, oCostCentre.SetupSpoilage, oCostCentre.RunningSpoilage));
+                    CostCentre oCostCentre = _CostCentreService.GetCostCentreByID(Convert.ToInt64(parameter1));
 
 
 
-                _oLocalObject = _CostCentreLaoderFactory.Create(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\" + OrganizationName + "UserCostCentres.dll", "UserCostCentres." + oCostCentre.CodeFileName, null);
-                _oRemoteObject = (ICostCentreLoader)_oLocalObject;
+                    CostCentreQueue.Add(new CostCentreQueueItem(oCostCentre.CostCentreId, oCostCentre.Name, 1, oCostCentre.CodeFileName, null, oCostCentre.SetupSpoilage, oCostCentre.RunningSpoilage));
 
-                CostCentreCostResult oResult = null;
 
-                if (parameter4 == "Modify")
-                {
-                    _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
-                    _CostCentreParamsArray[2] = parameter5.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList();
-                }
-                else 
-                {
-                    oResult = _oRemoteObject.returnCost(ref _CostCentreParamsArray);
 
-                }
+                    _oLocalObject = _CostCentreLaoderFactory.Create(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\" + OrganizationName + "UserCostCentres.dll", "UserCostCentres." + oCostCentre.CodeFileName, null);
+                    _oRemoteObject = (ICostCentreLoader)_oLocalObject;
 
-                if (parameter5 != null && parameter4 != "Modify")
-                {
-                    
-                    
-                    JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
-                    GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
+                    CostCentreCostResult oResult = null;
 
-                    double actualPrice = oResult.TotalCost;
-
-                    if (actualPrice < oCostCentre.MinimumCost && oCostCentre.MinimumCost != 0)
+                    if (parameter4 == "Modify")
                     {
-                        actualPrice = oCostCentre.MinimumCost ?? 0;
+                        _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
+                        _CostCentreParamsArray[2] = parameter5.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList();
                     }
-                   
-                    return Request.CreateResponse(HttpStatusCode.OK, actualPrice);
+                    else
+                    {
+                        if (parameter4 == "Update") // dummy condition
+                        {
+                            return Request.CreateResponse(HttpStatusCode.OK, 131);
+                        }
+                        oResult = _oRemoteObject.returnCost(ref _CostCentreParamsArray);
+
+                    }
+
+                    if ((parameter5 != null && parameter4 != "Modify" && oResult != null) || (parameter5 != null && parameter4 == "Update"))
+                    {
+
+
+                        JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
+                        GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
+
+                        double actualPrice = oResult.TotalCost;
+
+                        if (actualPrice < oCostCentre.MinimumCost && oCostCentre.MinimumCost != 0)
+                        {
+                            actualPrice = oCostCentre.MinimumCost ?? 0;
+                        }
+
+                        return Request.CreateResponse(HttpStatusCode.OK, actualPrice);
+                    }
+                    else
+                    {
+                        JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
+                        GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
+
+                        return Request.CreateResponse(HttpStatusCode.OK, _CostCentreParamsArray);
+                    }
+
+
+
                 }
-                else 
+                catch (Exception ex)
                 {
-                    JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
-                    GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
-
-                    return Request.CreateResponse(HttpStatusCode.OK, _CostCentreParamsArray);
+                    throw ex;
                 }
-               
-           
+                finally
+                {
+                    AppDomain.Unload(_AppDomain);
+                }
 
             }
-            catch (Exception ex)
+            else 
             {
-                throw ex;
-            }
-            finally
-            {
-               AppDomain.Unload(_AppDomain);
+                return Request.CreateResponse(HttpStatusCode.OK, "");
             }
 
         }
 
-        
+
     }
 }

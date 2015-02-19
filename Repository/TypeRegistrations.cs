@@ -103,6 +103,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IVariableOptionRepository, VariableOptionRepository>();
             unityContainer.RegisterType<IFieldVariableRepository, FieldVariableRepository>();
             unityContainer.RegisterType<ICompanyContactVariableRepository, CompanyContactVariableRepository>();
+            unityContainer.RegisterType<IDeliveryCarrierRepository, DeliveryCarrierRepository>();
         }
     }
 }

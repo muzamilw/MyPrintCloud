@@ -962,6 +962,8 @@ namespace MPC.Implementation.MISServices
                 {
                     File.WriteAllBytes(savePath, data);
                 }
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
                 return savePath;
             }
             return null;
@@ -1024,6 +1026,8 @@ namespace MPC.Implementation.MISServices
                                     companyDbVersion.MediaLibraries.FirstOrDefault(m => m.MediaId == item.MediaId);
                                 if (mediaLibraryDbVersion != null)
                                 {
+                                    int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                                    savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
                                     mediaLibraryDbVersion.FilePath = savePath;
                                 }
                             }
@@ -1183,6 +1187,8 @@ namespace MPC.Implementation.MISServices
                 }
 
                 File.WriteAllBytes(savePath, data);
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
                 companyDbVersion.StoreBackgroundImage = savePath;
             }
         }
@@ -2011,6 +2017,8 @@ namespace MPC.Implementation.MISServices
                     File.Delete(savePath);
                 }
                 File.WriteAllBytes(savePath, data);
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
                 return savePath;
             }
             return null;
@@ -2034,6 +2042,8 @@ namespace MPC.Implementation.MISServices
                 }
                 string savePath = directoryPath + "\\" + companyContact.ContactId + "_profile" + ".png";
                 File.WriteAllBytes(savePath, data);
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
                 return savePath;
             }
             return null;
@@ -2054,7 +2064,8 @@ namespace MPC.Implementation.MISServices
                 }
                 string savePath = directoryPath + "\\logo.png";
                 File.WriteAllBytes(savePath, data);
-
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
                 return savePath;
             }
             return null;
@@ -2067,14 +2078,6 @@ namespace MPC.Implementation.MISServices
         {
             fieldVariable.OrganisationId = fieldVariableRepository.OrganisationId;
             long companyId = (long)(fieldVariable.CompanyId ?? 0);
-            string dublicateErrorMsg =
-                fieldVariableRepository.IsFiedlVariableNameOrTagDuplicate(fieldVariable.VariableName,
-                    fieldVariable.VariableTag, companyId);
-            if (dublicateErrorMsg != null)
-            {
-                throw new MPCException(dublicateErrorMsg, fieldVariableRepository.OrganisationId);
-            }
-
             fieldVariableRepository.Add(fieldVariable);
             fieldVariableRepository.SaveChanges();
 
@@ -2445,6 +2448,17 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public long SaveFieldVariable(FieldVariable fieldVariable)
         {
+            //Check for Duplicate Name and Variable Tag
+            long companyId = (long)(fieldVariable.CompanyId ?? 0);
+            string dublicateErrorMsg =
+                fieldVariableRepository.IsFiedlVariableNameOrTagDuplicate(fieldVariable.VariableName,
+                    fieldVariable.VariableTag, companyId, fieldVariable.VariableId);
+            if (dublicateErrorMsg != null)
+            {
+                throw new MPCException(dublicateErrorMsg, fieldVariableRepository.OrganisationId);
+            }
+
+
             if (fieldVariable.VariableId == 0)
             {
                 return AddFieldVariable(fieldVariable);

@@ -44,13 +44,13 @@ namespace MPC.Repository.Repositories
         /// <summary>
         ///Is Fiedl Variable Name Or Tag Already Exist
         /// </summary>
-        public string IsFiedlVariableNameOrTagDuplicate(string variableName, string variableTag, long companyId)
+        public string IsFiedlVariableNameOrTagDuplicate(string variableName, string variableTag, long companyId, long variableId)
         {
-            if (DbSet.Count(vf => vf.VariableName!=null && vf.VariableName == variableName && vf.CompanyId == companyId) > 0)
+            if (DbSet.Count(vf => vf.VariableName != null && vf.VariableName == variableName && vf.CompanyId == companyId && vf.VariableId != variableId) > 0)
             {
                 return "Field Variable already exist with same name.";
             }
-            if (DbSet.Count(vf => vf.VariableTag!=null && vf.VariableTag == variableTag && vf.CompanyId == companyId) > 0)
+            if (DbSet.Count(vf => vf.VariableTag != null && vf.VariableTag == variableTag && vf.CompanyId == companyId && vf.VariableId != variableId) > 0)
             {
                 return "Field Variable already exist with same tag.";
             }

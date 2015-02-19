@@ -42,6 +42,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 VariableId = source.VariableId,
                 CompanyId = source.CompanyId,
                 InputMask = source.InputMask,
+                FakeId = source.FakeId,
                 VariableName = source.VariableName != null ? source.VariableName.Trim() : null,
                 DefaultValue = source.DefaultValue,
                 Scope = source.Scope,

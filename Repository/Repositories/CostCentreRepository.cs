@@ -653,6 +653,7 @@ namespace MPC.Repository.Repositories
 			{
 				RowCount = rowCount,
 				CostCenters = costCenters
+                
 			};
 		}
 		public CostCentre GetCostCentersByID(long costCenterID)
@@ -770,22 +771,23 @@ namespace MPC.Repository.Repositories
 		public List<CostCentre> GetCorporateDeliveryCostCentersList(long CompanyID)
 		{
 
-				var query = from tblCostCenter in db.CostCentres
-							join CorpCostCenter in db.CompanyCostCentres on tblCostCenter.CostCentreId equals (long)CorpCostCenter.CostCentreId
-							where tblCostCenter.Type == (int)CostCenterTypes.Delivery && tblCostCenter.isPublished == true
-							&& CorpCostCenter.CompanyId == CompanyID
-							orderby tblCostCenter.MinimumCost
-							select new CostCentre()
-							{
+            var query = (from tblCostCenter in db.CostCentres
+                         join CorpCostCenter in db.CompanyCostCentres on tblCostCenter.CostCentreId equals (long)CorpCostCenter.CostCentreId
+                         where tblCostCenter.Type == (int)CostCenterTypes.Delivery && tblCostCenter.isPublished == true
+                         && CorpCostCenter.CompanyId == CompanyID
+                         orderby tblCostCenter.MinimumCost
+                         select tblCostCenter).ToList();
+                            //select new CostCentre()
+                            //{
 
-								CostCentreId = tblCostCenter.CostCentreId,
-								CompletionTime = tblCostCenter.CompletionTime,
-								MinimumCost = tblCostCenter.MinimumCost,
-								Description = tblCostCenter.Description,
-								Name = tblCostCenter.Name,
-								SetupCost = tblCostCenter.DeliveryCharges ?? 0,
-								EstimateProductionTime = tblCostCenter.EstimateProductionTime
-							};
+                            //    CostCentreId = tblCostCenter.CostCentreId,
+                            //    CompletionTime = tblCostCenter.CompletionTime,
+                            //    MinimumCost = tblCostCenter.MinimumCost,
+                            //    Description = tblCostCenter.Description,
+                            //    Name = tblCostCenter.Name,
+                            //    SetupCost = tblCostCenter.DeliveryCharges ?? 0,
+                            //    EstimateProductionTime = tblCostCenter.EstimateProductionTime
+                            //};
 
 
 				return query.ToList();

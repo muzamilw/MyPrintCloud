@@ -5,13 +5,23 @@ define("crm/crm.view",
     ["jquery", "crm/crm.viewModel"], function ($, crmViewModel) {
 
         var ist = window.ist || {};
-
+        //Setting flag to false, it indicates that current screen is Suppliers
+        crmViewModel.isProspectOrCustomerScreen(true);
         // View 
         ist.crm.view = (function (specifiedViewModel) {
             var // View model 
                 viewModel = specifiedViewModel,
                // binding root
                bindingRoot = $("#crmBindingRoot")[0],
+
+                showCompanyTerritoryDialog = function () {
+                    $("#myTerritorySetModal").modal("show");
+                    initializeLabelPopovers();
+                },
+                // Hide Activity the dialog
+                hideCompanyTerritoryDialog = function () {
+                    $("#myTerritorySetModal").modal("hide");
+                },
                // Show Addressnthe dialog
                 showAddressDialog = function () {
                     $("#myAddressSetModalForCrm").modal("show");
@@ -67,6 +77,8 @@ define("crm/crm.view",
             return {
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
+                showCompanyTerritoryDialog: showCompanyTerritoryDialog,
+                hideCompanyTerritoryDialog: hideCompanyTerritoryDialog,
                 showAddressDialog: showAddressDialog,
                 hideAddressDialog: hideAddressDialog,
                 showCompanyContactDialog: showCompanyContactDialog,

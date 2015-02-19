@@ -79,6 +79,7 @@
     <Compile Include="MISServices\ICustomerService.cs" />
     <Compile Include="MISServices\IDashboardService.cs" />
     <Compile Include="Repository\ICompanyContactVariableRepository.cs" />
+    <Compile Include="Repository\IDeliveryCarrierRepository.cs" />
     <Compile Include="Repository\IFieldVariableRepository.cs" />
     <Compile Include="MISServices\IItemService.cs" />
     <Compile Include="MISServices\IInventoryService.cs" />

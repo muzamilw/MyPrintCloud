@@ -262,6 +262,276 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         };
     },
 
+    // Item Entity
+    Item = function (specifiedId, specifiedName, specifiedCode, specifiedProductName, specifiedProductCode, specifiedProductCategoryName,
+        specifiedJobDescriptionTitle1, specifiedJobDescription1, specifiedJobDescriptionTitle2, specifiedJobDescription2, specifiedJobDescriptionTitle3,
+        specifiedJobDescription3, specifiedJobDescriptionTitle4, specifiedJobDescription4, specifiedJobDescriptionTitle5,
+        specifiedJobDescription5, specifiedJobDescriptionTitle6, specifiedJobDescription6,
+        specifiedJobDescriptionTitle7, specifiedJobDescription7, specifiedJobDescriptionTitle8, specifiedJobDescription8, specifiedJobDescriptionTitle9,
+        specifiedJobDescription9, specifiedJobDescriptionTitle10, specifiedJobDescription10, specifiedIsQtyRanged,
+        specifiedDefaultItemTax) {
+        // ReSharper restore InconsistentNaming
+        var // Unique key
+            id = ko.observable(specifiedId || 0),
+            // Name
+            name = ko.observable(specifiedName || undefined),
+            // Code
+            code = ko.observable(specifiedCode || undefined),
+            // Product Name
+            productName = ko.observable(specifiedProductName || undefined).extend({ required: true }),
+            // Product Name For Grid
+            productNameForGrid = ko.computed(function () {
+                if (!productName()) {
+                    return "";
+                }
+                return productName().length > 30 ? productName().substring(0, 29) : productName();
+            }),
+            // Product Code
+            productCode = ko.observable(specifiedProductCode || undefined).extend({ required: true }),
+            // product Category Name
+            productCategoryName = ko.observable(specifiedProductCategoryName || undefined),
+            // job description title1
+            jobDescriptionTitle1 = ko.observable(specifiedJobDescriptionTitle1 || undefined),
+            // job description title2
+            jobDescriptionTitle2 = ko.observable(specifiedJobDescriptionTitle2 || undefined),
+            // job description title3
+            jobDescriptionTitle3 = ko.observable(specifiedJobDescriptionTitle3 || undefined),
+            // job description title4
+            jobDescriptionTitle4 = ko.observable(specifiedJobDescriptionTitle4 || undefined),
+            // job description title5
+            jobDescriptionTitle5 = ko.observable(specifiedJobDescriptionTitle5 || undefined),
+            // job description title6
+            jobDescriptionTitle6 = ko.observable(specifiedJobDescriptionTitle6 || undefined),
+            // job description title7
+            jobDescriptionTitle7 = ko.observable(specifiedJobDescriptionTitle7 || undefined),
+            // job description title8
+            jobDescriptionTitle8 = ko.observable(specifiedJobDescriptionTitle8 || undefined),
+            // job description title9
+            jobDescriptionTitle9 = ko.observable(specifiedJobDescriptionTitle9 || undefined),
+            // job description title10
+            jobDescriptionTitle10 = ko.observable(specifiedJobDescriptionTitle10 || undefined),
+            // job description 1
+            jobDescription1 = ko.observable(specifiedJobDescription1 || undefined),
+            // job description 2
+            jobDescription2 = ko.observable(specifiedJobDescription2 || undefined),
+            // job description 3
+            jobDescription3 = ko.observable(specifiedJobDescription3 || undefined),
+            // job description 4
+            jobDescription4 = ko.observable(specifiedJobDescription4 || undefined),
+            // job description 5
+            jobDescription5 = ko.observable(specifiedJobDescription5 || undefined),
+            // job description 6
+            jobDescription6 = ko.observable(specifiedJobDescription6 || undefined),
+            // job description 7
+            jobDescription7 = ko.observable(specifiedJobDescription7 || undefined),
+            // job description 8
+            jobDescription8 = ko.observable(specifiedJobDescription8 || undefined),
+            // job description 9
+            jobDescription9 = ko.observable(specifiedJobDescription9 || undefined),
+            // job description 10
+            jobDescription10 = ko.observable(specifiedJobDescription10 || undefined),
+            // Is Qty Ranged
+            isQtyRanged = ko.observable(!specifiedIsQtyRanged ? 2 : 1),
+            // Default Item Tax
+            defaultItemTax = ko.observable(specifiedDefaultItemTax || undefined),
+            // Item Stock options
+            itemStockOptions = ko.observableArray([]),
+            // Item Sections
+            itemSections = ko.observableArray([]),
+            // Errors
+            errors = ko.validation.group({
+                productCode: productCode,
+                productName: productName
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0 && 
+                itemSections.filter(function (itemSection) {
+                    return !itemSection.isValid();
+                }).length === 0;
+            }),
+            // Show All Error Messages
+            showAllErrors = function () {
+                // Show Item Errors
+                errors.showAllMessages();
+                // Show Item Section Errors
+                var itemSectionErrors = itemSections.filter(function (itemSection) {
+                    return !itemSection.isValid();
+                });
+                if (itemSectionErrors.length > 0) {
+                    _.each(itemSectionErrors, function (itemSection) {
+                        itemSection.errors.showAllMessages();
+                    });
+                }
+            },
+            // Set Validation Summary
+            setValidationSummary = function (validationSummaryList) {
+                validationSummaryList.removeAll();
+                if (productName.error) {
+                    validationSummaryList.push({ name: productName.domElement.name, element: productName.domElement });
+                }
+                if (productCode.error) {
+                    validationSummaryList.push({ name: productCode.domElement.name, element: productCode.domElement });
+                }
+                // Show Item Stock Option Errors
+                var itemStockOptionInvalid = itemStockOptions.find(function (itemStockOption) {
+                    return !itemStockOption.isValid();
+                });
+                if (itemStockOptionInvalid) {
+                    if (itemStockOptionInvalid.label.error) {
+                        var labelElement = itemStockOptionInvalid.label.domElement;
+                        validationSummaryList.push({ name: labelElement.name, element: labelElement });
+                    }
+                }
+                // Show Item Section Errors
+                var itemSectionInvalid = itemSections.find(function (itemSection) {
+                    return !itemSection.isValid();
+                });
+                if (itemSectionInvalid) {
+                    if (itemSectionInvalid.name.error || itemSectionInvalid.pressId.error || itemSectionInvalid.stockItemId.error) {
+                        var nameElement = itemSectionInvalid.name.domElement;
+                        var errorName = "";
+                        if (itemSectionInvalid.name.error) {
+                            errorName = "Section Name";
+                        }
+                        else if (itemSectionInvalid.pressId.error) {
+                            errorName = "Section Press";
+                        }
+                        else if (itemSectionInvalid.stockItemId.error) {
+                            errorName = "Section Stock Item";
+                        }
+                        validationSummaryList.push({ name: errorName, element: nameElement });
+                    }
+                }
+            },
+            // True if the product has been changed
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                name: name,
+                code: code,
+                productName: productName,
+                productCode: productCode,
+                jobDescriptionTitle1: jobDescriptionTitle1,
+                jobDescriptionTitle2: jobDescriptionTitle2,
+                jobDescriptionTitle3: jobDescriptionTitle3,
+                jobDescriptionTitle4: jobDescriptionTitle4,
+                jobDescriptionTitle5: jobDescriptionTitle5,
+                jobDescriptionTitle6: jobDescriptionTitle6,
+                jobDescriptionTitle7: jobDescriptionTitle7,
+                jobDescriptionTitle8: jobDescriptionTitle8,
+                jobDescriptionTitle9: jobDescriptionTitle9,
+                jobDescriptionTitle10: jobDescriptionTitle10,
+                jobDescription1: jobDescription1,
+                jobDescription2: jobDescription2,
+                jobDescription3: jobDescription3,
+                jobDescription4: jobDescription4,
+                jobDescription5: jobDescription5,
+                jobDescription6: jobDescription6,
+                jobDescription7: jobDescription7,
+                jobDescription8: jobDescription8,
+                jobDescription9: jobDescription9,
+                jobDescription10: jobDescription10,
+                isQtyRanged: isQtyRanged,
+                defaultItemTax: defaultItemTax,
+                itemSections: itemSections
+            }),
+            // Item Section Changes
+            itemSectionHasChanges = ko.computed(function () {
+                return itemSections.find(function (itemSection) {
+                    return itemSection.hasChanges();
+                }) != null;
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty() || itemSectionHasChanges();
+            }),
+            // Reset
+            reset = function () {
+                itemSections.each(function (itemSection) {
+                    return itemSection.reset();
+                });
+                dirtyFlag.reset();
+            },
+            // Convert To Server Data
+            convertToServerData = function () {
+                return {
+                    ItemId: id(),
+                    ItemCode: code(),
+                    ProductCode: productCode(),
+                    ProductName: productName(),
+                    JobDescriptionTitle1: jobDescriptionTitle1(),
+                    JobDescriptionTitle2: jobDescriptionTitle2(),
+                    JobDescriptionTitle3: jobDescriptionTitle3(),
+                    JobDescriptionTitle4: jobDescriptionTitle4(),
+                    JobDescriptionTitle5: jobDescriptionTitle5(),
+                    JobDescriptionTitle6: jobDescriptionTitle6(),
+                    JobDescriptionTitle7: jobDescriptionTitle7(),
+                    JobDescriptionTitle8: jobDescriptionTitle8(),
+                    JobDescriptionTitle9: jobDescriptionTitle9(),
+                    JobDescriptionTitle10: jobDescriptionTitle10(),
+                    JobDescription1: jobDescription1(),
+                    JobDescription2: jobDescription2(),
+                    JobDescription3: jobDescription3(),
+                    JobDescription4: jobDescription4(),
+                    JobDescription5: jobDescription5(),
+                    JobDescription6: jobDescription6(),
+                    JobDescription7: jobDescription7(),
+                    JobDescription8: jobDescription8(),
+                    JobDescription9: jobDescription9(),
+                    JobDescription10: jobDescription10(),
+                    IsQtyRanged: isQtyRanged() === 2 ? false : true,
+                    DefaultItemTax: defaultItemTax(),
+                    ItemSections: itemSections.map(function (itemSection, index) {
+                        var section = itemSection.convertToServerData();
+                        section.SectionNo = index + 1;
+                        return section;
+                    }),
+                };
+            };
+
+        return {
+            id: id,
+            name: name,
+            code: code,
+            productName: productName,
+            productNameForGrid: productNameForGrid,
+            productCode: productCode,
+            productCategoryName: productCategoryName,
+            jobDescriptionTitle1: jobDescriptionTitle1,
+            jobDescriptionTitle2: jobDescriptionTitle2,
+            jobDescriptionTitle3: jobDescriptionTitle3,
+            jobDescriptionTitle4: jobDescriptionTitle4,
+            jobDescriptionTitle5: jobDescriptionTitle5,
+            jobDescriptionTitle6: jobDescriptionTitle6,
+            jobDescriptionTitle7: jobDescriptionTitle7,
+            jobDescriptionTitle8: jobDescriptionTitle8,
+            jobDescriptionTitle9: jobDescriptionTitle9,
+            jobDescriptionTitle10: jobDescriptionTitle10,
+            jobDescription1: jobDescription1,
+            jobDescription2: jobDescription2,
+            jobDescription3: jobDescription3,
+            jobDescription4: jobDescription4,
+            jobDescription5: jobDescription5,
+            jobDescription6: jobDescription6,
+            jobDescription7: jobDescription7,
+            jobDescription8: jobDescription8,
+            jobDescription9: jobDescription9,
+            jobDescription10: jobDescription10,
+            isQtyRangedUi: isQtyRangedUi,
+            isQtyRanged: isQtyRanged,
+            defaultItemTax: defaultItemTax,
+            itemSections: itemSections,
+            errors: errors,
+            isValid: isValid,
+            showAllErrors: showAllErrors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+            setValidationSummary: setValidationSummary,
+            convertToServerData: convertToServerData
+        };
+    },
+
     // Section Flag Entity        
     SectionFlag = function(specifiedId, specifiedFlagName, specifiedFlagColor) {
             return {
@@ -365,6 +635,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // System User Constructor
         SystemUser: SystemUser,
         // PipeLine Source Constructor
-        PipeLineSource: PipeLineSource
+        PipeLineSource: PipeLineSource,
+        // Item Constructor
+        Item: Item
     };
 });
