@@ -48,6 +48,12 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Company Territory
+                    amplify.request.define('searchCompanyTerritory', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyTerritory',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                 };
             },
             // get Customer list of list view
@@ -110,6 +116,16 @@
                     data: param
                 });
             },
+            // searchCompanyTerritory
+            searchCompanyTerritory = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'searchCompanyTerritory',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
             // get Suppliers
 	        getSuppliers = function (params, callbacks) {
 	            initialize();
@@ -127,7 +143,8 @@
             searchCompanyContact: searchCompanyContact,
             getBaseData: getBaseData,
             saveStore: saveStore,
-            getSuppliers: getSuppliers
+            getSuppliers: getSuppliers,
+            searchCompanyTerritory: searchCompanyTerritory
         };
     })();
 

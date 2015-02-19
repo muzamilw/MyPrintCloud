@@ -13,6 +13,15 @@ define("crm/crm.view",
                 viewModel = specifiedViewModel,
                // binding root
                bindingRoot = $("#crmBindingRoot")[0],
+
+                showCompanyTerritoryDialog = function () {
+                    $("#myTerritorySetModal").modal("show");
+                    initializeLabelPopovers();
+                },
+                // Hide Activity the dialog
+                hideCompanyTerritoryDialog = function () {
+                    $("#myTerritorySetModal").modal("hide");
+                },
                // Show Addressnthe dialog
                 showAddressDialog = function () {
                     $("#myAddressSetModalForCrm").modal("show");
@@ -68,6 +77,8 @@ define("crm/crm.view",
             return {
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
+                showCompanyTerritoryDialog: showCompanyTerritoryDialog,
+                hideCompanyTerritoryDialog: hideCompanyTerritoryDialog,
                 showAddressDialog: showAddressDialog,
                 hideAddressDialog: hideAddressDialog,
                 showCompanyContactDialog: showCompanyContactDialog,

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsBA8E7E8064A217743EC4E0427D05057340696A3587DEA4EE1651989BB460FF9B))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets1FEDB50437D2F1DD982128F605531156484A0E9CD20B7441161DB2E4A12704AC))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsBA8E7E8064A217743EC4E0427D05057340696A3587DEA4EE1651989BB460FF9B : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets1FEDB50437D2F1DD982128F605531156484A0E9CD20B7441161DB2E4A12704AC : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsBA8E7E8064A217743EC4E0427D05057340696A3587DEA4EE1651989BB460FF9B()
+        public ViewsForBaseEntitySets1FEDB50437D2F1DD982128F605531156484A0E9CD20B7441161DB2E4A12704AC()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "d68377adfb5ad5374c21b6ac58d32d791e52f0e04c6e7a3ef1786eba09247c6f";
-            this.HashOverAllExtentViews = "081693d64f3febd207accf66762b3d815a48eee070fe2e7beb1ba5923e4ec588";
+            this.HashOverMappingClosure = "b98ad2be773145582afd7ed2758c878af8c92aef7937f613fa1f8f4b40aa047b";
+            this.HashOverAllExtentViews = "885c06f67746d6a6bb22cacb94f07c48d4b444fefd7250e6cad3cfaafe191b14";
             this.ViewCount = 286;
         }
         
@@ -1427,7 +1427,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView6()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2914);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3098);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Organisation\r\n        [DomainModels.Store.Org");
             viewString.Append("anisation](T1.Organisation_OrganisationId, T1.Organisation_OrganisationName, T1.");
             viewString.Append("Organisation_Address1, T1.Organisation_Address2, T1.Organisation_Address3, T1.Or");
@@ -1440,31 +1440,33 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("T1.Organisation_SystemLengthUnit, T1.Organisation_SystemWeightUnit, T1.Organisat");
             viewString.Append("ion_CurrencyId, T1.Organisation_LanguageId, T1.Organisation_BleedAreaSize, T1.Or");
             viewString.Append("ganisation_ShowBleedArea, T1.Organisation_isXeroIntegrationRequired, T1.Organisa");
-            viewString.Append("tion_XeroApiId, T1.Organisation_XeroApiKey)\r\n    FROM (\r\n        SELECT \r\n      ");
-            viewString.Append("      T.OrganisationId AS Organisation_OrganisationId, \r\n            T.Organisat");
-            viewString.Append("ionName AS Organisation_OrganisationName, \r\n            T.Address1 AS Organisati");
-            viewString.Append("on_Address1, \r\n            T.Address2 AS Organisation_Address2, \r\n            T.");
-            viewString.Append("Address3 AS Organisation_Address3, \r\n            T.City AS Organisation_City, \r\n");
-            viewString.Append("            T.StateId AS Organisation_StateId, \r\n            T.CountryId AS Orga");
-            viewString.Append("nisation_CountryId, \r\n            T.ZipCode AS Organisation_ZipCode, \r\n         ");
-            viewString.Append("   T.Tel AS Organisation_Tel, \r\n            T.Fax AS Organisation_Fax, \r\n       ");
-            viewString.Append("     T.Mobile AS Organisation_Mobile, \r\n            T.Email AS Organisation_Emai");
-            viewString.Append("l, \r\n            T.URL AS Organisation_URL, \r\n            T.WebsiteLogo AS Organ");
-            viewString.Append("isation_WebsiteLogo, \r\n            T.MISLogo AS Organisation_MISLogo, \r\n        ");
-            viewString.Append("    T.TaxRegistrationNo AS Organisation_TaxRegistrationNo, \r\n            T.Licen");
-            viewString.Append("seLevel AS Organisation_LicenseLevel, \r\n            T.CustomerAccountNumber AS O");
-            viewString.Append("rganisation_CustomerAccountNumber, \r\n            T.SmtpServer AS Organisation_Sm");
-            viewString.Append("tpServer, \r\n            T.SmtpUserName AS Organisation_SmtpUserName, \r\n         ");
-            viewString.Append("   T.SmtpPassword AS Organisation_SmtpPassword, \r\n            T.VATRegNumber AS ");
-            viewString.Append("Organisation_VATRegNumber, \r\n            T.SystemLengthUnit AS Organisation_Syst");
-            viewString.Append("emLengthUnit, \r\n            T.SystemWeightUnit AS Organisation_SystemWeightUnit,");
-            viewString.Append(" \r\n            T.CurrencyId AS Organisation_CurrencyId, \r\n            T.Language");
-            viewString.Append("Id AS Organisation_LanguageId, \r\n            T.BleedAreaSize AS Organisation_Ble");
-            viewString.Append("edAreaSize, \r\n            T.ShowBleedArea AS Organisation_ShowBleedArea, \r\n     ");
-            viewString.Append("       T.isXeroIntegrationRequired AS Organisation_isXeroIntegrationRequired, \r\n");
-            viewString.Append("            T.XeroApiId AS Organisation_XeroApiId, \r\n            T.XeroApiKey AS");
-            viewString.Append(" Organisation_XeroApiKey, \r\n            True AS _from0\r\n        FROM BaseDbConte");
-            viewString.Append("xt.Organisations AS T\r\n    ) AS T1");
+            viewString.Append("tion_XeroApiId, T1.Organisation_XeroApiKey, T1.Organisation_TaxServiceUrl, T1.Or");
+            viewString.Append("ganisation_TaxServiceKey)\r\n    FROM (\r\n        SELECT \r\n            T.Organisati");
+            viewString.Append("onId AS Organisation_OrganisationId, \r\n            T.OrganisationName AS Organis");
+            viewString.Append("ation_OrganisationName, \r\n            T.Address1 AS Organisation_Address1, \r\n   ");
+            viewString.Append("         T.Address2 AS Organisation_Address2, \r\n            T.Address3 AS Organi");
+            viewString.Append("sation_Address3, \r\n            T.City AS Organisation_City, \r\n            T.Stat");
+            viewString.Append("eId AS Organisation_StateId, \r\n            T.CountryId AS Organisation_CountryId");
+            viewString.Append(", \r\n            T.ZipCode AS Organisation_ZipCode, \r\n            T.Tel AS Organi");
+            viewString.Append("sation_Tel, \r\n            T.Fax AS Organisation_Fax, \r\n            T.Mobile AS O");
+            viewString.Append("rganisation_Mobile, \r\n            T.Email AS Organisation_Email, \r\n            T");
+            viewString.Append(".URL AS Organisation_URL, \r\n            T.WebsiteLogo AS Organisation_WebsiteLog");
+            viewString.Append("o, \r\n            T.MISLogo AS Organisation_MISLogo, \r\n            T.TaxRegistrat");
+            viewString.Append("ionNo AS Organisation_TaxRegistrationNo, \r\n            T.LicenseLevel AS Organis");
+            viewString.Append("ation_LicenseLevel, \r\n            T.CustomerAccountNumber AS Organisation_Custom");
+            viewString.Append("erAccountNumber, \r\n            T.SmtpServer AS Organisation_SmtpServer, \r\n      ");
+            viewString.Append("      T.SmtpUserName AS Organisation_SmtpUserName, \r\n            T.SmtpPassword ");
+            viewString.Append("AS Organisation_SmtpPassword, \r\n            T.VATRegNumber AS Organisation_VATRe");
+            viewString.Append("gNumber, \r\n            T.SystemLengthUnit AS Organisation_SystemLengthUnit, \r\n  ");
+            viewString.Append("          T.SystemWeightUnit AS Organisation_SystemWeightUnit, \r\n            T.C");
+            viewString.Append("urrencyId AS Organisation_CurrencyId, \r\n            T.LanguageId AS Organisation");
+            viewString.Append("_LanguageId, \r\n            T.BleedAreaSize AS Organisation_BleedAreaSize, \r\n    ");
+            viewString.Append("        T.ShowBleedArea AS Organisation_ShowBleedArea, \r\n            T.isXeroInt");
+            viewString.Append("egrationRequired AS Organisation_isXeroIntegrationRequired, \r\n            T.Xero");
+            viewString.Append("ApiId AS Organisation_XeroApiId, \r\n            T.XeroApiKey AS Organisation_Xero");
+            viewString.Append("ApiKey, \r\n            T.TaxServiceUrl AS Organisation_TaxServiceUrl, \r\n         ");
+            viewString.Append("   T.TaxServiceKey AS Organisation_TaxServiceKey, \r\n            True AS _from0\r\n");
+            viewString.Append("        FROM BaseDbContext.Organisations AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Organisation", viewString.ToString());
         }
         
@@ -3111,21 +3113,25 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView37()
         {
-            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.PaymentGateway", @"
-    SELECT VALUE -- Constructing PaymentGateway
-        [DomainModels.Store.PaymentGateway](T1.PaymentGateway_PaymentGatewayId, T1.PaymentGateway_BusinessEmail, T1.PaymentGateway_IdentityToken, T1.PaymentGateway_isActive, T1.PaymentGateway_CompanyId, T1.PaymentGateway_PaymentMethodId, T1.PaymentGateway_SecureHash)
-    FROM (
-        SELECT 
-            T.PaymentGatewayId AS PaymentGateway_PaymentGatewayId, 
-            T.BusinessEmail AS PaymentGateway_BusinessEmail, 
-            T.IdentityToken AS PaymentGateway_IdentityToken, 
-            T.isActive AS PaymentGateway_isActive, 
-            T.CompanyId AS PaymentGateway_CompanyId, 
-            T.PaymentMethodId AS PaymentGateway_PaymentMethodId, 
-            T.SecureHash AS PaymentGateway_SecureHash, 
-            True AS _from0
-        FROM BaseDbContext.PaymentGateways AS T
-    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.PaymentGateway", "\r\n    SELECT VALUE -- Constructing PaymentGateway\r\n        [DomainModels.Store.Pa" +
+                    "ymentGateway](T1.PaymentGateway_PaymentGatewayId, T1.PaymentGateway_BusinessEmai" +
+                    "l, T1.PaymentGateway_IdentityToken, T1.PaymentGateway_isActive, T1.PaymentGatewa" +
+                    "y_CompanyId, T1.PaymentGateway_PaymentMethodId, T1.PaymentGateway_SecureHash, T1" +
+                    ".PaymentGateway_CancelPurchaseUrl, T1.PaymentGateway_ReturnUrl, T1.PaymentGatewa" +
+                    "y_NotifyUrl, T1.PaymentGateway_SendToReturnURL, T1.PaymentGateway_UseSandbox, T1" +
+                    ".PaymentGateway_LiveApiUrl, T1.PaymentGateway_TestApiUrl)\r\n    FROM (\r\n        S" +
+                    "ELECT \r\n            T.PaymentGatewayId AS PaymentGateway_PaymentGatewayId, \r\n   " +
+                    "         T.BusinessEmail AS PaymentGateway_BusinessEmail, \r\n            T.Identi" +
+                    "tyToken AS PaymentGateway_IdentityToken, \r\n            T.isActive AS PaymentGate" +
+                    "way_isActive, \r\n            T.CompanyId AS PaymentGateway_CompanyId, \r\n         " +
+                    "   T.PaymentMethodId AS PaymentGateway_PaymentMethodId, \r\n            T.SecureHa" +
+                    "sh AS PaymentGateway_SecureHash, \r\n            T.CancelPurchaseUrl AS PaymentGat" +
+                    "eway_CancelPurchaseUrl, \r\n            T.ReturnUrl AS PaymentGateway_ReturnUrl, \r" +
+                    "\n            T.NotifyUrl AS PaymentGateway_NotifyUrl, \r\n            T.SendToRetu" +
+                    "rnURL AS PaymentGateway_SendToReturnURL, \r\n            T.UseSandbox AS PaymentGa" +
+                    "teway_UseSandbox, \r\n            T.LiveApiUrl AS PaymentGateway_LiveApiUrl, \r\n   " +
+                    "         T.TestApiUrl AS PaymentGateway_TestApiUrl, \r\n            True AS _from0" +
+                    "\r\n        FROM BaseDbContext.PaymentGateways AS T\r\n    ) AS T1");
         }
         
         /// <Summary>
@@ -3636,12 +3642,13 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Currency", @"
     SELECT VALUE -- Constructing Currency
-        [DomainModels.Store.Currency](T1.Currency_CurrencyId, T1.Currency_CurrencyCode, T1.Currency_CurrencyName)
+        [DomainModels.Store.Currency](T1.Currency_CurrencyId, T1.Currency_CurrencyCode, T1.Currency_CurrencyName, T1.Currency_CurrencySymbol)
     FROM (
         SELECT 
             T.CurrencyId AS Currency_CurrencyId, 
             T.CurrencyCode AS Currency_CurrencyCode, 
             T.CurrencyName AS Currency_CurrencyName, 
+            T.CurrencySymbol AS Currency_CurrencySymbol, 
             True AS _from0
         FROM BaseDbContext.Currencies AS T
     ) AS T1");
@@ -4789,7 +4796,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView94()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2921);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3105);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Organisations\r\n        [DomainModels.Organisa");
             viewString.Append("tion](T1.Organisation_OrganisationId, T1.Organisation_OrganisationName, T1.Organ");
             viewString.Append("isation_Address1, T1.Organisation_Address2, T1.Organisation_Address3, T1.Organis");
@@ -4802,31 +4809,33 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("eightUnit, T1.Organisation_CurrencyId, T1.Organisation_LanguageId, T1.Organisati");
             viewString.Append("on_StateId, T1.Organisation_CountryId, T1.Organisation_BleedAreaSize, T1.Organis");
             viewString.Append("ation_ShowBleedArea, T1.Organisation_isXeroIntegrationRequired, T1.Organisation_");
-            viewString.Append("XeroApiId, T1.Organisation_XeroApiKey)\r\n    FROM (\r\n        SELECT \r\n           ");
-            viewString.Append(" T.OrganisationId AS Organisation_OrganisationId, \r\n            T.OrganisationNa");
-            viewString.Append("me AS Organisation_OrganisationName, \r\n            T.Address1 AS Organisation_Ad");
-            viewString.Append("dress1, \r\n            T.Address2 AS Organisation_Address2, \r\n            T.Addre");
-            viewString.Append("ss3 AS Organisation_Address3, \r\n            T.City AS Organisation_City, \r\n     ");
-            viewString.Append("       T.ZipCode AS Organisation_ZipCode, \r\n            T.Tel AS Organisation_Te");
-            viewString.Append("l, \r\n            T.Fax AS Organisation_Fax, \r\n            T.Mobile AS Organisati");
-            viewString.Append("on_Mobile, \r\n            T.Email AS Organisation_Email, \r\n            T.URL AS O");
-            viewString.Append("rganisation_URL, \r\n            T.WebsiteLogo AS Organisation_WebsiteLogo, \r\n    ");
-            viewString.Append("        T.MISLogo AS Organisation_MISLogo, \r\n            T.TaxRegistrationNo AS ");
-            viewString.Append("Organisation_TaxRegistrationNo, \r\n            T.LicenseLevel AS Organisation_Lic");
-            viewString.Append("enseLevel, \r\n            T.CustomerAccountNumber AS Organisation_CustomerAccount");
-            viewString.Append("Number, \r\n            T.SmtpServer AS Organisation_SmtpServer, \r\n            T.S");
-            viewString.Append("mtpUserName AS Organisation_SmtpUserName, \r\n            T.SmtpPassword AS Organi");
-            viewString.Append("sation_SmtpPassword, \r\n            T.VATRegNumber AS Organisation_VATRegNumber, ");
-            viewString.Append("\r\n            T.SystemLengthUnit AS Organisation_SystemLengthUnit, \r\n           ");
-            viewString.Append(" T.SystemWeightUnit AS Organisation_SystemWeightUnit, \r\n            T.CurrencyId");
-            viewString.Append(" AS Organisation_CurrencyId, \r\n            T.LanguageId AS Organisation_Language");
-            viewString.Append("Id, \r\n            T.StateId AS Organisation_StateId, \r\n            T.CountryId A");
-            viewString.Append("S Organisation_CountryId, \r\n            T.BleedAreaSize AS Organisation_BleedAre");
-            viewString.Append("aSize, \r\n            T.ShowBleedArea AS Organisation_ShowBleedArea, \r\n          ");
-            viewString.Append("  T.isXeroIntegrationRequired AS Organisation_isXeroIntegrationRequired, \r\n     ");
-            viewString.Append("       T.XeroApiId AS Organisation_XeroApiId, \r\n            T.XeroApiKey AS Orga");
-            viewString.Append("nisation_XeroApiKey, \r\n            True AS _from0\r\n        FROM DomainModelsStor");
-            viewString.Append("eContainer.Organisation AS T\r\n    ) AS T1");
+            viewString.Append("XeroApiId, T1.Organisation_XeroApiKey, T1.Organisation_TaxServiceUrl, T1.Organis");
+            viewString.Append("ation_TaxServiceKey)\r\n    FROM (\r\n        SELECT \r\n            T.OrganisationId ");
+            viewString.Append("AS Organisation_OrganisationId, \r\n            T.OrganisationName AS Organisation");
+            viewString.Append("_OrganisationName, \r\n            T.Address1 AS Organisation_Address1, \r\n        ");
+            viewString.Append("    T.Address2 AS Organisation_Address2, \r\n            T.Address3 AS Organisatio");
+            viewString.Append("n_Address3, \r\n            T.City AS Organisation_City, \r\n            T.ZipCode A");
+            viewString.Append("S Organisation_ZipCode, \r\n            T.Tel AS Organisation_Tel, \r\n            T");
+            viewString.Append(".Fax AS Organisation_Fax, \r\n            T.Mobile AS Organisation_Mobile, \r\n     ");
+            viewString.Append("       T.Email AS Organisation_Email, \r\n            T.URL AS Organisation_URL, \r");
+            viewString.Append("\n            T.WebsiteLogo AS Organisation_WebsiteLogo, \r\n            T.MISLogo ");
+            viewString.Append("AS Organisation_MISLogo, \r\n            T.TaxRegistrationNo AS Organisation_TaxRe");
+            viewString.Append("gistrationNo, \r\n            T.LicenseLevel AS Organisation_LicenseLevel, \r\n     ");
+            viewString.Append("       T.CustomerAccountNumber AS Organisation_CustomerAccountNumber, \r\n        ");
+            viewString.Append("    T.SmtpServer AS Organisation_SmtpServer, \r\n            T.SmtpUserName AS Org");
+            viewString.Append("anisation_SmtpUserName, \r\n            T.SmtpPassword AS Organisation_SmtpPasswor");
+            viewString.Append("d, \r\n            T.VATRegNumber AS Organisation_VATRegNumber, \r\n            T.Sy");
+            viewString.Append("stemLengthUnit AS Organisation_SystemLengthUnit, \r\n            T.SystemWeightUni");
+            viewString.Append("t AS Organisation_SystemWeightUnit, \r\n            T.CurrencyId AS Organisation_C");
+            viewString.Append("urrencyId, \r\n            T.LanguageId AS Organisation_LanguageId, \r\n            ");
+            viewString.Append("T.StateId AS Organisation_StateId, \r\n            T.CountryId AS Organisation_Cou");
+            viewString.Append("ntryId, \r\n            T.BleedAreaSize AS Organisation_BleedAreaSize, \r\n         ");
+            viewString.Append("   T.ShowBleedArea AS Organisation_ShowBleedArea, \r\n            T.isXeroIntegrat");
+            viewString.Append("ionRequired AS Organisation_isXeroIntegrationRequired, \r\n            T.XeroApiId");
+            viewString.Append(" AS Organisation_XeroApiId, \r\n            T.XeroApiKey AS Organisation_XeroApiKe");
+            viewString.Append("y, \r\n            T.TaxServiceUrl AS Organisation_TaxServiceUrl, \r\n            T.");
+            viewString.Append("TaxServiceKey AS Organisation_TaxServiceKey, \r\n            True AS _from0\r\n     ");
+            viewString.Append("   FROM DomainModelsStoreContainer.Organisation AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Organisations", viewString.ToString());
         }
         
@@ -6470,21 +6479,25 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView125()
         {
-            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.PaymentGateways", @"
-    SELECT VALUE -- Constructing PaymentGateways
-        [DomainModels.PaymentGateway](T1.PaymentGateway_PaymentGatewayId, T1.PaymentGateway_BusinessEmail, T1.PaymentGateway_IdentityToken, T1.PaymentGateway_isActive, T1.PaymentGateway_CompanyId, T1.PaymentGateway_PaymentMethodId, T1.PaymentGateway_SecureHash)
-    FROM (
-        SELECT 
-            T.PaymentGatewayId AS PaymentGateway_PaymentGatewayId, 
-            T.BusinessEmail AS PaymentGateway_BusinessEmail, 
-            T.IdentityToken AS PaymentGateway_IdentityToken, 
-            T.isActive AS PaymentGateway_isActive, 
-            T.CompanyId AS PaymentGateway_CompanyId, 
-            T.PaymentMethodId AS PaymentGateway_PaymentMethodId, 
-            T.SecureHash AS PaymentGateway_SecureHash, 
-            True AS _from0
-        FROM DomainModelsStoreContainer.PaymentGateway AS T
-    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.PaymentGateways", "\r\n    SELECT VALUE -- Constructing PaymentGateways\r\n        [DomainModels.Payment" +
+                    "Gateway](T1.PaymentGateway_PaymentGatewayId, T1.PaymentGateway_BusinessEmail, T1" +
+                    ".PaymentGateway_IdentityToken, T1.PaymentGateway_isActive, T1.PaymentGateway_Com" +
+                    "panyId, T1.PaymentGateway_PaymentMethodId, T1.PaymentGateway_SecureHash, T1.Paym" +
+                    "entGateway_CancelPurchaseUrl, T1.PaymentGateway_ReturnUrl, T1.PaymentGateway_Not" +
+                    "ifyUrl, T1.PaymentGateway_SendToReturnURL, T1.PaymentGateway_UseSandbox, T1.Paym" +
+                    "entGateway_LiveApiUrl, T1.PaymentGateway_TestApiUrl)\r\n    FROM (\r\n        SELECT" +
+                    " \r\n            T.PaymentGatewayId AS PaymentGateway_PaymentGatewayId, \r\n        " +
+                    "    T.BusinessEmail AS PaymentGateway_BusinessEmail, \r\n            T.IdentityTok" +
+                    "en AS PaymentGateway_IdentityToken, \r\n            T.isActive AS PaymentGateway_i" +
+                    "sActive, \r\n            T.CompanyId AS PaymentGateway_CompanyId, \r\n            T." +
+                    "PaymentMethodId AS PaymentGateway_PaymentMethodId, \r\n            T.SecureHash AS" +
+                    " PaymentGateway_SecureHash, \r\n            T.CancelPurchaseUrl AS PaymentGateway_" +
+                    "CancelPurchaseUrl, \r\n            T.ReturnUrl AS PaymentGateway_ReturnUrl, \r\n    " +
+                    "        T.NotifyUrl AS PaymentGateway_NotifyUrl, \r\n            T.SendToReturnURL" +
+                    " AS PaymentGateway_SendToReturnURL, \r\n            T.UseSandbox AS PaymentGateway" +
+                    "_UseSandbox, \r\n            T.LiveApiUrl AS PaymentGateway_LiveApiUrl, \r\n        " +
+                    "    T.TestApiUrl AS PaymentGateway_TestApiUrl, \r\n            True AS _from0\r\n   " +
+                    "     FROM DomainModelsStoreContainer.PaymentGateway AS T\r\n    ) AS T1");
         }
         
         /// <Summary>
@@ -6995,12 +7008,13 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Currencies", @"
     SELECT VALUE -- Constructing Currencies
-        [DomainModels.Currency](T1.Currency_CurrencyId, T1.Currency_CurrencyCode, T1.Currency_CurrencyName)
+        [DomainModels.Currency](T1.Currency_CurrencyId, T1.Currency_CurrencyCode, T1.Currency_CurrencyName, T1.Currency_CurrencySymbol)
     FROM (
         SELECT 
             T.CurrencyId AS Currency_CurrencyId, 
             T.CurrencyCode AS Currency_CurrencyCode, 
             T.CurrencyName AS Currency_CurrencyName, 
+            T.CurrencySymbol AS Currency_CurrencySymbol, 
             True AS _from0
         FROM DomainModelsStoreContainer.Currency AS T
     ) AS T1");
