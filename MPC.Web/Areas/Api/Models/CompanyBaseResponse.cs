@@ -23,7 +23,7 @@ namespace MPC.MIS.Areas.Api.Models
         public IEnumerable<StateDropDown> States { get; set; }
         public IEnumerable<CountryDropDown> CountryDropDowns { get; set; }
         public IEnumerable<StateDropDown> StateDropDowns { get; set; }
-
+        public FieldVariableResponse FieldVariableResponse { get; set; }
         /// <summary>
         /// Default Sprite Image
         /// </summary>

@@ -191,6 +191,7 @@
     <Compile Include="Repositories\CompanyCMYKColorRepository.cs" />
     <Compile Include="Repositories\CompanyContactRepository.cs" />
     <Compile Include="Repositories\CompanyContactRoleRepository.cs" />
+    <Compile Include="Repositories\CompanyContactVariableRepository.cs" />
     <Compile Include="Repositories\CompanyDomainRepository.cs" />
     <Compile Include="Repositories\CompanyBannerSetRepository.cs" />
     <Compile Include="Repositories\CompanyTerritoryRepository.cs" />

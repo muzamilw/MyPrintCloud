@@ -3964,6 +3964,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             scopeName = ko.observable(specifiedScopeName),
             typeName = ko.observable(specifiedTypeName),
             variableTitle = ko.observable(specifiedVariableTitle),
+            fakeId = ko.observable(),
             variableOptions = ko.observableArray([]),
             // Errors
             errors = ko.validation.group({
@@ -3995,6 +3996,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.InputMask = source.inputMask() === undefined ? null : source.inputMask();
                 result.VariableTag = source.variableTag() === undefined ? null : source.variableTag();
                 result.VariableTitle = source.variableTitle() === undefined ? null : source.variableTitle();
+                result.FakeId = source.fakeId() === undefined ? 0 : source.fakeId();
                 result.VariableOptions = [];
                 return result;
             },
@@ -4016,6 +4018,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             typeName: typeName,
             variableTitle: variableTitle,
             variableOptions: variableOptions,
+            fakeId: fakeId,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -4042,7 +4045,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     };
     // #endregion ______________  Field Variable   _________________
 
-    // #region ______________  Field Variable   _________________
+    // #region ______________  Variable Option  _________________
 
     // ReSharper disable once InconsistentNaming
     var VariableOption = function (specifiedVariableOptionId, specifiedVariableName, specifiedValue, specifiedSortOrder) {
@@ -4109,6 +4112,75 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     };
     // #endregion ______________  Variable Option   _________________
 
+    // #region ______________  Variable Option  _________________
+
+    // ReSharper disable once InconsistentNaming
+    var CompanyContactVariable = function (specifiedContactVariableId, specifiedContactId, specifiedVariableId, specifiedValue) {
+        var self,
+            id = ko.observable(specifiedContactVariableId),
+            contactId = ko.observable(specifiedContactId),
+            variableId = ko.observable(specifiedVariableId),
+            value = ko.observable(specifiedValue),
+            fakeId = ko.observable(),
+            variableOptions = ko.observableArray([]),
+
+            // Errors
+            errors = ko.validation.group({
+                // value: value,
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function (source) {
+                var result = {};
+                result.ContactVariableId = source.id() === undefined ? 0 : source.id();
+                result.ContactId = source.contactId() === undefined ? 0 : source.contactId();
+                result.VariableId = source.variableId() === undefined ? null : source.variableId();
+                result.Value = source.value() === undefined ? 0 : source.value();
+                result.FakeId = source.fakeId() === undefined ? 0 : source.fakeId();
+                return result;
+            },
+        // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            id: id,
+            contactId: contactId,
+            variableId: variableId,
+            value: value,
+            fakeId: fakeId,
+            variableOptions: variableOptions,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    //Field Option Create Factory
+    CompanyContactVariable.Create = function (source) {
+        return new CompanyContactVariable(
+            source.ContactVariableId,
+             source.ContactId,
+             source.VariableId,
+             source.Value
+            );
+    };
+    // #endregion ______________  Variable Option   _________________
+
     //#region ______________ R E T U R N ______________
     return {
         StoreListView: StoreListView,
@@ -4150,6 +4222,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         Group: Group,
         FieldVariable: FieldVariable,
         VariableOption: VariableOption,
+        CompanyContactVariable: CompanyContactVariable,
     };
     // #endregion 
 });

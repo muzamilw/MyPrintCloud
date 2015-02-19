@@ -260,6 +260,7 @@
     <Compile Include="Areas\Api\Controllers\CrmSupplierController.cs" />
     <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableController.cs" />
+    <Compile Include="Areas\Api\Controllers\FieldVariableDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\GetCompaniesForCalendarController.cs" />
     <Compile Include="Areas\Api\Controllers\GetItemsForWidgetsController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterBaseController.cs" />
@@ -361,6 +362,7 @@
     <Compile Include="Areas\Api\Models\CustomerListViewModel.cs" />
     <Compile Include="Areas\Api\Models\CustomerResponse.cs" />
     <Compile Include="Areas\Api\Models\FieldVariable.cs" />
+    <Compile Include="Areas\Api\Models\FieldVariableResponse.cs" />
     <Compile Include="Areas\Api\Models\GetOrdersResponse.cs" />
     <Compile Include="Areas\Api\Models\GroupForCampaign.cs" />
     <Compile Include="Areas\Api\Models\CostcentreWorkInstructionsChoice.cs" />
