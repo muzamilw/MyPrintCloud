@@ -108,11 +108,15 @@ namespace MPC.Webstore.Controllers
                         UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
                         UserCookieManager.OrderId = OrderID;
                         // gets the item from reference item id in case of upload design when user process the item but not add the item in cart
-                        clonedItem = _myItemService.GetExisitingClonedItemInOrder(UserCookieManager.OrderId, Convert.ToInt64(ItemId));
+                        clonedItem = _myItemService.GetExisitingClonedItemInOrder(OrderID, Convert.ToInt64(ItemId));
 
                         if (clonedItem == null)
                         {
                             clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, OrderID, UserCookieManager.StoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId);
+                            if (UserCookieManager.OrderId == 0)
+                            {
+                                UserCookieManager.OrderId = clonedItem.EstimateId ?? 0;
+                            }
                         }
                     }
                 }
@@ -204,8 +208,13 @@ namespace MPC.Webstore.Controllers
                         }
                         else
                         {
+                            if (!string.IsNullOrEmpty(addOn.Description))
+                            {
+                                ccObject.CostCentreDescription = addOn.Description;
+                            }
+                            
                             ccObject.Qty1NetTotal = addOn.ActualPrice;
-                            ccObject.CostCentreDescription = addOn.Description;
+                            
                             ccObject.CostCentreJsonData = addOn.CostCentreJasonData;
                         }
                         

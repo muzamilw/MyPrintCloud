@@ -1281,7 +1281,7 @@
                         $(val).attr('onclick', 'PromptForValues('+ selectedCheckBox.CostCenterId +', '+ $(val).attr('id') +', \"New\");');
 
                         $("#costCentreQueueItems").val(JSON.stringify(@Html.Raw(Json.Encode(ViewBag.CostCentreQueueItems))));
-                        
+                  
                 }
 
                 }
@@ -1394,7 +1394,6 @@
         if($("#" + ControlId).is(':checked')) {
             if(Mode == 2){
                 ShowLoader();
-                console.log($("#costCentreQueueItems").val());
                 var to;
                 to = "/webstoreapi/costCenter/GetDateTimeString?parameter1=" + CostCentreId + "&parameter2=" + @ViewBag.ClonedItem.ItemId + "&parameter3=" + quantityOrdered + "&parameter4=Update";
                 var options = {
@@ -1413,7 +1412,7 @@
                                 for (var i = 0; i < $(updatedAddOns).length; i++) {
                                     if ($(updatedAddOns)[i].CostCenterId == 335) {
                                         $(updatedAddOns)[i].ActualPrice = response;
-                                        alert($(updatedAddOns)[i].Description);
+                                        $(updatedAddOns)[i].CostCentreJasonData = $("#costCentreQueueItems").val();
                                         break;
                                     }
                                 }
@@ -1435,7 +1434,7 @@
                                     
                                 }
                                 displayTotalPrice(TotalItemPrice, totalVal);
-                                $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + Currency + response + '</label>' + '<a onclick="PromptForValues(' + CostCentreId + ',' + SelectedCostCentreCheckBoxId + ', 1);" >Modify</a> ');
+                                $("#" + ControlId).next().next().html('<label>' + Currency + response + '</label>' + '<a onclick="PromptForValues(' + CostCentreId + ',' + SelectedCostCentreCheckBoxId + ', 1);" >Modify</a> ');
                        
                                 $("#VMJsonAddOns").val(JSON.stringify(JsonToReSubmit));
                             }

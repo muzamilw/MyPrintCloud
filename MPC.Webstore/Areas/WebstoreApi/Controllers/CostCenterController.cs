@@ -154,6 +154,10 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     }
                     else
                     {
+                        if (parameter4 == "Update") // dummy condition
+                        {
+                            return Request.CreateResponse(HttpStatusCode.OK, 131);
+                        }
                         oResult = _oRemoteObject.returnCost(ref _CostCentreParamsArray);
 
                     }
