@@ -5,7 +5,7 @@
 @section leftmenue {
 
 }
-<div class="row"  data-bind="visible: $root.isEditorVisible()"  style="display: none">
+<div class="row"  data-bind="visible: $root.isEditorVisible"  style="display: none">
     <div class="col-lg-12">
         <div class="row">
             <div class="col-lg-12">
@@ -21,12 +21,24 @@
 
             <div class="col-lg-12 col-md-8 col-sm-8" style="padding-bottom: 10px;">
                 <div class="clearfix ">
-                    <div class="col-xs-4">
+                    <div class="col-xs-4 pull-left validationSummaryContainer">
+                        <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopupForStore', popoverId: 'validationSummaryPopoverBodyForStore' }" style="display: none">Validation Errors</a>
+                        <div class="well well-small validationSummaryModal" id="validationSummaryPopupForStore" style="display: none">
+                            <div id="validationSummaryPopoverBodyForStore">
+                                <ul data-bind="foreach: $root.errorList">
+                                    <li>
+                                        <a data-bind="click: $root.gotoElement.bind($data.element)"><span data-bind="text: name"></span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-xs-4">
                     </div>
-                    <div class="col-xs-4" style="text-align: right; padding-right: 0px;">
-                        <button type="button" class="btn btn-primary btn-lg">
+                    <div class="col-xs-4">
+                    </div>
+                    <div class="col-xs-12" style="text-align: right; padding-right: 0px;">
+                        <button type="button" class="btn btn-primary btn-lg" data-bind="click: $root.saveStore">
                             <span class="fa fa-save"></span>&nbsp;Save
                         </button>
                         <button type="button" class="btn btn-primary btn-lg" data-bind="click: $root.closeEditDialog">
@@ -66,7 +78,7 @@
                                                 <label for="txtCompanyName" class="control-label text-right tooltip-float">Store Name</label>
                                             </div>
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtCompanyName" placeholder="Enter Store Name" data-bind="value: name, validationTooltip: name, validationOnElement: name">
+                                                <input type="text" name="Store Name" class="form-control" id="txtCompanyName" placeholder="Enter Store Name" data-bind="value: name, validationTooltip: name, validationOnElement: name">
                                                 <span class="help-block text-right">This will be used in defalt URL to pass on to your customer.</span>
                                             </div>
                                         </div>
@@ -81,7 +93,7 @@
                                                 <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Web Access Code</label>
                                             </div>
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtWebAccessCode" placeholder="Enter Web Access Code" data-bind="value: webAccessCode, validationTooltip: webAccessCode, validationOnElement: webAccessCode">
+                                                <input type="text" name="Web Access Code" class="form-control" id="txtWebAccessCode" placeholder="Enter Web Access Code" data-bind="value: webAccessCode, validationTooltip: webAccessCode, validationOnElement: webAccessCode">
                                                 <span class="help-block text-right">URL http://pinkcards.com/corporatedemo/login</span>
                                             </div>
                                         </div>
@@ -807,13 +819,13 @@
         </tr>
     </script>
     <script id="actionsCompanyContactTemplate" type="text/html">
-        <a class="table-link" >   @*data-bind="click : $root.onEditCompanyContact"*@
+        <a class="table-link" data-bind="click : $root.onEditCompanyContact">
             <span class="fa-stack">
                 <i class="fa fa-square fa-stack-2x"></i>
                 <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
             </span>
         </a>
-        <a href="#" class="table-link danger" >    @*data-bind="click : $root.onDeleteCompanyContact"*@
+        <a href="#" class="table-link danger" data-bind="click : $root.onDeleteCompanyContact">  
             <span class="fa-stack">
                 <i class="fa fa-square fa-stack-2x"></i>
                 <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
@@ -865,138 +877,5 @@
 </div>
 @Html.Partial("Widgets/_UserProfileDetails")
 @Html.Partial("~/Areas/CRM/Views/Home/_AddEditAddressForCrm.cshtml")
+@Html.Partial("~/Areas/CRM/Views/Home/_UserProfileDetailsForCrm.cshtml")
 
-@section Scripts {
-    <script src="~/Content/themes/Centaurus/js/bootstrap-wizard.js"></script>
-    <script src="~/Content/themes/Centaurus/js/select2.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/dropzone.js"></script>
-    <script type="text/javascript">
-        function setServerName(card) {
-            var host = $("#new-server-fqdn").val();
-            var name = $("#new-server-name").val();
-            var displayName = host;
-
-            if (name) {
-                displayName = name + " (" + host + ")";
-            };
-
-            card.wizard.setSubtitle(displayName);
-            card.wizard.el.find(".create-server-name").text(displayName);
-        }
-
-        function validateIP(ipaddr) {
-            //Remember, this function will validate only Class C IP.
-            //change to other IP Classes as you need
-            ipaddr = ipaddr.replace(/\s/g, "") //remove spaces for checking
-            var re = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/; //regex. check for digits and in
-            //all 4 quadrants of the IP
-            if (re.test(ipaddr)) {
-                //split into units with dots "."
-                var parts = ipaddr.split(".");
-                //if the first unit/quadrant of the IP is zero
-                if (parseInt(parseFloat(parts[0])) == 0) {
-                    return false;
-                }
-                //if the fourth unit/quadrant of the IP is zero
-                if (parseInt(parseFloat(parts[3])) == 0) {
-                    return false;
-                }
-                //if any part is greater than 255
-                for (var i = 0; i < parts.length; i++) {
-                    if (parseInt(parseFloat(parts[i])) > 255) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-
-        function validateFQDN(val) {
-            return /^[a-z0-9-_]+(\.[a-z0-9-_]+)*\.([a-z]{2,4})$/.test(val);
-        }
-
-        function fqdn_or_ip(el) {
-            var val = el.val();
-            ret = {
-                status: true
-            };
-            if (!validateFQDN(val)) {
-                if (!validateIP(val)) {
-                    ret.status = false;
-                    ret.msg = "Invalid IP address or FQDN";
-                }
-            }
-            return ret;
-        }
-
-
-        $(function () {
-
-            $('#sel2').select2();
-
-            $.fn.wizard.logging = false;
-
-            var wizard = $("#wizard-demo").wizard({
-                showCancel: true
-            });
-
-            //$(".chzn-select").chosen();
-
-            wizard.el.find(".wizard-ns-select").change(function () {
-                wizard.el.find(".wizard-ns-detail").show();
-            });
-
-            wizard.el.find(".create-server-service-list").change(function () {
-                var noOption = $(this).find("option:selected").length == 0;
-                wizard.getCard(this).toggleAlert(null, noOption);
-            });
-
-            wizard.cards["name"].on("validated", function (card) {
-                var hostname = card.el.find("#new-server-fqdn").val();
-            });
-
-            wizard.on("submit", function (wizard) {
-                var submit = {
-                    "hostname": $("#new-server-fqdn").val()
-                };
-
-                setTimeout(function () {
-                    wizard.trigger("success");
-                    wizard.hideButtons();
-                    wizard._submitting = false;
-                    wizard.showSubmitCard("success");
-                    wizard.updateProgressBar(0);
-                }, 2000);
-            });
-
-            wizard.on("reset", function (wizard) {
-                wizard.setSubtitle("");
-                wizard.el.find("#new-server-fqdn").val("");
-                wizard.el.find("#new-server-name").val("");
-            });
-
-            wizard.el.find(".wizard-success .im-done").click(function () {
-                wizard.reset().close();
-            });
-
-            wizard.el.find(".wizard-success .create-another-server").click(function () {
-                wizard.reset();
-            });
-
-            $(".wizard-group-list").click(function () {
-                alert("Disabled for demo.");
-            });
-
-            $("#open-wizard").click(function () {
-                wizard.show();
-            });
-
-
-
-            //wizard.show();
-        });
-    </script>
-}

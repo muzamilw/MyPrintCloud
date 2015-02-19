@@ -1749,8 +1749,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @*<!-- ko template: { name: 'itemCompanyCMYKColorTemplate' , foreach: $root.selectedStore().companyCMYKColors } -->
-                                                            <!-- /ko -->*@
+                                                        <!-- ko template: { name: 'filedVariablesItemTemplate' , foreach: $root.fieldVariables } -->
+                                                        <!-- /ko -->
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -2075,7 +2075,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                         <span data-bind="text: isWebAccess() == true ? 'Yes' : 'No' "></span>   @*class="label label-danger"*@
                     </div>
                 </td>
-                
+
                 <td>
                     <div class="type">
                         <span class="label label-danger" data-bind="text: isPlaceOrder() == true ? 'Yes' : 'No' "></span>
@@ -2334,4 +2334,23 @@ Public  - allows users to see other users addresses and orders." data-original-t
         <div class="photo-box image-link" data-bind="style:{backgroundImage:' url('+fileSource()+')'}"></div>
         <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
     </li>
+</script>
+
+
+<script id="filedVariablesItemTemplate" type="text/html">
+    <tr>
+        <td data-bind="text:variableName"></td>
+        <td data-bind="text:scopeName"></td>
+        <td data-bind="text:typeName"></td>
+        <td data-bind="text:variableTag"></td>
+        <td class="text-right">
+            <a href="" class="table-link" data-bind="click:$root.onEditFieldVariable">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+        </td>
+    </tr>
+
 </script>

@@ -51,7 +51,7 @@ define("dashboard.viewModel",
                     inProductionOrdersCount(data.InProductionOrdersCount);
                     completedOrdersCount(data.CompletedOrdersCount);
                     canceledOrdersCount(data.UnConfirmedOrdersCount);
-                    totalEarning((data.TotalEarnings).toFixed(2)+'$');
+                    totalEarning(data.TotalEarnings !== null ? data.TotalEarnings.toFixed(2) + '$' : 0);
                     liveStoresCount(data.LiveStoresCount);
                     currentMonthOrdersCount(data.CurrentMonthOdersCount);
                 },

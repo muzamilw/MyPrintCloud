@@ -515,7 +515,8 @@ namespace MPC.Implementation.MISServices
                 string imageurl = mapPath + "\\" + caption + fileName;
                 File.WriteAllBytes(imageurl, fileSourceBytes);
 
-                // Return path
+                int indexOf = imageurl.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                imageurl = imageurl.Substring(indexOf, imageurl.Length - indexOf);
                 return imageurl;
             }
 

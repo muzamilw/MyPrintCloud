@@ -442,20 +442,20 @@ define("stores/stores.viewModel",
                                         }
                                     });
                                 });
-                            //check on client side, push all if new added work
-                            if (searchCompanyTerritoryFilter() == "" || searchCompanyTerritoryFilter() == undefined) {
-                                _.each(newCompanyTerritories(), function (companyTerritoryItem) {
-                                    selectedStore().companyTerritories.push(companyTerritoryItem);
-                                });
-                            }
-                            //check on client side, if filter is not null
-                            if (searchCompanyTerritoryFilter() != "" && searchCompanyTerritoryFilter() != undefined) {
-                                _.each(newCompanyTerritories(), function (companyTerritoryItem) {
-                                    if (companyTerritoryItem.territoryName().indexOf(searchCompanyTerritoryFilter()) != -1 || companyTerritoryItem.territoryCode().indexOf(searchCompanyTerritoryFilter()) != -1) {
+                                //check on client side, push all if new added work
+                                if (searchCompanyTerritoryFilter() == "" || searchCompanyTerritoryFilter() == undefined) {
+                                    _.each(newCompanyTerritories(), function (companyTerritoryItem) {
                                         selectedStore().companyTerritories.push(companyTerritoryItem);
-                                    }
-                                });
-                            }
+                                    });
+                                }
+                                //check on client side, if filter is not null
+                                if (searchCompanyTerritoryFilter() != "" && searchCompanyTerritoryFilter() != undefined) {
+                                    _.each(newCompanyTerritories(), function (companyTerritoryItem) {
+                                        if (companyTerritoryItem.territoryName().indexOf(searchCompanyTerritoryFilter()) != -1 || companyTerritoryItem.territoryCode().indexOf(searchCompanyTerritoryFilter()) != -1) {
+                                            selectedStore().companyTerritories.push(companyTerritoryItem);
+                                        }
+                                    });
+                                }
                             },
                             error: function (response) {
                                 toastr.error("Failed To Load Company territories" + response);
@@ -1327,20 +1327,20 @@ define("stores/stores.viewModel",
                                         }
                                     });
                                 });
-                            //check on client side, push all if new added work
-                            if (searchAddressFilter() == "" || searchAddressFilter() == undefined) {
-                                _.each(newAddresses(), function (addressItem) {
-                                    selectedStore().addresses.push(addressItem);
-                                });
-                            }
-                            //check on client side, if filter is not null
-                            if (searchAddressFilter() != "" && searchAddressFilter() != undefined) {
-                                _.each(newAddresses(), function (addressItem) {
-                                    if (addressItem.addressName().indexOf(searchAddressFilter()) != -1) {
+                                //check on client side, push all if new added work
+                                if (searchAddressFilter() == "" || searchAddressFilter() == undefined) {
+                                    _.each(newAddresses(), function (addressItem) {
                                         selectedStore().addresses.push(addressItem);
-                                    }
-                                });
-                            }
+                                    });
+                                }
+                                //check on client side, if filter is not null
+                                if (searchAddressFilter() != "" && searchAddressFilter() != undefined) {
+                                    _.each(newAddresses(), function (addressItem) {
+                                        if (addressItem.addressName().indexOf(searchAddressFilter()) != -1) {
+                                            selectedStore().addresses.push(addressItem);
+                                        }
+                                    });
+                                }
                             },
                             error: function (response) {
                                 toastr.error("Failed To Load Addresses" + response);
@@ -1908,20 +1908,20 @@ define("stores/stores.viewModel",
                                         }
                                     });
                                 });
-                            //check on client side, push all if new added work
-                            if (searchCompanyContactFilter() == "" || searchCompanyContactFilter() == undefined) {
-                                _.each(newCompanyContacts(), function (companyContactItem) {
-                                    selectedStore().users.push(companyContactItem);
-                                });
-                            }
-                            //check on client side, if filter is not null
-                            if (searchCompanyContactFilter() != "" && searchCompanyContactFilter() != undefined) {
-                                _.each(newCompanyContacts(), function (companyContactItem) {
-                                    if (companyContactItem.email().indexOf(searchCompanyContactFilter()) != -1 || companyContactItem.firstName().indexOf(searchCompanyContactFilter()) != -1) {
+                                //check on client side, push all if new added work
+                                if (searchCompanyContactFilter() == "" || searchCompanyContactFilter() == undefined) {
+                                    _.each(newCompanyContacts(), function (companyContactItem) {
                                         selectedStore().users.push(companyContactItem);
-                                    }
-                                });
-                            }
+                                    });
+                                }
+                                //check on client side, if filter is not null
+                                if (searchCompanyContactFilter() != "" && searchCompanyContactFilter() != undefined) {
+                                    _.each(newCompanyContacts(), function (companyContactItem) {
+                                        if (companyContactItem.email().indexOf(searchCompanyContactFilter()) != -1 || companyContactItem.firstName().indexOf(searchCompanyContactFilter()) != -1) {
+                                            selectedStore().users.push(companyContactItem);
+                                        }
+                                    });
+                                }
                             },
                             error: function (response) {
                                 toastr.error("Failed To Load Users" + response);
@@ -2048,7 +2048,7 @@ define("stores/stores.viewModel",
                         }
                             //#endregion
                         else {
-                            if (companyContact.contactId() < 0) {
+                            if (companyContact.contactId() < 0 || companyContact.contactId() == undefined) {
 
                                 _.each(newCompanyContacts(), function (item) {
                                     if (item.contactId() == companyContact.contactId()) {
@@ -2135,12 +2135,12 @@ define("stores/stores.viewModel",
                                     if (selectedCompanyContact().shippingAddressId() != undefined) {
                                         selectedCompanyContact().shippingAddress(getAddressByAddressId(selectedCompanyContact().shippingAddressId()));
                                     }
-                                //updating selected contact rolename
-                                _.each(roles(), function(role) {
-                                    if (role.roleId() == selectedCompanyContact().contactRoleId()) {
-                                        selectedCompanyContact().roleName(role.roleName());
-                                    }
-                                });
+                                    //updating selected contact rolename
+                                    _.each(roles(), function (role) {
+                                        if (role.roleId() == selectedCompanyContact().contactRoleId()) {
+                                            selectedCompanyContact().roleName(role.roleName());
+                                        }
+                                    });
                                     newCompanyContacts.push(selectedCompanyContact());
                                     onCloseCompanyContact();
                                 } else {
@@ -2154,12 +2154,12 @@ define("stores/stores.viewModel",
                                             edittedCompanyContacts.push(selectedCompanyContact());
                                         }
                                     }
-                                //updating selected contact rolename
-                                _.each(roles(), function (role) {
-                                    if (role.roleId() == selectedCompanyContact().contactRoleId()) {
-                                        selectedCompanyContact().roleName(role.roleName());
-                                    }
-                                });
+                                    //updating selected contact rolename
+                                    _.each(roles(), function (role) {
+                                        if (role.roleId() == selectedCompanyContact().contactRoleId()) {
+                                            selectedCompanyContact().roleName(role.roleName());
+                                        }
+                                    });
                                     onCloseCompanyContact();
                                 }
                             }
@@ -2792,7 +2792,20 @@ define("stores/stores.viewModel",
                     saveStore = function (callback) {
                         if (doBeforeSave()) {
                             var storeToSave = model.Store().convertToServerData(selectedStore());
-                            storeToSave.ColorPalletes.push(selectedStore().colorPalette().convertToServerData(selectedStore().colorPalette()));
+                            //storeToSave.ColorPalletes.push(selectedStore().colorPalette().convertToServerData(selectedStore().colorPalette()));
+
+                            //#region Field Variables
+                            if (selectedStore().companyId() === undefined) {
+                                _.each(fieldVariables(), function (fieldVariable) {
+                                    var field = fieldVariable.convertToServerData(fieldVariable);
+                                    _.each(fieldVariable.variableOptions(), function (optionItem, index) {
+                                        optionItem.sortOrder(index + 1);
+                                        field.VariableOptions.push(optionItem.convertToServerData(optionItem));
+                                    });
+                                    storeToSave.FieldVariables.push(field);
+                                });
+                            }
+                            //endregion
                             //#region Company Territories
                             _.each(newCompanyTerritories(), function (territory) {
                                 storeToSave.NewAddedCompanyTerritories.push(territory.convertToServerData());
@@ -3815,19 +3828,132 @@ define("stores/stores.viewModel",
                     //#endregion
 
 
-                    //#region ________ MEDIA LIBRARY___________
+                    //#region ________ Field Variable___________
+                    //Active Field Variable
+                    selectedFieldVariable = ko.observable(),
+                    //Selected Field Option
+                    selectedFieldOption = ko.observable(),
+                    //Field Variables List
+                    fieldVariables = ko.observableArray([]),
+                    //Variable Option Fake ID counter
+                    fakeIdCounter = ko.observable(0),
+                    //Create New Field Variable
                     onAddVariableDefination = function () {
+                        selectedFieldVariable(model.FieldVariable());
                         view.showVeriableDefinationDialog();
                     },
+                     //Save Field Variable
+                    onSaveFieldVariable = function (fieldVariable) {
+                        if (doBeforeSaveFieldVariable()) {
 
-                    contextTypes = ko.observableArray([{ id: "1", name: "Store" },
-                                             { id: "2", name: "Contact" },
-                                             { id: "3", name: "Address" },
-                                             { id: "4", name: "Territory" }]);
-                varibaleTypes = ko.observableArray([{ id: "1", name: "Dropdown" },
-                                             { id: "2", name: "Input" }]);
+                            var selectedScope = _.find(contextTypes(), function (scope) {
+                                return scope.id == fieldVariable.scope();
+                            });
+                            fieldVariable.scopeName(selectedScope.name);
 
-                //#endregion ________ MEDIA LIBRARY___________
+                            var selectedType = _.find(varibaleTypes(), function (type) {
+                                return type.id == fieldVariable.variableType();
+                            });
+                            fieldVariable.typeName(selectedType.name);
+
+                            //In Case of new company added
+                            if (selectedStore().companyId() === undefined) {
+                                fieldVariables.splice(0, 0, fieldVariable);
+                                view.hideVeriableDefinationDialog();
+                            } else {
+                                //In Case of Edit Company 
+                                var field = fieldVariable.convertToServerData(fieldVariable);
+                                _.each(fieldVariable.variableOptions(), function (optionItem, index) {
+                                    optionItem.sortOrder(index + 1);
+                                    field.VariableOptions.push(optionItem.convertToServerData(optionItem));
+                                });
+                                saveField(field);
+                            }
+
+
+                        }
+                    },
+
+                    saveField = function (fieldVariable) {
+                        dataservice.saveFieldVariable(fieldVariable, {
+                            success: function (data) {
+                                view.hideVeriableDefinationDialog();
+                                selectedFieldVariable().id(data);
+                                fieldVariables.splice(0, 0, selectedFieldVariable());
+                                toastr.success("Successfully save.");
+                            },
+                            error: function (exceptionMessage, exceptionType) {
+
+                                if (exceptionType === ist.exceptionType.CaresGeneralException) {
+
+                                    toastr.error(exceptionMessage);
+
+                                } else {
+
+                                    toastr.error("Failed to save.");
+                                }
+
+                            }
+                        });
+
+                    },
+
+                    //Do Before Save Field Variable
+                    doBeforeSaveFieldVariable = function () {
+                        var flag = true;
+                        if (!selectedFieldVariable().isValid()) {
+                            selectedFieldVariable().errors.showAllMessages();
+                            flag = false;
+                        }
+                        return flag;
+                    },
+                    //Add Field Option
+                    onAddFieldOption = function () {
+                        if (selectedFieldOption() === undefined || selectedFieldOption().isValid()) {
+                            var option = model.VariableOption();
+                            selectedFieldOption(option);
+                            selectedFieldVariable().variableOptions.splice(0, 0, option);
+                        }
+                    },
+                    //Edit Variable Option
+                     onEditVariableOption = function (option) {
+                         if (selectedFieldOption() === undefined || selectedFieldOption().isValid()) {
+                             selectedFieldOption(option);
+                         }
+
+                     },
+                     //Delete Variable Option
+                      onDeleteVariableOption = function (option) {
+                          if (selectedFieldOption() === option) {
+                              selectedFieldOption(undefined);
+                          }
+                          selectedFieldVariable().variableOptions.remove(option);
+                      },
+
+                    // Template Chooser
+                    templateToUseForVariableOption = function (vOption) {
+                        return (vOption === selectedFieldOption() ? 'editVariableOptionTemplate' : 'itemVariableOptionTemplate');
+                    },
+
+                    //edit Field Variable
+                    onEditFieldVariable = function (fieldVariable) {
+                        if (selectedStore().companyId() === undefined) {
+                            selectedFieldVariable(fieldVariable);
+                            view.showVeriableDefinationDialog();
+                        } else {
+
+                        }
+                    },
+                    //variable Scope
+                    contextTypes = ko.observableArray([{ id: 1, name: "Store" },
+                                             { id: 2, name: "Contact" },
+                                             { id: 3, name: "Address" },
+                                             { id: 4, name: "Territory" }]);
+                //Varibale Types
+                varibaleTypes = ko.observableArray([{ id: 1, name: "Dropdown" },
+                            { id: 2, name: "Input" }]);
+
+                //#endregion ________ Field Variable___________
 
 
                 //Initialize
@@ -4129,6 +4255,16 @@ define("stores/stores.viewModel",
                     onAddVariableDefination: onAddVariableDefination,
                     contextTypes: contextTypes,
                     varibaleTypes: varibaleTypes,
+                    selectedFieldVariable: selectedFieldVariable,
+                    onSaveFieldVariable: onSaveFieldVariable,
+                    fieldVariables: fieldVariables,
+                    onEditFieldVariable: onEditFieldVariable,
+                    selectedFieldOption: selectedFieldOption,
+                    // selectFieldOption: selectFieldOption,
+                    templateToUseForVariableOption: templateToUseForVariableOption,
+                    onEditVariableOption: onEditVariableOption,
+                    onDeleteVariableOption: onDeleteVariableOption,
+                    onAddFieldOption: onAddFieldOption,
                 };
                 //#endregion
             })()

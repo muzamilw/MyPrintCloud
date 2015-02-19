@@ -133,6 +133,7 @@ namespace MPC.Models.DomainModels
         public long? OrganisationId { get; set; }
         public int? DeliveryType { get; set; }
         public string DeliveryServiceType { get; set; }
+        public long? CarrierId { get; set; }
 
         public virtual CostCentreType CostCentreType { get; set; }
         public virtual ICollection<SectionCostcentre> SectionCostcentres { get; set; }

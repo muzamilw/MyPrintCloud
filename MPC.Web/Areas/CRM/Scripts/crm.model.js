@@ -1676,6 +1676,221 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // #endregion ______________ MediaLibrary _________________
 
+    // #region ______________  C O M P A N Y    T E R R I T O R Y    ______
+
+    // ReSharper disable once InconsistentNaming
+    var CompanyTerritory = function (specifiedTerritoryId, specifiedTerritoryName, specifiedCompanyId, specifiedTerritoryCode, specifiedisDefault) {
+
+        var self,
+            territoryId = ko.observable(specifiedTerritoryId),
+            territoryName = ko.observable(specifiedTerritoryName).extend({ required: true }),
+            companyId = ko.observable(specifiedCompanyId),
+            territoryCode = ko.observable(specifiedTerritoryCode).extend({ required: true }),
+            isDefault = ko.observable(specifiedisDefault),
+            // Errors
+            errors = ko.validation.group({
+                territoryName: territoryName,
+                territoryCode: territoryCode
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                territoryId: territoryId,
+                territoryName: territoryName,
+                companyId: companyId,
+                territoryCode: territoryCode,
+                isDefault: isDefault
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function () {
+                return {
+                    TerritoryId: territoryId(),
+                    TerritoryName: territoryName(),
+                    CompanyId: companyId(),
+                    TerritoryCode: territoryCode(),
+                    isDefault: isDefault()
+                }
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            territoryId: territoryId,
+            territoryName: territoryName,
+            companyId: companyId,
+            territoryCode: territoryCode,
+            isDefault: isDefault,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    CompanyTerritory.CreateFromClientModel = function (source) {
+        return new CompanyTerritory(
+            source.territoryId,
+            source.territoryName,
+            source.companyId,
+            source.territoryCode,
+            source.isDefault
+        );
+    };
+    CompanyTerritory.Create = function (source) {
+        var companyTerritory = new CompanyTerritory(
+            source.TerritoryId,
+            source.TerritoryName,
+            source.CompanyId,
+            source.TerritoryCode,
+            source.isDefault
+        );
+        return companyTerritory;
+    };
+
+    // #endregion ______________  C O M P A N Y    T E R R I T O R Y    _________________
+
+    // #region __________________  R O L E   ______________________
+
+    // ReSharper disable once InconsistentNaming
+    var Role = function (specifiedRoleId, specifiedRoleName) {
+
+        var self,
+            roleId = ko.observable(specifiedRoleId),
+            roleName = ko.observable(specifiedRoleName),            // Errors
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                roleId: roleId,
+                roleName: roleName,
+
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function () {
+                return {
+                    RoleId: roleId(),
+                    RoleName: roleName()
+                };
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            roleId: roleId,
+            roleName: roleName,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    Role.CreateFromClientModel = function (source) {
+        return new Role(
+            source.roleId,
+            source.rolesName
+            );
+    };
+    Role.Create = function (source) {
+        var role = new Role(
+            source.ContactRoleId,
+            source.ContactRoleName
+            );
+        return role;
+    };
+    // #endregion __________________  R O L E   ______________________
+
+    // #region __________________  R E G I S  T R A T I O N   Q U E S T I O N  ______________________
+
+    // ReSharper disable once InconsistentNaming
+    var RegistrationQuestion = function (specifiedQuestionId, specifiedQuestion) {
+
+        var self,
+            questionId = ko.observable(specifiedQuestionId),
+            question = ko.observable(specifiedQuestion),            // Errors
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                questionId: questionId,
+                question: question,
+
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function () {
+                return {
+                    QuestionId: questionId(),
+                    Question: question()
+                };
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            questionId: questionId,
+            question: question,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    RegistrationQuestion.CreateFromClientModel = function (source) {
+        return new RegistrationQuestion(
+            source.questionId,
+            source.question
+            );
+    };
+    RegistrationQuestion.Create = function (source) {
+        var registrationQuestion = new RegistrationQuestion(
+            source.QuestionId,
+            source.Question
+            );
+        return registrationQuestion;
+    };
+    // #endregion __________________  R E G I S  T R A T I O N   Q U E S T I O N  ______________________
+
 
     return {
         customerViewListModel: customerViewListModel,
@@ -1684,6 +1899,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         CompanyContact: CompanyContact,
         SystemUser: SystemUser,
         Store: Store,
-        MediaLibrary: MediaLibrary
+        MediaLibrary: MediaLibrary,
+        CompanyTerritory: CompanyTerritory,
+        Role: Role,
+        RegistrationQuestion: RegistrationQuestion
     };
 });

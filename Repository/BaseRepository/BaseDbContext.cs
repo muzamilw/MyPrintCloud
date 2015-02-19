@@ -203,6 +203,7 @@ namespace MPC.Repository.BaseRepository
         /// </summary>
         public DbSet<Template> Templates { get; set; }
 
+        public DbSet<Status> Statuses { get; set; }
         /// <summary>
         /// Get Minimum Product Value
         /// </summary>
@@ -546,6 +547,11 @@ namespace MPC.Repository.BaseRepository
         /// Smart Form Detail DbSet
         /// </summary>
         public DbSet<SmartFormDetail> SmartFormDetails { get; set; }
+
+        /// <summary>
+        /// Delivery Carrier DbSet
+        /// </summary>
+        public DbSet<DeliveryCarrier> DeliveryCarriers { get; set; }
 
         /// <summary>
         /// Clone Template Stored Procedure

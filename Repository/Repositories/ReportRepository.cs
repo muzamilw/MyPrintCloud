@@ -33,9 +33,21 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return db.Reports.ToList();
+                return db.Reports.Where(o => o.OrganisationId == OrganisationID).ToList();
             }
             catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<ReportNote> GetReportNotesByOrganisationID(long OrganisationID)
+        {
+            try
+            {
+                return db.ReportNotes.Where(c => c.OrganisationId == OrganisationID).ToList();
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
