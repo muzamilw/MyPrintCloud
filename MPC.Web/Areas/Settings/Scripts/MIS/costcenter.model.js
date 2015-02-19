@@ -468,7 +468,9 @@
         oCostCenter.thumbnailImageUrl(source.ThumbnailImageURL);
         oCostCenter.deliveryCharges(source.DeliveryCharges);
         oCostCenter.xeroAccessCode(source.XeroAccessCode);
-        oCostCenter.organisationId(source.OrganisationId);       
+        oCostCenter.organisationId(source.OrganisationId);
+        oCostCenter.deliveryServiceType(source.DeliveryServiceType);
+        oCostCenter.serviceTypesList(ServiceTypesList());
         _.each(source.CostcentreInstructions, function (item) {
             oCostCenter.costCenterInstructions.push(costCenterInstruction.Create(item));
         });
