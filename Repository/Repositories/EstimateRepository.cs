@@ -24,7 +24,7 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Item Orderby clause
         /// </summary>
-        private readonly Dictionary<OrderByColumn, Func<Estimate, object>> orderOrderByClause =
+        private readonly Dictionary<OrderByColumn, Func<Estimate, object>> orderByClause =
             new Dictionary<OrderByColumn, Func<Estimate, object>>
                     {
                          { OrderByColumn.CompanyName, c => c.Company != null ? c.Company.Name : string.Empty },
@@ -84,12 +84,12 @@ namespace MPC.Repository.Repositories
 
             IEnumerable<Estimate> items = request.IsAsc
                ? DbSet.Where(query)
-                   .OrderBy(orderOrderByClause[request.ItemOrderBy])
+                   .OrderBy(orderByClause[request.ItemOrderBy])
                    .Skip(fromRow)
                    .Take(toRow)
                    .ToList()
                : DbSet.Where(query)
-                   .OrderByDescending(orderOrderByClause[request.ItemOrderBy])
+                   .OrderByDescending(orderByClause[request.ItemOrderBy])
                    .Skip(fromRow)
                    .Take(toRow)
                    .ToList();
@@ -111,6 +111,38 @@ namespace MPC.Repository.Repositories
                 TotalEarnings = DbSet.Where(order => order.OrganisationId == OrganisationId).Sum(estimate =>estimate.Estimate_Total ),
                 CurrentMonthOdersCount = DbSet.Count(order => order.OrganisationId == OrganisationId && order.Order_Date.HasValue && 
                     order.isEstimate == false && DateTime.Now.Month == order.Order_Date.Value.Month)
+            };
+        }
+
+        /// <summary>
+        /// Gets list of Orders for company edit tab
+        /// </summary>
+        public OrdersForCrmResponse GetOrdersForCrm(GetOrdersRequest request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+
+            Expression<Func<Estimate, bool>> query =
+                item =>
+                    (item.isEstimate.HasValue && !item.isEstimate.Value) &&
+                    item.CompanyId == request.CompanyId;
+        
+
+            IEnumerable<Estimate> items = request.IsAsc
+               ? DbSet.Where(query)
+                   .OrderBy(orderByClause[request.ItemOrderBy])
+                   .Skip(fromRow)
+                   .Take(toRow)
+                   .ToList()
+               : DbSet.Where(query)
+                   .OrderByDescending(orderByClause[request.ItemOrderBy])
+                   .Skip(fromRow)
+                   .Take(toRow)
+                   .ToList();
+            return new OrdersForCrmResponse
+            {
+                RowCount = DbSet.Count(query),
+                Orders = items
             };
         }
 

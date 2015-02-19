@@ -14,11 +14,14 @@ define("crm/crm.viewModel",
                     searchFilter = ko.observable(),
                     // Pager for pagging
                     pager = ko.observable(),
+                    orderPager = ko.observable(),
                     // Sort On
                     sortOn = ko.observable(1),
                     // Sort In Ascending
                     sortIsAsc = ko.observable(true),
-
+                     // Orders list
+                    ordersList = ko.observableArray(),
+                    isOrderTab = ko.observable(false),
                     isEditorVisible = ko.observable(false),
                     //Selected Store
                     selectedStore = ko.observable(),
@@ -990,6 +993,7 @@ define("crm/crm.viewModel",
                 //Close Edit Dialog
                 closeEditDialog = function () {
                     isEditorVisible(false);
+                    isOrderTab(false);
                 },
 
                 //Get Store For Editting
@@ -1283,6 +1287,43 @@ define("crm/crm.viewModel",
                 },
                 //#endregion
 
+                 //#region ___________ ORDERS TAB ____________
+                   ordersTabClickHandler = function (data) {
+                       if (isOrderTab()) {
+                           return;
+                       }
+                       isOrderTab(true);
+                       orderPager().reset();
+                       getDataForOrderTab(data);
+                   },
+                    // Gets customers for list view
+                getDataForOrderTab = function () {
+                    dataservice.getOrdersData({
+                        CompanyId: selectedStore().companyId(),
+                        PageSize: orderPager().pageSize(),
+                        PageNo: orderPager().currentPage(),
+                        SortBy: sortOn(),
+                        IsAsc: sortIsAsc()
+                    },
+                    {
+                        success: function (data) {
+                            if (data != null) {
+                                ordersList.removeAll();
+                                orderPager().totalCount(data.RowCount);
+                                _.each(data.OrdersList, function (order) {
+                                    var newOrder= new model.Estimate.Create(order);
+                                    ordersList.push(newOrder);
+                                });
+                            }
+                        },
+                        error: function () {
+                            toastr.error("Error: Failed To load Customers!");
+                        }
+                    });
+                },
+
+                //#endregion
+
                 //#region ____________ INITIALIZE ____________
                initialize = function (specifiedView) {
                    view = specifiedView;
@@ -1295,6 +1336,8 @@ define("crm/crm.viewModel",
                        supplierpager(new pagination.Pagination({ PageSize: 5 }, suppliers, getSuppliers));
                        getSuppliers();
                    }
+
+                   orderPager(new pagination.Pagination({ PageSize: 5 }, ordersList, getDataForOrderTab));
                    getBaseDataFornewCompany();
                   
                };
@@ -1383,7 +1426,11 @@ define("crm/crm.viewModel",
                     errorList: errorList,
                     saveStore: saveStore,
                     resetObservableArrays: resetObservableArrays,
-                    gotoElement: gotoElement
+                    gotoElement: gotoElement,
+                    ordersTabClickHandler: ordersTabClickHandler,
+                    ordersList: ordersList,
+                    isOrderTab: isOrderTab,
+                    orderPager: orderPager
                 };
                 //#endregion
             })()
