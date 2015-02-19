@@ -42,6 +42,12 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to get Suppliers
+                    amplify.request.define('getSuppliers', 'ajax', {
+                        url: ist.siteUrl + '/Api/CrmSupplier',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                 };
             },
             // get Customer list of list view
@@ -103,14 +109,25 @@
                     error: callbacks.error,
                     data: param
                 });
-            };
+            },
+            // get Suppliers
+	        getSuppliers = function (params, callbacks) {
+	            initialize();
+	            return amplify.request({
+	                resourceId: 'getSuppliers',
+	                success: callbacks.success,
+	                error: callbacks.error,
+	                data: params
+	            });
+	        };
         return {
             getCustomersForListView: getCustomersForListView,
             getStoreById: getStoreById,
             searchAddress: searchAddress,
             searchCompanyContact: searchCompanyContact,
             getBaseData: getBaseData,
-            saveStore: saveStore
+            saveStore: saveStore,
+            getSuppliers: getSuppliers
         };
     })();
 

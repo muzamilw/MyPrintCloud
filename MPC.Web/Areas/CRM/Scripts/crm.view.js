@@ -5,7 +5,8 @@ define("crm/crm.view",
     ["jquery", "crm/crm.viewModel"], function ($, crmViewModel) {
 
         var ist = window.ist || {};
-
+        //Setting flag to false, it indicates that current screen is Suppliers
+        crmViewModel.isProspectOrCustomerScreen(true);
         // View 
         ist.crm.view = (function (specifiedViewModel) {
             var // View model 
