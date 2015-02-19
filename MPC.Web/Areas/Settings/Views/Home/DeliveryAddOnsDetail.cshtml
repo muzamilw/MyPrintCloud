@@ -239,12 +239,14 @@
                                                     </div>
 
                                                     <div class="col-lg-7">
-                                                        <select class="form-control" id="ddCarrier">
-                                                            <option>CMYK Hub </option>
-                                                            <option>Jasco</option>
-                                                            <option>Kodak</option>
-                                                        </select>
+                                                       
+                                                       
+
+                                                        <select class="form-control" data-bind="options:$root.deliveryCarriers, optionsText:'CarrierName',optionsValue:'CarrierId', value: carrierId"></select>
+                                                        <!-- ko if: carrierId() == 1 -->
+                                                        
                                                         <select class="form-control" data-bind="options:serviceTypesList, optionsText:'name',optionsValue:'name' ,value:deliveryServiceType"></select>
+                                                        <!-- /ko -->
                                                     </div>
 
                                                 </div>

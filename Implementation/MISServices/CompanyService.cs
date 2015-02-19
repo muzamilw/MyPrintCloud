@@ -962,6 +962,8 @@ namespace MPC.Implementation.MISServices
                 {
                     File.WriteAllBytes(savePath, data);
                 }
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
                 return savePath;
             }
             return null;
@@ -1024,6 +1026,8 @@ namespace MPC.Implementation.MISServices
                                     companyDbVersion.MediaLibraries.FirstOrDefault(m => m.MediaId == item.MediaId);
                                 if (mediaLibraryDbVersion != null)
                                 {
+                                    int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                                    savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
                                     mediaLibraryDbVersion.FilePath = savePath;
                                 }
                             }
@@ -1181,8 +1185,10 @@ namespace MPC.Implementation.MISServices
                 {
                     File.Delete(savePath);
                 }
-
+                
                 File.WriteAllBytes(savePath, data);
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
                 companyDbVersion.StoreBackgroundImage = savePath;
             }
         }
@@ -2011,6 +2017,8 @@ namespace MPC.Implementation.MISServices
                     File.Delete(savePath);
                 }
                 File.WriteAllBytes(savePath, data);
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
                 return savePath;
             }
             return null;
@@ -2034,6 +2042,8 @@ namespace MPC.Implementation.MISServices
                 }
                 string savePath = directoryPath + "\\" + companyContact.ContactId + "_profile" + ".png";
                 File.WriteAllBytes(savePath, data);
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
                 return savePath;
             }
             return null;
@@ -2054,7 +2064,8 @@ namespace MPC.Implementation.MISServices
                 }
                 string savePath = directoryPath + "\\logo.png";
                 File.WriteAllBytes(savePath, data);
-
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
                 return savePath;
             }
             return null;
@@ -2613,18 +2624,10 @@ namespace MPC.Implementation.MISServices
                 // Delivery carriers structure is not defined yet
 
 
-                // reports table not added
-                //  Reports = ReportRepository.GetReportsByOrganisationID(OrganisationID);
+                // reports 
+                ObjExportOrg.Reports = ReportRepository.GetReportsByOrganisationID(OrganisationID);
 
-                // report notes
-                //if(Reports != null && Reports.Count > 0)
-                //{
-                //    foreach(var rpt in Reports)
-                //    {
-                //        if(rpt.report)
-                //    }
-                //}
-
+                ObjExportOrg.ReportNote = ReportRepository.GetReportNotesByOrganisationID(OrganisationID);
 
                 // get prefixes based on organisationID
                 ObjExportOrg.Prefixes = prefixRepository.GetPrefixesByOrganisationID(OrganisationID);
@@ -2668,7 +2671,7 @@ namespace MPC.Implementation.MISServices
                 // Comapny Entities
 
                 // Set CompanyData
-                long CompanyID = 1707; // Later it will be changes
+                long CompanyID = 2165; // Later it will be changes
 
                 // Company Company = new Models.DomainModels.Company();
                 // Company = companyRepository.GetStoreByStoreId(CompanyID);
@@ -2880,13 +2883,16 @@ namespace MPC.Implementation.MISServices
                     // Add all files in directory
                     string FolderPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Resources/" + OrganisationID;
                     DPath = "/MPC_Content/Resources/" + OrganisationID;
-                    foreach (var file in Directory.EnumerateFiles(FolderPath))
+                     if (Directory.Exists(FolderPath))
                     {
-                        ZipEntry r = zip.AddFile(file, DPath);
-                        r.Comment = "Language File for an organisation";
+                        foreach (string item in System.IO.Directory.GetFiles(FolderPath))
+                        {
+
+                            ZipEntry r = zip.AddFile(item, DPath);
+                            r.Comment = "Language File for an organisation";
+
+                        }
                     }
-
-
 
                     // export MIS logo in Organisation
                     if (organisation != null)
@@ -2939,7 +2945,24 @@ namespace MPC.Implementation.MISServices
                     }
 
                     //// export report banner
+                   if(ObjExportOrg.ReportNote != null && ObjExportOrg.ReportNote.Count > 0)
+                   {
 
+                       foreach (var report in ObjExportOrg.ReportNote)
+                       {
+                           if (report.ReportBanner != null)
+                           {
+                               //string FilePath = HttpContext.Current.Server.MapPath(report.ReportBanner);
+                               //DPath = "/Media/" + OrganisationID + "/" + CompanyID;
+                               //if (File.Exists(FilePath))
+                               //{
+                               //    ZipEntry r = zip.AddFile(FilePath, DPath);
+                               //    r.Comment = "Media Files for Store";
+
+                               //}
+                           }
+                       }
+                   }
                     //// export company Logo
                     if (ObjExportOrg.Company != null)
                     {

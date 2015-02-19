@@ -99,6 +99,7 @@
             costCenterInstructions = ko.observableArray([]),
             serviceTypesList = ko.observableArray([]),
             deliveryServiceType = ko.observable(),
+            carrierId = ko.observable(),
             errors = ko.validation.group({
                 name: name,
                 type: type,
@@ -147,7 +148,8 @@
                 strCostLabourUnParsed: strCostLabourUnParsed,
                 strPriceLabourUnParsed: strPriceLabourUnParsed,
                 strActualCostLabourUnParsed: strActualCostLabourUnParsed,
-                strTimeUnParsed: strTimeUnParsed
+                strTimeUnParsed: strTimeUnParsed,
+                carrierId: carrierId
 
             }),
             hasChanges = ko.computed(function() {
@@ -258,7 +260,8 @@
             hasChanges: hasChanges,
             reset: reset,
             serviceTypesList: serviceTypesList,
-            deliveryServiceType: deliveryServiceType
+            deliveryServiceType: deliveryServiceType,
+            carrierId: carrierId
         };
         return self;
     };
@@ -468,7 +471,11 @@
         oCostCenter.thumbnailImageUrl(source.ThumbnailImageURL);
         oCostCenter.deliveryCharges(source.DeliveryCharges);
         oCostCenter.xeroAccessCode(source.XeroAccessCode);
-        oCostCenter.organisationId(source.OrganisationId);       
+        oCostCenter.organisationId(source.OrganisationId);
+        oCostCenter.deliveryServiceType(source.DeliveryServiceType);
+        oCostCenter.carrierId(source.CarrierId);
+        
+        oCostCenter.serviceTypesList(ServiceTypesList());
         _.each(source.CostcentreInstructions, function (item) {
             oCostCenter.costCenterInstructions.push(costCenterInstruction.Create(item));
         });
@@ -606,6 +613,7 @@
         result.DeliveryCharges = source.deliveryCharges();
         result.XeroAccessCode = source.xeroAccessCode();
         result.OrganisationId = source.organisationId();
+        result.CarrierId = source.carrierId();
         result.DeliveryServiceType = source.deliveryServiceType();
         
         return result;

@@ -74,6 +74,8 @@ define("order/order.viewModel",
 
                         return contactResult || defaultCompanyContact();
                     }),
+                    // Selected Product
+                    selectedProduct = ko.observable(),
                     // #endregion
                     // #region Utility Functions
                     // Create New Order
@@ -135,6 +137,27 @@ define("order/order.viewModel",
                         
                         // Get Company Address and Contacts
                         getBaseForCompany(company.id);
+                    },
+                    // Add Item
+                    addItem = function() {
+                        // Open Product Selector Dialog
+                    },
+                    // Edit Item
+                    editItem = function(item) {
+                        selectedProduct(item);
+                        openItemDetail();
+                    },
+                    // Open Item Detail
+                    openItemDetail = function() {
+                        view.showItemDetailDialog();
+                    },
+                    // Close Item Detail
+                    closeItemDetail = function() {
+                        view.hideItemDetailDialog();
+                    },
+                    // Save Product
+                    saveProduct = function() {
+                            
                     },
                     // Initialize the view model
                     initialize = function (specifiedView) {
@@ -410,6 +433,7 @@ define("order/order.viewModel",
                     sectionFlags: sectionFlags,
                     systemUsers: systemUsers,
                     pipelineSources: pipelineSources,
+                    selectedProduct: selectedProduct,
                     // Observables
                     // Utility Methods
                     initialize: initialize,
@@ -422,7 +446,12 @@ define("order/order.viewModel",
                     onArchiveOrder: onArchiveOrder,
                     gotoElement: gotoElement,
                     onCloneOrder: onCloneOrder,
-                    openCompanyDialog: openCompanyDialog
+                    openCompanyDialog: openCompanyDialog,
+                    closeItemDetail: closeItemDetail,
+                    openItemDetail: openItemDetail,
+                    addItem: addItem,
+                    editItem: editItem,
+                    saveProduct: saveProduct
                     // Utility Methods
                 };
             })()

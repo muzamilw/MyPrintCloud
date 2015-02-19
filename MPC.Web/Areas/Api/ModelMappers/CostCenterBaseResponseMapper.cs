@@ -23,7 +23,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 NominalCodes = source.NominalCodes != null ? source.NominalCodes.Select(o => o.CreateFrom()) : new  List<ChartOfAccount>(),
                 CostCenterCategories = source.CostCenterCategories != null ? source.CostCenterCategories.Select(c => c.CreateFrom()) : new List<CostCentreType>(),
                 CostCentreVariables = source.CostCentreVariables != null? source.CostCentreVariables.Select(c => c.CreateFrom()): new List<CostCentreVariable>(),
-                CalculationTypes = calType
+                CalculationTypes = calType,
+                DeliveryCarriers= source.DeliveryCarriers.Select(s=>s.CreateFrom())
                 
             };
 
