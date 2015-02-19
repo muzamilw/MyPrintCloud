@@ -3,3 +3,6 @@
   font-size: 15px;
   color: red;
 }
+#orderBinding #orderItemDetailDialog {
+  width: 1200px;
+}

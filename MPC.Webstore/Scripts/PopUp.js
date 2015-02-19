@@ -507,8 +507,15 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
       
         var jsonObjects = JSON.stringify(CcQueueItems, null, 2);
         var populatedQueuItems = $("#costCentreQueueItems").val();
-        populatedQueuItems = populatedQueuItems + jsonObjects;
-        $("#costCentreQueueItems").val(populatedQueuItems);
+      
+        if (populatedQueuItems != "null") {
+            populatedQueuItems = populatedQueuItems + jsonObjects;
+            $("#costCentreQueueItems").val(populatedQueuItems);
+        }
+        else {
+            populatedQueuItems = jsonObjects;
+            $("#costCentreQueueItems").val(populatedQueuItems);
+        }
         
         var to;
         to = "/webstoreapi/costCenter/GetDateTimeString?parameter1=" + CostCentreId + "&parameter2=" + ClonedItemId + "&parameter3=" + $("#VMQuantityOrdered").val() + "&parameter4=New";

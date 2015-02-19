@@ -962,6 +962,8 @@ namespace MPC.Implementation.MISServices
                 {
                     File.WriteAllBytes(savePath, data);
                 }
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
                 return savePath;
             }
             return null;
@@ -1024,6 +1026,8 @@ namespace MPC.Implementation.MISServices
                                     companyDbVersion.MediaLibraries.FirstOrDefault(m => m.MediaId == item.MediaId);
                                 if (mediaLibraryDbVersion != null)
                                 {
+                                    int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                                    savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
                                     mediaLibraryDbVersion.FilePath = savePath;
                                 }
                             }
@@ -1181,8 +1185,10 @@ namespace MPC.Implementation.MISServices
                 {
                     File.Delete(savePath);
                 }
-
+                
                 File.WriteAllBytes(savePath, data);
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
                 companyDbVersion.StoreBackgroundImage = savePath;
             }
         }
@@ -2011,6 +2017,8 @@ namespace MPC.Implementation.MISServices
                     File.Delete(savePath);
                 }
                 File.WriteAllBytes(savePath, data);
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
                 return savePath;
             }
             return null;
@@ -2034,6 +2042,8 @@ namespace MPC.Implementation.MISServices
                 }
                 string savePath = directoryPath + "\\" + companyContact.ContactId + "_profile" + ".png";
                 File.WriteAllBytes(savePath, data);
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
                 return savePath;
             }
             return null;
@@ -2054,7 +2064,8 @@ namespace MPC.Implementation.MISServices
                 }
                 string savePath = directoryPath + "\\logo.png";
                 File.WriteAllBytes(savePath, data);
-
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
                 return savePath;
             }
             return null;

@@ -42,6 +42,14 @@ define("order/order.view",
                 hideItemDetailDialog = function () {
                     $("#orderItemDetailDialog").modal('hide');
                 },
+                // Show Section Detail Dialog
+                showSectionDetailDialog = function () {
+                    $("#orderSectionDetailDialog").modal('show');
+                },
+                // Hide Section Detail Dialog
+                hideSectionDetailDialog = function () {
+                    $("#orderSectionDetailDialog").modal('hide');
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -56,7 +64,9 @@ define("order/order.view",
                 viewModel: viewModel,
                 gotoElement: gotoElement,
                 showItemDetailDialog: showItemDetailDialog,
-                hideItemDetailDialog: hideItemDetailDialog
+                hideItemDetailDialog: hideItemDetailDialog,
+                showSectionDetailDialog: showSectionDetailDialog,
+                hideSectionDetailDialog: hideSectionDetailDialog
             };
         })(orderViewModel);
 

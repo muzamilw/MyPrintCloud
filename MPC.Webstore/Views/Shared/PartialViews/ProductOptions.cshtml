@@ -87,9 +87,9 @@
                                             <img class="RfgImgCs" src=@Html.GetAppBasePath()@costcenter.AddOnImage />
                                         </div>
                                         <div class="extra_item float_left_simple">
-                                            
+
                                             <input id="@costcenter.ProductAddOnID" type="checkbox" name="addOnChecks" class="checkBoxAdOnPriceCheckBox backgroundIMg" />
-                                           
+
                                             <label class="margin5 colorBlack">@costcenter.AddOnName</label>
                                             <div class="extra_pricing float_right">
                                                 @if (costcenter.Type != 4)
@@ -276,7 +276,7 @@
 
                             }
 
-                    </select>
+                        </select>
                     }
 
                 </div>
@@ -297,18 +297,18 @@
                     <label id="lbl_Total" class="float_left_simple">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTotalHeadingText", UserCookieManager.StoreId))</label>
                     @if (MPC.Webstore.Common.UserCookieManager.isIncludeTax == true)
                     {
-                        @*<label id="lblTaxLabel" class="Fsize13 float_right marginLeft">inc. VAT</label>*@<label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label>
+                        @*<label id="lblTaxLabel" class="Fsize13 float_right marginLeft">inc. VAT</label>*@<label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label>
                     }
                     else
                     {
-                        @*<label id="lblTaxLabel" class="Fsize13 float_right marginLeft">ex. VAT</label>*@<label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label>
+                        @*<label id="lblTaxLabel" class="Fsize13 float_right marginLeft">ex. VAT</label>*@<label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label>
                     }
                     <label id="lblGrossTotal" class="float_right">@ViewBag.Currency 0.00</label>
                 </div>
                 @if (ViewBag.IsStockControl == true)
                 {
 
-                    if (ViewBag.ItemStock = 0)
+                    if (ViewBag.ItemStock == 0)
                     { <div class="InStockContainer" style="background:red; color:white;">
                         @if (ViewBag.isAllowBackOrder ?? false) // back ordering allowed
                         {
@@ -370,7 +370,8 @@
                         <div class="confirm_design divtxtalgn MLR">
                             <label id="lbl_Quantity">@Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.StoreId))</label>
                         </div>
-                        <br />}
+                        <br />
+                    }
                     <div class="width50p">
                         @if (ViewBag.Item.IsQtyRanged == true)
                         {
@@ -1181,7 +1182,8 @@
                         if($(val).next().next().children(':first').text() == ""){
 
                         }else{
-
+                            alert("update");
+                            PromptForValues(selectedCheckBox.CostCenterId, $(val).attr('id'), 2);
                             checkedPriceTotal = checkedPriceTotal + parseFloat($(val).next().next().children(':first').text().replace("@ViewBag.Currency", ""));
                         }
 
@@ -1255,7 +1257,7 @@
                 // check the costcenter if its type is fixed then we will take its setup cost
                 //if it is per quantity type then we will (qty * priceperunitqty) + setupcost
                 var actualPrice = selectedCheckBox.ActualPrice;
-                alert(selectedCheckBox.isChecked);
+
                 if (selectedCheckBox.Type == 2) {
 
                     actualPrice = (orderedQuantity * actualPrice) + selectedCheckBox.SetupCost;
@@ -1267,78 +1269,74 @@
                     actualPrice = "@ViewBag.Currency" + (actualPrice).toFixed(2).toString();
                     $(val).next().next().children(':first').html(actualPrice);
 
-
+                    if(selectedCheckBox.isChecked == true){
+                        $(val).click();
+                    }
                 }
                 else if(selectedCheckBox.Type == 4){
                     if(selectedCheckBox.isChecked == true){
                         $(val).next().next().html('<label>' + "@ViewBag.Currency" + selectedCheckBox.ActualPrice + '</label>' + '<a onclick="PromptForValues(' + selectedCheckBox.CostCenterId + ',' + $(val).attr('id') + ', 1);" >Modify</a> ');
-
-                    }
-                    $(val).attr('onclick', 'PromptForValues('+ selectedCheckBox.CostCenterId +', '+ $(val).attr('id') +', \"New\");');
-                }
-
-                if("@ViewBag.Mode" == "Modify"){
-                    if(selectedCheckBox.isChecked == true){
                         $(val).click();
                     }
-                    console.log(@ViewBag.CostCentreQueueItems);
-                    $("#costCentreQueueItems").val(@ViewBag.CostCentreQueueItems);
+                        $(val).attr('onclick', 'PromptForValues('+ selectedCheckBox.CostCenterId +', '+ $(val).attr('id') +', \"New\");');
+
+                        $("#costCentreQueueItems").val(JSON.stringify(@Html.Raw(Json.Encode(ViewBag.CostCentreQueueItems))));
+                  
                 }
 
-
-            }
-        });
-
-        selectedCheckBox = null;
-    }
-
-    function ShowArtworkPanel() {
-        var panelHtml = $("#pnlArtworkUploader").html();
-        ShowArtWorkPopup("Upload Your Artwork", panelHtml);
-    }
-
-    function LoadCostCentersByStockId(StockId) {
-
-        $(".CostCenterItems").each(function (i, val) {
-            if (StockId == $(val).attr('data-StockId')) {
-                $(val).css("display", "block");
-
-            } else {
-
-                $(val).css("display", "none");
-
-                if ($(val).children().next().children().is(':checked')) {
-                    $(val).children().next().children().click();
-
                 }
+            });
+        
+            selectedCheckBox = null;
+        }
+
+        function ShowArtworkPanel() {
+            var panelHtml = $("#pnlArtworkUploader").html();
+            ShowArtWorkPopup("Upload Your Artwork", panelHtml);
+        }
+
+        function LoadCostCentersByStockId(StockId) {
+
+            $(".CostCenterItems").each(function (i, val) {
+                if (StockId == $(val).attr('data-StockId')) {
+                    $(val).css("display", "block");
+
+                } else {
+
+                    $(val).css("display", "none");
+
+                    if ($(val).children().next().children().is(':checked')) {
+                        $(val).children().next().children().click();
+
+                    }
+                }
+            });
+        }
+
+        function openDailog() {
+
+            var files = $("#imageUploader").get(0).files;
+            var sideOFImage = $("#uploadedImageSide").val();
+            if(sideOFImage == 0)
+            {
+                sideOFImage = 1;
+                $("#uploadedImageSide").val(1);
             }
-        });
-    }
-
-    function openDailog() {
-
-        var files = $("#imageUploader").get(0).files;
-        var sideOFImage = $("#uploadedImageSide").val();
-        if(sideOFImage == 0)
-        {
-            sideOFImage = 1;
-            $("#uploadedImageSide").val(1);
-        }
-        else
-        {
-            sideOFImage = parseInt(sideOFImage) + 1;
-            $("#uploadedImageSide").val(sideOFImage);
-        }
-        var name1 = files[0].name.replace(/C:\\fakepath\\/i, '');
-        var fileExtension = name1.replace(/^.*\./, '');
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth(); //January is 0!
-        var yyyy = today.getFullYear();
-        var monthNames = ["January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"];
-        var FileName = yyyy + monthNames[mm] + dd;
-        FileName = FileName.concat("-", '@ViewBag.ClonedItem.ProductCode', "-", '@ViewBag.Order.Order_Code', "-", '@ViewBag.ClonedItem.ItemCode', "-", '' + sideOFImage);
+            else
+            {
+                sideOFImage = parseInt(sideOFImage) + 1;
+                $("#uploadedImageSide").val(sideOFImage);
+            }
+            var name1 = files[0].name.replace(/C:\\fakepath\\/i, '');
+            var fileExtension = name1.replace(/^.*\./, '');
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth(); //January is 0!
+            var yyyy = today.getFullYear();
+            var monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"];
+            var FileName = yyyy + monthNames[mm] + dd;
+            FileName = FileName.concat("-", '@ViewBag.ClonedItem.ProductCode', "-", '@ViewBag.Order.Order_Code', "-", '@ViewBag.ClonedItem.ItemCode', "-", '' + sideOFImage);
         var url = "/mpc_content/Attachments/";
         url = url.concat('@UserCookieManager.OrganisationID', "/", '@UserCookieManager.StoreId', "/Products/", @ViewBag.ClonedItem.ItemId);
 
@@ -1394,9 +1392,61 @@
 
         var quantityOrdered = $("#VMQuantityOrdered").val() == "" ? null : $("#VMQuantityOrdered").val();
         if($("#" + ControlId).is(':checked')) {
-            if(Mode == 1){
+            if(Mode == 2){
                 ShowLoader();
+                var to;
+                to = "/webstoreapi/costCenter/GetDateTimeString?parameter1=" + CostCentreId + "&parameter2=" + @ViewBag.ClonedItem.ItemId + "&parameter3=" + quantityOrdered + "&parameter4=Update";
+                var options = {
+                    type: "POST",
+                    url: to,
+                    data: $("#costCentreQueueItems").val(),
+                    contentType: "application/json",
+                    async: true,
+                    success: function (response) {
+                        alert(response);
+                        if(response != ""){
+                            var updatedAddOns = jQuery.parseJSON($('#VMJsonAddOns').val());
+                            alert($(updatedAddOns).length);
+                            if (updatedAddOns != null) {
+                                alert($(updatedAddOns).length);
+                                for (var i = 0; i < $(updatedAddOns).length; i++) {
+                                    if ($(updatedAddOns)[i].CostCenterId == 335) {
+                                        $(updatedAddOns)[i].ActualPrice = response;
+                                        $(updatedAddOns)[i].CostCentreJasonData = $("#costCentreQueueItems").val();
+                                        break;
+                                    }
+                                }
 
+                                var JsonToReSubmit = [];
+                                var totalVal = 0;
+                                for (var i = 0; i < $(updatedAddOns).length; i++) {
+                                    
+                                    JsonToReSubmit.push($(updatedAddOns)[i]);
+                                    if ($(updatedAddOns)[i].Type == 4) {
+                                        totalVal = parseFloat(totalVal) + parseFloat(response);
+                                    } else {
+                                        var actualP = ($("#VMQuantityOrdered").val() * $(updatedAddOns)[i].ActualPrice) + $(updatedAddOns)[i].SetupCost;
+                                        if (actualP < $(updatedAddOns)[i].MinimumCost && $(updatedAddOns)[i].MinimumCost != 0) {
+                                            actualP = $(updatedAddOns)[i].MinimumCost;
+                                        }
+                                        totalVal = parseFloat(totalVal) + parseFloat(actualP);
+                                    }
+                                    
+                                }
+                                displayTotalPrice(TotalItemPrice, totalVal);
+                                $("#" + ControlId).next().next().html('<label>' + Currency + response + '</label>' + '<a onclick="PromptForValues(' + CostCentreId + ',' + SelectedCostCentreCheckBoxId + ', 1);" >Modify</a> ');
+                       
+                                $("#VMJsonAddOns").val(JSON.stringify(JsonToReSubmit));
+                            }
+                        }
+                      
+                    },
+                    error: function (msg) { alert("Error occured "); console.log(msg); }
+                };
+                var returnText = $.ajax(options).responseText;
+                HideLoader();
+            }else if(Mode == 1){
+                ShowLoader();
                 var to;
                 to = "/webstoreapi/costCenter/GetDateTimeString?parameter1=" + CostCentreId + "&parameter2=" + @ViewBag.ClonedItem.ItemId + "&parameter3=" + quantityOrdered + "&parameter4=Modify";
                 var options = {
@@ -1426,5 +1476,5 @@
             }
         }
     }
-</script>
+    </script>
 }
