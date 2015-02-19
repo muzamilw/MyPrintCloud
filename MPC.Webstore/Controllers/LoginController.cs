@@ -117,46 +117,51 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index(AccountViewModel model)
         {
 
-
-
-            string returnUrl = string.Empty;
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
 
-            if (ModelState.IsValid)
-            {
-                CompanyContact user = null;
-                //MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
-                if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate))
-                {
-                    user = _myCompanyService.GetCorporateUserByEmailAndPassword(model.Email, model.Password, UserCookieManager.StoreId);
-                }
-                else
-                {
-                    user = _myCompanyService.GetRetailUser(model.Email, model.Password);
-                }
+            _CompanyService.ExportOrganisation(20);
+            return View();
 
-                StoreBaseResopnse = null;
-                if (user != null)
-                {
-                    if (model.KeepMeLoggedIn)
-                        UserCookieManager.isWritePresistentCookie = true;
-                    else
-                        UserCookieManager.isWritePresistentCookie = false;
-                    string ReturnURL = Request.Form["hfReturnURL"];
-                    return VerifyUser(user, returnUrl);
-                }
-                else
-                {
-                    ViewBag.Message = "Invalid login attempt.";
-                    return View("PartialViews/Login");
-                }
-            }
-            else
-            {
-                return View("PartialViews/Login");
-            }
+            //string returnUrl = string.Empty;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
+
+            //if (ModelState.IsValid)
+            //{
+            //    CompanyContact user = null;
+            //    //MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+            //    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            //    if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate))
+            //    {
+            //        user = _myCompanyService.GetCorporateUserByEmailAndPassword(model.Email, model.Password, UserCookieManager.StoreId);
+            //    }
+            //    else
+            //    {
+            //        user = _myCompanyService.GetRetailUser(model.Email, model.Password);
+            //    }
+
+            //    StoreBaseResopnse = null;
+            //    if (user != null)
+            //    {
+            //        if (model.KeepMeLoggedIn)
+            //            UserCookieManager.isWritePresistentCookie = true;
+            //        else
+            //            UserCookieManager.isWritePresistentCookie = false;
+            //        string ReturnURL = Request.Form["hfReturnURL"];
+            //        return VerifyUser(user, returnUrl);
+            //    }
+            //    else
+            //    {
+            //        ViewBag.Message = "Invalid login attempt.";
+            //        return View("PartialViews/Login");
+            //    }
+            //}
+            //else
+            //{
+            //    return View("PartialViews/Login");
+            //}
 
         }
 

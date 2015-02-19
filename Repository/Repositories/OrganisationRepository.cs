@@ -388,10 +388,151 @@ namespace MPC.Repository.Repositories
                     }
                 }
 
+                // import banners
+
+                if(objExpOrg.CompanyBannerSet != null && objExpOrg.CompanyBannerSet.Count > 0)
+                {
+                    foreach(var banSet in objExpOrg.CompanyBannerSet)
+                    {
+                        banSet.CompanyId = comp.CompanyId;
+                        banSet.CompanySetId = 0;
+                        banSet.OrganisationId = OrganisationID;
+                        db.CompanyBannerSets.Add(banSet);
+
+                        if(banSet.CompanyBanners != null && banSet.CompanyBanners.Count > 0)
+                        {
+                            foreach(var bann in banSet.CompanyBanners)
+                            {
+                                bann.CompanyBannerId = 0;
+                                bann.CompanySetId = banSet.CompanySetId;
+                                db.CompanyBanners.Add(bann);
+                            }
+                        }
+                        db.SaveChanges();
+                    }
+                }
+                // import secondary pages
+                if(objExpOrg.SecondaryPages != null && objExpOrg.SecondaryPages.Count > 0)
+                {
+                    foreach(var page in objExpOrg.SecondaryPages)
+                    {
+                        page.CompanyId = comp.CompanyId;
+                        page.OrganisationId = OrganisationID;
+                        db.CmsPages.Add(page);
 
 
+                    }
+                    db.SaveChanges();
+                }
+                    
+                // import rave reviews
+                if(objExpOrg.RaveReview != null && objExpOrg.RaveReview.Count > 0)
+                {
+                    foreach(var rave in objExpOrg.RaveReview)
+                    {
+                        rave.ReviewId = 0;
+                        rave.CompanyId = comp.CompanyId;
+                        rave.OrganisationId = OrganisationID;
+                        db.RaveReviews.Add(rave);
+                    }
+                    db.SaveChanges();
+                }
 
+                // import company territories
 
+                if (objExpOrg.CompanyTerritory != null && objExpOrg.CompanyTerritory.Count > 0)
+                {
+                    foreach (var territory in objExpOrg.CompanyTerritory)
+                    {
+                        territory.TerritoryId = 0;
+                        territory.CompanyId = comp.CompanyId;
+                        db.CompanyTerritories.Add(territory);
+                    }
+                    db.SaveChanges();
+                }
+                // import addresses
+                if (objExpOrg.Address != null && objExpOrg.Address.Count > 0)
+                {
+                    foreach (var address in objExpOrg.Address)
+                    {
+                        address.AddressId = 0;
+                        address.CompanyId = comp.CompanyId;
+                        address.OrganisationId = OrganisationID;
+                        db.Addesses.Add(address);
+                    }
+                    db.SaveChanges();
+                }
+                // import contacts
+                if(objExpOrg.CompanyContact != null && objExpOrg.CompanyContact.Count > 0)
+                {
+                    foreach (var contact in objExpOrg.CompanyContact)
+                    {
+                        contact.ContactId = 0;
+                        contact.CompanyId = comp.CompanyId;
+                        contact.OrganisationId = OrganisationID;
+                        db.CompanyContacts.Add(contact);
+                    }
+                    db.SaveChanges();
+
+                }
+                // import product category
+                if (objExpOrg.ProductCategory != null && objExpOrg.ProductCategory.Count > 0)
+                {
+                    foreach (var category in objExpOrg.ProductCategory)
+                    {
+                        category.ProductCategoryId = 0;
+                        category.CompanyId = comp.CompanyId;
+                        category.OrganisationId = OrganisationID;
+                        db.ProductCategories.Add(category);
+                    }
+                    db.SaveChanges();
+
+                }
+                // import items
+                if(objExpOrg.Items != null && objExpOrg.Items.Count > 0)
+                {
+                    foreach(var item in objExpOrg.Items)
+                    {
+                        item.ItemId = 0;
+                        item.CompanyId = comp.CompanyId;
+                        item.OrganisationId = OrganisationID;
+                        db.Items.Add(item);
+
+                        if(item.ItemSections != null && item.ItemSections.Count > 0)
+                        {
+                            foreach(var sec in item.ItemSections)
+                            {
+                                sec.ItemSectionId = 0;
+                                sec.ItemId = item.ItemId;
+                                db.ItemSections.Add(sec);
+
+                                if(sec.SectionCostcentres != null && sec.SectionCostcentres.Count > 0)
+                                {
+                                    foreach(var scc in sec.SectionCostcentres)
+                                    {
+                                        scc.SectionCostcentreId = 0;
+                                        scc.ItemSectionId = sec.ItemSectionId;
+                                        db.SectionCostcentres.Add(scc);
+
+                                        if(scc.SectionCostCentreResources != null && scc.SectionCostCentreResources.Count > 0)
+                                        {
+                                            foreach(var sccr in scc.SectionCostCentreResources)
+                                            {
+                                                sccr.SectionCostCentreResourceId = 0;
+                                                sccr.SectionCostcentreId = scc.SectionCostcentreId;
+                                                db.SectionCostCentreResources.Add(sccr);
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            
+
+                        }
+                        
+                    }
+                }
             }
             catch(Exception ex)
             {
