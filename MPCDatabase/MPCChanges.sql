@@ -170,3 +170,19 @@ alter table company
 drop column DeliveryPickUpAddressId
 
 GO
+
+/* Execution Date: 19/02/2015 */
+GO
+
+alter table Currency add CurrencySymbol varchar(5)
+alter table paymentGateway add CancelPurchaseUrl varchar(255)
+alter table paymentGateway add ReturnUrl varchar(255)
+alter table paymentGateway add NotifyUrl varchar(255)
+alter table paymentGateway add SendToReturnURL bit
+alter table paymentGateway add UseSandbox bit
+alter table paymentGateway add LiveApiUrl varchar(255)
+alter table paymentGateway add TestApiUrl varchar(255)
+alter table Organisation add TaxServiceUrl varchar(255)
+alter table Organisation add TaxServiceKey varchar(255)
+
+GO

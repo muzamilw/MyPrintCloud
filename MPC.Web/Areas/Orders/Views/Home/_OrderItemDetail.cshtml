@@ -1,5 +1,5 @@
-﻿<div class="modal fade" id="orderItemDetailDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+﻿<div class="modal fade my-modal" id="orderItemDetailDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" id="orderItemDetail">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -15,7 +15,7 @@
                         </div>
                         <div class="row" id="user-profile">
                             <div class="col-lg-12 col-md-8 col-sm-8">
-                                <div class="main-box clearfix">
+                                <div class="main-box clearfix my-tabsHeader">
                                     <div class="tabs-wrapper profile-tabs">
                                         <ul class="nav nav-tabs">
                                             <li class="active"><a href="#tab-detail" data-toggle="tab">Basic Detail</a></li>
@@ -596,7 +596,7 @@
                                                                                     <td style="width:31%">
                                                                                         @*<div style="width:87px;">*@
                                                                                         <div class="col-xs-4" style="width: 66%;">
-                                                                                            <a href="#" data-bind="click: $root.openSectionDetail"><span>Top Section</span></a>
+                                                                                            <a href="#" data-bind="click: $root.editSection"><span>Top Section</span></a>
                                                                                             <span style="font-size:13px;">4 Color</span>
                                                                                         </div>
                                                                                     </td>
@@ -630,10 +630,10 @@
 
                                                                                     <td class="text-right">
                                                                                         @*<div style="width: 32px;float: right;">
-                                                                                <span>0</span>
-                                                                                  <span> $0.0</span>
+                                                                                                <span>0</span>
+                                                                                                  <span> $0.0</span>
 
-                                                                            </div>*@
+                                                                                            </div>*@
                                                                                         <div class="col-xs-3">
                                                                                             <a href="#" class="table-link">
                                                                                                 <span class="fa-stack">
@@ -654,9 +654,9 @@
                                                                                 <tr style="width:31%">
                                                                                     <td>
                                                                                         @*  <div style="width:87px;">
-                                                                             <a href="~/Estimate/SectionDetail"><span>Section 1</span></a>
-                                                                             <span style="font-size:13px;" >4 Color</span>
-                                                                            </div>*@
+                                                                                             <a href="~/Estimate/SectionDetail"><span>Section 1</span></a>
+                                                                                             <span style="font-size:13px;" >4 Color</span>
+                                                                                            </div>*@
                                                                                         <div class="col-xs-3" style="width:56%">
                                                                                             <a href="~/Order/OrderSectionDetail"><span>Section 1</span></a>
                                                                                             <span style="font-size:13px;">4 Color</span>
@@ -664,10 +664,10 @@
                                                                                     </td>
                                                                                     <td>
                                                                                         @*  <div style="width: 34px;float: right;">
-                                                                                <span>4000</span>
-                                                                                  <span>$585.20</span>
+                                                                                                <span>4000</span>
+                                                                                                  <span>$585.20</span>
 
-                                                                            </div>*@
+                                                                                            </div>*@
 
                                                                                         <div class="col-xs-3 margin-zero-value">
                                                                                             <span>0</span>
@@ -699,10 +699,10 @@
 
                                                                                     <td class="text-right">
                                                                                         @*<div style="width: 32px;float: right;">
-                                                                                <span>0</span>
-                                                                                  <span> $0.0</span>
+                                                                                                <span>0</span>
+                                                                                                  <span> $0.0</span>
 
-                                                                            </div>*@
+                                                                                            </div>*@
                                                                                         <div class="col-xs-3">
                                                                                             <a href="#" class="table-link">
                                                                                                 <span class="fa-stack">
@@ -723,9 +723,9 @@
                                                                                 <tr style="width:31%">
                                                                                     <td>
                                                                                         @*  <div style="width:87px;">
-                                                                             <a href="~/Estimate/SectionDetail"><span>Section 1</span></a>
-                                                                             <span style="font-size:13px;" >4 Color</span>
-                                                                            </div>*@
+                                                                                             <a href="~/Estimate/SectionDetail"><span>Section 1</span></a>
+                                                                                             <span style="font-size:13px;" >4 Color</span>
+                                                                                            </div>*@
                                                                                         <div class="col-xs-3" style="width:58%">
                                                                                             <a href="~/Order/OrderSectionDetail"><span>Section 2</span></a>
                                                                                             <span style="font-size:13px;">4 Color</span>
@@ -733,10 +733,10 @@
                                                                                     </td>
                                                                                     <td>
                                                                                         @*  <div style="width: 34px;float: right;">
-                                                                                <span>4000</span>
-                                                                                  <span>$585.20</span>
+                                                                                                <span>4000</span>
+                                                                                                  <span>$585.20</span>
 
-                                                                            </div>*@
+                                                                                            </div>*@
 
                                                                                         <div class="col-xs-3 margin-zero-value">
                                                                                             <span>0</span>
@@ -768,10 +768,10 @@
 
                                                                                     <td class="text-right">
                                                                                         @*<div style="width: 32px;float: right;">
-                                                                                <span>0</span>
-                                                                                  <span> $0.0</span>
+                                                                                                <span>0</span>
+                                                                                                  <span> $0.0</span>
 
-                                                                            </div>*@
+                                                                                            </div>*@
                                                                                         <div class="col-xs-3">
                                                                                             <a href="#" class="table-link">
                                                                                                 <span class="fa-stack">
@@ -1050,5 +1050,5 @@
             </div>
         </div>
     </div>
+
 </div>
-@Html.Partial("_OrderSectionDetail")

@@ -1,5 +1,5 @@
-﻿<div class="modal fade" id="orderSectionDetailDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+﻿<div class="modal fade my-modal" id="orderSectionDetailDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" id="orderSectionDetail">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -16,7 +16,7 @@
                         <div class="row" id="user-profile">
 
                             <div class="col-lg-12 col-md-8 col-sm-8">
-                                <div class="main-box clearfix" style="padding-top:20px;">
+                                <div class="main-box clearfix my-tabsHeader" style="padding-top:20px;">
                                     <div class="col-lg-12 form-horizontal">
                                         <div class="col-lg-7" style="width:57.2%;">
                                             <div class="form-group">
@@ -107,11 +107,11 @@
                                                         </a>
 
                                                         @* <div class="profile-message-btn text-center Float-right-PopupBtn-Stock">
-                                                    <a href="#" class="btn btn-success">
-                                                        <i class="fa"></i>
-                                                        ....
-                                                    </a>
-                                                </div>*@
+                                                                <a href="#" class="btn btn-success">
+                                                                    <i class="fa"></i>
+                                                                    ....
+                                                                </a>
+                                                            </div>*@
                                                     </div>
                                                     <div class="col-xs-4">
                                                         <div class="checkbox-nice">
@@ -148,11 +148,11 @@
                                                         </select>
 
                                                         @* <div class="profile-message-btn text-center Float-right-PopupBtn-Stock">
-                                                    <a href="#" class="btn btn-success">
-                                                        <i class="fa"></i>
-                                                        ....
-                                                    </a>
-                                                </div>*@
+                                                                <a href="#" class="btn btn-success">
+                                                                    <i class="fa"></i>
+                                                                    ....
+                                                                </a>
+                                                            </div>*@
                                                     </div>
                                                     <div class="col-xs-4">
                                                         <div class="checkbox-nice">
@@ -223,11 +223,11 @@
                                                         </select>
 
                                                         @* <div class="profile-message-btn text-center Float-right-PopupBtn-Stock">
-                                                    <a href="#" class="btn btn-success">
-                                                        <i class="fa"></i>
-                                                        ....
-                                                    </a>
-                                                </div>*@
+                                                                <a href="#" class="btn btn-success">
+                                                                    <i class="fa"></i>
+                                                                    ....
+                                                                </a>
+                                                            </div>*@
                                                     </div>
                                                     <div class="col-xs-4">
                                                         <div class="checkbox-nice">
@@ -301,11 +301,11 @@
                                                         </a>
 
                                                         @* <div class="profile-message-btn text-center Float-right-PopupBtn-Stock">
-                                                    <a href="#" class="btn btn-success">
-                                                        <i class="fa"></i>
-                                                        ....
-                                                    </a>
-                                                </div>*@
+                                                                <a href="#" class="btn btn-success">
+                                                                    <i class="fa"></i>
+                                                                    ....
+                                                                </a>
+                                                            </div>*@
                                                     </div>
                                                     <div class="col-xs-4">
                                                         <div class="checkbox-nice">
@@ -379,9 +379,9 @@
                                                         <div class="form-group">
                                                             @*      <div class="col-lg-3 text-right" style="width:40%;">
 
-                                                         <label class="control-label text-right" style="width:100%;" for="switchSecondaryPages">Plate Side 1</label>
+                                                                     <label class="control-label text-right" style="width:100%;" for="switchSecondaryPages">Plate Side 1</label>
 
-                                                    </div>*@
+                                                                </div>*@
                                                             <div class="col-lg-6">
                                                                 <div class="col-xs-3">
                                                                     <input type="text" class="form-control Qty-TextBox-width Qty-TextBox-float txtBox-contentAlign" style="width:44px;" value="0" id="txtQty1" />
@@ -434,15 +434,15 @@
                                                 <div class="col-xs-3" style="text-align: right">
 
                                                     @* <div id="addproduct">
-                                                @Html.Partial("_AddProductWizard")
-                                            </div>*@
+                                                            @Html.Partial("_AddProductWizard")
+                                                        </div>*@
                                                     @*<button id="open-wizard" class="btn btn-primary pull-right">Run Wizard</button>*@
                                                     @* <a data-toggle="modal" href="#RunWizard" class="btn btn-primary pull-right">
-                                                <i class="fa fa-lg"></i>&nbsp;Run Wizard
-                                            </a>*@
+                                                            <i class="fa fa-lg"></i>&nbsp;Run Wizard
+                                                        </a>*@
                                                     @*<a href="#" class="btn btn-primary">
-                                                    <i class="fa fa-lg"></i>&nbsp;
-                                            </a>*@
+                                                                <i class="fa fa-lg"></i>&nbsp;
+                                                        </a>*@
                                                     <div id="estimating">
                                                         @Html.Partial("Estimate/_EstimationWizard")
                                                     </div>
@@ -551,10 +551,10 @@
 
                                                                 <td class="text-right">
                                                                     @*<div style="width: 32px;float: right;">
-                                                                <span>0</span>
-                                                                  <span> $0.0</span>
+                                                                            <span>0</span>
+                                                                              <span> $0.0</span>
 
-                                                            </div>*@
+                                                                        </div>*@
                                                                     <div class="col-xs-3">
                                                                         <a href="#" class="table-link">
                                                                             <span class="fa-stack">
@@ -608,10 +608,10 @@
 
                                                                 <td class="text-right">
                                                                     @*<div style="width: 32px;float: right;">
-                                                                <span>0</span>
-                                                                  <span> $0.0</span>
+                                                                            <span>0</span>
+                                                                              <span> $0.0</span>
 
-                                                            </div>*@
+                                                                        </div>*@
                                                                     <div class="col-xs-3">
                                                                         <a href="#" class="table-link">
                                                                             <span class="fa-stack">
@@ -689,11 +689,11 @@
                                                         <div style="display:inline;float:left;width:26%;text-align:center;font-weight:bold">
                                                             @*  <div class=" bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Addtional Profits for quantites" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
+                                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Addtional Profits for quantites" data-original-title="" title="">
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
 
-                                                    </div>*@
+                                                                </div>*@
 
 
                                                             <label style="margin-top:10px;">Markups</label>
@@ -771,12 +771,10 @@
                             </div>
                         </div>
                     </div>
-                    @Html.Partial("Product/_SelectStock")
-                    @Html.Partial("Estimate/_RunWizard")
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-bind="click: $root.closeSectionDetail">Close</button>
+                <button type="button" class="btn btn-default">Close</button>
             </div>
         </div>
     </div>
