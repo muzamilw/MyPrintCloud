@@ -1293,6 +1293,7 @@ define("stores/stores.viewModel",
                     contactCompanyPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                     //Secondary Page Pager
                     secondaryPagePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                    fieldVariablePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                     //Address Search Filter
                     searchAddressFilter = ko.observable(),
                     //Search Address
@@ -3187,6 +3188,18 @@ define("stores/stores.viewModel",
                                     _.each(data.Widgets, function (item) {
                                         widgets.push(model.Widget.Create(item));
                                     });
+
+                                    fieldVariablePager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
+                                    _.each(data.FieldVariableResponse.FieldVariables, function (item) {
+                                        var field = model.FieldVariable();
+                                        field.id(item.VariableId);
+                                        field.variableName(item.VariableName);
+                                        field.scopeName(item.ScopeName);
+                                        field.typeName(item.TypeName);
+                                        field.variableTag(item.VariableTag);
+                                        fieldVariables.push(field);
+                                    });
+                                    fieldVariablePager().totalCount(data.FieldVariableResponse.RowCount);
                                 }
                                 selectedStore().reset();
                                 isLoadingStores(false);
@@ -3835,6 +3848,8 @@ define("stores/stores.viewModel",
                     selectedFieldOption = ko.observable(),
                     //Field Variables List
                     fieldVariables = ko.observableArray([]),
+                    //Use in User (contact)
+                    fieldVariablesOfContactType = ko.observableArray([]),
                     //Variable Option Fake ID counter
                     fakeIdCounter = ko.observable(0),
                     //Create New Field Variable
@@ -3850,16 +3865,30 @@ define("stores/stores.viewModel",
                                 return scope.id == fieldVariable.scope();
                             });
                             fieldVariable.scopeName(selectedScope.name);
-
+                            fieldVariable.fakeId(fakeIdCounter() - 1);
+                            fakeIdCounter(fakeIdCounter() - 1);
                             var selectedType = _.find(varibaleTypes(), function (type) {
                                 return type.id == fieldVariable.variableType();
                             });
                             fieldVariable.typeName(selectedType.name);
+                            fieldVariable.companyId(selectedStore().companyId());
 
                             //In Case of new company added
                             if (selectedStore().companyId() === undefined) {
                                 fieldVariables.splice(0, 0, fieldVariable);
                                 view.hideVeriableDefinationDialog();
+
+                                //In Case of Context/Scope Type Contact
+                                if (fieldVariable.scope() === 2) {
+                                    var contactVariable = model.CompanyContactVariable();
+                                    contactVariable.fakeId(fieldVariable.fakeId());
+                                    contactVariable.value(fieldVariable.defaultValue());
+                                    _.each(fieldVariable.variableOptions(), function (item) {
+                                        contactVariable.variableOptions.push(item);
+                                    });
+                                    fieldVariablesOfContactType.push(contactVariable);
+                                }
+
                             } else {
                                 //In Case of Edit Company 
                                 var field = fieldVariable.convertToServerData(fieldVariable);
@@ -3869,8 +3898,6 @@ define("stores/stores.viewModel",
                                 });
                                 saveField(field);
                             }
-
-
                         }
                     },
 
@@ -3941,7 +3968,7 @@ define("stores/stores.viewModel",
                             selectedFieldVariable(fieldVariable);
                             view.showVeriableDefinationDialog();
                         } else {
-
+                            getFieldVariableDetail(fieldVariable);
                         }
                     },
                     //variable Scope
@@ -3951,21 +3978,69 @@ define("stores/stores.viewModel",
                                              { id: 4, name: "Territory" }]);
                 //Varibale Types
                 varibaleTypes = ko.observableArray([{ id: 1, name: "Dropdown" },
-                            { id: 2, name: "Input" }]);
+                        { id: 2, name: "Input" }]);
 
+                //Get FieldV ariables        
+                getFieldVariables = function () {
+                    dataservice.getFieldVariablesByCompanyId({
+                        CompanyId: selectedStore().companyId(),
+                        PageSize: fieldVariablePager().pageSize(),
+                        PageNo: fieldVariablePager().currentPage(),
+                        SortBy: sortOn(),
+                        IsAsc: sortIsAsc()
+                    }, {
+                        success: function (data) {
+
+                            fieldVariables.removeAll();
+                            _.each(data.FieldVariables, function (item) {
+                                var field = model.FieldVariable();
+                                field.id(item.VariableId);
+                                field.variableName(item.VariableName);
+                                field.scopeName(item.ScopeName);
+                                field.typeName(item.TypeName);
+                                field.variableTag(item.VariableTag);
+                                fieldVariables.push(field);
+                            });
+                            //fieldVariablePager().totalCount(data.FieldVariableResponse.RowCount);
+                        },
+                        error: function (response) {
+                            toastr.error("Failed To Load Users" + response);
+                        }
+                    });
+                },
+                //Get Field Variable Detail
+            getFieldVariableDetail = function (field) {
+                dataservice.getFieldVariableDetailById({
+                    fieldVariableId: field.id(),
+                }, {
+                    success: function (data) {
+                        if (data != null) {
+                            var fieldvariable = model.FieldVariable.Create(data);
+                            _.each(data.VariableOptions, function (item) {
+                                fieldvariable.variableOptions.push(model.VariableOption.Create(item));
+                            });
+                            selectedFieldVariable(fieldvariable);
+                            view.showVeriableDefinationDialog();
+                        }
+                    },
+                    error: function (response) {
+                        toastr.error("Failed to load Detail . Error: ");
+                    }
+                });
+            },
                 //#endregion ________ Field Variable___________
 
 
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-                initialize = function (specifiedView) {
-                    view = specifiedView;
-                    ko.applyBindings(view.viewModel, view.bindingRoot);
-                    //ko.applyBindings(view.viewModel, document.getElementById('singleArea'));
-                    pager(new pagination.Pagination({ PageSize: 5 }, stores, getStores));
-                    getStores();
-                    view.initializeForm();
-                };
+            initialize = function (specifiedView) {
+                view = specifiedView;
+                ko.applyBindings(view.viewModel, view.bindingRoot);
+                //ko.applyBindings(view.viewModel, document.getElementById('singleArea'));
+                pager(new pagination.Pagination({ PageSize: 5 }, stores, getStores));
+                getStores();
+                view.initializeForm();
+            };
                 //#region _________R E T U R N_____________________
 
                 return {
@@ -4265,6 +4340,7 @@ define("stores/stores.viewModel",
                     onEditVariableOption: onEditVariableOption,
                     onDeleteVariableOption: onDeleteVariableOption,
                     onAddFieldOption: onAddFieldOption,
+                    fieldVariablePager: fieldVariablePager,
                 };
                 //#endregion
             })()

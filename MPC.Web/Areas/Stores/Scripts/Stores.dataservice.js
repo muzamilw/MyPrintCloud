@@ -43,6 +43,19 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to Get Field Variable Detail By Id
+                    amplify.request.define('getFieldVariableDetailById', 'ajax', {
+                        url: ist.siteUrl + '/Api/FieldVariableDetail',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to get Field Variables By CompanyId
+                    amplify.request.define('getFieldVariablesByCompanyId', 'ajax', {
+                        url: ist.siteUrl + '/Api/FieldVariable',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    
                     // Define request to get Address
                     amplify.request.define('searchAddress', 'ajax', {
                         url: ist.siteUrl + '/Api/Address',
@@ -220,6 +233,16 @@
                     data: params
                 });
             },
+            //Get Field Variable Detail By Id
+            getFieldVariableDetailById = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getFieldVariableDetailById',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
              // get Campaign Base Data
             getCampaignBaseData = function (callbacks) {
                 initialize();
@@ -240,6 +263,17 @@
                     data: params
                 });
             },
+            // Get Field Variables By CompanyId
+            getFieldVariablesByCompanyId = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getFieldVariablesByCompanyId',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            
             // search Address
             searchAddress = function (params, callbacks) {
                 initialize();
@@ -463,6 +497,7 @@
             deleteStore: deleteStore,
             saveStore: saveStore,
             searchCompanyTerritory: searchCompanyTerritory,
+            getFieldVariablesByCompanyId: getFieldVariablesByCompanyId,
             searchAddress: searchAddress,
             searchCompanyContact: searchCompanyContact,
             getSecondaryPages: getSecondaryPages,
@@ -482,6 +517,7 @@
             deleteCompanyAddress: deleteCompanyAddress,
             deleteCompanyContact: deleteCompanyContact,
             saveFieldVariable: saveFieldVariable,
+            getFieldVariableDetailById: getFieldVariableDetailById,
         };
     })();
 
