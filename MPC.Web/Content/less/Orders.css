@@ -3,6 +3,9 @@
   font-size: 15px;
   color: red;
 }
-#orderBinding #orderItemDetailDialog {
+#orderBinding #tab-EstimateHeader #orderItemDetailDialog #orderItemDetail {
   width: 1200px;
+}
+#orderBinding #tab-EstimateHeader #orderSectionDetailDialog #orderSectionDetail {
+  width: 1100px;
 }
