@@ -1,0 +1,1096 @@
+﻿body {
+	/*
+	background-image:url(../Images/main_bg1.jpg);
+	background-repeat:no-repeat;
+	background-attachment:fixed;
+    */
+	font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+	font-size: 12px;
+	color: Black;
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	text-decoration:none;
+}
+
+a:visited {
+	color: Blue;
+}
+a:hover {
+	color: #800000;
+}
+a:active {
+	color: Blue;
+}
+
+.Nav {
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+line-height:30px;
+text-decoration:none;
+color: #ffffff;
+padding:0px;
+margin:0px;
+}
+
+.Nav:visited {
+	color: #ffffff;
+}
+.Nav:hover {
+	color: #000000;
+}
+.Nav:active {
+	color: #ffffff;
+}
+
+.bsh1{
+font-size:20px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+padding:0px;
+margin:0px;
+}
+
+.bsh2{
+font-size:16px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+padding:0px;
+margin:0px;
+}
+
+.bstxt1{
+font-size:11px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #222222;
+text-decoration:none;
+padding-left:4px;
+margin:0px;
+}
+
+.bstxt2{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #222222;
+text-decoration:none;
+padding:0px;
+margin:0px;
+}
+
+.ch1{
+font-size:20px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+padding-left:4px;
+margin:0px;
+}
+
+.ch2{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #ffffff;
+text-decoration:none;
+padding-bottom:3px;
+margin:0px;
+}
+
+.ctxt{
+font-size:11px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #333333;
+text-decoration:none;
+padding-left:4px;
+margin:0px;
+}
+
+.ctxt1{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #333333;
+line-height:21px;
+text-decoration:none;
+padding:0px;
+margin:0px;
+}
+
+.frh1{
+font-size:20px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+padding:0px;
+margin:0px;
+}
+
+.frh2{
+font-size:15px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight: bold;
+color: #222222;
+text-decoration:none;
+padding:0px;
+padding-left:11PX;
+margin:0px;
+}
+
+.frtxt1{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #222222;
+text-decoration:none;
+padding:0px;
+padding-left:11PX;
+margin:0px;
+}
+.inputNormal{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #333333;
+text-decoration:none;
+background:#ECF7FA;
+width:180px;
+border-color:#a79d7e;
+padding:0px;
+margin:0px;
+}
+.inputNormalTxt 
+{
+    background:none repeat scroll 0 0 #ECF7FA;
+    border:medium none;
+    color:#333333;
+    font-family:Arial,Helvetica,sans-serif,"Bauhaus 93";
+    font-size:11px;
+    line-height:17px;
+    margin:0;
+    padding:0;
+    text-decoration:none;
+    width:180px;
+}
+.inputfr{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+text-decoration:none;
+width:424px;
+border-color:#a79d7e;
+padding:0px;
+margin:0px;
+}
+
+.page{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #333333;
+text-decoration:none;
+margin:0px;
+}
+
+.input{
+font-size:11px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #333333;
+text-decoration:none;
+background:#ECF7FA;
+width:128px;
+border-color:#a79d7e;
+padding:0px;
+margin:0px;
+}
+.inputDDL {
+    background:none repeat scroll 0 0 #ECF7FA;
+    border:medium none;
+    color:#333333;
+    font-family:Arial,Helvetica,sans-serif,"Bauhaus 93";
+    font-size:11px;
+    line-height:17px;
+    margin:0;
+    padding:0;
+    text-decoration:none;
+    width:128px;
+}
+.inputB{
+font-size:11px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #333333;
+text-decoration:none;
+background:#f2c972;
+width:212px;
+border-color:#a79d7e;
+padding:0px;
+margin:0px;
+}
+
+.phead1{
+font-size:20px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+padding:0px;
+margin:0px;
+}
+
+.pcat{
+font-size:13px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+line-height:18px;
+padding:0px;
+margin:0px;
+}
+
+.pcat:visited {
+	color: #f16c18;
+}
+.pcat:hover {
+	color: #000000;
+}
+.pcat:active {
+	color: #f16c18;
+}
+
+.pval{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #349ae3;
+text-decoration:none;
+line-height:18px;
+padding-right:6px;
+margin:0px;
+}
+
+.pval:visited {
+	color: #349ae3;
+}
+.pval:hover {
+	color: #000000;
+}
+.pval:active {
+	color: #349ae3;
+}
+
+.ptxt1{
+font-size:13px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+line-height:18px;
+padding:0px;
+margin:0px;
+}
+
+.ptxt2{
+font-size:11px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #333333;
+text-decoration:none;
+padding-left:2px;
+margin:0px;
+}
+
+.txt1{
+font-size:13px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #ffffff;
+text-decoration:none;
+padding-left:10px;
+padding-right:4px;
+padding-top:3px;
+margin:0px;
+}
+
+.txt2{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #b41080;
+text-decoration:none;
+padding-left:6px;
+padding-top:3px;
+margin:0px;
+}
+
+.search {
+font-size:14px;
+font-family:Arial, Helvetica, sans-serif;
+text-decoration:none;
+padding-right:10px;
+color: #333333;
+padding-left:16px;
+padding-top:10px;
+margin:0px;
+}
+
+.terms{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #222222;
+text-decoration:none;
+padding-left:14px;
+padding-right:20px;
+margin:0px;
+}
+
+.bc{
+font-size:10px;
+font-family:Arial, Helvetica, sans-serif;
+text-decoration:none;
+padding-right:2px;
+padding-left:2px;
+color: #999;
+margin:0px;
+}
+
+
+.clhead1{
+font-size:36px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+padding:0px;
+margin:0px;
+}
+
+.clhead2{
+font-size:28px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+padding:0px;
+margin:0px;
+}
+
+.clhead1{
+font-size:36px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+padding:0px;
+margin:0px;
+}
+
+.clT1{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #222222;
+text-decoration:none;
+padding-left:12px;
+margin:0px;
+}
+
+.clcth1{
+font-size:26px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+padding-right:14px;
+padding-bottom:14px;
+margin:0px;
+}
+
+.clcth2{
+font-size:14px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+padding-left:12px;
+padding-top:3px;
+margin:0px;
+}
+
+.clctT1{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #222222;
+text-decoration:none;
+padding-left:12px;
+margin:0px;
+}
+.bh1 {
+font-size:15px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+line-height:20px;
+text-decoration:none;
+color: #ffffff;
+padding-left:2px;
+padding-right:6px;
+margin:0px;
+}
+
+.bNav {
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+line-height:20px;
+text-decoration:none;
+color: #ffffff;
+padding-left:2px;
+padding-right:6px;
+margin:0px;
+}
+
+.bNav:visited {
+	color: #ffffff;
+}
+.bNav:hover {
+	color: #000000;
+}
+.bNav:active {
+	color: #ffffff;
+}
+
+.btxt{
+font-size:11px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #ffffff;
+text-decoration:none;
+padding-left:2px;
+margin:0px;
+}
+
+.head1{
+font-size:20px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #ffffff;
+text-decoration:none;
+padding-left:10px;
+margin:0px;
+}
+
+.bsh1{
+font-size:20px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+padding:0px;
+margin:0px;
+}
+
+.bsh2{
+font-size:16px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+padding:0px;
+margin:0px;
+}
+
+.bstxt1{
+font-size:11px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #222222;
+text-decoration:none;
+padding-left:4px;
+margin:0px;
+}
+
+.bstxt2{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #222222;
+text-decoration:none;
+padding:0px;
+margin:0px;
+}
+
+.ch1{
+font-size:20px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+padding-left:4px;
+margin:0px;
+}
+
+.ch2{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #ffffff;
+text-decoration:none;
+padding-bottom:3px;
+margin:0px;
+}
+
+.ctxt{
+font-size:11px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #333333;
+text-decoration:none;
+padding-left:4px;
+margin:0px;
+}
+
+.ctxt1{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #333333;
+line-height:21px;
+text-decoration:none;
+padding:0px;
+margin:0px;
+}
+.ctxt2{
+font-size:11px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #666666;
+text-decoration:none;
+padding-right:6px;
+margin:0px;
+}
+
+.frh1{
+font-size:20px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+padding:0px;
+margin:0px;
+}
+
+.frh2{
+font-size:16px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #222222;
+text-decoration:none;
+padding-left:12px;
+margin:0px;
+}
+
+.frtxt1{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #222222;
+text-decoration:none;
+padding-left:14px;
+margin:0px;
+}
+
+.inputfr{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #333333;
+text-decoration:none;
+background:#f2c972;
+width:444px;
+border-color:#a79d7e;
+padding:0px;
+margin:0px;
+}
+
+.page{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #333333;
+text-decoration:none;
+margin:0px;
+}
+
+.input{
+font-size:11px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #333333;
+text-decoration:none;
+background:#f2c972;
+width:128px;
+border-color:#a79d7e;
+padding:0px;
+margin:0px;
+}
+
+.inputB{
+font-size:11px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #333333;
+text-decoration:none;
+background:#f2c972;
+width:212px;
+border-color:#a79d7e;
+padding:0px;
+margin:0px;
+}
+
+.inputDrp1{
+font-size:11px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #333333;
+text-decoration:none;
+background:#f2c972;
+width:220px;
+border-color:#a79d7e;
+padding:0px;
+margin:0px;
+}
+
+.inputDrp2{
+font-size:11px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #333333;
+text-decoration:none;
+background:#f2c972;
+width:140px;
+border-color:#a79d7e;
+padding:0px;
+margin:0px;
+}
+
+.inputDrp3{
+font-size:11px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #333333;
+text-decoration:none;
+background:#f2c972;
+width:225px;
+line-height:17px;
+border:none;
+padding:0px;
+margin:0px;
+}
+
+.inputDrp4{
+font-size:11px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #333333;
+text-decoration:none;
+background:#f2c972;
+width:120px;
+line-height:17px;
+border:none;
+padding:0px;
+margin:0px;
+}
+
+
+.inputL1{
+font-size:11px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #333333;
+text-decoration:none;
+background:#f2c972;
+width:106px;
+line-height:17px;
+border:none;
+padding:0px;
+margin:0px;
+}
+
+.inputL2{
+font-size:11px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #333333;
+text-decoration:none;
+background:#f2c972;
+width:230px;
+line-height:17px;
+border:none;
+padding:0px;
+margin:0px;
+}
+
+.phead1{
+font-size:20px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+padding:0px;
+margin:0px;
+}
+
+.pcat{
+font-size:13px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+line-height:18px;
+padding:0px;
+margin:0px;
+}
+
+.pcat:visited {
+	color: #f16c18;
+}
+.pcat:hover {
+	color: #000000;
+}
+.pcat:active {
+	color: #f16c18;
+}
+
+.pval{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #349ae3;
+text-decoration:none;
+line-height:18px;
+padding-right:6px;
+margin:0px;
+}
+
+.pval:visited {
+	color: #349ae3;
+}
+.pval:hover {
+	color: #000000;
+}
+.pval:active {
+	color: #349ae3;
+}
+
+.ptxt1{
+font-size:13px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+line-height:18px;
+padding:0px;
+margin:0px;
+}
+
+.ptxt2{
+font-size:11px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #333333;
+text-decoration:none;
+padding-left:2px;
+margin:0px;
+}
+
+.txt1{
+font-size:13px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #ffffff;
+text-decoration:none;
+padding-left:10px;
+padding-right:4px;
+padding-top:3px;
+margin:0px;
+}
+
+.txt2{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #b41080;
+text-decoration:none;
+padding-left:6px;
+padding-top:3px;
+margin:0px;
+}
+
+.search {
+font-size:14px;
+font-family:Arial, Helvetica, sans-serif;
+text-decoration:none;
+padding-right:10px;
+color: #333333;
+padding-left:16px;
+padding-top:10px;
+margin:0px;
+}
+
+.terms{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #222222;
+text-decoration:none;
+padding-left:14px;
+padding-right:20px;
+margin:0px;
+}
+
+.rights {
+font-size:10px;
+font-family:Arial, Helvetica, sans-serif;
+text-decoration:none;
+color: black;
+padding-right:10px;
+padding-left:6px;
+padding-top:6px;
+margin:0px;
+}
+
+.bc{
+font-size:10px;
+font-family:Arial, Helvetica, sans-serif;
+text-decoration:none;
+padding-right:2px;
+padding-left:2px;
+color: #999;
+margin:0px;
+}
+
+
+.clhead1{
+font-size:36px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+padding:0px;
+margin:0px;
+}
+
+.clhead2{
+font-size:28px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+padding:0px;
+margin:0px;
+}
+
+.clhead1{
+font-size:36px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+padding:0px;
+margin:0px;
+}
+
+.clT1{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #222222;
+text-decoration:none;
+padding-left:12px;
+margin:0px;
+}
+
+.clcth1{
+font-size:26px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+padding-right:14px;
+padding-bottom:14px;
+margin:0px;
+}
+
+.clcth2{
+font-size:14px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+font-weight:bold;
+color: #f16c18;
+text-decoration:none;
+padding-left:12px;
+padding-top:3px;
+margin:0px;
+}
+
+.clctT1{
+font-size:12px;
+font-family:Arial, Helvetica, sans-serif, "Bauhaus 93";
+color: #222222;
+text-decoration:none;
+padding-left:12px;
+margin:0px;
+}
+.modalBackground
+{
+    background-image:url(../Images/main_bg1.jpg);
+	background-repeat:no-repeat;
+	background-attachment:fixed;
+    filter: alpha(opacity=80);
+    opacity: 0.8;
+    z-index: 1001;
+}
+.modalPopup
+{
+    background-image:url(../Images/main_bg1.jpg);
+	background-repeat:no-repeat;
+	background-attachment:fixed;
+
+    border-width: 3px;
+    border-style: solid;
+    border-color: Black;
+    padding: 3px;
+    z-index: 1001;
+}
+.modalPopupNew
+{
+    background-image:url(../Images/main_bg1.jpg);
+	background-repeat:no-repeat;
+	background-attachment:fixed;
+
+    border-width: 3px;
+    border-style: solid;
+    border-color: black;
+    padding: 3px;
+    z-index: 1001;
+}
+.term
+{
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif, "Bauhaus 93";
+    color: #5a5a5a;
+    text-decoration: none;
+    padding-left: 2px;
+    margin: 0px;
+}
+
+/*Classs Added by Naveed */
+
+.top_sub_section
+{
+     border-bottom: 2px solid #eaeaea;
+        border-top: 2px solid #eaeaea;
+    background-color: white;
+    -moz-border-top-right-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -khtml-border-top-right-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    -moz-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    -khtml-border-bottom-right-radius: 5px;
+}
+.TopMenuH60W100Px
+{
+    width:1000px;
+    margin: auto;
+    height: 40px;
+    background-color:Black;
+   
+}
+.menu
+{
+    float: left;
+    display: block;
+    padding-top: 10.5px;
+    padding-left: 15px;
+    /*padding-left: 8px;*/
+}
+#menu-main-menu 
+{
+    width: 730px;
+    margin: 0px;
+    margin-left: -40px; /*padding: 0 1em;  background-color:White;*/
+    list-style: none;
+    z-index: 1000px;
+}
+
+#menu-main-menu li {
+ float: left;
+ height: 60%;
+ margin-right: 14px;
+ padding-left: 18px;
+ padding-right: 1px;
+ z-index:1000px;
+ color:White;
+ font-size: 15px;
+}
+#menu-main-menu li a
+{
+    text-transform: uppercase !important;
+}
+#menu-main-menu li.sub ul {
+ width: 230px;
+ margin: 0;
+ margin-left:0px;
+ padding: 1px 0;
+ list-style: none;
+ /*background-color: inherit;*/
+ border: 0px solid Black;
+ border-top-style:none;
+ position: absolute;
+ top: -987em;
+ color:Black;
+ z-index:999;
+}
+#menu-main-menu li.sub {
+ position: relative;
+ z-index:998px;
+ height:35px;
+ display:none;
+}
+#menu-main-menu li.sub ul li
+{
+    width: 90%;
+    height: 25px;
+    margin: 0 auto 0em auto;
+    text-align: left;
+    z-index: 1000;
+}
+#menu-main-menu li.sub ul.allProduct {
+ width: 700px;
+ margin: 0;
+ padding: 1px 0;
+ list-style: none;
+ background-color:inherit;
+ border: 0px solid Black;
+ border-top-style:none;
+ position: absolute;
+ top: -987em;
+ color:Black;
+ z-index:999;
+}
+#menu-main-menu li.sub ul.allProduct li
+{
+    width: 140%;
+    height: 500px;
+    margin: 0 auto 0em auto;
+    text-align: left;
+    z-index: 1000;
+}
+#menu-main-menu li.sub ul li a {
+     height: 100%;
+     display: block;
+     padding: 0;
+    /* font-weight: bold;*/
+     text-decoration: none;
+     z-index:1001;
+     color:White;
+}
+
+#menu-main-menu li.sub:hover ul {
+ top: 1.5em;
+}
+
+#menu-main-menu li.sub:hover #menu-main-menu li.sub {
+    height:140px;
+}
+.cursor_pointer
+{
+    cursor: pointer;
+}
+.neg_left_margin_5
+{
+    margin-left: -50px;
+}
+.marginRght
+{
+    margin-right: 25px;
+}
+.sliderblock
+{
+    display:block;
+    height:100px;
+    width:100px;
+    
+}
+
