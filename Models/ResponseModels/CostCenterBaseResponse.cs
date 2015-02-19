@@ -11,5 +11,6 @@ namespace MPC.Models.ResponseModels
         public IEnumerable<ChartOfAccount> NominalCodes { get; set; }
         public IEnumerable<CostCentreType> CostCenterCategories { get; set; }
         public IEnumerable<CostCentreVariable> CostCentreVariables { get; set; }
+        public IEnumerable<DeliveryCarrier> DeliveryCarriers { get; set; }
     }
 }

@@ -653,6 +653,7 @@ namespace MPC.Repository.Repositories
 			{
 				RowCount = rowCount,
 				CostCenters = costCenters
+                
 			};
 		}
 		public CostCentre GetCostCentersByID(long costCenterID)
