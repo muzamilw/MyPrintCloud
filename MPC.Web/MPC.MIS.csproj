@@ -362,6 +362,7 @@
     <Compile Include="Areas\Api\Models\GroupForCampaign.cs" />
     <Compile Include="Areas\Api\Models\CostcentreWorkInstructionsChoice.cs" />
     <Compile Include="Areas\Api\Models\InkCoverageGroup.cs" />
+    <Compile Include="Areas\Api\Models\OrderItem.cs" />
     <Compile Include="Areas\Api\Models\OrderBaseResponse.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -1722,6 +1723,7 @@
     <Content Include="Content\less\CompanySelector.less" />
     <Content Include="Areas\Stores\Views\Stores\_AddEditVariableDefination.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_UserProfileDetailsForCrm.cshtml" />
+    <Content Include="Areas\CRM\Views\Home\_AddEditTerritoryForCrm.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
