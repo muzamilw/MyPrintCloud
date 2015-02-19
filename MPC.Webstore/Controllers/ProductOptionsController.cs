@@ -170,12 +170,14 @@ namespace MPC.Webstore.Controllers
 
             DefaultSettings(referenceItemId, ItemMode, clonedItem.ItemId);
             StoreBaseResopnse = null;
+            TempData["ItemMode"] = ItemMode;
             return View("PartialViews/ProductOptions");
         }
 
         [HttpPost]
         public ActionResult Index(ItemCartViewModel cartObject, string ReferenceItemId)
-        {
+         {
+             var ITemMode = TempData["ItemMode"];
             if (!string.IsNullOrEmpty(cartObject.ItemPrice) || !string.IsNullOrEmpty(cartObject.JsonPriceMatrix) || !string.IsNullOrEmpty(cartObject.StockId))
             {
                 MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
@@ -255,12 +257,12 @@ namespace MPC.Webstore.Controllers
 
             List<AddOnCostsCenter> listOfCostCentres = _myItemService.GetStockOptionCostCentres(Convert.ToInt64(ReferenceItemId), UserCookieManager.StoreId);
 
-            List<SectionCostcentre> selectedCostCentreIds = null;
+            List<SectionCostcentre> clonedSectionCostCentres = null;
 
             if (mode == "Modify")
             {
                 ViewBag.Mode = "Modify";
-                selectedCostCentreIds = _myItemService.GetClonedItemAddOnCostCentres(ClonedItemId);
+                clonedSectionCostCentres = _myItemService.GetClonedItemAddOnCostCentres(ClonedItemId);
             }
             else 
             {
@@ -274,10 +276,10 @@ namespace MPC.Webstore.Controllers
 
             foreach (var addOn in listOfCostCentres)
             {
-                if (selectedCostCentreIds != null)// this will run in case of modify mode and cost centres selected
+                if (clonedSectionCostCentres != null)// this will run in case of modify mode and cost centres selected
                 {
                     bool isAddedToList = false;
-                    foreach (var cItem in selectedCostCentreIds)
+                    foreach (var cItem in clonedSectionCostCentres)
                     {
                         if (cItem.CostCentreId == addOn.CostCenterID)
                         {
@@ -294,8 +296,7 @@ namespace MPC.Webstore.Controllers
                                     ActualPrice = cItem.Qty1NetTotal ?? 0 ,
                                     StockOptionId = addOn.ItemStockId,
                                     Description = "",
-                                    isChecked = true,
-                                    CostCentreJasonData = cItem.Qty2WorkInstructions
+                                    isChecked = true
                                     
                                 };
                                 AddonObjectList.Add(addOnsObject);
@@ -358,7 +359,14 @@ namespace MPC.Webstore.Controllers
                
             }
 
-            ViewBag.CostCentreQueueItems = QueueItems;
+            List<QuestionQueueItem> objSettings = JsonConvert.DeserializeObject<List<QuestionQueueItem>>(QueueItems);
+
+
+           // QuestionQueueItem objSettings = JsonConvert.DeserializeObject<QuestionQueueItem>(QueueItems);
+          //  QueueItems objSettings = JsonConvert.DeserializeObject<Settings>(res);
+            //var arrays = JsonConvert.DeserializeObject(QueueItems);
+
+            ViewBag.CostCentreQueueItems = objSettings;//JsonConvert.SerializeObject(QueueItems, Formatting.None);
 
             ViewBag.JsonAddonCostCentre = AddonObjectList;
 
