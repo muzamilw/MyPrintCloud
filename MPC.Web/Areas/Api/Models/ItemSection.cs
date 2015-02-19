@@ -1,4 +1,6 @@
-﻿namespace MPC.MIS.Areas.Api.Models
+﻿using System.Collections.Generic;
+
+namespace MPC.MIS.Areas.Api.Models
 {
     /// <summary>
     /// Item Section WebApi Model
@@ -34,5 +36,10 @@
         public double? Basecharge3 { get; set; }
         public bool? IncludeGutter { get; set; }
         public int? FilmId { get; set; }
+        public bool? IsPaperSupplied { get; set; }
+        public int? Side1PlateQty { get; set; }
+        public int? Side2PlateQty { get; set; }
+        public bool? IsPlateSupplied { get; set; }
+        public IEnumerable<SectionCostcentre> SectionCostcentres { get; set; }
     }
 }

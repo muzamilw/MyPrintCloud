@@ -300,6 +300,9 @@
     <Compile Include="Areas\Api\ModelMappers\FieldVariableMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GroupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InkCoverageGroupMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\SectionCostCentreResourceMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\SectionCostCentreDetailMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\SectionCostcentreMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\OrderBaseResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\OrderBaseResponseForCompanyMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemDesignerTemplateBaseResponseMapper.cs" />
@@ -513,6 +516,9 @@
     <Compile Include="Areas\Api\Models\ProductCategoryResultModel.cs" />
     <Compile Include="Areas\Api\Models\SecondaryPageResponse.cs" />
     <Compile Include="Areas\Api\Models\Section.cs" />
+    <Compile Include="Areas\Api\Models\SectionCostcentre.cs" />
+    <Compile Include="Areas\Api\Models\SectionCostCentreDetail.cs" />
+    <Compile Include="Areas\Api\Models\SectionCostCentreResource.cs" />
     <Compile Include="Areas\Api\Models\SectionFlag.cs" />
     <Compile Include="Areas\Api\Models\SectionForPhraseLibrary.cs" />
     <Compile Include="Areas\Api\Models\State.cs" />
