@@ -16,8 +16,6 @@ using MPC.Models.DomainModels;
 using MPC.Models.ModelMappers;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
-using MPC.Repository.Repositories;
-using MPC.Models.Common;
 using Ionic.Zip;
 using System.IO;
 using Newtonsoft.Json;
@@ -27,6 +25,7 @@ namespace MPC.Implementation.MISServices
 {
     public class CompanyService : ICompanyService
     {
+
         #region Private
 
         #region Repositories
@@ -78,7 +77,8 @@ namespace MPC.Implementation.MISServices
         private readonly IReportRepository ReportRepository;
         private readonly IFieldVariableRepository fieldVariableRepository;
         private readonly IVariableOptionRepository variableOptionRepository;
-        //#endregion
+        private readonly ICompanyContactVariableRepository companyContactVariableRepository;
+        #endregion
 
         /// <summary>
         /// Save Company
@@ -1185,7 +1185,7 @@ namespace MPC.Implementation.MISServices
                 {
                     File.Delete(savePath);
                 }
-                
+
                 File.WriteAllBytes(savePath, data);
                 int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
                 savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
@@ -1987,7 +1987,7 @@ namespace MPC.Implementation.MISServices
             #endregion
 
 
-        #endregion
+
             itemRepository.Update(item);
             itemRepository.SaveChanges();
         }
@@ -2077,8 +2077,31 @@ namespace MPC.Implementation.MISServices
         private long AddFieldVariable(FieldVariable fieldVariable)
         {
             fieldVariable.OrganisationId = fieldVariableRepository.OrganisationId;
+            long companyId = (long)(fieldVariable.CompanyId ?? 0);
             fieldVariableRepository.Add(fieldVariable);
             fieldVariableRepository.SaveChanges();
+
+
+
+            if (companyId > 0 && fieldVariable.Scope.HasValue && fieldVariable.Scope == (int)FieldVariableScopeType.Contact)
+            {
+                IEnumerable<CompanyContact> companyContacts =
+                    companyContactRepository.GetCompanyContactsByCompanyId(companyId);
+                if (companyContacts != null)
+                {
+                    foreach (var contact in companyContacts)
+                    {
+                        CompanyContactVariable contactVariable = new CompanyContactVariable();
+
+                        contactVariable.ContactId = contact.ContactId;
+                        contactVariable.VariableId = fieldVariable.VariableId;
+                        contactVariable.Value = fieldVariable.DefaultValue;
+                        companyContactVariableRepository.Add(contactVariable);
+                    }
+                    companyContactVariableRepository.SaveChanges();
+                }
+            }
+
             return fieldVariable.VariableId;
         }
 
@@ -2183,7 +2206,8 @@ namespace MPC.Implementation.MISServices
         IItemProductDetailRepository itemProductDetailRepository,
             ICompanyDomainRepository companyDomainRepository, ICostCentreMatrixRepository costCentreMatrixRepositry, ICostCentreQuestionRepository CostCentreQuestionRepository,
             IStockCategoryRepository StockCategoryRepository, IPaperSizeRepository PaperSizeRepository, IMachineRepository MachineRepository, IPhraseFieldRepository PhraseFieldRepository,
-            IReportRepository ReportRepository, IFieldVariableRepository fieldVariableRepository, IVariableOptionRepository variableOptionRepository)
+            IReportRepository ReportRepository, IFieldVariableRepository fieldVariableRepository, IVariableOptionRepository variableOptionRepository,
+            ICompanyContactVariableRepository companyContactVariableRepository)
         {
             this.companyRepository = companyRepository;
             this.systemUserRepository = systemUserRepository;
@@ -2233,6 +2257,7 @@ namespace MPC.Implementation.MISServices
             this.ReportRepository = ReportRepository;
             this.fieldVariableRepository = fieldVariableRepository;
             this.variableOptionRepository = variableOptionRepository;
+            this.companyContactVariableRepository = companyContactVariableRepository;
 
         }
         #endregion
@@ -2290,6 +2315,9 @@ namespace MPC.Implementation.MISServices
 
         public CompanyBaseResponse GetBaseData(long storeId)
         {
+            FieldVariableRequestModel request = new FieldVariableRequestModel();
+            request.CompanyId = storeId;
+
             return new CompanyBaseResponse
                    {
                        SystemUsers = systemUserRepository.GetAll(),
@@ -2303,7 +2331,8 @@ namespace MPC.Implementation.MISServices
                        Widgets = widgetRepository.GetAll(),
                        CostCentres = costCentreRepository.GetAllCompanyCentersByOrganisationId().ToList(),//GetAllCompanyCentersByCompanyId
                        States = stateRepository.GetAll(),
-                       Countries = countryRepository.GetAll()
+                       Countries = countryRepository.GetAll(),
+                       FieldVariableResponse = fieldVariableRepository.GetFieldVariable(request)
                    };
         }
         public CompanyBaseResponse GetBaseDataForNewCompany()
@@ -2419,6 +2448,17 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public long SaveFieldVariable(FieldVariable fieldVariable)
         {
+            //Check for Duplicate Name and Variable Tag
+            long companyId = (long)(fieldVariable.CompanyId ?? 0);
+            string dublicateErrorMsg =
+                fieldVariableRepository.IsFiedlVariableNameOrTagDuplicate(fieldVariable.VariableName,
+                    fieldVariable.VariableTag, companyId, fieldVariable.VariableId);
+            if (dublicateErrorMsg != null)
+            {
+                throw new MPCException(dublicateErrorMsg, fieldVariableRepository.OrganisationId);
+            }
+
+
             if (fieldVariable.VariableId == 0)
             {
                 return AddFieldVariable(fieldVariable);
@@ -2429,6 +2469,22 @@ namespace MPC.Implementation.MISServices
             }
         }
 
+
+        /// <summary>
+        /// Get Field Variables
+        /// </summary>
+        public FieldVariableResponse GetFieldVariables(FieldVariableRequestModel request)
+        {
+            return fieldVariableRepository.GetFieldVariable(request);
+        }
+
+        /// <summary>
+        /// Get Field Variable Detail
+        /// </summary>
+        public FieldVariable GetFieldVariableDetail(long fieldId)
+        {
+            return fieldVariableRepository.Find(fieldId);
+        }
         #endregion
 
         #region ExportOrganisation
@@ -2883,7 +2939,7 @@ namespace MPC.Implementation.MISServices
                     // Add all files in directory
                     string FolderPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Resources/" + OrganisationID;
                     DPath = "/MPC_Content/Resources/" + OrganisationID;
-                     if (Directory.Exists(FolderPath))
+                    if (Directory.Exists(FolderPath))
                     {
                         foreach (string item in System.IO.Directory.GetFiles(FolderPath))
                         {
@@ -2945,24 +3001,24 @@ namespace MPC.Implementation.MISServices
                     }
 
                     //// export report banner
-                   if(ObjExportOrg.ReportNote != null && ObjExportOrg.ReportNote.Count > 0)
-                   {
+                    if (ObjExportOrg.ReportNote != null && ObjExportOrg.ReportNote.Count > 0)
+                    {
 
-                       foreach (var report in ObjExportOrg.ReportNote)
-                       {
-                           if (report.ReportBanner != null)
-                           {
-                               //string FilePath = HttpContext.Current.Server.MapPath(report.ReportBanner);
-                               //DPath = "/Media/" + OrganisationID + "/" + CompanyID;
-                               //if (File.Exists(FilePath))
-                               //{
-                               //    ZipEntry r = zip.AddFile(FilePath, DPath);
-                               //    r.Comment = "Media Files for Store";
+                        foreach (var report in ObjExportOrg.ReportNote)
+                        {
+                            if (report.ReportBanner != null)
+                            {
+                                //string FilePath = HttpContext.Current.Server.MapPath(report.ReportBanner);
+                                //DPath = "/Media/" + OrganisationID + "/" + CompanyID;
+                                //if (File.Exists(FilePath))
+                                //{
+                                //    ZipEntry r = zip.AddFile(FilePath, DPath);
+                                //    r.Comment = "Media Files for Store";
 
-                               //}
-                           }
-                       }
-                   }
+                                //}
+                            }
+                        }
+                    }
                     //// export company Logo
                     if (ObjExportOrg.Company != null)
                     {
@@ -3280,3 +3336,4 @@ namespace MPC.Implementation.MISServices
         #endregion
     }
 }
+

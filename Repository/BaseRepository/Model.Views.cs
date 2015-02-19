@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets1FEDB50437D2F1DD982128F605531156484A0E9CD20B7441161DB2E4A12704AC))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsF35B69289DCB963EB4CF787132700D2A79760A1437BDC5012817C880C8D09420))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets1FEDB50437D2F1DD982128F605531156484A0E9CD20B7441161DB2E4A12704AC : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsF35B69289DCB963EB4CF787132700D2A79760A1437BDC5012817C880C8D09420 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets1FEDB50437D2F1DD982128F605531156484A0E9CD20B7441161DB2E4A12704AC()
+        public ViewsForBaseEntitySetsF35B69289DCB963EB4CF787132700D2A79760A1437BDC5012817C880C8D09420()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "b98ad2be773145582afd7ed2758c878af8c92aef7937f613fa1f8f4b40aa047b";
-            this.HashOverAllExtentViews = "885c06f67746d6a6bb22cacb94f07c48d4b444fefd7250e6cad3cfaafe191b14";
+            this.HashOverMappingClosure = "93b50debc6ae1b4520906fdea1a8160b4b59105c14765b5c21abc84307b5d394";
+            this.HashOverAllExtentViews = "a3821648287345bff92a163e72106a86efe21670e4b8bb69d54cb7cacbdb1b0f";
             this.ViewCount = 286;
         }
         
@@ -2552,32 +2552,32 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("1.ItemSection_OverAllPTV, T1.ItemSection_ItemPTV, T1.ItemSection_Side1Inks, T1.I");
             viewString.Append("temSection_Side2Inks, T1.ItemSection_IsSwingApplied, T1.ItemSection_SectionType,");
             viewString.Append(" T1.ItemSection_IsMakeReadyUsed, T1.ItemSection_isWorknTurn, T1.ItemSection_isWo");
-            viewString.Append("rkntumble, T1.ItemSection_QuestionQueue, T1.ItemSection_StockQueue, T1.ItemSecti");
-            viewString.Append("on_InputQueue, T1.ItemSection_CostCentreQueue, T1.ItemSection_PressSpeed1, T1.It");
-            viewString.Append("emSection_PressSpeed2, T1.ItemSection_PressSpeed3, T1.ItemSection_PressSpeed4, T");
-            viewString.Append("1.ItemSection_PressSpeed5, T1.ItemSection_PrintSheetQty1, T1.ItemSection_PrintSh");
-            viewString.Append("eetQty2, T1.ItemSection_PrintSheetQty3, T1.ItemSection_PrintSheetQty4, T1.ItemSe");
-            viewString.Append("ction_PrintSheetQty5, T1.ItemSection_PressHourlyCharge, T1.ItemSection_PrintChar");
-            viewString.Append("geExMakeReady1, T1.ItemSection_PrintChargeExMakeReady2, T1.ItemSection_PrintChar");
-            viewString.Append("geExMakeReady3, T1.ItemSection_PrintChargeExMakeReady4, T1.ItemSection_PrintChar");
-            viewString.Append("geExMakeReady5, T1.ItemSection_PaperGsm, T1.ItemSection_PaperPackPrice, T1.ItemS");
-            viewString.Append("ection_PTVRows, T1.ItemSection_PTVColoumns, T1.ItemSection_PaperWeight1, T1.Item");
-            viewString.Append("Section_PaperWeight2, T1.ItemSection_PaperWeight3, T1.ItemSection_PaperWeight4, ");
-            viewString.Append("T1.ItemSection_PaperWeight5, T1.ItemSection_FinishedItemQty1, T1.ItemSection_Fin");
-            viewString.Append("ishedItemQty2, T1.ItemSection_FinishedItemQty3, T1.ItemSection_FinishedItemQty4,");
-            viewString.Append(" T1.ItemSection_FinishedItemQty5, T1.ItemSection_ProfileId, T1.ItemSection_Selec");
-            viewString.Append("tedPressCalculationMethodId, T1.ItemSection_SectionNotes, T1.ItemSection_IsSched");
-            viewString.Append("uled, T1.ItemSection_ImageType, T1.ItemSection_WebClylinderHeight, T1.ItemSectio");
-            viewString.Append("n_WebCylinderWidth, T1.ItemSection_WebCylinderId, T1.ItemSection_WebPaperLengthW");
-            viewString.Append("ithSp, T1.ItemSection_WebPaperLengthWoSp, T1.ItemSection_WebReelMakereadyQty, T1");
-            viewString.Append(".ItemSection_WebStockPaperCost, T1.ItemSection_WebSpoilageType, T1.ItemSection_P");
-            viewString.Append("ressPassesQty, T1.ItemSection_PrintingType, T1.ItemSection_PadsLeafQty, T1.ItemS");
-            viewString.Append("ection_PadsQuantity, T1.ItemSection_LastUpdateDate, T1.ItemSection_LastUpdatedBy");
-            viewString.Append(", T1.ItemSection_Qty1MarkUpID, T1.ItemSection_Qty2MarkUpID, T1.ItemSection_Qty3M");
-            viewString.Append("arkUpID, T1.ItemSection_StockItemID1, T1.ItemSection_StockItemID2, T1.ItemSectio");
-            viewString.Append("n_StockItemID3, T1.ItemSection_Side1PlateQty, T1.ItemSection_IsPortrait, T1.Item");
-            viewString.Append("Section_Side2PlateQty, T1.ItemSection_InkColorType, T1.ItemSection_PlateInkId, T");
-            viewString.Append("1.ItemSection_SimilarSections)\r\n    FROM (\r\n        SELECT \r\n            T.ItemS");
+            viewString.Append("rkntumble, T1.ItemSection_PressSpeed1, T1.ItemSection_PressSpeed2, T1.ItemSectio");
+            viewString.Append("n_PressSpeed3, T1.ItemSection_PressSpeed4, T1.ItemSection_PressSpeed5, T1.ItemSe");
+            viewString.Append("ction_PrintSheetQty1, T1.ItemSection_PrintSheetQty2, T1.ItemSection_PrintSheetQt");
+            viewString.Append("y3, T1.ItemSection_PrintSheetQty4, T1.ItemSection_PrintSheetQty5, T1.ItemSection");
+            viewString.Append("_PressHourlyCharge, T1.ItemSection_PrintChargeExMakeReady1, T1.ItemSection_Print");
+            viewString.Append("ChargeExMakeReady2, T1.ItemSection_PrintChargeExMakeReady3, T1.ItemSection_Print");
+            viewString.Append("ChargeExMakeReady4, T1.ItemSection_PrintChargeExMakeReady5, T1.ItemSection_Paper");
+            viewString.Append("Gsm, T1.ItemSection_PaperPackPrice, T1.ItemSection_PTVRows, T1.ItemSection_PTVCo");
+            viewString.Append("loumns, T1.ItemSection_PaperWeight1, T1.ItemSection_PaperWeight2, T1.ItemSection");
+            viewString.Append("_PaperWeight3, T1.ItemSection_PaperWeight4, T1.ItemSection_PaperWeight5, T1.Item");
+            viewString.Append("Section_FinishedItemQty1, T1.ItemSection_FinishedItemQty2, T1.ItemSection_Finish");
+            viewString.Append("edItemQty3, T1.ItemSection_FinishedItemQty4, T1.ItemSection_FinishedItemQty5, T1");
+            viewString.Append(".ItemSection_ProfileId, T1.ItemSection_SelectedPressCalculationMethodId, T1.Item");
+            viewString.Append("Section_SectionNotes, T1.ItemSection_IsScheduled, T1.ItemSection_ImageType, T1.I");
+            viewString.Append("temSection_WebClylinderHeight, T1.ItemSection_WebCylinderWidth, T1.ItemSection_W");
+            viewString.Append("ebCylinderId, T1.ItemSection_WebPaperLengthWithSp, T1.ItemSection_WebPaperLength");
+            viewString.Append("WoSp, T1.ItemSection_WebReelMakereadyQty, T1.ItemSection_WebStockPaperCost, T1.I");
+            viewString.Append("temSection_WebSpoilageType, T1.ItemSection_PressPassesQty, T1.ItemSection_Printi");
+            viewString.Append("ngType, T1.ItemSection_PadsLeafQty, T1.ItemSection_PadsQuantity, T1.ItemSection_");
+            viewString.Append("LastUpdateDate, T1.ItemSection_LastUpdatedBy, T1.ItemSection_Qty1MarkUpID, T1.It");
+            viewString.Append("emSection_Qty2MarkUpID, T1.ItemSection_Qty3MarkUpID, T1.ItemSection_StockItemID1");
+            viewString.Append(", T1.ItemSection_StockItemID2, T1.ItemSection_StockItemID3, T1.ItemSection_Side1");
+            viewString.Append("PlateQty, T1.ItemSection_IsPortrait, T1.ItemSection_Side2PlateQty, T1.ItemSectio");
+            viewString.Append("n_InkColorType, T1.ItemSection_PlateInkId, T1.ItemSection_SimilarSections, T1.It");
+            viewString.Append("emSection_QuestionQueue, T1.ItemSection_InputQueue, T1.ItemSection_StockQueue, T");
+            viewString.Append("1.ItemSection_CostCentreQueue)\r\n    FROM (\r\n        SELECT \r\n            T.ItemS");
             viewString.Append("ectionId AS ItemSection_ItemSectionId, \r\n            T.SectionNo AS ItemSection_");
             viewString.Append("SectionNo, \r\n            T.SectionName AS ItemSection_SectionName, \r\n           ");
             viewString.Append(" T.IsMainSection AS ItemSection_IsMainSection, \r\n            T.IsMultipleQty AS ");
@@ -2655,58 +2655,58 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("nks, \r\n            T.IsSwingApplied AS ItemSection_IsSwingApplied, \r\n           ");
             viewString.Append(" T.SectionType AS ItemSection_SectionType, \r\n            T.IsMakeReadyUsed AS It");
             viewString.Append("emSection_IsMakeReadyUsed, \r\n            T.isWorknTurn AS ItemSection_isWorknTur");
-            viewString.Append("n, \r\n            T.isWorkntumble AS ItemSection_isWorkntumble, \r\n            T.Q");
-            viewString.Append("uestionQueue AS ItemSection_QuestionQueue, \r\n            T.StockQueue AS ItemSec");
-            viewString.Append("tion_StockQueue, \r\n            T.InputQueue AS ItemSection_InputQueue, \r\n       ");
-            viewString.Append("     T.CostCentreQueue AS ItemSection_CostCentreQueue, \r\n            T.PressSpee");
-            viewString.Append("d1 AS ItemSection_PressSpeed1, \r\n            T.PressSpeed2 AS ItemSection_PressS");
-            viewString.Append("peed2, \r\n            T.PressSpeed3 AS ItemSection_PressSpeed3, \r\n            T.P");
-            viewString.Append("ressSpeed4 AS ItemSection_PressSpeed4, \r\n            T.PressSpeed5 AS ItemSectio");
-            viewString.Append("n_PressSpeed5, \r\n            T.PrintSheetQty1 AS ItemSection_PrintSheetQty1, \r\n ");
-            viewString.Append("           T.PrintSheetQty2 AS ItemSection_PrintSheetQty2, \r\n            T.Print");
-            viewString.Append("SheetQty3 AS ItemSection_PrintSheetQty3, \r\n            T.PrintSheetQty4 AS ItemS");
-            viewString.Append("ection_PrintSheetQty4, \r\n            T.PrintSheetQty5 AS ItemSection_PrintSheetQ");
-            viewString.Append("ty5, \r\n            T.PressHourlyCharge AS ItemSection_PressHourlyCharge, \r\n     ");
-            viewString.Append("       T.PrintChargeExMakeReady1 AS ItemSection_PrintChargeExMakeReady1, \r\n     ");
-            viewString.Append("       T.PrintChargeExMakeReady2 AS ItemSection_PrintChargeExMakeReady2, \r\n     ");
-            viewString.Append("       T.PrintChargeExMakeReady3 AS ItemSection_PrintChargeExMakeReady3, \r\n     ");
-            viewString.Append("       T.PrintChargeExMakeReady4 AS ItemSection_PrintChargeExMakeReady4, \r\n     ");
-            viewString.Append("       T.PrintChargeExMakeReady5 AS ItemSection_PrintChargeExMakeReady5, \r\n     ");
-            viewString.Append("       T.PaperGsm AS ItemSection_PaperGsm, \r\n            T.PaperPackPrice AS Ite");
-            viewString.Append("mSection_PaperPackPrice, \r\n            T.PTVRows AS ItemSection_PTVRows, \r\n     ");
-            viewString.Append("       T.PTVColoumns AS ItemSection_PTVColoumns, \r\n            T.PaperWeight1 AS");
-            viewString.Append(" ItemSection_PaperWeight1, \r\n            T.PaperWeight2 AS ItemSection_PaperWeig");
-            viewString.Append("ht2, \r\n            T.PaperWeight3 AS ItemSection_PaperWeight3, \r\n            T.P");
-            viewString.Append("aperWeight4 AS ItemSection_PaperWeight4, \r\n            T.PaperWeight5 AS ItemSec");
-            viewString.Append("tion_PaperWeight5, \r\n            T.FinishedItemQty1 AS ItemSection_FinishedItemQ");
-            viewString.Append("ty1, \r\n            T.FinishedItemQty2 AS ItemSection_FinishedItemQty2, \r\n       ");
-            viewString.Append("     T.FinishedItemQty3 AS ItemSection_FinishedItemQty3, \r\n            T.Finishe");
-            viewString.Append("dItemQty4 AS ItemSection_FinishedItemQty4, \r\n            T.FinishedItemQty5 AS I");
-            viewString.Append("temSection_FinishedItemQty5, \r\n            T.ProfileId AS ItemSection_ProfileId,");
-            viewString.Append(" \r\n            T.SelectedPressCalculationMethodId AS ItemSection_SelectedPressCa");
-            viewString.Append("lculationMethodId, \r\n            T.SectionNotes AS ItemSection_SectionNotes, \r\n ");
-            viewString.Append("           T.IsScheduled AS ItemSection_IsScheduled, \r\n            T.ImageType A");
-            viewString.Append("S ItemSection_ImageType, \r\n            T.WebClylinderHeight AS ItemSection_WebCl");
-            viewString.Append("ylinderHeight, \r\n            T.WebCylinderWidth AS ItemSection_WebCylinderWidth,");
-            viewString.Append(" \r\n            T.WebCylinderId AS ItemSection_WebCylinderId, \r\n            T.Web");
-            viewString.Append("PaperLengthWithSp AS ItemSection_WebPaperLengthWithSp, \r\n            T.WebPaperL");
-            viewString.Append("engthWoSp AS ItemSection_WebPaperLengthWoSp, \r\n            T.WebReelMakereadyQty");
-            viewString.Append(" AS ItemSection_WebReelMakereadyQty, \r\n            T.WebStockPaperCost AS ItemSe");
-            viewString.Append("ction_WebStockPaperCost, \r\n            T.WebSpoilageType AS ItemSection_WebSpoil");
-            viewString.Append("ageType, \r\n            T.PressPassesQty AS ItemSection_PressPassesQty, \r\n       ");
-            viewString.Append("     T.PrintingType AS ItemSection_PrintingType, \r\n            T.PadsLeafQty AS ");
-            viewString.Append("ItemSection_PadsLeafQty, \r\n            T.PadsQuantity AS ItemSection_PadsQuantit");
-            viewString.Append("y, \r\n            T.LastUpdateDate AS ItemSection_LastUpdateDate, \r\n            T");
-            viewString.Append(".LastUpdatedBy AS ItemSection_LastUpdatedBy, \r\n            T.Qty1MarkUpID AS Ite");
-            viewString.Append("mSection_Qty1MarkUpID, \r\n            T.Qty2MarkUpID AS ItemSection_Qty2MarkUpID,");
-            viewString.Append(" \r\n            T.Qty3MarkUpID AS ItemSection_Qty3MarkUpID, \r\n            T.Stock");
-            viewString.Append("ItemID1 AS ItemSection_StockItemID1, \r\n            T.StockItemID2 AS ItemSection");
-            viewString.Append("_StockItemID2, \r\n            T.StockItemID3 AS ItemSection_StockItemID3, \r\n     ");
-            viewString.Append("       T.Side1PlateQty AS ItemSection_Side1PlateQty, \r\n            T.IsPortrait ");
-            viewString.Append("AS ItemSection_IsPortrait, \r\n            T.Side2PlateQty AS ItemSection_Side2Pla");
-            viewString.Append("teQty, \r\n            T.InkColorType AS ItemSection_InkColorType, \r\n            T");
-            viewString.Append(".PlateInkId AS ItemSection_PlateInkId, \r\n            T.SimilarSections AS ItemSe");
-            viewString.Append("ction_SimilarSections, \r\n            True AS _from0\r\n        FROM BaseDbContext.");
+            viewString.Append("n, \r\n            T.isWorkntumble AS ItemSection_isWorkntumble, \r\n            T.P");
+            viewString.Append("ressSpeed1 AS ItemSection_PressSpeed1, \r\n            T.PressSpeed2 AS ItemSectio");
+            viewString.Append("n_PressSpeed2, \r\n            T.PressSpeed3 AS ItemSection_PressSpeed3, \r\n       ");
+            viewString.Append("     T.PressSpeed4 AS ItemSection_PressSpeed4, \r\n            T.PressSpeed5 AS It");
+            viewString.Append("emSection_PressSpeed5, \r\n            T.PrintSheetQty1 AS ItemSection_PrintSheetQ");
+            viewString.Append("ty1, \r\n            T.PrintSheetQty2 AS ItemSection_PrintSheetQty2, \r\n           ");
+            viewString.Append(" T.PrintSheetQty3 AS ItemSection_PrintSheetQty3, \r\n            T.PrintSheetQty4 ");
+            viewString.Append("AS ItemSection_PrintSheetQty4, \r\n            T.PrintSheetQty5 AS ItemSection_Pri");
+            viewString.Append("ntSheetQty5, \r\n            T.PressHourlyCharge AS ItemSection_PressHourlyCharge,");
+            viewString.Append(" \r\n            T.PrintChargeExMakeReady1 AS ItemSection_PrintChargeExMakeReady1,");
+            viewString.Append(" \r\n            T.PrintChargeExMakeReady2 AS ItemSection_PrintChargeExMakeReady2,");
+            viewString.Append(" \r\n            T.PrintChargeExMakeReady3 AS ItemSection_PrintChargeExMakeReady3,");
+            viewString.Append(" \r\n            T.PrintChargeExMakeReady4 AS ItemSection_PrintChargeExMakeReady4,");
+            viewString.Append(" \r\n            T.PrintChargeExMakeReady5 AS ItemSection_PrintChargeExMakeReady5,");
+            viewString.Append(" \r\n            T.PaperGsm AS ItemSection_PaperGsm, \r\n            T.PaperPackPric");
+            viewString.Append("e AS ItemSection_PaperPackPrice, \r\n            T.PTVRows AS ItemSection_PTVRows,");
+            viewString.Append(" \r\n            T.PTVColoumns AS ItemSection_PTVColoumns, \r\n            T.PaperWe");
+            viewString.Append("ight1 AS ItemSection_PaperWeight1, \r\n            T.PaperWeight2 AS ItemSection_P");
+            viewString.Append("aperWeight2, \r\n            T.PaperWeight3 AS ItemSection_PaperWeight3, \r\n       ");
+            viewString.Append("     T.PaperWeight4 AS ItemSection_PaperWeight4, \r\n            T.PaperWeight5 AS");
+            viewString.Append(" ItemSection_PaperWeight5, \r\n            T.FinishedItemQty1 AS ItemSection_Finis");
+            viewString.Append("hedItemQty1, \r\n            T.FinishedItemQty2 AS ItemSection_FinishedItemQty2, \r");
+            viewString.Append("\n            T.FinishedItemQty3 AS ItemSection_FinishedItemQty3, \r\n            T");
+            viewString.Append(".FinishedItemQty4 AS ItemSection_FinishedItemQty4, \r\n            T.FinishedItemQ");
+            viewString.Append("ty5 AS ItemSection_FinishedItemQty5, \r\n            T.ProfileId AS ItemSection_Pr");
+            viewString.Append("ofileId, \r\n            T.SelectedPressCalculationMethodId AS ItemSection_Selecte");
+            viewString.Append("dPressCalculationMethodId, \r\n            T.SectionNotes AS ItemSection_SectionNo");
+            viewString.Append("tes, \r\n            T.IsScheduled AS ItemSection_IsScheduled, \r\n            T.Ima");
+            viewString.Append("geType AS ItemSection_ImageType, \r\n            T.WebClylinderHeight AS ItemSecti");
+            viewString.Append("on_WebClylinderHeight, \r\n            T.WebCylinderWidth AS ItemSection_WebCylind");
+            viewString.Append("erWidth, \r\n            T.WebCylinderId AS ItemSection_WebCylinderId, \r\n         ");
+            viewString.Append("   T.WebPaperLengthWithSp AS ItemSection_WebPaperLengthWithSp, \r\n            T.W");
+            viewString.Append("ebPaperLengthWoSp AS ItemSection_WebPaperLengthWoSp, \r\n            T.WebReelMake");
+            viewString.Append("readyQty AS ItemSection_WebReelMakereadyQty, \r\n            T.WebStockPaperCost A");
+            viewString.Append("S ItemSection_WebStockPaperCost, \r\n            T.WebSpoilageType AS ItemSection_");
+            viewString.Append("WebSpoilageType, \r\n            T.PressPassesQty AS ItemSection_PressPassesQty, \r");
+            viewString.Append("\n            T.PrintingType AS ItemSection_PrintingType, \r\n            T.PadsLea");
+            viewString.Append("fQty AS ItemSection_PadsLeafQty, \r\n            T.PadsQuantity AS ItemSection_Pad");
+            viewString.Append("sQuantity, \r\n            T.LastUpdateDate AS ItemSection_LastUpdateDate, \r\n     ");
+            viewString.Append("       T.LastUpdatedBy AS ItemSection_LastUpdatedBy, \r\n            T.Qty1MarkUpI");
+            viewString.Append("D AS ItemSection_Qty1MarkUpID, \r\n            T.Qty2MarkUpID AS ItemSection_Qty2M");
+            viewString.Append("arkUpID, \r\n            T.Qty3MarkUpID AS ItemSection_Qty3MarkUpID, \r\n           ");
+            viewString.Append(" T.StockItemID1 AS ItemSection_StockItemID1, \r\n            T.StockItemID2 AS Ite");
+            viewString.Append("mSection_StockItemID2, \r\n            T.StockItemID3 AS ItemSection_StockItemID3,");
+            viewString.Append(" \r\n            T.Side1PlateQty AS ItemSection_Side1PlateQty, \r\n            T.IsP");
+            viewString.Append("ortrait AS ItemSection_IsPortrait, \r\n            T.Side2PlateQty AS ItemSection_");
+            viewString.Append("Side2PlateQty, \r\n            T.InkColorType AS ItemSection_InkColorType, \r\n     ");
+            viewString.Append("       T.PlateInkId AS ItemSection_PlateInkId, \r\n            T.SimilarSections A");
+            viewString.Append("S ItemSection_SimilarSections, \r\n            T.QuestionQueue AS ItemSection_Ques");
+            viewString.Append("tionQueue, \r\n            T.InputQueue AS ItemSection_InputQueue, \r\n            T");
+            viewString.Append(".StockQueue AS ItemSection_StockQueue, \r\n            T.CostCentreQueue AS ItemSe");
+            viewString.Append("ction_CostCentreQueue, \r\n            True AS _from0\r\n        FROM BaseDbContext.");
             viewString.Append("ItemSections AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ItemSection", viewString.ToString());
         }

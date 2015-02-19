@@ -5,6 +5,14 @@ using System.Web;
 
 namespace MPC.Models.Common
 {
+    public enum FieldVariableScopeType : int
+    {
+        Store = 1,
+        Contact = 2,
+        Address = 3,
+        Territory = 4,
+    }
+
     public enum StoreMode : int
     {
         Retail = 1,
@@ -157,7 +165,7 @@ namespace MPC.Models.Common
 
     };
 
-  
+
     public enum UploadFileTypes : int
     {
         Artwork,

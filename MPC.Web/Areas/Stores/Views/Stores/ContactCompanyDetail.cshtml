@@ -1759,6 +1759,13 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                     </tbody>
                                                 </table>
                                             </div>
+                                            <div id="pagerDiv">
+                                                <ul class="pagination pull-right">
+                                                    <!-- ko with: $root.fieldVariablePager -->
+                                                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                                    <!-- /ko -->
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
