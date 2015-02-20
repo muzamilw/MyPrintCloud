@@ -1347,17 +1347,38 @@ define("stores/stores.viewModel",
                                 });
                                 //check on client side, push all if new added work
                                 if (searchAddressFilter() == "" || searchAddressFilter() == undefined) {
-                                    _.each(newAddresses(), function (addressItem) {
-                                        selectedStore().addresses.push(addressItem);
-                                    });
+                                    if (addressTerritoryFilter() != undefined) {
+                                        _.each(newAddresses(), function (addressItem) {
+                                            if (addressItem.territoryId() == addressTerritoryFilter()) {
+                                                selectedStore().addresses.push(addressItem);
+                                            }
+                                        });
+                                    } else {
+                                        _.each(newAddresses(), function (addressItem) {
+                                                selectedStore().addresses.push(addressItem);
+                                        });
+                                    }
+                                    
                                 }
+
                                 //check on client side, if filter is not null
                                 if (searchAddressFilter() != "" && searchAddressFilter() != undefined) {
-                                    _.each(newAddresses(), function (addressItem) {
-                                        if (addressItem.addressName().indexOf(searchAddressFilter()) != -1) {
-                                            selectedStore().addresses.push(addressItem);
-                                        }
-                                    });
+                                    if (addressTerritoryFilter() == undefined) {
+                                        _.each(newAddresses(), function (addressItem) {
+                                            if (addressItem.addressName().indexOf(searchAddressFilter()) != -1) {
+                                                selectedStore().addresses.push(addressItem);
+                                            }
+                                        });
+                                    } else {
+                                        _.each(newAddresses(), function (addressItem) {
+                                            if (addressItem.addressName().indexOf(searchAddressFilter()) != -1) {
+                                                if (addressItem.territoryId() == addressTerritoryFilter()) {
+                                                    selectedStore().addresses.push(addressItem);
+                                                }
+                                                
+                                            }
+                                        });
+                                    }
                                 }
                             },
                             error: function (response) {
@@ -1366,7 +1387,7 @@ define("stores/stores.viewModel",
                         });
                     },
                     addressTerritoryFilterSelected = ko.computed(function () {
-                        if (isEditorVisible() && selectedStore() != null && selectedStore() != undefined && selectedStore().companyId() !== undefined) {
+                        if (isEditorVisible() && selectedStore() != null && selectedStore() != undefined) {
                             searchAddress();
                         }
                     }),

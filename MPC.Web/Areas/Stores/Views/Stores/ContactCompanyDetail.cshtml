@@ -560,6 +560,11 @@
                                         <h3 class="group-header">Addresses</h3>
                                         <div class="col-lg-12 clearfix">
                                             <header class="main-box-header clearfix">
+                                                <!--ko if: $root.selectedStore().type() != 4-->
+                                                <div class="filter-block form-group pull-left col-xs-4">
+                                                    <select class="form-control col-lg-4" data-bind="options:$root.contactCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Select Territory...', value: $root.addressTerritoryFilter"></select>
+                                                </div>
+                                                <!--/ko-->
                                                 <div class="filter-block">
                                                     <div class="filter-block pull-right col-xs-5">
                                                         <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
