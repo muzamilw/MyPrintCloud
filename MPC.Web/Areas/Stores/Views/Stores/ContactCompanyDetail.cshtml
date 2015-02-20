@@ -62,7 +62,7 @@
                                 <li><a href="#tab-CMYKColors" data-toggle="tab">CMYK Colors</a></li>
                                 <li><a href="#tab-VariableDef" data-toggle="tab">Variable Defination</a></li>
                                 <li><a href="#tab-ModifyVariable" data-toggle="tab">Modify Variable</a></li>
-                                <li><a href="#tab-SmartFormDef" data-toggle="tab">Smart Form Defination</a></li>
+                                <li><a href="#tab-SmartFormDef" data-toggle="tab">Smart Form</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane fade in active" data-bind="with: $root.selectedStore" id="tab-generalinfo">
@@ -72,7 +72,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Your Coustomer Name or Store Name" data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Your Customer Name or Store Name" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -577,11 +577,16 @@
                                                     <table class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th><a href="#"><span>Address Name</span></a></th>
-                                                                <th><a href="#"><span>City</span></a></th>
+                                                                <th><span>Address Name</span></th>
+                                                                <th><span>City</span></th>
                                                                 @*<th><a href="#"><span>Territory</span></a></th>*@
-                                                                <th><a href="#"><span>Company Default Shipping Address</span></a></th>
-                                                                <th><a href="#"><span>Company Default Address</span></a></th>
+                                                                <!--ko if: type() == 4-->
+                                                                <th><span>Company Default Shipping Address</span></th>
+                                                                <!--/ko-->
+                                                                <!--ko if: type() == 3-->
+                                                                <th><span>Territory Default Billing Address</span></th>
+                                                                <!--/ko-->
+                                                                <th><span>Company Default Address</span></th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -606,7 +611,7 @@
                                             <header class="main-box-header clearfix">
                                                 <!--ko if: $root.selectedStore().type() != 4-->
                                                 <div class="filter-block form-group pull-left col-xs-4">
-                                                    <select class="form-control col-lg-4" data-bind="options:$root.contactCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Choose...', value: $root.contactCompanyTerritoryFilter"></select>
+                                                    <select class="form-control col-lg-4" data-bind="options:$root.contactCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Select Territory...', value: $root.contactCompanyTerritoryFilter"></select>
                                                 </div>
                                                 <!--/ko-->
                                                 <div class="filter-block pull-right">
@@ -839,7 +844,7 @@
                                                     <div class="radio">
                                                         <input type="radio" name="optionsRadiosMap" id="rdiolatlong" value="1" data-bind="checked: isShowGoogleMap">
                                                         <label for="rdiolatlong">
-                                                            Display map on contact us page using default adress's latitude and longitude.
+                                                            Display map on contact us page using default address's latitude and longitude.
                                                         </label>
                                                     </div>
                                                     <div class="radio">
@@ -1087,7 +1092,7 @@
                                         <h3 class="group-header">SEO Scripts</h3>
                                         <div class="col-lg-9">
                                             <div class="form-group">
-                                                <div class="col-lg-4 text-right">
+                                                <div class="col-lg-5 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Cut and paste your Google or customer jquery scripts here.  *Advanced Users Only*" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -1101,7 +1106,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <div class="col-lg-4 text-right">
+                                                <div class="col-lg-5 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Cut and paste your Google Analytics scripts to find your Google analytics script visit www.google.com/analytics" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -1134,8 +1139,8 @@
                                                     <table class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th><a href="#"><span>Review Name</span></a></th>
-                                                                <th><a href="#" class="asc"><span>Review</span></a></th>
+                                                                <th><a href="#"><span>Name</span></a></th>
+                                                                <th><a href="#" class="asc"><span>Description</span></a></th>
                                                                 <th>&nbsp;</th>
                                                             </tr>
                                                         </thead>
@@ -1341,7 +1346,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="switchProductPrices">Display the prices of products accross store ?</label>
+                                                <label class="col-md-6" for="switchProductPrices">Display the prices of products across store ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchProductPrices" checked>
@@ -1394,7 +1399,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="switchEditProfile">Allow user to edit his/her profile -check with naveed ?</label>
+                                                <label class="col-md-6" for="switchEditProfile">Allow user to edit his/her profile </label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchEditProfile" checked>
@@ -1749,10 +1754,17 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @*<!-- ko template: { name: 'itemCompanyCMYKColorTemplate' , foreach: $root.selectedStore().companyCMYKColors } -->
-                                                            <!-- /ko -->*@
+                                                        <!-- ko template: { name: 'filedVariablesItemTemplate' , foreach: $root.fieldVariables } -->
+                                                        <!-- /ko -->
                                                     </tbody>
                                                 </table>
+                                            </div>
+                                            <div id="pagerDiv">
+                                                <ul class="pagination pull-right">
+                                                    <!-- ko with: $root.fieldVariablePager -->
+                                                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                                    <!-- /ko -->
+                                                </ul>
                                             </div>
                                         </div>
                                     </div>
@@ -2014,20 +2026,47 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 <td data-bind="text: addressName"></td>
                 <td data-bind="text: city"></td>
                 @*<td data-bind="text: territoryName"></td>*@
-                <td data-bind="text: isDefaultTerrorityShipping() == true ? 'Yes' : 'No' "></td>
+
+                <!--ko if: $root.selectedStore().type() == 4-->
+               
+                <!--ko if: isDefaultShippingAddress() == true -->
+                <td class="type">
+                    <span class="label label-success">Yes </span>
+                </td>
+                <!-- /ko -->
+                <!--ko if: isDefaultShippingAddress() != true-->
+                <td class="type">
+                    <span class="label label-danger">No </span>
+                </td>
+                <!-- /ko -->
+
+                <!--/ko-->
+                <!--ko if:  $root.selectedStore().type() == 3-->
+               
+                <!--ko if: isDefaultTerrorityBilling() == true -->
+                <td class="type">
+                    <span class="label label-success">Yes </span>
+                </td>
+                <!-- /ko -->
+                <!--ko if: isDefaultTerrorityBilling() != true-->
+                <td class="type">
+                    <span class="label label-danger">No </span>
+                </td>
+                <!-- /ko -->
+
+                <!--/ko-->
+                
                 <!--ko if: isDefaultAddress() == true -->
                 <td class="type">
-                    @*<span class="label label-danger" data-bind="text: isDefaultAddress()== true ? 'Yes' : 'No'"> </span>*@
-                    <span class="label label-danger">Yes </span>
+                    <span class="label label-success">Yes </span>
                 </td>
                 <!-- /ko -->
                 <!--ko if: isDefaultAddress() != true-->
                 <td class="type">
-                    <span> No</span>
+                    <span class="label label-danger">No </span>
                 </td>
                 <!-- /ko -->
-                @*
-                    <td data-bind="text: isDefaultAddress() == true ? 'Yes' : 'No' "></td>*@
+
                 <td id="actionColumn" class="text-right">
                     <!-- ko template: { name: "actionsAddressTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                     <!-- /ko -->
@@ -2064,7 +2103,16 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 </td>
                 <td>
                     <div class="type">
-                        <span class="label label-danger" data-bind="text: roleName "></span>
+                        <!--ko if: roleName() == 'Administrator' -->
+                        <span class="label label-primary" data-bind="text: roleName "></span>
+                        <!-- /ko -->
+                        <!--ko if: roleName() == 'Manager' -->
+                        <span class="label label-success" data-bind="text: roleName "></span>
+                        <!-- /ko -->
+                        <!--ko if: roleName() == 'User' -->
+                        <span class="label label-info" data-bind="text: roleName "></span>
+                        <!-- /ko -->
+                
                     </div>
                 </td>
                 @*
@@ -2075,7 +2123,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                         <span data-bind="text: isWebAccess() == true ? 'Yes' : 'No' "></span>   @*class="label label-danger"*@
                     </div>
                 </td>
-                
+
                 <td>
                     <div class="type">
                         <span class="label label-danger" data-bind="text: isPlaceOrder() == true ? 'Yes' : 'No' "></span>
@@ -2334,4 +2382,23 @@ Public  - allows users to see other users addresses and orders." data-original-t
         <div class="photo-box image-link" data-bind="style:{backgroundImage:' url('+fileSource()+')'}"></div>
         <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
     </li>
+</script>
+
+
+<script id="filedVariablesItemTemplate" type="text/html">
+    <tr>
+        <td data-bind="text:variableName"></td>
+        <td data-bind="text:scopeName"></td>
+        <td data-bind="text:typeName"></td>
+        <td data-bind="text:variableTag"></td>
+        <td class="text-right">
+            <a href="" class="table-link" data-bind="click:$root.onEditFieldVariable">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+        </td>
+    </tr>
+
 </script>

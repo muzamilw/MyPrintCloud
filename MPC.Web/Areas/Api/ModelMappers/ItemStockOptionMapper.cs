@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Web;
 using MPC.MIS.Areas.Api.Models;
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
@@ -33,12 +34,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 itemStockOption.StockItemName = sourceStockItem.ItemName;
                 itemStockOption.StockItemDescription = sourceStockItem.ItemDescription;
             }
-
-            if (source.ImageURL != null && File.Exists(source.ImageURL))
+            string imageUrl = HttpContext.Current.Server.MapPath("~/" + source.ImageURL);
+            if (imageUrl != null && File.Exists(imageUrl))
             {
-                itemStockOption.ImageUrlBytes = File.ReadAllBytes(source.ImageURL);
+                itemStockOption.ImageUrlBytes = File.ReadAllBytes(imageUrl);
             }
-
             return itemStockOption;
         }
 

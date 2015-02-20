@@ -19,6 +19,10 @@ define("order/order.viewModel",
                     companyContacts = ko.observableArray([]),
                     // Company Addresses
                     companyAddresses = ko.observableArray([]),
+                    // System Users
+                    systemUsers = ko.observableArray([]),
+                    // Pipeline Sources
+                    pipelineSources = ko.observableArray([]),
                     // Errors List
                     errorList = ko.observableArray([]),
                     // #endregion Arrays
@@ -70,6 +74,10 @@ define("order/order.viewModel",
 
                         return contactResult || defaultCompanyContact();
                     }),
+                    // Selected Product
+                    selectedProduct = ko.observable(),
+                    // Selected Section
+                    selectedSection = ko.observable(),
                     // #endregion
                     // #region Utility Functions
                     // Create New Order
@@ -131,6 +139,44 @@ define("order/order.viewModel",
                         
                         // Get Company Address and Contacts
                         getBaseForCompany(company.id);
+                    },
+                    // Add Item
+                    addItem = function() {
+                        // Open Product Selector Dialog
+                    },
+                    // Edit Item
+                    editItem = function(item) {
+                        selectedProduct(item);
+                        openItemDetail();
+                    },
+                    // Open Item Detail
+                    openItemDetail = function() {
+                        view.showItemDetailDialog();
+                    },
+                    // Close Item Detail
+                    closeItemDetail = function() {
+                        view.hideItemDetailDialog();
+                    },
+                    // Save Product
+                    saveProduct = function() {
+                            
+                    },
+                    // Add Section
+                    addSection = function () {
+                        // Open Product Selector Dialog
+                    },
+                    // Edit Section
+                    editSection = function (item) {
+                        selectedSection(item);
+                        openSectionDetail();
+                    },
+                    // Open Section Detail
+                    openSectionDetail = function () {
+                        view.showSectionDetailDialog();
+                    },
+                    // Close Section Detail
+                    closeSectionDetail = function () {
+                        view.hideSectionDetailDialog();
                     },
                     // Initialize the view model
                     initialize = function (specifiedView) {
@@ -219,10 +265,14 @@ define("order/order.viewModel",
                     getBaseData = function () {
                         dataservice.getBaseData({
                             success: function (data) {
-                                if (data) {
-                                    _.each(data, function (sectionFlag) {
-                                        sectionFlags.push(model.SectionFlag.Create(sectionFlag));
-                                    });
+                                if (data.SectionFlags) {
+                                    mapList(sectionFlags, data.SectionFlags, model.SectionFlag);
+                                }
+                                if (data.SystemUsers) {
+                                    mapList(systemUsers, data.SystemUsers, model.SystemUser);
+                                }
+                                if (data.PipeLineSources) {
+                                    mapList(pipelineSources, data.PipeLineSources, model.PipeLineSource);
                                 }
                             },
                             error: function (response) {
@@ -400,6 +450,9 @@ define("order/order.viewModel",
                     companyContacts: companyContacts,
                     companyAddresses: companyAddresses,
                     sectionFlags: sectionFlags,
+                    systemUsers: systemUsers,
+                    pipelineSources: pipelineSources,
+                    selectedProduct: selectedProduct,
                     // Observables
                     // Utility Methods
                     initialize: initialize,
@@ -412,7 +465,15 @@ define("order/order.viewModel",
                     onArchiveOrder: onArchiveOrder,
                     gotoElement: gotoElement,
                     onCloneOrder: onCloneOrder,
-                    openCompanyDialog: openCompanyDialog
+                    openCompanyDialog: openCompanyDialog,
+                    closeItemDetail: closeItemDetail,
+                    openItemDetail: openItemDetail,
+                    addItem: addItem,
+                    editItem: editItem,
+                    saveProduct: saveProduct,
+                    addSection: addSection,
+                    editSection: editSection,
+                    closeSectionDetail: closeSectionDetail
                     // Utility Methods
                 };
             })()

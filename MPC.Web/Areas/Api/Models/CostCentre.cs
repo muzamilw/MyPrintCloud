@@ -135,8 +135,10 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? isFromMIS { get; set; }
         public string XeroAccessCode { get; set; }
         public long? OrganisationId { get; set; }
-        public virtual ICollection<CostcentreInstruction> CostcentreInstructions { get; set; }
-        public virtual ICollection<CostcentreResource> CostcentreResources { get; set; }
+        public string DeliveryServiceType { get; set; }
+        public long? CarrierId { get; set; }
+        public ICollection<CostcentreInstruction> CostcentreInstructions { get; set; }
+        public ICollection<CostcentreResource> CostcentreResources { get; set; }
        
     }
 }

@@ -162,6 +162,7 @@
     <Compile Include="MISServices\InventoryService.cs" />
     <Compile Include="MISServices\CostCenterService.cs" />
     <Compile Include="MISServices\MachineService.cs" />
+    <Compile Include="MISServices\OrderForCrmService.cs" />
     <Compile Include="MISServices\OrderService.cs" />
     <Compile Include="MISServices\PaperSheetService.cs" />
     <Compile Include="MISServices\PhraseLibraryService.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="WebStoreServices\MyCompanyDomainService.cs" />
     <Compile Include="TypeRegistrations.cs" />
     <Compile Include="WebStoreServices\OrderService.cs" />
+    <Compile Include="WebStoreServices\StatusService.cs" />
     <Compile Include="WebStoreServices\TemplateBackgroundImagesService.cs" />
     <Compile Include="WebStoreServices\TemplateColorStylesService.cs" />
     <Compile Include="WebStoreServices\TemplateFontsService.cs" />

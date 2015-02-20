@@ -484,7 +484,6 @@
           <Property Name="StockNotificationManagerId2" Type="uniqueidentifier" />
           <Property Name="IsDeliveryTaxAble" Type="bit" />
           <Property Name="IsDisplayDeliveryOnCheckout" Type="bit" />
-          <Property Name="DeliveryPickUpAddressId" Type="bigint" />
           <Property Name="TaxRate" Type="float" />
           <Property Name="IsDisplayDiscountVoucherCode" Type="bit" />
           <Property Name="IsDisplayCorporateBinding" Type="bit" />
@@ -627,6 +626,15 @@
           </Key>
           <Property Name="ContactRoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ContactRoleName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CompanyContactVariable">
+          <Key>
+            <PropertyRef Name="ContactVariableId" />
+          </Key>
+          <Property Name="ContactVariableId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ContactId" Type="bigint" Nullable="false" />
+          <Property Name="VariableId" Type="bigint" Nullable="false" />
+          <Property Name="Value" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="CompanyCostCentre">
           <Key>
@@ -818,6 +826,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="OrganisationId" Type="bigint" />
           <Property Name="DeliveryType" Type="int" />
           <Property Name="DeliveryServiceType" Type="varchar" MaxLength="150" />
+          <Property Name="CarrierId" Type="bigint" />
         </EntityType>
         <EntityType Name="CostCentreAnswer">
           <Key>
@@ -951,6 +960,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="CurrencyId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CurrencyCode" Type="varchar" MaxLength="50" />
           <Property Name="CurrencyName" Type="varchar" MaxLength="50" />
+          <Property Name="CurrencySymbol" Type="varchar" MaxLength="5" />
         </EntityType>
         <EntityType Name="CustomCopy">
           <Key>
@@ -969,6 +979,17 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="BrochureLifeStyle3" Type="nchar" MaxLength="10" />
           <Property Name="ListingId" Type="bigint" />
           <Property Name="CustomCopyId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DeliveryCarrier">
+          <Key>
+            <PropertyRef Name="CarrierId" />
+          </Key>
+          <Property Name="CarrierId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CarrierName" Type="varchar" MaxLength="200" />
+          <Property Name="Url" Type="varchar" MaxLength="200" />
+          <Property Name="ApiKey" Type="varchar" MaxLength="150" />
+          <Property Name="ApiPassword" Type="varchar" MaxLength="150" />
+          <Property Name="isEnable" Type="bit" />
         </EntityType>
         <EntityType Name="DeliveryNote">
           <Key>
@@ -1161,6 +1182,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="CompanyId" Type="bigint" />
           <Property Name="OrganisationId" Type="bigint" />
           <Property Name="IsSystem" Type="bit" />
+          <Property Name="VariableTitle" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="GlobalLanguage">
           <Key>
@@ -1617,6 +1639,12 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="ItemWidth" Type="float" />
           <Property Name="ItemHeight" Type="float" />
           <Property Name="ItemWeight" Type="float" />
+          <Property Name="printCropMarks" Type="bit" />
+          <Property Name="drawBleedArea" Type="bit" />
+          <Property Name="isMultipagePDF" Type="bit" />
+          <Property Name="drawWaterMarkTxt" Type="bit" />
+          <Property Name="allowPdfDownload" Type="bit" />
+          <Property Name="allowImageDownload" Type="bit" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -1720,10 +1748,6 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="IsMakeReadyUsed" Type="bit" />
           <Property Name="isWorknTurn" Type="bit" />
           <Property Name="isWorkntumble" Type="bit" />
-          <Property Name="QuestionQueue" Type="image" />
-          <Property Name="StockQueue" Type="image" />
-          <Property Name="InputQueue" Type="image" />
-          <Property Name="CostCentreQueue" Type="image" />
           <Property Name="PressSpeed1" Type="int" />
           <Property Name="PressSpeed2" Type="int" />
           <Property Name="PressSpeed3" Type="int" />
@@ -1785,6 +1809,10 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="InkColorType" Type="int" />
           <Property Name="PlateInkId" Type="int" />
           <Property Name="SimilarSections" Type="int" />
+          <Property Name="QuestionQueue" Type="ntext" />
+          <Property Name="InputQueue" Type="ntext" />
+          <Property Name="StockQueue" Type="ntext" />
+          <Property Name="CostCentreQueue" Type="ntext" />
         </EntityType>
         <EntityType Name="ItemStateTax">
           <Key>
@@ -2215,7 +2243,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Key>
             <PropertyRef Name="OrganisationId" />
           </Key>
-          <Property Name="OrganisationId" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrganisationId" Type="bigint" Nullable="false" />
           <Property Name="OrganisationName" Type="varchar" MaxLength="100" />
           <Property Name="Address1" Type="varchar" MaxLength="255" />
           <Property Name="Address2" Type="varchar" MaxLength="255" />
@@ -2247,6 +2275,8 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="isXeroIntegrationRequired" Type="bit" />
           <Property Name="XeroApiId" Type="nvarchar" MaxLength="100" />
           <Property Name="XeroApiKey" Type="nvarchar" MaxLength="150" />
+          <Property Name="TaxServiceUrl" Type="varchar" MaxLength="255" />
+          <Property Name="TaxServiceKey" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="PageCategory">
           <Key>
@@ -2290,6 +2320,13 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="CompanyId" Type="bigint" />
           <Property Name="PaymentMethodId" Type="int" />
           <Property Name="SecureHash" Type="nvarchar" MaxLength="500" />
+          <Property Name="CancelPurchaseUrl" Type="varchar" MaxLength="255" />
+          <Property Name="ReturnUrl" Type="varchar" MaxLength="255" />
+          <Property Name="NotifyUrl" Type="varchar" MaxLength="255" />
+          <Property Name="SendToReturnURL" Type="bit" />
+          <Property Name="UseSandbox" Type="bit" />
+          <Property Name="LiveApiUrl" Type="varchar" MaxLength="255" />
+          <Property Name="TestApiUrl" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="PaymentMethod">
           <Key>
@@ -2713,6 +2750,25 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="OrganisationId" Type="bigint" />
           <Property Name="FlagColumn" Type="varchar" MaxLength="50" />
           <Property Name="isDefault" Type="bit" />
+        </EntityType>
+        <EntityType Name="SmartForm">
+          <Key>
+            <PropertyRef Name="SmartFormId" />
+          </Key>
+          <Property Name="SmartFormId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="200" />
+          <Property Name="CompanyId" Type="bigint" />
+          <Property Name="OrganisationId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="SmartFormDetail">
+          <Key>
+            <PropertyRef Name="SmartFormDetailId" />
+          </Key>
+          <Property Name="SmartFormDetailId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SmartFormId" Type="bigint" Nullable="false" />
+          <Property Name="ObjectType" Type="int" />
+          <Property Name="IsRequired" Type="bit" />
+          <Property Name="SortOrder" Type="int" />
         </EntityType>
         <EntityType Name="State">
           <Key>
@@ -3462,6 +3518,18 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CompanyContactVariable_CompanyContact">
+          <End Role="CompanyContact" Type="Self.CompanyContact" Multiplicity="1" />
+          <End Role="CompanyContactVariable" Type="Self.CompanyContactVariable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyContact">
+              <PropertyRef Name="ContactId" />
+            </Principal>
+            <Dependent Role="CompanyContactVariable">
+              <PropertyRef Name="ContactId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CompanyCostCentre_Company">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="CompanyCostCentre" Type="Self.CompanyCostCentre" Multiplicity="*" />
@@ -3519,6 +3587,30 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
             </Principal>
             <Dependent Role="Campaign">
               <PropertyRef Name="EmailEvent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FieldVariable_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="FieldVariable" Type="Self.FieldVariable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="FieldVariable">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoice_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="CompanyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3785,6 +3877,30 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
             </Principal>
             <Dependent Role="PhraseField">
               <PropertyRef Name="SectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SmartForm_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="SmartForm" Type="Self.SmartForm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="SmartForm">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SmartFormDetail_SmartForm">
+          <End Role="SmartForm" Type="Self.SmartForm" Multiplicity="1" />
+          <End Role="SmartFormDetail" Type="Self.SmartFormDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SmartForm">
+              <PropertyRef Name="SmartFormId" />
+            </Principal>
+            <Dependent Role="SmartFormDetail">
+              <PropertyRef Name="SmartFormId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4630,6 +4746,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <EntitySet Name="CompanyCMYKColor" EntityType="Self.CompanyCMYKColor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyContact" EntityType="Self.CompanyContact" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyContactRole" EntityType="Self.CompanyContactRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompanyContactVariable" EntityType="Self.CompanyContactVariable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyCostCentre" EntityType="Self.CompanyCostCentre" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyDomain" EntityType="Self.CompanyDomain" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyTerritory" EntityType="Self.CompanyTerritory" Schema="dbo" store:Type="Tables" />
@@ -4651,6 +4768,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomCopy" EntityType="Self.CustomCopy" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeliveryCarrier" EntityType="Self.DeliveryCarrier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DeliveryNote" EntityType="Self.DeliveryNote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DeliveryNoteDetail" EntityType="Self.DeliveryNoteDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DiscountVoucher" EntityType="Self.DiscountVoucher" Schema="dbo" store:Type="Tables" />
@@ -4724,6 +4842,8 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <EntitySet Name="SectionCostCentreDetail" EntityType="Self.SectionCostCentreDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SectionCostCentreResource" EntityType="Self.SectionCostCentreResource" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SectionFlag" EntityType="Self.SectionFlag" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SmartForm" EntityType="Self.SmartForm" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SmartFormDetail" EntityType="Self.SmartFormDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockCategory" EntityType="Self.StockCategory" Schema="dbo" store:Type="Tables" />
@@ -4914,6 +5034,10 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
             <End Role="Address" EntitySet="Address" />
             <End Role="CompanyContact" EntitySet="CompanyContact" />
           </AssociationSet>
+          <AssociationSet Name="FK_CompanyContactVariable_CompanyContact" Association="Self.FK_CompanyContactVariable_CompanyContact">
+            <End Role="CompanyContact" EntitySet="CompanyContact" />
+            <End Role="CompanyContactVariable" EntitySet="CompanyContactVariable" />
+          </AssociationSet>
           <AssociationSet Name="FK_CompanyCostCentre_Company" Association="Self.FK_CompanyCostCentre_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="CompanyCostCentre" EntitySet="CompanyCostCentre" />
@@ -4933,6 +5057,14 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <AssociationSet Name="FK_EventEmail_Campaign" Association="Self.FK_EventEmail_Campaign">
             <End Role="EmailEvent" EntitySet="EmailEvent" />
             <End Role="Campaign" EntitySet="Campaign" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FieldVariable_Company" Association="Self.FK_FieldVariable_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="FieldVariable" EntitySet="FieldVariable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoice_Company" Association="Self.FK_Invoice_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Invoice" EntitySet="Invoice" />
           </AssociationSet>
           <AssociationSet Name="FK_ItemProductDetail_Items" Association="Self.FK_ItemProductDetail_Items">
             <End Role="Items" EntitySet="Items" />
@@ -5021,6 +5153,14 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <AssociationSet Name="fk_sectionId" Association="Self.fk_sectionId">
             <End Role="Section" EntitySet="Section" />
             <End Role="PhraseField" EntitySet="PhraseField" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SmartForm_Company" Association="Self.FK_SmartForm_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="SmartForm" EntitySet="SmartForm" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SmartFormDetail_SmartForm" Association="Self.FK_SmartFormDetail_SmartForm">
+            <End Role="SmartForm" EntitySet="SmartForm" />
+            <End Role="SmartFormDetail" EntitySet="SmartFormDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_StockCategory_StockSubCategory" Association="Self.FK_StockCategory_StockSubCategory">
             <End Role="StockCategory" EntitySet="StockCategory" />
@@ -5924,6 +6064,30 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
             <End Role="FieldVariable" EntitySet="FieldVariables" />
             <End Role="VariableOption" EntitySet="VariableOptions" />
           </AssociationSet>
+          <EntitySet Name="CompanyContactVariables" EntityType="DomainModels.CompanyContactVariable" />
+          <EntitySet Name="SmartForms" EntityType="DomainModels.SmartForm" />
+          <EntitySet Name="SmartFormDetails" EntityType="DomainModels.SmartFormDetail" />
+          <AssociationSet Name="FK_Invoice_Company" Association="DomainModels.FK_Invoice_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Invoice" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SmartForm_Company" Association="DomainModels.FK_SmartForm_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="SmartForm" EntitySet="SmartForms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyContactVariable_CompanyContact" Association="DomainModels.FK_CompanyContactVariable_CompanyContact">
+            <End Role="CompanyContact" EntitySet="CompanyContacts" />
+            <End Role="CompanyContactVariable" EntitySet="CompanyContactVariables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SmartFormDetail_SmartForm" Association="DomainModels.FK_SmartFormDetail_SmartForm">
+            <End Role="SmartForm" EntitySet="SmartForms" />
+            <End Role="SmartFormDetail" EntitySet="SmartFormDetails" />
+          </AssociationSet>
+          <EntitySet Name="DeliveryCarriers" EntityType="DomainModels.DeliveryCarrier" />
+          <AssociationSet Name="FK_FieldVariable_Company" Association="DomainModels.FK_FieldVariable_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="FieldVariable" EntitySet="FieldVariables" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -6023,7 +6187,6 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="StockNotificationManagerId2" Type="Guid" />
           <Property Name="IsDeliveryTaxAble" Type="Boolean" />
           <Property Name="IsDisplayDeliveryOnCheckout" Type="Boolean" />
-          <Property Name="DeliveryPickUpAddressId" Type="Int64" />
           <NavigationProperty Name="CmsSkinPageWidgets" Relationship="DomainModels.FK_Company_CmsSkinPageWidget" FromRole="Company" ToRole="CmsSkinPageWidget" />
           <NavigationProperty Name="CompanyDomains" Relationship="DomainModels.FK_CompanyDomain_Company" FromRole="Company" ToRole="CompanyDomain" />
           <NavigationProperty Name="CompanyBannerSets" Relationship="DomainModels.FK_CompanySet_Company" FromRole="Company" ToRole="CompanyBannerSet" />
@@ -6054,6 +6217,9 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <NavigationProperty Name="MediaLibraries" Relationship="DomainModels.FK_MediaLibrary_Company" FromRole="Company" ToRole="MediaLibrary" />
           <NavigationProperty Name="CompanyCostCentres" Relationship="DomainModels.FK_CompanyCostCentre_Company" FromRole="Company" ToRole="CompanyCostCentre" />
           <NavigationProperty Name="Activities" Relationship="DomainModels.FK__Activity__Compan__2D3FF3FE" FromRole="Company" ToRole="Activity" />
+          <NavigationProperty Name="Invoices" Relationship="DomainModels.FK_Invoice_Company" FromRole="Company" ToRole="Invoice" />
+          <NavigationProperty Name="SmartForms" Relationship="DomainModels.FK_SmartForm_Company" FromRole="Company" ToRole="SmartForm" />
+          <NavigationProperty Name="FieldVariables" Relationship="DomainModels.FK_FieldVariable_Company" FromRole="Company" ToRole="FieldVariable" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -6159,7 +6325,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Key>
             <PropertyRef Name="OrganisationId" />
           </Key>
-          <Property Name="OrganisationId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrganisationId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="OrganisationName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Address1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Address2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -6198,6 +6364,8 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <NavigationProperty Name="Currency" Relationship="DomainModels.FK_Organisation_Currency" FromRole="Organisation" ToRole="Currency" />
           <NavigationProperty Name="LengthUnit" Relationship="DomainModels.FK_Organisation_LengthUnit" FromRole="Organisation" ToRole="LengthUnit" />
           <NavigationProperty Name="WeightUnit" Relationship="DomainModels.FK_Organisation_WeightUnit" FromRole="Organisation" ToRole="WeightUnit" />
+          <Property Name="TaxServiceUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TaxServiceKey" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -6780,6 +6948,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <NavigationProperty Name="Address" Relationship="DomainModels.FK_tbl_contacts_tbl_addresses" FromRole="CompanyContact" ToRole="Address" />
           <NavigationProperty Name="FavoriteDesigns" Relationship="DomainModels.FK_tbl_FavoriteDesign_tbl_contacts" FromRole="CompanyContact" ToRole="FavoriteDesign" />
           <NavigationProperty Name="ShippingAddress" Relationship="DomainModels.FK_CompanyContact_ShippingAddress" FromRole="CompanyContact" ToRole="Address" />
+          <NavigationProperty Name="CompanyContactVariables" Relationship="DomainModels.FK_CompanyContactVariable_CompanyContact" FromRole="CompanyContact" ToRole="CompanyContactVariable" />
         </EntityType>
         <EntityType Name="CompanyContactRole">
           <Key>
@@ -7008,6 +7177,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="DeliveryType" Type="Int32" />
           <Property Name="DeliveryServiceType" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CompanyCostCentres" Relationship="DomainModels.FK_CompanyCostCentre_CostCentre" FromRole="CostCentre" ToRole="CompanyCostCentre" />
+          <Property Name="CarrierId" Type="Int64" />
         </EntityType>
         <EntityType Name="ItemAttachment">
           <Key>
@@ -7333,6 +7503,12 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="ItemWidth" Type="Double" />
           <Property Name="ItemHeight" Type="Double" />
           <Property Name="ItemWeight" Type="Double" />
+          <Property Name="printCropMarks" Type="Boolean" />
+          <Property Name="drawBleedArea" Type="Boolean" />
+          <Property Name="isMultipagePDF" Type="Boolean" />
+          <Property Name="drawWaterMarkTxt" Type="Boolean" />
+          <Property Name="allowPdfDownload" Type="Boolean" />
+          <Property Name="allowImageDownload" Type="Boolean" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -7436,10 +7612,10 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="IsMakeReadyUsed" Type="Boolean" />
           <Property Name="isWorknTurn" Type="Boolean" />
           <Property Name="isWorkntumble" Type="Boolean" />
-          <Property Name="QuestionQueue" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="StockQueue" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="InputQueue" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="CostCentreQueue" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="QuestionQueue" Type="String" />
+          <Property Name="StockQueue" Type="String" />
+          <Property Name="InputQueue" Type="String" />
+          <Property Name="CostCentreQueue" Type="String" />
           <Property Name="PressSpeed1" Type="Int32" />
           <Property Name="PressSpeed2" Type="Int32" />
           <Property Name="PressSpeed3" Type="Int32" />
@@ -8055,6 +8231,13 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="SecureHash" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="PaymentMethod" Relationship="DomainModels.FK_tbl_PaymentGateways_tbl_PaymentMethods" FromRole="PaymentGateway" ToRole="PaymentMethod" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_PaymentGateway_Company" FromRole="PaymentGateway" ToRole="Company" />
+          <Property Name="CancelPurchaseUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ReturnUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="NotifyUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="SendToReturnURL" Type="Boolean" />
+          <Property Name="UseSandbox" Type="Boolean" />
+          <Property Name="LiveApiUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TestApiUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="PaymentMethod">
           <Key>
@@ -8292,6 +8475,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <NavigationProperty Name="InvoiceDetails" Relationship="DomainModels.FK_tbl_invoicedetails_tbl_invoices" FromRole="Invoice" ToRole="InvoiceDetail" />
           <NavigationProperty Name="Items" Relationship="DomainModels.FK_tbl_items_tbl_invoices" FromRole="Invoice" ToRole="Item" />
           <Property Name="CompanyId" Type="Int64" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_Invoice_Company" FromRole="Invoice" ToRole="Company" />
         </EntityType>
         <EntityType Name="InvoiceDetail">
           <Key>
@@ -8748,6 +8932,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="CurrencyCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CurrencyName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Organisations" Relationship="DomainModels.FK_Organisation_Currency" FromRole="Currency" ToRole="Organisation" />
+          <Property Name="CurrencySymbol" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Prefix">
           <Key>
@@ -9220,6 +9405,8 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="OrganisationId" Type="Int64" />
           <Property Name="IsSystem" Type="Boolean" />
           <NavigationProperty Name="VariableOptions" Relationship="DomainModels.FK_VariableOption_FieldVariable" FromRole="FieldVariable" ToRole="VariableOption" />
+          <Property Name="VariableTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_FieldVariable_Company" FromRole="FieldVariable" ToRole="Company" />
         </EntityType>
         <EntityType Name="TemplateVariable">
           <Key>
@@ -10757,6 +10944,109 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CompanyContactVariable">
+          <Key>
+            <PropertyRef Name="ContactVariableId" />
+          </Key>
+          <Property Name="ContactVariableId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ContactId" Type="Int64" Nullable="false" />
+          <Property Name="VariableId" Type="Int64" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CompanyContact" Relationship="DomainModels.FK_CompanyContactVariable_CompanyContact" FromRole="CompanyContactVariable" ToRole="CompanyContact" />
+        </EntityType>
+        <EntityType Name="SmartForm">
+          <Key>
+            <PropertyRef Name="SmartFormId" />
+          </Key>
+          <Property Name="SmartFormId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="Company" Relationship="DomainModels.FK_SmartForm_Company" FromRole="SmartForm" ToRole="Company" />
+          <NavigationProperty Name="SmartFormDetails" Relationship="DomainModels.FK_SmartFormDetail_SmartForm" FromRole="SmartForm" ToRole="SmartFormDetail" />
+        </EntityType>
+        <EntityType Name="SmartFormDetail">
+          <Key>
+            <PropertyRef Name="SmartFormDetailId" />
+          </Key>
+          <Property Name="SmartFormDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SmartFormId" Type="Int64" Nullable="false" />
+          <Property Name="ObjectType" Type="Int32" />
+          <Property Name="IsRequired" Type="Boolean" />
+          <Property Name="SortOrder" Type="Int32" />
+          <NavigationProperty Name="SmartForm" Relationship="DomainModels.FK_SmartFormDetail_SmartForm" FromRole="SmartFormDetail" ToRole="SmartForm" />
+        </EntityType>
+        <Association Name="FK_Invoice_Company">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.Invoice" Role="Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SmartForm_Company">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.SmartForm" Role="SmartForm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="SmartForm">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyContactVariable_CompanyContact">
+          <End Type="DomainModels.CompanyContact" Role="CompanyContact" Multiplicity="1" />
+          <End Type="DomainModels.CompanyContactVariable" Role="CompanyContactVariable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyContact">
+              <PropertyRef Name="ContactId" />
+            </Principal>
+            <Dependent Role="CompanyContactVariable">
+              <PropertyRef Name="ContactId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SmartFormDetail_SmartForm">
+          <End Type="DomainModels.SmartForm" Role="SmartForm" Multiplicity="1" />
+          <End Type="DomainModels.SmartFormDetail" Role="SmartFormDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SmartForm">
+              <PropertyRef Name="SmartFormId" />
+            </Principal>
+            <Dependent Role="SmartFormDetail">
+              <PropertyRef Name="SmartFormId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DeliveryCarrier">
+          <Key>
+            <PropertyRef Name="CarrierId" />
+          </Key>
+          <Property Name="CarrierId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CarrierName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Url" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ApiKey" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="ApiPassword" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="isEnable" Type="Boolean" />
+        </EntityType>
+        <Association Name="FK_FieldVariable_Company">
+          <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="DomainModels.FieldVariable" Role="FieldVariable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="FieldVariable">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10775,7 +11065,6 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
                 <ScalarProperty Name="IsDisplayCorporateBinding" ColumnName="IsDisplayCorporateBinding" />
                 <ScalarProperty Name="IsDisplayDiscountVoucherCode" ColumnName="IsDisplayDiscountVoucherCode" />
                 <ScalarProperty Name="TaxRate" ColumnName="TaxRate" />
-                <ScalarProperty Name="DeliveryPickUpAddressId" ColumnName="DeliveryPickUpAddressId" />
                 <ScalarProperty Name="IsDisplayDeliveryOnCheckout" ColumnName="IsDisplayDeliveryOnCheckout" />
                 <ScalarProperty Name="IsDeliveryTaxAble" ColumnName="IsDeliveryTaxAble" />
                 <ScalarProperty Name="StockNotificationManagerId2" ColumnName="StockNotificationManagerId2" />
@@ -10972,6 +11261,8 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <EntitySetMapping Name="Organisations">
             <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="TaxServiceKey" ColumnName="TaxServiceKey" />
+                <ScalarProperty Name="TaxServiceUrl" ColumnName="TaxServiceUrl" />
                 <ScalarProperty Name="XeroApiKey" ColumnName="XeroApiKey" />
                 <ScalarProperty Name="XeroApiId" ColumnName="XeroApiId" />
                 <ScalarProperty Name="isXeroIntegrationRequired" ColumnName="isXeroIntegrationRequired" />
@@ -11433,6 +11724,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <EntitySetMapping Name="CostCentres">
             <EntityTypeMapping TypeName="DomainModels.CostCentre">
               <MappingFragment StoreEntitySet="CostCentre">
+                <ScalarProperty Name="CarrierId" ColumnName="CarrierId" />
                 <ScalarProperty Name="DeliveryServiceType" ColumnName="DeliveryServiceType" />
                 <ScalarProperty Name="DeliveryType" ColumnName="DeliveryType" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
@@ -11656,6 +11948,12 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <EntitySetMapping Name="Items">
             <EntityTypeMapping TypeName="DomainModels.Item">
               <MappingFragment StoreEntitySet="Items">
+                <ScalarProperty Name="allowImageDownload" ColumnName="allowImageDownload" />
+                <ScalarProperty Name="allowPdfDownload" ColumnName="allowPdfDownload" />
+                <ScalarProperty Name="drawWaterMarkTxt" ColumnName="drawWaterMarkTxt" />
+                <ScalarProperty Name="isMultipagePDF" ColumnName="isMultipagePDF" />
+                <ScalarProperty Name="drawBleedArea" ColumnName="drawBleedArea" />
+                <ScalarProperty Name="printCropMarks" ColumnName="printCropMarks" />
                 <ScalarProperty Name="ItemWeight" ColumnName="ItemWeight" />
                 <ScalarProperty Name="ItemHeight" ColumnName="ItemHeight" />
                 <ScalarProperty Name="ItemWidth" ColumnName="ItemWidth" />
@@ -12385,6 +12683,13 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <EntitySetMapping Name="PaymentGateways">
             <EntityTypeMapping TypeName="DomainModels.PaymentGateway">
               <MappingFragment StoreEntitySet="PaymentGateway">
+                <ScalarProperty Name="TestApiUrl" ColumnName="TestApiUrl" />
+                <ScalarProperty Name="LiveApiUrl" ColumnName="LiveApiUrl" />
+                <ScalarProperty Name="UseSandbox" ColumnName="UseSandbox" />
+                <ScalarProperty Name="SendToReturnURL" ColumnName="SendToReturnURL" />
+                <ScalarProperty Name="NotifyUrl" ColumnName="NotifyUrl" />
+                <ScalarProperty Name="ReturnUrl" ColumnName="ReturnUrl" />
+                <ScalarProperty Name="CancelPurchaseUrl" ColumnName="CancelPurchaseUrl" />
                 <ScalarProperty Name="SecureHash" ColumnName="SecureHash" />
                 <ScalarProperty Name="PaymentMethodId" ColumnName="PaymentMethodId" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
@@ -12846,6 +13151,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <EntitySetMapping Name="Currencies">
             <EntityTypeMapping TypeName="DomainModels.Currency">
               <MappingFragment StoreEntitySet="Currency">
+                <ScalarProperty Name="CurrencySymbol" ColumnName="CurrencySymbol" />
                 <ScalarProperty Name="CurrencyName" ColumnName="CurrencyName" />
                 <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
                 <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
@@ -13126,6 +13432,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <EntitySetMapping Name="FieldVariables">
             <EntityTypeMapping TypeName="DomainModels.FieldVariable">
               <MappingFragment StoreEntitySet="FieldVariable">
+                <ScalarProperty Name="VariableTitle" ColumnName="VariableTitle" />
                 <ScalarProperty Name="IsSystem" ColumnName="IsSystem" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
@@ -14149,6 +14456,49 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
                 <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="VariableId" ColumnName="VariableId" />
                 <ScalarProperty Name="VariableOptionId" ColumnName="VariableOptionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyContactVariables">
+            <EntityTypeMapping TypeName="DomainModels.CompanyContactVariable">
+              <MappingFragment StoreEntitySet="CompanyContactVariable">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="VariableId" ColumnName="VariableId" />
+                <ScalarProperty Name="ContactId" ColumnName="ContactId" />
+                <ScalarProperty Name="ContactVariableId" ColumnName="ContactVariableId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SmartForms">
+            <EntityTypeMapping TypeName="DomainModels.SmartForm">
+              <MappingFragment StoreEntitySet="SmartForm">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SmartFormId" ColumnName="SmartFormId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SmartFormDetails">
+            <EntityTypeMapping TypeName="DomainModels.SmartFormDetail">
+              <MappingFragment StoreEntitySet="SmartFormDetail">
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="IsRequired" ColumnName="IsRequired" />
+                <ScalarProperty Name="ObjectType" ColumnName="ObjectType" />
+                <ScalarProperty Name="SmartFormId" ColumnName="SmartFormId" />
+                <ScalarProperty Name="SmartFormDetailId" ColumnName="SmartFormDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeliveryCarriers">
+            <EntityTypeMapping TypeName="DomainModels.DeliveryCarrier">
+              <MappingFragment StoreEntitySet="DeliveryCarrier">
+                <ScalarProperty Name="isEnable" ColumnName="isEnable" />
+                <ScalarProperty Name="ApiPassword" ColumnName="ApiPassword" />
+                <ScalarProperty Name="ApiKey" ColumnName="ApiKey" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="CarrierName" ColumnName="CarrierName" />
+                <ScalarProperty Name="CarrierId" ColumnName="CarrierId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

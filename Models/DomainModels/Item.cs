@@ -384,6 +384,12 @@ namespace MPC.Models.DomainModels
         public double? ItemWidth { get; set; }
         public double? ItemHeight { get; set; }
         public double? ItemWeight { get; set; }
+        public bool? printCropMarks { get; set; }
+        public bool? drawBleedArea { get; set; }
+        public bool? isMultipagePDF { get; set; }
+        public bool? drawWaterMarkTxt { get; set; }
+        public bool? allowPdfDownload { get; set; }
+        public bool? allowImageDownload { get; set; }
 
         [NotMapped]
         public double MinPrice { get; set; }

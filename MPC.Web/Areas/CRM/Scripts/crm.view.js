@@ -5,13 +5,23 @@ define("crm/crm.view",
     ["jquery", "crm/crm.viewModel"], function ($, crmViewModel) {
 
         var ist = window.ist || {};
-
+        //Setting flag to false, it indicates that current screen is Suppliers
+        crmViewModel.isProspectOrCustomerScreen(true);
         // View 
         ist.crm.view = (function (specifiedViewModel) {
             var // View model 
                 viewModel = specifiedViewModel,
                // binding root
                bindingRoot = $("#crmBindingRoot")[0],
+
+                showCompanyTerritoryDialog = function () {
+                    $("#myTerritorySetModal").modal("show");
+                    initializeLabelPopovers();
+                },
+                // Hide Activity the dialog
+                hideCompanyTerritoryDialog = function () {
+                    $("#myTerritorySetModal").modal("hide");
+                },
                // Show Addressnthe dialog
                 showAddressDialog = function () {
                     $("#myAddressSetModalForCrm").modal("show");
@@ -21,7 +31,42 @@ define("crm/crm.view",
                 hideAddressDialog = function () {
                     $("#myAddressSetModalForCrm").modal("hide");
                 },
-               
+                // Show Contact Company the dialog
+                showCompanyContactDialog = function () {
+                    $("#myContactProfileModalForCrm").modal("show");
+                    initializeLabelPopovers();
+                },
+                // Hide Company Contact the dialog
+                hideCompanyContactDialog = function () {
+                    $("#myContactProfileModalForCrm").modal("hide");
+                },
+                // Go To Element with Validation Errors
+                gotoElement = function (element) {
+                    var tab = $(element).closest(".tab-pane");
+                    if (!tab) {
+                        return;
+                    }
+
+                    var liElement = $('a[href=#' + tab.attr('id') + ']');
+                    if (!liElement) {
+                        return;
+                    }
+
+                    liElement.click();
+
+                    // Scroll to Element
+                    setTimeout(function () {
+                        window.scrollTo($(element).offset().left, $(element).offset().top - 50);
+                        // Focus on element
+                        $(element).focus();
+                    }, 1000);
+                },
+                // Initialize Label Popovers
+                initializeLabelPopovers = function () {
+                    // ReSharper disable UnknownCssClass
+                    $('.bs-example-tooltips a').popover();
+                    // ReSharper restore UnknownCssClass
+                },
             // Initialize
             initialize = function () {
                 if (!bindingRoot) {
@@ -32,8 +77,14 @@ define("crm/crm.view",
             return {
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
+                showCompanyTerritoryDialog: showCompanyTerritoryDialog,
+                hideCompanyTerritoryDialog: hideCompanyTerritoryDialog,
                 showAddressDialog: showAddressDialog,
-                hideAddressDialog: hideAddressDialog
+                hideAddressDialog: hideAddressDialog,
+                showCompanyContactDialog: showCompanyContactDialog,
+                hideCompanyContactDialog: hideCompanyContactDialog,
+                gotoElement: gotoElement,
+                initializeLabelPopovers: initializeLabelPopovers
             };
         })(crmViewModel);
 

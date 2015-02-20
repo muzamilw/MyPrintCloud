@@ -182,13 +182,16 @@
     <Compile Include="Repositories\CategoryTerritoryRepository.cs" />
     <Compile Include="Repositories\ChartOfAccountRepository.cs" />
     <Compile Include="Repositories\CmsPageRepository.cs" />
+    <Compile Include="Repositories\CmsSkinPageWidgetParamRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Repositories\CmsSkinPageWidgetRepository.cs" />
-    <Compile Include="Repositories\CmsSkinPageWidgetParamRepository.cs" />
     <Compile Include="Repositories\ColorPalleteRepository.cs" />
     <Compile Include="Repositories\CompanyBannerRepository.cs" />
     <Compile Include="Repositories\CompanyCMYKColorRepository.cs" />
     <Compile Include="Repositories\CompanyContactRepository.cs" />
     <Compile Include="Repositories\CompanyContactRoleRepository.cs" />
+    <Compile Include="Repositories\CompanyContactVariableRepository.cs" />
     <Compile Include="Repositories\CompanyDomainRepository.cs" />
     <Compile Include="Repositories\CompanyBannerSetRepository.cs" />
     <Compile Include="Repositories\CompanyTerritoryRepository.cs" />
@@ -199,9 +202,11 @@
     <Compile Include="Repositories\CostCentreVariableRepository.cs" />
     <Compile Include="Repositories\CountryRepository.cs" />
     <Compile Include="Repositories\CurrencyRepository.cs" />
+    <Compile Include="Repositories\DeliveryCarrierRepository.cs" />
     <Compile Include="Repositories\EmailEventRepository.cs" />
     <Compile Include="Repositories\FavoriteDesignRepository.cs" />
     <Compile Include="Repositories\EstimateRepository.cs" />
+    <Compile Include="Repositories\FieldVariableRepository.cs" />
     <Compile Include="Repositories\GetItemsListViewRepository.cs" />
     <Compile Include="Repositories\GlobalLanguageRepository.cs" />
     <Compile Include="Repositories\GroupRepository.cs" />
@@ -231,6 +236,7 @@
     <Compile Include="Repositories\ReportRepository.cs" />
     <Compile Include="Repositories\StateRepository.cs" />
     <Compile Include="Repositories\CostCenterTypeRepository.cs" />
+    <Compile Include="Repositories\StatusRepository.cs" />
     <Compile Include="Repositories\TemplateBackgroundImagesRepository.cs" />
     <Compile Include="Repositories\TemplateColorStylesRepository.cs" />
     <Compile Include="Repositories\TemplateFontsRepository.cs" />
@@ -260,6 +266,7 @@
     <Compile Include="Repositories\SystemUserRepository.cs" />
     <Compile Include="Repositories\TaxRateRepository.cs" />
     <Compile Include="Repositories\UserManagerRepository.cs" />
+    <Compile Include="Repositories\VariableOptionRepository.cs" />
     <Compile Include="Repositories\WeightUnitRepository.cs" />
     <Compile Include="Repositories\WidgetRepository.cs" />
     <Compile Include="Service References\GlobalTemplateDesigner\Reference.cs" />

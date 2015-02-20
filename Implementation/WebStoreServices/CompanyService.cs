@@ -827,35 +827,32 @@ namespace MPC.Implementation.WebStoreServices
             _CompanyRepository.Update(Instance);
             _CompanyRepository.SaveChanges();
         }
-        public void UpdateCompany(Company Instance)
-        {
-
-            _CompanyRepository.Update(Instance);
-            _CompanyRepository.SaveChanges();
-        }
+     
         public void UpdateContactCompany(CompanyContact Instance)
         {
             _CompanyContactRepository.Update(Instance);
             _CompanyContactRepository.SaveChanges();
         }
 
-        public void UpdateCompanyContactForRetail(CompanyContact Instance)
+        public bool UpdateCompanyContactForRetail(CompanyContact Instance)
         {
-            _CompanyContactRepository.UpdateCompanyContactForRetail(Instance);
+
+           return _CompanyContactRepository.UpdateCompanyContactForRetail(Instance);
 
 
         }
-        public void  UpdateCompanyContactForCorporate(CompanyContact Instance)
+        public bool  UpdateCompanyContactForCorporate(CompanyContact Instance)
         {
 
-            _CompanyContactRepository.UpdateCompanyContactForCorporate(Instance);
+           return  _CompanyContactRepository.UpdateCompanyContactForCorporate(Instance);
 
         }
+        
         #endregion
 
-        public void UpdateCompanyName(Company Instance)
+        public bool UpdateCompanyName(Company Instance)
         {
-            _CompanyRepository.UpdateCompanyName(Instance);
+           return  _CompanyRepository.UpdateCompanyName(Instance);
         
         }
     }

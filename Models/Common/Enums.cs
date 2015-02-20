@@ -5,6 +5,14 @@ using System.Web;
 
 namespace MPC.Models.Common
 {
+    public enum FieldVariableScopeType : int
+    {
+        Store = 1,
+        Contact = 2,
+        Address = 3,
+        Territory = 4,
+    }
+
     public enum StoreMode : int
     {
         Retail = 1,
@@ -157,7 +165,7 @@ namespace MPC.Models.Common
 
     };
 
-  
+
     public enum UploadFileTypes : int
     {
         Artwork,
@@ -284,5 +292,13 @@ namespace MPC.Models.Common
         Fedex = 1,
         UPS = 2,
         Other = 3
+    }
+
+    public enum CostCentrCalculationMethods
+    {
+        Fixed = 1,
+        PerHour = 2,
+        QuantityBase = 3,
+        FormulaBase = 4
     }
 }

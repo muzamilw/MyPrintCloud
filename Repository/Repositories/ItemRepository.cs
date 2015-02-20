@@ -974,6 +974,13 @@ namespace MPC.Repository.Repositories
 
                 if (selectedAddonsList != null)
                 {
+                    // Remove previous Addons
+                    db.SectionCostcentres.Where(c => c.ItemSectionId == SelectedtblItemSectionOne.ItemSectionId && c.IsOptionalExtra == 1).ToList().ForEach(sc =>
+                    {
+                        db.SectionCostcentres.Remove(sc);
+                        
+                    });
+                    //Create Additional Addons Data
                     //Create Additional Addons Data
                     for (int i = 0; i < selectedAddonsList.Count; i++)
                     {
@@ -1005,8 +1012,9 @@ namespace MPC.Repository.Repositories
                 CostCentreId = addOn.CostCenterID,
                 IsOptionalExtra = 1,
                 Qty1Charge = addOn.ActualPrice,
-                Qty1NetTotal = addOn.Qty1NetTotal
-
+                Qty1NetTotal = addOn.Qty1NetTotal,
+                Qty1WorkInstructions = addOn.CostCentreDescription,
+                Qty2WorkInstructions = addOn.CostCentreJsonData
             };
 
             return tblISectionCostCenteres;

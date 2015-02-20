@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Web;
 using ApiModels = MPC.MIS.Areas.Api.Models;
 using DomainResponseModel = MPC.Models.ResponseModels;
 using DomainModels = MPC.Models.DomainModels;
@@ -9,9 +10,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static ApiModels.CompanyListViewModel ListViewModelCreateFrom(this DomainModels.Company source)
         {
             byte[] bytes = null;
-            if (source.Image != null && File.Exists(source.Image))
+            string imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
+            if (source.Image != null && File.Exists(imagePath))
             {
-                bytes = source.Image != null ? File.ReadAllBytes(source.Image) : null;
+                bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
             }
             return new ApiModels.CompanyListViewModel
             {

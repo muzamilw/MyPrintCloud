@@ -78,6 +78,10 @@
     <Compile Include="MISServices\ICrmSupplierService.cs" />
     <Compile Include="MISServices\ICustomerService.cs" />
     <Compile Include="MISServices\IDashboardService.cs" />
+    <Compile Include="MISServices\IOrderForCrmService.cs" />
+    <Compile Include="Repository\ICompanyContactVariableRepository.cs" />
+    <Compile Include="Repository\IDeliveryCarrierRepository.cs" />
+    <Compile Include="Repository\IFieldVariableRepository.cs" />
     <Compile Include="MISServices\IItemService.cs" />
     <Compile Include="MISServices\IInventoryService.cs" />
     <Compile Include="MISServices\ICostCentersService.cs" />
@@ -131,6 +135,7 @@
     <Compile Include="Repository\IPipeLineSourceRepository.cs" />
     <Compile Include="Repository\IStateRepository.cs" />
     <Compile Include="Repository\ICostCenterTypeRepository.cs" />
+    <Compile Include="Repository\IStatusRepository.cs" />
     <Compile Include="Repository\ITemplateBackgroundImagesRepository.cs" />
     <Compile Include="Repository\ITemplateColorStylesRepository.cs" />
     <Compile Include="Repository\ITemplateFontsRepository.cs" />
@@ -162,6 +167,7 @@
     <Compile Include="Repository\ICompanyBannerSetRepository.cs" />
     <Compile Include="Repository\ISystemUserRepository.cs" />
     <Compile Include="Repository\IUserManagerRepository.cs" />
+    <Compile Include="Repository\IVariableOptionRepository.cs" />
     <Compile Include="Repository\IWeightUnitRepository.cs" />
     <Compile Include="Repository\IWidgetRepository.cs" />
     <Compile Include="WebStoreServices\ICampaignService.cs" />
@@ -188,6 +194,7 @@
     <Compile Include="Repository\ITaxRateRepository.cs" />
     <Compile Include="WebStoreServices\IOrderService.cs" />
     <Compile Include="WebStoreServices\IItemService.cs" />
+    <Compile Include="WebStoreServices\IStatusService.cs" />
     <Compile Include="WebStoreServices\ITemplateBackgroundImagesService.cs" />
     <Compile Include="WebStoreServices\ITemplateColorStylesService.cs" />
     <Compile Include="WebStoreServices\ITemplateFontsService.cs" />

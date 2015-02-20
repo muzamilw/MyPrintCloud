@@ -15,6 +15,13 @@ namespace MPC.Models.DomainModels
         public long? CompanyId { get; set; }
         public int? PaymentMethodId { get; set; }
         public string SecureHash { get; set; }
+        public string CancelPurchaseUrl { get; set; }
+        public string ReturnUrl { get; set; }
+        public string NotifyUrl { get; set; }
+        public string LiveApiUrl { get; set; }
+        public string TestApiUrl { get; set; }
+        public bool SendToReturnURL { get; set; }
+        public bool UseSandbox { get; set; }
 
         public virtual PaymentMethod PaymentMethod { get; set; }
 

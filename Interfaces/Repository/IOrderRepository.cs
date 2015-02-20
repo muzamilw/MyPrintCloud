@@ -63,8 +63,8 @@ namespace MPC.Interfaces.Repository
         bool SaveDilveryCostCenter(long orderId, CostCentre ChangedCostCenter);
         Estimate GetLastOrderByContactID(long contactID);
 
-      
-
+        List<Order> GetOrdersListByContactID(long contactUserID, OrderStatus? orderStatus,string fromDate, string  toDate, string orderRefNumber, int pageSize, int pageNumber) ;
+        List<Order> GetOrdersListExceptPendingOrdersByContactID(long contactUserID, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, int pageSize, int pageNumber);
       
 
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Web;
 using MPC.MIS.Areas.Api.Models;
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
@@ -16,6 +17,15 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static Item CreateFrom(this DomainModels.Item source)
         {
+            string gridImagePath = HttpContext.Current.Server.MapPath("~/" + source.GridImage); 
+            string imagePath =HttpContext.Current.Server.MapPath("~/" + source.ImagePath);
+            string thumbnailPath = HttpContext.Current.Server.MapPath("~/" + source.ThumbnailPath);
+            string file1Path = HttpContext.Current.Server.MapPath("~/" + source.File1);
+            string file2Path =HttpContext.Current.Server.MapPath("~/" + source.File2);
+            string file3Path =HttpContext.Current.Server.MapPath("~/" + source.File3);
+            string file4Path =HttpContext.Current.Server.MapPath("~/" + source.File4);
+            string file5Path =HttpContext.Current.Server.MapPath("~/" + source.File5);
+
 // ReSharper disable SuggestUseVarKeywordEvident
             Item item = new Item
 // ReSharper restore SuggestUseVarKeywordEvident
@@ -25,8 +35,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ProductCode = source.ProductCode,
                 ProductName = source.ProductName,
                 ProductSpecification = source.ProductSpecification,
-                GridImage = source.GridImage,
-                ThumbnailPath = source.ThumbnailPath,
+                GridImage = gridImagePath,
+                ThumbnailPath = thumbnailPath,
                 IsArchived = source.IsArchived,
                 IsEnabled = source.IsEnabled,
                 IsPublished = source.IsPublished,
@@ -92,48 +102,48 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             };
 
             // Load Thumbnail Image
-            if (source.ThumbnailPath != null && File.Exists(source.ThumbnailPath))
+            if (thumbnailPath != null && File.Exists(thumbnailPath))
             {
-                item.ThumbnailImage = source.ThumbnailPath != null ? File.ReadAllBytes(source.ThumbnailPath) : null;
+                item.ThumbnailImage = File.ReadAllBytes(thumbnailPath);
             }
 
             // Load Grid Image
-            if (source.GridImage != null && File.Exists(source.GridImage))
+            if (gridImagePath != null && File.Exists(gridImagePath))
             {
-                item.GridImageBytes = source.GridImage != null ? File.ReadAllBytes(source.GridImage) : null;
+                item.GridImageBytes = File.ReadAllBytes(gridImagePath);
             }
 
             // Load Image Path
-            if (source.ImagePath != null && File.Exists(source.ImagePath))
+            if (imagePath != null && File.Exists(imagePath))
             {
-                item.ImagePathImage = source.ImagePath != null ? File.ReadAllBytes(source.ImagePath) : null;
+                item.ImagePathImage = File.ReadAllBytes(imagePath);
             }
 
             // Load File1
-            if (source.File1 != null && File.Exists(source.File1))
+            if (file1Path != null && File.Exists(file1Path))
             {
-                item.File1Bytes = source.File1 != null ? File.ReadAllBytes(source.File1) : null;
+                item.File1Bytes = File.ReadAllBytes(file1Path);
             }
 
             // Load File2
-            if (source.File2 != null && File.Exists(source.File2))
+            if (file2Path != null && File.Exists(file2Path))
             {
-                item.File2Bytes = source.File2 != null ? File.ReadAllBytes(source.File2) : null;
+                item.File2Bytes = File.ReadAllBytes(file2Path);
             }
             // Load File3
-            if (source.File3 != null && File.Exists(source.File3))
+            if (file3Path != null && File.Exists(file3Path))
             {
-                item.File3Bytes = source.File3 != null ? File.ReadAllBytes(source.File3) : null;
+                item.File3Bytes = File.ReadAllBytes(file3Path);
             }
             // Load File4
-            if (source.File4 != null && File.Exists(source.File4))
+            if (file4Path != null && File.Exists(file4Path))
             {
-                item.File4Bytes = source.File4 != null ? File.ReadAllBytes(source.File4) : null;
+                item.File4Bytes = File.ReadAllBytes(file4Path);
             }
             // Load File5
-            if (source.File5 != null && File.Exists(source.File5))
+            if (file5Path != null && File.Exists(file5Path))
             {
-                item.File5Bytes = source.File5 != null ? File.ReadAllBytes(source.File5) : null;
+                item.File5Bytes = File.ReadAllBytes(file5Path);
             }
 
             return item;
@@ -144,6 +154,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static ItemListView CreateFromForListView(this DomainModels.GetItemsListView source)
         {
+            string thumbnailpath = HttpContext.Current.Server.MapPath("~/" + source.ThumbnailPath);
             // ReSharper disable SuggestUseVarKeywordEvident
             ItemListView item = new ItemListView
             // ReSharper restore SuggestUseVarKeywordEvident
@@ -153,7 +164,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ProductCode = source.ProductCode,
                 ProductName = source.ProductName,
                 ProductSpecification = source.ProductSpecification,
-                ThumbnailPath = source.ThumbnailPath,
+                ThumbnailPath = thumbnailpath,
                 ProductCategoryName = source.ProductCategoryName,
                 IsArchived = source.IsArchived,
                 IsEnabled = source.IsEnabled,
@@ -161,9 +172,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 MinPrice = source.MinPrice
             };
 
-            if (source.ThumbnailPath != null && File.Exists(source.ThumbnailPath))
+            if (thumbnailpath != null && File.Exists(thumbnailpath))
             {
-                item.ThumbnailImage = source.ThumbnailPath != null ? File.ReadAllBytes(source.ThumbnailPath) : null;
+                item.ThumbnailImage = File.ReadAllBytes(thumbnailpath);
             }
 
             return item;
@@ -371,6 +382,42 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemId = source.ItemId,
                 ProductName = source.ProductName,
             };
+        }
+
+        /// <summary>
+        /// Crete From Domain Model
+        /// </summary>
+        public static OrderItem CreateFromForOrder(this DomainModels.Item source)
+        {
+            // ReSharper disable SuggestUseVarKeywordEvident
+            OrderItem item = new OrderItem
+            // ReSharper restore SuggestUseVarKeywordEvident
+            {
+                ItemId = source.ItemId,
+                ItemCode = source.ItemCode,
+                ProductCode = source.ProductCode,
+                ProductName = source.ProductName,
+                JobDescriptionTitle1 = source.JobDescriptionTitle1,
+                JobDescription1 = source.JobDescription1,
+                JobDescriptionTitle2 = source.JobDescriptionTitle2,
+                JobDescription2 = source.JobDescription2,
+                JobDescriptionTitle3 = source.JobDescriptionTitle3,
+                JobDescription3 = source.JobDescription3,
+                JobDescriptionTitle4 = source.JobDescriptionTitle4,
+                JobDescription4 = source.JobDescription4,
+                JobDescriptionTitle5 = source.JobDescriptionTitle5,
+                JobDescription5 = source.JobDescription5,
+                JobDescriptionTitle6 = source.JobDescriptionTitle6,
+                JobDescription6 = source.JobDescription6,
+                JobDescriptionTitle7 = source.JobDescriptionTitle7,
+                JobDescription7 = source.JobDescription7,
+                IsQtyRanged = source.IsQtyRanged,
+                DefaultItemTax = source.DefaultItemTax,
+                ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFrom()) :
+                new List<ItemSection>()
+            };
+            
+            return item;
         }
 
     }

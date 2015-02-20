@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace MPC.Webstore.Models
 {
@@ -152,7 +154,7 @@ namespace MPC.Webstore.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+       // [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
@@ -248,4 +250,5 @@ namespace MPC.Webstore.Models
         public bool printWaterMark { get; set; }
         public bool isEmbedded { get; set; }
     }
+    
 }

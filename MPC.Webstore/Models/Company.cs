@@ -104,7 +104,6 @@ namespace MPC.Webstore.Models
        
         public bool? IsDeliveryTaxAble { get; set; }
         public bool? IsDisplayDeliveryOnCheckout { get; set; }
-        public long? DeliveryPickUpAddressId { get; set; }
         public double? TaxRate { get; set; }
         public bool? IsDisplayDiscountVoucherCode { get; set; }
 

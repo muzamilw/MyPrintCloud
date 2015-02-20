@@ -107,7 +107,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StockNotificationManagerId2 = source.StockNotificationManagerId2,
                 IsDeliveryTaxAble = source.IsDeliveryTaxAble ?? false,
                 IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
-                DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
                 isBrokerPaymentRequired = source.isBrokerPaymentRequired == true ? "true" : "false",
                 isIncludeVAT = source.isIncludeVAT == true ? "true" : "false",
                 includeEmailBrokerArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport,
@@ -238,7 +237,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StockNotificationManagerId2 = source.StockNotificationManagerId2,
                 IsDeliveryTaxAble = source.IsDeliveryTaxAble ?? false,
                 IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
-                DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
                 isBrokerPaymentRequired = source.isBrokerPaymentRequired == true ? "true" : "false",
                 isIncludeVAT = source.isIncludeVAT == true ? "true" : "false",
                 includeEmailBrokerArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport,
@@ -327,7 +325,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StockNotificationManagerId2 = source.StockNotificationManagerId2,
                 IsDeliveryTaxAble = source.IsDeliveryTaxAble,
                 IsDisplayDeliveryOnCheckout = source.IsDisplayDeliveryOnCheckout,
-                DeliveryPickUpAddressId = source.DeliveryPickUpAddressId,
                 isBrokerPaymentRequired = source.isBrokerPaymentRequired == "true" ? true : false,
                 isIncludeVAT = source.isIncludeVAT == "true" ? true : false,
                 includeEmailBrokerArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport,
@@ -362,7 +359,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 UserDefinedSpriteSource = source.UserDefinedSpriteSource,
                 MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
                 CompanyDomains = source.CompanyDomains != null ? source.CompanyDomains.Select(x => x.CreateFrom()).ToList() : null,
-                CompanyCostCentres = source.CompanyCostCentres != null ? source.CompanyCostCentres.Select(x => x.CreateFrom()).ToList() : null
+                CompanyCostCentres = source.CompanyCostCentres != null ? source.CompanyCostCentres.Select(x => x.CreateFrom()).ToList() : null,
+                FieldVariables = source.FieldVariables != null ? source.FieldVariables.Select(x => x.CreateFrom()).ToList() : null
             };
 
             return company;

@@ -23,7 +23,9 @@ namespace MPC.Models.ResponseModels
         public IEnumerable<Country> Countries { get; set; }
 
         public IEnumerable<State> States { get; set; }
-       
+
+        public FieldVariableResponse FieldVariableResponse { get; set; }
+
         // public IEnumerable<Department> Departments { get; set; }
         // public IEnumerable<AccountManager> AccountManagers { get; set; }
     }

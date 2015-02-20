@@ -96,9 +96,14 @@ namespace MPC.Repository
             unityContainer.RegisterType<IEstimateRepository, EstimateRepository>();
             unityContainer.RegisterType<IPipeLineProductRepository, PipeLineProductRepository>();
             unityContainer.RegisterType<IPipeLineSourceRepository, PipeLineSourceRepository>();
+            unityContainer.RegisterType<IStatusRepository, StatusRepository>();
             unityContainer.RegisterType<IReportRepository, ReportRepository>();
             unityContainer.RegisterType<IActivityTypeRepository, ActivityTypeRepository>();
             unityContainer.RegisterType<IActivityRepository, ActivityRepository>();
+            unityContainer.RegisterType<IVariableOptionRepository, VariableOptionRepository>();
+            unityContainer.RegisterType<IFieldVariableRepository, FieldVariableRepository>();
+            unityContainer.RegisterType<ICompanyContactVariableRepository, CompanyContactVariableRepository>();
+            unityContainer.RegisterType<IDeliveryCarrierRepository, DeliveryCarrierRepository>();
         }
     }
 }

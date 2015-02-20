@@ -310,76 +310,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <a href="~/Order/OrderItemDetail"><span>A4 Single Sided Flyer</span></a>
-                                        </td>
-                                        <td>
-                                            4000
-                                        </td>
-
-
-                                        <td class="text-center">
-                                            <span class="label label-success">Not Progress to Job</span>
-                                        </td>
-
-                                        <td>
-                                            $708.9
-                                        </td>
-
-
-                                        <td class="text-right">
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link danger">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="~/Order/OrderItemDetail"><span>A4 Double Sided Flyer</span></a>
-                                        </td>
-                                        <td>
-                                            5000
-                                        </td>
-
-
-                                        <td class="text-center">
-                                            <span class="label label-success">Not Progress to Job</span>
-                                        </td>
-
-                                        <td>
-                                            $908.9
-                                        </td>
-
-
-                                        <td class="text-right">
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="table-link danger">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                        </td>
-
-                                    </tr>
-
-
+                                    <!-- ko template: { id: 'itemTemplate', foreach: items } -->
+                                    <!-- /ko -->
                                 </tbody>
                             </table>
                         </div>
@@ -448,5 +380,42 @@
         @* ReSharper restore UnknownCssClass *@
 
     </div>
+    
+    @* Item Template *@
+    <script id="itemTemplate" type="text/html">
+        <tr>
+            <td>
+                <a href="#" data-bind="name: productName, click: $root.editItem"><span></span></a>
+            </td>
+            <td>
+                <span class="label" data-bind="text: qty1"></span>
+            </td>
+            <td class="text-center">
+                <span class="label label-success">Not Progress to Job</span>
+            </td>
+            <td>
+                <span class="label" data-bind="text: '$' + qty1NetTotal()"></span>
+            </td>
+            <td class="text-right">
+                <a href="#" class="table-link">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+                <a href="#" class="table-link danger">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </td>
+
+        </tr>
+
+    </script>
+
+    @Html.Partial("_OrderItemDetail")
+    @Html.Partial("_OrderSectionDetail")
 </div>
 

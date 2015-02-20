@@ -4,109 +4,153 @@
         var
             self,
             costCentreId = ko.observable(),
-            name = ko.observable(),
+            name = ko.observable().extend({ required: true }),
             description = ko.observable(),
             type = ko.observable().extend({ required: true }),
             typeName = ko.observable(),
             createdBy = ko.observable(),
-            lockedBy = ko.observable().extend({ required: true }),
-            lastModifiedBy = ko.observable().extend({ required: true }),
+            lockedBy = ko.observable(),
+            lastModifiedBy = ko.observable(),
             minimumCost = ko.observable(),
             setupCost = ko.observable().extend({ required: true }),
-            setupTime = ko.observable().extend({ required: true }),
+            setupTime = ko.observable(),
             defaultVa = ko.observable(),
-            defaultVaId = ko.observable().extend({ required: true }),
+            defaultVaId = ko.observable(),
             overHeadRate = ko.observable(),
             hourlyCharge = ko.observable(),
             costPerThousand = ko.observable(),
             creationDate = ko.observable(),
             lastModifiedDate = ko.observable(),
             preferredSupplierId = ko.observable(),
-            codeFileName = ko.observable().extend({ required: true }),
+            codeFileName = ko.observable(),
             nominalCode = ko.observable(),
-            completionTime = ko.observable().extend({ required: true }),
+            completionTime = ko.observable(),
             headerCode = ko.observable(),
             middleCode = ko.observable(),
             footerCode = ko.observable(),
-            strCostPlantParsed = ko.observable().extend({ required: true }),
+            strCostPlantParsed = ko.observable(),
             strCostPlantUnParsed = ko.observable(),
-            strCostLabourParsed = ko.observable().extend({ required: true }),
-            strCostLabourUnParsed = ko.observable().extend({ required: true }),
+            strCostLabourParsed = ko.observable(),
+            strCostLabourUnParsed = ko.observable(),
             strCostMaterialParsed = ko.observable(),
-            strCostMaterialUnParsed = ko.observable().extend({ required: true }),
+            strCostMaterialUnParsed = ko.observable(),
             strPricePlantParsed = ko.observable(),
             strPricePlantUnParsed = ko.observable(),
             strPriceLabourParsed = ko.observable(),
-            strPriceLabourUnParsed = ko.observable().extend({ required: true }),
+            strPriceLabourUnParsed = ko.observable(),
             strPriceMaterialParsed = ko.observable(),
-            strPriceMaterialUnParsed = ko.observable().extend({ required: true }),
-            strActualCostPlantParsed = ko.observable().extend({ required: true }),
+            strPriceMaterialUnParsed = ko.observable(),
+            strActualCostPlantParsed = ko.observable(),
             strActualCostPlantUnParsed = ko.observable(),
-            strActualCostLabourParsed = ko.observable().extend({ required: true }),
-            strActualCostLabourUnParsed = ko.observable().extend({ required: true }),
+            strActualCostLabourParsed = ko.observable(),
+            strActualCostLabourUnParsed = ko.observable(),
             strActualCostMaterialParsed = ko.observable(),
-            strActualCostMaterialUnParsed = ko.observable().extend({ required: true }),
+            strActualCostMaterialUnParsed = ko.observable(),
             strTimeParsed = ko.observable(),
             strTimeUnParsed = ko.observable(),
             isDisabled = ko.observable(),
-            isDirectCost = ko.observable().extend({ required: true }),
+            isDirectCost = ko.observable(),
             setupSpoilage = ko.observable(),
-            runningSpoilage = ko.observable().extend({ required: true }),
+            runningSpoilage = ko.observable(),
             calculationMethodType = ko.observable().extend({ required: true }),
             noOfHours = ko.observable(),
-            perHourCost = ko.observable().extend({ required: true }),
+            perHourCost = ko.observable(),
             perHourPrice = ko.observable(),
             unitQuantity = ko.observable(),
             quantitySourceType = ko.observable(),
-            quantityVariableId = ko.observable().extend({ required: true }),
+            quantityVariableId = ko.observable(),
             quantityQuestionString = ko.observable(),
-            quantityQuestionDefaultValue = ko.observable().extend({ required: true }),
-            quantityCalculationString = ko.observable().extend({ required: true }),
+            quantityQuestionDefaultValue = ko.observable(),
+            quantityCalculationString = ko.observable(),
             costPerUnitQuantity = ko.observable(),
-            pricePerUnitQuantity = ko.observable().extend({ required: true }),
-            timePerUnitQuantity = ko.observable().extend({ required: true }),
+            pricePerUnitQuantity = ko.observable(),
+            timePerUnitQuantity = ko.observable(),
             timeRunSpeed = ko.observable(),
-            timeNoOfPasses = ko.observable().extend({ required: true }),
+            timeNoOfPasses = ko.observable(),
             timeSourceType = ko.observable(),
             timeVariableId = ko.observable(),
             timeQuestionString = ko.observable(),
-            timeQuestionDefaultValue = ko.observable().extend({ required: true }),
+            timeQuestionDefaultValue = ko.observable(),
             timeCalculationString = ko.observable(),
-            priority = ko.observable().extend({ required: true }),
-            costQuestionString = ko.observable().extend({ required: true }),
+            priority = ko.observable(),
+            costQuestionString = ko.observable(),
             costDefaultValue = ko.observable(),
-            priceQuestionString = ko.observable().extend({ required: true }),
+            priceQuestionString = ko.observable(),
             priceDefaultValue = ko.observable(),
             estimatedTimeQuestionString = ko.observable(),
             estimatedTimeDefaultValue = ko.observable(),
-            sequence = ko.observable().extend({ required: true }),
+            sequence = ko.observable(),
             completeCode = ko.observable(),
-            itemDescription = ko.observable().extend({ required: true }),
-            companyId = ko.observable().extend({ required: true }),
+            itemDescription = ko.observable(),
+            companyId = ko.observable(),
             systemTypeId = ko.observable(),
-            flagId = ko.observable().extend({ required: true }),
-            isScheduleable = ko.observable().extend({ required: true }),
+            flagId = ko.observable(),
+            isScheduleable = ko.observable(),
             isPrintOnJobCard = ko.observable(),
             webStoreDesc = ko.observable(),
             isPublished = ko.observable(),
             estimateProductionTime = ko.observable(),
             mainImageUrl = ko.observable(),
-            thumbnailImageUrl = ko.observable().extend({ required: true }),
-            deliveryCharges = ko.observable().extend({ required: true }),
+            thumbnailImageUrl = ko.observable(),
+            deliveryCharges = ko.observable(),
             xeroAccessCode = ko.observable(),
-            organisationId = ko.observable().extend({ required: true }),
+            organisationId = ko.observable(),
             costCenterResource = ko.observableArray([]),
             costCenterInstructions = ko.observableArray([]),
+            serviceTypesList = ko.observableArray([]),
+            deliveryServiceType = ko.observable(),
+            carrierId = ko.observable(),
             errors = ko.validation.group({
                 name: name,
                 type: type,
+                setupCost: setupCost
             }),
             isValid = ko.computed(function() {
                 return errors().length === 0 ? true : false;;
             }),
             dirtyFlag = new ko.dirtyFlag({
                 name: name,
+                description: description,
+                webStoreDesc: webStoreDesc,
+                calculationMethodType: calculationMethodType,
+                priority:priority,
                 type: type,
+                costQuestionString: costQuestionString,
+                costDefaultValue: costDefaultValue,
+                priceQuestionString: priceQuestionString,
+                priceDefaultValue: priceDefaultValue,
+                estimatedTimeQuestionString: estimatedTimeQuestionString,
+                estimatedTimeDefaultValue: estimatedTimeDefaultValue,
+                minimumCost: minimumCost,
+                setupCost: setupCost,
+                costPerThousand: costPerThousand,
+                hourlyCharge: hourlyCharge,
+                overHeadRate: overHeadRate,
+                completionTime: completionTime,
+                setupTime: setupTime,
+                setupSpoilage: setupSpoilage,
+                runningSpoilage: runningSpoilage,
+                isDirectCost: isDirectCost,
+                isScheduleable: isScheduleable,
+                isPrintOnJobCard: isPrintOnJobCard,
+                costPerUnitQuantity: costPerUnitQuantity,
+                pricePerUnitQuantity: pricePerUnitQuantity,
+                timePerUnitQuantity: timePerUnitQuantity,
+                quantityVariableId: quantityVariableId,
+                quantityQuestionString: quantityQuestionString,
+                quantityQuestionDefaultValue: quantityQuestionDefaultValue,
+                strCostPlantUnParsed: strCostPlantUnParsed,
+                strPricePlantUnParsed: strPricePlantUnParsed,
+                strActualCostPlantUnParsed: strActualCostPlantUnParsed,
+                strCostMaterialUnParsed: strCostMaterialUnParsed,
+                strPriceMaterialUnParsed: strPriceMaterialUnParsed,
+                strActualCostMaterialUnParsed: strActualCostMaterialUnParsed,
+                strCostLabourUnParsed: strCostLabourUnParsed,
+                strPriceLabourUnParsed: strPriceLabourUnParsed,
+                strActualCostLabourUnParsed: strActualCostLabourUnParsed,
+                strTimeUnParsed: strTimeUnParsed,
+                carrierId: carrierId
+
             }),
             hasChanges = ko.computed(function() {
                 return dirtyFlag.isDirty();
@@ -214,7 +258,10 @@
             errors: errors,
             isValid: isValid,
             hasChanges: hasChanges,
-            reset: reset
+            reset: reset,
+            serviceTypesList: serviceTypesList,
+            deliveryServiceType: deliveryServiceType,
+            carrierId: carrierId
         };
         return self;
     };
@@ -253,12 +300,13 @@
         return new costCenterListView(source.CostCentreId, source.Name, source.Description, source.Type, source.CalculationMethodType);
     };
     //Cost Center Instructions for Client
-    workInstruction = function (specifiedInstructionId, specifiedInstruction, specifiedCostCenterOption, specifiedCostCentreId) {
-        var self,
+    costCenterInstruction = function (specifiedInstructionId, specifiedInstruction, specifiedcostCenterOption, specifiedCostCentreId) {
+       var
+            self,
             instructionId = ko.observable(specifiedInstructionId),
-            instruction = ko.observarble(specifiedInstruction),
-            costCenterOption = ko.observable(specifiedCostCenterOption),
-            costCentreId = ko.observable(specifiedCostCentreId),
+            instruction = ko.observable(specifiedInstruction),
+            costCenterOption = ko.observable(specifiedcostCenterOption),
+            costCenterId = ko.observable(specifiedCostCentreId),
              dirtyFlag = new ko.dirtyFlag({
                  instruction: instruction
              }),
@@ -270,7 +318,6 @@
                 return {
                     Instruction: instruction(),
                     InstructionId : instructionId(),
-                    CostCentreId : costCentreId(),
                     CostCenterOption: costCenterOption()
                 }
             };
@@ -278,14 +325,59 @@
             instructionId: instructionId,
             instruction: instruction,
             costCenterOption: costCenterOption,
+            costCenterId:costCenterId,
             convertToServerData: convertToServerData
         };
         return self;
 
     };
-    workInstruction.CreateForClient = function (source) {
-        return new workInstruction(source.InstructionId, source.Instruction, source.CostCenterOption);
+
+    costCenterInstruction.CreateFromClientModel = function (source) {
+        return new costCenterInstruction(
+            source.InstructionId, source.Instruction, source.CostCenterOption
+        );
     };
+    costCenterInstruction.Create = function (source) {
+        var ccInstruction = new costCenterInstruction(
+            source.InstructionId,
+            source.Instruction,
+            source.costCenterOption,
+            source.CostCentreId
+            );
+        return ccInstruction;
+    };
+    costCenterResource = function (specifiedCostCenterResourceId, specifiedCostCentreId, specifiedResourceId) {
+        var
+             self,
+             costCenterResourceId = ko.observable(specifiedCostCenterResourceId),
+             costCentreId = ko.observable(specifiedCostCentreId),
+             resourceId = ko.observable(specifiedResourceId),
+              dirtyFlag = new ko.dirtyFlag({
+                  resourceId: resourceId
+              }),
+             // Has Changes
+             hasChanges = ko.computed(function () {
+                 return dirtyFlag.isDirty();
+             }),
+             convertToServerData = function () {
+                 return {
+                     CostCenterResourceId: costCenterResourceId(),
+                     CostCentreId: costCentreId(),
+                     ResourceId: resourceId()
+                 }
+             };
+        self = {
+            costCenterResourceId: costCenterResourceId,
+            costCentreId: costCentreId,
+            resourceId: resourceId,
+            hasChanges: hasChanges,
+            dirtyFlag:dirtyFlag,
+            convertToServerData: convertToServerData
+        };
+        return self;
+
+    };
+
     var costCenterClientMapper = function(source) {
         var oCostCenter = new CostCenter();
         oCostCenter.costCentreId(source.CostCentreId);
@@ -380,13 +472,56 @@
         oCostCenter.deliveryCharges(source.DeliveryCharges);
         oCostCenter.xeroAccessCode(source.XeroAccessCode);
         oCostCenter.organisationId(source.OrganisationId);
-       
-        //_.each(source.CostcentreInstructions, function (item) {
-        //    oCostCenter.costCenterInstructions.push(workInstruction.CreateForClient(item));
-        //});
+        oCostCenter.deliveryServiceType(source.DeliveryServiceType);
+        oCostCenter.carrierId(source.CarrierId);
+        
+        oCostCenter.serviceTypesList(ServiceTypesList());
+        _.each(source.CostcentreInstructions, function (item) {
+            oCostCenter.costCenterInstructions.push(costCenterInstruction.Create(item));
+        });
         return oCostCenter;
 
     };
+    var ServiceTypeModel = function (data) {
+        var self = this;
+        self.name = ko.observable(data.name);
+    };
+    
+
+    var ServiceTypesList = function () {
+        ServiceTypesList = [];
+        ServiceTypesList.push(new ServiceTypeModel({ name: "EUROPE_FIRST_INTERNATIONAL_PRIORITY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_1_DAY_FREIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_2_DAY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_2_DAY_AM" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_2_DAY_FREIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_3_DAY_FREIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_DISTANCE_DEFERRED" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_EXPRESS_SAVER" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_FIRST_FREIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_FREIGHT_ECONOMY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_FREIGHT_PRIORITY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_GROUND" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_NEXT_DAY_AFTERNOON" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_NEXT_DAY_EARLY_MORNING" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_NEXT_DAY_END_OF_DAY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_NEXT_DAY_FREIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FEDEX_NEXT_DAY_MID_MORNING" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "GROUND_HOME_DELIVERY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "FIRST_OVERNIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "INTERNATIONAL_ECONOMY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "INTERNATIONAL_ECONOMY_FREIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "INTERNATIONAL_FIRST" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "INTERNATIONAL_PRIORITY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "INTERNATIONAL_PRIORITY_FREIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "PRIORITY_OVERNIGHT" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "SAME_DAY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "SAME_DAY_CITY" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "SMART_POST" }));
+        ServiceTypesList.push(new ServiceTypeModel({ name: "STANDARD_OVERNIGHT" }));
+        return ServiceTypesList;
+    };
+
     var costCenterServerMapper = function (source) {
         var result = {};
         result.CostCentreId = source.costCentreId();
@@ -442,7 +577,6 @@
         result.PerHourCost = source.perHourCost();
         result.PerHourPrice = source.perHourPrice();
         result.UnitQuantity = source.unitQuantity();
-        result.QuantityresultType = source.QuantityresultType();
         result.QuantityVariableId = source.quantityVariableId();
         result.QuantityQuestionString = source.quantityQuestionString();
         result.QuantityQuestionDefaultValue = source.quantityQuestionDefaultValue();
@@ -452,7 +586,6 @@
         result.TimePerUnitQuantity = source.timePerUnitQuantity();
         result.TimeRunSpeed = source.timeRunSpeed();
         result.TimeNoOfPasses = source.timeNoOfPasses();
-        result.TimeresultType = source.TimeresultType();
         result.TimeVariableId = source.timeVariableId();
         result.TimeQuestionString = source.timeQuestionString();
         result.TimeQuestionDefaultValue = source.timeQuestionDefaultValue();
@@ -480,7 +613,9 @@
         result.DeliveryCharges = source.deliveryCharges();
         result.XeroAccessCode = source.xeroAccessCode();
         result.OrganisationId = source.organisationId();
-        result.CostcentreInstructions = source.costCenterInstructions();
+        result.CarrierId = source.carrierId();
+        result.DeliveryServiceType = source.deliveryServiceType();
+        
         return result;
     };
     

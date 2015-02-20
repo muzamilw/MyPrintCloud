@@ -103,7 +103,6 @@ namespace MPC.Models.DomainModels
         public Guid? StockNotificationManagerId2 { get; set; }
         public bool? IsDeliveryTaxAble { get; set; }
         public bool? IsDisplayDeliveryOnCheckout { get; set; }
-        public long? DeliveryPickUpAddressId { get; set; }
         public double? TaxRate { get; set; }
         public bool? IsDisplayDiscountVoucherCode { get; set; }
         public bool? IsDisplayCorporateBinding { get; set; }
@@ -152,6 +151,9 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<MediaLibrary> MediaLibraries { get; set; }
         public virtual ICollection<CompanyCostCentre> CompanyCostCentres { get; set; }
         public virtual ICollection<Activity> Activities { get; set; }
+        public virtual ICollection<SmartForm> SmartForms { get; set; }
+        public virtual ICollection<Invoice> Invoices { get; set; }
+        public virtual ICollection<FieldVariable> FieldVariables { get; set; }
 
         #region Additional Properties
       

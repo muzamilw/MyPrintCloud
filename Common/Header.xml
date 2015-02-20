@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Headers>
+  <Logo URL="Common/images/logo.png"></Logo>
+  <Banner URL="Common/images/Header.png"></Banner>
+  <login Text="Sign in"></login>
+  <Greeting Text="Hello."></Greeting>
+  <SignUp Text="Start Here."></SignUp>
+  <Phone Text="(209) 233 4455"></Phone>
+
+</Headers>
