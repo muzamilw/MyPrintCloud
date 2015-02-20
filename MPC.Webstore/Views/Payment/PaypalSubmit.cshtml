@@ -1,12 +1,12 @@
 ﻿@model MPC.Webstore.ViewModels.PaypalViewModel
 @{
-    Layout = null;
+   
     ViewBag.Title = "PayPal";
 }
 
-@using (Html.BeginForm("Paypal", "Payment", FormMethod.Post, new { id = "payForm", @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @action = @Model.URL, id = "payForm" }))
 {
-    @Html.AntiForgeryToken()
+    @*@Html.AntiForgeryToken()*@
     @Html.HiddenFor(model => model.cmd)
     @Html.HiddenFor(model => model.business)
     @Html.HiddenFor(model => model.pageOrderID)
@@ -17,18 +17,18 @@
     @Html.HiddenFor(model => model.cancel_url)
     @Html.HiddenFor(model => model.currency_code)
     @Html.HiddenFor(model => model.handling_cart)
-    @Html.HiddenFor(model => model.txtJason)
+    @Html.HiddenFor(model => model.txtJason, new { id = "txtJasonId" })
     @Html.HiddenFor(model => model.upload)
     @Html.HiddenFor(model => model.discount_amount_cart)
     
     <div style="text-align:center; height:600px; margin-top:300px; font:arial; font-size:16px;">Please wait while we redirect you to PayPal.</div>
 }
-
+@Scripts.Render("~/bundles/jquery")
 <script language="javascript" type="text/javascript">
 
         $(document).ready(function () {
 
-            var jasonData = jQuery.parseJSON($('#<%=txtJason.ClientID %>').val());
+            var jasonData = jQuery.parseJSON($('#txtJasonId').val());
             var objData = null;
             $(jasonData).each(function (indx) {
 

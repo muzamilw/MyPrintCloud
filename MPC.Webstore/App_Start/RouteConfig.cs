@@ -175,7 +175,12 @@ namespace MPC.Webstore
             "RemoveProduct/{ItemID}/{OrderID}",
             new { controller = "ShopCart", action = "RemoveProduct",ItemID = UrlParameter.Optional, OrderID = UrlParameter.Optional }
               );
-      
+
+              routes.MapRoute(
+              "PaypalSubmit",
+              "PaypalSubmit/{controller}/{action}/{id}",
+              new { controller = "Payment", action = "PaypalSubmit", id = UrlParameter.Optional }
+           );
             routes.MapRoute(
                "Default", // Route name
                "",        // URL with parameters

@@ -10,6 +10,7 @@ using MPC.Webstore.ViewModels;
 using System.Globalization;
 using System.Configuration;
 using MPC.Models.Common;
+using System.Runtime.Caching;
 
 namespace MPC.Webstore.Controllers
 {
@@ -25,81 +26,82 @@ namespace MPC.Webstore.Controllers
         }
 
         // GET: Payment
-        public ActionResult Paypal(int OrderID)
+        public ActionResult PaypalSubmit(int OrderID)
         {
+           // int OrderID = 16633;
             PaypalViewModel opaypal = new PaypalViewModel();
             try
             {
 
                 if (OrderID > 0)
                 {
+                    string CacheKeyName = "CompanyBaseResponse";
+                    ObjectCache cache = MemoryCache.Default;
+                    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
                     
-                   
                     PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.StoreId);
-
-
-
-                    opaypal.return_url = "";
-                    opaypal.notify_url = "";
-                    opaypal.cancel_url = "";
-                    opaypal.discount_amount_cart = "0";
-                    opaypal.upload = "1";
-                    opaypal.business = oGateWay.BusinessEmail; 
-
-                    CultureInfo ci = new CultureInfo("en-us");
-
-                   // opaypal.return_url += string.Format("?{0}={1}", ParameterName.ORDER_ID, PageParameters.OrderID);
-                    opaypal.pageOrderID = OrderID.ToString();
-                    // determining the URL to work with depending on whether sandbox or a real PayPal account should be used
-                    if (ConfigurationManager.AppSettings["UseSandbox"].ToString() == "true")
-                        opaypal.URL = "https://www.sandbox.paypal.com/cgi-bin/webscr";
-                    else
-                        opaypal.URL = "https://www.paypal.com/cgi-bin/webscr";
-
-
-                    //This parameter determines the was information about successfull transaction 
-                    //will be passed to the script specified in the return_url parameter.
-                    // "1" - no parameters will be passed.
-                    // "2" - the POST method will be used.
-                    // "0" - the GET method will be used. 
-                    // The parameter is "0" by deault.
-                    if (ConfigurationManager.AppSettings["SendToReturnURL"].ToString() == "true")
-                        opaypal.rm = "2";
-                    else
-                        opaypal.rm = "1";
-
-
-                    Estimate order = _OrderService.GetOrderByID(OrderID);
-                    if (order != null && order.DeliveryCost.HasValue)
+                    if (oGateWay != null)
                     {
-                        opaypal.handling_cart = Math.Round(order.DeliveryCost.Value, 2, MidpointRounding.AwayFromZero).ToString("#.##");
-                    }
-                    else
-                    {
+                        opaypal.return_url = oGateWay.ReturnUrl;
+                        opaypal.notify_url = oGateWay.NotifyUrl;
+                        opaypal.cancel_url = oGateWay.CancelPurchaseUrl;
+                        opaypal.discount_amount_cart = "0";
+                        opaypal.upload = "1";
+                        opaypal.business = oGateWay.BusinessEmail;
+                        opaypal.cmd = "_cart";
+                        opaypal.currency_code = StoreBaseResopnse.Currency;
+                        opaypal.no_shipping = "1";
                         opaypal.handling_cart = "0";
-                    }
-                   
-                    ShoppingCart shopCart = _OrderService.GetShopCartOrderAndDetails(OrderID, 0);
-   
-                    if (shopCart != null && shopCart.CartItemsList != null)
-                    {
-                        List<PaypalOrderParameter> itemsList = new List<PaypalOrderParameter>();
 
-                        foreach (ProductItem item in shopCart.CartItemsList)
+
+                        opaypal.return_url += string.Format("?{0}={1}", "OrderID", OrderID);
+                        opaypal.pageOrderID = OrderID.ToString();
+                        // determining the URL to work with depending on whether sandbox or a real PayPal account should be used
+                        if (oGateWay.UseSandbox)
+                            opaypal.URL = oGateWay.TestApiUrl;// "https://www.sandbox.paypal.com/cgi-bin/webscr";
+                        else
+                            opaypal.URL = oGateWay.LiveApiUrl;// "https://www.paypal.com/cgi-bin/webscr";
+
+                        if (oGateWay.SendToReturnURL)
+                            opaypal.rm = "2";
+                        else
+                            opaypal.rm = "1";
+
+
+                        Estimate order = _OrderService.GetOrderByID(OrderID);
+                        if (order != null && order.DeliveryCost.HasValue)
                         {
-                            PaypalOrderParameter prodItem = new PaypalOrderParameter
-                            {
-                                ProductName = item.ProductName,
-                                UnitPrice = Math.Round((item.Qty1GrossTotal ?? 1.00), 2, MidpointRounding.AwayFromZero),
-                                TotalQuantity = 1
-                            };
-
-                            itemsList.Add(prodItem);
+                            opaypal.handling_cart = Math.Round(order.DeliveryCost.Value, 2, MidpointRounding.AwayFromZero).ToString("#.##");
+                        }
+                        else
+                        {
+                            opaypal.handling_cart = "0";
                         }
 
-                        opaypal.txtJason = Newtonsoft.Json.JsonConvert.SerializeObject(itemsList);
-                        
+                        ShoppingCart shopCart = _OrderService.GetShopCartOrderAndDetails(OrderID, OrderStatus.ShoppingCart);
+
+                        if (shopCart != null && shopCart.CartItemsList != null)
+                        {
+                            List<PaypalOrderParameter> itemsList = new List<PaypalOrderParameter>();
+
+                            foreach (ProductItem item in shopCart.CartItemsList)
+                            {
+                                PaypalOrderParameter prodItem = new PaypalOrderParameter
+                                {
+                                    ProductName = item.ProductName,
+                                    UnitPrice = Math.Round((item.Qty1GrossTotal ?? 1.00), 2, MidpointRounding.AwayFromZero),
+                                    TotalQuantity = 1
+                                };
+
+                                itemsList.Add(prodItem);
+                            }
+
+                            opaypal.txtJason = Newtonsoft.Json.JsonConvert.SerializeObject(itemsList);
+
+                        }
+
                     }
+                    
                 }
             }
             catch (Exception ex)
@@ -110,6 +112,13 @@ namespace MPC.Webstore.Controllers
         }
 
 
+
+        public ActionResult PaypalIPN()
+        {
+            return View();
+        }
+        //public ActionResult IPNHandler() { }
+        
 
     }
 }
