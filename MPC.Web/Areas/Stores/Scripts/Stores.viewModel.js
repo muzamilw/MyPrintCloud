@@ -2721,6 +2721,7 @@ define("stores/stores.viewModel",
                     //Do Before Save
                     doBeforeSave = function () {
                         var flag = true;
+                        errorList.removeAll();
                         if (!selectedStore().isValid()) {
                             selectedStore().errors.showAllMessages();
                             setValidationSummary(selectedStore());
@@ -2806,7 +2807,7 @@ define("stores/stores.viewModel",
                     }, this),
                     // Set Validation Summary
                     setValidationSummary = function (selectedItem) {
-                        errorList.removeAll();
+                       
                         if (selectedItem.name.error) {
                             errorList.push({ name: selectedItem.name.domElement.name, element: selectedItem.name.domElement });
                         }
