@@ -1,4 +1,6 @@
-﻿using MPC.MIS.Areas.Api.Models;
+﻿using System.Linq;
+using Microsoft.IdentityModel.Protocols.WSFederation;
+using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
 
 
@@ -36,9 +38,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ContactId = source.ContactId,
                 VariableId = source.VariableId,
                 Value = source.Value,
-                //Type = source.Value,
-                //Title = source.Value,
-
+                Type = source.FieldVariable != null ? source.FieldVariable.VariableType : null,
+                Title = source.FieldVariable != null ? source.FieldVariable.VariableTitle : string.Empty,
+                VariableOptions = source.FieldVariable != null ? (source.FieldVariable.VariableOptions != null ? source.FieldVariable.VariableOptions.Select(vo => vo.CreateFrom()).ToList()
+            : null) : null
             };
         }
 

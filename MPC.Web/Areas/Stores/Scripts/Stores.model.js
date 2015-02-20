@@ -2318,7 +2318,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             bussinessAddress = ko.observable(),
             shippingAddress = ko.observable(),
             stateName = ko.observable(),
-
+            companyContactVariables=ko.observableArray([]),
 
             // Errors
             errors = ko.validation.group({
@@ -2511,6 +2511,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     OrganisationId: organisationId(),
                     BussinessAddressId: bussinessAddressId(),
                     FileName: fileName(),
+                    CompanyContactVariables:[]
                     //BussinessAddress: bussinessAddress() != undefined ? bussinessAddress().convertToServerData(): null,
                     //ShippingAddress: shippingAddress() != undefined ? shippingAddress().convertToServerData() : null,
                 };
@@ -2609,6 +2610,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             bussinessAddress: bussinessAddress,
             shippingAddress: shippingAddress,
             stateName: stateName,
+            companyContactVariables: companyContactVariables,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
