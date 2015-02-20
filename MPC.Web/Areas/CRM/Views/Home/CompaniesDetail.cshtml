@@ -58,7 +58,7 @@
                             <!--ko if: $root.isProspectOrCustomerScreen() -->
                             <li><a href="#tab-DAM" data-toggle="tab">DAM</a></li>
                             <!-- /ko -->
-                            <li><a href="#tab-orders" data-toggle="tab">Orders</a></li>
+                            <li><a href="#tab-orders" data-toggle="tab" data-bind="click: $root.ordersTabClickHandler">Orders</a></li>
                             <li><a href="#tab-invoices" data-toggle="tab">Invoices</a></li>
                             <!-- /ko -->
 

@@ -159,7 +159,7 @@
             getBaseData: getBaseData,
             saveStore: saveStore,
             getSuppliers: getSuppliers,
-            getOrdersData: getOrders
+            getOrdersData: getOrders,
             searchCompanyTerritory: searchCompanyTerritory
         };
     })();

@@ -1347,17 +1347,38 @@ define("stores/stores.viewModel",
                                 });
                                 //check on client side, push all if new added work
                                 if (searchAddressFilter() == "" || searchAddressFilter() == undefined) {
-                                    _.each(newAddresses(), function (addressItem) {
-                                        selectedStore().addresses.push(addressItem);
-                                    });
+                                    if (addressTerritoryFilter() != undefined) {
+                                        _.each(newAddresses(), function (addressItem) {
+                                            if (addressItem.territoryId() == addressTerritoryFilter()) {
+                                                selectedStore().addresses.push(addressItem);
+                                            }
+                                        });
+                                    } else {
+                                        _.each(newAddresses(), function (addressItem) {
+                                                selectedStore().addresses.push(addressItem);
+                                        });
+                                    }
+                                    
                                 }
+
                                 //check on client side, if filter is not null
                                 if (searchAddressFilter() != "" && searchAddressFilter() != undefined) {
-                                    _.each(newAddresses(), function (addressItem) {
-                                        if (addressItem.addressName().indexOf(searchAddressFilter()) != -1) {
-                                            selectedStore().addresses.push(addressItem);
-                                        }
-                                    });
+                                    if (addressTerritoryFilter() == undefined) {
+                                        _.each(newAddresses(), function (addressItem) {
+                                            if (addressItem.addressName().indexOf(searchAddressFilter()) != -1) {
+                                                selectedStore().addresses.push(addressItem);
+                                            }
+                                        });
+                                    } else {
+                                        _.each(newAddresses(), function (addressItem) {
+                                            if (addressItem.addressName().indexOf(searchAddressFilter()) != -1) {
+                                                if (addressItem.territoryId() == addressTerritoryFilter()) {
+                                                    selectedStore().addresses.push(addressItem);
+                                                }
+                                                
+                                            }
+                                        });
+                                    }
                                 }
                             },
                             error: function (response) {
@@ -1366,7 +1387,7 @@ define("stores/stores.viewModel",
                         });
                     },
                     addressTerritoryFilterSelected = ko.computed(function () {
-                        if (isEditorVisible() && selectedStore() != null && selectedStore() != undefined && selectedStore().companyId() !== undefined) {
+                        if (isEditorVisible() && selectedStore() != null && selectedStore() != undefined) {
                             searchAddress();
                         }
                     }),
@@ -1928,17 +1949,38 @@ define("stores/stores.viewModel",
                                 });
                                 //check on client side, push all if new added work
                                 if (searchCompanyContactFilter() == "" || searchCompanyContactFilter() == undefined) {
-                                    _.each(newCompanyContacts(), function (companyContactItem) {
-                                        selectedStore().users.push(companyContactItem);
-                                    });
+                                    if (contactCompanyTerritoryFilter() != undefined) {
+                                        _.each(newCompanyContacts(), function (companyContactItem) {
+                                            if (companyContactItem.territoryId() == contactCompanyTerritoryFilter()) {
+                                                selectedStore().users.push(companyContactItem);
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        _.each(newCompanyContacts(), function (companyContactItem) {
+                                            selectedStore().users.push(companyContactItem);
+                                        });
+                                    }
                                 }
                                 //check on client side, if filter is not null
                                 if (searchCompanyContactFilter() != "" && searchCompanyContactFilter() != undefined) {
-                                    _.each(newCompanyContacts(), function (companyContactItem) {
-                                        if (companyContactItem.email().indexOf(searchCompanyContactFilter()) != -1 || companyContactItem.firstName().indexOf(searchCompanyContactFilter()) != -1) {
-                                            selectedStore().users.push(companyContactItem);
-                                        }
-                                    });
+                                    if (contactCompanyTerritoryFilter() == undefined) {
+                                        _.each(newCompanyContacts(), function (companyContactItem) {
+                                            if (companyContactItem.email().indexOf(searchCompanyContactFilter()) != -1 || companyContactItem.firstName().indexOf(searchCompanyContactFilter()) != -1) {
+                                                selectedStore().users.push(companyContactItem);
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        _.each(newCompanyContacts(), function (companyContactItem) {
+                                            if (companyContactItem.email().indexOf(searchCompanyContactFilter()) != -1 || companyContactItem.firstName().indexOf(searchCompanyContactFilter()) != -1) {
+                                                if (companyContactItem.territoryId() == contactCompanyTerritoryFilter()) {
+                                                    selectedStore().users.push(companyContactItem);
+                                                }
+                                            }
+                                        });
+                                    }
+                                    
                                 }
                             },
                             error: function (response) {
@@ -2679,6 +2721,7 @@ define("stores/stores.viewModel",
                     //Do Before Save
                     doBeforeSave = function () {
                         var flag = true;
+                        errorList.removeAll();
                         if (!selectedStore().isValid()) {
                             selectedStore().errors.showAllMessages();
                             setValidationSummary(selectedStore());
@@ -2764,7 +2807,7 @@ define("stores/stores.viewModel",
                     }, this),
                     // Set Validation Summary
                     setValidationSummary = function (selectedItem) {
-                        errorList.removeAll();
+                       
                         if (selectedItem.name.error) {
                             errorList.push({ name: selectedItem.name.domElement.name, element: selectedItem.name.domElement });
                         }
