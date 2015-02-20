@@ -1250,10 +1250,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             addressId = ko.observable(specifiedAddressId),
             companyId = ko.observable(specifiedCompanyId),
             addressName = ko.observable(specifiedAddressName).extend({ required: true }),
-            address1 = ko.observable(specifiedAddress1),
+            address1 = ko.observable(specifiedAddress1).extend({ required: true }),
             address2 = ko.observable(specifiedAddress2),
             address3 = ko.observable(specifiedAddress3),
-            city = ko.observable(specifiedCity),
+            city = ko.observable(specifiedCity).extend({ required: true }),
             state = ko.observable(specifiedState),
             country = ko.observable(specifiedCountry),
             stateName = ko.observable(specifiedStateName),
@@ -1283,7 +1283,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             // Errors
             errors = ko.validation.group({
                 addressName: addressName,
-                territoryId: territoryId
+                territoryId: territoryId,
+                address1: address1,
+                city: city
             }),
             // Is Valid 
             isValid = ko.computed(function () {

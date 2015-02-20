@@ -1,4 +1,6 @@
-﻿using MPC.MIS.Areas.Api.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using MPC.MIS.Areas.Api.Models;
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
     using DomainModels = MPC.Models.DomainModels;
@@ -30,7 +32,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemSizeHeight = source.ItemSizeHeight,
                 ItemSizeWidth = source.ItemSizeWidth,
                 IsItemSizeCustom = source.IsItemSizeCustom,
-                IsSectionSizeCustom = source.IsSectionSizeCustom
+                IsSectionSizeCustom = source.IsSectionSizeCustom,
+                Qty1 = source.Qty1,
+                Qty1Profit = source.Qty1Profit,
+                
+                SectionCostcentres = source.SectionCostcentres != null ? source.SectionCostcentres.Select(sc => sc.CreateFrom()) :
+                new List<SectionCostcentre>()
             };
         }
 

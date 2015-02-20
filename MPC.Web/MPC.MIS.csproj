@@ -276,6 +276,7 @@
     <Compile Include="Areas\Api\Controllers\LanguageEditorController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterController.cs" />
     <Compile Include="Areas\Api\Controllers\MachineController.cs" />
+    <Compile Include="Areas\Api\Controllers\OrdersForCrmController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionsForPhraseLibraryController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductMachinesController.cs" />
     <Compile Include="Areas\Api\ModelMappers\ActivityMapper.cs" />
@@ -303,6 +304,9 @@
     <Compile Include="Areas\Api\ModelMappers\FieldVariableMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GroupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InkCoverageGroupMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\SectionCostCentreResourceMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\SectionCostCentreDetailMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\SectionCostcentreMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\OrderBaseResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\OrderBaseResponseForCompanyMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemDesignerTemplateBaseResponseMapper.cs" />
@@ -498,6 +502,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Api\Models\MediaLibrary.cs" />
+    <Compile Include="Areas\Api\Models\OrdersForCrmResponse.cs" />
     <Compile Include="Areas\Api\Models\PageCategory.cs" />
     <Compile Include="Areas\Api\Models\PageCategoryDropDown.cs" />
     <Compile Include="Areas\Api\Models\PaymentGateway.cs" />
@@ -518,6 +523,9 @@
     <Compile Include="Areas\Api\Models\ProductCategoryResultModel.cs" />
     <Compile Include="Areas\Api\Models\SecondaryPageResponse.cs" />
     <Compile Include="Areas\Api\Models\Section.cs" />
+    <Compile Include="Areas\Api\Models\SectionCostcentre.cs" />
+    <Compile Include="Areas\Api\Models\SectionCostCentreDetail.cs" />
+    <Compile Include="Areas\Api\Models\SectionCostCentreResource.cs" />
     <Compile Include="Areas\Api\Models\SectionFlag.cs" />
     <Compile Include="Areas\Api\Models\SectionForPhraseLibrary.cs" />
     <Compile Include="Areas\Api\Models\State.cs" />
@@ -2907,6 +2915,7 @@
     <Folder Include="Areas\Api\Views\Customer\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
     <Folder Include="Areas\Api\Views\Machine\" />
+    <Folder Include="Areas\Api\Views\OrdersForCrm\" />
     <Folder Include="Areas\Api\Views\PaperSheetBaseApi\" />
     <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
