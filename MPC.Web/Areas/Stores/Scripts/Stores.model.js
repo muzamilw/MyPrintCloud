@@ -4112,16 +4112,18 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     };
     // #endregion ______________  Variable Option   _________________
 
-    // #region ______________  Variable Option  _________________
+    // #region ______________  Company Contact Variable  _________________
 
     // ReSharper disable once InconsistentNaming
-    var CompanyContactVariable = function (specifiedContactVariableId, specifiedContactId, specifiedVariableId, specifiedValue) {
+    var CompanyContactVariable = function (specifiedContactVariableId, specifiedContactId, specifiedVariableId, specifiedValue, specifiedTitle,specifiedType) {
         var self,
             id = ko.observable(specifiedContactVariableId),
             contactId = ko.observable(specifiedContactId),
             variableId = ko.observable(specifiedVariableId),
             value = ko.observable(specifiedValue),
             fakeId = ko.observable(),
+            title = ko.observable(specifiedTitle),
+            type = ko.observable(specifiedType),
             variableOptions = ko.observableArray([]),
 
             // Errors
@@ -4159,7 +4161,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             contactId: contactId,
             variableId: variableId,
             value: value,
+            title: title,
             fakeId: fakeId,
+            type:type,
             variableOptions: variableOptions,
             isValid: isValid,
             errors: errors,
@@ -4179,7 +4183,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
              source.Value
             );
     };
-    // #endregion ______________  Variable Option   _________________
+    // #endregion ______________  Company Contact Variable   _________________
 
     //#region ______________ R E T U R N ______________
     return {

@@ -4033,7 +4033,7 @@ define("stores/stores.viewModel",
                     });
                 },
                 //Get Field Variable Detail
-            getFieldVariableDetail = function (field) {
+                getFieldVariableDetail = function (field) {
                 dataservice.getFieldVariableDetailById({
                     fieldVariableId: field.id(),
                 }, {
@@ -4051,7 +4051,29 @@ define("stores/stores.viewModel",
                         toastr.error("Failed to load Detail . Error: ");
                     }
                 });
-            },
+                },
+                //Get Company Contact Variables 
+                getCompanyContactVariables=function() {
+                    if (selectedCompanyContact.contactId() !== undefined) {
+                        dataservice.getCmpanyContactVaribableByContactId({
+                            contactId: selectedCompanyContact.contactId(),
+                        }, {
+                            success: function(data) {
+                                if (data != null) {
+                                    //var fieldvariable = model.FieldVariable.Create(data);
+                                    //_.each(data.VariableOptions, function (item) {
+                                    //    fieldvariable.variableOptions.push(model.VariableOption.Create(item));
+                                    //});
+                                    //selectedFieldVariable(fieldvariable);
+                                    //view.showVeriableDefinationDialog();
+                                }
+                            },
+                            error: function(response) {
+                                toastr.error("Failed to load.");
+                            }
+                        });
+                    }
+                }
                 //#endregion ________ Field Variable___________
 
 
@@ -4365,6 +4387,7 @@ define("stores/stores.viewModel",
                     onDeleteVariableOption: onDeleteVariableOption,
                     onAddFieldOption: onAddFieldOption,
                     fieldVariablePager: fieldVariablePager,
+                    getCompanyContactVariables: getCompanyContactVariables,
                 };
                 //#endregion
             })()
