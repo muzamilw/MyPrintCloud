@@ -55,6 +55,7 @@
         (function (b) { (function (a) { "__CF" in b && "DJS" in b.__CF ? b.__CF.DJS.push(a) : "addEventListener" in b ? b.addEventListener("load", a, !1) : b.attachEvent("onload", a) })(function () { "FB" in b && "Event" in FB && "subscribe" in FB.Event && (FB.Event.subscribe("edge.create", function (a) { _gaq.push(["_trackSocial", "facebook", "like", a]) }), FB.Event.subscribe("edge.remove", function (a) { _gaq.push(["_trackSocial", "facebook", "unlike", a]) }), FB.Event.subscribe("message.send", function (a) { _gaq.push(["_trackSocial", "facebook", "send", a]) })); "twttr" in b && "events" in twttr && "bind" in twttr.events && twttr.events.bind("tweet", function (a) { if (a) { var b; if (a.target && a.target.nodeName == "IFRAME") a: { if (a = a.target.src) { a = a.split("#")[0].match(/[^?=&]+=([^&]*)?/g); b = 0; for (var c; c = a[b]; ++b) if (c.indexOf("url") === 0) { b = unescape(c.split("=")[1]); break a } } b = void 0 } _gaq.push(["_trackSocial", "twitter", "tweet", b]) } }) }) })(window);
         /* ]]> */
     </script>
+   
     <script>
         $(document).ready(function ()
         {
@@ -68,15 +69,26 @@
 
         });
     </script>
-
     <script>
-    $(document).ready(function () {
-
+    $(document).ready(function ()
+     {
         var width = $(window).width();
-        var total = width - 320;
-        var divison = total / 2;
+        var totalwidth = width - 400;
+        var divisonwidth = totalwidth / 2;
 
-        document.getElementById("trial-description").style.left = divison + "px";
+        $("#myprintcloud-help").popover(
+        {
+
+            placement:'right'
+
+        });
+
+    
+        document.getElementById("myprintcloud-help").style.left = divisonwidth + "px";
+        $("#myprintcloud-help").animate({ "top": "-=250" }, 200).delay(500);
+        $("#myprintcloud-help").animate({ "top": "+=370" }, 200);
+
+   
 
     });
     </script>
@@ -86,17 +98,144 @@
             $(window).resize(function () {
 
                 var width = $(window).width();
-                var total = width - 320;
+                var total = width - 400;
                 var divison = total / 2;
 
-                document.getElementById("trial-description").style.left = divison + "px";
+                document.getElementById("myprintcloud-help").style.left = divison + "px";
+               
             });
 
         });
     </script>
+    <script>
+        $(document).ready(function ()
+        {
+            $("#btnCloseHelp").click(function ()
+            {
+
+                $("#myprintcloud-help").hide();
+                $(".disabled-div").css("display", "none");
+               
+                $('body').css('overflow', 'visible');
+
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function ()
+        {
+            var i = 0;
+            var proceeding = ["MyPRINTCloud","Dashboard", "Stores", "CRM", "Products","Estimating","OrderPurchasing"];
+            $("#btnPreviousHelp").hide();
+            $("#btnCloseHelp").hide();
+
+            $("#btnNextHelp").click(function ()
+            {
+               
+                i = i + 1;
+              
+
+                var dashp = $("#myprintcloud-dashborad");
+                var positiontop = dashp.position().top;
+                var positionleft = dashp.position().left;
+
+                var dashh = $("#myprintcloud-help");
+                var positiontophelp = dashh.position().top;
+                var positionlefthelp = dashh.position().left;
+
+                var top = parseInt(positiontop) - parseInt(236);
+                var left = parseInt(positionleft) - parseInt(positionlefthelp);
+
+
+                if (i == 1)
+                {
+                    left = left + 240;
+
+                    $("#myprintcloud-help").animate({ "top": "-=-40", "left": "+=" + left }, 100);
+                    $(".help-header").text(proceeding[1]);
+                    $("#myprintcloud-help").addClass("myprintcloud-help-arrow");
+                  
+                    $("#btnPreviousHelp").show();
+
+                }
+
+                if (i != 1)
+                {
+
+                    left = left + 240;
+                    $("#myprintcloud-help").animate({ "top": "-=-40", "left": "+=" + left }, 100);
+                    $(".help-header").text(proceeding[i]);
+                    $("#btnPreviousHelp").show();
+                }
+
+                if(i == 6)
+                {
+
+                    $("#btnNextHelp").hide();
+                    $("#btnCloseHelp").show();
+
+                }
+                
+
+
+            });
+
+            $("#btnPreviousHelp").click(function ()
+            {
+
+                i = i - 1;
+               
+
+                var dashp = $("#myprintcloud-dashborad");
+                var positiontop = dashp.position().top;
+                var positionleft = dashp.position().left;
+
+                var dashh = $("#myprintcloud-help");
+                var positiontophelp = dashh.position().top;
+                var positionlefthelp = dashh.position().left;
+
+                var top = parseInt(positiontop) - parseInt(236);
+                var left = parseInt(positionleft) - parseInt(positionlefthelp);
+
+                if(i == 0)
+                {
+
+                    var width = $(window).width();
+                   
+                    var total = width - 400;
+                    var divison = total / 2;
+
+                    document.getElementById("myprintcloud-help").style.left = divison + "px";
+                    document.getElementById("myprintcloud-help").style.top = "120px";
+
+                    $(".help-header").text(proceeding[0]);
+
+                    $("#btnPreviousHelp").hide();
+                    $("#btnNextHelp").show();
+                    $("#myprintcloud-help").removeClass("myprintcloud-help-arrow");
+                    $("#btnCloseHelp").hide();
+
+
+                }
+                if((i != 0) && (i != 6))
+                {
+                    left = left + 240;
+                    $("#myprintcloud-help").animate({ "top": "-=40", "left": "+=" + left }, 100);
+                    $(".help-header").text(proceeding[i]);
+                    $("#btnCloseHelp").hide();
+                    $("#btnNextHelp").show();
+                }
+
+
+
+           });
+
+    });
+    </script>
 
     <style>
-        .trial-description {
+        .trial-description 
+        {
             top: 0;
             position: fixed;
             z-index: 10000;
@@ -106,6 +245,62 @@
             -moz-box-shadow: 0px 0px 8px 2px gray;
             box-shadow: 0px 0px 8px 2px gray;
         }
+         
+        .myprintcloud-help 
+        {
+            position:fixed;
+            text-align:center;
+            background-color:white;
+            width:400px;
+            height:235px;
+            border:1px solid #dedede;
+            border-radius:7px;
+            font-family:Arial;
+        
+            padding-top:20px;
+            z-index:129000;
+        }
+        .Submenu-Dashborad
+        {
+            
+            position:absolute;
+            z-index:129000;
+        }
+       
+        .disabled-div 
+        {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            display:block;
+            background-color: black;
+            top: 0;
+            left: 0;
+            z-index: 119000;
+            opacity: 0.8;
+        }
+    
+         .myprintcloud-help-arrow:after
+         { 
+            content:"";
+            position:absolute;
+            height:0;
+            width:0;
+            right:100%;
+            top:20px;
+            border:20px solid transparent;
+            border-right: 20px solid white;
+         }
+        
+        body
+        {
+            /*position:fixed;*/
+            overflow:hidden;
+        }
+
+
+
+
     </style>
 
 
@@ -114,21 +309,27 @@
 </head>
 <body class="theme-red">
 
-    <div class="trial-description" id="trial-description">
-        <table style="height:70px;width:320px;">
-            <tr>
-                <td style="padding-left:10px;width:150px;">
-                    <span style="color:red;font-weight:bold;">7 Days</span>&nbsp;<span style="color:gray;">left in trial</span>
-                </td>
-                <td style="width:120px;text-align:right;padding-right:10px;">
-                    <span style="color:gray;font-size:12px;">Questions ?</span>&nbsp;<span style="color:blue;font-size:12px;">Email Us!</span>
-                    <span style="color:green;font-size:12px;font-weight:bold;">Upgrade Now</span>
-                    <br />
-                    <span style="color:orange;font-size:12px;font-weight:bold;">Book a Go to Demo</span>
-                </td>
-            </tr>
-        </table>
-    </div>
+    <div class="myprintcloud-help" id="myprintcloud-help">
+     
+            <h1 class="help-header">MyPRINTCloud</h1>
+            <hr />
+            <span>this is your MyPRINTCloud Help platform</span>
+            <br />
+            <span>Get Help by Clicking Next Button</span>
+            <hr />
+            <div class="input-group" style="width:100%;display:inline;">
+                <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="btnCloseHelp">Close</button>
+            </div>
+            <div class="input-group" style="width:100%;display:inline;">
+                <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="btnNextHelp">Next</button>
+            </div>
+            <div class="input-group" style="width:100%;display:inline;">
+                <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="btnPreviousHelp">Previous</button>
+            </div>
+
+        </div>
+
+   
 
     <header class="navbar" id="header-navbar">
 
@@ -392,10 +593,29 @@
                         <div class="collapse navbar-collapse navbar-ex1-collapse" id="sidebar-nav">
                             <ul class="nav nav-pills nav-stacked" id="Navigation-bar">
                                 <li id="lidashboard">
-                                    <a href="~/Dashboard/Index" class="my-navigator">
+                                    <a href="~/Dashboard/Index" class="my-navigator" id="anchor-dashboard">
                                         <i class="fa fa-dashboard"></i>
                                         <span>Dashboard</span>
                                     </a>
+                                    <div class="Submenu-Dashborad" id="myprintcloud-dashborad">
+
+                                        @*<h1>Dashbard</h1>
+                                        <hr />
+                                        <span>this is your Dashborad Help platform</span>
+                                        <br />
+                                        <span>Get Help by Clicking Next Button</span>
+                                        <hr />
+                                        <div class="input-group" style="width:100%;display:inline;">
+                                            <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn">Close</button>
+                                        </div>
+                                        <div class="input-group" style="width:100%;display:inline;">
+                                            <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn">Next</button>
+                                        </div>
+                                        <div class="input-group" style="width:100%;display:inline;">
+                                            <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn">Previous</button>
+                                        </div>*@
+
+                                    </div>
                                 </li>
                                 <li id="listores">
                                     <a href="~/Stores/Stores/Index" class="my-navigator">
@@ -796,6 +1016,8 @@
                             </ul>
                         </div>
                         @* Test Left menue ends here*@
+                    </div>
+                    <div class="disabled-div">
                     </div>
                 </section>
             </div>
