@@ -1,0 +1,1555 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{513BF095-B568-4A53-9F14-7588626E5F73}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MigrationUtility</RootNamespace>
+    <AssemblyName>MigrationUtility</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccessRight.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AccountDefault.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AccountType.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Activity.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityType.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Address.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppVersion.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Audit.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AuditTrail.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AuditTrailDetail.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BusinessType.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Campaign.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CampaignClickThrough.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CampaignEmailQueue.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CampaignEmailVariable.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CampaignGroup.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CampaignImage.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CampaignReport.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CategoryTerritory.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChartOfAccount.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CmsOffer.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CmsPage.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CmsPageTag.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CmsSkinPageWidget.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CmsSkinPageWidgetParam.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CmsTag.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ColorPallete.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Company.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CompanyBanner.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CompanyBannerSet.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CompanyCMYKColor.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CompanyContact.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CompanyContactRole.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CompanyCostCentre.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CompanyDomain.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CompanyTerritory.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CompanyType.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CompanyVariableIcon.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Correspondence.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CorrespondenceDetail.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CostCenterChoice.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CostCentre.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CostCentreAnswer.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CostCentreGroup.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CostcentreGroupDetail.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CostcentreInstruction.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CostCentreMatrix.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CostCentreMatrixDetail.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CostCentreQuestion.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CostcentreResource.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CostcentreSystemType.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CostCentreTemplate.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CostCentreType.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CostCentreVariable.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CostCentreVariableType.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CostcentreWorkInstructionsChoice.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Country.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CreditCardInformation.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Currency.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomCopy.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerUsersRolespage.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedField.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedFieldsData.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomizedFieldsValue.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DeliveryNote.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DeliveryNoteDetail.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DiscountVoucher.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="dtproperty.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmailCampaignTracking.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmailEvent.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Estimate.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EstimateProjection.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FavoriteDesign.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FaxCampaign.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FaxCampaignsTracking.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FieldVariable.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FinancialYear.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FinancialYearDetail.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalLanguage.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GoodsReceivedNote.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GoodsReceivedNoteDetail.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Group.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GroupDetail.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ImagePermission.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InkCoverageGroup.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InkPlateSide.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Inquiry.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InquiryAttachment.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InquiryItem.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Invoice.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvoiceDetail.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Item.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ItemAddonCostCentre.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ItemAttachment.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ItemImage.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ItemPriceMatrix.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ItemProductDetail.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ItemRelatedItem.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ItemSection.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ItemSectionCostCentreGroup.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ItemStateTax.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ItemStockControl.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ItemStockOption.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ItemStockUpdateHistory.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ItemType.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ItemVDPPrice.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ItemVideo.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JobPreference.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JobStatu.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LengthUnit.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Listing.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ListingAgent.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ListingConjunctionAgent.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ListingFloorPlan.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ListingImage.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ListingLink.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ListingOFI.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ListingVendor.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LookupMethod.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Machine.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MachineCategory.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MachineClickChargeLookup.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MachineClickChargeZone.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MachineCostCentreGroup.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MachineCylinder.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MachineGuillotineCalc.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MachineGuilotinePtv.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MachineInkCoverage.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MachineLookupMethod.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MachineMeterPerHourLookup.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MachinePaginationProfile.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MachinePerHourLookup.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MachineResource.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MachineSpeedWeightLookup.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MachineSpoilage.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="margin.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Markup.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MediaLibrary.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MPCNew.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MPCNew.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MPCNew.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MPCNew.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MPCNew.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="NewsLetterSubscriber.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Organisation.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PageCategory.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaginationCombination.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaginationFinishStyle.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaginationProfile.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaginationProfileCostcentreGroup.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaperBasisArea.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaperSize.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaymentGateway.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaymentMethod.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaypalPaymentRequest.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PayPalResponse.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Phrase.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PhraseField.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PinkcardsModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PinkcardsModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PinkcardsModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PinkcardsModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PinkcardsModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="PipelineDeduction.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PipeLineProduct.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PipeLineSource.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="prefix.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrePayment.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductCategory.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductCategoryFoldLine.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductCategoryItem.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductMarketBriefAnswer.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductMarketBriefQuestion.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductPaperType.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Profile.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileCostCentreGroup.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileDescriptionLabel.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileDescriptionLabelsValue.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileType.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Purchase.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PurchaseDetail.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RaveReview.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RegionalsSetting.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RegistrationQuestion.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Report.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ReportCategory.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ReportNote.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Reportparam.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Role.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Roleright.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoleSection.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoleSite.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SalesCommissionRangeBased.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SalesCommissionType.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SalesTargetType.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SalesType.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScheduledActivitySpliteDetail.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScheduledCostCenter.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScheduledPrintJob.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScheduledTimeActivity.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Section.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SectionCostcentre.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SectionCostCentreDetail.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SectionCostCentreResource.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SectionCostCentresFeedback.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SectionFlag.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SectionInkCoverage.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShippingInformation.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SoftwareUpdate.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="State.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Status.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StockCategory.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StockCostAndPrice.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StockItem.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StockItemHistory.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StockItemsColor.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StockItemsIssueLog.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StockSubCategory.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SubAccounType.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SuccessChance.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SystemEmail.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SystemEmailEmailsIDAndSectionsId.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SystemLog.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SystemUser.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SystemUserCheckin.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SystemuserPreference.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TargetType.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Task.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_accountdefault.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_accounttype.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_activity.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_activitytype.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_addresses.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_AppVersions.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_audit.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_audittrail.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_audittraildetail.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_businesstypes.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_CampaignEmailQueue.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_CampaignImages.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_CampaignReports.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_campaigns.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_campaign_clickthroughs.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Campaign_email_variables.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_campaign_groups.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_CategoryTerritories.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_chartofaccount.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_cmsColorPalletes.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_cmsDefaultSettings.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_cmsOffers.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_cmsPageBanners.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_cmsPageCategory.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_cmsPages.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_cmsPageTags.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_cmsSkinPageWidgetParams.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_cmsSkinPageWidgets.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_cmsSkins.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_cmsTags.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_cmsWidgets.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_company.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_company_sites.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_company_site_departments.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_contactcompanies.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_ContactCompanyCostCenters.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_ContactCompanyItems.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_ContactCompanyTerritories.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_contactcompanytypes.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_ContactDepartments.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_ContactRoles.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_contacts.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Correspondence.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Correspondence_Details.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_CostCenterChoices.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_costcentreanswers.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_costcentrematrices.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_costcentrematrixdetails.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_costcentrequestions.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_costcentres.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_costcentretemplates.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_costcentretypes.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_costcentrevariables.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_costcentrevariabletypes.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_costcentre_groupdetails.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_costcentre_groups.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_costcentre_instructions.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_costcentre_resources.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_costcentre_systemtypes.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_costcentre_workinstructions_choices.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_country.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_creditcardinformation.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_customer_users_rolespages.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_customizedfields.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_customizedfieldsdata.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_customizedfieldsvalues.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_deliverynotes.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_deliverynote_details.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_DiscountVouchers.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_EmailCampaignTracking.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_EmailEvents.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_enquiries.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_enquiry_options.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_estimates.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_estimate_projection.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_FavoriteDesign.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_FAXCampaigns.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_FAXCampaignsTracking.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_financialyear.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_financialyeardetail.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_general_settings.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_goodsreceivednote.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_goodsreceivednotedetail.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_groups.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_group_detail.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_InkPlateSides.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_ink_coverage_groups.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Inquiry.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Inquiry_Attachments.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Inquiry_Items.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_invoicedetails.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_invoices.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_itemImages.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_items.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_itemsection_costcentre_groups.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_ItemStockOptions.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_itemStockUpdateHistory.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Items_AddonCostCentres.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_items_PriceMatrix.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_items_ProductDetails.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_items_RelatedItems.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_items_StockControl.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_item_attachments.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_item_sections.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_item_titles.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_item_Type.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_job_preferences.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_job_statuses.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_language.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_lengthconversion.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_lookup_methods.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_machines.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_machine_categories.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_machine_clickchargelookup.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_machine_clickchargezone.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_machine_costcentre_groups.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_machine_cylinders.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_machine_guillotinecalc.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_machine_guilotine_ptv.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_machine_ink_coverage.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_machine_lookup_methods.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_machine_meterperhourlookup.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_machine_pagination_profile.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_machine_perhourlookup.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_machine_resource.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_machine_speedweightlookup.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_machine_spoilage.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_markup.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_NewsLetterSubscribers.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_pagination_combinations.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_pagination_finishstyle.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_pagination_profile.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_pagination_profile_costcentre_groups.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_paperbasisarea.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_papersize.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_PaymentGateways.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_PaymentMethods.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_PaypalPaymentRequest.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_PayPalResponses.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_PC_Partners.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_PC_PostCodes.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_PC_PostCodesBrokers.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_phrase.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_phrase_fields.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_pipeline_deduction.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_pipeline_products.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_pipeline_source.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_prefixes.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_PrePayments.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_ProductCategory.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_ProductCategoryFoldLines.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_ProductMarketBriefAnswers.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_ProductMarketBriefQuestions.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_ProductPaperType.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_profile.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_profile_description_labels.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_profile_description_labels_values.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_profile_type.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_prospectaddresses.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_prospectcontacts.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_prospects.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_purchase.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_purchasedetail.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_RaveReviews.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_regionalsettings.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Registration_Questions.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_reportcategory.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_reportparms.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_reports.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_report_notes.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_rights.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_rolerights.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_roles.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_rolesections.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_role_sites.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_salestypes.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_sales_commission_rangebased.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_sales_commission_types.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_sales_target_types.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_scheduled_activitysplite_details.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_scheduled_costcenters.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_scheduled_printjobs.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_scheduled_time_activities.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_sections.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_section_costcentres.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_section_costcentres_feedback.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_section_costcentre_detail.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_section_costcentre_resources.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_section_flags.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_section_inkcoverage.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_shippinginformation.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_SoftwareUpdates.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_state.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_Statuses.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_stockcategories.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_stockitems.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_stockitems_colors.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_stockitems_issue_log.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_stockitem_history.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_stocksubcategories.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_stock_cost_and_price.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_subaccountype.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_success_chance.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_systemusers.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_systemuser_checkins.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_systemuser_preferences.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_system_emails.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_system_email_emailsID_and_sectionsID.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_system_log.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_targettype.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_tasks.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_taxrate.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_TerritoryItems.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_userachievedtarget.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_userpipeline.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_userreports.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_UserStickyNotes.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_usertarget.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_user_sales_commission.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_user_sales_targets.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_weightconversion.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_workflowpreferences.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Template.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateBackgroundImage.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateColorStyle.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateFont.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateObject.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TemplatePage.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateVariable.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TerritoryItem.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserAchievedTarget.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserEmailEvent.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserPipeline.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserReport.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserSalesCommission.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserSalesTarget.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserStickyNote.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserTarget.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VariableSection.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Voucher.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VoucherDetail.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WeightUnit.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Widget.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WorkflowPreference.cs">
+      <DependentUpon>MPCNew.tt</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EntityDeploy Include="MPCNew.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MPCNew.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="MPCNew.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MPCNew.edmx</DependentUpon>
+      <LastGenOutput>MPCNew.Context.cs</LastGenOutput>
+    </None>
+    <None Include="MPCNew.edmx.diagram">
+      <DependentUpon>MPCNew.edmx</DependentUpon>
+    </None>
+    <None Include="MPCNew.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MPCNew.edmx</DependentUpon>
+      <LastGenOutput>MPCNew.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+    <EntityDeploy Include="PinkcardsModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>PinkcardsModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="PinkcardsModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>PinkcardsModel.edmx</DependentUpon>
+      <LastGenOutput>PinkcardsModel.Context.cs</LastGenOutput>
+    </None>
+    <None Include="PinkcardsModel.edmx.diagram">
+      <DependentUpon>PinkcardsModel.edmx</DependentUpon>
+    </None>
+    <None Include="PinkcardsModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>PinkcardsModel.edmx</DependentUpon>
+      <LastGenOutput>PinkcardsModel.cs</LastGenOutput>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
