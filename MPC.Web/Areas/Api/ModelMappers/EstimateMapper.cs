@@ -3,6 +3,7 @@ using MPC.MIS.Areas.Api.Models;
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
     using DomainModels = MPC.Models.DomainModels;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Estimate Mapper
@@ -51,7 +52,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 AllowJobWOCreditCheckSetBy = source.AllowJobWOCreditCheckSetBy,
                 CustomerPo = source.CustomerPO,
                 OfficialOrderSetBy = source.OfficialOrderSetBy,
-                OfficialOrderSetOnDateTime = source.OfficialOrderSetOnDateTime
+                OfficialOrderSetOnDateTime = source.OfficialOrderSetOnDateTime,
+                Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()) :
+                new List<OrderItem>()
             };
             
             return estimate;
