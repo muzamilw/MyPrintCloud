@@ -1748,10 +1748,6 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="IsMakeReadyUsed" Type="bit" />
           <Property Name="isWorknTurn" Type="bit" />
           <Property Name="isWorkntumble" Type="bit" />
-          <Property Name="QuestionQueue" Type="image" />
-          <Property Name="StockQueue" Type="image" />
-          <Property Name="InputQueue" Type="image" />
-          <Property Name="CostCentreQueue" Type="image" />
           <Property Name="PressSpeed1" Type="int" />
           <Property Name="PressSpeed2" Type="int" />
           <Property Name="PressSpeed3" Type="int" />
@@ -1813,6 +1809,10 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="InkColorType" Type="int" />
           <Property Name="PlateInkId" Type="int" />
           <Property Name="SimilarSections" Type="int" />
+          <Property Name="QuestionQueue" Type="ntext" />
+          <Property Name="InputQueue" Type="ntext" />
+          <Property Name="StockQueue" Type="ntext" />
+          <Property Name="CostCentreQueue" Type="ntext" />
         </EntityType>
         <EntityType Name="ItemStateTax">
           <Key>
@@ -7612,10 +7612,10 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="IsMakeReadyUsed" Type="Boolean" />
           <Property Name="isWorknTurn" Type="Boolean" />
           <Property Name="isWorkntumble" Type="Boolean" />
-          <Property Name="QuestionQueue" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="StockQueue" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="InputQueue" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="CostCentreQueue" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="QuestionQueue" Type="String" />
+          <Property Name="StockQueue" Type="String" />
+          <Property Name="InputQueue" Type="String" />
+          <Property Name="CostCentreQueue" Type="String" />
           <Property Name="PressSpeed1" Type="Int32" />
           <Property Name="PressSpeed2" Type="Int32" />
           <Property Name="PressSpeed3" Type="Int32" />

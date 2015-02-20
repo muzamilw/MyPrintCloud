@@ -19,5 +19,10 @@ namespace MPC.Interfaces.Repository
         /// Get Order Statuses Response
         /// </summary>
         OrderStatusesResponse GetOrderStatusesCount();
+
+        /// <summary>
+        /// Gets list of Orders for company edit tab
+        /// </summary>
+        OrdersForCrmResponse GetOrdersForCrm(GetOrdersRequest model);
     }
 }

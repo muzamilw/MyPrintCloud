@@ -6,6 +6,11 @@
             // Initialize
             initialize = function() {
                 if (!isInitialized) {
+                    amplify.request.define('getDataForOrderTab', 'ajax', {
+                        url: ist.siteUrl + '/Api/OrdersForCrm',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     amplify.request.define('getCompanies', 'ajax', {
                         url: ist.siteUrl + '/Api/Customer',
                         dataType: 'json',
@@ -55,6 +60,16 @@
                         type: 'GET'
                     });
                 };
+            },
+             // get order tab data
+            getOrders = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getDataForOrderTab',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
             },
             // get Customer list of list view
             getCustomersForListView = function(params, callbacks) {
@@ -144,6 +159,7 @@
             getBaseData: getBaseData,
             saveStore: saveStore,
             getSuppliers: getSuppliers,
+            getOrdersData: getOrders
             searchCompanyTerritory: searchCompanyTerritory
         };
     })();
