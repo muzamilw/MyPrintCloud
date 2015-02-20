@@ -1928,17 +1928,38 @@ define("stores/stores.viewModel",
                                 });
                                 //check on client side, push all if new added work
                                 if (searchCompanyContactFilter() == "" || searchCompanyContactFilter() == undefined) {
-                                    _.each(newCompanyContacts(), function (companyContactItem) {
-                                        selectedStore().users.push(companyContactItem);
-                                    });
+                                    if (contactCompanyTerritoryFilter() != undefined) {
+                                        _.each(newCompanyContacts(), function (companyContactItem) {
+                                            if (companyContactItem.territoryId() == contactCompanyTerritoryFilter()) {
+                                                selectedStore().users.push(companyContactItem);
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        _.each(newCompanyContacts(), function (companyContactItem) {
+                                            selectedStore().users.push(companyContactItem);
+                                        });
+                                    }
                                 }
                                 //check on client side, if filter is not null
                                 if (searchCompanyContactFilter() != "" && searchCompanyContactFilter() != undefined) {
-                                    _.each(newCompanyContacts(), function (companyContactItem) {
-                                        if (companyContactItem.email().indexOf(searchCompanyContactFilter()) != -1 || companyContactItem.firstName().indexOf(searchCompanyContactFilter()) != -1) {
-                                            selectedStore().users.push(companyContactItem);
-                                        }
-                                    });
+                                    if (contactCompanyTerritoryFilter() == undefined) {
+                                        _.each(newCompanyContacts(), function (companyContactItem) {
+                                            if (companyContactItem.email().indexOf(searchCompanyContactFilter()) != -1 || companyContactItem.firstName().indexOf(searchCompanyContactFilter()) != -1) {
+                                                selectedStore().users.push(companyContactItem);
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        _.each(newCompanyContacts(), function (companyContactItem) {
+                                            if (companyContactItem.email().indexOf(searchCompanyContactFilter()) != -1 || companyContactItem.firstName().indexOf(searchCompanyContactFilter()) != -1) {
+                                                if (companyContactItem.territoryId() == contactCompanyTerritoryFilter()) {
+                                                    selectedStore().users.push(companyContactItem);
+                                                }
+                                            }
+                                        });
+                                    }
+                                    
                                 }
                             },
                             error: function (response) {
