@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsF35B69289DCB963EB4CF787132700D2A79760A1437BDC5012817C880C8D09420))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets7BE28BAB2730BAE6491991DC20647B58C7CCBBB9DF84F1BABFAF92A77AF2A0A0))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,17 +17,17 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsF35B69289DCB963EB4CF787132700D2A79760A1437BDC5012817C880C8D09420 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets7BE28BAB2730BAE6491991DC20647B58C7CCBBB9DF84F1BABFAF92A77AF2A0A0 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsF35B69289DCB963EB4CF787132700D2A79760A1437BDC5012817C880C8D09420()
+        public ViewsForBaseEntitySets7BE28BAB2730BAE6491991DC20647B58C7CCBBB9DF84F1BABFAF92A77AF2A0A0()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "93b50debc6ae1b4520906fdea1a8160b4b59105c14765b5c21abc84307b5d394";
+            this.HashOverMappingClosure = "a56f929d5a3346dae7070856afe652358d143498c399321fe7c32c33d25d03e2";
             this.HashOverAllExtentViews = "a3821648287345bff92a163e72106a86efe21670e4b8bb69d54cb7cacbdb1b0f";
             this.ViewCount = 286;
         }
