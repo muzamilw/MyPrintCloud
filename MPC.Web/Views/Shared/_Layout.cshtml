@@ -7,10 +7,9 @@
     <script type="text/javascript">
         //<![CDATA[
         try { if (!window.CloudFlare) { var CloudFlare = [{ verbose: 0, p: 0, byc: 0, owlid: "cf", bag2: 1, mirage2: 0, oracle: 0, paths: { cloudflare: "/cdn-cgi/nexp/dokv=88e434a982/" }, atok: "dd9c6b9d970c21043597a4fadd80e4dd", petok: "522fd99e7c7ba64b5097694a33e1b12f448f8fe0-1408352612-1800", zone: "adbee.technology", rocket: "0", apps: { "ga_key": { "ua": "UA-49262924-2", "ga_bs": "2" } } }]; !function (a, b) { a = document.createElement("script"), b = document.getElementsByTagName("script")[0], a.async = !0, a.src = "//ajax.cloudflare.com/cdn-cgi/nexp/dokv=97fb4d042e/cloudflare.min.js", b.parentNode.insertBefore(a, b) }() } } catch (e) { };
-        //]]>
+    //]]>
     </script>
-    <script src="~/Content/themes/Centaurus/js/jquery.js"></script>
-   
+
     <link href="~/Content/themes/Centaurus/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/themes/Centaurus/css/libs/font-awesome.css" type="text/css" rel="stylesheet" />
     <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/nanoscroller.css" type="text/css" />
@@ -53,46 +52,7 @@
         })();
 
         (function (b) { (function (a) { "__CF" in b && "DJS" in b.__CF ? b.__CF.DJS.push(a) : "addEventListener" in b ? b.addEventListener("load", a, !1) : b.attachEvent("onload", a) })(function () { "FB" in b && "Event" in FB && "subscribe" in FB.Event && (FB.Event.subscribe("edge.create", function (a) { _gaq.push(["_trackSocial", "facebook", "like", a]) }), FB.Event.subscribe("edge.remove", function (a) { _gaq.push(["_trackSocial", "facebook", "unlike", a]) }), FB.Event.subscribe("message.send", function (a) { _gaq.push(["_trackSocial", "facebook", "send", a]) })); "twttr" in b && "events" in twttr && "bind" in twttr.events && twttr.events.bind("tweet", function (a) { if (a) { var b; if (a.target && a.target.nodeName == "IFRAME") a: { if (a = a.target.src) { a = a.split("#")[0].match(/[^?=&]+=([^&]*)?/g); b = 0; for (var c; c = a[b]; ++b) if (c.indexOf("url") === 0) { b = unescape(c.split("=")[1]); break a } } b = void 0 } _gaq.push(["_trackSocial", "twitter", "tweet", b]) } }) }) })(window);
-        /* ]]> */
-    </script>
-    <script>
-        $(document).ready(function ()
-        {
-          
-            $("#header-logo").hide();
-            $("#make-small-nav").click(function ()
-            {
-                $("#header-logo").toggle();
-                $("#menu-logo").toggle();
-            });
-
-        });
-    </script>
-
-    <script>
-    $(document).ready(function () {
-
-        var width = $(window).width();
-        var total = width - 320;
-        var divison = total / 2;
-
-        document.getElementById("trial-description").style.left = divison + "px";
-
-    });
-    </script>
-    <script>
-        $(document).ready(function () {
-
-            $(window).resize(function () {
-
-                var width = $(window).width();
-                var total = width - 320;
-                var divison = total / 2;
-
-                document.getElementById("trial-description").style.left = divison + "px";
-            });
-
-        });
+    /* ]]> */
     </script>
 
     <style>
@@ -132,17 +92,17 @@
 
     <header class="navbar" id="header-navbar">
 
-        
+
         <div class="container">
-            
+
             <a href="~/Dashboard/Index" id="header" class="my-navigator navbar-brand">
-                
+
                 <img src="~/Content/themes/Centaurus/img/logo.png" id="header-logo" alt="" class="normal-logo logo-white" height="25" width="170" style="margin-top:5px;" />
-                
+
             </a>
-          
+
             <div class="clearfix">
-               
+
                 <button class="navbar-toggle" data-target=".navbar-ex1-collapse" data-toggle="collapse" type="button">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="fa fa-bars"></span>
@@ -216,140 +176,140 @@
                 <div class="nav-no-collapse pull-right" id="header-nav">
                     <ul class="nav navbar-nav pull-right">
                         @*<li class="mobile-search">
-                            <a class="btn">
-                                <i class="fa fa-search"></i>
-                            </a>
-                            <div class="drowdown-search">
-                                <form role="search">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Search...">
-                                        <i class="fa fa-search nav-search-icon"></i>
-                                    </div>
-                                </form>
-                            </div>
-                        </li>
-                        <li class="dropdown hidden-xs">
-                            <a class="btn dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-warning"></i>
-                                <span class="count">8</span>
-                            </a>
-                            <ul class="dropdown-menu notifications-list">
-                                <li class="pointer">
-                                    <div class="pointer-inner">
-                                        <div class="arrow"></div>
-                                    </div>
-                                </li>
-                                <li class="item-header">You have 6 new notifications</li>
-                                <li class="item">
-                                    <a href="#">
-                                        <i class="fa fa-comment"></i>
-                                        <span class="content">New comment on ‘Awesome P...</span>
-                                        <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="#">
-                                        <i class="fa fa-plus"></i>
-                                        <span class="content">New user registration</span>
-                                        <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="#">
-                                        <i class="fa fa-envelope"></i>
-                                        <span class="content">New Message from George</span>
-                                        <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="#">
-                                        <i class="fa fa-shopping-cart"></i>
-                                        <span class="content">New purchase</span>
-                                        <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="#">
-                                        <i class="fa fa-eye"></i>
-                                        <span class="content">New order</span>
-                                        <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
-                                    </a>
-                                </li>
-                                <li class="item-footer">
-                                    <a href="#">
-                                        View all notifications
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="dropdown hidden-xs">
-                            <a class="btn dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-envelope-o"></i>
-                                <span class="count">16</span>
-                            </a>
-                            <ul class="dropdown-menu notifications-list messages-list">
-                                <li class="pointer">
-                                    <div class="pointer-inner">
-                                        <div class="arrow"></div>
-                                    </div>
-                                </li>
-                                <li class="item first-item">
-                                    <a href="#">
-                                        <img src="~/Content/themes/Centaurus/img/samples/messages-photo-1.png" alt="" />
-                                        <span class="content">
-                                            <span class="content-headline">
-                                                George Clooney
+                                <a class="btn">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                                <div class="drowdown-search">
+                                    <form role="search">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="Search...">
+                                            <i class="fa fa-search nav-search-icon"></i>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                            <li class="dropdown hidden-xs">
+                                <a class="btn dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-warning"></i>
+                                    <span class="count">8</span>
+                                </a>
+                                <ul class="dropdown-menu notifications-list">
+                                    <li class="pointer">
+                                        <div class="pointer-inner">
+                                            <div class="arrow"></div>
+                                        </div>
+                                    </li>
+                                    <li class="item-header">You have 6 new notifications</li>
+                                    <li class="item">
+                                        <a href="#">
+                                            <i class="fa fa-comment"></i>
+                                            <span class="content">New comment on ‘Awesome P...</span>
+                                            <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
+                                        </a>
+                                    </li>
+                                    <li class="item">
+                                        <a href="#">
+                                            <i class="fa fa-plus"></i>
+                                            <span class="content">New user registration</span>
+                                            <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
+                                        </a>
+                                    </li>
+                                    <li class="item">
+                                        <a href="#">
+                                            <i class="fa fa-envelope"></i>
+                                            <span class="content">New Message from George</span>
+                                            <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
+                                        </a>
+                                    </li>
+                                    <li class="item">
+                                        <a href="#">
+                                            <i class="fa fa-shopping-cart"></i>
+                                            <span class="content">New purchase</span>
+                                            <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
+                                        </a>
+                                    </li>
+                                    <li class="item">
+                                        <a href="#">
+                                            <i class="fa fa-eye"></i>
+                                            <span class="content">New order</span>
+                                            <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
+                                        </a>
+                                    </li>
+                                    <li class="item-footer">
+                                        <a href="#">
+                                            View all notifications
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown hidden-xs">
+                                <a class="btn dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-envelope-o"></i>
+                                    <span class="count">16</span>
+                                </a>
+                                <ul class="dropdown-menu notifications-list messages-list">
+                                    <li class="pointer">
+                                        <div class="pointer-inner">
+                                            <div class="arrow"></div>
+                                        </div>
+                                    </li>
+                                    <li class="item first-item">
+                                        <a href="#">
+                                            <img src="~/Content/themes/Centaurus/img/samples/messages-photo-1.png" alt="" />
+                                            <span class="content">
+                                                <span class="content-headline">
+                                                    George Clooney
+                                                </span>
+                                                <span class="content-text">
+                                                    Look, just because I don't be givin' no man a foot massage don't make it
+                                                    right for Marsellus to throw...
+                                                </span>
                                             </span>
-                                            <span class="content-text">
-                                                Look, just because I don't be givin' no man a foot massage don't make it
-                                                right for Marsellus to throw...
+                                            <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
+                                        </a>
+                                    </li>
+                                    <li class="item">
+                                        <a href="#">
+                                            <img src="~/Content/themes/Centaurus/img/samples/messages-photo-2.png" alt="" />
+                                            <span class="content">
+                                                <span class="content-headline">
+                                                    Emma Watson
+                                                </span>
+                                                <span class="content-text">
+                                                    Look, just because I don't be givin' no man a foot massage don't make it
+                                                    right for Marsellus to throw...
+                                                </span>
                                             </span>
-                                        </span>
-                                        <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="#">
-                                        <img src="~/Content/themes/Centaurus/img/samples/messages-photo-2.png" alt="" />
-                                        <span class="content">
-                                            <span class="content-headline">
-                                                Emma Watson
+                                            <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
+                                        </a>
+                                    </li>
+                                    <li class="item">
+                                        <a href="#">
+                                            <img src="~/Content/themes/Centaurus/img/samples/messages-photo-3.png" alt="" />
+                                            <span class="content">
+                                                <span class="content-headline">
+                                                    Robert Downey Jr.
+                                                </span>
+                                                <span class="content-text">
+                                                    Look, just because I don't be givin' no man a foot massage don't make it
+                                                    right for Marsellus to throw...
+                                                </span>
                                             </span>
-                                            <span class="content-text">
-                                                Look, just because I don't be givin' no man a foot massage don't make it
-                                                right for Marsellus to throw...
-                                            </span>
-                                        </span>
-                                        <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="#">
-                                        <img src="~/Content/themes/Centaurus/img/samples/messages-photo-3.png" alt="" />
-                                        <span class="content">
-                                            <span class="content-headline">
-                                                Robert Downey Jr.
-                                            </span>
-                                            <span class="content-text">
-                                                Look, just because I don't be givin' no man a foot massage don't make it
-                                                right for Marsellus to throw...
-                                            </span>
-                                        </span>
-                                        <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
-                                    </a>
-                                </li>
-                                <li class="item-footer">
-                                    <a href="#">
-                                        View all messages
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="hidden-xs">
-                            <a class="btn">
-                                <i class="fa fa-cog"></i>
-                            </a>
-                        </li>*@
+                                            <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
+                                        </a>
+                                    </li>
+                                    <li class="item-footer">
+                                        <a href="#">
+                                            View all messages
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="hidden-xs">
+                                <a class="btn">
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                            </li>*@
                         <li class="dropdown profile-dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="hidden-xs">
@@ -378,15 +338,15 @@
     </header>
     <div id="page-wrapper" class="container">
         <div class="row">
-        <div id="nav-col">
+            <div id="nav-col">
 
-          
-            <a id="menu-logo" href="~/Dashboard/Index">
-                <img src="~/Content/themes/Centaurus/img/logo.png" alt="" class="normal-logo logo-white" height="30" width="180" style="margin-left:17px;margin-top:50px;margin-bottom:50px;" />
-            </a>
+
+                <a id="menu-logo" href="~/Dashboard/Index">
+                    <img src="~/Content/themes/Centaurus/img/logo.png" alt="" class="normal-logo logo-white" height="30" width="180" style="margin-left:17px;margin-top:50px;margin-bottom:50px;" />
+                </a>
                 <section id="col-left" class="col-left-nano">
                     <div id="col-left-inner" class="col-left-nano-content">
-                        
+
                         @RenderSection("leftmenue", required: false)
                         @* Test left menue starts here*@
                         <div class="collapse navbar-collapse navbar-ex1-collapse" id="sidebar-nav">
@@ -643,7 +603,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                              
+
                                 <li id="liemails">
                                     <a href="~/Home/PageUnAvailable" class="my-navigator">
                                         <i class="fa fa-calendar"></i>
@@ -804,6 +764,8 @@
                 @RenderBody()
                 <div id="spinner">
                 </div>
+                <div id="siteUrl">
+                </div>
                 <footer id="footer-bar" class="row">
                     <p id="footer-copyright" class="col-xs-12">
                         &copy; @DateTime.Now.Year Powered by <a href="http://www.myprintcloud.com/" target="_blank">MyPRINTCloud</a>
@@ -812,9 +774,18 @@
             </div>
         </div>
     </div>
-    
+
+
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
+
+    <script>
+        (function ($) {
+            $("#siteUrl").val("@(Request.ApplicationPath == " / " ? " / " : Request.ApplicationPath)");
+        })($);
+
+    </script>
+
     @Scripts.Render("~/Bundle/BaseLibs")
     @*@Scripts.Render("~/bundles/dropzonescripts")*@
     <script src="~/Content/themes/Centaurus/js/demo-skin-changer.js"></script>
@@ -839,15 +810,44 @@
     <script src="~/Content/themes/Centaurus/js/scripts.js"></script>
     <script src="~/Content/themes/Centaurus/js/jquery.nestable.js"></script>
     <script src="~/Content/themes/Centaurus/js/jquery.nouislider.js"></script>
-    @RenderSection("scripts", required: false)
-    <script type="text/javascript">
-        var ist = window.ist;
-        @{
-        <text>
-        ist.siteUrl = '@(System.Configuration.ConfigurationManager.AppSettings["SiteURL"].ToString())';
-        </text>
-    }
+    <script>
+        $(document).ready(function () {
+
+            $("#header-logo").hide();
+            $("#make-small-nav").click(function () {
+                $("#header-logo").toggle();
+                $("#menu-logo").toggle();
+            });
+
+        });
     </script>
+
+    <script>
+        $(document).ready(function () {
+
+            var width = $(window).width();
+            var total = width - 320;
+            var divison = total / 2;
+
+            document.getElementById("trial-description").style.left = divison + "px";
+
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+
+            $(window).resize(function () {
+
+                var width = $(window).width();
+                var total = width - 320;
+                var divison = total / 2;
+
+                document.getElementById("trial-description").style.left = divison + "px";
+            });
+
+        });
+    </script>
+    @RenderSection("scripts", required: false)
 
 </body>
 </html>
