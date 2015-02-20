@@ -8,6 +8,7 @@ namespace MPC.MIS.Areas.Api.Models
     public class FieldVariable
     {
         public long VariableId { get; set; }
+        public long FakeId { get; set; }
         public string VariableName { get; set; }
         public string VariableTag { get; set; }
         public int? VariableType { get; set; }
@@ -17,6 +18,8 @@ namespace MPC.MIS.Areas.Api.Models
         public string InputMask { get; set; }
         public long? CompanyId { get; set; }
         public string VariableTitle { get; set; }
+        public string TypeName { get; set; }
+        public string ScopeName { get; set; }
 
         public List<VariableOption> VariableOptions { get; set; }
     }

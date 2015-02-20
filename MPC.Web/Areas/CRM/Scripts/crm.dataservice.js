@@ -6,6 +6,11 @@
             // Initialize
             initialize = function() {
                 if (!isInitialized) {
+                    amplify.request.define('getDataForOrderTab', 'ajax', {
+                        url: ist.siteUrl + '/Api/OrdersForCrm',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     amplify.request.define('getCompanies', 'ajax', {
                         url: ist.siteUrl + '/Api/Customer',
                         dataType: 'json',
@@ -48,7 +53,23 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Company Territory
+                    amplify.request.define('searchCompanyTerritory', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyTerritory',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                 };
+            },
+             // get order tab data
+            getOrders = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getDataForOrderTab',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
             },
             // get Customer list of list view
             getCustomersForListView = function(params, callbacks) {
@@ -110,6 +131,16 @@
                     data: param
                 });
             },
+            // searchCompanyTerritory
+            searchCompanyTerritory = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'searchCompanyTerritory',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
             // get Suppliers
 	        getSuppliers = function (params, callbacks) {
 	            initialize();
@@ -127,7 +158,9 @@
             searchCompanyContact: searchCompanyContact,
             getBaseData: getBaseData,
             saveStore: saveStore,
-            getSuppliers: getSuppliers
+            getSuppliers: getSuppliers,
+            getOrdersData: getOrders,
+            searchCompanyTerritory: searchCompanyTerritory
         };
     })();
 
