@@ -55,6 +55,16 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         long SaveFieldVariable(FieldVariable fieldVariable);
 
+        /// <summary>
+        /// Get Field Variables
+        /// </summary>
+        FieldVariableResponse GetFieldVariables(FieldVariableRequestModel request);
+
+        /// <summary>
+        /// Get Field Variable Detail
+        /// </summary>
+        FieldVariable GetFieldVariableDetail(long fieldId);
+
         #region exportOrganisation
 
         void ExportOrganisation(long OrganisationID);

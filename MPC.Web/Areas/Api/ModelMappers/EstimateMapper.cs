@@ -1,4 +1,5 @@
-﻿using MPC.MIS.Areas.Api.Models;
+﻿using System.Linq;
+using MPC.MIS.Areas.Api.Models;
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
     using DomainModels = MPC.Models.DomainModels;
@@ -77,7 +78,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SectionFlagId = source.SectionFlagId,
                 OrderCode = source.Order_Code,
                 IsEstimate = source.isEstimate,
-                ItemsCount = source.Items!=null ? source.Items.Count :0
+                ItemsCount = source.Items!=null ? source.Items.Count :0,
+                Status = source.Status.StatusName,
+                EstimateTotal = source.Estimate_Total,
+                IsDirectOrder = source.isDirectSale,
+                
             };
 
             return estimate;
@@ -124,6 +129,18 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CustomerPO = source.CustomerPo,
                 OfficialOrderSetBy = source.OfficialOrderSetBy,
                 OfficialOrderSetOnDateTime = source.OfficialOrderSetOnDateTime
+            };
+        }
+
+        /// <summary>
+        /// Orders for Company edit
+        /// </summary>
+        public static OrdersForCrmResponse CreateFrom(this MPC.Models.ResponseModels.OrdersForCrmResponse  source)
+        {
+            return new OrdersForCrmResponse
+            {
+                RowCount = source.RowCount,
+                OrdersList = source.Orders.Select(order => order.CreateFromForListView())
             };
         }
 
