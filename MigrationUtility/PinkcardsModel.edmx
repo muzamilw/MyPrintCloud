@@ -4,28 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="pinkcardsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'pinkcards.dbo.bantexdata' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="bantexdata">
-          <Property Name="No" Type="nvarchar" MaxLength="500" />
-          <Property Name="Store Id" Type="nvarchar" MaxLength="500" />
-          <Property Name="Store URL" Type="nvarchar" MaxLength="500" />
-          <Property Name="Check" Type="nvarchar" MaxLength="500" />
-          <Property Name="Name" Type="nvarchar" MaxLength="500" />
-          <Property Name="Manager" Type="nvarchar" MaxLength="500" />
-          <Property Name="LastName" Type="nvarchar" MaxLength="500" />
-          <Property Name="Principal 1 Email" Type="nvarchar" MaxLength="500" />
-          <Property Name="Address" Type="nvarchar" MaxLength="500" />
-          <Property Name="State" Type="nvarchar" MaxLength="500" />
-          <Property Name="P code" Type="nvarchar" MaxLength="500" />
-          <Property Name="Location" Type="nvarchar" MaxLength="500" />
-          <Property Name="Region" Type="nvarchar" MaxLength="500" />
-          <Property Name="Phone" Type="nvarchar" MaxLength="500" />
-          <Property Name="Fax" Type="nvarchar" MaxLength="500" />
-          <Property Name="Branch Email" Type="nvarchar" MaxLength="500" />
-          <Property Name="Account Number " Type="nvarchar" MaxLength="500" />
-        </EntityType>-->
+    <Schema Namespace="pinkcardsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="dtproperties">
           <Key>
             <PropertyRef Name="id" />
@@ -69,28 +48,6 @@ warning 6013: The table/view 'pinkcards.dbo.bantexdata' does not have a primary 
           <Property Name="Customer Sell Inc GST" Type="money" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'pinkcards.dbo.stockimport' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="stockimport">
-          <Property Name="StockitemID" Type="float" />
-          <Property Name="ItemCode" Type="nvarchar" MaxLength="255" />
-          <Property Name="ItemName" Type="nvarchar" MaxLength="255" />
-          <Property Name="Friendly Name" Type="nvarchar" MaxLength="255" />
-          <Property Name="ItemWeight" Type="float" />
-          <Property Name="ItemColour" Type="nvarchar" MaxLength="255" />
-          <Property Name="Category" Type="nvarchar" MaxLength="255" />
-          <Property Name="SubCategory" Type="nvarchar" MaxLength="255" />
-          <Property Name="PackageQty" Type="float" />
-          <Property Name="per 1000" Type="float" />
-          <Property Name="CostPrice" Type="float" />
-          <Property Name="SalePrice" Type="float" />
-          <Property Name="PaperSizeID" Type="float" />
-          <Property Name="Supplier" Type="nvarchar" MaxLength="255" />
-          <Property Name="Barcode" Type="float" />
-          <Property Name="Ink Absorbtion" Type="float" />
-          <Property Name="Stock Status" Type="nvarchar" MaxLength="255" />
-          <Property Name="Flag" Type="nvarchar" MaxLength="255" />
-        </EntityType>-->
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -1593,13 +1550,6 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_customer_users_rolespages' does 
           <Property Name="MailFlag" Type="smallint" />
           <Property Name="Date" Type="datetime" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'pinkcards.dbo.tbl_EmailClickThroughsTracking' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="tbl_EmailClickThroughsTracking">
-          <Property Name="EmailClickThroughsTrakingID" Type="int" />
-          <Property Name="EmailCampaignTrakingID" Type="int" />
-          <Property Name="ClickThroughsID" Type="int" />
-        </EntityType>-->
         <EntityType Name="tbl_EmailEvents">
           <Key>
             <PropertyRef Name="EmailEventID" />
@@ -2734,22 +2684,6 @@ warning 6013: The table/view 'pinkcards.dbo.tbl_EmailClickThroughsTracking' does
           <Property Name="uiCulture" Type="varchar" MaxLength="50" />
           <Property Name="culture" Type="varchar" MaxLength="50" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'pinkcards.dbo.tbl_ledger' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="tbl_ledger">
-          <Property Name="LedgerID" Type="bigint" />
-          <Property Name="VoucherID" Type="bigint" />
-          <Property Name="VoucherDescription" Type="varchar" MaxLength="255" />
-          <Property Name="Reference" Type="varchar" MaxLength="50" />
-          <Property Name="Custcode" Type="bigint" />
-          <Property Name="CodeType" Type="varchar" MaxLength="1" />
-          <Property Name="VoucherDate" Type="datetime" />
-          <Property Name="UserID" Type="int" />
-          <Property Name="DebitAccountID" Type="int" />
-          <Property Name="CreditAccountID" Type="int" />
-          <Property Name="Debit" Type="float" />
-          <Property Name="Credit" Type="float" />
-        </EntityType>-->
         <EntityType Name="tbl_lengthconversion">
           <Key>
             <PropertyRef Name="ID" />
@@ -3131,29 +3065,6 @@ warning 6013: The table/view 'pinkcards.dbo.tbl_ledger' does not have a primary 
           <Property Name="ContactCompanyID" Type="int" />
           <Property Name="FlagID" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'pinkcards.dbo.tbl_nominaldetail' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="tbl_nominaldetail">
-          <Property Name="AccountNo" Type="int" />
-          <Property Name="BankDescription" Type="varchar" MaxLength="255" />
-          <Property Name="NoReconciliation" Type="smallint" />
-          <Property Name="BankName" Type="varchar" MaxLength="255" />
-          <Property Name="BankAddress" Type="varchar" MaxLength="255" />
-          <Property Name="BankTown" Type="varchar" MaxLength="50" />
-          <Property Name="BankCounty" Type="varchar" MaxLength="50" />
-          <Property Name="BankPostcode" Type="varchar" MaxLength="50" />
-          <Property Name="AccountName" Type="varchar" MaxLength="255" />
-          <Property Name="AccountNumber" Type="varchar" MaxLength="50" />
-          <Property Name="SortCode" Type="varchar" MaxLength="50" />
-          <Property Name="ExpiryDate" Type="datetime" />
-          <Property Name="ContactName" Type="varchar" MaxLength="255" />
-          <Property Name="ContactTel" Type="varchar" MaxLength="50" />
-          <Property Name="ContactFax" Type="varchar" MaxLength="50" />
-          <Property Name="ContactEmail" Type="varchar" MaxLength="255" />
-          <Property Name="ContactURL" Type="varchar" MaxLength="255" />
-          <Property Name="SystemSiteID" Type="int" />
-          <Property Name="IBN" Type="varchar" MaxLength="50" />
-        </EntityType>-->
         <EntityType Name="tbl_pagination_combinations">
           <Key>
             <PropertyRef Name="ID" />
@@ -4960,14 +4871,6 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
           <Property Name="isCreatedManual" Type="bit" />
           <Property Name="isEditorChoice" Type="bit" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'pinkcards.dbo.TempProductCatList' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="TempProductCatList">
-          <Property Name="F1" Type="nvarchar" MaxLength="255" />
-          <Property Name="F2" Type="nvarchar" MaxLength="255" />
-        </EntityType>-->
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'pinkcards.dbo.webProductCategoryItemPrice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <Association Name="FK__tbl_gener__Langu__683FF2E4">
           <End Role="tbl_language" Type="Self.tbl_language" Multiplicity="0..1" />
           <End Role="tbl_general_settings" Type="Self.tbl_general_settings" Multiplicity="*" />
@@ -7004,8 +6907,7 @@ warning 6002: The table/view 'pinkcards.dbo.webProductCategoryItemPrice' does no
             <End Role="tbl_costcentre_instructions" EntitySet="tbl_costcentre_instructions" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="pinkcardsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">

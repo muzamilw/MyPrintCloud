@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
@@ -42,8 +48,10 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,239 +62,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccessRight.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AccountDefault.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AccountType.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Activity.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ActivityType.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Address.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AppVersion.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Audit.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AuditTrail.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AuditTrailDetail.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="BusinessType.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Campaign.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CampaignClickThrough.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CampaignEmailQueue.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CampaignEmailVariable.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CampaignGroup.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CampaignImage.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CampaignReport.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CategoryTerritory.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ChartOfAccount.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CmsOffer.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CmsPage.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CmsPageTag.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CmsSkinPageWidget.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CmsSkinPageWidgetParam.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CmsTag.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ColorPallete.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Company.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CompanyBanner.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CompanyBannerSet.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CompanyCMYKColor.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CompanyContact.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CompanyContactRole.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CompanyCostCentre.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CompanyDomain.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CompanyTerritory.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CompanyType.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CompanyVariableIcon.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Correspondence.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CorrespondenceDetail.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CostCenterChoice.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CostCentre.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CostCentreAnswer.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CostCentreGroup.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CostcentreGroupDetail.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CostcentreInstruction.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CostCentreMatrix.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CostCentreMatrixDetail.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CostCentreQuestion.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CostcentreResource.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CostcentreSystemType.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CostCentreTemplate.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CostCentreType.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CostCentreVariable.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CostCentreVariableType.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CostcentreWorkInstructionsChoice.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Country.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CreditCardInformation.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Currency.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CustomCopy.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CustomerUsersRolespage.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CustomizedField.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CustomizedFieldsData.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CustomizedFieldsValue.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DeliveryNote.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DeliveryNoteDetail.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DiscountVoucher.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
     <Compile Include="dtproperty.cs">
       <DependentUpon>PinkcardsModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EmailCampaignTracking.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EmailEvent.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Estimate.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EstimateProjection.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FavoriteDesign.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FaxCampaign.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FaxCampaignsTracking.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FieldVariable.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FinancialYear.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FinancialYearDetail.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
     </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -294,245 +71,11 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="GlobalLanguage.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="GoodsReceivedNote.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="GoodsReceivedNoteDetail.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Group.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="GroupDetail.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
     <Compile Include="ImagePermission.cs">
       <DependentUpon>PinkcardsModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="InkCoverageGroup.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="InkPlateSide.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Inquiry.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="InquiryAttachment.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="InquiryItem.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Invoice.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="InvoiceDetail.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Item.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ItemAddonCostCentre.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ItemAttachment.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ItemImage.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ItemPriceMatrix.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ItemProductDetail.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ItemRelatedItem.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ItemSection.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ItemSectionCostCentreGroup.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ItemStateTax.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ItemStockControl.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ItemStockOption.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ItemStockUpdateHistory.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ItemType.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ItemVDPPrice.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ItemVideo.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="JobPreference.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="JobStatu.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="LengthUnit.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Listing.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ListingAgent.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ListingConjunctionAgent.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ListingFloorPlan.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ListingImage.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ListingLink.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ListingOFI.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ListingVendor.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="LookupMethod.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Machine.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MachineCategory.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MachineClickChargeLookup.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MachineClickChargeZone.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MachineCostCentreGroup.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MachineCylinder.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MachineGuillotineCalc.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MachineGuilotinePtv.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MachineInkCoverage.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MachineLookupMethod.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MachineMeterPerHourLookup.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MachinePaginationProfile.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MachinePerHourLookup.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MachineResource.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MachineSpeedWeightLookup.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MachineSpoilage.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
     <Compile Include="margin.cs">
       <DependentUpon>PinkcardsModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Markup.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MediaLibrary.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MPCNew.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MPCNew.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MPCNew.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MPCNew.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MPCNew.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="NewsLetterSubscriber.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Organisation.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PageCategory.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PaginationCombination.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PaginationFinishStyle.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PaginationProfile.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PaginationProfileCostcentreGroup.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PaperBasisArea.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PaperSize.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PaymentGateway.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PaymentMethod.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PaypalPaymentRequest.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PayPalResponse.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Phrase.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PhraseField.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
     </Compile>
     <Compile Include="PinkcardsModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -549,205 +92,748 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PinkcardsModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="PipelineDeduction.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
+    <Compile Include="Preview\AccessRight.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="PipeLineProduct.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
+    <Compile Include="Preview\AccountDefault.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="PipeLineSource.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
+    <Compile Include="Preview\AccountType.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="prefix.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
+    <Compile Include="Preview\Activity.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="PrePayment.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
+    <Compile Include="Preview\ActivityType.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProductCategory.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
+    <Compile Include="Preview\Address.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProductCategoryFoldLine.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
+    <Compile Include="Preview\AppVersion.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProductCategoryItem.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
+    <Compile Include="Preview\Audit.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProductMarketBriefAnswer.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
+    <Compile Include="Preview\AuditTrail.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProductMarketBriefQuestion.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
+    <Compile Include="Preview\AuditTrailDetail.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProductPaperType.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
+    <Compile Include="Preview\BusinessType.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Profile.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
+    <Compile Include="Preview\Campaign.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProfileCostCentreGroup.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
+    <Compile Include="Preview\CampaignClickThrough.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProfileDescriptionLabel.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
+    <Compile Include="Preview\CampaignEmailQueue.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProfileDescriptionLabelsValue.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
+    <Compile Include="Preview\CampaignEmailVariable.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProfileType.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
+    <Compile Include="Preview\CampaignGroup.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CampaignImage.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CampaignReport.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CategoryTerritory.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ChartOfAccount.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CmsOffer.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CmsPage.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CmsPageTag.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CmsSkinPageWidget.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CmsSkinPageWidgetParam.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CmsTag.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ColorPallete.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Company.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CompanyBanner.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CompanyBannerSet.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CompanyCMYKColor.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CompanyContact.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CompanyContactRole.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CompanyCostCentre.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CompanyDomain.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CompanyTerritory.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CompanyType.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CompanyVariableIcon.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Correspondence.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CorrespondenceDetail.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CostCenterChoice.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CostCentre.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CostCentreAnswer.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CostCentreGroup.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CostcentreGroupDetail.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CostcentreInstruction.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CostCentreMatrix.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CostCentreMatrixDetail.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CostCentreQuestion.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CostcentreResource.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CostcentreSystemType.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CostCentreTemplate.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CostCentreType.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CostCentreVariable.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CostCentreVariableType.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CostcentreWorkInstructionsChoice.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Country.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CreditCardInformation.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Currency.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CustomCopy.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CustomerUsersRolespage.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CustomizedField.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CustomizedFieldsData.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\CustomizedFieldsValue.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\DeliveryNote.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\DeliveryNoteDetail.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\DiscountVoucher.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\EmailCampaignTracking.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\EmailEvent.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Estimate.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\EstimateProjection.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\FavoriteDesign.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\FaxCampaign.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\FaxCampaignsTracking.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\FieldVariable.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\FinancialYear.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\FinancialYearDetail.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\GlobalLanguage.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\GoodsReceivedNote.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\GoodsReceivedNoteDetail.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Group.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\GroupDetail.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ImagePermission.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\InkCoverageGroup.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\InkPlateSide.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Inquiry.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\InquiryAttachment.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\InquiryItem.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Invoice.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\InvoiceDetail.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Item.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ItemAddonCostCentre.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ItemAttachment.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ItemImage.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ItemPriceMatrix.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ItemProductDetail.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ItemRelatedItem.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ItemSection.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ItemSectionCostCentreGroup.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ItemStateTax.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ItemStockControl.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ItemStockOption.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ItemStockUpdateHistory.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ItemType.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ItemVDPPrice.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ItemVideo.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\JobPreference.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\JobStatu.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\LengthUnit.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Listing.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ListingAgent.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ListingConjunctionAgent.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ListingFloorPlan.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ListingImage.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ListingLink.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ListingOFI.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ListingVendor.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\LookupMethod.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Machine.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\MachineCategory.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\MachineClickChargeLookup.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\MachineClickChargeZone.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\MachineCostCentreGroup.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\MachineCylinder.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\MachineGuillotineCalc.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\MachineGuilotinePtv.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\MachineInkCoverage.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\MachineLookupMethod.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\MachineMeterPerHourLookup.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\MachinePaginationProfile.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\MachinePerHourLookup.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\MachineResource.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\MachineSpeedWeightLookup.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\MachineSpoilage.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\margin.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Markup.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\MediaLibrary.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\MPCPreviewModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MPCPreviewModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\MPCPreviewModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\MPCPreviewModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MPCPreviewModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\NewsLetterSubscriber.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Organisation.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\PageCategory.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\PaginationCombination.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\PaginationFinishStyle.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\PaginationProfile.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\PaginationProfileCostcentreGroup.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\PaperBasisArea.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\PaperSize.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\PaymentGateway.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\PaymentMethod.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\PaypalPaymentRequest.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\PayPalResponse.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Phrase.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\PhraseField.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\PipelineDeduction.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\PipeLineProduct.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\PipeLineSource.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\prefix.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\PrePayment.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ProductCategory.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ProductCategoryFoldLine.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ProductCategoryItem.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ProductMarketBriefAnswer.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ProductMarketBriefQuestion.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ProductPaperType.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Profile.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ProfileCostCentreGroup.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ProfileDescriptionLabel.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ProfileDescriptionLabelsValue.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ProfileType.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Purchase.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\PurchaseDetail.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\RaveReview.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\RegionalsSetting.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\RegistrationQuestion.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Report.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ReportCategory.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ReportNote.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Reportparam.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Role.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Roleright.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\RoleSection.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\RoleSite.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\SalesCommissionRangeBased.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\SalesCommissionType.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\SalesTargetType.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\SalesType.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ScheduledActivitySpliteDetail.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ScheduledCostCenter.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ScheduledPrintJob.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ScheduledTimeActivity.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Section.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\SectionCostcentre.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\SectionCostCentreDetail.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\SectionCostCentreResource.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\SectionCostCentresFeedback.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\SectionFlag.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\SectionInkCoverage.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\ShippingInformation.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\SoftwareUpdate.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\State.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Status.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\StockCategory.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\StockCostAndPrice.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\StockItem.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\StockItemHistory.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\StockItemsColor.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\StockItemsIssueLog.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\StockSubCategory.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\SubAccounType.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\SuccessChance.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\SystemEmail.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\SystemEmailEmailsIDAndSectionsId.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\SystemLog.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\SystemUser.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\SystemUserCheckin.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\SystemuserPreference.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\TargetType.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Task.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\tbl_cmsSkins.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\tbl_enquiries.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Template.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\TemplateBackgroundImage.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\TemplateColorStyle.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\TemplateFont.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\TemplateObject.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\TemplateVariable.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\TerritoryItem.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\UserAchievedTarget.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\UserEmailEvent.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\UserPipeline.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\UserReport.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\UserSalesCommission.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\UserSalesTarget.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\UserStickyNote.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\UserTarget.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\VariableSection.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Voucher.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\VoucherDetail.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\WebProductCategoryItemPrice.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\WeightUnit.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\Widget.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\WorkflowPreference.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Purchase.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PurchaseDetail.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="RaveReview.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="RegionalsSetting.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="RegistrationQuestion.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Report.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ReportCategory.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ReportNote.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Reportparam.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Role.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Roleright.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="RoleSection.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="RoleSite.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SalesCommissionRangeBased.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SalesCommissionType.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SalesTargetType.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SalesType.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ScheduledActivitySpliteDetail.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ScheduledCostCenter.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ScheduledPrintJob.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ScheduledTimeActivity.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Section.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SectionCostcentre.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SectionCostCentreDetail.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SectionCostCentreResource.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SectionCostCentresFeedback.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SectionFlag.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SectionInkCoverage.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ShippingInformation.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SoftwareUpdate.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="State.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Status.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="StockCategory.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="StockCostAndPrice.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="StockItem.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="StockItemHistory.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="StockItemsColor.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="StockItemsIssueLog.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="StockSubCategory.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SubAccounType.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SuccessChance.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
     <Compile Include="sysdiagram.cs">
       <DependentUpon>PinkcardsModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SystemEmail.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SystemEmailEmailsIDAndSectionsId.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SystemLog.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SystemUser.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SystemUserCheckin.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SystemuserPreference.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="TargetType.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Task.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
     </Compile>
     <Compile Include="tbl_accountdefault.cs">
       <DependentUpon>PinkcardsModel.tt</DependentUpon>
@@ -1433,54 +1519,6 @@
     <Compile Include="TemplatePage.cs">
       <DependentUpon>PinkcardsModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="TemplateVariable.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="TerritoryItem.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UserAchievedTarget.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UserEmailEvent.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UserPipeline.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UserReport.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UserSalesCommission.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UserSalesTarget.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UserStickyNote.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UserTarget.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="VariableSection.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Voucher.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="VoucherDetail.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="WeightUnit.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Widget.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
-    <Compile Include="WorkflowPreference.cs">
-      <DependentUpon>MPCNew.tt</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -1493,23 +1531,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EntityDeploy Include="MPCNew.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>MPCNew.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="MPCNew.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MPCNew.edmx</DependentUpon>
-      <LastGenOutput>MPCNew.Context.cs</LastGenOutput>
-    </None>
-    <None Include="MPCNew.edmx.diagram">
-      <DependentUpon>MPCNew.edmx</DependentUpon>
-    </None>
-    <None Include="MPCNew.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MPCNew.edmx</DependentUpon>
-      <LastGenOutput>MPCNew.cs</LastGenOutput>
-    </None>
     <None Include="packages.config" />
     <EntityDeploy Include="PinkcardsModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -1528,6 +1549,23 @@
       <DependentUpon>PinkcardsModel.edmx</DependentUpon>
       <LastGenOutput>PinkcardsModel.cs</LastGenOutput>
     </None>
+    <EntityDeploy Include="Preview\MPCPreviewModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MPCPreviewModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Preview\MPCPreviewModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MPCPreviewModel.edmx</DependentUpon>
+      <LastGenOutput>MPCPreviewModel.Context.cs</LastGenOutput>
+    </None>
+    <None Include="Preview\MPCPreviewModel.edmx.diagram">
+      <DependentUpon>MPCPreviewModel.edmx</DependentUpon>
+    </None>
+    <None Include="Preview\MPCPreviewModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MPCPreviewModel.edmx</DependentUpon>
+      <LastGenOutput>MPCPreviewModel.cs</LastGenOutput>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -1545,6 +1583,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
