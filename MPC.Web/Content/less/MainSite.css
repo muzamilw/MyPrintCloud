@@ -380,6 +380,9 @@
 .profileLabelPadding {
   margin-top: 15px;
 }
+#columnsAlign {
+  table-layout: fixed;
+}
 #inventoryBinding #addInventory {
   margin-top: 25px;
 }

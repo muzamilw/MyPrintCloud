@@ -176,3 +176,6 @@
 .profileLabelPadding {
   margin-top: 15px;
 }
+#columnsAlign {
+  table-layout: fixed;
+}

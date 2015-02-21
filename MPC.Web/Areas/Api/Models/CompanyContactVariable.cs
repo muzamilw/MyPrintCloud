@@ -1,7 +1,9 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System.Collections.Generic;
+
+namespace MPC.MIS.Areas.Api.Models
 {
     /// <summary>
-    /// Company Contact Variable Domain Model
+    /// Company Contact Variable API Model
     /// </summary>
     public class CompanyContactVariable
     {
@@ -9,7 +11,10 @@
         public long ContactId { get; set; }
         public long VariableId { get; set; }
         public string Value { get; set; }
-        public virtual FieldVariable FieldVariable { get; set; }
-        public virtual CompanyContact CompanyContact { get; set; }
+        public int? Type { get; set; }
+        public string Title { get; set; }
+
+        public List<VariableOption> VariableOptions { get; set; }
+
     }
 }
