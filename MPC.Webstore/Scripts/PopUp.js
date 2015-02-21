@@ -531,7 +531,7 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
                 if (updatedAddOns != null) {
 
                     for (var i = 0; i < $(updatedAddOns).length; i++) {
-                        if ($(updatedAddOns)[i].CostCenterId == 335) {
+                        if ($(updatedAddOns)[i].CostCenterId == CostCentreId) {
                             $(updatedAddOns)[i].ActualPrice = response;
                             $(updatedAddOns)[i].Description = desriptionOfCostCentre;
                             $(updatedAddOns)[i].CostCentreJasonData = jsonObjects;

@@ -344,7 +344,7 @@
                         @Html.HiddenFor(m => m.AddOnPrice, new { id = "VMAddOnrice" })
                         @Html.HiddenFor(m => m.StockId, new { id = "VMStockId" })
                         @Html.HiddenFor(m => m.QuantityOrdered, new { id = "VMQuantityOrdered" })
-
+                        @Html.HiddenFor(m => m.ModifiedQueueItem, new { id = "ModifiedQueueItem" })
                         <input type="submit" value="Add to cart" class="add_to_cart_btn rounded_corners5 MTopM10" onclick="return ConfirmCart();" />
                     }
 
@@ -1394,6 +1394,7 @@
         if($("#" + ControlId).is(':checked')) {
             if(Mode == 2){
                 ShowLoader();
+                alert("Modify with Quantity");
                 var to;
                 to = "/webstoreapi/costCenter/GetDateTimeString?parameter1=" + CostCentreId + "&parameter2=" + @ViewBag.ClonedItem.ItemId + "&parameter3=" + quantityOrdered + "&parameter4=Update";
                 var options = {
@@ -1403,16 +1404,17 @@
                     contentType: "application/json",
                     async: true,
                     success: function (response) {
-                        alert(response);
+                        
                         if(response != ""){
+                            $("#ModifiedQueueItem").val($("#costCentreQueueItems").val());
                             var updatedAddOns = jQuery.parseJSON($('#VMJsonAddOns').val());
-                            alert($(updatedAddOns).length);
+                            
                             if (updatedAddOns != null) {
-                                alert($(updatedAddOns).length);
+                                
                                 for (var i = 0; i < $(updatedAddOns).length; i++) {
-                                    if ($(updatedAddOns)[i].CostCenterId == 335) {
+                                    
+                                    if ($(updatedAddOns)[i].CostCenterId == CostCentreId) {
                                         $(updatedAddOns)[i].ActualPrice = response;
-                                        $(updatedAddOns)[i].CostCentreJasonData = $("#costCentreQueueItems").val();
                                         break;
                                     }
                                 }
@@ -1463,8 +1465,7 @@
                 var returnText = $.ajax(options).responseText;
 
             }
-            else
-            {
+            else{
 
                 ShowLoader();
                 $.getJSON("/webstoreapi/costCenter/GetDateTimeString/" + CostCentreId + "/"+ @ViewBag.ClonedItem.ItemId +"/"+ quantityOrdered +"/New/null",

@@ -102,6 +102,9 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                     //QuestionQueue / Execution Queue
                     _CostCentreParamsArray[3] = CostCentreQueue;
+                    // check if cc has wk ins
+
+
                     //CostCentreQueue
                     _CostCentreParamsArray[4] = 1;
 
@@ -136,7 +139,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                     CostCentre oCostCentre = _CostCentreService.GetCostCentreByID(Convert.ToInt64(parameter1));
 
-
+                    
 
                     CostCentreQueue.Add(new CostCentreQueueItem(oCostCentre.CostCentreId, oCostCentre.Name, 1, oCostCentre.CodeFileName, null, oCostCentre.SetupSpoilage, oCostCentre.RunningSpoilage));
 

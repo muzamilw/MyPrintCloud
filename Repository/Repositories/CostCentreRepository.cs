@@ -148,7 +148,7 @@ namespace MPC.Repository.Repositories
 
 				try
 				{
-					return db.CostCentres.Where(c => c.CostCentreId == CostCentreID).SingleOrDefault();
+                    return db.CostCentres.Include("CostcentreInstructions").Where(c => c.CostCentreId == CostCentreID).SingleOrDefault();
 
 				}
 				catch (Exception ex)
