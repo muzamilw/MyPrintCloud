@@ -266,6 +266,7 @@
         <AssociationConnector Association="DomainModels.FK_SmartFormDetail_SmartForm" />
         <EntityTypeShape EntityType="DomainModels.DeliveryCarrier" Width="1.5" PointX="27.375" PointY="19.75" />
         <AssociationConnector Association="DomainModels.FK_FieldVariable_Company" />
+        <AssociationConnector Association="DomainModels.FK_CompanyContactVariable_FieldVariable" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

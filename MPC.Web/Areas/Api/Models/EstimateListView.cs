@@ -20,5 +20,8 @@ namespace MPC.MIS.Areas.Api.Models
         public string OrderCode { get; set; }
         public bool? IsEstimate { get; set; }
         public int? ItemsCount { get; set; }
+        public string Status { get; set; }
+        public double? EstimateTotal { get; set; }
+        public Boolean? IsDirectOrder { get; set; }
     }
 }

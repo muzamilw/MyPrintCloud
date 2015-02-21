@@ -288,6 +288,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\OrderConfirmationController.cs" />
     <Compile Include="Controllers\OrderPolicySaveController.cs" />
+    <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PersonalDetailAndOrderPolicyController.cs" />
     <Compile Include="Controllers\ProductDetailController.cs" />
     <Compile Include="Controllers\DomainController.cs" />
@@ -344,6 +345,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Controllers\HeaderController.cs" />
     <Compile Include="ViewModels\MatchingSetViewModel.cs" />
+    <Compile Include="ViewModels\PaypalViewModel.cs" />
     <Compile Include="ViewModels\ProductPriceMatrixViewModel.cs" />
     <Compile Include="ViewModels\RelatedItemViewModel.cs" />
     <Compile Include="ViewModels\SearchOrderViewModel.cs" />
@@ -702,6 +704,7 @@
     <Content Include="Views\Shared\PartialViews\PersonalDetailAndOrderPolicy.cshtml" />
     <Content Include="Views\Shared\PartialViews\OrderPolicySave.cshtml" />
     <Content Include="Views\Shared\PartialViews\ProductOrderHistory.cshtml" />
+    <Content Include="Views\Payment\PaypalSubmit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

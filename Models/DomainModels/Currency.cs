@@ -7,6 +7,7 @@ namespace MPC.Models.DomainModels
         public long CurrencyId { get; set; }
         public string CurrencyCode { get; set; }
         public string CurrencyName { get; set; }
+        public string CurrencySymbol { get; set; }
 
         /// <summary>
         /// Organisations using this currency

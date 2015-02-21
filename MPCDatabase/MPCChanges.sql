@@ -170,3 +170,46 @@ alter table company
 drop column DeliveryPickUpAddressId
 
 GO
+
+/* Execution Date: 19/02/2015 */
+GO
+
+alter table Currency add CurrencySymbol varchar(5)
+alter table paymentGateway add CancelPurchaseUrl varchar(255)
+alter table paymentGateway add ReturnUrl varchar(255)
+alter table paymentGateway add NotifyUrl varchar(255)
+alter table paymentGateway add SendToReturnURL bit
+alter table paymentGateway add UseSandbox bit
+alter table paymentGateway add LiveApiUrl varchar(255)
+alter table paymentGateway add TestApiUrl varchar(255)
+alter table Organisation add TaxServiceUrl varchar(255)
+alter table Organisation add TaxServiceKey varchar(255)
+
+alter table ItemSection
+drop column QuestionQueue
+
+alter table ItemSection
+drop DF_tbl_item_sections_InputQueue
+
+alter table ItemSection
+drop column InputQueue
+
+alter table ItemSection
+drop column StockQueue
+
+alter table ItemSection
+drop column CostCentreQueue
+
+alter table ItemSection
+add QuestionQueue ntext null
+
+alter table ItemSection
+add InputQueue ntext  null
+
+alter table ItemSection
+add StockQueue ntext null
+
+alter table ItemSection
+add CostCentreQueue ntext null
+
+GO

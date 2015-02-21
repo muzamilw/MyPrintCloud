@@ -384,5 +384,41 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             };
         }
 
+        /// <summary>
+        /// Crete From Domain Model
+        /// </summary>
+        public static OrderItem CreateFromForOrder(this DomainModels.Item source)
+        {
+            // ReSharper disable SuggestUseVarKeywordEvident
+            OrderItem item = new OrderItem
+            // ReSharper restore SuggestUseVarKeywordEvident
+            {
+                ItemId = source.ItemId,
+                ItemCode = source.ItemCode,
+                ProductCode = source.ProductCode,
+                ProductName = source.ProductName,
+                JobDescriptionTitle1 = source.JobDescriptionTitle1,
+                JobDescription1 = source.JobDescription1,
+                JobDescriptionTitle2 = source.JobDescriptionTitle2,
+                JobDescription2 = source.JobDescription2,
+                JobDescriptionTitle3 = source.JobDescriptionTitle3,
+                JobDescription3 = source.JobDescription3,
+                JobDescriptionTitle4 = source.JobDescriptionTitle4,
+                JobDescription4 = source.JobDescription4,
+                JobDescriptionTitle5 = source.JobDescriptionTitle5,
+                JobDescription5 = source.JobDescription5,
+                JobDescriptionTitle6 = source.JobDescriptionTitle6,
+                JobDescription6 = source.JobDescription6,
+                JobDescriptionTitle7 = source.JobDescriptionTitle7,
+                JobDescription7 = source.JobDescription7,
+                IsQtyRanged = source.IsQtyRanged,
+                DefaultItemTax = source.DefaultItemTax,
+                ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFrom()) :
+                new List<ItemSection>()
+            };
+            
+            return item;
+        }
+
     }
 }
