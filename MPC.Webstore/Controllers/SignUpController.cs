@@ -50,6 +50,7 @@ namespace MPC.Webstore.Controllers
 
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
 
+            
             ViewBag.CompanyName = StoreBaseResopnse.Company.Name;
             if (FirstName != null)
             {
