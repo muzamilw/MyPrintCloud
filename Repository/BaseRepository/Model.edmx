@@ -854,7 +854,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="Description" Type="varchar" MaxLength="255" />
           <Property Name="RowsCount" Type="int" Nullable="false" />
           <Property Name="ColumnsCount" Type="int" Nullable="false" />
-          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="OrganisationId" Type="int" Nullable="false" />
           <Property Name="SystemSiteId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="CostCentreMatrixDetail">
@@ -10325,8 +10325,8 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="RowsCount" Type="Int32" Nullable="false" />
           <Property Name="ColumnsCount" Type="Int32" Nullable="false" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
           <Property Name="SystemSiteId" Type="Int32" Nullable="false" />
+          <Property Name="OrganisationId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="CostCentreMatrixDetail">
           <Key>
@@ -14058,8 +14058,8 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <EntitySetMapping Name="CostCentreMatrices">
             <EntityTypeMapping TypeName="DomainModels.CostCentreMatrix">
               <MappingFragment StoreEntitySet="CostCentreMatrix">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="ColumnsCount" ColumnName="ColumnsCount" />
                 <ScalarProperty Name="RowsCount" ColumnName="RowsCount" />
                 <ScalarProperty Name="Description" ColumnName="Description" />

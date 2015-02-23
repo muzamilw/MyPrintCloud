@@ -58,6 +58,7 @@ namespace MPC.Webstore.Models
 
         public int QuantityOrdered { get; set; }
 
+        public string ModifiedQueueItem { get; set; }
     }
 
 

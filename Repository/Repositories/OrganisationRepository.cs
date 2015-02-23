@@ -259,7 +259,7 @@ namespace MPC.Repository.Repositories
                             CostCentreMatrix Objmatrix = new CostCentreMatrix();
                             Objmatrix = matrix;
                             Objmatrix.MatrixId = 0;
-                            Objmatrix.CompanyId = (int)OrganisationID;
+                            Objmatrix.OrganisationId = (int)OrganisationID;
                             db.CostCentreMatrices.Add(Objmatrix);
 
                             db.SaveChanges();

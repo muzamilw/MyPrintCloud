@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using MPC.Models.Common;
 
 namespace MPC.Webstore.ViewModels
 {
@@ -43,5 +44,6 @@ namespace MPC.Webstore.ViewModels
 
         // this will be set only in modify product case 
         public string CostCentreJasonData { get; set; }
+
     }
 }

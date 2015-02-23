@@ -83,7 +83,7 @@
         <AssociationConnector Association="DomainModels.FK_tbl_section_costcentre_resources_tbl_section_costcentres" />
         <AssociationConnector Association="DomainModels.FK_tbl_section_costcentre_detail_tbl_stockitems" />
         <EntityTypeShape EntityType="DomainModels.Estimate" Width="1.5" PointX="21.375" PointY="8.25" />
-        <EntityTypeShape EntityType="DomainModels.PaymentGateway" Width="1.5" PointX="23.625" PointY="4.625" />
+        <EntityTypeShape EntityType="DomainModels.PaymentGateway" Width="1.5" PointX="24.125" PointY="3.625" />
         <EntityTypeShape EntityType="DomainModels.PaymentMethod" Width="1.5" PointX="21.375" PointY="4.875" />
         <EntityTypeShape EntityType="DomainModels.PrePayment" Width="1.5" PointX="23.375" PointY="11.75" />
         <AssociationConnector Association="DomainModels.FK_tbl_estimates_tbl_contactcompanies" />
