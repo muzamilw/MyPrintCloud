@@ -386,3 +386,16 @@ GO
 
 ALTER TABLE [dbo].[SmartFormDetail] CHECK CONSTRAINT [FK_SmartFormDetail_SmartForm]
 GO
+
+GO
+
+Alter table Invoice
+alter column InvoiceStatus smallint null
+
+Alter table Invoice
+add foreign key (InvoiceStatus)
+references Status(StatusId)
+
+Alter table Invoice
+add foreign key (ContactId)
+references CompanyContact(ContactId)

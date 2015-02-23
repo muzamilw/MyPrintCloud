@@ -1278,7 +1278,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="CompanyId" Type="bigint" />
           <Property Name="ContactId" Type="bigint" />
           <Property Name="OrderNo" Type="varchar" MaxLength="50" />
-          <Property Name="InvoiceStatus" Type="int" />
+          <Property Name="InvoiceStatus" Type="smallint" />
           <Property Name="InvoiceTotal" Type="float" />
           <Property Name="InvoiceDate" Type="datetime" />
           <Property Name="LastUpdatedBy" Type="uniqueidentifier" />
@@ -3626,6 +3626,30 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Invoice_CompanyContact">
+          <End Role="CompanyContact" Type="Self.CompanyContact" Multiplicity="0..1" />
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyContact">
+              <PropertyRef Name="ContactId" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="ContactId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoice_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusId" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="InvoiceStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ItemProductDetail_Items">
           <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
           <End Role="ItemProductDetail" Type="Self.ItemProductDetail" Multiplicity="*" />
@@ -5082,6 +5106,14 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
             <End Role="Company" EntitySet="Company" />
             <End Role="Invoice" EntitySet="Invoice" />
           </AssociationSet>
+          <AssociationSet Name="FK_Invoice_CompanyContact" Association="Self.FK_Invoice_CompanyContact">
+            <End Role="CompanyContact" EntitySet="CompanyContact" />
+            <End Role="Invoice" EntitySet="Invoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoice_Status" Association="Self.FK_Invoice_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Invoice" EntitySet="Invoice" />
+          </AssociationSet>
           <AssociationSet Name="FK_ItemProductDetail_Items" Association="Self.FK_ItemProductDetail_Items">
             <End Role="Items" EntitySet="Items" />
             <End Role="ItemProductDetail" EntitySet="ItemProductDetail" />
@@ -6108,6 +6140,14 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
             <End Role="FieldVariable" EntitySet="FieldVariables" />
             <End Role="CompanyContactVariable" EntitySet="CompanyContactVariables" />
           </AssociationSet>
+          <AssociationSet Name="FK_Invoice_CompanyContact" Association="DomainModels.FK_Invoice_CompanyContact">
+            <End Role="CompanyContact" EntitySet="CompanyContacts" />
+            <End Role="Invoice" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoice_Status" Association="DomainModels.FK_Invoice_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Invoice" EntitySet="Invoices" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -6969,6 +7009,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <NavigationProperty Name="FavoriteDesigns" Relationship="DomainModels.FK_tbl_FavoriteDesign_tbl_contacts" FromRole="CompanyContact" ToRole="FavoriteDesign" />
           <NavigationProperty Name="ShippingAddress" Relationship="DomainModels.FK_CompanyContact_ShippingAddress" FromRole="CompanyContact" ToRole="Address" />
           <NavigationProperty Name="CompanyContactVariables" Relationship="DomainModels.FK_CompanyContactVariable_CompanyContact" FromRole="CompanyContact" ToRole="CompanyContactVariable" />
+          <NavigationProperty Name="Invoices" Relationship="DomainModels.FK_Invoice_CompanyContact" FromRole="CompanyContact" ToRole="Invoice" />
         </EntityType>
         <EntityType Name="CompanyContactRole">
           <Key>
@@ -8055,6 +8096,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="StatusType" Type="Int32" />
           <NavigationProperty Name="Items" Relationship="DomainModels.FK_tbl_items_tbl_Statuses" FromRole="Status" ToRole="Item" />
           <NavigationProperty Name="Estimates" Relationship="DomainModels.FK_tbl_estimates_tbl_Statuses" FromRole="Status" ToRole="Estimate" />
+          <NavigationProperty Name="Invoices" Relationship="DomainModels.FK_Invoice_Status" FromRole="Status" ToRole="Invoice" />
         </EntityType>
         <EntityType Name="SystemEmail">
           <Key>
@@ -8461,7 +8503,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="InvoiceName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="ContactId" Type="Int64" />
           <Property Name="OrderNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="InvoiceStatus" Type="Int32" />
+          <Property Name="InvoiceStatus" Type="Int16" />
           <Property Name="InvoiceTotal" Type="Double" />
           <Property Name="InvoiceDate" Type="DateTime" Precision="3" />
           <Property Name="LastUpdatedBy" Type="Guid" />
@@ -8496,6 +8538,8 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <NavigationProperty Name="Items" Relationship="DomainModels.FK_tbl_items_tbl_invoices" FromRole="Invoice" ToRole="Item" />
           <Property Name="CompanyId" Type="Int64" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_Invoice_Company" FromRole="Invoice" ToRole="Company" />
+          <NavigationProperty Name="CompanyContact" Relationship="DomainModels.FK_Invoice_CompanyContact" FromRole="Invoice" ToRole="CompanyContact" />
+          <NavigationProperty Name="Status" Relationship="DomainModels.FK_Invoice_Status" FromRole="Invoice" ToRole="Status" />
         </EntityType>
         <EntityType Name="InvoiceDetail">
           <Key>
@@ -11078,6 +11122,30 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
             </Principal>
             <Dependent Role="CompanyContactVariable">
               <PropertyRef Name="VariableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoice_CompanyContact">
+          <End Type="DomainModels.CompanyContact" Role="CompanyContact" Multiplicity="0..1" />
+          <End Type="DomainModels.Invoice" Role="Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyContact">
+              <PropertyRef Name="ContactId" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="ContactId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoice_Status">
+          <End Type="DomainModels.Status" Role="Status" Multiplicity="0..1" />
+          <End Type="DomainModels.Invoice" Role="Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusId" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="InvoiceStatus" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
