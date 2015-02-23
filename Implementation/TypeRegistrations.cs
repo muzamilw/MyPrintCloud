@@ -68,6 +68,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<IInvoiceService, InvoiceService>();
             unityContainer.RegisterType<MISInterfaces.IOrderService, MISImplementation.OrderService>();
             unityContainer.RegisterType<IStatusService, StatusService>();
+            unityContainer.RegisterType<ISmartFormService, SmartFormService>();
         }
     }
 }

@@ -54,13 +54,14 @@
         (function (b) { (function (a) { "__CF" in b && "DJS" in b.__CF ? b.__CF.DJS.push(a) : "addEventListener" in b ? b.addEventListener("load", a, !1) : b.attachEvent("onload", a) })(function () { "FB" in b && "Event" in FB && "subscribe" in FB.Event && (FB.Event.subscribe("edge.create", function (a) { _gaq.push(["_trackSocial", "facebook", "like", a]) }), FB.Event.subscribe("edge.remove", function (a) { _gaq.push(["_trackSocial", "facebook", "unlike", a]) }), FB.Event.subscribe("message.send", function (a) { _gaq.push(["_trackSocial", "facebook", "send", a]) })); "twttr" in b && "events" in twttr && "bind" in twttr.events && twttr.events.bind("tweet", function (a) { if (a) { var b; if (a.target && a.target.nodeName == "IFRAME") a: { if (a = a.target.src) { a = a.split("#")[0].match(/[^?=&]+=([^&]*)?/g); b = 0; for (var c; c = a[b]; ++b) if (c.indexOf("url") === 0) { b = unescape(c.split("=")[1]); break a } } b = void 0 } _gaq.push(["_trackSocial", "twitter", "tweet", b]) } }) }) })(window);
         /* ]]> */
     </script>
-    
-    
+
+
+
     <style>
         .trial-description {
             top: 0;
             position: fixed;
-            left:45%;
+            left: 45%;
             z-index: 10000;
             background-color: white;
             border-radius: 4px;
@@ -141,7 +142,7 @@
         </div>
 
 
-
+    </div>
 
     <header class="navbar" id="header-navbar">
 
@@ -858,7 +859,7 @@
         })($);
 
     </script>
-
+    
     @Scripts.Render("~/Bundle/BaseLibs")
     @*@Scripts.Render("~/bundles/dropzonescripts")*@
     <script src="~/Content/themes/Centaurus/js/demo-skin-changer.js"></script>
@@ -883,17 +884,17 @@
     <script src="~/Content/themes/Centaurus/js/scripts.js"></script>
     <script src="~/Content/themes/Centaurus/js/jquery.nestable.js"></script>
     <script src="~/Content/themes/Centaurus/js/jquery.nouislider.js"></script>
-    
+
     <script>
-    $(document).ready(function () {
+        $(document).ready(function () {
 
-        $("#header-logo").hide();
-        $("#make-small-nav").click(function () {
-            $("#header-logo").toggle();
-            $("#menu-logo").toggle();
+            $("#header-logo").hide();
+            $("#make-small-nav").click(function () {
+                $("#header-logo").toggle();
+                $("#menu-logo").toggle();
+            });
+
         });
-
-    });
     </script>
     <script>
         $(document).ready(function () {
@@ -1046,11 +1047,6 @@
             });
 
         });
-        //var divison = total / 2;
-
-        //document.getElementById("trial-description").style.left = divison + "px";
-
-    });
     </script>
 
     @RenderSection("scripts", required: false)
