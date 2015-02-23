@@ -77,14 +77,17 @@
                 <img data-bind="attr: { src: storeImageFileBinary }" alt="" />
             </td>
             <td>
-                <a href="~/CRM/SupplierDetail" class="user-link" data-bind="text: name"></a>
+                <a href="#" class="user-link" data-bind="text: name,click : $root.onEditItem"></a>
                 <span class="user-subhead">Supplier</span>
             </td>
-            <td data-bind="text: createdDate">
-                @*2004/01/24*@
-            </td>
+            <td data-bind="text: createdDate"></td>
             <td>
-                <span class="label label-warning">Pending</span>
+                <!-- ko if: status() == 1 -->
+                <span class="label label-success">Active</span>
+                <!-- /ko -->
+                <!-- ko if: status() != 1 -->
+                <span class="label label-danger">In-Active</span>
+                <!-- /ko -->
             </td>
             <td>
                 <a href="~/CRM/SupplierDetail">

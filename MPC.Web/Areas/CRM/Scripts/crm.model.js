@@ -3,7 +3,7 @@
 define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // #region ______________  CUSTOMER LIST VIEW MODEL   _________________
-    var customerViewListModel = function(companytId,custName, custCraetionDate, custStatus, cusStatusClass, custEmail) {
+    var customerViewListModel = function (companytId, custName, custCraetionDate, custStatus, cusStatusClass, custEmail, cusStoreImageFileBinary) {
         var
             self,
             id = ko.observable(companytId),
@@ -11,6 +11,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             creationdate = ko.observable(custCraetionDate),
             status = ko.observable(custStatus),
             statusClass = ko.observable(cusStatusClass),
+            storeImageFileBinary = ko.observable(cusStoreImageFileBinary),
             email = ko.observable(custEmail),
             // Errors
             errors = ko.validation.group({
@@ -40,6 +41,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             status: status,
             statusClass:statusClass,
             email: email,
+            storeImageFileBinary: storeImageFileBinary,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -65,7 +67,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.DateCreted,
             source.Status,
             statusClass,
-            source.Email
+            source.Email,
+            source.ImageSource
         );
         return customer;
     };
@@ -176,14 +179,23 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
         //}
+        if (source.IsCustomer == 0) {
+            crmSupplierListViewModel.type("Prospect");
+        }
         if (source.IsCustomer == 1) {
-            crmSupplierListViewModel.type("Retail Customer");
+            crmSupplierListViewModel.type("Customer");
+        }
+        if (source.IsCustomer == 2) {
+            crmSupplierListViewModel.type("Supplier");
+        }
+        if (source.IsCustomer == 3) {
+            crmSupplierListViewModel.type(" Corporate Store");
         }
             //else if (source.IsCustomer == 2) {
             //    store.type("Prospect");
             //}
-        else if (source.IsCustomer == 3) {
-            crmSupplierListViewModel.type("Corporate");
+        else if (source.IsCustomer == 4) {
+            crmSupplierListViewModel.type("Retail Store");
         }
 
         return crmSupplierListViewModel;
@@ -1356,18 +1368,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 _.each(source.companyTerritories(), function (item) {
                     result.CompanyTerritories.push(item.convertToServerData());
                 });
-                result.CompanyCmykColors = [];
-                _.each(source.companyCMYKColors(), function (item) {
-                    result.CompanyCmykColors.push(item.convertToServerData());
-                });
+               
                 result.CompanyDomains = [];
                 _.each(source.companyDomains(), function (item) {
                     result.CompanyDomains.push(item.convertToServerData());
                 });
-                result.CompanyCostCenters = [];
-                _.each(source.companyCostCenters(), function (item) {
-                    result.CompanyCostCenters.push(item.convertToServerData());
-                });
+                //result.CompanyCostCenters = [];
+                //_.each(source.companyCostCenters(), function (item) {
+                //    result.CompanyCostCenters.push(item.convertToServerData());
+                //});
                 //_.each(source.users(), function (item) {
                 //    result.CompanyContacts.push(item.convertToServerData());
                 //});
@@ -1607,12 +1616,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.StoreImagePath
         );
 
-        if (source.IsCustomer == 4) {
-            store.type("4");
+        if (source.IsCustomer == 0) {
+            store.type("0");
         }
 
-        else if (source.IsCustomer == 3) {
-            store.type("3");
+        else if (source.IsCustomer == 1) {
+            store.type("1");
         }
         _.each(source.Addresses, function (item) {
             store.addresses.push(Address.Create(item));

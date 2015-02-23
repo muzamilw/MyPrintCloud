@@ -3429,6 +3429,7 @@ define("stores/stores.viewModel",
                         fieldVariablesOfContactType.removeAll();
                         filteredCompanyBanners.removeAll();
                         companyBannerSetList.removeAll();
+                        companyTerritoryPager().totalCount(0);
                     },
                     //#endregion
                     //#endregion
