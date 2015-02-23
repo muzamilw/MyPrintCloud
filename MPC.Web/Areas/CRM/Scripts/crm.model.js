@@ -214,10 +214,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             addressId = ko.observable(specifiedAddressId),
             companyId = ko.observable(specifiedCompanyId),
             addressName = ko.observable(specifiedAddressName).extend({ required: true }),
-            address1 = ko.observable(specifiedAddress1),
+            address1 = ko.observable(specifiedAddress1).extend({ required: true }),
             address2 = ko.observable(specifiedAddress2),
             address3 = ko.observable(specifiedAddress3),
-            city = ko.observable(specifiedCity),
+            city = ko.observable(specifiedCity).extend({ required: true }),
             state = ko.observable(specifiedState),
             country = ko.observable(specifiedCountry),
             stateName = ko.observable(specifiedStateName),
@@ -247,7 +247,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Errors
             errors = ko.validation.group({
                 addressName: addressName,
-                territoryId: territoryId
+                territoryId: territoryId,
+                address1: address1,
+                city: city
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -447,7 +449,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     };
     // #endregion ______________  A D D R E S S   _________________
 
-    // #region ________________COMPANY CONTACT ____________________________
+    // #region ________________C O M P A N Y   C O N T A C T ___________________
 
     // ReSharper disable once InconsistentNaming
     // ReSharper restore InconsistentNaming
@@ -490,7 +492,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             homeCountry = ko.observable(specifiedHomeCountry),
             secretQuestion = ko.observable(specifiedSecretQuestion),
             secretAnswer = ko.observable(specifiedSecretAnswer),
-            password = ko.observable(specifiedPassword),
+            password = ko.observable(specifiedPassword).extend({ required: true }),
             uRL = ko.observable(specifiedURL),
             isEmailSubscription = ko.observable(specifiedIsEmailSubscription),
             isNewsLetterSubscription = ko.observable(specifiedIsNewsLetterSubscription),
@@ -553,13 +555,16 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             bussinessAddress = ko.observable(),
             shippingAddress = ko.observable(),
             stateName = ko.observable(),
-
+            companyContactVariables = ko.observableArray([]),
+            confirmPassword = ko.observable().extend({ compareWith: password }),
 
             // Errors
             errors = ko.validation.group({
                 firstName: firstName,
                 email: email,
-                bussinessAddressId: bussinessAddressId
+                bussinessAddressId: bussinessAddressId,
+                password: password,
+                confirmPassword: confirmPassword
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -746,6 +751,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     OrganisationId: organisationId(),
                     BussinessAddressId: bussinessAddressId(),
                     FileName: fileName(),
+                    CompanyContactVariables: []
                     //BussinessAddress: bussinessAddress() != undefined ? bussinessAddress().convertToServerData(): null,
                     //ShippingAddress: shippingAddress() != undefined ? shippingAddress().convertToServerData() : null,
                 };
@@ -839,11 +845,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             canPlaceDirectOrder: canPlaceDirectOrder,
             organisationId: organisationId,
             bussinessAddressId: bussinessAddressId,
+            confirmPassword: confirmPassword,
             roleName: roleName,
             fileName: fileName,
             bussinessAddress: bussinessAddress,
             shippingAddress: shippingAddress,
             stateName: stateName,
+            companyContactVariables: companyContactVariables,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,

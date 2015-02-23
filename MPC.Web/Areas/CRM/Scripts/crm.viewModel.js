@@ -1238,6 +1238,7 @@ define("crm/crm.viewModel",
                 //#region ___________ UTILITY FUNCTIONS ______
 
                 onCreateNewStore = function () {
+                    resetObservableArrays();
                     var store = new model.Store();
                     selectedStore(store);
                     if (isProspectOrCustomerScreen()) {
@@ -1282,6 +1283,7 @@ define("crm/crm.viewModel",
                         success: function (data) {
                             //selectedStore(model.Store());
                             if (data != null) {
+                                selectedStore().addresses.removeAll();
                                 selectedStore(model.Store.Create(data.Company));
 
                                 addressPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().addresses, searchAddress));
@@ -1509,7 +1511,7 @@ define("crm/crm.viewModel",
                         dataservice.saveStore(
                             storeToSave, {
                                 success: function (data) {
-                                    //#region new store adding for supplier
+                                    //#region new store adding for Customer/Prospect
                                     if (selectedStore().companyId() == undefined && selectedStore().type() == 0) {
                                         selectedStore().companyId(data.CompanyId);
                                         // ReSharper disable once InconsistentNaming
@@ -1519,6 +1521,7 @@ define("crm/crm.viewModel",
                                         tempCustomerListView.creationdate(data.CompanyId);
                                         tempCustomerListView.status(data.Status);
                                         tempCustomerListView.statusClass(data.CompanyId);
+                                        tempCustomerListView.storeImageFileBinary(data.ImageSource);
                                         //if (source.Status == "Inactive")
                                         //    tempCustomerListView.statusClass('label label-danger');
                                         //if (source.Status == "Active")
@@ -1532,29 +1535,30 @@ define("crm/crm.viewModel",
                                     }
 
 
-                                    if (customersForListView() && customersForListView().id() == selectedStore().companyId()) {
-                                        _.each(customersForListView(), function(store) {
-                                            if (store.companyId() == selectedStore().companyId()) {
-                                                store.name(selectedStore().name());
-                                                //store.creationdate(selectedStore().creationdate());
-                                                //store.status(selectedStore().status());
-                                                //if (selectedStore().type() == "0") {
-                                                //    store.type("Prospect");
-                                                //} else if (selectedStore().type() == "2") {
-                                                //    store.type("Supplier");
-                                                //}
-                                            }
-                                        });
-                                    }
+                                    //if (customersForListView() && customersForListView().id() == selectedStore().companyId()) {
+                                    //    _.each(customersForListView(), function(store) {
+                                    //        if (store.companyId() == selectedStore().companyId()) {
+                                    //            store.name(selectedStore().name());
+                                    //            //store.creationdate(selectedStore().creationdate());
+                                    //            //store.status(selectedStore().status());
+                                    //            //if (selectedStore().type() == "0") {
+                                    //            //    store.type("Prospect");
+                                    //            //} else if (selectedStore().type() == "2") {
+                                    //            //    store.type("Supplier");
+                                    //            //}
+                                    //        }
+                                    //    });
+                                    //}
                                     //#endregion
                                     //#region new store adding for supplier
-                                    if (selectedStore().companyId() == undefined && selectedStore().type() == 0) {
+                                    if (selectedStore().companyId() == undefined && selectedStore().type() == 2) {
                                         selectedStore().companyId(data.CompanyId);
                                         // ReSharper disable once InconsistentNaming
                                         var tempItem = new model.CrmSupplierListViewModel();
                                         tempItem.companyId(data.CompanyId);
                                         tempItem.name(data.Name);
                                         tempItem.status(data.Status);
+                                        tempItem.storeImageFileBinary(data.ImageSource);
                                         suppliers.splice(0, 0, tempItem);
                                     }
                                     //#endregion
@@ -1576,7 +1580,7 @@ define("crm/crm.viewModel",
 
                 resetObservableArrays = function () {
                     companyTerritoryCounter = -1,
-                    selectedStore().addresses.removeAll();
+                    //selectedStore().addresses.removeAll();
                     newAddresses.removeAll();
                     newCompanyTerritories.removeAll();
                     newCompanyContacts.removeAll();

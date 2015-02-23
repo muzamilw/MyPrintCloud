@@ -1,4 +1,6 @@
-﻿using MPC.MIS.Areas.Api.Models;
+﻿using System.IO;
+using System.Web;
+using MPC.MIS.Areas.Api.Models;
 using Company = MPC.Models.DomainModels.Company;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
@@ -32,13 +34,20 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static CustomerListViewModel CreateFromCustomer(this Company source)
         {
+            byte[] bytes = null;
+            string imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
+            if (source.Image != null && File.Exists(imagePath))
+            {
+                bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
+            }
             return new CustomerListViewModel
             {
                 CustomerName = source.Name,
                 DateCreted = source.CreationDate,
                 Email = source.MarketingBriefRecipient,
                 Status = GetCustomerStatus(source.Status),
-                CompnayId = source.CompanyId
+                CompnayId = source.CompanyId,
+                Image = bytes
             };
         }
         #endregion

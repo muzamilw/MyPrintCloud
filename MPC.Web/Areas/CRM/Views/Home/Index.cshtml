@@ -34,18 +34,23 @@
                             <table class="table user-list">
                                 <thead>
                                     <tr>
-                                        <th><span>Company</span></th>
-                                        <th><span>Created</span></th>
-                                        <th class="text-center"><span>Status</span></th>
-                                        <th><span>Email</span></th>
-                                        <th>&nbsp;</th>
+                                        <th class="col-lg-1"></th>
+                                        <th class="col-lg-3"><span>Company</span></th>
+                                        <th class="col-lg-2"><span>Created</span></th>
+                                        <th class="col-lg-2"><span>Status</span></th>
+                                        <th class="col-lg-2"><span>Email</span></th>
+                                        <th class="col-lg-2">&nbsp;</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <!-- ko  foreach: $root.customersForListView  -->
                                     <tr data-bind="click: $root.selectStore">
                                         <td>
-                                            <img src="~/Content/themes/Centaurus/img/samples/logos/1.jpg" alt="" />
+                                            <img data-bind="attr: { src: storeImageFileBinary }" alt="" />
+                                        </td>
+                                        <td>
+                                            
                                             <a class="user-link" data-bind="text:name"></a>
                                             <span class="user-subhead"></span>
                                         </td>
