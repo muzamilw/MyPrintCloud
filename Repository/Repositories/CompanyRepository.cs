@@ -327,14 +327,13 @@ namespace MPC.Repository.Repositories
                 ObjExportOrg.CmsSkinPageWidget = db.PageWidgets.Where(c => c.CompanyId == CompanyId).ToList();
                 
 
-
                 // company cost centre
                
-                ObjExportOrg.CompanyCostCentre = db.CompanyCostCentres.ToList();
+                ObjExportOrg.CompanyCostCentre = db.CompanyCostCentres.Where(c => c.CompanyId == CompanyId).ToList();
                 
 
                // company cmyk colors
-                ObjExportOrg.CompanyCMYKColor = db.CompanyCmykColors.ToList();
+                ObjExportOrg.CompanyCMYKColor = db.CompanyCmykColors.Where(c => c.CompanyId == CompanyId).ToList();
 
 
                 return ObjExportOrg;
