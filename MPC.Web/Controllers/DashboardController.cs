@@ -8,13 +8,13 @@ using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Controllers
 {
-   //[SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewDashboard })]
+   [SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewDashboard })]
     public class DashboardController : Controller
     {
         [Dependency]
         public IClaimsSecurityService ClaimsSecurityService { get; set; }
 
-      //[SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewDashboard })]
+      [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewDashboard })]
         public ActionResult Index()
         {
             Boolean istrial = false;
