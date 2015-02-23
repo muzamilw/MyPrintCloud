@@ -69,17 +69,7 @@
         });
     </script>
 
-    <script>
-    $(document).ready(function () {
-
-        var width = $(window).width();
-        var total = width - 320;
-        var divison = total / 2;
-
-        document.getElementById("trial-description").style.left = divison + "px";
-
-    });
-    </script>
+    
     <script>
         $(document).ready(function () {
 
@@ -99,6 +89,7 @@
         .trial-description {
             top: 0;
             position: fixed;
+            left:45%;
             z-index: 10000;
             background-color: white;
             border-radius: 4px;
@@ -114,21 +105,7 @@
 </head>
 <body class="theme-red">
 
-    <div class="trial-description" id="trial-description">
-        <table style="height:70px;width:320px;">
-            <tr>
-                <td style="padding-left:10px;width:150px;">
-                    <span style="color:red;font-weight:bold;">7 Days</span>&nbsp;<span style="color:gray;">left in trial</span>
-                </td>
-                <td style="width:120px;text-align:right;padding-right:10px;">
-                    <span style="color:gray;font-size:12px;">Questions ?</span>&nbsp;<span style="color:blue;font-size:12px;">Email Us!</span>
-                    <span style="color:green;font-size:12px;font-weight:bold;">Upgrade Now</span>
-                    <br />
-                    <span style="color:orange;font-size:12px;font-weight:bold;">Book a Go to Demo</span>
-                </td>
-            </tr>
-        </table>
-    </div>
+    
 
     <header class="navbar" id="header-navbar">
 
@@ -847,6 +824,17 @@
         ist.siteUrl = '@(System.Configuration.ConfigurationManager.AppSettings["SiteURL"].ToString())';
         </text>
     }
+    </script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+
+        //var width = $(window).width();
+        //var total = width - 320;
+        //var divison = total / 2;
+
+        //document.getElementById("trial-description").style.left = divison + "px";
+
+    });
     </script>
 
 </body>

@@ -11,18 +11,18 @@
 
 @if (ViewBag.Istrial == true)
 {
-    <div>
+    <div class="trial-description" id="trial-description">
         <table style="height: 70px; width: 320px;">
             <tr>
                 <td style="padding-left: 10px; width: 150px;">
                     <span style="color: red; font-weight: bold;">@ViewBag.TrialCount Days</span>&nbsp;<span style="color: gray;">left in trial</span>
                 </td>
                 <td style="width: 120px; text-align: right; padding-right: 10px;">
-                    <span style="color: gray; font-size: 12px;">Questions ?</span>&nbsp;<span style="color: blue; font-size: 12px;">Email Us!</span>
-                    <span style="color: green; font-size: 12px; font-weight: bold;">Upgrade Now</span>
-                    <br />
-                    <span style="color: orange; font-size: 12px; font-weight: bold;">Book a Go to Demo</span>
-                </td>
+                    <span style="color: gray; font-size: 12px;">Questions ?</span>&nbsp;<a href="mailto:support@myprintcloud.com"> <span style="color: blue; font-size: 12px;">Email Us!</span></a>
+                    <a href="https://myprintcloud.com/dashboard"><span style="color: green; font-size: 12px; font-weight: bold;">Upgrade Now</span></a>
+                        <br />
+                        <span style="color: orange; font-size: 12px; font-weight: bold;">Book a Go to Demo</span>
+</td>
             </tr>
         </table>
     </div>
@@ -76,7 +76,7 @@
                 </a>
             </div>
             <div class="col-lg-3">
-                <a href="#" style="text-decoration:none">
+                <a href="http://support.myprintcloud.com" target="_blank" style="text-decoration:none">
                     <div class="main-box infographic-box" style="padding-bottom:0px;padding-left:8px;">
                         <i class="fa fa-eye yellow-bg" style="width:40px;height:40px;line-height:42px;font-size:25px;"></i>
                         <span>Log support ticket</span>
