@@ -261,6 +261,14 @@ function ShowCostCentrePopup(CostCentreQueueItems, CostCentreId, ClonedItemId, S
                     '</label></div><div class="cost-centre-right-container"><select id=dropdown' + CostCentreQueueItems[i].ID + ' class="cost-centre-dropdowns CostCentreAnswersQueue">'
                     + OptionHtml + '</select></div><br/><div class="clearBoth"></div>';
             }
+            if (CostCentreQueueItems[i].ItemType == 2) { // radio
+
+
+                innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>'
+                    + CostCentreQueueItems[i].VisualQuestion +
+                    '</label></div><div class="cost-centre-right-container"><input type="radio" checked="checked" name="Group2" id=radioNo' + CostCentreQueueItems[i].ID + ' class="cost-centre-radios CostCentreAnswersQueue" /><label for=radioNo' + CostCentreQueueItems[i].ID + ' >No</label><input type="radio" name="Group2" id=radioYes' + CostCentreQueueItems[i].ID + ' class="cost-centre-radios CostCentreAnswersQueue" /><label for=radioYes' + CostCentreQueueItems[i].ID + ' >Yes</label>' +
+                    '</div><br/><div class="clearBoth"></div>';
+            }
             if (CostCentreQueueItems[i].ItemType == 4) { // formula matrix
 
                 if (idsToValidate == "") {

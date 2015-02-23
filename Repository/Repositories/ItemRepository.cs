@@ -1657,6 +1657,7 @@ namespace MPC.Repository.Repositories
                 //else
                 //{
                 FirstItemSection.Qty1MarkUpID = 1;
+                FirstItemSection.QuestionQueue = QuestionQueuItem;
                 //}
 
                 bool isNewSectionCostCenter = false;
