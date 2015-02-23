@@ -61,24 +61,29 @@ namespace MPC.MIS.Controllers
              */
 
             ValidationInfo validationInfo = null;
-            using (var client = new HttpClient())
-            {
+            //using (var client = new HttpClient())
+            //{
 
 
-                client.BaseAddress = new Uri(ConfigurationManager.AppSettings["MPCLoginAPIPath"]);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //    client.BaseAddress = new Uri(ConfigurationManager.AppSettings["MPCLoginAPIPath"]);
+            //    client.DefaultRequestHeaders.Accept.Clear();
+            //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                string url = "login?token=" + token;
-                string responsestr = "";
-                var response = client.GetAsync(url);
-                if (response.Result.IsSuccessStatusCode)
-                {
-                    responsestr =  response.Result.Content.ReadAsStringAsync().Result;
-                    validationInfo =  JsonConvert.DeserializeObject<ValidationInfo>(responsestr);
-                }
+            //    string url = "login?token=" + token;
+            //    string responsestr = "";
+            //    var response = client.GetAsync(url);
+            //    if (response.Result.IsSuccessStatusCode)
+            //    {
+            //        responsestr =  response.Result.Content.ReadAsStringAsync().Result;
+            //        validationInfo =  JsonConvert.DeserializeObject<ValidationInfo>(responsestr);
+            //    }
                
-            }
+            //}
+            validationInfo = new ValidationInfo();
+            validationInfo.CustomerID = "1";
+            validationInfo.Email = "msarosh@live.com";
+            validationInfo.IsTrial = true;
+            validationInfo.TrialCount = 9;
 
             long organisationId = 0; //Request.QueryString["OrganisationId"];
             string userId = ""; //Request.QueryString["UserId"];

@@ -60,6 +60,8 @@
         $(document).ready(function ()
         {
           
+           
+
             $("#header-logo").hide();
             $("#make-small-nav").click(function ()
             {
@@ -71,19 +73,13 @@
     </script>
     <script>
     $(document).ready(function ()
-     {
+    {
+        $(window).width("78%");
+
         var width = $(window).width();
         var totalwidth = width - 400;
         var divisonwidth = totalwidth / 2;
 
-        $("#myprintcloud-help").popover(
-        {
-
-            placement:'right'
-
-        });
-
-    
         document.getElementById("myprintcloud-help").style.left = divisonwidth + "px";
         $("#myprintcloud-help").animate({ "top": "-=250" }, 200).delay(500);
         $("#myprintcloud-help").animate({ "top": "+=370" }, 200);
@@ -117,6 +113,8 @@
                 $(".disabled-div").css("display", "none");
                
                 $('body').css('overflow', 'visible');
+                $('body').css('zoom', '100%');
+
 
             });
         });
@@ -125,9 +123,12 @@
         $(document).ready(function ()
         {
             var i = 0;
-            var proceeding = ["MyPRINTCloud","Dashboard", "Stores", "CRM", "Products","Estimating","OrderPurchasing"];
+            var proceeding = ["manage PRINTCloud","Add more Products", "Add more Stores", "Estimates & JobCards", "System Settings","Your Account Area","You've got the Basics..."];
+            var proceddingheadertext=["This is your Dashboard","Product is an item that appears on your website or estimating module","A store a Webiste with own URL Link","Create accurate estimates for simple digital products to complex multi page brouchers ...","Set Your Regional Details,Create Presses and configure your delivery method cost centers","From Here you can access","Would you like to do Next ?"]
+            var proceddingdetails = ["Create Products , Web Stores , Estimates ...", "Create products with require templates to personlized or just of the shlef Finished Goods", "Create Website at attract new ivsitors \n or \n Create private website for larger customers who have specific online needs", "", "", "Self Placed Tutorials \n Join us in Regular webinars \n Contact our Suppert Desk \n Upgrade/dongrade your and cancel your Account", ""]
+
             $("#btnPreviousHelp").hide();
-            $("#btnCloseHelp").hide();
+           
 
             $("#btnNextHelp").click(function ()
             {
@@ -151,8 +152,12 @@
                 {
                     left = left + 240;
 
-                    $("#myprintcloud-help").animate({ "top": "-=-40", "left": "+=" + left }, 100);
+                    $("#myprintcloud-help").animate({ "top": "-=-150", "left": "+=" + left }, 100);
+
                     $(".help-header").text(proceeding[1]);
+                    $(".help-header-description").text(proceddingheadertext[1]);
+                    $(".help-details").text(proceddingdetails[1]);
+
                     $("#myprintcloud-help").addClass("myprintcloud-help-arrow");
                   
                     $("#btnPreviousHelp").show();
@@ -163,8 +168,12 @@
                 {
 
                     left = left + 240;
-                    $("#myprintcloud-help").animate({ "top": "-=-40", "left": "+=" + left }, 100);
+                    $("#myprintcloud-help").animate({ "top": "-=-350", "left": "+=" + left }, 100);
+
                     $(".help-header").text(proceeding[i]);
+                    $(".help-header-description").text(proceddingheadertext[i]);
+                    $(".help-details").text(proceddingdetails[i]);
+
                     $("#btnPreviousHelp").show();
                 }
 
@@ -209,20 +218,25 @@
                     document.getElementById("myprintcloud-help").style.top = "120px";
 
                     $(".help-header").text(proceeding[0]);
+                    $(".help-header-description").text(proceddingheadertext[0]);
+                    $(".help-details").text(proceddingdetails[0]);
 
                     $("#btnPreviousHelp").hide();
                     $("#btnNextHelp").show();
                     $("#myprintcloud-help").removeClass("myprintcloud-help-arrow");
-                    $("#btnCloseHelp").hide();
+                   
 
 
                 }
                 if((i != 0) && (i != 6))
                 {
                     left = left + 240;
-                    $("#myprintcloud-help").animate({ "top": "-=40", "left": "+=" + left }, 100);
+                    $("#myprintcloud-help").animate({ "top": "-=200", "left": "+=" + left }, 100);
+
                     $(".help-header").text(proceeding[i]);
-                    $("#btnCloseHelp").hide();
+                    $(".help-header-description").text(proceddingheadertext[i]);
+                    $(".help-details").text(proceddingdetails[i]);
+                    
                     $("#btnNextHelp").show();
                 }
 
@@ -251,8 +265,8 @@
             position:fixed;
             text-align:center;
             background-color:white;
-            width:400px;
-            height:235px;
+            width:350px;
+           
             border:1px solid #dedede;
             border-radius:7px;
             font-family:Arial;
@@ -260,12 +274,7 @@
             padding-top:20px;
             z-index:129000;
         }
-        .Submenu-Dashborad
-        {
-            
-            position:absolute;
-            z-index:129000;
-        }
+        
        
         .disabled-div 
         {
@@ -280,22 +289,79 @@
             opacity: 0.8;
         }
     
-         .myprintcloud-help-arrow:after
+         .right-arrow
          { 
             content:"";
             position:absolute;
             height:0;
             width:0;
-            right:100%;
-            top:20px;
-            border:20px solid transparent;
-            border-right: 20px solid white;
+            right:102%;
+            
+            top:30%;
+            border:40px solid transparent;
+            border-right: 15px solid white;
+            
+           
          }
-        
+         
+          .left-arrow
+         { 
+            content:"";
+            position:absolute;
+            height:0;
+            width:0;
+            left:102%;
+            
+            top:30%;
+            border:40px solid transparent;
+            border-left: 15px solid white;
+            
+           
+         }
+         .bottom-arrow
+         { 
+            content:"";
+            position:absolute;
+            height:0;
+            width:0;
+            top:102%;
+            left:40%;
+           
+            border:40px solid transparent;
+            border-top: 15px solid white;
+            
+           
+         }
+         .top-arrow
+         { 
+            content:"";
+            position:absolute;
+            height:0;
+            width:0;
+            bottom:102%;
+            left:40%;
+           
+            border:40px solid transparent;
+            border-bottom: 15px solid white;
+            
+           
+         }
+
+        .help-divs 
+        {
+           border-bottom:1px solid #dedede;
+           margin-bottom:10px;
+           padding-left:10px;
+           padding-right:10px;
+           padding-bottom:10px;
+        }
+         
         body
         {
-            /*position:fixed;*/
+            
+            zoom:80%;
             overflow:hidden;
+            height:100%;
         }
 
 
@@ -310,13 +376,23 @@
 <body class="theme-red">
 
     <div class="myprintcloud-help" id="myprintcloud-help">
-     
-            <h1 class="help-header">MyPRINTCloud</h1>
-            <hr />
-            <span>this is your MyPRINTCloud Help platform</span>
-            <br />
-            <span>Get Help by Clicking Next Button</span>
-            <hr />
+    <div class="left-arrow"></div>
+        <div class="right-arrow"></div>
+        <div class="top-arrow"></div>
+        <div class="bottom-arrow"></div>
+        <div>
+
+        </div>
+        <div class="help-divs">
+            <h1 class="help-header">Manage PRINTCloud</h1>
+        </div>
+
+        <div style="padding-left:10px;padding-right:10px;">
+            <span class="help-header-description">this is your Dashboard</span>
+        </div>
+        <div class="help-divs">
+            <span class="help-details">Create Products , Web Stores , Estimates ...</span>
+        </div>
             <div class="input-group" style="width:100%;display:inline;">
                 <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="btnCloseHelp">Close</button>
             </div>
