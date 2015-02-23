@@ -67,6 +67,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<IOrderForCrmService, OrderForCrmService>();
             unityContainer.RegisterType<MISInterfaces.IOrderService, MISImplementation.OrderService>();
             unityContainer.RegisterType<IStatusService, StatusService>();
+            unityContainer.RegisterType<ISmartFormService, SmartFormService>();
         }
     }
 }
