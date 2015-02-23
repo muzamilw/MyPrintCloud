@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets7BE28BAB2730BAE6491991DC20647B58C7CCBBB9DF84F1BABFAF92A77AF2A0A0))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsFCA388AACFA83561FBCB4CF99BCF60B3906D573AF98166A0C949F0188B565551))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets7BE28BAB2730BAE6491991DC20647B58C7CCBBB9DF84F1BABFAF92A77AF2A0A0 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsFCA388AACFA83561FBCB4CF99BCF60B3906D573AF98166A0C949F0188B565551 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets7BE28BAB2730BAE6491991DC20647B58C7CCBBB9DF84F1BABFAF92A77AF2A0A0()
+        public ViewsForBaseEntitySetsFCA388AACFA83561FBCB4CF99BCF60B3906D573AF98166A0C949F0188B565551()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "a56f929d5a3346dae7070856afe652358d143498c399321fe7c32c33d25d03e2";
-            this.HashOverAllExtentViews = "a3821648287345bff92a163e72106a86efe21670e4b8bb69d54cb7cacbdb1b0f";
+            this.HashOverMappingClosure = "d8ec46c4dd7a166c9fda4ea64d02cffff5b8384c1c355ce0a427509c63d12226";
+            this.HashOverAllExtentViews = "aaec77c8eb55f2afbfd5b63a344fcdbab3722a5079538ad2e0bf1571da5dfb7d";
             this.ViewCount = 286;
         }
         
@@ -9916,7 +9916,7 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CostCentreMatrix", @"
     SELECT VALUE -- Constructing CostCentreMatrix
-        [DomainModels.Store.CostCentreMatrix](T1.CostCentreMatrix_MatrixId, T1.CostCentreMatrix_Name, T1.CostCentreMatrix_Description, T1.CostCentreMatrix_RowsCount, T1.CostCentreMatrix_ColumnsCount, T1.CostCentreMatrix_CompanyId, T1.CostCentreMatrix_SystemSiteId)
+        [DomainModels.Store.CostCentreMatrix](T1.CostCentreMatrix_MatrixId, T1.CostCentreMatrix_Name, T1.CostCentreMatrix_Description, T1.CostCentreMatrix_RowsCount, T1.CostCentreMatrix_ColumnsCount, T1.CostCentreMatrix_OrganisationId, T1.CostCentreMatrix_SystemSiteId)
     FROM (
         SELECT 
             T.MatrixId AS CostCentreMatrix_MatrixId, 
@@ -9924,7 +9924,7 @@ namespace Edm_EntityMappingGeneratedViews
             T.Description AS CostCentreMatrix_Description, 
             T.RowsCount AS CostCentreMatrix_RowsCount, 
             T.ColumnsCount AS CostCentreMatrix_ColumnsCount, 
-            T.CompanyId AS CostCentreMatrix_CompanyId, 
+            T.OrganisationId AS CostCentreMatrix_OrganisationId, 
             T.SystemSiteId AS CostCentreMatrix_SystemSiteId, 
             True AS _from0
         FROM BaseDbContext.CostCentreMatrices AS T
@@ -9938,7 +9938,7 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CostCentreMatrices", @"
     SELECT VALUE -- Constructing CostCentreMatrices
-        [DomainModels.CostCentreMatrix](T1.CostCentreMatrix_MatrixId, T1.CostCentreMatrix_Name, T1.CostCentreMatrix_Description, T1.CostCentreMatrix_RowsCount, T1.CostCentreMatrix_ColumnsCount, T1.CostCentreMatrix_CompanyId, T1.CostCentreMatrix_SystemSiteId)
+        [DomainModels.CostCentreMatrix](T1.CostCentreMatrix_MatrixId, T1.CostCentreMatrix_Name, T1.CostCentreMatrix_Description, T1.CostCentreMatrix_RowsCount, T1.CostCentreMatrix_ColumnsCount, T1.CostCentreMatrix_SystemSiteId, T1.CostCentreMatrix_OrganisationId)
     FROM (
         SELECT 
             T.MatrixId AS CostCentreMatrix_MatrixId, 
@@ -9946,8 +9946,8 @@ namespace Edm_EntityMappingGeneratedViews
             T.Description AS CostCentreMatrix_Description, 
             T.RowsCount AS CostCentreMatrix_RowsCount, 
             T.ColumnsCount AS CostCentreMatrix_ColumnsCount, 
-            T.CompanyId AS CostCentreMatrix_CompanyId, 
             T.SystemSiteId AS CostCentreMatrix_SystemSiteId, 
+            T.OrganisationId AS CostCentreMatrix_OrganisationId, 
             True AS _from0
         FROM DomainModelsStoreContainer.CostCentreMatrix AS T
     ) AS T1");
