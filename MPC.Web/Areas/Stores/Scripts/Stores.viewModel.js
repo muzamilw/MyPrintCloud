@@ -2053,6 +2053,12 @@ define("stores/stores.viewModel",
                                     selectedCompanyContact().territoryId(newCompanyTerritories()[0].territoryId());
                                 }
                             }
+                            //Updating role of user as "user", if is retail store
+                            _.each(roles(), function(role) {
+                                if (role.roleName().toLowerCase() == "user") {
+                                    selectedCompanyContact().contactRoleId(role.roleId());
+                                }
+                            });
                         }
                         if (isSavingNewCompanyContact != undefined && isSavingNewCompanyContact() && selectedStore().companyId() == undefined) {
                             _.each(newCompanyTerritories(), function (territory) {

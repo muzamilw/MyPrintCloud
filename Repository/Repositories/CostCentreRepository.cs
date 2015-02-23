@@ -148,7 +148,7 @@ namespace MPC.Repository.Repositories
 
 				try
 				{
-					return db.CostCentres.Where(c => c.CostCentreId == CostCentreID).SingleOrDefault();
+                    return db.CostCentres.Include("CostcentreInstructions").Where(c => c.CostCentreId == CostCentreID).SingleOrDefault();
 
 				}
 				catch (Exception ex)
@@ -534,13 +534,14 @@ namespace MPC.Repository.Repositories
 		{
 			try
 			{
-			  //var query =  (from ccType in db.CostCentreTypes
-			  //             join cc in db.CostCentres on ccType.TypeId equals cc.Type  
-			  //             join Org in db.Organisations on cc.OrganisationId equals Org.OrganisationId
-			  //             where ((ccType.IsExternal ==  1 && ccType.IsSystem == 0 && cc.CompleteCode != null) 
-			  //             && Org.OrganisationId == OrganisationId )select cc);
-						  
-			  //return query.ToList<CostCentre>();
+                var query = (from ccType in db.CostCentreTypes
+                             join cc in db.CostCentres on ccType.TypeId equals cc.Type
+                             join Org in db.Organisations on cc.OrganisationId equals Org.OrganisationId
+                             where ((ccType.IsExternal == 1 && ccType.IsSystem == 0 && cc.CompleteCode != null)
+                             && Org.OrganisationId == OrganisationId)
+                             select cc);
+
+                return query.ToList<CostCentre>();
 
 				return null;
 			}

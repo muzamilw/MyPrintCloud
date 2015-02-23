@@ -43,6 +43,11 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public virtual ICollection<Estimate> Estimates { get; set; }
 
+        /// <summary>
+        /// Invoices
+        /// </summary>
+        public virtual ICollection<Invoice> Invoices { get; set; }
+
         #endregion
     }
 }

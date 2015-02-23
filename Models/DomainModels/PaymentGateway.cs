@@ -20,8 +20,8 @@ namespace MPC.Models.DomainModels
         public string NotifyUrl { get; set; }
         public string LiveApiUrl { get; set; }
         public string TestApiUrl { get; set; }
-        public bool SendToReturnURL { get; set; }
-        public bool UseSandbox { get; set; }
+        public bool? SendToReturnURL { get; set; }
+        public bool? UseSandbox { get; set; }
 
         public virtual PaymentMethod PaymentMethod { get; set; }
 

@@ -161,6 +161,10 @@ define("order/order.viewModel",
                     saveProduct = function() {
                             
                     },
+                    // Delete Product
+                    deleteProduct = function(item) {
+                        selectedOrder().items.remove(item);
+                    },
                     // Add Section
                     addSection = function () {
                         // Open Product Selector Dialog
@@ -473,7 +477,8 @@ define("order/order.viewModel",
                     saveProduct: saveProduct,
                     addSection: addSection,
                     editSection: editSection,
-                    closeSectionDetail: closeSectionDetail
+                    closeSectionDetail: closeSectionDetail,
+                    deleteProduct: deleteProduct
                     // Utility Methods
                 };
             })()

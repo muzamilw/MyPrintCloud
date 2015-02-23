@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MPC.Models.DomainModels
 {
@@ -15,7 +12,7 @@ namespace MPC.Models.DomainModels
         public long? CompanyId { get; set; }
         public long? ContactId { get; set; }
         public string OrderNo { get; set; }
-        public int? InvoiceStatus { get; set; }
+        public short? InvoiceStatus { get; set; }
         public double? InvoiceTotal { get; set; }
         public DateTime? InvoiceDate { get; set; }
         public Guid? LastUpdatedBy { get; set; }
@@ -50,5 +47,7 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; }
         public virtual ICollection<Item> Items { get; set; }
         public virtual Company Company { get; set; }
+        public virtual CompanyContact CompanyContact { get; set; }
+        public virtual Status Status { get; set; }
     }
 }

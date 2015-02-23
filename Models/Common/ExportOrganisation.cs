@@ -96,6 +96,8 @@ namespace MPC.Models.Common
 
 
         public List<Campaign> Campaigns { get; set; }
+
+  
         
 
 
@@ -123,6 +125,36 @@ namespace MPC.Models.Common
 
         
 
+
+    }
+
+    public class ImportOrganisation
+    {
+        public long NewOrganisationID { get; set; }
+
+        public long OldOrganisationID { get; set; }
+
+        public List<long> CostCentreIDs { get; set; }
+
+        public long ReportID { get; set; }
+
+        public long NewCompanyID { get; set; }
+
+        public long OldCompanyID { get; set; }
+
+        public long ContactID { get; set; }
+
+        public long MediaLibraryID { get; set; }
+
+        public long BannerID { get; set; }
+
+        public long ProductCategoryID { get; set; }
+
+        public long ItemID { get; set; }
+
+
+
+       
 
     }
 }
