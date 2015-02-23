@@ -187,6 +187,7 @@
     <Compile Include="WebStoreServices\MyCompanyDomainService.cs" />
     <Compile Include="TypeRegistrations.cs" />
     <Compile Include="WebStoreServices\OrderService.cs" />
+    <Compile Include="WebStoreServices\SmartFormService.cs" />
     <Compile Include="WebStoreServices\StatusService.cs" />
     <Compile Include="WebStoreServices\TemplateBackgroundImagesService.cs" />
     <Compile Include="WebStoreServices\TemplateColorStylesService.cs" />
