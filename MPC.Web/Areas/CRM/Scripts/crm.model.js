@@ -1890,7 +1890,91 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         return registrationQuestion;
     };
     // #endregion __________________  R E G I S  T R A T I O N   Q U E S T I O N  ______________________
+    
+    // #region __________________  O R D E R ______________________
 
+       // ReSharper disable once UnusedLocals
+    var Estimate = function (specifiedId, specifiedCode, specifiedName, specifiedCompanyName, specifiedCreationDate,
+        specifiedFlagColor, specifiedOrderCode, specifiedStstud, specifiedestimateTotal, specifiedisDirectOrder) {
+        // ReSharper restore InconsistentNaming
+        var // Unique key
+            id = ko.observable(specifiedId || 0),
+             // Order Code
+            status = ko.observable(specifiedStstud || undefined),
+            estimateTotal = ko.observable(specifiedestimateTotal || 0),
+            isDirectOrder = ko.observable(specifiedisDirectOrder || undefined),
+            // Name
+            name = ko.observable(specifiedName || undefined).extend({ required: true }),
+            // Code
+            code = ko.observable(specifiedCode || undefined),
+            // Company Name
+            companyName = ko.observable(specifiedCompanyName || undefined),
+            creationDate = ko.observable(specifiedCreationDate || undefined),
+            flagColor = ko.observable(specifiedFlagColor || undefined),
+            orderCode = ko.observable(specifiedOrderCode || undefined),
+            isDirectSaleUi = ko.computed(function() {
+                return isDirectOrder() ? "Direct Order" : "Online Order";
+            }),
+                        // Errors
+            errors = ko.validation.group({
+                name: name,
+            }),
+            // Is Valid
+            isValid = ko.computed(function() {
+                return errors().length === 0;
+            }),
+            // Show All Error Messages
+            showAllErrors = function() {
+                // Show Item Errors
+                errors.showAllMessages();
+            },
+            // Set Validation Summary
+            setValidationSummary = function(validationSummaryList) {
+                validationSummaryList.removeAll();
+            },
+            // True if the order has been changed
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+              
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function() {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function() {
+                dirtyFlag.reset();
+            };
+
+        return {
+            id:id,
+            status:status,
+            estimateTotal:estimateTotal,
+            isDirectOrder:isDirectOrder,
+            companyName:companyName,
+            name:name,
+            code:code,
+            creationDate:creationDate,
+            flagColor:flagColor,
+            orderCode:orderCode,
+            isDirectSaleUi:isDirectSaleUi,
+            errors: errors,
+            isValid: isValid,
+            showAllErrors: showAllErrors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+            setValidationSummary: setValidationSummary,
+        };
+    };
+    // #endregion __________________  O R D E R ______________________
+
+    // Estimate Factory
+    Estimate.Create = function (source) {
+        var estimate = new Estimate(source.EstimateId, source.OrderCode, source.EstimateName, source.CompanyName,
+            source.CreationDate, source.SectionFlagId, source.OrderCode, source.Status, source.EstimateTotal+'$', source.IsDirectOrder);
+        return estimate;
+    };
 
     return {
         customerViewListModel: customerViewListModel,
@@ -1902,6 +1986,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         MediaLibrary: MediaLibrary,
         CompanyTerritory: CompanyTerritory,
         Role: Role,
-        RegistrationQuestion: RegistrationQuestion
+        RegistrationQuestion: RegistrationQuestion,
+        Estimate: Estimate
     };
 });

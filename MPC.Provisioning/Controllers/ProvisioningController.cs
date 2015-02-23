@@ -112,14 +112,14 @@ namespace MPC.Provisioning.Controllers
             //string errors = process.StandardError.ReadToEnd();
             //Assert.IsTrue(string.IsNullOrEmpty(errors));
 
-            if (output == "App Created")
+            if (output.Contains( "App Created"))
             {
                 string connectionString = ConfigurationManager.AppSettings["connectionString"];
                         
 
                 //inserting the default Organisation
                 string queryString =
-                   "INSERT INTO Organisation VALUES(" + siteOrganisationId + ",'" + ContactFullName + "',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,NULL,NULL,NULL)";
+                   "INSERT INTO Organisation (OrganisationId,OrganisationName) VALUES(" + siteOrganisationId + ",'" + ContactFullName + "')";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     // Create the Command and Parameter objects.
@@ -133,8 +133,8 @@ namespace MPC.Provisioning.Controllers
 
                         //creating default user
                         //must save the user ID as userid coming from core
-                        command.CommandText = "INSERT INTO [SystemUser] ([UserName],[OrganizationId],[FullName],[Email],[RoleId],[CostPerHour],[ReplyEmail],[IsSystemUser],[CreatedBy],[CreatedDate]";
-                        command.CommandText += "values ('" + username + "'," + siteOrganisationId + ",'" + ContactFullName + "','" + Email + "','1',0,'" + Email + "',0,'Auto Provisioned','" + DateTime.Now + "')";
+                        command.CommandText = "INSERT INTO [SystemUser] ([SystemUserId],[UserName],[OrganizationId],[FullName],[RoleId],[CostPerHour],[IsSystemUser])";
+                        command.CommandText += " values ('"+userId+"','" + username + "'," + siteOrganisationId + ",'" + ContactFullName + "','1',0,0)";
 
                         result = command.ExecuteNonQuery();
 
@@ -143,15 +143,19 @@ namespace MPC.Provisioning.Controllers
                     }
                     catch (Exception ex)
                     {
-                        throw ex;
+                        return "Please contact support@myprintcloud.com . There were errors in setting up your account : " + ex.ToString();
                     }
 
                 }
-            
+                return "true";
+            }
+            else
+            {
+                return "Please contact support@myprintcloud.com . There were errors in setting up your account : " + output;
             }
 
             
-            return output;
+           
         }
     }
 }

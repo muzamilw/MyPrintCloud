@@ -191,6 +191,7 @@
     <Compile Include="Repositories\CompanyCMYKColorRepository.cs" />
     <Compile Include="Repositories\CompanyContactRepository.cs" />
     <Compile Include="Repositories\CompanyContactRoleRepository.cs" />
+    <Compile Include="Repositories\CompanyContactVariableRepository.cs" />
     <Compile Include="Repositories\CompanyDomainRepository.cs" />
     <Compile Include="Repositories\CompanyBannerSetRepository.cs" />
     <Compile Include="Repositories\CompanyTerritoryRepository.cs" />
@@ -201,6 +202,7 @@
     <Compile Include="Repositories\CostCentreVariableRepository.cs" />
     <Compile Include="Repositories\CountryRepository.cs" />
     <Compile Include="Repositories\CurrencyRepository.cs" />
+    <Compile Include="Repositories\DeliveryCarrierRepository.cs" />
     <Compile Include="Repositories\EmailEventRepository.cs" />
     <Compile Include="Repositories\FavoriteDesignRepository.cs" />
     <Compile Include="Repositories\EstimateRepository.cs" />

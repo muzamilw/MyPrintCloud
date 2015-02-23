@@ -76,6 +76,8 @@ define("order/order.viewModel",
                     }),
                     // Selected Product
                     selectedProduct = ko.observable(),
+                    // Selected Section
+                    selectedSection = ko.observable(),
                     // #endregion
                     // #region Utility Functions
                     // Create New Order
@@ -158,6 +160,23 @@ define("order/order.viewModel",
                     // Save Product
                     saveProduct = function() {
                             
+                    },
+                    // Add Section
+                    addSection = function () {
+                        // Open Product Selector Dialog
+                    },
+                    // Edit Section
+                    editSection = function (item) {
+                        selectedSection(item);
+                        openSectionDetail();
+                    },
+                    // Open Section Detail
+                    openSectionDetail = function () {
+                        view.showSectionDetailDialog();
+                    },
+                    // Close Section Detail
+                    closeSectionDetail = function () {
+                        view.hideSectionDetailDialog();
                     },
                     // Initialize the view model
                     initialize = function (specifiedView) {
@@ -451,7 +470,10 @@ define("order/order.viewModel",
                     openItemDetail: openItemDetail,
                     addItem: addItem,
                     editItem: editItem,
-                    saveProduct: saveProduct
+                    saveProduct: saveProduct,
+                    addSection: addSection,
+                    editSection: editSection,
+                    closeSectionDetail: closeSectionDetail
                     // Utility Methods
                 };
             })()

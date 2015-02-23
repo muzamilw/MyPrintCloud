@@ -8,6 +8,11 @@ namespace MPC.Models.RequestModels
     public class GetOrdersRequest : GetPagedListRequest
     {
         /// <summary>
+        /// Company Id
+        /// </summary>
+        public int CompanyId { get; set; }
+
+        /// <summary>
         /// Order By Column for sorting
         /// </summary>
         public OrderByColumn ItemOrderBy

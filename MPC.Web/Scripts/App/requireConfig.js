@@ -4,6 +4,10 @@
     var root = this;
     var ist = window.ist;
 
+    if (!ist.siteUrl) {
+        ist.siteUrl = $("#siteUrl").val();
+    }
+    
     requirejs.config({
         baseUrl: ist.siteUrl + "/Scripts/App",
         waitSeconds: 20,

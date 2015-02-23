@@ -1,0 +1,105 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="EmptyTheme.Master.cs"
+    Inherits="Web2Print.UI.EmptyTheme" %>
+
+<%@ Register Src="../Controls/MessageBox.ascx" TagName="MessageBox" TagPrefix="uc2" %>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder ID="HeadContents" runat="server">
+    </asp:ContentPlaceHolder>
+    <script type="text/javascript" language="javascript">
+
+        function cc() {
+
+            var ssform1 = document.forms["form1"];
+            if (document.cookie == "") {
+
+                var locationObj = window.location;
+                if (locationObj.toString().indexOf("ErrorPage.aspx") == -1) {
+                    locationObj.replace("ErrorPage.aspx?ErrorMsg=Please enable browser cookies as this site uses browser cookies");
+
+                    ssform1.cookieexists.value = "false";
+                }
+
+
+            } else {
+                /* this sets the value to true and nothing else will happen,
+                the user will be able to log on*/
+                ssform1.cookieexists.value = "true";
+            }
+        }
+
+        /* Set a cookie to be sure that one exists.
+        Note that this is outside the function*/
+        document.cookie = 'killme' + escape('nothing');
+
+    </script>
+</head>
+<body class="bodycolor" onload="cc();">
+    <form id="form1" runat="server">
+    <input type="hidden" name="cookieexists" value="false" />
+         <asp:ScriptManager ID="ScriptManager1" runat="server">
+            <Scripts>
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="jquery-migrate" />
+
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" />
+            </Scripts>
+        </asp:ScriptManager>
+    <script type="text/javascript">
+        function SelectedResume() {
+            $('#<%=SaveChangesAlert.ClientID %>').css("display", "none");
+            $('.Layer').css("display", "none");
+            
+        }
+    </script>
+    <asp:UpdateProgress ID="UpdateProgressUserProfile" runat="server">
+        <ProgressTemplate>
+            <asp:Panel ID="Panel2" CssClass="loader" runat="server" Width="300px">
+                <div id="lodingDiv" class="FUPUp LCLB rounded_corners">
+                    <div style="background-color: White; height: 100px;">
+                        <br />
+                        <div id="loaderimageDiv" style="padding-top: 15px; padding-left: 40px;">
+                            <img src='<%=ResolveUrl("~/Styles/images/asdf.gif") %>' alt="" />
+                        </div>
+                        <br />
+                        <div id="lodingBar" style="text-align: center;">
+                            Loading please wait....
+                        </div>
+                    </div>
+                </div>
+            </asp:Panel>
+        </ProgressTemplate>
+    </asp:UpdateProgress>
+    <asp:UpdateProgress ID="SaveChangesAlert" runat="server">
+        <ProgressTemplate>
+            <asp:Panel ID="Panel3" CssClass="loader" runat="server" Width="400px">
+                <div id="lodingDiv" class="FUPUp LCLB rounded_corners">
+                    <div style="background-color: White; height: 125px;">
+                        <div class="Width100Percent ">
+                            <asp:Label ID="lblHeader" runat="server" CssClass="AlertTextCss">Alert!</asp:Label>
+                        </div>
+                        <br />
+                        <br />
+                        <div id="lodingBar" style="text-align: center; font-size:14px;">
+                            Please first save the changes
+                        </div>
+                        <br />
+                        <div id="loaderimageDiv" style="padding-left:160px;">
+                            <asp:Button ID="btnOkMessageBox" runat="server" Text="OK" OnClientClick="SelectedResume();  return false;"
+                                CssClass="start_creating_btn rounded_corners5" />
+                        </div>
+                        <br />
+                    </div>
+                </div>
+            </asp:Panel>
+        </ProgressTemplate>
+    </asp:UpdateProgress>
+    <asp:ContentPlaceHolder ID="cphHeader" runat="server">
+    </asp:ContentPlaceHolder>
+    <asp:ContentPlaceHolder ID="MainContent" runat="server">
+    </asp:ContentPlaceHolder>
+    </form>
+</body>
+</html>

@@ -92,7 +92,7 @@ namespace MPC.MIS.Areas.Api.Models
         public short? ClientStatus { get; set; }
         public long? RefEstimateId { get; set; }
         public string XeroAccessCode { get; set; }
-        public IEnumerable<Item> Items { get; set; }
+        public IEnumerable<OrderItem> Items { get; set; }
         public IEnumerable<PrePayment> PrePayments { get; set; }
     }
 }
