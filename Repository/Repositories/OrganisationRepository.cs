@@ -188,7 +188,7 @@ namespace MPC.Repository.Repositories
                     foreach(var matrix in objExpOrg.CostCentreMatrix)
                     {
                         matrix.MatrixId = 0;
-                        matrix.CompanyId = (int)OrganisationID;
+                        matrix.OrganisationId = (int)OrganisationID;
                         db.CostCentreMatrices.Add(matrix);
 
                         db.SaveChanges();
