@@ -121,13 +121,13 @@ define("crm/crm.viewModel",
                 //States
                 states = ko.observableArray([]),
                 //Tab User And Addressed, Addresses Section Company Territories Filter
-                    addressCompanyTerritoriesFilter = ko.observableArray([]),
-                    //Addresses to be used in store users shipping and billing address
-                    allCompanyAddressesList = ko.observableArray([]),
-                    //Filtered States
-                    filteredStates = ko.observableArray([]),
-                    // Error List
-                    errorList = ko.observableArray([]),
+                addressCompanyTerritoriesFilter = ko.observableArray([]),
+                //Addresses to be used in store users shipping and billing address
+                allCompanyAddressesList = ko.observableArray([]),
+                //Filtered States
+                filteredStates = ko.observableArray([]),
+                // Error List
+                errorList = ko.observableArray([]),
                 //#endregion
 
                 //#region ___________ LIST VIEW ______________
@@ -1243,6 +1243,7 @@ define("crm/crm.viewModel",
                 //#region ___________ UTILITY FUNCTIONS ______
 
                 onCreateNewStore = function () {
+                    resetObservableArrays();
                     var store = new model.Store();
                     selectedStore(store);
                     if (isProspectOrCustomerScreen()) {
@@ -1287,6 +1288,7 @@ define("crm/crm.viewModel",
                         success: function (data) {
                             //selectedStore(model.Store());
                             if (data != null) {
+                                selectedStore().addresses.removeAll();
                                 selectedStore(model.Store.Create(data.Company));
 
                                 addressPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().addresses, searchAddress));
@@ -1422,6 +1424,7 @@ define("crm/crm.viewModel",
                 //Do Before Save
                     doBeforeSave = function () {
                         var flag = true;
+                        errorList.removeAll();
                         if (!selectedStore().isValid()) {
                             selectedStore().errors.showAllMessages();
                             setValidationSummary(selectedStore());
@@ -1520,8 +1523,8 @@ define("crm/crm.viewModel",
                         dataservice.saveStore(
                             storeToSave, {
                                 success: function (data) {
-                                    //new store adding
-                                    if (selectedStore().companyId() == undefined || selectedStore().companyId() == 0) {
+                                    //#region new store adding for Customer/Prospect
+                                    if (selectedStore().companyId() == undefined && selectedStore().type() == 0) {
                                         selectedStore().companyId(data.CompanyId);
                                         // ReSharper disable once InconsistentNaming
                                         var tempCustomerListView = new model.customerViewListModel();
@@ -1530,6 +1533,7 @@ define("crm/crm.viewModel",
                                         tempCustomerListView.creationdate(data.CompanyId);
                                         tempCustomerListView.status(data.Status);
                                         tempCustomerListView.statusClass(data.CompanyId);
+                                        tempCustomerListView.storeImageFileBinary(data.ImageSource);
                                         //if (source.Status == "Inactive")
                                         //    tempCustomerListView.statusClass('label label-danger');
                                         //if (source.Status == "Active")
@@ -1543,20 +1547,33 @@ define("crm/crm.viewModel",
                                     }
 
 
-                                    // if (selectedStoreListView() && selectedStoreListView().companyId() == selectedStore().companyId()) {
-                                    //_.each(customersForListView(), function (store) {
-                                    //    if (store.companyId() == selectedStore().companyId()) {
-                                    //        store.name(selectedStore().name());
-                                    //        store.url(selectedStore().url());
-                                    //        store.status(selectedStore().status());
-                                    //        if (selectedStore().type() == "4") {
-                                    //            store.type("Retail Customer");
-                                    //        } else if (selectedStore().type() == "3") {
-                                    //            store.type("Corporate");
+                                    //if (customersForListView() && customersForListView().id() == selectedStore().companyId()) {
+                                    //    _.each(customersForListView(), function(store) {
+                                    //        if (store.companyId() == selectedStore().companyId()) {
+                                    //            store.name(selectedStore().name());
+                                    //            //store.creationdate(selectedStore().creationdate());
+                                    //            //store.status(selectedStore().status());
+                                    //            //if (selectedStore().type() == "0") {
+                                    //            //    store.type("Prospect");
+                                    //            //} else if (selectedStore().type() == "2") {
+                                    //            //    store.type("Supplier");
+                                    //            //}
                                     //        }
-                                    //    }
-                                    //});
-                                    // }
+                                    //    });
+                                    //}
+                                    //#endregion
+                                    //#region new store adding for supplier
+                                    if (selectedStore().companyId() == undefined && selectedStore().type() == 2) {
+                                        selectedStore().companyId(data.CompanyId);
+                                        // ReSharper disable once InconsistentNaming
+                                        var tempItem = new model.CrmSupplierListViewModel();
+                                        tempItem.companyId(data.CompanyId);
+                                        tempItem.name(data.Name);
+                                        tempItem.status(data.Status);
+                                        tempItem.storeImageFileBinary(data.ImageSource);
+                                        suppliers.splice(0, 0, tempItem);
+                                    }
+                                    //#endregion
                                     //selectedStore().storeId(data.StoreId);
                                     isEditorVisible(false);
                                     toastr.success("Successfully save.");
@@ -1575,11 +1592,18 @@ define("crm/crm.viewModel",
 
                 resetObservableArrays = function () {
                     companyTerritoryCounter = -1,
-                    selectedStore().addresses.removeAll();
+                    //selectedStore().addresses.removeAll();
                     newAddresses.removeAll();
                     newCompanyTerritories.removeAll();
                     newCompanyContacts.removeAll();
                 },
+
+                //Store Image Files Loaded Callback
+                    storeImageFilesLoadedCallback = function (file, data) {
+                        selectedStore().storeImageFileBinary(data);
+                        selectedStore().storeImageName(file.name);
+                        //selectedProductCategoryForEditting().fileType(data.imageType);
+                    },
                 //#endregion
 
                 //#region ___________ ORDERS TAB ____________
@@ -1662,6 +1686,171 @@ define("crm/crm.viewModel",
                 },
 
                 //#endregion
+
+                //#region ________ MEDIA LIBRARY___________
+
+                    //Active Media File
+                    selectedMediaFile = ko.observable(),  
+                    //Media Library Open From
+                    mediaLibraryOpenFrom = ko.observable(),
+                    mediaLibraryIdCount = ko.observable(0),
+                    //New Uploaded Media File
+                    newUploadedMediaFile = ko.observable(model.MediaLibrary()),
+                    //Media Library File Loaded Call back
+                    mediaLibraryFileLoadedCallback = function (file, data) {
+                        //Flag check, whether file is already exist in media libray
+                        var flag = true;
+                        _.each(selectedStore().mediaLibraries(), function (item) {
+                            if (item.fileSource() === data && item.fileName() === file.name) {
+                                flag = false;
+                            }
+                        });
+
+                        if (flag) {
+                            var mediaId = mediaLibraryIdCount() - 1;
+                            var mediaLibrary = model.MediaLibrary();
+                            mediaLibrary.id(mediaId);
+                            mediaLibrary.fakeId(mediaId);
+                            mediaLibrary.fileSource(data);
+                            mediaLibrary.fileName(file.name);
+                            mediaLibrary.fileType(file.type);
+                            mediaLibrary.companyId(selectedStore().companyId());
+                            newUploadedMediaFile(mediaLibrary);
+                            selectedStore().mediaLibraries.push(newUploadedMediaFile());
+                            //Last set Id
+                            mediaLibraryIdCount(mediaId);
+                        }
+                    },
+
+                    //Open Media Library From Store Background Image
+                    showMediaLibraryDialogFromStoreBackground = function () {
+                        resetMediaGallery();
+                        _.each(selectedStore().mediaLibraries(), function (item) {
+                            if (selectedStore().storeBackgroudImageImageSource() !== undefined && item.fileSource() === selectedStore().storeBackgroudImageImageSource()) {
+                                item.isSelected(true);
+                                selectedStore().storeBackgroudImageImageSource(item.fileSource());
+                            }
+                        });
+                        mediaLibraryOpenFrom("StoreBackground");
+                        showMediaLibrary();
+                    },
+                    //Open Media Library From Company Banner
+                    openMediaLibraryDialogFromCompanyBanner = function () {
+                        resetMediaGallery();
+                        _.each(selectedStore().mediaLibraries(), function (item) {
+                            if (selectedCompanyBanner().filePath() !== undefined && (item.id() === selectedCompanyBanner().filePath() || item.filePath() === selectedCompanyBanner().filePath())) {
+                                item.isSelected(true);
+                                selectedCompanyBanner().fileBinary(item.fileSource());
+                            }
+                        });
+                        mediaLibraryOpenFrom("CompanyBanner");
+                        showMediaLibrary();
+                    },
+                    //Open Media Library From Secondary Page
+                    openMediaLibraryDialogFromSecondaryPage = function () {
+                        resetMediaGallery();
+                        _.each(selectedStore().mediaLibraries(), function (item) {
+                            if (selectedSecondaryPage().pageBanner() !== undefined && (item.id() === selectedSecondaryPage().pageBanner() || item.filePath() === selectedSecondaryPage().pageBanner())) {
+                                item.isSelected(true);
+                                selectedSecondaryPage().imageSrc(item.fileSource());
+                            }
+                        });
+                        mediaLibraryOpenFrom("SecondaryPage");
+                        showMediaLibrary();
+                    },
+                    //Open Media Library From Product Category Thumbnail
+                    openMediaLibraryDialogFromProductCategoryThumbnail = function () {
+                        resetMediaGallery();
+                        _.each(selectedStore().mediaLibraries(), function (item) {
+                            if (selectedProductCategoryForEditting().thumbnailPath() !== undefined && (item.id() === selectedProductCategoryForEditting().thumbnailPath() || item.filePath() === selectedProductCategoryForEditting().thumbnailPath())) {
+                                item.isSelected(true);
+                                selectedProductCategoryForEditting().productCategoryThumbnailFileBinary(item.fileSource());
+                            }
+                        });
+                        mediaLibraryOpenFrom("ProductCategoryThumbnail");
+                        showMediaLibrary();
+                    },
+                    //Open Media Library From Product Category Banner
+                    openMediaLibraryDialogFromProductCategoryBanner = function () {
+                        resetMediaGallery();
+                        _.each(selectedStore().mediaLibraries(), function (item) {
+                            if (selectedProductCategoryForEditting().imagePath() !== undefined && (item.id() === selectedProductCategoryForEditting().imagePath() || item.filePath() === selectedProductCategoryForEditting().imagePath())) {
+                                item.isSelected(true);
+                                selectedProductCategoryForEditting().productCategoryImageFileBinary(item.fileSource());
+                            }
+                        });
+                        mediaLibraryOpenFrom("ProductCategoryBanner");
+                        showMediaLibrary();
+                    },
+                    //Hie Media Library
+                    hideMediaLibraryDialog = function () {
+                        view.hideMediaGalleryDialog();
+                    },
+
+                    //Show Media Library 
+                    showMediaLibrary = function () {
+                        view.showMediaGalleryDialog();
+                    },
+                    //select Media File
+                    selectMediaFile = function (media) {
+                        resetMediaGallery();
+                        media.isSelected(true);
+                        selectedMediaFile(media);
+                    },
+                    //Reset Media Gallery
+                    resetMediaGallery = function () {
+                        _.each(selectedStore().mediaLibraries(), function (item) {
+                            item.isSelected(false);
+                        });
+                    },
+                    //Save Media File And Close Library Dialog
+                    onSaveMedia = function () {
+                        //Open From Store backgound
+                        if (mediaLibraryOpenFrom() === "StoreBackground") {
+                            selectedStore().storeBackgroudImageImageSource(selectedMediaFile().fileSource());
+                        }
+                            //If Open From Company Banner
+                        else if (mediaLibraryOpenFrom() === "CompanyBanner") {
+                            if (selectedMediaFile().id() > 0) {
+                                selectedCompanyBanner().filePath(selectedMediaFile().filePath());
+                            } else {
+                                selectedCompanyBanner().filePath(selectedMediaFile().id());
+                            }
+                            selectedCompanyBanner().fileBinary(selectedMediaFile().fileSource());
+                            selectedCompanyBanner().imageSource(selectedMediaFile().fileSource());
+                        }
+                            //If Open From Secondary Page
+                        else if (mediaLibraryOpenFrom() === "SecondaryPage") {
+                            if (selectedMediaFile().id() > 0) {
+                                selectedSecondaryPage().pageBanner(selectedMediaFile().filePath());
+                            } else {
+                                selectedSecondaryPage().pageBanner(selectedMediaFile().id());
+                            }
+                            selectedSecondaryPage().imageSrc(selectedMediaFile().fileSource());
+                        }
+                            //If Open From Product Category Banner
+                        else if (mediaLibraryOpenFrom() === "ProductCategoryBanner") {
+                            if (selectedMediaFile().id() > 0) {
+                                selectedProductCategoryForEditting().imagePath(selectedMediaFile().filePath());
+                            } else {
+                                selectedProductCategoryForEditting().imagePath(selectedMediaFile().id());
+                            }
+                            selectedProductCategoryForEditting().productCategoryImageFileBinary(selectedMediaFile().fileSource());
+                        }
+                            //If Open From Product Category Thumbnail
+                        else if (mediaLibraryOpenFrom() === "ProductCategoryThumbnail") {
+                            if (selectedMediaFile().id() > 0) {
+                                selectedProductCategoryForEditting().thumbnailPath(selectedMediaFile().filePath());
+                            } else {
+                                selectedProductCategoryForEditting().thumbnailPath(selectedMediaFile().id());
+                            }
+                            selectedProductCategoryForEditting().productCategoryThumbnailFileBinary(selectedMediaFile().fileSource());
+                        }
+
+                        //Hide gallery
+                        hideMediaLibraryDialog();
+                    },
+                    //#endregion
 
                 //#region ____________ INITIALIZE ____________
                initialize = function (specifiedView) {
@@ -1760,6 +1949,23 @@ define("crm/crm.viewModel",
                     contactCompanyTerritoryFilter: contactCompanyTerritoryFilter,
                     addressTerritoryList: addressTerritoryList,
                     //#endregion 
+                    //#region Media Library
+                    selectedMediaFile  : selectedMediaFile  ,
+                    mediaLibraryOpenFrom : mediaLibraryOpenFrom ,
+                    mediaLibraryIdCount: mediaLibraryIdCount,
+                    newUploadedMediaFile : newUploadedMediaFile ,
+                    mediaLibraryFileLoadedCallback : mediaLibraryFileLoadedCallback ,
+                    showMediaLibraryDialogFromStoreBackground: showMediaLibraryDialogFromStoreBackground,
+                    openMediaLibraryDialogFromCompanyBanner  : openMediaLibraryDialogFromCompanyBanner  ,
+                    openMediaLibraryDialogFromSecondaryPage : openMediaLibraryDialogFromSecondaryPage ,
+                    openMediaLibraryDialogFromProductCategoryThumbnail : openMediaLibraryDialogFromProductCategoryThumbnail ,
+                    openMediaLibraryDialogFromProductCategoryBanner: openMediaLibraryDialogFromProductCategoryBanner,
+                    hideMediaLibraryDialog : hideMediaLibraryDialog ,
+                    showMediaLibrary : showMediaLibrary ,
+                    selectMediaFile : selectMediaFile ,
+                    resetMediaGallery : resetMediaGallery ,
+                    onSaveMedia: onSaveMedia,
+                     //#endregion 
                     newCompanyTerritories: newCompanyTerritories,
                     roles: roles,
                     registrationQuestions: registrationQuestions,
@@ -1786,6 +1992,7 @@ define("crm/crm.viewModel",
                     isOrderTab: isOrderTab,
                     orderPager: orderPager,
                     invoicesTabClickHandler: invoicesTabClickHandler,
+                    storeImageFilesLoadedCallback: storeImageFilesLoadedCallback,
                     isInvoiceTab: isInvoiceTab,
                     invoicePager: invoicePager,
                     invoicesList: invoicesList,

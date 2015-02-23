@@ -846,6 +846,17 @@ namespace MPC.Implementation.MISServices
                 }
                 foreach (var companyContacts in companySavingModel.NewAddedCompanyContacts)
                 {
+                    if (companyContacts.CompanyContactVariables != null)
+                    {
+                        foreach (var companyContactVariable in companyContacts.CompanyContactVariables)
+                        {
+                            FieldVariable fieldVariable = companySavingModel.Company.FieldVariables.FirstOrDefault(
+                                f => f.FakeIdVariableId == companyContactVariable.FakeVariableId);
+                            if (fieldVariable != null)
+                                companyContactVariable.VariableId = fieldVariable.VariableId;
+                        }
+                    }
+
                     companyContacts.OrganisationId = companyContactRepository.OrganisationId;
 
                     companyDbVersion.CompanyContacts.Add(companyContacts);
@@ -2126,8 +2137,9 @@ namespace MPC.Implementation.MISServices
                     foreach (var item in fieldVariable.VariableOptions)
                     {
                         //New Added
-                        if (item.VariableOptionId == 0)
+                        if (item.VariableOptionId == 0 || item.VariableOptionId < 0)
                         {
+                            item.VariableOptionId = 0;
                             fieldVariableDbVersion.VariableOptions.Add(item);
                         }
                         else
@@ -2494,6 +2506,14 @@ namespace MPC.Implementation.MISServices
         public IEnumerable<CompanyContactVariable> GetContactVariableByContactId(long contactId)
         {
             return companyContactVariableRepository.GetContactVariableByContactId(contactId);
+        }
+
+        /// <summary>
+        /// Get Field Varibale By Company ID
+        /// </summary>
+        public IEnumerable<FieldVariable> GetFieldVariableByCompanyId(long companyId)
+        {
+            return fieldVariableRepository.GetFieldVariableByCompanyId(companyId);
         }
         #endregion
 

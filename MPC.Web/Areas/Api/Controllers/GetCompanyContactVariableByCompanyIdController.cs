@@ -1,15 +1,13 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 
-
 namespace MPC.MIS.Areas.Api.Controllers
 {
-    public class GetCompanyContactVariableController : ApiController
+    public class GetCompanyContactVariableByCompanyIdController : ApiController
     {
         #region Private
 
@@ -22,7 +20,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public GetCompanyContactVariableController(ICompanyService companyService)
+        public GetCompanyContactVariableByCompanyIdController(ICompanyService companyService)
         {
             this.companyService = companyService;
         }
@@ -34,12 +32,11 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Field variables
         /// </summary>
-        public IEnumerable<CompanyContactVariable> Get([FromUri]long contactId)
+        public IEnumerable<CompanyContactVariable> Get([FromUri]long companyId)
         {
-            return companyService.GetContactVariableByContactId(contactId).Select(cv => cv.CreateFrom());
+            return companyService.GetFieldVariableByCompanyId(companyId).Select(cv => cv.CreateFromFieldVariable());
         }
 
         #endregion
-
     }
 }

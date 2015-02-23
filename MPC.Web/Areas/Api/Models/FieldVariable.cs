@@ -8,7 +8,7 @@ namespace MPC.MIS.Areas.Api.Models
     public class FieldVariable
     {
         public long VariableId { get; set; }
-        public long FakeId { get; set; }
+        public long? FakeIdVariableId { get; set; }
         public string VariableName { get; set; }
         public string VariableTag { get; set; }
         public int? VariableType { get; set; }

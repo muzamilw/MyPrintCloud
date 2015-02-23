@@ -3,7 +3,7 @@
 define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // #region ______________  CUSTOMER LIST VIEW MODEL   _________________
-    var customerViewListModel = function(companytId,custName, custCraetionDate, custStatus, cusStatusClass, custEmail) {
+    var customerViewListModel = function (companytId, custName, custCraetionDate, custStatus, cusStatusClass, custEmail, cusStoreImageFileBinary) {
         var
             self,
             id = ko.observable(companytId),
@@ -11,6 +11,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             creationdate = ko.observable(custCraetionDate),
             status = ko.observable(custStatus),
             statusClass = ko.observable(cusStatusClass),
+            storeImageFileBinary = ko.observable(cusStoreImageFileBinary),
             email = ko.observable(custEmail),
             // Errors
             errors = ko.validation.group({
@@ -40,6 +41,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             status: status,
             statusClass:statusClass,
             email: email,
+            storeImageFileBinary: storeImageFileBinary,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -65,7 +67,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.DateCreted,
             source.Status,
             statusClass,
-            source.Email
+            source.Email,
+            source.ImageSource
         );
         return customer;
     };
@@ -176,14 +179,23 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
         //}
+        if (source.IsCustomer == 0) {
+            crmSupplierListViewModel.type("Prospect");
+        }
         if (source.IsCustomer == 1) {
-            crmSupplierListViewModel.type("Retail Customer");
+            crmSupplierListViewModel.type("Customer");
+        }
+        if (source.IsCustomer == 2) {
+            crmSupplierListViewModel.type("Supplier");
+        }
+        if (source.IsCustomer == 3) {
+            crmSupplierListViewModel.type(" Corporate Store");
         }
             //else if (source.IsCustomer == 2) {
             //    store.type("Prospect");
             //}
-        else if (source.IsCustomer == 3) {
-            crmSupplierListViewModel.type("Corporate");
+        else if (source.IsCustomer == 4) {
+            crmSupplierListViewModel.type("Retail Store");
         }
 
         return crmSupplierListViewModel;
@@ -202,10 +214,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             addressId = ko.observable(specifiedAddressId),
             companyId = ko.observable(specifiedCompanyId),
             addressName = ko.observable(specifiedAddressName).extend({ required: true }),
-            address1 = ko.observable(specifiedAddress1),
+            address1 = ko.observable(specifiedAddress1).extend({ required: true }),
             address2 = ko.observable(specifiedAddress2),
             address3 = ko.observable(specifiedAddress3),
-            city = ko.observable(specifiedCity),
+            city = ko.observable(specifiedCity).extend({ required: true }),
             state = ko.observable(specifiedState),
             country = ko.observable(specifiedCountry),
             stateName = ko.observable(specifiedStateName),
@@ -235,7 +247,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Errors
             errors = ko.validation.group({
                 addressName: addressName,
-                territoryId: territoryId
+                territoryId: territoryId,
+                address1: address1,
+                city: city
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -435,7 +449,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     };
     // #endregion ______________  A D D R E S S   _________________
 
-    // #region ________________COMPANY CONTACT ____________________________
+    // #region ________________C O M P A N Y   C O N T A C T ___________________
 
     // ReSharper disable once InconsistentNaming
     // ReSharper restore InconsistentNaming
@@ -478,7 +492,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             homeCountry = ko.observable(specifiedHomeCountry),
             secretQuestion = ko.observable(specifiedSecretQuestion),
             secretAnswer = ko.observable(specifiedSecretAnswer),
-            password = ko.observable(specifiedPassword),
+            password = ko.observable(specifiedPassword).extend({ required: true }),
             uRL = ko.observable(specifiedURL),
             isEmailSubscription = ko.observable(specifiedIsEmailSubscription),
             isNewsLetterSubscription = ko.observable(specifiedIsNewsLetterSubscription),
@@ -541,13 +555,16 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             bussinessAddress = ko.observable(),
             shippingAddress = ko.observable(),
             stateName = ko.observable(),
-
+            companyContactVariables = ko.observableArray([]),
+            confirmPassword = ko.observable().extend({ compareWith: password }),
 
             // Errors
             errors = ko.validation.group({
                 firstName: firstName,
                 email: email,
-                bussinessAddressId: bussinessAddressId
+                bussinessAddressId: bussinessAddressId,
+                password: password,
+                confirmPassword: confirmPassword
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -734,6 +751,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     OrganisationId: organisationId(),
                     BussinessAddressId: bussinessAddressId(),
                     FileName: fileName(),
+                    CompanyContactVariables: []
                     //BussinessAddress: bussinessAddress() != undefined ? bussinessAddress().convertToServerData(): null,
                     //ShippingAddress: shippingAddress() != undefined ? shippingAddress().convertToServerData() : null,
                 };
@@ -827,11 +845,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             canPlaceDirectOrder: canPlaceDirectOrder,
             organisationId: organisationId,
             bussinessAddressId: bussinessAddressId,
+            confirmPassword: confirmPassword,
             roleName: roleName,
             fileName: fileName,
             bussinessAddress: bussinessAddress,
             shippingAddress: shippingAddress,
             stateName: stateName,
+            companyContactVariables: companyContactVariables,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1356,18 +1376,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 _.each(source.companyTerritories(), function (item) {
                     result.CompanyTerritories.push(item.convertToServerData());
                 });
-                result.CompanyCmykColors = [];
-                _.each(source.companyCMYKColors(), function (item) {
-                    result.CompanyCmykColors.push(item.convertToServerData());
-                });
+               
                 result.CompanyDomains = [];
                 _.each(source.companyDomains(), function (item) {
                     result.CompanyDomains.push(item.convertToServerData());
                 });
-                result.CompanyCostCenters = [];
-                _.each(source.companyCostCenters(), function (item) {
-                    result.CompanyCostCenters.push(item.convertToServerData());
-                });
+                //result.CompanyCostCenters = [];
+                //_.each(source.companyCostCenters(), function (item) {
+                //    result.CompanyCostCenters.push(item.convertToServerData());
+                //});
                 //_.each(source.users(), function (item) {
                 //    result.CompanyContacts.push(item.convertToServerData());
                 //});
@@ -1607,12 +1624,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.StoreImagePath
         );
 
-        if (source.IsCustomer == 4) {
-            store.type("4");
+        if (source.IsCustomer == 0) {
+            store.type("0");
         }
 
-        else if (source.IsCustomer == 3) {
-            store.type("3");
+        else if (source.IsCustomer == 1) {
+            store.type("1");
         }
         _.each(source.Addresses, function (item) {
             store.addresses.push(Address.Create(item));

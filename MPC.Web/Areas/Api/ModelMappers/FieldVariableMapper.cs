@@ -42,7 +42,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 VariableId = source.VariableId,
                 CompanyId = source.CompanyId,
                 InputMask = source.InputMask,
-                FakeId = source.FakeId,
+                FakeIdVariableId = source.FakeIdVariableId,
                 VariableName = source.VariableName != null ? source.VariableName.Trim() : null,
                 DefaultValue = source.DefaultValue,
                 Scope = source.Scope,
@@ -80,7 +80,23 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             };
         }
 
+        /// <summary>
+        /// Create From Domain Model
+        /// </summary>
+        public static CompanyContactVariable CreateFromFieldVariable(this DomainModels.FieldVariable source)
+        {
+            return new CompanyContactVariable
+            {
 
+                ContactVariableId = 0,
+                ContactId = 0,
+                VariableId = source.VariableId,
+                Value = source.DefaultValue,
+                Type = source.VariableType,
+                Title = source.VariableTitle,
+                VariableOptions = source.VariableOptions != null ? source.VariableOptions.Select(vo => vo.CreateFrom()).ToList() : null
+            };
+        }
         #endregion
 
         #region Private
