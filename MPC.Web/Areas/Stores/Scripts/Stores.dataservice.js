@@ -49,6 +49,12 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to Get Cmpany Contact Varibable ByContact  Id
+                    amplify.request.define('getCmpanyContactVaribableByContactId', 'ajax', {
+                        url: ist.siteUrl + '/Api/GetCompanyContactVariable',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to get Field Variables By CompanyId
                     amplify.request.define('getFieldVariablesByCompanyId', 'ajax', {
                         url: ist.siteUrl + '/Api/FieldVariable',
@@ -228,6 +234,16 @@
                 initialize();
                 return amplify.request({
                     resourceId: 'getStores',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            //Get Cmpany Contact Varibable By Contact Id
+            getCmpanyContactVaribableByContactId = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getCmpanyContactVaribableByContactId',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
@@ -518,6 +534,7 @@
             deleteCompanyContact: deleteCompanyContact,
             saveFieldVariable: saveFieldVariable,
             getFieldVariableDetailById: getFieldVariableDetailById,
+            getCmpanyContactVaribableByContactId: getCmpanyContactVaribableByContactId,
         };
     })();
 

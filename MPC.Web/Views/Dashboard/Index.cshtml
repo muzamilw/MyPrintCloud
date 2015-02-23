@@ -5,6 +5,20 @@
 @section leftmenue {
    
 }
+
+<style>      
+.trial-description
+        {
+            top: 0;
+            position: fixed;
+            z-index: 10000;
+            background-color: white;
+            border-radius: 4px;
+            -webkit-box-shadow: 0px 0px 8px 2px gray;
+            -moz-box-shadow: 0px 0px 8px 2px gray;
+            box-shadow: 0px 0px 8px 2px gray;
+        }
+</style>   
         
 
    
@@ -27,7 +41,7 @@
         </table>
     </div>
 }
-<div class="row" id="dashboardBindingRoot">
+<div class="row" id="dashboardBindingRoot" style="z-index:0;">
     <div class="col-lg-12">
         <div class="row">
             <div class="col-lg-12">
@@ -901,6 +915,9 @@
         </div>
     </div>
 </div>
+
+
+
 @section Scripts {
 
     <script>

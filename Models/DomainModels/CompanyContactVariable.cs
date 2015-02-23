@@ -9,6 +9,7 @@
         public long ContactId { get; set; }
         public long VariableId { get; set; }
         public string Value { get; set; }
+        public virtual FieldVariable FieldVariable { get; set; }
         public virtual CompanyContact CompanyContact { get; set; }
     }
 }

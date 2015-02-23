@@ -121,7 +121,7 @@ define("stores/stores.viewModel",
                     //#region _________C O M P A N Y   D O M A I N___________________
 
                     //Template To Use
-                    templateToUse = function(store) {
+                    templateToUse = function (store) {
                         return (store === selectedStore() ? 'itemStoreTemplate' : 'itemStoreTemplate');
                     },
                     //app = sammy(function () {
@@ -133,13 +133,13 @@ define("stores/stores.viewModel",
                     //}),
 
                     // Select Company Domain
-                    selectCompanyDomain = function(companyDomain) {
+                    selectCompanyDomain = function (companyDomain) {
                         if (selectedCompanyDomainItem() !== companyDomain) {
                             selectedCompanyDomainItem(companyDomain);
                         }
                     },
                     // Template Chooser
-                    templateToUseCompanyDomain = function(companyDomain) {
+                    templateToUseCompanyDomain = function (companyDomain) {
 
                         if (selectedStore().companyDomains().length > 0 && selectedStore().companyDomains()[selectedStore().companyDomains().length - 1] == companyDomain) {
                             return 'itemCompanyDomainTemplate';
@@ -147,14 +147,19 @@ define("stores/stores.viewModel",
                         return (companyDomain === selectedCompanyDomainItem() ? 'editCompanyDomainTemplate' : 'itemCompanyDomainTemplate');
                     },
                     //Delete Company Domain
-                    onDeleteCompanyDomainItem = function(companyDomain) {
+                    onDeleteCompanyDomainItem = function (companyDomain) {
                         if (selectedStore().companyDomains().length > 0 && selectedStore().companyDomains()[selectedStore().companyDomains().length - 1] == companyDomain) {
                             return;
                         }
-                        selectedStore().companyDomains.remove(companyDomain);
+                        // Ask for confirmation
+                        confirmation.afterProceed(function () {
+                            selectedStore().companyDomains.remove(companyDomain);
+                        });
+                        confirmation.show();
+                        
                     },
                     //Create New Company Domain
-                    createCompanyDomainItem = function() {
+                    createCompanyDomainItem = function () {
 
                         //if (selectedStore().companyDomains().length > 0) {
                         var companyDomain = new model.CompanyDomain();
@@ -170,14 +175,14 @@ define("stores/stores.viewModel",
 
                     },
                     //Function to maintain check that first company domain is correct as Web Access Code
-                    maintainCompanyDomain = ko.computed(function() {
+                    maintainCompanyDomain = ko.computed(function () {
                         if (selectedStore() && selectedStore().webAccessCode() != undefined) {
                             if (selectedStore().companyDomains().length == 0) {
                                 selectedStore().companyDomains.splice(0, 0, new model.CompanyDomain());
                                 //selectedStore().companyDomains()[0].domain(window.location.host + '/' + selectedStore().webAccessCode() + '/login');
                                 selectedStore().companyDomains()[0].domain(window.location.host + '/store/' + selectedStore().webAccessCode());
                             } else if (selectedStore().companyDomains().length > 0) {
-                                _.each(selectedStore().companyDomains(), function(companyDomain) {
+                                _.each(selectedStore().companyDomains(), function (companyDomain) {
                                     if (companyDomain.isMandatoryDomain()) {
                                         //companyDomain.domain(window.location.host + '/' + selectedStore().webAccessCode() + '/login');
                                         companyDomain.domain(window.location.host + '/store/' + selectedStore().webAccessCode());
@@ -191,24 +196,24 @@ define("stores/stores.viewModel",
                     //#region _________S T O R E ____________________________________
 
                     //getItemsForWidgets
-                    getItemsForWidgets = function(callBack) {
+                    getItemsForWidgets = function (callBack) {
                         dataservice.getItemsForWidgets({
-                            success: function(data) {
+                            success: function (data) {
                                 if (data != null) {
                                     itemsForWidgets.removeAll();
-                                    _.each(data, function(item) {
+                                    _.each(data, function (item) {
                                         var itemForWidget = model.ItemForWidgets.Create(item);
                                         itemsForWidgets.push(itemForWidget);
                                     });
                                 }
                             },
-                            error: function(response) {
+                            error: function (response) {
                                 //toastr.error("Failed to Delete . Error: " + response);
                             }
                         });
                     },
                     //Create New Store
-                    createNewStore = function() {
+                    createNewStore = function () {
                         var store = new model.Store();
                         editorViewModel.selectItem(store);
                         //selectedStore(store);
@@ -216,7 +221,7 @@ define("stores/stores.viewModel",
                         // getItemsForWidgets();
                     },
                     //On Edit Click Of Store
-                    onEditItem = function(item) {
+                    onEditItem = function (item) {
                         resetObservableArrays();
                         editorViewModel.selectItem(item);
                         openEditDialog();
@@ -224,10 +229,10 @@ define("stores/stores.viewModel",
                         //$('#generalInfoTab').addClass('active');
                         $('.nav-tabs li:first-child a').tab('show');
                         $('.nav-tabs li:eq(0) a').tab('show');
-                        sharedNavigationVM.initialize(selectedStore, function(saveCallback) { saveStore(saveCallback); });
+                        sharedNavigationVM.initialize(selectedStore, function (saveCallback) { saveStore(saveCallback); });
                     },
                     //On Edit Click Of Store
-                    onCreateNewStore = function() {
+                    onCreateNewStore = function () {
                         resetObservableArrays();
                         var store = new model.Store();
                         editorViewModel.selectItem(store);
@@ -247,29 +252,29 @@ define("stores/stores.viewModel",
                         if (itemsForWidgets().length === 0) {
                             getItemsForWidgets();
                         }
-                        sharedNavigationVM.initialize(selectedStore, function(saveCallback) { saveStore(saveCallback); });
+                        sharedNavigationVM.initialize(selectedStore, function (saveCallback) { saveStore(saveCallback); });
                         view.initializeLabelPopovers();
                     },
                     //To Show/Hide Edit Section
                     isStoreEditorVisible = ko.observable(false),
                     //Delete Stock Category
-                    deleteStore = function(store) {
+                    deleteStore = function (store) {
                         dataservice.deleteStore({
                             CompanyId: store.companyId(),
                         }, {
-                            success: function(data) {
+                            success: function (data) {
                                 if (data != null) {
                                     stores.remove(store);
                                     toastr.success(" Deleted Successfully !");
                                 }
                             },
-                            error: function(response) {
+                            error: function (response) {
                                 toastr.error("Failed to Delete . Error: " + response);
                             }
                         });
                     },
                     //GET Stores For Stores List View
-                    getStores = function() {
+                    getStores = function () {
                         isLoadingStores(true);
                         dataservice.getStores({
                             SearchString: searchFilter(),
@@ -278,48 +283,48 @@ define("stores/stores.viewModel",
                             SortBy: sortOn(),
                             IsAsc: sortIsAsc()
                         }, {
-                            success: function(data) {
+                            success: function (data) {
                                 stores.removeAll();
                                 if (data != null) {
                                     pager().totalCount(data.RowCount);
-                                    _.each(data.Companies, function(item) {
+                                    _.each(data.Companies, function (item) {
                                         var module = model.StoreListView.Create(item);
                                         stores.push(module);
                                     });
                                 }
                                 isLoadingStores(false);
                             },
-                            error: function(response) {
+                            error: function (response) {
                                 isLoadingStores(false);
                                 toastr.error("Error: Failed To load Stores " + response);
                             }
                         });
                     },
                     //Store Image Files Loaded Callback
-                    storeImageFilesLoadedCallback = function(file, data) {
+                    storeImageFilesLoadedCallback = function (file, data) {
                         selectedStore().storeImageFileBinary(data);
                         selectedStore().storeImageName(file.name);
                         //selectedProductCategoryForEditting().fileType(data.imageType);
                     },
                     //store Backgroud Image Upload Callback
-                    storeBackgroudImageUploadCallback = function(file, data) {
+                    storeBackgroudImageUploadCallback = function (file, data) {
                         selectedStore().storeBackgroudImageImageSource(data);
                         selectedStore().storeBackgroudImageFileName(file.name);
                     },
 
                     //Restore sprite Image
-                    restoreSpriteImage = function() {
+                    restoreSpriteImage = function () {
                         selectedStore().userDefinedSpriteImageSource(selectedStore().defaultSpriteImageSource());
                         selectedStore().userDefinedSpriteImageFileName("default.jpg");
                     },
-                    spriteImageLoadedCallback = function(file, data) {
+                    spriteImageLoadedCallback = function (file, data) {
                         selectedStore().userDefinedSpriteImageSource(data);
                         selectedStore().userDefinedSpriteImageFileName(file.name);
                     },
 
                     //Update: If store is creating and user select this store as Retail
                     //  Then Create one new default territory and select this territory in all new creating address and user
-                    createNewTerritoryForRetailStore = ko.computed(function() {
+                    createNewTerritoryForRetailStore = ko.computed(function () {
                         //selectedStore is new
                         //new CompanyTerritories have no record
                         if (selectedStore() != undefined && newCompanyTerritories != undefined && selectedStore().type() != undefined
@@ -340,7 +345,7 @@ define("stores/stores.viewModel",
 
                     // #region _________R A V E   R E V I E W_________________________
                     newCompanyTerritoryId = -1,
-                    addNewCompanyTerritoryId = function() {
+                    addNewCompanyTerritoryId = function () {
                         newCompanyTerritoryId = newCompanyTerritoryId - 1;
                     },
                     //Selected Rave Review
@@ -383,7 +388,7 @@ define("stores/stores.viewModel",
                             });
                         });
                         confirmation.show();
-                        
+
                         return;
                     },
                     onEditRaveReview = function (raveReview) {
@@ -409,15 +414,15 @@ define("stores/stores.viewModel",
                                 addNewCompanyTerritoryId();
                                 selectedStore().raveReviews.splice(0, 0, selectedRaveReview());
                             }
-                            
+
                             view.hideRaveReviewDialog();
                         }
-                        
+
                     },
                     // #endregion 
 
                     // #region _________C O M P A N Y   T E R R I T O R Y ____________
-                    
+
                     //Selected CompanyTerritory
                     selectedCompanyTerritory = ko.observable(),
                     //Deleted Company Territory 
@@ -499,93 +504,98 @@ define("stores/stores.viewModel",
                     },
                     // Delete Company Territory
                     onDeleteCompanyTerritory = function (companyTerritory) {
-                        //#region Db Saved Record Id > 0
+                        // Ask for confirmation
+                        confirmation.afterProceed(function () {
+                            //#region Db Saved Record Id > 0
 
-                        if (companyTerritory.companyId() > 0 && companyTerritory.territoryId() > 0) {
-                            //Check if company Territory is default and there exist any other territory to set its isDefualt flag to true
-                            //Or Company Territory is not default ones
-                            if (!companyTerritory.isDefault() || companyTerritory.isDefault() && selectedStore().companyTerritories().length > 1) {
-                                dataservice.deleteCompanyTerritory({
-                                    //companyTerritory: companyTerritory.convertToServerData()
-                                    CompanyTerritoryId: companyTerritory.territoryId()
-                                }, {
-                                    success: function (data) {
-                                        if (data) {
-                                            selectedStore().companyTerritories.remove(companyTerritory);
-                                            toastr.success("Deleted Successfully");
+                            if (companyTerritory.companyId() > 0 && companyTerritory.territoryId() > 0) {
+                                //Check if company Territory is default and there exist any other territory to set its isDefualt flag to true
+                                //Or Company Territory is not default ones
+                                if (!companyTerritory.isDefault() || companyTerritory.isDefault() && selectedStore().companyTerritories().length > 1) {
+                                    dataservice.deleteCompanyTerritory({
+                                        //companyTerritory: companyTerritory.convertToServerData()
+                                        CompanyTerritoryId: companyTerritory.territoryId()
+                                    }, {
+                                        success: function (data) {
+                                            if (data) {
+                                                selectedStore().companyTerritories.remove(companyTerritory);
+                                                toastr.success("Deleted Successfully");
+                                                isLoadingStores(false);
+                                                //Updating Drop downs
+                                                _.each(addressCompanyTerritoriesFilter(), function (item) {
+                                                    if (item.territoryId() == companyTerritory.territoryId()) {
+                                                        addressCompanyTerritoriesFilter.remove(item);
+                                                    }
+                                                });
+                                                _.each(contactCompanyTerritoriesFilter(), function (item) {
+                                                    if (item.territoryId() == companyTerritory.territoryId()) {
+                                                        contactCompanyTerritoriesFilter.remove(item);
+                                                    }
+                                                });
+                                            } else {
+                                                toastr.error("Territory can not be deleted. It might exist in Address or Contact");
+                                            }
+                                        },
+                                        error: function (response) {
                                             isLoadingStores(false);
-                                            //Updating Drop downs
-                                            _.each(addressCompanyTerritoriesFilter(), function (item) {
-                                                if (item.territoryId() == companyTerritory.territoryId()) {
-                                                    addressCompanyTerritoriesFilter.remove(item);
-                                                }
-                                            });
-                                            _.each(contactCompanyTerritoriesFilter(), function (item) {
-                                                if (item.territoryId() == companyTerritory.territoryId()) {
-                                                    contactCompanyTerritoriesFilter.remove(item);
-                                                }
-                                            });
-                                        } else {
-                                            toastr.error("Territory can not be deleted. It might exist in Address or Contact");
+                                            toastr.error("Error: Failed To Delete Company Territory " + response);
                                         }
-                                    },
-                                    error: function (response) {
-                                        isLoadingStores(false);
-                                        toastr.error("Error: Failed To Delete Company Territory " + response);
-                                    }
-                                });
+                                    });
 
-                            } else {
-                                toastr.error("Make New Default territory first");
+                                } else {
+                                    toastr.error("Make New Default territory first");
+                                }
                             }
-                        }
+                                //#endregion
+                                //#region Else Company territry is newly created
+                            else {
+                                if (companyTerritory.isDefault() && selectedStore().companyTerritories().length == 1) {
+                                    toastr.error("Make New Default territory first");
+
+                                } else {
+                                    // if (selectedStore() != undefined && (selectedStore().newAddedAddresses !== undefined && selectedStore().newAddedCompanyContacts !== undefined && selectedStore().newAddedAddresses().length > 0 || selectedStore().newAddedCompanyContacts().length > 0)) {
+                                    var flag = true;
+                                    if (newAddresses != undefined) {
+                                        _.each(newAddresses(), function (address) {
+                                            if (address.territoryId() == companyTerritory.territoryId()) {
+                                                toastr.error("Error: Territory can not deleted as it exist in new created address");
+                                                flag = false;
+                                            }
+                                        });
+                                    }
+                                    if (newCompanyContacts != undefined) {
+                                        _.each(newCompanyContacts(), function (contact) {
+                                            if (contact.territoryId() == companyTerritory.territoryId()) {
+                                                toastr.error("Error: Territory can not deleted as it exist in new created contact");
+                                                flag = false;
+                                            }
+                                        });
+                                    }
+                                    if (flag) {
+                                        _.each(newCompanyTerritories(), function (item) {
+                                            if (item.territoryId() == companyTerritory.territoryId()) {
+                                                newCompanyTerritories.remove(companyTerritory);
+                                            }
+                                        });
+
+                                        addressCompanyTerritoriesFilter.remove(companyTerritory);
+                                        contactCompanyTerritoriesFilter.remove(companyTerritory);
+                                        selectedStore().companyTerritories.remove(companyTerritory);
+                                        selectedStore().companyTerritories()[0].isDefault(true);
+                                        if (selectedStore().companyTerritories()[0].territoryId() > 0) {
+                                            edittedCompanyTerritories.push(selectedStore().companyTerritories()[0]);
+                                        }
+                                    } else { //flag == false
+                                        toastr.error("Territory Exist in Address Or Contact. Please delete them first");
+                                    }
+                                    // }
+                                }
+
+                            }
                             //#endregion
-                            //#region Else Company territry is newly created
-                        else {
-                            if (companyTerritory.isDefault() && selectedStore().companyTerritories().length == 1) {
-                                toastr.error("Make New Default territory first");
-
-                            } else {
-                                // if (selectedStore() != undefined && (selectedStore().newAddedAddresses !== undefined && selectedStore().newAddedCompanyContacts !== undefined && selectedStore().newAddedAddresses().length > 0 || selectedStore().newAddedCompanyContacts().length > 0)) {
-                                var flag = true;
-                                if (newAddresses != undefined) {
-                                    _.each(newAddresses(), function (address) {
-                                        if (address.territoryId() == companyTerritory.territoryId()) {
-                                            toastr.error("Error: Territory can not deleted as it exist in new created address");
-                                            flag = false;
-                                        }
-                                    });
-                                }
-                                if (newCompanyContacts != undefined) {
-                                    _.each(newCompanyContacts(), function (contact) {
-                                        if (contact.territoryId() == companyTerritory.territoryId()) {
-                                            toastr.error("Error: Territory can not deleted as it exist in new created contact");
-                                            flag = false;
-                                        }
-                                    });
-                                }
-                                if (flag) {
-                                    _.each(newCompanyTerritories(), function (item) {
-                                        if (item.territoryId() == companyTerritory.territoryId()) {
-                                            newCompanyTerritories.remove(companyTerritory);
-                                        }
-                                    });
-
-                                    addressCompanyTerritoriesFilter.remove(companyTerritory);
-                                    contactCompanyTerritoriesFilter.remove(companyTerritory);
-                                    selectedStore().companyTerritories.remove(companyTerritory);
-                                    selectedStore().companyTerritories()[0].isDefault(true);
-                                    if (selectedStore().companyTerritories()[0].territoryId() > 0) {
-                                        edittedCompanyTerritories.push(selectedStore().companyTerritories()[0]);
-                                    }
-                                } else { //flag == false
-                                    toastr.error("Territory Exist in Address Or Contact. Please delete them first");
-                                }
-                                // }
-                            }
-
-                        }
-                        //#endregion
+                        });
+                        confirmation.show();
+                            
                         return;
                     },
                     onEditCompanyTerritory = function (companyTerritory) {
@@ -739,7 +749,12 @@ define("stores/stores.viewModel",
                     },
                     // Delete a company CMYK Color
                     onDeleteCompanyCMYKColors = function (companyCMYKColor) {
-                        selectedStore().companyCMYKColors.remove(companyCMYKColor);
+                        // Ask for confirmation
+                        confirmation.afterProceed(function () {
+                            selectedStore().companyCMYKColors.remove(companyCMYKColor);
+                        });
+                        confirmation.show();
+                        
                         return;
                     },
                     onEditCompanyCMYKColor = function (companyCMYKColor) {
@@ -1059,7 +1074,12 @@ define("stores/stores.viewModel",
                     },
                     // Delete Email
                     onDeleteEmail = function (email) {
-                        emails.remove(email);
+                        // Ask for confirmation
+                        confirmation.afterProceed(function () {
+                            emails.remove(email);
+                        });
+                        confirmation.show();
+                        
                     },
 
                     //Get Campaign Base
@@ -1347,17 +1367,38 @@ define("stores/stores.viewModel",
                                 });
                                 //check on client side, push all if new added work
                                 if (searchAddressFilter() == "" || searchAddressFilter() == undefined) {
-                                    _.each(newAddresses(), function (addressItem) {
-                                        selectedStore().addresses.push(addressItem);
-                                    });
+                                    if (addressTerritoryFilter() != undefined) {
+                                        _.each(newAddresses(), function (addressItem) {
+                                            if (addressItem.territoryId() == addressTerritoryFilter()) {
+                                                selectedStore().addresses.push(addressItem);
+                                            }
+                                        });
+                                    } else {
+                                        _.each(newAddresses(), function (addressItem) {
+                                                selectedStore().addresses.push(addressItem);
+                                        });
+                                    }
+                                    
                                 }
+
                                 //check on client side, if filter is not null
                                 if (searchAddressFilter() != "" && searchAddressFilter() != undefined) {
-                                    _.each(newAddresses(), function (addressItem) {
-                                        if (addressItem.addressName().indexOf(searchAddressFilter()) != -1) {
-                                            selectedStore().addresses.push(addressItem);
-                                        }
-                                    });
+                                    if (addressTerritoryFilter() == undefined) {
+                                        _.each(newAddresses(), function (addressItem) {
+                                            if (addressItem.addressName().indexOf(searchAddressFilter()) != -1) {
+                                                selectedStore().addresses.push(addressItem);
+                                            }
+                                        });
+                                    } else {
+                                        _.each(newAddresses(), function (addressItem) {
+                                            if (addressItem.addressName().indexOf(searchAddressFilter()) != -1) {
+                                                if (addressItem.territoryId() == addressTerritoryFilter()) {
+                                                    selectedStore().addresses.push(addressItem);
+                                                }
+                                                
+                                            }
+                                        });
+                                    }
                                 }
                             },
                             error: function (response) {
@@ -1366,7 +1407,7 @@ define("stores/stores.viewModel",
                         });
                     },
                     addressTerritoryFilterSelected = ko.computed(function () {
-                        if (isEditorVisible() && selectedStore() != null && selectedStore() != undefined && selectedStore().companyId() !== undefined) {
+                        if (isEditorVisible() && selectedStore() != null && selectedStore() != undefined) {
                             searchAddress();
                         }
                     }),
@@ -1429,62 +1470,67 @@ define("stores/stores.viewModel",
                             toastr.error("Address can not be deleted as it is either Default Billing/ Default Shipping or is default address");
                             return;
                         } else {
-                            //#region Db Saved Record Id > 0
-                            if (address.addressId() > 0) {
-                                if (address.companyId() > 0 && address.addressId() > 0) {
+                            // Ask for confirmation
+                            confirmation.afterProceed(function () {
+                                //#region Db Saved Record Id > 0
+                                if (address.addressId() > 0) {
+                                    if (address.companyId() > 0 && address.addressId() > 0) {
 
-                                    if (!address.isDefaultTerrorityBilling() || !address.isDefaultTerrorityShipping() || !address.isDefaultAddress()) {
-                                        dataservice.deleteCompanyAddress({
-                                            AddressId: address.addressId()
-                                        }, {
-                                            success: function (data) {
-                                                if (data) {
-                                                    selectedStore().addresses.remove(address);
-                                                    toastr.success("Deleted Successfully");
+                                        if (!address.isDefaultTerrorityBilling() || !address.isDefaultTerrorityShipping() || !address.isDefaultAddress()) {
+                                            dataservice.deleteCompanyAddress({
+                                                AddressId: address.addressId()
+                                            }, {
+                                                success: function (data) {
+                                                    if (data) {
+                                                        selectedStore().addresses.remove(address);
+                                                        toastr.success("Deleted Successfully");
+                                                        isLoadingStores(false);
+                                                        //Updating Drop downs
+                                                        //_.each(addressCompanyTerritoriesFilter(), function (item) {
+                                                        //    if (item.territoryId() == companyTerritory.territoryId()) {
+                                                        //        addressCompanyTerritoriesFilter.remove(item);
+                                                        //    }
+                                                        //});
+                                                        bussinessAddresses.remove(address);
+                                                        shippingAddresses.remove(address);
+                                                        allCompanyAddressesList.remove(address);
+                                                    } else {
+                                                        toastr.error("Address can not be deleted. It might exist in Contact");
+                                                    }
+                                                },
+                                                error: function (response) {
                                                     isLoadingStores(false);
-                                                    //Updating Drop downs
-                                                    //_.each(addressCompanyTerritoriesFilter(), function (item) {
-                                                    //    if (item.territoryId() == companyTerritory.territoryId()) {
-                                                    //        addressCompanyTerritoriesFilter.remove(item);
-                                                    //    }
-                                                    //});
-                                                    bussinessAddresses.remove(address);
-                                                    shippingAddresses.remove(address);
-                                                    allCompanyAddressesList.remove(address);
-                                                } else {
-                                                    toastr.error("Address can not be deleted. It might exist in Contact");
+                                                    toastr.error("Error: Failed To Delete Address " + response);
                                                 }
-                                            },
-                                            error: function (response) {
-                                                isLoadingStores(false);
-                                                toastr.error("Error: Failed To Delete Address " + response);
-                                            }
-                                        });
+                                            });
+                                        } else {
+                                            toastr.error("Address can not be deleted as it contains default values");
+                                        }
+                                    }
+                                }
+                                //#endregion
+                                //#region Else Company territry is newly created
+
+                                //check local
+                                if (address.addressId() < 0) {
+                                    var flag = true;
+
+                                    _.each(newCompanyContacts(), function (item) {
+                                        if (item.bussinessAddressId() == address.addressId() || item.shippingAddressId() == address.addressId()) {
+                                            flag = false;
+                                        }
+                                    });
+                                    if (flag) {
+                                        selectedStore().addresses.remove(address);
                                     } else {
-                                        toastr.error("Address can not be deleted as it contains default values");
+                                        toastr.error("Address can not be deleted as it exist in User");
                                     }
+
                                 }
-                            }
-                            //#endregion
-                            //#region Else Company territry is newly created
-
-                            //check local
-                            if (address.addressId() < 0) {
-                                var flag = true;
-
-                                _.each(newCompanyContacts(), function (item) {
-                                    if (item.bussinessAddressId() == address.addressId() || item.shippingAddressId() == address.addressId()) {
-                                        flag = false;
-                                    }
-                                });
-                                if (flag) {
-                                    selectedStore().addresses.remove(address);
-                                } else {
-                                    toastr.error("Address can not be deleted as it exist in User");
-                                }
-
-                            }
-                            //#endregion
+                                //#endregion
+                            });
+                            confirmation.show();
+                            
                             return;
                         }
                     },
@@ -1928,17 +1974,38 @@ define("stores/stores.viewModel",
                                 });
                                 //check on client side, push all if new added work
                                 if (searchCompanyContactFilter() == "" || searchCompanyContactFilter() == undefined) {
-                                    _.each(newCompanyContacts(), function (companyContactItem) {
-                                        selectedStore().users.push(companyContactItem);
-                                    });
+                                    if (contactCompanyTerritoryFilter() != undefined) {
+                                        _.each(newCompanyContacts(), function (companyContactItem) {
+                                            if (companyContactItem.territoryId() == contactCompanyTerritoryFilter()) {
+                                                selectedStore().users.push(companyContactItem);
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        _.each(newCompanyContacts(), function (companyContactItem) {
+                                            selectedStore().users.push(companyContactItem);
+                                        });
+                                    }
                                 }
                                 //check on client side, if filter is not null
                                 if (searchCompanyContactFilter() != "" && searchCompanyContactFilter() != undefined) {
-                                    _.each(newCompanyContacts(), function (companyContactItem) {
-                                        if (companyContactItem.email().indexOf(searchCompanyContactFilter()) != -1 || companyContactItem.firstName().indexOf(searchCompanyContactFilter()) != -1) {
-                                            selectedStore().users.push(companyContactItem);
-                                        }
-                                    });
+                                    if (contactCompanyTerritoryFilter() == undefined) {
+                                        _.each(newCompanyContacts(), function (companyContactItem) {
+                                            if (companyContactItem.email().indexOf(searchCompanyContactFilter()) != -1 || companyContactItem.firstName().indexOf(searchCompanyContactFilter()) != -1) {
+                                                selectedStore().users.push(companyContactItem);
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        _.each(newCompanyContacts(), function (companyContactItem) {
+                                            if (companyContactItem.email().indexOf(searchCompanyContactFilter()) != -1 || companyContactItem.firstName().indexOf(searchCompanyContactFilter()) != -1) {
+                                                if (companyContactItem.territoryId() == contactCompanyTerritoryFilter()) {
+                                                    selectedStore().users.push(companyContactItem);
+                                                }
+                                            }
+                                        });
+                                    }
+
                                 }
                             },
                             error: function (response) {
@@ -2041,42 +2108,46 @@ define("stores/stores.viewModel",
                             toastr.error("Default Contact Cannot be deleted");
                             return;
                         }
-                        //#region Db Saved Record Id > 0
-                        if (companyContact.contactId() > 0) {
+                        // Ask for confirmation
+                        confirmation.afterProceed(function () {
+                            
+                        confirmation.show();
+                            //#region Db Saved Record Id > 0
+                            if (companyContact.contactId() > 0) {
 
-                            if (companyContact.companyId() > 0 && companyContact.contactId() > 0) {
-                                dataservice.deleteCompanyContact({
-                                    CompanyContactId: companyContact.contactId()
-                                }, {
-                                    success: function (data) {
-                                        if (data) {
-                                            selectedStore().users.remove(companyContact);
-                                            toastr.success("Deleted Successfully");
+                                if (companyContact.companyId() > 0 && companyContact.contactId() > 0) {
+                                    dataservice.deleteCompanyContact({
+                                        CompanyContactId: companyContact.contactId()
+                                    }, {
+                                        success: function (data) {
+                                            if (data) {
+                                                selectedStore().users.remove(companyContact);
+                                                toastr.success("Deleted Successfully");
+                                                isLoadingStores(false);
+                                            } else {
+                                                toastr.error("Contact can not be deleted");
+                                            }
+                                        },
+                                        error: function (response) {
                                             isLoadingStores(false);
-                                        } else {
-                                            toastr.error("Contact can not be deleted");
+                                            toastr.error("Error: Failed To Delete Company Contact " + response);
                                         }
-                                    },
-                                    error: function (response) {
-                                        isLoadingStores(false);
-                                        toastr.error("Error: Failed To Delete Company Contact " + response);
-                                    }
-                                });
+                                    });
+                                }
                             }
-                        }
-                            //#endregion
-                        else {
-                            if (companyContact.contactId() < 0 || companyContact.contactId() == undefined) {
+                                //#endregion
+                            else {
+                                if (companyContact.contactId() < 0 || companyContact.contactId() == undefined) {
 
-                                _.each(newCompanyContacts(), function (item) {
-                                    if (item.contactId() == companyContact.contactId()) {
-                                        newCompanyContacts.remove(companyContact);
-                                    }
-                                });
-                                selectedStore().users.remove(companyContact);
+                                    _.each(newCompanyContacts(), function (item) {
+                                        if (item.contactId() == companyContact.contactId()) {
+                                            newCompanyContacts.remove(companyContact);
+                                        }
+                                    });
+                                    selectedStore().users.remove(companyContact);
+                                }
                             }
-                        }
-
+                        });
                         return;
                     },
                     onEditCompanyContact = function (companyContact) {
@@ -2216,7 +2287,11 @@ define("stores/stores.viewModel",
                     },
                     // Delete a Payment Gateway
                     onDeletePaymentGateway = function (paymentGateway) {
-                        selectedStore().paymentGateway.remove(paymentGateway);
+                        // Ask for confirmation
+                        confirmation.afterProceed(function () {
+                            selectedStore().paymentGateway.remove(paymentGateway);
+                        });
+                        confirmation.show();
                         return;
                     },
                     onEditPaymentGateway = function (paymentGateway) {
@@ -2679,6 +2754,7 @@ define("stores/stores.viewModel",
                     //Do Before Save
                     doBeforeSave = function () {
                         var flag = true;
+                        errorList.removeAll();
                         if (!selectedStore().isValid()) {
                             selectedStore().errors.showAllMessages();
                             setValidationSummary(selectedStore());
@@ -2764,7 +2840,7 @@ define("stores/stores.viewModel",
                     }, this),
                     // Set Validation Summary
                     setValidationSummary = function (selectedItem) {
-                        errorList.removeAll();
+                       
                         if (selectedItem.name.error) {
                             errorList.push({ name: selectedItem.name.domElement.name, element: selectedItem.name.domElement });
                         }
@@ -4057,38 +4133,64 @@ define("stores/stores.viewModel",
                     });
                 },
                 //Get Field Variable Detail
-            getFieldVariableDetail = function (field) {
-                dataservice.getFieldVariableDetailById({
-                    fieldVariableId: field.id(),
-                }, {
-                    success: function (data) {
-                        if (data != null) {
-                            var fieldvariable = model.FieldVariable.Create(data);
-                            _.each(data.VariableOptions, function (item) {
-                                fieldvariable.variableOptions.push(model.VariableOption.Create(item));
-                            });
-                            selectedFieldVariable(fieldvariable);
-                            view.showVeriableDefinationDialog();
+                getFieldVariableDetail = function (field) {
+                    dataservice.getFieldVariableDetailById({
+                        fieldVariableId: field.id(),
+                    }, {
+                        success: function (data) {
+                            if (data != null) {
+                                var fieldvariable = model.FieldVariable.Create(data);
+                                _.each(data.VariableOptions, function (item) {
+                                    fieldvariable.variableOptions.push(model.VariableOption.Create(item));
+                                });
+                                selectedFieldVariable(fieldvariable);
+                                view.showVeriableDefinationDialog();
+                            }
+                        },
+                        error: function (response) {
+                            toastr.error("Failed to load Detail . Error: ");
                         }
-                    },
-                    error: function (response) {
-                        toastr.error("Failed to load Detail . Error: ");
+                    });
+                },
+                //Get Company Contact Variables 
+                getCompanyContactVariables = function () {
+                    if (selectedCompanyContact().contactId() !== undefined) {
+                        dataservice.getCmpanyContactVaribableByContactId({
+                            contactId: selectedCompanyContact().contactId(),
+                        }, {
+                            success: function (data) {
+                                if (data != null) {
+                                    _.each(data, function (item) {
+                                        var contactVariable = model.CompanyContactVariable.Create(item);
+                                        _.each(item.VariableOptions, function (option) {
+                                            var variableOption = model.CompanyContactVariable.Create(option);
+                                            contactVariable.variableOptions.push(variableOption);
+
+                                        });
+                                        selectedCompanyContact().companyContactVariables.push(contactVariable);
+
+                                    });
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to load.");
+                            }
+                        });
                     }
-                });
-            },
+                }
                 //#endregion ________ Field Variable___________
 
 
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-            initialize = function (specifiedView) {
-                view = specifiedView;
-                ko.applyBindings(view.viewModel, view.bindingRoot);
-                //ko.applyBindings(view.viewModel, document.getElementById('singleArea'));
-                pager(new pagination.Pagination({ PageSize: 5 }, stores, getStores));
-                getStores();
-                view.initializeForm();
-            };
+                initialize = function (specifiedView) {
+                    view = specifiedView;
+                    ko.applyBindings(view.viewModel, view.bindingRoot);
+                    //ko.applyBindings(view.viewModel, document.getElementById('singleArea'));
+                    pager(new pagination.Pagination({ PageSize: 5 }, stores, getStores));
+                    getStores();
+                    view.initializeForm();
+                };
                 //#region _________R E T U R N_____________________
 
                 return {
@@ -4389,6 +4491,7 @@ define("stores/stores.viewModel",
                     onDeleteVariableOption: onDeleteVariableOption,
                     onAddFieldOption: onAddFieldOption,
                     fieldVariablePager: fieldVariablePager,
+                    getCompanyContactVariables: getCompanyContactVariables,
                 };
                 //#endregion
             })()
