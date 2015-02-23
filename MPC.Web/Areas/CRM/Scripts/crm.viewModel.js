@@ -15,13 +15,17 @@ define("crm/crm.viewModel",
                     // Pager for pagging
                     pager = ko.observable(),
                     orderPager = ko.observable(),
+                    invoicePager = ko.observable(),
                     // Sort On
                     sortOn = ko.observable(1),
                     // Sort In Ascending
                     sortIsAsc = ko.observable(true),
                      // Orders list
                     ordersList = ko.observableArray(),
+                     // Invoices list
+                    invoicesList = ko.observableArray(),
                     isOrderTab = ko.observable(false),
+                    isInvoiceTab = ko.observable(false),
                     isEditorVisible = ko.observable(false),
                     //Selected Store
                     selectedStore = ko.observable(),
@@ -1594,7 +1598,7 @@ define("crm/crm.viewModel",
                     },
                 //#endregion
 
-                 //#region ___________ ORDERS TAB ____________
+                //#region ___________ ORDERS TAB ____________
                    ordersTabClickHandler = function (data) {
                        if (isOrderTab()) {
                            return;
@@ -1620,6 +1624,46 @@ define("crm/crm.viewModel",
                                 _.each(data.OrdersList, function (order) {
                                     var newOrder= new model.Estimate.Create(order);
                                     ordersList.push(newOrder);
+                                });
+                            }
+                        },
+                        error: function () {
+                            toastr.error("Error: Failed To load Customers!");
+                        }
+                    });
+                },
+
+                //#endregion
+
+                //#region ___________ INVOICES TAB ____________
+                   invoicesTabClickHandler = function () {
+                       if (isInvoiceTab()) {
+                           return;
+                       }
+                       isInvoiceTab(true);
+                       invoicePager().reset();
+                     getsDataForInvoiceTab();
+                   },
+                  // Gets Invoices data
+                  getsDataForInvoiceTab = function () {
+                      debugger
+                    dataservice.getInvoices({
+                        CompanyId: selectedStore().companyId(),
+                        PageSize: invoicePager().pageSize(),
+                        PageNo: invoicePager().currentPage(),
+                        SortBy: sortOn(),
+                        IsAsc: sortIsAsc()
+                    },
+                    {
+                        success: function (data) {
+                            debugger;
+
+                            if (data != null) {
+                                invoicesList.removeAll();
+                                invoicePager().totalCount(data.RowCount);
+                                _.each(data.Invoices, function (item) {
+                                    var invoice = new model.Invoice.Create(item);
+                                    invoicesList.push(invoice);
                                 });
                             }
                         },
@@ -1810,6 +1854,7 @@ define("crm/crm.viewModel",
                    }
 
                    orderPager(new pagination.Pagination({ PageSize: 5 }, ordersList, getDataForOrderTab));
+                   invoicePager(new pagination.Pagination({ PageSize: 5 }, invoicesList, getsDataForInvoiceTab));
                    getBaseDataFornewCompany();
 
                };
@@ -1934,7 +1979,12 @@ define("crm/crm.viewModel",
                     ordersList: ordersList,
                     isOrderTab: isOrderTab,
                     orderPager: orderPager,
-                    storeImageFilesLoadedCallback: storeImageFilesLoadedCallback
+                    invoicesTabClickHandler: invoicesTabClickHandler,
+                    storeImageFilesLoadedCallback: storeImageFilesLoadedCallback,
+                    isInvoiceTab: isInvoiceTab,
+                    invoicePager: invoicePager,
+                    invoicesList: invoicesList,
+                    getsDataForInvoiceTab: getsDataForInvoiceTab
                 };
                 //#endregion
             })()

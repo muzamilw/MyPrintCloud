@@ -278,7 +278,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedJobDescriptionTitle1, specifiedJobDescription1, specifiedJobDescriptionTitle2, specifiedJobDescription2, specifiedJobDescriptionTitle3,
         specifiedJobDescription3, specifiedJobDescriptionTitle4, specifiedJobDescription4, specifiedJobDescriptionTitle5,
         specifiedJobDescription5, specifiedJobDescriptionTitle6, specifiedJobDescription6, specifiedJobDescriptionTitle7, specifiedJobDescription7,
-        specifiedIsQtyRanged, specifiedDefaultItemTax, specifiedStatusId, specifiedStatusName, specifiedQty1, specifiedQty1NetTotal) {
+        specifiedIsQtyRanged, specifiedDefaultItemTax, specifiedStatusId, specifiedStatusName, specifiedQty1, specifiedQty1NetTotal, specifiedItemNotes) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId || 0),
@@ -339,6 +339,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             qty1 = ko.observable(specifiedQty1 || undefined),
             // Qty 1 Net Total
             qty1NetTotal = ko.observable(specifiedQty1NetTotal || undefined),
+            // Item Notes
+            itemNotes = ko.observable(specifiedItemNotes || undefined),
             // Item Stock options
             itemStockOptions = ko.observableArray([]),
             // Item Sections
@@ -474,6 +476,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     JobDescription7: jobDescription7(),
                     IsQtyRanged: isQtyRanged() === 2 ? false : true,
                     DefaultItemTax: defaultItemTax(),
+                    ItemNotes: itemNotes(),
                     ItemSections: itemSections.map(function (itemSection, index) {
                         var section = itemSection.convertToServerData();
                         section.SectionNo = index + 1;
@@ -504,13 +507,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             jobDescription5: jobDescription5,
             jobDescription6: jobDescription6,
             jobDescription7: jobDescription7,
-            isQtyRangedUi: isQtyRangedUi,
             isQtyRanged: isQtyRanged,
             defaultItemTax: defaultItemTax,
             statusId: statusId,
             statusName: statusName,
             qty1NetTotal: qty1NetTotal,
             qty1: qty1,
+            itemNotes: itemNotes,
             itemSections: itemSections,
             errors: errors,
             isValid: isValid,
@@ -937,7 +940,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.JobDescriptionTitle1, source.JobDescription1, source.JobDescriptionTitle2,
             source.JobDescription2, source.JobDescriptionTitle3, source.JobDescription3, source.JobDescriptionTitle4, source.JobDescription4,
             source.JobDescriptionTitle5, source.JobDescription5, source.JobDescriptionTitle6, source.JobDescription6, source.JobDescriptionTitle7,
-            source.JobDescription7, source.IsQtyRanged, source.DefaultItemTax, source.StatusId, source.Status, source.Qty1, source.Qty1NetTotal);
+            source.JobDescription7, source.IsQtyRanged, source.DefaultItemTax, source.StatusId, source.Status, source.Qty1, source.Qty1NetTotal, 
+            source.ItemNotes);
 
         // Map Item Sections if any
         if (source.ItemSections && source.ItemSections.length > 0) {

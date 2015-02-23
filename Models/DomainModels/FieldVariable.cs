@@ -30,6 +30,6 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<CompanyContactVariable> CompanyContactVariables { get; set; }
 
         [NotMapped]
-        public long FakeId { get; set; }
+        public long? FakeIdVariableId { get; set; }
     }
 }

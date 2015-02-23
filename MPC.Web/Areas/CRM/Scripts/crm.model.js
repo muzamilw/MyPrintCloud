@@ -1984,15 +1984,92 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             setValidationSummary: setValidationSummary,
         };
     };
-    // #endregion __________________  O R D E R ______________________
-
     // Estimate Factory
     Estimate.Create = function (source) {
         var estimate = new Estimate(source.EstimateId, source.OrderCode, source.EstimateName, source.CompanyName,
-            source.CreationDate, source.SectionFlagId, source.OrderCode, source.Status, source.EstimateTotal+'$', source.IsDirectOrder);
+            source.CreationDate, source.SectionFlagId, source.OrderCode, source.Status, source.EstimateTotal + '$', source.IsDirectOrder);
         return estimate;
     };
 
+    // #endregion __________________  O R D E R ______________________
+
+    // #region __________________  I N V O I C E ______________________
+
+    // ReSharper disable once InconsistentNaming
+    var Invoice = function (specifiedId, specifiedCmpName, specifiedinvoiceCode, specifiedinvoiceDate, specifiedinvoiceName,
+        specifiedisArchive,sepecifiedTotal,specifiedCOntact, specifiedStatus) {
+        // ReSharper restore InconsistentNaming
+        var // Unique key
+            id = ko.observable(specifiedId || 0),
+            // Name
+            companyName = ko.observable(specifiedCmpName ),
+            // Code
+            invoiceCode = ko.observable(specifiedinvoiceCode || undefined),
+            invoiceDate = ko.observable(specifiedinvoiceDate || undefined),
+            invoiceName = ko.observable(specifiedinvoiceName || undefined),
+            isArchive = ko.observable(specifiedisArchive || undefined),
+            invoiceTotal = ko.observable(sepecifiedTotal || 0),
+            contact = ko.observable(specifiedCOntact || undefined),
+            status = ko.observable(specifiedStatus || undefined),
+                  // Errors
+            errors = ko.validation.group({
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+            }),
+            // Show All Error Messages
+            showAllErrors = function () {
+                // Show Item Errors
+                errors.showAllMessages();
+            },
+            // Set Validation Summary
+            setValidationSummary = function (validationSummaryList) {
+                validationSummaryList.removeAll();
+            },
+            // True if the order has been changed
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+
+        return {
+            id: id,
+            companyName: companyName,
+            invoiceCode: invoiceCode,
+            invoiceDate: invoiceDate,
+            invoiceName: invoiceName,
+            isArchive: isArchive,
+            invoiceTotal: invoiceTotal,
+            contact: contact,
+            status:status,
+            errors: errors,
+            isValid: isValid,
+            showAllErrors: showAllErrors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+            setValidationSummary: setValidationSummary,
+        };
+    };
+    // Estimate Factory
+    Invoice.Create = function (source) {
+        var invoice = new Invoice(source.InvoiceId, source.CompanyName, source.InvoiceCode, source.InvoiceDate,
+            source.InvoiceName, source.IsArchive, source.InvoiceTotal, source.ContactName, source.Status);
+        return invoice;
+    };
+
+    // #endregion __________________  O R D E R ______________________
+
+  
     return {
         customerViewListModel: customerViewListModel,
         CrmSupplierListViewModel: CrmSupplierListViewModel,
@@ -2004,6 +2081,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         CompanyTerritory: CompanyTerritory,
         Role: Role,
         RegistrationQuestion: RegistrationQuestion,
-        Estimate: Estimate
+        Estimate: Estimate,
+        Invoice: Invoice
     };
 });
