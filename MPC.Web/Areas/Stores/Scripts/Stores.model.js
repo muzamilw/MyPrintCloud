@@ -2318,7 +2318,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             bussinessAddress = ko.observable(),
             shippingAddress = ko.observable(),
             stateName = ko.observable(),
-            companyContactVariables=ko.observableArray([]),
+            companyContactVariables = ko.observableArray([]),
 
             // Errors
             errors = ko.validation.group({
@@ -2511,7 +2511,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     OrganisationId: organisationId(),
                     BussinessAddressId: bussinessAddressId(),
                     FileName: fileName(),
-                    CompanyContactVariables:[]
+                    CompanyContactVariables: []
                     //BussinessAddress: bussinessAddress() != undefined ? bussinessAddress().convertToServerData(): null,
                     //ShippingAddress: shippingAddress() != undefined ? shippingAddress().convertToServerData() : null,
                 };
@@ -3962,6 +3962,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             scope = ko.observable(specifiedScope),
             waterMark = ko.observable(specifiedWaterMark),
             defaultValue = ko.observable(specifiedDefaultValue),
+            defaultValueForInput = ko.observable(specifiedDefaultValue),
             inputMask = ko.observable((specifiedInputMask === undefined || specifiedInputMask === null) ? "xxx-xxxxx-xxxxx" : specifiedInputMask),
             companyId = ko.observable(specifiedCompanyId),
             variableTag = ko.observable(specifiedVariableTag),
@@ -3995,12 +3996,12 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.VariableType = source.variableType() === undefined ? null : source.variableType();
                 result.WaterMark = source.waterMark() === undefined ? null : source.waterMark();
                 result.Scope = source.scope() === undefined ? null : source.scope();
-                result.DefaultValue = source.defaultValue() === undefined ? null : source.defaultValue();
+                result.DefaultValue = source.variableType() === 1 ? (source.defaultValue() === undefined ? null : source.defaultValue()) : defaultValueForInput;
                 result.CompanyId = source.companyId() === undefined ? null : source.companyId();
                 result.InputMask = source.inputMask() === undefined ? null : source.inputMask();
                 result.VariableTag = source.variableTag() === undefined ? null : source.variableTag();
                 result.VariableTitle = source.variableTitle() === undefined ? null : source.variableTitle();
-                result.FakeId = source.fakeId() === undefined ? 0 : source.fakeId();
+                result.FakeIdVariableId = source.fakeId() === undefined ? 0 : source.fakeId();
                 result.VariableOptions = [];
                 return result;
             },
@@ -4014,6 +4015,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             variableType: variableType,
             scope: scope,
             waterMark: waterMark,
+            defaultValueForInput: defaultValueForInput,
             defaultValue: defaultValue,
             companyId: companyId,
             variableTag: variableTag,
@@ -4119,7 +4121,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // #region ______________  Company Contact Variable  _________________
 
     // ReSharper disable once InconsistentNaming
-    var CompanyContactVariable = function (specifiedContactVariableId, specifiedContactId, specifiedVariableId, specifiedValue, specifiedTitle,specifiedType) {
+    var CompanyContactVariable = function (specifiedContactVariableId, specifiedContactId, specifiedVariableId, specifiedValue, specifiedTitle, specifiedType) {
         var self,
             id = ko.observable(specifiedContactVariableId),
             contactId = ko.observable(specifiedContactId),
@@ -4128,6 +4130,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             fakeId = ko.observable(),
             title = ko.observable(specifiedTitle),
             type = ko.observable(specifiedType),
+            optionId = ko.observable(specifiedType),
             variableOptions = ko.observableArray([]),
 
             // Errors
@@ -4151,9 +4154,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 var result = {};
                 result.ContactVariableId = source.id() === undefined ? 0 : source.id();
                 result.ContactId = source.contactId() === undefined ? 0 : source.contactId();
-                result.VariableId = source.variableId() === undefined ? null : source.variableId();
-                result.Value = source.value() === undefined ? 0 : source.value();
-                result.FakeId = source.fakeId() === undefined ? 0 : source.fakeId();
+                result.VariableId = source.variableId() === undefined ? 0 : source.variableId();
+                result.Value = source.value() === undefined ? null : source.value();
+                result.FakeVariableId = source.fakeId() === undefined ? 0 : source.fakeId();
                 return result;
             },
         // Reset
@@ -4167,7 +4170,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             value: value,
             title: title,
             fakeId: fakeId,
-            type:type,
+            type: type,
+            optionId: optionId,
             variableOptions: variableOptions,
             isValid: isValid,
             errors: errors,
@@ -4184,7 +4188,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.ContactVariableId,
              source.ContactId,
              source.VariableId,
-             source.Value
+             source.Value,
+             source.Title,
+             source.Type
             );
     };
     // #endregion ______________  Company Contact Variable   _________________
