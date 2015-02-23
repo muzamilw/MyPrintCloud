@@ -1980,7 +1980,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // ReSharper disable once InconsistentNaming
     var Invoice = function (specifiedId, specifiedCmpName, specifiedinvoiceCode, specifiedinvoiceDate, specifiedinvoiceName,
-        specifiedisArchive,sepecifiedTotal) {
+        specifiedisArchive,sepecifiedTotal,specifiedCOntact, specifiedStatus) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId || 0),
@@ -1992,10 +1992,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             invoiceName = ko.observable(specifiedinvoiceName || undefined),
             isArchive = ko.observable(specifiedisArchive || undefined),
             invoiceTotal = ko.observable(sepecifiedTotal || 0),
-            isArchiveUi = ko.computed(function () {
-                return isArchive() ? "Archieved" : "Non-Archieved";
-            }),
-                        // Errors
+            contact = ko.observable(specifiedCOntact || undefined),
+            status = ko.observable(specifiedStatus || undefined),
+                  // Errors
             errors = ko.validation.group({
             }),
             // Is Valid
@@ -2032,8 +2031,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             invoiceDate: invoiceDate,
             invoiceName: invoiceName,
             isArchive: isArchive,
-            isArchiveUi: isArchiveUi,
-            invoiceTotal:invoiceTotal,
+            invoiceTotal: invoiceTotal,
+            contact: contact,
+            status:status,
             errors: errors,
             isValid: isValid,
             showAllErrors: showAllErrors,
@@ -2046,7 +2046,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Estimate Factory
     Invoice.Create = function (source) {
         var invoice = new Invoice(source.InvoiceId, source.CompanyName, source.InvoiceCode, source.InvoiceDate,
-            source.InvoiceName, source.IsArchive, source.InvoiceTotal);
+            source.InvoiceName, source.IsArchive, source.InvoiceTotal, source.ContactName, source.Status);
         return invoice;
     };
 

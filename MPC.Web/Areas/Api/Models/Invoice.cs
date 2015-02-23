@@ -17,6 +17,6 @@ namespace MPC.MIS.Areas.Api.Models
         public double? InvoiceTotal { get; set; }
         public string ContactName { get; set; }
 
-
+        public string Status { get; set; }
     }
 }

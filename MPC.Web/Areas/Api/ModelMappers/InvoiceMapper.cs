@@ -26,12 +26,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new Models.Invoice
             {
                 InvoiceId = source.InvoiceId,
-                CompanyName = source.Company.Name,
+                CompanyName = source.Company!=null ? source.Company.Name: "",
                 InvoiceCode = source.InvoiceCode,
                 InvoiceName = source.InvoiceName,
                 IsArchive = source.IsArchive,
                 InvoiceDate = source.InvoiceDate,
-                InvoiceTotal = source.InvoiceTotal
+                InvoiceTotal = source.InvoiceTotal,
+                ContactName = source.CompanyContact != null ? source.CompanyContact.FirstName + " " + source.CompanyContact.LastName : "",
+                Status = source.Status.StatusName
                 
             };
         }
