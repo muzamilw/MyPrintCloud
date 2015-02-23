@@ -262,11 +262,13 @@
     <Compile Include="Areas\Api\Controllers\FieldVariableController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\GetCompaniesForCalendarController.cs" />
+    <Compile Include="Areas\Api\Controllers\GetCompanyContactVariableByCompanyIdController.cs" />
     <Compile Include="Areas\Api\Controllers\GetCompanyContactVariableController.cs" />
     <Compile Include="Areas\Api\Controllers\GetItemsForWidgetsController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\GetOrderStatusesController.cs" />
     <Compile Include="Areas\Api\Controllers\GetPhraseFiledsBySectionController.cs" />
+    <Compile Include="Areas\Api\Controllers\InvoiceController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseForCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemCloneController.cs" />
@@ -304,6 +306,7 @@
     <Compile Include="Areas\Api\ModelMappers\FieldVariableMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GroupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InkCoverageGroupMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\InvoiceMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SectionCostCentreResourceMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SectionCostCentreDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SectionCostcentreMapper.cs" />
@@ -371,6 +374,8 @@
     <Compile Include="Areas\Api\Models\GroupForCampaign.cs" />
     <Compile Include="Areas\Api\Models\CostcentreWorkInstructionsChoice.cs" />
     <Compile Include="Areas\Api\Models\InkCoverageGroup.cs" />
+    <Compile Include="Areas\Api\Models\Invoice.cs" />
+    <Compile Include="Areas\Api\Models\InvoiceRequestResponseModel.cs" />
     <Compile Include="Areas\Api\Models\OrderItem.cs" />
     <Compile Include="Areas\Api\Models\OrderBaseResponse.cs">
       <SubType>Code</SubType>
@@ -2914,6 +2919,7 @@
     <Folder Include="Areas\Api\Views\CompanyProduct\" />
     <Folder Include="Areas\Api\Views\Customer\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
+    <Folder Include="Areas\Api\Views\Invoice\" />
     <Folder Include="Areas\Api\Views\Machine\" />
     <Folder Include="Areas\Api\Views\OrdersForCrm\" />
     <Folder Include="Areas\Api\Views\PaperSheetBaseApi\" />
