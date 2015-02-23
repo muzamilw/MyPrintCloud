@@ -2318,12 +2318,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             bussinessAddress = ko.observable(),
             shippingAddress = ko.observable(),
             stateName = ko.observable(),
-<<<<<<< HEAD
-            companyContactVariables = ko.observableArray([]),
-=======
+
             companyContactVariables=ko.observableArray([]),
             confirmPassword = ko.observable().extend({ compareWith: password }),
->>>>>>> 6f5c57bd3290d28e79a9f90556bb48ab6068cd34
+
 
             // Errors
             errors = ko.validation.group({
