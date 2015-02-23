@@ -108,7 +108,7 @@ namespace MPC.Repository.Repositories
                         oMatrix.Description = reader.GetString(2);
                         oMatrix.RowsCount = reader.GetInt32(3);
                         oMatrix.ColumnsCount = reader.GetInt32(4);
-                        oMatrix.CompanyId = reader.GetInt32(5);
+                        oMatrix.OrganisationId = reader.GetInt32(5);
                         oMatrix.SystemSiteId = reader.GetInt32(6);
 
                     }
