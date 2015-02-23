@@ -78,6 +78,7 @@
     <Compile Include="MISServices\ICrmSupplierService.cs" />
     <Compile Include="MISServices\ICustomerService.cs" />
     <Compile Include="MISServices\IDashboardService.cs" />
+    <Compile Include="MISServices\IInvoiceService.cs" />
     <Compile Include="MISServices\IOrderForCrmService.cs" />
     <Compile Include="Repository\ICompanyContactVariableRepository.cs" />
     <Compile Include="Repository\IDeliveryCarrierRepository.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Repository\IGroupRepository.cs" />
     <Compile Include="Repository\IImagePermissionsRepository.cs" />
     <Compile Include="Repository\IInquiryAttachmentRepository.cs" />
+    <Compile Include="Repository\IInvoiceRepository.cs" />
     <Compile Include="Repository\IItemSectionRepository.cs" />
     <Compile Include="Repository\IInquiryRepository.cs" />
     <Compile Include="Repository\IItemAttachmentRepository.cs" />
