@@ -74,7 +74,7 @@
         <EntityTypeShape EntityType="DomainModels.SectionCostCentreDetail" Width="1.5" PointX="23.125" PointY="26.5" />
         <EntityTypeShape EntityType="DomainModels.SectionCostCentreResource" Width="1.5" PointX="23.625" PointY="49.125" />
         <EntityTypeShape EntityType="DomainModels.State" Width="1.5" PointX="14" PointY="47.25" />
-        <EntityTypeShape EntityType="DomainModels.Status" Width="1.5" PointX="13.25" PointY="33" />
+        <EntityTypeShape EntityType="DomainModels.Status" Width="1.5" PointX="11.375" PointY="32.875" />
         <EntityTypeShape EntityType="DomainModels.SystemEmail" Width="1.5" PointX="18.375" PointY="9.75" />
         <AssociationConnector Association="DomainModels.FK_tbl_section_costcentres_tbl_costcentres" />
         <AssociationConnector Association="DomainModels.FK_tbl_items_tbl_Statuses" />
@@ -83,7 +83,7 @@
         <AssociationConnector Association="DomainModels.FK_tbl_section_costcentre_resources_tbl_section_costcentres" />
         <AssociationConnector Association="DomainModels.FK_tbl_section_costcentre_detail_tbl_stockitems" />
         <EntityTypeShape EntityType="DomainModels.Estimate" Width="1.5" PointX="21.375" PointY="8.25" />
-        <EntityTypeShape EntityType="DomainModels.PaymentGateway" Width="1.5" PointX="23.625" PointY="4.625" />
+        <EntityTypeShape EntityType="DomainModels.PaymentGateway" Width="1.5" PointX="24.125" PointY="3.625" />
         <EntityTypeShape EntityType="DomainModels.PaymentMethod" Width="1.5" PointX="21.375" PointY="4.875" />
         <EntityTypeShape EntityType="DomainModels.PrePayment" Width="1.5" PointX="23.375" PointY="11.75" />
         <AssociationConnector Association="DomainModels.FK_tbl_estimates_tbl_contactcompanies" />
@@ -267,6 +267,8 @@
         <EntityTypeShape EntityType="DomainModels.DeliveryCarrier" Width="1.5" PointX="27.375" PointY="19.75" />
         <AssociationConnector Association="DomainModels.FK_FieldVariable_Company" />
         <AssociationConnector Association="DomainModels.FK_CompanyContactVariable_FieldVariable" />
+        <AssociationConnector Association="DomainModels.FK_Invoice_CompanyContact" />
+        <AssociationConnector Association="DomainModels.FK_Invoice_Status" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

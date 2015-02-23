@@ -413,6 +413,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 JobDescription7 = source.JobDescription7,
                 IsQtyRanged = source.IsQtyRanged,
                 DefaultItemTax = source.DefaultItemTax,
+                Qty1 = source.Qty1,
+                Qty1NetTotal = source.Qty1NetTotal,
+                StatusId = source.StatusId,
+                Status = source.Status != null ? source.Status.StatusName : string.Empty,
                 ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFrom()) :
                 new List<ItemSection>()
             };
