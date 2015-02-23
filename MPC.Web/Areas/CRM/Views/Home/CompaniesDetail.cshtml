@@ -851,10 +851,10 @@
                                                     <table class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
+                                                                <th>&nbsp;</th>
                                                                 <th><a href="#"><span>Name</span></a></th>
                                                                 <th><a href="#"><span>Status</span></a></th>
                                                                 <th><a href="#"><span>Total</span></a></th>
-
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -911,9 +911,10 @@
     </script>
     <script id="invoiceTemplate" type="text/html">
         <tr>
+            <td><span data-bind="style: { 'background-color':flagColor }" class=" label label-success"></span>x</td>
             <td>
-                <span data-bind="text:companyName"></span><br />
-                <span data-bind="text:invoiceDate"></span> | <span data-bind="text:invoiceName"></span> |<span data-bind="text:invoiceCode"></span>
+                <b><span data-bind="text:companyName"></span></b> <br />
+                <span data-bind="dateString:invoiceDate"></span> &emsp; &emsp;&emsp; &emsp;&emsp;  <span data-bind="text:invoiceName"></span>(<span data-bind="text:invoiceCode"></span>)
             </td>
             <td>
                 <span data-bind="text:status"></span><br />

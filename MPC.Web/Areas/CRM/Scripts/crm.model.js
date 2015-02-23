@@ -1980,7 +1980,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // ReSharper disable once InconsistentNaming
     var Invoice = function (specifiedId, specifiedCmpName, specifiedinvoiceCode, specifiedinvoiceDate, specifiedinvoiceName,
-        specifiedisArchive,sepecifiedTotal,specifiedCOntact, specifiedStatus) {
+        specifiedisArchive, sepecifiedTotal, specifiedCOntact, specifiedStatus, specifiedFlagId) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId || 0),
@@ -1994,6 +1994,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             invoiceTotal = ko.observable(sepecifiedTotal || 0),
             contact = ko.observable(specifiedCOntact || undefined),
             status = ko.observable(specifiedStatus || undefined),
+            flagColor = ko.observable('#C0C0C0'),
+            flagId = ko.observable(specifiedFlagId),
                   // Errors
             errors = ko.validation.group({
             }),
@@ -2033,7 +2035,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isArchive: isArchive,
             invoiceTotal: invoiceTotal,
             contact: contact,
-            status:status,
+            flagId:flagId,
+            status: status,
+            flagColor: flagColor,
             errors: errors,
             isValid: isValid,
             showAllErrors: showAllErrors,
@@ -2046,7 +2050,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Estimate Factory
     Invoice.Create = function (source) {
         var invoice = new Invoice(source.InvoiceId, source.CompanyName, source.InvoiceCode, source.InvoiceDate,
-            source.InvoiceName, source.IsArchive, source.InvoiceTotal, source.ContactName, source.Status);
+            source.InvoiceName, source.IsArchive, source.InvoiceTotal + "$", source.ContactName, source.Status, source.FlagId);
         return invoice;
     };
 

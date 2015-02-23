@@ -16,7 +16,7 @@ namespace MPC.MIS.Areas.Api.Models
         public DateTime? InvoiceDate { get; set; }
         public double? InvoiceTotal { get; set; }
         public string ContactName { get; set; }
-
         public string Status { get; set; }
+        public int? FlagId { get; set; }
     }
 }

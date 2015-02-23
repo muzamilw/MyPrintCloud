@@ -22,6 +22,7 @@ define("crm/crm.viewModel",
                     sortIsAsc = ko.observable(true),
                      // Orders list
                     ordersList = ko.observableArray(),
+                    sectionFlagList = ko.observableArray(),
                      // Invoices list
                     invoicesList = ko.observableArray(),
                     isOrderTab = ko.observable(false),
@@ -1339,13 +1340,20 @@ define("crm/crm.viewModel",
                     }, {
                         success: function (data) {
                             if (data != null) {
+                                debugger;
                                 systemUsers.removeAll();
                                 addressCompanyTerritoriesFilter.removeAll();
                                 contactCompanyTerritoriesFilter.removeAll();
                                 addressTerritoryList.removeAll();
                                 roles.removeAll();
+                                sectionFlagList.removeAll();
                                 registrationQuestions.removeAll();
                                 allCompanyAddressesList.removeAll();
+
+                                _.each(data.SectionFlags, function (flag) {
+                                    sectionFlagList.push(flag);
+                                });
+
                                 _.each(data.SystemUsers, function (item) {
                                     var systemUser = new model.SystemUser.Create(item);
                                     systemUsers.push(systemUser);
@@ -1639,6 +1647,10 @@ define("crm/crm.viewModel",
                                 invoicePager().totalCount(data.RowCount);
                                 _.each(data.Invoices, function (item) {
                                     var invoice = new model.Invoice.Create(item);
+                                    _.each(sectionFlagList(), function (flag) {
+                                        if (invoice.flagId() == flag.SectionFlagId)
+                                            invoice.flagColor(flag.FlagColor);
+                                    });
                                     invoicesList.push(invoice);
                                 });
                             }

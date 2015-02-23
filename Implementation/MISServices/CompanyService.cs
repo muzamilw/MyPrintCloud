@@ -2332,7 +2332,8 @@ namespace MPC.Implementation.MISServices
                        CostCentres = costCentreRepository.GetAllCompanyCentersByOrganisationId().ToList(),//GetAllCompanyCentersByCompanyId
                        States = stateRepository.GetAll(),
                        Countries = countryRepository.GetAll(),
-                       FieldVariableResponse = fieldVariableRepository.GetFieldVariable(request)
+                       FieldVariableResponse = fieldVariableRepository.GetFieldVariable(request),
+                       
                    };
         }
         public CompanyBaseResponse GetBaseDataForNewCompany()
@@ -2347,7 +2348,8 @@ namespace MPC.Implementation.MISServices
                 EmailEvents = emailEventRepository.GetAll(),
                 Widgets = widgetRepository.GetAll(),
                 States = stateRepository.GetAll(),
-                Countries = countryRepository.GetAll()
+                Countries = countryRepository.GetAll(),
+                SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM),
             };
         }
         public void SaveFile(string filePath, long companyId)

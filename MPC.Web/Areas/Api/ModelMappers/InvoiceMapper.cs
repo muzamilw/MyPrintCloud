@@ -1,4 +1,5 @@
-﻿using MPC.MIS.Areas.Api.Models;
+﻿using System;
+using MPC.MIS.Areas.Api.Models;
 using System.Linq;
 using Invoice = MPC.Models.DomainModels.Invoice;
 
@@ -31,10 +32,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 InvoiceName = source.InvoiceName,
                 IsArchive = source.IsArchive,
                 InvoiceDate = source.InvoiceDate,
-                InvoiceTotal = source.InvoiceTotal,
+                InvoiceTotal = Math.Round((double) source.InvoiceTotal,2),
                 ContactName = source.CompanyContact != null ? source.CompanyContact.FirstName + " " + source.CompanyContact.LastName : "",
-                Status = source.Status.StatusName
-                
+                Status =source.Status!=null  ? source.Status.StatusName: "-",
+                FlagId = source.FlagID
             };
         }
 
