@@ -2255,7 +2255,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             homeCountry = ko.observable(specifiedHomeCountry),
             secretQuestion = ko.observable(specifiedSecretQuestion),
             secretAnswer = ko.observable(specifiedSecretAnswer),
-            password = ko.observable(specifiedPassword),
+            password = ko.observable(specifiedPassword).extend({ required: true }),
             uRL = ko.observable(specifiedURL),
             isEmailSubscription = ko.observable(specifiedIsEmailSubscription),
             isNewsLetterSubscription = ko.observable(specifiedIsNewsLetterSubscription),
@@ -2318,13 +2318,16 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             bussinessAddress = ko.observable(),
             shippingAddress = ko.observable(),
             stateName = ko.observable(),
+            confirmPassword = ko.observable().extend({ compareWith: password }),
 
 
             // Errors
             errors = ko.validation.group({
                 firstName: firstName,
                 email: email,
-                bussinessAddressId: bussinessAddressId
+                bussinessAddressId: bussinessAddressId,
+                password: password,
+                confirmPassword: confirmPassword
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -2604,6 +2607,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             canPlaceDirectOrder: canPlaceDirectOrder,
             organisationId: organisationId,
             bussinessAddressId: bussinessAddressId,
+            confirmPassword: confirmPassword,
             roleName: roleName,
             fileName: fileName,
             bussinessAddress: bussinessAddress,
