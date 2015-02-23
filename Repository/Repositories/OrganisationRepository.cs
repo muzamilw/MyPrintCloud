@@ -76,13 +76,17 @@ namespace MPC.Repository.Repositories
                 List<string> DestinationsPath = new List<string>();
                 try
                 {
-                   
+
+                 
                     long OrganisationID = 0;
                     Organisation newOrg = new Organisation();
 
                     ImportOrganisation ImportIDs = new ImportOrganisation();
                     ImportIDs.CostCentreIDs = new List<long>();
-
+                    if (objExpOrg.Company != null)
+                    {
+                        ImportIDs.OldCompanyID = objExpOrg.Company.CompanyId;
+                    }
 
                     Organisation objOrg = db.Organisations.Where(o => o.OrganisationId == OID).FirstOrDefault();
                     objOrg = objExpOrg.Organisation;
@@ -771,7 +775,11 @@ namespace MPC.Repository.Repositories
                                                 else
                                                 {
                                                     if (File.Exists(WebSiteLogoSourcePath))
-                                                            File.Copy(WebSiteLogoSourcePath, DestinationWebSiteLogoFilePath);
+                                                    {
+                                                         if (!File.Exists(DestinationWebSiteLogoFilePath))
+                                                             File.Copy(WebSiteLogoSourcePath, DestinationWebSiteLogoFilePath);
+                                                    }
+                                                            
                                                 }
                                                 org.MISLogo = "/MPC_Content/Organisations/" + ImportIDs.NewOrganisationID + "/" + ImportIDs.NewOrganisationID + "_MISLogo.png";
                                                 org.WebsiteLogo = "/MPC_Content/Organisations/" + ImportIDs.NewOrganisationID + "/" + ImportIDs.NewOrganisationID + "_WebstoreLogo.png";
@@ -901,10 +909,11 @@ namespace MPC.Repository.Repositories
                         
                                     // copy company files
                                         Company ObjCompany = db.Companies.Where(c => c.OrganisationId == OrganisationID).FirstOrDefault();
-                                     
+                                    
                                     if (ObjCompany != null)
                                     {
-
+                                        
+                                      
                                         if(ObjCompany.CompanyContacts != null && ObjCompany.CompanyContacts.Count > 0)
                                         {
                                             foreach(var contact in ObjCompany.CompanyContacts)
@@ -1547,10 +1556,10 @@ namespace MPC.Repository.Repositories
                                                     DestinationsPath.Add(DestinationFile5Path);
                                                     string DestinationFile5Directory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId);
                                                     string File5SourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Products/" + ImportIDs.OldOrganisationID + "/" + ItemID + "/" + OldF5Path);
-                                                    if (!System.IO.Directory.Exists(DestinationFile5Path))
+                                                    if (!System.IO.Directory.Exists(DestinationFile5Directory))
                                                     {
-                                                        Directory.CreateDirectory(DestinationFile5Path);
-                                                        if (Directory.Exists(DestinationFile5Path))
+                                                        Directory.CreateDirectory(DestinationFile5Directory);
+                                                        if (Directory.Exists(DestinationFile5Directory))
                                                         {
                                                             if (File.Exists(File5SourcePath))
                                                             {
@@ -1580,7 +1589,7 @@ namespace MPC.Repository.Repositories
                                         DestinationSiteFile = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + ObjCompany.CompanyId + "/Site.css");
                                         DestinationsPath.Add(DestinationSiteFile);
                                         string DestinationSiteFileDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + ObjCompany.CompanyId);
-                                        string SourceSiteFile = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.OldCompanyID + "Site.css");
+                                        string SourceSiteFile = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.OldCompanyID + "/Site.css");
                                         if (!System.IO.Directory.Exists(DestinationSiteFileDirectory))
                                         {
                                             Directory.CreateDirectory(DestinationSiteFileDirectory);
@@ -1608,10 +1617,10 @@ namespace MPC.Repository.Repositories
                                         }
 
                                         // sprite.png
-                                        DestinationSpriteFile = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + ObjCompany.CompanyId + "/Site.css");
+                                        DestinationSpriteFile = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + ObjCompany.CompanyId + "/Sprite.png");
                                         DestinationsPath.Add(DestinationSpriteFile);
                                         string DestinationSpriteDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + ObjCompany.CompanyId);
-                                        string SourceSpriteFile = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.OldCompanyID + "Site.css");
+                                        string SourceSpriteFile = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.OldCompanyID + "/Sprite.png");
                                         if (!System.IO.Directory.Exists(DestinationSpriteDirectory))
                                         {
                                             Directory.CreateDirectory(DestinationSpriteDirectory);
