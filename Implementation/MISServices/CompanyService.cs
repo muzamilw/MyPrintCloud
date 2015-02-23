@@ -2485,6 +2485,14 @@ namespace MPC.Implementation.MISServices
         {
             return fieldVariableRepository.Find(fieldId);
         }
+
+        /// <summary>
+        /// Get Company Contact Varibale By Contact ID
+        /// </summary>
+        public IEnumerable<CompanyContactVariable> GetContactVariableByContactId(long contactId)
+        {
+            return companyContactVariableRepository.GetContactVariableByContactId(contactId);
+        }
         #endregion
 
         #region ExportOrganisation
