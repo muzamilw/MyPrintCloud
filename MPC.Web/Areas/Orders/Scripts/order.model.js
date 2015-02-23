@@ -278,7 +278,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedJobDescriptionTitle1, specifiedJobDescription1, specifiedJobDescriptionTitle2, specifiedJobDescription2, specifiedJobDescriptionTitle3,
         specifiedJobDescription3, specifiedJobDescriptionTitle4, specifiedJobDescription4, specifiedJobDescriptionTitle5,
         specifiedJobDescription5, specifiedJobDescriptionTitle6, specifiedJobDescription6, specifiedJobDescriptionTitle7, specifiedJobDescription7,
-        specifiedIsQtyRanged, specifiedDefaultItemTax, specifiedStatusId, specifiedQty1, specifiedQty1NetTotal) {
+        specifiedIsQtyRanged, specifiedDefaultItemTax, specifiedStatusId, specifiedStatusName, specifiedQty1, specifiedQty1NetTotal) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId || 0),
@@ -333,17 +333,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             defaultItemTax = ko.observable(specifiedDefaultItemTax || undefined),
             // Status Id
             statusId = ko.observable(specifiedStatusId || undefined),
-            // Status
-            status = ko.computed(function() {
-                switch (statusId()) {
-                    case status.ShoppingCart:
-                        return "Shopping Cart";    
-                    case status.NotProgressedToJob:
-                        return "Not Progressed To Job";
-                    default:
-                        return "";
-                }
-            }),
+            // Status Name
+            statusName = ko.observable(specifiedStatusName || undefined),
             // Qty 1
             qty1 = ko.observable(specifiedQty1 || undefined),
             // Qty 1 Net Total
@@ -517,7 +508,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isQtyRanged: isQtyRanged,
             defaultItemTax: defaultItemTax,
             statusId: statusId,
-            status: status,
+            statusName: statusName,
             qty1NetTotal: qty1NetTotal,
             qty1: qty1,
             itemSections: itemSections,
@@ -946,7 +937,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.JobDescriptionTitle1, source.JobDescription1, source.JobDescriptionTitle2,
             source.JobDescription2, source.JobDescriptionTitle3, source.JobDescription3, source.JobDescriptionTitle4, source.JobDescription4,
             source.JobDescriptionTitle5, source.JobDescription5, source.JobDescriptionTitle6, source.JobDescription6, source.JobDescriptionTitle7,
-            source.JobDescription7, source.IsQtyRanged, source.DefaultItemTax);
+            source.JobDescription7, source.IsQtyRanged, source.DefaultItemTax, source.StatusId, source.Status, source.Qty1, source.Qty1NetTotal);
 
         // Map Item Sections if any
         if (source.ItemSections && source.ItemSections.length > 0) {

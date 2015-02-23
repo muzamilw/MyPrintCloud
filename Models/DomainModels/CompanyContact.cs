@@ -104,6 +104,7 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<FavoriteDesign> FavoriteDesigns { get; set; }
         public virtual Address ShippingAddress { get; set; }
         public virtual ICollection<CompanyContactVariable> CompanyContactVariables { get; set; }
+        public virtual ICollection<Invoice> Invoices { get; set; }
         
         [NotMapped]
         public string ContactProfileImage { get; set; }
