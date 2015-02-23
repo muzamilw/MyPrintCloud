@@ -310,7 +310,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- ko template: { id: 'itemTemplate', foreach: items } -->
+                                    <!-- ko template: { name: 'itemTemplate', foreach: items } -->
                                     <!-- /ko -->
                                 </tbody>
                             </table>
@@ -388,22 +388,22 @@
                 <a href="#" data-bind="name: productName, click: $root.editItem"><span></span></a>
             </td>
             <td>
-                <span class="label" data-bind="text: qty1"></span>
+                <span data-bind="text: qty1"></span>
             </td>
             <td class="text-center">
                 <span class="label label-success" data-bind="text: statusName"></span>
             </td>
             <td>
-                <span class="label" data-bind="text: '$' + qty1NetTotal()"></span>
+                <span data-bind="text: '$' + qty1NetTotal()"></span>
             </td>
             <td class="text-right">
-                <a href="#" class="table-link" data-bind="click: openItemDetail">
+                <a href="#" class="table-link" data-bind="click: $root.openItemDetail">
                     <span class="fa-stack">
                         <i class="fa fa-square fa-stack-2x"></i>
                         <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                     </span>
                 </a>
-                <a href="#" class="table-link danger" data-bind="click: deleteItem">
+                <a href="#" class="table-link danger" data-bind="click: $root.deleteItem">
                     <span class="fa-stack">
                         <i class="fa fa-square fa-stack-2x"></i>
                         <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>

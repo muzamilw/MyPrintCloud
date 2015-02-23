@@ -10,7 +10,11 @@
                     <div class="col-lg-12">
                         <div class="row">
                             <div class="col-lg-12">
-                                <h1>  A4 Single Sided Flyer ITM-0-001-08116</h1>
+                                <h1>
+                                    <span data-bind="text: productName"></span>
+                                    <span data-bind="text: ' '"></span>
+                                    <span data-bind="text: code"></span>
+                                </h1>
                             </div>
                         </div>
                         <div class="row" id="user-profile">
@@ -34,7 +38,7 @@
                                                         <div class="col-lg-3 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Category for specific product" data-original-title="" title="">
+                                                                <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Category for specific product" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -46,7 +50,7 @@
 
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            <label class="control-label" style="margin-left:5px;">Flyer</label>
+                                                            <label class="control-label" data-bind="text: productCategoryName" style="margin-left:5px;"></label>
 
                                                         </div>
                                                     </div>
@@ -54,7 +58,7 @@
                                                         <div class="col-lg-3 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Product Name" data-original-title="" title="">
+                                                                <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Product Name" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -67,7 +71,7 @@
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <div>
-                                                                <input type="text" value="A4 Single Sided Flyer" class="form-control" id="Estimateitle" />
+                                                                <input type="text" class="form-control" id="ProductTitle" data-bind="value: productName" />
 
 
                                                             </div>
@@ -79,7 +83,7 @@
                                                         <div class="col-lg-3 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Notes for Specific Product" data-original-title="" title="">
+                                                                <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Notes for Specific Product" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -91,7 +95,7 @@
 
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            <textarea class="form-control" id="txtNotes" placeholder="Enter Notes" rows="5"></textarea>
+                                                            <textarea class="form-control" data-bind="value: itemNotes" id="txtNotes" placeholder="Enter Notes" rows="5"></textarea>
 
                                                         </div>
                                                     </div>
@@ -207,7 +211,7 @@
                                                         <div class="col-lg-3 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Job Code fro specific Product" data-original-title="" title="">
+                                                                <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Job Code fro specific Product" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -219,7 +223,7 @@
 
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            <label class="control-label" style="margin-left:5px;">ITM-0-001-777</label>
+                                                            <label class="control-label" style="margin-left:5px;"></label>
 
                                                         </div>
                                                     </div>
