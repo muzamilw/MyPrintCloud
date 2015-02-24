@@ -19,10 +19,12 @@ namespace MPC.Repository.Repositories
     {
 
         private readonly IWebstoreClaimsHelperService _myClaimHelper;
-        public OrderRepository(IUnityContainer container, IWebstoreClaimsHelperService myClaimHelper)
+        private readonly IPrefixService _PrefixService;
+        public OrderRepository(IUnityContainer container, IWebstoreClaimsHelperService myClaimHelper, IPrefixService PrefixService)
             : base(container)
         {
             this._myClaimHelper = myClaimHelper;
+            this._PrefixService = PrefixService;
         }
 
         /// <summary>
@@ -524,7 +526,24 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+        public bool SetOrderCreationDateAndCode(long orderId)
+        {
+         
+                Estimate tblOrd = db.Estimates.Where(estm => estm.EstimateId == orderId).FirstOrDefault();
+                Prefix prefix = _PrefixService.GetDefaultPrefix();
 
+                if (prefix != null)
+                {
+                    tblOrd.Order_Code = prefix.OrderPrefix + "-001-" + prefix.OrderNext.ToString();
+                    prefix.OrderNext = prefix.OrderNext + 1;
+                }
+                tblOrd.CreationDate = DateTime.Now;
+                tblOrd.IsCreditApproved = 1;
+                tblOrd.IsOfficialOrder = 1;
+                db.SaveChanges();
+                return true;
+          
+        }
         public bool IsVoucherValid(string voucherCode)
         {
 

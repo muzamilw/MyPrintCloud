@@ -4,7 +4,9 @@ using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -51,6 +53,12 @@ namespace MPC.Implementation.WebStoreServices
             Organisation CompOrganisation = _organisationRepsoitory.GetOrganizatiobByID((int)company.OrganisationId);
             _CampaignRepository.SendEmailToSalesManager(Event, ContactId, CompanyId, brokerid, OrderId, CompOrganisation, BrokerAdminContactID, CorporateManagerID, Mode, company, SaleManager, ItemIDs, NameOfBrokerComp, MarketingBreifMesgSummry, RFQId);
 
+        }
+
+        public string GetPinkCardsShopReceiptPage(int OrderId, int CorpID)
+        {
+            return _CampaignRepository.GetPinkCardsShopReceiptPage(OrderId, CorpID);
+            
         }
         public void SendPendingCorporateUserRegistrationEmailToAdmins(int contactID, int Companyid,int organisationId)
         {

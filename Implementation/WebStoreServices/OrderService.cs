@@ -129,6 +129,11 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
+
+        public bool SetOrderCreationDateAndCode(long orderId)
+        {
+            return _OrderRepository.SetOrderCreationDateAndCode(orderId);
+        }
         public bool IsVoucherValid(string voucherCode)
         {
             try

@@ -235,7 +235,23 @@ namespace MPC.Repository.Repositories
             }
             return true;
         }
-
+        public string GetPinkCardsShopReceiptPage(int OrderId, int CorpID)
+        {
+            try
+            {
+                string URl = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/ReceiptPlain.aspx?OrderID=" + OrderId + "&CorpID=" + CorpID;
+                WebClient myClient = new WebClient();
+                Stream response = myClient.OpenRead(URl);
+                StreamReader streamreader = new StreamReader(response);
+                string pageHtml = streamreader.ReadToEnd();
+                return pageHtml;
+            }
+            catch (Exception e)
+            {
+                // LoggingManager.LogBLLException(e);
+                return null;
+            }
+        }
         public void SendEmailToSalesManager(int Event, int ContactId, int CompanyId, int brokerid, int OrderId, Organisation ServerSettings, int BrokerAdminContactID, int CorporateManagerID, StoreMode Mode,Company company,SystemUser SalesManager, int ItemID, string NameOfBrokerComp = "", string MarketingBreifMesgSummry = "", int RFQId = 0)
         {
 

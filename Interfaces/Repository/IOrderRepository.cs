@@ -23,6 +23,7 @@ namespace MPC.Interfaces.Repository
         DiscountVoucher GetVoucherRecord(int VId);
 
         Estimate GetOrderByID(long orderId);
+        bool SetOrderCreationDateAndCode(long orderId);
         bool IsVoucherValid(string voucherCode);
 
         Estimate CheckDiscountApplied(int orderId);
