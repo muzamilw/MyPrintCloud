@@ -55,7 +55,7 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
-        public string GetPinkCardsShopReceiptPage(int OrderId, int CorpID)
+        public string GetPinkCardsShopReceiptPage(int OrderId, long CorpID)
         {
             return _CampaignRepository.GetPinkCardsShopReceiptPage(OrderId, CorpID);
             

@@ -131,6 +131,7 @@
     <Compile Include="Repository\IPhraseFieldRepository.cs" />
     <Compile Include="Repository\IPhraseRespository.cs" />
     <Compile Include="Repository\IPipeLineProductRepository.cs" />
+    <Compile Include="Repository\IPrePaymentRepository.cs" />
     <Compile Include="Repository\IReportRepository.cs" />
     <Compile Include="Repository\IPipeLineSourceRepository.cs" />
     <Compile Include="Repository\IStateRepository.cs" />
@@ -195,6 +196,7 @@
     <Compile Include="WebStoreServices\IOrderService.cs" />
     <Compile Include="WebStoreServices\IItemService.cs" />
     <Compile Include="WebStoreServices\IPrefixService.cs" />
+    <Compile Include="WebStoreServices\IPrePaymentService.cs" />
     <Compile Include="WebStoreServices\IStatusService.cs" />
     <Compile Include="WebStoreServices\ITemplateBackgroundImagesService.cs" />
     <Compile Include="WebStoreServices\ITemplateColorStylesService.cs" />

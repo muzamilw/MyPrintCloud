@@ -23,18 +23,24 @@ namespace MPC.Webstore.Controllers
         private readonly IOrderService _OrderService;
         private readonly ICampaignService _campaignService;
         private readonly ICompanyService _myCompanyService;
-        public PaymentController(IItemService ItemService, IOrderService OrderService,ICampaignService campaignService, ICompanyService myCompanyService)
+        private readonly IWebstoreClaimsHelperService _myClaimHelper;
+        private readonly IUserManagerService _usermanagerService;
+        private readonly IPrePaymentService _IPrePaymentService;
+        public PaymentController(IItemService ItemService, IOrderService OrderService, ICampaignService campaignService, ICompanyService myCompanyService, IWebstoreClaimsHelperService myClaimHelper, IUserManagerService usermanagerService, IPrePaymentService IPrePaymentService)
         {
             this._ItemService = ItemService;
             this._OrderService = OrderService;
             this._campaignService = campaignService;
-            this._myCompanyService =myCompanyService;
+            this._myCompanyService = myCompanyService;
+            this._myClaimHelper = myClaimHelper;
+            this._usermanagerService = usermanagerService;
+            this._IPrePaymentService = IPrePaymentService;
         }
 
         // GET: Payment
         public ActionResult PaypalSubmit(int OrderID)
         {
-           // int OrderID = 16633;
+            // int OrderID = 16633;
             PaypalViewModel opaypal = new PaypalViewModel();
             try
             {
@@ -44,7 +50,7 @@ namespace MPC.Webstore.Controllers
                     string CacheKeyName = "CompanyBaseResponse";
                     ObjectCache cache = MemoryCache.Default;
                     MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
-                    
+
                     PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.StoreId);
                     if (oGateWay != null)
                     {
@@ -107,12 +113,12 @@ namespace MPC.Webstore.Controllers
                         }
 
                     }
-                    
+
                 }
             }
             catch (Exception ex)
             {
-                
+
             }
             return View(opaypal);
         }
@@ -122,7 +128,7 @@ namespace MPC.Webstore.Controllers
             try
             {
                 Estimate modelOrder = null;
-               // BLL.EmailManager emailMgr = new EmailManager();
+                // BLL.EmailManager emailMgr = new EmailManager();
                 string strFormValues = Encoding.ASCII.GetString(Request.BinaryRead(Request.ContentLength));
                 string strNewValue;
                 PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.StoreId);
@@ -198,13 +204,13 @@ namespace MPC.Webstore.Controllers
                     if (payPalResponseID > 0)
                     {
                         //CompanySiteManager CSM = new CompanySiteManager();
-                     //   company_sites Serversettingss = CompanySiteManager.GetCompanySite();
+                        //   company_sites Serversettingss = CompanySiteManager.GetCompanySite();
                         string paymentStatus = this.Request["payment_status"];
                         StoreMode ModeOfStore = StoreMode.Retail;
                         if (string.Compare(paymentStatus, "pending", true) == 0 || string.Compare(paymentStatus, "completed", true) == 0)
                         {
                             modelOrder = _OrderService.GetOrderByID(orderID);
-                            
+
                             if (modelOrder != null)
                                 customerID = modelOrder.CompanyId;
 
@@ -212,69 +218,47 @@ namespace MPC.Webstore.Controllers
                             CampaignEmailParams cep = new CampaignEmailParams();
                             cep.CompanySiteID = 1;
                             string HTMLOfShopReceipt = null;
-                            cep.ContactId = modelOrder.ContactId ?? 0; 
-                            cep.CompanyId = modelOrder.CompanyId ; 
+                            cep.ContactId = modelOrder.ContactId ?? 0;
+                            cep.CompanyId = modelOrder.CompanyId;
                             cep.EstimateID = orderID; //PageParameters.OrderID;
-                            Company BrokerCompany = null;
                             Company CustomerCompany = _myCompanyService.GetCompanyByCompanyID(modelOrder.CompanyId);
                             CompanyContact CustomrContact = _myCompanyService.GetContactByID(cep.ContactId);
                             _OrderService.SetOrderCreationDateAndCode(orderID);
+                            SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(Convert.ToInt32(CustomerCompany.SalesAndOrderManagerId1));
 
-                           
                             if (CustomerCompany.IsCustomer == (int)CustomerTypes.Corporate)
                             {
-                                HTMLOfShopReceipt = (new BLL.EmailManager()).GetPinkCardsShopReceiptPage(orderID, 0, CustomrContact.ContactID); // corp
+                                HTMLOfShopReceipt = _campaignService.GetPinkCardsShopReceiptPage(orderID, CustomrContact.ContactId); // corp
                                 ModeOfStore = StoreMode.Corp;
                             }
                             else
                             {
-                                HTMLOfShopReceipt = (new BLL.EmailManager()).GetPinkCardsShopReceiptPage(orderID, 0, 0); // retail
+                                HTMLOfShopReceipt = _campaignService.GetPinkCardsShopReceiptPage(orderID, 0); // retail
                             }
 
-
-                            Campaign OnlineOrderCampaign = (new BLL.EmailManager()).GetCampaignRecordByEmailEvent((int)BLL.Events.OnlineOrder);
-                            if (modelOrder.BrokerID != null)
+                            Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder);
+                            cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
+                            cep.StoreID = Convert.ToInt32(modelOrder.CompanyId);
+                            cep.AddressID = Convert.ToInt32(modelOrder.CompanyId);
+                            long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager); //ContactManager.GetBrokerByRole(Convert.ToInt32(modelOrder.CompanyId), (int)Roles.Manager); 
+                            cep.CorporateManagerID = ManagerID;
+                            if (CustomerCompany.StoreId != null) ///Retail Mode
                             {
-                                cep.ContactCompanyID = modelOrder.BrokerID ?? 0;
-                                BrokerCompany = CustomerManager.GetCustomer(modelOrder.BrokerID ?? 0);
-                                cep.BrokerID = modelOrder.BrokerID ?? 0;
-                                int AdminIDOfBroker = ContactManager.GetBrokerByRole(BrokerCompany.ContactCompanyID, Convert.ToInt32(Roles.Adminstrator));
-                                cep.BrokerContactID = AdminIDOfBroker;
-                                cep.SalesManagerContactID = AdminIDOfBroker;
-                                cep.StoreID = modelOrder.BrokerID ?? 0;
-                                cep.AddressID = modelOrder.BrokerID ?? 0;
-                                emailMgr.emailBodyGenerator(OnlineOrderCampaign, Serversettingss, cep, CustomrContact, StoreMode.Broker, "", HTMLOfShopReceipt, "", "", "", "", null, "", null, "", BrokerCompany.Name);
-                                emailMgr.SendEmailToSalesManager((int)EmailEvents.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactUserID), Convert.ToInt32(modelOrder.CustomerID), modelOrder.BrokerID ?? 0, orderID, Serversettingss, AdminIDOfBroker, 0, StoreMode.Broker, BrokerCompany.Name);
+                                _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, 0, orderID, 0, 0, StoreMode.Retail, CustomerCompany, EmailOFSM);
                             }
                             else
                             {
-                                cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactUserID);
-
-                                if (CustomerCompany.IsCustomer == (int)CustomerTypes.Corporate)
-                                {
-                                    cep.StoreID = Convert.ToInt32(modelOrder.CustomerID);
-                                    cep.AddressID = Convert.ToInt32(modelOrder.CustomerID);
-                                    int ManagerID = ContactManager.GetBrokerByRole(Convert.ToInt32(modelOrder.CustomerID), (int)Roles.Manager); //ContactManager.GetBrokerByRole(SessionParameters.BrokerContactCompany.ContactCompanyID, Convert.ToInt32(Roles.Adminstrator));
-                                    cep.CorporateManagerID = ManagerID;
-                                    emailMgr.SendEmailToSalesManager((int)EmailEvents.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactUserID), Convert.ToInt32(modelOrder.CustomerID), 0, orderID, Serversettingss, 0, ManagerID, StoreMode.Corp);
-                                }
-                                else
-                                {
-                                    string loginUserCompany= "";
-                                    cep.AddressID = Convert.ToInt32(modelOrder.CustomerID);
-                                    cep.StoreID = Serversettingss.CompanySiteID;
-                                     _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.ContactCompanyId, 0, 0, 0, 0, StoreMode.Retail, loginUserCompany, EmailOFSM);
-                                   // emailMgr.SendEmailToSalesManager((int)EmailEvents.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactUserID), Convert.ToInt32(modelOrder.CustomerID), 0, orderID, Serversettingss, 0, 0, StoreMode.Retail);
-                                }
-                                UsersManager usermgr = new UsersManager();
-                                //in case of retail <<SalesManagerEmail>> variable should be resolved by organization's sales manager
-                                // thats why after getting the sales manager records ew are sending his email as a parameter in email body genetor
-                                tbl_systemusers EmailOFSM = usermgr.GetSalesManagerDataByID(Convert.ToInt32(Serversettingss.SalesManagerID));
-                                emailMgr.emailBodyGenerator(OnlineOrderCampaign, Serversettingss, cep, CustomrContact, StoreMode.Retail, "", HTMLOfShopReceipt, "", EmailOFSM.Email);
-
+                                _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactId), Convert.ToInt32(modelOrder.CompanyId), 0, orderID, 0, Convert.ToInt32(ManagerID), StoreMode.Corp, CustomerCompany, EmailOFSM);
+                           
                             }
-                            BLL.PaymentsManager payManager = new BLL.PaymentsManager();
-                            payManager.CreatePrePayment(Model.PaymentMethods.PayPal, orderID, customerID, payPalResponseID, this.Request["txn_id"], outGrossTotal, ModeOfStore);
+                            
+                            //in case of retail <<SalesManagerEmail>> variable should be resolved by organization's sales manager
+                            // thats why after getting the sales manager records ew are sending his email as a parameter in email body genetor
+                          
+
+                            _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(CustomerCompany.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email);
+
+                            _IPrePaymentService.CreatePrePayment(PaymentMethods.PayPal, orderID, Convert.ToInt32(customerID), payPalResponseID, this.Request["txn_id"], outGrossTotal, ModeOfStore);
                         }
                         else
                         {
@@ -289,20 +273,18 @@ namespace MPC.Webstore.Controllers
                 else
                 {
                     throw new Exception("INVALID HandShake_against_RequestID =  " + outCustomRequestID.ToString() + " " + DateTime.Now.ToString());
-                    //Carts.WriteFile("Error in IPNHandler. IPNResponse = 'INVALID'");
-                    // LogDataIntoTextFile("INVALID HandShake_against_RequestID =  " + outCustomRequestID.ToString() + " " + DateTime.Now.ToString());
-                }
+                 }
             }
             catch (Exception ex)
             {
-             //   LogError(ex);
+                //   LogError(ex);
             }
             return View();
         }
 
-        
-             public long CreatePaymentResponses(int orderID, string txn_id, double payment_price, string payerEmail, string first_name, string last_name, string street, string city, string state, string zip,
-                                           string country, int request_id, bool is_success, string reason_fault)
+
+        public long CreatePaymentResponses(int orderID, string txn_id, double payment_price, string payerEmail, string first_name, string last_name, string street, string city, string state, string zip,
+                                      string country, int request_id, bool is_success, string reason_fault)
         {
 
             BLL.PaymentsManager payManager = null;
@@ -334,7 +316,7 @@ namespace MPC.Webstore.Controllers
 
             return pkey;
         }
-    
+
 
     }
 }

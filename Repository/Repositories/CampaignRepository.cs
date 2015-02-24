@@ -235,7 +235,7 @@ namespace MPC.Repository.Repositories
             }
             return true;
         }
-        public string GetPinkCardsShopReceiptPage(int OrderId, int CorpID)
+        public string GetPinkCardsShopReceiptPage(int OrderId, long CorpID)
         {
             try
             {
