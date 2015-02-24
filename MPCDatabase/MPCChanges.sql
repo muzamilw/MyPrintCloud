@@ -399,3 +399,35 @@ references Status(StatusId)
 Alter table Invoice
 add foreign key (ContactId)
 references CompanyContact(ContactId)
+
+GO
+
+/* Execution Date: 24/02/2015 */
+
+GO
+
+alter table FieldVariable
+alter column VariableSectionId bigint
+
+alter table SmartFormDetail
+add VariableId bigint null
+
+alter table SmartFormDetail
+add CaptionValue varchar(200) null
+
+alter table items
+drop DF__tbl_items__JobMa__6D6238AF
+
+alter table Items
+alter column JobManagerId uniqueidentifier null
+
+alter table Items
+alter column JobProgressedBy uniqueidentifier null
+
+alter table Items
+alter column JobCardPrintedBy uniqueidentifier null
+
+alter table SmartForm
+add Heading varchar(100) null
+
+GO
