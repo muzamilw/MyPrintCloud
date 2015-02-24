@@ -1170,7 +1170,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="VariableName" Type="varchar" MaxLength="200" />
           <Property Name="RefTableName" Type="varchar" MaxLength="200" />
           <Property Name="CriteriaFieldName" Type="varchar" MaxLength="200" />
-          <Property Name="VariableSectionId" Type="int" />
+          <Property Name="VariableSectionId" Type="bigint" />
           <Property Name="VariableTag" Type="varchar" MaxLength="200" />
           <Property Name="SortOrder" Type="int" />
           <Property Name="KeyField" Type="varchar" MaxLength="100" />
@@ -1537,11 +1537,11 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="JobDescription" Type="text" />
           <Property Name="InvoiceDescription" Type="text" />
           <Property Name="JobCode" Type="varchar" MaxLength="50" />
-          <Property Name="JobManagerId" Type="int" />
+          <Property Name="JobManagerId" Type="uniqueidentifier" />
           <Property Name="JobEstimatedStartDateTime" Type="datetime" />
           <Property Name="JobEstimatedCompletionDateTime" Type="datetime" />
           <Property Name="JobCreationDateTime" Type="datetime" />
-          <Property Name="JobProgressedBy" Type="int" />
+          <Property Name="JobProgressedBy" Type="uniqueidentifier" />
           <Property Name="jobSelectedQty" Type="int" />
           <Property Name="JobStatusId" Type="int" />
           <Property Name="IsJobCardPrinted" Type="bit" />
@@ -1593,7 +1593,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="WebDescription" Type="varchar(max)" />
           <Property Name="ItemTypeId" Type="int" />
           <Property Name="IsOrderedItem" Type="bit" />
-          <Property Name="JobCardPrintedBy" Type="int" />
+          <Property Name="JobCardPrintedBy" Type="uniqueidentifier" />
           <Property Name="JobCardLastPrintedDate" Type="datetime" />
           <Property Name="EstimateProductionTime" Type="int" />
           <Property Name="SortOrder" Type="int" />
@@ -2336,6 +2336,43 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="MethodName" Type="varchar" MaxLength="200" />
           <Property Name="IsActive" Type="bit" />
         </EntityType>
+        <EntityType Name="PaypalPaymentRequest">
+          <Key>
+            <PropertyRef Name="Request_ID" />
+          </Key>
+          <Property Name="Request_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Order_ID" Type="int" Nullable="false" />
+          <Property Name="ProductID" Type="varchar" MaxLength="5000" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="RequestDate" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PayPalResponse">
+          <Key>
+            <PropertyRef Name="PayPalResponseId" />
+          </Key>
+          <Property Name="PayPalResponseId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RequestId" Type="bigint" />
+          <Property Name="OrderId" Type="bigint" />
+          <Property Name="TransactionId" Type="varchar(max)" />
+          <Property Name="PaymentPrice" Type="float" />
+          <Property Name="FirstName" Type="varchar" MaxLength="300" />
+          <Property Name="LastName" Type="varchar" MaxLength="300" />
+          <Property Name="Street" Type="varchar" MaxLength="300" />
+          <Property Name="City" Type="varchar" MaxLength="300" />
+          <Property Name="State" Type="varchar" MaxLength="300" />
+          <Property Name="Zip" Type="varchar" MaxLength="300" />
+          <Property Name="Country" Type="varchar" MaxLength="300" />
+          <Property Name="IsSuccess" Type="bit" />
+          <Property Name="ReasonFault" Type="varchar(max)" />
+          <Property Name="ResponseDate" Type="datetime" />
+          <Property Name="TransactionType" Type="varchar" MaxLength="150" />
+          <Property Name="PaymentStatus" Type="varchar" MaxLength="150" />
+          <Property Name="PaymentType" Type="varchar" MaxLength="150" />
+          <Property Name="PayerEmail" Type="varchar" MaxLength="300" />
+          <Property Name="PayerStatus" Type="varchar" MaxLength="150" />
+          <Property Name="ReceiverEmail" Type="varchar" MaxLength="300" />
+        </EntityType>
         <EntityType Name="Phrase">
           <Key>
             <PropertyRef Name="PhraseId" />
@@ -2759,6 +2796,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="Name" Type="varchar" MaxLength="200" />
           <Property Name="CompanyId" Type="bigint" />
           <Property Name="OrganisationId" Type="bigint" />
+          <Property Name="Heading" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="SmartFormDetail">
           <Key>
@@ -2769,6 +2807,8 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="ObjectType" Type="int" />
           <Property Name="IsRequired" Type="bit" />
           <Property Name="SortOrder" Type="int" />
+          <Property Name="VariableId" Type="bigint" />
+          <Property Name="CaptionValue" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="State">
           <Key>
@@ -4492,6 +4532,18 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbl_PrePayments_tbl_PayPalResponses">
+          <End Role="PayPalResponse" Type="Self.PayPalResponse" Multiplicity="0..1" />
+          <End Role="PrePayment" Type="Self.PrePayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PayPalResponse">
+              <PropertyRef Name="PayPalResponseId" />
+            </Principal>
+            <Dependent Role="PrePayment">
+              <PropertyRef Name="PayPalResponseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_ProductCategory_tbl_contactcompanies">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="ProductCategory" Type="Self.ProductCategory" Multiplicity="*" />
@@ -4858,6 +4910,8 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <EntitySet Name="PaperSize" EntityType="Self.PaperSize" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentGateway" EntityType="Self.PaymentGateway" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentMethod" EntityType="Self.PaymentMethod" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaypalPaymentRequest" EntityType="Self.PaypalPaymentRequest" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PayPalResponse" EntityType="Self.PayPalResponse" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Phrase" EntityType="Self.Phrase" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhraseField" EntityType="Self.PhraseField" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PipeLineProduct" EntityType="Self.PipeLineProduct" Schema="dbo" store:Type="Tables" />
@@ -5388,6 +5442,10 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           </AssociationSet>
           <AssociationSet Name="FK_tbl_PrePayments_tbl_PaymentMethods" Association="Self.FK_tbl_PrePayments_tbl_PaymentMethods">
             <End Role="PaymentMethod" EntitySet="PaymentMethod" />
+            <End Role="PrePayment" EntitySet="PrePayment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_PrePayments_tbl_PayPalResponses" Association="Self.FK_tbl_PrePayments_tbl_PayPalResponses">
+            <End Role="PayPalResponse" EntitySet="PayPalResponse" />
             <End Role="PrePayment" EntitySet="PrePayment" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_ProductCategory_tbl_contactcompanies" Association="Self.FK_tbl_ProductCategory_tbl_contactcompanies">
@@ -6147,6 +6205,12 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <AssociationSet Name="FK_Invoice_Status" Association="DomainModels.FK_Invoice_Status">
             <End Role="Status" EntitySet="Status" />
             <End Role="Invoice" EntitySet="Invoices" />
+          </AssociationSet>
+          <EntitySet Name="PaypalPaymentRequests" EntityType="DomainModels.PaypalPaymentRequest" />
+          <EntitySet Name="PayPalResponses" EntityType="DomainModels.PayPalResponse" />
+          <AssociationSet Name="FK_tbl_PrePayments_tbl_PayPalResponses" Association="DomainModels.FK_tbl_PrePayments_tbl_PayPalResponses">
+            <End Role="PayPalResponse" EntitySet="PayPalResponses" />
+            <End Role="PrePayment" EntitySet="PrePayments" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
@@ -7442,11 +7506,11 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="JobDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="InvoiceDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="JobCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="JobManagerId" Type="Int32" />
+          <Property Name="JobManagerId" Type="Guid" />
           <Property Name="JobEstimatedStartDateTime" Type="DateTime" Precision="3" />
           <Property Name="JobEstimatedCompletionDateTime" Type="DateTime" Precision="3" />
           <Property Name="JobCreationDateTime" Type="DateTime" Precision="3" />
-          <Property Name="JobProgressedBy" Type="Int32" />
+          <Property Name="JobProgressedBy" Type="Guid" />
           <Property Name="JobSelectedQty" Type="Int32" />
           <Property Name="JobStatusId" Type="Int32" />
           <Property Name="IsJobCardPrinted" Type="Boolean" />
@@ -7498,7 +7562,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="WebDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ItemTypeId" Type="Int32" />
           <Property Name="IsOrderedItem" Type="Boolean" />
-          <Property Name="JobCardPrintedBy" Type="Int32" />
+          <Property Name="JobCardPrintedBy" Type="Guid" />
           <Property Name="JobCardLastPrintedDate" Type="DateTime" Precision="3" />
           <Property Name="EstimateProductionTime" Type="Int32" />
           <Property Name="SortOrder" Type="Int32" />
@@ -8326,6 +8390,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="PaymentDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Estimate" Relationship="DomainModels.FK_tbl_PrePayments_tbl_estimates" FromRole="PrePayment" ToRole="Estimate" />
           <NavigationProperty Name="PaymentMethod" Relationship="DomainModels.FK_tbl_PrePayments_tbl_PaymentMethods" FromRole="PrePayment" ToRole="PaymentMethod" />
+          <NavigationProperty Name="PayPalResponse" Relationship="DomainModels.FK_tbl_PrePayments_tbl_PayPalResponses" FromRole="PrePayment" ToRole="PayPalResponse" />
         </EntityType>
         <Association Name="FK_tbl_estimates_tbl_contactcompanies">
           <End Type="DomainModels.Company" Role="Company" Multiplicity="1" />
@@ -11030,6 +11095,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="OrganisationId" Type="Int64" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_SmartForm_Company" FromRole="SmartForm" ToRole="Company" />
           <NavigationProperty Name="SmartFormDetails" Relationship="DomainModels.FK_SmartFormDetail_SmartForm" FromRole="SmartForm" ToRole="SmartFormDetail" />
+          <Property Name="Heading" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="SmartFormDetail">
           <Key>
@@ -11041,6 +11107,8 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="IsRequired" Type="Boolean" />
           <Property Name="SortOrder" Type="Int32" />
           <NavigationProperty Name="SmartForm" Relationship="DomainModels.FK_SmartFormDetail_SmartForm" FromRole="SmartFormDetail" ToRole="SmartForm" />
+          <Property Name="VariableId" Type="Int64" />
+          <Property Name="CaptionValue" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Invoice_Company">
           <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
@@ -11146,6 +11214,56 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
             </Principal>
             <Dependent Role="Invoice">
               <PropertyRef Name="InvoiceStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PaypalPaymentRequest">
+          <Key>
+            <PropertyRef Name="Request_ID" />
+          </Key>
+          <Property Name="Request_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Order_ID" Type="Int32" Nullable="false" />
+          <Property Name="ProductID" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="RequestDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PayPalResponse">
+          <Key>
+            <PropertyRef Name="PayPalResponseId" />
+          </Key>
+          <Property Name="PayPalResponseId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RequestId" Type="Int64" />
+          <Property Name="OrderId" Type="Int64" />
+          <Property Name="TransactionId" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentPrice" Type="Double" />
+          <Property Name="FirstName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Street" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Zip" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="IsSuccess" Type="Boolean" />
+          <Property Name="ReasonFault" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ResponseDate" Type="DateTime" Precision="3" />
+          <Property Name="TransactionType" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentStatus" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentType" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="PayerEmail" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="PayerStatus" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="ReceiverEmail" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PrePayments" Relationship="DomainModels.FK_tbl_PrePayments_tbl_PayPalResponses" FromRole="PayPalResponse" ToRole="PrePayment" />
+        </EntityType>
+        <Association Name="FK_tbl_PrePayments_tbl_PayPalResponses">
+          <End Type="DomainModels.PayPalResponse" Role="PayPalResponse" Multiplicity="0..1" />
+          <End Type="DomainModels.PrePayment" Role="PrePayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PayPalResponse">
+              <PropertyRef Name="PayPalResponseId" />
+            </Principal>
+            <Dependent Role="PrePayment">
+              <PropertyRef Name="PayPalResponseId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -14574,6 +14692,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <EntitySetMapping Name="SmartForms">
             <EntityTypeMapping TypeName="DomainModels.SmartForm">
               <MappingFragment StoreEntitySet="SmartForm">
+                <ScalarProperty Name="Heading" ColumnName="Heading" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -14584,6 +14703,8 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <EntitySetMapping Name="SmartFormDetails">
             <EntityTypeMapping TypeName="DomainModels.SmartFormDetail">
               <MappingFragment StoreEntitySet="SmartFormDetail">
+                <ScalarProperty Name="CaptionValue" ColumnName="CaptionValue" />
+                <ScalarProperty Name="VariableId" ColumnName="VariableId" />
                 <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
                 <ScalarProperty Name="IsRequired" ColumnName="IsRequired" />
                 <ScalarProperty Name="ObjectType" ColumnName="ObjectType" />
@@ -14601,6 +14722,45 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
                 <ScalarProperty Name="Url" ColumnName="Url" />
                 <ScalarProperty Name="CarrierName" ColumnName="CarrierName" />
                 <ScalarProperty Name="CarrierId" ColumnName="CarrierId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaypalPaymentRequests">
+            <EntityTypeMapping TypeName="DomainModels.PaypalPaymentRequest">
+              <MappingFragment StoreEntitySet="PaypalPaymentRequest">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="Order_ID" ColumnName="Order_ID" />
+                <ScalarProperty Name="Request_ID" ColumnName="Request_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PayPalResponses">
+            <EntityTypeMapping TypeName="DomainModels.PayPalResponse">
+              <MappingFragment StoreEntitySet="PayPalResponse">
+                <ScalarProperty Name="ReceiverEmail" ColumnName="ReceiverEmail" />
+                <ScalarProperty Name="PayerStatus" ColumnName="PayerStatus" />
+                <ScalarProperty Name="PayerEmail" ColumnName="PayerEmail" />
+                <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+                <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+                <ScalarProperty Name="ResponseDate" ColumnName="ResponseDate" />
+                <ScalarProperty Name="ReasonFault" ColumnName="ReasonFault" />
+                <ScalarProperty Name="IsSuccess" ColumnName="IsSuccess" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="PaymentPrice" ColumnName="PaymentPrice" />
+                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+                <ScalarProperty Name="PayPalResponseId" ColumnName="PayPalResponseId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
