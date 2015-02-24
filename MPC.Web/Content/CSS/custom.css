@@ -3,7 +3,7 @@ html {    height: 100%;}body {    background: #fff;    -webkit-font-smoo
         {
             top: 0;
             position: fixed;
-            left:45%;
+            left:42%;
             z-index: 10000;
             background-color: white;
             border-radius: 4px;
@@ -18,7 +18,7 @@ html {    height: 100%;}body {    background: #fff;    -webkit-font-smoo
             text-align: center;
             background-color: white;
             width:350px;
-           
+            left:41%;
             border: 1px solid #dedede;
             border-radius: 7px;
             font-family: Arial;
@@ -106,14 +106,9 @@ html {    height: 100%;}body {    background: #fff;    -webkit-font-smoo
            padding-right:10px;
            padding-bottom:10px;
         }
-         
-        body {
-            
-            zoom:85%;
-            overflow: hidden;
-            height:100%;
-        }
-
+        
+       
+       
 
   
 

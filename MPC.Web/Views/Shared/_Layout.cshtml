@@ -63,40 +63,7 @@
 </head>
 <body class="theme-red">
 
-    <div class="myprintcloud-help" id="myprintcloud-help">
-    <div class="left-arrow"></div>
-        <div class="right-arrow"></div>
-        <div class="top-arrow"></div>
-        <div class="bottom-arrow"></div>
-        <div>
-
-        </div>
-        <div class="help-divs">
-            <h1 class="help-header">Manage PRINTCloud</h1>
-        </div>
-
-        <div style="padding-left:10px;padding-right:10px;">
-            <span class="help-header-description">this is your Dashboard</span>
-        </div>
-        <div class="help-divs">
-            <span class="help-details">Create Products , Web Stores , Estimates ...</span>
-        </div>
-        <div>
-            <div class="input-group" style="width:100%;display:inline;">
-                <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="btnCloseHelp">Close</button>
-            </div>
-            <div class="input-group" style="width:100%;display:inline;">
-                <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="btnNextHelp">Next</button>
-            </div>
-            <div class="input-group" style="width:100%;display:inline;">
-                <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="btnPreviousHelp">Previous</button>
-            </div>
-        </div>
-
-</div>
-    </div>
-
-    <header class="navbar" id="header-navbar">
+<header class="navbar" id="header-navbar">
 
 
         <div class="container">
@@ -104,7 +71,6 @@
             <a href="~/Dashboard/Index" id="header" class="my-navigator navbar-brand">
 
                 <img src="~/Content/themes/Centaurus/img/logo.png" id="header-logo" alt="" class="normal-logo logo-white" height="25" width="170" style="margin-top:5px;" />
-
             </a>
 
             <div class="clearfix">
@@ -318,6 +284,18 @@
                             </li>*@
                         <li class="dropdown profile-dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-cog"></i>
+                            </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Take Tour</a></li>
+                                    <li><a href="#">Self Paced Tutorials</a></li>
+                                    <li><a href="~/Home/Logout">Attend a Webinar</a></li>
+                                    <li><a href="~/Home/Logout">Log a Support Ticket</a></li>
+                                    <li><a href="~/Home/Logout">Change your Plan</a></li>
+                                </ul>
+</li>
+                        <li class="dropdown profile-dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="hidden-xs">
                                     @if (User != null && User.Identity != null)
                                     {
@@ -327,7 +305,6 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="#"><i class="fa fa-user"></i>Profile</a></li>
-                                <li><a href="#"><i class="fa fa-cog"></i>Settings</a></li>
                                 <li><a href="#"><i class="fa fa-envelope-o"></i>Messages</a></li>
                                 <li><a href="~/Home/Logout"><i class="fa fa-power-off"></i>Logout</a></li>
                             </ul>
@@ -362,25 +339,6 @@
                                         <i class="fa fa-dashboard"></i>
                                         <span>Dashboard</span>
                                     </a>
-                                    <div class="Submenu-Dashborad" id="myprintcloud-dashborad">
-
-                                        @*<h1>Dashbard</h1>
-                                            <hr />
-                                            <span>this is your Dashborad Help platform</span>
-                                            <br />
-                                            <span>Get Help by Clicking Next Button</span>
-                                            <hr />
-                                            <div class="input-group" style="width:100%;display:inline;">
-                                                <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn">Close</button>
-                                            </div>
-                                            <div class="input-group" style="width:100%;display:inline;">
-                                                <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn">Next</button>
-                                            </div>
-                                            <div class="input-group" style="width:100%;display:inline;">
-                                                <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn">Previous</button>
-                                            </div>*@
-
-                                    </div>
                                 </li>
                                 <li id="listores">
                                     <a href="~/Stores/Stores/Index" class="my-navigator">
@@ -782,8 +740,7 @@
                         </div>
                         @* Test Left menue ends here*@
                     </div>
-                    <div class="disabled-div">
-                    </div>
+                    
                 </section>
             </div>
             @*content wrapper goes here*@
@@ -850,169 +807,7 @@
 
         });
     </script>
-    <script>
-        $(document).ready(function ()
-        {
-            var width = $(window).width();
-            var totalwidth = width - 400;
-            var divisonwidth = totalwidth / 2;
-
-            document.getElementById("myprintcloud-help").style.left = divisonwidth + "px";
-            $("#myprintcloud-help").animate({ "top": "-=250" }, 200).delay(500);
-            $("#myprintcloud-help").animate({ "top": "+=370" }, 200);
-
-        });
-    </script>
-    <script>
-        $(document).ready(function ()
-        {
-
-            $(window).resize(function ()
-            {
-                var width = $(window).width();
-                var total = width - 400;
-                var divison = total / 2;
-
-                document.getElementById("myprintcloud-help").style.left = divison + "px";
-
-            });
-
-        });
-    </script>
-    <script>
-        $(document).ready(function ()
-        {
-            $("#btnCloseHelp").click(function ()
-            {
-
-                $("#myprintcloud-help").hide();
-                $(".disabled-div").css("display", "none");
-                
-                $('body').css('overflow', 'visible');
-                $('body').css('zoom', '100%');
-
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function ()
-        {
-
-            var i = 0;
-
-            var proceeding = ["manage PRINTCloud", "Add more Products", "Add more Stores", "Estimates & JobCards", "System Settings", "Your Account Area", "You've got the Basics..."];
-            var proceddingheadertext = ["This is your Dashboard", "Product is an item that appears on your website or estimating module", "A store a Webiste with own URL Link", "Create accurate estimates for simple digital products to complex multi page brouchers ...", "Set Your Regional Details,Create Presses and configure your delivery method cost centers", "From Here you can access", "Would you like to do Next ?"]
-            var proceddingdetails = ["Create Products , Web Stores , Estimates ...", "Create products with require templates to personlized or just of the shlef Finished Goods", "Create Website at attract new ivsitors \n or \n Create private website for larger customers who have specific online needs", "", "", "Self Placed Tutorials \n Join us in Regular webinars \n Contact our Suppert Desk \n Upgrade/dongrade your and cancel your Account", ""]
-
-            $("#btnPreviousHelp").hide();
-            $("#btnCloseHelp").show();
-
-            $("#btnNextHelp").click(function ()
-            {
-
-                i = i + 1;
-
-                var dashp = $("#myprintcloud-dashborad");
-                var positiontop = dashp.position().top;
-                var positionleft = dashp.position().left;
-
-                var dashh = $("#myprintcloud-help");
-                var positiontophelp = dashh.position().top;
-                var positionlefthelp = dashh.position().left;
-
-                var top = parseInt(positiontop) - parseInt(236);
-                var left = parseInt(positionleft) - parseInt(positionlefthelp);
-
-
-                if (i == 1)
-                {
-                    left = left + 240;
-                    $("#myprintcloud-help").animate({ "top": "-=-40", "left": "+=" + left }, 100);
-
-                    $(".help-header").text(proceeding[1]);
-                    $(".help-header-description").text(proceddingheadertext[1]);
-                    $(".help-details").text(proceddingdetails[1]);
-
-                    $("#btnPreviousHelp").show();
-
-                }
-                if (i != 1)
-                {
-
-                    left = left + 240;
-                    $("#myprintcloud-help").animate({ "top": "-=-40", "left": "+=" + left }, 100);
-
-                    $(".help-header").text(proceeding[i]);
-                    $(".help-header-description").text(proceddingheadertext[i]);
-                    $(".help-details").text(proceddingdetails[i]);
-
-                    $("#btnPreviousHelp").show();
-                }
-                if (i == 6)
-                {
-
-                    $("#btnNextHelp").hide();
-                    $("#btnCloseHelp").show();
-
-                }
-
-
-
-            });
-
-            $("#btnPreviousHelp").click(function ()
-            {
-
-                i = i - 1;
-
-
-                var dashp = $("#myprintcloud-dashborad");
-                var positiontop = dashp.position().top;
-                var positionleft = dashp.position().left;
-
-                var dashh = $("#myprintcloud-help");
-                var positiontophelp = dashh.position().top;
-                var positionlefthelp = dashh.position().left;
-
-                var top = parseInt(positiontop) - parseInt(236);
-                var left = parseInt(positionleft) - parseInt(positionlefthelp);
-
-                if (i == 0)
-                {
-
-                    var width = $(window).width();
-
-                    var total = width - 400;
-                    var divison = total / 2;
-
-                    document.getElementById("myprintcloud-help").style.left = divison + "px";
-                    document.getElementById("myprintcloud-help").style.top = "120px";
-
-                    $(".help-header").text(proceeding[0]);
-                    $(".help-header-description").text(proceddingheadertext[0]);
-                    $(".help-details").text(proceddingdetails[0]);
-
-                    $("#btnPreviousHelp").hide();
-                    $("#btnNextHelp").show();
-                   
-                 
-
-
-                }
-                if ((i != 0) && (i != 6))
-                {
-                    left = left + 240;
-                    $("#myprintcloud-help").animate({ "top": "-=40", "left": "+=" + left }, 100);
-
-                    $(".help-header").text(proceeding[i]);
-                    $(".help-header-description").text(proceddingheadertext[i]);
-                    $(".help-details").text(proceddingdetails[i]);
-
-                    $("#btnNextHelp").show();
-                }
-        });
-       
-    </script>
+    
 
     @RenderSection("scripts", required: false)
 
