@@ -1,28 +1,31 @@
-﻿using Microsoft.Practices.Unity;
+﻿using System.Data.Entity;
+using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
-using System.Data.Entity;
 
 namespace MPC.Repository.Repositories
 {
-    public class SmartFormRepository : BaseRepository<SmartForm>, ISmartFormRepository
+    /// <summary>
+    /// Smart Form Detail Repository
+    /// </summary>
+    public class SmartFormDetailRepository : BaseRepository<SmartFormDetail>, ISmartFormDetailRepository
     {
         #region Constructor
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public SmartFormRepository(IUnityContainer container)
+        public SmartFormDetailRepository(IUnityContainer container)
             : base(container)
         {
 
         }
-        protected override IDbSet<SmartForm> DbSet
+        protected override IDbSet<SmartFormDetail> DbSet
         {
             get
             {
-                return db.SmartForms;
+                return db.SmartFormDetails;
             }
         }
 

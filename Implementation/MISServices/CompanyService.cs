@@ -2344,7 +2344,8 @@ namespace MPC.Implementation.MISServices
                        CostCentres = costCentreRepository.GetAllCompanyCentersByOrganisationId().ToList(),//GetAllCompanyCentersByCompanyId
                        States = stateRepository.GetAll(),
                        Countries = countryRepository.GetAll(),
-                       FieldVariableResponse = fieldVariableRepository.GetFieldVariable(request)
+                       FieldVariableResponse = fieldVariableRepository.GetFieldVariable(request),
+                       FieldVariablesForSmartForm = fieldVariableRepository.GetFieldVariablesForSmartForm(storeId)
                    };
         }
         public CompanyBaseResponse GetBaseDataForNewCompany()
