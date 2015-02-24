@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Web;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
@@ -382,6 +384,7 @@ namespace MPC.Implementation.MISServices
             }
             companyRepository.Add(company);
             companyRepository.SaveChanges();
+            SaveCompanyProfileImage(company);
             return company;
         }
 
@@ -398,6 +401,31 @@ namespace MPC.Implementation.MISServices
             }
         }
 
+
+        private void SaveCompanyProfileImage(Company company)
+        {
+            if (company.CompanyLogoSource != null)
+            {
+                string base64 = company.CompanyLogoSource.Substring(company.CompanyLogoSource.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + company.CompanyId);
+
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                string savePath = directoryPath + "\\logo.png";
+                File.WriteAllBytes(savePath, data);
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
+
+                company.Image = savePath;
+                companyRepository.SaveChanges();
+
+            }
+        }
         #endregion
     }
 

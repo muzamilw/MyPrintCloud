@@ -124,6 +124,7 @@
     <Compile Include="Common\IsTrialClaimValue.cs" />
     <Compile Include="Common\OrderStatusEnum.cs" />
     <Compile Include="Common\PaypalOrderParameter.cs" />
+    <Compile Include="Common\StringHelper.cs" />
     <Compile Include="Common\SystemUserClaimValue.cs" />
     <Compile Include="Common\OrderByColumn.cs" />
     <Compile Include="Common\MachineListColumns.cs" />
@@ -183,6 +184,8 @@
     <Compile Include="DomainModels\CustomCopy.cs" />
     <Compile Include="DomainModels\DeliveryCarrier.cs" />
     <Compile Include="DomainModels\FavoriteDesign.cs" />
+    <Compile Include="DomainModels\PaypalPaymentRequest.cs" />
+    <Compile Include="DomainModels\PayPalResponse.cs" />
     <Compile Include="DomainModels\SmartForm.cs" />
     <Compile Include="DomainModels\SmartFormDetail.cs" />
     <Compile Include="DomainModels\VariableOption.cs" />

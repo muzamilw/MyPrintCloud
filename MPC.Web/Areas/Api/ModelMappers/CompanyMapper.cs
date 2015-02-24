@@ -430,6 +430,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 VATRegReference = source.VATRegReference,
                 FlagId = source.FlagId,
                 PhoneNo = source.PhoneNo,
+                CompanyLogoSource = source.CompanyLogoSource,
+                CompanyLogoName = source.CompanyLogoName,
                 Addresses =
                     source.Addresses != null ? source.Addresses.Select(add => add.CreateFromSupplier()).ToList() : null,
                 CompanyContacts =

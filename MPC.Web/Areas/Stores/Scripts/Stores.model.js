@@ -2319,7 +2319,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             shippingAddress = ko.observable(),
             stateName = ko.observable(),
 
-            companyContactVariables=ko.observableArray([]),
+            companyContactVariables = ko.observableArray([]),
             confirmPassword = ko.observable().extend({ compareWith: password }),
 
 
@@ -3957,10 +3957,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // #endregion 
 
     // #region ______________  Field Variable   _________________
-
-    // ReSharper disable once InconsistentNaming
     var FieldVariable = function (specifiedVariableId, specifiedVariableName, specifiedVariableType, specifiedScope, specifiedWaterMark, specifiedDefaultValue,
-        specifiedInputMask, specifiedCompanyId, specifiedVariableTag, specifiedScopeName, specifiedTypeName, specifiedVariableTitle) {
+          specifiedInputMask, specifiedCompanyId, specifiedVariableTag, specifiedScopeName, specifiedTypeName, specifiedVariableTitle) {
         var self,
             id = ko.observable(specifiedVariableId),
             variableName = ko.observable(specifiedVariableName).extend({ required: true }),
@@ -4058,8 +4056,6 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // #endregion ______________  Field Variable   _________________
 
     // #region ______________  Variable Option  _________________
-
-    // ReSharper disable once InconsistentNaming
     var VariableOption = function (specifiedVariableOptionId, specifiedVariableName, specifiedValue, specifiedSortOrder) {
         var self,
             id = ko.observable(specifiedVariableOptionId),
@@ -4125,8 +4121,6 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // #endregion ______________  Variable Option   _________________
 
     // #region ______________  Company Contact Variable  _________________
-
-    // ReSharper disable once InconsistentNaming
     var CompanyContactVariable = function (specifiedContactVariableId, specifiedContactId, specifiedVariableId, specifiedValue, specifiedTitle, specifiedType) {
         var self,
             id = ko.observable(specifiedContactVariableId),
@@ -4201,6 +4195,103 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     };
     // #endregion ______________  Company Contact Variable   _________________
 
+    // #region ______________  Field Variable  For Smart Form _________________
+    var FieldVariableForSmartForm = function (specifiedVariableId, specifiedVariableName, specifiedVariableType,
+        specifiedVariableTag, specifiedScopeName, specifiedTypeName, specifiedDefaultValue) {
+        var self,
+            id = ko.observable(specifiedVariableId),
+            variableName = ko.observable(specifiedVariableName),
+            variableType = ko.observable(specifiedVariableType),
+            variableTag = ko.observable(specifiedVariableTag),
+            scopeName = ko.observable(specifiedScopeName),
+            typeName = ko.observable(specifiedTypeName),
+            defaultValue = ko.observable(specifiedDefaultValue),
+            variableOptions = ko.observableArray([]);
+
+        self = {
+            id: id,
+            variableName: variableName,
+            variableType: variableType,
+            variableTag: variableTag,
+            scopeName: scopeName,
+            typeName: typeName,
+            defaultValue: defaultValue,
+            variableOptions: variableOptions
+        };
+        return self;
+    };
+    //Field Variable For Smart Form Create Factory
+    FieldVariableForSmartForm.Create = function (source) {
+        return new FieldVariableForSmartForm(
+            source.VariableId,
+             source.VariableName,
+             source.Type,
+             source.VariableTag,
+             source.ScopeName,
+             source.TypeName,
+             source.DefaultValue);
+    };
+    // #endregion ______________  Field Variable   _________________
+
+    // #region ______________  Smart Form _________________
+    var SmartForm = function (specifiedSmartFormId, specifiedName, specifiedCompanyId) {
+        var self,
+            id = ko.observable(specifiedSmartFormId),
+            name = ko.observable(specifiedName),
+            companyId = ko.observable(specifiedCompanyId),
+            //Check Whether Drop field Variable,Line Seperator or Group Caption
+            dropFrom = ko.observable(),
+            smartFormDetails = ko.observableArray([]);
+
+        self = {
+            id: id,
+            name: name,
+            companyId: companyId,
+            smartFormDetails: smartFormDetails,
+            dropFrom: dropFrom
+        };
+        return self;
+    };
+    //Smart Form Create Factory
+    SmartForm.Create = function (source) {
+        return new SmartForm(
+            source.VariableId,
+             source.Name,
+             source.CompanyId);
+    };
+    // #endregion ______________  Field Variable   _________________
+
+    // #region ______________  Smart Form Detail _________________
+    var SmartFormDetail = function (specifiedSmartFormDetailId, specifiedSmartFormId, specifiedObjectType,
+        specifiedSortOrder, specifiedIsRequired) {
+        var self,
+            id = ko.observable(specifiedSmartFormDetailId),
+            smartFormId = ko.observable(specifiedSmartFormId),
+            objectType = ko.observable(specifiedObjectType),
+            sortOrder = ko.observable(specifiedSortOrder),
+            isRequired = ko.observable(specifiedIsRequired),
+            html = ko.observable();
+
+        self = {
+            id: id,
+            smartFormId: smartFormId,
+            objectType: objectType,
+            isRequired: isRequired,
+            sortOrder: sortOrder,
+            html: html,
+        };
+        return self;
+    };
+    //Smart Form Detail Create Factory
+    SmartFormDetail.Create = function (source) {
+        return new SmartFormDetail(
+            source.SmartFormDetailId,
+             source.SmartFormId,
+             source.ObjectType,
+             source.SortOrder);
+    };
+    // #endregion ______________  Field Variable   _________________
+
     //#region ______________ R E T U R N ______________
     return {
         StoreListView: StoreListView,
@@ -4243,6 +4334,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         FieldVariable: FieldVariable,
         VariableOption: VariableOption,
         CompanyContactVariable: CompanyContactVariable,
+        FieldVariableForSmartForm: FieldVariableForSmartForm,
+        SmartForm: SmartForm,
+        SmartFormDetail: SmartFormDetail,
     };
     // #endregion 
 });

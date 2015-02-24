@@ -3,8 +3,8 @@
 */
 define("order/order.viewModel",
     ["jquery", "amplify", "ko", "order/order.dataservice", "order/order.model", "common/pagination", "common/confirmation.viewModel",
-        "common/sharedNavigation.viewModel", "common/companySelector.viewModel"],
-    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector) {
+        "common/sharedNavigation.viewModel", "common/companySelector.viewModel", "common/phraseLibrary.viewModel"],
+    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, phraseLibrary) {
         var ist = window.ist || {};
         ist.order = {
             viewModel: (function () {
@@ -25,6 +25,32 @@ define("order/order.viewModel",
                     pipelineSources = ko.observableArray([]),
                     // Errors List
                     errorList = ko.observableArray([]),
+                    // Job Statuses
+                    jobStatuses = ko.observableArray([
+                        {
+                            StatusId: 11, StatusName: "Need Assigning"
+                        },
+                        {
+                            StatusId: 12, StatusName: "In Studio"
+                        },
+                        {
+                            StatusId: 13, StatusName: "In Print/Press"
+                        },
+                        {
+                            StatusId: 14, StatusName: "In Post Press/Bindery"
+                        },
+                        {
+                            StatusId: 15, StatusName: "Ready for Shipping"
+                        },
+                        {
+                            StatusId: 16, StatusName: "Shipped, Not Invoiced"
+                        },
+                        {
+                            StatusId: 17, StatusName: "Not Progressed to Job"
+                        }
+                    ]),
+                    // Nominal Codes
+                    nominalCodes = ko.observableArray([]),
                     // #endregion Arrays
                     // #region Busy Indicators
                     isLoadingOrders = ko.observable(false),
@@ -78,6 +104,8 @@ define("order/order.viewModel",
                     selectedProduct = ko.observable(model.Item.Create({})),
                     // Selected Section
                     selectedSection = ko.observable(),
+                    // Selected Job Description
+                    selectedJobDescription = ko.observable(),
                     // #endregion
                     // #region Utility Functions
                     // Create New Order
@@ -181,6 +209,45 @@ define("order/order.viewModel",
                     // Close Section Detail
                     closeSectionDetail = function () {
                         view.hideSectionDetailDialog();
+                    },
+                    // Select Job Description
+                    selectJobDescription = function (jobDescription, e) {
+                        selectedJobDescription(e.currentTarget.id);
+                    },
+                    // Open Phrase Library
+                    openPhraseLibrary = function () {
+                        phraseLibrary.show(function (phrase) {
+                            updateJobDescription(phrase);
+                        });
+                    },
+                    // Update Job Description
+                    updateJobDescription = function (phrase) {
+                        if (!phrase) {
+                            return;
+                        }
+
+                        // Set Phrase to selected Job Description
+                        if (selectedJobDescription() === 'txtDescription1') {
+                            selectedProduct().jobDescription1(selectedProduct().jobDescription1() ? selectedProduct().jobDescription1() + ' ' + phrase : phrase);
+                        }
+                        else if (selectedJobDescription() === 'txtDescription2') {
+                            selectedProduct().jobDescription2(selectedProduct().jobDescription2() ? selectedProduct().jobDescription2() + ' ' + phrase : phrase);
+                        }
+                        else if (selectedJobDescription() === 'txtDescription3') {
+                            selectedProduct().jobDescription3(selectedProduct().jobDescription3() ? selectedProduct().jobDescription3() + ' ' + phrase : phrase);
+                        }
+                        else if (selectedJobDescription() === 'txtDescription4') {
+                            selectedProduct().jobDescription4(selectedProduct().jobDescription4() ? selectedProduct().jobDescription4() + ' ' + phrase : phrase);
+                        }
+                        else if (selectedJobDescription() === 'txtDescription5') {
+                            selectedProduct().jobDescription5(selectedProduct().jobDescription5() ? selectedProduct().jobDescription5() + ' ' + phrase : phrase);
+                        }
+                        else if (selectedJobDescription() === 'txtDescription6') {
+                            selectedProduct().jobDescription6(selectedProduct().jobDescription6() ? selectedProduct().jobDescription6() + ' ' + phrase : phrase);
+                        }
+                        else if (selectedJobDescription() === 'txtDescription7') {
+                            selectedProduct().jobDescription7(selectedProduct().jobDescription7() ? selectedProduct().jobDescription7() + ' ' + phrase : phrase);
+                        }
                     },
                     // Initialize the view model
                     initialize = function (specifiedView) {
@@ -501,8 +568,9 @@ define("order/order.viewModel",
                     systemUsers: systemUsers,
                     pipelineSources: pipelineSources,
                     selectedProduct: selectedProduct,
-                    // #endregion Observables
-                    //#region Utility Methods
+                    selectedJobDescription: selectedJobDescription,
+                    jobStatuses: jobStatuses,
+                    nominalCodes: nominalCodes,
                     initialize: initialize,
                     resetFilter: resetFilter,
                     filterOrders: filterOrders,
@@ -523,6 +591,8 @@ define("order/order.viewModel",
                     editSection: editSection,
                     closeSectionDetail: closeSectionDetail,
                     deleteProduct: deleteProduct,
+                    selectJobDescription: selectJobDescription,
+                    openPhraseLibrary: openPhraseLibrary
                     //#endregion Utility Methods
                     //#region Dialog Product Section
                     orderProductItems: orderProductItems,

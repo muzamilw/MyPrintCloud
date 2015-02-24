@@ -554,6 +554,16 @@ namespace MPC.Repository.BaseRepository
         public DbSet<DeliveryCarrier> DeliveryCarriers { get; set; }
 
         /// <summary>
+        /// Paypal PaymentRequest DbSet
+        /// </summary>
+        public DbSet<PaypalPaymentRequest> PaypalPaymentRequests { get; set; }
+
+        /// <summary>
+        /// PayPal Response DbSet
+        /// </summary>
+        public DbSet<PayPalResponse> PayPalResponses { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
 // ReSharper disable InconsistentNaming

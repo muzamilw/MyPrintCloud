@@ -68,6 +68,23 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 TypeName = source.VariableType == 1 ? "Dropdown" : "Input",
             };
         }
+         /// <summary>
+        /// Create From Web Model
+        /// </summary>
+        public static FieldVariableForSmartForm CreateFromForSmartForm(this DomainModels.FieldVariable source)
+        {
+            return new FieldVariableForSmartForm
+            {
+                VariableId = source.VariableId,
+                VariableName = source.VariableName,
+                ScopeName = ScopeName(source.Scope),
+                VariableTag = source.VariableTag,
+                Type = source.VariableType,
+                DefaultValue = source.DefaultValue,
+                TypeName = source.VariableType == 1 ? "Dropdown" : "Input",
+            };
+        }
+        
         /// <summary>
         /// Create From Web Model
         /// </summary>

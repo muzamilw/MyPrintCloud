@@ -2054,7 +2054,7 @@ define("stores/stores.viewModel",
                                 }
                             }
                             //Updating role of user as "user", if is retail store
-                            _.each(roles(), function(role) {
+                            _.each(roles(), function (role) {
                                 if (role.roleName().toLowerCase() == "user") {
                                     selectedCompanyContact().contactRoleId(role.roleId());
                                 }
@@ -3307,6 +3307,7 @@ define("stores/stores.viewModel",
                                         widgets.push(model.Widget.Create(item));
                                     });
 
+                                    //Field VariableF or Field variable List View
                                     fieldVariablePager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
                                     _.each(data.FieldVariableResponse.FieldVariables, function (item) {
                                         var field = model.FieldVariable();
@@ -3318,6 +3319,13 @@ define("stores/stores.viewModel",
                                         fieldVariables.push(field);
                                     });
                                     fieldVariablePager().totalCount(data.FieldVariableResponse.RowCount);
+
+                                    //Field Variable For Smart Forms
+                                    _.each(data.FieldVariableForSmartForms, function (item) {
+                                        fieldVariablesForSmartForm.push(model.FieldVariableForSmartForm.Create(item));
+                                    });
+
+
                                 }
                                 selectedStore().reset();
                                 isLoadingStores(false);
@@ -3443,6 +3451,7 @@ define("stores/stores.viewModel",
                         fieldVariablesOfContactType.removeAll();
                         filteredCompanyBanners.removeAll();
                         companyBannerSetList.removeAll();
+                        fieldVariablesForSmartForm.removeAll();
                         fieldVariablePager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
                         companyTerritoryPager().totalCount(0);
                     },
@@ -3973,6 +3982,8 @@ define("stores/stores.viewModel",
                     selectedFieldOption = ko.observable(),
                     //Field Variables List
                     fieldVariables = ko.observableArray([]),
+                    //Field Variables For Smart Form
+                    fieldVariablesForSmartForm = ko.observableArray([]),
                     //Use in User (contact) Or Use in Company Contact
                     fieldVariablesOfContactType = ko.observableArray([]),
                     //Variable Option Fake ID counter
@@ -4134,7 +4145,7 @@ define("stores/stores.viewModel",
                 }
             },
                 //variable Scope
-            contextTypes = ko.observableArray([{ id: 1, name: "Store" },
+               contextTypes = ko.observableArray([{ id: 1, name: "Store" },
                                      { id: 2, name: "Contact" },
                                      { id: 3, name: "Address" },
                                      { id: 4, name: "Territory" }]);
@@ -4256,17 +4267,71 @@ define("stores/stores.viewModel",
 
                 //#endregion ________ Field Variable___________
 
+                //#region ________ Smart Form___________
+                //Active Smart Form
+                selectedSmartForm = ko.observable(),
+                //Group Caption Text
+                groupCaption = ko.observable("Drag a Group Caption"),
+                //line Seperator
+                lineSeperator = ko.observable("Drag a Line Separator"),
+                //Create Smart Form
+                addSmartForm = function () {
+                    selectedSmartForm(model.SmartForm());
+                    view.showSmartFormDialog();
+                },
+                // Returns the item being dragged
+                  draggedVariableField = function (source) {
+                      selectedSmartForm().dropFrom("VariableField");
+                      return {
+                          row: source.$parent,
+                          data: source.$data
+                      };
+                  },
+                //Dragged Group Caption
+                draggedGroupCaption = function (source) {
+                    selectedSmartForm().dropFrom("GroupCaption");
+                    return {
+                        row: source.$parent,
+                        data: source.$data
+                    };
+                },
+                //Dragged Line Seperator
+                draggedLineSeperator = function (source) {
+                    selectedSmartForm().dropFrom("LineSeperator");
+                    return {
+                        row: source.$parent,
+                        data: source.$data
+                    };
+                },
+                //Smart Form Droped Area
+                 droppedSmartFormArea = function (source, target, event) {
+                     var smartFormDetail = model.SmartFormDetail();
+
+                     if (source.data.dropFrom === undefined && source.row.dropFrom() === "VariableField") {
+                         smartFormDetail.html("<div style=\"border:2px dotted silver;height:100px\"><div class=\"form-group\"><div class=\"col-lg-5 text-right\"></div><div class=\"col-lg-5\"><input type=\"\ext\" class=\"form-control\"></div> </div></div>");
+                     }
+                     else if (source.data.dropFrom !== undefined && source.data.dropFrom() === "GroupCaption") {
+                         smartFormDetail.html("<span>Group Caption</span>");
+                     }
+                     else if (source.data.dropFrom !== undefined && source.data.dropFrom() === "LineSeperator") {
+                         smartFormDetail.html("<hr style=\"height:3px;border:none;color:#333;background-color:black;\" />");
+                     }
+                     selectedSmartForm().smartFormDetails.push(smartFormDetail);
+                 },
+                //#endregion ________ Smart Form___________
+
+
 
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
-             initialize = function (specifiedView) {
-                 view = specifiedView;
-                 ko.applyBindings(view.viewModel, view.bindingRoot);
-                 //ko.applyBindings(view.viewModel, document.getElementById('singleArea'));
-                 pager(new pagination.Pagination({ PageSize: 5 }, stores, getStores));
-                 getStores();
-                 view.initializeForm();
-             };
+                initialize = function (specifiedView) {
+                    view = specifiedView;
+                    ko.applyBindings(view.viewModel, view.bindingRoot);
+                    //ko.applyBindings(view.viewModel, document.getElementById('singleArea'));
+                    pager(new pagination.Pagination({ PageSize: 5 }, stores, getStores));
+                    getStores();
+                    view.initializeForm();
+                };
                 //#region _________R E T U R N_____________________
 
                 return {
@@ -4570,6 +4635,15 @@ define("stores/stores.viewModel",
                     getCompanyContactVariables: getCompanyContactVariables,
                     onVariableOptionDropDownChange: onVariableOptionDropDownChange,
                     fieldVariablesOfContactType: fieldVariablesOfContactType,
+                    fieldVariablesForSmartForm: fieldVariablesForSmartForm,
+                    addSmartForm: addSmartForm,
+                    draggedVariableField: draggedVariableField,
+                    draggedGroupCaption: draggedGroupCaption,
+                    groupCaption: groupCaption,
+                    draggedLineSeperator: draggedLineSeperator,
+                    lineSeperator: lineSeperator,
+                    selectedSmartForm: selectedSmartForm,
+                    droppedSmartFormArea: droppedSmartFormArea,
                 };
                 //#endregion
             })()

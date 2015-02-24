@@ -182,6 +182,17 @@ namespace MPC.Models.DomainModels
         /// Logo Image Bytes
         /// </summary>
         public string ImageBytes { get; set; }
+
+        /// <summary>
+        /// Company Logo Source
+        /// </summary>
+         [NotMapped]
+        public string CompanyLogoSource { get; set; }
+        /// <summary>
+        /// Company Logo Name
+        /// </summary>
+         [NotMapped]
+        public string CompanyLogoName { get; set; }
         #endregion
     }
 }

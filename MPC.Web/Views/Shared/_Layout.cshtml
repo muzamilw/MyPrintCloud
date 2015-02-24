@@ -57,92 +57,43 @@
 
 
 
-    <style>
-        .trial-description {
-            top: 0;
-            position: fixed;
-            left: 45%;
-            z-index: 10000;
-            background-color: white;
-            border-radius: 4px;
-            -webkit-box-shadow: 0px 0px 8px 2px gray;
-            -moz-box-shadow: 0px 0px 8px 2px gray;
-            box-shadow: 0px 0px 8px 2px gray;
-        }
-
-        .myprintcloud-help {
-            position: fixed;
-            text-align: center;
-            background-color: white;
-            width: 400px;
-            height: 235px;
-            border: 1px solid #dedede;
-            border-radius: 7px;
-            font-family: Arial;
-            padding-top: 20px;
-            z-index: 129000;
-        }
-
-        .Submenu-Dashborad {
-            position: absolute;
-            z-index: 129000;
-        }
-
-        .disabled-div {
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            display: block;
-            background-color: black;
-            top: 0;
-            left: 0;
-            z-index: 119000;
-            opacity: 0.8;
-        }
-
-        .myprintcloud-help-arrow:after {
-            content: "";
-            position: absolute;
-            height: 0;
-            width: 0;
-            right: 100%;
-            top: 20px;
-            border: 20px solid transparent;
-            border-right: 20px solid white;
-        }
-
-        body {
-            /*position:fixed;*/
-            overflow: hidden;
-        }
-    </style>
-
-
 
 
 </head>
 <body class="theme-red">
 
     <div class="myprintcloud-help" id="myprintcloud-help">
+        <div class="left-arrow"></div>
+        <div class="right-arrow"></div>
+        <div class="top-arrow"></div>
+        <div class="bottom-arrow"></div>
+        <div>
 
-        <h1 class="help-header">MyPRINTCloud</h1>
-        <hr />
-        <span>this is your MyPRINTCloud Help platform</span>
-        <br />
-        <span>Get Help by Clicking Next Button</span>
-        <hr />
-        <div class="input-group" style="width:100%;display:inline;">
-            <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="btnCloseHelp">Close</button>
         </div>
-        <div class="input-group" style="width:100%;display:inline;">
-            <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="btnNextHelp">Next</button>
-        </div>
-        <div class="input-group" style="width:100%;display:inline;">
-            <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="btnPreviousHelp">Previous</button>
+        <div class="help-divs">
+            <h1 class="help-header">Manage PRINTCloud</h1>
         </div>
 
+        <div style="padding-left:10px;padding-right:10px;">
+            <span class="help-header-description">this is your Dashboard</span>
+        </div>
+        <div class="help-divs">
+            <span class="help-details">Create Products , Web Stores , Estimates ...</span>
+        </div>
+        <div>
+            <div class="input-group" style="width:100%;display:inline;">
+                <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="btnCloseHelp">Close</button>
+            </div>
+            <div class="input-group" style="width:100%;display:inline;">
+                <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="btnNextHelp">Next</button>
+            </div>
+            <div class="input-group" style="width:100%;display:inline;">
+                <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="btnPreviousHelp">Previous</button>
+            </div>
+        </div>
 
     </div>
+
 
     <header class="navbar" id="header-navbar">
 
@@ -859,7 +810,9 @@
         })($);
 
     </script>
-    
+
+
+
     @Scripts.Render("~/Bundle/BaseLibs")
     @*@Scripts.Render("~/bundles/dropzonescripts")*@
     <script src="~/Content/themes/Centaurus/js/demo-skin-changer.js"></script>
@@ -902,19 +855,9 @@
             var totalwidth = width - 400;
             var divisonwidth = totalwidth / 2;
 
-            $("#myprintcloud-help").popover(
-            {
-
-                placement: 'right'
-
-            });
-
-
             document.getElementById("myprintcloud-help").style.left = divisonwidth + "px";
             $("#myprintcloud-help").animate({ "top": "-=250" }, 200).delay(500);
             $("#myprintcloud-help").animate({ "top": "+=370" }, 200);
-
-
 
         });
     </script>
@@ -922,7 +865,6 @@
         $(document).ready(function () {
 
             $(window).resize(function () {
-
                 var width = $(window).width();
                 var total = width - 400;
                 var divison = total / 2;
@@ -941,21 +883,25 @@
                 $(".disabled-div").css("display", "none");
 
                 $('body').css('overflow', 'visible');
-
+                $('body').css('zoom', '100%');
             });
         });
     </script>
     <script>
         $(document).ready(function () {
+
             var i = 0;
-            var proceeding = ["MyPRINTCloud", "Dashboard", "Stores", "CRM", "Products", "Estimating", "OrderPurchasing"];
+
+            var proceeding = ["manage PRINTCloud", "Add more Products", "Add more Stores", "Estimates & JobCards", "System Settings", "Your Account Area", "You've got the Basics..."];
+            var proceddingheadertext = ["This is your Dashboard", "Product is an item that appears on your website or estimating module", "A store a Webiste with own URL Link", "Create accurate estimates for simple digital products to complex multi page brouchers ...", "Set Your Regional Details,Create Presses and configure your delivery method cost centers", "From Here you can access", "Would you like to do Next ?"]
+            var proceddingdetails = ["Create Products , Web Stores , Estimates ...", "Create products with require templates to personlized or just of the shlef Finished Goods", "Create Website at attract new ivsitors \n or \n Create private website for larger customers who have specific online needs", "", "", "Self Placed Tutorials \n Join us in Regular webinars \n Contact our Suppert Desk \n Upgrade/dongrade your and cancel your Account", ""]
+
             $("#btnPreviousHelp").hide();
-            $("#btnCloseHelp").hide();
+            $("#btnCloseHelp").show();
 
             $("#btnNextHelp").click(function () {
 
                 i = i + 1;
-
 
                 var dashp = $("#myprintcloud-dashborad");
                 var positiontop = dashp.position().top;
@@ -971,23 +917,26 @@
 
                 if (i == 1) {
                     left = left + 240;
-
                     $("#myprintcloud-help").animate({ "top": "-=-40", "left": "+=" + left }, 100);
+
                     $(".help-header").text(proceeding[1]);
-                    $("#myprintcloud-help").addClass("myprintcloud-help-arrow");
+                    $(".help-header-description").text(proceddingheadertext[1]);
+                    $(".help-details").text(proceddingdetails[1]);
 
                     $("#btnPreviousHelp").show();
 
                 }
-
                 if (i != 1) {
 
                     left = left + 240;
                     $("#myprintcloud-help").animate({ "top": "-=-40", "left": "+=" + left }, 100);
+
                     $(".help-header").text(proceeding[i]);
+                    $(".help-header-description").text(proceddingheadertext[i]);
+                    $(".help-details").text(proceddingdetails[i]);
+
                     $("#btnPreviousHelp").show();
                 }
-
                 if (i == 6) {
 
                     $("#btnNextHelp").hide();
@@ -1026,25 +975,28 @@
                     document.getElementById("myprintcloud-help").style.top = "120px";
 
                     $(".help-header").text(proceeding[0]);
+                    $(".help-header-description").text(proceddingheadertext[0]);
+                    $(".help-details").text(proceddingdetails[0]);
 
                     $("#btnPreviousHelp").hide();
                     $("#btnNextHelp").show();
-                    $("#myprintcloud-help").removeClass("myprintcloud-help-arrow");
-                    $("#btnCloseHelp").hide();
+
+
 
 
                 }
                 if ((i != 0) && (i != 6)) {
                     left = left + 240;
                     $("#myprintcloud-help").animate({ "top": "-=40", "left": "+=" + left }, 100);
+
                     $(".help-header").text(proceeding[i]);
-                    $("#btnCloseHelp").hide();
+                    $(".help-header-description").text(proceddingheadertext[i]);
+                    $(".help-details").text(proceddingdetails[i]);
+
                     $("#btnNextHelp").show();
                 }
-
-
-
             });
+
 
         });
     </script>
