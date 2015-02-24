@@ -19,9 +19,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static Company CreateFrom(this DomainModels.Company source)
         {
             byte[] bytes = null;
-            if (source.Image != null && File.Exists(source.Image))
+            //if (source.Image != null && File.Exists(source.Image))
+            //{
+            //    bytes = source.Image != null ? File.ReadAllBytes(source.Image) : null;
+            //}
+            string imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
+            if (source.Image != null && File.Exists(imagePath))
             {
-                bytes = source.Image != null ? File.ReadAllBytes(source.Image) : null;
+                bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
             }
             byte[] storeBackgroundImageBytes = null;
             if (source.StoreBackgroundImage != null && File.Exists(source.StoreBackgroundImage))
@@ -149,9 +154,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static Company CreateFromForCrm(this DomainModels.Company source)
         {
             byte[] bytes = null;
-            if (source.Image != null && File.Exists(source.Image))
+            string imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
+            if (source.Image != null && File.Exists(imagePath))
             {
-                bytes = source.Image != null ? File.ReadAllBytes(source.Image) : null;
+                bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
             }
             byte[] storeBackgroundImageBytes = null;
             if (source.StoreBackgroundImage != null && File.Exists(source.StoreBackgroundImage))
@@ -463,9 +469,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static ApiModels.CrmSupplierListViewModel CrmSupplierListViewCreateFrom(this DomainModels.Company source)
         {
             byte[] bytes = null;
-            if (source.Image != null && File.Exists(source.Image))
+            string imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
+            if (source.Image != null && File.Exists(imagePath))
             {
-                bytes = source.Image != null ? File.ReadAllBytes(source.Image) : null;
+                bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
             }
             return new ApiModels.CrmSupplierListViewModel
             {

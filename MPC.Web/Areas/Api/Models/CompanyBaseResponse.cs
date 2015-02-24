@@ -14,6 +14,7 @@ namespace MPC.MIS.Areas.Api.Models
         public IEnumerable<PageCategoryDropDown> PageCategories { get; set; }
         public IEnumerable<RegistrationQuestionDropDown> RegistrationQuestions { get; set; }
         public IEnumerable<EmailEvent> EmailEvents { get; set; }
+        public IEnumerable<SectionFlagDropDown> SectionFlags { get; set; }
         public IEnumerable<Address> Addresses { get; set; }
         public IEnumerable<PaymentMethod> PaymentMethods { get; set; }
         public IEnumerable<Widget> Widgets { get; set; }

@@ -3453,6 +3453,7 @@ define("stores/stores.viewModel",
                         companyBannerSetList.removeAll();
                         fieldVariablesForSmartForm.removeAll();
                         fieldVariablePager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
+                        companyTerritoryPager().totalCount(0);
                     },
                     //#endregion
                     //#endregion

@@ -5,12 +5,16 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Item Detail</h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" data-bind="with: $root.selectedProduct">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="row">
                             <div class="col-lg-12">
-                                <h1>  A4 Single Sided Flyer ITM-0-001-08116</h1>
+                                <h1>
+                                    <span data-bind="text: productName"></span>
+                                    <span data-bind="text: ' '"></span>
+                                    <span data-bind="text: code"></span>
+                                </h1>
                             </div>
                         </div>
                         <div class="row" id="user-profile">
@@ -32,9 +36,12 @@
                                                 <div class="col-lg-12 form-horizontal">
                                                     <div class="form-group">
                                                         <div class="col-lg-3 text-right">
+                                                            
+@* ReSharper disable UnknownCssClass *@
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Category for specific product" data-original-title="" title="">
+
+                                                                <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Category for specific product" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -46,7 +53,7 @@
 
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            <label class="control-label" style="margin-left:5px;">Flyer</label>
+                                                            <label class="control-label" data-bind="text: productCategoriesUi" style="margin-left:5px;"></label>
 
                                                         </div>
                                                     </div>
@@ -54,7 +61,7 @@
                                                         <div class="col-lg-3 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Product Name" data-original-title="" title="">
+                                                                <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Product Name" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -67,7 +74,7 @@
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <div>
-                                                                <input type="text" value="A4 Single Sided Flyer" class="form-control" id="Estimateitle" />
+                                                                <input type="text" class="form-control" id="ProductTitle" data-bind="value: productName" />
 
 
                                                             </div>
@@ -79,7 +86,7 @@
                                                         <div class="col-lg-3 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Notes for Specific Product" data-original-title="" title="">
+                                                                <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Notes for Specific Product" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -91,7 +98,7 @@
 
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            <textarea class="form-control" id="txtNotes" placeholder="Enter Notes" rows="5"></textarea>
+                                                            <textarea class="form-control" data-bind="value: itemNotes" id="txtNotes" placeholder="Enter Notes" rows="5"></textarea>
 
                                                         </div>
                                                     </div>
@@ -114,8 +121,10 @@
                                                         </div>
 
                                                         <div class="col-lg-6">
-                                                            <textarea class="form-control" id="txtDescription1" placeholder="Enter Description 1" rows="3"></textarea>
-                                                            <span class="help-block text-right"></span>
+                                                            <textarea class="form-control" data-bind="value: jobDescription1, click: $root.selectJobDescription" id="txtDescription1" placeholder="Enter Description 1" rows="3"></textarea>
+                                                            <a id="P1" data-bind="visible: $root.selectedJobDescription() === 'txtDescription1', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
+                                                                <i class="fa fa-lg"></i>&nbsp;....
+                                                            </a>
                                                         </div>
 
                                                     </div>
@@ -126,8 +135,10 @@
                                                         </div>
 
                                                         <div class="col-lg-6">
-                                                            <textarea class="form-control" id="txtDescription2" placeholder="Enter Description 2" rows="3"></textarea>
-                                                            <span class="help-block text-right"></span>
+                                                            <textarea class="form-control" data-bind="value: jobDescription2, click: $root.selectJobDescription" id="txtDescription2" placeholder="Enter Description 2" rows="3"></textarea>
+                                                            <a id="P2" data-bind="visible: $root.selectedJobDescription() === 'txtDescription2', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
+                                                                <i class="fa fa-lg"></i>&nbsp;....
+                                                            </a>
                                                         </div>
 
                                                     </div>
@@ -138,8 +149,10 @@
                                                         </div>
 
                                                         <div class="col-lg-6">
-                                                            <textarea class="form-control" id="txtDescription3" placeholder="Enter Description 3" rows="3"></textarea>
-                                                            <span class="help-block text-right"></span>
+                                                            <textarea class="form-control" data-bind="value: jobDescription3, click: $root.selectJobDescription" id="txtDescription3" placeholder="Enter Description 3" rows="3"></textarea>
+                                                            <a id="P3" data-bind="visible: $root.selectedJobDescription() === 'txtDescription3', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
+                                                                <i class="fa fa-lg"></i>&nbsp;....
+                                                            </a>
                                                         </div>
 
                                                     </div>
@@ -150,8 +163,10 @@
                                                         </div>
 
                                                         <div class="col-lg-6">
-                                                            <textarea class="form-control" id="txtDescription4" placeholder="Enter Description 4" rows="3"></textarea>
-                                                            <span class="help-block text-right"></span>
+                                                            <textarea class="form-control" data-bind="value: jobDescription4, click: $root.selectJobDescription" id="txtDescription4" placeholder="Enter Description 4" rows="3"></textarea>
+                                                            <a id="P4" data-bind="visible: $root.selectedJobDescription() === 'txtDescription4', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
+                                                                <i class="fa fa-lg"></i>&nbsp;....
+                                                            </a>
                                                         </div>
 
                                                     </div>
@@ -162,8 +177,10 @@
                                                         </div>
 
                                                         <div class="col-lg-6">
-                                                            <textarea class="form-control" id="txtDescription5" placeholder="Enter Description 5" rows="3"></textarea>
-                                                            <span class="help-block text-right"></span>
+                                                            <textarea class="form-control" data-bind="value: jobDescription5, click: $root.selectJobDescription" id="txtDescription5" placeholder="Enter Description 5" rows="3"></textarea>
+                                                            <a id="P5" data-bind="visible: $root.selectedJobDescription() === 'txtDescription5', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
+                                                                <i class="fa fa-lg"></i>&nbsp;....
+                                                            </a>
                                                         </div>
 
                                                     </div>
@@ -174,8 +191,10 @@
                                                         </div>
 
                                                         <div class="col-lg-6">
-                                                            <textarea class="form-control" id="txtDescription6" placeholder="Enter Description 6" rows="3"></textarea>
-                                                            <span class="help-block text-right"></span>
+                                                            <textarea class="form-control" data-bind="value: jobDescription6, click: $root.selectJobDescription" id="txtDescription6" placeholder="Enter Description 6" rows="3"></textarea>
+                                                            <a id="P6" data-bind="visible: $root.selectedJobDescription() === 'txtDescription6', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
+                                                                <i class="fa fa-lg"></i>&nbsp;....
+                                                            </a>
                                                         </div>
 
                                                     </div>
@@ -186,8 +205,10 @@
                                                         </div>
 
                                                         <div class="col-lg-6">
-                                                            <textarea class="form-control" id="txtDescription7" placeholder="Enter Description 7" rows="3"></textarea>
-                                                            <span class="help-block text-right"></span>
+                                                            <textarea class="form-control" data-bind="value: jobDescription7, click: $root.selectJobDescription" id="txtDescription7" placeholder="Enter Description 7" rows="3"></textarea>
+                                                            <a id="P7" data-bind="visible: $root.selectedJobDescription() === 'txtDescription7', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
+                                                                <i class="fa fa-lg"></i>&nbsp;....
+                                                            </a>
                                                         </div>
 
                                                     </div>
@@ -207,7 +228,7 @@
                                                         <div class="col-lg-3 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Job Code fro specific Product" data-original-title="" title="">
+                                                                <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Job Code fro specific Product" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -219,7 +240,7 @@
 
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            <label class="control-label" style="margin-left:5px;">ITM-0-001-777</label>
+                                                            <label class="control-label" data-bind="text: jobCode" style="margin-left:5px;"></label>
 
                                                         </div>
                                                     </div>
@@ -227,7 +248,7 @@
                                                         <div class="col-lg-3 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Creation Date for Specific Product " data-original-title="" title="">
+                                                                <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Creation Date for Specific Product " data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -239,7 +260,7 @@
 
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            <label class="control-label" style="margin-left:5px;">2014/06/14</label>
+                                                            <label class="control-label" data-bind="dateString: jobCreationDateTime" style="margin-left:5px;"></label>
 
                                                         </div>
                                                     </div>
@@ -247,7 +268,7 @@
                                                         <div class="col-lg-3 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Start time" data-original-title="" title="">
+                                                                <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Start time" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -287,7 +308,7 @@
                                                         <div class="col-lg-3 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Job Status of Product" data-original-title="" title="">
+                                                                <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Job Status of Product" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -301,12 +322,7 @@
 
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            <select class="form-control">
-                                                                <option>Need Assigning</option>
-                                                                <option>In Studio / In Press</option>
-                                                                <option>In Print / Press</option>
-                                                                <option>Ready for Shipping</option>
-                                                                <option>Shipped, Not Invoiced</option>
+                                                            <select class="form-control" data-bind="options: $root.jobStatuses, optionsCaption: 'selectedOptions...', optionsText: 'name', optionsValue: 'id', value: jobStatusId">
                                                             </select>
 
                                                         </div>
@@ -315,7 +331,7 @@
                                                         <div class="col-lg-3 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Job Manager" data-original-title="" title="">
+                                                                <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Job Manager" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -327,13 +343,7 @@
 
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            <select class="form-control">
-                                                                <option>Lucas Eyre</option>
-                                                                <option>David</option>
-                                                                <option>Gary McCutting</option>
-                                                                <option>Smit Jones</option>
-                                                                <option>Stephen</option>
-                                                            </select>
+                                                            <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'name', optionsId: 'id', optionsCaption: 'Select...', value: jobManagerId"></select>
 
                                                         </div>
                                                     </div>
@@ -341,7 +351,7 @@
                                                         <div class="col-lg-3 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Progressed By for product" data-original-title="" title="">
+                                                                <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Progressed By for product" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -353,7 +363,7 @@
 
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            <label class="control-label" style="margin-left:5px;">Gray McCutting</label>
+                                                            <label class="control-label" style="margin-left:5px;"></label>
 
                                                         </div>
                                                     </div>
@@ -361,7 +371,7 @@
                                                         <div class="col-lg-3 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Signed By" data-original-title="" title="">
+                                                                <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Signed By" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -375,13 +385,7 @@
 
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            <select class="form-control">
-                                                                <option>Lucas Eyre</option>
-                                                                <option>David</option>
-                                                                <option>Gary McCutting</option>
-                                                                <option>Smit Jones</option>
-                                                                <option>Stephen</option>
-                                                            </select>
+                                                            <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'name', optionsId: 'id', optionsCaption: 'Select...', value: jobSignedBy"></select>
 
                                                         </div>
                                                     </div>
@@ -395,7 +399,7 @@
                                                         <div class="col-lg-3 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Invoice Description" data-original-title="" title="">
+                                                                <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Invoice Description" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -407,7 +411,7 @@
 
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            <textarea class="form-control" id="txtInvoiceDescription" placeholder="Enter Invoice Description" rows="5"></textarea>
+                                                            <textarea class="form-control" data-bind="value: invoiceDescription" id="txtInvoiceDescription" placeholder="Enter Invoice Description" rows="5"></textarea>
 
                                                         </div>
                                                     </div>
@@ -415,7 +419,7 @@
                                                         <div class="col-lg-3 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Nominal Code" data-original-title="" title="">
+                                                                <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Nominal Code" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -429,12 +433,7 @@
 
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            <select class="form-control">
-                                                                <option>4001 Online Print Sales</option>
-                                                                <option>4002 Labour Press</option>
-                                                                <option>4003 Paper</option>
-                                                                <option>4004 Post Press </option>
-                                                                <option>4007 Bindary</option>
+                                                            <select class="form-control" data-bind="options: $root.nominalCodes, optionsText: 'name', optionsId: 'id', optionsCaption: 'Select...', value: nominalCodeId">
                                                             </select>
 
                                                         </div>
@@ -1017,7 +1016,7 @@
                                                                     <label class="control-label" style="font-weight:bold">$ 0.0</label>
                                                                 </div>
                                                                 <div class="col-xs-3 txtBox-contentAlignRight">
-
+@* ReSharper restore UnknownCssClass *@
 
                                                                     <label class="control-label" style="font-weight:bold">$ 0.0</label>
                                                                 </div>

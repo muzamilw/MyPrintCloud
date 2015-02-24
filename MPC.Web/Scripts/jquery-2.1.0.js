@@ -7823,7 +7823,7 @@ jQuery.extend({
 	// Main method
 	ajax: function( url, options ) {
 	    showProgress();
-		// If url is an object, simulate pre-1.5 signature
+	    // If url is an object, simulate pre-1.5 signature
 		if ( typeof url === "object" ) {
 			options = url;
 			url = undefined;

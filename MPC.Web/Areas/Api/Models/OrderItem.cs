@@ -118,6 +118,10 @@ namespace MPC.MIS.Areas.Api.Models
         public double? DefaultItemTax { get; set; }
         public bool? IsQtyRanged { get; set; }
         public string Status { get; set; }
+        public DateTime? ItemCreationDateTime { get; set; }
+        public string InvoiceDescription { get; set; }
+        public int? JobCardPrintedBy { get; set; }
+        public IEnumerable<string> ProductCategories { get; set; }
         public IEnumerable<ItemSection> ItemSections { get; set; }
 
         #endregion

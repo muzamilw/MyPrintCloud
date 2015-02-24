@@ -417,6 +417,19 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Qty1NetTotal = source.Qty1NetTotal,
                 StatusId = source.StatusId,
                 Status = source.Status != null ? source.Status.StatusName : string.Empty,
+                ItemNotes = source.ItemNotes,
+                JobCode = source.JobCode,
+                JobStatusId = source.JobStatusId,
+                JobManagerId = source.JobManagerId,
+                JobCreationDateTime = source.JobCreationDateTime,
+                JobActualStartDateTime = source.JobActualStartDateTime,
+                JobActualCompletionDateTime = source.JobActualCompletionDateTime,
+                JobProgressedBy = source.JobProgressedBy,
+                JobCardPrintedBy = source.JobCardPrintedBy,
+                InvoiceDescription = source.InvoiceDescription,
+                NominalCodeId = source.NominalCodeId,
+                ProductCategories = source.ProductCategoryItems != null ? source.ProductCategoryItems.Select(pci => pci.ProductCategory.CategoryName) : 
+                new List<string>(),
                 ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFrom()) :
                 new List<ItemSection>()
             };

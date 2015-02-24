@@ -1,11 +1,9 @@
 ﻿@{
     ViewBag.Title = "Company Detail";
 }
-
 @section leftmenue {
-
 }
-<div class="row"  data-bind="visible: $root.isEditorVisible"  style="display: none">
+<div class="row" data-bind="visible: $root.isEditorVisible" style="display: none">
     <div class="col-lg-12">
         <div class="row">
             <div class="col-lg-12">
@@ -18,7 +16,6 @@
             </div>
         </div>
         <div class="row" id="user-profile">
-
             <div class="col-lg-12 col-md-8 col-sm-8" style="padding-bottom: 10px;">
                 <div class="clearfix ">
                     <div class="col-xs-4 pull-left validationSummaryContainer">
@@ -37,13 +34,15 @@
                     </div>
                     <div class="col-xs-4">
                     </div>
-                    <div class="col-xs-12" style="text-align: right; padding-right: 0px;">
-                        <button type="button" class="btn btn-primary btn-lg" data-bind="click: $root.saveStore">
-                            <span class="fa fa-save"></span>&nbsp;Save
-                        </button>
-                        <button type="button" class="btn btn-primary btn-lg" data-bind="click: $root.closeEditDialog">
-                            <span class="fa fa-save"></span>&nbsp;Close
-                        </button>
+                    <div class="col-xs-12" style="text-align: right; padding-right: 0px;" data-bind="with: $root.selectedStore()">
+                        <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.saveStore, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
+                        <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeEditDialog">Close</button>
+                        @*<button type="button" class="btn btn-primary btn-lg" data-bind="click: $root.saveStore">
+                                <span class="fa fa-save"></span>&nbsp;Save
+                            </button>
+                            <button type="button" class="btn btn-primary btn-lg" data-bind="click: $root.closeEditDialog">
+                                <span class="fa fa-save"></span>&nbsp;Close
+                            </button>*@
                     </div>
                 </div>
             </div>
@@ -53,7 +52,6 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#tab-newsfeed" data-toggle="tab">General Info</a></li>
                             <li><a href="#tab-territory" data-toggle="tab">User & Addresses</a></li>
-
                             <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().companyId() != undefined-->
                             <!--ko if: $root.isProspectOrCustomerScreen() -->
                             <li><a href="#tab-DAM" data-toggle="tab">DAM</a></li>
@@ -61,7 +59,6 @@
                             <li><a href="#tab-orders" data-toggle="tab" data-bind="click: $root.ordersTabClickHandler">Orders</a></li>
                             <li><a href="#tab-invoices" data-toggle="tab" data-bind="click: $root.invoicesTabClickHandler">Invoices</a></li>
                             <!-- /ko -->
-
                             @*<li><a href="#tab-contacts" data-toggle="tab">Users</a></li>*@
                             @* <li><a href="#tab-WebDetails" data-toggle="tab">Web Details</a></li>*@
                         </ul>
@@ -84,7 +81,6 @@
                                                 <span class="help-block text-right">This will be used in defalt URL to pass on to your customer.</span>
                                             </div>
                                         </div>
-
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
@@ -116,7 +112,6 @@
                                                 <span class="help-block">ex. (999) 999-9999</span>
                                             </div>
                                         </div>
-
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
@@ -135,23 +130,31 @@
                                     <div class="col-lg-3 col-md-4 col-sm-4">
                                         <div class="main-box clearfix">
                                             <header class="main-box-header clearfix textAlignCenter">
-                                                <h2>Kodak</h2>
+                                                <h2><label data-bind="text: name"></label></h2>
                                             </header>
                                             <div class="main-box-body clearfix">
                                                 <div class="profile-status">
                                                 </div>
-                                                <a id="uploadLogoIcon" data-toggle="modal" href="#myMediaGalleryModal" class="logoUploadIcon" style="display: none;">
-                                                    <i class="fa fa-upload"></i>
-                                                </a>
-                                                <img id="StoreLogo" src="~/Content/themes/Centaurus/img/kodak.png" alt="" class="profile-img img-responsive center-block" />
-                                                <div class="profile-label">
-                                                    <span class="label label-danger">Active</span>
+                                                <img style="min-height: 150px; width: 150px;" data-bind="attr: { src: storeImageFileBinary }" />
+                                                <div class="pull-right">
+                                                    <div class="fileUpload btn btn-primary">
+                                                        <span>....</span>
+                                                        <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />
+                                                    </div>
+                                                </div>
+                                                <div class="profile-label profileLabelPadding">
+                                                    <!-- ko if: status() == 1 -->
+                                                    <span class="label label-success">Active</span>
+                                                    <!-- /ko -->
+                                                    <!-- ko if: status() != 1 -->
+                                                    <span class="label label-danger">DeActive</span>
+                                                    <!-- /ko -->
+
                                                 </div>
                                                 <div class="profile-stars">
-                                                    <span>Corporate Store</span>
+                                                    <span data-bind="value: type"></span>
                                                 </div>
-                                                <div class="profile-since">
-                                                    Member since: Jan 2012
+                                                <div class="profile-since" data-bind="value: accountOpenDate">
                                                 </div>
                                                 <div class="profile-details">
                                                     <ul class="fa-ul">
@@ -169,7 +172,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Account Details</h3>
@@ -211,7 +213,6 @@
                                                 <label for="txtGSTRegNo" class="control-label text-right tooltip-float">GST Reg. No.</label>
                                             </div>
                                             <div class="col-lg-6">
-
                                                 <input type="text" class="form-control" id="txtGSTRegNo" placeholder="Enter GST Registration Number" data-bind="value: avatRegNumber">
                                                 <span class="help-block text-right">GST registration number</span>
                                             </div>
@@ -230,13 +231,11 @@
                                                 <span class="help-block text-right">GST reference number</span>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Social Details</h3>
                                     <div class="col-lg-9">
-
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
@@ -349,17 +348,15 @@
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="tab-territory">
-
                                 <div class="col-lg-12">
                                     <!--ko if: type() != 0-->
                                     <div class="col-lg-12">
                                         <h3 class="group-header">Territories</h3>
-                                        <div class="col-lg-9 clearfix">
+                                        <div class="col-lg-12 clearfix">
                                             <header class="main-box-header clearfix">
                                                 <div class="filter-block pull-right">
                                                     <div class="form-group pull-left">
@@ -367,7 +364,7 @@
                                                         <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyTerritory"></i>
                                                     </div>
                                                     <a data-toggle="modal" class="btn btn-primary pull-right" data-bind="click: $root.onCreateNewCompanyTerritory">
-                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Territory
+                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
                                                     </a>
                                                 </div>
                                             </header>
@@ -408,7 +405,7 @@
                                                         <i class="fa fa-search search-icon" data-bind="click:$root.searchAddress"></i>
                                                     </div>
                                                     <a data-toggle="modal" data-bind="click: $root.onCreateNewAddress" class="btn btn-primary pull-right">
-                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Address
+                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
                                                     </a>
                                                 </div>
                                             </div>
@@ -456,7 +453,7 @@
                                                     <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyContact"></i>
                                                 </div>
                                                 <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyContact" class="btn btn-primary pull-right">
-                                                    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add User
+                                                    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
                                                 </a>
                                             </div>
                                         </header>
@@ -490,67 +487,43 @@
                                         </footer>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="tab-pane fade" id="tab-DAM">
                                 <div class="col-md-12 form-horizontal">
                                     <h3 class="group-header">Media Manager</h3>
+
                                     <div class="col-md-9">
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload new sprite image" data-original-title="" title="">
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Bulk upload icons, thumbnails, logos and image files required to be used within a store, prevents you from having to upload 1 image at a time when creating new products." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
                                                 </div>
                                                 <label for="txtCompanyName" class="control-label text-right tooltip-float">Upload media files</label>
                                             </div>
                                             <div class="col-lg-6">
-                                                <div id="dropzoneM" class="dropzonepl">
-                                                    <form id="demo-uploadMM" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
-                                                        <div class="dz-default dz-message">
-                                                            <span>Drop file here to upload</span>
+                                                <div class="col-lg-8">
+                                                    <div id="dropzone">
+                                                        <div id="demo-upload" style="min-height: 200px; width: 250px;">
+                                                            <img data-bind="attr: { src: $root.newUploadedMediaFile().fileSource }" style="min-height: 200px; width: 250px;" />
                                                         </div>
-                                                    </form>
+                                                    </div>
+                                                    <span class="help-block text-right"></span>
                                                 </div>
-                                                <span class="help-block text-right"></span>
+                                                <div class="col-lg-1">
+                                                    <div class="fileUpload btn btn-primary">
+                                                        <span>....</span>
+                                                        <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.mediaLibraryFileLoadedCallback, fileFilter: 'image.*'}" />
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="main-box-body">
                                             <div id="gallery-photos-lightbox">
                                                 <ul class="clearfix gallery-photos">
-                                                    <li class="col-md-3 col-sm-3 col-xs-6">
-                                                        <a href="#" class="photo-box image-link" style="background-image: url('~/Content/themes/Centaurus/img/samples/hdr/small/img_8.jpg');"></a>
-                                                        <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
-                                                    </li>
-                                                    <li class="col-md-3 col-sm-3 col-xs-6">
-                                                        <a href="#" class="photo-box image-link" style="background-image: url('~/Content/themes/Centaurus/img/samples/hdr/small/img_2.jpg');"></a>
-                                                        <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
-                                                    </li>
-                                                    <li class="col-md-3 col-sm-3 col-xs-6">
-                                                        <a href="#" class="photo-box image-link" style="background-image: url('~/Content/themes/Centaurus/img/samples/hdr/small/img_3.jpg');"></a>
-                                                        <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
-                                                    </li>
-                                                    <li class="col-md-3 col-sm-3 col-xs-6">
-                                                        <a href="#" class="photo-box image-link" style="background-image: url('/Content/themes/Centaurus/img/samples/hdr/small/img_4.jpg');"></a>
-                                                        <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
-                                                    </li>
-                                                    <li class="col-md-3 col-sm-3 col-xs-6">
-                                                        <a href="#" class="photo-box image-link" style="background-image: url('/Content/themes/Centaurus/img/samples/hdr/small/img_5.jpg');"></a>
-                                                        <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
-                                                    </li>
-                                                    <li class="col-md-3 col-sm-3 col-xs-6">
-                                                        <a href="#" class="photo-box image-link" style="background-image: url('/Content/themes/Centaurus/img/samples/hdr/small/img_6.jpg');"></a>
-                                                        <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
-                                                    </li>
-                                                    <li class="col-md-3 col-sm-3 col-xs-6">
-                                                        <a href="#" class="photo-box image-link" style="background-image: url('/Content/themes/Centaurus/img/samples/hdr/small/img_7.jpg');"></a>
-                                                        <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
-                                                    </li>
-                                                    <li class="col-md-3 col-sm-3 col-xs-6">
-                                                        <a href="#" class="photo-box image-link" style="background-image: url('/Content/themes/Centaurus/img/samples/hdr/small/img_1.jpg');"></a>
-                                                        <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
-                                                    </li>
+                                                    <!-- ko template: { name: 'mediaLibraryItemTemplate' , foreach: mediaLibraries  } -->
+                                                    <!-- /ko -->
                                                 </ul>
                                             </div>
                                         </div>
@@ -807,7 +780,7 @@
                                 <br />
                                 <a href="#" class="btn btn-success pull-right">View all contacts</a>
                             </div>
-                            <div class="tab-pane clearfix fade" id="tab-orders" >
+                            <div class="tab-pane clearfix fade" id="tab-orders">
                                 <div class="col-lg-12">
                                     <h3 class="group-header">Orders</h3>
                                     <div class="col-lg-12">
@@ -851,10 +824,10 @@
                                                     <table class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
+                                                                <th>&nbsp;</th>
                                                                 <th><a href="#"><span>Name</span></a></th>
                                                                 <th><a href="#"><span>Status</span></a></th>
                                                                 <th><a href="#"><span>Total</span></a></th>
-
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -898,7 +871,7 @@
     <script id="orderTemplate" type="text/html">
         <tr>
             <td>
-                <span data-bind="text:companyName"></span> | 
+                <span data-bind="text:companyName"></span> |
                 <span data-bind="text:isDirectSaleUi"></span>
             </td>
             <td >
@@ -911,9 +884,10 @@
     </script>
     <script id="invoiceTemplate" type="text/html">
         <tr>
+            <td><span data-bind="style: { 'background-color':flagColor }" class=" label label-success"></span>x</td>
             <td>
-                <span data-bind="text:companyName"></span><br />
-                <span data-bind="text:invoiceDate"></span> | <span data-bind="text:invoiceName"></span> |<span data-bind="text:invoiceCode"></span>
+                <b><span data-bind="text:companyName"></span></b> <br />
+                <span data-bind="dateString:invoiceDate"></span> &emsp; &emsp;&emsp; &emsp;&emsp;  <span data-bind="text:invoiceName"></span>(<span data-bind="text:invoiceCode"></span>)
             </td>
             <td>
                 <span data-bind="text:status"></span><br />
@@ -922,7 +896,6 @@
             <td ><span data-bind="text:invoiceTotal"></span></td>
         </tr>
     </script>
-
     <script id="itemCompanyTerritoryTemplate" type="text/html">
         <tr data-bind="click: $root.selectCompanyTerritory, css: { selectedRow: $data === $root.selectedCompanyTerritory}">
             <td data-bind="text: territoryName"></td>
@@ -952,20 +925,43 @@
             <td data-bind="text: addressName"></td>
             <td data-bind="text: city"></td>
             @*<td data-bind="text: territoryName"></td>*@
-            <td data-bind="text: isDefaultTerrorityShipping() == true ? 'Yes' : 'No' "></td>
+
+            @*<!--ko if: $root.selectedStore().type() == 4-->
+                <!--ko if: isDefaultShippingAddress() == true -->
+                <td class="type">
+                    <span class="label label-success">Yes </span>
+                </td>
+                <!-- /ko -->
+                <!--ko if: isDefaultShippingAddress() != true-->
+                <td class="type">
+                    <span class="label label-danger">No </span>
+                </td>
+                <!-- /ko -->
+                <!--/ko-->*@
+            @*<!--ko if:  $root.selectedStore().type() == 3-->*@
+            <!--ko if: isDefaultTerrorityBilling() == true -->
+            <td class="type">
+                <span class="label label-success">Yes </span>
+            </td>
+            <!-- /ko -->
+            <!--ko if: isDefaultTerrorityBilling() != true-->
+            <td class="type">
+                <span class="label label-danger">No </span>
+            </td>
+            <!-- /ko -->
+            @*<!--/ko-->*@
+
             <!--ko if: isDefaultAddress() == true -->
             <td class="type">
-                @*<span class="label label-danger" data-bind="text: isDefaultAddress()== true ? 'Yes' : 'No'"> </span>*@
-                <span class="label label-danger">Yes </span>
+                <span class="label label-success">Yes </span>
             </td>
             <!-- /ko -->
             <!--ko if: isDefaultAddress() != true-->
             <td class="type">
-                <span> No</span>
+                <span class="label label-danger">No </span>
             </td>
             <!-- /ko -->
-            @*
-                <td data-bind="text: isDefaultAddress() == true ? 'Yes' : 'No' "></td>*@
+
             <td id="actionColumn" class="text-right">
                 <!-- ko template: { name: "actionsAddressTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                 <!-- /ko -->
@@ -979,7 +975,7 @@
                 <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
             </span>
         </a>
-        <a href="#" class="table-link danger" data-bind="click : $root.onDeleteCompanyContact">  
+        <a href="#" class="table-link danger" data-bind="click : $root.onDeleteCompanyContact">
             <span class="fa-stack">
                 <i class="fa fa-square fa-stack-2x"></i>
                 <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
@@ -988,8 +984,8 @@
     </script>
     <script id="itemCompanyContactTemplate" type="text/html">
         <tr data-bind="click: $root.selectCompanyContact, css: { selectedRow: $data === $root.selectedCompanyContact}">
-            <td>
-                <div class="img col-xs-3">
+            <td style="width: 20%; max-width: 20%;">
+                <div class="img col-xs-2">
                     <img style="min-height: 20px; width: 20px;" data-bind="attr:{src: image}" alt="" />
                 </div>
                 <div class="details col-lg-1">
@@ -1000,33 +996,57 @@
                     </div>
                 </div>
             </td>
-            <td>
+            <td style="width: 10%; max-width: 10%;">
                 <div class="type">
-                    <span class="label label-danger" data-bind="text: roleName "></span>
+                    <!--ko if: roleName() == 'Administrator' -->
+                    <span class="label label-primary" data-bind="text: roleName "></span>
+                    <!-- /ko -->
+                    <!--ko if: roleName() == 'Manager' -->
+                    <span class="label label-success" data-bind="text: roleName "></span>
+                    <!-- /ko -->
+                    <!--ko if: roleName() == 'User' -->
+                    <span class="label label-info" data-bind="text: roleName "></span>
+                    <!-- /ko -->
+
                 </div>
             </td>
             @*
                 <td data-bind="text: firstName "></td>
                 <td data-bind="text: contactRoleId"></td>*@
-            <td>
+            <td style="width: 10%; max-width: 10%;">
                 <div class="type">
-                    <span data-bind="text: isWebAccess() == true ? 'Yes' : 'No' "></span>   @*class="label label-danger"*@
+                    <span class="label" data-bind="text: isWebAccess() == true ? 'Yes' : 'No' , css: { 'label-success': (isWebAccess() == true),'label-danger': (isWebAccess() != true)}"></span>   @*class="label label-danger"*@
                 </div>
             </td>
 
-            <td>
+            <td style="width: 10%; max-width: 10%;">
                 <div class="type">
-                    <span class="label label-danger" data-bind="text: isPlaceOrder() == true ? 'Yes' : 'No' "></span>
+                    <span class="label" data-bind="text: isPlaceOrder() == true ? 'Yes' : 'No', css: { 'label-success': (isPlaceOrder() == true),'label-danger': (isPlaceOrder() != true)}"></span>
                 </div>
             </td>
-            <td data-bind="text: canUserPlaceOrderWithoutApproval() == true ? 'Yes' : 'No' "></td>
-            <td data-bind="text: isPricingshown() == true ? 'Yes' : 'No' "></td>
-            <td data-bind="text: creditLimit() != null ? '$ '+ creditLimit() +'.00' : '$ 0.00'"></td>
-            <td id="actionColumn" class="text-right">
+            <td style="width: 10%; max-width: 10%;">
+                <div class="type">
+                    <span class="label" data-bind="text: canUserPlaceOrderWithoutApproval() != true ? 'Yes' : 'No', css: { 'label-success': (canUserPlaceOrderWithoutApproval() != true),'label-danger': (canUserPlaceOrderWithoutApproval() == true)}"></span>
+                </div>
+            </td>
+            <td style="width: 10%; max-width: 10%;">
+                <div class="type">
+                    <span class="label" data-bind="text: isPricingshown() == true ? 'Yes' : 'No', css: { 'label-success': (isPricingshown() == true),'label-danger': (isPricingshown() != true)}"></span>
+                </div>
+            </td>
+            <td style="width: 10%; max-width: 10%;" data-bind="text: creditLimit() != null ? '$ '+ creditLimit() +'.00' : '$ 0.00'"></td>
+            <td style="width: 10%; max-width: 10%;" class=" text-right" id="actionColumn">
                 <!-- ko template: { name: "actionsCompanyContactTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                 <!-- /ko -->
             </td>
         </tr>
+    </script>
+    <script id="mediaLibraryItemTemplate" type="text/html">
+        <li class="col-md-3 col-sm-3 col-xs-6">
+            @*<a href="#" class="photo-box image-link" style="background-image: url('/Content/themes/Centaurus/img/samples/hdr/small/img_6.jpg');"></a>*@
+            <div class="photo-box image-link" data-bind="style:{backgroundImage:' url('+fileSource()+')'}"></div>
+            <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
+        </li>
     </script>
 </div>
 @Html.Partial("Widgets/_UserProfileDetails")
