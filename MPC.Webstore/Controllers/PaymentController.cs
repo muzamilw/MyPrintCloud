@@ -69,12 +69,12 @@ namespace MPC.Webstore.Controllers
                         opaypal.return_url += string.Format("?{0}={1}", "OrderID", OrderID);
                         opaypal.pageOrderID = OrderID.ToString();
                         // determining the URL to work with depending on whether sandbox or a real PayPal account should be used
-                        if (oGateWay.UseSandbox)
+                        if (oGateWay.UseSandbox.HasValue && oGateWay.UseSandbox.Value)
                             opaypal.URL = oGateWay.TestApiUrl;// "https://www.sandbox.paypal.com/cgi-bin/webscr";
                         else
                             opaypal.URL = oGateWay.LiveApiUrl;// "https://www.paypal.com/cgi-bin/webscr";
 
-                        if (oGateWay.SendToReturnURL)
+                        if (oGateWay.SendToReturnURL.HasValue && oGateWay.SendToReturnURL.Value)
                             opaypal.rm = "2";
                         else
                             opaypal.rm = "1";

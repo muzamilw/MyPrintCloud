@@ -1,4 +1,5 @@
-﻿using MPC.Models.DomainModels;
+﻿using System.Collections.Generic;
+using MPC.Models.DomainModels;
 
 namespace MPC.Interfaces.Repository
 {
@@ -7,5 +8,10 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface ICompanyContactVariableRepository : IBaseRepository<CompanyContactVariable,long>
     {
+
+        /// <summary>
+        /// Get Company Contact Variable  By Contact ID
+        /// </summary>
+        IEnumerable<CompanyContactVariable> GetContactVariableByContactId(long contactId);
     }
 }

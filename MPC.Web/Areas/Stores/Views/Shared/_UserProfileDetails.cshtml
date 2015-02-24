@@ -20,6 +20,7 @@
                                     <li><a href="#tab-UserWorkFlow" data-toggle="tab">Workflow Settings</a></li>
                                     <li><a href="#tab-UserAddressInfo" data-toggle="tab">Address Info</a></li>
                                     <li><a href="#tab-UserPurse" data-toggle="tab">User Purse </a></li>
+                                    <li><a data-bind="click: $root.getCompanyContactVariables" href="#tab-ModifyVariable" data-toggle="tab">Modify Variable </a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane fade in active" id="tab-UserProfileinfo">
@@ -122,6 +123,7 @@
                                                             <input type="text" class="form-control" id="txtUFax" data-bind="value:fAX">
                                                         </div>
                                                     </div>
+                                                    <!--ko if: $root.selectedStore().type() != 4-->
                                                     <div class="form-group ">
                                                         <div class="col-lg-5 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
@@ -135,6 +137,7 @@
                                                             <select class="form-control col-lg-4" data-bind="options:$root.roles,optionsText:'roleName',optionsValue:'roleId', value: contactRoleId"></select>
                                                         </div>
                                                     </div>
+                                                    <!--/ko-->
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
@@ -169,7 +172,7 @@
                                                             <label for="txtPassword" class="control-label text-right tooltip-float">Password</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="password" class="form-control" id="txtPassword" data-bind="value: password">
+                                                            <input type="password" class="form-control" id="txtPassword" data-bind="value: password, validationTooltip: password">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -183,7 +186,7 @@
                                                             <label for="txtCPassword" class="control-label text-right tooltip-float">Confirm Password</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="password" class="form-control" id="txtCPassword">
+                                                            <input type="password" class="form-control" id="txtCPassword" data-bind="value: confirmPassword, validationTooltip: confirmPassword">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -750,25 +753,25 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                        <div class="col-lg-8 text-right">
-                                                            <div class="bs-example-tooltips tooltip-float-width">
-                                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload Password"  data-content="Map On Contact" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                                </a>
-                                                            </div>
-                                                            <label for="switchIsPlaceOrder" class="control-label text-right tooltip-float">Can Place Order</label>
+                                                    <div class="col-lg-8 text-right">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload Password" data-content="Map On Contact" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
                                                         </div>
-                                                        <div class="col-lg-4">
-                                                            <div class="onoffswitch">
-                                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsPlaceOrder" data-bind="checked: isPlaceOrder">
-                                                                <label class="onoffswitch-label" for="switchIsPlaceOrder">
-                                                                    <div class="onoffswitch-inner"></div>
-                                                                    <div class="onoffswitch-switch"></div>
-                                                                </label>
-                                                            </div>
-                                                            <span class="help-block text-right"></span>
-                                                        </div>
+                                                        <label for="switchIsPlaceOrder" class="control-label text-right tooltip-float">Can Place Order</label>
                                                     </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="onoffswitch">
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsPlaceOrder" data-bind="checked: isPlaceOrder">
+                                                            <label class="onoffswitch-label" for="switchIsPlaceOrder">
+                                                                <div class="onoffswitch-inner"></div>
+                                                                <div class="onoffswitch-switch"></div>
+                                                            </label>
+                                                        </div>
+                                                        <span class="help-block text-right"></span>
+                                                    </div>
+                                                </div>
                                                 <div class="form-group">
                                                     <div class="col-lg-8 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
@@ -1048,6 +1051,27 @@
                                         <div class="col-lg-12">
                                         </div>
                                     </div>
+                                    <div class="tab-pane fade" id="tab-ModifyVariable">
+                                        <div class=" form-horizontal clearfix">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th></th>
+
+                                                            <th>
+
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <!-- ko template: { name: 'companyContactVariableTemplate' , foreach: companyContactVariables } -->
+                                                        <!-- /ko -->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1067,3 +1091,27 @@
 </div>
 
 @* Wizard Popup ends here*@
+
+<script id="companyContactVariableTemplate" type="text/html">
+    <tr>
+        <td class="modifyVariabletd">
+            <div class="form-group ">
+                <div class="col-lg-3 text-right">
+                    <div class="bs-example-tooltips tooltip-float-width">
+                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                            @*<span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@
+                        </a>
+                    </div>
+                    <label for="abc" class="control-label text-right tooltip-float" data-bind="text:title"></label>
+                </div>
+                <div class="col-lg-5">
+                    <input type="text" class="form-control" id="abc" data-bind="value: value,disable:type() === 1">
+                </div>
+                <div class="col-lg-4" data-bind="visible:type() === 1">
+                    <select class="form-control" data-bind="options: variableOptions, optionsText: 'value', optionsValue: 'id',value:optionId, validationTooltip: optionId,event: { change: $root.onVariableOptionDropDownChange }"></select>
+                </div>
+            </div>
+
+</tr>
+</script>
+

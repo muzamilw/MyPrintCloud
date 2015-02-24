@@ -313,7 +313,7 @@ namespace MPC.Implementation.MISServices
         {
             string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
             HttpServerUtility server = HttpContext.Current.Server;
-            string mapPath = server.MapPath(mpcContentPath + "/Products/Organisation" + itemRepository.OrganisationId + "/Product" + target.ItemId);
+            string mapPath = server.MapPath(mpcContentPath + "/Products/" + itemRepository.OrganisationId + "/" + target.ItemId);
 
             // Create directory if not there
             if (!Directory.Exists(mapPath))
@@ -358,7 +358,7 @@ namespace MPC.Implementation.MISServices
         private void SaveItemStockOptionImage(Item target, string mapPath, ItemStockOption itemStockOption)
         {
             string imageUrl = SaveImage(mapPath, itemStockOption.ImageURL,
-                target.ItemId + itemStockOption.ItemStockOptionId + itemStockOption.OptionSequence + "_StockOption_",
+                itemStockOption.ItemStockOptionId +"_"+ StringHelper.SimplifyString(itemStockOption.StockLabel) + "_StockOption_",
                 itemStockOption.FileName,
                 itemStockOption.FileSource,
                 itemStockOption.FileSourceBytes);
@@ -375,7 +375,7 @@ namespace MPC.Implementation.MISServices
         private void SaveImagePath(Item target, string mapPath)
         {
             string imagePathUrl = SaveImage(mapPath, target.ImagePath,
-                target.ItemId + target.ProductCode + target.ProductName + "_ImagePath_",
+                target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_ImagePath_",
                 target.ImagePathImageName,
                 target.ImagePathImage,
                 target.ImagePathSourceBytes);
@@ -393,7 +393,7 @@ namespace MPC.Implementation.MISServices
         private void SaveGridImage(Item target, string mapPath)
         {
             string gridImageUrl = SaveImage(mapPath, target.GridImage,
-                target.ItemId + target.ProductCode + target.ProductName + "_GridImage_",
+                target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_GridImage_",
                 target.GridImageSourceName,
                 target.GridImageBytes,
                 target.GridImageSourceBytes);
@@ -411,7 +411,7 @@ namespace MPC.Implementation.MISServices
         private void SaveThumbnailPath(Item target, string mapPath)
         {
             string thumbnailImageUrl = SaveImage(mapPath, target.ThumbnailPath,
-                target.ItemId + target.ProductCode + target.ProductName + "_ThumbnailPath_",
+                target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_ThumbnailPath_",
                 target.ThumbnailImageName,
                 target.ThumbnailImage,
                 target.ThumbnailSourceBytes);
@@ -429,7 +429,7 @@ namespace MPC.Implementation.MISServices
         private void SaveItemFiles(Item target, string mapPath)
         {
             string path = SaveImage(mapPath, target.File1,
-                target.ItemId + target.ProductCode + target.ProductName + "_File1_",
+                target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File1_",
                 target.File1Name,
                 target.File1Byte,
                 target.File1SourceBytes);
@@ -441,7 +441,7 @@ namespace MPC.Implementation.MISServices
             }
 
             path = SaveImage(mapPath, target.File2,
-                target.ItemId + target.ProductCode + target.ProductName + "_File2_",
+              target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File2_",
                 target.File2Name,
                 target.File2Byte,
                 target.File2SourceBytes);
@@ -453,7 +453,7 @@ namespace MPC.Implementation.MISServices
             }
 
             path = SaveImage(mapPath, target.File3,
-                target.ItemId + target.ProductCode + target.ProductName + "_File3_",
+               target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File3_",
                 target.File3Name,
                 target.File3Byte,
                 target.File3SourceBytes);
@@ -465,7 +465,7 @@ namespace MPC.Implementation.MISServices
             }
 
             path = SaveImage(mapPath, target.File4,
-                target.ItemId + target.ProductCode + target.ProductName + "_File4_",
+                target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File4_",
                 target.File4Name,
                 target.File4Byte,
                 target.File4SourceBytes);
@@ -477,7 +477,7 @@ namespace MPC.Implementation.MISServices
             }
 
             path = SaveImage(mapPath, target.File5,
-                target.ItemId + target.ProductCode + target.ProductName + "_File5_",
+              target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File5_",
                 target.File5Name,
                 target.File5Byte,
                 target.File5SourceBytes);
@@ -619,8 +619,8 @@ namespace MPC.Implementation.MISServices
             string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
             HttpServerUtility server = HttpContext.Current.Server;
             string mapPath =
-                server.MapPath(mpcContentPath + "/Products/Organisation" + itemRepository.OrganisationId +
-                               "/Product" + itemTarget.ItemId);
+                server.MapPath(mpcContentPath + "/Products/" + itemRepository.OrganisationId +
+                               "/" + itemTarget.ItemId);
             mapPath = mapPath + "//Templates";
 
             if (!Directory.Exists(mapPath))
@@ -909,7 +909,7 @@ namespace MPC.Implementation.MISServices
 
             byte[] fileBytes = File.ReadAllBytes(itemStockOption.ImageURL);
             string imageUrl = SaveImage(mapPath, string.Empty,
-                target.ItemId + itemStockOption.ItemStockOptionId + itemStockOption.OptionSequence + "_StockOption_",
+                itemStockOption.ItemStockOptionId + StringHelper.SimplifyString(itemStockOption.StockLabel) + "_StockOption_",
                 "image.png",
                 "stockOption",
                 fileBytes);
@@ -932,7 +932,7 @@ namespace MPC.Implementation.MISServices
 
             byte[] fileBytes = File.ReadAllBytes(target.ImagePath);
             string imagePathUrl = SaveImage(mapPath, string.Empty,
-                target.ItemId + target.ProductCode + target.ProductName + "_ImagePath_",
+                target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_ImagePath_",
                 "imagePath.png",
                 "imagePath",
                 fileBytes);
@@ -956,7 +956,7 @@ namespace MPC.Implementation.MISServices
 
             byte[] fileBytes = File.ReadAllBytes(target.GridImage);
             string gridImageUrl = SaveImage(mapPath, target.GridImage,
-                target.ItemId + target.ProductCode + target.ProductName + "_GridImage_",
+                target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_GridImage_",
                 "gridImage.png",
                 "gridImage",
                 fileBytes);
@@ -980,7 +980,7 @@ namespace MPC.Implementation.MISServices
 
             byte[] fileBytes = File.ReadAllBytes(target.ThumbnailPath);
             string thumbnailImageUrl = SaveImage(mapPath, target.ThumbnailPath,
-                target.ItemId + target.ProductCode + target.ProductName + "_ThumbnailPath_",
+                target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_ThumbnailPath_",
                 "thumbnailPath.png",
                 "thumbnail",
                 fileBytes);
@@ -1005,7 +1005,7 @@ namespace MPC.Implementation.MISServices
                 fileBytes = File.ReadAllBytes(target.File1);
                 extension = Path.GetExtension(target.File1);
                 path = SaveImage(mapPath, string.Empty,
-                target.ItemId + target.ProductCode + target.ProductName + "_File1_",
+                target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File1_",
                 "file1" + extension,
                 "file1",
                 fileBytes);
@@ -1024,7 +1024,7 @@ namespace MPC.Implementation.MISServices
                 fileBytes = File.ReadAllBytes(target.File2);
                 extension = Path.GetExtension(target.File2);
                 path = SaveImage(mapPath, string.Empty,
-                    target.ItemId + target.ProductCode + target.ProductName + "_File2_",
+                    target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File2_",
                     "file2" + extension,
                     "file2",
                     fileBytes);
@@ -1041,7 +1041,7 @@ namespace MPC.Implementation.MISServices
                 fileBytes = File.ReadAllBytes(target.File3);
                 extension = Path.GetExtension(target.File3);
                 path = SaveImage(mapPath, string.Empty,
-                    target.ItemId + target.ProductCode + target.ProductName + "_File3_",
+                    target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File3_",
                     "file3" + extension,
                     "file3",
                     fileBytes);
@@ -1058,7 +1058,7 @@ namespace MPC.Implementation.MISServices
                 fileBytes = File.ReadAllBytes(target.File4);
                 extension = Path.GetExtension(target.File4);
                 path = SaveImage(mapPath, string.Empty,
-                    target.ItemId + target.ProductCode + target.ProductName + "_File4_",
+                    target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File4_",
                     "file4" + extension,
                     "file4",
                     fileBytes);
@@ -1076,7 +1076,7 @@ namespace MPC.Implementation.MISServices
                 fileBytes = File.ReadAllBytes(target.File5);
                 extension = Path.GetExtension(target.File5);
                 path = SaveImage(mapPath, string.Empty,
-                    target.ItemId + target.ProductCode + target.ProductName + "_File5_",
+                     target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File5_",
                     "file5" + extension,
                     "file5",
                     fileBytes);
@@ -1096,7 +1096,7 @@ namespace MPC.Implementation.MISServices
         {
             string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
             HttpServerUtility server = HttpContext.Current.Server;
-            string mapPath = server.MapPath(mpcContentPath + "/Products/Organisation" + itemRepository.OrganisationId + "/Product" + target.ItemId);
+            string mapPath = server.MapPath(mpcContentPath + "/Products/" + itemRepository.OrganisationId + "/" + target.ItemId);
 
             // Create directory if not there
             if (!Directory.Exists(mapPath))
@@ -1567,7 +1567,7 @@ namespace MPC.Implementation.MISServices
             return target;
         }
 
-
+        
         /// <summary>
         /// Get Stock Items
         /// Used in Products - Stock Item Selection

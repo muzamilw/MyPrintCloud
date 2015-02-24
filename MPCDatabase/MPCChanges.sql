@@ -213,3 +213,189 @@ alter table ItemSection
 add CostCentreQueue ntext null
 
 GO
+
+/* Execution Date: 23/02/2015 */
+GO
+
+exec sp_rename 'CostCentreMatrix.CompanyId', 'OrganisationId'
+
+alter table FieldVariable
+add CompanyId bigint null
+
+alter table FieldVariable
+add Scope int null
+
+alter table FieldVariable
+add WaterMark varchar(200) null
+
+alter table FieldVariable
+add DefaultValue varchar(200) null
+
+alter table FieldVariable
+add InputMask varchar(100) null
+
+alter table FieldVariable
+add OrganisationId bigint null
+
+alter table FieldVariable
+add IsSystem bit null
+
+alter table FieldVariable
+add VariableTitle varchar(100) null
+
+GO
+
+GO
+
+/****** Object:  Table [dbo].[CompanyContactVariable]    Script Date: 2/23/2015 11:36:42 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[CompanyContactVariable](
+	[ContactVariableId] [bigint] IDENTITY(1,1) NOT NULL,
+	[ContactId] [bigint] NOT NULL,
+	[VariableId] [bigint] NOT NULL,
+	[Value] [varchar](200) NULL,
+ CONSTRAINT [PK_CompanyContactVariable] PRIMARY KEY CLUSTERED 
+(
+	[ContactVariableId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[CompanyContactVariable]  WITH CHECK ADD  CONSTRAINT [FK_CompanyContactVariable_CompanyContact] FOREIGN KEY([ContactId])
+REFERENCES [dbo].[CompanyContact] ([ContactId])
+GO
+
+ALTER TABLE [dbo].[CompanyContactVariable] CHECK CONSTRAINT [FK_CompanyContactVariable_CompanyContact]
+GO
+
+ALTER TABLE [dbo].[CompanyContactVariable]  WITH CHECK ADD  CONSTRAINT [FK_CompanyContactVariable_FieldVariable] FOREIGN KEY([VariableId])
+REFERENCES [dbo].[FieldVariable] ([VariableId])
+GO
+
+ALTER TABLE [dbo].[CompanyContactVariable] CHECK CONSTRAINT [FK_CompanyContactVariable_FieldVariable]
+GO
+
+GO
+
+/****** Object:  Table [dbo].[VariableOption]    Script Date: 2/23/2015 11:53:35 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[VariableOption](
+	[VariableOptionId] [bigint] IDENTITY(1,1) NOT NULL,
+	[VariableId] [bigint] NULL,
+	[Value] [varchar](200) NULL,
+	[SortOrder] [int] NULL,
+ CONSTRAINT [PK_VariableOption] PRIMARY KEY CLUSTERED 
+(
+	[VariableOptionId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[VariableOption]  WITH CHECK ADD  CONSTRAINT [FK_VariableOption_FieldVariable] FOREIGN KEY([VariableId])
+REFERENCES [dbo].[FieldVariable] ([VariableId])
+GO
+
+ALTER TABLE [dbo].[VariableOption] CHECK CONSTRAINT [FK_VariableOption_FieldVariable]
+GO
+
+GO
+
+/****** Object:  Table [dbo].[SmartForm]    Script Date: 2/23/2015 12:05:49 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[SmartForm](
+	[SmartFormId] [bigint] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](200) NULL,
+	[CompanyId] [bigint] NULL,
+	[OrganisationId] [bigint] NULL,
+ CONSTRAINT [PK_SmartForm] PRIMARY KEY CLUSTERED 
+(
+	[SmartFormId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[SmartForm]  WITH CHECK ADD  CONSTRAINT [FK_SmartForm_Company] FOREIGN KEY([CompanyId])
+REFERENCES [dbo].[Company] ([CompanyId])
+GO
+
+ALTER TABLE [dbo].[SmartForm] CHECK CONSTRAINT [FK_SmartForm_Company]
+GO
+
+GO
+
+/****** Object:  Table [dbo].[SmartFormDetail]    Script Date: 2/23/2015 12:06:29 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[SmartFormDetail](
+	[SmartFormDetailId] [bigint] IDENTITY(1,1) NOT NULL,
+	[SmartFormId] [bigint] NOT NULL,
+	[ObjectType] [int] NULL,
+	[IsRequired] [bit] NULL,
+	[SortOrder] [int] NULL,
+ CONSTRAINT [PK_SmartFormDetail] PRIMARY KEY CLUSTERED 
+(
+	[SmartFormDetailId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[SmartFormDetail]  WITH CHECK ADD  CONSTRAINT [FK_SmartFormDetail_SmartForm] FOREIGN KEY([SmartFormId])
+REFERENCES [dbo].[SmartForm] ([SmartFormId])
+GO
+
+ALTER TABLE [dbo].[SmartFormDetail] CHECK CONSTRAINT [FK_SmartFormDetail_SmartForm]
+GO
+
+GO
+
+Alter table Invoice
+alter column InvoiceStatus smallint null
+
+Alter table Invoice
+add foreign key (InvoiceStatus)
+references Status(StatusId)
+
+Alter table Invoice
+add foreign key (ContactId)
+references CompanyContact(ContactId)

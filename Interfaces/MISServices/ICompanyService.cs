@@ -65,6 +65,16 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         FieldVariable GetFieldVariableDetail(long fieldId);
 
+        /// <summary>
+        /// Get Company Contact Varibale By Contact ID
+        /// </summary>
+        IEnumerable<CompanyContactVariable> GetContactVariableByContactId(long contactId);
+
+        /// <summary>
+        /// Get Field Varibale By Company ID
+        /// </summary>
+        IEnumerable<FieldVariable> GetFieldVariableByCompanyId(long companyId);
+
         #region exportOrganisation
 
         void ExportOrganisation(long OrganisationID);

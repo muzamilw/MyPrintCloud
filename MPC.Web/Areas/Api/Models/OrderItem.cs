@@ -117,6 +117,7 @@ namespace MPC.MIS.Areas.Api.Models
         public int? NominalCodeId { get; set; }
         public double? DefaultItemTax { get; set; }
         public bool? IsQtyRanged { get; set; }
+        public string Status { get; set; }
         public IEnumerable<ItemSection> ItemSections { get; set; }
 
         #endregion
