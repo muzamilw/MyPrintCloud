@@ -97,6 +97,14 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(vf => vf.CompanyId == companyId && vf.Scope == (int)FieldVariableScopeType.Contact).ToList();
         }
+       
+        /// <summary>
+        /// Get Field Varibale By Company For Smart Form
+        /// </summary>
+        public IEnumerable<FieldVariable> GetFieldVariablesForSmartForm(long companyId)
+        {
+            return DbSet.Where(vf => vf.CompanyId == companyId).ToList();
+        }
         #endregion
     }
 }

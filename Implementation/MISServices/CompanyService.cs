@@ -2289,6 +2289,7 @@ namespace MPC.Implementation.MISServices
                        States = stateRepository.GetAll(),
                        Countries = countryRepository.GetAll(),
                        FieldVariableResponse = fieldVariableRepository.GetFieldVariable(request),
+                       FieldVariablesForSmartForm = fieldVariableRepository.GetFieldVariablesForSmartForm(storeId)
                        
                    };
         }

@@ -135,6 +135,7 @@
     <Compile Include="Repository\IPipeLineProductRepository.cs" />
     <Compile Include="Repository\IReportRepository.cs" />
     <Compile Include="Repository\IPipeLineSourceRepository.cs" />
+    <Compile Include="Repository\ISmartFormDetailRepository.cs" />
     <Compile Include="Repository\ISmartFormRepository.cs" />
     <Compile Include="Repository\IStateRepository.cs" />
     <Compile Include="Repository\ICostCenterTypeRepository.cs" />
