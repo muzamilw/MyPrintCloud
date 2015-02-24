@@ -25,5 +25,10 @@ namespace MPC.Interfaces.Repository
         /// Get Field Varibale By Company ID
         /// </summary>
         IEnumerable<FieldVariable> GetFieldVariableByCompanyId(long companyId);
+
+        /// <summary>
+        /// Get Field Varibale By Company For Smart Form
+        /// </summary>
+        IEnumerable<FieldVariable> GetFieldVariablesForSmartForm(long companyId);
     }
 }

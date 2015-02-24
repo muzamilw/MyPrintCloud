@@ -55,16 +55,15 @@
         /* ]]> */
     </script>
 
-                    
 
-    
+
 
 
 </head>
 <body class="theme-red">
 
     <div class="myprintcloud-help" id="myprintcloud-help">
-    <div class="left-arrow"></div>
+        <div class="left-arrow"></div>
         <div class="right-arrow"></div>
         <div class="top-arrow"></div>
         <div class="bottom-arrow"></div>
@@ -93,8 +92,8 @@
             </div>
         </div>
 
-</div>
     </div>
+
 
     <header class="navbar" id="header-navbar">
 
@@ -806,12 +805,12 @@
     @Scripts.Render("~/bundles/jquery")
 
     <script>
-    (function ($) {
-        $("#siteUrl").val("@(Request.ApplicationPath == " / " ? " / " : Request.ApplicationPath)");
-    })($);
+        (function ($) {
+            $("#siteUrl").val("@(Request.ApplicationPath == " / " ? " / " : Request.ApplicationPath)");
+        })($);
 
     </script>
-    
+
 
 
     @Scripts.Render("~/Bundle/BaseLibs")
@@ -851,8 +850,7 @@
         });
     </script>
     <script>
-        $(document).ready(function ()
-        {
+        $(document).ready(function () {
             var width = $(window).width();
             var totalwidth = width - 400;
             var divisonwidth = totalwidth / 2;
@@ -864,11 +862,9 @@
         });
     </script>
     <script>
-        $(document).ready(function ()
-        {
+        $(document).ready(function () {
 
-            $(window).resize(function ()
-            {
+            $(window).resize(function () {
                 var width = $(window).width();
                 var total = width - 400;
                 var divison = total / 2;
@@ -880,23 +876,19 @@
         });
     </script>
     <script>
-        $(document).ready(function ()
-        {
-            $("#btnCloseHelp").click(function ()
-            {
+        $(document).ready(function () {
+            $("#btnCloseHelp").click(function () {
 
                 $("#myprintcloud-help").hide();
                 $(".disabled-div").css("display", "none");
-                
+
                 $('body').css('overflow', 'visible');
                 $('body').css('zoom', '100%');
-
             });
         });
     </script>
     <script>
-        $(document).ready(function ()
-        {
+        $(document).ready(function () {
 
             var i = 0;
 
@@ -907,8 +899,7 @@
             $("#btnPreviousHelp").hide();
             $("#btnCloseHelp").show();
 
-            $("#btnNextHelp").click(function ()
-            {
+            $("#btnNextHelp").click(function () {
 
                 i = i + 1;
 
@@ -924,8 +915,7 @@
                 var left = parseInt(positionleft) - parseInt(positionlefthelp);
 
 
-                if (i == 1)
-                {
+                if (i == 1) {
                     left = left + 240;
                     $("#myprintcloud-help").animate({ "top": "-=-40", "left": "+=" + left }, 100);
 
@@ -936,8 +926,7 @@
                     $("#btnPreviousHelp").show();
 
                 }
-                if (i != 1)
-                {
+                if (i != 1) {
 
                     left = left + 240;
                     $("#myprintcloud-help").animate({ "top": "-=-40", "left": "+=" + left }, 100);
@@ -948,8 +937,7 @@
 
                     $("#btnPreviousHelp").show();
                 }
-                if (i == 6)
-                {
+                if (i == 6) {
 
                     $("#btnNextHelp").hide();
                     $("#btnCloseHelp").show();
@@ -960,8 +948,7 @@
 
             });
 
-            $("#btnPreviousHelp").click(function ()
-            {
+            $("#btnPreviousHelp").click(function () {
 
                 i = i - 1;
 
@@ -977,8 +964,7 @@
                 var top = parseInt(positiontop) - parseInt(236);
                 var left = parseInt(positionleft) - parseInt(positionlefthelp);
 
-                if (i == 0)
-                {
+                if (i == 0) {
 
                     var width = $(window).width();
 
@@ -994,13 +980,12 @@
 
                     $("#btnPreviousHelp").hide();
                     $("#btnNextHelp").show();
-                   
-                 
+
+
 
 
                 }
-                if ((i != 0) && (i != 6))
-                {
+                if ((i != 0) && (i != 6)) {
                     left = left + 240;
                     $("#myprintcloud-help").animate({ "top": "-=40", "left": "+=" + left }, 100);
 
@@ -1010,8 +995,10 @@
 
                     $("#btnNextHelp").show();
                 }
+            });
+
+
         });
-       
     </script>
 
     @RenderSection("scripts", required: false)

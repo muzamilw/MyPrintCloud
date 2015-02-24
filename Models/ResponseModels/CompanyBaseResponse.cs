@@ -24,6 +24,7 @@ namespace MPC.Models.ResponseModels
         public IEnumerable<Country> Countries { get; set; }
 
         public IEnumerable<State> States { get; set; }
+        public IEnumerable<FieldVariable> FieldVariablesForSmartForm { get; set; }
 
         public FieldVariableResponse FieldVariableResponse { get; set; }
 
