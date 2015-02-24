@@ -101,7 +101,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        CanUserEditProfile = source.CanUserEditProfile,
                        canPlaceDirectOrder = source.canPlaceDirectOrder,
                        OrganisationId = source.OrganisationId,
-                       FileName = source.FileName
+                       FileName = source.FileName,
+                       CompanyContactVariables = source.CompanyContactVariables != null ? source.CompanyContactVariables.Select(ccv => ccv.CreateFrom()).ToList() : null
+
                        //CompanyTerritory = source.BussinessAddress.Territory.CreateFrom(),
                        //Address = source.BussinessAddress != null? source.BussinessAddress.CreateFrom() : null,
 
@@ -127,7 +129,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        ContactId = source.ContactId,
                        AddressId = source.AddressId,
                        CompanyId = source.CompanyId,
-                       CompanyName = source.Company != null ? source.Company.Name: "",
+                       CompanyName = source.Company != null ? source.Company.Name : "",
                        FirstName = source.FirstName,
                        MiddleName = source.MiddleName,
                        LastName = source.LastName,
@@ -209,7 +211,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        canPlaceDirectOrder = source.canPlaceDirectOrder,
                        OrganisationId = source.OrganisationId,
                        RoleName = source.CompanyContactRole != null ? source.CompanyContactRole.ContactRoleName : string.Empty,
-                       FileName = fileName
+                       FileName = fileName,
+                  
                    };
         }
 
@@ -285,10 +288,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 CompanyContactRoles = result.CompanyContactRoles != null ? result.CompanyContactRoles.Select(x => x.CreateFrom()) : null,
                 RegistrationQuestions = result.RegistrationQuestions != null ? result.RegistrationQuestions.Select(x => x.CreateFromDropDown()) : null,
-                Addresses = result.Addresses!=null ? result.Addresses.Select(address=> address.CreateFrom()):null,
-                CompanyTerritories = result.CompanyTerritories!=null ? result.CompanyTerritories.Select(territory=> territory.CreateFrom()):null,
-                StateDropDowns = result.States!=null ? result.States.Select(state=> state.CreateFromDropDown()):null,
-            }; 
+                Addresses = result.Addresses != null ? result.Addresses.Select(address => address.CreateFrom()) : null,
+                CompanyTerritories = result.CompanyTerritories != null ? result.CompanyTerritories.Select(territory => territory.CreateFrom()) : null,
+                StateDropDowns = result.States != null ? result.States.Select(state => state.CreateFromDropDown()) : null,
+            };
         }
     }
 }

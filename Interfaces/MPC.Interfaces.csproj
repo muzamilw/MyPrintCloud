@@ -78,6 +78,7 @@
     <Compile Include="MISServices\ICrmSupplierService.cs" />
     <Compile Include="MISServices\ICustomerService.cs" />
     <Compile Include="MISServices\IDashboardService.cs" />
+    <Compile Include="MISServices\IInvoiceService.cs" />
     <Compile Include="MISServices\IOrderForCrmService.cs" />
     <Compile Include="Repository\ICompanyContactVariableRepository.cs" />
     <Compile Include="Repository\IDeliveryCarrierRepository.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Repository\IGroupRepository.cs" />
     <Compile Include="Repository\IImagePermissionsRepository.cs" />
     <Compile Include="Repository\IInquiryAttachmentRepository.cs" />
+    <Compile Include="Repository\IInvoiceRepository.cs" />
     <Compile Include="Repository\IItemSectionRepository.cs" />
     <Compile Include="Repository\IInquiryRepository.cs" />
     <Compile Include="Repository\IItemAttachmentRepository.cs" />
@@ -133,6 +135,7 @@
     <Compile Include="Repository\IPipeLineProductRepository.cs" />
     <Compile Include="Repository\IReportRepository.cs" />
     <Compile Include="Repository\IPipeLineSourceRepository.cs" />
+    <Compile Include="Repository\ISmartFormRepository.cs" />
     <Compile Include="Repository\IStateRepository.cs" />
     <Compile Include="Repository\ICostCenterTypeRepository.cs" />
     <Compile Include="Repository\IStatusRepository.cs" />
@@ -194,6 +197,7 @@
     <Compile Include="Repository\ITaxRateRepository.cs" />
     <Compile Include="WebStoreServices\IOrderService.cs" />
     <Compile Include="WebStoreServices\IItemService.cs" />
+    <Compile Include="WebStoreServices\ISmartFormService.cs" />
     <Compile Include="WebStoreServices\IStatusService.cs" />
     <Compile Include="WebStoreServices\ITemplateBackgroundImagesService.cs" />
     <Compile Include="WebStoreServices\ITemplateColorStylesService.cs" />

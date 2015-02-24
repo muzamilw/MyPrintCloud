@@ -5,6 +5,10 @@
 #storesBinding #addStore {
   margin-top: 25px;
 }
+#storesBinding .modifyVariabletd {
+  padding-top: 14px !important;
+  padding-bottom: 0px !important;
+}
 #storesBinding #filter {
   height: 62px !important;
 }

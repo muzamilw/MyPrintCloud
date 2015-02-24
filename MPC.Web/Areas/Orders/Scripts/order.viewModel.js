@@ -75,7 +75,7 @@ define("order/order.viewModel",
                         return contactResult || defaultCompanyContact();
                     }),
                     // Selected Product
-                    selectedProduct = ko.observable(),
+                    selectedProduct = ko.observable(model.Item.Create({})),
                     // Selected Section
                     selectedSection = ko.observable(),
                     // #endregion
@@ -154,7 +154,7 @@ define("order/order.viewModel",
                         view.showItemDetailDialog();
                     },
                     // Close Item Detail
-                    closeItemDetail = function() {
+                    closeItemDetail = function () {
                         view.hideItemDetailDialog();
                     },
                     // Save Product
