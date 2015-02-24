@@ -36,7 +36,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        IsFixed = source.IsFixed,
                        Name = source.Name,
                        PaperSizeId = source.PaperSizeId,
-                       Region = source.Region ?? CultureInfo.CurrentCulture.Name,
+                       Region = source.Region,
                        SizeMeasure = source.SizeMeasure ?? 0,
                        Width = source.Width
                    };
