@@ -592,7 +592,7 @@ define("order/order.viewModel",
                     closeSectionDetail: closeSectionDetail,
                     deleteProduct: deleteProduct,
                     selectJobDescription: selectJobDescription,
-                    openPhraseLibrary: openPhraseLibrary
+                    openPhraseLibrary: openPhraseLibrary,
                     //#endregion Utility Methods
                     //#region Dialog Product Section
                     orderProductItems: orderProductItems,
