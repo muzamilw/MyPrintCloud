@@ -82,6 +82,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public InventoryBaseResponse GetBaseData()
         {
+            Organisation organisation = organisationRepository.GetOrganizatiobByID();
             return new InventoryBaseResponse
             {
                 StockCategories = stockCategoryRepository.GetAll(),
@@ -91,7 +92,8 @@ namespace MPC.Implementation.MISServices
                 WeightUnits = weightUnitRepository.GetAll(),
                 LengthUnits = lengthUnitRepository.GetAll(),
                 PaperBasisAreas = paperBasisAreaRepository.GetAll(),
-                Organisation = organisationRepository.GetOrganizatiobByID(),
+                Organisation = organisation,
+                Region = organisation.GlobalLanguage.culture
             };
         }
 

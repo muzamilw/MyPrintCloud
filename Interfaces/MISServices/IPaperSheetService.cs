@@ -46,6 +46,6 @@ namespace MPC.Interfaces.MISServices
         /// Get Base Data
         /// </summary>
         /// <returns></returns>
-        string GetBaseData();
+       PaperSheetBaseResponse GetBaseData();
     }
 }
