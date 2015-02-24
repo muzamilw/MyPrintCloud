@@ -8,7 +8,7 @@ define("order/order.dataservice", function () {
         var // True if initialized
             isInitialized = false,
             // Initialize
-            initialize = function () {
+            initialize = function() {
                 if (!isInitialized) {
 
                     // Define request to get order by id
@@ -48,7 +48,7 @@ define("order/order.dataservice", function () {
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'DELETE'
                     });
-                    
+
                     // Define request to clone Order
                     amplify.request.define('cloneOrder', 'ajax', {
                         url: ist.siteUrl + '/Api/OrderClone',
@@ -56,19 +56,24 @@ define("order/order.dataservice", function () {
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
-                    
+
                     // Define request to get order by id
                     amplify.request.define('getBaseDataForCompany', 'ajax', {
                         url: ist.siteUrl + '/Api/OrderBaseForCompany',
                         dataType: 'json',
                         type: 'GET'
                     });
-
+                    // Define request to get Items By CompanyId
+                    amplify.request.define('getItemsByCompanyId', 'ajax', {
+                        url: ist.siteUrl + '/Api/OrderRetailStore',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
             },
             // Get base data
-            getBaseData = function (callbacks) {
+            getBaseData = function(callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getBaseData',
@@ -77,7 +82,7 @@ define("order/order.dataservice", function () {
                 });
             },
             // Get Base For Company
-            getBaseDataForCompany = function (params, callbacks) {
+            getBaseDataForCompany = function(params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getBaseDataForCompany',
@@ -87,7 +92,7 @@ define("order/order.dataservice", function () {
                 });
             },
             // Get Order by id 
-            getOrder = function (params, callbacks) {
+            getOrder = function(params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getOrder',
@@ -97,7 +102,7 @@ define("order/order.dataservice", function () {
                 });
             },
             // Get Orders
-            getOrders = function (params, callbacks) {
+            getOrders = function(params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getOrders',
@@ -107,7 +112,7 @@ define("order/order.dataservice", function () {
                 });
             },
             // Archive Order
-            archiveOrder = function (param, callbacks) {
+            archiveOrder = function(param, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'archiveOrder',
@@ -117,7 +122,7 @@ define("order/order.dataservice", function () {
                 });
             },
             // Save Order
-            saveOrder = function (param, callbacks) {
+            saveOrder = function(param, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'saveOrder',
@@ -127,13 +132,23 @@ define("order/order.dataservice", function () {
                 });
             },
             // Clone Order
-            cloneOrder = function (param, callbacks) {
+            cloneOrder = function(param, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'cloneOrder',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: param
+                });
+            },
+            // get Store by id
+            getItemsByCompanyId = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getItemsByCompanyId',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
                 });
             };
 
@@ -144,7 +159,8 @@ define("order/order.dataservice", function () {
             archiveOrder: archiveOrder,
             getBaseData: getBaseData,
             cloneOrder: cloneOrder,
-            getBaseDataForCompany: getBaseDataForCompany
+            getBaseDataForCompany: getBaseDataForCompany,
+            getItemsByCompanyId: getItemsByCompanyId
         };
     })();
 

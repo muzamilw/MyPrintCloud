@@ -1586,7 +1586,15 @@ namespace MPC.Implementation.MISServices
         {
             return itemPriceMatrixRepository.GetForItemBySectionFlag(sectionFlagId, itemId);
         }
-
+        /// <summary>
+        /// Method for Order Add Product
+        /// </summary>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
+        public IEnumerable<Item> GetItemsByCompanyId(long companyId)
+        {
+            return itemRepository.GetItemsByCompanyId(companyId);
+        }
         #endregion
     }
 }
