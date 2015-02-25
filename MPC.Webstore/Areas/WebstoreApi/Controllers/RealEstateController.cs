@@ -17,6 +17,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
          #region Private
 
         private readonly IListingService listingService;
+        private readonly MPC.Implementation.MISServices.CompanyService myCompanyService;
         #endregion
         #region Constructor
 
@@ -24,9 +25,10 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         /// Constructor
         /// </summary>
         /// <param name="companyService"></param>
-        public RealEstateController(IListingService listingService, IItemService itemService, ICompanyService myCompanyService)
+        public RealEstateController(IListingService listingService, IItemService itemService, ICompanyService myCompanyService, MPC.Implementation.MISServices.CompanyService CompanyService)
         {
             this.listingService = listingService;
+            this.myCompanyService = CompanyService;
         }
 
         #endregion
@@ -40,5 +42,14 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
         }
+
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [HttpPost]
+        public void InsertOrganisation(long parameter1, string parameter2)
+        {
+            myCompanyService.ImportOrganisation(parameter1, parameter2);
+        }
+
+       
     }
 }
