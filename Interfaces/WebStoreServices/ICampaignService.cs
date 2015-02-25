@@ -15,7 +15,7 @@ namespace MPC.Interfaces.WebStoreServices
         bool emailBodyGenerator(Campaign oCampaign, CampaignEmailParams variablValues, CompanyContact userRecord, StoreMode ModeOfStore, int OrganisationId, string password = "", string shopReceiptHtml = "", string emailOfSubscribedUsers = "", string emailOfSalesManager = "", string ReceiverName = "", string secondEmail = "", List<string> AttachmentsList = null, string PostCodes = "", DateTime? SubscriptionEndDate = null, string PayyPalGatwayEmail = "", string brokerCompanyName = "", string SubscriptionPath = "", string MarkBreifSumm = "", string Email1 = "", int UnOrderedTotalItems = 0, string UnOrderedItemsTotal = "", int SavedDesignsCount = 0);
 
         void SendEmailToSalesManager(int Event, int ContactId, int CompanyId, int brokerid, int OrderId, int BrokerAdminContactID, int CorporateManagerID, StoreMode Mode, Company company, SystemUser SaleManager, string NameOfBrokerComp = "", string MarketingBreifMesgSummry = "", int RFQId = 0);
-
+        string GetPinkCardsShopReceiptPage(int OrderId, long CorpID);
         void SendPendingCorporateUserRegistrationEmailToAdmins(int contactID, int Companyid,int OrganisationId);
 
         void SendEmailFromQueue(System.Web.HttpContext hcontext);

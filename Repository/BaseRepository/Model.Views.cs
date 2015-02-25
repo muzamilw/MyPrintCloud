@@ -3952,17 +3952,17 @@ namespace Edm_EntityMappingGeneratedViews
                     "    T.VariableId AS FieldVariable_VariableId, \r\n            T.VariableName AS Fi" +
                     "eldVariable_VariableName, \r\n            T.RefTableName AS FieldVariable_RefTable" +
                     "Name, \r\n            T.CriteriaFieldName AS FieldVariable_CriteriaFieldName, \r\n  " +
-                    "          T.VariableSectionId AS FieldVariable_VariableSectionId, \r\n            " +
-                    "T.VariableTag AS FieldVariable_VariableTag, \r\n            T.SortOrder AS FieldVa" +
-                    "riable_SortOrder, \r\n            T.KeyField AS FieldVariable_KeyField, \r\n        " +
-                    "    T.VariableType AS FieldVariable_VariableType, \r\n            T.Scope AS Field" +
-                    "Variable_Scope, \r\n            T.WaterMark AS FieldVariable_WaterMark, \r\n        " +
-                    "    T.DefaultValue AS FieldVariable_DefaultValue, \r\n            T.InputMask AS F" +
-                    "ieldVariable_InputMask, \r\n            T.CompanyId AS FieldVariable_CompanyId, \r\n" +
-                    "            T.OrganisationId AS FieldVariable_OrganisationId, \r\n            T.Is" +
-                    "System AS FieldVariable_IsSystem, \r\n            T.VariableTitle AS FieldVariable" +
-                    "_VariableTitle, \r\n            True AS _from0\r\n        FROM BaseDbContext.FieldVa" +
-                    "riables AS T\r\n    ) AS T1");
+                    "          CAST(T.VariableSectionId AS [Edm.Int64]) AS FieldVariable_VariableSect" +
+                    "ionId, \r\n            T.VariableTag AS FieldVariable_VariableTag, \r\n            T" +
+                    ".SortOrder AS FieldVariable_SortOrder, \r\n            T.KeyField AS FieldVariable" +
+                    "_KeyField, \r\n            T.VariableType AS FieldVariable_VariableType, \r\n       " +
+                    "     T.Scope AS FieldVariable_Scope, \r\n            T.WaterMark AS FieldVariable_" +
+                    "WaterMark, \r\n            T.DefaultValue AS FieldVariable_DefaultValue, \r\n       " +
+                    "     T.InputMask AS FieldVariable_InputMask, \r\n            T.CompanyId AS FieldV" +
+                    "ariable_CompanyId, \r\n            T.OrganisationId AS FieldVariable_OrganisationI" +
+                    "d, \r\n            T.IsSystem AS FieldVariable_IsSystem, \r\n            T.VariableT" +
+                    "itle AS FieldVariable_VariableTitle, \r\n            True AS _from0\r\n        FROM " +
+                    "BaseDbContext.FieldVariables AS T\r\n    ) AS T1");
         }
         
         /// <Summary>
@@ -7355,17 +7355,17 @@ namespace Edm_EntityMappingGeneratedViews
                     ".VariableId AS FieldVariable_VariableId, \r\n            T.VariableName AS FieldVa" +
                     "riable_VariableName, \r\n            T.RefTableName AS FieldVariable_RefTableName," +
                     " \r\n            T.CriteriaFieldName AS FieldVariable_CriteriaFieldName, \r\n       " +
-                    "     T.VariableSectionId AS FieldVariable_VariableSectionId, \r\n            T.Var" +
-                    "iableTag AS FieldVariable_VariableTag, \r\n            T.SortOrder AS FieldVariabl" +
-                    "e_SortOrder, \r\n            T.KeyField AS FieldVariable_KeyField, \r\n            T" +
-                    ".VariableType AS FieldVariable_VariableType, \r\n            T.Scope AS FieldVaria" +
-                    "ble_Scope, \r\n            T.WaterMark AS FieldVariable_WaterMark, \r\n            T" +
-                    ".DefaultValue AS FieldVariable_DefaultValue, \r\n            T.InputMask AS FieldV" +
-                    "ariable_InputMask, \r\n            T.CompanyId AS FieldVariable_CompanyId, \r\n     " +
-                    "       T.OrganisationId AS FieldVariable_OrganisationId, \r\n            T.IsSyste" +
-                    "m AS FieldVariable_IsSystem, \r\n            T.VariableTitle AS FieldVariable_Vari" +
-                    "ableTitle, \r\n            True AS _from0\r\n        FROM DomainModelsStoreContainer" +
-                    ".FieldVariable AS T\r\n    ) AS T1");
+                    "     CAST(T.VariableSectionId AS [Edm.Int32]) AS FieldVariable_VariableSectionId" +
+                    ", \r\n            T.VariableTag AS FieldVariable_VariableTag, \r\n            T.Sort" +
+                    "Order AS FieldVariable_SortOrder, \r\n            T.KeyField AS FieldVariable_KeyF" +
+                    "ield, \r\n            T.VariableType AS FieldVariable_VariableType, \r\n            " +
+                    "T.Scope AS FieldVariable_Scope, \r\n            T.WaterMark AS FieldVariable_Water" +
+                    "Mark, \r\n            T.DefaultValue AS FieldVariable_DefaultValue, \r\n            " +
+                    "T.InputMask AS FieldVariable_InputMask, \r\n            T.CompanyId AS FieldVariab" +
+                    "le_CompanyId, \r\n            T.OrganisationId AS FieldVariable_OrganisationId, \r\n" +
+                    "            T.IsSystem AS FieldVariable_IsSystem, \r\n            T.VariableTitle " +
+                    "AS FieldVariable_VariableTitle, \r\n            True AS _from0\r\n        FROM Domai" +
+                    "nModelsStoreContainer.FieldVariable AS T\r\n    ) AS T1");
         }
         
         /// <Summary>

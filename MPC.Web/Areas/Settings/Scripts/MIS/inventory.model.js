@@ -212,11 +212,12 @@
         hasChanges = ko.computed(function () {
             return dirtyFlag.isDirty();
         }),
-        convertToServerData = function () {
+        convertToServerData = function (region) {
             return {
                 StockItemId: itemId(),
                 ItemName: itemName(),
                 ItemCode: itemCode(),
+                Region:region,
                 SupplierId: supplierId(),
                 CategoryId: categoryId(),
                 SubCategoryId: subCategoryId(),
