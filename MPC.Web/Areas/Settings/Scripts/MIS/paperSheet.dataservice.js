@@ -35,7 +35,7 @@ define("paperSheet/paperSheet.dataservice", function () {
                         url: ist.siteUrl + '/Api/PaperSheet',
                         dataType: 'json',
                         decoder: amplify.request.decoders.istStatusDecoder,
-                        type: 'Put'
+                        type: 'POST'
                     });
                     // Define request to get base data
                     amplify.request.define('getBaseData', 'ajax', {

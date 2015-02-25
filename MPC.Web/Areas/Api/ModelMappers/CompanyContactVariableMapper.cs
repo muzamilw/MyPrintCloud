@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Microsoft.IdentityModel.Protocols.WSFederation;
 using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
 
@@ -20,9 +19,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new DomainModels.CompanyContactVariable
             {
-
+                ContactVariableId = source.ContactVariableId,
                 ContactId = source.ContactId,
-
+                VariableId = source.VariableId,
+                Value = source.Value,
+                FakeVariableId = source.FakeVariableId,
             };
         }
 
@@ -36,6 +37,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
                 ContactVariableId = source.ContactVariableId,
                 ContactId = source.ContactId,
+                FakeVariableId = source.FakeVariableId,
                 VariableId = source.VariableId,
                 Value = source.Value,
                 Type = source.FieldVariable != null ? source.FieldVariable.VariableType : null,

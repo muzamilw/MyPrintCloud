@@ -5,14 +5,13 @@ using System.Web.Http;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
-using MPC.Models.RequestModels;
-using MPC.WebBase.Mvc;
+
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
     public class GetCompanyContactVariableController : ApiController
     {
-         #region Private
+        #region Private
 
         private readonly ICompanyService companyService;
 
@@ -37,10 +36,10 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         public IEnumerable<CompanyContactVariable> Get([FromUri]long contactId)
         {
-            return companyService.GetContactVariableByContactId(contactId).Select(cv=>cv.CreateFrom());
+            return companyService.GetContactVariableByContactId(contactId).Select(cv => cv.CreateFrom());
         }
 
         #endregion
-       
+
     }
 }

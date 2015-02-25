@@ -98,5 +98,12 @@ namespace MPC.Interfaces.Repository
         /// <param name="Quantity"></param>
         /// <returns></returns>
         ItemSection UpdateItemFirstSectionByItemId(long ItemId, int Quantity);
+
+        /// <summary>
+        /// Get Items By Company Id
+        /// </summary>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
+        IEnumerable<Item> GetItemsByCompanyId(long companyId);
     }
 }

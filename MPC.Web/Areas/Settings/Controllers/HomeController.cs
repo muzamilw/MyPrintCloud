@@ -61,7 +61,7 @@ namespace MPC.MIS.Areas.Settings.Controllers
                 return;
             }
 
-            string path = Server.MapPath("~/MPC_Content/Organisations/Organisation" + organizationId);
+            string path = Server.MapPath("~/MPC_Content/Organisations/" + organizationId);
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);

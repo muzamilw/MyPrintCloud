@@ -9,3 +9,17 @@
 #orderBinding #tab-EstimateHeader #orderSectionDetailDialog #orderSectionDetail {
   width: 1100px;
 }
+#OrderDialogSection1 {
+  -moz-box-shadow: 0 0 8px #808080;
+  -webkit-box-shadow: 0 0 8px #808080;
+  box-shadow: 0 0 8px #808080;
+}
+#OrderDialogSection2 {
+  -moz-box-shadow: 0 0 8px #808080;
+  -webkit-box-shadow: 0 0 8px #808080;
+  box-shadow: 0 0 8px #808080;
+  margin-left: 5%;
+}
+#productFromRetailStoreModalDialog {
+  width: 1100px;
+}

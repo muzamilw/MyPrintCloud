@@ -262,11 +262,13 @@
     <Compile Include="Areas\Api\Controllers\FieldVariableController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\GetCompaniesForCalendarController.cs" />
+    <Compile Include="Areas\Api\Controllers\GetCompanyContactVariableByCompanyIdController.cs" />
     <Compile Include="Areas\Api\Controllers\GetCompanyContactVariableController.cs" />
     <Compile Include="Areas\Api\Controllers\GetItemsForWidgetsController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\GetOrderStatusesController.cs" />
     <Compile Include="Areas\Api\Controllers\GetPhraseFiledsBySectionController.cs" />
+    <Compile Include="Areas\Api\Controllers\InvoiceController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseForCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemCloneController.cs" />
@@ -276,6 +278,7 @@
     <Compile Include="Areas\Api\Controllers\LanguageEditorController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterController.cs" />
     <Compile Include="Areas\Api\Controllers\MachineController.cs" />
+    <Compile Include="Areas\Api\Controllers\OrderRetailStoreController.cs" />
     <Compile Include="Areas\Api\Controllers\OrdersForCrmController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionsForPhraseLibraryController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductMachinesController.cs" />
@@ -304,6 +307,7 @@
     <Compile Include="Areas\Api\ModelMappers\FieldVariableMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GroupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InkCoverageGroupMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\InvoiceMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SectionCostCentreResourceMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SectionCostCentreDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SectionCostcentreMapper.cs" />
@@ -366,11 +370,14 @@
     <Compile Include="Areas\Api\Models\CustomerListViewModel.cs" />
     <Compile Include="Areas\Api\Models\CustomerResponse.cs" />
     <Compile Include="Areas\Api\Models\FieldVariable.cs" />
+    <Compile Include="Areas\Api\Models\FieldVariableForSmartForm.cs" />
     <Compile Include="Areas\Api\Models\FieldVariableResponse.cs" />
     <Compile Include="Areas\Api\Models\GetOrdersResponse.cs" />
     <Compile Include="Areas\Api\Models\GroupForCampaign.cs" />
     <Compile Include="Areas\Api\Models\CostcentreWorkInstructionsChoice.cs" />
     <Compile Include="Areas\Api\Models\InkCoverageGroup.cs" />
+    <Compile Include="Areas\Api\Models\Invoice.cs" />
+    <Compile Include="Areas\Api\Models\InvoiceRequestResponseModel.cs" />
     <Compile Include="Areas\Api\Models\OrderItem.cs" />
     <Compile Include="Areas\Api\Models\OrderBaseResponse.cs">
       <SubType>Code</SubType>
@@ -1737,6 +1744,8 @@
     <Content Include="Areas\Stores\Views\Stores\_AddEditVariableDefination.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_UserProfileDetailsForCrm.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_AddEditTerritoryForCrm.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_ProductFromRetailStore.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_AddEditSmartFormDialog.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
@@ -2914,7 +2923,9 @@
     <Folder Include="Areas\Api\Views\CompanyProduct\" />
     <Folder Include="Areas\Api\Views\Customer\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
+    <Folder Include="Areas\Api\Views\Invoice\" />
     <Folder Include="Areas\Api\Views\Machine\" />
+    <Folder Include="Areas\Api\Views\OrderRetailStore\" />
     <Folder Include="Areas\Api\Views\OrdersForCrm\" />
     <Folder Include="Areas\Api\Views\PaperSheetBaseApi\" />
     <Folder Include="Areas\Common\Controllers\" />
@@ -3006,9 +3017,9 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>43063</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/mis</IISUrl>
+          <IISUrl>http://mpc/mis</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://mpc/</IISAppRootUrl>
+          <IISAppRootUrl>http://mpc/mis</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

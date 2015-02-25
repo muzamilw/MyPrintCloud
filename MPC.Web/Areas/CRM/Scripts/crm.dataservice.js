@@ -11,6 +11,11 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    amplify.request.define('getDataForInvoiceTab', 'ajax', {
+                        url: ist.siteUrl + '/Api/Invoice',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     amplify.request.define('getCompanies', 'ajax', {
                         url: ist.siteUrl + '/Api/Customer',
                         dataType: 'json',
@@ -66,6 +71,16 @@
                 initialize();
                 return amplify.request({
                     resourceId: 'getDataForOrderTab',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+              // get Invoice tab data
+            getInvoices= function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getDataForInvoiceTab',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
@@ -160,7 +175,8 @@
             saveStore: saveStore,
             getSuppliers: getSuppliers,
             getOrdersData: getOrders,
-            searchCompanyTerritory: searchCompanyTerritory
+            searchCompanyTerritory: searchCompanyTerritory,
+            getInvoices: getInvoices
         };
     })();
 
