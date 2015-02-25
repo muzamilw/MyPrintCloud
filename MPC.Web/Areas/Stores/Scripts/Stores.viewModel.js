@@ -31,6 +31,8 @@ define("stores/stores.viewModel",
                     isLoadingStores = ko.observable(false),
                     //Is Editorial View Visible
                     isEditorVisible = ko.observable(false),
+                    // widget section header title
+                    productsFilterHeading=ko.observable(),
                     //Sort On
                     sortOn = ko.observable(1),
                     //Sort In Ascending
@@ -3678,18 +3680,21 @@ define("stores/stores.viewModel",
                     //#region _________WIDGETS IN Themes & Widgets Tab _________________
                     //Open Dialog from Featured Product Row
                     openItemsForWidgetsDialogFromFeatured = function () {
+                        productsFilterHeading("Featured Products");
                         selectedOfferType(1);
                         resetItems();
                         view.showItemsForWidgetsDialog();
                     },
                     //Open Dialog from Popular Product Row
                     openItemsForWidgetsDialogFromPopular = function () {
+                        productsFilterHeading("Popular Products");
                         selectedOfferType(2);
                         resetItems();
                         view.showItemsForWidgetsDialog();
                     },
                     //Open Dialog from Special Product Row
                     openItemsForWidgetsDialogFromSpecial = function () {
+                        productsFilterHeading("Special Products");
                         selectedOfferType(3);
                         resetItems();
                         view.showItemsForWidgetsDialog();
@@ -4644,6 +4649,7 @@ define("stores/stores.viewModel",
                     lineSeperator: lineSeperator,
                     selectedSmartForm: selectedSmartForm,
                     droppedSmartFormArea: droppedSmartFormArea,
+                    productsFilterHeading: productsFilterHeading
                 };
                 //#endregion
             })()
