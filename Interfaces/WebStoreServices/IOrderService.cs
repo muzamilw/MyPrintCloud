@@ -16,7 +16,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         long GetUserShopCartOrderID(int status);
 
-        ShoppingCart GetShopCartOrderAndDetails(long orderID, OrderStatus orderStatus);
+        ShoppingCart GetShopCartOrderAndDetails(long orderID, OrderStatus Orderstatus);
 
         DiscountVoucher GetVoucherRecord(int VId);
         Estimate GetOrderByID(long orderId);
@@ -73,5 +73,10 @@ namespace MPC.Interfaces.WebStoreServices
 
         List<Order> GetOrdersListByContactID(long contactUserID, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, int pageSize, int pageNumber);
         List<Order> GetOrdersListExceptPendingOrdersByContactID(long contactUserID, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, int pageSize, int pageNumber);
+        Order GetOrderAndDetails(long orderID);
+        Address GetBillingAddress(long BillingAddressId);
+        Address GetdeliveryAddress(long ShippingAddressId);
+        long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID);
+
     }
 }

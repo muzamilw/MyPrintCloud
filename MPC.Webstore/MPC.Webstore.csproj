@@ -320,6 +320,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="JasonClass\jclasscs.cs" />
     <Compile Include="ModelMappers\CmsPageMapper.cs" />
     <Compile Include="ModelMappers\CmsSkinPageWidgetMapper.cs" />
     <Compile Include="ModelMappers\CompanyBannerMapper.cs" />
@@ -348,6 +349,7 @@
     <Compile Include="ViewModels\RelatedItemViewModel.cs" />
     <Compile Include="ViewModels\SearchOrderViewModel.cs" />
     <Compile Include="ViewModels\ShopCartAddressSelectViewModel.cs" />
+    <Compile Include="ViewModels\ViewOrderDetails.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -492,6 +494,7 @@
     <Content Include="Content\Designer\assets-v2\white.jpg" />
     <Content Include="Content\Designer\p103.css" />
     <Content Include="Content\Designer\DSv2.css" />
+    <Content Include="Content\Images\Glass.png" />
     <Content Include="Content\Images\GoogPluss.PNG" />
     <Content Include="Content\Images\linkedin.png" />
     <Content Include="Content\Images\Listing-next-horizoltal.png" />
@@ -502,6 +505,7 @@
     <Content Include="Content\Images\prev-horizontal.png" />
     <Content Include="Content\Images\ProfileImage.png" />
     <Content Include="Content\Images\RealEstateLogo.png" />
+    <Content Include="Content\Images\repeat.png" />
     <Content Include="Content\Images\Settings.png" />
     <Content Include="Content\Images\ShareFacebook.png" />
     <Content Include="Content\Images\SignUp.PNG" />
@@ -702,6 +706,7 @@
     <Content Include="Views\Shared\PartialViews\PersonalDetailAndOrderPolicy.cshtml" />
     <Content Include="Views\Shared\PartialViews\OrderPolicySave.cshtml" />
     <Content Include="Views\Shared\PartialViews\ProductOrderHistory.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ViewOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -15,8 +15,10 @@ namespace MPC.Interfaces.Repository
         /// <summary>
         /// Get Items
         /// </summary>
+        /// 
         ItemSearchResponse GetItems(ItemSearchRequestModel request);
-
+        double GrossTotalCalculation(double netTotal, double stateTaxValue);
+        double CalculatePercentage(double itemValue, double percentageValue);
         List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(long ProductCategoryID);
 
         ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId);
@@ -98,5 +100,7 @@ namespace MPC.Interfaces.Repository
         /// <param name="Quantity"></param>
         /// <returns></returns>
         ItemSection UpdateItemFirstSectionByItemId(long ItemId, int Quantity);
+        Item CloneReOrderItem(long orderID, Item ExistingItem, long loggedInContactID, string order_code);
+
     }
 }

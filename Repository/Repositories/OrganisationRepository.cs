@@ -400,5 +400,17 @@ namespace MPC.Repository.Repositories
                 
         }
         #endregion
+        public Organisation GetCompanySiteDataWithTaxes()
+        {
+            Organisation compSite = null;
+
+
+            List<Organisation> companySitesList = db.Organisations.ToList();
+
+                if (companySitesList.Count > 0)
+                    compSite = companySitesList[0];
+            
+            return compSite;
+        }
     }
 }

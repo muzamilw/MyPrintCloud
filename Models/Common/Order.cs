@@ -24,8 +24,8 @@ namespace MPC.Models.Common
         public long? ContactUserID { get; set; }
         public int? BrokerID { get; set; }
         public int DeliveryCostCentreID { get; set; }     
-        public int DeliveryAddressID { get; set; }        
-        public int? BillingAddressID { get; set; }
+        public long DeliveryAddressID { get; set; }        
+        public long BillingAddressID { get; set; }
         public int DiscountVoucherID { get; set; }
         public double VoucherDiscountRate { get; set; }
         public Int16? ClientStatusID { get; set; }
@@ -38,8 +38,7 @@ namespace MPC.Models.Common
         public double OrderTotal { get; set; }
         public Company MyCompanySite { get; set; }
         //Order Complete Details
-        public ShoppingCart OrderDetails { get; set; 
-
+        public ShoppingCart OrderDetails { get; set;}
+        public double DeliveryCost {get; set;}
     }
-}
 }

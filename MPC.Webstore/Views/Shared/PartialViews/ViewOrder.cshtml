@@ -1,0 +1,414 @@
+﻿
+@*@ Control Language="C#" AutoEventWireup="true" CodeBehind="OrderDetails.ascx.cs"*@
+    @*Inherits="Web2Print.UI.Controls.OrderDetails" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
+<link href="../LightBox/css/jquery.lightbox-0.5.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+    $(document).ready(function () {
+        BindEvents();
+    });
+
+    function BindEvents() {
+
+        $('.gallery a').lightBox({
+
+            maxHeight: 500,
+            maxWidth: 700
+        });
+        $(".Fsize13").css("background-color", "#3D3D3D");
+        $(".Fsize13").css("color", "White");
+    }
+</script>*@
+<Label ID="lblHeader"  Class="left_align FileUploadHeaderText_PopUp float_left_simple MesgBoxClass">Order Details</Label>
+
+<div id="CancelControl" onclick="$find('mpeOrderDetails').hide();" class="MesgBoxBtnsDisplay rounded_corners5" style="">
+    Close
+</div>
+<div class="clearBoth">
+    &nbsp;
+</div>
+<div class="SolidBorderCS">
+    &nbsp;
+</div>
+<div id="Vorder" class="popupInnerContainer rounded_corners" style="height: 530px; overflow: auto; z-index:0; margin-top:10px;">
+    <table border="0" width="100%" cellpadding="4" cellspacing="0" id="Mytable">
+        <tbody>
+            <tr>
+                <td>
+                    <table border="0" cellpadding="3" cellspacing="0" width="100%">
+                        <tbody>
+                            <tr>
+                                <td class="textAlignRight" style="width: 90px">
+                                    <span class="simpleTextBold" id="spnordernum">Order Number: @ViewBag.order.OrderCode</span>
+                                </td>
+                                <td class="textAlignLeft simpleText">
+                                    <Label ID="lblOrderNumber"  Class="txtBold" />
+                                </td>
+                                <td>
+                                    &nbsp;
+                                </td>
+                                <td class="textAlignRight">
+                                    <span class="simpleTextBold" id="spnorderstatus" >Status:@ViewBag.order.StatusName</span>
+                                </td>
+                                <td class="textAlignLeft simpleText" style="width: 200px">
+                                    <label ID="lblOrderStatus" Class="txtBold clrOrderDetail" />
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textAlignRight">
+                                    <span class="simpleTextBold" id="spnorderdate" >Order Date:@ViewBag.order.OrderDate</span>
+                                </td>
+                                <td class="textAlignLeft simpleText">
+                                    <asp:Label ID="lblOrderDate"  Class="txtBold" />
+                                </td>
+                                <td>
+                                    &nbsp;
+                                </td>
+                                <td class="textAlignRight">
+                                    @*<span class="simpleTextBold" id="spnClientStatus" >Status:</span>*@
+                                </td>
+                                <td class="textAlignLeft simpleText" style="width: 200px">
+                                    @*<asp:DropDownList ID="AllOrderStatuses" runat="server" CssClass="dropdown rounded_corners5"
+                                                      Width="107px">
+                                    </asp:DropDownList>*@
+                                  
+
+
+                                    @*<asp:Button ID="btnClientStatusUpdate" runat="server" OnClick="btnClientStatusUpdate_Click"
+                                                CssClass="start_creating_btn rounded_corners5" Width="80px" Text="Update" />*@
+                                    <input type="submit" class="start_creating_btn rounded_corners5" />
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textAlignRight">
+                                    <span class="simpleTextBold" id="Span1" >Placed By:@ViewBag.order.PlacedBy</span>
+                                </td>
+                                <td class="textAlignLeft simpleText">
+                                    <asp:Label ID="lblPlacedBy" runat="server" CssClass="txtBold" />
+                                </td>
+                                <td>
+                                    &nbsp;
+                                </td>
+                                <td class="textAlignRight">
+                                    <span class="simpleTextBold" id="spndileverydate" >Delivery Date:@ViewBag.order.DeliveryDate</span>
+                                </td>
+                                <td class="textAlignLeft simpleText">
+                                    <asp:Label ID="lblOrderDeliveryStartDate"  CssClass="txtBold" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="cntPLOrderDetails">
+
+                        <table>
+                            @foreach (var Item in ViewBag.order.OrderDetails.CartItemsList)
+                            { 
+                            <tr>
+                                <td><img src="@Item.ImagePath" /> </td>
+                                <td><label id="Productname">@Item._StockName</label></td>
+                                <td><label id="Qty">@Item._qty1</label></td>
+                                <td><label id="Price">@Item._qtyBaseCharge1</label></td>
+                                <td><label id="VAT"></label>@Item._qty1Tax1Value</td>
+
+                                <td><label id="Total">@Item._qty1BaseCharge1</label></td>
+                            </tr>
+                            }
+                        </table>
+                        @*<asp:GridView ID="grdViewShopCart" SkinID="ProductOrderHistoryGrid" DataKeyNames="ItemID"
+                                      runat="server" OnRowDataBound="grdViewShopCart_RowDataBound">
+                            <columns>
+                                <asp:templatefield headerstyle-horizontalalign="Left" itemstyle-verticalalign="Top">
+                                    <itemtemplate>
+                                        <table border="0" cellpadding="2" cellspacing="0">
+                                            <tr>
+                                                <td valign="middle">
+                                                    <input type="hidden" id="txtHdnFileName" runat="server" value='<%# DataBinder.Eval(Container.DataItem, "Attatchment.FileName")%>' />
+                                                    <div class="gallery">
+                                                        <a id="lnkPdfFile" runat="server" href='<%# DataBinder.Eval(Container.DataItem, "Attatchment.FolderPath")%>'>
+                                                            <asp:Image ID="imgPdf" SkinID="imgArtWorkIcon" runat="server" />
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                                <td valign="middle"></td>
+                                            </tr>
+                                        </table>
+                                    </itemtemplate>
+                                </asp:templatefield>
+                                <asp:templatefield headertext="Product Description" headerstyle-horizontalalign="Left"
+                                                   itemstyle-horizontalalign="Left">
+                                    <itemtemplate>
+                                        <div>
+                                            <span>
+                                                <strong>
+                                                    <%# DataBinder.Eval(Container.DataItem, "ProductName")%>
+                                                </strong>
+                                            </span>
+                                            <asp:Label ID="lblAddonsHeading" runat="server">with following addons :</asp:Label>
+                                        </div>
+                                        <asp:BulletedList CssClass="UList" ID="bltSelectedAddonList" runat="server" DisplayMode="Text">
+                                        </asp:BulletedList>
+                                    </itemtemplate>
+                                </asp:templatefield>
+                                <asp:templatefield headertext="Quantity" headerstyle-horizontalalign="Left" itemstyle-horizontalalign="Left">
+                                    <itemtemplate>
+                                        <span>
+                                            <%# DataBinder.Eval(Container.DataItem, "Qty1") %>
+                                        </span>
+                                    </itemtemplate>
+                                </asp:templatefield>
+                                <asp:templatefield headertext="Price" headerstyle-horizontalalign="Left" itemstyle-horizontalalign="Left">
+                                    <itemtemplate>
+                                        <asp:Label ID="lblItemPrice" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Qty1BaseCharge1") %>' />
+                                    </itemtemplate>
+                                </asp:templatefield>
+                                <asp:templatefield headertext="VAT" headerstyle-horizontalalign="Left" itemstyle-horizontalalign="Left">
+                                    <itemtemplate>
+                                        <asp:Label ID="lblVatStateTax" runat="server" />
+                                    </itemtemplate>
+                                </asp:templatefield>
+                                <asp:templatefield headertext="Total" headerstyle-horizontalalign="Left" itemstyle-horizontalalign="Left">
+                                    <itemtemplate>
+                                        <asp:Label ID="lblTotalItemPrice" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Qty1GrossTotal") %>' />
+                                    </itemtemplate>
+                                </asp:templatefield>
+                            </columns>
+                        </asp:GridView>*@
+                    </div>
+                </td>
+            </tr>
+            <tr id="PnalTotalBox" >
+                <td align="right">
+                    <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText">
+                        <div class="padding10">
+                            <table border="0" cellpadding="3" cellspacing="0" width="200px">
+                                <tr>
+                                    <td align="left">
+                                        <span id="spnsubtotal" >Sub Total:</span>
+                                    </td>
+                                    <td>
+                                        <Label ID="lblSubTotal">@ViewBag.SubTotal</Label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left" style="width: 80%">
+                                        <span id="spnDeliveryoptn" >Deivery Cost:</span>
+                                    </td>
+                                    <td>
+                                        <Label ID="lblDeliveryCost">@ViewBag.order.DeliveryCost</Label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left" style="width: 80%">
+                                        <span id="spnvattotal" >Vat Total:</span>
+                                    </td>
+                                    <td>
+                                        <Label ID="lblVatTotal">@ViewBag.Vat</Label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left">
+                                        <span class="CartFonts" id="spngrndtotal" >Grand Total:</span>
+                                    </td>
+                                    <td>
+                                        <Label Class="CartFonts txtBold" ID="lblGrandTotal">@ViewBag.GrandTotal</Label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div>
+                        <table id="PnlAddresses"  border="0" cellpadding="0" cellspacing="0"
+                               width="100%">
+                            <tr>
+                                <td>
+                                    <%-- Billing Address--%>
+                                    <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText">
+                                        <div class="product_detail_sup_padding">
+                                            <table border="0" cellpadding="2" cellspacing="0" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="2" style="height: 25px; text-align: left;">
+                                                            
+                                                            <label id="lblMainControlHeading" class="heading_small">Billing Address</label>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="width: 33%">
+                                                            <span id="spnbillingname" >Billing Name:</span>
+                                                        </td>
+                                                        <td style="width: 67%">
+                                                           
+                                                            <label id="lblBillingName" class="txtBold">@ViewBag.BillingAddress.AddressName</label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span id="ltrladdressline1" >Address line 1:</span>
+                                                        </td>
+                                                        <td>
+                                                            
+                                                            <label id="lblAddressLine1" class="txtBold">@ViewBag.BillingAddress.Address1</label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span id="ltrladdressline2" >Address line 2:</span>
+                                                        </td>
+                                                        <td>
+                                                            
+                                                            <label id="lblAddressLine2" class="txtBold">@ViewBag.BillingAddress.Address2</label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span id="ltrlcity">City:</span>
+                                                        </td>
+                                                        <td>
+                                                            <Label ID="lblCity" Class="txtBold">@ViewBag.BillingAddress.City</Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span id="ltrlstate" >State:</span>
+                                                        </td>
+                                                        <td>
+                                                            <label ID="lblState" Class="txtBold">@ViewBag.BillingAddress.State.StateName</label>>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span id="ltrlzipcodeP" >Zip Code / Post Code:</span>
+                                                        </td>
+                                                        <td>
+                                                            <Label ID="lblZipPostCode"  Class="txtBold">@ViewBag.BillingAddress.PostCode</Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span id="ltrlcountry">Country:</span>
+                                                        </td>
+                                                        <td>
+                                                            <Label ID="lblCountry" Class="txtBold">@ViewBag.BillingAddress.Country.CountryName</Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span id="ltrlcontactnum">Contact Number:</span>
+                                                        </td>
+                                                        <td>
+                                                            <Label ID="lblContactNumber" Class="txtBold">@ViewBag.BillingAddress.ContactMobile</Label>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td></td>
+                                <td align="right">
+                                    <%-- Shipping Address--%>
+                                    <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText">
+                                        <div class="product_detail_sup_padding">
+                                            <table border="0" cellpadding="2" cellspacing="0" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="2" style="height: 25px; text-align: left;">
+                                                            <Label ID="Label1" Class="heading_small">Shipping Address</Label>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="width: 33%">
+                                                            <span id="spnshppingname">Shipping Name:</span>
+                                                        </td>
+                                                        <td style="width: 67%">
+                                                            <Label ID="lblShipAddressName"  Class="txtBold">@ViewBag.DeliveryAddress.AddressName</Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span id="spnaddressline2nd" >Address line 1:</span>
+                                                        </td>
+                                                        <td>
+                                                            <asp:Label ID="lblShipAddLine1" runat="server" CssClass="txtBold">@ViewBag.DeliveryAddress.Address1</asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span id="spnaddressline2nd2" >Address line 2:</span>
+                                                        </td>
+                                                        <td>
+                                                            <Label ID="lblShipAddressLine2" Class="txtBold">@ViewBag.DeliveryAddress.Address2</Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span id="spncity2">City:</span>
+                                                        </td>
+                                                        <td>
+                                                            <asp:Label ID="lblShipAddCity" runat="server" CssClass="txtBold">@ViewBag.DeliveryAddress.City</asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span id="spnstate2">State:</span>
+                                                        </td>
+                                                        <td>
+                                                            <Label ID="lblShipState" Class="txtBold">@ViewBag.DeliveryAddress.State.StateName</Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span id="spnzipcoeP2">Zip Code / Post Code:</span>
+                                                        </td>
+                                                        <td>
+                                                            <asp:Label ID="lblShipPostCode"  Class="txtBold">@ViewBag.DeliveryAddress.PostCode</asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span id="spncountry2">Country:</span>
+                                                        </td>
+                                                        <td>
+                                                            <asp:Label ID="lblShipCountry" Class="txtBold">@ViewBag.DeliveryAddress.Country.CountryName</asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span id="spncontactnum2" >Contact Number:</span>
+                                                        </td>
+                                                        <td>
+                                                            <Label ID="lblShipContact"  Class="txtBold">@ViewBag.DeliveryAddress.ContactMobile</Label>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<asp:Label ID="lblProdDescHeadingText" runat="server" Visible="false"></asp:Label>
+<asp:Label ID="lblQuantityHeaderTxt" runat="server" Visible="false"></asp:Label>
+<asp:Label ID="lblPriceHeaderTxt" runat="server" Visible="false"></asp:Label>
+<asp:Label ID="lblVatHeadingText" runat="server" Visible="false"></asp:Label>
+<asp:Label ID="lblTotalHeadingText" runat="server" Visible="false"></asp:Label>
