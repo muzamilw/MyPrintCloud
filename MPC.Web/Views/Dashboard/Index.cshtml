@@ -19,8 +19,8 @@
         background-color:white;
         position:absolute;
         opacity:0.3;
-        top:-40%;
-       
+        top:-32%;
+          left:98px;
         -webkit-filter: blur(8px);
         -webkit-transition: -webkit-filter .50s;
         visibility:hidden;
@@ -77,15 +77,16 @@
             <span class="help-details">Create Products , Web Stores , Estimates ...</span>
         </div>
     </div>
-    <div>
+    <div class="help-description" style="border:none !important;background-color:#F5F6F6; padding-bottom:44px;">
+       
         <div class="input-group" style="width:100%;display:inline;">
-            <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="btnCloseHelp">Close</button>
+            <button class="btn  btn-info btn-primary" style="float:right;margin-bottom: 10px;margin-right:10px;" id="btnNextHelp">Next</button>
         </div>
         <div class="input-group" style="width:100%;display:inline;">
-            <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="btnNextHelp">Next</button>
+            <button style="float: right;margin-bottom: 10px;margin-right:15px;margin-top:7px; background-color:transparent;border:none;" id="btnCloseHelp">Close</button>
         </div>
         <div class="input-group" style="width:100%;display:inline;">
-            <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="btnPreviousHelp">Previous</button>
+            <button class="btn  btn-info btn-primary" style="float:left;margin-bottom:10px;margin-left:10px;" id="btnPreviousHelp">Previous</button>
         </div>
     </div>
 
@@ -1237,9 +1238,9 @@
 
             var i = 0;
 
-            var proceeding = ["manage yout PRINTCloud", "Add more Products", "Add more Stores", "Estimates & JobCards", "System Settings", "Your Account Area", "You've got the Basics..."];
+            var proceeding = ["Manage your PRINTCloud", "Add more Products", "Add more Stores", "Estimates & JobCards", "System Settings", "Your Account Area", "You've got the Basics..."];
             var proceddingheadertext = ["This is your Dashboard", "Product is an item that appears on your website or estimating module", "A store a Webiste with own URL Link", "Create accurate estimates for simple digital products to complex multi page brouchers ...", "Set Your Regional Details,Create Presses and configure your delivery method cost centers", "From Here you can access", "Would you like to do Next ?"]
-            var proceddingdetails = ["Create Products , Web Stores , Estimates ...", "Create products with require templates to personlized or just of the shlef Finished Goods", "Create Website at attract new ivsitors \n or \n Create private website for larger customers who have specific online needs", "", "", "Self Placed Tutorials \n Join us in Regular webinars \n Contact our Suppert Desk \n Upgrade/dongrade your and cancel your Account", ""]
+            var proceddingdetails = ["Create Products , Web Stores , Estimates ...", "\nCreate products with require templates to personlized or just of the shlef Finished Goods", "Create Website at attract new ivsitors \n or \n Create private website for larger customers who have specific online needs", "", "", "Self Placed Tutorials \n Join us in Regular webinars \n Contact our Suppert Desk \n Upgrade/dongrade your and cancel your Account", ""]
 
             $("#btnPreviousHelp").hide();
             $("#btnCloseHelp").show();
@@ -1273,14 +1274,15 @@
                     top = parseInt(positiontop) - parseInt(positiontophelp);
                     left = parseInt(positionleft) - parseInt(positionlefthelp);
 
-                    top = top + 70;
+                    top = top + 50;
+                    left = left - 100;
                    
                     $("#myprintcloud-help").animate({ "top": "+="  + top, "left": "+="+left }, 100);
                     $(".highlight-div").css("visibility", "visible");
                     $(".highlight-div").css("width", "120px");
                     $(".highlight-div").css("height", "30px");
 
-                    $(".help-header").text(proceeding[1]);
+                    $(".help-header-title").text(proceeding[1]);
                     $(".help-header-description").text(proceddingheadertext[1]);
                     $(".help-details").text(proceddingdetails[1]);
 
@@ -1306,16 +1308,16 @@
                     top = parseInt(positiontop) - parseInt(positiontophelp);
                     left = parseInt(positionleft) - parseInt(positionlefthelp);
 
-                    top = top + 70;
-                    
+                    top = top + 50;
+                    left = left - 83;
 
                     $("#myprintcloud-help").animate({ "top": "+=" + top, "left": "+=" + left }, 100);
                     $(".highlight-div").css("visibility", "visible");
-                    $(".highlight-div").css("width", "350px");
+                    $(".highlight-div").css("width", "190px");
                     $(".highlight-div").css("height","30px");
-                   
+                    $(".highlight-div").css("left", "75px");
 
-                    $(".help-header").text(proceeding[2]);
+                    $(".help-header-title").text(proceeding[2]);
                     $(".help-header-description").text(proceddingheadertext[2]);
                     $(".help-details").text(proceddingdetails[2]);
 
@@ -1344,7 +1346,7 @@
 
                     $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 100);
                     $(".highlight-div").css("visibility", "visible");
-                    $(".highlight-div").css("width", "250px");
+                    $(".highlight-div").css("width", "240px");
                     $(".highlight-div").css("height", "30px");
                     $(".highlight-div").css("top", "38%");
 
@@ -1352,9 +1354,14 @@
                    
 
 
-                    $(".help-header").text(proceeding[3]);
+                    $(".help-header-title").text(proceeding[3]);
                     $(".help-header-description").text(proceddingheadertext[3]);
                     $(".help-details").text(proceddingdetails[3]);
+
+                    $(".bottom-arrow").hide();
+                    $(".left-arrow").hide();
+                    $(".top-arrow").hide();
+                    $(".right-arrow").show();
 
                     $("#btnPreviousHelp").show();
 
@@ -1370,7 +1377,7 @@
 
                     $(".highlight-div").css("height", "30px");
 
-                    $(".help-header").text(proceeding[4]);
+                    $(".help-header-title").text(proceeding[4]);
                     $(".help-header-description").text(proceddingheadertext[4]);
                     $(".help-details").text(proceddingdetails[4]);
                 }
@@ -1390,16 +1397,21 @@
 
                     $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 100);
                     $(".highlight-div").css("visibility", "visible");
-                    $(".highlight-div").css("width","250px");
+                    $(".highlight-div").css("width","350px");
                     $(".highlight-div").css("height","50px");
                     $(".highlight-div").css("top", "-40%");
                     $(".highlight-div").css("left", "0%");
 
 
 
-                    $(".help-header").text(proceeding[5]);
+                    $(".help-header-title").text(proceeding[5]);
                     $(".help-header-description").text(proceddingheadertext[5]);
                     $(".help-details").text(proceddingdetails[5]);
+
+                    $(".bottom-arrow").hide();
+                    $(".left-arrow").hide();
+                    $(".top-arrow").show();
+                    $(".right-arrow").hide();
 
                     $("#btnPreviousHelp").show();
 
@@ -1413,6 +1425,10 @@
                     $("#myprintcloud-help").animate({ "top": "+=45%", "left": "-=35%" }, 100);
                     $(".highlight-div").css("visibility", "hidden");
 
+                    $(".bottom-arrow").hide();
+                    $(".left-arrow").hide();
+                    $(".top-arrow").hide();
+                    $(".right-arrow").hide();
 
                 }
               
@@ -1442,7 +1458,7 @@
                     document.getElementById("myprintcloud-help").style.left = "41%";
                     document.getElementById("myprintcloud-help").style.top = "120px";
 
-                    $(".help-header").text(proceeding[0]);
+                    $(".help-header-title").text(proceeding[0]);
                     $(".help-header-description").text(proceddingheadertext[0]);
                     $(".help-details").text(proceddingdetails[0]);
 
@@ -1455,7 +1471,7 @@
                     left = left + 240;
                     $("#myprintcloud-help").animate({ "top": "-=40", "left": "+=" + left }, 100);
 
-                    $(".help-header").text(proceeding[i]);
+                    $(".help-header-title").text(proceeding[i]);
                     $(".help-header-description").text(proceddingheadertext[i]);
                     $(".help-details").text(proceddingdetails[i]);
 
