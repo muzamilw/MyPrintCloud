@@ -318,6 +318,7 @@
     <Compile Include="Controllers\ShopCartController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Controllers\QuickLinksController.cs" />
+    <Compile Include="Controllers\SlidingBannerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -620,6 +621,7 @@
     <Content Include="Scripts\PopUp.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\SlidingBanner.js" />
     <Content Include="Scripts\SmartFormJCarousel.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
@@ -705,6 +707,7 @@
     <Content Include="Views\Shared\PartialViews\OrderPolicySave.cshtml" />
     <Content Include="Views\Shared\PartialViews\ProductOrderHistory.cshtml" />
     <Content Include="Views\Payment\PaypalSubmit.cshtml" />
+    <Content Include="Views\Shared\PartialViews\SlidingBanner.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -713,10 +716,7 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
-    <Folder Include="Views\OrderPolicySave\" />
-    <Folder Include="Views\PersonalDetailAndOrderPolicy\" />
-    <Folder Include="Views\ProductOrderHistory\" />
-    <Folder Include="Views\RequestQuote\" />
+    <Folder Include="Views\SlidingBanner\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

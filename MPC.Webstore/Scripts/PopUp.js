@@ -231,7 +231,7 @@ function DesignNow(callFrom,EditType,ItemID,TemplateID)
 var CcQueueItems = null;
 var idsToValidate = "";
 function ShowCostCentrePopup(CostCentreQueueItems, CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Mode, Currency, ItemPrice) {
-   
+    console.log(CostCentreQueueItems);
     CcQueueItems = CostCentreQueueItems;
     var innerHtml = "";
     var Heading = "Please enter the following details of Cost Centre";
@@ -424,7 +424,7 @@ function SetMatrixAnswer(Answer, MatrixId)
 }
 
 function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Currency, ItemPrice) {
-
+    alert(idsToValidate);
     var arrayOfIds = idsToValidate.split(",");
     
     var isDisplyEmptyFieldsMesg = 0;
@@ -560,7 +560,6 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
                             }
                             totalVal = parseFloat(totalVal) + parseFloat(actualP);
                         }
-                        console.log($(updatedAddOns)[i]);
                     }
                     displayTotalPrice(ItemPrice, totalVal);
                     $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + Currency + response + '</label>' + '<a onclick="PromptForValues(' + CostCentreId + ',' + SelectedCostCentreCheckBoxId + ', 1);" >Modify</a> ');
@@ -573,8 +572,8 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
         var returnText = $.ajax(options).responseText;
         
     }
+    idsToValidate = "";
 
-    
 }
 function HideLoader() {
 

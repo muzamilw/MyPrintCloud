@@ -86,6 +86,14 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                         }
                     }
 
+                    if (parameter4 == "addAnother")
+                    {
+                       
+                            _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
+                            _CostCentreParamsArray[2] = parameter5;
+                       
+                    }
+
                     if (parameter4 == "Update")
                     {
                         if (parameter5 != null)
@@ -165,7 +173,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                     }
 
-                    if ((parameter5 != null && parameter4 != "Modify" && oResult != null) || (parameter5 != null && parameter4 == "Update"))
+                    if ((parameter5 != null && parameter4 != "Modify" && parameter4 != "addAnother" && oResult != null) || (parameter5 != null && parameter4 == "Update"))
                     {
 
 
