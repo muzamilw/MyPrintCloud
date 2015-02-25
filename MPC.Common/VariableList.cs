@@ -20,7 +20,7 @@ namespace MPC.Common
         public long VariableID { get; set; }
         public long TemplateID { get; set; }
 
-        public TemplateVariablesObj (string VaraibaleTag, long VariableId, int TemplateId)
+        public TemplateVariablesObj (string VaraibaleTag, long VariableId,long TemplateId)
         {
             this.VariableTag = VaraibaleTag;
             this.VariableID = VariableId;
