@@ -22,8 +22,17 @@
 
 @foreach (var widget in Model)
 {
-    <div>
-        @{ string widgetname = widget.Widget.WidgetName; }
-        @{Html.RenderAction("Index", widgetname);}
-    </div>
+    if (widget.WidgetId == 14)
+    {
+        @Html.Raw(widget.CmsSkinPageWidgetParams.FirstOrDefault().ParamValue)
+       
+    }
+    else
+    {
+        <div>
+            @{ string widgetname = widget.Widget.WidgetName; }
+            @{Html.RenderAction("Index", widgetname);}
+        </div>
+    }
+
 }

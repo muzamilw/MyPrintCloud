@@ -31,6 +31,8 @@ define("stores/stores.viewModel",
                     isLoadingStores = ko.observable(false),
                     //Is Editorial View Visible
                     isEditorVisible = ko.observable(false),
+                    // widget section header title
+                    productsFilterHeading=ko.observable(),
                     //Sort On
                     sortOn = ko.observable(1),
                     //Sort In Ascending
@@ -71,6 +73,8 @@ define("stores/stores.viewModel",
                     companyBanners = ko.observableArray([]),
                     //Cms Pages For Store Layout DropDown
                     cmsPagesForStoreLayout = ko.observableArray([]),
+                     //Cms Pages for basedata
+                    cmsPagesBaseData = ko.observableArray([]),
                     //Roles
                     roles = ko.observableArray([]),
                     //RegistrationQuestions
@@ -241,7 +245,7 @@ define("stores/stores.viewModel",
                         selectedStore().type(3);
                         isEditorVisible(true);
                         view.initializeForm();
-                       // getBaseDataFornewCompany();
+                        getBaseDataFornewCompany();
                         //$('.nav-tabs').children().removeClass('active');
                         //$('#generalInfoTab').addClass('active');
                         $('.nav-tabs li:first-child a').tab('show');
@@ -3146,7 +3150,6 @@ define("stores/stores.viewModel",
                                     //_.each(data.CompanyContactResponse.CompanyContacts, function (item) {
                                     //    selectedStore().users.push(model.CompanyContact.Create(item));
                                     //});
-
                                     _.each(data.Company.ColorPalletes, function (item) {
                                         selectedStore().colorPalette(model.ColorPalette.Create(item));
                                     });
@@ -3154,6 +3157,10 @@ define("stores/stores.viewModel",
                                     if (data.Company.CmsPagesDropDownList !== null) {
                                         ko.utils.arrayPushAll(cmsPagesForStoreLayout(), data.Company.CmsPagesDropDownList);
                                         cmsPagesForStoreLayout.valueHasMutated();
+
+                                        _.each(cmsPagesBaseData(), function (item) {
+                                            cmsPagesForStoreLayout.push(item);
+                                        });
                                     }
                                     emails.removeAll();
                                     _.each(data.Company.Campaigns, function (item) {
@@ -3271,6 +3278,10 @@ define("stores/stores.viewModel",
                                     allCompanyAddressesList.removeAll();
                                     costCentersList.removeAll();
                                     pageCategories.removeAll();
+                                    cmsPagesBaseData.removeAll();
+                                    _.each(data.CmsPageDropDownList, function (item) {
+                                        cmsPagesBaseData.push(item);
+                                    });
                                     _.each(data.SystemUsers, function (item) {
                                         var systemUser = new model.SystemUser.Create(item);
                                         systemUsers.push(systemUser);
@@ -3358,11 +3369,14 @@ define("stores/stores.viewModel",
                                     registrationQuestions.removeAll();
                                     allCompanyAddressesList.removeAll();
                                     pageCategories.removeAll();
+                                    cmsPagesBaseData.removeAll();
                                     _.each(data.SystemUsers, function (item) {
                                         var systemUser = new model.SystemUser.Create(item);
                                         systemUsers.push(systemUser);
                                     });
-
+                                    _.each(data.CmsPageDropDownList, function (item) {
+                                        cmsPagesBaseData.push(item);
+                                    });
                                     _.each(data.CompanyContactRoles, function (item) {
                                         var role = new model.Role.Create(item);
                                         roles.push(role);
@@ -3459,7 +3473,10 @@ define("stores/stores.viewModel",
                         companyBannerSetList.removeAll();
                         fieldVariablesForSmartForm.removeAll();
                         fieldVariablePager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
-                        companyTerritoryPager().totalCount(0);
+                        companyTerritoryPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
+                        addressPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
+                        contactCompanyPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
+                        //companyTerritoryPager().totalCount(0);
                     },
                     //#endregion
                     //#endregion
@@ -3684,18 +3701,21 @@ define("stores/stores.viewModel",
                     //#region _________WIDGETS IN Themes & Widgets Tab _________________
                     //Open Dialog from Featured Product Row
                     openItemsForWidgetsDialogFromFeatured = function () {
+                        productsFilterHeading("Featured Products");
                         selectedOfferType(1);
                         resetItems();
                         view.showItemsForWidgetsDialog();
                     },
                     //Open Dialog from Popular Product Row
                     openItemsForWidgetsDialogFromPopular = function () {
+                        productsFilterHeading("Popular Products");
                         selectedOfferType(2);
                         resetItems();
                         view.showItemsForWidgetsDialog();
                     },
                     //Open Dialog from Special Product Row
                     openItemsForWidgetsDialogFromSpecial = function () {
+                        productsFilterHeading("Special Products");
                         selectedOfferType(3);
                         resetItems();
                         view.showItemsForWidgetsDialog();
@@ -4650,6 +4670,8 @@ define("stores/stores.viewModel",
                     lineSeperator: lineSeperator,
                     selectedSmartForm: selectedSmartForm,
                     droppedSmartFormArea: droppedSmartFormArea,
+                    productsFilterHeading: productsFilterHeading,
+                    cmsPagesBaseData: cmsPagesBaseData
                 };
                 //#endregion
             })()
