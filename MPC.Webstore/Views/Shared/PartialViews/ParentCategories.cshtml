@@ -1,37 +1,42 @@
 ﻿@model List<MPC.Models.DomainModels.ProductCategory>
 @using MPC.Webstore.Common;
-<div class="container content_area clearBoth " style="padding-left:0px; padding-right:0px;">
-    <div class="row left_right_padding cntTopLevelCategory">
+<div class="parentCatsContainer">
+    <div class="container content_area clearBoth " style="padding-left:0px; padding-right:0px;">
+        <div class="row left_right_padding cntTopLevelCategory">
 
 
-@foreach (var categories in Model)
-{
-    <div id="MainContainer" class="Top_Cat_Body  rounded_corners">
-        <div class="LCLB">
-             
-                    <a id="hlProductDetail" href="/Category/@Html.ResolveString(categories.CategoryName)/@categories.ProductCategoryId" onclick="ShowLoader();">
-                        <div class="PDTC_TL FI_TL H4B_TL">
-                            <img id="imgThumbnail" class="Top_Cat_ThumbnailPath" src="@Html.GetAppBasePath()@categories.ImagePath"/>
+            @foreach (var categories in Model)
+            {
+                <div id="MainContainer" class="Top_Cat_Body  rounded_corners">
+                    <div class="LCLB">
+
+                        <a id="hlProductDetail" href="/Category/@Html.ResolveString(categories.CategoryName)/@categories.ProductCategoryId" onclick="ShowLoader();">
+                            <div class="PDTC_TL FI_TL H4B_TL">
+                                <img id="imgThumbnail" class="Top_Cat_ThumbnailPath" src="@Html.GetAppBasePath()@categories.ImagePath" />
+                            </div>
+                        </a>
+
+                        <div class="product_detail_image_heading_S5 s5TxtStyle themeFontColor Top_Cat_Display">
+                            @categories.CategoryName
                         </div>
-                    </a>
-            
-            <div class="product_detail_image_heading_S5 s5TxtStyle themeFontColor Top_Cat_Display">
-                @categories.CategoryName
-            </div>
-            <div class="topcat_desc displayNone_TLS5">
-                @categories.Description1
-            </div>
-        </div>
+                        <div class="topcat_desc displayNone_TLS5">
+                            @categories.Description1
+                        </div>
+                    </div>
 
-    </div>
-}
+                </div>
+            }
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+
+        </div>
         <div class="clearBoth">
             &nbsp;
         </div>
-
     </div>
+    <div class="clearBoth">
+        &nbsp;
+    </div>
+</div>
 
-</div>
-<div class="clearBoth">
-    &nbsp;
-</div>
