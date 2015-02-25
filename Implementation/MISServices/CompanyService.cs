@@ -2765,15 +2765,34 @@ namespace MPC.Implementation.MISServices
 
                     // Add all files in directory
                     string FolderPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Resources/" + OrganisationID;
-                    DPath = "/MPC_Content/Resources/" + OrganisationID;
+                   
                     if (Directory.Exists(FolderPath))
                     {
-                        foreach (string item in System.IO.Directory.GetFiles(FolderPath))
+                       
+                        foreach (string newPath in Directory.GetFiles(FolderPath, "*.*", SearchOption.AllDirectories))
                         {
+                            string Lname = Path.GetFileName(newPath);
+                          
 
-                            ZipEntry r = zip.AddFile(item, DPath);
-                            r.Comment = "Language File for an organisation";
-
+                            string directoty = Path.GetDirectoryName(newPath);
+                            string[] stringSeparators = new string[] { "MPC_Content" };
+                            if(!string.IsNullOrEmpty(directoty))
+                            {
+                                string[] result = directoty.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
+                               
+                                string FolderName = result[1];
+                                if(!string.IsNullOrEmpty(FolderName))
+                                {
+                                    string[] folder = FolderName.Split('\\');
+                                    directoty = "/Resources/" + OrganisationID + "/" + folder[3];
+                                  
+                                    ZipEntry r = zip.AddFile(newPath, directoty);
+                                    r.Comment = "Language File for an organisation";
+                                }
+                               
+                               
+                            }
+                           
                         }
                     }
 
@@ -2940,9 +2959,9 @@ namespace MPC.Implementation.MISServices
 
 
                         //}
-                        if (ObjExportOrg.Company.ProductCategories != null)
+                        if (ObjExportOrg.ProductCategory != null)
                         {
-                            foreach (var cat in ObjExportOrg.Company.ProductCategories)
+                            foreach (var cat in ObjExportOrg.ProductCategory)
                             {
                                 if (cat.ImagePath != null)
                                 {
@@ -2972,11 +2991,11 @@ namespace MPC.Implementation.MISServices
                             }
 
                         }
-                        if (ObjExportOrg.Company.Items != null)
+                        if (ObjExportOrg.Items != null)
                         {
-                            if (ObjExportOrg.Company.Items.Count > 0)
+                            if (ObjExportOrg.Items.Count > 0)
                             {
-                                foreach (var item in ObjExportOrg.Company.Items)
+                                foreach (var item in ObjExportOrg.Items)
                                 {
                                     if (item.ImagePath != null)
                                     {
@@ -3079,7 +3098,7 @@ namespace MPC.Implementation.MISServices
                                 if(!string.IsNullOrEmpty(contact.image))
                                 {
                                     string ContactImage = HttpContext.Current.Server.MapPath(contact.image);
-                                    string ContactDirectory = "/Assets/" + OrganisationID + "/" + CompanyID;
+                                    string ContactDirectory = "/Assets/" + OrganisationID + "/" + CompanyID + "/Contacts/" + contact.ContactId;
                                     if (File.Exists(ContactImage))
                                     {
                                         ZipEntry r = zip.AddFile(ContactImage, ContactDirectory);
@@ -3142,22 +3161,21 @@ namespace MPC.Implementation.MISServices
 
         #region ImportOrganisation
 
-        public void ImportOrganisation()
+        public void ImportOrganisation(long OrganisationId,string ZipPath)
         {
             try
             {
-                long OrganisationID = 0;
+                
                 string extractPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportOrganisation");
-                string ReadPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Organisations/ExportedZip20.zip");
-
-                if(File.Exists(ReadPath))
+               // string ReadPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Organisations/ExportedZip20.zip");
+              //  ZipPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Organisations/ExportedZip20.zip");
+                if (File.Exists(ZipPath))
                 {
                     //string zipToUnpack = "C1P3SML.zip";
                     //string unpackDirectory = "Extracted Files";
-                    using (ZipFile zip1 = ZipFile.Read(ReadPath))
+                    using (ZipFile zip1 = ZipFile.Read(ZipPath))
                     {
-                        // here, we extract every entry, but we could extract conditionally
-                        // based on entry name, size, date, checkbox status, etc.  
+                        // here, we extract every entry
                         foreach (ZipEntry e in zip1)
                         {
                             e.Extract(extractPath, ExtractExistingFileAction.OverwriteSilently);
@@ -3169,8 +3187,8 @@ namespace MPC.Implementation.MISServices
                                 string json = System.IO.File.ReadAllText(JsonFilePath);
 
                                 ExportOrganisation objExpOrg = JsonConvert.DeserializeObject<ExportOrganisation>(json);
-                              
-                                organisationRepository.InsertOrganisation(8, objExpOrg);
+
+                                organisationRepository.InsertOrganisation(OrganisationId, objExpOrg);
                                 
 
                             }
