@@ -3175,8 +3175,8 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
             <PropertyRef Name="ProductVariableId" />
           </Key>
           <Property Name="ProductVariableId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TemplateId" Type="int" />
-          <Property Name="VariableId" Type="int" />
+          <Property Name="TemplateId" Type="bigint" />
+          <Property Name="VariableId" Type="bigint" />
         </EntityType>
         <EntityType Name="VariableOption">
           <Key>
@@ -9543,8 +9543,8 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
             <PropertyRef Name="ProductVariableId" />
           </Key>
           <Property Name="ProductVariableId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TemplateId" Type="Int32" />
-          <Property Name="VariableId" Type="Int32" />
+          <Property Name="TemplateId" Type="Int64" />
+          <Property Name="VariableId" Type="Int64" />
         </EntityType>
         <EntityType Name="VariableSection">
           <Key>

@@ -31,6 +31,8 @@ define("stores/stores.viewModel",
                     isLoadingStores = ko.observable(false),
                     //Is Editorial View Visible
                     isEditorVisible = ko.observable(false),
+                    // widget section header title
+                    productsFilterHeading=ko.observable(),
                     //Sort On
                     sortOn = ko.observable(1),
                     //Sort In Ascending
@@ -71,6 +73,8 @@ define("stores/stores.viewModel",
                     companyBanners = ko.observableArray([]),
                     //Cms Pages For Store Layout DropDown
                     cmsPagesForStoreLayout = ko.observableArray([]),
+                     //Cms Pages for basedata
+                    cmsPagesBaseData = ko.observableArray([]),
                     //Roles
                     roles = ko.observableArray([]),
                     //RegistrationQuestions
@@ -241,7 +245,7 @@ define("stores/stores.viewModel",
                         selectedStore().type(3);
                         isEditorVisible(true);
                         view.initializeForm();
-                        // getBaseDataFornewCompany();
+                        getBaseDataFornewCompany();
                         //$('.nav-tabs').children().removeClass('active');
                         //$('#generalInfoTab').addClass('active');
                         $('.nav-tabs li:first-child a').tab('show');
@@ -250,7 +254,7 @@ define("stores/stores.viewModel",
                         selectedItemForAdd(undefined);
                         selectedItemForRemove(undefined);
                         if (itemsForWidgets().length === 0) {
-                            // getItemsForWidgets();
+                             getItemsForWidgets();
                         }
                         sharedNavigationVM.initialize(selectedStore, function (saveCallback) { saveStore(saveCallback); });
                         view.initializeLabelPopovers();
@@ -2121,8 +2125,6 @@ define("stores/stores.viewModel",
                         }
                         // Ask for confirmation
                         confirmation.afterProceed(function () {
-
-                            confirmation.show();
                             //#region Db Saved Record Id > 0
                             if (companyContact.contactId() > 0) {
 
@@ -2158,7 +2160,9 @@ define("stores/stores.viewModel",
                                     selectedStore().users.remove(companyContact);
                                 }
                             }
+                            
                         });
+                        confirmation.show();
                         return;
                     },
                     onEditCompanyContact = function (companyContact) {
@@ -2197,6 +2201,12 @@ define("stores/stores.viewModel",
                                         success: function (data) {
                                             if (data) {
                                                 var savedCompanyContact = model.CompanyContact.Create(data);
+                                                //updating selected contact rolename
+                                                _.each(roles(), function (role) {
+                                                    if (role.roleId() == selectedCompanyContact().contactRoleId()) {
+                                                        savedCompanyContact().roleName()(role.roleName());
+                                                    }
+                                                });
                                                 if (selectedCompanyContact().isDefaultContact()) {
                                                     _.each(selectedStore().users(), function (user) {
                                                         if (user.isDefaultContact()) {
@@ -3140,7 +3150,6 @@ define("stores/stores.viewModel",
                                     //_.each(data.CompanyContactResponse.CompanyContacts, function (item) {
                                     //    selectedStore().users.push(model.CompanyContact.Create(item));
                                     //});
-
                                     _.each(data.Company.ColorPalletes, function (item) {
                                         selectedStore().colorPalette(model.ColorPalette.Create(item));
                                     });
@@ -3148,6 +3157,10 @@ define("stores/stores.viewModel",
                                     if (data.Company.CmsPagesDropDownList !== null) {
                                         ko.utils.arrayPushAll(cmsPagesForStoreLayout(), data.Company.CmsPagesDropDownList);
                                         cmsPagesForStoreLayout.valueHasMutated();
+
+                                        _.each(cmsPagesBaseData(), function (item) {
+                                            cmsPagesForStoreLayout.push(item);
+                                        });
                                     }
                                     emails.removeAll();
                                     _.each(data.Company.Campaigns, function (item) {
@@ -3265,6 +3278,10 @@ define("stores/stores.viewModel",
                                     allCompanyAddressesList.removeAll();
                                     costCentersList.removeAll();
                                     pageCategories.removeAll();
+                                    cmsPagesBaseData.removeAll();
+                                    _.each(data.CmsPageDropDownList, function (item) {
+                                        cmsPagesBaseData.push(item);
+                                    });
                                     _.each(data.SystemUsers, function (item) {
                                         var systemUser = new model.SystemUser.Create(item);
                                         systemUsers.push(systemUser);
@@ -3352,11 +3369,14 @@ define("stores/stores.viewModel",
                                     registrationQuestions.removeAll();
                                     allCompanyAddressesList.removeAll();
                                     pageCategories.removeAll();
+                                    cmsPagesBaseData.removeAll();
                                     _.each(data.SystemUsers, function (item) {
                                         var systemUser = new model.SystemUser.Create(item);
                                         systemUsers.push(systemUser);
                                     });
-
+                                    _.each(data.CmsPageDropDownList, function (item) {
+                                        cmsPagesBaseData.push(item);
+                                    });
                                     _.each(data.CompanyContactRoles, function (item) {
                                         var role = new model.Role.Create(item);
                                         roles.push(role);
@@ -3453,7 +3473,10 @@ define("stores/stores.viewModel",
                         companyBannerSetList.removeAll();
                         fieldVariablesForSmartForm.removeAll();
                         fieldVariablePager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
-                        companyTerritoryPager().totalCount(0);
+                        companyTerritoryPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
+                        addressPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
+                        contactCompanyPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
+                        //companyTerritoryPager().totalCount(0);
                     },
                     //#endregion
                     //#endregion
@@ -3678,18 +3701,21 @@ define("stores/stores.viewModel",
                     //#region _________WIDGETS IN Themes & Widgets Tab _________________
                     //Open Dialog from Featured Product Row
                     openItemsForWidgetsDialogFromFeatured = function () {
+                        productsFilterHeading("Featured Products");
                         selectedOfferType(1);
                         resetItems();
                         view.showItemsForWidgetsDialog();
                     },
                     //Open Dialog from Popular Product Row
                     openItemsForWidgetsDialogFromPopular = function () {
+                        productsFilterHeading("Popular Products");
                         selectedOfferType(2);
                         resetItems();
                         view.showItemsForWidgetsDialog();
                     },
                     //Open Dialog from Special Product Row
                     openItemsForWidgetsDialogFromSpecial = function () {
+                        productsFilterHeading("Special Products");
                         selectedOfferType(3);
                         resetItems();
                         view.showItemsForWidgetsDialog();
@@ -4388,22 +4414,22 @@ define("stores/stores.viewModel",
                     });
                 }
                 //Do Before Save Smart Form
-                  doBeforeSaveSmartForm = function () {
-                      var flag = true;
-                      if (!selectedSmartForm().isValid()) {
-                          selectedSmartForm().errors.showAllMessages();
-                          flag = false;
-                      }
-                      return flag;
-                  },
+                doBeforeSaveSmartForm = function () {
+                    var flag = true;
+                    if (!selectedSmartForm().isValid()) {
+                        selectedSmartForm().errors.showAllMessages();
+                        flag = false;
+                    }
+                    return flag;
+                },
 
                 //Edit Smart Form
-                onEditSmartForm = function (smartForm) {
-                    if (smartForm.id() === undefined) {
-                        selectedSmartForm(smartForm);
-                    }
+              onEditSmartForm = function (smartForm) {
+                  if (smartForm.id() === undefined) {
+                      selectedSmartForm(smartForm);
+                  }
 
-                },
+              },
                 //#endregion ________ Smart Form___________
 
 
@@ -4732,6 +4758,8 @@ define("stores/stores.viewModel",
                     droppedSmartFormArea: droppedSmartFormArea,
                     deleteSmartFormItem: deleteSmartFormItem,
                     onSaveSmartForm: onSaveSmartForm,
+                    productsFilterHeading: productsFilterHeading,
+                    cmsPagesBaseData: cmsPagesBaseData,
                     smartForms: smartForms,
                     onEditSmartForm: onEditSmartForm,
                 };

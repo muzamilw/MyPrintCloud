@@ -20,6 +20,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new InventoryBaseResponse
             {
+                Region= source.Region,
                 StockCategories = source.StockCategories != null ? source.StockCategories.Select(s => s.CreateFromDropDown()).ToList() : null,
                 StockSubCategories = source.StockSubCategories != null ? source.StockSubCategories.Select(su => su.CreateFromDropDown()).ToList() : null,
                 PaperSizes = source.PaperSizes != null ? source.PaperSizes.Select(su => su.CreateFromDropDown()).ToList() : null,
