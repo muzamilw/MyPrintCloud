@@ -595,7 +595,7 @@ namespace MPC.Repository.Repositories
 		{
 			try
 			{
-				return db.CostCentreTypes.Where(t => t.CompanyId == OrganisationId && t.IsSystem == 0).ToList();
+                return db.CostCentreTypes.Where(t => t.OrganisationId == OrganisationId && t.IsSystem == 0).ToList();
 
 			}
 			catch (Exception ex)

@@ -182,7 +182,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public StockItem SaveInevntory(StockItem stockItem)
         {
-
+            stockItem.OrganisationId = organisationRepository.OrganisationId;
             if (stockItem != null && stockItem.StockItemId > 0)
             {
                 return UpdateStockItem(stockItem);
