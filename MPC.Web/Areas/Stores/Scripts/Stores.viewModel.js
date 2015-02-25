@@ -2121,8 +2121,6 @@ define("stores/stores.viewModel",
                         }
                         // Ask for confirmation
                         confirmation.afterProceed(function () {
-
-                            confirmation.show();
                             //#region Db Saved Record Id > 0
                             if (companyContact.contactId() > 0) {
 
@@ -2158,6 +2156,7 @@ define("stores/stores.viewModel",
                                     selectedStore().users.remove(companyContact);
                                 }
                             }
+                            confirmation.show();
                         });
                         return;
                     },
