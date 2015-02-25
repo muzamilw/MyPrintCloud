@@ -73,6 +73,8 @@ define("stores/stores.viewModel",
                     companyBanners = ko.observableArray([]),
                     //Cms Pages For Store Layout DropDown
                     cmsPagesForStoreLayout = ko.observableArray([]),
+                     //Cms Pages for basedata
+                    cmsPagesBaseData = ko.observableArray([]),
                     //Roles
                     roles = ko.observableArray([]),
                     //RegistrationQuestions
@@ -3148,7 +3150,6 @@ define("stores/stores.viewModel",
                                     //_.each(data.CompanyContactResponse.CompanyContacts, function (item) {
                                     //    selectedStore().users.push(model.CompanyContact.Create(item));
                                     //});
-
                                     _.each(data.Company.ColorPalletes, function (item) {
                                         selectedStore().colorPalette(model.ColorPalette.Create(item));
                                     });
@@ -3156,6 +3157,10 @@ define("stores/stores.viewModel",
                                     if (data.Company.CmsPagesDropDownList !== null) {
                                         ko.utils.arrayPushAll(cmsPagesForStoreLayout(), data.Company.CmsPagesDropDownList);
                                         cmsPagesForStoreLayout.valueHasMutated();
+
+                                        _.each(cmsPagesBaseData(), function (item) {
+                                            cmsPagesForStoreLayout.push(item);
+                                        });
                                     }
                                     emails.removeAll();
                                     _.each(data.Company.Campaigns, function (item) {
@@ -3273,6 +3278,10 @@ define("stores/stores.viewModel",
                                     allCompanyAddressesList.removeAll();
                                     costCentersList.removeAll();
                                     pageCategories.removeAll();
+                                    cmsPagesBaseData.removeAll();
+                                    _.each(data.CmsPageDropDownList, function (item) {
+                                        cmsPagesBaseData.push(item);
+                                    });
                                     _.each(data.SystemUsers, function (item) {
                                         var systemUser = new model.SystemUser.Create(item);
                                         systemUsers.push(systemUser);
@@ -3360,11 +3369,14 @@ define("stores/stores.viewModel",
                                     registrationQuestions.removeAll();
                                     allCompanyAddressesList.removeAll();
                                     pageCategories.removeAll();
+                                    cmsPagesBaseData.removeAll();
                                     _.each(data.SystemUsers, function (item) {
                                         var systemUser = new model.SystemUser.Create(item);
                                         systemUsers.push(systemUser);
                                     });
-
+                                    _.each(data.CmsPageDropDownList, function (item) {
+                                        cmsPagesBaseData.push(item);
+                                    });
                                     _.each(data.CompanyContactRoles, function (item) {
                                         var role = new model.Role.Create(item);
                                         roles.push(role);
@@ -4655,7 +4667,8 @@ define("stores/stores.viewModel",
                     lineSeperator: lineSeperator,
                     selectedSmartForm: selectedSmartForm,
                     droppedSmartFormArea: droppedSmartFormArea,
-                    productsFilterHeading: productsFilterHeading
+                    productsFilterHeading: productsFilterHeading,
+                    cmsPagesBaseData: cmsPagesBaseData
                 };
                 //#endregion
             })()
