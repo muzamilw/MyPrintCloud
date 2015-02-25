@@ -9,22 +9,29 @@
 <style>
     body
     {
-        zoom:85%;
+        zoom:80%;
         overflow:hidden;
         height:100%;
     }
     .highlight-div
     {
-        width:300px;
         height:50px;
         background-color:white;
         position:absolute;
         opacity:0.3;
         top:-40%;
-        margin-left:30%;
+       
         -webkit-filter: blur(8px);
         -webkit-transition: -webkit-filter .50s;
         visibility:hidden;
+    }
+    .help-header-title
+    {
+
+        font-family:Ebrima;
+        margin:0px;
+        font-size:26px;
+        
     }
 </style>
 
@@ -42,7 +49,7 @@
                     <span style="color: gray; font-size: 12px;">Questions ?</span>&nbsp;<a href="mailto:support@myprintcloud.com"> <span style="color: blue; font-size: 12px;">Email Us!</span></a>
                 </td>
                 <td style="width: 120px; text-align: right; padding-right: 10px;">
-                   <a href="https://myprintcloud.com/dashboard" class="btn  btn-info btn-primary"><i class="fa fa-plus-circle"></i>&nbsp;Upgrade  Now</a>
+                   <a href="https://myprintcloud.com/dashboard" class="btn" style="background-color:#608C36;border-color:#3F651B;color:white;"><i class="fa fa-plus-circle"></i>&nbsp;Upgrade  Now</a>
                 </td>
             </tr>
         </table>
@@ -51,24 +58,24 @@
 
 <div class="myprintcloud-help" id="myprintcloud-help">
     <div class="highlight-div">
-
     </div>
     <div class="left-arrow"></div>
     <div class="right-arrow"></div>
     <div class="top-arrow"></div>
     <div class="bottom-arrow"></div>
     <div>
-
     </div>
+    
     <div class="help-divs">
-        <h1 class="help-header">Manage PRINTCloud</h1>
+        <h2 class="help-header-title">Manage your Print Cloud</h2>
     </div>
-
-    <div style="padding-left:10px;padding-right:10px;">
-        <span class="help-header-description">this is your Dashboard</span>
-    </div>
-    <div class="help-divs">
-        <span class="help-details">Create Products , Web Stores , Estimates ...</span>
+    <div class="help-description">
+        <div>
+            <span class="help-header-description" style="font-size:14px;">this is your Dashboard</span>
+        </div>
+        <div>
+            <span class="help-details">Create Products , Web Stores , Estimates ...</span>
+        </div>
     </div>
     <div>
         <div class="input-group" style="width:100%;display:inline;">
@@ -127,8 +134,7 @@
                         <a href=" #" style="text-decoration:none;">
                             <span>Create a Product</span>
                         </a>
-                        <div class="product-positioner">
-                            sadksajdlakjsdklsadjlsakdjlk
+                        <div class="product-positioner" style="position:fixed;">
                         </div>
                     </div>
                 </div>
@@ -140,6 +146,8 @@
                         <a href="#" style="text-decoration:none;">
                             <span>Create a Web 2 Print Store</span>
                         </a>
+                        <div class="web2print-positioner" style="position:fixed;">
+                        </div>
                     </div>
                     <div style="height:47px;padding:10px;">
                         <a href=" #" style="text-decoration:none;">
@@ -1241,41 +1249,175 @@
 
                 i = i + 1;
 
-                var dashp = $(".product-positioner");
-                var positiontop = dashp.position().top;
-                var positionleft = dashp.position().left;
+                var positiontop = 0;
+                var positionleft = 0;
+                var dashp;
+                 
+                var top = 0;
+                var left = 0;
+                var addtiontop = 0;
+                var additionleft = 0;
 
                 var dashh = $("#myprintcloud-help");
                 var positiontophelp = dashh.position().top;
                 var positionlefthelp = dashh.position().left;
 
-                var top = parseInt(positiontophelp) - parseInt(positiontop);
-                var left = parseInt(positionlefthelp) - parseInt(positionleft);
-
-                var addtiontop = (positiontophelp + top) + 20;
-               
+             
 
                 if (i == 1)
                 {
-                    
-                    $("#myprintcloud-help").animate({ "top": "+=" + addtiontop, "left": "+=150"  }, 100);
+                    dashp = $(".product-positioner");
+                    positiontop = dashp.position().top;
+                    positionleft = dashp.position().left;
+                  
+                    top = parseInt(positiontop) - parseInt(positiontophelp);
+                    left = parseInt(positionleft) - parseInt(positionlefthelp);
+
+                    top = top + 70;
+                   
+                    $("#myprintcloud-help").animate({ "top": "+="  + top, "left": "+="+left }, 100);
                     $(".highlight-div").css("visibility", "visible");
-                    $(".highlight-div").css("width", "130px");
-                    $(".highlight-div").css("height","30px");
+                    $(".highlight-div").css("width", "120px");
+                    $(".highlight-div").css("height", "30px");
 
                     $(".help-header").text(proceeding[1]);
                     $(".help-header-description").text(proceddingheadertext[1]);
                     $(".help-details").text(proceddingdetails[1]);
 
+
+                    $(".bottom-arrow").hide();
+                    $(".left-arrow").hide();
+                    $(".right-arrow").hide();
+
                     $("#btnPreviousHelp").show();
 
+
                 }
-             
+                if (i == 2)
+                {
+
+                    dashp = $(".web2print-positioner");
+                    positiontop = dashp.position().top;
+                    positionleft = dashp.position().left;
+                    
+                    top = 0;
+                    left = 0;
+
+                    top = parseInt(positiontop) - parseInt(positiontophelp);
+                    left = parseInt(positionleft) - parseInt(positionlefthelp);
+
+                    top = top + 70;
+                    
+
+                    $("#myprintcloud-help").animate({ "top": "+=" + top, "left": "+=" + left }, 100);
+                    $(".highlight-div").css("visibility", "visible");
+                    $(".highlight-div").css("width", "350px");
+                    $(".highlight-div").css("height","30px");
+                   
+
+                    $(".help-header").text(proceeding[2]);
+                    $(".help-header-description").text(proceddingheadertext[2]);
+                    $(".help-details").text(proceddingdetails[2]);
+
+                    $("#btnPreviousHelp").show();
+
+                   
+
+                }
+                if (i == 3)
+                {
+
+                    dashp = $(".dashboard-positioner");
+                    positiontop = dashp.position().top;
+                    positionleft = dashp.position().left;
+
+                    
+
+                    top = parseInt(positiontophelp) - parseInt(positiontop);
+                    left = parseInt(positionlefthelp) - parseInt(positionleft);
+
+                   
+                    left = left - 230;
+                    top = top + 105;
+                
+
+
+                    $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 100);
+                    $(".highlight-div").css("visibility", "visible");
+                    $(".highlight-div").css("width", "250px");
+                    $(".highlight-div").css("height", "30px");
+                    $(".highlight-div").css("top", "38%");
+
+                    $(".highlight-div").css("left","-80%");
+                   
+
+
+                    $(".help-header").text(proceeding[3]);
+                    $(".help-header-description").text(proceddingheadertext[3]);
+                    $(".help-details").text(proceddingdetails[3]);
+
+                    $("#btnPreviousHelp").show();
 
 
 
+                }
+                if (i == 4)
+                {
+                    
+                    top = top - 355;
+
+                    $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 100);
+
+                    $(".highlight-div").css("height", "30px");
+
+                    $(".help-header").text(proceeding[4]);
+                    $(".help-header-description").text(proceddingheadertext[4]);
+                    $(".help-details").text(proceddingdetails[4]);
+                }
+                if (i == 5)
+                {
+
+                    dashp = $(".user-positioner");
+                    positiontop = dashp.position().top;
+                    positionleft = dashp.position().left;
+
+                    top = parseInt(positiontophelp) - parseInt(positiontop);
+                    left = parseInt(positionlefthelp) - parseInt(positionleft);
+
+                    top = top - 50;
+                    left = left + 200;
+
+
+                    $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 100);
+                    $(".highlight-div").css("visibility", "visible");
+                    $(".highlight-div").css("width","250px");
+                    $(".highlight-div").css("height","50px");
+                    $(".highlight-div").css("top", "-40%");
+                    $(".highlight-div").css("left", "0%");
+
+
+
+                    $(".help-header").text(proceeding[5]);
+                    $(".help-header-description").text(proceddingheadertext[5]);
+                    $(".help-details").text(proceddingdetails[5]);
+
+                    $("#btnPreviousHelp").show();
+
+
+
+                }
+                if(i == 6)
+                {
+
+
+                    $("#myprintcloud-help").animate({ "top": "+=45%", "left": "-=35%" }, 100);
+                    $(".highlight-div").css("visibility", "hidden");
+
+
+                }
+              
+               
             });
-
             $("#btnPreviousHelp").click(function ()
             {
 
