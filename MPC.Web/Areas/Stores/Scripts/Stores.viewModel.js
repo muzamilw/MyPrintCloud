@@ -31,6 +31,8 @@ define("stores/stores.viewModel",
                     isLoadingStores = ko.observable(false),
                     //Is Editorial View Visible
                     isEditorVisible = ko.observable(false),
+                    // widget section header title
+                    productsFilterHeading=ko.observable(),
                     //Sort On
                     sortOn = ko.observable(1),
                     //Sort In Ascending
@@ -71,6 +73,8 @@ define("stores/stores.viewModel",
                     companyBanners = ko.observableArray([]),
                     //Cms Pages For Store Layout DropDown
                     cmsPagesForStoreLayout = ko.observableArray([]),
+                     //Cms Pages for basedata
+                    cmsPagesBaseData = ko.observableArray([]),
                     //Roles
                     roles = ko.observableArray([]),
                     //RegistrationQuestions
@@ -250,7 +254,7 @@ define("stores/stores.viewModel",
                         selectedItemForAdd(undefined);
                         selectedItemForRemove(undefined);
                         if (itemsForWidgets().length === 0) {
-                           // getItemsForWidgets();
+                             getItemsForWidgets();
                         }
                         sharedNavigationVM.initialize(selectedStore, function (saveCallback) { saveStore(saveCallback); });
                         view.initializeLabelPopovers();
@@ -3146,7 +3150,6 @@ define("stores/stores.viewModel",
                                     //_.each(data.CompanyContactResponse.CompanyContacts, function (item) {
                                     //    selectedStore().users.push(model.CompanyContact.Create(item));
                                     //});
-
                                     _.each(data.Company.ColorPalletes, function (item) {
                                         selectedStore().colorPalette(model.ColorPalette.Create(item));
                                     });
@@ -3154,6 +3157,10 @@ define("stores/stores.viewModel",
                                     if (data.Company.CmsPagesDropDownList !== null) {
                                         ko.utils.arrayPushAll(cmsPagesForStoreLayout(), data.Company.CmsPagesDropDownList);
                                         cmsPagesForStoreLayout.valueHasMutated();
+
+                                        _.each(cmsPagesBaseData(), function (item) {
+                                            cmsPagesForStoreLayout.push(item);
+                                        });
                                     }
                                     emails.removeAll();
                                     _.each(data.Company.Campaigns, function (item) {
@@ -3271,6 +3278,10 @@ define("stores/stores.viewModel",
                                     allCompanyAddressesList.removeAll();
                                     costCentersList.removeAll();
                                     pageCategories.removeAll();
+                                    cmsPagesBaseData.removeAll();
+                                    _.each(data.CmsPageDropDownList, function (item) {
+                                        cmsPagesBaseData.push(item);
+                                    });
                                     _.each(data.SystemUsers, function (item) {
                                         var systemUser = new model.SystemUser.Create(item);
                                         systemUsers.push(systemUser);
@@ -3358,11 +3369,14 @@ define("stores/stores.viewModel",
                                     registrationQuestions.removeAll();
                                     allCompanyAddressesList.removeAll();
                                     pageCategories.removeAll();
+                                    cmsPagesBaseData.removeAll();
                                     _.each(data.SystemUsers, function (item) {
                                         var systemUser = new model.SystemUser.Create(item);
                                         systemUsers.push(systemUser);
                                     });
-
+                                    _.each(data.CmsPageDropDownList, function (item) {
+                                        cmsPagesBaseData.push(item);
+                                    });
                                     _.each(data.CompanyContactRoles, function (item) {
                                         var role = new model.Role.Create(item);
                                         roles.push(role);
@@ -3687,18 +3701,21 @@ define("stores/stores.viewModel",
                     //#region _________WIDGETS IN Themes & Widgets Tab _________________
                     //Open Dialog from Featured Product Row
                     openItemsForWidgetsDialogFromFeatured = function () {
+                        productsFilterHeading("Featured Products");
                         selectedOfferType(1);
                         resetItems();
                         view.showItemsForWidgetsDialog();
                     },
                     //Open Dialog from Popular Product Row
                     openItemsForWidgetsDialogFromPopular = function () {
+                        productsFilterHeading("Popular Products");
                         selectedOfferType(2);
                         resetItems();
                         view.showItemsForWidgetsDialog();
                     },
                     //Open Dialog from Special Product Row
                     openItemsForWidgetsDialogFromSpecial = function () {
+                        productsFilterHeading("Special Products");
                         selectedOfferType(3);
                         resetItems();
                         view.showItemsForWidgetsDialog();
@@ -4283,6 +4300,8 @@ define("stores/stores.viewModel",
                 groupCaption = ko.observable("Drag a Group Caption"),
                 //line Seperator
                 lineSeperator = ko.observable("Drag a Line Separator"),
+                //Smart Form List
+                smartForms = ko.observableArray([]),
                 //Create Smart Form
                 addSmartForm = function () {
                     selectedSmartForm(model.SmartForm());
@@ -4315,18 +4334,102 @@ define("stores/stores.viewModel",
                 //Smart Form Droped Area
                  droppedSmartFormArea = function (source, target, event) {
                      var smartFormDetail = model.SmartFormDetail();
+                     smartFormDetail.isRequired("2");
+                     if (source !== undefined && source !== null && source.data.dropFrom === undefined && source.row.dropFrom() === "VariableField") {
+                         smartFormDetail.objectType(3);
+                         smartFormDetail.variableId(source.data.id());
+                         var title = source.data.title() === null ? "" : source.data.title();
+                         var defaultValue = source.data.defaultValue() === null ? "" : source.data.defaultValue();
+                         var htmlData = "";
+                         if (source.data.variableType() === 1) {
+                             htmlData = "<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-6\"><div class=\"col-lg-6\"><label style=\"margin-left:9px;\">" + title + "</label><input type=\"text\" class=\"form-control\" disabled value=\"" + defaultValue + "\"></div><div class=\"col-lg-6\"><label style=\"margin-top:15px;\"></label><select disabled class=\"form-control\"><option>" + defaultValue + "</option></select></div></div></div>";
 
-                     if (source.data.dropFrom === undefined && source.row.dropFrom() === "VariableField") {
-                         smartFormDetail.html("<div style=\"border:2px dotted silver;height:100px\"><div class=\"form-group\"><div class=\"col-lg-5 text-right\"></div><div class=\"col-lg-5\"><input type=\"\ext\" class=\"form-control\"></div> </div></div>");
+                         } else {
+                             htmlData = "<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-6\"><label style=\"margin-left:9px;\">" + title + "</label><div><input type=\"text\" disabled class=\"form-control\" value=\"" + defaultValue + "\"></div></div></div>";
+                         }
+                         smartFormDetail.html(htmlData);
+                         selectedSmartForm().smartFormDetails.push(smartFormDetail);
                      }
-                     else if (source.data.dropFrom !== undefined && source.data.dropFrom() === "GroupCaption") {
-                         smartFormDetail.html("<span>Group Caption</span>");
+                     else if (source !== undefined && source !== null && source.data.dropFrom !== undefined && source.data.dropFrom() === "GroupCaption") {
+                         smartFormDetail.objectType(1);
+                         //smartFormDetail.html("<span><b>This is a very long long group caption which can be edited in line and can also be deleted. If deleted then the whole content below it will jump</b></span>");
+                         selectedSmartForm().smartFormDetails.push(smartFormDetail);
                      }
-                     else if (source.data.dropFrom !== undefined && source.data.dropFrom() === "LineSeperator") {
+                     else if (source !== undefined && source !== null && source.data.dropFrom !== undefined && source.data.dropFrom() === "LineSeperator") {
+                         smartFormDetail.objectType(2);
                          smartFormDetail.html("<hr style=\"height:3px;border:none;color:#333;background-color:black;\" />");
+                         //smartFormDetail.html("<div style=\"float:left\"><hr style=\"height:3px;border:none;color:#333;background-color:black;\" /></div><div><input type=\"button\" data-bind=\"click:$root.deleteSmartFormItem\"/></div>");
+                         selectedSmartForm().smartFormDetails.push(smartFormDetail);
                      }
-                     selectedSmartForm().smartFormDetails.push(smartFormDetail);
                  },
+                //Remove Smart Form Item
+                deleteSmartFormItem = function (formItem) {
+                    selectedSmartForm().smartFormDetails.remove(formItem);
+                },
+                //Save Smart Form
+                 onSaveSmartForm = function (smartForm) {
+                     if (doBeforeSaveSmartForm()) {
+                         _.each(smartForm.smartFormDetails(), function (item, index) {
+                             item.sortOrder(index + 1);
+                         });
+                         selectedSmartForm.companyId(selectedStore().companyId());
+                         if (selectedStore().companyId() !== undefined) {
+                             var smartFormServer = smartForm.convertToServerData(smartForm);
+                             _.each(smartForm.smartFormDetails(), function (item, index) {
+                                 smartFormServer.SmartFormDetails.push(item.convertToServerData(item));
+                             });
+                             saveSmartForm(smartFormServer);
+                             
+                         } else {
+                             smartForms.splice(0, 0, smartForm);
+                             view.hideSmartFormDialog();
+                         }
+                     }
+                 },
+                saveSmartForm = function (smartForm) {
+                    dataservice.saveSmartForm(smartForm, {
+                        success: function (data) {
+                            if (selectedSmartForm().id() === undefined) {
+                                selectedSmartForm().id(data);
+                                smartForms.splice(0, 0, selectedSmartForm());
+                            } else {
+                                updateFieldVariable();
+                            }
+                           
+                            view.hideSmartFormDialog();
+                            toastr.success("Successfully save.");
+                        },
+                        error: function (exceptionMessage, exceptionType) {
+
+                            if (exceptionType === ist.exceptionType.CaresGeneralException) {
+
+                                toastr.error(exceptionMessage);
+
+                            } else {
+
+                                toastr.error("Failed to save.");
+                            }
+
+                        }
+                    });
+                }
+                //Do Before Save Smart Form
+                doBeforeSaveSmartForm = function () {
+                    var flag = true;
+                    if (!selectedSmartForm().isValid()) {
+                        selectedSmartForm().errors.showAllMessages();
+                        flag = false;
+                    }
+                    return flag;
+                },
+
+                //Edit Smart Form
+              onEditSmartForm = function (smartForm) {
+                  if (smartForm.id() === undefined) {
+                      selectedSmartForm(smartForm);
+                  }
+
+              },
                 //#endregion ________ Smart Form___________
 
 
@@ -4653,6 +4756,12 @@ define("stores/stores.viewModel",
                     lineSeperator: lineSeperator,
                     selectedSmartForm: selectedSmartForm,
                     droppedSmartFormArea: droppedSmartFormArea,
+                    deleteSmartFormItem: deleteSmartFormItem,
+                    onSaveSmartForm: onSaveSmartForm,
+                    productsFilterHeading: productsFilterHeading,
+                    cmsPagesBaseData: cmsPagesBaseData,
+                    smartForms: smartForms,
+                    onEditSmartForm: onEditSmartForm,
                 };
                 //#endregion
             })()
