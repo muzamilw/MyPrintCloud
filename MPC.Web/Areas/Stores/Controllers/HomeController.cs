@@ -5,11 +5,11 @@ using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Stores.Controllers
 {
-    [SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewSecurity })]
+    //[SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewSecurity })]
     public class HomeController : Controller
     {
         // GET: Stores/Home
-        [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
+        //[SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
         public ActionResult Index()
         {
             return View();

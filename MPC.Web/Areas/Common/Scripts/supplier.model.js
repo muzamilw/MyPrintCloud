@@ -63,6 +63,10 @@
              vATRegReference = ko.observable(specifiedVATRegReference),
              //Flag Id 
              flagId = ko.observable(specifiedFlagId),
+             //Logo Name
+             logoName = ko.observable(),
+             //Company Logo Source
+             logoSource = ko.observable(),
              //Price Flag Id 
              priceFlagId = ko.observable(specifiedPriceFlagId),
              //Address In Supplier
@@ -112,6 +116,8 @@
                     VATRegReference: vATRegReference() === undefined ? null : vATRegReference(),
                     FlagId: flagId() === undefined ? null : flagId(),
                     PriceFlagId: priceFlagId() === undefined ? null : priceFlagId(),
+                    CompanyLogoName: logoName() === undefined ? null : logoName(),
+                    CompanyLogoSource: logoSource() === undefined ? null : logoSource(),
                     Addresses: addresses(),
                     CompanyContacts: companyContacts(),
                 }
@@ -134,6 +140,8 @@
             accountOpenDate: accountOpenDate,
             accountManagerId: accountManagerId,
             status: status,
+            logoName: logoName,
+            logoSource: logoSource,
             notes: notes,
             accountStatusId: accountStatusId,
             vATRegNumber: vATRegNumber,

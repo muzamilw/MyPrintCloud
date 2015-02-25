@@ -59,6 +59,7 @@ namespace MPC.MIS.Controllers
              * Call WebStore Service to Authenticate User
              * On Call back, if user is authenticated then add Claims
              */
+            
 
             ValidationInfo validationInfo = null;
             using (var client = new HttpClient())
@@ -74,11 +75,22 @@ namespace MPC.MIS.Controllers
                 var response = client.GetAsync(url);
                 if (response.Result.IsSuccessStatusCode)
                 {
-                    responsestr =  response.Result.Content.ReadAsStringAsync().Result;
-                    validationInfo =  JsonConvert.DeserializeObject<ValidationInfo>(responsestr);
+                    responsestr = response.Result.Content.ReadAsStringAsync().Result;
+                    validationInfo = JsonConvert.DeserializeObject<ValidationInfo>(responsestr);
                 }
-               
+
             }
+            //For Development environment Set these values and comment code above starting from using...
+
+            //validationInfo = new ValidationInfo();
+            //validationInfo.CustomerID = "1";
+            //validationInfo.userId = "xyz";
+            //validationInfo.FullName = "Naveed Zahid";
+            //validationInfo.Plan = "light";
+            //validationInfo.Email = "naveedmnz@hotmail.com";
+            //validationInfo.IsTrial = true;
+            //validationInfo.TrialCount = 9;
+
 
             long organisationId = 0; //Request.QueryString["OrganisationId"];
             string userId = ""; //Request.QueryString["UserId"];

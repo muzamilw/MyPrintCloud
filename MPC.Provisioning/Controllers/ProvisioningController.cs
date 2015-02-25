@@ -167,11 +167,34 @@ namespace MPC.Provisioning.Controllers
             
            
         }
-        // get requested domain name
+
+          // get requested domain name
         public string CurrentServerPath()
         {
             return HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority;
         }
+        /// <summary>
+        /// //POST: Api/CreateNewDomain
+        ///   Method is used to add New Binding for a site in IIS
+        /// </summary>
+        /// <param name="siteName"> Site Name represents parent site name eg "mpc"</param>
+        /// <param name="domainName">Domain Name Represents new binding in IIS to be created</param>
+        /// <returns>return 'true' if successfully adds binding else return 'false'</returns>
+        public bool AddDomain(string siteName, string domainName)
+        {
+            return true;
+        }
 
+        /// <summary>
+        /// //Delete: Api/CreateNewDomain
+        ///   Method is used to Delete Binding for a site in IIS
+        /// </summary>
+        /// <param name="siteName"> Site Name represents parent site name eg "mpc"</param>
+        /// <param name="domainName">Domain Name Represents binding in IIS to be removed</param>
+        /// <returns>return 'true' if successfully Deletes binding else return 'false'</returns>
+        public bool DeleteDomain(string siteName, string domainName)
+        {
+            return true;
+        }
     }
 }

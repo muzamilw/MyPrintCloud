@@ -386,3 +386,62 @@ GO
 
 ALTER TABLE [dbo].[SmartFormDetail] CHECK CONSTRAINT [FK_SmartFormDetail_SmartForm]
 GO
+
+GO
+
+Alter table Invoice
+alter column InvoiceStatus smallint null
+
+Alter table Invoice
+add foreign key (InvoiceStatus)
+references Status(StatusId)
+
+Alter table Invoice
+add foreign key (ContactId)
+references CompanyContact(ContactId)
+
+GO
+
+/* Execution Date: 24/02/2015 */
+
+GO
+
+alter table FieldVariable
+alter column VariableSectionId bigint
+
+alter table SmartFormDetail
+add VariableId bigint null
+
+alter table SmartFormDetail
+add CaptionValue varchar(200) null
+
+alter table items
+drop DF__tbl_items__JobMa__6D6238AF
+
+alter table Items
+alter column JobManagerId uniqueidentifier null
+
+alter table Items
+alter column JobProgressedBy uniqueidentifier null
+
+alter table Items
+alter column JobCardPrintedBy uniqueidentifier null
+
+alter table SmartForm
+add Heading varchar(100) null
+
+GO
+
+/* Execution Date: 25/02/2015 */
+
+GO
+
+exec sp_rename 'dbo.CostCentreType.CompanyId', 'OrganisationId'
+
+alter table CostCentreType
+alter Column OrganisationId bigint null
+
+alter table TemplateVariable
+alter column VariableId bigint null
+
+GO
