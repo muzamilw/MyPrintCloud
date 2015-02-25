@@ -2200,7 +2200,7 @@ define("stores/stores.viewModel",
                                                 //updating selected contact rolename
                                                 _.each(roles(), function (role) {
                                                     if (role.roleId() == selectedCompanyContact().contactRoleId()) {
-                                                        savedCompanyContact.roleName()(role.roleName());
+                                                        savedCompanyContact().roleName()(role.roleName());
                                                     }
                                                 });
                                                 if (selectedCompanyContact().isDefaultContact()) {
