@@ -1,4 +1,5 @@
-﻿using MPC.Interfaces.Repository;
+﻿using MPC.Common;
+using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
 using System;
@@ -22,11 +23,11 @@ namespace MPC.Implementation.WebStoreServices
         #endregion
 
         #region public
-        public List<FieldVariable> GetVariablesData(bool isRealestateproduct, long storeId)
+        public List<FieldVariable> GetVariablesData(bool isRealestateproduct, long companyId, long organisationId)
         {
-            return _smartFormRepository.GetVariablesData(isRealestateproduct, storeId);
+            return _smartFormRepository.GetVariablesData(isRealestateproduct, companyId, organisationId);
         }
-        public Stream GetTemplateVariables(long templateId)
+        public List<TemplateVariablesObj> GetTemplateVariables(long templateId)
         {
             return _smartFormRepository.GetTemplateVariables(templateId);
         }

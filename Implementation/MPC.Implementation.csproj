@@ -127,6 +127,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -188,6 +189,10 @@
     <Compile Include="WebStoreServices\MyCompanyDomainService.cs" />
     <Compile Include="TypeRegistrations.cs" />
     <Compile Include="WebStoreServices\OrderService.cs" />
+    <Compile Include="WebStoreServices\PaypalPaymentRequestService.cs" />
+    <Compile Include="WebStoreServices\PayPalResponseService.cs" />
+    <Compile Include="WebStoreServices\PrefixService.cs" />
+    <Compile Include="WebStoreServices\PrePaymentService.cs" />
     <Compile Include="WebStoreServices\SmartFormService.cs" />
     <Compile Include="WebStoreServices\StatusService.cs" />
     <Compile Include="WebStoreServices\TemplateBackgroundImagesService.cs" />

@@ -157,5 +157,30 @@ namespace MPC.Provisioning.Controllers
             
            
         }
+
+        
+        /// <summary>
+        /// //POST: Api/CreateNewDomain
+        ///   Method is used to add New Binding for a site in IIS
+        /// </summary>
+        /// <param name="siteName"> Site Name represents parent site name eg "mpc"</param>
+        /// <param name="domainName">Domain Name Represents new binding in IIS to be created</param>
+        /// <returns>return 'true' if successfully adds binding else return 'false'</returns>
+        public bool AddDomain(string siteName, string domainName)
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// //Delete: Api/CreateNewDomain
+        ///   Method is used to Delete Binding for a site in IIS
+        /// </summary>
+        /// <param name="siteName"> Site Name represents parent site name eg "mpc"</param>
+        /// <param name="domainName">Domain Name Represents binding in IIS to be removed</param>
+        /// <returns>return 'true' if successfully Deletes binding else return 'false'</returns>
+        public bool DeleteDomain(string siteName, string domainName)
+        {
+            return true;
+        }
     }
 }

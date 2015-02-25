@@ -104,10 +104,12 @@ namespace MPC.Repository
             unityContainer.RegisterType<IFieldVariableRepository, FieldVariableRepository>();
             unityContainer.RegisterType<ICompanyContactVariableRepository, CompanyContactVariableRepository>();
             unityContainer.RegisterType<IDeliveryCarrierRepository, DeliveryCarrierRepository>();
+            unityContainer.RegisterType<IPrePaymentRepository, PrePaymentRepository>();
             unityContainer.RegisterType<IInvoiceRepository, InvoiceRepository>();
-            unityContainer.RegisterType<ISmartFormRepository, SmartFormRepository>();
+            unityContainer.RegisterType<IPaypalPaymentRequestRepository, PaypalPaymentRequestRepository>();
             unityContainer.RegisterType<ISmartFormRepository, SmartFormRepository>();
             unityContainer.RegisterType<ISmartFormDetailRepository, SmartFormDetailRepository>();
+            unityContainer.RegisterType<IPayPalResponseRepository, PayPalResponseRepository>();
         }
     }
 }

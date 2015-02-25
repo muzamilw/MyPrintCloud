@@ -2123,8 +2123,6 @@ define("stores/stores.viewModel",
                         }
                         // Ask for confirmation
                         confirmation.afterProceed(function () {
-
-                            confirmation.show();
                             //#region Db Saved Record Id > 0
                             if (companyContact.contactId() > 0) {
 
@@ -2160,7 +2158,9 @@ define("stores/stores.viewModel",
                                     selectedStore().users.remove(companyContact);
                                 }
                             }
+                            
                         });
+                        confirmation.show();
                         return;
                     },
                     onEditCompanyContact = function (companyContact) {
@@ -2199,6 +2199,12 @@ define("stores/stores.viewModel",
                                         success: function (data) {
                                             if (data) {
                                                 var savedCompanyContact = model.CompanyContact.Create(data);
+                                                //updating selected contact rolename
+                                                _.each(roles(), function (role) {
+                                                    if (role.roleId() == selectedCompanyContact().contactRoleId()) {
+                                                        savedCompanyContact.roleName()(role.roleName());
+                                                    }
+                                                });
                                                 if (selectedCompanyContact().isDefaultContact()) {
                                                     _.each(selectedStore().users(), function (user) {
                                                         if (user.isDefaultContact()) {
