@@ -37,6 +37,10 @@
     {
         cursor:pointer;
     }
+    .account-anchors
+    {
+        display:none;
+    }
 </style>
 
 
@@ -1241,7 +1245,7 @@
         $(document).ready(function ()
         {
 
-            $(".account-anchors").hide();
+           
 
             var i = 0;
 
@@ -1435,7 +1439,7 @@
                     $(".help-header-title").text(proceeding[6]);
                     $(".help-header-description").text(proceddingheadertext[6]);
                     $(".help-details").hide();
-                    $(".account-anchors").show();
+                    $(".account-anchors").css("display", "block");
 
                     $(".bottom-arrow").hide();
                     $(".left-arrow").hide();
