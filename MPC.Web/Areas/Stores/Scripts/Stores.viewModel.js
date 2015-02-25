@@ -241,7 +241,7 @@ define("stores/stores.viewModel",
                         selectedStore().type(3);
                         isEditorVisible(true);
                         view.initializeForm();
-                        getBaseDataFornewCompany();
+                       // getBaseDataFornewCompany();
                         //$('.nav-tabs').children().removeClass('active');
                         //$('#generalInfoTab').addClass('active');
                         $('.nav-tabs li:first-child a').tab('show');
@@ -250,7 +250,7 @@ define("stores/stores.viewModel",
                         selectedItemForAdd(undefined);
                         selectedItemForRemove(undefined);
                         if (itemsForWidgets().length === 0) {
-                            getItemsForWidgets();
+                           // getItemsForWidgets();
                         }
                         sharedNavigationVM.initialize(selectedStore, function (saveCallback) { saveStore(saveCallback); });
                         view.initializeLabelPopovers();
