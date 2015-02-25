@@ -441,4 +441,7 @@ exec sp_rename 'dbo.CostCentreType.CompanyId', 'OrganisationId'
 alter table CostCentreType
 alter Column OrganisationId bigint null
 
+alter table TemplateVariable
+alter column VariableId bigint null
+
 GO
