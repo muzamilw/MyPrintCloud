@@ -9,6 +9,7 @@ using System.Management.Automation.Runspaces;
 using System.Diagnostics;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Net;
 
 namespace MPC.Provisioning.Controllers
 {
@@ -124,7 +125,8 @@ namespace MPC.Provisioning.Controllers
                 {
                     // Create the Command and Parameter objects.
                     SqlCommand command = new SqlCommand(queryString, connection);
-
+                    long OrganisationId = 8;
+                      
                     try
                     {
                         connection.Open();
@@ -136,7 +138,15 @@ namespace MPC.Provisioning.Controllers
                         command.CommandText = "INSERT INTO [SystemUser] ([SystemUserId],[UserName],[OrganizationId],[FullName],[RoleId],[CostPerHour],[IsSystemUser])";
                         command.CommandText += " values ('"+userId+"','" + username + "'," + siteOrganisationId + ",'" + ContactFullName + "','1',0,0)";
 
+
                         result = command.ExecuteNonQuery();
+                        
+                        //// import organisation
+                        //string Path = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Organisations/ExportedZip20.zip");
+                        //string sCurrentServer = CurrentServerPath();
+                        //Uri uri = new Uri(sCurrentServer + "/webstoreapi/RealEstate/InsertOrganisation/" + OrganisationId + "/" + Path);
+                        //WebClient oClient = new WebClient();
+                        //oClient.OpenReadAsync(uri);
 
                         connection.Close();
 
@@ -158,7 +168,11 @@ namespace MPC.Provisioning.Controllers
            
         }
 
-        
+          // get requested domain name
+        public string CurrentServerPath()
+        {
+            return HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority;
+        }
         /// <summary>
         /// //POST: Api/CreateNewDomain
         ///   Method is used to add New Binding for a site in IIS
