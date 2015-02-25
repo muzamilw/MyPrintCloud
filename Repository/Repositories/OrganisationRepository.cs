@@ -989,6 +989,45 @@ namespace MPC.Repository.Repositories
 
                          if (ObjCompany != null)
                          {
+                             // company logo
+                             string CompanyPathOld = string.Empty;
+                             string CompanylogoPathNew = string.Empty;
+                             if (ObjCompany.Image != null)
+                             {
+                                 CompanyPathOld = Path.GetFileName(ObjCompany.Image);
+
+                                 CompanylogoPathNew = CompanyPathOld.Replace(ImportIDs.OldCompanyID + "_", ObjCompany.CompanyId + "_");
+
+                                 string DestinationCompanyLogoFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + ObjCompany.CompanyId + "/" + CompanylogoPathNew);
+                                 DestinationsPath.Add(DestinationCompanyLogoFilePath);
+                                 string DestinationCompanyLogoDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + ObjCompany.CompanyId);
+                                 string CompanyLogoSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ObjCompany.CompanyId + "/" + CompanyPathOld);
+                                 if (!System.IO.Directory.Exists(DestinationCompanyLogoDirectory))
+                                 {
+                                     Directory.CreateDirectory(DestinationCompanyLogoDirectory);
+                                     if (Directory.Exists(DestinationCompanyLogoDirectory))
+                                     {
+                                         if (File.Exists(CompanyLogoSourcePath))
+                                         {
+                                             if (!File.Exists(DestinationCompanyLogoFilePath))
+                                                 File.Copy(CompanyLogoSourcePath, DestinationCompanyLogoFilePath);
+                                         }
+
+
+                                     }
+
+
+                                 }
+                                 else
+                                 {
+                                     if (File.Exists(CompanyLogoSourcePath))
+                                     {
+                                         if (!File.Exists(DestinationCompanyLogoFilePath))
+                                             File.Copy(CompanyLogoSourcePath, DestinationCompanyLogoFilePath);
+                                     }
+                                 }
+
+                             }
 
 
                              if (ObjCompany.CompanyContacts != null && ObjCompany.CompanyContacts.Count > 0)

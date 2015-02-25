@@ -2948,19 +2948,7 @@ namespace MPC.Implementation.MISServices
 
                             }
                         }
-                        // export company background image
-
-                        if (ObjExportOrg.Company.StoreBackgroundImage != null)
-                        {
-                            string FilePath = HttpContext.Current.Server.MapPath(ObjExportOrg.Company.StoreBackgroundImage);
-                            DPath = "/Assets/" + OrganisationID + "/" + CompanyID;
-                            if (File.Exists(FilePath))
-                            {
-                                ZipEntry r = zip.AddFile(FilePath, DPath);
-                                r.Comment = "Background image for Store";
-
-                            }
-                        }
+                     
 
                         // export media
 
