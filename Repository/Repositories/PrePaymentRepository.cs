@@ -18,11 +18,14 @@ namespace MPC.Repository.Repositories
     {
 
         private readonly IOrderService _OrderService;
+        private readonly IPaypalPaymentRequestService _PaypalPaymentRequestService;
 
-        public PrePaymentRepository(IUnityContainer container, IOrderService OrderService)
+
+        public PrePaymentRepository(IUnityContainer container, IOrderService OrderService, IPaypalPaymentRequestService PaypalPaymentRequestService)
             : base(container)
         {
             this._OrderService = OrderService;
+            this._PaypalPaymentRequestService = PaypalPaymentRequestService;
         }
 
         protected override IDbSet<PrePayment> DbSet
@@ -68,7 +71,7 @@ namespace MPC.Repository.Repositories
                     _OrderService.UpdateOrderStatusAfterPrePayment(tblOrder, OrderStatus.PendingOrder, Mode);
 
                     // Change the Payment request status
-                    PaypalPaymentRequestManager.ChangeStatus(db, orderID,  PaypalPaymentRequestManager.PaymentRequestStatus.Successfull);
+                    _PaypalPaymentRequestService.ChangeStatus(orderID, PaymentRequestStatus.Successfull);
 
                     db.SaveChanges();
                 }

@@ -42,6 +42,7 @@ namespace MPC.Implementation.MISServices
         /// <returns></returns>
         public PaperSize Add(PaperSize paperSize)
         {
+            paperSize.OrganisationId = organisationRepository.OrganisationId;
             paperSheetRepository.Add(paperSize);
             paperSheetRepository.SaveChanges();
             return paperSize;
@@ -74,10 +75,14 @@ namespace MPC.Implementation.MISServices
             return paperSheetRepository.Find(id);
         }
 
-        public string GetBaseData()
+        public PaperSheetBaseResponse GetBaseData()
         {
             Organisation organisation = organisationRepository.GetOrganizatiobByID();
-            return organisation.LengthUnit != null ? organisation.LengthUnit.UnitName : string.Empty;
+            return new PaperSheetBaseResponse
+            {
+                LengthUnit = organisation.LengthUnit != null ? organisation.LengthUnit.UnitName : string.Empty,
+                Culture = organisation.GlobalLanguage!=null ? organisation.GlobalLanguage.culture : string.Empty
+            };
         }
         #endregion
 

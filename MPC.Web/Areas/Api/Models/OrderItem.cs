@@ -96,11 +96,11 @@ namespace MPC.MIS.Areas.Api.Models
         public string EstimateDescription { get; set; }
         public string JobDescription { get; set; }
         public string JobCode { get; set; }
-        public int? JobManagerId { get; set; }
+        public Guid? JobManagerId { get; set; }
         public DateTime? JobEstimatedStartDateTime { get; set; }
         public DateTime? JobEstimatedCompletionDateTime { get; set; }
         public DateTime? JobCreationDateTime { get; set; }
-        public int? JobProgressedBy { get; set; }
+        public Guid? JobProgressedBy { get; set; }
         public int? JobSelectedQty { get; set; }
         public int? JobStatusId { get; set; }
         public bool? IsJobCardPrinted { get; set; }
@@ -118,6 +118,10 @@ namespace MPC.MIS.Areas.Api.Models
         public double? DefaultItemTax { get; set; }
         public bool? IsQtyRanged { get; set; }
         public string Status { get; set; }
+        public DateTime? ItemCreationDateTime { get; set; }
+        public string InvoiceDescription { get; set; }
+        public Guid? JobCardPrintedBy { get; set; }
+        public IEnumerable<string> ProductCategories { get; set; }
         public IEnumerable<ItemSection> ItemSections { get; set; }
 
         #endregion

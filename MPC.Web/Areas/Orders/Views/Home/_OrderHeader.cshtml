@@ -271,20 +271,31 @@
     </div>
     <div class="col-lg-12 form-horizontal" style="margin-top:-18px;">
         <div>
-            <div class="input-group">
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-primary dropdown-toggle" style="float:right;margin-bottom: 3px;" data-toggle="dropdown">Add New Product <span class="caret"></span></button>
-                    @*  <ul class="dropdown-menu">
-                        <li><a href="#">From Retail Store</a></li>
-                        <li><a href="#">Cost Center</a></li>
-                        <li><a href="#">Inventory Item</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        </ul>*@
+            @* <div class="input-group">
+    <div class="input-group-btn">
+        <button type="button" class="btn btn-primary dropdown-toggle" style="float:right;margin-bottom: 3px;" data-toggle="dropdown">Add New Product <span class="caret"></span></button>
+         <ul class="dropdown-menu">
+            <li><a href="#">From Retail Store</a></li>
+            <li><a href="#">Cost Center</a></li>
+            <li><a href="#">Inventory Item</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            </ul>
                 </div>
+            </div>*@
+            <h3 class="group-header" @*style="margin-top:-21px;"*@>Other Information</h3>
+            <div class="btn-group" style="float:right;margin-bottom: 3px;">
+                <button type="button" class="btn btn-primary">Add New Product</button>
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#" data-bind="click : $root.onCreateNewProductFromRetailStore">From Retail Store</a></li>
+                    <li><a href="#">Cost Center</a></li>
+                    <li><a href="#">Inventory Item</a></li>
+                </ul>
             </div>
-            <h3 class="group-header" style="margin-top:-21px;">Other Information</h3>
-
 
         </div>
         <div class="form-group" style="margin-top: -43px;">
@@ -417,5 +428,6 @@
 
     @Html.Partial("_OrderItemDetail")
     @Html.Partial("_OrderSectionDetail")
+    @Html.Partial("~/Areas/Orders/Views/Home/_ProductFromRetailStore.cshtml")
 </div>
 

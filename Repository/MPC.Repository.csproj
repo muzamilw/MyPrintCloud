@@ -217,6 +217,8 @@
     <Compile Include="Repositories\ItemSectionRepository.cs" />
     <Compile Include="Repositories\MachineRepository.cs" />
     <Compile Include="Repositories\ItemAttachmentRepository.cs" />
+    <Compile Include="Repositories\PaypalPaymentRequestRepository.cs" />
+    <Compile Include="Repositories\PayPalResponseRepository.cs" />
     <Compile Include="Repositories\PipeLineProductRepository.cs" />
     <Compile Include="Repositories\PipeLineSourceRepository.cs" />
     <Compile Include="Repositories\PrePaymentRepository.cs" />
@@ -236,6 +238,7 @@
     <Compile Include="Repositories\PhraseFieldRepository.cs" />
     <Compile Include="Repositories\PhraseRespository.cs" />
     <Compile Include="Repositories\ReportRepository.cs" />
+    <Compile Include="Repositories\SmartFormDetailRepository.cs" />
     <Compile Include="Repositories\SmartFormRepository.cs" />
     <Compile Include="Repositories\StateRepository.cs" />
     <Compile Include="Repositories\CostCenterTypeRepository.cs" />

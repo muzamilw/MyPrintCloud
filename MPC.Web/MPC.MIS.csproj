@@ -278,6 +278,7 @@
     <Compile Include="Areas\Api\Controllers\LanguageEditorController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterController.cs" />
     <Compile Include="Areas\Api\Controllers\MachineController.cs" />
+    <Compile Include="Areas\Api\Controllers\OrderRetailStoreController.cs" />
     <Compile Include="Areas\Api\Controllers\OrdersForCrmController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionsForPhraseLibraryController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductMachinesController.cs" />
@@ -369,6 +370,7 @@
     <Compile Include="Areas\Api\Models\CustomerListViewModel.cs" />
     <Compile Include="Areas\Api\Models\CustomerResponse.cs" />
     <Compile Include="Areas\Api\Models\FieldVariable.cs" />
+    <Compile Include="Areas\Api\Models\FieldVariableForSmartForm.cs" />
     <Compile Include="Areas\Api\Models\FieldVariableResponse.cs" />
     <Compile Include="Areas\Api\Models\GetOrdersResponse.cs" />
     <Compile Include="Areas\Api\Models\GroupForCampaign.cs" />
@@ -1742,6 +1744,8 @@
     <Content Include="Areas\Stores\Views\Stores\_AddEditVariableDefination.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_UserProfileDetailsForCrm.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_AddEditTerritoryForCrm.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_ProductFromRetailStore.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_AddEditSmartFormDialog.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
@@ -2921,6 +2925,7 @@
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
     <Folder Include="Areas\Api\Views\Invoice\" />
     <Folder Include="Areas\Api\Views\Machine\" />
+    <Folder Include="Areas\Api\Views\OrderRetailStore\" />
     <Folder Include="Areas\Api\Views\OrdersForCrm\" />
     <Folder Include="Areas\Api\Views\PaperSheetBaseApi\" />
     <Folder Include="Areas\Common\Controllers\" />

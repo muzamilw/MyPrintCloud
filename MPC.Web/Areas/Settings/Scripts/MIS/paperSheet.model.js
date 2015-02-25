@@ -42,19 +42,19 @@
              hasChanges = ko.computed(function () {
                  return dirtyFlag.isDirty();
              }),
-             convertToServerData = function() {
-                return {
-                    PaperSizeId: paperSizeId(),
-                    Name: name(),
-                    Height: height(),
-                    Width: width(),
-                    SizeMeasure: sizeMeasure(),
-                    Area: area(),
-                    IsFixed: isFixed(),
-                    Region: region(),
-                    IsArchived: isArchived()
-                }
-            },
+             convertToServerData = function(culture) {
+                 return {
+                     PaperSizeId: paperSizeId(),
+                     Name: name(),
+                     Height: height(),
+                     Width: width(),
+                     SizeMeasure: sizeMeasure(),
+                     Area: area(),
+                     IsFixed: isFixed(),
+                     Region: culture != null ? culture : region(),
+                     IsArchived: isArchived()
+                 };
+             },
             // Reset
              reset = function () {
                  dirtyFlag.reset();

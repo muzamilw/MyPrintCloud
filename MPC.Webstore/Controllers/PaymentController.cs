@@ -26,7 +26,8 @@ namespace MPC.Webstore.Controllers
         private readonly IWebstoreClaimsHelperService _myClaimHelper;
         private readonly IUserManagerService _usermanagerService;
         private readonly IPrePaymentService _IPrePaymentService;
-        public PaymentController(IItemService ItemService, IOrderService OrderService, ICampaignService campaignService, ICompanyService myCompanyService, IWebstoreClaimsHelperService myClaimHelper, IUserManagerService usermanagerService, IPrePaymentService IPrePaymentService)
+        private readonly IPayPalResponseService _PayPalResponseService;
+        public PaymentController(IItemService ItemService, IOrderService OrderService, ICampaignService campaignService, ICompanyService myCompanyService, IWebstoreClaimsHelperService myClaimHelper, IUserManagerService usermanagerService, IPrePaymentService IPrePaymentService, IPayPalResponseService _PayPalResponseService)
         {
             this._ItemService = ItemService;
             this._OrderService = OrderService;
@@ -35,6 +36,7 @@ namespace MPC.Webstore.Controllers
             this._myClaimHelper = myClaimHelper;
             this._usermanagerService = usermanagerService;
             this._IPrePaymentService = IPrePaymentService;
+            this._PayPalResponseService = _PayPalResponseService;
         }
 
         // GET: Payment
@@ -134,7 +136,7 @@ namespace MPC.Webstore.Controllers
                 PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.StoreId);
                 // getting the URL to work with
                 string URL;
-                if (oGateWay.UseSandbox)
+                if ((bool)oGateWay.UseSandbox)
                     URL = oGateWay.TestApiUrl;
                 else
                     URL = oGateWay.LiveApiUrl;
@@ -287,14 +289,13 @@ namespace MPC.Webstore.Controllers
                                       string country, int request_id, bool is_success, string reason_fault)
         {
 
-            BLL.PaymentsManager payManager = null;
+           
             long pkey = 0;
             try
             {
                 CultureInfo ci = new CultureInfo("en-us");
-                payManager = new BLL.PaymentsManager();
-
-                pkey = payManager.WritePayPalResponse(request_id,
+            
+                pkey = _PayPalResponseService.WritePayPalResponse(request_id,
                      Convert.ToInt32(orderID),
                      txn_id,
                      this.Request["txn_type"],
@@ -308,11 +309,11 @@ namespace MPC.Webstore.Controllers
             }
             catch (Exception ex)
             {
-                LogError(ex);
+               // LogError(ex);
                 //KBSoft.Carts.WriteFile("Error in IPNHandler.CreatePaymentResponses(): " + ex.Message)
             }
 
-            payManager = null;
+         
 
             return pkey;
         }

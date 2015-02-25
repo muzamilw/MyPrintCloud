@@ -131,59 +131,41 @@ namespace MPC.Implementation.WebStoreServices
         }
         public bool UpdateOrderStatusAfterPrePayment(Estimate tblOrder, OrderStatus orderStatus, StoreMode mode)
         {
-            bool result = false;
-
-            try
-            {
-                if (tblOrder != null)
-                {
-                    tblOrder.StatusId = (short)orderStatus;
-                    // Approve the credit after user has pay online
-                    tblOrder.IsCreditApproved = 1;
-                    UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, mode);
-                    result = true;
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return result;
+           return _OrderRepository.UpdateOrderStatusAfterPrePayment(tblOrder, orderStatus, mode);
         }
 
-        private void UpdateOrderedItems(OrderStatus orderStatus, Estimate tblOrder, ItemStatuses itemStatus, StoreMode Mode)
-        {
+        //private void UpdateOrderedItems(OrderStatus orderStatus, Estimate tblOrder, ItemStatuses itemStatus, StoreMode Mode)
+        //{
 
-            tblOrder.tbl_items.ToList().ForEach(item =>
-            {
-                if (item.IsOrderedItem.HasValue && item.IsOrderedItem.Value)
-                {
+        //    tblOrder.Items.ToList().ForEach(item =>
+        //    {
+        //        if (item.IsOrderedItem.HasValue && item.IsOrderedItem.Value)
+        //        {
 
-                    if (orderStatus != OrderStatus.ShoppingCart)
-                        item.Status = (short)itemStatus;
+        //            if (orderStatus != OrderStatus.ShoppingCart)
+        //                item.StatusId = (short)itemStatus;
+        //            _OrderRepository.updateStockAndSendNotification(item.RefItemId, Mode, tblOrder.CompanyId, Convert.ToInt32(item.Qty1), Convert.ToInt32(tblOrder.ContactId), Convert.ToInt32(item.ItemId), Convert.ToInt32(tblOrder.EstimateId), MgrIds, org);
+                    
 
-                    ProductManager.updateStockAndSendNotification(Convert.ToInt32(item.RefItemID), Mode, Convert.ToInt32(tblOrder.ContactCompanyID), Convert.ToInt32(item.Qty1), Convert.ToInt32(tblOrder.ContactID), Convert.ToInt32(item.ItemID), Convert.ToInt32(tblOrder.EstimateID));
+        //        }
+        //        else
+        //        {//Delete the non included items
+        //            bool result = false;
+        //            List<Model.ArtWorkAttatchment> itemAttatchments = null;
+        //            Web2Print.DAL.Templates clonedTempldateFiles = null;
 
-                }
-                else
-                {//Delete the non included items
-                    bool result = false;
-                    List<Model.ArtWorkAttatchment> itemAttatchments = null;
-                    Web2Print.DAL.Templates clonedTempldateFiles = null;
+        //            result = ProductManager.RemoveCloneItem(item.ItemID, out itemAttatchments, out clonedTempldateFiles);
+        //            if (result)
+        //            {
+        //                BLL.ProductManager.RemoveItemAttacmentPhysically(itemAttatchments); // file removing physicslly
+        //                BLL.ProductManager.RemoveItemTemplateFilesPhysically(clonedTempldateFiles); // file removing
+        //            }
 
-                    result = ProductManager.RemoveCloneItem(item.ItemID, out itemAttatchments, out clonedTempldateFiles);
-                    if (result)
-                    {
-                        BLL.ProductManager.RemoveItemAttacmentPhysically(itemAttatchments); // file removing physicslly
-                        BLL.ProductManager.RemoveItemTemplateFilesPhysically(clonedTempldateFiles); // file removing
-                    }
+        //            //dbContext.tbl_items.DeleteObject(item);
+        //        }
 
-                    //dbContext.tbl_items.DeleteObject(item);
-                }
-
-            });
-        }
+        //    });
+        //}
 
         public bool SetOrderCreationDateAndCode(long orderId)
         {

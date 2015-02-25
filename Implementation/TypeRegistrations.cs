@@ -70,6 +70,9 @@ namespace MPC.Implementation
             unityContainer.RegisterType<MISInterfaces.IOrderService, MISImplementation.OrderService>();
             unityContainer.RegisterType<IStatusService, StatusService>();
             unityContainer.RegisterType<ISmartFormService, SmartFormService>();
+            unityContainer.RegisterType<IPaypalPaymentRequestService, PaypalPaymentRequestService>();
+            unityContainer.RegisterType<IPayPalResponseService, PayPalResponseService>();
+            
         }
     }
 }

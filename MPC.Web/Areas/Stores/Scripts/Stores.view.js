@@ -154,7 +154,15 @@ define("stores/stores.view",
                 hideVeriableDefinationDialog = function () {
                     $("#veriableDefinationModal").modal("hide");
                 },
-                
+                // Show Smart Form Dialog
+                showSmartFormDialog = function () {
+                    $("#smartFormDialog").modal("show");
+                },
+                // Hide Smart Form Dialog
+                hideSmartFormDialog = function () {
+                    $("#smartFormDialog").modal("hide");
+                },
+
                 //#endregion
 
                initializeForm = function () {
@@ -206,7 +214,7 @@ define("stores/stores.view",
             return {
                 bindingRoot: bindingRoot,
                 showRaveReviewDialog: showRaveReviewDialog,
-                showVeriableDefinationDialog:showVeriableDefinationDialog,
+                showVeriableDefinationDialog: showVeriableDefinationDialog,
                 hideVeriableDefinationDialog: hideVeriableDefinationDialog,
                 hideRaveReviewDialog: hideRaveReviewDialog,
                 showCompanyCMYKColorDialog: showCompanyCMYKColorDialog,
@@ -237,6 +245,8 @@ define("stores/stores.view",
                 hideStoreProductCategoryDialog: hideStoreProductCategoryDialog,
                 showMediaGalleryDialog: showMediaGalleryDialog,
                 hideMediaGalleryDialog: hideMediaGalleryDialog,
+                showSmartFormDialog: showSmartFormDialog,
+                hideSmartFormDialog: hideSmartFormDialog,
                 initializeForm: initializeForm,
                 gotoElement: gotoElement,
                 viewModel: viewModel,

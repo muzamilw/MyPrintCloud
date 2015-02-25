@@ -2890,6 +2890,11 @@ namespace MPC.Repository.Repositories
             }
             return oresult;
         }
+
+        public IEnumerable<Item> GetItemsByCompanyId(long companyId)
+        {
+            return DbSet.Where(i => i.CompanyId.HasValue && i.CompanyId == companyId && i.OrganisationId == OrganisationId).ToList();
+        }
         #endregion
     }
 }

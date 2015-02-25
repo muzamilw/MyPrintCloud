@@ -184,6 +184,8 @@
     <Compile Include="DomainModels\CustomCopy.cs" />
     <Compile Include="DomainModels\DeliveryCarrier.cs" />
     <Compile Include="DomainModels\FavoriteDesign.cs" />
+    <Compile Include="DomainModels\PaypalPaymentRequest.cs" />
+    <Compile Include="DomainModels\PayPalResponse.cs" />
     <Compile Include="DomainModels\SmartForm.cs" />
     <Compile Include="DomainModels\SmartFormDetail.cs" />
     <Compile Include="DomainModels\VariableOption.cs" />

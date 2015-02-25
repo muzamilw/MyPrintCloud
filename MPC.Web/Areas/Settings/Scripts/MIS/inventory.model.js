@@ -2,7 +2,7 @@
     var
     InventoryListView = function (specifiedStockItemId, specifiedName, specifiedWeight, specifiedPerQtyQty, specifiedSizecolour, specifiedCategoryName,
                             specifiedSubCategoryName, specifiedWeightUnitName, specifiedFullCategoryName, specifiedSupplierCompanyName
-                            ) {
+                            , specifiedRegion) {
         var
             self,
             //Unique ID
@@ -13,6 +13,8 @@
             weight = ko.observable(specifiedWeight),
             //Per quantity
             perQtyQty = ko.observable(specifiedPerQtyQty),
+             //Region
+            region = ko.observable(specifiedRegion),
             //Flag Color
             colour = ko.observable(specifiedSizecolour),
             //Stock Category Name
@@ -28,7 +30,7 @@
             convertToServerData = function () {
                 return {
                     StockItemId: itemId(),
-                }
+                };
             };
         self = {
             itemId: itemId,
@@ -413,7 +415,7 @@
     //Create Factory 
     InventoryListView.Create = function (source) {
         return new InventoryListView(source.StockItemId, source.ItemName, source.ItemWeight, source.PerQtyQty, source.FlagColor, source.CategoryName,
-                              source.SubCategoryName, source.WeightUnitName, source.FullCategoryName, source.SupplierCompanyName);
+                              source.SubCategoryName, source.WeightUnitName, source.FullCategoryName, source.SupplierCompanyName, source.Region);
     };
 
     return {

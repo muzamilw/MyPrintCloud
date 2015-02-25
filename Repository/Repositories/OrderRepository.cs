@@ -1133,6 +1133,37 @@ namespace MPC.Repository.Repositories
 
             return result;
         }
+
+        public bool UpdateOrderStatusAfterPrePayment(Estimate tblOrder, OrderStatus orderStatus, StoreMode mode)
+        {
+            bool result = false;
+              Organisation org = null;
+            try
+            {
+                if (tblOrder != null)
+                {
+                    tblOrder.StatusId = (short)orderStatus;
+                    List<long> MgrIds = new List<long>();
+                    Company ObjComp = db.Companies.Where(c => c.CompanyId == tblOrder.CompanyId).FirstOrDefault();
+                        if (ObjComp != null)
+                        {
+                            org = db.Organisations.Where(o => o.OrganisationId == ObjComp.OrganisationId).FirstOrDefault();
+                        }
+                    // Approve the credit after user has pay online
+                    tblOrder.IsCreditApproved = 1;
+                   
+                    UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, mode,org, MgrIds);
+                    db.SaveChanges();
+                    result = true;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return result;
+        }
         private void UpdateOrderedItems(OrderStatus orderStatus, Estimate tblOrder, ItemStatuses itemStatus, StoreMode Mode, Organisation org, List<long> MgrIds)
         {
             

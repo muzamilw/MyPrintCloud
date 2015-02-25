@@ -18,6 +18,11 @@ namespace MPC.Models.RequestModels
         public int? SubCategoryId { get; set; }
 
         /// <summary>
+        /// Organisation Region 
+        /// </summary>
+        public string Region { get; set; }
+
+        /// <summary>
         /// Inventory By Column for sorting
         /// </summary>
         public InventoryByColumn InventoryOrderBy
