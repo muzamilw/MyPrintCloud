@@ -431,3 +431,14 @@ alter table SmartForm
 add Heading varchar(100) null
 
 GO
+
+/* Execution Date: 25/02/2015 */
+
+GO
+
+exec sp_rename 'dbo.CostCentreType.CompanyId', 'OrganisationId'
+
+alter table CostCentreType
+alter Column OrganisationId bigint null
+
+GO

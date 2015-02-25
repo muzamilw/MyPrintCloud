@@ -12,7 +12,7 @@ namespace MPC.Models.DomainModels
         public string VariableName { get; set; }
         public string RefTableName { get; set; }
         public string CriteriaFieldName { get; set; }
-        public int? VariableSectionId { get; set; }
+        public long? VariableSectionId { get; set; }
         public string VariableTag { get; set; }
         public int? SortOrder { get; set; }
         public string KeyField { get; set; }
