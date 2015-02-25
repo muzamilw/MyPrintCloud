@@ -33,6 +33,10 @@
         font-size:26px;
         
     }
+    a
+    {
+        cursor:pointer;
+    }
 </style>
 
 
@@ -75,6 +79,7 @@
         </div>
         <div>
             <span class="help-details">Create Products , Web Stores , Estimates ...</span>
+            <div class="account-anchors"><br /><br /><a style="font-weight:bold;">View Your Live Store</a><br /><a style="font-weight:bold;">Brand Your Store (Logo,Color etc)</a><br /><a style="font-weight:bold;">Create a Product</a><br /><a style="font-weight:bold;">Create a Estimate</a><br /><a style="font-weight:bold;">Configure a Press (Digital or litho)</a></div>
         </div>
     </div>
     <div class="help-description" style="border:none !important;background-color:#F5F6F6; padding-bottom:44px;">
@@ -1236,10 +1241,12 @@
         $(document).ready(function ()
         {
 
+            $(".account-anchors").hide();
+
             var i = 0;
 
             var proceeding = ["Manage your PRINTCloud", "Add more Products", "Add more Stores", "Estimates & JobCards", "System Settings", "Your Account Area", "You've got the Basics..."];
-            var proceddingheadertext = ["This is your Dashboard", "Product is an item that appears on your website or estimating module", "A store a Webiste with own URL Link", "Create accurate estimates for simple digital products to complex multi page brouchers ...", "Set Your Regional Details,Create Presses and configure your delivery method cost centers", "From Here you can access", "Would you like to do Next ?"]
+            var proceddingheadertext = ["This is your Dashboard", "Product is an item that appears on your website or estimating module", "A store a Webiste with own URL Link", "Create accurate estimates for simple digital products to complex multi page brouchers ...", "Set Your Regional Details,Create Presses and configure your delivery method cost centers", "From Here you can access", "What Would you like to do Next ?"]
             var proceddingdetails = ["Create Products , Web Stores , Estimates ...", "\nCreate products with require templates to personlized or just of the shlef Finished Goods", "Create Website at attract new ivsitors \n or \n Create private website for larger customers who have specific online needs", "", "", "Self Placed Tutorials \n Join us in Regular webinars \n Contact our Suppert Desk \n Upgrade/dongrade your and cancel your Account", ""]
 
             $("#btnPreviousHelp").hide();
@@ -1425,10 +1432,17 @@
                     $("#myprintcloud-help").animate({ "top": "+=45%", "left": "-=35%" }, 100);
                     $(".highlight-div").css("visibility", "hidden");
 
+                    $(".help-header-title").text(proceeding[6]);
+                    $(".help-header-description").text(proceddingheadertext[6]);
+                    $(".help-details").hide();
+                    $(".account-anchors").show();
+
                     $(".bottom-arrow").hide();
                     $(".left-arrow").hide();
                     $(".top-arrow").hide();
                     $(".right-arrow").hide();
+
+                    $("#btnNextHelp").hide();
 
                 }
               
