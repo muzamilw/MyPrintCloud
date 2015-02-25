@@ -241,7 +241,7 @@ define("stores/stores.viewModel",
                         selectedStore().type(3);
                         isEditorVisible(true);
                         view.initializeForm();
-                       // getBaseDataFornewCompany();
+                        getBaseDataFornewCompany();
                         //$('.nav-tabs').children().removeClass('active');
                         //$('#generalInfoTab').addClass('active');
                         $('.nav-tabs li:first-child a').tab('show');
@@ -2200,7 +2200,7 @@ define("stores/stores.viewModel",
                                                 //updating selected contact rolename
                                                 _.each(roles(), function (role) {
                                                     if (role.roleId() == selectedCompanyContact().contactRoleId()) {
-                                                        savedCompanyContact.roleName()(role.roleName());
+                                                        savedCompanyContact().roleName()(role.roleName());
                                                     }
                                                 });
                                                 if (selectedCompanyContact().isDefaultContact()) {

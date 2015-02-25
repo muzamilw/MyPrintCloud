@@ -25,6 +25,7 @@
                             <i class="fa fa-shopping-cart cartcolorSize classicthemeLoginMenu"></i>
                             <span id="lbl_ShoppingCart" class="carttxtcolorSize classicthemeLoginMenu">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleShopCart", UserCookieManager.StoreId))</span>
                             <div class="lblCartCounter" id="lblCartCount">
+                                @ViewBag.CartCount
                             </div>
                         </a>
                     </li>
