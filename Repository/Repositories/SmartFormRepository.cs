@@ -49,47 +49,55 @@ namespace MPC.Repository.Repositories
         }
 
 
-        public List<FieldVariable> GetVariablesData(bool isRealestateproduct, long companyId, long organisationId)
+        public List<VariableList> GetVariablesData(bool isRealestateproduct, long companyId, long organisationId)
         {
-            //List<VariableList> resultList = new List<VariableList>();
-            //if (isRealestateproduct)
-            //{
-            //   var objList = from p in db.VariableSections
-            //              join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
-            //                 where (es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId))
-            //              orderby p.VariableSectionId, es.VariableType, es.SortOrder
-            //              select new
-            //              {
-            //                  SectionName = p.SectionName,
-            //                  VariableID = es.VariableId,
-            //                  VariableName = es.VariableName,
-            //                  VariableTag = es.VariableTag,
-            //                  VariableType = es.VariableType
+            List<VariableList> resultList = new List<VariableList>();
+            if (isRealestateproduct)
+            {
+                var objList = from p in db.VariableSections
+                              join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
+                              where (es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId))
+                              orderby p.VariableSectionId, es.VariableType, es.SortOrder
+                              select new
+                              {
+                                  SectionName = p.SectionName,
+                                  VariableID = es.VariableId,
+                                  VariableName = es.VariableName,
+                                  VariableTag = es.VariableTag,
+                                  VariableType = es.VariableType
 
-            //              };
+                              };
+                foreach(var obj in objList)
+                {
+                    VariableList objVarList = new VariableList(obj.SectionName, obj.VariableID, obj.VariableName, obj.VariableTag, obj.VariableType.Value);
+                    resultList.Add(objVarList);
+                }
+            }
+            else
+            {
+                var objList = from p in db.VariableSections
+                              join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
+                              where ((es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)) && (es.Scope != (int)FieldVariableScopeType.RealEstate || es.Scope != (int)FieldVariableScopeType.RealEstateImages ))
+                              orderby p.VariableSectionId, es.VariableType, es.SortOrder
+                              select new
+                              {
+                                  SectionName = p.SectionName,
+                                  VariableID = es.VariableId,
+                                  VariableName = es.VariableName,
+                                  VariableTag = es.VariableTag,
+                                  VariableType = es.VariableType
 
-            //}
-            //else
-            //{
-            //    var objList = from p in db.VariableSections
-            //                  join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
-            //                  where (es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId))
-            //                  orderby p.VariableSectionId, es.VariableType, es.SortOrder
-            //                  select new
-            //                  {
-            //                      SectionName = p.SectionName,
-            //                      VariableID = es.VariableId,
-            //                      VariableName = es.VariableName,
-            //                      VariableTag = es.VariableTag,
-            //                      VariableType = es.VariableType
-
-            //                  };
-
-            //}
+                              };
+                foreach (var obj in objList)
+                {
+                    VariableList objVarList = new VariableList(obj.SectionName, obj.VariableID, obj.VariableName, obj.VariableTag, obj.VariableType.Value);
+                    resultList.Add(objVarList);
+                }
+            }
 
 
-           // return objList;
-            return db.FieldVariables.Take(10).ToList();
+            return resultList;
+           // return db.FieldVariables.Take(10).ToList();
         }
         public List<TemplateVariablesObj> GetTemplateVariables(long templateId)
         {
