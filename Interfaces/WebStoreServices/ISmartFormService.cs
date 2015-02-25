@@ -1,4 +1,5 @@
-﻿using MPC.Models.DomainModels;
+﻿using MPC.Common;
+using MPC.Models.DomainModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +11,7 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface ISmartFormService
     {
-        List<FieldVariable> GetVariablesData(bool isRealestateproduct, long storeId);
-        Stream GetTemplateVariables(long templateId);
+        List<FieldVariable> GetVariablesData(bool isRealestateproduct, long companyId, long organisationId);
+        List<TemplateVariablesObj> GetTemplateVariables(long templateId);
     }
 }

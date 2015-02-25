@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -29,9 +30,9 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
 
         #endregion
         #region public
-        public HttpResponseMessage GetVariablesList(bool parameter1, long parameter2)
+        public HttpResponseMessage GetVariablesList(bool parameter1, long parameter2,long parameter3)
         {
-            var result = smartFormService.GetVariablesData(parameter1,parameter2);
+            var result = smartFormService.GetVariablesData(parameter1, parameter2, parameter3);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;
@@ -39,16 +40,17 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
 
         }
-        //public HttpResponseMessage GetTemplateVariables(bool parameter1)
-        //{
-        //    //var result = smartFormService.GetVariablesData(parameter1);
-        //    //var formatter = new JsonMediaTypeFormatter();
-        //    //var json = formatter.SerializerSettings;
-        //    //json.Formatting = Newtonsoft.Json.Formatting.Indented;
-        //    //json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-        //    //return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
+        public HttpResponseMessage GetTemplateVariables(long id)
+        {
+            var result = smartFormService.GetTemplateVariables(id);
 
-        //}
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
+
+        }
         #endregion
     }
 }
