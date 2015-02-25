@@ -53,5 +53,10 @@ namespace MPC.MIS.Areas.Api.Models
         /// Currency Symbol
         /// </summary>
         public string CurrencySymbol { get; set; }
+
+        /// <summary>
+        /// Organisation Region
+        /// </summary>
+        public string Region { get; set; }
     }
 }
