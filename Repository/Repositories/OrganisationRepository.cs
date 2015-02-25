@@ -41,6 +41,7 @@ namespace MPC.Repository.Repositories
 
         #region Public
 
+
         /// <summary>
         /// Get All Company Sites for User Domain Key
         /// </summary>

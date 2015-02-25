@@ -271,20 +271,31 @@
     </div>
     <div class="col-lg-12 form-horizontal" style="margin-top:-18px;">
         <div>
-            <div class="input-group">
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-primary dropdown-toggle" style="float:right;margin-bottom: 3px;" data-toggle="dropdown">Add New Product <span class="caret"></span></button>
-                    @*  <ul class="dropdown-menu">
-                        <li><a href="#">From Retail Store</a></li>
-                        <li><a href="#">Cost Center</a></li>
-                        <li><a href="#">Inventory Item</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        </ul>*@
+            @* <div class="input-group">
+    <div class="input-group-btn">
+        <button type="button" class="btn btn-primary dropdown-toggle" style="float:right;margin-bottom: 3px;" data-toggle="dropdown">Add New Product <span class="caret"></span></button>
+         <ul class="dropdown-menu">
+            <li><a href="#">From Retail Store</a></li>
+            <li><a href="#">Cost Center</a></li>
+            <li><a href="#">Inventory Item</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            </ul>
                 </div>
+            </div>*@
+            <h3 class="group-header" @*style="margin-top:-21px;"*@>Other Information</h3>
+            <div class="btn-group" style="float:right;margin-bottom: 3px;">
+                <button type="button" class="btn btn-primary">Add New Product</button>
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#" data-bind="click : $root.onCreateNewProductFromRetailStore">From Retail Store</a></li>
+                    <li><a href="#">Cost Center</a></li>
+                    <li><a href="#">Inventory Item</a></li>
+                </ul>
             </div>
-            <h3 class="group-header" style="margin-top:-21px;">Other Information</h3>
-
 
         </div>
         <div class="form-group" style="margin-top: -43px;">
@@ -310,7 +321,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- ko template: { id: 'itemTemplate', foreach: items } -->
+                                    <!-- ko template: { name: 'itemTemplate', foreach: items } -->
                                     <!-- /ko -->
                                 </tbody>
                             </table>
@@ -388,22 +399,22 @@
                 <a href="#" data-bind="name: productName, click: $root.editItem"><span></span></a>
             </td>
             <td>
-                <span class="label" data-bind="text: qty1"></span>
+                <span data-bind="text: qty1"></span>
             </td>
             <td class="text-center">
                 <span class="label label-success" data-bind="text: statusName"></span>
             </td>
             <td>
-                <span class="label" data-bind="text: '$' + qty1NetTotal()"></span>
+                <span data-bind="text: '$' + qty1NetTotal()"></span>
             </td>
             <td class="text-right">
-                <a href="#" class="table-link" data-bind="click: openItemDetail">
+                <a href="#" class="table-link" data-bind="click: $root.openItemDetail">
                     <span class="fa-stack">
                         <i class="fa fa-square fa-stack-2x"></i>
                         <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                     </span>
                 </a>
-                <a href="#" class="table-link danger" data-bind="click: deleteItem">
+                <a href="#" class="table-link danger" data-bind="click: $root.deleteItem">
                     <span class="fa-stack">
                         <i class="fa fa-square fa-stack-2x"></i>
                         <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
@@ -417,5 +428,6 @@
 
     @Html.Partial("_OrderItemDetail")
     @Html.Partial("_OrderSectionDetail")
+    @Html.Partial("~/Areas/Orders/Views/Home/_ProductFromRetailStore.cshtml")
 </div>
 

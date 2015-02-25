@@ -5,6 +5,25 @@
 #storesBinding #addStore {
   margin-top: 25px;
 }
+#storesBinding .modifyVariabletd {
+  padding-top: 14px !important;
+  padding-bottom: 0px !important;
+}
+#storesBinding .smartFormArea {
+  margin-top: 20px;
+  border: 1px solid silver;
+  margin-left: 10px;
+  min-height: 170px;
+}
+#storesBinding .smartFormVariableArea {
+  border: 1px solid silver;
+  margin-top: 20px;
+}
+#storesBinding .smartFormVariableTableArea {
+  border: 1px solid silver;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
 #storesBinding #filter {
   height: 62px !important;
 }

@@ -2318,8 +2318,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             bussinessAddress = ko.observable(),
             shippingAddress = ko.observable(),
             stateName = ko.observable(),
-            companyContactVariables=ko.observableArray([]),
+
+            companyContactVariables = ko.observableArray([]),
             confirmPassword = ko.observable().extend({ compareWith: password }),
+
 
             // Errors
             errors = ko.validation.group({
@@ -2514,7 +2516,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     OrganisationId: organisationId(),
                     BussinessAddressId: bussinessAddressId(),
                     FileName: fileName(),
-                    CompanyContactVariables:[]
+                    CompanyContactVariables: []
                     //BussinessAddress: bussinessAddress() != undefined ? bussinessAddress().convertToServerData(): null,
                     //ShippingAddress: shippingAddress() != undefined ? shippingAddress().convertToServerData() : null,
                 };
@@ -3955,10 +3957,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // #endregion 
 
     // #region ______________  Field Variable   _________________
-
-    // ReSharper disable once InconsistentNaming
     var FieldVariable = function (specifiedVariableId, specifiedVariableName, specifiedVariableType, specifiedScope, specifiedWaterMark, specifiedDefaultValue,
-        specifiedInputMask, specifiedCompanyId, specifiedVariableTag, specifiedScopeName, specifiedTypeName, specifiedVariableTitle) {
+          specifiedInputMask, specifiedCompanyId, specifiedVariableTag, specifiedScopeName, specifiedTypeName, specifiedVariableTitle) {
         var self,
             id = ko.observable(specifiedVariableId),
             variableName = ko.observable(specifiedVariableName).extend({ required: true }),
@@ -3966,6 +3966,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             scope = ko.observable(specifiedScope),
             waterMark = ko.observable(specifiedWaterMark),
             defaultValue = ko.observable(specifiedDefaultValue),
+            defaultValueForInput = ko.observable(specifiedDefaultValue),
             inputMask = ko.observable((specifiedInputMask === undefined || specifiedInputMask === null) ? "xxx-xxxxx-xxxxx" : specifiedInputMask),
             companyId = ko.observable(specifiedCompanyId),
             variableTag = ko.observable(specifiedVariableTag),
@@ -3999,12 +4000,12 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.VariableType = source.variableType() === undefined ? null : source.variableType();
                 result.WaterMark = source.waterMark() === undefined ? null : source.waterMark();
                 result.Scope = source.scope() === undefined ? null : source.scope();
-                result.DefaultValue = source.defaultValue() === undefined ? null : source.defaultValue();
+                result.DefaultValue = source.variableType() === 1 ? (source.defaultValue() === undefined ? null : source.defaultValue()) : defaultValueForInput;
                 result.CompanyId = source.companyId() === undefined ? null : source.companyId();
                 result.InputMask = source.inputMask() === undefined ? null : source.inputMask();
                 result.VariableTag = source.variableTag() === undefined ? null : source.variableTag();
                 result.VariableTitle = source.variableTitle() === undefined ? null : source.variableTitle();
-                result.FakeId = source.fakeId() === undefined ? 0 : source.fakeId();
+                result.FakeIdVariableId = source.fakeId() === undefined ? 0 : source.fakeId();
                 result.VariableOptions = [];
                 return result;
             },
@@ -4018,6 +4019,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             variableType: variableType,
             scope: scope,
             waterMark: waterMark,
+            defaultValueForInput: defaultValueForInput,
             defaultValue: defaultValue,
             companyId: companyId,
             variableTag: variableTag,
@@ -4054,8 +4056,6 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // #endregion ______________  Field Variable   _________________
 
     // #region ______________  Variable Option  _________________
-
-    // ReSharper disable once InconsistentNaming
     var VariableOption = function (specifiedVariableOptionId, specifiedVariableName, specifiedValue, specifiedSortOrder) {
         var self,
             id = ko.observable(specifiedVariableOptionId),
@@ -4121,9 +4121,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // #endregion ______________  Variable Option   _________________
 
     // #region ______________  Company Contact Variable  _________________
-
-    // ReSharper disable once InconsistentNaming
-    var CompanyContactVariable = function (specifiedContactVariableId, specifiedContactId, specifiedVariableId, specifiedValue, specifiedTitle,specifiedType) {
+    var CompanyContactVariable = function (specifiedContactVariableId, specifiedContactId, specifiedVariableId, specifiedValue, specifiedTitle, specifiedType) {
         var self,
             id = ko.observable(specifiedContactVariableId),
             contactId = ko.observable(specifiedContactId),
@@ -4132,6 +4130,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             fakeId = ko.observable(),
             title = ko.observable(specifiedTitle),
             type = ko.observable(specifiedType),
+            optionId = ko.observable(specifiedType),
             variableOptions = ko.observableArray([]),
 
             // Errors
@@ -4155,9 +4154,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 var result = {};
                 result.ContactVariableId = source.id() === undefined ? 0 : source.id();
                 result.ContactId = source.contactId() === undefined ? 0 : source.contactId();
-                result.VariableId = source.variableId() === undefined ? null : source.variableId();
-                result.Value = source.value() === undefined ? 0 : source.value();
-                result.FakeId = source.fakeId() === undefined ? 0 : source.fakeId();
+                result.VariableId = source.variableId() === undefined ? 0 : source.variableId();
+                result.Value = source.value() === undefined ? null : source.value();
+                result.FakeVariableId = source.fakeId() === undefined ? 0 : source.fakeId();
                 return result;
             },
         // Reset
@@ -4171,7 +4170,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             value: value,
             title: title,
             fakeId: fakeId,
-            type:type,
+            type: type,
+            optionId: optionId,
             variableOptions: variableOptions,
             isValid: isValid,
             errors: errors,
@@ -4188,10 +4188,109 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.ContactVariableId,
              source.ContactId,
              source.VariableId,
-             source.Value
+             source.Value,
+             source.Title,
+             source.Type
             );
     };
     // #endregion ______________  Company Contact Variable   _________________
+
+    // #region ______________  Field Variable  For Smart Form _________________
+    var FieldVariableForSmartForm = function (specifiedVariableId, specifiedVariableName, specifiedVariableType,
+        specifiedVariableTag, specifiedScopeName, specifiedTypeName, specifiedDefaultValue) {
+        var self,
+            id = ko.observable(specifiedVariableId),
+            variableName = ko.observable(specifiedVariableName),
+            variableType = ko.observable(specifiedVariableType),
+            variableTag = ko.observable(specifiedVariableTag),
+            scopeName = ko.observable(specifiedScopeName),
+            typeName = ko.observable(specifiedTypeName),
+            defaultValue = ko.observable(specifiedDefaultValue),
+            variableOptions = ko.observableArray([]);
+
+        self = {
+            id: id,
+            variableName: variableName,
+            variableType: variableType,
+            variableTag: variableTag,
+            scopeName: scopeName,
+            typeName: typeName,
+            defaultValue: defaultValue,
+            variableOptions: variableOptions
+        };
+        return self;
+    };
+    //Field Variable For Smart Form Create Factory
+    FieldVariableForSmartForm.Create = function (source) {
+        return new FieldVariableForSmartForm(
+            source.VariableId,
+             source.VariableName,
+             source.Type,
+             source.VariableTag,
+             source.ScopeName,
+             source.TypeName,
+             source.DefaultValue);
+    };
+    // #endregion ______________  Field Variable   _________________
+
+    // #region ______________  Smart Form _________________
+    var SmartForm = function (specifiedSmartFormId, specifiedName, specifiedCompanyId) {
+        var self,
+            id = ko.observable(specifiedSmartFormId),
+            name = ko.observable(specifiedName),
+            companyId = ko.observable(specifiedCompanyId),
+            //Check Whether Drop field Variable,Line Seperator or Group Caption
+            dropFrom = ko.observable(),
+            smartFormDetails = ko.observableArray([]);
+
+        self = {
+            id: id,
+            name: name,
+            companyId: companyId,
+            smartFormDetails: smartFormDetails,
+            dropFrom: dropFrom
+        };
+        return self;
+    };
+    //Smart Form Create Factory
+    SmartForm.Create = function (source) {
+        return new SmartForm(
+            source.VariableId,
+             source.Name,
+             source.CompanyId);
+    };
+    // #endregion ______________  Field Variable   _________________
+
+    // #region ______________  Smart Form Detail _________________
+    var SmartFormDetail = function (specifiedSmartFormDetailId, specifiedSmartFormId, specifiedObjectType,
+        specifiedSortOrder, specifiedIsRequired) {
+        var self,
+            id = ko.observable(specifiedSmartFormDetailId),
+            smartFormId = ko.observable(specifiedSmartFormId),
+            objectType = ko.observable(specifiedObjectType),
+            sortOrder = ko.observable(specifiedSortOrder),
+            isRequired = ko.observable(specifiedIsRequired),
+            html = ko.observable();
+
+        self = {
+            id: id,
+            smartFormId: smartFormId,
+            objectType: objectType,
+            isRequired: isRequired,
+            sortOrder: sortOrder,
+            html: html,
+        };
+        return self;
+    };
+    //Smart Form Detail Create Factory
+    SmartFormDetail.Create = function (source) {
+        return new SmartFormDetail(
+            source.SmartFormDetailId,
+             source.SmartFormId,
+             source.ObjectType,
+             source.SortOrder);
+    };
+    // #endregion ______________  Field Variable   _________________
 
     //#region ______________ R E T U R N ______________
     return {
@@ -4235,6 +4334,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         FieldVariable: FieldVariable,
         VariableOption: VariableOption,
         CompanyContactVariable: CompanyContactVariable,
+        FieldVariableForSmartForm: FieldVariableForSmartForm,
+        SmartForm: SmartForm,
+        SmartFormDetail: SmartFormDetail,
     };
     // #endregion 
 });

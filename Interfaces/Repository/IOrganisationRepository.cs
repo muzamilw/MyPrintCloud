@@ -15,5 +15,6 @@ namespace MPC.Interfaces.Repository
         Organisation GetOrganizatiobByOrganisationID(long organisationId);
 
         void InsertOrganisation(long OID, ExportOrganisation objExpOrg);
+
     }
 }

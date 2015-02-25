@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace MPC.Repository.Repositories
 {
-    class SmartFormRepository : BaseRepository<TemplateVariable>, ISmartFormRepository
+    public class SmartFormRepository : BaseRepository<SmartForm>, ISmartFormRepository
     {
-          #region Constructor
+        #region Constructor
 
         /// <summary>
         /// Constructor
@@ -24,11 +24,11 @@ namespace MPC.Repository.Repositories
         {
 
         }
-        protected override IDbSet<TemplateVariable> DbSet
+        protected override IDbSet<SmartForm> DbSet
         {
             get
             {
-                return db.TemplateVariables;
+                return db.SmartForms;
             }
         }
 
@@ -40,7 +40,7 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Find Template
         /// </summary>
-        public TemplateVariable Find(int id)
+        public SmartForm Find(int id)
         {
             return DbSet.Find(id);
         }
