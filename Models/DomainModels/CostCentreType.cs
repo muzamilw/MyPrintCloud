@@ -11,7 +11,7 @@ namespace MPC.Models.DomainModels
         public string TypeName { get; set; }
         public short IsSystem { get; set; }
         public short IsExternal { get; set; }
-        public int? CompanyId { get; set; }
+        public long? OrganisationId { get; set; }
 
         public virtual ICollection<CostCentre> CostCentres { get; set; }
     }

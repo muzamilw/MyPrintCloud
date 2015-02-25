@@ -17,18 +17,18 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static Item CreateFrom(this DomainModels.Item source)
         {
-            string gridImagePath = HttpContext.Current.Server.MapPath("~/" + source.GridImage); 
-            string imagePath =HttpContext.Current.Server.MapPath("~/" + source.ImagePath);
+            string gridImagePath = HttpContext.Current.Server.MapPath("~/" + source.GridImage);
+            string imagePath = HttpContext.Current.Server.MapPath("~/" + source.ImagePath);
             string thumbnailPath = HttpContext.Current.Server.MapPath("~/" + source.ThumbnailPath);
             string file1Path = HttpContext.Current.Server.MapPath("~/" + source.File1);
-            string file2Path =HttpContext.Current.Server.MapPath("~/" + source.File2);
-            string file3Path =HttpContext.Current.Server.MapPath("~/" + source.File3);
-            string file4Path =HttpContext.Current.Server.MapPath("~/" + source.File4);
-            string file5Path =HttpContext.Current.Server.MapPath("~/" + source.File5);
+            string file2Path = HttpContext.Current.Server.MapPath("~/" + source.File2);
+            string file3Path = HttpContext.Current.Server.MapPath("~/" + source.File3);
+            string file4Path = HttpContext.Current.Server.MapPath("~/" + source.File4);
+            string file5Path = HttpContext.Current.Server.MapPath("~/" + source.File5);
 
-// ReSharper disable SuggestUseVarKeywordEvident
+            // ReSharper disable SuggestUseVarKeywordEvident
             Item item = new Item
-// ReSharper restore SuggestUseVarKeywordEvident
+            // ReSharper restore SuggestUseVarKeywordEvident
             {
                 ItemId = source.ItemId,
                 ItemCode = source.ItemCode,
@@ -433,9 +433,37 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFrom()) :
                 new List<ItemSection>()
             };
-            
+
             return item;
         }
 
+        public static ItemListView CreateFromForOrderAddProduct(this DomainModels.Item source)
+        {
+            string thumbnailpath = HttpContext.Current.Server.MapPath("~/" + source.ThumbnailPath);
+            // ReSharper disable SuggestUseVarKeywordEvident
+            ItemListView item = new ItemListView
+            // ReSharper restore SuggestUseVarKeywordEvident
+            {
+                ItemId = source.ItemId,
+                ItemCode = source.ItemCode,
+                ProductCode = source.ProductCode,
+                ProductName = source.ProductName,
+                ProductSpecification = source.ProductSpecification,
+                ThumbnailPath = thumbnailpath,
+                // ReSharper disable once PossibleNullReferenceException
+                ProductCategoryName = source.ProductCategoryItems.Count > 0? source.ProductCategoryItems.FirstOrDefault().ProductCategory.CategoryName : null,
+                IsArchived = source.IsArchived,
+                IsEnabled = source.IsEnabled,
+                IsPublished = source.IsPublished,
+                MinPrice = source.MinPrice
+            };
+
+            if (thumbnailpath != null && File.Exists(thumbnailpath))
+            {
+                item.ThumbnailImage = File.ReadAllBytes(thumbnailpath);
+            }
+
+            return item;
+        }
     }
 }

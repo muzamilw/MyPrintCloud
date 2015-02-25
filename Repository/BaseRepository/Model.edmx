@@ -910,7 +910,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="TypeName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="IsSystem" Type="smallint" Nullable="false" />
           <Property Name="IsExternal" Type="smallint" Nullable="false" />
-          <Property Name="CompanyId" Type="int" />
+          <Property Name="OrganisationId" Type="bigint" />
         </EntityType>
         <EntityType Name="CostCentreVariable">
           <Key>
@@ -3176,7 +3176,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           </Key>
           <Property Name="ProductVariableId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TemplateId" Type="int" />
-          <Property Name="VariableId" Type="int" />
+          <Property Name="VariableId" Type="bigint" />
         </EntityType>
         <EntityType Name="VariableOption">
           <Key>
@@ -9498,8 +9498,8 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="TypeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IsSystem" Type="Int16" Nullable="false" />
           <Property Name="IsExternal" Type="Int16" Nullable="false" />
-          <Property Name="CompanyId" Type="Int32" />
           <NavigationProperty Name="CostCentres" Relationship="DomainModels.FK_tbl_costcentres_tbl_costcentretypes" FromRole="CostCentreType" ToRole="CostCentre" />
+          <Property Name="OrganisationId" Type="Int64" />
         </EntityType>
         <Association Name="FK_tbl_costcentres_tbl_costcentretypes">
           <End Type="DomainModels.CostCentreType" Role="CostCentreType" Multiplicity="1" />
@@ -9521,7 +9521,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="VariableName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="RefTableName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="CriteriaFieldName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="VariableSectionId" Type="Int32" />
+          <Property Name="VariableSectionId" Type="Int64" />
           <Property Name="VariableTag" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="SortOrder" Type="Int32" />
           <Property Name="KeyField" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
@@ -9544,7 +9544,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           </Key>
           <Property Name="ProductVariableId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TemplateId" Type="Int32" />
-          <Property Name="VariableId" Type="Int32" />
+          <Property Name="VariableId" Type="Int64" />
         </EntityType>
         <EntityType Name="VariableSection">
           <Key>
@@ -13641,7 +13641,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <EntitySetMapping Name="CostCentreTypes">
             <EntityTypeMapping TypeName="DomainModels.CostCentreType">
               <MappingFragment StoreEntitySet="CostCentreType">
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="IsExternal" ColumnName="IsExternal" />
                 <ScalarProperty Name="IsSystem" ColumnName="IsSystem" />
                 <ScalarProperty Name="TypeName" ColumnName="TypeName" />

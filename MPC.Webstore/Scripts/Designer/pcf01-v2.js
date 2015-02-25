@@ -1211,7 +1211,7 @@ function fu02UI() {
                     }
                 }
             }
-            else if (ui.draggable.attr('class') == "ui-state-default ui-sortable-helper" || ui.draggable.attr('id') == "sortableLayers" || ui.draggable.attr('id') == "DivLayersPanel" || ui.draggable.attr('id') == "divLayersPanelRetail" || ui.draggable.attr('id') == "ImagePropertyPanel" || ui.draggable.attr('id') == "DivColorPickerDraggable" || ui.draggable.attr('id') == "quickTextFormPanel" || ui.draggable.attr('id') == "AddTextDragable" || ui.draggable.attr('id') == "addImage" || ui.draggable.attr('id') == "divImageDAM" || ui.draggable.attr('id') == "divImageEditScreen" || ui.draggable.attr('id') == "DivControlPanelDraggable" || ui.draggable.attr('id') == "DivAlignObjs" || ui.draggable.attr('id') == "divPositioningPanel" || ui.draggable.attr('id') == "divVariableContainer" || ui.draggable.attr('id') == "LayerObjectsContainerRetail") {
+            else if (ui.draggable.attr('class') == "ui-state-default ui-sortable-helper" || ui.draggable.attr('id') == "divVariableContainer" || ui.draggable.attr('id') == "sortableLayers" || ui.draggable.attr('id') == "DivLayersPanel" || ui.draggable.attr('id') == "divLayersPanelRetail" || ui.draggable.attr('id') == "ImagePropertyPanel" || ui.draggable.attr('id') == "DivColorPickerDraggable" || ui.draggable.attr('id') == "quickTextFormPanel" || ui.draggable.attr('id') == "AddTextDragable" || ui.draggable.attr('id') == "addImage" || ui.draggable.attr('id') == "divImageDAM" || ui.draggable.attr('id') == "divImageEditScreen" || ui.draggable.attr('id') == "DivControlPanelDraggable" || ui.draggable.attr('id') == "DivAlignObjs" || ui.draggable.attr('id') == "divPositioningPanel" || ui.draggable.attr('id') == "divVariableContainer" || ui.draggable.attr('id') == "LayerObjectsContainerRetail") {
                 //l4
             } else {
                 var pos = canvas.getPointer(event);
@@ -1409,7 +1409,7 @@ function fu02() {
     // fabric.util.removeListener(canvas.upperCanvasEl, 'dblclick', j4);
     canvas.observe('object:moving', g6);
     canvas.observe('selection:cleared', function (e) {
-        pcL36('hide', '#divImgPropPanelRetail , #divTxtPropPanelRetail ,#DivColorPickerDraggable ');
+        pcL36('hide', '#divImgPropPanelRetail , #divTxtPropPanelRetail ,#DivColorPickerDraggable, #divVariableContainer  ');
         $("#sortableLayers li").removeClass("selectedItemLayers");
 
 
@@ -3672,4 +3672,34 @@ function pcL36(mode, arrayControls) {  // panels logic do here
         }
     }
 
+}
+function pcl40(xdata) {
+    alert(xdata);
+    $("#divVarList").html("");
+    var sc = "";
+    var html = "";
+    $.each(xdata, function (j, Obj) {
+        if (Obj.VariableType != 3) {
+            if (Obj.SectionName != sc) {
+                html += '<div class="titletxt">' + Obj.SectionName + '</div>';
+                sc = Obj.SectionName;
+            }
+            html += '<div id="' + Obj.VariableID + '" class="divVar" title="' + Obj.VariableName + '">' + Obj.VariableTag + '</div>';
+        } else {
+            if (IsCalledFrom == 2) {
+                var btnHtml = "<button class='" + Obj.VariableName + " listingImg' onClick='AddImgVar(&#39;" + Obj.VariableTag + "&#39;," + Obj.VariableID + ")'></button>";
+                $(".propertyVarContainer").css("display", "block");
+                $(".propertyVarContainer").append(btnHtml);
+            }
+        }
+    });
+    $("#divVarList").html(html);
+    $(".divVar").draggable({
+        snap: '#dropzone',
+        snapMode: 'inner',
+        revert: 'invalid',
+        helper: 'clone',
+        appendTo: "body",
+        cursor: 'move'
+    });
 }

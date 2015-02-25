@@ -7,6 +7,6 @@
     {
         public long ProductVariableId { get; set; }
         public int? TemplateId { get; set; }
-        public int? VariableId { get; set; }
+        public long? VariableId { get; set; }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using MPC.Interfaces.WebStoreServices;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Web.Http;
 
 namespace MPC.Webstore.Areas.DesignerApi.Controllers
@@ -25,6 +27,28 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             this.smartFormService = smartFormService;
         }
 
+        #endregion
+        #region public
+        public HttpResponseMessage GetVariablesList(bool parameter1, long parameter2)
+        {
+            var result = smartFormService.GetVariablesData(parameter1,parameter2);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
+
+        }
+        //public HttpResponseMessage GetTemplateVariables(bool parameter1)
+        //{
+        //    //var result = smartFormService.GetVariablesData(parameter1);
+        //    //var formatter = new JsonMediaTypeFormatter();
+        //    //var json = formatter.SerializerSettings;
+        //    //json.Formatting = Newtonsoft.Json.Formatting.Indented;
+        //    //json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        //    //return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
+
+        //}
         #endregion
     }
 }

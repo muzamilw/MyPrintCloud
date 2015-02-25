@@ -1176,26 +1176,36 @@
             <button id="AddColorGroupRetail" class="" title="Colour picker">MORE</button>
         </div>
     </div>
-
-    <img id="placeHolderTxt" src="~/Content/Designer/assets-v2/placeholderTxt.png" />
-    <div id="divBkCropTool" class="divBkCropTool">
-    </div>
-    <div class="NewCropToolCotainer" id="NewCropToolCotainer">
-        <div class="CropControls">
-            <menu class="crop CroptoolBar underneath" style="transform: translate3d(-3px, -47px, 0px);">
-                <li class="enabled confirmationToolbarOk"><a class="cropButton">Ok</a></li>
-                <li class="enabled confirmationToolbarCancel"><a onclick="pcl20_newCropCls();">Cancel</a></li>
-            </menu>
-
-            <img class="cropimage" alt="" src="" cropwidth="200" cropheight="200" />
-
-            <div class="overlayHoverboxContainer"></div>
-            <div class="overlayHoverbox">
-                <img class="imgOrignalCrop" alt="" src="" />
-            </div>
+    <div class="divVariableContainer propertyPanel" id="divVariableContainer">
+        <div class="closePanelButton" title="Close this panel" onclick="pcL36('hide','#divVariableContainer');">
+            <br />
         </div>
+        <p class="titletxt" id="titleVarList" style="color: White; text-align: left;">
+            Company/User Data Variables
+        </p>
+        <div id="divVarList" class="divVarList" style="">
 
+        </div>
     </div>
+        <img id="placeHolderTxt" src="~/Content/Designer/assets-v2/placeholderTxt.png" />
+        <div id="divBkCropTool" class="divBkCropTool">
+        </div>
+        <div class="NewCropToolCotainer" id="NewCropToolCotainer">
+            <div class="CropControls">
+                <menu class="crop CroptoolBar underneath" style="transform: translate3d(-3px, -47px, 0px);">
+                    <li class="enabled confirmationToolbarOk"><a class="cropButton">Ok</a></li>
+                    <li class="enabled confirmationToolbarCancel"><a onclick="pcl20_newCropCls();">Cancel</a></li>
+                </menu>
+
+                <img class="cropimage" alt="" src="" cropwidth="200" cropheight="200" />
+
+                <div class="overlayHoverboxContainer"></div>
+                <div class="overlayHoverbox">
+                    <img class="imgOrignalCrop" alt="" src="" />
+                </div>
+            </div>
+
+        </div>
 </section>
 <section class="proofsContainer">
     <div id="DivShadow" class="opaqueLayer"></div>
