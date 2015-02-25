@@ -1,14 +1,17 @@
-﻿using MPC.Models.DomainModels;
-using System;
+﻿using MPC.Common;
+using MPC.Models.DomainModels;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace MPC.Interfaces.Repository
 {
-    public interface ISmartFormRepository : IBaseRepository<TemplateVariable, int>
-    {
 
+    /// <summary>
+    /// Smart Form Repository Interface
+    /// </summary>
+    public interface ISmartFormRepository : IBaseRepository<SmartForm, long>
+    {
+        List<FieldVariable> GetVariablesData(bool isRealestateproduct, long companyId, long organisationId);
+        List<TemplateVariablesObj> GetTemplateVariables(long templateId);
     }
 }

@@ -40,7 +40,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 return "( " + numberOfItems() + " ) Items";
             }),
             // Creation Date
-            creationDate = ko.observable(specifiedCreationDate || undefined),
+            creationDate = ko.observable(specifiedCreationDate ? moment(specifiedCreationDate).toDate() : undefined),
             // Flag Color
             flagColor = ko.observable(specifiedFlagColor || undefined),
             // Flag Id
@@ -64,27 +64,27 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Is Credit Approved
             isCreditApproved = ko.observable(specifiedIsCreditApproved || false),
             // Order Date
-            orderDate = ko.observable(specifiedOrderDate || undefined),
+            orderDate = ko.observable(specifiedOrderDate ? moment(specifiedOrderDate).toDate() : undefined),
             // Start Delivery Date
-            startDeliveryDate = ko.observable(specifiedStartDeliveryDate || undefined),
+            startDeliveryDate = ko.observable(specifiedStartDeliveryDate ? moment(specifiedStartDeliveryDate).toDate() : undefined),
             // Finish Delivery Date
-            finishDeliveryDate = ko.observable(specifiedFinishDeliveryDate || undefined),
+            finishDeliveryDate = ko.observable(specifiedFinishDeliveryDate ? moment(specifiedFinishDeliveryDate).toDate() : undefined),
             // Head Notes
             headNotes = ko.observable(specifiedHeadNotes || undefined),
             // Artwork By Date
-            artworkByDate = ko.observable(specifiedArtworkByDate || undefined),
+            artworkByDate = ko.observable(specifiedArtworkByDate ? moment(specifiedArtworkByDate).toDate() : undefined),
             // Data By Date
-            dataByDate = ko.observable(specifiedDataByDate || undefined),
+            dataByDate = ko.observable(specifiedDataByDate ? moment(specifiedDataByDate).toDate() : undefined),
             // Paper By Date
-            paperByDate = ko.observable(specifiedPaperByDate || undefined),
+            paperByDate = ko.observable(specifiedPaperByDate ? moment(specifiedPaperByDate).toDate() : undefined),
             // Target Bind Date
-            targetBindDate = ko.observable(specifiedTargetBindDate || undefined),
+            targetBindDate = ko.observable(specifiedTargetBindDate ? moment(specifiedTargetBindDate).toDate() : undefined),
             // Xero Access Code
             xeroAccessCode = ko.observable(specifiedXeroAccessCode || undefined),
             // Target Print Date
-            targetPrintDate = ko.observable(specifiedTargetPrintDate || undefined),
+            targetPrintDate = ko.observable(specifiedTargetPrintDate ? moment(specifiedTargetPrintDate).toDate() : undefined),
             // Order Creation Date Time
-            orderCreationDateTime = ko.observable(specifiedOrderCreationDateTime || undefined),
+            orderCreationDateTime = ko.observable(specifiedOrderCreationDateTime ? moment(specifiedOrderCreationDateTime).toDate() : undefined),
             // Order Manager Id
             orderManagerId = ko.observable(specifiedOrderManagerId || undefined),
             // Sales Person Id
@@ -96,11 +96,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Credit Limit Set By
             creditLimitSetBy = ko.observable(specifiedCreditLimitSetBy || undefined),
             // Credit Limit Set on Date Time
-            creditLimitSetOnDateTime = ko.observable(specifiedCreditLimitSetOnDateTime || undefined),
+            creditLimitSetOnDateTime = ko.observable(specifiedCreditLimitSetOnDateTime ? moment(specifiedCreditLimitSetOnDateTime).toDate() : undefined),
             // Is JobAllowedWOCreditCheck
             isJobAllowedWoCreditCheck = ko.observable(specifiedIsJobAllowedWOCreditCheck || undefined),
             // Allow Job WOCreditCheckSetOnDateTime
-            allowJobWoCreditCheckSetOnDateTime = ko.observable(specifiedAllowJobWOCreditCheckSetOnDateTime || undefined),
+            allowJobWoCreditCheckSetOnDateTime = ko.observable(specifiedAllowJobWOCreditCheckSetOnDateTime ?
+                moment(specifiedAllowJobWOCreditCheckSetOnDateTime).toDate() : undefined),
             // Allow JobWOCreditCheckSetBy
             allowJobWoCreditCheckSetBy = ko.observable(specifiedAllowJobWOCreditCheckSetBy || undefined),
             // Customer Po
@@ -108,7 +109,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Official Order Set By
             officialOrderSetBy = ko.observable(specifiedOfficialOrderSetBy || undefined),
             // Official Order Set on Date Time
-            officialOrderSetOnDateTime = ko.observable(specifiedOfficialOrderSetOnDateTime || undefined),
+            officialOrderSetOnDateTime = ko.observable(specifiedOfficialOrderSetOnDateTime ? moment(specifiedOfficialOrderSetOnDateTime).toDate() : undefined),
             // Foot Notes
             footNotes = ko.observable(specifiedFootNotes || undefined),
             // Items
@@ -192,30 +193,31 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     IsDirectSale: isDirectSale(),
                     IsOfficialOrder: isOfficialOrder(),
                     IsCreditApproved: isCreditApproved(),
-                    OrderDate: orderDate(),
-                    StartDeliveryDate: startDeliveryDate(),
-                    FinishDeliveryDate: finishDeliveryDate(),
+                    OrderDate: orderDate() ? moment(orderDate()).format(ist.utcFormat) + 'Z' : undefined,
+                    StartDeliveryDate: startDeliveryDate() ? moment(startDeliveryDate()).format(ist.utcFormat) + 'Z' : undefined,
+                    FinishDeliveryDate: finishDeliveryDate() ? moment(finishDeliveryDate()).format(ist.utcFormat) + 'Z' : undefined,
                     HeadNotes: headNotes(),
                     FootNotes: footNotes(),
-                    ArtworkByDate: artworkByDate(),
-                    DataByDate: dataByDate(),
-                    PaperByDate: paperByDate(),
-                    TargetBindDate: targetBindDate(),
+                    ArtworkByDate: artworkByDate() ? moment(artworkByDate()).format(ist.utcFormat) + 'Z' : undefined,
+                    DataByDate: dataByDate() ? moment(dataByDate()).format(ist.utcFormat) + 'Z' : undefined,
+                    PaperByDate: paperByDate() ? moment(paperByDate()).format(ist.utcFormat) + 'Z' : undefined,
+                    TargetBindDate: targetBindDate() ? moment(targetBindDate()).format(ist.utcFormat) + 'Z' : undefined,
                     XeroAccessCode: xeroAccessCode(),
-                    TargetPrintDate: targetPrintDate(),
-                    OrderCreationDateTime: orderCreationDateTime(),
+                    TargetPrintDate: targetPrintDate() ? moment(targetPrintDate()).format(ist.utcFormat) + 'Z' : undefined,
+                    OrderCreationDateTime: orderCreationDateTime() ? moment(orderCreationDateTime()).format(ist.utcFormat) + 'Z' : undefined,
                     OrderManagerId: orderManagerId(),
                     SalesPersonId: salesPersonId(),
                     SourceId: sourceId(),
                     CreditLimitForJob: creditLimitForJob(),
                     CreditLimitSetBy: creditLimitSetBy(),
-                    CreditLimitSetOnDateTime: creditLimitSetOnDateTime(),
+                    CreditLimitSetOnDateTime: creditLimitSetOnDateTime() ? moment(creditLimitSetOnDateTime()).format(ist.utcFormat) + 'Z' : undefined,
                     IsJobAllowedWoCreditCheck: isJobAllowedWoCreditCheck(),
-                    AllowJobWoCreditCheckSetOnDateTime: allowJobWoCreditCheckSetOnDateTime(),
+                    AllowJobWoCreditCheckSetOnDateTime: allowJobWoCreditCheckSetOnDateTime() ?
+                        moment(allowJobWoCreditCheckSetOnDateTime()).format(ist.utcFormat) + 'Z' : undefined,
                     AllowJobWoCreditCheckSetBy: allowJobWoCreditCheckSetBy(),
                     CustomerPo: customerPo(),
                     OfficialOrderSetBy: officialOrderSetBy(),
-                    OfficialOrderSetOnDateTime: officialOrderSetOnDateTime()
+                    OfficialOrderSetOnDateTime: officialOrderSetOnDateTime() ? moment(officialOrderSetOnDateTime()).format(ist.utcFormat) + 'Z' : undefined
                 };
             };
 
@@ -274,11 +276,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     },
 
     // Item Entity
-    Item = function (specifiedId, specifiedName, specifiedCode, specifiedProductName, specifiedProductCode, specifiedProductCategoryName,
+    Item = function (specifiedId, specifiedName, specifiedCode, specifiedProductName, specifiedProductCode,
         specifiedJobDescriptionTitle1, specifiedJobDescription1, specifiedJobDescriptionTitle2, specifiedJobDescription2, specifiedJobDescriptionTitle3,
         specifiedJobDescription3, specifiedJobDescriptionTitle4, specifiedJobDescription4, specifiedJobDescriptionTitle5,
         specifiedJobDescription5, specifiedJobDescriptionTitle6, specifiedJobDescription6, specifiedJobDescriptionTitle7, specifiedJobDescription7,
-        specifiedIsQtyRanged, specifiedDefaultItemTax, specifiedStatusId, specifiedStatusName, specifiedQty1, specifiedQty1NetTotal, specifiedItemNotes) {
+        specifiedIsQtyRanged, specifiedDefaultItemTax, specifiedStatusId, specifiedStatusName, specifiedQty1, specifiedQty1NetTotal, specifiedItemNotes,
+        specifiedProductCategories, specifiedJobCode, specifiedJobCreationDateTime, specifiedJobManagerId, specifiedJobActualStartDateTime,
+        specifiedJobActualCompletionDateTime, specifiedJobProgressedBy, specifiedJobSignedBy, specifiedNominalCodeId, specifiedJobStatusId,
+        specifiedInvoiceDescription) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId || 0),
@@ -297,8 +302,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             }),
             // Product Code
             productCode = ko.observable(specifiedProductCode || undefined).extend({ required: true }),
-            // product Category Name
-            productCategoryName = ko.observable(specifiedProductCategoryName || undefined),
             // job description title1
             jobDescriptionTitle1 = ko.observable(specifiedJobDescriptionTitle1 || undefined),
             // job description title2
@@ -341,6 +344,45 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             qty1NetTotal = ko.observable(specifiedQty1NetTotal || undefined),
             // Item Notes
             itemNotes = ko.observable(specifiedItemNotes || undefined),
+            // Job Code
+            jobCode = ko.observable(specifiedJobCode || undefined),
+            // Creation Date Time
+            jobCreationDateTime = ko.observable(specifiedJobCreationDateTime ? moment(specifiedJobCreationDateTime).toDate() : undefined),
+            // Job Status Id
+            jobStatusId = ko.observable(specifiedJobStatusId || undefined),
+            // Job Manager Id
+            jobManagerId = ko.observable(specifiedJobManagerId || undefined),
+            // Job Progressed By
+            jobProgressedBy = ko.observable(specifiedJobProgressedBy || undefined),
+            // Job Progressed By
+            jobSignedBy = ko.observable(specifiedJobSignedBy || undefined),
+            // Job Actual Start DateTime
+            jobActualStartDateTime = ko.observable(specifiedJobActualStartDateTime ? moment(specifiedJobActualStartDateTime).toDate() : undefined),
+            // Job ActualCompletion DateTime
+            jobActualCompletionDateTime = ko.observable(specifiedJobActualCompletionDateTime ? moment(specifiedJobActualCompletionDateTime).toDate() : undefined),
+            // NominalCode Id
+            nominalCodeId = ko.observable(specifiedNominalCodeId || undefined),
+            // Invoice Description
+            invoiceDescription = ko.observable(specifiedInvoiceDescription || undefined),
+            // Product Categories
+            productCategories = ko.observableArray(specifiedProductCategories || []),
+            // Product Categories Ui
+            productCategoriesUi = ko.computed(function() {
+                if (!productCategories || productCategories().length === 0) {
+                    return "";
+                }
+                
+                var categories = "";
+                productCategories.each(function (category, index) {
+                    var pcname = category;
+                    if (index < productCategoryItems().length - 1) {
+                        pcname = pcname + " || ";
+                    }
+                    categories += pcname;
+                });
+
+                return categories;
+            }),
             // Item Stock options
             itemStockOptions = ko.observableArray([]),
             // Item Sections
@@ -477,6 +519,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     IsQtyRanged: isQtyRanged() === 2 ? false : true,
                     DefaultItemTax: defaultItemTax(),
                     ItemNotes: itemNotes(),
+                    JobCreationDateTime: jobCreationDateTime() ? moment(jobCreationDateTime()).format(ist.utcFormat) + "Z" : undefined,
                     ItemSections: itemSections.map(function (itemSection, index) {
                         var section = itemSection.convertToServerData();
                         section.SectionNo = index + 1;
@@ -492,7 +535,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             productName: productName,
             productNameForGrid: productNameForGrid,
             productCode: productCode,
-            productCategoryName: productCategoryName,
             jobDescriptionTitle1: jobDescriptionTitle1,
             jobDescriptionTitle2: jobDescriptionTitle2,
             jobDescriptionTitle3: jobDescriptionTitle3,
@@ -513,7 +555,18 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             statusName: statusName,
             qty1NetTotal: qty1NetTotal,
             qty1: qty1,
+            productCategoriesUi: productCategoriesUi,
+            jobCode: jobCode,
             itemNotes: itemNotes,
+            jobCreationDateTime: jobCreationDateTime,
+            jobManagerId: jobManagerId,
+            jobProgressedBy: jobProgressedBy,
+            jobSignedBy: jobSignedBy,
+            jobActualStartDateTime: jobActualStartDateTime,
+            jobActualCompletionDateTime: jobActualCompletionDateTime,
+            jobStatusId: jobStatusId,
+            nominalCodeId: nominalCodeId,
+            invoiceDescription: invoiceDescription,
             itemSections: itemSections,
             errors: errors,
             isValid: isValid,
@@ -936,12 +989,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Item Factory
     Item.Create = function (source) {
-        var item = new Item(source.ItemId, source.ItemName, source.ItemCode, source.ProductName, source.ProductCode, source.ProductCategoryName,
+        var item = new Item(source.ItemId, source.ItemName, source.ItemCode, source.ProductName, source.ProductCode,
             source.JobDescriptionTitle1, source.JobDescription1, source.JobDescriptionTitle2,
             source.JobDescription2, source.JobDescriptionTitle3, source.JobDescription3, source.JobDescriptionTitle4, source.JobDescription4,
             source.JobDescriptionTitle5, source.JobDescription5, source.JobDescriptionTitle6, source.JobDescription6, source.JobDescriptionTitle7,
             source.JobDescription7, source.IsQtyRanged, source.DefaultItemTax, source.StatusId, source.Status, source.Qty1, source.Qty1NetTotal, 
-            source.ItemNotes);
+            source.ItemNotes, source.ProductCategories, source.JobCode, source.JobCreationDateTime, source.JobManagerId, source.JobActtualStartDateTime,
+            source.JobActualCompletionDateTime, source.JobProgressedBy, source.JobCardPrintedBy, source.NominalCodeId);
 
         // Map Item Sections if any
         if (source.ItemSections && source.ItemSections.length > 0) {

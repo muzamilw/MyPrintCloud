@@ -57,9 +57,8 @@
         /* ]]> */
     </script>
 
-                    
 
-    
+
 
 
 </head>
@@ -712,12 +711,12 @@
     @Scripts.Render("~/bundles/jquery")
 
     <script>
-    (function ($) {
-        $("#siteUrl").val("@(Request.ApplicationPath == " / " ? " / " : Request.ApplicationPath)");
-    })($);
+        (function ($) {
+            $("#siteUrl").val("@(Request.ApplicationPath == " / " ? " / " : Request.ApplicationPath)");
+        })($);
 
     </script>
-    
+
 
 
     @Scripts.Render("~/Bundle/BaseLibs")
@@ -757,6 +756,8 @@
         });
     </script>
     
+
+        });
 
     @RenderSection("scripts", required: false)
 

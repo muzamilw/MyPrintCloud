@@ -50,20 +50,6 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         /// <summary>
-        /// Update Paper Sheet
-        /// </summary>
-        /// <param name="paperSheet"></param>
-        /// <returns></returns>
-        public PaperSheet Put(PaperSheet paperSheet)
-        {
-            if (ModelState.IsValid)
-            {
-                return paperSheetService.Add(paperSheet.CreateFrom()).CreateFrom();
-            }
-            throw new HttpException((int) HttpStatusCode.BadRequest, "Invalid Request");
-        }
-
-        /// <summary>
         /// Create New Paper Sheet 
         /// </summary>
         /// <param name="paperSheet"></param>
@@ -72,6 +58,12 @@ namespace MPC.MIS.Areas.Api.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Adds new one
+                if (paperSheet.PaperSizeId == 0)
+                {
+                    return paperSheetService.Add(paperSheet.CreateFrom()).CreateFrom();
+                }
+                // Updates 
                 return paperSheetService.Update(paperSheet.CreateFrom()).CreateFrom();
             }
             throw new HttpException((int) HttpStatusCode.BadRequest, "Invalid Request");

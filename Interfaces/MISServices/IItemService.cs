@@ -72,5 +72,12 @@ namespace MPC.Interfaces.MISServices
         /// Clone Product
         /// </summary>
         Item CloneProduct(long itemId);
+
+        /// <summary>
+        /// Get Items By Company Id
+        /// </summary>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
+        IEnumerable<Item> GetItemsByCompanyId(long companyId);
     }
 }
