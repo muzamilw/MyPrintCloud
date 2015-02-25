@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Net.Mime;
 using System.Web;
@@ -20,6 +21,7 @@ using Ionic.Zip;
 using System.IO;
 using Newtonsoft.Json;
 using System.Web.UI.WebControls;
+using System.Net.Http.Headers;
 
 namespace MPC.Implementation.MISServices
 {
@@ -913,6 +915,8 @@ namespace MPC.Implementation.MISServices
         private Company UpdateCompany(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
             var productCategories = new List<ProductCategory>();
+            //var companyDomainsDbVersion = ;
+            IEnumerable<CompanyDomain> companyDomainsDbVersion = companyDbVersion.CompanyDomains;
             companySavingModel.Company.OrganisationId = companyRepository.OrganisationId;
             var companyToBeUpdated = UpdateRaveReviewsOfUpdatingCompany(companySavingModel.Company);
             companyToBeUpdated = UpdatePaymentGatewaysOfUpdatingCompany(companyToBeUpdated);
@@ -957,9 +961,97 @@ namespace MPC.Implementation.MISServices
             UpdateSecondaryPageImagePath(companySavingModel, companyDbVersion);
             UpdateCampaignImages(companySavingModel.Company.Campaigns, companyDbVersion);
             companyRepository.SaveChanges();
+
+            //Call Service to add or remove the IIS Bindings for Store Domains
+           // updateDomainsInIIS(companyDomainsDbVersion, companyDbVersion.CompanyDomains);
             return companySavingModel.Company;
         }
 
+        // ReSharper disable once InconsistentNaming
+        private void updateDomainsInIIS(IEnumerable<CompanyDomain> companySavedDomains, IEnumerable<CompanyDomain> companyDbVersion)
+        {
+            //var companyDbVersion = companySavedDomains;
+            #region Company Domain
+            //Add Company Domain
+            if (companySavedDomains != null)
+            {
+                foreach (var item in companySavedDomains)
+                {
+                    if (companyDbVersion.All(x => x.CompanyDomainId != item.CompanyDomainId && x.CompanyId != item.CompanyId))
+                    {
+                        using (var client = new HttpClient())
+                        {
+                            client.BaseAddress = new Uri(ConfigurationManager.AppSettings["AddDomainPath"]);
+                            client.DefaultRequestHeaders.Accept.Clear();
+                            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                            string url = "AddDomain?siteName=" + "sdds" + "&domainName = " + "dsds";
+                            string responsestr = "";
+                            var response = client.GetAsync(url);
+                            if (response.Result.IsSuccessStatusCode)
+                            {
+                                responsestr = response.Result.Content.ReadAsStringAsync().Result;
+                                var validationInfo = JsonConvert.DeserializeObject<ValidationInfo>(responsestr);
+                            }
+                        }
+                        //item.CompanyId = company.CompanyId;
+                        //companyDbVersion.CompanyDomains.Add(item);
+                    }
+                }
+            }
+            //find missing items
+
+            List<CompanyDomain> missingCompanyDomains = new List<CompanyDomain>();
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            if (companyDbVersion != null)
+            {
+
+
+                foreach (CompanyDomain dbversionCompanyDomain in companyDbVersion)
+                {
+                    if (companySavedDomains != null && companySavedDomains.All(x => x.CompanyDomainId != dbversionCompanyDomain.CompanyDomainId && x.CompanyId != dbversionCompanyDomain.CompanyDomainId))
+                    {
+                        using (var client = new HttpClient())
+                        {
+                            client.BaseAddress = new Uri(ConfigurationManager.AppSettings["AddDomainPath"]);
+                            client.DefaultRequestHeaders.Accept.Clear();
+                            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                            string url = "AddDomain?siteName=" + "sdds" + "&domainName = " + "dsds";
+                            string responsestr = "";
+                            var response = client.GetAsync(url);
+                            if (response.Result.IsSuccessStatusCode)
+                            {
+                                responsestr = response.Result.Content.ReadAsStringAsync().Result;
+                                var validationInfo = JsonConvert.DeserializeObject<ValidationInfo>(responsestr);
+                            }
+                        }
+                        //missingCompanyDomains.Add(dbversionCompanyDomain);
+                    }
+                }
+
+                //remove missing items
+                foreach (CompanyDomain missingCompanyDomain in missingCompanyDomains)
+                {
+
+                    CompanyDomain dbVersionMissingItem = companyDbVersion.First(x => x.CompanyDomainId == missingCompanyDomain.CompanyDomainId && x.CompanyId == missingCompanyDomain.CompanyId);
+
+                    //companyDbVersion.Remove(dbVersionMissingItem);
+                    //companyDomainRepository.Delete(dbVersionMissingItem);
+
+                }
+            }
+            if (companySavedDomains != null)
+            {
+                //updating Company Domains
+                foreach (var companyDomain in companySavedDomains)
+                {
+                    //companyDomainRepository.Update(companyDomain);
+                }
+            }
+            #endregion
+            
+        }
         public void UpdateCampaignImages(IEnumerable<Campaign> campaigns, Company companyDbVersion)
         {
             if (campaigns != null)
