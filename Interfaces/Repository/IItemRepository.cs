@@ -105,5 +105,10 @@ namespace MPC.Interfaces.Repository
         /// <param name="companyId"></param>
         /// <returns></returns>
         IEnumerable<Item> GetItemsByCompanyId(long companyId);
+        /// <summary>
+        /// get cart items count 
+        /// </summary>
+        /// <returns></returns>
+        long GetCartItemsCount(long ContactId, long TemporaryCustomerId);
     }
 }

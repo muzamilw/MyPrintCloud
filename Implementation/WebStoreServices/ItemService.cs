@@ -730,5 +730,21 @@ namespace MPC.Implementation.WebStoreServices
            }
            
        }
+
+        /// <summary>
+        /// get cart items count 
+        /// </summary>
+        /// <returns></returns>
+        public long GetCartItemsCount(long ContactId, long TemporaryCustomerId)
+        {
+            try
+            {
+                return _ItemRepository.GetCartItemsCount(ContactId, TemporaryCustomerId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
