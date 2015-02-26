@@ -88,7 +88,7 @@ namespace MPC.Webstore.Controllers
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
-            ViewBag.StyleSheet = "/mpc_content/Assets/" + UserCookieManager.OrganisationID + "/" + UserCookieManager.StoreId + "/Classic/Site.css";  
+            ViewBag.StyleSheet = "/mpc_content/Assets/" + UserCookieManager.OrganisationID + "/" + UserCookieManager.StoreId + "/Site.css";  
 
             List<MPC.Models.DomainModels.CmsSkinPageWidget> model = null;
 
@@ -344,17 +344,21 @@ namespace MPC.Webstore.Controllers
 
                 MPC.Models.DomainModels.CompanyContact loginUser = _myCompanyService.GetContactByEmail(UserCookieManager.Email,OrganisationID);
 
-                ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
+                if (loginUser != null)
+                {
+                    ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
 
-                ClaimsSecurityService.AddSignInClaimsToIdentity(loginUser.ContactId, loginUser.CompanyId, loginUser.ContactRoleId ?? 0, loginUser.TerritoryId ?? 0, identity);
+                    ClaimsSecurityService.AddSignInClaimsToIdentity(loginUser.ContactId, loginUser.CompanyId, loginUser.ContactRoleId ?? 0, loginUser.TerritoryId ?? 0, identity);
 
-                var claimsPriciple = new ClaimsPrincipal(identity);
-                // Make sure the Principal's are in sync
-                HttpContext.User = claimsPriciple;
+                    var claimsPriciple = new ClaimsPrincipal(identity);
+                    // Make sure the Principal's are in sync
+                    HttpContext.User = claimsPriciple;
 
-                Thread.CurrentPrincipal = HttpContext.User;
+                    Thread.CurrentPrincipal = HttpContext.User;
 
-                AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+                    AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+                }
+             
 
                 UserCookieManager.isRegisterClaims = 0;
             }

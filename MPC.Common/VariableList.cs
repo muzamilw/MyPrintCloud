@@ -38,5 +38,15 @@ namespace MPC.Common
         }
     }
 
+    public class SmartFormUserList
+    {
+        public long ContactId { get; set; }
+        public string ContactName { get; set; }
 
+        public SmartFormUserList(long contactId, string contactName)
+        {
+            this.ContactId = contactId;
+            this.ContactName = contactName;
+        }
+    }
 }

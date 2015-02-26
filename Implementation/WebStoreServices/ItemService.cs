@@ -69,6 +69,10 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.GetItemById(ItemId);
         }
+        public Item GetItemByIdDesigner(long ItemId)
+        {
+            return _ItemRepository.GetItemByIdDesigner(ItemId);
+        }
         public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID)
         {
             return _ItemRepository.CloneItem(itemID, RefItemID, OrderID, CustomerID, TemplateID, StockID, SelectedAddOnsList, isSavedDesign, isCopyProduct, objContactID,OrganisationID);
@@ -740,6 +744,18 @@ namespace MPC.Implementation.WebStoreServices
             try
             {
                 return _ItemRepository.GetCartItemsCount(ContactId, TemporaryCustomerId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<CmsSkinPageWidget> GetStoreWidgets()
+        {
+            try
+            {
+                return _ItemRepository.GetStoreWidgets();
             }
             catch (Exception ex)
             {

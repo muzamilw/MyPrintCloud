@@ -56,6 +56,7 @@ define("common/stockItem.viewModel",
                         }
                         
                         afterSelect = afterSelectCallback;
+                        getStockItems();
                     },
                     // On Select Stock Item
                     onSelectStockItem = function (stockItem) {

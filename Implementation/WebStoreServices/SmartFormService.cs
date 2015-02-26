@@ -36,6 +36,10 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _smartFormRepository.SaveTemplateVariables(obj);
         }
+        public List<SmartFormUserList> GetUsersList(long contactId)
+        {
+            return _smartFormRepository.GetUsersList(contactId);
+        }
         #endregion
     }
 }

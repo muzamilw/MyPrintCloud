@@ -1,6 +1,8 @@
 ﻿@model MPC.Models.DomainModels.Company
 @using MPC.Webstore.Common;
-@{ Layout = null;}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 <div class="container content_area">
     <div class="row left_right_padding">
@@ -15,13 +17,13 @@
             <div style="float: right; padding-right: 0px; padding-left: 0px;" class="col-md-9 col-lg-9 col-xs-12 col-sm-8 cntrightMenu">
 
                 <div id="divTopHeaderMenu" class="TopHeaderMenu float_left_simple">
-                                    @if (Model.IsCustomer != 3)
-                                    {
+                    @if (Model.IsCustomer != 3)
+                    {
 
-                                        <a id="lnkAllProducts" href="/AllProducts" class="iconHover" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.StoreId))</a><a id="A1" class="piplineClr">&nbsp;|&nbsp;</a>
-                        <a id="lnkRequestQuote" style="cursor: pointer;" class="iconHover" >@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.StoreId))</a><a id="rfqPipeline" class="piplineClr">&nbsp;|&nbsp;</a>
+                        <a id="lnkAllProducts" href="/AllProducts" class="iconHover" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.StoreId))</a><a id="A1" class="piplineClr">&nbsp;|&nbsp;</a>
+                    <a id="lnkRequestQuote" href="/RequestQuote" style="cursor: pointer;" class="iconHover">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.StoreId))</a><a id="rfqPipeline" class="piplineClr">&nbsp;|&nbsp;</a>
                         <a id="lnkContactUs" href="/ContactUs" class="iconHover" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.StoreId))</a>
-                }
+                    }
 
 
                 </div>
@@ -33,7 +35,7 @@
                     </div>
                 </div>
                 <div id="cntresponsiveMenu">
-                    <div id="CollapseBtn" class="float_right">
+                    <div id="CollapseBtn" class="float_right" onclick="ToggleMenu();">
                         <a class="icon-align-justify">
 
                         </a>
@@ -47,13 +49,13 @@
             <div id="collapsedMenu" style="display: none;" class="containerCollapsedMenu col-md-12 col-lg-12 col-xs-12 col-sm-12">
                 <ul id="ulCollapseMenu" style="">
                     <li>
-                        <asp:hyperlink id="lnk_AllProducts" navigateurl="~/Allproducts.aspx">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.StoreId))</asp:hyperlink>
+                        <a id="lnk_AllProducts" href="/AllProducts">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.StoreId))</a>
                     </li>
                     <li>
-                        <a id="lnk_RequestQuote" style="cursor: pointer;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.StoreId))</a>
+                        <a id="lnk_RequestQuote" href="/RequestQuote" style="cursor: pointer;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.StoreId))</a>
                     </li>
                     <li>
-                        <asp:hyperlink id="lnk_ContactUs" navigateurl="~/ContactUs.aspx">>@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.StoreId))</asp:hyperlink>
+                        <a id="lnk_ContactUs" href="/ContactUs">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.StoreId))</a>
 
                     </li>
                 </ul>
@@ -61,3 +63,13 @@
         </div>
     </div>
 </div>
+@section scripts {
+    <script>
+
+        function ToggleMenu() {
+            $("#collapsedMenu").slideToggle();
+
+        }
+
+    </script>
+}

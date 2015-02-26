@@ -423,6 +423,10 @@ define("stores/stores.viewModel",
                         }
 
                     },
+                    secondayPageIsDisplayInFooterHandler=function() {
+                        selectedStore().isDidplayInFooter(!selectedStore().isDidplayInFooter());
+                        return true;
+                    },
                     // #endregion 
 
                     // #region _________C O M P A N Y   T E R R I T O R Y ____________
@@ -1890,8 +1894,9 @@ define("stores/stores.viewModel",
                     secondaryPageCopierForListView = function (target, source) {
                         target.pageTitle(source.pageTitle());
                         target.metaTitle(source.metaTitle());
-                        target.isEnabled(false);
+                        target.isEnabled(source.isEnabled());
                         target.isDisplay(false);
+                        target.imageSource(source.imageSrc());
                         _.each(pageCategories(), function (item) {
                             if (item.id() == source.categoryId()) {
                                 target.categoryName(item.name());
@@ -3139,7 +3144,6 @@ define("stores/stores.viewModel",
                     //Open Store Dialog
                     openEditDialog = function () {
                         isEditorVisible(true);
-
                         getStoreForEditting();
                         view.initializeForm();
                         getBaseData();
@@ -3262,18 +3266,21 @@ define("stores/stores.viewModel",
                                         isEditorVisible(false);
                                         stores.remove(selectedStore());
                                     }
-                                    editorViewModel.revertItem();
-                                    allPagesWidgets.removeAll();
-                                    pageSkinWidgets.removeAll();
-                                    selectedCurrentPageId(undefined);
-                                    resetObservableArrays();
-                                    selectedStore().reset();
+                                    resetStoreEditor();
                                 }
                             });
                             confirmation.show();
                             return;
                         }
                         isEditorVisible(false);
+                    },
+                    resetStoreEditor = function() {
+                        editorViewModel.revertItem();
+                        allPagesWidgets.removeAll();
+                        pageSkinWidgets.removeAll();
+                        selectedCurrentPageId(undefined);
+                        resetObservableArrays();
+                        selectedStore().reset();
                     },
                     resetFilterSection = function () {
                         searchFilter(undefined);
@@ -3455,6 +3462,7 @@ define("stores/stores.viewModel",
                     resetObservableArrays = function () {
                         companyTerritoryCounter = -1,
                         selectedStore().addresses.removeAll();
+                        selectedStore().mediaLibraries.removeAll();
                         //allCompanyAddressesList().removeAll();
                         deletedAddresses.removeAll();
                         edittedAddresses.removeAll();
@@ -4779,6 +4787,7 @@ define("stores/stores.viewModel",
                     cmsPagesBaseData: cmsPagesBaseData,
                     smartForms: smartForms,
                     onEditSmartForm: onEditSmartForm,
+                    secondayPageIsDisplayInFooterHandler: secondayPageIsDisplayInFooterHandler,
                 };
                 //#endregion
             })()
