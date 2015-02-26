@@ -10,10 +10,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static ProductCategory CreateFrom(this DomainModels.ProductCategory source)
         {
             byte[] thumbnailPathBytes = null;
-            string path = HttpContext.Current.Server.MapPath("~/" + source.ThumbnailPath);
-            if (source.ThumbnailPath != null && File.Exists(path))
+            string path = null;
+            if (source.ThumbnailPath != null)
             {
-                thumbnailPathBytes = File.ReadAllBytes(path) ;
+                path = HttpContext.Current.Server.MapPath("~/" + source.ThumbnailPath);
+                if (File.Exists(path))
+                {
+                    thumbnailPathBytes = File.ReadAllBytes(path);
+                } 
             }
             byte[] imagePathBytes = null;
             if (source.ImagePath != null && File.Exists(source.ImagePath))
@@ -32,7 +36,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ParentCategoryId = source.ParentCategoryId,
                 DisplayOrder = source.DisplayOrder,
                 ImagePath = source.ImagePath,
-                ThumbnailPath = path,
+                ThumbnailPath = path ?? string.Empty,
                 isEnabled = source.isEnabled,
                 isMarketPlace = source.isMarketPlace,
                 TemplateDesignerMappedCategoryName = source.TemplateDesignerMappedCategoryName,

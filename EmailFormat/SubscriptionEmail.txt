@@ -1,8 +1,0 @@
-﻿Thank's for registering,
-<br/>
-<br/>
-Please click on the following link to confirm subscription.
-<br>
-<a href="<%SubscriptionLink%>"> Click Here </a>
-<br>
-<br>
