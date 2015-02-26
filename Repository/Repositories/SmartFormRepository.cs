@@ -162,12 +162,36 @@ namespace MPC.Repository.Repositories
             }
             return true;
         }
-        //public enum TemplateVariableType
-        //{
-        //    Global = 1,
-        //    RealState = 2,
-        //    RealStateImages = 3
-        //}
+        public List<SmartFormUserList> GetUsersList(long contactId)
+        {
+
+            db.Configuration.LazyLoadingEnabled = false;
+            var currentContact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
+            List<SmartFormUserList> objUsers = null;
+            if(currentContact != null)
+            {
+                objUsers = new List<SmartFormUserList>();
+                List<CompanyContact> contacts = new List<CompanyContact>();
+                if(currentContact.ContactRoleId == (int)Roles.Adminstrator)
+                {
+                     contacts = (from c in db.CompanyContacts//.Include("tbl_ContactCompanyTerritories").Include("tbl_ContactDepartments")
+                                    where c.CompanyId == currentContact.CompanyId
+                                    select c).ToList();
+                } else if(currentContact.ContactRoleId == (int)Roles.Manager)
+                {
+                     contacts  = db.CompanyContacts.Where(i => i.TerritoryId == currentContact.TerritoryId).ToList();
+                }
+                if(contacts.Count > 0 )
+                {
+                    foreach (var contact in contacts)
+                    {
+                        SmartFormUserList objUser = new SmartFormUserList(contact.ContactId, (contact.FirstName + contact.LastName));
+                        objUsers.Add(objUser);
+                    }
+                }
+            }
+            return objUsers;
+        }
         #endregion
     }
 }
