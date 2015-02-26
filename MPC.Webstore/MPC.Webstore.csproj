@@ -706,6 +706,7 @@
     <Content Include="Views\Shared\PartialViews\OrderPolicySave.cshtml" />
     <Content Include="Views\Shared\PartialViews\ProductOrderHistory.cshtml" />
     <Content Include="Views\Payment\PaypalSubmit.cshtml" />
+    <Content Include="Views\Payment\NabSubmit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
