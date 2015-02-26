@@ -106,13 +106,13 @@ function fu04() {
        if (DT.IsCorporateEditable == false) {
            restrictControls();
        }
-       if (IsCalledFrom == 2) {
-           c4_RS();
-       } else if (IsCalledFrom == 4) {
-           c4_RS_eU();
-       }
+      
    });
-
+    if (IsCalledFrom == 2) {
+        c4_RS();
+    } else if (IsCalledFrom == 4) {
+        //  c4_RS_eU(); // load realestate property images
+    }
 }
 function fu04_01() {
     $.getJSON("/designerapi/TemplateObject/GetTemplateObjects/" + tID,
@@ -214,6 +214,7 @@ function fu06() {
 
 
 function c4_RS() {
+    
     $("#divVariableContainer").css("top", "135px");
     $("#divVariableContainer").css("left", ($(window).width() - $('#divVariableContainer').width() -20) + "px");
     $("#divVariableContainer").draggable({
