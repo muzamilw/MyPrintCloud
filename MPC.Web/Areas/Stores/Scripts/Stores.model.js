@@ -2323,7 +2323,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             stateName = ko.observable(),
 
             companyContactVariables = ko.observableArray([]),
-            confirmPassword = ko.observable().extend({ compareWith: password }),
+            confirmPassword = ko.observable(specifiedPassword).extend({ compareWith: password }),
 
 
             // Errors
