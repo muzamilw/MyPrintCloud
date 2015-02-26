@@ -1,4 +1,5 @@
-﻿using MPC.Interfaces.WebStoreServices;
+﻿using MPC.Common;
+using MPC.Interfaces.WebStoreServices;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,18 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
 
+        }
+
+        [HttpPost]
+        public HttpResponseMessage SaveTemplateVariables([FromBody]  List<TemplateVariablesObj> obj)
+        {
+            
+            var result = smartFormService.SaveTemplateVariables(obj);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
         }
         #endregion
     }

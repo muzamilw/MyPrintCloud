@@ -6596,7 +6596,7 @@ font-size: 18px;
  .divVarList
 {
     height: 280px;
-    overflow: auto;
+    overflow: auto;width: 242px;
 }
 
     .divVarList .titletxt

@@ -166,6 +166,7 @@ function buildParams() {
 	while (tempName.indexOf('%20') != -1)
 	    tempName = tempName.replace("%20", " ");
 	$("#txtTemplateTitle").val(tempName);
+	
 }
 function LoadBasicTemplateSettings() {
     if (cIDv2 == 0)
