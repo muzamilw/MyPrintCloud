@@ -152,5 +152,7 @@ namespace MPC.Interfaces.WebStoreServices
         /// </summary>
         /// <returns></returns>
         long GetCartItemsCount(long ContactId, long TemporaryCustomerId);
+
+        List<CmsSkinPageWidget> GetStoreWidgets();
     }
 }

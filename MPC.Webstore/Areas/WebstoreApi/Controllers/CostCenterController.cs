@@ -217,6 +217,11 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
         }
 
-
+        public HttpResponseMessage WidgetJson(string StoreId)
+        {
+           List<CmsSkinPageWidget> oStoreWidgets = _ItemService.GetStoreWidgets();
+           var objSer = JsonConvert.SerializeObject(oStoreWidgets);
+            return Request.CreateResponse(HttpStatusCode.OK, "");
+        }
     }
 }

@@ -746,5 +746,17 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
+
+        public List<CmsSkinPageWidget> GetStoreWidgets()
+        {
+            try
+            {
+                return _ItemRepository.GetStoreWidgets();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
