@@ -88,7 +88,8 @@ namespace MPC.Repository.Repositories
                                   VariableType = es.VariableType
 
                               };
-                foreach (var obj in objList)
+                var listItems = objList.ToList();
+                foreach (var obj in listItems)
                 {
                     VariableList objVarList = new VariableList(obj.SectionName, obj.VariableID, obj.VariableName, obj.VariableTag, obj.VariableType.Value);
                     resultList.Add(objVarList);
