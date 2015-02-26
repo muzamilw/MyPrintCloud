@@ -94,24 +94,39 @@ function fu03() {
    });
 }
 function fu04() {
+    
     $.getJSON("/designerapi/Template/GetTemplate/" + tID + "/" + cID + "/" + TempHMM + "/" + TempWMM + "/" + organisationId + "/" + ItemId,
-    //$.getJSON("/designerapi/Template/GetTemplate/" + tID ,
-   function (DT) {
-       DT.ProductID = DT.ProductId;
-       $.each(DT.TemplatePages, function (i, IT) {
-           IT.ProductID = IT.ProductId;
-           IT.ProductPageID = IT.ProductPageId;
-       });
-       fu04_callBack(DT);
-       if (DT.IsCorporateEditable == false) {
-           restrictControls();
-       }
-      
-   });
+       //$.getJSON("/designerapi/Template/GetTemplate/" + tID ,
+      function (DT) {
+          DT.ProductID = DT.ProductId;
+          $.each(DT.TemplatePages, function (i, IT) {
+              IT.ProductID = IT.ProductId;
+              IT.ProductPageID = IT.ProductPageId;
+          });
+          fu04_callBack(DT);
+          if (DT.IsCorporateEditable == false) {
+              restrictControls();
+          }
+
+      });
+ 
     if (IsCalledFrom == 2) {
         c4_RS();
-    } else if (IsCalledFrom == 4) {
-        //  c4_RS_eU(); // load realestate property images
+        $(".QuickTxt").css("visibility", "hidden");
+    }else 
+    {
+        $.getJSON("/designerapi/item/GetItem/" + ItemId,
+          function (result) {
+              item = result;
+              if (item.SmartFormId != null) {
+                  pcl41();
+              } else {
+                  $(".QuickTxt").css("visibility", "hidden");
+              }
+          });
+        if (IsCalledFrom == 4) {
+            //  c4_RS_eU(); // load realestate property images
+        }
     }
 }
 function fu04_01() {
