@@ -127,11 +127,12 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         , specifiedIsDeliveryTaxAble, specifiedPickupAddressId,
         specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreImageFileBinary, specifiedStoreBackgroudImageSource, specifiedIsShowGoogleMap,
         specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName, specifiedCustomCSS, specifiedStoreBackgroundImage, specifiedStoreImagePath
-    ) {
+    , specifiedIsDidplayInFooter) {
         var self,
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
             name = ko.observable(specifiedName).extend({ required: true }),
             status = ko.observable(specifiedStatus),
+            isDidplayInFooter = ko.observable(specifiedIsDidplayInFooter),
             image = ko.observable(specifiedImage),
             url = ko.observable(specifiedUrl),
             accountOpenDate = ko.observable(specifiedAccountOpenDate),
@@ -324,6 +325,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             //Convert To Server
             convertToServerData = function (source) {
                 var result = {};
+                result.isDisplaySecondaryPages = source.isDidplayInFooter();
                 result.CompanyId = source.companyId();
                 result.Name = source.name();
                 result.Status = source.status();
@@ -445,6 +447,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             };
         self = {
             //#region SELF
+            isDidplayInFooter:isDidplayInFooter,
             companyId: companyId,
             name: name,
             status: status,
@@ -655,7 +658,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.StoreBackgroundImage,
             source.StoreImagePath
         );
-
+        store.isDidplayInFooter(source.isDisplaySecondaryPages!=null ? source.isDisplaySecondaryPages : false);
         store.companyType(CompanyType.Create(source.CompanyType));
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
@@ -2002,7 +2005,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // ReSharper disable once InconsistentNaming
     var CMSPage = function (specifiedPageId, specifiedPageTitle, specifiedPageKeywords, specifiedMetaTitle, specifiedMetaDescriptionContent, specifiedMetaCategoryContent,
         specifiedMetaRobotsContent, specifiedMetaAuthorContent, specifiedMetaLanguageContent, specifiedMetaRevisitAfterContent, specifiedCategoryId, specifiedPageHTML,
-        specifiedImageSource, specifiedDefaultPageKeyWords, specifiedFileName, specifiedPageBanner) {
+        specifiedImageSource, specifiedDefaultPageKeyWords, specifiedFileName, specifiedPageBanner, specifiedisEnabled) {
         var self,
             id = ko.observable(specifiedPageId),
             pageTitle = ko.observable(specifiedPageTitle).extend({ required: true }),
@@ -2018,6 +2021,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             pageHTML = ko.observable(specifiedPageHTML === undefined ? "Go ahead..." : specifiedPageHTML),
             imageSrc = ko.observable(specifiedImageSource),
             fileName = ko.observable(specifiedFileName),
+            isEnabled = ko.observable(specifiedisEnabled!=null ? specifiedisEnabled : false),
             defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
             pageBanner = ko.observable(specifiedPageBanner),
             // Errors
@@ -2095,6 +2099,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             pageBanner: pageBanner,
             isValid: isValid,
             errors: errors,
+            isEnabled:isEnabled,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,

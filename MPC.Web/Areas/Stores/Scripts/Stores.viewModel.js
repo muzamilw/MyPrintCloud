@@ -1879,7 +1879,7 @@ define("stores/stores.viewModel",
                     secondaryPageCopierForListView = function (target, source) {
                         target.pageTitle(source.pageTitle());
                         target.metaTitle(source.metaTitle());
-                        target.isEnabled(false);
+                        target.isEnabled(source.isEnabled());
                         target.isDisplay(false);
                         _.each(pageCategories(), function (item) {
                             if (item.id() == source.categoryId()) {
@@ -3122,7 +3122,6 @@ define("stores/stores.viewModel",
                     //Open Store Dialog
                     openEditDialog = function () {
                         isEditorVisible(true);
-
                         getStoreForEditting();
                         view.initializeForm();
                         getBaseData();
