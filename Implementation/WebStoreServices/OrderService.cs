@@ -109,9 +109,9 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _OrderRepository.GetUserShopCartOrderID(status);
         }
-        public ShoppingCart GetShopCartOrderAndDetails(long orderID, OrderStatus orderStatus)
+        public ShoppingCart GetShopCartOrderAndDetails(long orderID,OrderStatus Orderstatus)
         {
-            return _OrderRepository.GetShopCartOrderAndDetails(orderID, orderStatus);
+            return _OrderRepository.GetShopCartOrderAndDetails(orderID, Orderstatus);
         }
         public DiscountVoucher GetVoucherRecord(int VId)
         {
@@ -446,6 +446,24 @@ namespace MPC.Implementation.WebStoreServices
             return _OrderRepository.GetOrdersListExceptPendingOrdersByContactID(contactUserID, orderStatus, fromDate, toDate, orderRefNumber, pageSize, pageNumber);
         
         }
+       public Order GetOrderAndDetails(long orderID)
+       {
+           return _OrderRepository.GetOrderAndDetails(orderID);
+       }
 
+       public Address GetBillingAddress(long BillingAddressId)
+       {
+
+           return _OrderRepository.GetAddress(BillingAddressId);
+       }
+
+       public Address GetdeliveryAddress(long ShippingAddressId)
+       {
+           return _OrderRepository.GetAddress(ShippingAddressId);
+       }
+       public long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID)
+       {
+           return _OrderRepository.ReOrder(ExistingOrderId, loggedInContactID, StatTaxVal, mode, isIncludeTax, TaxID);
+       }
     }
 }

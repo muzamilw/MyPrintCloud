@@ -58,7 +58,7 @@ define("calendar/calendar.viewModel",
                         },
                         error: function (exceptionMessage, exceptionType) {
 
-                            if (exceptionType === ist.exceptionType.CaresGeneralException) {
+                            if (exceptionType === ist.exceptionType.MPCGeneralException) {
 
                                 toastr.error(exceptionMessage);
 
@@ -291,7 +291,7 @@ define("calendar/calendar.viewModel",
                         },
                         error: function (exceptionMessage, exceptionType) {
 
-                            if (exceptionType === ist.exceptionType.CaresGeneralException) {
+                            if (exceptionType === ist.exceptionType.MPCGeneralException) {
 
                                 toastr.error(exceptionMessage);
 

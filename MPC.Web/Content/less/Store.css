@@ -1,4 +1,4 @@
-﻿#storesBinding .selectedSection,
+#storesBinding .selectedSection,
 #storesBinding .selectedEmailVariable {
   background: yellow;
 }
@@ -197,4 +197,8 @@
 }
 #columnsAlign {
   table-layout: fixed;
+}
+.categoryImage {
+  min-height: 100Px;
+  min-width: 100Px;
 }
