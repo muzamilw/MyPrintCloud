@@ -89,11 +89,11 @@ namespace MPC.Repository.Repositories
                     }
 
                     Organisation objOrg = db.Organisations.Where(o => o.OrganisationId == OID).FirstOrDefault();
-<<<<<<< HEAD
+
                     objOrg.OrganisationName = objExpOrg.Organisation.OrganisationName;
-=======
+
                  //   objOrg.OrganisationName = objExpOrg.Organisation.OrganisationName;
->>>>>>> b36099ed057ad40ca7043e774c68da423034a3d6
+
                     objOrg.Address1 = objExpOrg.Organisation.Address1;
                     objOrg.Address2 = objExpOrg.Organisation.Address2;
                     objOrg.Address3 = objExpOrg.Organisation.Address3;
@@ -312,19 +312,11 @@ namespace MPC.Repository.Repositories
                         {
                             StockCategory SC = new StockCategory();
                             SC = cat;
-<<<<<<< HEAD
 
                             SC.CategoryId = 0;
                             SC.OrganisationId = OrganisationID;
                             db.StockCategories.Add(SC);
 
-=======
-
-                            SC.CategoryId = 0;
-                            SC.OrganisationId = OrganisationID;
-                            db.StockCategories.Add(SC);
-
->>>>>>> b36099ed057ad40ca7043e774c68da423034a3d6
                             if (cat.StockSubCategories != null && cat.StockSubCategories.Count > 0)
                             {
                                 foreach (var subCat in cat.StockSubCategories)
@@ -738,10 +730,8 @@ namespace MPC.Repository.Repositories
                          string DestinationSiteFile = string.Empty;
                          string DestinationSpriteFile = string.Empty;
                          string DestinationLanguageDirectory = string.Empty;
-<<<<<<< HEAD
-=======
                          string DestinationLanguageFilePath = string.Empty;
->>>>>>> b36099ed057ad40ca7043e774c68da423034a3d6
+
                          if (org != null)
                          {
                              // language Files
@@ -755,12 +745,10 @@ namespace MPC.Repository.Repositories
                                  {
                                      
                                      string FileName = Path.GetFileName(newPath);
-<<<<<<< HEAD
-                                     string DestinationLanguageFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + FileName);
-=======
-                                     
->>>>>>> b36099ed057ad40ca7043e774c68da423034a3d6
-                                     
+
+                                     DestinationLanguageFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + FileName);
+
+                                    
                                      // define destination directory
                                       string directoty = Path.GetDirectoryName(newPath);
                                     string[] stringSeparators = new string[] { "MPC_Content" };
@@ -773,11 +761,9 @@ namespace MPC.Repository.Repositories
                                         {
                                             string[] folder = FolderName.Split('\\');
                                             DestinationLanguageDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + folder[5]);
-<<<<<<< HEAD
 
-=======
                                             DestinationLanguageFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + folder[5] + "/" + FileName);
->>>>>>> b36099ed057ad40ca7043e774c68da423034a3d6
+
                                         }
                                     }
                                      
@@ -1074,17 +1060,11 @@ namespace MPC.Repository.Repositories
                                          OldContactImage = Path.GetFileName(contact.image);
                                          NewContactImage = OldContactImage.Replace(OldContactID + "_", contact.ContactId + "_");
 
-<<<<<<< HEAD
-                                         DestinationContactFilesPath = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + ObjCompany.CompanyId + "/Contacts/" + NewContactImage);
-                                         DestinationsPath.Add(DestinationContactFilesPath);
-                                         string DestinationContactFilesDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + ObjCompany.CompanyId + "/Contacts/" + contact.ContactId);
-                                         string ContactFilesSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.OldCompanyID + "/Contacts/" + OldContactImage);
-=======
                                          DestinationContactFilesPath = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + ObjCompany.CompanyId + "/Contacts/" + contact.ContactId + "/" + NewContactImage);
                                          DestinationsPath.Add(DestinationContactFilesPath);
                                          string DestinationContactFilesDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + ObjCompany.CompanyId + "/Contacts/" + contact.ContactId);
                                          string ContactFilesSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.OldCompanyID + "/Contacts/" + contact.ContactId + "/" + OldContactImage);
->>>>>>> b36099ed057ad40ca7043e774c68da423034a3d6
+
                                          if (!System.IO.Directory.Exists(DestinationContactFilesDirectory))
                                          {
                                              Directory.CreateDirectory(DestinationContactFilesDirectory);
@@ -1111,11 +1091,9 @@ namespace MPC.Repository.Repositories
                                              }
 
                                          }
-<<<<<<< HEAD
-                                         contact.image = "/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + ObjCompany.CompanyId + "/Contacts/" + NewContactImage;
-=======
+
                                          contact.image = "/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + ObjCompany.CompanyId + "/Contacts/" + contact.ContactId + "/" + NewContactImage;
->>>>>>> b36099ed057ad40ca7043e774c68da423034a3d6
+
                                      }
                                  }
                              }
@@ -1301,15 +1279,6 @@ namespace MPC.Repository.Repositories
 
                                          }
 
-<<<<<<< HEAD
-                                         OldImagePath = Path.GetFileName(prodCat.ThumbnailPath);
-                                         NewImagePath = OldImagePath.Replace(ProdCatID + "_", prodCat.ProductCategoryId + "_");
-
-                                         DestinationImagePath = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + ObjCompany.CompanyId + "/ProductCategories/" + prodCat.ProductCategoryId + "_" + prodCat.CategoryName + "_Banner.png");
-                                         DestinationsPath.Add(DestinationImagePath);
-                                         string DestinationImageDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + ObjCompany.CompanyId + "/ProductCategories");
-                                         string ImageSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.OldCompanyID + "/ProductCategories/" + ProdCatID + "_" + CatName + "_Banner.png");
-=======
                                          OldImagePath = Path.GetFileName(prodCat.ImagePath);
                                          NewImagePath = OldImagePath.Replace(ProdCatID + "_", prodCat.ProductCategoryId + "_");
 
@@ -1317,7 +1286,7 @@ namespace MPC.Repository.Repositories
                                          DestinationsPath.Add(DestinationImagePath);
                                          string DestinationImageDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + ObjCompany.CompanyId + "/ProductCategories");
                                          string ImageSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.OldCompanyID + "/ProductCategories/" + ProdCatID + "/" + OldImagePath);
->>>>>>> b36099ed057ad40ca7043e774c68da423034a3d6
+
                                          if (!System.IO.Directory.Exists(DestinationImageDirectory))
                                          {
                                              Directory.CreateDirectory(DestinationImageDirectory);

@@ -2636,12 +2636,12 @@ define("stores/stores.viewModel",
                                             //}
                                             toastr.success("Category Updated Successfully");
                                         }
-                                        var category = {
-                                            productCategoryId: data.ProductCategoryId,
-                                            categoryName: data.CategoryName,
-                                            parentCategoryId: data.ParentCategoryId
-                                        };
-                                        parentCategories.push(category);
+                                        //var category = {
+                                        //    productCategoryId: data.ProductCategoryId,
+                                        //    categoryName: data.CategoryName,
+                                        //    parentCategoryId: data.ParentCategoryId
+                                        //};
+                                        //parentCategories.push(category);
 
                                         isLoadingStores(false);
                                         view.hideStoreProductCategoryDialog();

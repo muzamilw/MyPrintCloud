@@ -2942,59 +2942,13 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public IEnumerable<Item> GetItemsByCompanyId(long companyId)
-        {
-            return DbSet.Where(i => i.CompanyId.HasValue && i.CompanyId == companyId && i.OrganisationId == OrganisationId).ToList();
-        }
+       
 
         /// <summary>
         /// get cart items count 
         /// </summary>
         /// <returns></returns>
-        public long GetCartItemsCount(long ContactId, long TemporaryCustomerId)
-        {
-            try
-            {
-                int orderStatusID = (int)OrderStatus.ShoppingCart;
-                long itemsCount = 0;
-                if (ContactId > 0)
-                {
-                    Estimate Order = db.Estimates.Include("Items").Where(order => order.ContactId == ContactId && order.StatusId == orderStatusID && order.isEstimate == false).FirstOrDefault();
-                    if (Order != null)
-                    {
-                        Order.Items.Where(c => c.ItemType != (int)ItemTypes.Delivery).ToList().ForEach(orderItem =>
-                        {
-                            if (orderItem.IsOrderedItem.HasValue && orderItem.IsOrderedItem.Value)
-                                itemsCount += 1;
-                        });
-                    }
-                }
-                else
-                {
-                    if (TemporaryCustomerId > 0)
-                    {
-                        Estimate Order = db.Estimates.Include("Items").Where(order => order.CompanyId == TemporaryCustomerId && order.StatusId == orderStatusID && order.isEstimate == false).FirstOrDefault();
-                        if (Order != null)
-                        {
-                            Order.Items.Where(c => c.ItemType != (int)ItemTypes.Delivery).ToList().ForEach(orderItem =>
-                            {
-                                if (orderItem.IsOrderedItem.HasValue && orderItem.IsOrderedItem.Value)
-                                    itemsCount += 1;
-                            });
-                        }
-                    }
-
-                }
-                return itemsCount;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-
-
-        }
+       
         public Item CloneReOrderItem(long orderID, Item ExistingItem, long loggedInContactID, string order_code)
         {
             bool result = false;
