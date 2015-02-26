@@ -324,6 +324,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             }),
             //Convert To Server
             convertToServerData = function (source) {
+                debugger;
                 var result = {};
                 result.isDisplaySecondaryPages = source.isDidplayInFooter();
                 result.CompanyId = source.companyId();
@@ -2021,7 +2022,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             pageHTML = ko.observable(specifiedPageHTML === undefined ? "Go ahead..." : specifiedPageHTML),
             imageSrc = ko.observable(specifiedImageSource),
             fileName = ko.observable(specifiedFileName),
-            isEnabled = ko.observable(specifiedisEnabled!=null ? specifiedisEnabled : false),
+            isEnabled = ko.observable(specifiedisEnabled!=null ? specifiedisEnabled : true),
             defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
             pageBanner = ko.observable(specifiedPageBanner),
             // Errors
@@ -2074,6 +2075,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.FileName = source.fileName() === undefined ? null : source.fileName();
                 result.Bytes = source.imageSrc() === undefined ? null : source.imageSrc();
                 result.PageBanner = source.pageBanner() === undefined ? null : source.pageBanner();
+                result.isEnabled = source.isEnabled();
                 return result;
             },
             // Reset

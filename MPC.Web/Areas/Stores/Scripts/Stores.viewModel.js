@@ -423,6 +423,10 @@ define("stores/stores.viewModel",
                         }
 
                     },
+                    secondayPageIsDisplayInFooterHandler=function() {
+                        selectedStore().isDidplayInFooter(!selectedStore().isDidplayInFooter());
+                        return true;
+                    },
                     // #endregion 
 
                     // #region _________C O M P A N Y   T E R R I T O R Y ____________
@@ -4773,6 +4777,7 @@ define("stores/stores.viewModel",
                     cmsPagesBaseData: cmsPagesBaseData,
                     smartForms: smartForms,
                     onEditSmartForm: onEditSmartForm,
+                    secondayPageIsDisplayInFooterHandler: secondayPageIsDisplayInFooterHandler,
                 };
                 //#endregion
             })()

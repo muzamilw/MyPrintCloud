@@ -930,7 +930,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="onoffswitch">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchPageBanners" data-bind="checked:isDisplayBanners">
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchPageBanners" data-bind="checked:isDisplayBanners()">
                                                         <label class="onoffswitch-label" for="switchPageBanners">
                                                             <div class="onoffswitch-inner"></div>
                                                             <div class="onoffswitch-switch"></div>
@@ -1033,7 +1033,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="onoffswitch">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSecondaryPages" data-bind="checked:$root.selectedStore().isDidplayInFooter()">
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSecondaryPages" data-bind="checked:$root.selectedStore().isDidplayInFooter(),event:{click:$root.secondayPageIsDisplayInFooterHandler}">
                                                         <label class="onoffswitch-label" for="switchSecondaryPages">
                                                             <div class="onoffswitch-inner"></div>
                                                             <div class="onoffswitch-switch"></div>
