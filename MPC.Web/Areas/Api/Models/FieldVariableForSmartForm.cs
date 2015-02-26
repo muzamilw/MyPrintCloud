@@ -11,6 +11,7 @@
         public string VariableTag { get; set; }
         public string TypeName { get; set; }
         public string DefaultValue { get; set; }
+        public string VariableTitle { get; set; }
         public int? Type { get; set; }
     }
 }

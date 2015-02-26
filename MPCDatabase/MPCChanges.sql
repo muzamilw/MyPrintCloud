@@ -444,4 +444,7 @@ alter Column OrganisationId bigint null
 alter table TemplateVariable
 alter column VariableId bigint null
 
+alter table TemplateVariable
+alter column TemplateId bigint null
+
 GO

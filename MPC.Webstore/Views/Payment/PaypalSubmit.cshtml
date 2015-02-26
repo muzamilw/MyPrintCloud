@@ -1,4 +1,5 @@
 ﻿@model MPC.Webstore.ViewModels.PaypalViewModel
+@using Newtonsoft.Json
 @{
    
     ViewBag.Title = "PayPal";
@@ -23,12 +24,14 @@
     
     <div style="text-align:center; height:600px; margin-top:300px; font:arial; font-size:16px;">Please wait while we redirect you to PayPal.</div>
 }
+
 @Scripts.Render("~/bundles/jquery")
 <script language="javascript" type="text/javascript">
 
         $(document).ready(function () {
+            var data = @Html.Raw(JsonConvert.SerializeObject(this.Model));
 
-            var jasonData = jQuery.parseJSON($('#txtJasonId').val());
+            var jasonData =data.txtJason; //jQuery.parseJSON($('#txtJasonId').val());
             var objData = null;
             $(jasonData).each(function (indx) {
 

@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using MPC.Models.DomainModels;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Webstore.Common;
 using MPC.Webstore.ViewModels;
 using System.Globalization;
-using System.Configuration;
 using MPC.Models.Common;
 using System.Runtime.Caching;
 using System.IO;
@@ -42,7 +39,7 @@ namespace MPC.Webstore.Controllers
         // GET: Payment
         public ActionResult PaypalSubmit(int OrderID)
         {
-            // int OrderID = 16633;
+             OrderID = 16633;
             PaypalViewModel opaypal = new PaypalViewModel();
             try
             {
@@ -124,13 +121,12 @@ namespace MPC.Webstore.Controllers
             }
             return View(opaypal);
         }
-
+        [HttpPost]
         public ActionResult PaypalIPN()
         {
             try
             {
                 Estimate modelOrder = null;
-                // BLL.EmailManager emailMgr = new EmailManager();
                 string strFormValues = Encoding.ASCII.GetString(Request.BinaryRead(Request.ContentLength));
                 string strNewValue;
                 PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.StoreId);
@@ -164,11 +160,9 @@ namespace MPC.Webstore.Controllers
                 readStream.Close();
                 strResponse.Close();
 
-                //LogDataIntoTextFile(strResponseString + " The Form Value Request= " + strFormValues + " The New after verification Value  = " + strNewValue.ToString());
-
                 double outGrossTotal = 0;
                 int outCustomRequestID = 0;
-                //payment_status
+              
                 int.TryParse(Request["custom"], out  outCustomRequestID);
                 double.TryParse(Request["mc_gross"], out outGrossTotal);
 

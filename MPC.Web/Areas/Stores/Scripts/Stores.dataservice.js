@@ -138,6 +138,14 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to save Smart Form
+                    amplify.request.define('saveSmartForm', 'ajax', {
+                        url: ist.siteUrl + '/Api/SmartForm',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
+                    
 
                     // Define request to Get Secondry Page By Id
                     amplify.request.define('getSecondryPageById', 'ajax', {
@@ -511,6 +519,17 @@
                 data: param
             });
         },
+         // save Smart Form
+        saveSmartForm = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'saveSmartForm',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
+        
         // save Store
         saveStore = function (param, callbacks) {
             initialize();
@@ -554,6 +573,7 @@
             getFieldVariableDetailById: getFieldVariableDetailById,
             getCmpanyContactVaribableByContactId: getCmpanyContactVaribableByContactId,
             getCmpanyContactVaribableByCompanyId: getCmpanyContactVaribableByCompanyId,
+            saveSmartForm: saveSmartForm,
         };
     })();
 
