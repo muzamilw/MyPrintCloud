@@ -43,6 +43,32 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to Get Field Variable Detail By Id
+                    amplify.request.define('getFieldVariableDetailById', 'ajax', {
+                        url: ist.siteUrl + '/Api/FieldVariableDetail',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to Get Cmpany Contact Varibable ByContact  Id
+                    amplify.request.define('getCmpanyContactVaribableByContactId', 'ajax', {
+                        url: ist.siteUrl + '/Api/GetCompanyContactVariable',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to Get Cmpany Contact Varibable By Company Id
+                    amplify.request.define('getCmpanyContactVaribableByCompanyId', 'ajax', {
+                        url: ist.siteUrl + '/Api/GetCompanyContactVariableByCompanyId',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    
+                    // Define request to get Field Variables By CompanyId
+                    amplify.request.define('getFieldVariablesByCompanyId', 'ajax', {
+                        url: ist.siteUrl + '/Api/FieldVariable',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    
                     // Define request to get Address
                     amplify.request.define('searchAddress', 'ajax', {
                         url: ist.siteUrl + '/Api/Address',
@@ -105,6 +131,14 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to save Field Variable
+                    amplify.request.define('saveFieldVariable', 'ajax', {
+                        url: ist.siteUrl + '/Api/FieldVariable',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
+
                     // Define request to Get Secondry Page By Id
                     amplify.request.define('getSecondryPageById', 'ajax', {
                         url: ist.siteUrl + '/Api/SecondaryPage',
@@ -212,6 +246,37 @@
                     data: params
                 });
             },
+            //Get Cmpany Contact Varibable By Contact Id
+            getCmpanyContactVaribableByContactId = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getCmpanyContactVaribableByContactId',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            //Get Cmpany Contact Varibable By Company Id
+            getCmpanyContactVaribableByCompanyId = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getCmpanyContactVaribableByCompanyId',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            
+            //Get Field Variable Detail By Id
+            getFieldVariableDetailById = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getFieldVariableDetailById',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
              // get Campaign Base Data
             getCampaignBaseData = function (callbacks) {
                 initialize();
@@ -232,6 +297,17 @@
                     data: params
                 });
             },
+            // Get Field Variables By CompanyId
+            getFieldVariablesByCompanyId = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getFieldVariablesByCompanyId',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            
             // search Address
             searchAddress = function (params, callbacks) {
                 initialize();
@@ -423,6 +499,18 @@
                     data: param
                 });
             },
+
+
+        // save Field Variable
+        saveFieldVariable = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'saveFieldVariable',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
         // save Store
         saveStore = function (param, callbacks) {
             initialize();
@@ -443,6 +531,7 @@
             deleteStore: deleteStore,
             saveStore: saveStore,
             searchCompanyTerritory: searchCompanyTerritory,
+            getFieldVariablesByCompanyId: getFieldVariablesByCompanyId,
             searchAddress: searchAddress,
             searchCompanyContact: searchCompanyContact,
             getSecondaryPages: getSecondaryPages,
@@ -460,7 +549,11 @@
             saveCompanyContact: saveCompanyContact,
             deleteCompanyTerritory: deleteCompanyTerritory,
             deleteCompanyAddress: deleteCompanyAddress,
-            deleteCompanyContact: deleteCompanyContact
+            deleteCompanyContact: deleteCompanyContact,
+            saveFieldVariable: saveFieldVariable,
+            getFieldVariableDetailById: getFieldVariableDetailById,
+            getCmpanyContactVaribableByContactId: getCmpanyContactVaribableByContactId,
+            getCmpanyContactVaribableByCompanyId: getCmpanyContactVaribableByCompanyId,
         };
     })();
 

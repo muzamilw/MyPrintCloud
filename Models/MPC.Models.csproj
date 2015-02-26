@@ -119,9 +119,12 @@
     <Compile Include="Common\ExportOrganisation.cs" />
     <Compile Include="Common\InlineTextStyles.cs" />
     <Compile Include="Common\FileTableCaption.cs" />
+    <Compile Include="Common\InvoiceByColumn.cs" />
     <Compile Include="Common\Order.cs" />
     <Compile Include="Common\IsTrialClaimValue.cs" />
     <Compile Include="Common\OrderStatusEnum.cs" />
+    <Compile Include="Common\PaypalOrderParameter.cs" />
+    <Compile Include="Common\StringHelper.cs" />
     <Compile Include="Common\SystemUserClaimValue.cs" />
     <Compile Include="Common\OrderByColumn.cs" />
     <Compile Include="Common\MachineListColumns.cs" />
@@ -181,6 +184,8 @@
     <Compile Include="DomainModels\CustomCopy.cs" />
     <Compile Include="DomainModels\DeliveryCarrier.cs" />
     <Compile Include="DomainModels\FavoriteDesign.cs" />
+    <Compile Include="DomainModels\PaypalPaymentRequest.cs" />
+    <Compile Include="DomainModels\PayPalResponse.cs" />
     <Compile Include="DomainModels\SmartForm.cs" />
     <Compile Include="DomainModels\SmartFormDetail.cs" />
     <Compile Include="DomainModels\VariableOption.cs" />
@@ -344,6 +349,8 @@
     <Compile Include="RequestModels\CompanySavingModel.cs" />
     <Compile Include="RequestModels\CompanyTerritoryRequestModel.cs" />
     <Compile Include="RequestModels\CompanyContactRequestModel.cs" />
+    <Compile Include="RequestModels\FieldVariableRequestModel.cs" />
+    <Compile Include="RequestModels\GetInvoicesRequestModel.cs" />
     <Compile Include="RequestModels\GetPagedListRequest.cs" />
     <Compile Include="RequestModels\GetOrdersRequest.cs" />
     <Compile Include="RequestModels\MachineSearchRequestModel.cs" />
@@ -369,7 +376,9 @@
     <Compile Include="ResponseModels\CompanyTerritoryResponse.cs" />
     <Compile Include="ResponseModels\CompanyContactResponse.cs" />
     <Compile Include="ResponseModels\CostCenterBaseResponse.cs" />
+    <Compile Include="ResponseModels\FieldVariableResponse.cs" />
     <Compile Include="ResponseModels\GetOrdersResponse.cs" />
+    <Compile Include="ResponseModels\InvoiceRequestResponseModel.cs" />
     <Compile Include="ResponseModels\MachineResponseModel.cs" />
     <Compile Include="ResponseModels\MachineSearchResponse.cs" />
     <Compile Include="ResponseModels\ItemDesignerTemplateBaseResponse.cs" />
@@ -385,6 +394,7 @@
     <Compile Include="ResponseModels\CostCentersResponse.cs" />
     <Compile Include="ResponseModels\OrderBaseResponse.cs" />
     <Compile Include="ResponseModels\OrderBaseResponseForCompany.cs" />
+    <Compile Include="ResponseModels\OrdersForCrmResponse.cs" />
     <Compile Include="ResponseModels\OrderStatusesResponse.cs" />
     <Compile Include="ResponseModels\PaperSheetBaseResponse.cs" />
     <Compile Include="ResponseModels\PaperSheetResponse.cs" />

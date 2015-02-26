@@ -148,7 +148,7 @@ namespace MPC.Repository.Repositories
 
 				try
 				{
-					return db.CostCentres.Where(c => c.CostCentreId == CostCentreID).SingleOrDefault();
+                    return db.CostCentres.Include("CostcentreInstructions").Where(c => c.CostCentreId == CostCentreID).SingleOrDefault();
 
 				}
 				catch (Exception ex)
@@ -534,13 +534,14 @@ namespace MPC.Repository.Repositories
 		{
 			try
 			{
-			  //var query =  (from ccType in db.CostCentreTypes
-			  //             join cc in db.CostCentres on ccType.TypeId equals cc.Type  
-			  //             join Org in db.Organisations on cc.OrganisationId equals Org.OrganisationId
-			  //             where ((ccType.IsExternal ==  1 && ccType.IsSystem == 0 && cc.CompleteCode != null) 
-			  //             && Org.OrganisationId == OrganisationId )select cc);
-						  
-			  //return query.ToList<CostCentre>();
+                var query = (from ccType in db.CostCentreTypes
+                             join cc in db.CostCentres on ccType.TypeId equals cc.Type
+                             join Org in db.Organisations on cc.OrganisationId equals Org.OrganisationId
+                             where ((ccType.IsExternal == 1 && ccType.IsSystem == 0 && cc.CompleteCode != null)
+                             && Org.OrganisationId == OrganisationId)
+                             select cc);
+
+                return query.ToList<CostCentre>();
 
 				return null;
 			}
@@ -594,7 +595,7 @@ namespace MPC.Repository.Repositories
 		{
 			try
 			{
-				return db.CostCentreTypes.Where(t => t.CompanyId == OrganisationId && t.IsSystem == 0).ToList();
+                return db.CostCentreTypes.Where(t => t.OrganisationId == OrganisationId && t.IsSystem == 0).ToList();
 
 			}
 			catch (Exception ex)
@@ -628,9 +629,15 @@ namespace MPC.Repository.Repositories
 		{
 			int fromRow = (request.PageNo - 1) * request.PageSize;
 			int toRow = request.PageSize;
-			Expression<Func<CostCentre, bool>> query =
-				oCostCenter => oCostCenter.Type != 1 && oCostCenter.IsDisabled == 0 && oCostCenter.OrganisationId == OrganisationId;
-
+            Expression<Func<CostCentre, bool>> query;
+            if (request.CostCenterType != 0)
+            {
+                query = oCostCenter => oCostCenter.Type == request.CostCenterType && oCostCenter.IsDisabled == 0 && oCostCenter.OrganisationId == OrganisationId;
+            }
+            else
+            {
+                query = oCostCenter => oCostCenter.Type != 1 && oCostCenter.IsDisabled == 0 && oCostCenter.OrganisationId == OrganisationId;
+            }
 			var rowCount = DbSet.Count(query);
 			var costCenters = request.IsAsc
 				? DbSet.Where(query)
@@ -647,6 +654,7 @@ namespace MPC.Repository.Repositories
 			{
 				RowCount = rowCount,
 				CostCenters = costCenters
+                
 			};
 		}
 		public CostCentre GetCostCentersByID(long costCenterID)
@@ -764,22 +772,23 @@ namespace MPC.Repository.Repositories
 		public List<CostCentre> GetCorporateDeliveryCostCentersList(long CompanyID)
 		{
 
-				var query = from tblCostCenter in db.CostCentres
-							join CorpCostCenter in db.CompanyCostCentres on tblCostCenter.CostCentreId equals (long)CorpCostCenter.CostCentreId
-							where tblCostCenter.Type == (int)CostCenterTypes.Delivery && tblCostCenter.isPublished == true
-							&& CorpCostCenter.CompanyId == CompanyID
-							orderby tblCostCenter.MinimumCost
-							select new CostCentre()
-							{
+            var query = (from tblCostCenter in db.CostCentres
+                         join CorpCostCenter in db.CompanyCostCentres on tblCostCenter.CostCentreId equals (long)CorpCostCenter.CostCentreId
+                         where tblCostCenter.Type == (int)CostCenterTypes.Delivery && tblCostCenter.isPublished == true
+                         && CorpCostCenter.CompanyId == CompanyID
+                         orderby tblCostCenter.MinimumCost
+                         select tblCostCenter).ToList();
+                            //select new CostCentre()
+                            //{
 
-								CostCentreId = tblCostCenter.CostCentreId,
-								CompletionTime = tblCostCenter.CompletionTime,
-								MinimumCost = tblCostCenter.MinimumCost,
-								Description = tblCostCenter.Description,
-								Name = tblCostCenter.Name,
-								SetupCost = tblCostCenter.DeliveryCharges ?? 0,
-								EstimateProductionTime = tblCostCenter.EstimateProductionTime
-							};
+                            //    CostCentreId = tblCostCenter.CostCentreId,
+                            //    CompletionTime = tblCostCenter.CompletionTime,
+                            //    MinimumCost = tblCostCenter.MinimumCost,
+                            //    Description = tblCostCenter.Description,
+                            //    Name = tblCostCenter.Name,
+                            //    SetupCost = tblCostCenter.DeliveryCharges ?? 0,
+                            //    EstimateProductionTime = tblCostCenter.EstimateProductionTime
+                            //};
 
 
 				return query.ToList();

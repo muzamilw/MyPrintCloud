@@ -262,6 +262,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\AttachmentUploaderController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\ImagePermissionController.cs" />
+    <Compile Include="Areas\DesignerApi\Controllers\SmartFormController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateBackgroundImageController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateColorStylesController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateController.cs" />
@@ -288,6 +289,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\OrderConfirmationController.cs" />
     <Compile Include="Controllers\OrderPolicySaveController.cs" />
+    <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PersonalDetailAndOrderPolicyController.cs" />
     <Compile Include="Controllers\ProductDetailController.cs" />
     <Compile Include="Controllers\DomainController.cs" />
@@ -317,6 +319,7 @@
     <Compile Include="Controllers\ShopCartController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Controllers\QuickLinksController.cs" />
+    <Compile Include="Controllers\SlidingBannerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -345,6 +348,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Controllers\HeaderController.cs" />
     <Compile Include="ViewModels\MatchingSetViewModel.cs" />
+    <Compile Include="ViewModels\PaypalViewModel.cs" />
     <Compile Include="ViewModels\ProductPriceMatrixViewModel.cs" />
     <Compile Include="ViewModels\RelatedItemViewModel.cs" />
     <Compile Include="ViewModels\SearchOrderViewModel.cs" />
@@ -622,6 +626,7 @@
     <Content Include="Scripts\PopUp.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\SlidingBanner.js" />
     <Content Include="Scripts\SmartFormJCarousel.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
@@ -707,6 +712,8 @@
     <Content Include="Views\Shared\PartialViews\OrderPolicySave.cshtml" />
     <Content Include="Views\Shared\PartialViews\ProductOrderHistory.cshtml" />
     <Content Include="Views\Shared\PartialViews\ViewOrder.cshtml" />
+    <Content Include="Views\Payment\PaypalSubmit.cshtml" />
+    <Content Include="Views\Shared\PartialViews\SlidingBanner.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -715,10 +722,7 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
-    <Folder Include="Views\OrderPolicySave\" />
-    <Folder Include="Views\PersonalDetailAndOrderPolicy\" />
-    <Folder Include="Views\ProductOrderHistory\" />
-    <Folder Include="Views\RequestQuote\" />
+    <Folder Include="Views\SlidingBanner\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -33,6 +33,8 @@ define("inventory/inventory.viewModel",
                     pager = ko.observable(),
                     //Search Filter
                     searchFilter = ko.observable(),
+                     //Organisation culture region
+                    orgRegion = ko.observable(),
                     //Supplier Filter
                     supplierFilter = ko.observable(),
                     //Category Filter
@@ -151,6 +153,7 @@ define("inventory/inventory.viewModel",
                     getInventoriesListItems = function () {
                         isLoadingInventory(true);
                         dataservice.getInventoriesList({
+                            Region: orgRegion(),
                             SearchString: searchFilter(),
                             CategoryId: categoryFilter(),
                             SubCategoryId: subCategoryFilter(),
@@ -182,6 +185,9 @@ define("inventory/inventory.viewModel",
                     getBase = function () {
                         dataservice.getInventoryBase({
                             success: function (data) {
+                                // Orgnaisation region
+                                orgRegion(data.Region);
+                                getInventoriesListItems();
                                 //Categories
                                 categories.removeAll();
                                 ko.utils.arrayPushAll(categories(), data.StockCategories);
@@ -399,7 +405,7 @@ define("inventory/inventory.viewModel",
                             supplierVm.selectedSupplier(undefined);
 
 
-                            dataservice.saveInventory(selectedInventory().convertToServerData(), {
+                            dataservice.saveInventory(selectedInventory().convertToServerData(orgRegion()), {
                                 success: function (data) {
                                     //For Add New
                                     if (selectedInventory().itemId() === 0) {
@@ -481,7 +487,7 @@ define("inventory/inventory.viewModel",
                     },
                      // Select a Cost Item
                     selectCostItem = function (costItem) {
-                        if (selectedCostItem() != undefined && !selectedCostItem().isValid()) {
+                        if (selectedCostItem() !== undefined && !selectedCostItem().isValid()) {
                             return;
                         }
                         if (selectedCostItem() !== costItem) {
@@ -602,7 +608,6 @@ define("inventory/inventory.viewModel",
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         getBase();
                         pager(pagination.Pagination({ PageSize: 5 }, inventories, getInventoriesListItems));
-                        getInventoriesListItems();
 
                     };
                 // #endregion Arrays
@@ -661,6 +666,7 @@ define("inventory/inventory.viewModel",
                     onAddSupplier: onAddSupplier,
                     gotoElement: gotoElement,
                     currencySymbol: currencySymbol,
+                    orgRegion: orgRegion
                 };
             })()
         };

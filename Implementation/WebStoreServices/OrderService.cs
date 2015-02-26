@@ -129,6 +129,48 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
+        public bool UpdateOrderStatusAfterPrePayment(Estimate tblOrder, OrderStatus orderStatus, StoreMode mode)
+        {
+           return _OrderRepository.UpdateOrderStatusAfterPrePayment(tblOrder, orderStatus, mode);
+        }
+
+        //private void UpdateOrderedItems(OrderStatus orderStatus, Estimate tblOrder, ItemStatuses itemStatus, StoreMode Mode)
+        //{
+
+        //    tblOrder.Items.ToList().ForEach(item =>
+        //    {
+        //        if (item.IsOrderedItem.HasValue && item.IsOrderedItem.Value)
+        //        {
+
+        //            if (orderStatus != OrderStatus.ShoppingCart)
+        //                item.StatusId = (short)itemStatus;
+        //            _OrderRepository.updateStockAndSendNotification(item.RefItemId, Mode, tblOrder.CompanyId, Convert.ToInt32(item.Qty1), Convert.ToInt32(tblOrder.ContactId), Convert.ToInt32(item.ItemId), Convert.ToInt32(tblOrder.EstimateId), MgrIds, org);
+                    
+
+        //        }
+        //        else
+        //        {//Delete the non included items
+        //            bool result = false;
+        //            List<Model.ArtWorkAttatchment> itemAttatchments = null;
+        //            Web2Print.DAL.Templates clonedTempldateFiles = null;
+
+        //            result = ProductManager.RemoveCloneItem(item.ItemID, out itemAttatchments, out clonedTempldateFiles);
+        //            if (result)
+        //            {
+        //                BLL.ProductManager.RemoveItemAttacmentPhysically(itemAttatchments); // file removing physicslly
+        //                BLL.ProductManager.RemoveItemTemplateFilesPhysically(clonedTempldateFiles); // file removing
+        //            }
+
+        //            //dbContext.tbl_items.DeleteObject(item);
+        //        }
+
+        //    });
+        //}
+
+        public bool SetOrderCreationDateAndCode(long orderId)
+        {
+            return _OrderRepository.SetOrderCreationDateAndCode(orderId);
+        }
         public bool IsVoucherValid(string voucherCode)
         {
             try

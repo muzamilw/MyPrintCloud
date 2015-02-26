@@ -87,9 +87,9 @@
                                             <img class="RfgImgCs" src=@Html.GetAppBasePath()@costcenter.AddOnImage />
                                         </div>
                                         <div class="extra_item float_left_simple">
-                                            
+
                                             <input id="@costcenter.ProductAddOnID" type="checkbox" name="addOnChecks" class="checkBoxAdOnPriceCheckBox backgroundIMg" />
-                                           
+
                                             <label class="margin5 colorBlack">@costcenter.AddOnName</label>
                                             <div class="extra_pricing float_right">
                                                 @if (costcenter.Type != 4)
@@ -276,7 +276,7 @@
 
                             }
 
-                    </select>
+                        </select>
                     }
 
                 </div>
@@ -297,18 +297,18 @@
                     <label id="lbl_Total" class="float_left_simple">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTotalHeadingText", UserCookieManager.StoreId))</label>
                     @if (MPC.Webstore.Common.UserCookieManager.isIncludeTax == true)
                     {
-                        @*<label id="lblTaxLabel" class="Fsize13 float_right marginLeft">inc. VAT</label>*@<label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label>
+                        @*<label id="lblTaxLabel" class="Fsize13 float_right marginLeft">inc. VAT</label>*@<label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label>
                     }
                     else
                     {
-                        @*<label id="lblTaxLabel" class="Fsize13 float_right marginLeft">ex. VAT</label>*@<label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label>
+                        @*<label id="lblTaxLabel" class="Fsize13 float_right marginLeft">ex. VAT</label>*@<label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label>
                     }
                     <label id="lblGrossTotal" class="float_right">@ViewBag.Currency 0.00</label>
                 </div>
                 @if (ViewBag.IsStockControl == true)
                 {
 
-                    if (ViewBag.ItemStock = 0)
+                    if (ViewBag.ItemStock == 0)
                     { <div class="InStockContainer" style="background:red; color:white;">
                         @if (ViewBag.isAllowBackOrder ?? false) // back ordering allowed
                         {
@@ -344,7 +344,7 @@
                         @Html.HiddenFor(m => m.AddOnPrice, new { id = "VMAddOnrice" })
                         @Html.HiddenFor(m => m.StockId, new { id = "VMStockId" })
                         @Html.HiddenFor(m => m.QuantityOrdered, new { id = "VMQuantityOrdered" })
-
+                        @Html.HiddenFor(m => m.ModifiedQueueItem, new { id = "ModifiedQueueItem" })
                         <input type="submit" value="Add to cart" class="add_to_cart_btn rounded_corners5 MTopM10" onclick="return ConfirmCart();" />
                     }
 
@@ -370,7 +370,8 @@
                         <div class="confirm_design divtxtalgn MLR">
                             <label id="lbl_Quantity">@Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.StoreId))</label>
                         </div>
-                        <br />}
+                        <br />
+                    }
                     <div class="width50p">
                         @if (ViewBag.Item.IsQtyRanged == true)
                         {
@@ -691,740 +692,809 @@
 @section scripts {
     <script src="~/Scripts/PopUp.js"></script>
     <script>
-    var isRanged = "@ViewBag.Item.IsQtyRanged.ToString()" == "False" ? 0 : 1;
-    var TotalItemPrice = 0;
-    var isPriceSelected = 0;
+        var isRanged = "@ViewBag.Item.IsQtyRanged.ToString()" == "False" ? 0 : 1;
+        var TotalItemPrice = 0;
+        var isPriceSelected = 0;
 
-    $(document).ready(function () {
+        $(document).ready(function() {
 
-        $('input:radio[name=StockPaper]:checked').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
-        $('input:radio[name=StockPaper]:checked').next().css("background-color", "white");
+            $('input:radio[name=StockPaper]:checked').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
+            $('input:radio[name=StockPaper]:checked').next().css("background-color", "white");
 
-        hideShowPriceColumns($('input:radio[name=StockPaper]:checked').attr("class"));
+            hideShowPriceColumns($('input:radio[name=StockPaper]:checked').attr("class"));
 
-        MatrixToggle();
-        if (isRanged) {
-            if ($("#rangedQuantityOrdered").val() == "") {
+            MatrixToggle();
+            if (isRanged) {
+                if ($("#rangedQuantityOrdered").val() == "") {
+                } else {
+                    CalculatePriceBaseOnRangedQuantity();
+                }
+
             } else {
-                CalculatePriceBaseOnRangedQuantity();
+                CalculatePriceBaseOnSelectedQuantity($(".dropdownQtyListClass").find(":selected").index());
             }
 
-        } else {
-            CalculatePriceBaseOnSelectedQuantity($(".dropdownQtyListClass").find(":selected").index());
-        }
+            SelectStockOption($('input:radio[name=StockPaper]:checked').attr('class'));
 
-        SelectStockOption($('input:radio[name=StockPaper]:checked').attr('class'));
+            SetAddOnsPriceOnPageLaod();
 
-        SetAddOnsPriceOnPageLaod();
-    });
+            if ("@ViewBag.Mode" == "Modify") {
+                var updatedAddOns = jQuery.parseJSON($('#VMJsonAddOns').val());
 
-    $("#priceToggle").click(function () {
-        $('#priceMatrixContainer').slideToggle();
-    });
+                if (updatedAddOns != null) {
 
-    function ConfirmCart() {
-        if (isPriceSelected == 0) {
-            ShowPopUp("Message", "Please check your details to proceed.");
-            return false;
-        }else{
-            ShowLoader();
-        }
-    }
+                    for (var i = 0; i < $(updatedAddOns).length; i++) {
 
-    function MatrixToggle() {
+                        if ($(updatedAddOns)[i].Type == 4) {
 
-
-        var hideMessage = "Hide Price Table";//Resources.MyResource.HidePriceMatrix;
-        var showMessage = "Show Price Table"; //Resources.MyResource.ShowPriceMatrix;
-        if ($('#toggleHeading').text() == hideMessage) {
-            $('#toggleHeading').text(showMessage);
-            $('#ToogleTable').css("margin-bottom", "0px");
-
-            $('#matrixHeadingsContainer').css("display", "none");
-        }
-        else {
-            $('#toggleHeading').text(hideMessage);
-            $('#ToogleTable').css("margin-bottom", "10px");
-            $('#matrixHeadingsContainer').css("display", "block");
-        }
-    }
-
-    function CalculatePriceBaseOnRangedQuantity() {
-
-        var QuantityOrdered = $("#rangedQuantityOrdered").val();
-
-        if (isNaN(QuantityOrdered) === true) {
-
-            ShowPopUp("Message", "Please enter numeric characters only.");
-            return false;
-        }
-        else if (QuantityOrdered == 0) {
-            ShowPopUp("Message", "Please enter correct quantity.");
-            return false;
-        }
-        else if (QuantityOrdered.toString().indexOf(".") != -1) {
-            ShowPopUp("Message", "Please enter correct quantity.");
-            return false;
-        }
-        else if (QuantityOrdered < 0) {
-            ShowPopUp("Message", "Please enter correct quantity.");
-            return false;
-        }
-
-        var ObjectItemStock = "@ViewBag.ItemStock";
-
-        if (ObjectItemStock != "") {
-            if (ObjectItemStock.InStock > 0) {
-                if (ObjectItemStock.isAllowBackOrder == false) {
-                    var StockLevel = parseInt(ObjectItemStock.InStock);
-                    if (QuantityOrdered > StockLevel) {
-                        ShowPopUp('Message', "You cannot place order because the selected quantity is more than stock.");
-                        return false;
+                            $(updatedAddOns)[i].CostCentreJasonData = JSON.stringify(@Html.Raw(Json.Encode(ViewBag.CostCentreQueueItems)));
+                        }
                     }
                 }
+                $('#VMJsonAddOns').val(JSON.stringify(updatedAddOns));
             }
-        }
+        });
 
-        var selectedStockType = StockNo();
+        $("#priceToggle").click(function() {
+            $('#priceMatrixContainer').slideToggle();
+        });
 
-        var Price = null;
-        var qtyJsonData = null;
-        var ActualqtyJsonData = null;
-        var count = $(JsonData).length;
-        if (QuantityOrdered != "") {
-            var JsonData = jQuery.parseJSON($('.JsonPriceMatrixValue').val());
-            var JsonFirstObject = $(JsonData)[0];
-            var JsonLastObject = "";
-            var OrderedJasonObject = "";
-            for (var i = count - 1; i < $(JsonData).length; i++) {
-                JsonLastObject = $(JsonData)[i];
-            }
-
-            if (QuantityOrdered < JsonFirstObject.QtyRangeFrom || QuantityOrdered > JsonLastObject.QtyRangeTo) {
-                ShowPopUp('Message', "Your quantity exceeds the normal amount, please contact us for a special price.");
+        function ConfirmCart() {
+            if (isPriceSelected == 0) {
+                ShowPopUp("Message", "Please check your details to proceed.");
                 return false;
             } else {
-                count = $(JsonData).length;
+                ShowLoader();
+            }
+        }
 
-                for (var i = 0; i < count; i++) {
+        function MatrixToggle() {
 
-                    if (QuantityOrdered >= $(JsonData)[i].QtyRangeFrom && QuantityOrdered <= $(JsonData)[i].QtyRangeTo) {
 
-                        OrderedJasonObject = $(JsonData)[i];
-                        break;
+            var hideMessage = "Hide Price Table"; //Resources.MyResource.HidePriceMatrix;
+            var showMessage = "Show Price Table"; //Resources.MyResource.ShowPriceMatrix;
+            if ($('#toggleHeading').text() == hideMessage) {
+                $('#toggleHeading').text(showMessage);
+                $('#ToogleTable').css("margin-bottom", "0px");
+
+                $('#matrixHeadingsContainer').css("display", "none");
+            } else {
+                $('#toggleHeading').text(hideMessage);
+                $('#ToogleTable').css("margin-bottom", "10px");
+                $('#matrixHeadingsContainer').css("display", "block");
+            }
+        }
+
+        function CalculatePriceBaseOnRangedQuantity() {
+
+            var QuantityOrdered = $("#rangedQuantityOrdered").val();
+
+            if (isNaN(QuantityOrdered) === true) {
+
+                ShowPopUp("Message", "Please enter numeric characters only.");
+                return false;
+            } else if (QuantityOrdered == 0) {
+                ShowPopUp("Message", "Please enter correct quantity.");
+                return false;
+            } else if (QuantityOrdered.toString().indexOf(".") != -1) {
+                ShowPopUp("Message", "Please enter correct quantity.");
+                return false;
+            } else if (QuantityOrdered < 0) {
+                ShowPopUp("Message", "Please enter correct quantity.");
+                return false;
+            }
+
+            var ObjectItemStock = "@ViewBag.ItemStock";
+
+            if (ObjectItemStock != "") {
+                if (ObjectItemStock.InStock > 0) {
+                    if (ObjectItemStock.isAllowBackOrder == false) {
+                        var StockLevel = parseInt(ObjectItemStock.InStock);
+                        if (QuantityOrdered > StockLevel) {
+                            ShowPopUp('Message', "You cannot place order because the selected quantity is more than stock.");
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            var selectedStockType = StockNo();
+
+            var Price = null;
+            var qtyJsonData = null;
+            var ActualqtyJsonData = null;
+            var count = $(JsonData).length;
+            if (QuantityOrdered != "") {
+                var JsonData = jQuery.parseJSON($('.JsonPriceMatrixValue').val());
+                var JsonFirstObject = $(JsonData)[0];
+                var JsonLastObject = "";
+                var OrderedJasonObject = "";
+                for (var i = count - 1; i < $(JsonData).length; i++) {
+                    JsonLastObject = $(JsonData)[i];
+                }
+
+                if (QuantityOrdered < JsonFirstObject.QtyRangeFrom || QuantityOrdered > JsonLastObject.QtyRangeTo) {
+                    ShowPopUp('Message', "Your quantity exceeds the normal amount, please contact us for a special price.");
+                    return false;
+                } else {
+                    count = $(JsonData).length;
+
+                    for (var i = 0; i < count; i++) {
+
+                        if (QuantityOrdered >= $(JsonData)[i].QtyRangeFrom && QuantityOrdered <= $(JsonData)[i].QtyRangeTo) {
+
+                            OrderedJasonObject = $(JsonData)[i];
+                            break;
+                        }
+
                     }
 
+
+                    if (OrderedJasonObject != null) {
+
+                        selectedStockType = selectedStockType + '_PriceMatrixID_' + OrderedJasonObject.ItemID;
+
+
+                        Price = parseFloat($('#' + selectedStockType).attr("title"));
+
+
+                        Price = Price * QuantityOrdered;
+
+                        $("#VMQuantityOrdered").val(QuantityOrdered);
+                        $("#VMJsonMatrix").val(JSON.stringify(OrderedJasonObject));
+
+
+                        this.displayTotalPrice(Price, calculateAddOns(true));
+
+                    }
                 }
-
-
-                if (OrderedJasonObject != null) {
-
-                    selectedStockType = selectedStockType + '_PriceMatrixID_' + OrderedJasonObject.ItemID;
-
-
-                    Price = parseFloat($('#' + selectedStockType).attr("title"));
-
-
-
-                    Price = Price * QuantityOrdered;
-
-                    $("#VMQuantityOrdered").val(QuantityOrdered);
-                    $("#VMJsonMatrix").val(JSON.stringify(OrderedJasonObject));
-
-
-                    this.displayTotalPrice(Price, calculateAddOns());
-
-                }
+            } else {
+                ShowPopUp("Message", "Please enter quantity.");
+                return false;
             }
         }
-        else {
-            ShowPopUp("Message", "Please enter quantity.");
-            return false;
+
+        function CalculatePriceBaseOnSelectedQuantity(selectedQuantityIndex) {
+
+            var selectedStockNo = StockNo();
+
+            var JsonData = jQuery.parseJSON($('.JsonPriceMatrixValue').val());
+            JsonData = JsonData[selectedQuantityIndex];
+            selectedStockNo = selectedStockNo + '_PriceMatrixID_' + JsonData.ItemID.toString();
+
+            var price = "";
+
+            price = parseFloat($('#' + selectedStockNo).attr("title"));
+
+            $("#VMJsonMatrix").val(JSON.stringify(JsonData));
+
+            $("#VMQuantityOrdered").val($(".dropdownQtyListClass").find(":selected").text());
+            this.displayTotalPrice(price, calculateAddOns(true));
         }
-    }
 
-    function CalculatePriceBaseOnSelectedQuantity(selectedQuantityIndex) {
-
-        var selectedStockNo = StockNo();
-
-        var JsonData = jQuery.parseJSON($('.JsonPriceMatrixValue').val());
-        JsonData = JsonData[selectedQuantityIndex];
-        selectedStockNo = selectedStockNo + '_PriceMatrixID_' + JsonData.ItemID.toString();
-
-        var price = "";
-
-        price = parseFloat($('#' + selectedStockNo).attr("title"));
-
-        $("#VMJsonMatrix").val(JSON.stringify(JsonData));
-
-        $("#VMQuantityOrdered").val($(".dropdownQtyListClass").find(":selected").text());
-        this.displayTotalPrice(price, calculateAddOns());
-    }
-
-    $(".dropdownQtyListClass").change(function () {
+        $(".dropdownQtyListClass").change(function() {
 
 
-        CalculatePriceBaseOnSelectedQuantity($(this).find(":selected").index());
-    });
+            CalculatePriceBaseOnSelectedQuantity($(this).find(":selected").index());
+        });
 
-    function SelectStockOption(classname) {
+        function SelectStockOption(classname) {
 
-        $('input:radio[class=' + classname + ']').prop('checked', true);
+            $('input:radio[class=' + classname + ']').prop('checked', true);
 
-        if ($('input:radio[class=' + classname + ']').is(':checked')) {
+            if ($('input:radio[class=' + classname + ']').is(':checked')) {
 
-            $('input:radio[class=' + classname + ']').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
+                $('input:radio[class=' + classname + ']').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
 
-            var name = $('input:radio[class=' + classname + ']').attr("name");
+                var name = $('input:radio[class=' + classname + ']').attr("name");
 
-            $('input:radio[name=' + name + ']').each(function () {
-                if ($(this).is(':checked')) {
-                    $("#lblStock").text($(this).next().text());
-                    $(this).parent().parent().parent().parent().addClass('white_background');
-                    $(this).parent().parent().parent().parent().css("background-color", "white");
+                $('input:radio[name=' + name + ']').each(function() {
+                    if ($(this).is(':checked')) {
+                        $("#lblStock").text($(this).next().text());
+                        $(this).parent().parent().parent().parent().addClass('white_background');
+                        $(this).parent().parent().parent().parent().css("background-color", "white");
+                    } else {
+                        $(this).next().removeClass('OrangeGradiantbtn').addClass('grayRadiantbtn');
+                    }
+                });
+
+                var stockID = $('input:radio[class=' + classname + ']').attr("data-Id");
+
+                $("#VMStockId").val(stockID);
+
+                hideShowPriceColumns(classname);
+
+            }
+
+
+            if (isRanged) {
+                if ($("#rangedQuantityOrdered").val() == "") {
                 } else {
-                    $(this).next().removeClass('OrangeGradiantbtn').addClass('grayRadiantbtn');
+                    CalculatePriceBaseOnRangedQuantity();
                 }
+            } else {
+                CalculatePriceBaseOnSelectedQuantity($(".dropdownQtyListClass").find(":selected").index());
+            }
+
+            LoadCostCentersByStockId(stockID);
+        }
+
+
+        function hideShowPriceColumns(selectedPaperType) {
+
+            var mattClomuns = $(".mattPriceMatrixColumn");
+            var glossyColumns = $(".glossyPriceMatrixColumn");
+            var premimumMattColumns = $(".premiumMattPriceMatrixColumn");
+            var forthColumn = $(".Stock4PriceMatrixColumn");
+            var fifthColumn = $(".Stock5PriceMatrixColumn");
+            var SixColumn = $(".Stock6PriceMatrixColumn");
+            var SevenColumn = $(".Stock7PriceMatrixColumn");
+            var eightColumn = $(".Stock8PriceMatrixColumn");
+            var nineColumn = $(".Stock9PriceMatrixColumn");
+            var tenthColumn = $(".Stock10PriceMatrixColumn");
+            var elevenColumn = $(".Stock11PriceMatrixColumn");
+
+            hideColumns(mattClomuns);
+            hideColumns(glossyColumns);
+            hideColumns(premimumMattColumns);
+            hideColumns(forthColumn);
+            hideColumns(fifthColumn);
+            hideColumns(SixColumn);
+            hideColumns(SevenColumn);
+            hideColumns(eightColumn);
+            hideColumns(nineColumn);
+            hideColumns(tenthColumn);
+            hideColumns(elevenColumn);
+
+            if (selectedPaperType == 'rbStockType1') {
+                showColumns(mattClomuns);
+            } else if (selectedPaperType == 'rbStockType2') {
+                showColumns(glossyColumns);
+            } else if (selectedPaperType == 'rbStockType3') {
+                showColumns(premimumMattColumns);
+            } else if (selectedPaperType == 'rbStockType4') {
+                showColumns(forthColumn);
+            } else if (selectedPaperType == 'rbStockType5') {
+                showColumns(fifthColumn);
+            } else if (selectedPaperType == 'rbStockType6') {
+                showColumns(SixColumn);
+            } else if (selectedPaperType == 'rbStockType7') {
+                showColumns(SevenColumn);
+            } else if (selectedPaperType == 'rbStockType8') {
+                showColumns(eightColumn);
+            } else if (selectedPaperType == 'rbStockType9') {
+                showColumns(nineColumn);
+            } else if (selectedPaperType == 'rbStockType10') {
+                showColumns(tenthColumn);
+            } else if (selectedPaperType == 'rbStockType11') {
+                showColumns(elevenColumn);
+            }
+        }
+
+        function showColumns(columnsListObj) {
+
+            $(columnsListObj).css("display", "block");
+        }
+
+
+        function hideColumns(columnsListObj) {
+            $(columnsListObj).css("display", "none");
+        }
+
+        function displayTotalPrice(itemPrice, addOnPrice) {
+
+            itemPrice = parseFloat(itemPrice);
+            addOnPrice = parseFloat(addOnPrice);
+
+            $("#VMPrice").val(itemPrice);
+            $("#VMAddOnrice").val(addOnPrice);
+            $("#VMItemId").val(@ViewBag.ClonedItemId);
+
+            // this condition sets the total to zero because no quantity is selected
+            if (isRanged) {
+                if ($("#rangedQuantityOrdered").val() == "") {
+                    if (addOnPrice == 0 && itemPrice > 0) {
+                        itemPrice = 0;
+                    }
+                }
+            }
+
+
+            var culturee = 1;
+
+            var IsInt = "";
+            IsInt = itemPrice;
+
+            if (IsInt == 0) {
+            } else {
+                IsInt = IsInt.toString();
+                var indexOfDot = IsInt.indexOf(".");
+                var indexOfComma = IsInt.indexOf(",");
+
+                if (indexOfDot == -1 || indexOfComma == -1) {
+
+                    IsInt = -1;
+                } else {
+                    IsInt = 1;
+                }
+
+            }
+
+            TotalItemPrice = itemPrice;
+            TotalItemPrice = TotalItemPrice.toFixed(2);
+
+            var GrossTotal = itemPrice + addOnPrice;
+            GrossTotal = "@ViewBag.Currency" + GrossTotal.toFixed(2).toString();
+
+            var isShowPricing = 1;
+
+            if (isShowPricing == 1) {
+                if (IsInt == -1) {
+                    $('#lblGrossTotal').text(GrossTotal);
+                } else {
+                    $('#lblGrossTotal').text(GrossTotal);
+                }
+            } else {
+                $('#lblGrossTotal').css("display", "none");
+            }
+            if ((itemPrice + addOnPrice) > 0) {
+                isPriceSelected = 1;
+            }
+        }
+
+        // returns the the selected stock no
+        function StockNo() {
+            var stockName = $('input:radio[name=StockPaper]:checked').attr("class");
+            if (stockName == 'rbStockType1') {
+                return '1';
+            } else if (stockName == 'rbStockType2') {
+                return '2';
+            } else if (stockName == 'rbStockType3') {
+                return '3';
+            } else if (stockName == 'rbStockType4') {
+                return '4';
+            } else if (stockName == 'rbStockType5') {
+                return '5';
+            } else if (stockName == 'rbStockType6') {
+                return '6';
+            } else if (stockName == 'rbStockType7') {
+                return '7';
+            } else if (stockName == 'rbStockType8') {
+                return '8';
+            } else if (stockName == 'rbStockType9') {
+                return '9';
+            } else if (stockName == 'rbStockType10') {
+                return '10';
+            } else if (stockName == 'rbStockType11') {
+                return '11';
+            }
+        }
+
+        function calculateAddOns(isReCalCostCentreOnQuantityChange) {
+
+            var checkedPriceTotal = 0;
+
+            var selectedCheckBox = null;
+
+            var unCheckedBox = null;
+
+            var JsonToSubmit = [];
+
+            var itemsList = '';
+
+            // all available cost centres
+            var addOnJasonData = jQuery.parseJSON($('.JsonAddonCostCentreValue').val());
+
+            var alreadyAddedCostCentres = null;
+
+            if ($("#VMJsonAddOns").val() != "") {
+
+                if ($("#VMJsonAddOns").val().length == 2) {
+                    alreadyAddedCostCentres = null;
+                } else {
+                    alreadyAddedCostCentres = jQuery.parseJSON($("#VMJsonAddOns").val());
+                }
+
+            }
+            var isUpdateJson = 0;
+            var selectedAddonsList = "";
+            $(".checkBoxAdOnPriceCheckBox").each(function(i, val) {
+
+                if ($(val).is(':checked')) {
+
+                    if (addOnJasonData != null) {
+
+                        for (var i = 0; i < $(addOnJasonData).length; i++) {
+                            if ($(addOnJasonData)[i].Id == $(val).attr('id')) {
+                                if (alreadyAddedCostCentres != null) {
+                                    var breakLoop = 0;
+                                    var isRecordAdded = 0;
+                                    for (var q = 0; q < $(alreadyAddedCostCentres).length; q++) {
+                                        // if ticked cost centre is already added to the jason queue then pick the cos centre from jason queue
+                                        if (alreadyAddedCostCentres[q].CostCenterId == $(addOnJasonData)[i].CostCenterId) {
+
+                                            JsonToSubmit.push(alreadyAddedCostCentres[q]);
+                                            breakLoop = 1;
+                                            isRecordAdded = 1;
+                                            break;
+                                        }
+
+                                        if (breakLoop == 1) {
+                                            breakLoop = 0;
+                                            break;
+                                        }
+                                    }
+                                    // else pick the item from actual costcentres queue
+                                    if (isRecordAdded == 0) {
+                                        JsonToSubmit.push($(addOnJasonData)[i]);
+                                    }
+                                } else {
+                                    //pick the item from actual costcentres queue
+                                    JsonToSubmit.push($(addOnJasonData)[i]);
+                                }
+
+                                selectedCheckBox = $(addOnJasonData)[i];
+                                break;
+                            }
+                        }
+
+                        itemsList = itemsList + "<br/> " + $(val).next().text();
+
+                        // check the costcenter if its type is fixed then we will take its setup cost
+                        //if it is per quantity type then we will (qty * priceperunitqty) + setupcost
+
+                        var actualPrice = selectedCheckBox.ActualPrice;
+
+                        if (selectedCheckBox.Type == 2) {
+
+                            if (isRanged) {
+                                var quantityOrdered = $("#rangedQuantityOrdered").val();
+                                actualPrice = (quantityOrdered * actualPrice) + selectedCheckBox.SetupCost;
+                                if (actualPrice < selectedCheckBox.MinimumCost && selectedCheckBox.MinimumCost != 0) {
+                                    actualPrice = selectedCheckBox.MinimumCost;
+                                }
+                            } else {
+                                var quantityOrdered = $(".dropdownQtyListClass").find(":selected").val();
+
+                                actualPrice = (quantityOrdered * actualPrice) + selectedCheckBox.SetupCost;
+                                if (actualPrice < selectedCheckBox.MinimumCost && selectedCheckBox.MinimumCost != 0) {
+                                    actualPrice = selectedCheckBox.MinimumCost;
+
+                                }
+                            }
+                            checkedPriceTotal = checkedPriceTotal + parseFloat(actualPrice);
+
+                        } else if (selectedCheckBox.Type == 4) { // gets the value from the label
+                            if ($(val).next().next().children(':first').text() == "") {
+
+                            } else {
+                                if (isReCalCostCentreOnQuantityChange == true) {
+                                    PromptForValues(selectedCheckBox.CostCenterId, $(val).attr('id'), 2);
+                                    checkedPriceTotal = checkedPriceTotal + parseFloat($(val).next().next().children(':first').text().replace("@ViewBag.Currency", ""));
+                                }
+                            }
+
+                            if (!$(val).hasClass('userDefined')) {
+                                $(val).addClass('userDefined');
+                            }
+
+
+                        } else {
+                            checkedPriceTotal = checkedPriceTotal + parseFloat(actualPrice);
+
+                        }
+
+                        selectedAddonsList = selectedAddonsList + JSON.stringify(selectedCheckBox, null, 2);
+
+                    }
+                } else {
+                    // in case of user defined cost centre remove the calculated price and modify button when this costcentre will be un checked
+                    if ($(val).hasClass('userDefined')) {
+                        $(val).next().next().html('');
+                    }
+                }
+
+                $("#VMJsonAddOns").val(JSON.stringify(JsonToSubmit));
+
+                selectedCheckBox = null;
+
             });
 
-            var stockID = $('input:radio[class=' + classname + ']').attr("data-Id");
+            $('#lblExtra').html(itemsList);
 
-            $("#VMStockId").val(stockID);
-
-            hideShowPriceColumns(classname);
-
+            return checkedPriceTotal;
         }
 
 
-        if (isRanged) {
-            if ($("#rangedQuantityOrdered").val() == "") {
-            } else {
-                CalculatePriceBaseOnRangedQuantity();
-            }
-        } else {
-            CalculatePriceBaseOnSelectedQuantity($(".dropdownQtyListClass").find(":selected").index());
-        }
+        $('input[name=addOnChecks]').on('change', function(e) {
 
-        LoadCostCentersByStockId(stockID);
-    }
+            displayTotalPrice(TotalItemPrice, calculateAddOns(false));
+        });
 
 
+        function SetAddOnsPriceOnPageLaod() {
 
-    function hideShowPriceColumns(selectedPaperType) {
+            var selectedCheckBox = null;
 
-        var mattClomuns = $(".mattPriceMatrixColumn");
-        var glossyColumns = $(".glossyPriceMatrixColumn");
-        var premimumMattColumns = $(".premiumMattPriceMatrixColumn");
-        var forthColumn = $(".Stock4PriceMatrixColumn");
-        var fifthColumn = $(".Stock5PriceMatrixColumn");
-        var SixColumn = $(".Stock6PriceMatrixColumn");
-        var SevenColumn = $(".Stock7PriceMatrixColumn");
-        var eightColumn = $(".Stock8PriceMatrixColumn");
-        var nineColumn = $(".Stock9PriceMatrixColumn");
-        var tenthColumn = $(".Stock10PriceMatrixColumn");
-        var elevenColumn = $(".Stock11PriceMatrixColumn");
+            var itemsList = '';
 
-        hideColumns(mattClomuns);
-        hideColumns(glossyColumns);
-        hideColumns(premimumMattColumns);
-        hideColumns(forthColumn);
-        hideColumns(fifthColumn);
-        hideColumns(SixColumn);
-        hideColumns(SevenColumn);
-        hideColumns(eightColumn);
-        hideColumns(nineColumn);
-        hideColumns(tenthColumn);
-        hideColumns(elevenColumn);
+            var orderedQuantity = $(".dropdownQtyListClass").find(":selected").val();
 
-        if (selectedPaperType == 'rbStockType1') {
-            showColumns(mattClomuns);
-        }
-        else if (selectedPaperType == 'rbStockType2') {
-            showColumns(glossyColumns);
-        }
-        else if (selectedPaperType == 'rbStockType3') {
-            showColumns(premimumMattColumns);
-        }
-        else if (selectedPaperType == 'rbStockType4') {
-            showColumns(forthColumn);
-        }
-        else if (selectedPaperType == 'rbStockType5') {
-            showColumns(fifthColumn);
-        }
-        else if (selectedPaperType == 'rbStockType6') {
-            showColumns(SixColumn);
-        }
-        else if (selectedPaperType == 'rbStockType7') {
-            showColumns(SevenColumn);
-        }
-        else if (selectedPaperType == 'rbStockType8') {
-            showColumns(eightColumn);
-        }
-        else if (selectedPaperType == 'rbStockType9') {
-            showColumns(nineColumn);
-        }
-        else if (selectedPaperType == 'rbStockType10') {
-            showColumns(tenthColumn);
-        }
-        else if (selectedPaperType == 'rbStockType11') {
-            showColumns(elevenColumn);
-        }
-    }
+            if (isRanged) {
+                orderedQuantity = $("#rangedQuantityOrdered").val();
 
-    function showColumns(columnsListObj) {
-
-        $(columnsListObj).css("display", "block");
-    }
-
-
-    function hideColumns(columnsListObj) {
-        $(columnsListObj).css("display", "none");
-    }
-
-    function displayTotalPrice(itemPrice, addOnPrice) {
-
-        itemPrice = parseFloat(itemPrice);
-        addOnPrice = parseFloat(addOnPrice);
-
-        $("#VMPrice").val(itemPrice);
-        $("#VMAddOnrice").val(addOnPrice);
-        $("#VMItemId").val(@ViewBag.ClonedItemId);
-
-        // this condition sets the total to zero because no quantity is selected
-        if (isRanged) {
-            if ($("#rangedQuantityOrdered").val() == "") {
-                if (addOnPrice == 0 && itemPrice > 0) {
-                    itemPrice = 0;
-                }
-            }
-        }
-
-
-        var culturee = 1;
-
-        var IsInt = "";
-        IsInt = itemPrice;
-
-        if (IsInt == 0) {
-        } else {
-            IsInt = IsInt.toString();
-            var indexOfDot = IsInt.indexOf(".");
-            var indexOfComma = IsInt.indexOf(",") == -1
-
-            if (indexOfDot == -1 || indexOfComma == -1) {
-
-                IsInt = -1;
-            } else {
-                IsInt = 1;
             }
 
-        }
+            var addOnJasonData = jQuery.parseJSON($('.JsonAddonCostCentreValue').val());
 
-        TotalItemPrice = itemPrice
-        TotalItemPrice = TotalItemPrice.toFixed(2);
-
-        var GrossTotal = itemPrice + addOnPrice;
-        GrossTotal = "@ViewBag.Currency" + GrossTotal.toFixed(2).toString();
-
-        var isShowPricing = 1;
-
-        if (isShowPricing == 1) {
-            if (IsInt == -1) {
-                $('#lblGrossTotal').text(GrossTotal);
-            } else {
-                $('#lblGrossTotal').text(GrossTotal);
-            }
-        }
-        else {
-            $('#lblGrossTotal').css("display", "none");
-        }
-        if ((itemPrice + addOnPrice) > 0) {
-            isPriceSelected = 1;
-        }
-    }
-
-    // returns the the selected stock no
-    function StockNo() {
-        var stockName = $('input:radio[name=StockPaper]:checked').attr("class");
-        if (stockName == 'rbStockType1') {
-            return '1';
-        }
-        else if (stockName == 'rbStockType2') {
-            return '2';
-        }
-        else if (stockName == 'rbStockType3') {
-            return '3';
-        }
-        else if (stockName == 'rbStockType4') {
-            return '4';
-        }
-        else if (stockName == 'rbStockType5') {
-            return '5';
-        }
-        else if (stockName == 'rbStockType6') {
-            return '6';
-        }
-        else if (stockName == 'rbStockType7') {
-            return '7';
-        }
-        else if (stockName == 'rbStockType8') {
-            return '8';
-        }
-        else if (stockName == 'rbStockType9') {
-            return '9';
-        }
-        else if (stockName == 'rbStockType10') {
-            return '10';
-        }
-        else if (stockName == 'rbStockType11') {
-            return '11';
-        }
-    }
-
-    function calculateAddOns() {
-
-        var checkedPriceTotal = 0;
-
-        var selectedCheckBox = null;
-
-        var unCheckedBox = null;
-
-        var JsonToSubmit = [];
-
-        var itemsList = '';
-
-        // all available cost centres
-        var addOnJasonData = jQuery.parseJSON($('.JsonAddonCostCentreValue').val());
-
-        var alreadyAddedCostCentres = null;
-
-        if($("#VMJsonAddOns").val() != ""){
-
-            if($("#VMJsonAddOns").val().length == 2){
-                alreadyAddedCostCentres = null;
-            }else{
-                alreadyAddedCostCentres = jQuery.parseJSON($("#VMJsonAddOns").val());
-            }
-
-        }
-        var isUpdateJson = 0;
-        var selectedAddonsList = "";
-        $(".checkBoxAdOnPriceCheckBox").each(function (i, val) {
-
-            if ($(val).is(':checked')) {
+            $(".checkBoxAdOnPriceCheckBox").each(function(i, val) {
 
                 if (addOnJasonData != null) {
 
                     for (var i = 0; i < $(addOnJasonData).length; i++) {
                         if ($(addOnJasonData)[i].Id == $(val).attr('id')) {
-                            if(alreadyAddedCostCentres != null){
-                                var breakLoop = 0;
-                                var isRecordAdded = 0;
-                                for (var q = 0; q < $(alreadyAddedCostCentres).length; q++) {
-                                    // if ticked cost centre is already added to the jason queue then pick the cos centre from jason queue
-                                    if(alreadyAddedCostCentres[q].CostCenterId == $(addOnJasonData)[i].CostCenterId){
-
-                                        JsonToSubmit.push(alreadyAddedCostCentres[q]);
-                                        breakLoop = 1;
-                                        isRecordAdded = 1;
-                                        break;
-                                    }
-
-                                    if(breakLoop == 1){
-                                        breakLoop = 0;
-                                        break;
-                                    }
-                                }
-                                // else pick the item from actual costcentres queue
-                                if(isRecordAdded == 0){
-                                    JsonToSubmit.push($(addOnJasonData)[i]);
-                                }
-                            }else{
-                                //pick the item from actual costcentres queue
-                                JsonToSubmit.push($(addOnJasonData)[i]);
-                            }
-
                             selectedCheckBox = $(addOnJasonData)[i];
                             break;
                         }
                     }
 
-                    itemsList = itemsList + "<br/> " + $(val).next().text();
+                    itemsList = itemsList + ", " + $(this).parent().next().text();
 
                     // check the costcenter if its type is fixed then we will take its setup cost
                     //if it is per quantity type then we will (qty * priceperunitqty) + setupcost
-
                     var actualPrice = selectedCheckBox.ActualPrice;
 
                     if (selectedCheckBox.Type == 2) {
 
-                        if (isRanged) {
-                            var quantityOrdered = $("#rangedQuantityOrdered").val();
-                            actualPrice = (quantityOrdered * actualPrice) + selectedCheckBox.SetupCost;
-                            if (actualPrice < selectedCheckBox.MinimumCost && selectedCheckBox.MinimumCost != 0) {
-                                actualPrice = selectedCheckBox.MinimumCost;
-                            }
+                        actualPrice = (orderedQuantity * actualPrice) + selectedCheckBox.SetupCost;
+
+                        if (actualPrice < selectedCheckBox.MinimumCost && selectedCheckBox.MinimumCost != 0) {
+                            actualPrice = selectedCheckBox.MinimumCost;
+
                         }
-                        else {
-                            var quantityOrdered = $(".dropdownQtyListClass").find(":selected").val();
+                        actualPrice = "@ViewBag.Currency" + (actualPrice).toFixed(2).toString();
+                        $(val).next().next().children(':first').html(actualPrice);
 
-                            actualPrice = (quantityOrdered * actualPrice) + selectedCheckBox.SetupCost;
-                            if (actualPrice < selectedCheckBox.MinimumCost && selectedCheckBox.MinimumCost != 0) {
-                                actualPrice = selectedCheckBox.MinimumCost;
-
-                            }
+                        if (selectedCheckBox.isChecked == true) {
+                            $(val).click();
                         }
-                        checkedPriceTotal = checkedPriceTotal + parseFloat(actualPrice);
-
-                    }
-                    else if(selectedCheckBox.Type == 4){// gets the value from the label
-                        if($(val).next().next().children(':first').text() == ""){
-
-                        }else{
-
-                            checkedPriceTotal = checkedPriceTotal + parseFloat($(val).next().next().children(':first').text().replace("@ViewBag.Currency", ""));
+                    } else if (selectedCheckBox.Type == 4) {
+                        if (selectedCheckBox.isChecked == true) {
+                            $(val).next().next().html('<label>' + "@ViewBag.Currency" + selectedCheckBox.ActualPrice + '</label>' + '<a onclick="PromptForValues(' + selectedCheckBox.CostCenterId + ',' + $(val).attr('id') + ', 1);" >Modify</a> ');
+                            $(val).click();
                         }
+                        $(val).attr('onclick', 'PromptForValues(' + selectedCheckBox.CostCenterId + ', ' + $(val).attr('id') + ', \"New\");');
 
-                        if(!$(val).hasClass('userDefined')){
-                            $(val).addClass('userDefined');
-                        }
-
-
-                    }else{
-                        checkedPriceTotal = checkedPriceTotal + parseFloat(actualPrice);
+                        $("#costCentreQueueItems").val(JSON.stringify(@Html.Raw(Json.Encode(ViewBag.CostCentreQueueItems))));
 
                     }
 
-                    selectedAddonsList = selectedAddonsList + JSON.stringify(selectedCheckBox, null, 2);
-
                 }
-            } else {
-                // in case of user defined cost centre remove the calculated price and modify button when this costcentre will be un checked
-                if($(val).hasClass('userDefined')){
-                    $(val).next().next().html('');
-                }
-            }
-
-            $("#VMJsonAddOns").val( JSON.stringify(JsonToSubmit));
+            });
 
             selectedCheckBox = null;
-
-        });
-
-        $('#lblExtra').html(itemsList);
-
-        return checkedPriceTotal;
-    }
-
-
-
-    $('input[name=addOnChecks]').on('change', function (e) {
-
-        displayTotalPrice(TotalItemPrice, calculateAddOns());
-    });
-
-
-    function SetAddOnsPriceOnPageLaod() {
-
-        var selectedCheckBox = null;
-
-        var itemsList = '';
-
-        var orderedQuantity = $(".dropdownQtyListClass").find(":selected").val();
-
-        if (isRanged) {
-            orderedQuantity = $("#rangedQuantityOrdered").val();
-
         }
 
-        var addOnJasonData = jQuery.parseJSON($('.JsonAddonCostCentreValue').val());
-
-        $(".checkBoxAdOnPriceCheckBox").each(function (i, val) {
-
-            if (addOnJasonData != null) {
-
-                for (var i = 0; i < $(addOnJasonData).length; i++) {
-                    if ($(addOnJasonData)[i].Id == $(val).attr('id')) {
-                        selectedCheckBox = $(addOnJasonData)[i];
-                        break;
-                    }
-                }
-
-                itemsList = itemsList + ", " + $(this).parent().next().text();
-
-                // check the costcenter if its type is fixed then we will take its setup cost
-                //if it is per quantity type then we will (qty * priceperunitqty) + setupcost
-                var actualPrice = selectedCheckBox.ActualPrice;
-                alert(selectedCheckBox.isChecked);
-                if (selectedCheckBox.Type == 2) {
-
-                    actualPrice = (orderedQuantity * actualPrice) + selectedCheckBox.SetupCost;
-
-                    if (actualPrice < selectedCheckBox.MinimumCost && selectedCheckBox.MinimumCost != 0) {
-                        actualPrice = selectedCheckBox.MinimumCost;
-
-                    }
-                    actualPrice = "@ViewBag.Currency" + (actualPrice).toFixed(2).toString();
-                    $(val).next().next().children(':first').html(actualPrice);
-
-
-                }
-                else if(selectedCheckBox.Type == 4){
-                    if(selectedCheckBox.isChecked == true){
-                        $(val).next().next().html('<label>' + "@ViewBag.Currency" + selectedCheckBox.ActualPrice + '</label>' + '<a onclick="PromptForValues(' + selectedCheckBox.CostCenterId + ',' + $(val).attr('id') + ', 1);" >Modify</a> ');
-
-                    }
-                    $(val).attr('onclick', 'PromptForValues('+ selectedCheckBox.CostCenterId +', '+ $(val).attr('id') +', \"New\");');
-                }
-
-                if("@ViewBag.Mode" == "Modify"){
-                    if(selectedCheckBox.isChecked == true){
-                        $(val).click();
-                    }
-                    console.log(@ViewBag.CostCentreQueueItems);
-                    $("#costCentreQueueItems").val(@ViewBag.CostCentreQueueItems);
-                }
-
-
-            }
-        });
-
-        selectedCheckBox = null;
-    }
-
-    function ShowArtworkPanel() {
-        var panelHtml = $("#pnlArtworkUploader").html();
-        ShowArtWorkPopup("Upload Your Artwork", panelHtml);
-    }
-
-    function LoadCostCentersByStockId(StockId) {
-
-        $(".CostCenterItems").each(function (i, val) {
-            if (StockId == $(val).attr('data-StockId')) {
-                $(val).css("display", "block");
-
-            } else {
-
-                $(val).css("display", "none");
-
-                if ($(val).children().next().children().is(':checked')) {
-                    $(val).children().next().children().click();
-
-                }
-            }
-        });
-    }
-
-    function openDailog() {
-
-        var files = $("#imageUploader").get(0).files;
-        var sideOFImage = $("#uploadedImageSide").val();
-        if(sideOFImage == 0)
-        {
-            sideOFImage = 1;
-            $("#uploadedImageSide").val(1);
+        function ShowArtworkPanel() {
+            var panelHtml = $("#pnlArtworkUploader").html();
+            ShowArtWorkPopup("Upload Your Artwork", panelHtml);
         }
-        else
-        {
-            sideOFImage = parseInt(sideOFImage) + 1;
-            $("#uploadedImageSide").val(sideOFImage);
-        }
-        var name1 = files[0].name.replace(/C:\\fakepath\\/i, '');
-        var fileExtension = name1.replace(/^.*\./, '');
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth(); //January is 0!
-        var yyyy = today.getFullYear();
-        var monthNames = ["January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"];
-        var FileName = yyyy + monthNames[mm] + dd;
-        FileName = FileName.concat("-", '@ViewBag.ClonedItem.ProductCode', "-", '@ViewBag.Order.Order_Code', "-", '@ViewBag.ClonedItem.ItemCode', "-", '' + sideOFImage);
-        var url = "/mpc_content/Attachments/";
-        url = url.concat('@UserCookieManager.OrganisationID', "/", '@UserCookieManager.StoreId', "/Products/", @ViewBag.ClonedItem.ItemId);
 
-        while (url.indexOf('/') != -1)
-            url = url.replace("/", "__");
+        function LoadCostCentersByStockId(StockId) {
 
-        while (FileName.indexOf('/') != -1)
-            FileName = FileName.replace("/", "__")
+            $(".CostCenterItems").each(function(i, val) {
+                if (StockId == $(val).attr('data-StockId')) {
+                    $(val).css("display", "block");
 
-        if (files.length > 0) {
-            var data = new FormData();
-            for (i = 0; i < files.length; i++) {
-                data.append("file" + i, files[i]);
-            }
-            $.ajax({
-                type: "POST",
-                url: "/api/AttachmentUploader/" + url + "/" + FileName + "/" + @ViewBag.ClonedItem.ItemId + "/" + @ViewBag.Order.ContactId + "/" + @ViewBag.Order.CompanyId,
-                contentType: false,
-                processData: false,
-                data: data,
-                success: function (messages) {
+                } else {
 
-                    sideOFImage = parseInt(sideOFImage) + 1;
-                    $("#uploadedImageSide").val(sideOFImage);
-                    if(messages[0] == "Artwork not uploaded"){
-                        alert(messages[0]);
-                    }else{
-                        window.location.reload(true);
+                    $(val).css("display", "none");
+
+                    if ($(val).children().next().children().is(':checked')) {
+                        $(val).children().next().children().click();
+
                     }
-
-
-
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    //alert("Error while invoking the Web API");
-                    alert(thrownError);
                 }
             });
         }
 
+        function openDailog() {
 
-
-    }
-
-    function RediredToDesigner(ProductName, TemplateID, ItemID, CompanyID, ContactID, isCalledFrom, OrganisationID, printCropMarks, printWaterMark, isEmbedded, TempDesignerID){
-
-        ShowLoader();
-        var URL = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationID + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
-        window.location.href = URL;
-    }
-
-    function PromptForValues(CostCentreId, ControlId, Mode){
-
-        var quantityOrdered = $("#VMQuantityOrdered").val() == "" ? null : $("#VMQuantityOrdered").val();
-        if($("#" + ControlId).is(':checked')) {
-            if(Mode == 1){
-                ShowLoader();
-
-                var to;
-                to = "/webstoreapi/costCenter/GetDateTimeString?parameter1=" + CostCentreId + "&parameter2=" + @ViewBag.ClonedItem.ItemId + "&parameter3=" + quantityOrdered + "&parameter4=Modify";
-                var options = {
-                    type: "POST",
-                    url: to,
-                    data: $("#costCentreQueueItems").val(),
-                    contentType: "application/json",
-                    async: true,
-                    success: function (response) {
-                        ShowCostCentrePopup(response[2], CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "Modify", "@ViewBag.Currency", TotalItemPrice);
-                    },
-                    error: function (msg) { alert("Error occured "); console.log(msg); }
-                };
-                var returnText = $.ajax(options).responseText;
-
+            var files = $("#imageUploader").get(0).files;
+            var sideOFImage = $("#uploadedImageSide").val();
+            if (sideOFImage == 0) {
+                sideOFImage = 1;
+                $("#uploadedImageSide").val(1);
+            } else {
+                sideOFImage = parseInt(sideOFImage) + 1;
+                $("#uploadedImageSide").val(sideOFImage);
             }
-            else
-            {
+            var name1 = files[0].name.replace(/C:\\fakepath\\/i, '');
+            var fileExtension = name1.replace(/^.*\./, '');
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth(); //January is 0!
+            var yyyy = today.getFullYear();
+            var monthNames = [
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+            ];
+            var FileName = yyyy + monthNames[mm] + dd;
+            FileName = FileName.concat("-", '@ViewBag.ClonedItem.ProductCode', "-", '@ViewBag.Order.Order_Code', "-", '@ViewBag.ClonedItem.ItemCode', "-", '' + sideOFImage);
+            var url = "/mpc_content/Attachments/";
+            url = url.concat('@UserCookieManager.OrganisationID', "/", '@UserCookieManager.StoreId', "/Products/", @ViewBag.ClonedItem.ItemId);
 
-                ShowLoader();
-                $.getJSON("/webstoreapi/costCenter/GetDateTimeString/" + CostCentreId + "/"+ @ViewBag.ClonedItem.ItemId +"/"+ quantityOrdered +"/New/null",
-                  function (DT) {
+            while (url.indexOf('/') != -1)
+                url = url.replace("/", "__");
 
-                      ShowCostCentrePopup(DT[2], CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New","@ViewBag.Currency", TotalItemPrice);
+            while (FileName.indexOf('/') != -1)
+                FileName = FileName.replace("/", "__")
 
-                  });
+            if (files.length > 0) {
+                var data = new FormData();
+                for (i = 0; i < files.length; i++) {
+                    data.append("file" + i, files[i]);
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/api/AttachmentUploader/" + url + "/" + FileName + "/" + @ViewBag.ClonedItem.ItemId + "/" + @ViewBag.Order.ContactId + "/" + @ViewBag.Order.CompanyId,
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function(messages) {
+
+                        sideOFImage = parseInt(sideOFImage) + 1;
+                        $("#uploadedImageSide").val(sideOFImage);
+                        if (messages[0] == "Artwork not uploaded") {
+                            alert(messages[0]);
+                        } else {
+                            window.location.reload(true);
+                        }
+
+
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        //alert("Error while invoking the Web API");
+                        alert(thrownError);
+                    }
+                });
+            }
+
+
+        }
+
+        function RediredToDesigner(ProductName, TemplateID, ItemID, CompanyID, ContactID, isCalledFrom, OrganisationID, printCropMarks, printWaterMark, isEmbedded, TempDesignerID) {
+
+            ShowLoader();
+            var URL = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationID + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
+            window.location.href = URL;
+        }
+
+        function PromptForValues(CostCentreId, ControlId, Mode) {
+
+            var quantityOrdered = $("#VMQuantityOrdered").val() == "" ? null : $("#VMQuantityOrdered").val();
+            if ($("#" + ControlId).is(':checked')) {
+                if (Mode == 2) {
+                    ShowLoader();
+                  
+                    var to;
+                    to = "/webstoreapi/costCenter/GetDateTimeString?parameter1=" + CostCentreId + "&parameter2=" + @ViewBag.ClonedItem.ItemId + "&parameter3=" + quantityOrdered + "&parameter4=Update";
+                    var options = {
+                        type: "POST",
+                        url: to,
+                        data: $("#costCentreQueueItems").val(),
+                        contentType: "application/json",
+                        async: true,
+                        success: function(response) {
+
+                            if (response != "") {
+
+                                $("#ModifiedQueueItem").val($("#costCentreQueueItems").val());
+                                var updatedAddOns = jQuery.parseJSON($('#VMJsonAddOns').val());
+
+                                if (updatedAddOns != null) {
+
+                                    for (var i = 0; i < $(updatedAddOns).length; i++) {
+
+                                        if ($(updatedAddOns)[i].CostCenterId == CostCentreId) {
+                                            $(updatedAddOns)[i].ActualPrice = response;
+                                            $(updatedAddOns)[i].CostCentreJasonData = $("#costCentreQueueItems").val();
+                                        }
+                                    }
+
+                                    var JsonToReSubmit = [];
+                                    var totalVal = 0;
+                                    for (var i = 0; i < $(updatedAddOns).length; i++) {
+
+                                        JsonToReSubmit.push($(updatedAddOns)[i]);
+                                        if ($(updatedAddOns)[i].Type == 4) {
+                                            totalVal = parseFloat(totalVal) + parseFloat(response);
+                                        } else {
+                                            var actualP = ($("#VMQuantityOrdered").val() * $(updatedAddOns)[i].ActualPrice) + $(updatedAddOns)[i].SetupCost;
+                                            if (actualP < $(updatedAddOns)[i].MinimumCost && $(updatedAddOns)[i].MinimumCost != 0) {
+                                                actualP = $(updatedAddOns)[i].MinimumCost;
+                                            }
+                                            totalVal = parseFloat(totalVal) + parseFloat(actualP);
+                                        }
+
+                                    }
+                                    displayTotalPrice(TotalItemPrice, totalVal);
+                                    $("#" + ControlId).next().next().html('<label>' + '@ViewBag.Currency' + response + '</label>' + '<a onclick="PromptForValues(' + CostCentreId + ',' + ControlId + ', 1);" >Modify</a> ');
+
+                                    $("#VMJsonAddOns").val(JSON.stringify(JsonToReSubmit));
+                                }
+                            }
+
+                        },
+                        error: function(msg) {
+                            alert("Error occured ");
+                            console.log(msg);
+                        }
+                    };
+                    var returnText = $.ajax(options).responseText;
+                    HideLoader();
+                } else if (Mode == 1) {
+                    ShowLoader();
+                
+                    var to;
+                    to = "/webstoreapi/costCenter/GetDateTimeString?parameter1=" + CostCentreId + "&parameter2=" + @ViewBag.ClonedItem.ItemId + "&parameter3=" + quantityOrdered + "&parameter4=Modify";
+                    var options = {
+                        type: "POST",
+                        url: to,
+                        data: $("#costCentreQueueItems").val(),
+                        contentType: "application/json",
+                        async: true,
+                        success: function(response) {
+                            ShowCostCentrePopup(response[2], CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "Modify", "@ViewBag.Currency", TotalItemPrice);
+                        },
+                        error: function(msg) {
+                            alert("Error occured ");
+                            console.log(msg);
+                        }
+                    };
+                    var returnText = $.ajax(options).responseText;
+
+                } else {
+                    ShowLoader();
+                    if ($("#costCentreQueueItems").val() == 'null') {
+                        $.getJSON("/webstoreapi/costCenter/GetDateTimeString/" + CostCentreId + "/" + @ViewBag.ClonedItem.ItemId + "/" + quantityOrdered + "/New/null",
+                            function(DT) {
+
+                                ShowCostCentrePopup(DT[2], CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice);
+
+                        });
+
+                    } else {
+                        var to;
+                        to = "/webstoreapi/costCenter/GetDateTimeString?parameter1=" + CostCentreId + "&parameter2=" + @ViewBag.ClonedItem.ItemId + "&parameter3=" + quantityOrdered + "&parameter4=addAnother";
+                        var options = {
+                            type: "POST",
+                            url: to,
+                            data: $("#costCentreQueueItems").val(),
+                            contentType: "application/json",
+                            async: true,
+                            success: function(response) {
+                                console.log(response);
+                                $("#costCentreQueueItems").val(response[2]);
+                                var selectedCostCentreArray = [];
+                                for (var i = 0; i < $(response[2]).length; i++) {
+                                    if ($(response[2])[i].CostCentreID == CostCentreId) {
+                                        selectedCostCentreArray.push($(response[2])[i]);
+                                    }
+                                    
+                                }
+                                ShowCostCentrePopup(selectedCostCentreArray, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice);
+                            },
+                            error: function(msg) {
+                                alert("Error occured ");
+                                console.log(msg);
+                            }
+                        };
+                        var returnText = $.ajax(options).responseText;
+
+                    }
+                }
             }
         }
-    }
-</script>
+    </script>
 }

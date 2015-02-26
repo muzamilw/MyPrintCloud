@@ -170,3 +170,278 @@ alter table company
 drop column DeliveryPickUpAddressId
 
 GO
+
+/* Execution Date: 19/02/2015 */
+GO
+
+alter table Currency add CurrencySymbol varchar(5)
+alter table paymentGateway add CancelPurchaseUrl varchar(255)
+alter table paymentGateway add ReturnUrl varchar(255)
+alter table paymentGateway add NotifyUrl varchar(255)
+alter table paymentGateway add SendToReturnURL bit
+alter table paymentGateway add UseSandbox bit
+alter table paymentGateway add LiveApiUrl varchar(255)
+alter table paymentGateway add TestApiUrl varchar(255)
+alter table Organisation add TaxServiceUrl varchar(255)
+alter table Organisation add TaxServiceKey varchar(255)
+
+alter table ItemSection
+drop column QuestionQueue
+
+alter table ItemSection
+drop DF_tbl_item_sections_InputQueue
+
+alter table ItemSection
+drop column InputQueue
+
+alter table ItemSection
+drop column StockQueue
+
+alter table ItemSection
+drop column CostCentreQueue
+
+alter table ItemSection
+add QuestionQueue ntext null
+
+alter table ItemSection
+add InputQueue ntext  null
+
+alter table ItemSection
+add StockQueue ntext null
+
+alter table ItemSection
+add CostCentreQueue ntext null
+
+GO
+
+/* Execution Date: 23/02/2015 */
+GO
+
+exec sp_rename 'CostCentreMatrix.CompanyId', 'OrganisationId'
+
+alter table FieldVariable
+add CompanyId bigint null
+
+alter table FieldVariable
+add Scope int null
+
+alter table FieldVariable
+add WaterMark varchar(200) null
+
+alter table FieldVariable
+add DefaultValue varchar(200) null
+
+alter table FieldVariable
+add InputMask varchar(100) null
+
+alter table FieldVariable
+add OrganisationId bigint null
+
+alter table FieldVariable
+add IsSystem bit null
+
+alter table FieldVariable
+add VariableTitle varchar(100) null
+
+GO
+
+GO
+
+/****** Object:  Table [dbo].[CompanyContactVariable]    Script Date: 2/23/2015 11:36:42 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[CompanyContactVariable](
+	[ContactVariableId] [bigint] IDENTITY(1,1) NOT NULL,
+	[ContactId] [bigint] NOT NULL,
+	[VariableId] [bigint] NOT NULL,
+	[Value] [varchar](200) NULL,
+ CONSTRAINT [PK_CompanyContactVariable] PRIMARY KEY CLUSTERED 
+(
+	[ContactVariableId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[CompanyContactVariable]  WITH CHECK ADD  CONSTRAINT [FK_CompanyContactVariable_CompanyContact] FOREIGN KEY([ContactId])
+REFERENCES [dbo].[CompanyContact] ([ContactId])
+GO
+
+ALTER TABLE [dbo].[CompanyContactVariable] CHECK CONSTRAINT [FK_CompanyContactVariable_CompanyContact]
+GO
+
+ALTER TABLE [dbo].[CompanyContactVariable]  WITH CHECK ADD  CONSTRAINT [FK_CompanyContactVariable_FieldVariable] FOREIGN KEY([VariableId])
+REFERENCES [dbo].[FieldVariable] ([VariableId])
+GO
+
+ALTER TABLE [dbo].[CompanyContactVariable] CHECK CONSTRAINT [FK_CompanyContactVariable_FieldVariable]
+GO
+
+GO
+
+/****** Object:  Table [dbo].[VariableOption]    Script Date: 2/23/2015 11:53:35 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[VariableOption](
+	[VariableOptionId] [bigint] IDENTITY(1,1) NOT NULL,
+	[VariableId] [bigint] NULL,
+	[Value] [varchar](200) NULL,
+	[SortOrder] [int] NULL,
+ CONSTRAINT [PK_VariableOption] PRIMARY KEY CLUSTERED 
+(
+	[VariableOptionId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[VariableOption]  WITH CHECK ADD  CONSTRAINT [FK_VariableOption_FieldVariable] FOREIGN KEY([VariableId])
+REFERENCES [dbo].[FieldVariable] ([VariableId])
+GO
+
+ALTER TABLE [dbo].[VariableOption] CHECK CONSTRAINT [FK_VariableOption_FieldVariable]
+GO
+
+GO
+
+/****** Object:  Table [dbo].[SmartForm]    Script Date: 2/23/2015 12:05:49 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[SmartForm](
+	[SmartFormId] [bigint] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](200) NULL,
+	[CompanyId] [bigint] NULL,
+	[OrganisationId] [bigint] NULL,
+ CONSTRAINT [PK_SmartForm] PRIMARY KEY CLUSTERED 
+(
+	[SmartFormId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[SmartForm]  WITH CHECK ADD  CONSTRAINT [FK_SmartForm_Company] FOREIGN KEY([CompanyId])
+REFERENCES [dbo].[Company] ([CompanyId])
+GO
+
+ALTER TABLE [dbo].[SmartForm] CHECK CONSTRAINT [FK_SmartForm_Company]
+GO
+
+GO
+
+/****** Object:  Table [dbo].[SmartFormDetail]    Script Date: 2/23/2015 12:06:29 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[SmartFormDetail](
+	[SmartFormDetailId] [bigint] IDENTITY(1,1) NOT NULL,
+	[SmartFormId] [bigint] NOT NULL,
+	[ObjectType] [int] NULL,
+	[IsRequired] [bit] NULL,
+	[SortOrder] [int] NULL,
+ CONSTRAINT [PK_SmartFormDetail] PRIMARY KEY CLUSTERED 
+(
+	[SmartFormDetailId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[SmartFormDetail]  WITH CHECK ADD  CONSTRAINT [FK_SmartFormDetail_SmartForm] FOREIGN KEY([SmartFormId])
+REFERENCES [dbo].[SmartForm] ([SmartFormId])
+GO
+
+ALTER TABLE [dbo].[SmartFormDetail] CHECK CONSTRAINT [FK_SmartFormDetail_SmartForm]
+GO
+
+GO
+
+Alter table Invoice
+alter column InvoiceStatus smallint null
+
+Alter table Invoice
+add foreign key (InvoiceStatus)
+references Status(StatusId)
+
+Alter table Invoice
+add foreign key (ContactId)
+references CompanyContact(ContactId)
+
+GO
+
+/* Execution Date: 24/02/2015 */
+
+GO
+
+alter table FieldVariable
+alter column VariableSectionId bigint
+
+alter table SmartFormDetail
+add VariableId bigint null
+
+alter table SmartFormDetail
+add CaptionValue varchar(200) null
+
+alter table items
+drop DF__tbl_items__JobMa__6D6238AF
+
+alter table Items
+alter column JobManagerId uniqueidentifier null
+
+alter table Items
+alter column JobProgressedBy uniqueidentifier null
+
+alter table Items
+alter column JobCardPrintedBy uniqueidentifier null
+
+alter table SmartForm
+add Heading varchar(100) null
+
+GO
+
+/* Execution Date: 25/02/2015 */
+
+GO
+
+exec sp_rename 'dbo.CostCentreType.CompanyId', 'OrganisationId'
+
+alter table CostCentreType
+alter Column OrganisationId bigint null
+
+alter table TemplateVariable
+alter column VariableId bigint null
+
+GO

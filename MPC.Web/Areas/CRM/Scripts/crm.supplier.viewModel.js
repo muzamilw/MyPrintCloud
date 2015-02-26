@@ -12,15 +12,15 @@ define("crm/crm.supplier.viewModel",
 
                 //#region ____________OBSERVABLES____________
                  //Pager
-                pager = ko.observable(),
+                supplierpager = ko.observable(),
                 //Is Loading suppliers
                 isLoadingSuppliers = ko.observable(false),
                 //Search Filter
-                searchFilter = ko.observable(),
+                searchSupplierFilter = ko.observable(),
                 //Sort On
-                sortOn = ko.observable(1),
+                supplierSortOn = ko.observable(1),
                  //Sort In Ascending
-                sortIsAsc = ko.observable(true),
+                supplierSortIsAsc = ko.observable(true),
                 selectedSupplier = ko.observable(),
                 //#endregion
 
@@ -36,16 +36,16 @@ define("crm/crm.supplier.viewModel",
                     isLoadingSuppliers(true);
                     //dataservice.getStores({
                     dataservice.getSuppliers({
-                        SearchString: searchFilter(),
-                        PageSize: pager().pageSize(),
-                        PageNo: pager().currentPage(),
-                        SortBy: sortOn(),
-                        IsAsc: sortIsAsc()
+                        SearchString: searchSupplierFilter(),
+                        PageSize: supplierpager().pageSize(),
+                        PageNo: supplierpager().currentPage(),
+                        SortBy: supplierSortOn(),
+                        IsAsc: supplierSortIsAsc()
                     }, {
                         success: function (data) {
                             suppliers.removeAll();
                             if (data != null) {
-                                pager().totalCount(data.RowCount);
+                                supplierpager().totalCount(data.RowCount);
                                 _.each(data.Companies, function (item) {
                                     var module = model.CrmSupplierListViewModel.Create(item);
                                     suppliers.push(module);
@@ -60,11 +60,11 @@ define("crm/crm.supplier.viewModel",
                     });
                 },
                 //Template To Use
-                templateToUse = function (store) {
+                templateToUseSupplier = function (store) {
                     return (store === selectedSupplier() ? 'itemSupplierTemplate' : 'itemSupplierTemplate');
                 },
-                resetFilterSection = function () {
-                    searchFilter(undefined);
+                resetSupplierFilterSection = function () {
+                    searchSupplierFilter(undefined);
                     getSuppliers();
                 },
                 //#endregion
@@ -72,24 +72,21 @@ define("crm/crm.supplier.viewModel",
                initialize = function (specifiedView) {
                    view = specifiedView;
                    ko.applyBindings(view.viewModel, view.bindingRoot);
-                   pager(new pagination.Pagination({ PageSize: 5 }, suppliers, getSuppliers));
+                   supplierpager(new pagination.Pagination({ PageSize: 5 }, suppliers, getSuppliers));
                    getSuppliers();
                };
 
                 return {
-                    pager: pager,
+                    supplierpager: supplierpager,
                     isLoadingSuppliers: isLoadingSuppliers,
-                    searchFilter: searchFilter,
-                    sortOn: sortOn,
+                    searchSupplierFilter: searchSupplierFilter,
+                    supplierSortOn: supplierSortOn,
                     selectedSupplier: selectedSupplier,
-                    sortIsAsc: sortIsAsc,
-                    
+                    supplierSortIsAsc: supplierSortIsAsc,
                     suppliers: suppliers,
-
                     getSuppliers: getSuppliers,
-                    templateToUse: templateToUse,
-                    resetFilterSection: resetFilterSection,
-
+                    templateToUseSupplier: templateToUseSupplier,
+                    resetSupplierFilterSection: resetSupplierFilterSection,
                     initialize: initialize
                 };
             })()

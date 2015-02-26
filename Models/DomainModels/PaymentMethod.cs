@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+
 
 namespace MPC.Models.DomainModels
 {
@@ -10,7 +7,7 @@ namespace MPC.Models.DomainModels
     {
         public int PaymentMethodId { get; set; }
         public string MethodName { get; set; }
-        public Nullable<bool> IsActive { get; set; }
+        public bool? IsActive { get; set; }
 
         public virtual ICollection<PaymentGateway> PaymentGateways { get; set; }
         public virtual ICollection<PrePayment> PrePayments { get; set; }

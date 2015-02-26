@@ -171,6 +171,16 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public string XeroApiKey { get; set; }
 
+        /// <summary>
+        /// TaxServiceUrl
+        /// </summary>
+        public string TaxServiceUrl { get; set; }
+
+        /// <summary>
+        /// TaxServiceKey
+        /// </summary>
+        public string TaxServiceKey { get; set; }
+
         #endregion
         
         #region Reference Properties

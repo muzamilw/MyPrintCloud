@@ -436,6 +436,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.UserDefinedSpriteFileName = source.userDefinedSpriteImageFileName() === undefined ? null : source.userDefinedSpriteImageFileName();
                 result.CmsOffers = [];
                 result.MediaLibraries = [];
+                result.FieldVariables = [];
                 return result;
             },
             // Reset
@@ -668,7 +669,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         if (source.IsCustomer == 4) {
             store.type("4");
         }
-            
+
         else if (source.IsCustomer == 3) {
             store.type("3");
         }
@@ -1249,10 +1250,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             addressId = ko.observable(specifiedAddressId),
             companyId = ko.observable(specifiedCompanyId),
             addressName = ko.observable(specifiedAddressName).extend({ required: true }),
-            address1 = ko.observable(specifiedAddress1),
+            address1 = ko.observable(specifiedAddress1).extend({ required: true }),
             address2 = ko.observable(specifiedAddress2),
             address3 = ko.observable(specifiedAddress3),
-            city = ko.observable(specifiedCity),
+            city = ko.observable(specifiedCity).extend({ required: true }),
             state = ko.observable(specifiedState),
             country = ko.observable(specifiedCountry),
             stateName = ko.observable(specifiedStateName),
@@ -1282,7 +1283,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             // Errors
             errors = ko.validation.group({
                 addressName: addressName,
-                territoryId: territoryId
+                territoryId: territoryId,
+                address1: address1,
+                city: city
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -2252,7 +2255,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             homeCountry = ko.observable(specifiedHomeCountry),
             secretQuestion = ko.observable(specifiedSecretQuestion),
             secretAnswer = ko.observable(specifiedSecretAnswer),
-            password = ko.observable(specifiedPassword),
+            password = ko.observable(specifiedPassword).extend({ required: true }),
             uRL = ko.observable(specifiedURL),
             isEmailSubscription = ko.observable(specifiedIsEmailSubscription),
             isNewsLetterSubscription = ko.observable(specifiedIsNewsLetterSubscription),
@@ -2315,13 +2318,18 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             bussinessAddress = ko.observable(),
             shippingAddress = ko.observable(),
             stateName = ko.observable(),
-            
+
+            companyContactVariables = ko.observableArray([]),
+            confirmPassword = ko.observable().extend({ compareWith: password }),
+
 
             // Errors
             errors = ko.validation.group({
                 firstName: firstName,
                 email: email,
-                bussinessAddressId: bussinessAddressId
+                bussinessAddressId: bussinessAddressId,
+                password: password,
+                confirmPassword: confirmPassword
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -2440,7 +2448,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     JobTitle: jobTitle(),
                     DOB: dOB(),
                     Notes: notes(),
-                    IsDefaultContact: isDefaultContact() == true ? 1: 0,
+                    IsDefaultContact: isDefaultContact() == true ? 1 : 0,
                     HomeAddress1: homeAddress1(),
                     HomeAddress2: homeAddress2(),
                     HomeCity: homeCity(),
@@ -2504,10 +2512,11 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     AdditionalField5: additionalField5(),
                     canUserPlaceOrderWithoutApproval: canUserPlaceOrderWithoutApproval(),
                     CanUserEditProfile: canUserEditProfile(),
-                    canPlaceDirectOrder: !isPayByPersonalCreditCard()? false: canPlaceDirectOrder(),
+                    canPlaceDirectOrder: !isPayByPersonalCreditCard() ? false : canPlaceDirectOrder(),
                     OrganisationId: organisationId(),
                     BussinessAddressId: bussinessAddressId(),
                     FileName: fileName(),
+                    CompanyContactVariables: []
                     //BussinessAddress: bussinessAddress() != undefined ? bussinessAddress().convertToServerData(): null,
                     //ShippingAddress: shippingAddress() != undefined ? shippingAddress().convertToServerData() : null,
                 };
@@ -2601,11 +2610,13 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             canPlaceDirectOrder: canPlaceDirectOrder,
             organisationId: organisationId,
             bussinessAddressId: bussinessAddressId,
+            confirmPassword: confirmPassword,
             roleName: roleName,
             fileName: fileName,
             bussinessAddress: bussinessAddress,
             shippingAddress: shippingAddress,
             stateName: stateName,
+            companyContactVariables: companyContactVariables,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -3945,16 +3956,28 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     };
     // #endregion 
 
-    // #region ______________  Variable Defination   _________________
-
-    // ReSharper disable once InconsistentNaming
-    var VariableDefination = function (specifiedPageId) {
+    // #region ______________  Field Variable   _________________
+    var FieldVariable = function (specifiedVariableId, specifiedVariableName, specifiedVariableType, specifiedScope, specifiedWaterMark, specifiedDefaultValue,
+          specifiedInputMask, specifiedCompanyId, specifiedVariableTag, specifiedScopeName, specifiedTypeName, specifiedVariableTitle) {
         var self,
-            id = ko.observable(specifiedPageId),
-            pageTitle = ko.observable(specifiedPageTitle).extend({ required: true }),
-              // Errors
+            id = ko.observable(specifiedVariableId),
+            variableName = ko.observable(specifiedVariableName).extend({ required: true }),
+            variableType = ko.observable(specifiedVariableType),
+            scope = ko.observable(specifiedScope),
+            waterMark = ko.observable(specifiedWaterMark),
+            defaultValue = ko.observable(specifiedDefaultValue),
+            defaultValueForInput = ko.observable(specifiedDefaultValue),
+            inputMask = ko.observable((specifiedInputMask === undefined || specifiedInputMask === null) ? "xxx-xxxxx-xxxxx" : specifiedInputMask),
+            companyId = ko.observable(specifiedCompanyId),
+            variableTag = ko.observable(specifiedVariableTag),
+            scopeName = ko.observable(specifiedScopeName),
+            typeName = ko.observable(specifiedTypeName),
+            variableTitle = ko.observable(specifiedVariableTitle),
+            fakeId = ko.observable(),
+            variableOptions = ko.observableArray([]),
+            // Errors
             errors = ko.validation.group({
-                pageTitle: pageTitle,
+                variableName: variableName,
 
             }),
             // Is Valid 
@@ -3972,15 +3995,40 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             //Convert To Server
             convertToServerData = function (source) {
                 var result = {};
-                result.PageId = source.id() === undefined ? 0 : source.id();
+                result.VariableId = source.id() === undefined ? 0 : source.id();
+                result.VariableName = source.variableName() === undefined ? null : source.variableName();
+                result.VariableType = source.variableType() === undefined ? null : source.variableType();
+                result.WaterMark = source.waterMark() === undefined ? null : source.waterMark();
+                result.Scope = source.scope() === undefined ? null : source.scope();
+                result.DefaultValue = source.variableType() === 1 ? (source.defaultValue() === undefined ? null : source.defaultValue()) : defaultValueForInput;
+                result.CompanyId = source.companyId() === undefined ? null : source.companyId();
+                result.InputMask = source.inputMask() === undefined ? null : source.inputMask();
+                result.VariableTag = source.variableTag() === undefined ? null : source.variableTag();
+                result.VariableTitle = source.variableTitle() === undefined ? null : source.variableTitle();
+                result.FakeIdVariableId = source.fakeId() === undefined ? 0 : source.fakeId();
+                result.VariableOptions = [];
                 return result;
             },
-            // Reset
+        // Reset
             reset = function () {
                 dirtyFlag.reset();
             };
         self = {
             id: id,
+            variableName: variableName,
+            variableType: variableType,
+            scope: scope,
+            waterMark: waterMark,
+            defaultValueForInput: defaultValueForInput,
+            defaultValue: defaultValue,
+            companyId: companyId,
+            variableTag: variableTag,
+            inputMask: inputMask,
+            scopeName: scopeName,
+            typeName: typeName,
+            variableTitle: variableTitle,
+            variableOptions: variableOptions,
+            fakeId: fakeId,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -3990,29 +4038,259 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         };
         return self;
     };
-    //CMS Page Create Factory
-    VariableDefination.Create = function (source) {
-        return new VariableDefination(
-            source.PageId,
-            source.PageTitle,
-            source.PageKeywords,
-            source.Meta_Title,
-            source.Meta_DescriptionContent,
-            source.Meta_CategoryContent,
-            source.Meta_RobotsContent,
-            source.Meta_AuthorContent,
-            source.Meta_LanguageContent,
-            source.Meta_RevisitAfterContent,
-            source.CategoryId,
-            source.PageHTML,
-            source.ImageSource,
-            source.DefaultPageKeyWords,
-            source.FileName,
-            source.PageBanner
-
-        );
+    //Field Variable Create Factory
+    FieldVariable.Create = function (source) {
+        return new FieldVariable(
+            source.VariableId,
+             source.VariableName,
+             source.VariableType,
+             source.Scope,
+             source.WaterMark,
+             source.DefaultValue,
+             source.InputMask,
+             source.CompanyId,
+             source.VariableTag,
+             source.VariableTitle
+            );
     };
-    // #endregion ______________  CMS Page   _________________
+    // #endregion ______________  Field Variable   _________________
+
+    // #region ______________  Variable Option  _________________
+    var VariableOption = function (specifiedVariableOptionId, specifiedVariableName, specifiedValue, specifiedSortOrder) {
+        var self,
+            id = ko.observable(specifiedVariableOptionId),
+            variableId = ko.observable(specifiedVariableName),
+            value = ko.observable(specifiedValue).extend({ required: true }),
+            sortOrder = ko.observable(specifiedSortOrder),
+            fakeId = ko.observable(),
+
+            // Errors
+            errors = ko.validation.group({
+                value: value,
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function (source) {
+                var result = {};
+                result.VariableOptionId = source.id() === undefined ? 0 : source.id();
+                result.VariableId = source.variableId() === undefined ? 0 : source.variableId();
+                result.Value = source.value() === undefined ? null : source.value();
+                result.SortOrder = source.sortOrder() === undefined ? 0 : source.sortOrder();
+                result.FakeId = source.fakeId() === undefined ? 0 : source.fakeId();
+                return result;
+            },
+        // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            id: id,
+            variableId: variableId,
+            value: value,
+            sortOrder: sortOrder,
+            fakeId: fakeId,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    //Field Option Create Factory
+    VariableOption.Create = function (source) {
+        return new VariableOption(
+            source.VariableOptionId,
+             source.VariableId,
+             source.Value,
+             source.SortOrder
+            );
+    };
+    // #endregion ______________  Variable Option   _________________
+
+    // #region ______________  Company Contact Variable  _________________
+    var CompanyContactVariable = function (specifiedContactVariableId, specifiedContactId, specifiedVariableId, specifiedValue, specifiedTitle, specifiedType) {
+        var self,
+            id = ko.observable(specifiedContactVariableId),
+            contactId = ko.observable(specifiedContactId),
+            variableId = ko.observable(specifiedVariableId),
+            value = ko.observable(specifiedValue),
+            fakeId = ko.observable(),
+            title = ko.observable(specifiedTitle),
+            type = ko.observable(specifiedType),
+            optionId = ko.observable(specifiedType),
+            variableOptions = ko.observableArray([]),
+
+            // Errors
+            errors = ko.validation.group({
+                // value: value,
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function (source) {
+                var result = {};
+                result.ContactVariableId = source.id() === undefined ? 0 : source.id();
+                result.ContactId = source.contactId() === undefined ? 0 : source.contactId();
+                result.VariableId = source.variableId() === undefined ? 0 : source.variableId();
+                result.Value = source.value() === undefined ? null : source.value();
+                result.FakeVariableId = source.fakeId() === undefined ? 0 : source.fakeId();
+                return result;
+            },
+        // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            id: id,
+            contactId: contactId,
+            variableId: variableId,
+            value: value,
+            title: title,
+            fakeId: fakeId,
+            type: type,
+            optionId: optionId,
+            variableOptions: variableOptions,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    //Field Option Create Factory
+    CompanyContactVariable.Create = function (source) {
+        return new CompanyContactVariable(
+            source.ContactVariableId,
+             source.ContactId,
+             source.VariableId,
+             source.Value,
+             source.Title,
+             source.Type
+            );
+    };
+    // #endregion ______________  Company Contact Variable   _________________
+
+    // #region ______________  Field Variable  For Smart Form _________________
+    var FieldVariableForSmartForm = function (specifiedVariableId, specifiedVariableName, specifiedVariableType,
+        specifiedVariableTag, specifiedScopeName, specifiedTypeName, specifiedDefaultValue) {
+        var self,
+            id = ko.observable(specifiedVariableId),
+            variableName = ko.observable(specifiedVariableName),
+            variableType = ko.observable(specifiedVariableType),
+            variableTag = ko.observable(specifiedVariableTag),
+            scopeName = ko.observable(specifiedScopeName),
+            typeName = ko.observable(specifiedTypeName),
+            defaultValue = ko.observable(specifiedDefaultValue),
+            variableOptions = ko.observableArray([]);
+
+        self = {
+            id: id,
+            variableName: variableName,
+            variableType: variableType,
+            variableTag: variableTag,
+            scopeName: scopeName,
+            typeName: typeName,
+            defaultValue: defaultValue,
+            variableOptions: variableOptions
+        };
+        return self;
+    };
+    //Field Variable For Smart Form Create Factory
+    FieldVariableForSmartForm.Create = function (source) {
+        return new FieldVariableForSmartForm(
+            source.VariableId,
+             source.VariableName,
+             source.Type,
+             source.VariableTag,
+             source.ScopeName,
+             source.TypeName,
+             source.DefaultValue);
+    };
+    // #endregion ______________  Field Variable   _________________
+
+    // #region ______________  Smart Form _________________
+    var SmartForm = function (specifiedSmartFormId, specifiedName, specifiedCompanyId) {
+        var self,
+            id = ko.observable(specifiedSmartFormId),
+            name = ko.observable(specifiedName),
+            companyId = ko.observable(specifiedCompanyId),
+            //Check Whether Drop field Variable,Line Seperator or Group Caption
+            dropFrom = ko.observable(),
+            smartFormDetails = ko.observableArray([]);
+
+        self = {
+            id: id,
+            name: name,
+            companyId: companyId,
+            smartFormDetails: smartFormDetails,
+            dropFrom: dropFrom
+        };
+        return self;
+    };
+    //Smart Form Create Factory
+    SmartForm.Create = function (source) {
+        return new SmartForm(
+            source.VariableId,
+             source.Name,
+             source.CompanyId);
+    };
+    // #endregion ______________  Field Variable   _________________
+
+    // #region ______________  Smart Form Detail _________________
+    var SmartFormDetail = function (specifiedSmartFormDetailId, specifiedSmartFormId, specifiedObjectType,
+        specifiedSortOrder, specifiedIsRequired) {
+        var self,
+            id = ko.observable(specifiedSmartFormDetailId),
+            smartFormId = ko.observable(specifiedSmartFormId),
+            objectType = ko.observable(specifiedObjectType),
+            sortOrder = ko.observable(specifiedSortOrder),
+            isRequired = ko.observable(specifiedIsRequired),
+            html = ko.observable();
+
+        self = {
+            id: id,
+            smartFormId: smartFormId,
+            objectType: objectType,
+            isRequired: isRequired,
+            sortOrder: sortOrder,
+            html: html,
+        };
+        return self;
+    };
+    //Smart Form Detail Create Factory
+    SmartFormDetail.Create = function (source) {
+        return new SmartFormDetail(
+            source.SmartFormDetailId,
+             source.SmartFormId,
+             source.ObjectType,
+             source.SortOrder);
+    };
+    // #endregion ______________  Field Variable   _________________
 
     //#region ______________ R E T U R N ______________
     return {
@@ -4053,7 +4331,12 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         SectionFlag: SectionFlag,
         CampaignCompanyType: CampaignCompanyType,
         Group: Group,
-        VariableDefination: VariableDefination,
+        FieldVariable: FieldVariable,
+        VariableOption: VariableOption,
+        CompanyContactVariable: CompanyContactVariable,
+        FieldVariableForSmartForm: FieldVariableForSmartForm,
+        SmartForm: SmartForm,
+        SmartFormDetail: SmartFormDetail,
     };
     // #endregion 
 });

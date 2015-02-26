@@ -100,6 +100,16 @@ namespace MPC.Repository
             unityContainer.RegisterType<IReportRepository, ReportRepository>();
             unityContainer.RegisterType<IActivityTypeRepository, ActivityTypeRepository>();
             unityContainer.RegisterType<IActivityRepository, ActivityRepository>();
+            unityContainer.RegisterType<IVariableOptionRepository, VariableOptionRepository>();
+            unityContainer.RegisterType<IFieldVariableRepository, FieldVariableRepository>();
+            unityContainer.RegisterType<ICompanyContactVariableRepository, CompanyContactVariableRepository>();
+            unityContainer.RegisterType<IDeliveryCarrierRepository, DeliveryCarrierRepository>();
+            unityContainer.RegisterType<IPrePaymentRepository, PrePaymentRepository>();
+            unityContainer.RegisterType<IInvoiceRepository, InvoiceRepository>();
+            unityContainer.RegisterType<IPaypalPaymentRequestRepository, PaypalPaymentRequestRepository>();
+            unityContainer.RegisterType<ISmartFormRepository, SmartFormRepository>();
+            unityContainer.RegisterType<ISmartFormDetailRepository, SmartFormDetailRepository>();
+            unityContainer.RegisterType<IPayPalResponseRepository, PayPalResponseRepository>();
         }
     }
 }

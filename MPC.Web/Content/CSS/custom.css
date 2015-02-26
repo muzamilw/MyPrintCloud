@@ -1,1 +1,121 @@
-html {    height: 100%;}body {    background: #fff;    -webkit-font-smoothing: antialiased;    overflow-x: hidden;    background: url(../images/patterns/5.png) repeat;    height: 100%;}.sidenav {    width: 100%;    margin-left: 0;}.errorFill {    border: 1px solid red !important;    background-color: #fdd !important;}/* For Elements That use ValidationTooltip + Css: { 'errorFill': someValue } , css should be css: { 'errorFillWithValidation': someValue }  */.errorFillWithValidation {    border: 1px solid red !important;    background-color: #fdd !important;}.errorMsgText {    color: red !important;    cursor: pointer !important;}div#spinner {    display: none;    width: 95px;    height: 95px;    position: fixed;    top: 50%;    left: 50%;    background: url('../Images/loaders/circular/spinner.gif') no-repeat center transparent;    text-align: center;    padding: 10px;    font: normal 16px Tahoma, Geneva, sans-serif;    /*border:1px solid #666;*/    margin-left: -50px;    margin-top: -50px;    z-index: 10051;    overflow: auto;}
+html {    height: 100%;}body {    background: #fff;    -webkit-font-smoothing: antialiased;    overflow-x: hidden;    background: url(../images/patterns/5.png) repeat;    height: 100%;}.sidenav {    width: 100%;    margin-left: 0;}.errorFill {    border: 1px solid red !important;    background-color: #fdd !important;}/* For Elements That use ValidationTooltip + Css: { 'errorFill': someValue } , css should be css: { 'errorFillWithValidation': someValue }  */.errorFillWithValidation {    border: 1px solid red !important;    background-color: #fdd !important;}.errorMsgText {    color: red !important;    cursor: pointer !important;}div#spinner {    display: none;    width: 95px;    height: 95px;    position: fixed;    top: 50%;    left: 50%;    background: url('../Images/loaders/circular/spinner.gif') no-repeat center transparent;    text-align: center;    padding: 10px;    font: normal 16px Tahoma, Geneva, sans-serif;    /*border:1px solid #666;*/    margin-left: -50px;    margin-top: -50px;    z-index: 10051;    overflow: auto;} 
+ .trial-description 
+        {
+            top: 0;
+            position: fixed;
+            left:42%;
+            z-index: 10000;
+            background-color: white;
+            border-radius: 4px;
+            -webkit-box-shadow: 0px 0px 8px 2px gray;
+            -moz-box-shadow: 0px 0px 8px 2px gray;
+            box-shadow: 0px 0px 8px 2px gray;
+            
+        }
+
+        .myprintcloud-help 
+        {
+            position: fixed;
+            
+            background-color: white;
+            width:350px;
+            left:41%;
+            border: 1px solid #dedede;
+            border-radius: 7px;
+            font-family: Arial;
+            
+            z-index: 129000;
+        }
+        
+        
+
+        .disabled-div 
+        {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            display: block;
+            background-color: black;
+            top: 0;
+            left: 0;
+            z-index: 119000;
+            opacity: 0.8;
+        }
+
+         .right-arrow
+         {
+
+            content: "";
+            position: absolute;
+            height: 0;
+            width: 0;
+            right:104%;
+            
+            top:35%;
+            border:24px solid transparent;
+            border-right: 15px solid gray;
+            
+           
+         }
+         
+          .left-arrow
+         { 
+            content:"";
+            position:absolute;
+            height:0;
+            width:0;
+            left:104%;
+            
+            top:35%;
+            border:24px solid transparent;
+            border-left: 15px solid gray;
+            
+           
+         }
+         .bottom-arrow
+         { 
+            content:"";
+            position:absolute;
+            height:0;
+            width:0;
+            top:107%;
+            left:42%;
+           
+            border:24px solid transparent;
+            border-top: 15px solid gray;
+            
+         }
+         .top-arrow
+         { 
+            content:"";
+            position:absolute;
+            height:0;
+            width:0;
+            bottom:107%;
+            left:42%;
+           
+            border:24px solid transparent;
+            border-bottom: 15px solid gray;
+            
+         }
+
+        .help-divs 
+        {
+           
+            border-bottom:1px solid #dedede;
+          
+        }
+        .help-description
+        {
+
+             border-bottom:1px solid #dedede;
+             padding:20px;
+
+        }
+        
+       
+       
+
+  
+
+      

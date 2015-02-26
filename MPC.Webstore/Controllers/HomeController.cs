@@ -88,7 +88,7 @@ namespace MPC.Webstore.Controllers
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
-            ViewBag.StyleSheet = "/mpc_content/Assets/" + UserCookieManager.OrganisationID + "/" + UserCookieManager.StoreId + "/Site.css";  
+            ViewBag.StyleSheet = "/mpc_content/Assets/" + UserCookieManager.OrganisationID + "/" + UserCookieManager.StoreId + "/Classic/Site.css";  
 
             List<MPC.Models.DomainModels.CmsSkinPageWidget> model = null;
 
@@ -147,7 +147,7 @@ namespace MPC.Webstore.Controllers
         {
             if (mode == "compile")
             {
-                _CostCentreService.SaveCostCentre(335, 1, "Test");
+                _CostCentreService.SaveCostCentre(338, 1, "Test");
 
                 return Content("Cost Centre compiled");
             }

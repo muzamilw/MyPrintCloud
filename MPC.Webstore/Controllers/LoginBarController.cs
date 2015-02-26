@@ -18,6 +18,8 @@ namespace MPC.Webstore.Controllers
         #region Private
 
         private readonly IWebstoreClaimsHelperService _webstoreclaimHelper;
+
+        private readonly IItemService _itemService;
         
         #endregion
 
@@ -25,7 +27,7 @@ namespace MPC.Webstore.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public LoginBarController(IWebstoreClaimsHelperService webstoreClaimHelper)
+        public LoginBarController(IWebstoreClaimsHelperService webstoreClaimHelper, IItemService itemService)
         {
 
             if (webstoreClaimHelper == null)
@@ -33,6 +35,12 @@ namespace MPC.Webstore.Controllers
                 throw new ArgumentNullException("webstoreClaimHelper");
             }
             this._webstoreclaimHelper = webstoreClaimHelper;
+
+            if (itemService == null)
+            {
+                throw new ArgumentNullException("itemService");
+            }
+            this._itemService = itemService;
         }
 
         #endregion
@@ -46,11 +54,13 @@ namespace MPC.Webstore.Controllers
             {
                 ViewBag.isUserLoggedIn = true;
                 ViewBag.LoginUserName = UserCookieManager.ContactFirstName + " " + UserCookieManager.ContactLastName;
+                ViewBag.CartCount = string.Format("{0}", _itemService.GetCartItemsCount(_webstoreclaimHelper.loginContactID(), 0).ToString());
             }
             else
             {
                 ViewBag.isUserLoggedIn = false;
                 ViewBag.LoginUserName = "";
+                ViewBag.CartCount = string.Format("{0}", _itemService.GetCartItemsCount(0, UserCookieManager.TemporaryCompanyId).ToString());
             }
             return PartialView("PartialViews/LoginBar");
         }

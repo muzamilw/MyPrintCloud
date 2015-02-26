@@ -156,7 +156,7 @@
 
 }
 <div id="Vorder" class="popupInnerContainer rounded_corners" style="height: 530px; overflow: auto; z-index:0; margin-top:10px; visibility:hidden">
-    <table border="0" width="100%" cellpadding="4" cellspacing="0" id="Mytable">
+    <table border="0" width="100%" cellpadding="4" cellspacing="0" id="Mytable" style="background-color:#F6F6F7;">
         <tbody>
             <tr>
                 <td>
@@ -195,10 +195,10 @@
                                     <td>
                                         &nbsp;
                                     </td>
-                                    <td class="textAlignRight">
+                                    @*<td class="textAlignRight">
                                         <span class="simpleTextBold" id="spnClientStatus" >Status:</span>
-                                    </td>
-                                    <td class="textAlignLeft simpleText" style="width: 200px">
+                                    </td>*@
+                                    @*<td class="textAlignLeft simpleText" style="width: 200px">*@
                                         @*<asp:DropDownList ID="AllOrderStatuses" runat="server" CssClass="dropdown rounded_corners5"
                                                               Width="107px">
                                             </asp:DropDownList>*@
@@ -209,7 +209,7 @@
                                             CssClass="start_creating_btn rounded_corners5" Width="80px" Text="Update" />*@
                                         
 
-                                    </td>
+                                    @*</td>*@
                                 </tr>
                                 <tr>
                                     <td class="textAlignRight">
@@ -416,7 +416,7 @@
                                                                 <span id="ltrlzipcodeP">Zip Code / Post Code:</span>
                                                             </td>
                                                             <td>
-                                                                <label id="lblZipPostCode" class="txtBold"><span id="BillingAddressZipCode "></span></label>
+                                                                <span id="BillingAddressPostCode"></span>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -565,40 +565,44 @@
                 data: { orderID: orderId },
                 async: true,
                 success: function (response) {
-                    alert("hi");
+                   
                      
-                    $("#Grandtotal").text(response.CurrencySymbol+ "" + response.GrandTotal);
+                    $("#Grandtotal").text(response.CurrencySymbol + "" + response.GrossTotal);
 
                     
-                    $("#subtotal").text(response.SubTotal);
+                    $("#subtotal").text(response.CurrencySymbol + "" + response.SubTotal);
                     
-                    $("#Vat").text(response.VAT);
+                    $("#Vat").text(response.CurrencySymbol + "" + response.VAT);
 
                     
                     $("#OrderCode").text(response.order.OrderCode);
                     $("#OrderStatus").text(response.order.StatusName);
-                    $("#OrderDate").text(response.order.OrderDate);
-                    $("#OrderPlaceBy").text(response.order.PlacedBy);
-                    $("#OrderDeliveryDate").text(response.order.DeliveryDate);
-                    
-                    $("#DelCharge").text(response.DeliveryCostCharges);
-                   
+                    $("#OrderDate").text(response.OrderDateValue);
+                    alert(response.OrderDateValue);
 
+                    $("#OrderPlaceBy").text(response.order.PlacedBy + "" + '(' + response.order.CompanyName + ')');
+
+                    $("#OrderDeliveryDate").text(response.DeliveryDateValue);
+                    
+                    $("#DelCharge").text(response.CurrencySymbol+""+response.DeliveryCostCharges);
+                   
                     $("#BillingAddressName").text(response.billingAddress.AddressName);
 
                     $("#BillingAddressline1").text(response.billingAddress.Address1);
-                    $("#BillingAddressline2").text(response.billingAddress.Address2)
+                    $("#BillingAddressline2").text(response.billingAddress.Address2);
                     $("#BillingAddressCity").text(response.billingAddress.City);
-                    if ((response.billingAddress.State) != null)
-                        $("#BillingAddressState").text(response.billingAddress.State.StateName);
-
+                    if ((response.billingAddress.State) != null) {
+                        ("#BillingAddressState").text(response.billingAddress.State.StateName);
+                    }
                     if (response.billingAddress.Country != null)
                     {
-                        $("#BillingAddressState").text(response.billingAddress.Country.CountryName);
+                        $("#BillingAddressCountryName").text(response.billingAddress.Country.CountryName);
                     }
+                    
+                    $("#BillingAddressPostCode").text(response.billingAddress.PostCode);
 
-                    $("#BillingAddressZipCode").text(response.billingAddress.PostCode);
-                   
+                    alert(response.billingAddress.PostCode);
+
                     $("#BillingAddressContactNumber").text(response.billingAddress.ContactMobile);
 
                     $("#DeliveryAddressName").text(response.shippingAddress.AddressName)
@@ -617,13 +621,13 @@
                     $("#DeliveryAddressContactNo").text(response.shippingAddress.ContactMobile)
 
                     var GridItems = response.order.OrderDetails.CartItemsList;
-                    var InnerHtml = "<table>";
+                    var InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr style='gridViewRowStyle'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
                     
                     $.each(GridItems, function (i, IT) {
                     {
                         //InnerHtml += '<tr>';
 
-                        InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><img src=', IT.ImagePath, ' /></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', IT.Qty1BaseCharge1, '</label></td> <td><label id="VAT">', IT.Qty1Tax1Value, '</label></td><td><label id="Total">', IT.Qty1GrossTotal, '</label></td></tr>')
+                        InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><img src=', IT.ImagePath, ' /></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', response.CurrencySymbol + "" + IT.Qty1BaseCharge1, '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + IT.Qty1Tax1Value, '</label></td><td><label id="Total">', response.CurrencySymbol +""+IT.Qty1GrossTotal, '</label></td></tr>')
                                                     //'<td><img src=' + IT.ImagePath + ' /></td>' +
                                                     //'<td><label id="Productname">' + IT.ProductName + '</label></td>' +
                                                     //'<td><label id="Qty">' + IT.Qty1 + '</label></td>' +

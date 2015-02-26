@@ -50,7 +50,6 @@ namespace MPC.Webstore.Controllers
                 BindGrid(0, _myClaimHelper.loginContactID(),SearchOrder);
             }
             return SearchOrder;
-
         }
         public void BindGrid(long statusID, long contactID, SearchOrderViewModel model)
         {
@@ -219,4 +218,5 @@ namespace MPC.Webstore.Controllers
         }
       
     }
+    
 }

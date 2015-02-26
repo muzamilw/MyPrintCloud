@@ -213,9 +213,9 @@ namespace MPC.Implementation.WebStoreServices
             }
          
         }
-        public bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0) 
+        public bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, int CountOfUploads = 0, string QuestionQueue = "") 
         {
-            return _ItemRepository.UpdateCloneItem(clonedItemID, orderedQuantity, itemPrice, addonsPrice, stockItemID, newlyAddedCostCenters, Mode, OrganisationId, TaxRate, CountOfUploads);
+            return _ItemRepository.UpdateCloneItem(clonedItemID, orderedQuantity, itemPrice, addonsPrice, stockItemID, newlyAddedCostCenters, Mode, OrganisationId, TaxRate, ItemMode, CountOfUploads, QuestionQueue);
         }
         public ProductCategoriesView GetMappedCategory(string CatName, int CID)
         {
@@ -730,5 +730,21 @@ namespace MPC.Implementation.WebStoreServices
            }
            
        }
+
+        /// <summary>
+        /// get cart items count 
+        /// </summary>
+        /// <returns></returns>
+        public long GetCartItemsCount(long ContactId, long TemporaryCustomerId)
+        {
+            try
+            {
+                return _ItemRepository.GetCartItemsCount(ContactId, TemporaryCustomerId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

@@ -16,6 +16,7 @@ namespace MPC.Models.ResponseModels
         public IEnumerable<RegistrationQuestion> RegistrationQuestions { get; set; }
         public IEnumerable<EmailEvent> EmailEvents { get; set; }
         public IEnumerable<Address> Addresses { get; set; }
+        public IEnumerable<SectionFlag> SectionFlags { get; set; }
         public IEnumerable<PaymentMethod> PaymentMethods { get; set; }
         public IEnumerable<Widget> Widgets { get; set; }
         public IEnumerable<CmsPage> CmsPages { get; set; }
@@ -23,7 +24,10 @@ namespace MPC.Models.ResponseModels
         public IEnumerable<Country> Countries { get; set; }
 
         public IEnumerable<State> States { get; set; }
-       
+        public IEnumerable<FieldVariable> FieldVariablesForSmartForm { get; set; }
+
+        public FieldVariableResponse FieldVariableResponse { get; set; }
+
         // public IEnumerable<Department> Departments { get; set; }
         // public IEnumerable<AccountManager> AccountManagers { get; set; }
     }

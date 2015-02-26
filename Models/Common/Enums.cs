@@ -5,6 +5,16 @@ using System.Web;
 
 namespace MPC.Models.Common
 {
+    public enum FieldVariableScopeType : int
+    {
+        Store = 1,
+        Contact = 2,
+        Address = 3,
+        Territory = 4,
+        RealEstate = 5,
+        RealEstateImages = 6,
+    }
+
     public enum StoreMode : int
     {
         Retail = 1,
@@ -12,6 +22,7 @@ namespace MPC.Models.Common
         NotSet = 99
 
     }
+
     public enum CompanyTypes
     {
         TemporaryCustomer = 53,
@@ -114,13 +125,25 @@ namespace MPC.Models.Common
         InventoryItem = 5,
         RealEstate = 6
     }
-
+    public enum PaymentMethods
+    {
+        PayPal = 1,
+        Cash = 99,
+        authorizeNET = 2,
+        ANZ = 3,
+        StGeorge = 5,
+        NAB = 6
+    }
     public enum ItemStatuses
     {
         ShoppingCart = 3,
         NotProgressedToJob = 17
     }
-
+    public enum PaymentRequestStatus
+    {
+        Pending = 1,
+        Successfull = 2
+    }
     public enum OrderStatus
     {
 
@@ -157,7 +180,7 @@ namespace MPC.Models.Common
 
     };
 
-  
+
     public enum UploadFileTypes : int
     {
         Artwork,

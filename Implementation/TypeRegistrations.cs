@@ -47,7 +47,8 @@ namespace MPC.Implementation
             unityContainer.RegisterType<ITemplateService, TemplateService>();
             unityContainer.RegisterType<ITemplateColorStylesService, TemplateColorStylesService>();
             unityContainer.RegisterType<ITemplatePageService, TemplatePageService>();
-            unityContainer.RegisterType<IPrefixService, PrefixService>();
+            unityContainer.RegisterType<webstoreInterfaces.IPrefixService, webstoreImplementation.PrefixService>();
+            unityContainer.RegisterType<MISInterfaces.IPrefixService, MISImplementation.PrefixService>();
             unityContainer.RegisterType<ITemplateObjectService, TemplateObjectService>();
             unityContainer.RegisterType<ITemplateFontsService, TemplateFontsService>();
             unityContainer.RegisterType<ITemplateBackgroundImagesService, TemplateBackgroundImagesService>();
@@ -64,8 +65,14 @@ namespace MPC.Implementation
             unityContainer.RegisterType<ICalendarService, CalendarService>();
             unityContainer.RegisterType<ICustomerService, CustomerService>();
             unityContainer.RegisterType<IDashboardService, DashboardService>();
+            unityContainer.RegisterType<IOrderForCrmService, OrderForCrmService>();
+            unityContainer.RegisterType<IInvoiceService, InvoiceService>();
             unityContainer.RegisterType<MISInterfaces.IOrderService, MISImplementation.OrderService>();
             unityContainer.RegisterType<IStatusService, StatusService>();
+            unityContainer.RegisterType<ISmartFormService, SmartFormService>();
+            unityContainer.RegisterType<IPaypalPaymentRequestService, PaypalPaymentRequestService>();
+            unityContainer.RegisterType<IPayPalResponseService, PayPalResponseService>();
+            
         }
     }
 }

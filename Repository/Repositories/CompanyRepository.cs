@@ -175,18 +175,14 @@ namespace MPC.Repository.Repositories
 
                 // set Company Domain
 
-                ObjExportOrg.CompanyDomain = db.CompanyDomains.Where(c => c.CompanyId == CompanyId).Take(2).ToList();
-                
-
-              
+                ObjExportOrg.CompanyDomain = db.CompanyDomains.Where(c => c.CompanyId == CompanyId).ToList();
 
                 // set cms offers
                 
-                ObjExportOrg.CmsOffer = db.CmsOffers.Where(c => c.CompanyId == CompanyId).Take(2).ToList();
+                ObjExportOrg.CmsOffer = db.CmsOffers.Where(c => c.CompanyId == CompanyId).ToList();
+                
 
-
-
-                ObjExportOrg.MediaLibrary = db.MediaLibraries.Where(c => c.CompanyId == CompanyId).Take(2).ToList();
+                ObjExportOrg.MediaLibrary = db.MediaLibraries.Where(c => c.CompanyId == CompanyId).ToList();
 
 
                 List<CompanyBannerSet> bannerSets = new List<CompanyBannerSet>();
@@ -215,48 +211,48 @@ namespace MPC.Repository.Repositories
                         }
 
                     }
-                    ObjExportOrg.CompanyBanner = Lstbanner.Take(2).ToList();
+                    ObjExportOrg.CompanyBanner = Lstbanner.ToList();
                 }
 
                 // Secondary Pages
 
-                ObjExportOrg.SecondaryPages = db.CmsPages.Where(c => c.CompanyId == CompanyId).Take(2).ToList();
+                ObjExportOrg.SecondaryPages = db.CmsPages.Where(c => c.CompanyId == CompanyId).ToList();
 
                 
 
                 // Rave Reviews
 
-                ObjExportOrg.RaveReview = db.RaveReviews.Where(r => r.CompanyId == CompanyId).Take(2).ToList();
+                ObjExportOrg.RaveReview = db.RaveReviews.Where(r => r.CompanyId == CompanyId).ToList();
 
                 
 
                 // CompanyTerritories
 
 
-                ObjExportOrg.CompanyTerritory = db.CompanyTerritories.Where(c => c.CompanyId == CompanyId).Take(2).ToList();
+                ObjExportOrg.CompanyTerritory = db.CompanyTerritories.Where(c => c.CompanyId == CompanyId).ToList();
                
 
                 // Addresses
 
 
-                ObjExportOrg.Address = db.Addesses.Where(a => a.CompanyId == CompanyId).Take(2).ToList();
+                ObjExportOrg.Address = db.Addesses.Where(a => a.CompanyId == CompanyId).ToList();
                 
 
                 // contacts
 
 
-                ObjExportOrg.CompanyContact = db.CompanyContacts.Where(c => c.CompanyId == CompanyId).Take(2).ToList();
+                ObjExportOrg.CompanyContact = db.CompanyContacts.Where(c => c.CompanyId == CompanyId).ToList();
                 
 
                 // product Categories
                 
-                ObjExportOrg.ProductCategory = db.ProductCategories.Where(s => s.isPublished == true && s.isArchived == false && s.CompanyId == CompanyId).Take(2).ToList();
+                ObjExportOrg.ProductCategory = db.ProductCategories.Where(s => s.isPublished == true && s.isArchived == false && s.CompanyId == CompanyId).ToList();
                 
 
                 // items
                
-                 List<Item> items = db.Items.Where(i => i.IsPublished == true && i.IsArchived == false && i.CompanyId == CompanyId).Take(2).ToList();
-                    items = items.Take(2).ToList();
+                 List<Item> items = db.Items.Where(i => i.IsPublished == true && i.IsArchived == false && i.CompanyId == CompanyId).ToList();
+                    items = items.ToList();
 
                     ObjExportOrg.Items = items;
 
@@ -321,24 +317,23 @@ namespace MPC.Repository.Repositories
 
                 // payment gateways
 
-                ObjExportOrg.PaymentGateways = db.PaymentGateways.Where(c => c.CompanyId == CompanyId).Take(2).ToList();
+                ObjExportOrg.PaymentGateways = db.PaymentGateways.Where(c => c.CompanyId == CompanyId).ToList();
                 
 
 
 
                 // cms skin page widgets
                
-                ObjExportOrg.CmsSkinPageWidget = db.PageWidgets.Where(c => c.CompanyId == CompanyId).Take(2).ToList();
+                ObjExportOrg.CmsSkinPageWidget = db.PageWidgets.Where(c => c.CompanyId == CompanyId).ToList();
                 
-
 
                 // company cost centre
                
-                ObjExportOrg.CompanyCostCentre = db.CompanyCostCentres.Take(2).ToList();
+                ObjExportOrg.CompanyCostCentre = db.CompanyCostCentres.Where(c => c.CompanyId == CompanyId).ToList();
                 
 
                // company cmyk colors
-                ObjExportOrg.CompanyCMYKColor = db.CompanyCmykColors.Take(2).ToList();
+                ObjExportOrg.CompanyCMYKColor = db.CompanyCmykColors.Where(c => c.CompanyId == CompanyId).ToList();
 
 
                 return ObjExportOrg;

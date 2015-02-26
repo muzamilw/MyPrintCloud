@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Web;
 using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
 
@@ -39,9 +40,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static Organisation CreateFrom(this DomainModels.Organisation source)
         {
             byte[] bytes = null;
-            if (source.MISLogo != null && File.Exists(source.MISLogo))
+            string imagePath = HttpContext.Current.Server.MapPath("~/" + source.MISLogo);
+            if (imagePath != null && File.Exists(imagePath))
             {
-                bytes = source.MISLogo != null ? File.ReadAllBytes(source.MISLogo) : null;
+                bytes = File.ReadAllBytes(imagePath);
             }
 
             return new Organisation

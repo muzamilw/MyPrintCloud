@@ -9,6 +9,7 @@ using System.Management.Automation.Runspaces;
 using System.Diagnostics;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Net;
 
 namespace MPC.Provisioning.Controllers
 {
@@ -112,19 +113,20 @@ namespace MPC.Provisioning.Controllers
             //string errors = process.StandardError.ReadToEnd();
             //Assert.IsTrue(string.IsNullOrEmpty(errors));
 
-            if (output == "App Created")
+            if (output.Contains( "App Created"))
             {
                 string connectionString = ConfigurationManager.AppSettings["connectionString"];
                         
 
                 //inserting the default Organisation
                 string queryString =
-                   "INSERT INTO Organisation VALUES(" + siteOrganisationId + ",'" + ContactFullName + "',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,NULL,NULL,NULL)";
+                   "INSERT INTO Organisation (OrganisationId,OrganisationName) VALUES(" + siteOrganisationId + ",'" + ContactFullName + "')";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     // Create the Command and Parameter objects.
                     SqlCommand command = new SqlCommand(queryString, connection);
-
+                    long OrganisationId = 8;
+                      
                     try
                     {
                         connection.Open();
@@ -133,25 +135,66 @@ namespace MPC.Provisioning.Controllers
 
                         //creating default user
                         //must save the user ID as userid coming from core
-                        command.CommandText = "INSERT INTO [SystemUser] ([UserName],[OrganizationId],[FullName],[Email],[RoleId],[CostPerHour],[ReplyEmail],[IsSystemUser],[CreatedBy],[CreatedDate]";
-                        command.CommandText += "values ('" + username + "'," + siteOrganisationId + ",'" + ContactFullName + "','" + Email + "','1',0,'" + Email + "',0,'Auto Provisioned','" + DateTime.Now + "')";
+                        command.CommandText = "INSERT INTO [SystemUser] ([SystemUserId],[UserName],[OrganizationId],[FullName],[RoleId],[CostPerHour],[IsSystemUser])";
+                        command.CommandText += " values ('"+userId+"','" + username + "'," + siteOrganisationId + ",'" + ContactFullName + "','1',0,0)";
+
 
                         result = command.ExecuteNonQuery();
+                        
+                        //// import organisation
+                        //string Path = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Organisations/ExportedZip20.zip");
+                        //string sCurrentServer = CurrentServerPath();
+                        //Uri uri = new Uri(sCurrentServer + "/webstoreapi/RealEstate/InsertOrganisation/" + OrganisationId + "/" + Path);
+                        //WebClient oClient = new WebClient();
+                        //oClient.OpenReadAsync(uri);
 
                         connection.Close();
 
                     }
                     catch (Exception ex)
                     {
-                        throw ex;
+                        return "Please contact support@myprintcloud.com . There were errors in setting up your account : " + ex.ToString();
                     }
 
                 }
-            
+                return "true";
+            }
+            else
+            {
+                return "Please contact support@myprintcloud.com . There were errors in setting up your account : " + output;
             }
 
             
-            return output;
+           
+        }
+
+          // get requested domain name
+        public string CurrentServerPath()
+        {
+            return HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority;
+        }
+        /// <summary>
+        /// //POST: Api/CreateNewDomain
+        ///   Method is used to add New Binding for a site in IIS
+        /// </summary>
+        /// <param name="siteName"> Site Name represents parent site name eg "mpc"</param>
+        /// <param name="domainName">Domain Name Represents new binding in IIS to be created</param>
+        /// <returns>return 'true' if successfully adds binding else return 'false'</returns>
+        public bool AddDomain(string siteName, string domainName)
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// //Delete: Api/CreateNewDomain
+        ///   Method is used to Delete Binding for a site in IIS
+        /// </summary>
+        /// <param name="siteName"> Site Name represents parent site name eg "mpc"</param>
+        /// <param name="domainName">Domain Name Represents binding in IIS to be removed</param>
+        /// <returns>return 'true' if successfully Deletes binding else return 'false'</returns>
+        public bool DeleteDomain(string siteName, string domainName)
+        {
+            return true;
         }
     }
 }

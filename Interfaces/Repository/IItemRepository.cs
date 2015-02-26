@@ -38,7 +38,7 @@ namespace MPC.Interfaces.Repository
 
         bool RemoveCloneItem(long itemID, out List<ArtWorkAttatchment> itemAttatchmetList, out Template clonedTemplateToRemove);
 
-        bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0);
+        bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, int CountOfUploads = 0, string QuestionQueuItem = "");
 
         List<ProductItem> GetRelatedItemsList();
 
@@ -102,5 +102,17 @@ namespace MPC.Interfaces.Repository
         ItemSection UpdateItemFirstSectionByItemId(long ItemId, int Quantity);
         Item CloneReOrderItem(long orderID, Item ExistingItem, long loggedInContactID, string order_code);
 
+
+        /// <summary>
+        /// Get Items By Company Id
+        /// </summary>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
+        IEnumerable<Item> GetItemsByCompanyId(long companyId);
+        /// <summary>
+        /// get cart items count 
+        /// </summary>
+        /// <returns></returns>
+        long GetCartItemsCount(long ContactId, long TemporaryCustomerId);
     }
 }

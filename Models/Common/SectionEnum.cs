@@ -23,9 +23,9 @@
         /// <summary>
         /// CRM
         /// </summary>
-// ReSharper disable InconsistentNaming
+        // ReSharper disable InconsistentNaming
         CRM = 32,
-// ReSharper restore InconsistentNaming
+        // ReSharper restore InconsistentNaming
 
         /// <summary>
         /// Order

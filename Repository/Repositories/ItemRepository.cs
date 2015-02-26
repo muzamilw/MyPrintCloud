@@ -281,7 +281,7 @@ namespace MPC.Repository.Repositories
                       CopyTemplatePaths(clonedTemplate,OrganisationID);
                 }
 
-                SaveAdditionalAddonsOrUpdateStockItemType(SelectedAddOnsList, newItem.ItemId, StockID, isCopyProduct); // additional addon required the newly inserted cloneditem
+                SaveAdditionalAddonsOrUpdateStockItemType(SelectedAddOnsList, newItem.ItemId, StockID, isCopyProduct, ""); // additional addon required the newly inserted cloneditem
                 newItem.ItemCode = "ITM-0-001-" + newItem.ItemId;
                 db.SaveChanges();
             }
@@ -941,7 +941,7 @@ namespace MPC.Repository.Repositories
 
         }
 
-        private bool SaveAdditionalAddonsOrUpdateStockItemType(List<AddOnCostsCenter> selectedAddonsList, long newItemID, long stockID, bool isCopyProduct)
+        private bool SaveAdditionalAddonsOrUpdateStockItemType(List<AddOnCostsCenter> selectedAddonsList, long newItemID, long stockID, bool isCopyProduct, string updateMode)
         {
             bool result = false;
             ItemSection SelectedtblItemSectionOne = null;
@@ -951,17 +951,17 @@ namespace MPC.Repository.Repositories
             SelectedtblItemSectionOne = db.ItemSections.Where(itemSect => itemSect.SectionNo == 1 && itemSect.ItemId == newItemID).FirstOrDefault(); //this.PopulateTblItemSections(newItem.ItemID, productSelection.Quantity, productSelection.CurrentTotal, 1);
             if (isCopyProduct == true)
             {
-                result = this.SaveAdditionalAddonsOrUpdateStockItemType(selectedAddonsList, Convert.ToInt64(SelectedtblItemSectionOne.StockItemID1), SelectedtblItemSectionOne);
+                result = this.SaveAdditionalAddonsOrUpdateStockItemType(selectedAddonsList, Convert.ToInt64(SelectedtblItemSectionOne.StockItemID1), SelectedtblItemSectionOne, updateMode);
             }
             else
             {
-                result = this.SaveAdditionalAddonsOrUpdateStockItemType(selectedAddonsList, stockID, SelectedtblItemSectionOne);
+                result = this.SaveAdditionalAddonsOrUpdateStockItemType(selectedAddonsList, stockID, SelectedtblItemSectionOne, updateMode);
             }
 
             return result;
         }
 
-        private bool SaveAdditionalAddonsOrUpdateStockItemType(List<AddOnCostsCenter> selectedAddonsList, long stockID, ItemSection SelectedtblItemSectionOne)
+        private bool SaveAdditionalAddonsOrUpdateStockItemType(List<AddOnCostsCenter> selectedAddonsList, long stockID, ItemSection SelectedtblItemSectionOne, string updateMode)
         {
             SectionCostcentre SelectedtblISectionCostCenteres = null;
 
@@ -973,17 +973,55 @@ namespace MPC.Repository.Repositories
 
                 if (selectedAddonsList != null)
                 {
-                    //Create Additional Addons Data
-                    for (int i = 0; i < selectedAddonsList.Count; i++)
-                    {
-                        AddOnCostsCenter addonCostCenter = selectedAddonsList[i];
+                    //if (updateMode == "Modify")
+                    //{
+                    //    List<SectionCostcentre> listOfCostCentres = db.SectionCostcentres.Where(c => c.ItemSectionId == SelectedtblItemSectionOne.ItemSectionId && c.IsOptionalExtra == 1).ToList();
 
-                        SelectedtblISectionCostCenteres = this.PopulateTblSectionCostCenteres(addonCostCenter);
-                        SelectedtblISectionCostCenteres.IsOptionalExtra = 1; //1 tells that it is the Additional AddOn 
+                    //    foreach(var ccItem in listOfCostCentres)
+                    //    {
+                    //         for (int i = 0; i < selectedAddonsList.Count; i++)
+                    //         {
+                    //             AddOnCostsCenter addonCostCenter = selectedAddonsList[i];
+                    //             if(addonCostCenter.CostCenterID == ccItem.CostCentreId)
+                    //             {
+                    //                 ccItem.Qty1NetTotal = addonCostCenter.ActualPrice;
+                    //                 if(!string.IsNullOrEmpty(addonCostCenter.CostCentreJsonData))
+                    //                 {
+                    //                     ccItem.Qty2WorkInstructions = addonCostCenter.CostCentreJsonData;
+                    //                 }
 
-                        SelectedtblItemSectionOne.SectionCostcentres.Add(SelectedtblISectionCostCenteres);
+                    //                 if(!string.IsNullOrEmpty(addonCostCenter.CostCentreDescription))
+                    //                 {
+                    //                     ccItem.Qty1WorkInstructions = addonCostCenter.CostCentreDescription;
 
-                    }
+                    //                 }
+                    //             }
+                    //         }
+                    //    }
+
+                    //}
+                    //else 
+                    //{
+                        // Remove previous Addons
+                        db.SectionCostcentres.Where(c => c.ItemSectionId == SelectedtblItemSectionOne.ItemSectionId && c.IsOptionalExtra == 1).ToList().ForEach(sc =>
+                        {
+                            db.SectionCostcentres.Remove(sc);
+
+                        });
+                        //Create Additional Addons Data
+                        //Create Additional Addons Data
+                        for (int i = 0; i < selectedAddonsList.Count; i++)
+                        {
+                            AddOnCostsCenter addonCostCenter = selectedAddonsList[i];
+
+                            SelectedtblISectionCostCenteres = this.PopulateTblSectionCostCenteres(addonCostCenter);
+                            SelectedtblISectionCostCenteres.IsOptionalExtra = 1; //1 tells that it is the Additional AddOn 
+
+                            SelectedtblItemSectionOne.SectionCostcentres.Add(SelectedtblISectionCostCenteres);
+
+                        }
+                  // }
+                    
                 }
             }
 
@@ -1004,8 +1042,9 @@ namespace MPC.Repository.Repositories
                 CostCentreId = addOn.CostCenterID,
                 IsOptionalExtra = 1,
                 Qty1Charge = addOn.ActualPrice,
-                Qty1NetTotal = addOn.Qty1NetTotal
-
+                Qty1NetTotal = addOn.Qty1NetTotal,
+                Qty1WorkInstructions = addOn.CostCentreDescription,
+                Qty2WorkInstructions = addOn.CostCentreJsonData
             };
 
             return tblISectionCostCenteres;
@@ -1537,7 +1576,7 @@ namespace MPC.Repository.Repositories
         }
 
 
-        public bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0)
+        public bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode,int CountOfUploads = 0, string QuestionQueuItem = "")
         {
             bool result = false;
 
@@ -1596,7 +1635,7 @@ namespace MPC.Repository.Repositories
 
                 FirstItemSection = clonedItem.ItemSections.Where(sec => sec.SectionNo == 1 && sec.ItemId == clonedItem.ItemId).FirstOrDefault();
 
-                result = SaveAdditionalAddonsOrUpdateStockItemType(newlyAddedCostCenters, stockItemID, FirstItemSection); // additional addon required the newly inserted cloneditem
+                result = SaveAdditionalAddonsOrUpdateStockItemType(newlyAddedCostCenters, stockItemID, FirstItemSection, ItemMode); // additional addon required the newly inserted cloneditem
 
                 FirstItemSection.Qty1 = clonedItem.Qty1;
 
@@ -1610,6 +1649,7 @@ namespace MPC.Repository.Repositories
                 //else
                 //{
                 FirstItemSection.Qty1MarkUpID = 1;
+                FirstItemSection.QuestionQueue = QuestionQueuItem;
                 //}
 
                 bool isNewSectionCostCenter = false;
@@ -2840,6 +2880,60 @@ namespace MPC.Repository.Repositories
                 db.SaveChanges();
             }
             return oresult;
+        }
+
+        public IEnumerable<Item> GetItemsByCompanyId(long companyId)
+        {
+            return DbSet.Where(i => i.CompanyId.HasValue && i.CompanyId == companyId && i.OrganisationId == OrganisationId).ToList();
+        }
+
+        /// <summary>
+        /// get cart items count 
+        /// </summary>
+        /// <returns></returns>
+        public long GetCartItemsCount(long ContactId, long TemporaryCustomerId)
+        {
+            try
+            {
+                int orderStatusID = (int)OrderStatus.ShoppingCart;
+                long itemsCount = 0;
+                if (ContactId > 0)
+                {
+                    Estimate Order = db.Estimates.Include("Items").Where(order => order.ContactId == ContactId && order.StatusId == orderStatusID && order.isEstimate == false).FirstOrDefault();
+                    if (Order != null)
+                    {
+                        Order.Items.Where(c => c.ItemType != (int)ItemTypes.Delivery).ToList().ForEach(orderItem =>
+                        {
+                            if (orderItem.IsOrderedItem.HasValue && orderItem.IsOrderedItem.Value)
+                                itemsCount += 1;
+                        });
+                    }
+                }
+                else
+                {
+                    if (TemporaryCustomerId > 0)
+                    {
+                        Estimate Order = db.Estimates.Include("Items").Where(order => order.CompanyId == TemporaryCustomerId && order.StatusId == orderStatusID && order.isEstimate == false).FirstOrDefault();
+                        if (Order != null)
+                        {
+                            Order.Items.Where(c => c.ItemType != (int)ItemTypes.Delivery).ToList().ForEach(orderItem =>
+                            {
+                                if (orderItem.IsOrderedItem.HasValue && orderItem.IsOrderedItem.Value)
+                                    itemsCount += 1;
+                            });
+                        }
+                    }
+
+                }
+                return itemsCount;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
+
         }
         public Item CloneReOrderItem(long orderID, Item ExistingItem, long loggedInContactID, string order_code)
         {

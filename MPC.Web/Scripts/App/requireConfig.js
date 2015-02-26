@@ -4,8 +4,12 @@
     var root = this;
     var ist = window.ist;
 
+    if (!ist.siteUrl) {
+        ist.siteUrl = $("#siteUrl").val();
+    }
+    
     requirejs.config({
-        baseUrl: "/Scripts/App",
+        baseUrl: ist.siteUrl + "/Scripts/App",
         waitSeconds: 20,
         paths: {
             "sammy": ist.siteUrl + "/Scripts/sammy-0.7.5.min",

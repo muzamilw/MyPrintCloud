@@ -39,7 +39,7 @@ namespace MPC.MIS.Areas.Api.Models
         public short? IsGeneral { get; set; }
         public int? SalesPerson { get; set; }
         public string StoreImagePath { get; set; }
-        
+
         public string ImageName { get; set; }
         public string WebAccessCode { get; set; }
         public bool? isArchived { get; set; }
@@ -150,7 +150,8 @@ namespace MPC.MIS.Areas.Api.Models
 
         public List<MediaLibrary> MediaLibraries { get; set; }
         public List<CostCentreDropDown> CompanyCostCentres { get; set; }
-       
+        public List<FieldVariable> FieldVariables { get; set; }
+
 
         #region CMS Pages
 
@@ -317,6 +318,17 @@ namespace MPC.MIS.Areas.Api.Models
                 return string.Format("data:{0};base64,{1}", "image/jpg", base64);
             }
         }
+        #endregion
+
+        #region Supplier Image
+        /// <summary>
+        /// Company Logo Source
+        /// </summary>
+        public string CompanyLogoSource { get; set; }
+        /// <summary>
+        /// Company Logo Name
+        /// </summary>
+        public string CompanyLogoName { get; set; }
         #endregion
         #endregion
     }

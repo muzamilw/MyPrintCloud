@@ -231,7 +231,7 @@ function DesignNow(callFrom,EditType,ItemID,TemplateID)
 var CcQueueItems = null;
 var idsToValidate = "";
 function ShowCostCentrePopup(CostCentreQueueItems, CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Mode, Currency, ItemPrice) {
-   
+    console.log(CostCentreQueueItems);
     CcQueueItems = CostCentreQueueItems;
     var innerHtml = "";
     var Heading = "Please enter the following details of Cost Centre";
@@ -260,6 +260,14 @@ function ShowCostCentrePopup(CostCentreQueueItems, CostCentreId, ClonedItemId, S
                     + CostCentreQueueItems[i].VisualQuestion +
                     '</label></div><div class="cost-centre-right-container"><select id=dropdown' + CostCentreQueueItems[i].ID + ' class="cost-centre-dropdowns CostCentreAnswersQueue">'
                     + OptionHtml + '</select></div><br/><div class="clearBoth"></div>';
+            }
+            if (CostCentreQueueItems[i].ItemType == 2) { // radio
+
+
+                innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>'
+                    + CostCentreQueueItems[i].VisualQuestion +
+                    '</label></div><div class="cost-centre-right-container"><input type="radio" checked="checked" name="Group2" id=radioNo' + CostCentreQueueItems[i].ID + ' class="cost-centre-radios CostCentreAnswersQueue" /><label for=radioNo' + CostCentreQueueItems[i].ID + ' >No</label><input type="radio" name="Group2" id=radioYes' + CostCentreQueueItems[i].ID + ' class="cost-centre-radios CostCentreAnswersQueue" /><label for=radioYes' + CostCentreQueueItems[i].ID + ' >Yes</label>' +
+                    '</div><br/><div class="clearBoth"></div>';
             }
             if (CostCentreQueueItems[i].ItemType == 4) { // formula matrix
 
@@ -415,7 +423,7 @@ function SetMatrixAnswer(Answer, MatrixId)
 }
 
 function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Currency, ItemPrice) {
-
+    alert(idsToValidate);
     var arrayOfIds = idsToValidate.split(",");
     
     var isDisplyEmptyFieldsMesg = 0;
@@ -506,8 +514,15 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
       
         var jsonObjects = JSON.stringify(CcQueueItems, null, 2);
         var populatedQueuItems = $("#costCentreQueueItems").val();
-        populatedQueuItems = populatedQueuItems + jsonObjects;
-        $("#costCentreQueueItems").val(populatedQueuItems);
+      
+        if (populatedQueuItems != "null") {
+            populatedQueuItems = populatedQueuItems + jsonObjects;
+            $("#costCentreQueueItems").val(populatedQueuItems);
+        }
+        else {
+            populatedQueuItems = jsonObjects;
+            $("#costCentreQueueItems").val(populatedQueuItems);
+        }
         
         var to;
         to = "/webstoreapi/costCenter/GetDateTimeString?parameter1=" + CostCentreId + "&parameter2=" + ClonedItemId + "&parameter3=" + $("#VMQuantityOrdered").val() + "&parameter4=New";
@@ -523,7 +538,7 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
                 if (updatedAddOns != null) {
 
                     for (var i = 0; i < $(updatedAddOns).length; i++) {
-                        if ($(updatedAddOns)[i].CostCenterId == 335) {
+                        if ($(updatedAddOns)[i].CostCenterId == CostCentreId) {
                             $(updatedAddOns)[i].ActualPrice = response;
                             $(updatedAddOns)[i].Description = desriptionOfCostCentre;
                             $(updatedAddOns)[i].CostCentreJasonData = jsonObjects;
@@ -544,7 +559,6 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
                             }
                             totalVal = parseFloat(totalVal) + parseFloat(actualP);
                         }
-                        console.log($(updatedAddOns)[i]);
                     }
                     displayTotalPrice(ItemPrice, totalVal);
                     $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + Currency + response + '</label>' + '<a onclick="PromptForValues(' + CostCentreId + ',' + SelectedCostCentreCheckBoxId + ', 1);" >Modify</a> ');
@@ -557,8 +571,8 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
         var returnText = $.ajax(options).responseText;
         
     }
+    idsToValidate = "";
 
-    
 }
 function HideLoader() {
 
@@ -610,8 +624,8 @@ function ViewOrderPopUp(Type, panelHtml) {
 
     document.getElementById("innerLayer").style.left = left + "px";
     document.getElementById("innerLayer").style.top = "0px";
-
-    document.getElementById("innerLayer").style.width = "730px";
+    //730
+    document.getElementById("innerLayer").style.width = "883px";
     document.getElementById("innerLayer").style.position = "fixed";
     document.getElementById("innerLayer").style.zIndex = "9999";
 
