@@ -3674,7 +3674,7 @@ function pcL36(mode, arrayControls) {  // panels logic do here
 
 }
 function pcl40(xdata) {
-    alert(xdata);
+   // alert(xdata);
     $("#divVarList").html("");
     var sc = "";
     var html = "";

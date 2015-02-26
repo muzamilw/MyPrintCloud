@@ -11,6 +11,8 @@ namespace MPC.Models.Common
         Contact = 2,
         Address = 3,
         Territory = 4,
+        RealEstate = 5,
+        RealEstateImages = 6,
     }
 
     public enum StoreMode : int

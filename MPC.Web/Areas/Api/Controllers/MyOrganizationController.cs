@@ -17,6 +17,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Private
 
         private readonly IMyOrganizationService myOrganizationService;
+        private readonly ICompanyService myCompanyService;
 
         #endregion
 
@@ -24,13 +25,14 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public MyOrganizationController(IMyOrganizationService myOrganizationService)
+        public MyOrganizationController(IMyOrganizationService myOrganizationService, ICompanyService myCompanyService)
         {
             if (myOrganizationService == null)
             {
                 throw new ArgumentNullException("myOrganizationService");
             }
             this.myOrganizationService = myOrganizationService;
+            this.myCompanyService = myCompanyService;
         }
 
         #endregion
@@ -56,6 +58,10 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
             return myOrganizationService.SaveOrganization(organisation.CreateFrom()).CreateFrom();
         }
+
+
+       
+       
         #endregion
 
     }

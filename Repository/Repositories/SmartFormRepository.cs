@@ -1,6 +1,7 @@
 ﻿using Microsoft.Practices.Unity;
 using MPC.Common;
 using MPC.Interfaces.Repository;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
 using Newtonsoft.Json;
@@ -48,70 +49,85 @@ namespace MPC.Repository.Repositories
         }
 
 
-        public List<FieldVariable> GetVariablesData(bool isRealestateproduct, long storeId)
+        public List<VariableList> GetVariablesData(bool isRealestateproduct, long companyId, long organisationId)
         {
-            List<VariableList> objList = new List<VariableList>();
-            //if (isRealestateproduct)
-            //{
-            //    objList = from p in db.VariableSections
-            //              join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
-            //              where (es.VariableType == (int)TemplateVariableType.Global || es.VariableType == (int)TemplateVariableType.RealState || es.VariableType == (int)TemplateVariableType.RealStateImages)
-            //              orderby p.VariableSectionID, es.VariableType, es.SortOrder
-            //              select new
-            //              {
-            //                  SectionName = p.SectionName,
-            //                  VariableID = es.VariableID,
-            //                  VariableName = es.VariableName,
-            //                  VariableTag = es.VariableTag,
-            //                  VariableType = es.VariableType
+            List<VariableList> resultList = new List<VariableList>();
+            if (isRealestateproduct)
+            {
+                var objList = from p in db.VariableSections
+                              join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
+                              where (es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId))
+                              orderby p.VariableSectionId, es.VariableType, es.SortOrder
+                              select new
+                              {
+                                  SectionName = p.SectionName,
+                                  VariableID = es.VariableId,
+                                  VariableName = es.VariableName,
+                                  VariableTag = es.VariableTag,
+                                  VariableType = es.VariableType
 
-            //              };
+                              };
+                foreach(var obj in objList)
+                {
+                    VariableList objVarList = new VariableList(obj.SectionName, obj.VariableID, obj.VariableName, obj.VariableTag, obj.VariableType.Value);
+                    resultList.Add(objVarList);
+                }
+            }
+            else
+            {
+                var objList = from p in db.VariableSections
+                              join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
+                              where ((es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)) && (es.Scope != (int)FieldVariableScopeType.RealEstate || es.Scope != (int)FieldVariableScopeType.RealEstateImages ))
+                              orderby p.VariableSectionId, es.VariableType, es.SortOrder
+                              select new
+                              {
+                                  SectionName = p.SectionName,
+                                  VariableID = es.VariableId,
+                                  VariableName = es.VariableName,
+                                  VariableTag = es.VariableTag,
+                                  VariableType = es.VariableType
 
-            //}
-            //else
-            //{
-            //    objList = from p in db.VariableSections
-            //              join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
-            //              where (es.VariableType == (int)TemplateVariableType.Global)
-            //              orderby es.VariableType, es.SortOrder
-            //              select new
-            //              {
-            //                  SectionName = p.SectionName,
-            //                  VariableID = es.VariableID,
-            //                  VariableName = es.VariableName,
-            //                  VariableTag = es.VariableTag,
-            //                  VariableType = es.VariableType
+                              };
+                var listItems = objList.ToList();
+                foreach (var obj in listItems)
+                {
+                    VariableList objVarList = new VariableList(obj.SectionName, obj.VariableID, obj.VariableName, obj.VariableTag, obj.VariableType.Value);
+                    resultList.Add(objVarList);
+                }
+            }
 
-            //              };
 
-            //}
-
-          
-          //      return objList;
-            return db.FieldVariables.Take(10).ToList();
+            return resultList;
+           // return db.FieldVariables.Take(10).ToList();
         }
-        public Stream GetTemplateVariables(long templateId)
+        public List<TemplateVariablesObj> GetTemplateVariables(long templateId)
         {
-            //var objList = from p in db.TemplateVariables
-            //              join es in db.FieldVariables on p.VariableId equals es.VariableId
-            //              where (p.TemplateId == templateId)
-            //              orderby es.VariableType, es.SortOrder
-            //              select new
-            //              {
-            //                  VariableTag = es.VariableTag,
-            //                  VariableID = p.VariableID,
-            //                  TemplateID = p.TemplateID
+            var objList = from p in db.TemplateVariables
+                          join es in db.FieldVariables on p.VariableId equals es.VariableId
+                          where (p.TemplateId == templateId)
+                          orderby es.VariableType, es.SortOrder
+                          select new
+                          {
+                              VariableTag = es.VariableTag,
+                              VariableID = p.VariableId,
+                              TemplateID = p.TemplateId
 
-            //              };
-        
-            return new MemoryStream(System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(true)));
+                          };
+            List<TemplateVariablesObj> objResult = new List<TemplateVariablesObj>();
+            foreach(var obj in objList)
+            {
+                TemplateVariablesObj objToAdd = new TemplateVariablesObj(obj.VariableTag,obj.VariableID.Value,obj.TemplateID.Value);
+
+                objResult.Add(objToAdd);
+            }
+            return objResult;
         }
-        public enum TemplateVariableType
-        {
-            Global = 1,
-            RealState = 2,
-            RealStateImages = 3
-        }
+        //public enum TemplateVariableType
+        //{
+        //    Global = 1,
+        //    RealState = 2,
+        //    RealStateImages = 3
+        //}
         #endregion
     }
 }

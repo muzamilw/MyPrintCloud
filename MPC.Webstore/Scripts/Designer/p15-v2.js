@@ -221,12 +221,12 @@ function c4_RS() {
         appendTo: "body",
         cursor: 'move'
     });
-    $.getJSON("/designerapi/SmartForm/GetVariablesList/" + isRealestateproduct + "/" + ContactID,
+    $.getJSON("/designerapi/SmartForm/GetVariablesList/" + isRealestateproduct + "/" + ContactID + "/"+organisationId ,
         function (xdata) {
             pcl40(xdata);
         });
-    //$.getJSON("/designerapi/SmartForm/GetTemplateVariables/" + tID,
-    //function (xdata) {
-    //    varList = xdata;
-    //});
+    $.getJSON("/designerapi/SmartForm/GetTemplateVariables/" + tID,
+    function (xdata) {
+        varList = xdata;
+    });
 }
