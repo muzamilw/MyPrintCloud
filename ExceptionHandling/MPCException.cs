@@ -18,7 +18,7 @@ namespace MPC.ExceptionHandling
         }
 
         /// <summary>
-        /// Initializes a new instance of Cares Exception
+        /// Initializes a new instance of MPC Exception
         /// </summary>
         public MPCException(string message, int organisationId, Exception innerException)
             : base(message, innerException)
