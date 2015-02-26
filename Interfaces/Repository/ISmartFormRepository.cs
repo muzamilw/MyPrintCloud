@@ -11,7 +11,7 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface ISmartFormRepository : IBaseRepository<SmartForm, long>
     {
-        List<FieldVariable> GetVariablesData(bool isRealestateproduct, long companyId, long organisationId);
+        List<VariableList> GetVariablesData(bool isRealestateproduct, long companyId, long organisationId);
         List<TemplateVariablesObj> GetTemplateVariables(long templateId);
     }
 }
