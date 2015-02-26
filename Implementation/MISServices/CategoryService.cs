@@ -41,24 +41,32 @@ namespace MPC.Implementation.MISServices
             {
                 Directory.CreateDirectory(directoryPath);
             }
-
-            string savePath = directoryPath + "\\" + productCategory.ProductCategoryId + "_" + StringHelper.SimplifyString(productCategory.CategoryName) + "_Thumbnail.png";
-            if ((!string.IsNullOrEmpty(productCategory.ThumbnailPath)) && File.Exists(HttpContext.Current.Server.MapPath("~/" + productCategory.ThumbnailPath)))
+            string savePath;
+            int indexOf;
+            if (thumbNailFileBytes.Count() > 0)
             {
-                File.Delete(productCategory.ThumbnailPath);
+                savePath = directoryPath + "\\" + productCategory.ProductCategoryId + "_" + StringHelper.SimplifyString(productCategory.CategoryName) + "_Thumbnail.png";
+                if ((!string.IsNullOrEmpty(productCategory.ThumbnailPath)) && File.Exists(HttpContext.Current.Server.MapPath("~/" + productCategory.ThumbnailPath)))
+                {
+                    File.Delete(productCategory.ThumbnailPath);
+                }
+                File.WriteAllBytes(savePath, thumbNailFileBytes);
+                indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                productCategory.ThumbnailPath = savePath.Substring(indexOf, savePath.Length - indexOf);
             }
-            File.WriteAllBytes(savePath, thumbNailFileBytes);
-            int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
-            productCategory.ThumbnailPath = savePath.Substring(indexOf, savePath.Length - indexOf);
-
-            savePath = directoryPath + "\\" + productCategory.ProductCategoryId + "_" + StringHelper.SimplifyString(productCategory.CategoryName) + "_Banner.png";
-            if ((!string.IsNullOrEmpty(productCategory.ImagePath)) && File.Exists(HttpContext.Current.Server.MapPath("~/" + productCategory.ImagePath)))
+            if (imageFileBytes.Count() > 0)
             {
-                File.Delete(productCategory.ImagePath);
+
+                savePath = directoryPath + "\\" + productCategory.ProductCategoryId + "_" + StringHelper.SimplifyString(productCategory.CategoryName) + "_Banner.png";
+                if ((!string.IsNullOrEmpty(productCategory.ImagePath)) && File.Exists(HttpContext.Current.Server.MapPath("~/" + productCategory.ImagePath)))
+                {
+                    File.Delete(productCategory.ImagePath);
+                }
+                File.WriteAllBytes(savePath, imageFileBytes);
+                indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                productCategory.ImagePath = savePath.Substring(indexOf, savePath.Length - indexOf);
             }
-            File.WriteAllBytes(savePath, imageFileBytes);
-            indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
-            productCategory.ImagePath = savePath.Substring(indexOf, savePath.Length - indexOf);
+
         }
 
 

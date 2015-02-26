@@ -145,13 +145,14 @@
 <!-- /ko -->
 
 @Html.Partial("~/Areas/Common/Views/Shared/_phraseLibraryDialog.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_StockDialog.cshtml")
 
 @section Scripts{
     
     <script src="~/Scripts/jquery.form.js"></script>
     <script>
 
-        require(["product/product.view", "stores/stores.view", "dropzone", "common/confirmation.view", "common/phraseLibrary.view"]);
+        require(["product/product.view", "stores/stores.view", "dropzone", "common/confirmation.view", "common/phraseLibrary.view", "common/stockItem.view"]);
       
         $(function () {
             
