@@ -23,7 +23,7 @@ namespace MPC.Implementation.WebStoreServices
         #endregion
 
         #region public
-        public List<FieldVariable> GetVariablesData(bool isRealestateproduct, long companyId, long organisationId)
+        public List<VariableList> GetVariablesData(bool isRealestateproduct, long companyId, long organisationId)
         {
             return _smartFormRepository.GetVariablesData(isRealestateproduct, companyId, organisationId);
         }
