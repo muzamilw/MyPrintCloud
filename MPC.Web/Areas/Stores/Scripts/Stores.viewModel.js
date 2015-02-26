@@ -639,6 +639,9 @@ define("stores/stores.viewModel",
                                                 var savedTerritory = model.CompanyTerritory.Create(data);
                                                 if (selectedCompanyTerritory().territoryId() <= 0 || selectedCompanyTerritory().territoryId() == undefined) {
                                                     selectedStore().companyTerritories.splice(0, 0, savedTerritory);
+                                                    //Add territory in address drop down to use in saving address
+                                                    addressCompanyTerritoriesFilter.push(savedTerritory);
+                                                    contactCompanyTerritoriesFilter.push(savedTerritory);
                                                 }
 
                                                 if (savedTerritory.isDefault()) {
@@ -1443,6 +1446,10 @@ define("stores/stores.viewModel",
                                 }
                             }
                         }
+                        //Updating Case
+                        if (selectedStore().type() == 4 && selectedStore().companyId() != undefined) {
+                            selectedAddress().territoryId(selectedStore().companyTerritories()[0].territoryId());
+                        }
                         if (selectedStore().type() == 3 && selectedStore().companyId() == undefined) {
                             if (newAddresses != undefined && newAddresses().length == 0) {
                                 if (newCompanyTerritories().length > 0) {
@@ -2204,7 +2211,7 @@ define("stores/stores.viewModel",
                                                 //updating selected contact rolename
                                                 _.each(roles(), function (role) {
                                                     if (role.roleId() == selectedCompanyContact().contactRoleId()) {
-                                                        savedCompanyContact().roleName()(role.roleName());
+                                                        savedCompanyContact.roleName(role.roleName());
                                                     }
                                                 });
                                                 if (selectedCompanyContact().isDefaultContact()) {
@@ -2636,12 +2643,12 @@ define("stores/stores.viewModel",
                                             //}
                                             toastr.success("Category Updated Successfully");
                                         }
-                                        var category = {
-                                            productCategoryId: data.ProductCategoryId,
-                                            categoryName: data.CategoryName,
-                                            parentCategoryId: data.ParentCategoryId
-                                        };
-                                        parentCategories.push(category);
+                                        //var category = {
+                                        //    productCategoryId: data.ProductCategoryId,
+                                        //    categoryName: data.CategoryName,
+                                        //    parentCategoryId: data.ParentCategoryId
+                                        //};
+                                        //parentCategories.push(category);
 
                                         isLoadingStores(false);
                                         view.hideStoreProductCategoryDialog();
@@ -4090,7 +4097,7 @@ define("stores/stores.viewModel",
                             },
                             error: function (exceptionMessage, exceptionType) {
 
-                                if (exceptionType === ist.exceptionType.CaresGeneralException) {
+                                if (exceptionType === ist.exceptionType.MPCGeneralException) {
 
                                     toastr.error(exceptionMessage);
 
@@ -4401,7 +4408,7 @@ define("stores/stores.viewModel",
                         },
                         error: function (exceptionMessage, exceptionType) {
 
-                            if (exceptionType === ist.exceptionType.CaresGeneralException) {
+                            if (exceptionType === ist.exceptionType.MPCGeneralException) {
 
                                 toastr.error(exceptionMessage);
 

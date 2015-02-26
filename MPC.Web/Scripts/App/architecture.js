@@ -12,7 +12,7 @@ var ist = {
     utcFormat: "YYYY-MM-DDTHH:mm:ss",
     //server exceptions enumeration 
     exceptionType: {
-        CaresGeneralException: 'CaresGeneralException',
+        MPCGeneralException: 'MPCGeneralException',
         UnspecifiedException: 'UnspecifiedException'
     },
 
@@ -72,8 +72,8 @@ amplify.request.decoders = {
                 errorObject.errorType = ist.exceptionType.UnspecifiedException;
                 if (ist.verifyValidJSON(xhr.responseText)) {
                     errorObject.errorDetail = JSON.parse(xhr.responseText);;
-                    if (errorObject.errorDetail.ExceptionType === ist.exceptionType.CaresGeneralException) {
-                        error(errorObject.errorDetail.Message, ist.exceptionType.CaresGeneralException);
+                    if (errorObject.errorDetail.ExceptionType === ist.exceptionType.MPCGeneralException) {
+                        error(errorObject.errorDetail.Message, ist.exceptionType.MPCGeneralException);
                     } else {
                         error("Unspecified exception", ist.exceptionType.UnspecifiedException);
                     }

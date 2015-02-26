@@ -94,25 +94,40 @@ function fu03() {
    });
 }
 function fu04() {
+    
     $.getJSON("/designerapi/Template/GetTemplate/" + tID + "/" + cID + "/" + TempHMM + "/" + TempWMM + "/" + organisationId + "/" + ItemId,
-    //$.getJSON("/designerapi/Template/GetTemplate/" + tID ,
-   function (DT) {
-       DT.ProductID = DT.ProductId;
-       $.each(DT.TemplatePages, function (i, IT) {
-           IT.ProductID = IT.ProductId;
-           IT.ProductPageID = IT.ProductPageId;
-       });
-       fu04_callBack(DT);
-       if (DT.IsCorporateEditable == false) {
-           restrictControls();
-       }
-       if (IsCalledFrom == 2) {
-           c4_RS();
-       } else if (IsCalledFrom == 4) {
-           c4_RS_eU();
-       }
-   });
+       //$.getJSON("/designerapi/Template/GetTemplate/" + tID ,
+      function (DT) {
+          DT.ProductID = DT.ProductId;
+          $.each(DT.TemplatePages, function (i, IT) {
+              IT.ProductID = IT.ProductId;
+              IT.ProductPageID = IT.ProductPageId;
+          });
+          fu04_callBack(DT);
+          if (DT.IsCorporateEditable == false) {
+              restrictControls();
+          }
 
+      });
+ 
+    if (IsCalledFrom == 2) {
+        c4_RS();
+        $(".QuickTxt").css("visibility", "hidden");
+    }else 
+    {
+        $.getJSON("/designerapi/item/GetItem/" + ItemId,
+          function (result) {
+              item = result;
+              if (item.SmartFormId != null) {
+                  pcl41();
+              } else {
+                  $(".QuickTxt").css("visibility", "hidden");
+              }
+          });
+        if (IsCalledFrom == 4) {
+            //  c4_RS_eU(); // load realestate property images
+        }
+    }
 }
 function fu04_01() {
     $.getJSON("/designerapi/TemplateObject/GetTemplateObjects/" + tID,
@@ -214,6 +229,7 @@ function fu06() {
 
 
 function c4_RS() {
+    
     $("#divVariableContainer").css("top", "135px");
     $("#divVariableContainer").css("left", ($(window).width() - $('#divVariableContainer').width() -20) + "px");
     $("#divVariableContainer").draggable({

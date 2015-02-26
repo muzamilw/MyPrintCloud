@@ -10,5 +10,6 @@ namespace MPC.Interfaces.WebStoreServices
     public interface IStatusService
     {
         List<Status> GetStatusListByStatusTypeID(int statusTypeID);
+        List<Status> GetStatusListByStatusID(int statusID);
     }
 }

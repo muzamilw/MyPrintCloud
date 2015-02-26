@@ -22,5 +22,10 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _statusrepository.GetStatusListByStatusTypeID(statusTypeID);
         }
+
+        public List<Status> GetStatusListByStatusID(int statusID)
+        {
+            return _statusrepository.GetStatusListByStatusID(statusID);
+        }
     }
 }

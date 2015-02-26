@@ -634,7 +634,7 @@
           <Property Name="ContactVariableId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ContactId" Type="bigint" Nullable="false" />
           <Property Name="VariableId" Type="bigint" Nullable="false" />
-          <Property Name="Value" Type="varchar" MaxLength="200" />
+          <Property Name="Value" Type="varchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="CompanyCostCentre">
           <Key>
@@ -1645,6 +1645,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="drawWaterMarkTxt" Type="bit" />
           <Property Name="allowPdfDownload" Type="bit" />
           <Property Name="allowImageDownload" Type="bit" />
+          <Property Name="SmartFormId" Type="bigint" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -7634,6 +7635,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="drawWaterMarkTxt" Type="Boolean" />
           <Property Name="allowPdfDownload" Type="Boolean" />
           <Property Name="allowImageDownload" Type="Boolean" />
+          <Property Name="SmartFormId" Type="Int64" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -11081,7 +11083,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="ContactVariableId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ContactId" Type="Int64" Nullable="false" />
           <Property Name="VariableId" Type="Int64" Nullable="false" />
-          <Property Name="Value" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Value" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CompanyContact" Relationship="DomainModels.FK_CompanyContactVariable_CompanyContact" FromRole="CompanyContactVariable" ToRole="CompanyContact" />
           <NavigationProperty Name="FieldVariable" Relationship="DomainModels.FK_CompanyContactVariable_FieldVariable" FromRole="CompanyContactVariable" ToRole="FieldVariable" />
         </EntityType>
@@ -12168,6 +12170,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <EntitySetMapping Name="Items">
             <EntityTypeMapping TypeName="DomainModels.Item">
               <MappingFragment StoreEntitySet="Items">
+                <ScalarProperty Name="SmartFormId" ColumnName="SmartFormId" />
                 <ScalarProperty Name="allowImageDownload" ColumnName="allowImageDownload" />
                 <ScalarProperty Name="allowPdfDownload" ColumnName="allowPdfDownload" />
                 <ScalarProperty Name="drawWaterMarkTxt" ColumnName="drawWaterMarkTxt" />

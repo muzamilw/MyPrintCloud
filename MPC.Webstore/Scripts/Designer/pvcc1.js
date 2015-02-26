@@ -146,6 +146,7 @@ var allowPdfDownload = false;
 var allowImgDownload = false;
 var isMultiPageProduct = false;
 var varList = []; var isRealestateproduct = false;
+var item ;
 function buildParams() {
   
 	printCropMarks = locVars[locVars.length - 3];
@@ -166,6 +167,7 @@ function buildParams() {
 	while (tempName.indexOf('%20') != -1)
 	    tempName = tempName.replace("%20", " ");
 	$("#txtTemplateTitle").val(tempName);
+	
 }
 function LoadBasicTemplateSettings() {
     if (cIDv2 == 0)
