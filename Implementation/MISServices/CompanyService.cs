@@ -2381,7 +2381,8 @@ namespace MPC.Implementation.MISServices
                        States = stateRepository.GetAll(),
                        Countries = countryRepository.GetAll(),
                        FieldVariableResponse = fieldVariableRepository.GetFieldVariable(request),
-                       FieldVariablesForSmartForm = fieldVariableRepository.GetFieldVariablesForSmartForm(storeId)
+                       FieldVariablesForSmartForm = fieldVariableRepository.GetFieldVariablesForSmartForm(storeId),
+                       CmsPages = cmsPageRepository.GetCmsPagesForOrders()
                        
                    };
         }
@@ -2398,6 +2399,7 @@ namespace MPC.Implementation.MISServices
                 Widgets = widgetRepository.GetAll(),
                 States = stateRepository.GetAll(),
                 Countries = countryRepository.GetAll(),
+                CmsPages = cmsPageRepository.GetCmsPagesForOrders(),
                 SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM),
             };
         }
@@ -2948,19 +2950,7 @@ namespace MPC.Implementation.MISServices
 
                             }
                         }
-                        // export company background image
-
-                        if (ObjExportOrg.Company.StoreBackgroundImage != null)
-                        {
-                            string FilePath = HttpContext.Current.Server.MapPath(ObjExportOrg.Company.StoreBackgroundImage);
-                            DPath = "/Assets/" + OrganisationID + "/" + CompanyID;
-                            if (File.Exists(FilePath))
-                            {
-                                ZipEntry r = zip.AddFile(FilePath, DPath);
-                                r.Comment = "Background image for Store";
-
-                            }
-                        }
+                     
 
                         // export media
 

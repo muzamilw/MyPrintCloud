@@ -146,5 +146,11 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="CompanyID"></param>
         /// <returns></returns>
         List<SectionCostcentre> GetClonedItemAddOnCostCentres(long ItemId);
+
+        /// <summary>
+        /// get cart items count 
+        /// </summary>
+        /// <returns></returns>
+        long GetCartItemsCount(long ContactId, long TemporaryCustomerId);
     }
 }

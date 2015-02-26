@@ -43,6 +43,16 @@ namespace MPC.Repository.Repositories
         }
 
         /// <summary>
+        /// Get Cms pages for orders
+        /// </summary>
+        public IEnumerable<CmsPage> GetCmsPagesForOrders()
+        {
+            return DbSet.Where(
+                   cmspage =>
+                   cmspage.isUserDefined == false && cmspage.OrganisationId == OrganisationId &&
+                   cmspage.CompanyId == null).ToList();
+        }
+        /// <summary>
         /// Get CMS Pages
         /// </summary>
         public SecondaryPageResponse GetCMSPages(SecondaryPageRequestModel request)
