@@ -1226,6 +1226,24 @@ function fu02UI() {
                     g0(pos.x, pos.y, false, "", "", "", "Add subtitle text", 21.33, false);
                 } else if (draggable == "addTxtBody") {
                     g0(pos.x, pos.y, false, "", "", "", "Add a little bit of body text", 13.33, false);
+                }else 
+                {
+                    if (ui.draggable.attr('class') == "divVar ui-draggable") {
+                        var txt = " " + $(ui.draggable).html() + " ";
+                        var DIAO = canvas.getActiveObject();
+                        if (!DIAO) return;
+                        if (DIAO.isEditing) {
+                            if (IsCalledFrom == 2) {
+                                var id = $(ui.draggable).attr("id");
+                                var objToAdd = { "VariableTag": txt, "VariableID": id, "TemplateID": tID };
+                                varList.push(objToAdd);
+                            }
+                            for (var i = 0; i < txt.length; i++) {
+                                DIAO.insertChars(txt[i]);
+                            }
+                        }
+                        //insertAtCaret("txtAreaUpdateTxt", txt);
+                    }
                 }
 
             }

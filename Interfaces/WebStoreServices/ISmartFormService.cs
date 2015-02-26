@@ -13,5 +13,6 @@ namespace MPC.Interfaces.WebStoreServices
     {
         List<VariableList> GetVariablesData(bool isRealestateproduct, long companyId, long organisationId);
         List<TemplateVariablesObj> GetTemplateVariables(long templateId);
+        bool SaveTemplateVariables(List<TemplateVariablesObj> obj);
     }
 }

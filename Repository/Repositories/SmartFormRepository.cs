@@ -64,10 +64,11 @@ namespace MPC.Repository.Repositories
                                   VariableID = es.VariableId,
                                   VariableName = es.VariableName,
                                   VariableTag = es.VariableTag,
-                                  VariableType = es.VariableType
+                                  VariableType = es.Scope
 
                               };
-                foreach(var obj in objList)
+                var listItems = objList.ToList();
+                foreach (var obj in listItems)
                 {
                     VariableList objVarList = new VariableList(obj.SectionName, obj.VariableID, obj.VariableName, obj.VariableTag, obj.VariableType.Value);
                     resultList.Add(objVarList);
@@ -85,13 +86,13 @@ namespace MPC.Repository.Repositories
                                   VariableID = es.VariableId,
                                   VariableName = es.VariableName,
                                   VariableTag = es.VariableTag,
-                                  VariableType = es.VariableType
+                                  VariableType = es.Scope
 
                               };
                 var listItems = objList.ToList();
                 foreach (var obj in listItems)
                 {
-                    VariableList objVarList = new VariableList(obj.SectionName, obj.VariableID, obj.VariableName, obj.VariableTag, obj.VariableType.Value);
+                    VariableList objVarList = new VariableList(obj.SectionName, obj.VariableID, obj.VariableName, obj.VariableTag, obj.VariableType);
                     resultList.Add(objVarList);
                 }
             }
@@ -114,13 +115,52 @@ namespace MPC.Repository.Repositories
 
                           };
             List<TemplateVariablesObj> objResult = new List<TemplateVariablesObj>();
-            foreach(var obj in objList)
+            foreach(var obj in objList.ToList())
             {
                 TemplateVariablesObj objToAdd = new TemplateVariablesObj(obj.VariableTag,obj.VariableID.Value,obj.TemplateID.Value);
 
                 objResult.Add(objToAdd);
             }
             return objResult;
+        }
+
+        public bool SaveTemplateVariables(List<TemplateVariablesObj> obj)
+        {
+            try
+            {
+                List<long> alreadyAdded = new List<long>();
+                long templateID = 0;
+                if (obj != null)
+                {
+                    if (obj.Count > 0)
+                    {
+                        templateID = obj[0].TemplateID;
+                    }
+                    //  objSettings = objSettings.DistinctBy().ToList();
+                    foreach (var objToRemove in db.TemplateVariables.Where(w => w.TemplateId == templateID).ToList())
+                    {
+                        db.TemplateVariables.Remove(objToRemove);
+                    }
+                    foreach (var item in obj)
+                    {
+                        if (!alreadyAdded.Contains(item.VariableID))
+                        {
+                            alreadyAdded.Add(item.VariableID);
+                            MPC.Models.DomainModels.TemplateVariable objToAdd = new MPC.Models.DomainModels.TemplateVariable();
+                            objToAdd.TemplateId = item.TemplateID;
+                            objToAdd.VariableId = item.VariableID;
+                            db.TemplateVariables.Add(objToAdd);
+                        }
+                    }
+                    db.SaveChanges();
+                    
+                }
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+            return true;
         }
         //public enum TemplateVariableType
         //{
