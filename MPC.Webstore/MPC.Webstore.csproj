@@ -262,6 +262,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\AttachmentUploaderController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\ImagePermissionController.cs" />
+    <Compile Include="Areas\DesignerApi\Controllers\ItemController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\SmartFormController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateBackgroundImageController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateColorStylesController.cs" />

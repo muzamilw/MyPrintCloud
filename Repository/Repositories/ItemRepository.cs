@@ -1059,7 +1059,13 @@ namespace MPC.Repository.Repositories
             //return db.Items.Include("ItemPriceMatrices").Include("ItemSections").Where(i => i.IsPublished == true && i.ItemId == itemId && i.EstimateId == null).FirstOrDefault();
 
         }
+        public Item GetItemByIdDesigner(long RefitemId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
 
+            return db.Items.Where(i => i.IsPublished == true && i.ItemId == RefitemId && i.EstimateId == null).FirstOrDefault();
+        }
         public ProductItem GetItemAndDetailsByItemID(long itemId)
         {
 

@@ -3721,3 +3721,6 @@ function pcl40(xdata) {
         cursor: 'move'
     });
 }
+function pcl41() {
+    alert(item.SmartFormId);
+}

@@ -27,6 +27,7 @@ namespace MPC.Interfaces.Repository
         Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID);
 
         Item GetItemById(long RefitemId);
+        Item GetItemByIdDesigner(long RefitemId);
 
         ProductItem GetItemAndDetailsByItemID(long itemId);
 
