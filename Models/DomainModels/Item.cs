@@ -390,6 +390,7 @@ namespace MPC.Models.DomainModels
         public bool? drawWaterMarkTxt { get; set; }
         public bool? allowPdfDownload { get; set; }
         public bool? allowImageDownload { get; set; }
+        public long? SmartFormId { get; set; }
 
         [NotMapped]
         public double MinPrice { get; set; }

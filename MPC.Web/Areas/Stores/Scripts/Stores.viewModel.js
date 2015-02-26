@@ -639,6 +639,9 @@ define("stores/stores.viewModel",
                                                 var savedTerritory = model.CompanyTerritory.Create(data);
                                                 if (selectedCompanyTerritory().territoryId() <= 0 || selectedCompanyTerritory().territoryId() == undefined) {
                                                     selectedStore().companyTerritories.splice(0, 0, savedTerritory);
+                                                    //Add territory in address drop down to use in saving address
+                                                    addressCompanyTerritoriesFilter.push(savedTerritory);
+                                                    contactCompanyTerritoriesFilter.push(savedTerritory);
                                                 }
 
                                                 if (savedTerritory.isDefault()) {
@@ -1443,6 +1446,10 @@ define("stores/stores.viewModel",
                                 }
                             }
                         }
+                        //Updating Case
+                        if (selectedStore().type() == 4 && selectedStore().companyId() != undefined) {
+                            selectedAddress().territoryId(selectedStore().companyTerritories()[0].territoryId());
+                        }
                         if (selectedStore().type() == 3 && selectedStore().companyId() == undefined) {
                             if (newAddresses != undefined && newAddresses().length == 0) {
                                 if (newCompanyTerritories().length > 0) {
@@ -1881,6 +1888,7 @@ define("stores/stores.viewModel",
                         target.metaTitle(source.metaTitle());
                         target.isEnabled(source.isEnabled());
                         target.isDisplay(false);
+                        target.imageSource(source.imageSrc());
                         _.each(pageCategories(), function (item) {
                             if (item.id() == source.categoryId()) {
                                 target.categoryName(item.name());
@@ -2204,7 +2212,7 @@ define("stores/stores.viewModel",
                                                 //updating selected contact rolename
                                                 _.each(roles(), function (role) {
                                                     if (role.roleId() == selectedCompanyContact().contactRoleId()) {
-                                                        savedCompanyContact().roleName()(role.roleName());
+                                                        savedCompanyContact.roleName(role.roleName());
                                                     }
                                                 });
                                                 if (selectedCompanyContact().isDefaultContact()) {
@@ -3244,18 +3252,21 @@ define("stores/stores.viewModel",
                                         isEditorVisible(false);
                                         stores.remove(selectedStore());
                                     }
-                                    editorViewModel.revertItem();
-                                    allPagesWidgets.removeAll();
-                                    pageSkinWidgets.removeAll();
-                                    selectedCurrentPageId(undefined);
-                                    resetObservableArrays();
-                                    selectedStore().reset();
+                                    resetStoreEditor();
                                 }
                             });
                             confirmation.show();
                             return;
                         }
                         isEditorVisible(false);
+                    },
+                    resetStoreEditor = function() {
+                        editorViewModel.revertItem();
+                        allPagesWidgets.removeAll();
+                        pageSkinWidgets.removeAll();
+                        selectedCurrentPageId(undefined);
+                        resetObservableArrays();
+                        selectedStore().reset();
                     },
                     resetFilterSection = function () {
                         searchFilter(undefined);
@@ -3437,6 +3448,7 @@ define("stores/stores.viewModel",
                     resetObservableArrays = function () {
                         companyTerritoryCounter = -1,
                         selectedStore().addresses.removeAll();
+                        selectedStore().mediaLibraries.removeAll();
                         //allCompanyAddressesList().removeAll();
                         deletedAddresses.removeAll();
                         edittedAddresses.removeAll();

@@ -135,7 +135,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isDidplayInFooter = ko.observable(specifiedIsDidplayInFooter),
             image = ko.observable(specifiedImage),
             url = ko.observable(specifiedUrl),
-            accountOpenDate = ko.observable(specifiedAccountOpenDate),
+            accountOpenDate = ko.observable(specifiedAccountOpenDate ? moment(specifiedAccountOpenDate).toDate() : undefined),
             accountManagerId = ko.observable(specifiedAccountManagerId),
             avatRegNumber = ko.observable(specifiedAvatRegNumber),
             avatRegReference = ko.observable(specifiedAvatRegReference),
@@ -331,7 +331,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.Status = source.status();
                 //result.ImageBytes = source.image();
                 result.URL = source.url();
-                result.AccountOpenDate = source.accountOpenDate();
+                result.AccountOpenDate = source.accountOpenDate() ? moment(source.accountOpenDate()).format(ist.utcFormat) + 'Z' : undefined;
                 result.AccountManagerId = source.accountManagerId();
                 result.AvatRegNumber = source.avatRegNumber();
                 result.PvatRegReference = source.avatRegReference();
@@ -2185,7 +2185,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
 
     // #region ___________  Secondary Page List View ____________________
 
-    SecondaryPageListView = function (specifiedPageId, specifiedPageTitle, specifiedMetaTitle, specifiedIsEnabled, specifiedIsDisplay, specifiedCategoryName) {
+    SecondaryPageListView = function (specifiedPageId, specifiedPageTitle, specifiedMetaTitle, specifiedIsEnabled, specifiedIsDisplay, specifiedCategoryName,
+    specifiedImageSource) {
         var
             self,
             //Unique ID
@@ -2193,6 +2194,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             pageTitle = ko.observable(specifiedPageTitle),
             metaTitle = ko.observable(specifiedMetaTitle),
             isEnabled = ko.observable(specifiedIsEnabled),
+            imageSource = ko.observable(specifiedImageSource),
             isDisplay = ko.observable(specifiedIsDisplay === null ? false : true),
             categoryName = ko.observable(specifiedCategoryName),
 
@@ -2208,12 +2210,13 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isEnabled: isEnabled,
             isDisplay: isDisplay,
             categoryName: categoryName,
+            imageSource: imageSource,
             convertToServerData: convertToServerData,
         };
         return self;
     };
     SecondaryPageListView.Create = function (source) {
-        return new SecondaryPageListView(source.PageId, source.PageTitle, source.Meta_Title, source.IsEnabled, source.IsDisplay, source.CategoryName);
+        return new SecondaryPageListView(source.PageId, source.PageTitle, source.Meta_Title, source.IsEnabled, source.IsDisplay, source.CategoryName, source.ImageSource);
     };
     // #endregion ___________  Secondary Page List View ____________________
 

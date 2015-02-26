@@ -245,7 +245,7 @@
                                                     <div class="pull-right">
                                                         <div class="fileUpload btn btn-primary">
                                                             <span>....</span>
-                                                            <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />
+                                                            <input type="file" class="upload" id="image_logofile" data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />
                                                         </div>
                                                     </div>
                                                     <div class="profile-label profileLabelPadding">
@@ -253,7 +253,7 @@
                                                         <span class="label label-success">Active</span>
                                                         <!-- /ko -->
                                                         <!-- ko if: status() != 1 -->
-                                                        <span class="label label-danger">DeActive</span>
+                                                        <span class="label label-danger">In-Active</span>
                                                         <!-- /ko -->
 
                                                     </div>
@@ -1916,7 +1916,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
         <script id="secondaryPageItemTemplate" type="text/html">
             <tr>
                 <td>
-                    <img src="../../../../Content/themes/Centaurus/img/samples/logos/UserPage.png" alt="" />
+                    <img src="" alt="" data-bind="attr: { src: imageSource }" />
                     <span style="color:#3cdfef;display:block;font-size:1.25em;padding-top:3px;margin-left:60px;" data-bind="text:pageTitle"></span>
                     <span class="user-subhead" data-bind="text:metaTitle">Broker meta title</span>
                 </td>
