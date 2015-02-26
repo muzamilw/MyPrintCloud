@@ -7,30 +7,7 @@
                 <h4 id="headingPF" class="modal-title" data-bind="text:$root.productsFilterHeading"></h4>
             </div>
             <div class="col-lg-12 outerDiv-Padding form-horizontal">
-                <div class="form-group">
-                    <div class="col-lg-3 text-right">
-                        <label for="txtCompanyName" class="control-label text-right">Select which product to Prioritize</label>
-
-                    </div>
-                    <div class="col-lg-9">
-                        <div class="radio">
-                            <input type="radio" name="optionsRadios1" id="optionYesProducts" value=1 data-bind="checked: $root.productPriorityRadioOption">
-                            <label for="optionYesProducts">
-                                Select Upto 9 products
-                            </label>
-                        </div>
-                        <div class="radio">
-                            <input type="radio" name="optionsRadios1" id="optionNoProducts" value=2 data-bind="checked: $root.productPriorityRadioOption">
-                            <label for="optionNoProducts">
-                                Display randomly from all featured products
-                            </label>
-                        </div>
-
-                        <span class="help-block text-right"></span>
-                    </div>
-                </div>
-
-                <!-- ko if: $root.productPriorityRadioOption()=== "1" -->
+                
                 <div class="col-lg-12" id="itemGrid">
                     <div class="col-xs-5" style="padding-left: 40px;">
                         <div class="main-box-body clearfix">
@@ -85,7 +62,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- /ko -->
             </div>
 
             <div class="modal-footer">

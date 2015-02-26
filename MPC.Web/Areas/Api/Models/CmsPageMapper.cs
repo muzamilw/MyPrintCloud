@@ -20,10 +20,16 @@ namespace MPC.MIS.Areas.Api.Models
         {
             byte[] bytes = null;
             string fileName = string.Empty;
-            if (source.PageBanner != null && File.Exists(source.PageBanner))
+            if (!string.IsNullOrEmpty(source.PageBanner))
             {
-                bytes = source.PageBanner != null ? File.ReadAllBytes(source.PageBanner) : null;
+                fileName = HttpContext.Current.Server.MapPath("~/" + source.PageBanner);
+                if (File.Exists(fileName))
+                {
+                    bytes = File.ReadAllBytes(source.PageBanner);
+                }
+                
             }
+            
             string defaultPageKeyWords = null;
             if (source.CmsPageTags != null)
             {

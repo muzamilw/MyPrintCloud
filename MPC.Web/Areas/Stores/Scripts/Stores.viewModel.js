@@ -55,7 +55,7 @@ define("stores/stores.viewModel",
                     //Active offer Type
                     selectedOfferType = ko.observable(),
                     //Product Priority Radio Option
-                    productPriorityRadioOption = ko.observable("2"),
+                    productPriorityRadioOption = ko.observable("1"),
                     productError = ko.observable(),
                     //#endregion
 
@@ -515,7 +515,8 @@ define("stores/stores.viewModel",
                             if (companyTerritory.companyId() > 0 && companyTerritory.territoryId() > 0) {
                                 //Check if company Territory is default and there exist any other territory to set its isDefualt flag to true
                                 //Or Company Territory is not default ones
-                                if (!companyTerritory.isDefault() || companyTerritory.isDefault() && selectedStore().companyTerritories().length > 1) {
+                                //if (!companyTerritory.isDefault() || companyTerritory.isDefault() && selectedStore().companyTerritories().length > 1) {
+                                if (!companyTerritory.isDefault() ) {
                                     dataservice.deleteCompanyTerritory({
                                         //companyTerritory: companyTerritory.convertToServerData()
                                         CompanyTerritoryId: companyTerritory.territoryId()
@@ -551,7 +552,7 @@ define("stores/stores.viewModel",
                                 }
                             }
                                 //#endregion
-                                //#region Else Company territry is newly created
+                            //#region Else Company territry is newly created
                             else {
                                 if (companyTerritory.isDefault() && selectedStore().companyTerritories().length == 1) {
                                     toastr.error("Make New Default territory first");
@@ -646,9 +647,12 @@ define("stores/stores.viewModel",
 
                                                 if (savedTerritory.isDefault()) {
                                                     _.each(selectedStore().companyTerritories(), function (item) {
-                                                        if (item.isDefault() == true) {
-                                                            item.isDefault(false);
+                                                        if (item.territoryId() != data.TerritoryId) {
+                                                            if (item.isDefault() == true) {
+                                                                item.isDefault(false);
+                                                            }
                                                         }
+                                                       
                                                     });
                                                 }
                                                 toastr.success("Saved Successfully");
@@ -2804,21 +2808,27 @@ define("stores/stores.viewModel",
                             flag = false;
                         }
 
-                        if (productPriorityRadioOption() === "1" && selectedItemsForOfferList().length === 0) {
-                            errorList.push({ name: "At least One Product to Prioritize..", element: productError.domElement });
-                            flag = false;
-                        }
+                        //if (productPriorityRadioOption() === "1" && selectedItemsForOfferList().length === 0) {
+                        //    errorList.push({ name: "At least One Product to Prioritize..", element: productError.domElement });
+                        //    flag = false;
+                        //}
                         if (selectedStore().companyId() == undefined) {
                             var haveIsDefaultTerritory = false;
                             var haveIsBillingDefaultAddress = false;
                             var haveIsShippingDefaultAddress = false;
                             var haveIsDefaultAddress = false;
                             var haveIsDefaultUser = false;
-                            _.each(selectedStore().companyTerritories(), function (territory) {
-                                if (territory.isDefault()) {
-                                    haveIsDefaultTerritory = true;
-                                }
-                            });
+                            if (selectedStore().type() == 3) {
+                                _.each(selectedStore().companyTerritories(), function (territory) {
+                                    if (territory.isDefault()) {
+                                        haveIsDefaultTerritory = true;
+                                    }
+                                });
+                            }
+                            if (selectedStore().type() == 4) {
+                                haveIsDefaultTerritory = true;
+                            }
+                           
                             _.each(selectedStore().addresses(), function (address) {
                                 if (address.isDefaultTerrorityBilling()) {
                                     haveIsBillingDefaultAddress = true;
@@ -3472,7 +3482,7 @@ define("stores/stores.viewModel",
                         selectedItemsForOfferList.removeAll();
                         selectedItemForRemove(undefined);
                         selectedItemForAdd(undefined);
-                        productPriorityRadioOption("2");
+                        productPriorityRadioOption("1");
                         errorList.removeAll();
                         fieldVariables.removeAll();
                         fieldVariablesOfContactType.removeAll();
