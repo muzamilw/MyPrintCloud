@@ -1033,7 +1033,9 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="onoffswitch">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSecondaryPages" data-bind="checked:$root.selectedStore().isDidplayInFooter(),event:{click:$root.secondayPageIsDisplayInFooterHandler}">
+                                                        <!--ko if: $root.selectedStore != undefined-->
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSecondaryPages" data-bind="checked:$root.selectedStore().isDisplayInFooter,event:{click:$root.secondayPageIsDisplayInFooterHandler}">
+                                                        <!--/ko-->
                                                         <label class="onoffswitch-label" for="switchSecondaryPages">
                                                             <div class="onoffswitch-inner"></div>
                                                             <div class="onoffswitch-switch"></div>
