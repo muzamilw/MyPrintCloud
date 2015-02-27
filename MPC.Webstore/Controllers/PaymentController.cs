@@ -37,9 +37,9 @@ namespace MPC.Webstore.Controllers
         }
 
         // GET: Payment
-        public ActionResult PaypalSubmit(int OrderID)
+        public ActionResult PaypalSubmit()
         {
-             OrderID = 16633;
+             int OrderID = 16633;
             PaypalViewModel opaypal = new PaypalViewModel();
             try
             {
@@ -277,7 +277,8 @@ namespace MPC.Webstore.Controllers
             }
             return View();
         }
-
+        
+       
 
         public long CreatePaymentResponses(int orderID, string txn_id, double payment_price, string payerEmail, string first_name, string last_name, string street, string city, string state, string zip,
                                       string country, int request_id, bool is_success, string reason_fault)

@@ -91,6 +91,16 @@ namespace MPC.MIS.Areas.Api.Models
         /// </summary>
         public static CmsPageForListView CreateFromForListView(this DomainModels.CmsPage source)
         {
+            byte[] bytes = null;
+            if (!string.IsNullOrEmpty(source.PageBanner))
+            {
+                string filePath = HttpContext.Current.Server.MapPath("~/" + source.PageBanner);
+                if (File.Exists(filePath))
+                {
+                    bytes = File.ReadAllBytes(filePath);
+                }
+
+            }
             return new CmsPageForListView
             {
                 PageId = source.PageId,
@@ -98,6 +108,7 @@ namespace MPC.MIS.Areas.Api.Models
                 IsDisplay = source.isDisplay,
                 IsEnabled = source.isEnabled,
                 Meta_Title = source.Meta_Title,
+                Image = bytes,
                 CategoryName = source.PageCategory != null ? source.PageCategory.CategoryName : string.Empty,
             };
         }

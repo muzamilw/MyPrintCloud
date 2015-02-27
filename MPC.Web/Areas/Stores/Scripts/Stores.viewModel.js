@@ -153,6 +153,7 @@ define("stores/stores.viewModel",
                     //Delete Company Domain
                     onDeleteCompanyDomainItem = function (companyDomain) {
                         if (selectedStore().companyDomains().length > 0 && selectedStore().companyDomains()[selectedStore().companyDomains().length - 1] == companyDomain) {
+                            toastr.error("Default Company Domain cannot be deleted");
                             return;
                         }
                         // Ask for confirmation
@@ -242,7 +243,7 @@ define("stores/stores.viewModel",
                         editorViewModel.selectItem(store);
                         selectedStore(store);
                         //Set By Default Store Type
-                        selectedStore().type(3);
+                        selectedStore().type('3');
                         isEditorVisible(true);
                         view.initializeForm();
                         getBaseDataFornewCompany();
@@ -1816,7 +1817,7 @@ define("stores/stores.viewModel",
                                     editedSecondaryPage.remove(item);
                                 }
                             });
-                            if (secondaryPage.id() !== undefined && secondaryPage.id() > 0) {
+                            if (secondaryPage.pageId() !== undefined && secondaryPage.pageId() > 0) {
                                 deletedSecondaryPage.push(secondaryPage);
                             }
 
@@ -2460,6 +2461,8 @@ define("stores/stores.viewModel",
                     isSavingNewProductCategory = ko.observable(false),
                     //Function Call When create new Product Category 
                     onCreateNewProductCategory = function () {
+                        $('.nav-tabs li:first-child a').tab('show');
+                        $('.nav-tabs li:eq(0) a').tab('show');
                         var productCategory = new model.ProductCategory();
                         //Set Product category value for by default
                         productCategory.isShelfProductCategory(true);
@@ -2475,6 +2478,7 @@ define("stores/stores.viewModel",
                         });
                         isSavingNewProductCategory(true);
                         view.showStoreProductCategoryDialog();
+
                     },
                     //Delete Product Category
                     onDeleteProductCategory = function (productCategory) {
@@ -3240,7 +3244,6 @@ define("stores/stores.viewModel",
                                 newUploadedMediaFile(model.MediaLibrary());
                                 //Update Cost Centers Selection 
                                 updateSelectedStoreCostCenters();
-
                                 selectedStore().reset();
                                 isLoadingStores(false);
                             },
@@ -3363,7 +3366,14 @@ define("stores/stores.viewModel",
                                     _.each(data.FieldVariableForSmartForms, function (item) {
                                         fieldVariablesForSmartForm.push(model.FieldVariableForSmartForm.Create(item));
                                     });
-
+                                    //Countries 
+                                    countries.removeAll();
+                                    ko.utils.arrayPushAll(countries(), data.Countries);
+                                    countries.valueHasMutated();
+                                    //States 
+                                    states.removeAll();
+                                    ko.utils.arrayPushAll(states(), data.States);
+                                    states.valueHasMutated();
 
                                 }
                                 selectedStore().reset();
