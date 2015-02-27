@@ -1,0 +1,203 @@
+﻿@model MPC.Webstore.ViewModels.NABViewModel
+@{
+    Layout = null;
+    ViewBag.Title = "NAB";
+}
+
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    
+
+    <div class="container content_area">
+        <div class="row left_right_padding">
+
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="white-container-lightgrey-border rounded_corners">
+                <div class="pad20">
+                    <div class="headingsAvenior float_left_simple" id="lblHead">
+                        Please enter your Credit Card details:
+                    </div>
+
+                    @*<div class="headingsAvenior float_left_simple">Please enter your Credit Card details:</div>*@
+                    <br />
+                    <div class="cntHalfRightProfile">
+                        <div class="smallContctUsAvenior float_left_simple">
+                            &nbsp;
+                        </div>
+                        <div class="TTL CCtxtPanel">
+
+                            <img src="Content/images/visa_49x31.jpg" border="0" alt="VISA">
+
+                            <img src="Content/images/MASTERCARD.gif" border="0" alt="MASTERCARD">
+                        </div>
+
+                        <div class="clearBoth">
+                        </div>
+                        <br />
+                          @Html.LabelFor(model => model.CardNumber, new { @class = "smallContctUsAvenior float_left_simple PaymentLabel" })
+                        
+                        <div class="TTL CCtxtPanel">
+                            
+                            @Html.TextBoxFor(model => model.CardNumber, new { @TabIndex = "1", @class = "newTxtBox" })
+                        </div>
+
+                        <div class="clearBoth">
+                        </div>
+                        <br />
+
+                      
+                            @Html.LabelFor(model => model.SelectedCardType, new { @class = "smallContctUsAvenior float_left_simple PaymentLabel" })
+                        <div class="TTL CCtxtPanel">
+                            @Html.DropDownListFor(model => model.SelectedCardType, Model.ListCardType, new { @class = "newTxtBox" })
+                        </div>
+                        
+                        <div class="clearBoth">
+                        </div>
+                        <br />
+
+                        
+                            @Html.LabelFor(model => model.CVVNumber, new { @class = "smallContctUsAvenior float_left_simple PaymentLabel" })
+                        <div class="TTL CCtxtPanel">
+                            @Html.TextBoxFor(model => model.CVVNumber, new { @TabIndex = "2", @class = "smallTxtBox" })
+                        </div>
+                        
+
+                        <div class="clearBoth">
+                        </div>
+                        <br />
+                        
+                            @Html.LabelFor(model => model.SelectedDate, new { @class = "smallContctUsAvenior float_left_simple PaymentLabel" })
+                            <div class="TTL CCtxtPanel">
+                                @Html.DropDownListFor(model => model.SelectedDate, Model.ListDate, new { @class = "smallTxtBox" })
+                                @Html.DropDownListFor(model => model.SelectedYear, Model.ListYear, new { @class = "smallTxtBox" })
+
+                            </div>
+
+                        
+                        <div class="clearBoth">
+                        </div>
+                        <br />
+
+                            @Html.LabelFor(model => model.NameOnCard, new { @class = "smallContctUsAvenior float_left_simple PaymentLabel" })
+                            <div class="TTL CCtxtPanel">
+                                @Html.TextBoxFor(model => model.NameOnCard, new { @TabIndex = "4", @class = "newTxtBox" })
+                            </div>
+                    
+                        <div class="clearBoth">
+                        </div>
+                        <br />
+                     
+                            @Html.LabelFor(model => model.EmailAddress, new { @class = "smallContctUsAvenior float_left_simple PaymentLabel" })
+                            <div class="TTL CCtxtPanel">
+                                @Html.TextBoxFor(model => model.EmailAddress, new { @TabIndex = "4", @class = "newTxtBox" })
+                            </div>
+                
+
+                        <div class="clearBoth">
+                        </div>
+                        <br />
+
+                        <div class="smallContctUsAvenior float_left_simple">
+                            &nbsp;
+                        </div>
+                        <div class="TTL CCtxtPanel">
+                            
+                            <input type="submit" class="start_creating_btn rounded_corners5" value="Pay" />
+                            <input id="cmdReset" class="start_creating_btn rounded_corners5" type="button" value="Cancel" onclick="return ResetData();" />
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="clearBoth">
+                    &nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*<div class="TTL CCtxtPanel">
+            <asp:Button ID="cmdPayment" runat="server" Text="Pay" CssClass="start_creating_btn rounded_corners5"
+                        TabIndex="11" OnClick="cmdPayment_Click" OnClientClick="return ValidateData();" />
+            &nbsp;<asp:Button ID="cmdReset" runat="server" CausesValidation="False" Text="Reset"
+                              CssClass="start_creating_btn rounded_corners5" OnClientClick="return ResetData();" />
+        </div>*@
+
+}
+
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        function ResetData() {
+
+            $('#<%= txtCardNumber.ClientID %>').val();
+            $('#<%= tctCCvNumber.ClientID %>').val();
+            $('#<%= txtNameOnCard.ClientID %>').val();
+            return false;
+        }
+
+
+        function ValidateData() {
+            var isValid = true;
+            var isDataFilles = 0;
+
+            if ($("select[id=MainContent_ddCCType] option:selected").index() == 0) {
+                isDataFilles = 1;
+                $("#<%= ddCCType.ClientID %>").css("border", "1px solid #b33c12");
+            } else {
+
+            }
+
+            if ($("#<%= txtCardNumber.ClientID %>").val() == '') {
+                isDataFilles = 1;
+                $('.LEmail').css("display", "block");
+                $("#<%= txtCardNumber.ClientID %>").parent().addClass("field-with-errors");
+            } else {
+                $('.LEmail').css("display", "none");
+                $("#<%= txtCardNumber.ClientID %>").parent().removeClass("field-with-errors");
+            }
+
+            if ($("#<%= tctCCvNumber.ClientID %>").val() == '') {
+                isDataFilles = 1;
+                $('.LPass').css("display", "block");
+                $("#<%= tctCCvNumber.ClientID %>").parent().addClass("field-with-errors");
+            } else {
+                $('.LPass').css("display", "none");
+                $("#<%= tctCCvNumber.ClientID %>").parent().removeClass("field-with-errors");
+            }
+
+            if ($("#<%= txtNameOnCard.ClientID %>").val() == '') {
+                isDataFilles = 1;
+                $('.LPass').css("display", "block");
+                $("#<%= txtNameOnCard.ClientID %>").parent().addClass("field-with-errors");
+            } else {
+                $('.LPass').css("display", "none");
+                $("#<%= txtNameOnCard.ClientID %>").parent().removeClass("field-with-errors");
+            }
+
+            if (isDataFilles == 1) {
+                return false;
+            } else {
+                if ($('#<%= txtEmailAddress.ClientID %>').val() == '') {
+                    return true;
+                }
+                else {
+                    var IsEmailValid = ValidateEmail($('#<%= txtEmailAddress.ClientID %>').val());
+                    if (IsEmailValid == true) {
+                        return true;
+                    } else {
+                        $("#<%= txtEmailAddress.ClientID %>").css("border", "1px solid #b33c12");
+                        return false;
+                    }
+                }
+
+
+            }
+        }
+    </script>
+}
+
+

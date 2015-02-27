@@ -747,7 +747,7 @@
 
 						</div>
 						<div class="clearBoth">
-							&nbsp;
+							
 						</div>
 						
 							@if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
@@ -777,20 +777,9 @@
 								}
 							}
 					</div>
-
-
-					<div class="clearBoth">
-						&nbsp;
-					</div>
-
-
-					<br />
-
-
-
 				</div>
 				<div class="clearBoth">
-					&nbsp;
+					
 				</div>
 				<div class="rounded_corners">
 					<div class="product_detail_sup_padding">
@@ -803,21 +792,12 @@
 						</div>
 					</div>
 					<div class="clearBoth">
-						&nbsp;
+					
 					</div>
 				</div>
 				<div class="clearBoth">
-					&nbsp;
+					
 				</div>
-				<br />
-
-
-				<div class="clearBoth">
-					&nbsp;
-				</div>
-				<br />
-				@*<asp:Label ID="lblMsgDisp" runat="server" Visible="false" />*@
-
 				<input type="hidden" id="hfTemplateName" value="@ViewBag.hfTemplateName" />
 				<input type="hidden" id="txtNoOfPages" value='@ViewBag.txtNoOfPages' />
 				<input type="hidden" id="txtTemplateID" value='@ViewBag.txtTemplateID' />
@@ -832,25 +812,14 @@
 				<input type="hidden" id="txtHiddenCorpItemTemplateID" value='@Model.TemplateId' />
 				<input type="hidden" ID="hfFbShareLink"  Value="@ViewBag.hfFbShareLink" />
 
-
-				@*<asp:HiddenField ID="txtHiddenProdItemPrice" Value="0" runat="server" />
-				<asp:HiddenField ID="txtHiddenAddonTotal" Value="0" runat="server" />
-
-
-				<asp:HiddenField ID="hfState" runat="server" ClientIDMode="Predictable" />
-				<asp:HiddenField ID="hfBrokerMarkup" runat="server" Value="0" />
-				<asp:HiddenField ID="hfContactMarkup" runat="server" Value="0" />*@
 			</div>
 	   }
-			@*<uc5:RRViews ID="pnlRViews" runat="server" />*@
-			<br />
-			<br />
 			@section scripts
 			{
 			@Scripts.Render("~/bundles/SliderDetail")
 			
 			<script src="~/Scripts/PopUp.js"></script>
-		<script src="~/Scripts/jquery.rating.js"></script>
+		    <script src="~/Scripts/jquery.rating.js"></script>
 			<script type="text/javascript">
 		   
 				function displayFileUploadPopup(btnUploadFile) {

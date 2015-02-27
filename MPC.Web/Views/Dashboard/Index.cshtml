@@ -1,6 +1,6 @@
 ﻿@using System.Web.UI.WebControls
 @{
-    ViewBag.Title = "MPC MIS 2014 Dashboard";
+    ViewBag.Title = "MPC MIS 2015 Dashboard";
 }
 @section leftmenue {
    
@@ -18,7 +18,7 @@
         height:50px;
         background-color:white;
         position:absolute;
-        opacity:0.3;
+        opacity:0.25;
         top:-32%;
           left:98px;
         -webkit-filter: blur(8px);
@@ -40,6 +40,13 @@
     .account-anchors
     {
         display:none;
+    }
+    .account-anchors a {
+        display:block;
+    }
+    .account-anchors a :hover{
+         background-color:#FFC0BA !important;
+        text-decoration:none !important;
     }
 </style>
 
@@ -64,7 +71,7 @@
     </div>
 }
 
-<div class="myprintcloud-help" id="myprintcloud-help">
+<div class="myprintcloud-help" id="myprintcloud-help" style="display:none;">
     <div class="highlight-div">
     </div>
     <div class="left-arrow"></div>
@@ -79,11 +86,11 @@
     </div>
     <div class="help-description">
         <div>
-            <span class="help-header-description" style="font-size:14px;">this is your Dashboard</span>
+            <span class="help-header-description" style="font-size:14px;">This is your Dashboard</span>
         </div>
         <div>
             <span class="help-details">Create Products , Web Stores , Estimates ...</span>
-            <div class="account-anchors"><br /><br /><a style="font-weight:bold;">View Your Live Store</a><br /><a style="font-weight:bold;">Brand Your Store (Logo,Color etc)</a><br /><a style="font-weight:bold;">Create a Product</a><br /><a style="font-weight:bold;">Create a Estimate</a><br /><a style="font-weight:bold;">Configure a Press (Digital or litho)</a></div>
+            <div class="account-anchors"><br /><br /><a style="font-weight:bold;">View Your Live Store</a><a style="font-weight:bold;">Brand Your Store (Logo,Color etc)</a><a style="font-weight:bold;">Create a Product</a><a style="font-weight:bold;">Create a Estimate</a><a style="font-weight:bold;">Configure a Press (Digital or litho)</a></div>
         </div>
     </div>
     <div class="help-description" style="border:none !important;background-color:#F5F6F6; padding-bottom:44px;">
@@ -1210,37 +1217,28 @@
             
         $("#myprintcloud-help").animate({ "top": "-=250" }, 200).delay(500);
         $("#myprintcloud-help").animate({ "top": "+=370" }, 200);
+        $(window).resize(function () {
 
+            document.getElementById("myprintcloud-help").style.left = "41%";
+
+        });
+        $("#btnCloseHelp").click(function () {
+
+            $("#myprintcloud-help").hide();
+            $(".disabled-div").css("display", "none");
+
+            $('body').css('overflow', 'visible');
+            $('body').css('zoom', '100%');
+
+        });
+    });
+
+ 
+    $(window).load(function () {
+        $("#myprintcloud-help").css("display", "block");
     });
     </script>
-    <script>
-        $(document).ready(function ()
-        {
 
-            $(window).resize(function ()
-            {
-               
-                document.getElementById("myprintcloud-help").style.left = "41%";
-
-            });
-
-        });
-    </script>
-    <script>
-        $(document).ready(function ()
-        {
-            $("#btnCloseHelp").click(function ()
-            {
-
-                $("#myprintcloud-help").hide();
-                $(".disabled-div").css("display", "none");
-                
-                $('body').css('overflow','visible');
-                $('body').css('zoom','100%');
-
-            });
-        });
-    </script>
     <script>
         $(document).ready(function ()
         {
@@ -1249,9 +1247,9 @@
 
             var i = 0;
 
-            var proceeding = ["Manage your PRINTCloud", "Add more Products", "Add more Stores", "Estimates & JobCards", "System Settings", "Your Account Area", "You've got the Basics..."];
-            var proceddingheadertext = ["This is your Dashboard", "Product is an item that appears on your website or estimating module", "A store a Webiste with own URL Link", "Create accurate estimates for simple digital products to complex multi page brouchers ...", "Set Your Regional Details,Create Presses and configure your delivery method cost centers", "From Here you can access", "What Would you like to do Next ?"]
-            var proceddingdetails = ["Create Products , Web Stores , Estimates ...", "\nCreate products with require templates to personlized or just of the shlef Finished Goods", "Create Website at attract new ivsitors \n or \n Create private website for larger customers who have specific online needs", "", "", "Self Placed Tutorials \n Join us in Regular webinars \n Contact our Suppert Desk \n Upgrade/dongrade your and cancel your Account", ""]
+            var proceeding = ["Manage your PRINT Cloud", "Add more Products", "Add more Stores", "Estimates & Job Cards", "System Settings", "Your Account Area", "You've got the Basics..."];
+            var proceddingheadertext = ["This is your Dashboard", "Product is an item that appears on your website or estimating module", "A store a Website with own URL Link", "Create accurate estimates for simple digital products to complex multi page brochures ...", "Set Your Region Details,Create Process and configure your delivery method cost centers", "From Here you can access", "What Would you like to do Next ?"]
+            var proceddingdetails = ["Create Products , Web Stores , Estimates ...", "\nCreate products with require templates to personalize or just off the shelf Finished Goods", "Create Website at attract new visitors \n or \n Create private website for large customers who have specific online needs", "", "", "Self Placed Tutorials \n Join us in Regular webinars \n Contact our Support Desk \n Upgrade/ downgrade and cancel your Account", ""]
 
             $("#btnPreviousHelp").hide();
             $("#btnCloseHelp").show();

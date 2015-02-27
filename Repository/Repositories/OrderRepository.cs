@@ -513,7 +513,11 @@ namespace MPC.Repository.Repositories
             {
                 if (tblOrder.Company != null)
                 {
-                    tblContactCompanyAddList = tblOrder.Company.Addresses.ToList();
+                    if (tblOrder.Company.Addresses != null)
+                    {
+                        tblContactCompanyAddList = tblOrder.Company.Addresses.ToList();
+                    }
+                    
 
                     if (tblContactCompanyAddList != null && tblContactCompanyAddList.Count > 0)
                     {
@@ -995,7 +999,11 @@ namespace MPC.Repository.Repositories
 
                     userOrder.BillingAdress = db.Addesses.Where(i => i.AddressId == Order.BillingAddressId).FirstOrDefault();
                     userOrder.ShippingAddress = db.Addesses.Where(i => i.AddressId == Order.AddressId).FirstOrDefault();
-                    userOrder.DeliveryMethod = db.CostCentres.Where(c => c.CostCentreId == Order.DeliveryCostCenterId).Select(n => n.Name).FirstOrDefault();
+                    if (Order.DeliveryCostCenterId !=null )
+                    {
+                        userOrder.DeliveryMethod = db.CostCentres.Where(c => c.CostCentreId == Order.DeliveryCostCenterId).Select(n => n.Name).FirstOrDefault();
+                    }
+                    
                 }
 
             }

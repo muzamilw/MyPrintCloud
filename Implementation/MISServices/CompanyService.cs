@@ -82,6 +82,33 @@ namespace MPC.Implementation.MISServices
         private readonly ICompanyContactVariableRepository companyContactVariableRepository;
         #endregion
 
+        private bool CheckDuplicateExistenceOfCompanyDomains(CompanySavingModel companySaving)
+        {
+            var allDomains = companyDomainRepository.GetAll();
+            var itemMatched = false;
+            foreach (var domain in allDomains)
+            {
+                foreach (var domainForSaving in companySaving.Company.CompanyDomains)
+                {
+                    if (domainForSaving.CompanyDomainId == 0)
+                    {
+                        if (domainForSaving.Domain == domain.Domain)
+                        {
+                            throw new MPCException("There Exist Another Domain Name Instance in system for:"+ domainForSaving.Domain, organisationRepository.OrganisationId);
+                            //return false;
+                        }
+                    }
+                }
+                
+            }
+            return true;
+            //var commonItem = companySaving.Company.CompanyDomains..Intersect(allCompanyDomains);
+            //if (commonItem.Any())
+            //{
+            //    return false;
+            //}
+           
+        }
         /// <summary>
         /// Save Company
         /// </summary>
@@ -410,8 +437,8 @@ namespace MPC.Implementation.MISServices
         }
         private void SaveProductCategoryThumbNailImage(ProductCategory productCategory)
         {
-            var thumbNailFileBytes = new byte[] {};
-            var imageFileBytes = new byte[] {};
+            var thumbNailFileBytes = new byte[] { };
+            var imageFileBytes = new byte[] { };
             if (!string.IsNullOrEmpty(productCategory.ThumbNailBytes))
             {
                 string base64 = productCategory.ThumbNailBytes.Substring(productCategory.ThumbNailBytes.IndexOf(',') + 1);
@@ -425,7 +452,7 @@ namespace MPC.Implementation.MISServices
                 imageFileBytes = Convert.FromBase64String(base64Image);
             }
 
-            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + productCategory.ProductCategoryId+"_"+ StringHelper.SimplifyString(productCategory.CategoryName)+"/ProductCategories");
+            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + productCategory.ProductCategoryId + "_" + StringHelper.SimplifyString(productCategory.CategoryName) + "/ProductCategories");
             if (directoryPath != null && !Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath);
@@ -434,7 +461,7 @@ namespace MPC.Implementation.MISServices
             string savePath = directoryPath + "\\" + productCategory.ProductCategoryId + "_Thumbnail.png";
             if ((!string.IsNullOrEmpty(productCategory.ThumbnailPath)) && File.Exists(HttpContext.Current.Server.MapPath("~/" + productCategory.ThumbnailPath)))
             {
-                File.Delete(productCategory.ThumbnailPath);  
+                File.Delete(productCategory.ThumbnailPath);
             }
             File.WriteAllBytes(savePath, thumbNailFileBytes);
             int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
@@ -956,14 +983,14 @@ namespace MPC.Implementation.MISServices
             UpdateMediaLibraryFilePath(companySavingModel.Company, companyDbVersion);
 
             UpdateContactProfileImage(companySavingModel, companyDbVersion);
-            SaveCompanyBannerImages(companySavingModel.Company);
+            SaveCompanyBannerImages(companySavingModel.Company, companyDbVersion);
             SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
             UpdateSecondaryPageImagePath(companySavingModel, companyDbVersion);
             UpdateCampaignImages(companySavingModel.Company.Campaigns, companyDbVersion);
             companyRepository.SaveChanges();
 
             //Call Service to add or remove the IIS Bindings for Store Domains
-           // updateDomainsInIIS(companyDomainsDbVersion, companyDbVersion.CompanyDomains);
+            // updateDomainsInIIS(companyDomainsDbVersion, companyDbVersion.CompanyDomains);
             return companySavingModel.Company;
         }
 
@@ -1050,7 +1077,7 @@ namespace MPC.Implementation.MISServices
                 }
             }
             #endregion
-            
+
         }
         public void UpdateCampaignImages(IEnumerable<Campaign> campaigns, Company companyDbVersion)
         {
@@ -1379,7 +1406,7 @@ namespace MPC.Implementation.MISServices
                 }
             }
         }
-        
+
         /// <summary>
         /// Update CMS Skin Page Widget
         /// </summary>
@@ -1767,7 +1794,7 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Save Company Banner Images
         /// </summary>
-        private void SaveCompanyBannerImages(Company company)
+        private void SaveCompanyBannerImages(Company company, Company companyDbVersion)
         {
             if (company.CompanyBannerSets != null)
             {
@@ -1778,9 +1805,16 @@ namespace MPC.Implementation.MISServices
                         {
                             foreach (var media in company.MediaLibraries)
                             {
-                                if (media.FakeId == banner.ImageURL)
+                                if (media.FakeId != null && media.FakeId == banner.ImageURL)
                                 {
-                                    banner.ImageURL = media.FilePath;
+                                    CompanyBannerSet companyBannerSetDbVersion = companyDbVersion.CompanyBannerSets.FirstOrDefault(
+                                        cbs => cbs.CompanySetId == item.CompanySetId);
+                                    CompanyBanner companyBannerDbVersion = companyBannerSetDbVersion != null
+                                         ? companyBannerSetDbVersion.CompanyBanners.FirstOrDefault(
+                                             b => b.CompanyBannerId == banner.CompanyBannerId)
+                                         : null;
+                                    if (companyBannerDbVersion != null)
+                                        companyBannerDbVersion.ImageURL = media.FilePath;
                                 }
                             }
                         }
@@ -2085,8 +2119,8 @@ namespace MPC.Implementation.MISServices
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string savePath = 
-                    directoryPath + "\\" + 
+                string savePath =
+                    directoryPath + "\\" +
                     companyContact.ContactId + "_" + StringHelper.SimplifyString(companyContact.FirstName) + "_profile.png";
                 File.WriteAllBytes(savePath, data);
                 int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
@@ -2383,7 +2417,7 @@ namespace MPC.Implementation.MISServices
                        FieldVariableResponse = fieldVariableRepository.GetFieldVariable(request),
                        FieldVariablesForSmartForm = fieldVariableRepository.GetFieldVariablesForSmartForm(storeId),
                        CmsPages = cmsPageRepository.GetCmsPagesForOrders()
-                       
+
                    };
         }
         public CompanyBaseResponse GetBaseDataForNewCompany()
@@ -2422,14 +2456,16 @@ namespace MPC.Implementation.MISServices
         {
             Company companyDbVersion = companyRepository.Find(companyModel.Company.CompanyId);
 
-            if (companyDbVersion == null)
+            if (CheckDuplicateExistenceOfCompanyDomains(companyModel))
             {
-                return SaveNewCompany(companyModel);
-            }
-            else
-            {
+                if (companyDbVersion == null)
+                {
+                    return SaveNewCompany(companyModel);
+                }
                 return UpdateCompany(companyModel, companyDbVersion);
             }
+           
+            return null;
         }
         public long GetOrganisationId()
         {
@@ -2796,7 +2832,7 @@ namespace MPC.Implementation.MISServices
                 // Set CompanyData
                 long CompanyID = 2165; // Later it will be changes
 
-              
+
 
                 // export json file
 
@@ -2826,34 +2862,34 @@ namespace MPC.Implementation.MISServices
 
                     // Add all files in directory
                     string FolderPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Resources/" + OrganisationID;
-                   
+
                     if (Directory.Exists(FolderPath))
                     {
-                       
+
                         foreach (string newPath in Directory.GetFiles(FolderPath, "*.*", SearchOption.AllDirectories))
                         {
                             string Lname = Path.GetFileName(newPath);
-                          
+
 
                             string directoty = Path.GetDirectoryName(newPath);
                             string[] stringSeparators = new string[] { "MPC_Content" };
-                            if(!string.IsNullOrEmpty(directoty))
+                            if (!string.IsNullOrEmpty(directoty))
                             {
                                 string[] result = directoty.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
-                               
+
                                 string FolderName = result[1];
-                                if(!string.IsNullOrEmpty(FolderName))
+                                if (!string.IsNullOrEmpty(FolderName))
                                 {
                                     string[] folder = FolderName.Split('\\');
                                     directoty = "/Resources/" + OrganisationID + "/" + folder[3];
-                                  
+
                                     ZipEntry r = zip.AddFile(newPath, directoty);
                                     r.Comment = "Language File for an organisation";
                                 }
-                               
-                               
+
+
                             }
-                           
+
                         }
                     }
 
@@ -2925,14 +2961,14 @@ namespace MPC.Implementation.MISServices
                         {
                             if (report.ReportBanner != null)
                             {
-                               string FilePath = HttpContext.Current.Server.MapPath(report.ReportBanner);
-                               DPath = "/Media/" + OrganisationID;
-                               if (File.Exists(FilePath))
-                               {
-                                   ZipEntry r = zip.AddFile(FilePath, DPath);
-                                   r.Comment = "Media Files for Store";
+                                string FilePath = HttpContext.Current.Server.MapPath(report.ReportBanner);
+                                DPath = "/Media/" + OrganisationID;
+                                if (File.Exists(FilePath))
+                                {
+                                    ZipEntry r = zip.AddFile(FilePath, DPath);
+                                    r.Comment = "Media Files for Store";
 
-                               }
+                                }
                             }
                         }
                     }
@@ -2950,7 +2986,7 @@ namespace MPC.Implementation.MISServices
 
                             }
                         }
-                     
+
 
                         // export media
 
@@ -3140,11 +3176,11 @@ namespace MPC.Implementation.MISServices
 
                             }
                         }
-                        if(ObjExportOrg.Company.CompanyContacts != null && ObjExportOrg.Company.CompanyContacts.Count > 0)
+                        if (ObjExportOrg.Company.CompanyContacts != null && ObjExportOrg.Company.CompanyContacts.Count > 0)
                         {
-                            foreach(var contact in ObjExportOrg.Company.CompanyContacts)
+                            foreach (var contact in ObjExportOrg.Company.CompanyContacts)
                             {
-                                if(!string.IsNullOrEmpty(contact.image))
+                                if (!string.IsNullOrEmpty(contact.image))
                                 {
                                     string ContactImage = HttpContext.Current.Server.MapPath(contact.image);
                                     string ContactDirectory = "/Assets/" + OrganisationID + "/" + CompanyID + "/Contacts/" + contact.ContactId;
@@ -3210,14 +3246,14 @@ namespace MPC.Implementation.MISServices
 
         #region ImportOrganisation
 
-        public void ImportOrganisation(long OrganisationId,string ZipPath)
+        public void ImportOrganisation(long OrganisationId, string ZipPath)
         {
             try
             {
-                
+
                 string extractPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportOrganisation");
-               // string ReadPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Organisations/ExportedZip20.zip");
-              //  ZipPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Organisations/ExportedZip20.zip");
+                // string ReadPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Organisations/ExportedZip20.zip");
+                //  ZipPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Organisations/ExportedZip20.zip");
                 if (File.Exists(ZipPath))
                 {
                     //string zipToUnpack = "C1P3SML.zip";
@@ -3230,20 +3266,20 @@ namespace MPC.Implementation.MISServices
                             e.Extract(extractPath, ExtractExistingFileAction.OverwriteSilently);
                         }
                     }
-                            string JsonFilePath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportOrganisation/Json.txt");
-                            if (File.Exists(JsonFilePath))
-                            {
-                                string json = System.IO.File.ReadAllText(JsonFilePath);
+                    string JsonFilePath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportOrganisation/Json.txt");
+                    if (File.Exists(JsonFilePath))
+                    {
+                        string json = System.IO.File.ReadAllText(JsonFilePath);
 
-                                ExportOrganisation objExpOrg = JsonConvert.DeserializeObject<ExportOrganisation>(json);
+                        ExportOrganisation objExpOrg = JsonConvert.DeserializeObject<ExportOrganisation>(json);
 
-                                organisationRepository.InsertOrganisation(OrganisationId, objExpOrg);
-                                
+                        organisationRepository.InsertOrganisation(OrganisationId, objExpOrg);
 
-                            }
+
+                    }
 
                 }
-               
+
             }
             catch (Exception ex)
             {
