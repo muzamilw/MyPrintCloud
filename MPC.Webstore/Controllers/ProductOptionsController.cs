@@ -91,7 +91,7 @@ namespace MPC.Webstore.Controllers
             Item clonedItem = null;
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
-
+            long OrderID = 0;
             long referenceItemId = 0;
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
             if (ItemMode == "UploadDesign")
@@ -103,7 +103,7 @@ namespace MPC.Webstore.Controllers
                     // create new order
                     
                    // MyCompanyDomainBaseResponse organisationBaseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
-                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, _myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), ref TemporaryRetailCompanyId);
+                    OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, _myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), ref TemporaryRetailCompanyId);
                     if (OrderID > 0)
                     {
                         UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
@@ -114,15 +114,13 @@ namespace MPC.Webstore.Controllers
                         if (clonedItem == null)
                         {
                             clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, OrderID, UserCookieManager.StoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId);
-                            if (UserCookieManager.OrderId == 0)
-                            {
-                                UserCookieManager.OrderId = clonedItem.EstimateId ?? 0;
-                            }
+                            
                         }
                     }
                 }
                 else
                 {
+                    OrderID = UserCookieManager.OrderId;
                     // gets the item from reference item id in case of upload design when user process the item but not add the item in cart
                     clonedItem = _myItemService.GetExisitingClonedItemInOrder(UserCookieManager.OrderId, Convert.ToInt64(ItemId));
 
@@ -137,6 +135,7 @@ namespace MPC.Webstore.Controllers
             }
             else if (ItemMode == "Modify")// modify item case
             {
+                OrderID = UserCookieManager.OrderId;
                 clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
                 if (!string.IsNullOrEmpty(TemplateId))
                 {
@@ -165,6 +164,7 @@ namespace MPC.Webstore.Controllers
             }
             else if (!string.IsNullOrEmpty(TemplateId))// template case
             {
+                OrderID = UserCookieManager.OrderId;
                 clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
                 BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), Convert.ToInt32(clonedItem.DesignerCategoryId));
                 referenceItemId = clonedItem.RefItemId ?? 0;
@@ -176,7 +176,7 @@ namespace MPC.Webstore.Controllers
 
             ViewBag.AttachmentCount = clonedItem.ItemAttachments == null ? 0 : clonedItem.ItemAttachments.Count;
 
-            DefaultSettings(referenceItemId, ItemMode, clonedItem.ItemId);
+            DefaultSettings(referenceItemId, ItemMode, clonedItem.ItemId, OrderID);
             StoreBaseResopnse = null;
             TempData["ItemMode"] = ItemMode;
             return View("PartialViews/ProductOptions");
@@ -257,7 +257,7 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-                DefaultSettings(Convert.ToInt64(ReferenceItemId), "", Convert.ToInt64(cartObject.ItemId));
+                DefaultSettings(Convert.ToInt64(ReferenceItemId), "", Convert.ToInt64(cartObject.ItemId), Convert.ToInt64(cartObject.OrderId));
 
                 return View("PartialViews/ProductOptions");
             }
@@ -265,7 +265,7 @@ namespace MPC.Webstore.Controllers
 
         }
 
-        private void DefaultSettings(long ReferenceItemId, string mode, long ClonedItemId)
+        private void DefaultSettings(long ReferenceItemId, string mode, long ClonedItemId, long OrderId)
         {
             List<ProductPriceMatrixViewModel> PriceMatrixObjectList = null;
 
@@ -526,7 +526,7 @@ namespace MPC.Webstore.Controllers
             }
             ViewBag.DesignServiceUrl = Utils.GetAppBasePath();
 
-            ViewBag.Order = _orderService.GetOrderByID(UserCookieManager.OrderId);
+            ViewBag.Order = _orderService.GetOrderByID(OrderId);
 
             PriceMatrixObjectList = null;
             AddonObjectList = null;

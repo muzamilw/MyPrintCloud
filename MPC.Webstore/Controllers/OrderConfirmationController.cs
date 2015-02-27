@@ -75,7 +75,7 @@ namespace MPC.Webstore.Controllers
                         //  cntRightPricing1.Visible = false;
                     }
 
-
+                    ViewBag.Currency = StoreBaseResopnse.Currency;
                     StoreBaseResopnse = null;
                     return View("PartialViews/OrderConfirmation", shopCart);
                 }
@@ -196,7 +196,7 @@ namespace MPC.Webstore.Controllers
                         }
                         if (result)
                         {
-                           // Response.Redirect("/Receipt/" + OrderId);
+                            Response.Redirect("/Receipt/" + OrderId);
 
                         }
                     }
@@ -276,7 +276,7 @@ namespace MPC.Webstore.Controllers
                     {
                         try
                         {
-                           // result = _OrderService.UpdateOrderAndCartStatus(OrderId, OrderStatus.PendingOrder, StoreMode.Corp);
+                            result = _OrderService.UpdateOrderAndCartStatus(OrderId, OrderStatus.PendingOrder, StoreMode.Corp);
 
                             long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager); //ContactManager.GetBrokerByRole(SessionParameters.BrokerContactCompany.ContactCompanyID, Convert.ToInt32(Roles.Adminstrator));
                             cep.CorporateManagerID = ManagerID;
@@ -300,7 +300,7 @@ namespace MPC.Webstore.Controllers
                             //LogError(ex);
                         }
 
-                      //  Response.Redirect("/Receipt/" + OrderId);
+                        Response.Redirect("/Receipt/" + OrderId);
 
 
                     }
@@ -309,7 +309,7 @@ namespace MPC.Webstore.Controllers
                         // and prices are hidden
                         try
                         {
-                           // result = _OrderService.UpdateOrderAndCartStatus(OrderId, OrderStatus.PendingCorporateApprovel, StoreMode.Corp);
+                            result = _OrderService.UpdateOrderAndCartStatus(OrderId, OrderStatus.PendingCorporateApprovel, StoreMode.Corp);
 
                             long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager);
                             cep.CorporateManagerID = ManagerID;
@@ -333,7 +333,7 @@ namespace MPC.Webstore.Controllers
                             //LogError(ex);
                         }
 
-                     //   Response.Redirect("/Receipt/" + OrderId);
+                        Response.Redirect("/Receipt/" + OrderId);
 
 
                     }
@@ -403,7 +403,7 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-             //   Response.Redirect("/");
+                Response.Redirect("/");
             }
         }
     }

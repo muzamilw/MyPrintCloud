@@ -10,6 +10,10 @@ using System.Text.RegularExpressions;
 using MPC.Webstore.Common;
 using MPC.Interfaces.WebStoreServices;
 using System.Runtime.Caching;
+using System.Net;
+using System.IO;
+using System.Text;
+using System.Xml;
 namespace MPC.Webstore.Controllers
 {
     public class NabSubmitController : Controller
@@ -80,7 +84,7 @@ namespace MPC.Webstore.Controllers
         //    ObjectCache cache = MemoryCache.Default;
 
         //    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
-          
+
         //    int typeid = GetCardTypeIdFromNumber(model.CardNumber);
         //    bool result = IsValidNumber(model.CardNumber);
 
@@ -110,7 +114,7 @@ namespace MPC.Webstore.Controllers
         //        {
         //            oGateWay = _PaymentGatewayService.GetPaymentGatewayRecord();
         //        }
-        //        else if (UserCookieManager.StoreMode == (int) StoreMode.Corp && StoreBaseResopnse.Company.isBrokerCanAcceptPaymentOnline == true)
+        //        else if (UserCookieManager.StoreMode == (int)StoreMode.Corp && StoreBaseResopnse.Company.isBrokerCanAcceptPaymentOnline == true)
         //        {
         //            oGateWay = _PaymentGatewayService.GetPaymentGatewayRecord(StoreBaseResopnse.Company.CompanyId);
         //        }
@@ -130,15 +134,15 @@ namespace MPC.Webstore.Controllers
 
         //            if (OrderID > 0)
         //            {
-                        
+
         //                Estimate modelOrder = _OrderService.GetOrderByID(OrderID);
         //                ShoppingCart shopCart = _OrderService.GetShopCartOrderAndDetails(OrderID, OrderStatus.ShoppingCart);
-                       
+
         //                //ErrorMEsSummry.Visible = false;
         //                //errorMesgCnt.Visible = false;
-                        
-        //                string orderValue = Math.Round(Convert.ToDouble(modelOrder.Estimate_Total?? 0), 2).ToString();
-        //                string xmlFormate = OrderXmlData(OrderID, model.CardNumber, model.SelectedDate, model.SelectedYear.Substring(2), orderValue, modelOrder.OrderCode, oGateWay.BusinessEmail, oGateWay.IdentityToken);
+
+        //                string orderValue = Math.Round(Convert.ToDouble(modelOrder.Estimate_Total ?? 0), 2).ToString();
+        //                string xmlFormate = OrderXmlData(OrderID, model.CardNumber, model.SelectedDate, model.SelectedYear.Substring(2), orderValue, modelOrder.Order_Code, oGateWay.BusinessEmail, oGateWay.IdentityToken);
         //                WebRequest request = null;
         //                WebResponse response = null;
 
@@ -148,8 +152,17 @@ namespace MPC.Webstore.Controllers
         //                {
 
         //                    long NabTransactionid = 0;
-
-        //                    string apiURL = ConfigurationSettings.AppSettings["NABAPIURL"];
+        //                    string apiURL = "";
+                            
+        //                    if (oGateWay.UseSandbox.HasValue && oGateWay.UseSandbox.Value )
+        //                    {
+        //                        apiURL = oGateWay.TestApiUrl;
+        //                    }
+        //                    else
+        //                    {
+        //                        apiURL = oGateWay.LiveApiUrl;
+        //                    }
+                            
 
         //                    request = WebRequest.Create(apiURL);
         //                    // Set the Method property of the request to POST.
@@ -158,7 +171,7 @@ namespace MPC.Webstore.Controllers
 
 
 
-        //                    NabTransactionid = PaymentsManager.NabTransactionSaveRequest(Convert.ToInt32(modelOrder.OrderID), xmlFormate);
+        //                    NabTransactionid = PaymentsManager.NabTransactionSaveRequest(Convert.ToInt32(OrderID), xmlFormate);
         //                    byte[] byteArray = Encoding.UTF8.GetBytes(xmlFormate);
 
         //                    request.ContentType = "text/xml; encoding='utf-8'";
@@ -224,7 +237,7 @@ namespace MPC.Webstore.Controllers
         //                        if (ResponseStatusCode == "00" || ResponseStatusCode == "08")
         //                        {
 
-        //                            if (modelOrder.StatusID == 3)
+        //                            if (modelOrder.StatusId == 3)
         //                            {
 
         //                                XmlNodeList TransNode = xmlDoc2.GetElementsByTagName("txnID");
@@ -235,14 +248,14 @@ namespace MPC.Webstore.Controllers
         //                                }
 
 
-        //                                BLL.EmailManager emailMgr = new EmailManager();
-        //                                CompanySiteManager CSM = new CompanySiteManager();
-        //                                tbl_company_sites Serversettingss = CompanySiteManager.GetCompanySite();
+        //                               // BLL.EmailManager emailMgr = new EmailManager();
+        //                               // CompanySiteManager CSM = new CompanySiteManager();
+        //                              //  tbl_company_sites Serversettingss = CompanySiteManager.GetCompanySite();
         //                                int? customerID = null;
         //                                StoreMode modeOfStore = StoreMode.Retail;
 
         //                                if (modelOrder != null)
-        //                                    customerID = modelOrder.CustomerID;
+        //                                    customerID = modelOrder.ContactId;
 
         //                                // order code and order creation date
         //                                CampaignEmailParams cep = new CampaignEmailParams();
@@ -398,6 +411,74 @@ namespace MPC.Webstore.Controllers
         //    return view();
         //}
 
+        private string OrderXmlData(int orderID, string ccNumber, string ccDate, string ccYear, string OrderAmount,
+            string PONumber, string marchantID, string Password)
+        {
+            int indexOdDecimal = OrderAmount.IndexOf(".");
+            if (indexOdDecimal >= 0)
+            {
+                OrderAmount = OrderAmount.Replace(".", "").Trim();
+            }
+            else
+            {
+                OrderAmount = OrderAmount + "00";
+            }
+            // ABC0001 changeit
+            string xml = @"<?xml version=""1.0"" encoding=""UTF-8""?>
+                            <NABTransactMessage>
+                            <MessageInfo>
+                            <messageID>#messageID</messageID>
+                            <messageTimestamp>#messageTimeStamp</messageTimestamp>
+                            <timeoutValue>60</timeoutValue>
+                            <apiVersion>xml-4.2</apiVersion>
+                            </MessageInfo>
+                            <MerchantInfo>
+                            <merchantID>#merchantID</merchantID>
+                            <password>#merchantPassword</password>
+                            </MerchantInfo>
+                            <RequestType>Payment</RequestType>
+                            <Payment>
+                            <TxnList count=""1"">
+                            <Txn ID=""1"">
+                            <txnType>0</txnType>
+                            <txnSource>23</txnSource>
+                            <amount>#OrderAmount</amount>
+                            <currency>#CurrencyNAB</currency>
+                            <purchaseOrderNo>#PONumber</purchaseOrderNo>
+                            <CreditCardInfo>
+                            <cardNumber>#cardNumber</cardNumber>
+                            <expiryDate>#ExpiryDate</expiryDate>
+                            </CreditCardInfo>
+                            </Txn>
+                            </TxnList>
+                            </Payment>
+                            </NABTransactMessage>";
+
+
+            xml = xml.Replace("#messageID", orderID.ToString());
+            xml = xml.Replace("#cardNumber", ccNumber);
+            xml = xml.Replace("#OrderAmount", OrderAmount);
+            xml = xml.Replace("#PONumber", PONumber);
+            xml = xml.Replace("#merchantID", marchantID);
+            xml = xml.Replace("#merchantPassword", Password);
+            //if (ConfigurationSettings.AppSettings["CurrencyNAB"] != null)
+            //{
+            //    xml = xml.Replace("#CurrencyNAB", ConfigurationSettings.AppSettings["CurrencyNAB"]);
+            //}
+            //else
+            //{
+            //    xml = xml.Replace("#CurrencyNAB", "AUD");
+            //}
+
+            xml = xml.Replace("#ExpiryDate", ccDate + "/" + ccYear);
+
+            xml = xml.Replace("#messageTimeStamp",
+                DateTime.Now.Year + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Hour + DateTime.Now.Minute +
+                DateTime.Now.Second + DateTime.Now.Millisecond + "000+600");
+
+            xml = xml.Replace("\r\n", "");
+            return xml;
+        }
 
         //public bool IsValidNumber(string cardNum)
         //{
