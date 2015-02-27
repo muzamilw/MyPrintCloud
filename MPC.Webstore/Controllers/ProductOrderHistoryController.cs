@@ -66,10 +66,12 @@ namespace MPC.Webstore.Controllers
             if (UserCookieManager.StoreMode == (int)StoreMode.Corp && _myClaimHelper.loginContactRoleID() == (int)Roles.User)
             {
                 ordersList = _orderService.GetOrdersListExceptPendingOrdersByContactID(contactID, status, model.FromData, model.ToDate, model.poSearch, 0, 0);
+                
             }
             else
             {
                 ordersList = _orderService.GetOrdersListByContactID(contactID, status, model.FromData, model.ToDate, model.poSearch, 0, 0);
+               
             }
             if (ordersList == null || ordersList.Count == 0)
             {

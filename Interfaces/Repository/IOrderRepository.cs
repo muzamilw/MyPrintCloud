@@ -11,6 +11,7 @@ namespace MPC.Interfaces.Repository
 {
     public interface IOrderRepository : IBaseRepository<Estimate,long>
     {
+        string FormatDateValue(DateTime? dateTimeValue);
         ShoppingCart ExtractShoppingCartForOrder(Estimate tblEstimate);
         bool ApplyCurrentTax(List<Item> ClonedITem, double TaxValue,int TaxID);
         string GetAttachmentFileName(string ProductCode, string OrderCode, string ItemCode, string SideCode, string VirtualFolderPath, string extension, DateTime OrderCreationDate);

@@ -1863,26 +1863,30 @@ namespace MPC.Repository.Repositories
                             StatusTypeID = tblStatuses.StatusType,
                             ContactUserID = tblOrd.ContactId,
                             CustomerID = tblOrd.CompanyId,
-                            OrderDate = tblOrd.Order_Date,
+                            OrderDate =tblOrd.Order_Date,
                             DeliveryDate = tblOrd.StartDeliveryDate,
                             YourRef = tblOrd.CustomerPO,
                             ClientStatusID = tblOrd.ClientStatus,
+                           // SOrderDate =tblOrd.Order_Date.HasValue?tblOrd.Order_Date.Value.ToString("MMMM dd, yyyy"):string.Empty, // FormatDateValue(tblOrd.Order_Date),
+                           // SOrderDeliveryDate = tblOrd.StartDeliveryDate.HasValue? tblOrd.StartDeliveryDate.Value.ToString("MMMM dd, yyyy") : string.Empty,
                            // ClientStatusName=tblStatuses.StatusName;
                         };
-
-            // resultsCount = query.Count();
-            // if (resultsCount > 0 && resultsCount > pageSize)
-            //  {
-            //      startIndex = pageNumber - 1 * pageSize;
-            //     ordersList = query.Skip(startIndex).Take(pageSize).ToList(); //all records
-            //  }
-            // else
-            // {
+            //query.ToList().ForEach(o => o.SOrderDate = o.DeliveryDate != null ? o.OrderDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
+            //query.ToList().ForEach(o => o.SOrderDeliveryDate = o.DeliveryDate != null ? o.DeliveryDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
             ordersList = query.ToList<Order>();
-            // }
-            // totalRecordsCount = resultsCount;
-
+            ordersList.ForEach(o => o.SOrderDate = o.DeliveryDate != null ? o.OrderDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
+            ordersList.ForEach(o => o.SOrderDeliveryDate = o.DeliveryDate != null ? o.DeliveryDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
             return ordersList;
+        }
+        public string FormatDateValue(DateTime? dateTimeValue)
+        {
+            string formatString = null;
+            const string defaultFormat = "MMMM d, yyyy";
+
+            if (dateTimeValue.HasValue)
+                return dateTimeValue.Value.ToString(string.IsNullOrWhiteSpace(formatString) ? defaultFormat : formatString);
+            else
+                return string.Empty;
         }
         public Order GetOrderAndDetails(long orderID)
         {
