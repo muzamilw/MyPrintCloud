@@ -153,6 +153,7 @@ define("stores/stores.viewModel",
                     //Delete Company Domain
                     onDeleteCompanyDomainItem = function (companyDomain) {
                         if (selectedStore().companyDomains().length > 0 && selectedStore().companyDomains()[selectedStore().companyDomains().length - 1] == companyDomain) {
+                            toastr.error("Default Company Domain cannot be deleted");
                             return;
                         }
                         // Ask for confirmation
@@ -2456,6 +2457,8 @@ define("stores/stores.viewModel",
                     isSavingNewProductCategory = ko.observable(false),
                     //Function Call When create new Product Category 
                     onCreateNewProductCategory = function () {
+                        $('.nav-tabs li:first-child a').tab('show');
+                        $('.nav-tabs li:eq(0) a').tab('show');
                         var productCategory = new model.ProductCategory();
                         //Set Product category value for by default
                         productCategory.isShelfProductCategory(true);
@@ -2471,6 +2474,7 @@ define("stores/stores.viewModel",
                         });
                         isSavingNewProductCategory(true);
                         view.showStoreProductCategoryDialog();
+
                     },
                     //Delete Product Category
                     onDeleteProductCategory = function (productCategory) {
