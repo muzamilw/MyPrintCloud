@@ -272,6 +272,7 @@
         <EntityTypeShape EntityType="DomainModels.PaypalPaymentRequest" Width="1.5" PointX="27.375" PointY="22.75" />
         <EntityTypeShape EntityType="DomainModels.PayPalResponse" Width="1.5" PointX="29.375" PointY="39.125" />
         <AssociationConnector Association="DomainModels.FK_tbl_PrePayments_tbl_PayPalResponses" />
+        <EntityTypeShape EntityType="DomainModels.NABTransaction" Width="1.5" PointX="27.375" PointY="32.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

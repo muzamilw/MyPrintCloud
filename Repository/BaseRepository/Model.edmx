@@ -2240,6 +2240,16 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="FileType" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="CompanyId" Type="bigint" Nullable="false" />
         </EntityType>
+        <EntityType Name="NABTransaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EstimateId" Type="int" />
+          <Property Name="Request" Type="nvarchar(max)" />
+          <Property Name="Response" Type="nvarchar(max)" />
+          <Property Name="datetime" Type="datetime" />
+        </EntityType>
         <EntityType Name="Organisation">
           <Key>
             <PropertyRef Name="OrganisationId" />
@@ -4905,6 +4915,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <EntitySet Name="MachineSpoilage" EntityType="Self.MachineSpoilage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Markup" EntityType="Self.Markup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MediaLibrary" EntityType="Self.MediaLibrary" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NABTransaction" EntityType="Self.NABTransaction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Organisation" EntityType="Self.Organisation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PageCategory" EntityType="Self.PageCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaperBasisArea" EntityType="Self.PaperBasisArea" Schema="dbo" store:Type="Tables" />
@@ -6213,6 +6224,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
             <End Role="PayPalResponse" EntitySet="PayPalResponses" />
             <End Role="PrePayment" EntitySet="PrePayments" />
           </AssociationSet>
+          <EntitySet Name="NABTransactions" EntityType="DomainModels.NABTransaction" />
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -11269,6 +11281,16 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="NABTransaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EstimateId" Type="Int32" />
+          <Property Name="Request" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Response" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="datetime" Type="DateTime" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -14764,6 +14786,17 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="RequestId" ColumnName="RequestId" />
                 <ScalarProperty Name="PayPalResponseId" ColumnName="PayPalResponseId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NABTransactions">
+            <EntityTypeMapping TypeName="DomainModels.NABTransaction">
+              <MappingFragment StoreEntitySet="NABTransaction">
+                <ScalarProperty Name="datetime" ColumnName="datetime" />
+                <ScalarProperty Name="Response" ColumnName="Response" />
+                <ScalarProperty Name="Request" ColumnName="Request" />
+                <ScalarProperty Name="EstimateId" ColumnName="EstimateId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

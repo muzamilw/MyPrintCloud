@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets4AE40C22B60BF3CF491064DFA0778A9EC0A40343C371B1C1360DE855DB788144))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsF9599833F608FD6A695E9F9FECC02FB862B922036B3BE9C961E27437A437EC61))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,19 +17,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets4AE40C22B60BF3CF491064DFA0778A9EC0A40343C371B1C1360DE855DB788144 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsF9599833F608FD6A695E9F9FECC02FB862B922036B3BE9C961E27437A437EC61 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets4AE40C22B60BF3CF491064DFA0778A9EC0A40343C371B1C1360DE855DB788144()
+        public ViewsForBaseEntitySetsF9599833F608FD6A695E9F9FECC02FB862B922036B3BE9C961E27437A437EC61()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "dc3ab19c4ad768d0ae3c5cbfe468009ea6ee20871e6d973c6bb825f1f832a2e1";
-            this.HashOverAllExtentViews = "94b5a13a34b3644879ca3a1d5cecfdf76ca2f75c20384906de725d46430dd755";
-            this.ViewCount = 290;
+            this.HashOverMappingClosure = "9cb4a348a03858c2b3fb0b2f5dabe9873d1a0cfc5c9ce2fc344f55f9ea0698c2";
+            this.HashOverAllExtentViews = "7cc239b37470ac272c5237a05ed3e770a448abafb77969d6a57b6018587c6e64";
+            this.ViewCount = 292;
         }
         
         /// <Summary>
@@ -1196,6 +1196,14 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 289))
             {
                 return GetView289();
+            }
+            if ((index == 290))
+            {
+                return GetView290();
+            }
+            if ((index == 291))
+            {
+                return GetView291();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -10886,6 +10894,46 @@ namespace Edm_EntityMappingGeneratedViews
             T.Status AS PaypalPaymentRequest_Status, 
             True AS _from0
         FROM DomainModelsStoreContainer.PaypalPaymentRequest AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.NABTransaction
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView290()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.NABTransaction", @"
+    SELECT VALUE -- Constructing NABTransaction
+        [DomainModels.Store.NABTransaction](T1.NABTransaction_Id, T1.NABTransaction_EstimateId, T1.NABTransaction_Request, T1.NABTransaction_Response, T1.NABTransaction_datetime)
+    FROM (
+        SELECT 
+            T.Id AS NABTransaction_Id, 
+            T.EstimateId AS NABTransaction_EstimateId, 
+            T.Request AS NABTransaction_Request, 
+            T.Response AS NABTransaction_Response, 
+            T.datetime AS NABTransaction_datetime, 
+            True AS _from0
+        FROM BaseDbContext.NABTransactions AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.NABTransactions
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView291()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.NABTransactions", @"
+    SELECT VALUE -- Constructing NABTransactions
+        [DomainModels.NABTransaction](T1.NABTransaction_Id, T1.NABTransaction_EstimateId, T1.NABTransaction_Request, T1.NABTransaction_Response, T1.NABTransaction_datetime)
+    FROM (
+        SELECT 
+            T.Id AS NABTransaction_Id, 
+            T.EstimateId AS NABTransaction_EstimateId, 
+            T.Request AS NABTransaction_Request, 
+            T.Response AS NABTransaction_Response, 
+            T.datetime AS NABTransaction_datetime, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.NABTransaction AS T
     ) AS T1");
         }
     }
