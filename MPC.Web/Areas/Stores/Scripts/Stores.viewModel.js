@@ -3144,7 +3144,7 @@ define("stores/stores.viewModel",
                                         //selectedStore().storeId(data.StoreId);
                                         isStoreEditorVisible(false);
                                         isEditorVisible(false);
-                                        toastr.success("Successfully save.");
+                                        toastr.success("Successfully saved.");
                                         resetObservableArrays();
                                         if (callback && typeof callback === "function") {
                                             callback();

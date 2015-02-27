@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Web;
 using System.Web.Http;
@@ -12,7 +13,7 @@ namespace MPC.MIS.Areas.Api.Controllers
     public class GetWidgetDetailController : ApiController
     {
         #region Private
-
+        
         private readonly ICompanyService companyService;
 
         #endregion
@@ -48,7 +49,17 @@ namespace MPC.MIS.Areas.Api.Controllers
 
             return File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_Default.cshtml"));
             //return string.Empty;
+
+            //if (string.IsNullOrEmpty(widgetControlName))
+            //{
+            //    return string.Empty;
+            //}
+
+            //// Get Widget From WebStore by Control Name
+            //return File.Exists(mySiteUrl + "//" + webStoreWidgetsPath + widgetControlName) ? 
+            //    File.ReadAllText(mySiteUrl + "//" + webStoreWidgetsPath + widgetControlName) : string.Empty;
         }
+
         #endregion
     }
 }
