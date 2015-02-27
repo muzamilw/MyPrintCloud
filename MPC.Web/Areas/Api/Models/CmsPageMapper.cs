@@ -19,17 +19,17 @@ namespace MPC.MIS.Areas.Api.Models
         public static CmsPage CreateFrom(this DomainModels.CmsPage source)
         {
             byte[] bytes = null;
-            string fileName = string.Empty;
+
             if (!string.IsNullOrEmpty(source.PageBanner))
             {
-                fileName = HttpContext.Current.Server.MapPath("~/" + source.PageBanner);
-                if (File.Exists(fileName))
+                string filePath = HttpContext.Current.Server.MapPath("~/" + source.PageBanner);
+                if (File.Exists(filePath))
                 {
-                    bytes = File.ReadAllBytes(source.PageBanner);
+                    bytes = File.ReadAllBytes(filePath);
                 }
-                
+
             }
-            
+
             string defaultPageKeyWords = null;
             if (source.CmsPageTags != null)
             {
@@ -57,7 +57,6 @@ namespace MPC.MIS.Areas.Api.Models
                 PageTitle = source.PageTitle,
                 DefaultPageKeyWords = defaultPageKeyWords,
                 Image = bytes,
-                FileName = fileName,
                 PageBanner = source.PageBanner
             };
         }
