@@ -242,7 +242,7 @@ define("stores/stores.viewModel",
                         editorViewModel.selectItem(store);
                         selectedStore(store);
                         //Set By Default Store Type
-                        selectedStore().type(3);
+                        selectedStore().type('3');
                         isEditorVisible(true);
                         view.initializeForm();
                         getBaseDataFornewCompany();
@@ -3242,7 +3242,6 @@ define("stores/stores.viewModel",
                                 newUploadedMediaFile(model.MediaLibrary());
                                 //Update Cost Centers Selection 
                                 updateSelectedStoreCostCenters();
-
                                 selectedStore().reset();
                                 isLoadingStores(false);
                             },
