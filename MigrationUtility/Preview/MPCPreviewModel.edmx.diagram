@@ -151,7 +151,6 @@
         <EntityTypeShape EntityType="MPCPreviewModel.PaymentMethod" Width="1.5" PointX="0.75" PointY="79.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.PaypalPaymentRequest" Width="1.5" PointX="36.75" PointY="23.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.PayPalResponse" Width="1.5" PointX="0.75" PointY="73.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="MPCPreviewModel.Phrase" Width="1.5" PointX="5.25" PointY="8.25" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.PhraseField" Width="1.5" PointX="3" PointY="8.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.PipelineDeduction" Width="1.5" PointX="36.75" PointY="26.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.PipeLineProduct" Width="1.5" PointX="36.75" PointY="29.125" IsExpanded="true" />
@@ -360,7 +359,6 @@
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_PaymentGateways_tbl_PaymentMethods" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_PrePayments_tbl_PaymentMethods" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_PrePayments_tbl_PayPalResponses" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_Phrase_PhraseField" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.fk_sectionId" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_ProductCategoryItem_ProductCategory" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_ProductCategoryFoldLines_tbl_ProductCategory" ManuallyRouted="false" />
@@ -384,6 +382,8 @@
         <AssociationConnector Association="MPCPreviewModel.FK__TemplateC__Produ__5B1BCD47" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK__TemplateF__Produ__5A27A90E" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK__TemplateO__Produ__574B3C63" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MPCPreviewModel.Phrase" Width="1.5" PointX="5.25" PointY="8.25" />
+        <AssociationConnector Association="MPCPreviewModel.FK_Phrase_PhraseField" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
