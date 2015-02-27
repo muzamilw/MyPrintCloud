@@ -508,6 +508,9 @@ define("stores/stores.viewModel",
                     onCreateNewCompanyTerritory = function () {
                         var companyTerritory = new model.CompanyTerritory();
                         selectedCompanyTerritory(companyTerritory);
+                        if (selectedStore().companyId() == undefined && newCompanyTerritories().length == 0) {
+                            selectedCompanyTerritory().isDefault(true);
+                        }
                         isSavingNewCompanyTerritory(true);
                         view.showCompanyTerritoryDialog();
                     },
@@ -591,10 +594,13 @@ define("stores/stores.viewModel",
                                         addressCompanyTerritoriesFilter.remove(companyTerritory);
                                         contactCompanyTerritoriesFilter.remove(companyTerritory);
                                         selectedStore().companyTerritories.remove(companyTerritory);
-                                        selectedStore().companyTerritories()[0].isDefault(true);
-                                        if (selectedStore().companyTerritories()[0].territoryId() > 0) {
-                                            edittedCompanyTerritories.push(selectedStore().companyTerritories()[0]);
+                                        if (selectedStore().companyTerritories()[0] != undefined) {
+                                            selectedStore().companyTerritories()[0].isDefault(true);
+                                            if (selectedStore().companyTerritories()[0].territoryId() > 0) {
+                                                edittedCompanyTerritories.push(selectedStore().companyTerritories()[0]);
+                                            }
                                         }
+                                        
                                     } else { //flag == false
                                         toastr.error("Territory Exist in Address Or Contact. Please delete them first");
                                     }
