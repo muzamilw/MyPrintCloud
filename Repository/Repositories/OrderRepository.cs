@@ -1867,6 +1867,7 @@ namespace MPC.Repository.Repositories
                             DeliveryDate = tblOrd.StartDeliveryDate,
                             YourRef = tblOrd.CustomerPO,
                             ClientStatusID = tblOrd.ClientStatus,
+                           // ClientStatusName=tblStatuses.StatusName;
                         };
 
             // resultsCount = query.Count();

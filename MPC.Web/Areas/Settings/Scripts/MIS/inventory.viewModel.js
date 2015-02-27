@@ -430,7 +430,7 @@ define("inventory/inventory.viewModel",
                                 },
                                 error: function (exceptionMessage, exceptionType) {
 
-                                    if (exceptionType === ist.exceptionType.CaresGeneralException) {
+                                    if (exceptionType === ist.exceptionType.MPCGeneralException) {
 
                                         toastr.error(exceptionMessage);
 

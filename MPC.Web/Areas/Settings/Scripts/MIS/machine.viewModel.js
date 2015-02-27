@@ -189,7 +189,7 @@ define("machine/machine.viewModel",
 
                             },
                             error: function (exceptionMessage, exceptionType) {
-                                if (exceptionType === ist.exceptionType.CaresGeneralException) {
+                                if (exceptionType === ist.exceptionType.MPCGeneralException) {
                                     toastr.error(exceptionMessage);
                                 } else {
                                     toastr.error("Failed to save.");

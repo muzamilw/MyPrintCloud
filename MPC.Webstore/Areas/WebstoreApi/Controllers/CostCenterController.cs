@@ -287,9 +287,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                 GrandTotal = Subtotal + calculate + DeliveryTaxValue + Delevery;
                 vat = calculate;
-               // ViewBag.GrandTotal = GrandTotal;
-               // ViewBag.SubTotal = Subtotal;
-               // ViewBag.Vat = calculate;
+               
 
             }
            

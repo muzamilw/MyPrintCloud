@@ -3,11 +3,11 @@
 @model MPC.Webstore.ViewModels.SearchOrderViewModel
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    var grid = new WebGrid(source: ViewBag.OrderList, canPage: true, rowsPerPage: 15);
-    grid.Pager(WebGridPagerModes.All);
+    
+    var grid = new WebGrid(source: ViewBag.OrderList,canPage:true, rowsPerPage: 15);
+    
+    grid.Pager(WebGridPagerModes.NextPrevious);
 }
-
 
 
 <div class="content_area container">
@@ -26,13 +26,17 @@
                 <div class="divSearchBar paddingBottom10px normalTextStyle rounded_corners">
                     <div class="heading_h8 cntFilteringCritariaLeft">
                         @*<asp:Literal ID="ltrlSearchOrder" runat="server" Text=" Search Orders"></asp:Literal>*@
-                        <label class="ltrlSearchOrder" id="HistryBtn">Search Orders</label>
+                        @*<label class="ltrlSearchOrder" id="HistryBtn">Search Orders</label>*@
                     </div>
                     <div>
-@using (Html.BeginForm("Index", "ProductOrderHistory", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm())
 {
                         <table border="0" cellpadding="5" cellspacing="5" class="cntFilteringCritariaRight">
                             <tr>
+                                <td>
+                                    @*<label class="ltrlSearchOrder" id="HistryBtn" style="visibility:hidden;">Search Orders</label>*@
+                                    @*<span id="HistryBtn" class="ltrlSearchOrder">Search Orders</span>*@
+                                </td>
                                 <td>
                                     <span id="spntdfromdate" class="heading_h8">From Date</span>
                                 </td>
@@ -52,6 +56,10 @@
                             </tr>
                             <tr>
                                 <td>
+                                    @*<label class="ltrlSearchOrder" id="HistryBtn">Search Orders</label>*@
+                                    <span id="HistryBtn" class="ltrlSearchOrder">Search Orders</span>
+                                </td>
+                                <td>
                                     @Html.TextBoxFor(model => model.FromData, new { id = "txtFromDate", @class = "text_box150 rounded_corners5", placeholder = "From Date", maxlength = 500, @readonly = "readonly" })
                                 </td>
                                 <td>
@@ -67,20 +75,20 @@
 
                                 </td>
                                 <td>
-                                   
+                                    <input type="submit" value="Go" id="btnSearchOrders" class="start_creating_btn rounded_corners5" />
                                 </td>
                                 <td>
-                                    <div class="float_left_simple">
+                                    @*<div class="float_left_simple">
                                         
                                         <input type="submit" value="Go" id="btnSearchOrders" class="start_creating_btn rounded_corners5" />
 
-                                    </div>
-                                    <div class="float_left_simple left_margin">
+                                    </div>*@
+                                    @*<div class="float_left_simple left_margin">*@
                                        
                                         <input type="button" id="btnClear" class="start_creating_btn rounded_corners5" value="Clear" />
-                                    </div>
+                                    @*</div>
                                     <div class="clearBoth">
-                                    </div>
+                                    </div>*@
                                 </td>
                             </tr>
                         </table>
@@ -95,8 +103,8 @@
                 </div>
                 <div class="Pad1020">
                     <div class="Width100Percent">
-                        <div class="textAlignCenter paddingBottom10px normalTextStyle">
-                            <label id="lblMessage">No Record Found!</label>
+                        <div class="paddingBottom10px normalTextStyle">
+                            <label id="lblMessage" >@TempData["Status"]</label>
                         </div>
                     </div>
                     
@@ -105,17 +113,19 @@
 
     @grid.GetHtml(
     htmlAttributes: new { id = "OrderGrid" },
-    tableStyle: "table",
+    tableStyle: "WebGridTableStyle",
     fillEmptyRows: false,
-    headerStyle: "header",
+    headerStyle: "WebGridheader",
+    rowStyle: "gridViewRowStyleForWebGrid",
+    alternatingRowStyle:"gridViewRowStyleForWebGrid",   
     columns: new[] {
 
     grid.Column("OrderCode","OrderCode"),
-    grid.Column("YourRef","YourRef"),
-    grid.Column("OrderDate","OrderDate"),
-    grid.Column("DeliveryDate","DeliveryDate"),
-    grid.Column("StatusName","StatusName"),
-    grid.Column("ClientStatusID","Client Status"),
+    grid.Column("YourRef","Your PO reference"),
+    grid.Column("OrderDate","Order Date	"),
+    grid.Column("DeliveryDate","Estimated Delivery"),
+    grid.Column("StatusName","Status",canSort: true,style:"GridStatusColumnColor"),
+   // grid.Column("ClientStatusID","Client Status"),
     @*grid.Column("View", format:@<text>@Html.ActionLink("ProductOrderHistory", "ShowPartialView",
                 new { OrderId = item.OrderID }, new { @class = "myclass" }) </text>),*@
 
@@ -154,7 +164,7 @@
     <br />
 </div>
 
-}
+
 <div id="Vorder" class="popupInnerContainer rounded_corners" style="height: 530px; overflow: auto; z-index:0; margin-top:10px; visibility:hidden">
     <table border="0" width="100%" cellpadding="4" cellspacing="0" id="Mytable" style="background-color:#F6F6F7;">
         <tbody>
@@ -198,16 +208,14 @@
                                     @*<td class="textAlignRight">
                                         <span class="simpleTextBold" id="spnClientStatus" >Status:</span>
                                     </td>*@
-                                    @*<td class="textAlignLeft simpleText" style="width: 200px">*@
-                                        @*<asp:DropDownList ID="AllOrderStatuses" runat="server" CssClass="dropdown rounded_corners5"
-                                                              Width="107px">
-                                            </asp:DropDownList>*@
-
-
-
-                                        @*<asp:Button ID="btnClientStatusUpdate" runat="server" OnClick="btnClientStatusUpdate_Click"
-                                            CssClass="start_creating_btn rounded_corners5" Width="80px" Text="Update" />*@
-                                        
+                               
+                                    <td class="textAlignRight">
+                              <span class="simpleTextBold" id="spndileverydate">Delivery Date:</span>
+                                 </td>
+                              <td class="textAlignLeft simpleText">
+                               <label id="lblOrderDeliveryStartDate" class="txtBold" />
+                                    <span id="OrderDeliveryDate" class="txtBold"></span>
+                                    </td>
 
                                     @*</td>*@
                                 </tr>
@@ -222,13 +230,13 @@
                                     <td>
                                         &nbsp;
                                     </td>
-                                    <td class="textAlignRight">
+                                    @*<td class="textAlignRight">
                                         <span class="simpleTextBold" id="spndileverydate">Delivery Date:</span>
                                     </td>
                                     <td class="textAlignLeft simpleText">
                                         @*<label id="lblOrderDeliveryStartDate" class="txtBold" />*@
-                                        <span id="OrderDeliveryDate" class="txtBold"></span>
-                                    </td>
+                                        @*<span id="OrderDeliveryDate" class="txtBold"></span>*@
+                                    @*</td>*@
                                 </tr>
                             </tbody>
                         </table>
@@ -578,7 +586,7 @@
                     $("#OrderCode").text(response.order.OrderCode);
                     $("#OrderStatus").text(response.order.StatusName);
                     $("#OrderDate").text(response.OrderDateValue);
-                    alert(response.OrderDateValue);
+                   
 
                     $("#OrderPlaceBy").text(response.order.PlacedBy + "" + '(' + response.order.CompanyName + ')');
 
@@ -601,8 +609,7 @@
                     
                     $("#BillingAddressPostCode").text(response.billingAddress.PostCode);
 
-                    alert(response.billingAddress.PostCode);
-
+                   
                     $("#BillingAddressContactNumber").text(response.billingAddress.ContactMobile);
 
                     $("#DeliveryAddressName").text(response.shippingAddress.AddressName)
@@ -621,7 +628,7 @@
                     $("#DeliveryAddressContactNo").text(response.shippingAddress.ContactMobile)
 
                     var GridItems = response.order.OrderDetails.CartItemsList;
-                    var InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr style='gridViewRowStyle'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
+                    var InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
                     
                     $.each(GridItems, function (i, IT) {
                     {

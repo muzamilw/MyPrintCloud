@@ -3,11 +3,14 @@ using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Webstore.Common;
 using MPC.Webstore.ViewModels;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Formatting;
 using System.Web;
 using System.Web.Mvc;
+
 
 namespace MPC.Webstore.Controllers
 {
@@ -27,8 +30,9 @@ namespace MPC.Webstore.Controllers
         }
         public ActionResult Index()
         {
+            
             int STATUS_TYPE_ID = 2;
-
+            ViewBag.RecordStatus = false;
             SearchOrderViewModel model = new SearchOrderViewModel();
             if (_myClaimHelper.isUserLoggedIn())
             {
@@ -72,6 +76,7 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
+               
                 //if ((SessionParameters.StoreMode == StoreMode.Broker) && SessionParameters.IsUserAdmin == true)
                 //{
                 //    if (ddlClientStatus.SelectedIndex != -1 && ddlClientStatus.SelectedIndex != 0)
@@ -92,16 +97,15 @@ namespace MPC.Webstore.Controllers
                 //}
                 //lblTxtOfRest.Text = _totalRcordCount + " matches found"; //CountordersList.Count + " matches found";
                 //lblTxtOfRest.Visible = true;
-
             }
-
-            //grdViewOrderhistory.DataSource = ordersList;
-            //grdViewOrderhistory.DataBind();
-
-            //Do pager Setting
-            //TotalRecordsCount = _totalRcordCount;
-            //ControlPagerSettings(TotalRecordsCount, pageNumber);
-            ViewBag.OrderList = ordersList;
+             if (ordersList == null || ordersList.Count == 0)
+                {
+                    TempData["Status"] = "No Records Found";
+                }
+                else {
+                    TempData["Status"] = ordersList.Count+"    " + " Record Match ";
+                }
+               ViewBag.OrderList = ordersList;
         }
         [HttpPost]
         public ActionResult Index(SearchOrderViewModel model)
@@ -132,12 +136,18 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public JsonResult OrderResult(long OrderId)
         {
+              long UpdatedOrder = _orderService.ReOrder(OrderId, _myClaimHelper.loginContactID(), UserCookieManager.TaxRate, StoreMode.Retail, true, 0);
+              UserCookieManager.OrderId = UpdatedOrder;
+              //JasonResponseObject obj = new JasonResponseObject();
+            //obj.billingAddress = _orderService.GetBillingAddress(159296);
+           
+            //var formatter = new JsonMediaTypeFormatter();
+            //var json = formatter.SerializerSettings;
+            //json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            //json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+           // Response.Write(list);
 
-            long UpdatedOrder = _orderService.ReOrder(OrderId, _myClaimHelper.loginContactID(), UserCookieManager.TaxRate, StoreMode.Retail, true, 0);
-
-            UserCookieManager.OrderId = UpdatedOrder;
-
-            return Json(true, JsonRequestBehavior.DenyGet);
+             return Json(true,JsonRequestBehavior.DenyGet);
         }
        
         //public   ShowPartialView(long OrderId)
@@ -218,5 +228,10 @@ namespace MPC.Webstore.Controllers
         }
       
     }
-    
+    //public class JasonResponseObject
+    //{
+        
+    //    public Address billingAddress;
+
+    //}
 }
