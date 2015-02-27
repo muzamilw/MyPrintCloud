@@ -3369,7 +3369,14 @@ define("stores/stores.viewModel",
                                     _.each(data.FieldVariableForSmartForms, function (item) {
                                         fieldVariablesForSmartForm.push(model.FieldVariableForSmartForm.Create(item));
                                     });
-
+                                    //Countries 
+                                    countries.removeAll();
+                                    ko.utils.arrayPushAll(countries(), data.Countries);
+                                    countries.valueHasMutated();
+                                    //States 
+                                    states.removeAll();
+                                    ko.utils.arrayPushAll(states(), data.States);
+                                    states.valueHasMutated();
 
                                 }
                                 selectedStore().reset();
