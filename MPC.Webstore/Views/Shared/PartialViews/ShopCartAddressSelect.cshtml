@@ -546,7 +546,7 @@
 
                                                                 <td align="right" width="20%">
                                                                     <label id="lblSubTotal" class="Fsize15 colorBlack"
-                                                                           style="margin-right: 13px;">@SubTotal</label>
+                                                                           style="margin-right: 13px;">@Model.Currency@SubTotal</label>
                                                                     </td>
                                                                 </tr>
                                                                 @if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
@@ -577,7 +577,7 @@
                                                                         &nbsp;
                                                                     </td>
                                                                     <td width="20%" align="left" class=" LightGrayLabels" id="tddelivery" >
-                                                                        <span id="spndelivery" >Delivery:</span>
+                                                                        <span id="spndelivery" >@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", UserCookieManager.StoreId))</span>
                                                                     </td>
                                                                     @if (deliveryCost > 0)
                                                                     {
@@ -781,7 +781,7 @@
                                 &nbsp;
                             </div>
                             <div class="super_admin_message" id="divWarnnigMEsg">
-                                <label id="ltrlWarnnigMEsg">@Model.Warning</label>
+                                <label id="ltrlWarnnigMEsg">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkWarnMesg", UserCookieManager.StoreId))</label>
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-6 col-xs-12 cntcheckoutSummary">
