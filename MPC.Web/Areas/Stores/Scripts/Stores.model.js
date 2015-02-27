@@ -127,14 +127,15 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         , specifiedIsDeliveryTaxAble, specifiedPickupAddressId,
         specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreImageFileBinary, specifiedStoreBackgroudImageSource, specifiedIsShowGoogleMap,
         specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName, specifiedCustomCSS, specifiedStoreBackgroundImage, specifiedStoreImagePath
-    ) {
+    , specifiedIsDidplayInFooter) {
         var self,
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
             name = ko.observable(specifiedName).extend({ required: true }),
             status = ko.observable(specifiedStatus),
+            isDidplayInFooter = ko.observable(specifiedIsDidplayInFooter),
             image = ko.observable(specifiedImage),
             url = ko.observable(specifiedUrl),
-            accountOpenDate = ko.observable(specifiedAccountOpenDate),
+            accountOpenDate = ko.observable(specifiedAccountOpenDate ? moment(specifiedAccountOpenDate).toDate() : undefined),
             accountManagerId = ko.observable(specifiedAccountManagerId),
             avatRegNumber = ko.observable(specifiedAvatRegNumber),
             avatRegReference = ko.observable(specifiedAvatRegReference),
@@ -323,13 +324,15 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             }),
             //Convert To Server
             convertToServerData = function (source) {
+                debugger;
                 var result = {};
+                result.isDisplaySecondaryPages = source.isDidplayInFooter();
                 result.CompanyId = source.companyId();
                 result.Name = source.name();
                 result.Status = source.status();
                 //result.ImageBytes = source.image();
                 result.URL = source.url();
-                result.AccountOpenDate = source.accountOpenDate();
+                result.AccountOpenDate = source.accountOpenDate() ? moment(source.accountOpenDate()).format(ist.utcFormat) + 'Z' : undefined;
                 result.AccountManagerId = source.accountManagerId();
                 result.AvatRegNumber = source.avatRegNumber();
                 result.PvatRegReference = source.avatRegReference();
@@ -445,6 +448,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             };
         self = {
             //#region SELF
+            isDidplayInFooter:isDidplayInFooter,
             companyId: companyId,
             name: name,
             status: status,
@@ -655,7 +659,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.StoreBackgroundImage,
             source.StoreImagePath
         );
-
+        store.isDidplayInFooter(source.isDisplaySecondaryPages!=null ? source.isDisplaySecondaryPages : false);
         store.companyType(CompanyType.Create(source.CompanyType));
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
@@ -2002,7 +2006,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // ReSharper disable once InconsistentNaming
     var CMSPage = function (specifiedPageId, specifiedPageTitle, specifiedPageKeywords, specifiedMetaTitle, specifiedMetaDescriptionContent, specifiedMetaCategoryContent,
         specifiedMetaRobotsContent, specifiedMetaAuthorContent, specifiedMetaLanguageContent, specifiedMetaRevisitAfterContent, specifiedCategoryId, specifiedPageHTML,
-        specifiedImageSource, specifiedDefaultPageKeyWords, specifiedFileName, specifiedPageBanner) {
+        specifiedImageSource, specifiedDefaultPageKeyWords, specifiedFileName, specifiedPageBanner, specifiedisEnabled) {
         var self,
             id = ko.observable(specifiedPageId),
             pageTitle = ko.observable(specifiedPageTitle).extend({ required: true }),
@@ -2018,6 +2022,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             pageHTML = ko.observable(specifiedPageHTML === undefined ? "Go ahead..." : specifiedPageHTML),
             imageSrc = ko.observable(specifiedImageSource),
             fileName = ko.observable(specifiedFileName),
+            isEnabled = ko.observable(specifiedisEnabled!=null ? specifiedisEnabled : true),
             defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
             pageBanner = ko.observable(specifiedPageBanner),
             // Errors
@@ -2070,6 +2075,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.FileName = source.fileName() === undefined ? null : source.fileName();
                 result.Bytes = source.imageSrc() === undefined ? null : source.imageSrc();
                 result.PageBanner = source.pageBanner() === undefined ? null : source.pageBanner();
+                result.isEnabled = source.isEnabled();
                 return result;
             },
             // Reset
@@ -2095,6 +2101,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             pageBanner: pageBanner,
             isValid: isValid,
             errors: errors,
+            isEnabled:isEnabled,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,
@@ -2180,7 +2187,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
 
     // #region ___________  Secondary Page List View ____________________
 
-    SecondaryPageListView = function (specifiedPageId, specifiedPageTitle, specifiedMetaTitle, specifiedIsEnabled, specifiedIsDisplay, specifiedCategoryName) {
+    SecondaryPageListView = function (specifiedPageId, specifiedPageTitle, specifiedMetaTitle, specifiedIsEnabled, specifiedIsDisplay, specifiedCategoryName,
+    specifiedImageSource) {
         var
             self,
             //Unique ID
@@ -2188,6 +2196,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             pageTitle = ko.observable(specifiedPageTitle),
             metaTitle = ko.observable(specifiedMetaTitle),
             isEnabled = ko.observable(specifiedIsEnabled),
+            imageSource = ko.observable(specifiedImageSource),
             isDisplay = ko.observable(specifiedIsDisplay === null ? false : true),
             categoryName = ko.observable(specifiedCategoryName),
 
@@ -2203,12 +2212,13 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isEnabled: isEnabled,
             isDisplay: isDisplay,
             categoryName: categoryName,
+            imageSource: imageSource,
             convertToServerData: convertToServerData,
         };
         return self;
     };
     SecondaryPageListView.Create = function (source) {
-        return new SecondaryPageListView(source.PageId, source.PageTitle, source.Meta_Title, source.IsEnabled, source.IsDisplay, source.CategoryName);
+        return new SecondaryPageListView(source.PageId, source.PageTitle, source.Meta_Title, source.IsEnabled, source.IsDisplay, source.CategoryName, source.ImageSource);
     };
     // #endregion ___________  Secondary Page List View ____________________
 
@@ -2320,7 +2330,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             stateName = ko.observable(),
 
             companyContactVariables = ko.observableArray([]),
-            confirmPassword = ko.observable().extend({ compareWith: password }),
+            confirmPassword = ko.observable(specifiedPassword).extend({ compareWith: password }),
 
 
             // Errors

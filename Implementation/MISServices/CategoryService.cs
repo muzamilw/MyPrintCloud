@@ -76,6 +76,8 @@ namespace MPC.Implementation.MISServices
             productCategoryRepository.Add(productCategory);
             productCategoryRepository.SaveChanges();
             SaveProductCategoryThumbNailImage(productCategory);
+            productCategoryRepository.Update(productCategory);
+            productCategoryRepository.SaveChanges();
             return productCategory;
         }
 
@@ -84,6 +86,8 @@ namespace MPC.Implementation.MISServices
             productCategoryRepository.Update(productCategory);
             productCategoryRepository.SaveChanges();
             SaveProductCategoryThumbNailImage(productCategory);
+            productCategoryRepository.Update(productCategory);
+            productCategoryRepository.SaveChanges();
             return productCategory;
         }
         //#endregion

@@ -689,6 +689,10 @@ function fu12(mode, title) {
             }
         }
     });
+    // saving variables 
+    if (IsCalledFrom == 2) {
+        save_rs();
+    }
     //saving the objects first
     var obSt = {
         printCropMarks: printCropMarks,
@@ -2504,6 +2508,46 @@ function pcL29(fontSize, isBold, ContentString) {
     uiTextObject.setCoords();
     TO.push(D1NTO);
     lAObj = D1NTO.ObjectID;
+}
+var listToPass = [];
+function save_rrs_se_se(obj) {
+    $.each(TO, function (j, item) {
+        if (item.ContentString.indexOf(obj.VariableTag) != -1) {
+            listToPass.push(obj);
+            return true;
+        }
+    });
+    return false;
+}
+function save_rs_se(varlist) {
+    listToPass = [];
+    $.each(varlist, function (j, obj) {
+        save_rrs_se_se(obj);
+    });
+    return listToPass;
+}
+function save_rs() {
+    var to = "/designerApi/SmartForm/SaveTemplateVariables";
+    var dList = save_rs_se(varList);
+    var jsonObjects = JSON.stringify(dList, null, 2);
+    var options = {
+        type: "POST",
+        url: to,
+        data: jsonObjects,
+        contentType: "application/json",
+        async: true,
+        complete: function (httpresp, returnstatus) {
+            if (returnstatus == "success") {
+                if (httpresp.responseText == 'true') {
+                       //do nothing
+                }
+                else {
+                    alert(httpresp.responseText);
+                }
+            }
+        }
+    };
+    var returnText = $.ajax(options).responseText;
 }
 function setActiveStyle(styleName, value, c, m, y, k) {
     object = canvas.getActiveObject();

@@ -52,5 +52,11 @@ namespace MPC.Repository.Repositories
                 return null;
             }
         }
+        public  List<ItemAttachment> GetItemAttactchments(long itemID)
+        {
+            return (from Attachment in db.ItemAttachments
+                    where Attachment.ItemId == itemID
+                    select Attachment).ToList();
+        }
     }
 }

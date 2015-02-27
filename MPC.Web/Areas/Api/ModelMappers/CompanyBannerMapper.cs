@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Web;
 using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
 
@@ -17,9 +18,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static CompanyBanner CreateFrom(this DomainModels.CompanyBanner source)
         {
             byte[] bytes = null;
-            if (source.ImageURL != null && File.Exists(source.ImageURL))
+            if (!string.IsNullOrEmpty(source.ImageURL))
             {
-                bytes = source.ImageURL != null ? File.ReadAllBytes(source.ImageURL) : null;
+                string imagePath = HttpContext.Current.Server.MapPath("~/" + source.ImageURL);
+                if (File.Exists(imagePath))
+                {
+                    bytes = File.ReadAllBytes(imagePath);
+                }
             }
             return new CompanyBanner
             {
@@ -46,9 +51,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanySetId = source.CompanySetId,
                 Heading = source.Heading,
                 Description = source.Description,
-                ImageURL = source.ImageURL,
                 ButtonURL = source.ButtonURL,
                 ItemURL = source.ItemURL,
+                ImageURL = source.ImageURL
             };
         }
         #endregion

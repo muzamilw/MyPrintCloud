@@ -10,5 +10,7 @@ namespace MPC.Interfaces.Repository
    public interface IStatusRepository:IBaseRepository<Status,long>
    {
        List<Status> GetStatusListByStatusTypeID(int statusTypeID);
+       List<Status> GetStatusListByStatusID(int statusID);
    }
+
 }
