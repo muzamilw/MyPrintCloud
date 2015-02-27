@@ -460,3 +460,42 @@ alter table Items
 add SmartFormId bigint null
 
 GO
+
+/* Execution Date: 27/02/2015 */
+
+GO
+
+/* To prevent any potential data loss issues, you should review this script in detail before running it outside the context of the database designer.*/
+BEGIN TRANSACTION
+SET QUOTED_IDENTIFIER ON
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+COMMIT
+BEGIN TRANSACTION
+GO
+CREATE TABLE dbo.NABTransaction
+                (
+                Id bigint NOT NULL IDENTITY (1, 1),
+                EstimateId int NULL,
+                Request nvarchar(MAX) NULL,
+                Response nvarchar(MAX) NULL,
+                [datetime] datetime null
+                )  ON [PRIMARY]
+                TEXTIMAGE_ON [PRIMARY]
+GO
+ALTER TABLE dbo.NABTransaction ADD CONSTRAINT
+                PK_NABTransaction PRIMARY KEY CLUSTERED 
+                (
+                Id
+                ) WITH( STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+
+GO
+ALTER TABLE dbo.NABTransaction SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+
+GO
