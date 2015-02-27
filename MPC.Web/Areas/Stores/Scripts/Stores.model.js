@@ -240,6 +240,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             defaultSpriteImageFileName = ko.observable(),
             userDefinedSpriteImageSource = ko.observable(specifiedUserDefinedSpriteImageSource),
             userDefinedSpriteImageFileName = ko.observable(specifiedUserDefinedSpriteFileName),
+            storeLayoutChange = ko.observable(),
             //Is Show Google Map
             isShowGoogleMap = ko.observable(specifiedIsShowGoogleMap != undefined ? specifiedIsShowGoogleMap.toString() : "1"),
             customCSS = ko.observable(specifiedCustomCSS),
@@ -316,7 +317,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 customCSS: customCSS,
                 companyDomains: companyDomains,
                 isDeliveryTaxAble: isDeliveryTaxAble,
-                pickupAddressId: pickupAddressId
+                pickupAddressId: pickupAddressId,
+                storeLayoutChange: storeLayoutChange
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -520,6 +522,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             companyDomains: companyDomains,
             mediaLibraries: mediaLibraries,
             companyCostCenters: companyCostCenters,
+            storeLayoutChange: storeLayoutChange,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,

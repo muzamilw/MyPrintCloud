@@ -3144,7 +3144,7 @@ define("stores/stores.viewModel",
                                         //selectedStore().storeId(data.StoreId);
                                         isStoreEditorVisible(false);
                                         isEditorVisible(false);
-                                        toastr.success("Successfully save.");
+                                        toastr.success("Successfully saved.");
                                         resetObservableArrays();
                                         if (callback && typeof callback === "function") {
                                             callback();
@@ -3639,6 +3639,7 @@ define("stores/stores.viewModel",
                     // Widget being dropped
                     // ReSharper disable UnusedParameter
                     dropped = function (source, target, event) {
+                        selectedStore().storeLayoutChange("change");
                         // ReSharper restore UnusedParameter
                         if (selectedCurrentPageId() !== undefined && source !== undefined && source !== null && source.widget !== undefined && source.widget !== null && source.widget.widgetControlName !== undefined && source.widget.widgetControlName() !== "") {
                             if (source.widget.widgetId() === 14) {
@@ -3689,6 +3690,7 @@ define("stores/stores.viewModel",
                     //Add Widget To Page Layout
                     addWidgetToPageLayout = function (widget) {
                         if (selectedCurrentPageId() !== undefined && widget !== undefined && widget !== null && widget.widgetControlName !== undefined && widget.widgetControlName() !== "") {
+                            selectedStore().storeLayoutChange("change");
                             if (widget.widgetId() === 14) {
                                 var newWidget = new model.CmsSkingPageWidget();
                                 //newWidget.htmlData(data);
@@ -3732,6 +3734,7 @@ define("stores/stores.viewModel",
                     deletePageLayoutWidget = function (widget) {
                         if (widget !== undefined && widget !== null) {
                             pageSkinWidgets.remove(widget);
+                            selectedStore().storeLayoutChange("change");
                         }
                     },
                     //show Ck Editor Dialog
@@ -3750,6 +3753,7 @@ define("stores/stores.viewModel",
                                 item.cmsSkinPageWidgetParam().paramValue(param);
                             }
                         });
+                        selectedStore().storeLayoutChange("change");
                         selectedWidget(undefined);
                         view.hideCkEditorDialogDialog();
                     },
@@ -3787,10 +3791,14 @@ define("stores/stores.viewModel",
                             selectedItemsForOfferList.push(item);
                             selectedItemForAdd().isInSelectedList(true);
                             //remove items of other offer type from list, if another offer type items add(At a time only one offer type item selected)
+                            var removeOfferList = [];
                             _.each(selectedItemsForOfferList(), function (offerItem) {
                                 if (selectedOfferType() !== offerItem.offerType()) {
-                                    selectedItemsForOfferList.remove(offerItem);
+                                    removeOfferList.push(offerItem);
                                 }
+                            });
+                            _.each(removeOfferList, function (offerItem) {
+                                selectedItemsForOfferList.remove(offerItem);
                             });
                             selectedItemForAdd(undefined);
                         }

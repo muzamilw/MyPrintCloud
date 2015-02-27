@@ -37,20 +37,19 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <returns></returns>
         public string Get([FromUri]string widgetControlName)
         {
-            //string mySiteUrl = HttpContext.Current.Request.Url.Host;
-            //string webStoreWidgetsPath = ConfigurationManager.AppSettings["WebStoreWidgetsPath"];
-            switch (widgetControlName)
-            {
+            //switch (widgetControlName)
+            //{
+            //    case "SavedDesignsWidget.ascx":
+            //        return File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_HomeWidget.cshtml"));
+            //    case "LoginBar.ascx":
+            //        return File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_AboutUs.cshtml"));
+            //    case "HomePageBannerS4.ascx":
+            //        return File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_AboutUs.cshtml"));
+            //}
 
-                case "SavedDesignsWidget.ascx":
-                    return File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_HomeWidget.cshtml"));
-                case "LoginBar.ascx":
-                    return File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_AboutUs.cshtml"));
-                case "HomePageBannerS4.ascx":
-                    return File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_AboutUs.cshtml"));
-            }
+            return File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_Default.cshtml"));
+            //return string.Empty;
 
-            return string.Empty;
             //if (string.IsNullOrEmpty(widgetControlName))
             //{
             //    return string.Empty;

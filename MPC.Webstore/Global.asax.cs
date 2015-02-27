@@ -86,7 +86,7 @@ namespace MPC.Webstore
             ConfigureLogger();
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters, container);
-            GlobalConfiguration.Configure(WebApiConfig.Register);
+          //  GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
