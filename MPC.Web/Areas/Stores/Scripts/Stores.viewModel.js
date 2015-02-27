@@ -516,7 +516,6 @@ define("stores/stores.viewModel",
                         // Ask for confirmation
                         confirmation.afterProceed(function () {
                             //#region Db Saved Record Id > 0
-
                             if (companyTerritory.companyId() > 0 && companyTerritory.territoryId() > 0) {
                                 //Check if company Territory is default and there exist any other territory to set its isDefualt flag to true
                                 //Or Company Territory is not default ones
@@ -528,6 +527,7 @@ define("stores/stores.viewModel",
                                     }, {
                                         success: function (data) {
                                             if (data) {
+                                                companyTerritoryPager().totalCount(companyTerritoryPager().totalCount() - 1);
                                                 selectedStore().companyTerritories.remove(companyTerritory);
                                                 toastr.success("Deleted Successfully");
                                                 isLoadingStores(false);
@@ -559,9 +559,10 @@ define("stores/stores.viewModel",
                                 //#endregion
                             //#region Else Company territry is newly created
                             else {
+                                companyTerritoryPager().totalCount(companyTerritoryPager().totalCount() - 1);
                                 if (companyTerritory.isDefault() && selectedStore().companyTerritories().length == 1) {
                                     toastr.error("Make New Default territory first");
-
+                                    
                                 } else {
                                     // if (selectedStore() != undefined && (selectedStore().newAddedAddresses !== undefined && selectedStore().newAddedCompanyContacts !== undefined && selectedStore().newAddedAddresses().length > 0 || selectedStore().newAddedCompanyContacts().length > 0)) {
                                     var flag = true;
@@ -642,6 +643,7 @@ define("stores/stores.viewModel",
                                     {
                                         success: function (data) {
                                             if (data) {
+                                                companyTerritoryPager().totalCount(companyTerritoryPager().totalCount() + 1);
                                                 var savedTerritory = model.CompanyTerritory.Create(data);
                                                 if (selectedCompanyTerritory().territoryId() <= 0 || selectedCompanyTerritory().territoryId() == undefined) {
                                                     selectedStore().companyTerritories.splice(0, 0, savedTerritory);
@@ -673,6 +675,7 @@ define("stores/stores.viewModel",
                             }
                                 //#endregion
                             else {
+                                companyTerritoryPager().totalCount(companyTerritoryPager().totalCount() + 1);
                                 //Is Saving New Territory
                                 if (selectedCompanyTerritory().territoryId() < 0) {
                                     if (selectedCompanyTerritory().isDefault()) {
@@ -3508,7 +3511,7 @@ define("stores/stores.viewModel",
                         companyBannerSetList.removeAll();
                         fieldVariablesForSmartForm.removeAll();
                         fieldVariablePager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
-                        companyTerritoryPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
+                        companyTerritoryPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().companyTerritories, searchCompanyTerritory));
                         addressPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
                         contactCompanyPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
                         //companyTerritoryPager().totalCount(0);
