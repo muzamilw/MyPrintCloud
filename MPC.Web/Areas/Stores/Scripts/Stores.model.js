@@ -2217,7 +2217,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         return self;
     };
     SecondaryPageListView.Create = function (source) {
-        return new SecondaryPageListView(source.PageId, source.PageTitle, source.Meta_Title, source.IsEnabled, source.IsDisplay, source.CategoryName, source.ImageSource);
+        return new SecondaryPageListView(source.PageId, source.PageTitle, source.Meta_Title, source.IsEnabled, source.IsDisplay,
+            source.CategoryName, source.ImageSource);
     };
     // #endregion ___________  Secondary Page List View ____________________
 
