@@ -7,5 +7,6 @@ namespace MPC.Interfaces.Repository
         Models.ResponseModels.PaymentGatewayResponse GetPaymentGateways(Models.RequestModels.PaymentGatewayRequestModel request);
         PaymentGateway GetPaymentGatewayRecord(long CompanyId);
         long AddPrePayment(PrePayment prePayment);
+        PaymentGateway GetPaymentGatewayRecord();
     }
 }

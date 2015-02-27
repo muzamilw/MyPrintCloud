@@ -7,7 +7,7 @@
         <div class="sign_up_page_box NoPadding">
             <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
                 <div id="lblSignWithSM" class="custom_color_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsigninwithaccount", UserCookieManager.StoreId)) @ViewBag.CompanyName</div>
-                <div class="clearBoth"><br/></div>
+                <br/>
                 <div id="cntSocialLink" class="cntSignInWithSocialinks">
                     <em id="emfacebook" class="emfb"></em>
 
@@ -137,7 +137,8 @@
     <script>
        
         $(document).ready(function () {
-            $('#SignUpWithEmail').Focus();
+            $('#txtEmailId').val("Email");
+            $('#txtPassword').val('Password');
         });
 
         function updateSuccess(data) {
