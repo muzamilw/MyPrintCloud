@@ -262,6 +262,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\AttachmentUploaderController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\ImagePermissionController.cs" />
+    <Compile Include="Areas\DesignerApi\Controllers\ItemController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\SmartFormController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateBackgroundImageController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateColorStylesController.cs" />
@@ -287,6 +288,7 @@
     <Compile Include="Controllers\CategoryHeaderController.cs" />
     <Compile Include="Controllers\ContactDetailController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\NabSubmitController.cs" />
     <Compile Include="Controllers\OrderConfirmationController.cs" />
     <Compile Include="Controllers\OrderPolicySaveController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
@@ -348,6 +350,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Controllers\HeaderController.cs" />
     <Compile Include="ViewModels\MatchingSetViewModel.cs" />
+    <Compile Include="ViewModels\NABViewModel.cs" />
     <Compile Include="ViewModels\PaypalViewModel.cs" />
     <Compile Include="ViewModels\ProductPriceMatrixViewModel.cs" />
     <Compile Include="ViewModels\RelatedItemViewModel.cs" />
@@ -504,6 +507,7 @@
     <Content Include="Content\Images\Listing-next-horizoltal.png" />
     <Content Include="Content\Images\Listing-prev-horizoltal.png" />
     <Content Include="Content\Images\logout.png" />
+    <Content Include="Content\Images\MASTERCARD.gif" />
     <Content Include="Content\Images\my-jobs.png" />
     <Content Include="Content\Images\next-horizontal.png" />
     <Content Include="Content\Images\prev-horizontal.png" />
@@ -517,6 +521,7 @@
     <Content Include="Content\Images\SmartFormCart.png" />
     <Content Include="Content\Images\SocialSprite.png" />
     <Content Include="Content\Images\sprite.png" />
+    <Content Include="Content\Images\visa_49x31.jpg" />
     <Content Include="Content\jquery-ui.min.css" />
     <Content Include="Content\Images\upload_your_picture.png" />
     <Content Include="Scripts\fullcalendar.min.js" />
@@ -713,8 +718,9 @@
     <Content Include="Views\Shared\PartialViews\ProductOrderHistory.cshtml" />
     <Content Include="Views\Shared\PartialViews\ViewOrder.cshtml" />
     <Content Include="Views\Payment\PaypalSubmit.cshtml" />
-    <Content Include="Views\Payment\NabSubmit.cshtml" />
+    <Content Include="Views\Payment\NabSubmitww.cshtml" />
     <Content Include="Views\Shared\PartialViews\SlidingBanner.cshtml" />
+    <Content Include="Views\Shared\PartialViews\NabSubmit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -723,6 +729,7 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
+    <Folder Include="Views\NabSubmit\" />
     <Folder Include="Views\SlidingBanner\" />
   </ItemGroup>
   <ItemGroup>

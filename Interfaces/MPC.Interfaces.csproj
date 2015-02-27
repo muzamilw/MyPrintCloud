@@ -201,6 +201,7 @@
     <Compile Include="Repository\ITaxRateRepository.cs" />
     <Compile Include="WebStoreServices\IOrderService.cs" />
     <Compile Include="WebStoreServices\IItemService.cs" />
+    <Compile Include="WebStoreServices\IPaymentGatewayService.cs" />
     <Compile Include="WebStoreServices\IPaypalPaymentRequestService.cs" />
     <Compile Include="WebStoreServices\IPayPalResponseService.cs" />
     <Compile Include="WebStoreServices\IPrefixService.cs" />

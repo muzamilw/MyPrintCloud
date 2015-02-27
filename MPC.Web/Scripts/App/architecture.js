@@ -265,6 +265,7 @@ require(["ko", "knockout-validation"], function (ko) {
             var allBindings = allBindingsAccessor();
             var $element = $(element);
             var droppable = allBindingsAccessor().drop;
+            CKEDITOR.basePath = ist.siteUrl + "/RichTextEditor/";
             var myinstance = CKEDITOR.instances['content'];
             //check if my instance already exist
             if (myinstance !== undefined) {

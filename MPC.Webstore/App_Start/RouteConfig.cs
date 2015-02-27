@@ -195,6 +195,12 @@ namespace MPC.Webstore
               "PaypalSubmit/{controller}/{action}/{id}",
               new { controller = "Payment", action = "PaypalSubmit", id = UrlParameter.Optional }
            );
+              routes.MapRoute(
+              "NabSubmit",
+              "NabSubmit",
+              new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+           );
+              
             routes.MapRoute(
                "Default", // Route name
                "",        // URL with parameters

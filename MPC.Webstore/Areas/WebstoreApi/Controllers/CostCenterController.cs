@@ -288,7 +288,9 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 GrandTotal = Subtotal + calculate + DeliveryTaxValue + Delevery;
                 vat = calculate;
                
-
+               // ViewBag.GrandTotal = GrandTotal;
+               // ViewBag.SubTotal = Subtotal;
+               // ViewBag.Vat = calculate;
             }
            
         }
@@ -300,6 +302,13 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 return dateTimeValue.Value.ToString(string.IsNullOrWhiteSpace(formatString) ? defaultFormat : formatString);
             else
                 return string.Empty;
+        }
+
+        public HttpResponseMessage WidgetJson(string StoreId)
+        {
+            List<CmsSkinPageWidget> oStoreWidgets = _ItemService.GetStoreWidgets();
+            var objSer = JsonConvert.SerializeObject(oStoreWidgets);
+            return Request.CreateResponse(HttpStatusCode.OK, "");
         }
 
     }

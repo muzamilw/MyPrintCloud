@@ -448,3 +448,15 @@ alter table TemplateVariable
 alter column TemplateId bigint null
 
 GO
+
+/* Execution Date: 26/02/2015 */
+
+GO
+
+alter table CompanyContactVariable
+alter column Value varchar(1000) null
+
+alter table Items
+add SmartFormId bigint null
+
+GO

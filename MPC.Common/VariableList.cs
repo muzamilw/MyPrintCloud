@@ -12,9 +12,9 @@ namespace MPC.Common
         public long VariableID { get; set; }
         public string VariableName { get; set; }
         public string VariableTag { get; set; }
-        public int VariableType { get; set; } 
+        public int? VariableType { get; set; } 
 
-        public VariableList(string sectionName, long variableId, string variableName, string variableTag, int variableType)
+        public VariableList(string sectionName, long variableId, string variableName, string variableTag, int? variableType)
         {
             this.SectionName = sectionName;
             this.VariableID = variableId;
@@ -35,6 +35,18 @@ namespace MPC.Common
             this.VariableID = VariableId;
             this.TemplateID = TemplateId;
 
+        }
+    }
+
+    public class SmartFormUserList
+    {
+        public long ContactId { get; set; }
+        public string ContactName { get; set; }
+
+        public SmartFormUserList(long contactId, string contactName)
+        {
+            this.ContactId = contactId;
+            this.ContactName = contactName;
         }
     }
 }
