@@ -22,7 +22,13 @@ namespace MPC.Models.Common
         NotSet = 99
 
     }
-
+    public enum CreditCardTypeType
+    {
+        Visa = 1,
+        MasterCard = 2,
+        DinersClub = 3,
+        Amex = 4
+    }
     public enum CompanyTypes
     {
         TemporaryCustomer = 53,

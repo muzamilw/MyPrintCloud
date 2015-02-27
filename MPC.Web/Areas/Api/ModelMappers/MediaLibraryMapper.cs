@@ -17,11 +17,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static MediaLibrary CreateFrom(this DomainModels.MediaLibrary source)
         {
             byte[] mediaFileBytes = null;
-            if (source.Company != null)
+            if (!string.IsNullOrEmpty(source.FilePath))
             {
                 string path =
-                    HttpContext.Current.Server.MapPath("~/MPC_Content/Media/" + source.Company.OrganisationId + "/" +
-                                                       source.CompanyId + "/" + source.MediaId + "_" + source.FileName);
+                    HttpContext.Current.Server.MapPath("~/" + source.FilePath);
                 if (File.Exists(path))
                 {
                     mediaFileBytes = File.ReadAllBytes(path);

@@ -559,7 +559,7 @@ define("product/product.viewModel",
                         }, 1000);
                         
                         // Get Items for Store
-                        getItems();
+                        resetFilter();
                     },
                     // #endregion
                     // Map Products 

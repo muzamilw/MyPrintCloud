@@ -23,15 +23,23 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             //{
             //    bytes = source.Image != null ? File.ReadAllBytes(source.Image) : null;
             //}
-            string imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
-            if (source.Image != null && File.Exists(imagePath))
+            string imagePath;
+            if (!string.IsNullOrEmpty(source.Image))
             {
-                bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
+                imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
+                if (File.Exists(imagePath))
+                {
+                    bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
+                } 
             }
             byte[] storeBackgroundImageBytes = null;
-            if (source.StoreBackgroundImage != null && File.Exists(source.StoreBackgroundImage))
+            if (!string.IsNullOrEmpty(source.StoreBackgroundImage))
             {
-                storeBackgroundImageBytes = source.StoreBackgroundImage != null ? File.ReadAllBytes(source.StoreBackgroundImage) : null;
+                imagePath = HttpContext.Current.Server.MapPath("~/" + source.StoreBackgroundImage);
+                if (File.Exists(imagePath))
+                {
+                    storeBackgroundImageBytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
+                } 
             }
             byte[] spriteBytes = null;
             string spritePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/sprite.png");
@@ -85,6 +93,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ShowPrices = source.ShowPrices,
                 isDisplayBanners = source.isDisplayBanners,
                 isDisplayMenuBar = source.isDisplayMenuBar,
+                isDisplaySecondaryPages = source.isDisplaySecondaryPages,
                 isDisplayBrokerSecondaryPages = source.isDisplayBrokerSecondaryPages,
                 isAllowRegistrationFromWeb = source.isAllowRegistrationFromWeb,
                 isBrokerCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline,
@@ -154,15 +163,23 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static Company CreateFromForCrm(this DomainModels.Company source)
         {
             byte[] bytes = null;
-            string imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
-            if (source.Image != null && File.Exists(imagePath))
+            string imagePath;
+            if (!string.IsNullOrEmpty(source.Image))
             {
-                bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
+                imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
+                if (File.Exists(imagePath))
+                {
+                    bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
+                }
             }
             byte[] storeBackgroundImageBytes = null;
-            if (source.StoreBackgroundImage != null && File.Exists(source.StoreBackgroundImage))
+            if (!string.IsNullOrEmpty(source.StoreBackgroundImage))
             {
-                storeBackgroundImageBytes = source.StoreBackgroundImage != null ? File.ReadAllBytes(source.StoreBackgroundImage) : null;
+                imagePath = HttpContext.Current.Server.MapPath("~/" + source.StoreBackgroundImage);
+                if (File.Exists(imagePath))
+                {
+                    storeBackgroundImageBytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
+                }
             }
             byte[] spriteBytes = null;
             string spritePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/sprite.png");
@@ -248,7 +265,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 includeEmailBrokerArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport,
                 includeEmailBrokerArtworkOrderXML = source.includeEmailBrokerArtworkOrderXML,
                 includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard,
-                StoreBackgroundImage = source.StoreBackgroundImage,
                 makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady,
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
                 PickupAddressId = source.PickupAddressId,
@@ -304,6 +320,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ShowPrices = source.ShowPrices,
                 isDisplayBanners = source.isDisplayBanners,
                 isDisplayMenuBar = source.isDisplayMenuBar,
+                isDisplaySecondaryPages = source.isDisplaySecondaryPages,
                 isDisplayBrokerSecondaryPages = source.isDisplayBrokerSecondaryPages,
                 isAllowRegistrationFromWeb = source.isAllowRegistrationFromWeb,
                 isBrokerCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline,
@@ -360,7 +377,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Select(x => x.CreateFrom()).ToList() : null,
                 Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFrom()).ToList() : null,
                 ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null,
-                StoreBackgroundImage = source.StoreBackgroundImage,
                 CmsOffers = source.CmsOffers != null ? source.CmsOffers.Select(c => c.CreateFrom()).ToList() : null,
                 UserDefinedSpriteSource = source.UserDefinedSpriteSource,
                 MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
@@ -469,10 +485,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static ApiModels.CrmSupplierListViewModel CrmSupplierListViewCreateFrom(this DomainModels.Company source)
         {
             byte[] bytes = null;
-            string imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
-            if (source.Image != null && File.Exists(imagePath))
+            if (!string.IsNullOrEmpty(source.Image))
             {
-                bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
+                string imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
+                if (File.Exists(imagePath))
+                {
+                    bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
+                }
             }
             return new ApiModels.CrmSupplierListViewModel
             {
