@@ -7,7 +7,9 @@
                double DeliveryTaxValue = 0;
                string ImageSource = string.Empty;
                 var ThumnbString = "Thumb.png";
-           }
+               DateTime EstimatedDispatchDatee = Model.DeliveryDate ?? DateTime.Now;
+               var EstimatedDispatchDate = EstimatedDispatchDatee.ToString("MMMM dd, yyyy");
+}
 <div id="page" class="container content_area" style="margin: auto; border: 0px solid orange; margin-top: 20px;">
 
     <div class="row left_right_padding">
@@ -120,10 +122,10 @@
                 <label id="lblBAddressLine1" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Address1</label><br />
                 <label id="lblAddressLine2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Address2</label><br />
                 <label id="lblBcity" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.City</label>
-                <label id="lblBState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.State.StateName</label>
+                <label id="lblBState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.State</label>
                 <label id="lblBZipCode" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.PostCode</label><br />
 
-                <label id="lblBCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Country.CountryName</label><br />
+                <label id="lblBCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Country</label><br />
                 <span>
                     <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Tel", UserCookieManager.StoreId))</label>
                 </span>
@@ -135,9 +137,9 @@
                 <label id="lblSAddLine1" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Address1</label><br />
                 <label id="lblSAddreLine2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Address2</label><br />
                 <label id="lblSCity" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.City</label>
-                <label id="lblSState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.State.StateName</label>
+                <label id="lblSState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.State</label>
                 <label id="lblSZipCode" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.PostCode</label><br />
-                <label id="lblSCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Country.CountryName</label><br />
+                <label id="lblSCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Country</label><br />
                 <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Tel", UserCookieManager.StoreId))</label>
                 <label id="lblSTel" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Tel1</label>
             </div>
@@ -149,7 +151,7 @@
             </div>
             <div class="trspclInstr col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt">
                 <span id="lbl_EstimatedDate" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnestimateddispatchdate", UserCookieManager.StoreId))</span><br />
-                <label id="lblEstimatedDispatchDate" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px; margin-left: 0px;">@Model.DeliveryDate</label>
+                <label id="lblEstimatedDispatchDate" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px; margin-left: 0px;">@EstimatedDispatchDate</label>
             </div>
             <div class="trspclInstr col-md-4 col-lg-4 col-xs-12 receiptShippingDeliverycnt">
                 <span id="lbl_DelivaryMethod" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spndilevry", UserCookieManager.StoreId))</span><br />
@@ -240,7 +242,7 @@
                                 <td align="left">
                                      @if (ViewBag.IsShowPrices)
                                      {
-                                         <span id="MainContent_grdViewShopCart_lblItemPrice_0">@item.Qty1BaseCharge1</span>
+                                         <span id="MainContent_grdViewShopCart_lblItemPrice_0">@ViewBag.Currency@item.Qty1BaseCharge1</span>
                                      }
                                 </td>
                             </tr>
@@ -256,8 +258,8 @@
                     <tr>
                         <td class="srFirstTd"></td>
                         <td class="srScdTd"></td>
-                        <td class="srThirdTd" align="left" style="font-weight: normal; font-size: 14px; color: #A8A8A8; line-height: 2; font-family: Trebuchet MS, Arial, Helvetica, sans-serif;">
-                            <span id="lbl_SubTotal">Sub Total:@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.StoreId))</span>
+                        <td class="srThirdTd" align="left" style="font-weight: normal; font-size: 14px; color: #333333; line-height: 2; font-family: Trebuchet MS, Arial, Helvetica, sans-serif;">
+                            <span id="lbl_SubTotal">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.StoreId))</span>
                         </td>
                         <td class="srForthtd">
                            
@@ -268,8 +270,8 @@
                     <tr>
                         <td></td>
                         <td align="left"></td>
-                        <td align="left" style="font-weight: normal; font-size: 14px; color: #A8A8A8; line-height: 2; font-family: Trebuchet MS, Arial, Helvetica, sans-serif;">
-                            <span id="lbl_Delivery">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDeliveryMethod", UserCookieManager.StoreId))</span>
+                        <td align="left" style="font-weight: normal; font-size: 14px; color: #333333; line-height: 2; font-family: Trebuchet MS, Arial, Helvetica, sans-serif;">
+                            <span id="lbl_Delivery">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", UserCookieManager.StoreId))</span>
                         </td>
                         <td>
                             @if (Model.DeliveryCost > 0)
@@ -285,8 +287,8 @@
                     <tr id="rowVat">
                         <td></td>
                         <td align="left"></td>
-                        <td align="left" style="font-weight: normal; font-size: 14px; color: #A8A8A8; line-height: 2; font-family: Trebuchet MS, Arial, Helvetica, sans-serif;">
-                            <label id="lblTaxLabelTotal"></label>
+                        <td align="left" style="font-weight: normal; font-size: 14px; color: #333333; line-height: 2; font-family: Trebuchet MS, Arial, Helvetica, sans-serif;">
+                            <label id="lblTaxLabelTotal">VAT</label>
                         </td>
                         <td width="20%">
                             @if (Model.DeliveryCost > 0)
@@ -316,7 +318,7 @@
                             else
                             {
                                 double grossTotal = _itemTotal + _vatTotal;
-                                <label style="font-weight: bold; font-size: 17px; color: Black;" id="lblGrandTotal">@Utils.FormatDecimalValueToTwoDecimal(grossTotal.ToString(), ViewBag.Currency);</label>
+                                <label style="font-weight: bold; font-size: 17px; color: Black;" id="lblGrandTotal">@Utils.FormatDecimalValueToTwoDecimal(grossTotal.ToString(), ViewBag.Currency)</label>
                             }
                             
                         </td>

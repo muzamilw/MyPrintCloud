@@ -170,7 +170,7 @@
                                                 <br>
                                                 <br>
                                             </td>
-                                            <td class="PadTop5" align="left" style="width:5%;">
+                                            <td class="PadTop5" align="left" style="width:5%;padding-left: 20px;">
                                                 <span id="lblItemQuantity" class="fntQtyPrice" style="font-weight:bold;">@prod.Qty1</span>
                                             </td>
                                             @if (ViewBag.IsShowPrices)
@@ -187,7 +187,7 @@
                                                 itemPrice = Utils.FormatDecimalValueToTwoDecimal((prod.Qty1BaseCharge1 ?? 0).ToString(), ViewBag.Currency);
                                                 _grandTotal += prod.Qty1GrossTotal ?? 0;
 
-                                                <td class="PadTop5 priceth" align="right" style="width:20%;">
+                                                <td class="PadTop5 priceth" align="right" style="width:20%;padding-right:0px;">
                                                     <span id="lblItemPrice" class="fntQtyPrice" style="font-weight:bold;text-align: right !important;">@itemPrice</span>
                                                 </td>
                                             }
@@ -279,16 +279,7 @@
 
     </div>
     <div class="clearBoth">
-        &nbsp;
-    </div>
-    <div style="padding-top: 5px; text-align: left; font-size: 18px; line-height: 4;">
-        <label id="lblYoumightLke" visible="false"></label>
-    </div>
-
-
-
-    <div class="clearBoth">
-        &nbsp;
+        
     </div>
     @*matching set*@
     
@@ -320,15 +311,9 @@
         }
 
 }
-   
-    
-    <br />
-  
-
     <div class="clearBoth">
-        &nbsp;
+       
     </div>
-    <br />
 </div>
 </div>
 <div class="opaqueLayer">
