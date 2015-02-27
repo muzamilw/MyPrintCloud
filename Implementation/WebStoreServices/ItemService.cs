@@ -69,6 +69,10 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.GetItemById(ItemId);
         }
+        public Item GetItemByIdDesigner(long ItemId)
+        {
+            return _ItemRepository.GetItemByIdDesigner(ItemId);
+        }
         public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID)
         {
             return _ItemRepository.CloneItem(itemID, RefItemID, OrderID, CustomerID, TemplateID, StockID, SelectedAddOnsList, isSavedDesign, isCopyProduct, objContactID,OrganisationID);
@@ -213,9 +217,9 @@ namespace MPC.Implementation.WebStoreServices
             }
          
         }
-        public bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0) 
+        public bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, int CountOfUploads = 0, string QuestionQueue = "") 
         {
-            return _ItemRepository.UpdateCloneItem(clonedItemID, orderedQuantity, itemPrice, addonsPrice, stockItemID, newlyAddedCostCenters, Mode, OrganisationId, TaxRate, CountOfUploads);
+            return _ItemRepository.UpdateCloneItem(clonedItemID, orderedQuantity, itemPrice, addonsPrice, stockItemID, newlyAddedCostCenters, Mode, OrganisationId, TaxRate, ItemMode, CountOfUploads, QuestionQueue);
         }
         public ProductCategoriesView GetMappedCategory(string CatName, int CID)
         {
@@ -730,5 +734,33 @@ namespace MPC.Implementation.WebStoreServices
            }
            
        }
+
+        /// <summary>
+        /// get cart items count 
+        /// </summary>
+        /// <returns></returns>
+        public long GetCartItemsCount(long ContactId, long TemporaryCustomerId)
+        {
+            try
+            {
+                return _ItemRepository.GetCartItemsCount(ContactId, TemporaryCustomerId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<CmsSkinPageWidget> GetStoreWidgets()
+        {
+            try
+            {
+                return _ItemRepository.GetStoreWidgets();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

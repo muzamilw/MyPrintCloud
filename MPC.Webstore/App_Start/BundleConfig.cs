@@ -96,6 +96,8 @@ namespace MPC.Webstore
                   "~/Scripts/Designer/p35-v2.js",
                   "~/Scripts/Designer/pcf01-35.js"
                   ));
+
+
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862
             BundleTable.EnableOptimizations = true;

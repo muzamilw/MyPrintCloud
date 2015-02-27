@@ -2,7 +2,7 @@
 namespace MPC.ExceptionHandling
 {
     /// <summary>
-    /// Cares Exception Contents
+    /// MPC Exception Contents
     /// </summary>
     public sealed class MPCExceptionContent
     {
@@ -12,9 +12,9 @@ namespace MPC.ExceptionHandling
         public string Message { get; set; }
 
         /// <summary>
-        /// Cares Exception Type
+        /// MPC Exception Type
         /// </summary>
-        public string ExceptionType { get { return MPCExceptionTypes.CaresGeneralException; } }
+        public string ExceptionType { get { return MPCExceptionTypes.MPCGeneralException; } }
 
     }
 }

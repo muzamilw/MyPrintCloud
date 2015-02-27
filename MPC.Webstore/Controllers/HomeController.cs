@@ -145,89 +145,89 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult About(string mode)
         {
-            if (mode == "compile")
-            {
-                _CostCentreService.SaveCostCentre(335, 1, "Test");
+            //if (mode == "compile")
+            //{
+            _CostCentreService.SaveCostCentre(Convert.ToInt32(mode), 1, "Test");
 
                 return Content("Cost Centre compiled");
-            }
-            else
-            {
-                AppDomain _AppDomain = null;
+            //}
+            //else
+            //{
+            //    AppDomain _AppDomain = null;
 
-                try
-                {
+            //    try
+            //    {
 
-                    string OrganizationName = "Test";
-                    AppDomainSetup _AppDomainSetup = new AppDomainSetup();
-
-
-                    object _oLocalObject;
-                    ICostCentreLoader _oRemoteObject;
-
-                    object[] _CostCentreParamsArray = new object[12];
-
-                    _AppDomainSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
-                    _AppDomainSetup.PrivateBinPath = Path.GetDirectoryName((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).LocalPath);
+            //        string OrganizationName = "Test";
+            //        AppDomainSetup _AppDomainSetup = new AppDomainSetup();
 
 
-                    _AppDomain = AppDomain.CreateDomain("CostCentresDomain", null, _AppDomainSetup);
-                    //Me._AppDomain.InitializeLifetimeService()
+            //        object _oLocalObject;
+            //        ICostCentreLoader _oRemoteObject;
 
-                    List<CostCentreQueueItem> CostCentreQueue = new List<CostCentreQueueItem>();
+            //        object[] _CostCentreParamsArray = new object[12];
 
-
-                    //Me._CostCentreLaoderFactory = CType(Me._AppDomain.CreateInstance(Common.g_GlobalData.AppSettings.ApplicationStartupPath + "\Infinity.Model.dll", "Infinity.Model.CostCentres.CostCentreLoaderFactory").Unwrap(), Model.CostCentres.CostCentreLoaderFactory)
-                    CostCentreLoaderFactory _CostCentreLaoderFactory = (CostCentreLoaderFactory)_AppDomain.CreateInstance("MPC.Interfaces", "MPC.Interfaces.WebStoreServices.CostCentreLoaderFactory").Unwrap();
-                    _CostCentreLaoderFactory.InitializeLifetimeService();
+            //        _AppDomainSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
+            //        _AppDomainSetup.PrivateBinPath = Path.GetDirectoryName((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).LocalPath);
 
 
-                    //_CostCentreParamsArray(0) = Common.g_GlobalData;
-                    //GlobalData
-                    _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
-                    //this mode will load the questionqueue
-                    _CostCentreParamsArray[2] = new List<QuestionQueueItem>();
-                    //QuestionQueue / Execution Queue
-                    _CostCentreParamsArray[3] = CostCentreQueue;
-                    //CostCentreQueue
-                    _CostCentreParamsArray[4] = 1;
-                    //MultipleQuantities
-                    _CostCentreParamsArray[5] = 1;
-                    //CurrentQuantity
-                    _CostCentreParamsArray[6] = new List<StockQueueItem>();
-                    //StockQueue
-                    _CostCentreParamsArray[7] = new List<InputQueueItem>();
-                    //InputQueue
-                    _CostCentreParamsArray[8] = new ItemSection(); //this._CurrentItemDTO.ItemSection(this._CurrentCostCentreIndex);
-                    _CostCentreParamsArray[9] = 1;
+            //        _AppDomain = AppDomain.CreateDomain("CostCentresDomain", null, _AppDomainSetup);
+            //        //Me._AppDomain.InitializeLifetimeService()
+
+            //        List<CostCentreQueueItem> CostCentreQueue = new List<CostCentreQueueItem>();
 
 
-                    CostCentre oCostCentre = _CostCentreService.GetCostCentreByID(335);
-
-                    CostCentreQueue.Add(new CostCentreQueueItem(oCostCentre.CostCentreId, oCostCentre.Name, 1, oCostCentre.CodeFileName, null, oCostCentre.SetupSpoilage, oCostCentre.RunningSpoilage));
-
-
-
-                    _oLocalObject = _CostCentreLaoderFactory.Create(ControllerContext.HttpContext.Server.MapPath("/") + "\\ccAssembly\\" + OrganizationName + "UserCostCentres.dll", "UserCostCentres." + oCostCentre.CodeFileName, null);
-                    _oRemoteObject = (ICostCentreLoader)_oLocalObject;
-
-                    CostCentreCostResult oResult = _oRemoteObject.returnCost(ref _CostCentreParamsArray);
+            //        //Me._CostCentreLaoderFactory = CType(Me._AppDomain.CreateInstance(Common.g_GlobalData.AppSettings.ApplicationStartupPath + "\Infinity.Model.dll", "Infinity.Model.CostCentres.CostCentreLoaderFactory").Unwrap(), Model.CostCentres.CostCentreLoaderFactory)
+            //        CostCentreLoaderFactory _CostCentreLaoderFactory = (CostCentreLoaderFactory)_AppDomain.CreateInstance("MPC.Interfaces", "MPC.Interfaces.WebStoreServices.CostCentreLoaderFactory").Unwrap();
+            //        _CostCentreLaoderFactory.InitializeLifetimeService();
 
 
-                    ViewBag.result = oResult.TotalCost.ToString();
+            //        //_CostCentreParamsArray(0) = Common.g_GlobalData;
+            //        //GlobalData
+            //        _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
+            //        //this mode will load the questionqueue
+            //        _CostCentreParamsArray[2] = new List<QuestionQueueItem>();
+            //        //QuestionQueue / Execution Queue
+            //        _CostCentreParamsArray[3] = CostCentreQueue;
+            //        //CostCentreQueue
+            //        _CostCentreParamsArray[4] = 1;
+            //        //MultipleQuantities
+            //        _CostCentreParamsArray[5] = 1;
+            //        //CurrentQuantity
+            //        _CostCentreParamsArray[6] = new List<StockQueueItem>();
+            //        //StockQueue
+            //        _CostCentreParamsArray[7] = new List<InputQueueItem>();
+            //        //InputQueue
+            //        _CostCentreParamsArray[8] = new ItemSection(); //this._CurrentItemDTO.ItemSection(this._CurrentCostCentreIndex);
+            //        _CostCentreParamsArray[9] = 1;
 
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    AppDomain.Unload(_AppDomain);
-                }
 
-                return View();
-            }
+            //        CostCentre oCostCentre = _CostCentreService.GetCostCentreByID(335);
+
+            //        CostCentreQueue.Add(new CostCentreQueueItem(oCostCentre.CostCentreId, oCostCentre.Name, 1, oCostCentre.CodeFileName, null, oCostCentre.SetupSpoilage, oCostCentre.RunningSpoilage));
+
+
+
+            //        _oLocalObject = _CostCentreLaoderFactory.Create(ControllerContext.HttpContext.Server.MapPath("/") + "\\ccAssembly\\" + OrganizationName + "UserCostCentres.dll", "UserCostCentres." + oCostCentre.CodeFileName, null);
+            //        _oRemoteObject = (ICostCentreLoader)_oLocalObject;
+
+            //        CostCentreCostResult oResult = _oRemoteObject.returnCost(ref _CostCentreParamsArray);
+
+
+            //        ViewBag.result = oResult.TotalCost.ToString();
+
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        throw ex;
+            //    }
+            //    finally
+            //    {
+            //        AppDomain.Unload(_AppDomain);
+            //    }
+
+            //    return View();
+            //}
         }
 
         public ActionResult Error()
@@ -344,17 +344,21 @@ namespace MPC.Webstore.Controllers
 
                 MPC.Models.DomainModels.CompanyContact loginUser = _myCompanyService.GetContactByEmail(UserCookieManager.Email,OrganisationID);
 
-                ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
+                if (loginUser != null)
+                {
+                    ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
 
-                ClaimsSecurityService.AddSignInClaimsToIdentity(loginUser.ContactId, loginUser.CompanyId, loginUser.ContactRoleId ?? 0, loginUser.TerritoryId ?? 0, identity);
+                    ClaimsSecurityService.AddSignInClaimsToIdentity(loginUser.ContactId, loginUser.CompanyId, loginUser.ContactRoleId ?? 0, loginUser.TerritoryId ?? 0, identity);
 
-                var claimsPriciple = new ClaimsPrincipal(identity);
-                // Make sure the Principal's are in sync
-                HttpContext.User = claimsPriciple;
+                    var claimsPriciple = new ClaimsPrincipal(identity);
+                    // Make sure the Principal's are in sync
+                    HttpContext.User = claimsPriciple;
 
-                Thread.CurrentPrincipal = HttpContext.User;
+                    Thread.CurrentPrincipal = HttpContext.User;
 
-                AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+                    AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+                }
+             
 
                 UserCookieManager.isRegisterClaims = 0;
             }

@@ -109,9 +109,9 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _OrderRepository.GetUserShopCartOrderID(status);
         }
-        public ShoppingCart GetShopCartOrderAndDetails(long orderID, OrderStatus orderStatus)
+        public ShoppingCart GetShopCartOrderAndDetails(long orderID,OrderStatus Orderstatus)
         {
-            return _OrderRepository.GetShopCartOrderAndDetails(orderID, orderStatus);
+            return _OrderRepository.GetShopCartOrderAndDetails(orderID, Orderstatus);
         }
         public DiscountVoucher GetVoucherRecord(int VId)
         {
@@ -128,6 +128,48 @@ namespace MPC.Implementation.WebStoreServices
             {
                 throw ex;
             }
+        }
+        public bool UpdateOrderStatusAfterPrePayment(Estimate tblOrder, OrderStatus orderStatus, StoreMode mode)
+        {
+           return _OrderRepository.UpdateOrderStatusAfterPrePayment(tblOrder, orderStatus, mode);
+        }
+
+        //private void UpdateOrderedItems(OrderStatus orderStatus, Estimate tblOrder, ItemStatuses itemStatus, StoreMode Mode)
+        //{
+
+        //    tblOrder.Items.ToList().ForEach(item =>
+        //    {
+        //        if (item.IsOrderedItem.HasValue && item.IsOrderedItem.Value)
+        //        {
+
+        //            if (orderStatus != OrderStatus.ShoppingCart)
+        //                item.StatusId = (short)itemStatus;
+        //            _OrderRepository.updateStockAndSendNotification(item.RefItemId, Mode, tblOrder.CompanyId, Convert.ToInt32(item.Qty1), Convert.ToInt32(tblOrder.ContactId), Convert.ToInt32(item.ItemId), Convert.ToInt32(tblOrder.EstimateId), MgrIds, org);
+                    
+
+        //        }
+        //        else
+        //        {//Delete the non included items
+        //            bool result = false;
+        //            List<Model.ArtWorkAttatchment> itemAttatchments = null;
+        //            Web2Print.DAL.Templates clonedTempldateFiles = null;
+
+        //            result = ProductManager.RemoveCloneItem(item.ItemID, out itemAttatchments, out clonedTempldateFiles);
+        //            if (result)
+        //            {
+        //                BLL.ProductManager.RemoveItemAttacmentPhysically(itemAttatchments); // file removing physicslly
+        //                BLL.ProductManager.RemoveItemTemplateFilesPhysically(clonedTempldateFiles); // file removing
+        //            }
+
+        //            //dbContext.tbl_items.DeleteObject(item);
+        //        }
+
+        //    });
+        //}
+
+        public bool SetOrderCreationDateAndCode(long orderId)
+        {
+            return _OrderRepository.SetOrderCreationDateAndCode(orderId);
         }
         public bool IsVoucherValid(string voucherCode)
         {
@@ -404,6 +446,24 @@ namespace MPC.Implementation.WebStoreServices
             return _OrderRepository.GetOrdersListExceptPendingOrdersByContactID(contactUserID, orderStatus, fromDate, toDate, orderRefNumber, pageSize, pageNumber);
         
         }
+       public Order GetOrderAndDetails(long orderID)
+       {
+           return _OrderRepository.GetOrderAndDetails(orderID);
+       }
 
+       public Address GetBillingAddress(long BillingAddressId)
+       {
+
+           return _OrderRepository.GetAddress(BillingAddressId);
+       }
+
+       public Address GetdeliveryAddress(long ShippingAddressId)
+       {
+           return _OrderRepository.GetAddress(ShippingAddressId);
+       }
+       public long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID)
+       {
+           return _OrderRepository.ReOrder(ExistingOrderId, loggedInContactID, StatTaxVal, mode, isIncludeTax, TaxID);
+       }
     }
 }

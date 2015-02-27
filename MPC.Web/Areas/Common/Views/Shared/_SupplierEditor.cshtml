@@ -112,14 +112,14 @@
                                 <div class="col-lg-3 text-right"></div>
                                 <div class="col-lg-7">
                                     <div id="" class="">
-                                        <img id="companyLogo" style="min-height:190px; width: 230px;" src="#" />
+                                        <img id="companyLogo" style="min-height:190px; width: 230px;" data-bind="attr: { src: logoSource }" />
                                     </div>
 
                                 </div>
                                 <div class="col-lg-1">
                                     <div class="fileUpload btn btn-primary">
                                         <span>....</span>
-                                        <input type="file" class="upload" id="orgLogo" name="file" onchange="readURL(this);" />
+                                        <input type="file" class="upload" id="orgLogo" name="file" data-bind="files: { onLoaded: $root.supplierLogoLoadedCallback, fileFilter: 'image.*'}" />
                                     </div>
                                 </div>
                             </div>

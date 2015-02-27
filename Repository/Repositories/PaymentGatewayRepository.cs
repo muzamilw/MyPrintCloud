@@ -76,6 +76,17 @@ namespace MPC.Repository.Repositories
           
 
         }
+
+        public  PaymentGateway GetPaymentGatewayRecord()
+        {
+           
+                return (from res in db.PaymentGateways
+                        where res.isActive == true && res.CompanyId == null
+                        select res).FirstOrDefault();
+          
+
+
+        }
         /// <summary>
         /// add payment 
         /// </summary>

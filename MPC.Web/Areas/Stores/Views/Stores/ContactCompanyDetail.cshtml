@@ -61,7 +61,6 @@
                                 <li><a href="#tab-loyaltyPoints" data-toggle="tab">Loyalty Points</a></li>
                                 <li><a href="#tab-CMYKColors" data-toggle="tab">CMYK Colors</a></li>
                                 <li><a href="#tab-VariableDef" data-toggle="tab">Variable Defination</a></li>
-                                <li><a href="#tab-ModifyVariable" data-toggle="tab">Modify Variable</a></li>
                                 <li><a href="#tab-SmartFormDef" data-toggle="tab">Smart Form</a></li>
                             </ul>
                             <div class="tab-content">
@@ -104,15 +103,21 @@
                                                             </label>
 
                                                         </div>*@
-                                                    <div class="btn-group" data-toggle="buttons">
-                                                        <label data-bind="css: { active: (type() == 4)}, click: function () { type(4); }, clickBubble: false" class="btn btn-primary">
-                                                            Retail
-                                                        </label>
-                                                        <label data-bind="css: { active: (type() == 3)}, click: function () { type(3); }, clickBubble: false" class="btn btn-primary">
-                                                            Corporate
-                                                        </label>
+                                                    <div class="col-lg-6">
+                                                        <div class="radio">
+                                                            <input type="radio" name="optionsRadiosStoreType" id="optionsRadiosRetail" value="4" data-bind="checked: type">
+                                                            <label for="optionsRadiosRetail">
+                                                                Retail
+                                                            </label>
+                                                        </div>
+                                                        <div class="radio">
+                                                            <input type="radio" name="optionsRadiosStoreType" id="optionsRadiosCorporate" value="3" data-bind="checked: type">
+                                                            <label for="optionsRadiosCorporate">
+                                                                Corporate
+                                                            </label>
+                                                        </div>
                                                     </div>
-                                                    <span class="help-block text-right">The store type determines how a store is accessed.</span>
+
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -242,15 +247,6 @@
                                                 <div class="main-box-body clearfix">
                                                     <div class="profile-status">
                                                     </div>
-                                                    @*<a id="uploadLogoIcon" class="logoUploadIcon" style="display: block;">
-                                                            <i class="fa fa-upload" onclick="readURL(this);"></i>
-                                                        </a>
-
-                                                        <img id="companyImage" class="profile-img img-responsive center-block" src="#" alt="" style="min-height: 200px; width: 230px;" data-bind="attr:{ src: $root.storeImage }" />
-
-                                                        <input type="file" id="my_file" style="display: none;" name="file" onchange="readURL(this);" />
-                                                        <button type="submit" id="orgImageSubmitBtn" disabled class="btn btn-primary" style="margin-left: 33%;">Upload</button>
-                                                        <input type="hidden" id="companyId" name="companyId" data-bind="value:companyId" />*@
                                                     <img style="min-height: 150px; width: 150px;" data-bind="attr: { src: storeImageFileBinary }" />
                                                     <div class="pull-right">
                                                         <div class="fileUpload btn btn-primary">
@@ -525,7 +521,7 @@
                                                         <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyTerritory"></i>
                                                     </div>
                                                     <a data-toggle="modal" class="btn btn-primary pull-right" data-bind="click: $root.onCreateNewCompanyTerritory">
-                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add 
+                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
                                                     </a>
                                                 </div>
                                             </header>
@@ -631,18 +627,19 @@
                                             </header>
                                             <div class="main-box-body clearfix">
                                                 <div class="table-responsive">
-                                                    <table class="table table-striped table-hover" >  @*id="columnsAlign"*@
+                                                    <table class="table table-striped table-hover">
+                                                        @*id="columnsAlign"*@
                                                         <thead>
                                                             <tr>
                                                                 @*<th class="col-lg-1"></th>*@
-                                                                <th >Name</th>
-                                                                <th >Role</th>
-                                                                <th >Has Web Access</th>
-                                                                <th >Can Place Order</th>
-                                                                <th >Approval Required</th>
-                                                                <th >Can See Prices</th>
-                                                                <th >Credit Limit</th>
-                                                                <th ></th>
+                                                                <th>Name</th>
+                                                                <th>Role</th>
+                                                                <th>Has Web Access</th>
+                                                                <th>Can Place Order</th>
+                                                                <th>Approval Required</th>
+                                                                <th>Can See Prices</th>
+                                                                <th>Credit Limit</th>
+                                                                <th></th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -904,14 +901,6 @@
                                                     <label for="txtCompanyName" class="control-label text-right tooltip-float">Upload media files</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <div class="col-lg-8">
-                                                        <div id="dropzone">
-                                                            <div id="demo-upload" style="min-height: 200px; width: 250px;">
-                                                                <img data-bind="attr: { src: $root.newUploadedMediaFile().fileSource }" style="min-height: 200px; width: 250px;" />
-                                                            </div>
-                                                        </div>
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
                                                     <div class="col-lg-1">
                                                         <div class="fileUpload btn btn-primary">
                                                             <span>....</span>
@@ -970,8 +959,9 @@
                                                         <table class="table table-striped table-hover">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Banner Image</th>
+                                                                    <th>Image</th>
                                                                     <th>Set Name</th>
+                                                                    <th>Title</th>
                                                                     <th>&nbsp;</th>
                                                                 </tr>
                                                             </thead>
@@ -1050,7 +1040,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="onoffswitch">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSecondaryPages" checked>
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSecondaryPages" data-bind="checked:$root.selectedStore().isDidplayInFooter(),event:{click:$root.secondayPageIsDisplayInFooterHandler}">
                                                         <label class="onoffswitch-label" for="switchSecondaryPages">
                                                             <div class="onoffswitch-inner"></div>
                                                             <div class="onoffswitch-switch"></div>
@@ -1776,40 +1766,6 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane clearfix fade" id="tab-ModifyVariable">
-                                    <h3 class="group-header">Modify Variable</h3>
-                                    <div class="col-lg-12 clearfix">
-                                        <header class="main-box-header clearfix">
-                                            <div class="filter-block">
-                                                <div class="form-group filter-block pull-left col-xs-4">
-                                                </div>
-                                                <div class="filter-block pull-right col-xs-5">
-                                                    @*<a class="btn btn-primary pull-right">
-                                                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Variable
-                                                        </a>*@
-                                                </div>
-                                            </div>
-                                        </header>
-                                        <div class="main-box-body clearfix">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            @*<th><a href="#"><span>System Variables</span></a></th>
-                                                                <th><a href="#"><span>Variable Scope</span></a></th>
-                                                                <th><a href="#"><span>Type</span></a></th>
-                                                                <th><a href="#"><span>Tag</span></a></th>*@
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @*<!-- ko template: { name: 'itemCompanyCMYKColorTemplate' , foreach: $root.selectedStore().companyCMYKColors } -->
-                                                            <!-- /ko -->*@
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="tab-pane clearfix fade" id="tab-SmartFormDef">
                                     <h3 class="group-header">Smart Forms</h3>
                                     <div class="col-lg-12 clearfix">
@@ -1818,7 +1774,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 <div class="form-group filter-block pull-left col-xs-4">
                                                 </div>
                                                 <div class="filter-block pull-right col-xs-5">
-                                                    <a class="btn btn-primary pull-right">
+                                                    <a class="btn btn-primary pull-right" data-bind="click:$root.addSmartForm">
                                                         <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add New Smart Form
                                                     </a>
                                                 </div>
@@ -1829,14 +1785,13 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 <table class="table table-striped table-hover">
                                                     <thead>
                                                         <tr>
-                                                            <th><a href="#"><span>ID</span></a></th>
                                                             <th><a href="#"><span>Name</span></a></th>
                                                             <th><a href="#"><span>Description</span></a></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @*<!-- ko template: { name: 'itemCompanyCMYKColorTemplate' , foreach: $root.selectedStore().companyCMYKColors } -->
-                                                            <!-- /ko -->*@
+                                                        <!-- ko template: { name: 'smartFormItemTemplate' , foreach: $root.smartForms } -->
+                                                        <!-- /ko -->
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -1950,6 +1905,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     @*<img src="~/Content/themes/Centaurus/img/samples/banner1.jpg" alt="Banner 1" />*@
                 </td>
                 <td data-bind="text:setName"></td>
+                <td data-bind="text:heading"></td>
                 <td class="text-right">
                     <a class="table-link" title="Edit Banner" data-bind="click:$root.onEditCompanyBanner">
                         <span class="fa-stack">
@@ -1969,9 +1925,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
         <script id="secondaryPageItemTemplate" type="text/html">
             <tr>
                 <td>
-                    <img src="../../../../Content/themes/Centaurus/img/samples/logos/UserPage.png" alt="" />
+                    <img src="" alt="" data-bind="attr: { src: imageSource }" />
                     <span style="color:#3cdfef;display:block;font-size:1.25em;padding-top:3px;margin-left:60px;" data-bind="text:pageTitle"></span>
-                    <span class="user-subhead" data-bind="text:metaTitle">Broker meta title</span>
+                    <span class="user-subhead" data-bind="text:metaTitle"></span>
                 </td>
                 <td data-bind="text:categoryName"></td>
                 <!-- ko if: isEnabled -->
@@ -2014,6 +1970,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 </td>
             </tr>
         </script>
+
         <script id="actionsAddressTemplate" type="text/html">
             <a class="table-link" data-bind="click : $root.onEditAddress">
                 <span class="fa-stack">
@@ -2035,7 +1992,6 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 @*<td data-bind="text: territoryName"></td>*@
 
                 <!--ko if: $root.selectedStore().type() == 4-->
-               
                 <!--ko if: isDefaultShippingAddress() == true -->
                 <td class="type">
                     <span class="label label-success">Yes </span>
@@ -2046,10 +2002,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     <span class="label label-danger">No </span>
                 </td>
                 <!-- /ko -->
-
                 <!--/ko-->
                 <!--ko if:  $root.selectedStore().type() == 3-->
-               
                 <!--ko if: isDefaultTerrorityBilling() == true -->
                 <td class="type">
                     <span class="label label-success">Yes </span>
@@ -2060,9 +2014,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     <span class="label label-danger">No </span>
                 </td>
                 <!-- /ko -->
-
                 <!--/ko-->
-                
                 <!--ko if: isDefaultAddress() == true -->
                 <td class="type">
                     <span class="label label-success">Yes </span>
@@ -2080,6 +2032,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 </td>
             </tr>
         </script>
+
         <script id="actionsCompanyContactTemplate" type="text/html">
             <a class="table-link" data-bind="click : $root.onEditCompanyContact">
                 <span class="fa-stack">
@@ -2095,7 +2048,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
             </a>
         </script>
         <script id="itemCompanyContactTemplate" type="text/html">
-            <tr  data-bind="click: $root.selectCompanyContact, css: { selectedRow: $data === $root.selectedCompanyContact}">
+            <tr data-bind="click: $root.selectCompanyContact, css: { selectedRow: $data === $root.selectedCompanyContact}">
                 <td style="width: 20%; max-width: 20%;">
                     <div class="img col-xs-2">
                         <img style="min-height: 20px; width: 20px;" data-bind="attr:{src: image}" alt="" />
@@ -2108,7 +2061,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                         </div>
                     </div>
                 </td>
-                <td style ="width: 10%; max-width: 10%;">
+                <td style="width: 10%; max-width: 10%;">
                     <div class="type">
                         <!--ko if: roleName() == 'Administrator' -->
                         <span class="label label-primary" data-bind="text: roleName "></span>
@@ -2121,10 +2074,10 @@ Public  - allows users to see other users addresses and orders." data-original-t
                         <!-- /ko -->
 
                     </div>
-                    </td>
-                    @*
-            <td data-bind="text: firstName "></td>
-            <td data-bind="text: contactRoleId"></td>*@
+                </td>
+                @*
+                    <td data-bind="text: firstName "></td>
+                    <td data-bind="text: contactRoleId"></td>*@
                 <td style="width: 10%; max-width: 10%;">
                     <div class="type">
                         <span class="label" data-bind="text: isWebAccess() == true ? 'Yes' : 'No' , css: { 'label-success': (isWebAccess() == true),'label-danger': (isWebAccess() != true)}"></span>   @*class="label label-danger"*@
@@ -2151,7 +2104,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     <!-- ko template: { name: "actionsCompanyContactTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                     <!-- /ko -->
                 </td>
-</tr>
+            </tr>
         </script>
         <script id="actionsPaymentGatewayTemplate" type="text/html">
             <a class="table-link" data-bind="click : $root.onEditPaymentGateway">
@@ -2262,6 +2215,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 </style>
 @Html.Partial("~/Areas/Stores/Views/Stores/_AddEditAddress.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Stores/_EditBanner.cshtml")
+@Html.Partial("~/Areas/Stores/Views/Stores/_AddEditSmartFormDialog.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Stores/_ItemsForWidgetDialog.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Stores/_AddSet.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Stores/_AddEditSecondaryPage.cshtml")
@@ -2378,7 +2332,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-bind="text:widgetName,attr: { 'data-parent': '#accordion' + $index(),href:'#collapseBody' + $index()+1000 }"></a>
+                        <a data-toggle="collapse" style="color:white" data-bind="text:widgetName,attr: { 'data-parent': '#accordion' + $index(),href:'#collapseBody' + $index()+1000 }"></a>
                         <span class="glyphicon glyphicon-pencil pull-right" style="cursor: pointer;margin-right: 10px;" title="EditHtml" data-bind="visible:(widgetId()===14),click:$root.showCkEditorDialog"></span>
                         <span class="glyphicon glyphicon-remove pull-right" style="cursor: pointer;margin-right: 10px;" title="Delete" data-bind="click:$root.deletePageLayoutWidget"></span>
                     </h4>
@@ -2408,6 +2362,21 @@ Public  - allows users to see other users addresses and orders." data-original-t
         <td data-bind="text:variableTag"></td>
         <td class="text-right">
             <a href="" class="table-link" data-bind="click:$root.onEditFieldVariable">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+        </td>
+    </tr>
+
+</script>
+<script id="smartFormItemTemplate" type="text/html">
+    <tr>
+        <td data-bind="text:name"></td>
+        <td data-bind="text:heading"></td>
+        <td class="text-right">
+            <a href="" class="table-link" data-bind="click:$root.onEditSmartForm">
                 <span class="fa-stack">
                     <i class="fa fa-square fa-stack-2x"></i>
                     <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>

@@ -184,7 +184,7 @@ define("common/supplier.viewModel",
                             },
                             error: function (exceptionMessage, exceptionType) {
 
-                                if (exceptionType === ist.exceptionType.CaresGeneralException) {
+                                if (exceptionType === ist.exceptionType.MPCGeneralException) {
 
                                     toastr.error(exceptionMessage);
 
@@ -238,7 +238,11 @@ define("common/supplier.viewModel",
                 format = function (item) {
                     return $ + item.FlagName;
                 }
-
+                //Media Library File Loaded Call back
+                supplierLogoLoadedCallback = function (file, data) {
+                    addSupplier().logoSource(data);
+                    addSupplier().logoName(file.name);
+                },
                 // Initialize the view model
                 initialize = function (specifiedView) {
                     view = specifiedView;
@@ -280,6 +284,7 @@ define("common/supplier.viewModel",
                     onSaveSupplier: onSaveSupplier,
                     format: format,
                     gotoElement: gotoElement,
+                    supplierLogoLoadedCallback: supplierLogoLoadedCallback,
                 };
             })()
         };

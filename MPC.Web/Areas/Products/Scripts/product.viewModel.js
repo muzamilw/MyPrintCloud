@@ -559,7 +559,7 @@ define("product/product.viewModel",
                         }, 1000);
                         
                         // Get Items for Store
-                        getItems();
+                        resetFilter();
                     },
                     // #endregion
                     // Map Products 
@@ -945,9 +945,9 @@ define("product/product.viewModel",
                         });
                     },
                     // archive Product
-                    archiveProduct = function () {
+                    archiveProduct = function (id) {
                         dataservice.archiveItem({
-                            ItemId: selectedProduct().id()
+                            ItemId: id
                         }, {
                             success: function () {
                                 selectedProduct().isArchived(true);

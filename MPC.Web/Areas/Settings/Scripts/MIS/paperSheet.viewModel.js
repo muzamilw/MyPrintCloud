@@ -28,6 +28,8 @@ define("paperSheet/paperSheet.viewModel",
                     selectedPaperSheet = editorViewModel.itemForEditing,
                     //Length Unit
                     lengthUnit = ko.observable(),
+                    //Organisation culure
+                    orgCulture = ko.observable(),
                     //Template To Use
                     templateToUse = function (paperSheet) {
                         return (paperSheet === selectedPaperSheet() ? 'editPaperSheetTemplate' : 'itemPaperSheetTemplate');
@@ -78,6 +80,7 @@ define("paperSheet/paperSheet.viewModel",
                         isLoadingPaperSheet(true);
                         dataservice.getPaperSheets({
                             SearchString: searchFilter(),
+                            Region:orgCulture(),
                             PageSize: pager().pageSize(),
                             PageNo: pager().currentPage(),
                             SortBy: sortOn(),
@@ -111,6 +114,7 @@ define("paperSheet/paperSheet.viewModel",
                     },
                     //Save Paper Sheet
                     savePaperSheet = function (item) {
+                        debugger;
                         if (selectedPaperSheet() != undefined && doBeforeSave()) {
                             if (selectedPaperSheet().paperSizeId() > 0) {
                                 saveEdittedPaperSheet();
@@ -121,7 +125,7 @@ define("paperSheet/paperSheet.viewModel",
                     },
                     //Save NEW Paper Sheets
                     saveNewPaperSheet = function () {
-                        dataservice.saveNewPaperSheet(selectedPaperSheet().convertToServerData(), {
+                        dataservice.saveNewPaperSheet(selectedPaperSheet().convertToServerData(orgCulture()), {
                             success: function (data) {
                                 selectedPaperSheet().paperSizeId(data.PaperSizeId);
                                 paperSheets.splice(0, 0, selectedPaperSheet());
@@ -135,7 +139,8 @@ define("paperSheet/paperSheet.viewModel",
                     },
                     //Save EDIT Paper Sheets
                     saveEdittedPaperSheet = function () {
-                        dataservice.savePaperSheet(selectedPaperSheet().convertToServerData(), {
+                        debugger;
+                        dataservice.savePaperSheet(selectedPaperSheet().convertToServerData(orgCulture()), {
                             success: function (data) {
                                 var newItem = model.paperSheetServertoClientMapper(data);
                                 var newObjtodelete = paperSheets.find(function (temp) {
@@ -147,7 +152,7 @@ define("paperSheet/paperSheet.viewModel",
                                 toastr.success("Successfully save.");
                             },
                             error: function (exceptionMessage, exceptionType) {
-                                if (exceptionType === ist.exceptionType.CaresGeneralException) {
+                                if (exceptionType === ist.exceptionType.MPCGeneralException) {
                                     toastr.error(exceptionMessage);
                                 } else {
                                     toastr.error("Failed to save.");
@@ -182,11 +187,13 @@ define("paperSheet/paperSheet.viewModel",
                         dataservice.getBaseData({
                             success: function (data) {
                                 if (data) {
-                                    lengthUnit(data);
+                                    lengthUnit(data.LengthUnit);
+                                    orgCulture(data.Culture);
+                                    getPaperSheets();
                                 }
                             },
                             error: function (response) {
-
+                                getPaperSheets();
                             }
                         });
                     },
@@ -210,7 +217,6 @@ define("paperSheet/paperSheet.viewModel",
                     ko.applyBindings(view.viewModel, view.bindingRoot);
                     pager(pagination.Pagination({ PageSize: 10 }, paperSheets, getPaperSheets));
                     getBaseData();
-                    getPaperSheets();
                 };
 
                 return {
@@ -241,6 +247,7 @@ define("paperSheet/paperSheet.viewModel",
                     getBaseData: getBaseData,
                     onClosePaperSheet: onClosePaperSheet,
                     initialize: initialize,
+                    orgCulture: orgCulture
                 };
             })()
         };

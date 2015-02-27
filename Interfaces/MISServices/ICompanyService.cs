@@ -70,11 +70,16 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         IEnumerable<CompanyContactVariable> GetContactVariableByContactId(long contactId);
 
+        /// <summary>
+        /// Get Field Varibale By Company ID
+        /// </summary>
+        IEnumerable<FieldVariable> GetFieldVariableByCompanyId(long companyId);
+
         #region exportOrganisation
 
         void ExportOrganisation(long OrganisationID);
 
-        void ImportOrganisation();
+        void ImportOrganisation(long OrganisationId, string ZipPath);
         #endregion
     }
 }

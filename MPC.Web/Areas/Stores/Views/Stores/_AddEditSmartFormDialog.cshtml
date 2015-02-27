@@ -1,0 +1,185 @@
+﻿
+
+<div class="modal fade" id="smartFormDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; max-height: 700px; overflow-y: auto;">
+    <div style="width:1150px;" class="modal-dialog" data-bind="with:$root.selectedSmartForm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Smart Form Detail</h4>
+            </div>
+            <div class="col-lg-12">
+                <div class="col-lg-12 clearfix">
+                    <div class="col-lg-8">
+                        <div class="smartFormArea">
+                            <div class="col-lg-12 form-horizontal outerDiv-Padding">
+                                <div class="form-group">
+                                    <div class="col-lg-5 text-right">
+                                        <div class="bs-example-tooltips tooltip-float-width">
+                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Smart Form Name" data-original-title="" title="">
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </a>
+                                        </div>
+                                        <label for="name" class="control-label text-right tooltip-float">
+                                            Smart Form Name
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <input type="text" class="form-control" id="name" data-bind="value:name, validationTooltip: name">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-lg-5 text-right">
+                                        <div class="bs-example-tooltips tooltip-float-width">
+                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Heading" data-original-title="" title="">
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </a>
+                                        </div>
+                                        <label for="heading" class="control-label text-right tooltip-float">
+                                            Heading
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <input type="text" class="form-control" id="heading" data-bind="value:heading">
+                                    </div>
+                                </div>
+                                <hr />
+                            </div>
+                            <div class="col-lg-12 form-horizontal">
+                                <div data-bind="drop: $root.droppedSmartFormArea" style="min-height: 100px;">
+                                    <ul style="list-style: none;padding: 15px;cursor:move;" data-bind="sortable: { template: 'smartFormDetailItemTemplate', data: smartFormDetails }"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 smartFormVariableArea">
+                        <div class="dd-item dd-item-list" data-id="15">
+                            <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                            <div class="dd-handle">
+                                <span data-bind="text:$root.groupCaption,drag: $root.draggedGroupCaption" style="cursor: move;z-index: 10000"></span>
+                                <div class="nested-links">
+                                    <a href="#" class="nested-link"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dd-item dd-item-list" data-id="15">
+                            <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                            <div class="dd-handle">
+                                <span data-bind="text:$root.lineSeperator,drag: $root.draggedLineSeperator" style="cursor: move;z-index: 10000"></span>
+                                <div class="nested-links">
+                                    <a href="#" class="nested-link"></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive smartFormVariableTableArea">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th><span>System Variables</span></th>
+                                        <th><span>Variable Scope</span></th>
+                                        <th><span>Type</span></th>
+                                        <th><span>Tag</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- ko template: { name: 'fieldVariableForSmartFormItemTemplate', foreach: $root.fieldVariablesForSmartForm }-->
+                                    <!-- /ko -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <br />
+                <hr />
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveSmartForm">Save</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@* Wizard Popup ends here*@
+
+<script id="fieldVariableForSmartFormItemTemplate" type="text/html">
+    <tr data-bind="drag: $root.draggedVariableField" style="cursor: move;z-index: 10000" title="Drag variable to add to the left panel">
+        <td data-bind="text:variableName"></td>
+        <td data-bind="text:scopeName"></td>
+        <td data-bind="text:typeName"></td>
+        <td data-bind="text:variableTag"></td>
+    </tr>
+</script>
+
+
+
+<script id="smartFormDetailItemTemplate" type="text/html">
+    <!-- ko if: objectType()===1 -->
+    <li style="margin-top: 10px;" class="col-lg-12">
+        <div class="form-group ">
+            <div class="col-lg-11">
+                <div><input type="text" class="form-control" data-bind="value:captionValue" /></div>
+            </div>
+            <div class="col-lg-1">
+                <a href="#" class="table-link danger" data-bind="click : $root.deleteSmartFormItem" style="float: right">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </li>
+    <!-- /ko -->
+    <!-- ko if: (objectType()===2 ||objectType()===3)-->
+    <li style="margin-top: 10px;" class="col-lg-12">
+        <div class="form-group ">
+            <div class="col-lg-11">
+                <div data-bind="html:html"></div>
+            </div>
+            <div class="col-lg-1">
+                <a href="#" class="table-link danger" data-bind="click : $root.deleteSmartFormItem" style="float: right">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </li>
+    <!-- /ko -->
+</script>
+
+<script id="smartFormDetailItemTemplate22" type="text/html">
+
+    <li style="margin-top: 10px;">
+        <div class="form-group ">
+            <div class="col-lg-11">
+                <div><input type="text" class="form-control" data-bind="value:captionValue" /></div>
+            </div>
+            <div class="col-lg-1">
+                <a href="#" class="table-link danger" data-bind="click : $root.deleteSmartFormItem" style="float: right">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </li>
+
+
+</script>
+
+<script id="smartFormDetailItemTemplate1" type="text/html">
+    <li style="margin-top: 10px;">
+        <div data-bind="html:html"></div>
+        <div><input type="button" data-bind="click:$root.deleteSmartFormItem" value="Remove" /></div>
+    </li>
+</script>
+
+

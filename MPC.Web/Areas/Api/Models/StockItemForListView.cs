@@ -68,6 +68,11 @@ namespace MPC.MIS.Areas.Api.Models
         public int? PerQtyType { get; set; }
 
         /// <summary>
+        /// Organisation region
+        /// </summary>
+        public string Region { get; set; }
+
+        /// <summary>
         /// 
         /// </summary>
         public string PerQtyWithUnitName

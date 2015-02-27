@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
+using System.Web;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
@@ -101,7 +102,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        CanUserEditProfile = source.CanUserEditProfile,
                        canPlaceDirectOrder = source.canPlaceDirectOrder,
                        OrganisationId = source.OrganisationId,
-                       FileName = source.FileName
+                       FileName = source.FileName,
+                       CompanyContactVariables = source.CompanyContactVariables != null ? source.CompanyContactVariables.Select(ccv => ccv.CreateFrom()).ToList() : null
+
                        //CompanyTerritory = source.BussinessAddress.Territory.CreateFrom(),
                        //Address = source.BussinessAddress != null? source.BussinessAddress.CreateFrom() : null,
 
@@ -117,17 +120,21 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             byte[] bytes = null;
             string fileName = string.Empty;
-            if (source.image != null && File.Exists(source.image))
+            if (!string.IsNullOrEmpty(source.image))
             {
-                fileName = source.image.IndexOf('_') > 0 ? source.image.Split('_')[1] : string.Empty;
-                bytes = source.image != null ? File.ReadAllBytes(source.image) : null;
+                string path =
+                    HttpContext.Current.Server.MapPath("~/" + source.image);
+                if (File.Exists(path))
+                {
+                    bytes = File.ReadAllBytes(path);
+                }
             }
             return new CompanyContact
                    {
                        ContactId = source.ContactId,
                        AddressId = source.AddressId,
                        CompanyId = source.CompanyId,
-                       CompanyName = source.Company != null ? source.Company.Name: "",
+                       CompanyName = source.Company != null ? source.Company.Name : "",
                        FirstName = source.FirstName,
                        MiddleName = source.MiddleName,
                        LastName = source.LastName,
@@ -209,7 +216,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        canPlaceDirectOrder = source.canPlaceDirectOrder,
                        OrganisationId = source.OrganisationId,
                        RoleName = source.CompanyContactRole != null ? source.CompanyContactRole.ContactRoleName : string.Empty,
-                       FileName = fileName
+                       FileName = fileName,
+                  
                    };
         }
 
@@ -285,10 +293,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 CompanyContactRoles = result.CompanyContactRoles != null ? result.CompanyContactRoles.Select(x => x.CreateFrom()) : null,
                 RegistrationQuestions = result.RegistrationQuestions != null ? result.RegistrationQuestions.Select(x => x.CreateFromDropDown()) : null,
-                Addresses = result.Addresses!=null ? result.Addresses.Select(address=> address.CreateFrom()):null,
-                CompanyTerritories = result.CompanyTerritories!=null ? result.CompanyTerritories.Select(territory=> territory.CreateFrom()):null,
-                StateDropDowns = result.States!=null ? result.States.Select(state=> state.CreateFromDropDown()):null,
-            }; 
+                Addresses = result.Addresses != null ? result.Addresses.Select(address => address.CreateFrom()) : null,
+                CompanyTerritories = result.CompanyTerritories != null ? result.CompanyTerritories.Select(territory => territory.CreateFrom()) : null,
+                StateDropDowns = result.States != null ? result.States.Select(state => state.CreateFromDropDown()) : null,
+            };
         }
     }
 }

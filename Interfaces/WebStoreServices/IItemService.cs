@@ -14,7 +14,7 @@ namespace MPC.Interfaces.WebStoreServices
     {
         List<ItemStockOption> GetStockList(long ItemId, long CompanyId);
         Item GetItemById(long ItemId);
-
+        Item GetItemByIdDesigner(long ItemId);
         Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID);
         List<ItemPriceMatrix> GetPriceMatrix(List<ItemPriceMatrix> tblRefItemsPriceMatrix, bool IsRanged, bool IsUserLoggedIn, long CompanyId);
 
@@ -87,7 +87,7 @@ namespace MPC.Interfaces.WebStoreServices
         List<ItemAttachment> GetArtwork(long ItemId);
 
         Item GetExisitingClonedItemInOrder(long OrderId, long ReferenceItemId);
-        bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, int CountOfUploads = 0);
+        bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, int CountOfUploads = 0, string QuestionQueue = "");
 
         FavoriteDesign GetFavContactDesign(long templateID, long contactID);
         /// <summary>
@@ -146,5 +146,13 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="CompanyID"></param>
         /// <returns></returns>
         List<SectionCostcentre> GetClonedItemAddOnCostCentres(long ItemId);
+
+        /// <summary>
+        /// get cart items count 
+        /// </summary>
+        /// <returns></returns>
+        long GetCartItemsCount(long ContactId, long TemporaryCustomerId);
+
+        List<CmsSkinPageWidget> GetStoreWidgets();
     }
 }

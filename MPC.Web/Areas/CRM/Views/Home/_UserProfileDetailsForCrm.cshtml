@@ -17,13 +17,14 @@
                         <div class="main-box clearfix" id="tabsHeader">
                             <div class="tabs-wrapper profile-tabs">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#tab-UserProfileinfoCrm" data-toggle="tab">Profile</a></li>
-                                    <li><a href="#tab-UserWorkFlowCrm" data-toggle="tab">Workflow Settings</a></li>
-                                    <li><a href="#tab-UserAddressInfoCrm" data-toggle="tab">Address Info</a></li>
-                                    <li><a href="#tab-UserPurseCrm" data-toggle="tab">User Purse </a></li>
+                                    <li class="active"><a href="#tab-UserProfileinfo" data-toggle="tab">Profile</a></li>
+                                    <li><a href="#tab-UserWorkFlow" data-toggle="tab">Workflow Settings</a></li>
+                                    <li><a href="#tab-UserAddressInfo" data-toggle="tab">Address Info</a></li>
+                                    <li><a href="#tab-UserPurse" data-toggle="tab">User Purse </a></li>
+                                    <li><a data-bind="click: $root.getCompanyContactVariables" href="#tab-ModifyVariable" data-toggle="tab">Modify Variable </a></li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div class="tab-pane fade in active" id="tab-UserProfileinfoCrm">
+                                    <div class="tab-pane fade in active" id="tab-UserProfileinfo">
                                         <div class="col-lg-12">
                                             <div class=" form-horizontal clearfix">
                                                 <div class="col-lg-6">
@@ -123,6 +124,7 @@
                                                             <input type="text" class="form-control" id="txtUFax" data-bind="value:fAX">
                                                         </div>
                                                     </div>
+                                                    <!--ko if: $root.selectedStore().type() != 0-->
                                                     <div class="form-group ">
                                                         <div class="col-lg-5 text-right">
                                                             <div class="bs-example-tooltips tooltip-float-width">
@@ -136,6 +138,7 @@
                                                             <select class="form-control col-lg-4" data-bind="options:$root.roles,optionsText:'roleName',optionsValue:'roleId', value: contactRoleId"></select>
                                                         </div>
                                                     </div>
+                                                    <!--/ko-->
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
@@ -170,7 +173,7 @@
                                                             <label for="txtPassword" class="control-label text-right tooltip-float">Password</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="password" class="form-control" id="txtPassword" data-bind="value: password">
+                                                            <input type="password" class="form-control" id="txtPassword" data-bind="value: password, validationTooltip: password">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -184,7 +187,7 @@
                                                             <label for="txtCPassword" class="control-label text-right tooltip-float">Confirm Password</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="password" class="form-control" id="txtCPassword">
+                                                            <input type="password" class="form-control" id="txtCPassword" data-bind="value: confirmPassword, validationTooltip: confirmPassword">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -664,7 +667,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="tab-UserWorkFlowCrm">
+                                    <div class="tab-pane fade" id="tab-UserWorkFlow">
                                         <div class="col-lg-12 form-horizontal ">
                                             <div class="form-group ">
                                                 <div class="col-lg-5 text-right">
@@ -898,7 +901,7 @@
 
 
                                     </div>
-                                    <div class="tab-pane fade" id="tab-UserAddressInfoCrm">
+                                    <div class="tab-pane fade" id="tab-UserAddressInfo">
                                         <div class="col-lg-12">
                                             <div class=" form-horizontal clearfix">
                                                 <div class="col-lg-6">
@@ -1045,8 +1048,16 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="tab-UserPurseCrm">
+                                    <div class="tab-pane fade" id="tab-UserPurse">
                                         <div class="col-lg-12">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="tab-ModifyVariable">
+                                        <div class="col-lg-12">
+                                            <div class=" form-horizontal clearfix">
+                                                <!-- ko template: { name: 'companyContactVariableTemplate' , foreach: companyContactVariables } -->
+                                                <!-- /ko -->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

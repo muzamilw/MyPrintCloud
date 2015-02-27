@@ -55,6 +55,13 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to Get Cmpany Contact Varibable By Company Id
+                    amplify.request.define('getCmpanyContactVaribableByCompanyId', 'ajax', {
+                        url: ist.siteUrl + '/Api/GetCompanyContactVariableByCompanyId',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    
                     // Define request to get Field Variables By CompanyId
                     amplify.request.define('getFieldVariablesByCompanyId', 'ajax', {
                         url: ist.siteUrl + '/Api/FieldVariable',
@@ -131,6 +138,14 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to save Smart Form
+                    amplify.request.define('saveSmartForm', 'ajax', {
+                        url: ist.siteUrl + '/Api/SmartForm',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
+                    
 
                     // Define request to Get Secondry Page By Id
                     amplify.request.define('getSecondryPageById', 'ajax', {
@@ -249,6 +264,17 @@
                     data: params
                 });
             },
+            //Get Cmpany Contact Varibable By Company Id
+            getCmpanyContactVaribableByCompanyId = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getCmpanyContactVaribableByCompanyId',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            
             //Get Field Variable Detail By Id
             getFieldVariableDetailById = function (params, callbacks) {
                 initialize();
@@ -493,6 +519,17 @@
                 data: param
             });
         },
+         // save Smart Form
+        saveSmartForm = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'saveSmartForm',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
+        
         // save Store
         saveStore = function (param, callbacks) {
             initialize();
@@ -535,6 +572,8 @@
             saveFieldVariable: saveFieldVariable,
             getFieldVariableDetailById: getFieldVariableDetailById,
             getCmpanyContactVaribableByContactId: getCmpanyContactVaribableByContactId,
+            getCmpanyContactVaribableByCompanyId: getCmpanyContactVaribableByCompanyId,
+            saveSmartForm: saveSmartForm,
         };
     })();
 

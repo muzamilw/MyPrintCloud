@@ -231,7 +231,7 @@ function DesignNow(callFrom,EditType,ItemID,TemplateID)
 var CcQueueItems = null;
 var idsToValidate = "";
 function ShowCostCentrePopup(CostCentreQueueItems, CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Mode, Currency, ItemPrice) {
-   
+    console.log(CostCentreQueueItems);
     CcQueueItems = CostCentreQueueItems;
     var innerHtml = "";
     var Heading = "Please enter the following details of Cost Centre";
@@ -246,7 +246,7 @@ function ShowCostCentrePopup(CostCentreQueueItems, CostCentreId, ClonedItemId, S
                     idsToValidate = idsToValidate + ',' + 'txtBox' + CostCentreQueueItems[i].ID;
                 }
 
-                innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>' + CostCentreQueueItems[i].VisualQuestion + '</label></div><div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id=txtBox' + CostCentreQueueItems[i].ID + ' data-id=' + CostCentreQueueItems[i].ID + ' /></div><br/><div class="clearBoth"></div>';
+                innerHtml = innerHtml +'<div class="cost-centre-left-container"><label>' + CostCentreQueueItems[i].VisualQuestion + '</label></div><div class="cost-centre-right-container"><input type="text" class="cost-centre-dropdowns CostCentreAnswersQueue" id=txtBox' + CostCentreQueueItems[i].ID + ' data-id=' + CostCentreQueueItems[i].ID + ' /></div><br/><div class="clearBoth"></div>';
             }
 
             if (CostCentreQueueItems[i].ItemType == 3) { // drop down
@@ -260,6 +260,14 @@ function ShowCostCentrePopup(CostCentreQueueItems, CostCentreId, ClonedItemId, S
                     + CostCentreQueueItems[i].VisualQuestion +
                     '</label></div><div class="cost-centre-right-container"><select id=dropdown' + CostCentreQueueItems[i].ID + ' class="cost-centre-dropdowns CostCentreAnswersQueue">'
                     + OptionHtml + '</select></div><br/><div class="clearBoth"></div>';
+            }
+            if (CostCentreQueueItems[i].ItemType == 2) { // radio
+
+
+                innerHtml = innerHtml + '<div class="cost-centre-left-container"><label>'
+                    + CostCentreQueueItems[i].VisualQuestion +
+                    '</label></div><div class="cost-centre-right-container"><input type="radio" checked="checked" name="Group2" id=radioNo' + CostCentreQueueItems[i].ID + ' class="cost-centre-radios CostCentreAnswersQueue" /><label for=radioNo' + CostCentreQueueItems[i].ID + ' >No</label><input type="radio" name="Group2" id=radioYes' + CostCentreQueueItems[i].ID + ' class="cost-centre-radios CostCentreAnswersQueue" /><label for=radioYes' + CostCentreQueueItems[i].ID + ' >Yes</label>' +
+                    '</div><br/><div class="clearBoth"></div>';
             }
             if (CostCentreQueueItems[i].ItemType == 4) { // formula matrix
 
@@ -359,7 +367,6 @@ function ShowFormulaMatrix(Rows, Columns, matrixIndex) {
     var RowsHtml = "";
     var trHtml = "<tr>";
 
-  
     for (var row = 0; row < Rows; row++) {
         for (var col = 0; col < Columns; col++) {
           
@@ -416,7 +423,7 @@ function SetMatrixAnswer(Answer, MatrixId)
 }
 
 function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Currency, ItemPrice) {
-
+    alert(idsToValidate);
     var arrayOfIds = idsToValidate.split(",");
     
     var isDisplyEmptyFieldsMesg = 0;
@@ -531,7 +538,7 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
                 if (updatedAddOns != null) {
 
                     for (var i = 0; i < $(updatedAddOns).length; i++) {
-                        if ($(updatedAddOns)[i].CostCenterId == 335) {
+                        if ($(updatedAddOns)[i].CostCenterId == CostCentreId) {
                             $(updatedAddOns)[i].ActualPrice = response;
                             $(updatedAddOns)[i].Description = desriptionOfCostCentre;
                             $(updatedAddOns)[i].CostCentreJasonData = jsonObjects;
@@ -552,7 +559,6 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
                             }
                             totalVal = parseFloat(totalVal) + parseFloat(actualP);
                         }
-                        console.log($(updatedAddOns)[i]);
                     }
                     displayTotalPrice(ItemPrice, totalVal);
                     $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + Currency + response + '</label>' + '<a onclick="PromptForValues(' + CostCentreId + ',' + SelectedCostCentreCheckBoxId + ', 1);" >Modify</a> ');
@@ -565,8 +571,8 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
         var returnText = $.ajax(options).responseText;
         
     }
+    idsToValidate = "";
 
-    
 }
 function HideLoader() {
 
@@ -595,6 +601,31 @@ function ShowOrderingPolicyPopUp(title, Tvalue) {
 
     document.getElementById("innerLayer").style.width = "500px";
     document.getElementById("innerLayer").style.height = "170px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+}
+function ViewOrderPopUp(Type, panelHtml) {
+
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + panelHtml + '</div></div>';
+
+    var bws = getBrowserHeight();
+
+    var shadow = document.getElementById("innerLayer");
+
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 730) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+
+    document.getElementById("innerLayer").style.left = left + "px";
+    document.getElementById("innerLayer").style.top = "0px";
+    //730
+    document.getElementById("innerLayer").style.width = "883px";
     document.getElementById("innerLayer").style.position = "fixed";
     document.getElementById("innerLayer").style.zIndex = "9999";
 

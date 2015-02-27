@@ -13,6 +13,6 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         /// <param name="attachmentList"></param>
         List<ItemAttachment> SaveArtworkAttachments(List<ItemAttachment> attachmentList);
-
+        List<ItemAttachment> GetItemAttactchments(long itemID);
     }
 }

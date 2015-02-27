@@ -42,7 +42,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 VariableId = source.VariableId,
                 CompanyId = source.CompanyId,
                 InputMask = source.InputMask,
-                FakeId = source.FakeId,
+                FakeIdVariableId = source.FakeIdVariableId,
                 VariableName = source.VariableName != null ? source.VariableName.Trim() : null,
                 DefaultValue = source.DefaultValue,
                 Scope = source.Scope,
@@ -68,6 +68,24 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 TypeName = source.VariableType == 1 ? "Dropdown" : "Input",
             };
         }
+         /// <summary>
+        /// Create From Web Model
+        /// </summary>
+        public static FieldVariableForSmartForm CreateFromForSmartForm(this DomainModels.FieldVariable source)
+        {
+            return new FieldVariableForSmartForm
+            {
+                VariableId = source.VariableId,
+                VariableName = source.VariableName,
+                ScopeName = ScopeName(source.Scope),
+                VariableTag = source.VariableTag,
+                Type = source.VariableType,
+                DefaultValue = source.DefaultValue,
+                VariableTitle = source.VariableTitle,
+                TypeName = source.VariableType == 1 ? "Dropdown" : "Input",
+            };
+        }
+        
         /// <summary>
         /// Create From Web Model
         /// </summary>
@@ -80,7 +98,23 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             };
         }
 
+        /// <summary>
+        /// Create From Domain Model
+        /// </summary>
+        public static CompanyContactVariable CreateFromFieldVariable(this DomainModels.FieldVariable source)
+        {
+            return new CompanyContactVariable
+            {
 
+                ContactVariableId = 0,
+                ContactId = 0,
+                VariableId = source.VariableId,
+                Value = source.DefaultValue,
+                Type = source.VariableType,
+                Title = source.VariableTitle,
+                VariableOptions = source.VariableOptions != null ? source.VariableOptions.Select(vo => vo.CreateFrom()).ToList() : null
+            };
+        }
         #endregion
 
         #region Private

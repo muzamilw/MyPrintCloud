@@ -1,9 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Windows.Forms;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
@@ -12,34 +14,55 @@ namespace MPC.Implementation.MISServices
 {
     public class CompanyContactService : ICompanyContactService
     {
-         private readonly ICompanyContactRepository companyContactRepository;
+        private readonly ICompanyContactRepository companyContactRepository;
         private readonly ICompanyTerritoryRepository companyTerritoryRepository;
         private readonly ICompanyContactRoleRepository companyContactRoleRepository;
         private readonly IRegistrationQuestionRepository registrationQuestionRepository;
         private readonly IAddressRepository addressRepository;
         private readonly IStateRepository stateRepository;
-         private CompanyContact Create(CompanyContact companyContact)
-         {
-             UpdateDefaultBehaviourOfContactCompany(companyContact);
-             companyContactRepository.Add(companyContact);
-             companyContactRepository.SaveChanges();
-             companyContact.image = SaveCompanyContactProfileImage(companyContact);
-             companyContactRepository.Update(companyContact);
-             companyContactRepository.SaveChanges();
-             return companyContact;
-         }
-         private CompanyContact Update(CompanyContact companyContact)
-         {
-             UpdateDefaultBehaviourOfContactCompany(companyContact);
-             companyContact.image = SaveCompanyContactProfileImage(companyContact);
-             companyContactRepository.Update(companyContact);
-             companyContactRepository.SaveChanges();
-             return companyContact;
-         }
+        private CompanyContact Create(CompanyContact companyContact)
+        {
+            UpdateDefaultBehaviourOfContactCompany(companyContact);
+            companyContactRepository.Add(companyContact);
+            companyContactRepository.SaveChanges();
+            companyContact.image = SaveCompanyContactProfileImage(companyContact);
+            companyContactRepository.Update(companyContact);
+            companyContactRepository.SaveChanges();
+            return companyContact;
+        }
+        private CompanyContact Update(CompanyContact companyContact)
+        {
+            UpdateDefaultBehaviourOfContactCompany(companyContact);
+            companyContact.image = SaveCompanyContactProfileImage(companyContact);
+            companyContactRepository.Update(companyContact);
+            companyContactRepository.SaveChanges();
+            if (companyContact.CompanyContactVariables != null)
+            {
+                updateCompanyContactvariable(companyContact);
+            }
+
+
+            return companyContact;
+        }
+
+        private void updateCompanyContactvariable(CompanyContact companyContact)
+        {
+            CompanyContact companyContactDbVesion = companyContactRepository.Find(companyContact.ContactId);
+            foreach (var companyContactVariable in companyContact.CompanyContactVariables)
+            {
+                CompanyContactVariable companyContactVariableDbItem = companyContactDbVesion.CompanyContactVariables.FirstOrDefault(
+                    ccv => ccv.ContactVariableId == companyContactVariable.ContactVariableId);
+                if (companyContactVariableDbItem != null)
+                {
+                    companyContactVariableDbItem.Value = companyContactVariable.Value;
+                }
+            }
+            companyContactRepository.SaveChanges();
+        }
 
         private void UpdateDefaultBehaviourOfContactCompany(CompanyContact companyContact)
         {
-            if (companyContact.IsDefaultContact == 1 )
+            if (companyContact.IsDefaultContact == 1)
             {
                 var allCompanyContactsOfCompany =
                     companyContactRepository.GetCompanyContactsByCompanyId(companyContact.CompanyId);
@@ -55,15 +78,15 @@ namespace MPC.Implementation.MISServices
         }
         #region Constructor
 
-         public CompanyContactService(ICompanyContactRepository companyContactRepository, ICompanyTerritoryRepository companyTerritoryRepository, ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository, IAddressRepository addressRepository, IStateRepository stateRepository)
-         {
-             this.companyContactRepository = companyContactRepository;
-             this.companyTerritoryRepository = companyTerritoryRepository;
-             this.companyContactRoleRepository = companyContactRoleRepository;
-             this.registrationQuestionRepository = registrationQuestionRepository;
-             this.addressRepository = addressRepository;
-             this.stateRepository = stateRepository;
-         }
+        public CompanyContactService(ICompanyContactRepository companyContactRepository, ICompanyTerritoryRepository companyTerritoryRepository, ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository, IAddressRepository addressRepository, IStateRepository stateRepository)
+        {
+            this.companyContactRepository = companyContactRepository;
+            this.companyTerritoryRepository = companyTerritoryRepository;
+            this.companyContactRoleRepository = companyContactRoleRepository;
+            this.registrationQuestionRepository = registrationQuestionRepository;
+            this.addressRepository = addressRepository;
+            this.stateRepository = stateRepository;
+        }
 
         #endregion
 
@@ -77,7 +100,7 @@ namespace MPC.Implementation.MISServices
         public bool Delete(long companyContactId)
         {
             var dbCompanyContact = companyContactRepository.GetContactByID(companyContactId);
-            if (dbCompanyContact != null )
+            if (dbCompanyContact != null)
             {
                 companyContactRepository.Delete(dbCompanyContact);
                 companyContactRepository.SaveChanges();
@@ -120,7 +143,7 @@ namespace MPC.Implementation.MISServices
                 CompanyContactRoles = companyContactRoleRepository.GetAll(),
                 RegistrationQuestions = registrationQuestionRepository.GetAll(),
                 States = stateRepository.GetAll()
-            };   
+            };
         }
 
         /// <summary>
@@ -132,7 +155,7 @@ namespace MPC.Implementation.MISServices
             {
                 CompanyTerritories = companyTerritoryRepository.GetAllCompanyTerritories(companyId),
                 Addresses = addressRepository.GetAllAddressByStoreId(companyId),
-            }; 
+            };
         }
 
         /// <summary>
@@ -152,8 +175,12 @@ namespace MPC.Implementation.MISServices
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string savePath = directoryPath + "\\" + companyContact.ContactId + "_profile" + ".png";
+                string savePath =
+                    directoryPath + "\\" +
+                    companyContact.ContactId + "_" + StringHelper.SimplifyString(companyContact.FirstName) + "_profile.png";
                 File.WriteAllBytes(savePath, data);
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
                 return savePath;
             }
             return null;

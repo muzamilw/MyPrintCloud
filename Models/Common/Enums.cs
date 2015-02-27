@@ -11,6 +11,8 @@ namespace MPC.Models.Common
         Contact = 2,
         Address = 3,
         Territory = 4,
+        RealEstate = 5,
+        RealEstateImages = 6,
     }
 
     public enum StoreMode : int
@@ -19,6 +21,13 @@ namespace MPC.Models.Common
         Corp = 3,
         NotSet = 99
 
+    }
+    public enum CreditCardTypeType
+    {
+        Visa = 1,
+        MasterCard = 2,
+        DinersClub = 3,
+        Amex = 4
     }
     public enum CompanyTypes
     {
@@ -122,13 +131,25 @@ namespace MPC.Models.Common
         InventoryItem = 5,
         RealEstate = 6
     }
-
+    public enum PaymentMethods
+    {
+        PayPal = 1,
+        Cash = 99,
+        authorizeNET = 2,
+        ANZ = 3,
+        StGeorge = 5,
+        NAB = 6
+    }
     public enum ItemStatuses
     {
         ShoppingCart = 3,
         NotProgressedToJob = 17
     }
-
+    public enum PaymentRequestStatus
+    {
+        Pending = 1,
+        Successfull = 2
+    }
     public enum OrderStatus
     {
 

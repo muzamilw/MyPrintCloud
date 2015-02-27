@@ -9,7 +9,7 @@ using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Stores.Controllers
 {
-    //[SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+    [SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewStore })]
     public class StoresController : Controller
     {
         #region Private
@@ -32,7 +32,7 @@ namespace MPC.MIS.Areas.Stores.Controllers
         }
         #endregion
         // GET: Stores/Stores
-       // [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+       [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public ActionResult Index()
         {
             return View();

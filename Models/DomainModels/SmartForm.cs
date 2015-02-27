@@ -9,6 +9,7 @@ namespace MPC.Models.DomainModels
     {
         public long SmartFormId { get; set; }
         public string Name { get; set; }
+        public string Heading { get; set; }
         public long? CompanyId { get; set; }
         public long? OrganisationId { get; set; }
 

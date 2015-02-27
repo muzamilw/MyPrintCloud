@@ -17,7 +17,8 @@ namespace MPC.Webstore.Controllers
         private readonly IWebstoreClaimsHelperService _myClaimHelper;
         private readonly IStatusService _StatusService;
         private readonly IOrderService _orderService;
-       
+        
+
         public ProductOrderHistoryController(IWebstoreClaimsHelperService _myClaimHelper, IStatusService _StatusService, IOrderService _orderService)
         {
             this._myClaimHelper = _myClaimHelper;
@@ -49,9 +50,8 @@ namespace MPC.Webstore.Controllers
                 BindGrid(0, _myClaimHelper.loginContactID(),SearchOrder);
             }
             return SearchOrder;
-
         }
-        public void BindGrid(int statusID, long contactID, SearchOrderViewModel model)
+        public void BindGrid(long statusID, long contactID, SearchOrderViewModel model)
         {
             List<Order> ordersList = null;
             
@@ -67,7 +67,6 @@ namespace MPC.Webstore.Controllers
             {
                 ordersList = _orderService.GetOrdersListByContactID(contactID, status, model.FromData, model.ToDate, model.poSearch, 0, 0);
             }
-
             if (ordersList == null || ordersList.Count == 0)
             {
             }
@@ -107,11 +106,117 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index(SearchOrderViewModel model)
         {
-
             BindGrid(model.SelectedOrder, _myClaimHelper.loginContactID(), model);
-
+            List<Status> statusList = _StatusService.GetStatusListByStatusTypeID(2);
+            model.DDOderStatus = new SelectList(statusList, "StatusId", "StatusName");
             return View("PartialViews/ProductOrderHistory", model);
         }
-        
+        //[HttpGet]
+        //public ActionResult OrderResult(long OrderId)
+        //{
+        //  //  _orderService.GetShopCartOrderAndDetails();
+        //  //  ShoppingCart cart = LoadShoppingCart(OrderId);
+        //    Order order = _orderService.GetOrderAndDetails(OrderId);
+           
+        //    CalculateProductDescription(order);
+        //    ViewBag.order = order;
+        //    ViewBag.BillingAddress = _orderService.GetBillingAddress(order.BillingAddressID);
+        //    ViewBag.DeliveryAddress = _orderService.GetdeliveryAddress(order.DeliveryAddressID);
+        //    //if (ViewBag.order && ViewBag.BillingAddress && ViewBag.DeliveryAddress != null)
+        //   // {
+                
+        //   // }
+        //        return Json("");
+        //       // return PartialView("~/Views/Shared/PartialViews/ViewOrder");
+        //}
+        [HttpPost]
+        public JsonResult OrderResult(long OrderId)
+        {
+
+            long UpdatedOrder = _orderService.ReOrder(OrderId, _myClaimHelper.loginContactID(), UserCookieManager.TaxRate, StoreMode.Retail, true, 0);
+
+            UserCookieManager.OrderId = UpdatedOrder;
+
+            return Json(true, JsonRequestBehavior.DenyGet);
+        }
+       
+        //public   ShowPartialView(long OrderId)
+        //{
+        //    Order order = _orderService.GetOrderAndDetails(OrderId);
+        //    CalculateProductDescription(order);
+        //    ViewBag.order = order;
+        //    ViewBag.BillingAddress = _orderService.GetBillingAddress(order.BillingAddressID);
+        //    ViewBag.DeliveryAddress = _orderService.GetdeliveryAddress(order.DeliveryAddressID);
+        //}
+        private ShoppingCart LoadShoppingCart(long orderID)
+        {
+            ShoppingCart shopCart = null;
+
+            double _deliveryCost = 0;
+            double _deliveryCostTaxVal = 0;
+            shopCart = _orderService.GetShopCartOrderAndDetails(orderID, OrderStatus.ShoppingCart);
+            if (shopCart != null)
+            {
+                //Model.SelectedItemsAddonsList = shopCart.ItemsSelectedAddonsList;
+                ////ViewData["selectedItemsAddonsList"] = _selectedItemsAddonsList;
+                ////global values for all items
+                //CostCentre deliveryCostCenter = null;
+                //int deliverCostCenterID;
+                //_deliveryCost = shopCart.DeliveryCost;
+                ////  ViewBag.DeliveryCost = shopCart.DeliveryCost;
+                //Model.DeliveryCost = shopCart.DeliveryCost;
+                //_deliveryCostTaxVal = shopCart.DeliveryTaxValue;
+                ////  ViewBag.DeliveryCostTaxVal = _deliveryCostTaxVal;
+                //Model.DeliveryCostTaxVal = shopCart.DeliveryTaxValue;
+                //BillingID = shopCart.BillingAddressID;
+                //ShippingID = shopCart.ShippingAddressID;
+
+            }
+            return shopCart;
+        }
+
+        private void CalculateProductDescription(Order order,out double GrandTotal,out double Subtotal,out double vat)
+        {
+
+            double Delevery = 0;
+            double DeliveryTaxValue = 0;
+            double TotalVat = 0;
+            double calculate = 0;
+             Subtotal = 0;
+             vat = 0;
+             GrandTotal = 0;
+
+            {
+                //List<tbl_items> items = context.tbl_items.Where(i => i.EstimateID == OrderID).ToList();
+
+                foreach (var item in order.OrderDetails.CartItemsList)
+                {
+
+                    if (item.ItemType == (int)ItemTypes.Delivery)
+                    {
+                        Delevery = Convert.ToDouble(item.Qty1NetTotal);
+                        DeliveryTaxValue = Convert.ToDouble(item.Qty1GrossTotal - item.Qty1NetTotal);
+                    }
+                    else
+                    {
+
+                        Subtotal = Subtotal + Convert.ToDouble(item.Qty1NetTotal);
+                        TotalVat = Convert.ToDouble(item.Qty1GrossTotal) - Convert.ToDouble(item.Qty1NetTotal);
+                        calculate = calculate + TotalVat;
+                    }
+
+                }
+
+                GrandTotal = Subtotal + calculate + DeliveryTaxValue + Delevery;
+                vat = calculate;
+               // ViewBag.GrandTotal = GrandTotal;
+               // ViewBag.SubTotal = Subtotal;
+               // ViewBag.Vat = calculate;
+
+            }
+           
+        }
+      
     }
+    
 }

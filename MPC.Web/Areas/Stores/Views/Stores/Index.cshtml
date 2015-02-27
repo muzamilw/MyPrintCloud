@@ -115,22 +115,21 @@
         @* Filter Template *@
         <script id="filterTemplate" type="text/html">
             <div class="filter-body" id="filter" style="margin-bottom:10px;">
-                <div class="filter-block pull-left">
-                    <div class="pull-left spanfilterlbl">
-                        Search &nbsp;
+                <form data-bind="submit: $root.getStores">
+                    <div class="filter-block pull-left">
+                        <div class="pull-left spanfilterlbl">
+                            Search: &nbsp;
+                        </div>
+                        <div class="form-group pull-left">
+                            <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
+                            <i class="fa fa-search search-icon"></i>
+                        </div>
+                        <div class="pull-left">
+                            <button type="submit" class="btn btn-primary" >Search</button>
+                            <button type="reset" class="btn btn-default" data-bind="click:$root.resetFilterSection">Reset</button>
+                        </div>
                     </div>
-                    <div class="form-group pull-left">
-                        <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
-                        <i class="fa fa-search search-icon"></i>
-                    </div>
-
-                    <div class="pull-right">
-                        <button type="submit" class="btn btn-primary" data-bind="click:$root.getStores">Search</button>
-                        <button type="reset" class="btn btn-default" data-bind="click:$root.resetFilterSection">Reset</button>
-                    </div>
-                </div>
-                <div class="clearfix">
-                </div>
+                  </form>
             </div>
         </script>
     </div>
@@ -145,13 +144,14 @@
 <!-- /ko -->
 
 @Html.Partial("~/Areas/Common/Views/Shared/_phraseLibraryDialog.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_StockDialog.cshtml")
 
 @section Scripts{
     
     <script src="~/Scripts/jquery.form.js"></script>
     <script>
 
-        require(["product/product.view", "stores/stores.view", "dropzone", "common/confirmation.view", "common/phraseLibrary.view"]);
+        require(["product/product.view", "stores/stores.view", "dropzone", "common/confirmation.view", "common/phraseLibrary.view", "common/stockItem.view"]);
       
         $(function () {
             

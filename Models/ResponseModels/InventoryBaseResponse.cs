@@ -54,5 +54,10 @@ namespace MPC.Models.ResponseModels
         /// </summary>
         public Organisation Organisation { get; set; }
 
+        /// <summary>
+        /// Organisation culture 
+        /// </summary>
+        public string Region { get; set; }
+
     }
 }

@@ -19,11 +19,17 @@ namespace MPC.MIS.Areas.Api.Models
         public static CmsPage CreateFrom(this DomainModels.CmsPage source)
         {
             byte[] bytes = null;
-            string fileName = string.Empty;
-            if (source.PageBanner != null && File.Exists(source.PageBanner))
+
+            if (!string.IsNullOrEmpty(source.PageBanner))
             {
-                bytes = source.PageBanner != null ? File.ReadAllBytes(source.PageBanner) : null;
+                string filePath = HttpContext.Current.Server.MapPath("~/" + source.PageBanner);
+                if (File.Exists(filePath))
+                {
+                    bytes = File.ReadAllBytes(filePath);
+                }
+
             }
+
             string defaultPageKeyWords = null;
             if (source.CmsPageTags != null)
             {
@@ -51,7 +57,6 @@ namespace MPC.MIS.Areas.Api.Models
                 PageTitle = source.PageTitle,
                 DefaultPageKeyWords = defaultPageKeyWords,
                 Image = bytes,
-                FileName = fileName,
                 PageBanner = source.PageBanner
             };
         }
@@ -86,6 +91,16 @@ namespace MPC.MIS.Areas.Api.Models
         /// </summary>
         public static CmsPageForListView CreateFromForListView(this DomainModels.CmsPage source)
         {
+            byte[] bytes = null;
+            if (!string.IsNullOrEmpty(source.PageBanner))
+            {
+                string filePath = HttpContext.Current.Server.MapPath("~/" + source.PageBanner);
+                if (File.Exists(filePath))
+                {
+                    bytes = File.ReadAllBytes(filePath);
+                }
+
+            }
             return new CmsPageForListView
             {
                 PageId = source.PageId,
@@ -93,6 +108,7 @@ namespace MPC.MIS.Areas.Api.Models
                 IsDisplay = source.isDisplay,
                 IsEnabled = source.isEnabled,
                 Meta_Title = source.Meta_Title,
+                Image = bytes,
                 CategoryName = source.PageCategory != null ? source.PageCategory.CategoryName : string.Empty,
             };
         }

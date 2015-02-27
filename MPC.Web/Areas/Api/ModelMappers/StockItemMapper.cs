@@ -20,6 +20,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new InventoryBaseResponse
             {
+                Region= source.Region,
                 StockCategories = source.StockCategories != null ? source.StockCategories.Select(s => s.CreateFromDropDown()).ToList() : null,
                 StockSubCategories = source.StockSubCategories != null ? source.StockSubCategories.Select(su => su.CreateFromDropDown()).ToList() : null,
                 PaperSizes = source.PaperSizes != null ? source.PaperSizes.Select(su => su.CreateFromDropDown()).ToList() : null,
@@ -79,6 +80,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PerQtyType = source.PerQtyType,
                 FlagColor = source.FlagColor,
                 SupplierCompanyName = source.SupplierCompanyName,
+                Region = source.Region
             };
 
         }
@@ -93,6 +95,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StockItemId = source.StockItemId,
                 ItemName = source.ItemName,
                 ItemCode = source.ItemCode,
+                Region = source.Region,
                 SupplierId = source.SupplierId,
                 CategoryId = source.CategoryId,
                 SubCategoryId = source.SubCategoryId,
@@ -146,6 +149,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemDescription = source.ItemDescription,
                 StockCreated = source.StockCreated,
                 FlagID = source.FlagID,
+                Region = source.Region,
                 Status = source.Status,
                 isDisabled = source.isDisabled,
                 PaperType = source.PaperType,

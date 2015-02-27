@@ -2,6 +2,7 @@
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Webstore.Common;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Reflection;
+using System.Runtime.Caching;
 using System.Web;
 using System.Web.Http;
 
@@ -31,10 +33,12 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         /// Constructor
         /// </summary>
         /// <param name="companyService"></param>
-        public CostCenterController(ICostCentreService CostCentreService, IItemService ItemService)
+        private readonly IOrderService _orderService;
+        public CostCenterController(ICostCentreService CostCentreService, IItemService ItemService, IOrderService _orderService)
         {
             this._CostCentreService = CostCentreService;
             this._ItemService = ItemService;
+            this._orderService = _orderService;
         }
 
         #endregion
@@ -86,6 +90,14 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                         }
                     }
 
+                    if (parameter4 == "addAnother")
+                    {
+                       
+                            _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
+                            _CostCentreParamsArray[2] = parameter5;
+                       
+                    }
+
                     if (parameter4 == "Update")
                     {
                         if (parameter5 != null)
@@ -102,6 +114,9 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                     //QuestionQueue / Execution Queue
                     _CostCentreParamsArray[3] = CostCentreQueue;
+                    // check if cc has wk ins
+
+
                     //CostCentreQueue
                     _CostCentreParamsArray[4] = 1;
 
@@ -136,7 +151,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                     CostCentre oCostCentre = _CostCentreService.GetCostCentreByID(Convert.ToInt64(parameter1));
 
-
+                    
 
                     CostCentreQueue.Add(new CostCentreQueueItem(oCostCentre.CostCentreId, oCostCentre.Name, 1, oCostCentre.CodeFileName, null, oCostCentre.SetupSpoilage, oCostCentre.RunningSpoilage));
 
@@ -162,7 +177,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                     }
 
-                    if ((parameter5 != null && parameter4 != "Modify" && oResult != null) || (parameter5 != null && parameter4 == "Update"))
+                    if ((parameter5 != null && parameter4 != "Modify" && parameter4 != "addAnother" && oResult != null) || (parameter5 != null && parameter4 == "Update"))
                     {
 
 
@@ -206,6 +221,108 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
         }
 
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public HttpResponseMessage GetData(long orderID)
+        {
+             double GrandTotal = 0;
+             double Subtotal = 0;
+             double vat = 0;
+             Order order = _orderService.GetOrderAndDetails(orderID);
+
+             string CacheKeyName = "CompanyBaseResponse";
+             ObjectCache cache = MemoryCache.Default;
+             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+             CalculateProductDescription(order,out GrandTotal,out Subtotal,out vat);
+             JasonResponseObject obj=new JasonResponseObject();
+             obj.order=order;
+             obj.SubTotal=Math.Round(Subtotal,2);
+             obj.GrossTotal=Math.Round(GrandTotal,2);
+             obj.VAT=Math.Round(vat,2);
+             obj.DeliveryCostCharges=order.DeliveryCost;
+             obj.billingAddress= _orderService.GetBillingAddress(order.BillingAddressID);
+             obj.shippingAddress=_orderService.GetdeliveryAddress(order.DeliveryAddressID);
+             obj.CurrencySymbol = StoreBaseResopnse.Currency;
+             obj.OrderDateValue = FormatDateValue(order.OrderDate);
+             obj.DeliveryDateValue = FormatDateValue(order.DeliveryDate);
+             var formatter = new JsonMediaTypeFormatter();
+             var json = formatter.SerializerSettings;
+             json.Formatting = Newtonsoft.Json.Formatting.Indented;
+             json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+             return Request.CreateResponse(HttpStatusCode.OK, obj, formatter);
+        }
+        
+                  
+        private void CalculateProductDescription(Order order,out double GrandTotal,out double Subtotal,out double vat)
+        {
+
+            double Delevery = 0;
+            double DeliveryTaxValue = 0;
+            double TotalVat = 0;
+            double calculate = 0;
+             Subtotal = 0;
+             vat = 0;
+             GrandTotal = 0;
+
+            {
+                //List<tbl_items> items = context.tbl_items.Where(i => i.EstimateID == OrderID).ToList();
+
+                foreach (var item in order.OrderDetails.CartItemsList)
+                {
+
+                    if (item.ItemType == (int)ItemTypes.Delivery)
+                    {
+                        Delevery = Convert.ToDouble(item.Qty1NetTotal);
+                        DeliveryTaxValue = Convert.ToDouble(item.Qty1GrossTotal - item.Qty1NetTotal);
+                    }
+                    else
+                    {
+
+                        Subtotal = Subtotal + Convert.ToDouble(item.Qty1NetTotal);
+                        TotalVat = Convert.ToDouble(item.Qty1GrossTotal) - Convert.ToDouble(item.Qty1NetTotal);
+                        calculate = calculate + TotalVat;
+                    }
+
+                }
+
+                GrandTotal = Subtotal + calculate + DeliveryTaxValue + Delevery;
+                vat = calculate;
+               // ViewBag.GrandTotal = GrandTotal;
+               // ViewBag.SubTotal = Subtotal;
+               // ViewBag.Vat = calculate;
+            }
+           
+        }
+        public  string FormatDateValue(DateTime? dateTimeValue, string formatString = null)
+        {
+            const string defaultFormat = "MMMM d, yyyy";
+
+            if (dateTimeValue.HasValue)
+                return dateTimeValue.Value.ToString(string.IsNullOrWhiteSpace(formatString) ? defaultFormat : formatString);
+            else
+                return string.Empty;
+        }
+
+        public HttpResponseMessage WidgetJson(string StoreId)
+        {
+            List<CmsSkinPageWidget> oStoreWidgets = _ItemService.GetStoreWidgets();
+            var objSer = JsonConvert.SerializeObject(oStoreWidgets);
+            return Request.CreateResponse(HttpStatusCode.OK, "");
+        }
 
     }
+      public class JasonResponseObject
+          {
+          public Order order;
+          public Address billingAddress;
+          public Address shippingAddress;
+          public double GrossTotal;
+          public double SubTotal;
+          public double VAT;
+          public double DeliveryCostCharges;
+          public string CurrencySymbol;
+          public string OrderDateValue;
+          public string DeliveryDateValue;
+         }
 }
+         

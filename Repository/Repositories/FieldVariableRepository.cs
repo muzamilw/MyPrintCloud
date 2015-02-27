@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using Edm_EntityMappingGeneratedViews;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
@@ -87,6 +88,22 @@ namespace MPC.Repository.Repositories
                 RowCount = rowCount,
                 FieldVariables = fieldVariables
             };
+        }
+
+        /// <summary>
+        /// Get Field Varibale By Company ID Of Contact Type
+        /// </summary>
+        public IEnumerable<FieldVariable> GetFieldVariableByCompanyId(long companyId)
+        {
+            return DbSet.Where(vf => vf.CompanyId == companyId && vf.Scope == (int)FieldVariableScopeType.Contact).ToList();
+        }
+       
+        /// <summary>
+        /// Get Field Varibale By Company For Smart Form
+        /// </summary>
+        public IEnumerable<FieldVariable> GetFieldVariablesForSmartForm(long companyId)
+        {
+            return DbSet.Where(vf => vf.CompanyId == companyId).ToList();
         }
         #endregion
     }
