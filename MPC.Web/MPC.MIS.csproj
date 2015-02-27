@@ -1751,6 +1751,7 @@
     <Content Include="Areas\CRM\Views\Home\_AddEditTerritoryForCrm.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_ProductFromRetailStore.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_AddEditSmartFormDialog.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_Default.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
