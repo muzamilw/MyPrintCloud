@@ -3439,6 +3439,15 @@ define("stores/stores.viewModel",
                                     selectedStore().userDefinedSpriteImageFileName("default.jpg");
                                     selectedStore().defaultSpriteImageSource(data.DefaultSpriteImageSource);
                                     selectedStore().customCSS(data.DefaultCompanyCss);
+                                    cmsPagesForStoreLayout.removeAll();
+                                    if (data.CmsPageDropDownList !== null) {
+                                        ko.utils.arrayPushAll(cmsPagesForStoreLayout(), data.CmsPageDropDownList);
+                                        cmsPagesForStoreLayout.valueHasMutated();
+
+                                        _.each(cmsPagesBaseData(), function (item) {
+                                            cmsPagesForStoreLayout.push(item);
+                                        });
+                                    }
                                 }
                                 isLoadingStores(false);
                             },
@@ -3578,6 +3587,10 @@ define("stores/stores.viewModel",
                     }, this),
                     //Get Page Layout Widgets
                     getPageLayoutWidgets = function () {
+                        if (!selectedStore().companyId()) {
+                            return;
+                        }
+                        
                         dataservice.getCmsPageLayoutWidget({
                             pageId: selectedCurrentPageId(),
                             companyId: selectedStore().companyId()
