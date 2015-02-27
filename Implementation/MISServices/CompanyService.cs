@@ -82,6 +82,33 @@ namespace MPC.Implementation.MISServices
         private readonly ICompanyContactVariableRepository companyContactVariableRepository;
         #endregion
 
+        private bool CheckDuplicateExistenceOfCompanyDomains(CompanySavingModel companySaving)
+        {
+            var allDomains = companyDomainRepository.GetAll();
+            var itemMatched = false;
+            foreach (var domain in allDomains)
+            {
+                foreach (var domainForSaving in companySaving.Company.CompanyDomains)
+                {
+                    if (domainForSaving.CompanyDomainId == 0)
+                    {
+                        if (domainForSaving.Domain == domain.Domain)
+                        {
+                            throw new MPCException("There Exist Another Domain Name Instance in system for:"+ domainForSaving.Domain, organisationRepository.OrganisationId);
+                            //return false;
+                        }
+                    }
+                }
+                
+            }
+            return true;
+            //var commonItem = companySaving.Company.CompanyDomains..Intersect(allCompanyDomains);
+            //if (commonItem.Any())
+            //{
+            //    return false;
+            //}
+           
+        }
         /// <summary>
         /// Save Company
         /// </summary>
@@ -2422,14 +2449,16 @@ namespace MPC.Implementation.MISServices
         {
             Company companyDbVersion = companyRepository.Find(companyModel.Company.CompanyId);
 
-            if (companyDbVersion == null)
+            if (CheckDuplicateExistenceOfCompanyDomains(companyModel))
             {
-                return SaveNewCompany(companyModel);
-            }
-            else
-            {
+                if (companyDbVersion == null)
+                {
+                    return SaveNewCompany(companyModel);
+                }
                 return UpdateCompany(companyModel, companyDbVersion);
             }
+           
+            return null;
         }
         public long GetOrganisationId()
         {

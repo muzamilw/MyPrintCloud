@@ -103,15 +103,21 @@
                                                             </label>
 
                                                         </div>*@
-                                                    <div class="btn-group" data-toggle="buttons">
-                                                        <label data-bind="css: { active: (type() == 4)}, click: function () { type(4); }, clickBubble: false" class="btn btn-primary">
-                                                            Retail
-                                                        </label>
-                                                        <label data-bind="css: { active: (type() == 3)}, click: function () { type(3); }, clickBubble: false" class="btn btn-primary">
-                                                            Corporate
-                                                        </label>
+                                                    <div class="col-lg-6">
+                                                        <div class="radio">
+                                                            <input type="radio" name="optionsRadiosStoreType" id="optionsRadiosRetail" value="4" data-bind="checked: type">
+                                                            <label for="optionsRadiosRetail">
+                                                                Retail
+                                                            </label>
+                                                        </div>
+                                                        <div class="radio">
+                                                            <input type="radio" name="optionsRadiosStoreType" id="optionsRadiosCorporate" value="3" data-bind="checked: type">
+                                                            <label for="optionsRadiosCorporate">
+                                                                Corporate
+                                                            </label>
+                                                        </div>
                                                     </div>
-                                                    <span class="help-block text-right">The store type determines how a store is accessed.</span>
+                                                  
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -1033,9 +1039,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="onoffswitch">
-                                                        <!--ko if: $root.selectedStore != undefined-->
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSecondaryPages" data-bind="checked:$root.selectedStore().isDisplayInFooter,event:{click:$root.secondayPageIsDisplayInFooterHandler}">
-                                                        <!--/ko-->
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSecondaryPages" data-bind="checked:$root.selectedStore().isDidplayInFooter(),event:{click:$root.secondayPageIsDisplayInFooterHandler}">
                                                         <label class="onoffswitch-label" for="switchSecondaryPages">
                                                             <div class="onoffswitch-inner"></div>
                                                             <div class="onoffswitch-switch"></div>

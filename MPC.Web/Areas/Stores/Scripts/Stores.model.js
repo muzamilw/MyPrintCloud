@@ -324,7 +324,6 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             }),
             //Convert To Server
             convertToServerData = function (source) {
-                debugger;
                 var result = {};
                 result.isDisplaySecondaryPages = source.isDidplayInFooter();
                 result.CompanyId = source.companyId();
