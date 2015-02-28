@@ -1491,7 +1491,6 @@ namespace MPC.Implementation.MISServices
                 Countries = countryRepository.GetAll(),
                 States = stateRepository.GetAll(),
                 Suppliers = companyRepository.GetAllSuppliers(),
-                ProductCategories = productCategoryRepository.GetParentCategories(),
                 PaperSizes = paperSizeRepository.GetAll()
             };
         }
@@ -1595,6 +1594,15 @@ namespace MPC.Implementation.MISServices
         {
             return itemRepository.GetItemsByCompanyId(companyId);
         }
+
+        /// <summary>
+        /// Get Product Categories for Company
+        /// </summary>
+        public IEnumerable<ProductCategory> GetProductCategoriesForCompany(long? companyId)
+        {
+            return productCategoryRepository.GetParentCategories(companyId);
+        }
+
         #endregion
     }
 }
