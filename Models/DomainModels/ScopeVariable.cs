@@ -3,16 +3,17 @@
 namespace MPC.Models.DomainModels
 {
     /// <summary>
-    /// Company Contact Variable Domain Model
+    /// Scope Variable Domain Model
     /// </summary>
-    public class CompanyContactVariable
+    public class ScopeVariable
     {
-        public long ContactVariableId { get; set; }
-        public long ContactId { get; set; }
+        public long ScopeVariableId { get; set; }
+        public long Id { get; set; }
         public long VariableId { get; set; }
         public string Value { get; set; }
+        public int? Scope { get; set; }
         public virtual FieldVariable FieldVariable { get; set; }
-        public virtual CompanyContact CompanyContact { get; set; }
+
         [NotMapped]
         public long? FakeVariableId { get; set; }
     }

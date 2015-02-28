@@ -48,8 +48,9 @@ namespace MPC.MIS.Areas.Api.Controllers
                        Countries = result.Countries != null ? result.Countries.Select(x => x.CreateFromDropDown()) : null,
                        States = result.States != null ? result.States.Select(x => x.CreateFromDropDown()) : null,
                        FieldVariableResponse = result.FieldVariableResponse.CreateFrom(),
+                       SmartFormResponse = result.SmartFormResponse.CreateFrom(),
                        FieldVariableForSmartForms = result.FieldVariablesForSmartForm.Select(fv => fv.CreateFromForSmartForm()),
-                       CmsPageDropDownList = result.CmsPages!=null ? result.CmsPages.Select(x => x.CreateFromForDropDown()):null
+                       CmsPageDropDownList = result.CmsPages != null ? result.CmsPages.Select(x => x.CreateFromForDropDown()) : null
                    };
         }
         public CompanyBaseResponse Get()
@@ -84,7 +85,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                 Countries = result.Countries != null ? result.Countries.Select(x => x.CreateFromDropDown()) : null,
                 States = result.States != null ? result.States.Select(x => x.CreateFromDropDown()) : null,
                 SectionFlags = result.SectionFlags.Select(flag => flag.CreateFromDropDown()),
-                CmsPageDropDownList = result.CmsPages.Select(cmspage=> cmspage.CreateFromForDropDown())
+                CmsPageDropDownList = result.CmsPages.Select(cmspage => cmspage.CreateFromForDropDown())
             };
         }
         #endregion

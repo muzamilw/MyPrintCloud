@@ -44,7 +44,13 @@ namespace MPC.Interfaces.Repository
         bool UpdateCompanyName(Company Instance);
         Company GetStoreByStoreId(long companyId);
 
-        ExportOrganisation ExportCompany(ExportOrganisation ObjExportOrg, long CompanyId);
+        ExportOrganisation ExportCompany( long CompanyId);
+
+        ExportOrganisation ExportRetailCompany( long CompanyId);
+
+        long GetCorporateCompanyIDbyOrganisationID(long OID);
+
+        long GetRetailCompanyIDbyOrganisationID(long OID);
         /// <summary>
         /// Get Company By Is Customer Type
         /// </summary>
@@ -54,6 +60,8 @@ namespace MPC.Interfaces.Repository
         /// Count of live stores
         /// </summary>
         int LiveStoresCountForDashboard();
+
+       
         
     }
 }

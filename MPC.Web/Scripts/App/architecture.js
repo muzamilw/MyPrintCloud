@@ -56,7 +56,8 @@ function hideProgress() {
         var spinner = $("div#spinner");
         spinner.stop();
         spinner.fadeOut("fast");
-        $.unblockUI(spinner);
+        $.unblockUI(spinner); 
+        $("#myprintcloud-help").css("display", "block");  // show tips menu in dashboard
     }
 };
 

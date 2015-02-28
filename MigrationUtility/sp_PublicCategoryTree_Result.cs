@@ -10,16 +10,14 @@
 namespace MigrationUtility
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class tbl_machine_spoilage
+    public partial class sp_PublicCategoryTree_Result
     {
-        public int MachineSpoilageID { get; set; }
-        public Nullable<int> MachineID { get; set; }
-        public Nullable<int> SetupSpoilage { get; set; }
-        public Nullable<float> RunningSpoilage { get; set; }
-        public Nullable<int> NoOfColors { get; set; }
-    
-        public virtual tbl_machines tbl_machines { get; set; }
+        public Nullable<int> ProductCategoryID { get; set; }
+        public int ParentCategoryID { get; set; }
+        public string CategoryName { get; set; }
+        public int DisplayOrder { get; set; }
+        public string ThumbnailPath { get; set; }
+        public string Description1 { get; set; }
     }
 }

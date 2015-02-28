@@ -6,12 +6,12 @@ namespace MPC.Interfaces.Repository
     /// <summary>
     /// Company Contact Variable Repository
     /// </summary>
-    public interface ICompanyContactVariableRepository : IBaseRepository<CompanyContactVariable,long>
+    public interface IScopeVariableRepository : IBaseRepository<ScopeVariable, long>
     {
 
         /// <summary>
         /// Get Company Contact Variable  By Contact ID
         /// </summary>
-        IEnumerable<CompanyContactVariable> GetContactVariableByContactId(long contactId);
+        IEnumerable<ScopeVariable> GetContactVariableByContactId(long contactId,int scope);
     }
 }

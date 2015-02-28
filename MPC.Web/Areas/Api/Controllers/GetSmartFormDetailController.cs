@@ -5,11 +5,14 @@ using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 
-
 namespace MPC.MIS.Areas.Api.Controllers
 {
-    public class GetCompanyContactVariableController : ApiController
+    /// <summary>
+    /// Get Smart Form Detail API Controller
+    /// </summary>
+    public class GetSmartFormDetailController : ApiController
     {
+
         #region Private
 
         private readonly ICompanyService companyService;
@@ -21,7 +24,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public GetCompanyContactVariableController(ICompanyService companyService)
+        public GetSmartFormDetailController(ICompanyService companyService)
         {
             this.companyService = companyService;
         }
@@ -31,11 +34,11 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Public
 
         /// <summary>
-        /// Get Scope variables
+        /// Get Smart Forms
         /// </summary>
-        public IEnumerable<ScopeVariable> Get([FromUri]long contactId, int scope)
+        public IEnumerable<SmartFormDetail> Get([FromUri] long smartFormId)
         {
-            return companyService.GetContactVariableByContactId(contactId, scope).Select(cv => cv.CreateFrom());
+            return companyService.GetSmartFormDetailBySmartFormId(smartFormId).Select(sfd => sfd.CreateFrom());
         }
 
         #endregion

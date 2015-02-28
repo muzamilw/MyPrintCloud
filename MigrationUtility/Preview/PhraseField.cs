@@ -25,7 +25,7 @@ namespace MigrationUtility.Preview
         public Nullable<int> SortOrder { get; set; }
         public Nullable<long> OrganisationId { get; set; }
     
-        public virtual ICollection<Phrase> Phrases { get; set; }
         public virtual Section Section { get; set; }
+        public virtual ICollection<Phrase> Phrases { get; set; }
     }
 }

@@ -27,5 +27,6 @@ namespace MigrationUtility
         public int CategoryID { get; set; }
     
         public virtual ICollection<tbl_stockitems> tbl_stockitems { get; set; }
+        public virtual tbl_stockcategories tbl_stockcategories { get; set; }
     }
 }
