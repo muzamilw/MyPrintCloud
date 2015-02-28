@@ -97,33 +97,49 @@ namespace MPC.Models.Common
 
         public List<Campaign> Campaigns { get; set; }
 
-  
-        
+
+        public Company RetailCompany { get; set; }
+
+        public List<CompanyDomain> RetailCompanyDomain { get; set; }
+
+        public List<SystemUser> RetailSystemUser { get; set; }
+
+        public List<CmsOffer> RetailCmsOffer { get; set; }
+
+        public List<MediaLibrary> RetailMediaLibrary { get; set; }
+
+        public List<CompanyBannerSet> RetailCompanyBannerSet { get; set; }
+
+        public List<CompanyBanner> RetailCompanyBanner { get; set; }
+
+        public List<CmsPage> RetailSecondaryPages { get; set; }
+
+        public List<RaveReview> RetailRaveReview { get; set; }
+
+        public List<CompanyTerritory> RetailCompanyTerritory { get; set; }
 
 
+        public List<Address> RetailAddress { get; set; }
+
+        public List<CompanyContact> RetailCompanyContact { get; set; }
+        public List<ProductCategory> RetailProductCategory { get; set; }
+
+        public List<Item> RetailItems { get; set; }
+        public List<ItemSection> RetailItemSection { get; set; }
+        public List<SectionCostcentre> RetailSectionCostcentre { get; set; }
+        public List<SectionCostCentreResource> RetailSectionCostCentreResource { get; set; }
+
+        public List<PaymentGateway> RetailPaymentGateways { get; set; }
+
+        public List<CmsSkinPageWidget> RetailCmsSkinPageWidget { get; set; }
+
+        public List<CompanyCostCentre> RetailCompanyCostCentre { get; set; }
+
+        public List<CompanyCMYKColor> RetailCompanyCMYKColor { get; set; }
 
 
+        public List<Campaign> RetailCampaigns { get; set; }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-
-
-
-        
 
 
     }
@@ -139,6 +155,7 @@ namespace MPC.Models.Common
         public long ReportID { get; set; }
 
         public long NewCompanyID { get; set; }
+        public long RetailOldCompanyID { get; set; }
 
         public long OldCompanyID { get; set; }
 

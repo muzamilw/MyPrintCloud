@@ -141,7 +141,10 @@ namespace MPC.Provisioning.Controllers
 
                         result = command.ExecuteNonQuery();
                         
-                        //// import organisation
+
+                        // 
+
+                        // import organisation
                         //string Path = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Organisations/ExportedZip20.zip");
                         //string sCurrentServer = CurrentServerPath();
                         //Uri uri = new Uri(sCurrentServer + "/webstoreapi/RealEstate/InsertOrganisation/" + OrganisationId + "/" + Path);

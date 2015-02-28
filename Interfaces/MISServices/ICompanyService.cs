@@ -79,7 +79,7 @@ namespace MPC.Interfaces.MISServices
 
         void ExportOrganisation(long OrganisationID);
 
-        void ImportOrganisation(long OrganisationId, string ZipPath);
+        void ImportOrganisation(long OrganisationId, string ZipPath, bool isCorpStore);
         #endregion
     }
 }
