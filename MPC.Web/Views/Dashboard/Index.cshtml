@@ -37,6 +37,10 @@
     {
         cursor:pointer;
     }
+    .account-anchors a:hover{
+         background-color:#FFC0BA !important;
+        text-decoration:none !important;
+    }
     .account-anchors
     {
         display:none;
@@ -44,10 +48,7 @@
     .account-anchors a {
         display:block;
     }
-    .account-anchors a :hover{
-         background-color:#FFC0BA !important;
-        text-decoration:none !important;
-    }
+   
 </style>
 
 
@@ -1250,7 +1251,7 @@
             var proceeding = ["Manage your PRINT Cloud", "Add more Products", "Add more Stores", "Estimates & Job Cards", "System Settings", "Your Account Area", "You've got the Basics..."];
             var proceddingheadertext = ["This is your Dashboard", "Product is an item that appears on your website or estimating module", "A store a Website with own URL Link", "Create accurate estimates for simple digital products to complex multi page brochures ...", "Set Your Region Details,Create Process and configure your delivery method cost centers", "From Here you can access", "What Would you like to do Next ?"]
             var proceddingdetails = ["Create Products , Web Stores , Estimates ...", "\nCreate products with require templates to personalize or just off the shelf Finished Goods", "Create Website at attract new visitors \n or \n Create private website for large customers who have specific online needs", "", "", "Self Placed Tutorials \n Join us in Regular webinars \n Contact our Support Desk \n Upgrade/ downgrade and cancel your Account", ""]
-
+            var lastTop = []; var lastLeft = [] ;
             $("#btnPreviousHelp").hide();
             $("#btnCloseHelp").show();
 
@@ -1271,7 +1272,8 @@
                 var dashh = $("#myprintcloud-help");
                 var positiontophelp = dashh.position().top;
                 var positionlefthelp = dashh.position().left;
-
+                lastLeft.push(positionlefthelp);
+                lastTop.push(positiontophelp);
              
 
                 if (i == 1)
@@ -1453,46 +1455,103 @@
             $("#btnPreviousHelp").click(function ()
             {
 
-                i = i - 1;
+               // 
+              //  alert(i);
+                var positiontop = 0;
+                var positionleft = 0;
+                var dashp;
 
-                var dashp = $("#myprintcloud-dashborad");
-                var positiontop = dashp.position().top;
-                var positionleft = dashp.position().left;
+                var top = 0;
+                var left = 0;
+                var addtiontop = 0;
+                var additionleft = 0;
 
                 var dashh = $("#myprintcloud-help");
                 var positiontophelp = dashh.position().top;
                 var positionlefthelp = dashh.position().left;
-
-                var top = parseInt(positiontop) - parseInt(236);
-                var left = parseInt(positionleft) - parseInt(positionlefthelp);
-
-                if (i == 0)
-                {
-
-                   
-
-                    document.getElementById("myprintcloud-help").style.left = "41%";
-                    document.getElementById("myprintcloud-help").style.top = "120px";
-
-                    $(".help-header-title").text(proceeding[0]);
-                    $(".help-header-description").text(proceddingheadertext[0]);
-                    $(".help-details").text(proceddingdetails[0]);
-
+              
+                top = parseInt(positiontophelp) - parseInt(lastTop.pop());
+                left = parseInt(positionlefthelp) - parseInt(lastLeft.pop());
+                $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 100);
+                if (i == 1) {
+                    $(".highlight-div").css("visibility", "hidden");
+                    
+                    $(".bottom-arrow").show();
+                    $(".left-arrow").show();
+                    $(".right-arrow").show();
                     $("#btnPreviousHelp").hide();
+                }
+                if (i == 2) {
+                    $(".highlight-div").css("visibility", "visible");
+                    $(".highlight-div").css("width", "120px");
+                    $(".highlight-div").css("height", "30px");
+                }
+                if (i == 3) {
+                    $(".highlight-div").css("top", "-32%");
+                    $(".highlight-div").css("visibility", "visible");
+                    $(".highlight-div").css("width", "190px");
+                    $(".highlight-div").css("height", "30px");
+                    $(".highlight-div").css("left", "75px");
+                    $("#btnPreviousHelp").show();
+
+                    $(".bottom-arrow").hide();
+                    $(".left-arrow").hide();
+                    $(".top-arrow").show();
+                    $(".right-arrow").hide();
+                }
+                if (i == 4) {
+    
+                    $(".highlight-div").css("visibility", "visible");
+                    $(".highlight-div").css("width", "240px");
+                    $(".highlight-div").css("height", "30px");
+                    $(".highlight-div").css("top", "38%");
+
+                    $(".highlight-div").css("left", "-80%");
+                    $(".bottom-arrow").hide();
+                    $(".left-arrow").hide();
+                    $(".top-arrow").hide();
+                    $(".right-arrow").show();
+
+                    $("#btnPreviousHelp").show();
+
+                }
+                if (i == 5) {
+                    $(".highlight-div").css("width", "240px");
+                    $(".highlight-div").css("top", "38%");
+                    $(".highlight-div").css("left", "-80%");
+                    $(".highlight-div").css("height", "30px");
+                    $(".help-details").show();
+
+                    $(".bottom-arrow").hide();
+                    $(".left-arrow").hide();
+                    $(".top-arrow").hide();
+                    $(".right-arrow").show();
+                    $("#btnPreviousHelp").show();
+
+
+
+                }
+                if (i == 6) {
+                    $(".highlight-div").css("visibility", "visible");
+                    $(".highlight-div").css("width", "350px");
+                    $(".highlight-div").css("height", "50px");
+                    $(".highlight-div").css("top", "-40%");
+                    $(".highlight-div").css("left", "0%");
+                    $(".help-details").show();
+                    $(".account-anchors").css("display", "none");
+
+                    $(".bottom-arrow").hide();
+                    $(".left-arrow").hide();
+                    $(".top-arrow").show();
+                    $(".right-arrow").hide();
+
                     $("#btnNextHelp").show();
 
                 }
-                if ((i != 0) && (i != 6))
-                {
-                    left = left + 240;
-                    $("#myprintcloud-help").animate({ "top": "-=40", "left": "+=" + left }, 100);
-
-                    $(".help-header-title").text(proceeding[i]);
-                    $(".help-header-description").text(proceddingheadertext[i]);
-                    $(".help-details").text(proceddingdetails[i]);
-
-                    $("#btnNextHelp").show();
-                }
+                $(".help-header-title").text(proceeding[i - 1]);
+                $(".help-header-description").text(proceddingheadertext[i - 1]);
+                $(".help-details").text(proceddingdetails[i - 1]);
+                i = i - 1;
             });
         });
     </script>
