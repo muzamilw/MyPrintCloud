@@ -186,6 +186,7 @@ define("stores/stores.viewModel",
                                 selectedStore().companyDomains.splice(0, 0, new model.CompanyDomain());
                                 //selectedStore().companyDomains()[0].domain(window.location.host + '/' + selectedStore().webAccessCode() + '/login');
                                 selectedStore().companyDomains()[0].domain(window.location.host + '/store/' + selectedStore().webAccessCode());
+                                selectedStore().companyDomains()[0].isMandatoryDomain(trueSpeed);
                             } else if (selectedStore().companyDomains().length > 0) {
                                 _.each(selectedStore().companyDomains(), function (companyDomain) {
                                     if (companyDomain.isMandatoryDomain()) {
@@ -2450,6 +2451,7 @@ define("stores/stores.viewModel",
                                     });
                                 }
                                 isLoadingStores(false);
+                                $("#categoryTabItems li a").first().trigger("click");
                             },
                             error: function (response) {
                                 isLoadingStores(false);
@@ -2470,8 +2472,8 @@ define("stores/stores.viewModel",
                     isSavingNewProductCategory = ko.observable(false),
                     //Function Call When create new Product Category 
                     onCreateNewProductCategory = function () {
-                        $('.nav-tabs li:first-child a').tab('show');
-                        $('.nav-tabs li:eq(0) a').tab('show');
+                        //$('.nav-tabs li:first-child a').tab('show');
+                       
                         var productCategory = new model.ProductCategory();
                         //Set Product category value for by default
                         productCategory.isShelfProductCategory(true);
@@ -2487,7 +2489,10 @@ define("stores/stores.viewModel",
                         });
                         isSavingNewProductCategory(true);
                         view.showStoreProductCategoryDialog();
-
+                       // $('#productCatFirstTab').addClass('active');
+                        //$('.nav-tabs li:eq(0) a').tab('show');
+                        //$('a[href=#productCatFirstTab]').click();
+                        $("#categoryTabItems li a").first().trigger("click");
                     },
                     //Delete Product Category
                     onDeleteProductCategory = function (productCategory) {
@@ -2530,6 +2535,7 @@ define("stores/stores.viewModel",
                                         view.showStoreProductCategoryDialog();
                                     }
                                     isLoadingStores(false);
+                                    $("#categoryTabItems li a").first().trigger("click");
                                 },
                                 error: function (response) {
                                     isLoadingStores(false);
@@ -2561,6 +2567,7 @@ define("stores/stores.viewModel",
                                         view.showStoreProductCategoryDialog();
                                     }
                                     isLoadingStores(false);
+                                    $("#categoryTabItems li a").first().trigger("click");
                                 },
                                 error: function (response) {
                                     isLoadingStores(false);
@@ -4012,6 +4019,11 @@ define("stores/stores.viewModel",
                             if (selectedStore().pickupAddressId() != undefined) {
                                 _.each(allCompanyAddressesList(), function (address) {
                                     if (address.addressId() == selectedStore().pickupAddressId()) {
+                                        //_.each(countries(), function(country) {
+                                        //    if (address.countryId() == country.CountryId) {
+                                        //        selectedPickupAddress().countryName(country.CountryName);
+                                        //    }
+                                        //});
                                         selectedPickupAddress(address);
                                     }
                                 });

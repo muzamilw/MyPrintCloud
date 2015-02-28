@@ -344,13 +344,13 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.WebMasterTag = source.webMasterTag();
                 result.WebAnalyticCode = source.webAnalyticCode();
                 result.WebAccessCode = source.webAccessCode();
-                result.TwitterUrl = source.twitterUrl();
-                result.FacebookUrl = source.facebookUrl();
-                result.LinkedinUrl = source.linkedinUrl();
-                result.FacebookAppId = source.facebookAppId();
-                result.FacebookAppKey = source.facebookAppKey();
-                result.TwitterAppId = source.twitterAppId();
-                result.TwitterAppKey = source.twitterAppKey();
+                result.TwitterURL = source.twitterUrl();
+                result.FacebookURL = source.facebookUrl();
+                result.LinkedinURL = source.linkedinUrl();
+                result.facebookAppId = source.facebookAppId();
+                result.facebookAppKey = source.facebookAppKey();
+                result.twitterAppId = source.twitterAppId();
+                result.twitterAppKey = source.twitterAppKey();
                 result.StoreImagePath = source.storeImagePath();
                 result.SalesAndOrderManagerId1 = source.salesAndOrderManagerId1();
                 result.SalesAndOrderManagerId2 = source.salesAndOrderManagerId2();
@@ -624,13 +624,13 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.WebMasterTag,
             source.WebAnalyticCode,
             source.WebAccessCode,
-            source.TwitterUrl,
-            source.FacebookUrl,
-            source.LinkedinUrl,
-            source.FacebookAppId,
-            source.FacebookAppKey,
-            source.TwitterAppId,
-            source.TwitterAppKey,
+            source.TwitterURL,
+            source.FacebookURL,
+            source.LinkedinURL,
+            source.facebookAppId,
+            source.facebookAppKey,
+            source.twitterAppId,
+            source.twitterAppKey,
             source.SalesAndOrderManagerId1,
             source.SalesAndOrderManagerId2,
             source.ProductionManagerId1,
@@ -1345,8 +1345,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     Address2: address2(),
                     Address3: address3(),
                     City: city(),
-                    State: state(),
-                    Country: country(),
+                    StateId: state(),
+                    CountryId: country(),
                     PostCode: postCode(),
                     Fax: fax(),
                     URL: uRL(),
@@ -1365,6 +1365,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     isPrivate: isPrivate(),
                     isDefaultTerrorityBilling: isDefaultTerrorityBilling(),
                     isDefaultTerrorityShipping: isDefaultTerrorityShipping(),
+                    Email: email(),
                     OrganisationId: organisationId(),
                     //Territory: territory().convertToServerData(),
                 };
