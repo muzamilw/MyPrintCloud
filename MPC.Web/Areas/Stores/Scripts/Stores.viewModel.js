@@ -565,7 +565,7 @@ define("stores/stores.viewModel",
                                 companyTerritoryPager().totalCount(companyTerritoryPager().totalCount() - 1);
                                 if (companyTerritory.isDefault() && selectedStore().companyTerritories().length == 1) {
                                     toastr.error("Make New Default territory first");
-                                    
+
                                 } else {
                                     // if (selectedStore() != undefined && (selectedStore().newAddedAddresses !== undefined && selectedStore().newAddedCompanyContacts !== undefined && selectedStore().newAddedAddresses().length > 0 || selectedStore().newAddedCompanyContacts().length > 0)) {
                                     var flag = true;
@@ -601,7 +601,7 @@ define("stores/stores.viewModel",
                                                 edittedCompanyTerritories.push(selectedStore().companyTerritories()[0]);
                                             }
                                         }
-                                        
+
                                     } else { //flag == false
                                         toastr.error("Territory Exist in Address Or Contact. Please delete them first");
                                     }
@@ -1355,7 +1355,10 @@ define("stores/stores.viewModel",
                     contactCompanyPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                     //Secondary Page Pager
                     secondaryPagePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                    //Variable Page
                     fieldVariablePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                    //Smart Form Pager
+                    smartFormPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                     //Address Search Filter
                     searchAddressFilter = ko.observable(),
                     //Search Address
@@ -3371,6 +3374,18 @@ define("stores/stores.viewModel",
                                     });
                                     fieldVariablePager().totalCount(data.FieldVariableResponse.RowCount);
 
+                                    //Smart Form List View
+                                    smartFormPager(new pagination.Pagination({ PageSize: 5 }, smartForms, getSmartForms));
+                                    _.each(data.SmartFormResponse.SmartForms, function (item) {
+                                        var smartForm = model.SmartForm();
+                                        smartForm.id(item.SmartFormId);
+                                        smartForm.name(item.Name);
+                                        smartForm.heading(item.Heading);
+                                        smartForms.push(smartForm);
+                                    });
+                                    smartFormPager().totalCount(data.SmartFormResponse.TotalCount);
+
+
                                     //Field Variable For Smart Forms
                                     _.each(data.FieldVariableForSmartForms, function (item) {
                                         fieldVariablesForSmartForm.push(model.FieldVariableForSmartForm.Create(item));
@@ -3518,6 +3533,7 @@ define("stores/stores.viewModel",
                         selectedItemForAdd(undefined);
                         productPriorityRadioOption("1");
                         errorList.removeAll();
+                        smartForms.removeAll();
                         fieldVariables.removeAll();
                         fieldVariablesOfContactType.removeAll();
                         filteredCompanyBanners.removeAll();
@@ -3525,6 +3541,7 @@ define("stores/stores.viewModel",
                         companyBannerSetList.removeAll();
                         fieldVariablesForSmartForm.removeAll();
                         fieldVariablePager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
+                        smartFormPager(new pagination.Pagination({ PageSize: 5 }, smartForms, getSmartForms));
                         companyTerritoryPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().companyTerritories, searchCompanyTerritory));
                         secondaryPagePager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getSecondoryPages));
                         addressPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
@@ -3609,7 +3626,7 @@ define("stores/stores.viewModel",
                         if (!selectedStore().companyId()) {
                             return;
                         }
-                        
+
                         dataservice.getCmsPageLayoutWidget({
                             pageId: selectedCurrentPageId(),
                             companyId: selectedStore().companyId()
@@ -4437,7 +4454,7 @@ define("stores/stores.viewModel",
                          _.each(smartForm.smartFormDetails(), function (item, index) {
                              item.sortOrder(index + 1);
                          });
-                         selectedSmartForm.companyId(selectedStore().companyId());
+                         selectedSmartForm().companyId(selectedStore().companyId());
                          if (selectedStore().companyId() !== undefined) {
                              var smartFormServer = smartForm.convertToServerData(smartForm);
                              _.each(smartForm.smartFormDetails(), function (item, index) {
@@ -4458,7 +4475,7 @@ define("stores/stores.viewModel",
                                 selectedSmartForm().id(data);
                                 smartForms.splice(0, 0, selectedSmartForm());
                             } else {
-                                updateFieldVariable();
+                                //updateFieldVariable();
                             }
 
                             view.hideSmartFormDialog();
@@ -4489,12 +4506,64 @@ define("stores/stores.viewModel",
                 },
 
                 //Edit Smart Form
-              onEditSmartForm = function (smartForm) {
-                  if (smartForm.id() === undefined) {
-                      selectedSmartForm(smartForm);
-                  }
+                 onEditSmartForm = function (smartForm) {
+                     if (smartForm.id() === undefined) {
+                         selectedSmartForm(smartForm);
+                         view.showSmartFormDialog();
+                     } else {
+                         if (smartForm.smartFormDetails().length > 0) {
+                             selectedSmartForm(smartForm);
+                             view.showSmartFormDialog();
+                         } else {
+                             getSmartFormDetail(smartForm);
+                         }
+                     }
+                 },
+                //Get Smart Forms        
+                getSmartForms = function () {
+                    dataservice.getSmartFormsByCompanyId({
+                        CompanyId: selectedStore().companyId(),
+                        PageSize: smartFormPager().pageSize(),
+                        PageNo: smartFormPager().currentPage(),
+                        SortBy: sortOn(),
+                        IsAsc: sortIsAsc()
+                    }, {
+                        success: function (data) {
 
-              },
+                            smartForms.removeAll();
+                            _.each(data.SmartFormResponse.SmartForms, function (item) {
+                                var smartForm = model.SmartForm();
+                                smartForm.id(item.SmartFormId);
+                                smartForm.name(item.Name);
+                                smartForm.heading(item.Heading);
+                                smartForms.push(smartForm);
+                            });
+                        },
+                        error: function (response) {
+                            toastr.error("Failed To Load Smart Forms.");
+                        }
+                    });
+                },
+                //Get Smart Form Detail
+                getSmartFormDetail = function (smartForm) {
+                    dataservice.getSmartFormDetailBySmartFormId({
+                        smartFormId: smartForm.id(),
+                    }, {
+                        success: function (data) {
+                            if (data != null) {
+                                smartForm.smartFormDetails.removeAll();
+                                selectedSmartForm(smartForm);
+                                _.each(data, function (item) {
+                                    selectedSmartForm().smartFormDetails.push(model.SmartFormDetail.Create(item));
+                                });
+                                view.showSmartFormDialog();
+                            }
+                        },
+                        error: function (response) {
+                            toastr.error("Failed to load Detail.");
+                        }
+                    });
+                },
                 //#endregion ________ Smart Form___________
 
 
@@ -4828,6 +4897,7 @@ define("stores/stores.viewModel",
                     smartForms: smartForms,
                     onEditSmartForm: onEditSmartForm,
                     secondayPageIsDisplayInFooterHandler: secondayPageIsDisplayInFooterHandler,
+                    smartFormPager: smartFormPager,
                 };
                 //#endregion
             })()

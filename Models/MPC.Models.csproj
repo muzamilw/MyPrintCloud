@@ -364,6 +364,7 @@
     <Compile Include="RequestModels\PhraseLibrarySaveModel.cs" />
     <Compile Include="RequestModels\ProductCategoryRequestModel.cs" />
     <Compile Include="RequestModels\SecondaryPageRequestModel.cs" />
+    <Compile Include="RequestModels\SmartFormRequestModel.cs" />
     <Compile Include="RequestModels\StockItemRequestModel.cs" />
     <Compile Include="RequestModels\StockCategoryRequestModel.cs" />
     <Compile Include="RequestModels\SupplierRequestModelForInventory.cs" />
@@ -403,6 +404,7 @@
     <Compile Include="ResponseModels\MyOrganizationSaveResponse.cs" />
     <Compile Include="ResponseModels\PaymentGatewayResponse.cs" />
     <Compile Include="ResponseModels\SecondaryPageResponse.cs" />
+    <Compile Include="ResponseModels\SmartFormResponse.cs" />
     <Compile Include="ResponseModels\StockCategoryResponse.cs" />
     <Compile Include="ResponseModels\SupplierBaseResponse.cs" />
     <Compile Include="ResponseModels\SupplierSearchResponseForInventory.cs" />

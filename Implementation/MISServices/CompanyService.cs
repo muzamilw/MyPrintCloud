@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 using System.Web;
 using System.Net.Mime;
 using System.Web;
@@ -19,6 +20,7 @@ using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using Ionic.Zip;
 using System.IO;
+using MPC.Repository.Repositories;
 using Newtonsoft.Json;
 using System.Web.UI.WebControls;
 using System.Net.Http.Headers;
@@ -80,6 +82,8 @@ namespace MPC.Implementation.MISServices
         private readonly IFieldVariableRepository fieldVariableRepository;
         private readonly IVariableOptionRepository variableOptionRepository;
         private readonly ICompanyContactVariableRepository companyContactVariableRepository;
+        private readonly ISmartFormRepository smartFormRepository;
+        private readonly ISmartFormDetailRepository smartFormDetailRepository;
         #endregion
 
         private bool CheckDuplicateExistenceOfCompanyDomains(CompanySavingModel companySaving)
@@ -94,12 +98,12 @@ namespace MPC.Implementation.MISServices
                     {
                         if (domainForSaving.Domain == domain.Domain)
                         {
-                            throw new MPCException("There Exist Another Domain Name Instance in system for:"+ domainForSaving.Domain, organisationRepository.OrganisationId);
+                            throw new MPCException("There Exist Another Domain Name Instance in system for:" + domainForSaving.Domain, organisationRepository.OrganisationId);
                             //return false;
                         }
                     }
                 }
-                
+
             }
             return true;
             //var commonItem = companySaving.Company.CompanyDomains..Intersect(allCompanyDomains);
@@ -107,7 +111,7 @@ namespace MPC.Implementation.MISServices
             //{
             //    return false;
             //}
-           
+
         }
         /// <summary>
         /// Save Company
@@ -2260,6 +2264,79 @@ namespace MPC.Implementation.MISServices
 
             return fieldVariable.VariableId;
         }
+
+        /// <summary>
+        /// Updaten Smart Form
+        /// </summary>
+        private long UpdateSmartForm(SmartForm smartForm, SmartForm smartFormDbVersion)
+        {
+            #region Update Smart Form
+            smartFormDbVersion.Name = smartForm.Name;
+            smartFormDbVersion.Heading = smartForm.Heading;
+            if (smartForm.SmartFormDetails != null)
+            {
+                foreach (SmartFormDetail smartFormDetail in smartForm.SmartFormDetails)
+                {
+                    if (smartFormDetail.SmartFormDetailId == 0)
+                    {
+                        smartFormDbVersion.SmartFormDetails.Add(smartFormDetail);
+                    }
+                    else if (smartFormDetail.SmartFormDetailId > 0 && smartFormDetail.ObjectType == (int)SmartFormDetailFieldType.GroupCaption)
+                    {
+                        SmartFormDetail smartFormDetailDbVersion = smartFormDbVersion.SmartFormDetails.FirstOrDefault(
+                           sf => sf.SmartFormDetailId == smartFormDetail.SmartFormDetailId);
+
+                        if (smartFormDetailDbVersion != null)
+                        {
+                            smartFormDetailDbVersion.CaptionValue = smartFormDetail.CaptionValue;
+                            smartFormDetailDbVersion.SortOrder = smartFormDetail.SortOrder;
+                        }
+                    }
+                    else
+                    {
+                        SmartFormDetail smartFormDetailDbVersion = smartFormDbVersion.SmartFormDetails.FirstOrDefault(
+                           sf => sf.SmartFormDetailId == smartFormDetail.SmartFormDetailId);
+                        if (smartFormDetailDbVersion != null) smartFormDetailDbVersion.SortOrder = smartFormDetail.SortOrder;
+                    }
+                }
+            }
+            #endregion
+
+            #region Delete SmartForm Detail
+            List<SmartFormDetail> missingSmartFormDetails = new List<SmartFormDetail>();
+            if (smartFormDbVersion.SmartFormDetails != null)
+            {
+                foreach (var smartFormDetailDbItem in smartFormDbVersion.SmartFormDetails)
+                {
+                    if (smartForm.SmartFormDetails != null && smartForm.SmartFormDetails.All(c => c.SmartFormDetailId != smartFormDetailDbItem.SmartFormDetailId))
+                    {
+                        missingSmartFormDetails.Add(smartFormDetailDbItem);
+                    }
+                    else if (smartForm.SmartFormDetails == null)
+                    {
+                        missingSmartFormDetails.Add(smartFormDetailDbItem);
+                    }
+                }
+
+                foreach (var missingItem in missingSmartFormDetails)
+                {
+                    smartFormDbVersion.SmartFormDetails.Remove(missingItem);
+                }
+            }
+            #endregion
+            smartFormRepository.SaveChanges();
+            return smartForm.SmartFormId;
+        }
+
+        /// <summary>
+        /// Add Smart Form
+        /// </summary>
+        private long AddSmartForm(SmartForm smartForm)
+        {
+            smartFormRepository.Add(smartForm);
+            smartFormRepository.SaveChanges();
+            return smartForm.SmartFormId;
+        }
         #endregion
 
         #region Constructor
@@ -2289,9 +2366,11 @@ namespace MPC.Implementation.MISServices
             ICompanyDomainRepository companyDomainRepository, ICostCentreMatrixRepository costCentreMatrixRepositry, ICostCentreQuestionRepository CostCentreQuestionRepository,
             IStockCategoryRepository StockCategoryRepository, IPaperSizeRepository PaperSizeRepository, IMachineRepository MachineRepository, IPhraseFieldRepository PhraseFieldRepository,
             IReportRepository ReportRepository, IFieldVariableRepository fieldVariableRepository, IVariableOptionRepository variableOptionRepository,
-            ICompanyContactVariableRepository companyContactVariableRepository)
+            ICompanyContactVariableRepository companyContactVariableRepository, ISmartFormRepository smartFormRepository, ISmartFormDetailRepository smartFormDetailRepository)
         {
             this.companyRepository = companyRepository;
+            this.smartFormRepository = smartFormRepository;
+            this.smartFormDetailRepository = smartFormDetailRepository;
             this.systemUserRepository = systemUserRepository;
             this.raveReviewRepository = raveReviewRepository;
             this.companyCmykColorRepository = companyCmykColorRepository;
@@ -2398,7 +2477,9 @@ namespace MPC.Implementation.MISServices
         public CompanyBaseResponse GetBaseData(long storeId)
         {
             FieldVariableRequestModel request = new FieldVariableRequestModel();
+            SmartFormRequestModel smartFormRequest = new SmartFormRequestModel();
             request.CompanyId = storeId;
+            smartFormRequest.CompanyId = storeId;
 
             return new CompanyBaseResponse
                    {
@@ -2415,10 +2496,19 @@ namespace MPC.Implementation.MISServices
                        States = stateRepository.GetAll(),
                        Countries = countryRepository.GetAll(),
                        FieldVariableResponse = fieldVariableRepository.GetFieldVariable(request),
+                       SmartFormResponse = smartFormRepository.GetSmartForms(smartFormRequest),
                        FieldVariablesForSmartForm = fieldVariableRepository.GetFieldVariablesForSmartForm(storeId),
                        CmsPages = cmsPageRepository.GetCmsPagesForOrders()
 
                    };
+        }
+
+        /// <summary>
+        /// Get Smart Forms
+        /// </summary>
+        public SmartFormResponse GetSmartForms(SmartFormRequestModel request)
+        {
+            return smartFormRepository.GetSmartForms(request);
         }
         public CompanyBaseResponse GetBaseDataForNewCompany()
         {
@@ -2464,7 +2554,7 @@ namespace MPC.Implementation.MISServices
                 }
                 return UpdateCompany(companyModel, companyDbVersion);
             }
-           
+
             return null;
         }
         public long GetOrganisationId()
@@ -2589,6 +2679,30 @@ namespace MPC.Implementation.MISServices
         public IEnumerable<FieldVariable> GetFieldVariableByCompanyId(long companyId)
         {
             return fieldVariableRepository.GetFieldVariableByCompanyId(companyId);
+        }
+
+        /// <summary>
+        /// Save Smart Form
+        /// </summary>
+        public long SaveSmartForm(SmartForm smartForm)
+        {
+            SmartForm smartFormDbVersion = smartFormRepository.Find(smartForm.SmartFormId);
+            if (smartFormDbVersion != null)
+            {
+                return UpdateSmartForm(smartForm, smartFormDbVersion);
+            }
+            else
+            {
+                return AddSmartForm(smartForm);
+            }
+        }
+
+        /// <summary>
+        /// Get Smart Form Detail By Smart Form Id
+        /// </summary>
+        public IEnumerable<SmartFormDetail> GetSmartFormDetailBySmartFormId(long smartFormId)
+        {
+            return smartFormDetailRepository.GetSmartFormDetailsBySmartFormId(smartFormId);
         }
         #endregion
 

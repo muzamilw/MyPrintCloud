@@ -75,6 +75,22 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         IEnumerable<FieldVariable> GetFieldVariableByCompanyId(long companyId);
 
+
+        /// <summary>
+        /// Save Smart Form
+        /// </summary>
+        long SaveSmartForm(SmartForm smartForm);
+
+        /// <summary>
+        /// Get Smart Forms
+        /// </summary>
+        SmartFormResponse GetSmartForms(SmartFormRequestModel request);
+
+        /// <summary>
+        /// Get Smart Form Detail By Smart Form Id
+        /// </summary>
+        IEnumerable<SmartFormDetail> GetSmartFormDetailBySmartFormId(long smartFormId);
+
         #region exportOrganisation
 
         void ExportOrganisation(long OrganisationID);

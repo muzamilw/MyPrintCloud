@@ -449,7 +449,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             };
         self = {
             //#region SELF
-            isDidplayInFooter:isDidplayInFooter,
+            isDidplayInFooter: isDidplayInFooter,
             companyId: companyId,
             name: name,
             status: status,
@@ -661,7 +661,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.StoreBackgroundImage,
             source.StoreImagePath
         );
-        store.isDidplayInFooter(source.isDisplaySecondaryPages!=null ? source.isDisplaySecondaryPages : false);
+        store.isDidplayInFooter(source.isDisplaySecondaryPages != null ? source.isDisplaySecondaryPages : false);
         store.companyType(CompanyType.Create(source.CompanyType));
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
@@ -2024,7 +2024,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             pageHTML = ko.observable(specifiedPageHTML === undefined ? "Go ahead..." : specifiedPageHTML),
             imageSrc = ko.observable(specifiedImageSource),
             fileName = ko.observable(specifiedFileName),
-            isEnabled = ko.observable(specifiedisEnabled!=null ? specifiedisEnabled : true),
+            isEnabled = ko.observable(specifiedisEnabled != null ? specifiedisEnabled : true),
             defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
             pageBanner = ko.observable(specifiedPageBanner),
             // Errors
@@ -2103,7 +2103,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             pageBanner: pageBanner,
             isValid: isValid,
             errors: errors,
-            isEnabled:isEnabled,
+            isEnabled: isEnabled,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,
@@ -4323,10 +4323,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         convertToServerData = function (source) {
             var result = {};
             result.SmartFormDetailId = source.id() === undefined ? 0 : source.id();
-            result.SmartFormId = source.smartFormId() === undefined ? null : source.smartFormId();
+            result.SmartFormId = source.smartFormId() === undefined ? 0 : source.smartFormId();
             result.ObjectType = source.objectType() === undefined ? 0 : source.objectType();
-            result.SortOrder = source.sortOrder() === undefined ? null : source.sortOrder();
-            result.VariableId = source.variableId() === undefined ? null : source.variableId();
+            result.SortOrder = source.sortOrder() === undefined ? 0 : source.sortOrder();
+            result.VariableId = source.variableId() === undefined ? 0 : source.variableId();
             result.CaptionValue = source.captionValue() === undefined ? null : source.captionValue();
             return result;
         };
@@ -4350,6 +4350,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
              source.SmartFormId,
              source.ObjectType,
              source.SortOrder,
+             source.IsRequired,
             source.VariableId,
             source.CaptionValue
             );

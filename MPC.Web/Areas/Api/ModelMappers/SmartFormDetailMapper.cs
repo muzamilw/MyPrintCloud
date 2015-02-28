@@ -34,6 +34,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new SmartFormDetail
             {
+                SmartFormDetailId = source.SmartFormDetailId,
+                SmartFormId = source.SmartFormId,
+                CaptionValue = source.CaptionValue,
+                IsRequired = source.IsRequired,
+                ObjectType = source.ObjectType,
+                SortOrder = source.SortOrder,
+                VariableId = source.VariableId
             };
         }
 
