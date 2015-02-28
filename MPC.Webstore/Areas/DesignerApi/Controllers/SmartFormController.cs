@@ -1,5 +1,6 @@
 ﻿using MPC.Common;
 using MPC.Interfaces.WebStoreServices;
+using MPC.Models.DomainModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -64,11 +65,16 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
         }
+        // parameter1 = user id , parameter2 = smartFormId
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public HttpResponseMessage GetUsersList(long id)
+        public HttpResponseMessage GetUsersList(long parameter1,long parameter2)
         {
-            var result = smartFormService.GetUsersList(id);
+            List<SmartFormUserList> usersListData = smartFormService.GetUsersList(parameter1);
+            SmartForm objSmartform = smartFormService.GetSmartForm(parameter2);
+            List<SmartFormDetail> smartFormObjs = smartFormService.GetSmartFormObjects(parameter2);
+            SmartFormUserData result = new SmartFormUserData(usersListData, objSmartform, smartFormObjs);
+
 
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
@@ -78,5 +84,20 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
 
         }
         #endregion
+    }
+
+
+    public class SmartFormUserData
+    {
+        public List<SmartFormUserList> usersList { get; set; }
+        public SmartForm smartForm { get; set; }
+        public List<SmartFormDetail> smartFormObjs { get; set; }
+
+        public SmartFormUserData(List<SmartFormUserList> usersList, SmartForm smartForm, List<SmartFormDetail> smartFormObjs)
+        {
+            this.usersList = usersList;
+            this.smartForm = smartForm;
+            this.smartFormObjs = smartFormObjs;
+        }
     }
 }
