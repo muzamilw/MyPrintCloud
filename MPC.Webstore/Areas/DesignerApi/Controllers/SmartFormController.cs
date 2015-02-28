@@ -68,7 +68,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         // parameter1 = user id , parameter2 = smartFormId
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public HttpResponseMessage GetUsersList(long parameter1,long parameter2)
+        public HttpResponseMessage GetSmartFormData(long parameter1,long parameter2)
         {
             List<SmartFormUserList> usersListData = smartFormService.GetUsersList(parameter1);
             SmartForm objSmartform = smartFormService.GetSmartForm(parameter2);
