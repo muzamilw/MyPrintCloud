@@ -36,10 +36,10 @@ namespace MPC.Implementation.MISServices
             companyContact.image = SaveCompanyContactProfileImage(companyContact);
             companyContactRepository.Update(companyContact);
             companyContactRepository.SaveChanges();
-            if (companyContact.CompanyContactVariables != null)
-            {
-                updateCompanyContactvariable(companyContact);
-            }
+            //if (companyContact.CompanyContactVariables != null)
+            //{
+            //    updateCompanyContactvariable(companyContact);
+            //}
 
 
             return companyContact;
@@ -48,15 +48,15 @@ namespace MPC.Implementation.MISServices
         private void updateCompanyContactvariable(CompanyContact companyContact)
         {
             CompanyContact companyContactDbVesion = companyContactRepository.Find(companyContact.ContactId);
-            foreach (var companyContactVariable in companyContact.CompanyContactVariables)
-            {
-                CompanyContactVariable companyContactVariableDbItem = companyContactDbVesion.CompanyContactVariables.FirstOrDefault(
-                    ccv => ccv.ContactVariableId == companyContactVariable.ContactVariableId);
-                if (companyContactVariableDbItem != null)
-                {
-                    companyContactVariableDbItem.Value = companyContactVariable.Value;
-                }
-            }
+            //foreach (var companyContactVariable in companyContact.CompanyContactVariables)
+            //{
+            //    CompanyContactVariable companyContactVariableDbItem = companyContactDbVesion.CompanyContactVariables.FirstOrDefault(
+            //        ccv => ccv.ContactVariableId == companyContactVariable.ContactVariableId);
+            //    if (companyContactVariableDbItem != null)
+            //    {
+            //        companyContactVariableDbItem.Value = companyContactVariable.Value;
+            //    }
+            //}
             companyContactRepository.SaveChanges();
         }
 

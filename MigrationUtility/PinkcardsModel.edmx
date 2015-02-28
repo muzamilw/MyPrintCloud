@@ -5653,6 +5653,30 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbl_machine_guilotine_ptv_tbl_machines">
+          <End Role="tbl_machines" Type="Self.tbl_machines" Multiplicity="1" />
+          <End Role="tbl_machine_guilotine_ptv" Type="Self.tbl_machine_guilotine_ptv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_machines">
+              <PropertyRef Name="MachineID" />
+            </Principal>
+            <Dependent Role="tbl_machine_guilotine_ptv">
+              <PropertyRef Name="GuilotineID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_machine_spoilage_tbl_machines">
+          <End Role="tbl_machines" Type="Self.tbl_machines" Multiplicity="0..1" />
+          <End Role="tbl_machine_spoilage" Type="Self.tbl_machine_spoilage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_machines">
+              <PropertyRef Name="MachineID" />
+            </Principal>
+            <Dependent Role="tbl_machine_spoilage">
+              <PropertyRef Name="MachineID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_machines_tbl_machine_costcentre_groups">
           <End Role="tbl_machines" Type="Self.tbl_machines" Multiplicity="0..1" />
           <End Role="tbl_machine_costcentre_groups" Type="Self.tbl_machine_costcentre_groups" Multiplicity="*" />
@@ -6051,6 +6075,18 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbl_stocksubcategories_tbl_stockcategories">
+          <End Role="tbl_stockcategories" Type="Self.tbl_stockcategories" Multiplicity="1" />
+          <End Role="tbl_stocksubcategories" Type="Self.tbl_stocksubcategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_stockcategories">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="tbl_stocksubcategories">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_systemusers_tbl_company_sites">
           <End Role="tbl_company_sites" Type="Self.tbl_company_sites" Multiplicity="0..1" />
           <End Role="tbl_systemusers" Type="Self.tbl_systemusers" Multiplicity="*" />
@@ -6183,6 +6219,10 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="sp_CorporateCategoryTree" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ContactCompanyID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_PublicCategoryTree" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="pinkcardsModelStoreContainer">
           <EntitySet Name="dtproperties" EntityType="Self.dtproperties" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ImagePermissions" EntityType="Self.ImagePermissions" Schema="dbo" store:Type="Tables" />
@@ -6730,6 +6770,14 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
             <End Role="tbl_lookup_methods" EntitySet="tbl_lookup_methods" />
             <End Role="tbl_machine_speedweightlookup" EntitySet="tbl_machine_speedweightlookup" />
           </AssociationSet>
+          <AssociationSet Name="FK_tbl_machine_guilotine_ptv_tbl_machines" Association="Self.FK_tbl_machine_guilotine_ptv_tbl_machines">
+            <End Role="tbl_machines" EntitySet="tbl_machines" />
+            <End Role="tbl_machine_guilotine_ptv" EntitySet="tbl_machine_guilotine_ptv" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_machine_spoilage_tbl_machines" Association="Self.FK_tbl_machine_spoilage_tbl_machines">
+            <End Role="tbl_machines" EntitySet="tbl_machines" />
+            <End Role="tbl_machine_spoilage" EntitySet="tbl_machine_spoilage" />
+          </AssociationSet>
           <AssociationSet Name="FK_tbl_machines_tbl_machine_costcentre_groups" Association="Self.FK_tbl_machines_tbl_machine_costcentre_groups">
             <End Role="tbl_machines" EntitySet="tbl_machines" />
             <End Role="tbl_machine_costcentre_groups" EntitySet="tbl_machine_costcentre_groups" />
@@ -6861,6 +6909,10 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
           <AssociationSet Name="FK_tbl_stockitems_tbl_stocksubcategories" Association="Self.FK_tbl_stockitems_tbl_stocksubcategories">
             <End Role="tbl_stocksubcategories" EntitySet="tbl_stocksubcategories" />
             <End Role="tbl_stockitems" EntitySet="tbl_stockitems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_stocksubcategories_tbl_stockcategories" Association="Self.FK_tbl_stocksubcategories_tbl_stockcategories">
+            <End Role="tbl_stockcategories" EntitySet="tbl_stockcategories" />
+            <End Role="tbl_stocksubcategories" EntitySet="tbl_stocksubcategories" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_systemusers_tbl_company_sites" Association="Self.FK_tbl_systemusers_tbl_company_sites">
             <End Role="tbl_company_sites" EntitySet="tbl_company_sites" />
@@ -7837,7 +7889,7 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
           <NavigationProperty Name="tbl_ContactCompanyTerritories" Relationship="Self.FK_tbl_CustomerTerritory_tbl_contactcompanies" FromRole="tbl_contactcompanies" ToRole="tbl_ContactCompanyTerritories" />
           <NavigationProperty Name="tbl_estimates" Relationship="Self.FK_tbl_estimates_tbl_contactcompanies" FromRole="tbl_contactcompanies" ToRole="tbl_estimates" />
           <NavigationProperty Name="tbl_PC_PostCodesBrokers" Relationship="Self.FK_tbl_PC_PostCodesBrokers_tbl_contactcompanies" FromRole="tbl_contactcompanies" ToRole="tbl_PC_PostCodesBrokers" />
-          <NavigationProperty Name="tbl_ProductCategory" Relationship="Self.FK_tbl_ProductCategory_tbl_contactcompanies" FromRole="tbl_contactcompanies" ToRole="tbl_ProductCategory" />
+          <NavigationProperty Name="tbl_ProductCategory" Relationship="pinkcardsModel.FK_tbl_ProductCategory_tbl_contactcompanies" FromRole="tbl_contactcompanies" ToRole="tbl_ProductCategory" />
         </EntityType>
         <EntityType Name="tbl_ContactCompanyCostCenters">
           <Key>
@@ -9431,10 +9483,10 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
           <NavigationProperty Name="tbl_items_PriceMatrix" Relationship="Self.FK_tbl_items_PriceMatrix_tbl_items" FromRole="tbl_items" ToRole="tbl_items_PriceMatrix" />
           <NavigationProperty Name="tbl_items_RelatedItems" Relationship="Self.FK_tbl_items_RelatedItems_tbl_items" FromRole="tbl_items" ToRole="tbl_items_RelatedItems" />
           <NavigationProperty Name="tbl_items_RelatedItems1" Relationship="Self.FK_tbl_items_RelatedItems_tbl_items1" FromRole="tbl_items" ToRole="tbl_items_RelatedItems" />
-          <NavigationProperty Name="tbl_ProductCategory" Relationship="Self.FK_tbl_items_tbl_ProductCategory" FromRole="tbl_items" ToRole="tbl_ProductCategory" />
           <NavigationProperty Name="tbl_Statuses" Relationship="Self.FK_tbl_items_tbl_Statuses" FromRole="tbl_items" ToRole="tbl_Statuses" />
           <NavigationProperty Name="tbl_TerritoryItems" Relationship="Self.FK_tbl_TerritoryItems_tbl_items" FromRole="tbl_items" ToRole="tbl_TerritoryItems" />
           <NavigationProperty Name="tbl_ItemStockOptions" Relationship="Self.itemmidfk" FromRole="tbl_items" ToRole="tbl_ItemStockOptions" />
+          <NavigationProperty Name="tbl_ProductCategory" Relationship="pinkcardsModel.FK_tbl_items_tbl_ProductCategory" FromRole="tbl_items" ToRole="tbl_ProductCategory" />
         </EntityType>
         <EntityType Name="tbl_Items_AddonCostCentres">
           <Key>
@@ -9828,6 +9880,7 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
           <Property Name="Noofcutswithoutgutters" Type="Int32" Nullable="false" />
           <Property Name="Noofcutswithgutters" Type="Int32" Nullable="false" />
           <Property Name="GuilotineID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tbl_machines" Relationship="pinkcardsModel.FK_tbl_machine_guilotine_ptv_tbl_machines" FromRole="tbl_machine_guilotine_ptv" ToRole="tbl_machines" />
         </EntityType>
         <EntityType Name="tbl_machine_ink_coverage">
           <Key>
@@ -9953,6 +10006,7 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
           <Property Name="SetupSpoilage" Type="Int32" />
           <Property Name="RunningSpoilage" Type="Single" />
           <Property Name="NoOfColors" Type="Int32" />
+          <NavigationProperty Name="tbl_machines" Relationship="pinkcardsModel.FK_tbl_machine_spoilage_tbl_machines" FromRole="tbl_machine_spoilage" ToRole="tbl_machines" />
         </EntityType>
         <EntityType Name="tbl_machines">
           <Key>
@@ -10023,6 +10077,8 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
           <NavigationProperty Name="tbl_machine_lookup_methods" Relationship="Self.FK_tbl_machines_tbl_machine_lookup_methods" FromRole="tbl_machines" ToRole="tbl_machine_lookup_methods" />
           <NavigationProperty Name="tbl_machine_pagination_profile" Relationship="Self.FK_tbl_machines_tbl_machine_pagination_profile" FromRole="tbl_machines" ToRole="tbl_machine_pagination_profile" />
           <NavigationProperty Name="tbl_machine_resource" Relationship="Self.FK_tbl_machines_tbl_machine_resource" FromRole="tbl_machines" ToRole="tbl_machine_resource" />
+          <NavigationProperty Name="tbl_machine_guilotine_ptv" Relationship="pinkcardsModel.FK_tbl_machine_guilotine_ptv_tbl_machines" FromRole="tbl_machines" ToRole="tbl_machine_guilotine_ptv" />
+          <NavigationProperty Name="tbl_machine_spoilage" Relationship="pinkcardsModel.FK_tbl_machine_spoilage_tbl_machines" FromRole="tbl_machines" ToRole="tbl_machine_spoilage" />
         </EntityType>
         <EntityType Name="tbl_markup">
           <Key>
@@ -10389,49 +10445,6 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
           <NavigationProperty Name="tbl_PaymentMethods" Relationship="Self.FK_tbl_PrePayments_tbl_PaymentMethods" FromRole="tbl_PrePayments" ToRole="tbl_PaymentMethods" />
           <NavigationProperty Name="tbl_PayPalResponses" Relationship="Self.FK_tbl_PrePayments_tbl_PayPalResponses" FromRole="tbl_PrePayments" ToRole="tbl_PayPalResponses" />
         </EntityType>
-        <EntityType Name="tbl_ProductCategory">
-          <Key>
-            <PropertyRef Name="ProductCategoryID" />
-          </Key>
-          <Property Name="ProductCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Description1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Description2" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="LockedBy" Type="Int32" Nullable="false" />
-          <Property Name="ContactCompanyID" Type="Int32" />
-          <Property Name="ParentCategoryID" Type="Int32" />
-          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
-          <Property Name="ImagePath" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ThumbnailPath" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="isEnabled" Type="Boolean" />
-          <Property Name="isMarketPlace" Type="Boolean" />
-          <Property Name="TemplateDesignerMappedCategoryName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="isArchived" Type="Boolean" />
-          <Property Name="isPublished" Type="Boolean" />
-          <Property Name="TrimmedWidth" Type="Double" />
-          <Property Name="TrimmedHeight" Type="Double" />
-          <Property Name="isColorImposition" Type="Boolean" />
-          <Property Name="isOrderImposition" Type="Boolean" />
-          <Property Name="isLinkToTemplates" Type="Boolean" />
-          <Property Name="Sides" Type="Int32" />
-          <Property Name="ApplySizeRestrictions" Type="Boolean" />
-          <Property Name="ApplyFoldLines" Type="Boolean" />
-          <Property Name="WidthRestriction" Type="Double" />
-          <Property Name="HeightRestriction" Type="Double" />
-          <Property Name="CategoryTypeID" Type="Int32" />
-          <Property Name="RegionID" Type="Int32" />
-          <Property Name="ZoomFactor" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ScaleFactor" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="isShelfProductCategory" Type="Boolean" />
-          <Property Name="MetaKeywords" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="MetaDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="MetaTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tbl_contactcompanies" Relationship="Self.FK_tbl_ProductCategory_tbl_contactcompanies" FromRole="tbl_ProductCategory" ToRole="tbl_contactcompanies" />
-          <NavigationProperty Name="tbl_items" Relationship="Self.FK_tbl_items_tbl_ProductCategory" FromRole="tbl_ProductCategory" ToRole="tbl_items" />
-          <NavigationProperty Name="Templates" Relationship="Self.FK_Products_tbl_ProductCategory" FromRole="tbl_ProductCategory" ToRole="Templates" />
-          <NavigationProperty Name="tbl_ProductCategoryFoldLines" Relationship="Self.FK_tbl_ProductCategoryFoldLines_tbl_ProductCategory" FromRole="tbl_ProductCategory" ToRole="tbl_ProductCategoryFoldLines" />
-        </EntityType>
         <EntityType Name="tbl_ProductCategoryFoldLines">
           <Key>
             <PropertyRef Name="FoldLineID" />
@@ -10440,7 +10453,7 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
           <Property Name="ProductCategoryID" Type="Int32" />
           <Property Name="FoldLineOrientation" Type="Boolean" />
           <Property Name="FoldLineOffsetFromOrigin" Type="Double" />
-          <NavigationProperty Name="tbl_ProductCategory" Relationship="Self.FK_tbl_ProductCategoryFoldLines_tbl_ProductCategory" FromRole="tbl_ProductCategoryFoldLines" ToRole="tbl_ProductCategory" />
+          <NavigationProperty Name="tbl_ProductCategory" Relationship="pinkcardsModel.FK_tbl_ProductCategoryFoldLines_tbl_ProductCategory" FromRole="tbl_ProductCategoryFoldLines" ToRole="tbl_ProductCategory" />
         </EntityType>
         <EntityType Name="tbl_ProductMarketBriefAnswers">
           <Key>
@@ -11262,6 +11275,7 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
           <Property Name="Flag4" Type="Int16" />
           <Property Name="CompanyID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tbl_stockitems" Relationship="Self.FK_tbl_stockitems_tbl_stockcategories" FromRole="tbl_stockcategories" ToRole="tbl_stockitems" />
+          <NavigationProperty Name="tbl_stocksubcategories" Relationship="pinkcardsModel.FK_tbl_stocksubcategories_tbl_stockcategories" FromRole="tbl_stockcategories" ToRole="tbl_stocksubcategories" />
         </EntityType>
         <EntityType Name="tbl_stockitem_history">
           <Key>
@@ -11377,6 +11391,7 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
           <Property Name="Fixed" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CategoryID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tbl_stockitems" Relationship="Self.FK_tbl_stockitems_tbl_stocksubcategories" FromRole="tbl_stocksubcategories" ToRole="tbl_stockitems" />
+          <NavigationProperty Name="tbl_stockcategories" Relationship="pinkcardsModel.FK_tbl_stocksubcategories_tbl_stockcategories" FromRole="tbl_stocksubcategories" ToRole="tbl_stockcategories" />
         </EntityType>
         <EntityType Name="tbl_subaccountype">
           <Key>
@@ -11895,12 +11910,12 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
           <Property Name="isSpotTemplate" Type="Boolean" />
           <Property Name="isCreatedManual" Type="Boolean" />
           <Property Name="isEditorChoice" Type="Boolean" />
-          <NavigationProperty Name="tbl_ProductCategory" Relationship="Self.FK_Products_tbl_ProductCategory" FromRole="Templates" ToRole="tbl_ProductCategory" />
           <NavigationProperty Name="TemplateBackgroundImages" Relationship="Self.FK_ProductBackgroundImages_Products" FromRole="Templates" ToRole="TemplateBackgroundImages" />
           <NavigationProperty Name="TemplateColorStyles" Relationship="Self.FK_ColorStyles_Products" FromRole="Templates" ToRole="TemplateColorStyles" />
           <NavigationProperty Name="TemplateFonts" Relationship="Self.FK_ProductFonts_Products" FromRole="Templates" ToRole="TemplateFonts" />
           <NavigationProperty Name="TemplateObjects" Relationship="Self.FK_Objects_Products" FromRole="Templates" ToRole="TemplateObjects" />
           <NavigationProperty Name="TemplatePages" Relationship="Self.FK_Templates_TemplatePages" FromRole="Templates" ToRole="TemplatePages" />
+          <NavigationProperty Name="tbl_ProductCategory" Relationship="pinkcardsModel.FK_Products_tbl_ProductCategory" FromRole="Template" ToRole="tbl_ProductCategory" />
         </EntityType>
         <EntityType Name="tbl_audittrail">
           <Key>
@@ -12255,18 +12270,6 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
               <PropertyRef Name="ContactCompanyID" />
             </Principal>
             <Dependent Role="tbl_PC_PostCodesBrokers">
-              <PropertyRef Name="ContactCompanyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tbl_ProductCategory_tbl_contactcompanies">
-          <End Role="tbl_contactcompanies" Type="Self.tbl_contactcompanies" Multiplicity="0..1" />
-          <End Role="tbl_ProductCategory" Type="Self.tbl_ProductCategory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tbl_contactcompanies">
-              <PropertyRef Name="ContactCompanyID" />
-            </Principal>
-            <Dependent Role="tbl_ProductCategory">
               <PropertyRef Name="ContactCompanyID" />
             </Dependent>
           </ReferentialConstraint>
@@ -12767,18 +12770,6 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tbl_items_tbl_ProductCategory">
-          <End Role="tbl_ProductCategory" Type="Self.tbl_ProductCategory" Multiplicity="0..1" />
-          <End Role="tbl_items" Type="Self.tbl_items" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tbl_ProductCategory">
-              <PropertyRef Name="ProductCategoryID" />
-            </Principal>
-            <Dependent Role="tbl_items">
-              <PropertyRef Name="ProductCategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tbl_items_tbl_Statuses">
           <End Role="tbl_Statuses" Type="Self.tbl_Statuses" Multiplicity="0..1" />
           <End Role="tbl_items" Type="Self.tbl_items" Multiplicity="*" />
@@ -13016,30 +13007,6 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
             </Principal>
             <Dependent Role="tbl_phrase_fields">
               <PropertyRef Name="SectionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Products_tbl_ProductCategory">
-          <End Role="tbl_ProductCategory" Type="Self.tbl_ProductCategory" Multiplicity="0..1" />
-          <End Role="Templates" Type="Self.Template" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tbl_ProductCategory">
-              <PropertyRef Name="ProductCategoryID" />
-            </Principal>
-            <Dependent Role="Templates">
-              <PropertyRef Name="ProductCategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tbl_ProductCategoryFoldLines_tbl_ProductCategory">
-          <End Role="tbl_ProductCategory" Type="Self.tbl_ProductCategory" Multiplicity="0..1" />
-          <End Role="tbl_ProductCategoryFoldLines" Type="Self.tbl_ProductCategoryFoldLines" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tbl_ProductCategory">
-              <PropertyRef Name="ProductCategoryID" />
-            </Principal>
-            <Dependent Role="tbl_ProductCategoryFoldLines">
-              <PropertyRef Name="ProductCategoryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -13446,7 +13413,6 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
           <EntitySet Name="tbl_pipeline_source" EntityType="Self.tbl_pipeline_source" />
           <EntitySet Name="tbl_prefixes" EntityType="Self.tbl_prefixes" />
           <EntitySet Name="tbl_PrePayments" EntityType="Self.tbl_PrePayments" />
-          <EntitySet Name="tbl_ProductCategory" EntityType="Self.tbl_ProductCategory" />
           <EntitySet Name="tbl_ProductCategoryFoldLines" EntityType="Self.tbl_ProductCategoryFoldLines" />
           <EntitySet Name="tbl_ProductMarketBriefAnswers" EntityType="Self.tbl_ProductMarketBriefAnswers" />
           <EntitySet Name="tbl_ProductMarketBriefQuestions" EntityType="Self.tbl_ProductMarketBriefQuestions" />
@@ -13620,10 +13586,6 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
             <End Role="tbl_contactcompanies" EntitySet="tbl_contactcompanies" />
             <End Role="tbl_PC_PostCodesBrokers" EntitySet="tbl_PC_PostCodesBrokers" />
           </AssociationSet>
-          <AssociationSet Name="FK_tbl_ProductCategory_tbl_contactcompanies" Association="Self.FK_tbl_ProductCategory_tbl_contactcompanies">
-            <End Role="tbl_contactcompanies" EntitySet="tbl_contactcompanies" />
-            <End Role="tbl_ProductCategory" EntitySet="tbl_ProductCategory" />
-          </AssociationSet>
           <AssociationSet Name="FK_tbl_contacts_tbl_ContactCompanyTerritories" Association="Self.FK_tbl_contacts_tbl_ContactCompanyTerritories">
             <End Role="tbl_ContactCompanyTerritories" EntitySet="tbl_ContactCompanyTerritories" />
             <End Role="tbl_contacts" EntitySet="tbl_contacts" />
@@ -13784,10 +13746,6 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
             <End Role="tbl_items" EntitySet="tbl_items" />
             <End Role="tbl_items_RelatedItems" EntitySet="tbl_items_RelatedItems" />
           </AssociationSet>
-          <AssociationSet Name="FK_tbl_items_tbl_ProductCategory" Association="Self.FK_tbl_items_tbl_ProductCategory">
-            <End Role="tbl_ProductCategory" EntitySet="tbl_ProductCategory" />
-            <End Role="tbl_items" EntitySet="tbl_items" />
-          </AssociationSet>
           <AssociationSet Name="FK_tbl_items_tbl_Statuses" Association="Self.FK_tbl_items_tbl_Statuses">
             <End Role="tbl_Statuses" EntitySet="tbl_Statuses" />
             <End Role="tbl_items" EntitySet="tbl_items" />
@@ -13867,14 +13825,6 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
           <AssociationSet Name="fk_sectionId" Association="Self.fk_sectionId">
             <End Role="tbl_sections" EntitySet="tbl_sections" />
             <End Role="tbl_phrase_fields" EntitySet="tbl_phrase_fields" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Products_tbl_ProductCategory" Association="Self.FK_Products_tbl_ProductCategory">
-            <End Role="tbl_ProductCategory" EntitySet="tbl_ProductCategory" />
-            <End Role="Templates" EntitySet="Templates" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tbl_ProductCategoryFoldLines_tbl_ProductCategory" Association="Self.FK_tbl_ProductCategoryFoldLines_tbl_ProductCategory">
-            <End Role="tbl_ProductCategory" EntitySet="tbl_ProductCategory" />
-            <End Role="tbl_ProductCategoryFoldLines" EntitySet="tbl_ProductCategoryFoldLines" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions" Association="Self.FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions">
             <End Role="tbl_ProductMarketBriefQuestions" EntitySet="tbl_ProductMarketBriefQuestions" />
@@ -13960,7 +13910,183 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
             <End Role="Templates" EntitySet="Templates" />
             <End Role="TemplatePages" EntitySet="TemplatePages" />
           </AssociationSet>
+          <AssociationSet Name="FK_tbl_stocksubcategories_tbl_stockcategories" Association="pinkcardsModel.FK_tbl_stocksubcategories_tbl_stockcategories">
+            <End Role="tbl_stockcategories" EntitySet="tbl_stockcategories" />
+            <End Role="tbl_stocksubcategories" EntitySet="tbl_stocksubcategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_machine_guilotine_ptv_tbl_machines" Association="pinkcardsModel.FK_tbl_machine_guilotine_ptv_tbl_machines">
+            <End Role="tbl_machines" EntitySet="tbl_machines" />
+            <End Role="tbl_machine_guilotine_ptv" EntitySet="tbl_machine_guilotine_ptv" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_machine_spoilage_tbl_machines" Association="pinkcardsModel.FK_tbl_machine_spoilage_tbl_machines">
+            <End Role="tbl_machines" EntitySet="tbl_machines" />
+            <End Role="tbl_machine_spoilage" EntitySet="tbl_machine_spoilage" />
+          </AssociationSet>
+          <FunctionImport Name="sp_CorporateCategoryTree" ReturnType="Collection(pinkcardsModel.sp_CorporateCategoryTree_Result)">
+          <Parameter Name="ContactCompanyID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_PublicCategoryTree" ReturnType="Collection(pinkcardsModel.sp_PublicCategoryTree_Result)" />
+          <EntitySet Name="tbl_ProductCategory" EntityType="pinkcardsModel.tbl_ProductCategory" />
+          <AssociationSet Name="FK_tbl_ProductCategory_tbl_contactcompanies" Association="pinkcardsModel.FK_tbl_ProductCategory_tbl_contactcompanies">
+            <End Role="tbl_contactcompanies" EntitySet="tbl_contactcompanies" />
+            <End Role="tbl_ProductCategory" EntitySet="tbl_ProductCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_items_tbl_ProductCategory" Association="pinkcardsModel.FK_tbl_items_tbl_ProductCategory">
+            <End Role="tbl_ProductCategory" EntitySet="tbl_ProductCategory" />
+            <End Role="tbl_items" EntitySet="tbl_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Products_tbl_ProductCategory" Association="pinkcardsModel.FK_Products_tbl_ProductCategory">
+            <End Role="tbl_ProductCategory" EntitySet="tbl_ProductCategory" />
+            <End Role="Template" EntitySet="Templates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ProductCategoryFoldLines_tbl_ProductCategory" Association="pinkcardsModel.FK_tbl_ProductCategoryFoldLines_tbl_ProductCategory">
+            <End Role="tbl_ProductCategory" EntitySet="tbl_ProductCategory" />
+            <End Role="tbl_ProductCategoryFoldLines" EntitySet="tbl_ProductCategoryFoldLines" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_tbl_stocksubcategories_tbl_stockcategories">
+          <End Type="pinkcardsModel.tbl_stockcategories" Role="tbl_stockcategories" Multiplicity="1" />
+          <End Type="pinkcardsModel.tbl_stocksubcategories" Role="tbl_stocksubcategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_stockcategories">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="tbl_stocksubcategories">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_machine_guilotine_ptv_tbl_machines">
+          <End Type="pinkcardsModel.tbl_machines" Role="tbl_machines" Multiplicity="1" />
+          <End Type="pinkcardsModel.tbl_machine_guilotine_ptv" Role="tbl_machine_guilotine_ptv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_machines">
+              <PropertyRef Name="MachineID" />
+            </Principal>
+            <Dependent Role="tbl_machine_guilotine_ptv">
+              <PropertyRef Name="GuilotineID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_machine_spoilage_tbl_machines">
+          <End Type="pinkcardsModel.tbl_machines" Role="tbl_machines" Multiplicity="0..1" />
+          <End Type="pinkcardsModel.tbl_machine_spoilage" Role="tbl_machine_spoilage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_machines">
+              <PropertyRef Name="MachineID" />
+            </Principal>
+            <Dependent Role="tbl_machine_spoilage">
+              <PropertyRef Name="MachineID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="sp_CorporateCategoryTree_Result">
+          <Property Type="Int32" Name="ProductCategoryID" Nullable="true" />
+          <Property Type="Int32" Name="ParentCategoryID" Nullable="false" />
+          <Property Type="String" Name="CategoryName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="SortOrder" Nullable="false" />
+          <Property Type="String" Name="ThumbnailPath" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Description1" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_PublicCategoryTree_Result">
+          <Property Type="Int32" Name="ProductCategoryID" Nullable="true" />
+          <Property Type="Int32" Name="ParentCategoryID" Nullable="false" />
+          <Property Type="String" Name="CategoryName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="DisplayOrder" Nullable="false" />
+          <Property Type="String" Name="ThumbnailPath" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Description1" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="tbl_ProductCategory">
+          <Key>
+            <PropertyRef Name="ProductCategoryID" />
+          </Key>
+          <Property Name="ProductCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Description2" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="LockedBy" Type="Int32" Nullable="false" />
+          <Property Name="ContactCompanyID" Type="Int32" />
+          <Property Name="ParentCategoryID" Type="Int32" />
+          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ThumbnailPath" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="isEnabled" Type="Boolean" />
+          <Property Name="isMarketPlace" Type="Boolean" />
+          <Property Name="TemplateDesignerMappedCategoryName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="isArchived" Type="Boolean" />
+          <Property Name="isPublished" Type="Boolean" />
+          <Property Name="TrimmedWidth" Type="Double" />
+          <Property Name="TrimmedHeight" Type="Double" />
+          <Property Name="isColorImposition" Type="Boolean" />
+          <Property Name="isOrderImposition" Type="Boolean" />
+          <Property Name="isLinkToTemplates" Type="Boolean" />
+          <Property Name="Sides" Type="Int32" />
+          <Property Name="ApplySizeRestrictions" Type="Boolean" />
+          <Property Name="ApplyFoldLines" Type="Boolean" />
+          <Property Name="WidthRestriction" Type="Double" />
+          <Property Name="HeightRestriction" Type="Double" />
+          <Property Name="CategoryTypeID" Type="Int32" />
+          <Property Name="RegionID" Type="Int32" />
+          <Property Name="ZoomFactor" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ScaleFactor" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="isShelfProductCategory" Type="Boolean" />
+          <Property Name="MetaKeywords" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MetaDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MetaTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_contactcompanies" Relationship="pinkcardsModel.FK_tbl_ProductCategory_tbl_contactcompanies" FromRole="tbl_ProductCategory" ToRole="tbl_contactcompanies" />
+          <NavigationProperty Name="tbl_items" Relationship="pinkcardsModel.FK_tbl_items_tbl_ProductCategory" FromRole="tbl_ProductCategory" ToRole="tbl_items" />
+          <NavigationProperty Name="Templates" Relationship="pinkcardsModel.FK_Products_tbl_ProductCategory" FromRole="tbl_ProductCategory" ToRole="Template" />
+          <NavigationProperty Name="tbl_ProductCategoryFoldLines" Relationship="pinkcardsModel.FK_tbl_ProductCategoryFoldLines_tbl_ProductCategory" FromRole="tbl_ProductCategory" ToRole="tbl_ProductCategoryFoldLines" />
+        </EntityType>
+        <Association Name="FK_tbl_ProductCategory_tbl_contactcompanies">
+          <End Type="pinkcardsModel.tbl_contactcompanies" Role="tbl_contactcompanies" Multiplicity="0..1" />
+          <End Type="pinkcardsModel.tbl_ProductCategory" Role="tbl_ProductCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_contactcompanies">
+              <PropertyRef Name="ContactCompanyID" />
+            </Principal>
+            <Dependent Role="tbl_ProductCategory">
+              <PropertyRef Name="ContactCompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_items_tbl_ProductCategory">
+          <End Type="pinkcardsModel.tbl_ProductCategory" Role="tbl_ProductCategory" Multiplicity="0..1" />
+          <End Type="pinkcardsModel.tbl_items" Role="tbl_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ProductCategory">
+              <PropertyRef Name="ProductCategoryID" />
+            </Principal>
+            <Dependent Role="tbl_items">
+              <PropertyRef Name="ProductCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Products_tbl_ProductCategory">
+          <End Type="pinkcardsModel.tbl_ProductCategory" Role="tbl_ProductCategory" Multiplicity="0..1" />
+          <End Type="pinkcardsModel.Template" Role="Template" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ProductCategory">
+              <PropertyRef Name="ProductCategoryID" />
+            </Principal>
+            <Dependent Role="Template">
+              <PropertyRef Name="ProductCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ProductCategoryFoldLines_tbl_ProductCategory">
+          <End Type="pinkcardsModel.tbl_ProductCategory" Role="tbl_ProductCategory" Multiplicity="0..1" />
+          <End Type="pinkcardsModel.tbl_ProductCategoryFoldLines" Role="tbl_ProductCategoryFoldLines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ProductCategory">
+              <PropertyRef Name="ProductCategoryID" />
+            </Principal>
+            <Dependent Role="tbl_ProductCategoryFoldLines">
+              <PropertyRef Name="ProductCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -17433,46 +17559,6 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tbl_ProductCategory">
-            <EntityTypeMapping TypeName="pinkcardsModel.tbl_ProductCategory">
-              <MappingFragment StoreEntitySet="tbl_ProductCategory">
-                <ScalarProperty Name="ProductCategoryID" ColumnName="ProductCategoryID" />
-                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
-                <ScalarProperty Name="ContentType" ColumnName="ContentType" />
-                <ScalarProperty Name="Description1" ColumnName="Description1" />
-                <ScalarProperty Name="Description2" ColumnName="Description2" />
-                <ScalarProperty Name="LockedBy" ColumnName="LockedBy" />
-                <ScalarProperty Name="ContactCompanyID" ColumnName="ContactCompanyID" />
-                <ScalarProperty Name="ParentCategoryID" ColumnName="ParentCategoryID" />
-                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
-                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
-                <ScalarProperty Name="ThumbnailPath" ColumnName="ThumbnailPath" />
-                <ScalarProperty Name="isEnabled" ColumnName="isEnabled" />
-                <ScalarProperty Name="isMarketPlace" ColumnName="isMarketPlace" />
-                <ScalarProperty Name="TemplateDesignerMappedCategoryName" ColumnName="TemplateDesignerMappedCategoryName" />
-                <ScalarProperty Name="isArchived" ColumnName="isArchived" />
-                <ScalarProperty Name="isPublished" ColumnName="isPublished" />
-                <ScalarProperty Name="TrimmedWidth" ColumnName="TrimmedWidth" />
-                <ScalarProperty Name="TrimmedHeight" ColumnName="TrimmedHeight" />
-                <ScalarProperty Name="isColorImposition" ColumnName="isColorImposition" />
-                <ScalarProperty Name="isOrderImposition" ColumnName="isOrderImposition" />
-                <ScalarProperty Name="isLinkToTemplates" ColumnName="isLinkToTemplates" />
-                <ScalarProperty Name="Sides" ColumnName="Sides" />
-                <ScalarProperty Name="ApplySizeRestrictions" ColumnName="ApplySizeRestrictions" />
-                <ScalarProperty Name="ApplyFoldLines" ColumnName="ApplyFoldLines" />
-                <ScalarProperty Name="WidthRestriction" ColumnName="WidthRestriction" />
-                <ScalarProperty Name="HeightRestriction" ColumnName="HeightRestriction" />
-                <ScalarProperty Name="CategoryTypeID" ColumnName="CategoryTypeID" />
-                <ScalarProperty Name="RegionID" ColumnName="RegionID" />
-                <ScalarProperty Name="ZoomFactor" ColumnName="ZoomFactor" />
-                <ScalarProperty Name="ScaleFactor" ColumnName="ScaleFactor" />
-                <ScalarProperty Name="isShelfProductCategory" ColumnName="isShelfProductCategory" />
-                <ScalarProperty Name="MetaKeywords" ColumnName="MetaKeywords" />
-                <ScalarProperty Name="MetaDescription" ColumnName="MetaDescription" />
-                <ScalarProperty Name="MetaTitle" ColumnName="MetaTitle" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tbl_ProductCategoryFoldLines">
             <EntityTypeMapping TypeName="pinkcardsModel.tbl_ProductCategoryFoldLines">
               <MappingFragment StoreEntitySet="tbl_ProductCategoryFoldLines">
@@ -19035,6 +19121,70 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
                 <ScalarProperty Name="IssuedQty" ColumnName="IssuedQty" />
                 <ScalarProperty Name="IssuedBy" ColumnName="IssuedBy" />
                 <ScalarProperty Name="IssueDateTime" ColumnName="IssueDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_CorporateCategoryTree" FunctionName="pinkcardsModel.Store.sp_CorporateCategoryTree">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="pinkcardsModel.sp_CorporateCategoryTree_Result">
+                <ScalarProperty Name="ProductCategoryID" ColumnName="ProductCategoryID" />
+                <ScalarProperty Name="ParentCategoryID" ColumnName="ParentCategoryID" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="ThumbnailPath" ColumnName="ThumbnailPath" />
+                <ScalarProperty Name="Description1" ColumnName="Description1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_PublicCategoryTree" FunctionName="pinkcardsModel.Store.sp_PublicCategoryTree">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="pinkcardsModel.sp_PublicCategoryTree_Result">
+                <ScalarProperty Name="ProductCategoryID" ColumnName="ProductCategoryID" />
+                <ScalarProperty Name="ParentCategoryID" ColumnName="ParentCategoryID" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="ThumbnailPath" ColumnName="ThumbnailPath" />
+                <ScalarProperty Name="Description1" ColumnName="Description1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tbl_ProductCategory">
+            <EntityTypeMapping TypeName="pinkcardsModel.tbl_ProductCategory">
+              <MappingFragment StoreEntitySet="tbl_ProductCategory">
+                <ScalarProperty Name="MetaTitle" ColumnName="MetaTitle" />
+                <ScalarProperty Name="MetaDescription" ColumnName="MetaDescription" />
+                <ScalarProperty Name="MetaKeywords" ColumnName="MetaKeywords" />
+                <ScalarProperty Name="isShelfProductCategory" ColumnName="isShelfProductCategory" />
+                <ScalarProperty Name="ScaleFactor" ColumnName="ScaleFactor" />
+                <ScalarProperty Name="ZoomFactor" ColumnName="ZoomFactor" />
+                <ScalarProperty Name="RegionID" ColumnName="RegionID" />
+                <ScalarProperty Name="CategoryTypeID" ColumnName="CategoryTypeID" />
+                <ScalarProperty Name="HeightRestriction" ColumnName="HeightRestriction" />
+                <ScalarProperty Name="WidthRestriction" ColumnName="WidthRestriction" />
+                <ScalarProperty Name="ApplyFoldLines" ColumnName="ApplyFoldLines" />
+                <ScalarProperty Name="ApplySizeRestrictions" ColumnName="ApplySizeRestrictions" />
+                <ScalarProperty Name="Sides" ColumnName="Sides" />
+                <ScalarProperty Name="isLinkToTemplates" ColumnName="isLinkToTemplates" />
+                <ScalarProperty Name="isOrderImposition" ColumnName="isOrderImposition" />
+                <ScalarProperty Name="isColorImposition" ColumnName="isColorImposition" />
+                <ScalarProperty Name="TrimmedHeight" ColumnName="TrimmedHeight" />
+                <ScalarProperty Name="TrimmedWidth" ColumnName="TrimmedWidth" />
+                <ScalarProperty Name="isPublished" ColumnName="isPublished" />
+                <ScalarProperty Name="isArchived" ColumnName="isArchived" />
+                <ScalarProperty Name="TemplateDesignerMappedCategoryName" ColumnName="TemplateDesignerMappedCategoryName" />
+                <ScalarProperty Name="isMarketPlace" ColumnName="isMarketPlace" />
+                <ScalarProperty Name="isEnabled" ColumnName="isEnabled" />
+                <ScalarProperty Name="ThumbnailPath" ColumnName="ThumbnailPath" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="ParentCategoryID" ColumnName="ParentCategoryID" />
+                <ScalarProperty Name="ContactCompanyID" ColumnName="ContactCompanyID" />
+                <ScalarProperty Name="LockedBy" ColumnName="LockedBy" />
+                <ScalarProperty Name="Description2" ColumnName="Description2" />
+                <ScalarProperty Name="Description1" ColumnName="Description1" />
+                <ScalarProperty Name="ContentType" ColumnName="ContentType" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="ProductCategoryID" ColumnName="ProductCategoryID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

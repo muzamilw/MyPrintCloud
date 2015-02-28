@@ -4133,8 +4133,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     };
     // #endregion ______________  Variable Option   _________________
 
-    // #region ______________  Company Contact Variable  _________________
-    var CompanyContactVariable = function (specifiedContactVariableId, specifiedContactId, specifiedVariableId, specifiedValue, specifiedTitle, specifiedType) {
+    // #region ______________  Scope Variable  _________________
+    var ScopeVariable = function (specifiedContactVariableId, specifiedContactId, specifiedVariableId, specifiedValue, specifiedTitle, specifiedType, specifiedScope) {
         var self,
             id = ko.observable(specifiedContactVariableId),
             contactId = ko.observable(specifiedContactId),
@@ -4143,6 +4143,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             fakeId = ko.observable(),
             title = ko.observable(specifiedTitle),
             type = ko.observable(specifiedType),
+            scope = ko.observable(specifiedScope),
             optionId = ko.observable(specifiedType),
             variableOptions = ko.observableArray([]),
 
@@ -4165,10 +4166,11 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             //Convert To Server
             convertToServerData = function (source) {
                 var result = {};
-                result.ContactVariableId = source.id() === undefined ? 0 : source.id();
-                result.ContactId = source.contactId() === undefined ? 0 : source.contactId();
+                result.ScopeVariableId = source.id() === undefined ? 0 : source.id();
+                result.Id = source.contactId() === undefined ? 0 : source.contactId();
                 result.VariableId = source.variableId() === undefined ? 0 : source.variableId();
                 result.Value = source.value() === undefined ? null : source.value();
+                result.Scope = source.scope() === undefined ? null : source.scope();
                 result.FakeVariableId = source.fakeId() === undefined ? 0 : source.fakeId();
                 return result;
             },
@@ -4182,6 +4184,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             variableId: variableId,
             value: value,
             title: title,
+            scope: scope,
             fakeId: fakeId,
             type: type,
             optionId: optionId,
@@ -4196,14 +4199,15 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         return self;
     };
     //Field Option Create Factory
-    CompanyContactVariable.Create = function (source) {
-        return new CompanyContactVariable(
-            source.ContactVariableId,
-             source.ContactId,
+    ScopeVariable.Create = function (source) {
+        return new ScopeVariable(
+            source.ScopeVariableId,
+             source.Id,
              source.VariableId,
              source.Value,
              source.Title,
-             source.Type
+             source.Type,
+             source.Scope
             );
     };
     // #endregion ______________  Company Contact Variable   _________________
@@ -4398,7 +4402,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         Group: Group,
         FieldVariable: FieldVariable,
         VariableOption: VariableOption,
-        CompanyContactVariable: CompanyContactVariable,
+        ScopeVariable: ScopeVariable,
         FieldVariableForSmartForm: FieldVariableForSmartForm,
         SmartForm: SmartForm,
         SmartFormDetail: SmartFormDetail,

@@ -102,7 +102,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IActivityRepository, ActivityRepository>();
             unityContainer.RegisterType<IVariableOptionRepository, VariableOptionRepository>();
             unityContainer.RegisterType<IFieldVariableRepository, FieldVariableRepository>();
-            unityContainer.RegisterType<ICompanyContactVariableRepository, CompanyContactVariableRepository>();
+            unityContainer.RegisterType<IScopeVariableRepository, ScopeVariableRepository>();
             unityContainer.RegisterType<IDeliveryCarrierRepository, DeliveryCarrierRepository>();
             unityContainer.RegisterType<IPrePaymentRepository, PrePaymentRepository>();
             unityContainer.RegisterType<IInvoiceRepository, InvoiceRepository>();

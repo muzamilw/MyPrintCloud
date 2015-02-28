@@ -1,16 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Web;
 using System.Web.Http;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
+using MPC.MIS.Areas.Api.Models;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
     /// <summary>
-    /// Item Base API Controller
+    /// Company Product Category API Controller
     /// </summary>
-    public class ItemBaseController : ApiController
+    public class CompanyProductCategoryController : ApiController
     {
         #region Private
 
@@ -22,7 +24,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public ItemBaseController(IItemService itemService)
+        public CompanyProductCategoryController(IItemService itemService)
         {
             if (itemService == null)
             {
@@ -35,17 +37,19 @@ namespace MPC.MIS.Areas.Api.Controllers
         #endregion
 
         #region Public
+
         /// <summary>
-        /// Get Item Base Data
+        /// Get Product Categories for Company
         /// </summary>
-        public Models.ItemBaseResponse Get()
+        public IEnumerable<ProductCategoryDropDown> Get(int id)
         {
             if (!ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
 
-            return itemService.GetBaseData().CreateFrom();
+            long? companyId = id > 0 ? id : (long?) null;
+            return itemService.GetProductCategoriesForCompany(companyId).CreateFrom();
         }
 
         #endregion

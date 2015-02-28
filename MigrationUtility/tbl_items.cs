@@ -240,9 +240,9 @@ namespace MigrationUtility
         public virtual ICollection<tbl_items_PriceMatrix> tbl_items_PriceMatrix { get; set; }
         public virtual ICollection<tbl_items_RelatedItems> tbl_items_RelatedItems { get; set; }
         public virtual ICollection<tbl_items_RelatedItems> tbl_items_RelatedItems1 { get; set; }
-        public virtual tbl_ProductCategory tbl_ProductCategory { get; set; }
         public virtual tbl_Statuses tbl_Statuses { get; set; }
         public virtual ICollection<tbl_TerritoryItems> tbl_TerritoryItems { get; set; }
         public virtual ICollection<tbl_ItemStockOptions> tbl_ItemStockOptions { get; set; }
+        public virtual tbl_ProductCategory tbl_ProductCategory { get; set; }
     }
 }

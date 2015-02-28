@@ -4314,18 +4314,20 @@ define("stores/stores.viewModel",
                     //Company is in edit mode and contact also in open for edit
                     if (selectedCompanyContact().contactId() !== undefined && selectedStore().companyId() !== undefined) {
                         getCompanyContactVariableForEditContact();
+                        
                     }
                 },
                 //In Case Company Contact Edit
                 getCompanyContactVariableForEditContact = function () {
                     dataservice.getCmpanyContactVaribableByContactId({
                         contactId: selectedCompanyContact().contactId(),
+                        scope: 2
                     }, {
                         success: function (data) {
                             if (data != null) {
                                 selectedCompanyContact().companyContactVariables.removeAll();
                                 _.each(data, function (item) {
-                                    var contactVariable = model.CompanyContactVariable.Create(item);
+                                    var contactVariable = model.ScopeVariable.Create(item);
                                     _.each(item.VariableOptions, function (option) {
                                         var variableOption = model.VariableOption.Create(option);
                                         contactVariable.variableOptions.push(variableOption);
@@ -4350,7 +4352,7 @@ define("stores/stores.viewModel",
                             if (data != null) {
                                 selectedCompanyContact().companyContactVariables.removeAll();
                                 _.each(data, function (item) {
-                                    var contactVariable = model.CompanyContactVariable.Create(item);
+                                    var contactVariable = model.ScopeVariable.Create(item);
                                     _.each(item.VariableOptions, function (option) {
                                         var variableOption = model.VariableOption.Create(option);
                                         contactVariable.variableOptions.push(variableOption);

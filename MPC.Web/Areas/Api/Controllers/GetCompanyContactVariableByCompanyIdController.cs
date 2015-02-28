@@ -30,9 +30,9 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Public
 
         /// <summary>
-        /// Get Field variables
+        /// Get Scope Variables
         /// </summary>
-        public IEnumerable<CompanyContactVariable> Get([FromUri]long companyId)
+        public IEnumerable<ScopeVariable> Get([FromUri]long companyId)
         {
             return companyService.GetFieldVariableByCompanyId(companyId).Select(cv => cv.CreateFromFieldVariable());
         }

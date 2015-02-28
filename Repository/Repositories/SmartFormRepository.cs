@@ -197,6 +197,22 @@ namespace MPC.Repository.Repositories
             }
             return objUsers;
         }
+         public SmartForm GetSmartForm(long smartFormId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+
+            return db.SmartForms.Where(g => g.SmartFormId == smartFormId).SingleOrDefault();
+        }
+
+        public List<SmartFormDetail> GetSmartFormObjects(long smartFormId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+
+            return db.SmartFormDetails.Where(g => g.SmartFormId == smartFormId).ToList();
+        }
+
 
         /// <summary>
         /// Get Smart Form By Company Id

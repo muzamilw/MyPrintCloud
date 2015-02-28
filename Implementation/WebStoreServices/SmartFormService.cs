@@ -40,6 +40,15 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _smartFormRepository.GetUsersList(contactId);
         }
+        public SmartForm GetSmartForm(long smartFormId)
+        {
+            return _smartFormRepository.GetSmartForm(smartFormId);
+        }
+
+        public List<SmartFormDetail> GetSmartFormObjects(long smartFormId)
+        {
+            return _smartFormRepository.GetSmartFormObjects(smartFormId);
+        }
         #endregion
     }
 }

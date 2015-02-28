@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsF9599833F608FD6A695E9F9FECC02FB862B922036B3BE9C961E27437A437EC61))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets00AAE9242DA96CD9D18CC11F2C7D4AFF31AAB838C3D9438D82FC7512B15005DF))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsF9599833F608FD6A695E9F9FECC02FB862B922036B3BE9C961E27437A437EC61 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets00AAE9242DA96CD9D18CC11F2C7D4AFF31AAB838C3D9438D82FC7512B15005DF : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsF9599833F608FD6A695E9F9FECC02FB862B922036B3BE9C961E27437A437EC61()
+        public ViewsForBaseEntitySets00AAE9242DA96CD9D18CC11F2C7D4AFF31AAB838C3D9438D82FC7512B15005DF()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "9cb4a348a03858c2b3fb0b2f5dabe9873d1a0cfc5c9ce2fc344f55f9ea0698c2";
-            this.HashOverAllExtentViews = "7cc239b37470ac272c5237a05ed3e770a448abafb77969d6a57b6018587c6e64";
+            this.HashOverMappingClosure = "b271bdc5b6110f87a2af5fa0ab373efd2ff40446ef26bdc3cd48334a831a2e2a";
+            this.HashOverAllExtentViews = "2924d2c146ca6f9f74d81bd03093cbdd59294ec310b931014ccac7056571334b";
             this.ViewCount = 292;
         }
         
@@ -4521,28 +4521,9 @@ namespace Edm_EntityMappingGeneratedViews
         }
         
         /// <Summary>
-        /// return view for DomainModelsStoreContainer.CompanyContactVariable
-        /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView85()
-        {
-            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CompanyContactVariable", @"
-    SELECT VALUE -- Constructing CompanyContactVariable
-        [DomainModels.Store.CompanyContactVariable](T1.CompanyContactVariable_ContactVariableId, T1.CompanyContactVariable_ContactId, T1.CompanyContactVariable_VariableId, T1.CompanyContactVariable_Value)
-    FROM (
-        SELECT 
-            T.ContactVariableId AS CompanyContactVariable_ContactVariableId, 
-            T.ContactId AS CompanyContactVariable_ContactId, 
-            T.VariableId AS CompanyContactVariable_VariableId, 
-            T.[Value] AS CompanyContactVariable_Value, 
-            True AS _from0
-        FROM BaseDbContext.CompanyContactVariables AS T
-    ) AS T1");
-        }
-        
-        /// <Summary>
         /// return view for DomainModelsStoreContainer.SmartForm
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView86()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView85()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.SmartForm", @"
     SELECT VALUE -- Constructing SmartForm
@@ -4562,7 +4543,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.SmartFormDetail
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView87()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView86()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.SmartFormDetail", @"
     SELECT VALUE -- Constructing SmartFormDetail
@@ -4584,7 +4565,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.PayPalResponse
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView88()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView87()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.PayPalResponse", "\r\n    SELECT VALUE -- Constructing PayPalResponse\r\n        [DomainModels.Store.Pa" +
                     "yPalResponse](T1.PayPalResponse_PayPalResponseId, T1.PayPalResponse_RequestId, T" +
@@ -4612,6 +4593,26 @@ namespace Edm_EntityMappingGeneratedViews
                     "PayPalResponse_PayerStatus, \r\n            T.ReceiverEmail AS PayPalResponse_Rece" +
                     "iverEmail, \r\n            True AS _from0\r\n        FROM BaseDbContext.PayPalRespon" +
                     "ses AS T\r\n    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.ScopeVariable
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView88()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ScopeVariable", @"
+    SELECT VALUE -- Constructing ScopeVariable
+        [DomainModels.Store.ScopeVariable](T1.ScopeVariable_ScopeVariableId, T1.ScopeVariable_Id, T1.ScopeVariable_VariableId, T1.ScopeVariable_Value, T1.ScopeVariable_Scope)
+    FROM (
+        SELECT 
+            T.ScopeVariableId AS ScopeVariable_ScopeVariableId, 
+            T.Id AS ScopeVariable_Id, 
+            T.VariableId AS ScopeVariable_VariableId, 
+            T.[Value] AS ScopeVariable_Value, 
+            T.Scope AS ScopeVariable_Scope, 
+            True AS _from0
+        FROM BaseDbContext.ScopeVariables AS T
+    ) AS T1");
         }
         
         /// <Summary>
@@ -7926,28 +7927,9 @@ namespace Edm_EntityMappingGeneratedViews
         }
         
         /// <Summary>
-        /// return view for BaseDbContext.CompanyContactVariables
-        /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView174()
-        {
-            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CompanyContactVariables", @"
-    SELECT VALUE -- Constructing CompanyContactVariables
-        [DomainModels.CompanyContactVariable](T1.CompanyContactVariable_ContactVariableId, T1.CompanyContactVariable_ContactId, T1.CompanyContactVariable_VariableId, T1.CompanyContactVariable_Value)
-    FROM (
-        SELECT 
-            T.ContactVariableId AS CompanyContactVariable_ContactVariableId, 
-            T.ContactId AS CompanyContactVariable_ContactId, 
-            T.VariableId AS CompanyContactVariable_VariableId, 
-            T.[Value] AS CompanyContactVariable_Value, 
-            True AS _from0
-        FROM DomainModelsStoreContainer.CompanyContactVariable AS T
-    ) AS T1");
-        }
-        
-        /// <Summary>
         /// return view for BaseDbContext.SmartForms
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView175()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView174()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.SmartForms", @"
     SELECT VALUE -- Constructing SmartForms
@@ -7967,7 +7949,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.SmartFormDetails
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView176()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView175()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.SmartFormDetails", @"
     SELECT VALUE -- Constructing SmartFormDetails
@@ -7989,7 +7971,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.PayPalResponses
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView177()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView176()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.PayPalResponses", "\r\n    SELECT VALUE -- Constructing PayPalResponses\r\n        [DomainModels.PayPalR" +
                     "esponse](T1.PayPalResponse_PayPalResponseId, T1.PayPalResponse_RequestId, T1.Pay" +
@@ -8017,6 +7999,26 @@ namespace Edm_EntityMappingGeneratedViews
                     "lResponse_PayerStatus, \r\n            T.ReceiverEmail AS PayPalResponse_ReceiverE" +
                     "mail, \r\n            True AS _from0\r\n        FROM DomainModelsStoreContainer.PayP" +
                     "alResponse AS T\r\n    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.ScopeVariables
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView177()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ScopeVariables", @"
+    SELECT VALUE -- Constructing ScopeVariables
+        [DomainModels.ScopeVariable](T1.ScopeVariable_ScopeVariableId, T1.ScopeVariable_Id, T1.ScopeVariable_VariableId, T1.ScopeVariable_Value, T1.ScopeVariable_Scope)
+    FROM (
+        SELECT 
+            T.ScopeVariableId AS ScopeVariable_ScopeVariableId, 
+            T.Id AS ScopeVariable_Id, 
+            T.VariableId AS ScopeVariable_VariableId, 
+            T.[Value] AS ScopeVariable_Value, 
+            T.Scope AS ScopeVariable_Scope, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.ScopeVariable AS T
+    ) AS T1");
         }
         
         /// <Summary>

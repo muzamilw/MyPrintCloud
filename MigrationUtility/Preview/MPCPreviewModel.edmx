@@ -1134,7 +1134,7 @@ warning 6002: The table/view 'MPCPreview.dbo.CompanyVariableIcon' does not have 
           <Key>
             <PropertyRef Name="CategoryId" />
           </Key>
-          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="None" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="CostcentreWorkInstructionsChoice">
@@ -1149,7 +1149,7 @@ warning 6002: The table/view 'MPCPreview.dbo.CompanyVariableIcon' does not have 
           <Key>
             <PropertyRef Name="CountryID" />
           </Key>
-          <Property Name="CountryID" Type="bigint" Nullable="false" StoreGeneratedPattern="None" />
+          <Property Name="CountryID" Type="bigint" Nullable="false" />
           <Property Name="CountryName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CountryCode" Type="varchar" MaxLength="10" />
         </EntityType>
@@ -4029,7 +4029,7 @@ warning 6002: The table/view 'MPCPreview.dbo.SectionCostCentresFeedback' does no
           <Key>
             <PropertyRef Name="StateId" />
           </Key>
-          <Property Name="StateId" Type="bigint" StoreGeneratedPattern="None" Nullable="false" />
+          <Property Name="StateId" Type="bigint" Nullable="false" />
           <Property Name="CountryId" Type="bigint" Nullable="false" />
           <Property Name="StateCode" Type="varchar" MaxLength="100" />
           <Property Name="StateName" Type="varchar" MaxLength="100" />
@@ -10646,17 +10646,6 @@ warning 6002: The table/view 'MPCPreview.dbo.WebProductCategoryItemPrice' does n
           <Property Name="ReceiverEmail" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="PrePayments" Relationship="Self.FK_tbl_PrePayments_tbl_PayPalResponses" FromRole="PayPalResponse" ToRole="PrePayment" />
         </EntityType>
-        <EntityType Name="Phrase">
-          <Key>
-            <PropertyRef Name="PhraseId" />
-          </Key>
-          <Property Name="PhraseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Phrase1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="FieldId" Type="Int32" />
-          <Property Name="CompanyId" Type="Int64" />
-          <Property Name="OrganisationId" Type="Int64" />
-          <NavigationProperty Name="PhraseField" Relationship="Self.FK_Phrase_PhraseField" FromRole="Phrase" ToRole="PhraseField" />
-        </EntityType>
         <EntityType Name="PhraseField">
           <Key>
             <PropertyRef Name="FieldId" />
@@ -10666,8 +10655,8 @@ warning 6002: The table/view 'MPCPreview.dbo.WebProductCategoryItemPrice' does n
           <Property Name="SectionId" Type="Int32" />
           <Property Name="SortOrder" Type="Int32" />
           <Property Name="OrganisationId" Type="Int64" />
-          <NavigationProperty Name="Phrases" Relationship="Self.FK_Phrase_PhraseField" FromRole="PhraseField" ToRole="Phrase" />
           <NavigationProperty Name="Section" Relationship="Self.fk_sectionId" FromRole="PhraseField" ToRole="Section" />
+          <NavigationProperty Name="Phrases" Relationship="MPCPreviewModel.FK_Phrase_PhraseField" FromRole="PhraseField" ToRole="Phrase" />
         </EntityType>
         <EntityType Name="PipelineDeduction">
           <Key>
@@ -13822,20 +13811,6 @@ warning 6002: The table/view 'MPCPreview.dbo.WebProductCategoryItemPrice' does n
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Phrase_PhraseField">
-          <End Role="PhraseField" Type="Self.PhraseField" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Phrase" Type="Self.Phrase" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PhraseField">
-              <PropertyRef Name="FieldId" />
-            </Principal>
-            <Dependent Role="Phrase">
-              <PropertyRef Name="FieldId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_sectionId">
           <End Role="Section" Type="Self.Section" Multiplicity="0..1" />
           <End Role="PhraseField" Type="Self.PhraseField" Multiplicity="*" />
@@ -14261,7 +14236,6 @@ warning 6002: The table/view 'MPCPreview.dbo.WebProductCategoryItemPrice' does n
           <EntitySet Name="PaymentMethods" EntityType="Self.PaymentMethod" />
           <EntitySet Name="PaypalPaymentRequests" EntityType="Self.PaypalPaymentRequest" />
           <EntitySet Name="PayPalResponses" EntityType="Self.PayPalResponse" />
-          <EntitySet Name="Phrases" EntityType="Self.Phrase" />
           <EntitySet Name="PhraseFields" EntityType="Self.PhraseField" />
           <EntitySet Name="PipelineDeductions" EntityType="Self.PipelineDeduction" />
           <EntitySet Name="PipeLineProducts" EntityType="Self.PipeLineProduct" />
@@ -14812,10 +14786,6 @@ warning 6002: The table/view 'MPCPreview.dbo.WebProductCategoryItemPrice' does n
             <End Role="PayPalResponse" EntitySet="PayPalResponses" />
             <End Role="PrePayment" EntitySet="PrePayments" />
           </AssociationSet>
-          <AssociationSet Name="FK_Phrase_PhraseField" Association="Self.FK_Phrase_PhraseField">
-            <End Role="PhraseField" EntitySet="PhraseFields" />
-            <End Role="Phrase" EntitySet="Phrases" />
-          </AssociationSet>
           <AssociationSet Name="fk_sectionId" Association="Self.fk_sectionId">
             <End Role="Section" EntitySet="Sections" />
             <End Role="PhraseField" EntitySet="PhraseFields" />
@@ -14908,7 +14878,37 @@ warning 6002: The table/view 'MPCPreview.dbo.WebProductCategoryItemPrice' does n
             <End Role="Template" EntitySet="Templates" />
             <End Role="TemplateObject" EntitySet="TemplateObjects" />
           </AssociationSet>
+          <EntitySet Name="Phrases" EntityType="MPCPreviewModel.Phrase" />
+          <AssociationSet Name="FK_Phrase_PhraseField" Association="MPCPreviewModel.FK_Phrase_PhraseField">
+            <End Role="PhraseField" EntitySet="PhraseFields" />
+            <End Role="Phrase" EntitySet="Phrases" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Phrase">
+          <Key>
+            <PropertyRef Name="PhraseId" />
+          </Key>
+          <Property Name="PhraseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Phrase1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FieldId" Type="Int32" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="PhraseField" Relationship="MPCPreviewModel.FK_Phrase_PhraseField" FromRole="Phrase" ToRole="PhraseField" />
+        </EntityType>
+        <Association Name="FK_Phrase_PhraseField">
+          <End Type="MPCPreviewModel.PhraseField" Role="PhraseField" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MPCPreviewModel.Phrase" Role="Phrase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhraseField">
+              <PropertyRef Name="FieldId" />
+            </Principal>
+            <Dependent Role="Phrase">
+              <PropertyRef Name="FieldId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -18141,17 +18141,6 @@ warning 6002: The table/view 'MPCPreview.dbo.WebProductCategoryItemPrice' does n
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Phrases">
-            <EntityTypeMapping TypeName="MPCPreviewModel.Phrase">
-              <MappingFragment StoreEntitySet="Phrase">
-                <ScalarProperty Name="PhraseId" ColumnName="PhraseId" />
-                <ScalarProperty Name="Phrase1" ColumnName="Phrase" />
-                <ScalarProperty Name="FieldId" ColumnName="FieldId" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="PhraseFields">
             <EntityTypeMapping TypeName="MPCPreviewModel.PhraseField">
               <MappingFragment StoreEntitySet="PhraseField">
@@ -19934,6 +19923,17 @@ warning 6002: The table/view 'MPCPreview.dbo.WebProductCategoryItemPrice' does n
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Phrases">
+            <EntityTypeMapping TypeName="MPCPreviewModel.Phrase">
+              <MappingFragment StoreEntitySet="Phrase">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="FieldId" ColumnName="FieldId" />
+                <ScalarProperty Name="Phrase1" ColumnName="Phrase" />
+                <ScalarProperty Name="PhraseId" ColumnName="PhraseId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

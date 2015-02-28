@@ -316,6 +316,7 @@
     <Compile Include="Areas\Api\Controllers\GetPhraseFiledsBySectionController.cs" />
     <Compile Include="Areas\Api\Controllers\GetSmartFormDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\InvoiceController.cs" />
+    <Compile Include="Areas\Api\Controllers\CompanyProductCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseForCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemCloneController.cs" />
@@ -339,7 +340,7 @@
     <Compile Include="Areas\Api\ModelMappers\CmsOfferMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ColorPalleteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CategoryRegionMapper.cs" />
-    <Compile Include="Areas\Api\ModelMappers\CompanyContactVariableMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ScopeVariableMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyCostCenterMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyDomainMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostcentreInstructionMapper.cs" />
@@ -356,6 +357,7 @@
     <Compile Include="Areas\Api\ModelMappers\GroupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InkCoverageGroupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InvoiceMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CompanyProductCategoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SectionCostCentreResourceMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SectionCostCentreDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SectionCostcentreMapper.cs" />
@@ -397,7 +399,7 @@
     <Compile Include="Areas\Api\Models\CompanyContactDeleteModel.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDownForOrder.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDown.cs" />
-    <Compile Include="Areas\Api\Models\CompanyContactVariable.cs" />
+    <Compile Include="Areas\Api\Models\ScopeVariable.cs" />
     <Compile Include="Areas\Api\Models\CompanyCostCentre.cs" />
     <Compile Include="Areas\Api\Models\CompanyDomain.cs" />
     <Compile Include="Areas\Api\Models\CompanyForCalender.cs" />

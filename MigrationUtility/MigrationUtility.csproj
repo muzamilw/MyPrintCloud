@@ -832,6 +832,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="sp_CorporateCategoryTree_Result.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_PublicCategoryTree_Result.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="sysdiagram.cs">
       <DependentUpon>PinkcardsModel.tt</DependentUpon>
     </Compile>
