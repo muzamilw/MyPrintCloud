@@ -344,13 +344,13 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.WebMasterTag = source.webMasterTag();
                 result.WebAnalyticCode = source.webAnalyticCode();
                 result.WebAccessCode = source.webAccessCode();
-                result.TwitterUrl = source.twitterUrl();
-                result.FacebookUrl = source.facebookUrl();
-                result.LinkedinUrl = source.linkedinUrl();
-                result.FacebookAppId = source.facebookAppId();
-                result.FacebookAppKey = source.facebookAppKey();
-                result.TwitterAppId = source.twitterAppId();
-                result.TwitterAppKey = source.twitterAppKey();
+                result.TwitterURL = source.twitterUrl();
+                result.FacebookURL = source.facebookUrl();
+                result.LinkedinURL = source.linkedinUrl();
+                result.facebookAppId = source.facebookAppId();
+                result.facebookAppKey = source.facebookAppKey();
+                result.twitterAppId = source.twitterAppId();
+                result.twitterAppKey = source.twitterAppKey();
                 result.StoreImagePath = source.storeImagePath();
                 result.SalesAndOrderManagerId1 = source.salesAndOrderManagerId1();
                 result.SalesAndOrderManagerId2 = source.salesAndOrderManagerId2();
@@ -449,7 +449,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             };
         self = {
             //#region SELF
-            isDidplayInFooter:isDidplayInFooter,
+            isDidplayInFooter: isDidplayInFooter,
             companyId: companyId,
             name: name,
             status: status,
@@ -624,13 +624,13 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.WebMasterTag,
             source.WebAnalyticCode,
             source.WebAccessCode,
-            source.TwitterUrl,
-            source.FacebookUrl,
-            source.LinkedinUrl,
-            source.FacebookAppId,
-            source.FacebookAppKey,
-            source.TwitterAppId,
-            source.TwitterAppKey,
+            source.TwitterURL,
+            source.FacebookURL,
+            source.LinkedinURL,
+            source.facebookAppId,
+            source.facebookAppKey,
+            source.twitterAppId,
+            source.twitterAppKey,
             source.SalesAndOrderManagerId1,
             source.SalesAndOrderManagerId2,
             source.ProductionManagerId1,
@@ -661,7 +661,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.StoreBackgroundImage,
             source.StoreImagePath
         );
-        store.isDidplayInFooter(source.isDisplaySecondaryPages!=null ? source.isDisplaySecondaryPages : false);
+        store.isDidplayInFooter(source.isDisplaySecondaryPages != null ? source.isDisplaySecondaryPages : false);
         store.companyType(CompanyType.Create(source.CompanyType));
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
@@ -1345,8 +1345,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     Address2: address2(),
                     Address3: address3(),
                     City: city(),
-                    State: state(),
-                    Country: country(),
+                    StateId: state(),
+                    CountryId: country(),
                     PostCode: postCode(),
                     Fax: fax(),
                     URL: uRL(),
@@ -1365,6 +1365,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     isPrivate: isPrivate(),
                     isDefaultTerrorityBilling: isDefaultTerrorityBilling(),
                     isDefaultTerrorityShipping: isDefaultTerrorityShipping(),
+                    Email: email(),
                     OrganisationId: organisationId(),
                     //Territory: territory().convertToServerData(),
                 };
@@ -1766,7 +1767,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             result.Description = source.description() === undefined ? null : source.description();
             result.CampaignType = source.campaignType() === undefined ? null : source.campaignType();
             result.IsEnabled = source.isEnabled() === undefined ? false : source.isEnabled();
-            result.StartDateTime = (startDateTime() === undefined || startDateTime() === null) ? null : moment(startDateTime()).format(ist.utcFormat);
+            //result.StartDateTime = (startDateTime() === undefined || startDateTime() === null) ? null : moment(startDateTime()).format(ist.utcFormat);
+            result.StartDateTime = moment(new Date()).format(ist.utcFormat);
             result.IncludeCustomers = (source.includeCustomers() === undefined || source.includeCustomers() === null) ? false : source.includeCustomers();
             result.IncludeSuppliers = source.includeSuppliers() === undefined ? false : source.includeSuppliers();
             result.IncludeProspects = source.includeProspects() === undefined ? false : source.includeProspects();
@@ -2024,7 +2026,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             pageHTML = ko.observable(specifiedPageHTML === undefined ? "Go ahead..." : specifiedPageHTML),
             imageSrc = ko.observable(specifiedImageSource),
             fileName = ko.observable(specifiedFileName),
-            isEnabled = ko.observable(specifiedisEnabled!=null ? specifiedisEnabled : true),
+            isEnabled = ko.observable(specifiedisEnabled != null ? specifiedisEnabled : true),
             defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
             pageBanner = ko.observable(specifiedPageBanner),
             // Errors
@@ -2103,7 +2105,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             pageBanner: pageBanner,
             isValid: isValid,
             errors: errors,
-            isEnabled:isEnabled,
+            isEnabled: isEnabled,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,
@@ -4133,8 +4135,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     };
     // #endregion ______________  Variable Option   _________________
 
-    // #region ______________  Company Contact Variable  _________________
-    var CompanyContactVariable = function (specifiedContactVariableId, specifiedContactId, specifiedVariableId, specifiedValue, specifiedTitle, specifiedType) {
+    // #region ______________  Scope Variable  _________________
+    var ScopeVariable = function (specifiedContactVariableId, specifiedContactId, specifiedVariableId, specifiedValue, specifiedTitle, specifiedType, specifiedScope) {
         var self,
             id = ko.observable(specifiedContactVariableId),
             contactId = ko.observable(specifiedContactId),
@@ -4143,6 +4145,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             fakeId = ko.observable(),
             title = ko.observable(specifiedTitle),
             type = ko.observable(specifiedType),
+            scope = ko.observable(specifiedScope),
             optionId = ko.observable(specifiedType),
             variableOptions = ko.observableArray([]),
 
@@ -4165,10 +4168,11 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             //Convert To Server
             convertToServerData = function (source) {
                 var result = {};
-                result.ContactVariableId = source.id() === undefined ? 0 : source.id();
-                result.ContactId = source.contactId() === undefined ? 0 : source.contactId();
+                result.ScopeVariableId = source.id() === undefined ? 0 : source.id();
+                result.Id = source.contactId() === undefined ? 0 : source.contactId();
                 result.VariableId = source.variableId() === undefined ? 0 : source.variableId();
                 result.Value = source.value() === undefined ? null : source.value();
+                result.Scope = source.scope() === undefined ? null : source.scope();
                 result.FakeVariableId = source.fakeId() === undefined ? 0 : source.fakeId();
                 return result;
             },
@@ -4182,6 +4186,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             variableId: variableId,
             value: value,
             title: title,
+            scope: scope,
             fakeId: fakeId,
             type: type,
             optionId: optionId,
@@ -4196,14 +4201,15 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         return self;
     };
     //Field Option Create Factory
-    CompanyContactVariable.Create = function (source) {
-        return new CompanyContactVariable(
-            source.ContactVariableId,
-             source.ContactId,
+    ScopeVariable.Create = function (source) {
+        return new ScopeVariable(
+            source.ScopeVariableId,
+             source.Id,
              source.VariableId,
              source.Value,
              source.Title,
-             source.Type
+             source.Type,
+             source.Scope
             );
     };
     // #endregion ______________  Company Contact Variable   _________________
@@ -4323,10 +4329,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         convertToServerData = function (source) {
             var result = {};
             result.SmartFormDetailId = source.id() === undefined ? 0 : source.id();
-            result.SmartFormId = source.smartFormId() === undefined ? null : source.smartFormId();
+            result.SmartFormId = source.smartFormId() === undefined ? 0 : source.smartFormId();
             result.ObjectType = source.objectType() === undefined ? 0 : source.objectType();
-            result.SortOrder = source.sortOrder() === undefined ? null : source.sortOrder();
-            result.VariableId = source.variableId() === undefined ? null : source.variableId();
+            result.SortOrder = source.sortOrder() === undefined ? 0 : source.sortOrder();
+            result.VariableId = source.variableId() === undefined ? 0 : source.variableId();
             result.CaptionValue = source.captionValue() === undefined ? null : source.captionValue();
             return result;
         };
@@ -4350,6 +4356,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
              source.SmartFormId,
              source.ObjectType,
              source.SortOrder,
+             source.IsRequired,
             source.VariableId,
             source.CaptionValue
             );
@@ -4397,7 +4404,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         Group: Group,
         FieldVariable: FieldVariable,
         VariableOption: VariableOption,
-        CompanyContactVariable: CompanyContactVariable,
+        ScopeVariable: ScopeVariable,
         FieldVariableForSmartForm: FieldVariableForSmartForm,
         SmartForm: SmartForm,
         SmartFormDetail: SmartFormDetail,

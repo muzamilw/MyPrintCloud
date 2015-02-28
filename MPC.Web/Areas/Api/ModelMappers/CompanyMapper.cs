@@ -109,6 +109,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 facebookAppKey = source.facebookAppKey,
                 twitterAppId = source.twitterAppId,
                 twitterAppKey = source.twitterAppKey,
+                TwitterURL = source.TwitterURL,
                 isStoreModePrivate = source.isStoreModePrivate == true ? "true" : "false",
                 TaxPercentageId = source.TaxPercentageId,
                 canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval,
@@ -130,6 +131,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady,
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
                 PickupAddressId = source.PickupAddressId,
+                WebAnalyticCode = source.WebAnalyticCode,
+                WebMasterTag = source.WebMasterTag,
+                FacebookURL = source.FacebookURL,
+                LinkedinURL = source.LinkedinURL,
+                
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCmykColors =
@@ -356,8 +362,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard,
                 makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady,
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
+                WebMasterTag = source.WebMasterTag ?? string.Empty,
+                WebAnalyticCode = source.WebAnalyticCode ?? string.Empty,
                 PickupAddressId = source.PickupAddressId,
                 ImageName = source.ImageName,
+                FacebookURL = source.FacebookURL,
+                TwitterURL = source.TwitterURL,
+                LinkedinURL = source.LinkedinURL,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCMYKColors =

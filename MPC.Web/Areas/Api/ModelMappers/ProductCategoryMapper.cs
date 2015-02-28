@@ -129,7 +129,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 MetaKeywords = source.MetaKeywords,
                 MetaDescription = source.MetaDescription,
                 MetaTitle = source.MetaTitle,
-                OrganisationId = source.OrganisationId,
                 SubCategoryDisplayMode1 = source.SubCategoryDisplayMode1,
                 SubCategoryDisplayMode2 = source.SubCategoryDisplayMode2,
                 SubCategoryDisplayColumns = source.SubCategoryDisplayColumns,
