@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Common", "MPC.Common\MP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Provisioning", "MPC.Provisioning\MPC.Provisioning.csproj", "{132081CA-3071-4475-B7A0-39418E8E3C78}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MigrationUtility", "MigrationUtility\MigrationUtility.csproj", "{513BF095-B568-4A53-9F14-7588626E5F73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +105,12 @@ Global
 		{132081CA-3071-4475-B7A0-39418E8E3C78}.Release|Any CPU.Build.0 = Release|Any CPU
 		{132081CA-3071-4475-B7A0-39418E8E3C78}.Release|x86.ActiveCfg = Release|x86
 		{132081CA-3071-4475-B7A0-39418E8E3C78}.Release|x86.Build.0 = Release|x86
+		{513BF095-B568-4A53-9F14-7588626E5F73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{513BF095-B568-4A53-9F14-7588626E5F73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{513BF095-B568-4A53-9F14-7588626E5F73}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{513BF095-B568-4A53-9F14-7588626E5F73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{513BF095-B568-4A53-9F14-7588626E5F73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{513BF095-B568-4A53-9F14-7588626E5F73}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
