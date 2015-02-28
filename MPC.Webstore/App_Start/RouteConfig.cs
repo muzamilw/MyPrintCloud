@@ -27,7 +27,7 @@ namespace MPC.Webstore
 
             routes.MapRoute("Orderhistory"
               , "ProductOrderHistory"
-              , new { controller = "ProductOrderHistory", action = "Index", name = "" });
+              , new { controller = "Home", action = "Index", name = "" });
 
             routes.MapRoute("store"
                  , "store/{name}"
@@ -50,6 +50,20 @@ namespace MPC.Webstore
            "PersonalDetailAndOrderPolicy/SaveOrderPolicy",
            new { controller = "PersonalDetailAndOrderPolicy", action = "SaveOrderPolicy", id = UrlParameter.Optional }
         );
+     //       routes.MapRoute(
+     //   "Orderr",
+     //   "CostCenter/GetData",
+     //   new { controller = "CostCenter", action = "GetData", id = UrlParameter.Optional }
+     //);
+
+
+
+            routes.MapRoute(
+       "orderview",
+       "ProductOrderHistory/OrderResult",
+       new { controller = "ProductOrderHistory", action = "OrderResult", id = UrlParameter.Optional }
+    );
+
 
             routes.MapRoute(
              "AllProducts",
@@ -181,6 +195,12 @@ namespace MPC.Webstore
               "PaypalSubmit/{controller}/{action}/{id}",
               new { controller = "Payment", action = "PaypalSubmit", id = UrlParameter.Optional }
            );
+              routes.MapRoute(
+              "NabSubmit",
+              "NabSubmit",
+              new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+           );
+              
             routes.MapRoute(
                "Default", // Route name
                "",        // URL with parameters

@@ -564,6 +564,11 @@ namespace MPC.Repository.BaseRepository
         public DbSet<PayPalResponse> PayPalResponses { get; set; }
 
         /// <summary>
+        /// NAB Transaction DbSet
+        /// </summary>
+        public DbSet<NABTransaction> NABTransactions { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
 // ReSharper disable InconsistentNaming

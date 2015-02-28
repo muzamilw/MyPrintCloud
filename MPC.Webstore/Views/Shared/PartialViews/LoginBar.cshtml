@@ -1,82 +1,81 @@
 ﻿@using MPC.Webstore.Common;
-@{ Layout = null;
-   
-   }
 @if ((UserCookieManager.StoreMode == 3 && ViewBag.isUserLoggedIn == true) || UserCookieManager.StoreMode == 1)
 {
-<div class="container content_area">
-    <div class="row left_right_padding">
-        <div class="float_left_simple cnttemporary col-md-6  col-sm-6 col-lg-6">
-            &nbsp;
-        </div>
-        @if (!ViewBag.isUserLoggedIn)
-        {
-            <div id="loginbarCon" class="login_bar float_right col-sm-6 col-md-6 col-lg-6 col-xs-12" style="padding-right: 0px !important;">
-                <ul id="menu-my-account" class="navM">
-                    <li style="margin-right: 0px !important;" class="classicthemeLoginMenu">
-                        <a onclick="ShowLoader();" href="/Login"><i class="fa fa-user usercolorSize"></i></a>
-                        <a onclick="ShowLoader();" href="/Signup"><i class="fa fa-unlock usercolorSize"></i></a>
-                    </li>
-                    <li class="sub PinkBtnMyAccS6">
-                        <a id="lnk_SignInRegisteration" href="/Login" class="lnkSignInCs" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkLogin", UserCookieManager.StoreId))</a>
-                    </li>
-                    <li class="ZeroRightMargin BlackBtnCS">
-                        <a href="/ShopCart" onclick="ShowLoader();" class="top_sub_section_links hyperlinkCart ">
-                            <i class="fa fa-shopping-cart cartcolorSize classicthemeLoginMenu"></i>
-                            <span id="lbl_ShoppingCart" class="carttxtcolorSize classicthemeLoginMenu">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleShopCart", UserCookieManager.StoreId))</span>
-                            <div class="lblCartCounter" id="lblCartCount">
-                                @ViewBag.CartCount
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        }
-        else
-        {
-            <div id="USerInfoContainer" class="float_right">
-                <ul class="LogBar">
+    <div class="LoginBarContainer">
+        <div class="container content_area">
+            <div class="row left_right_padding">
+                <div class="float_left_simple cnttemporary col-md-6  col-sm-6 col-lg-6">
+                    &nbsp;
+                </div>
+                @if (!ViewBag.isUserLoggedIn)
+                {
+                    <div id="loginbarCon" class="login_bar float_right col-sm-6 col-md-6 col-lg-6 col-xs-12" style="padding-right: 0px !important;">
+                        <ul id="menu-my-account" class="navM">
+                            <li style="margin-right: 0px !important;" class="classicthemeLoginMenu">
+                                <a onclick="ShowLoader();" href="/Login"><i class="fa fa-user usercolorSize"></i></a>
+                                <a onclick="ShowLoader();" href="/Signup"><i class="fa fa-unlock usercolorSize"></i></a>
+                            </li>
+                            <li class="sub PinkBtnMyAccS6">
+                                <a id="lnk_SignInRegisteration" href="/Login" class="lnkSignInCs" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkLogin", UserCookieManager.StoreId))</a>
+                            </li>
+                            <li class="ZeroRightMargin BlackBtnCS">
+                                <a href="/ShopCart" onclick="ShowLoader();" class="top_sub_section_links hyperlinkCart ">
+                                    <i class="fa fa-shopping-cart cartcolorSize classicthemeLoginMenu"></i>
+                                    <span id="lbl_ShoppingCart" class="carttxtcolorSize classicthemeLoginMenu">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleShopCart", UserCookieManager.StoreId))</span>
+                                    <div class="lblCartCounter" id="lblCartCount">
+                                        @ViewBag.CartCount
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <div id="USerInfoContainer" class="float_right">
+                        <ul class="LogBar">
 
-                    <li class="liUserInfo">
+                            <li class="liUserInfo">
 
-                        <label class="LoginBarColor liUserInfo">Hi, @ViewBag.LoginUserName</label>
-                    </li>
+                                <label class="LoginBarColor liUserInfo">Hi, @ViewBag.LoginUserName</label>
+                            </li>
 
-                    <li class="liMarginRight">
+                            <li class="liMarginRight">
 
-                        <div class="ProfileSetingbtn">
-                            <a href="/Dashboard" class="top_sub_section_links hyperlinkCart" onclick="ShowLoader();">
+                                <div class="ProfileSetingbtn">
+                                    <a href="/Dashboard" class="top_sub_section_links hyperlinkCart" onclick="ShowLoader();">
 
-                            </a>
-                        </div>
-                    </li>
-                    <li class="liMarginRight">
-                        <div class="SavedDesignBtn">
-                            <a href="#" class="top_sub_section_links hyperlinkCart" onclick="ShowLoader();">
-                                <div class="lblSDCounter" id="lblSavedDesignCount">
+                                    </a>
                                 </div>
-                            </a>
-                        </div>
-                    </li>
-                    <li class="liMarginRight">
-
-                        <div class="CartBtn">
-                            <a href="/ShopCart" class="top_sub_section_links hyperlinkCart" onclick="ShowLoader();">
-                                <div class="lblItemsCartCounter" id="lblCartCounter">
+                            </li>
+                            <li class="liMarginRight">
+                                <div class="SavedDesignBtn">
+                                    <a href="#" class="top_sub_section_links hyperlinkCart" onclick="ShowLoader();">
+                                        <div class="lblSDCounter" id="lblSavedDesignCount">
+                                        </div>
+                                    </a>
                                 </div>
-                            </a>
-                        </div>
-                    </li>
-                    <li>
-                        
-                        @Html.ActionLink("Logoutt", "LogOut", "LoginBar", null, new { @onclick = "ShowLoader();" })
-                    </li>
-                </ul>
+                            </li>
+                            <li class="liMarginRight">
+
+                                <div class="CartBtn">
+                                    <a href="/ShopCart" class="top_sub_section_links hyperlinkCart" onclick="ShowLoader();">
+                                        <div class="lblItemsCartCounter" id="lblCartCounter">
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+
+                                @Html.ActionLink("Sign out", "LogOut", "LoginBar", null, new { @onclick = "ShowLoader();" })
+                            </li>
+                        </ul>
+                    </div>
+                }
+                <div class="clearBoth">
+                    &nbsp;
+                </div>
             </div>
-        }
-        <div class="clearBoth">
-            &nbsp;
         </div>
     </div>
-</div>
 }

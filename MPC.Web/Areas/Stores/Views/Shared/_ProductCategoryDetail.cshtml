@@ -4,7 +4,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">S Business Cards</h4>
+               
+                <h4 class="modal-title" data-bind="text: $root.selectedProductCategoryForEditting() != undefined?  $root.selectedProductCategoryForEditting().categoryName(): ''"></h4>
+                
             </div>
             <div class="row" id="tabsheadersecondarypage">
 
@@ -130,32 +132,32 @@
                                         <div class="col-lg-3 col-md-4 col-sm-4">
                                             <div class=" clearfix">
                                                 <header class="main-box-header clearfix">
-                                                    <h2>Business Cards</h2>
+                                                    <h2 data-bind="text: $root.selectedProductCategoryForEditting().categoryName()"></h2>
                                                 </header>
                                                 <div class="main-box-body clearfix">
                                                     <div class="profile-status">
 
                                                     </div>
-                                                    <img src="~/Content/themes/Centaurus/img/samples/CategoryImg1.png" alt="" class="profile-img img-responsive center-block" />
-                                                    <div class="profile-label">
+                                                    <img alt="" class="categoryImage profile-img img-responsive " /> @*center-block*@
+                                                    @*<div class="profile-label">
                                                         <span class="label label-danger">Active</span>
-                                                    </div>
-                                                    <div class="profile-stars">
+                                                    </div>*@
+                                                    @*<div class="profile-stars">
                                                         <i class="fa fa-star"></i>
                                                         <i class="fa fa-star"></i>
                                                         <i class="fa fa-star"></i>
                                                         <i class="fa fa-star"></i>
                                                         <i class="fa fa-star-o"></i>
                                                         <span></span>
-                                                    </div>
+                                                    </div>*@
                                                     <div class="profile-since">
 
                                                     </div>
                                                     <div class="profile-details">
-                                                        <ul class="fa-ul">
-                                                            <li><i class="fa-li fa fa-cloud"></i>Published: <i class="fa  fa-check"></i>  </li>
-                                                            <li><i class="fa-li fa fa-archive"></i>Enables: <i class="fa  fa-check"></i></li>
+                                                        <ul class="fa-ul">   
+                                                            <li><i class="fa-li fa fa-cloud"></i>Published: <i class="fa" data-bind="css: {'fa-check': isPublished() == true, 'fa-times': isPublished() != true}"></i></li>
 
+                                                            <li><i class="fa-li fa fa-archive"></i>Enables: <i class="fa" data-bind="css: {'fa-check': isEnabled() == true, 'fa-times': isEnabled() != true}"></i></li>
                                                         </ul>
                                                     </div>
                                                     @* <div class="profile-message-btn center-block text-center">
@@ -783,10 +785,10 @@
 
                                                 <div class="col-lg-5">
                                                     <img style="min-height: 200px; width: 270px;" data-bind="attr: { src: productCategoryThumbnailFileBinary }" />
-                                                    <div class="col-lg-1 pull-right" data-bind="visible :!$root.selectedStore().hasChanges()">
-                                                        <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromProductCategoryThumbnail">
+                                                    <div class="col-lg-1 pull-right" >   @*data-bind="visible :!$root.selectedStore().hasChanges()"*@
+                                                        <div class="fileUpload btn btn-primary" >   @*data-bind="click:$root.openMediaLibraryDialogFromProductCategoryThumbnail"*@
                                                             <span>....</span>
-                                                            @*<input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.ProductCategoryThumbnailFilesLoadedCallback, fileFilter: 'image.*'}" />*@
+                                                            <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.ProductCategoryThumbnailFilesLoadedCallback, fileFilter: 'image.*'}" />
                                                         </div>
                                                     </div>
                                                     <span class="help-block text-right"></span>
@@ -805,10 +807,10 @@
                                                 </div>
                                                 <div class="col-lg-5">
                                                     <img style="min-height: 200px; width: 270px;" data-bind="attr: { src: productCategoryImageFileBinary }" />
-                                                    <div class="col-lg-1 pull-right" data-bind="visible :!$root.selectedStore().hasChanges()">
-                                                        <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromProductCategoryBanner">
+                                                    <div class="col-lg-1 pull-right" >   @*data-bind="visible :!$root.selectedStore().hasChanges()"*@
+                                                        <div class="fileUpload btn btn-primary" >  @*data-bind="click:$root.openMediaLibraryDialogFromProductCategoryBanner"*@
                                                             <span>....</span>
-                                                            @*<input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.ProductCategoryImageFilesLoadedCallback, fileFilter: 'image.*'}" />*@
+                                                            <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.ProductCategoryImageFilesLoadedCallback, fileFilter: 'image.*'}" />
                                                         </div>
                                                     </div>
                                                     <span class="help-block text-right"></span>

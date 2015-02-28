@@ -66,7 +66,7 @@ namespace MPC.Webstore.Controllers
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
 
-           
+
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
 
             if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate && StoreBaseResopnse.Company.isAllowRegistrationFromWeb == true) || (StoreBaseResopnse.Company.IsCustomer == 1))
@@ -77,6 +77,8 @@ namespace MPC.Webstore.Controllers
             {
                 ViewBag.AllowRegisteration = 1;
             }
+
+            ViewBag.CompanyName = StoreBaseResopnse.Company.Name;
             if (string.IsNullOrEmpty(ReturnURL))
                 ViewBag.ReturnURL = "Social";
             else  
@@ -154,6 +156,19 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
+              
+                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+
+                if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate && StoreBaseResopnse.Company.isAllowRegistrationFromWeb == true) || (StoreBaseResopnse.Company.IsCustomer == 1))
+                {
+                    ViewBag.AllowRegisteration = 1;
+                }
+                else
+                {
+                    ViewBag.AllowRegisteration = 1;
+                }
+
+                ViewBag.CompanyName = StoreBaseResopnse.Company.Name;
                 return View("PartialViews/Login");
             }
 

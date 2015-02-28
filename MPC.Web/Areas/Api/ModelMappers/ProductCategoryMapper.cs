@@ -11,7 +11,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             byte[] thumbnailPathBytes = null;
             string path = null;
-            if (source.ThumbnailPath != null)
+            if (!string.IsNullOrEmpty(source.ThumbnailPath))
             {
                 path = HttpContext.Current.Server.MapPath("~/" + source.ThumbnailPath);
                 if (File.Exists(path))
@@ -20,9 +20,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 } 
             }
             byte[] imagePathBytes = null;
-            if (source.ImagePath != null && File.Exists(source.ImagePath))
+            if (!string.IsNullOrEmpty(source.ImagePath))
             {
-                imagePathBytes = source.ImagePath != null ? File.ReadAllBytes(source.ImagePath) : null;
+                path = HttpContext.Current.Server.MapPath("~/" + source.ImagePath);
+                if (File.Exists(path))
+                {
+                    imagePathBytes = File.ReadAllBytes(path);
+                } 
+                //imagePathBytes = source.ImagePath != null ? File.ReadAllBytes(source.ImagePath) : null;
             }
             var productCategory = new ProductCategory
             {
@@ -101,8 +106,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyId = source.CompanyId,
                 ParentCategoryId = source.ParentCategoryId,
                 DisplayOrder = source.DisplayOrder,
-                ImagePath = source.ImagePath,
-                ThumbnailPath = source.ThumbnailPath,
                 isEnabled = source.isEnabled ?? false,
                 isMarketPlace = source.isMarketPlace,
                 TemplateDesignerMappedCategoryName = source.TemplateDesignerMappedCategoryName,

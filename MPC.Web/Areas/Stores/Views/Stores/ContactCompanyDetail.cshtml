@@ -103,15 +103,21 @@
                                                             </label>
 
                                                         </div>*@
-                                                    <div class="btn-group" data-toggle="buttons">
-                                                        <label data-bind="css: { active: (type() == 4)}, click: function () { type(4); }, clickBubble: false" class="btn btn-primary">
-                                                            Retail
-                                                        </label>
-                                                        <label data-bind="css: { active: (type() == 3)}, click: function () { type(3); }, clickBubble: false" class="btn btn-primary">
-                                                            Corporate
-                                                        </label>
+                                                    <div class="col-lg-6">
+                                                        <div class="radio">
+                                                            <input type="radio" name="optionsRadiosStoreType" id="optionsRadiosRetail" value="4" data-bind="checked: type">
+                                                            <label for="optionsRadiosRetail">
+                                                                Retail
+                                                            </label>
+                                                        </div>
+                                                        <div class="radio">
+                                                            <input type="radio" name="optionsRadiosStoreType" id="optionsRadiosCorporate" value="3" data-bind="checked: type">
+                                                            <label for="optionsRadiosCorporate">
+                                                                Corporate
+                                                            </label>
+                                                        </div>
                                                     </div>
-                                                    <span class="help-block text-right">The store type determines how a store is accessed.</span>
+
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -953,8 +959,9 @@
                                                         <table class="table table-striped table-hover">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Banner Image</th>
+                                                                    <th>Image</th>
                                                                     <th>Set Name</th>
+                                                                    <th>Title</th>
                                                                     <th>&nbsp;</th>
                                                                 </tr>
                                                             </thead>
@@ -1033,7 +1040,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="onoffswitch">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSecondaryPages" checked>
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSecondaryPages" data-bind="checked:$root.selectedStore().isDidplayInFooter(),event:{click:$root.secondayPageIsDisplayInFooterHandler}">
                                                         <label class="onoffswitch-label" for="switchSecondaryPages">
                                                             <div class="onoffswitch-inner"></div>
                                                             <div class="onoffswitch-switch"></div>
@@ -1898,6 +1905,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     @*<img src="~/Content/themes/Centaurus/img/samples/banner1.jpg" alt="Banner 1" />*@
                 </td>
                 <td data-bind="text:setName"></td>
+                <td data-bind="text:heading"></td>
                 <td class="text-right">
                     <a class="table-link" title="Edit Banner" data-bind="click:$root.onEditCompanyBanner">
                         <span class="fa-stack">
@@ -1917,9 +1925,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
         <script id="secondaryPageItemTemplate" type="text/html">
             <tr>
                 <td>
-                    <img src="../../../../Content/themes/Centaurus/img/samples/logos/UserPage.png" alt="" />
+                    <img src="" alt="" data-bind="attr: { src: imageSource }" />
                     <span style="color:#3cdfef;display:block;font-size:1.25em;padding-top:3px;margin-left:60px;" data-bind="text:pageTitle"></span>
-                    <span class="user-subhead" data-bind="text:metaTitle">Broker meta title</span>
+                    <span class="user-subhead" data-bind="text:metaTitle"></span>
                 </td>
                 <td data-bind="text:categoryName"></td>
                 <!-- ko if: isEnabled -->
@@ -2324,7 +2332,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-bind="text:widgetName,attr: { 'data-parent': '#accordion' + $index(),href:'#collapseBody' + $index()+1000 }"></a>
+                        <a data-toggle="collapse" style="color:white" data-bind="text:widgetName,attr: { 'data-parent': '#accordion' + $index(),href:'#collapseBody' + $index()+1000 }"></a>
                         <span class="glyphicon glyphicon-pencil pull-right" style="cursor: pointer;margin-right: 10px;" title="EditHtml" data-bind="visible:(widgetId()===14),click:$root.showCkEditorDialog"></span>
                         <span class="glyphicon glyphicon-remove pull-right" style="cursor: pointer;margin-right: 10px;" title="Delete" data-bind="click:$root.deletePageLayoutWidget"></span>
                     </h4>

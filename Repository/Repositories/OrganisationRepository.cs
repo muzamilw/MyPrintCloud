@@ -94,7 +94,11 @@ namespace MPC.Repository.Repositories
                     }
 
                     Organisation objOrg = db.Organisations.Where(o => o.OrganisationId == OID).FirstOrDefault();
+
+                    objOrg.OrganisationName = objExpOrg.Organisation.OrganisationName;
+
                  //   objOrg.OrganisationName = objExpOrg.Organisation.OrganisationName;
+
                     objOrg.Address1 = objExpOrg.Organisation.Address1;
                     objOrg.Address2 = objExpOrg.Organisation.Address2;
                     objOrg.Address3 = objExpOrg.Organisation.Address3;
@@ -516,6 +520,7 @@ namespace MPC.Repository.Repositories
                          
                          string DestinationLanguageDirectory = string.Empty;
                          string DestinationLanguageFilePath = string.Empty;
+
                          if (org != null)
                          {
                              // language Files
@@ -529,8 +534,10 @@ namespace MPC.Repository.Repositories
                                  {
                                      
                                      string FileName = Path.GetFileName(newPath);
-                                     
-                                     
+
+                                     DestinationLanguageFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + FileName);
+
+                                    
                                      // define destination directory
                                       string directoty = Path.GetDirectoryName(newPath);
                                     string[] stringSeparators = new string[] { "MPC_Content" };
@@ -543,7 +550,9 @@ namespace MPC.Repository.Repositories
                                         {
                                             string[] folder = FolderName.Split('\\');
                                             DestinationLanguageDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + folder[5]);
+
                                             DestinationLanguageFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + folder[5] + "/" + FileName);
+
                                         }
                                     }
                                      
@@ -961,6 +970,7 @@ namespace MPC.Repository.Repositories
                                 DestinationsPath.Add(DestinationContactFilesPath);
                                 string DestinationContactFilesDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/Contacts/" + contact.ContactId);
                                 string ContactFilesSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.OldCompanyID + "/Contacts/" + OldContactID + "/" + OldContactImage);
+
                                 if (!System.IO.Directory.Exists(DestinationContactFilesDirectory))
                                 {
                                     Directory.CreateDirectory(DestinationContactFilesDirectory);
@@ -988,6 +998,7 @@ namespace MPC.Repository.Repositories
 
                                 }
                                 contact.image = "/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/Contacts/" + contact.ContactId + "/" + NewContactImage;
+
                             }
                         }
                     }
@@ -1883,6 +1894,7 @@ namespace MPC.Repository.Repositories
                                 DestinationsPath.Add(DestinationImagePath);
                                 string DestinationImageDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/ProductCategories");
                                 string ImageSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.RetailOldCompanyID + "/ProductCategories/" + OldImagePath);
+
                                 if (!System.IO.Directory.Exists(DestinationImageDirectory))
                                 {
                                     Directory.CreateDirectory(DestinationImageDirectory);
@@ -2393,5 +2405,17 @@ namespace MPC.Repository.Repositories
         }
 
         #endregion
+        public Organisation GetCompanySiteDataWithTaxes()
+        {
+            Organisation compSite = null;
+
+
+            List<Organisation> companySitesList = db.Organisations.ToList();
+
+                if (companySitesList.Count > 0)
+                    compSite = companySitesList[0];
+            
+            return compSite;
+        }
     }
 }

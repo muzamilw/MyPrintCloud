@@ -32,6 +32,11 @@ namespace MPC.Repository.Repositories
         {
             return db.Statuses.Where(sts => sts.StatusType == statusTypeID).ToList();
         }
+        public List<Status> GetStatusListByStatusID(int statusID)
+        {
+            return db.Statuses.ToList();
+        }
+
 
     }
 }

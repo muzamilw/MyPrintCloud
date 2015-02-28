@@ -20,5 +20,7 @@ namespace MigrationUtility
         public int Noofcutswithoutgutters { get; set; }
         public int Noofcutswithgutters { get; set; }
         public int GuilotineID { get; set; }
+    
+        public virtual tbl_machines tbl_machines { get; set; }
     }
 }

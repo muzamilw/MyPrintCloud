@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
+using System.Web;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
@@ -119,10 +120,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             byte[] bytes = null;
             string fileName = string.Empty;
-            if (source.image != null && File.Exists(source.image))
+            if (!string.IsNullOrEmpty(source.image))
             {
-                fileName = source.image.IndexOf('_') > 0 ? source.image.Split('_')[1] : string.Empty;
-                bytes = source.image != null ? File.ReadAllBytes(source.image) : null;
+                string path =
+                    HttpContext.Current.Server.MapPath("~/" + source.image);
+                if (File.Exists(path))
+                {
+                    bytes = File.ReadAllBytes(path);
+                }
             }
             return new CompanyContact
                    {
