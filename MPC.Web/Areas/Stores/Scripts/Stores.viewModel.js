@@ -186,7 +186,7 @@ define("stores/stores.viewModel",
                                 selectedStore().companyDomains.splice(0, 0, new model.CompanyDomain());
                                 //selectedStore().companyDomains()[0].domain(window.location.host + '/' + selectedStore().webAccessCode() + '/login');
                                 selectedStore().companyDomains()[0].domain(window.location.host + '/store/' + selectedStore().webAccessCode());
-                                selectedStore().companyDomains()[0].isMandatoryDomain(trueSpeed);
+                                selectedStore().companyDomains()[0].isMandatoryDomain(true);
                             } else if (selectedStore().companyDomains().length > 0) {
                                 _.each(selectedStore().companyDomains(), function (companyDomain) {
                                     if (companyDomain.isMandatoryDomain()) {
