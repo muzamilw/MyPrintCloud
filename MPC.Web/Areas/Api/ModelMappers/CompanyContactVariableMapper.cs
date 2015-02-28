@@ -15,12 +15,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Create From Web Model
         /// </summary>
-        public static DomainModels.CompanyContactVariable CreateFrom(this CompanyContactVariable source)
+        public static DomainModels.ScopeVariable CreateFrom(this CompanyContactVariable source)
         {
-            return new DomainModels.CompanyContactVariable
+            return new DomainModels.ScopeVariable
             {
-                ContactVariableId = source.ContactVariableId,
-                ContactId = source.ContactId,
+                ScopeVariableId = source.ContactVariableId,
+                Id = source.ContactId,
                 VariableId = source.VariableId,
                 Value = source.Value,
                 FakeVariableId = source.FakeVariableId,
@@ -30,13 +30,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Create From Domain Model
         /// </summary>
-        public static CompanyContactVariable CreateFrom(this DomainModels.CompanyContactVariable source)
+        public static CompanyContactVariable CreateFrom(this DomainModels.ScopeVariable source)
         {
             return new CompanyContactVariable
             {
 
-                ContactVariableId = source.ContactVariableId,
-                ContactId = source.ContactId,
+                ContactVariableId = source.ScopeVariableId,
+                ContactId = source.Id,
                 FakeVariableId = source.FakeVariableId,
                 VariableId = source.VariableId,
                 Value = source.Value,

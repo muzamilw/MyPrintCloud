@@ -899,23 +899,23 @@ namespace MPC.Implementation.MISServices
                 {
                     companyDbVersion.CompanyContacts = new Collection<CompanyContact>();
                 }
-                foreach (var companyContacts in companySavingModel.NewAddedCompanyContacts)
-                {
-                    if (companyContacts.CompanyContactVariables != null)
-                    {
-                        foreach (var companyContactVariable in companyContacts.CompanyContactVariables)
-                        {
-                            FieldVariable fieldVariable = companySavingModel.Company.FieldVariables.FirstOrDefault(
-                                f => f.FakeIdVariableId == companyContactVariable.FakeVariableId);
-                            if (fieldVariable != null)
-                                companyContactVariable.VariableId = fieldVariable.VariableId;
-                        }
-                    }
+                //foreach (var companyContacts in companySavingModel.NewAddedCompanyContacts)
+                //{
+                //    if (companyContacts.CompanyContactVariables != null)
+                //    {
+                //        foreach (var companyContactVariable in companyContacts.CompanyContactVariables)
+                //        {
+                //            FieldVariable fieldVariable = companySavingModel.Company.FieldVariables.FirstOrDefault(
+                //                f => f.FakeIdVariableId == companyContactVariable.FakeVariableId);
+                //            if (fieldVariable != null)
+                //                companyContactVariable.VariableId = fieldVariable.VariableId;
+                //        }
+                //    }
 
-                    companyContacts.OrganisationId = companyContactRepository.OrganisationId;
+                //    companyContacts.OrganisationId = companyContactRepository.OrganisationId;
 
-                    companyDbVersion.CompanyContacts.Add(companyContacts);
-                }
+                //    companyDbVersion.CompanyContacts.Add(companyContacts);
+                //}
             }
             //Edit
             if (companySavingModel.EdittedCompanyContacts != null)
@@ -2172,12 +2172,12 @@ namespace MPC.Implementation.MISServices
                 {
                     foreach (var contact in companyContacts)
                     {
-                        CompanyContactVariable contactVariable = new CompanyContactVariable();
+                        //CompanyContactVariable contactVariable = new CompanyContactVariable();
 
-                        contactVariable.ContactId = contact.ContactId;
-                        contactVariable.VariableId = fieldVariable.VariableId;
-                        contactVariable.Value = fieldVariable.DefaultValue;
-                        companyContactVariableRepository.Add(contactVariable);
+                        //contactVariable.ContactId = contact.ContactId;
+                        //contactVariable.VariableId = fieldVariable.VariableId;
+                        //contactVariable.Value = fieldVariable.DefaultValue;
+                        //companyContactVariableRepository.Add(contactVariable);
                     }
                     companyContactVariableRepository.SaveChanges();
                 }
@@ -2578,7 +2578,7 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Get Company Contact Varibale By Contact ID
         /// </summary>
-        public IEnumerable<CompanyContactVariable> GetContactVariableByContactId(long contactId)
+        public IEnumerable<ScopeVariable> GetContactVariableByContactId(long contactId)
         {
             return companyContactVariableRepository.GetContactVariableByContactId(contactId);
         }

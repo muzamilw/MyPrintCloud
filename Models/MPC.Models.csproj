@@ -167,7 +167,7 @@
     <Compile Include="DomainModels\ActivityType.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CmsOffer.cs" />
-    <Compile Include="DomainModels\CompanyContactVariable.cs" />
+    <Compile Include="DomainModels\ScopeVariable.cs" />
     <Compile Include="DomainModels\CompanyVariableIcon.cs" />
     <Compile Include="DomainModels\CostCentreAnswer.cs" />
     <Compile Include="DomainModels\CostCenterChoice.cs" />

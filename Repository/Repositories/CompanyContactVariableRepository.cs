@@ -12,7 +12,7 @@ namespace MPC.Repository.Repositories
     /// <summary>
     /// Company Contact Variable Repository
     /// </summary>
-    public class CompanyContactVariableRepository : BaseRepository<CompanyContactVariable>, ICompanyContactVariableRepository
+    public class CompanyContactVariableRepository : BaseRepository<ScopeVariable>, ICompanyContactVariableRepository
     {
         #region Constructor
         /// <summary>
@@ -26,11 +26,11 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Primary database set
         /// </summary>
-        protected override IDbSet<CompanyContactVariable> DbSet
+        protected override IDbSet<ScopeVariable> DbSet
         {
             get
             {
-                return db.CompanyContactVariables;
+                return db.ScopeVariables;
             }
         }
 
@@ -41,9 +41,9 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Get Company Contact By Contact ID
         /// </summary>
-        public IEnumerable<CompanyContactVariable> GetContactVariableByContactId(long contactId)
+        public IEnumerable<ScopeVariable> GetContactVariableByContactId(long contactId)
         {
-            return DbSet.Where(cv => cv.ContactId == contactId);
+            return DbSet.Where(cv => cv.Id == contactId);
 
         }
 

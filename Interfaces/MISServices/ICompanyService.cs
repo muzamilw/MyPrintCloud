@@ -68,7 +68,7 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Get Company Contact Varibale By Contact ID
         /// </summary>
-        IEnumerable<CompanyContactVariable> GetContactVariableByContactId(long contactId);
+        IEnumerable<ScopeVariable> GetContactVariableByContactId(long contactId);
 
         /// <summary>
         /// Get Field Varibale By Company ID
