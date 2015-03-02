@@ -954,6 +954,8 @@ define("product/product.viewModel",
                         }, {
                             success: function () {
                                 selectedProduct().isArchived(true);
+                                items.remove(selectedProduct());
+                                selectedProduct(model.Item.Create({}, itemActions, itemStateTaxConstructorParams));
                                 toastr.success("Archived Successfully.");
                             },
                             error: function (response) {
