@@ -14,5 +14,6 @@
         public string CaptionValue { get; set; }
 
         public virtual SmartForm SmartForm { get; set; }
+        public virtual FieldVariable FieldVariable { get; set; }
     }
 }
