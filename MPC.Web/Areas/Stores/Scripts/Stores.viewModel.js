@@ -33,6 +33,10 @@ define("stores/stores.viewModel",
                     isEditorVisible = ko.observable(false),
                     // widget section header title
                     productsFilterHeading = ko.observable(),
+                    // Count of Users
+                    userCount = ko.observable(0),
+                    // Count of Orders
+                    orderCount=ko.observable(0),
                     //Sort On
                     sortOn = ko.observable(1),
                     //Sort In Ascending
@@ -3197,6 +3201,8 @@ define("stores/stores.viewModel",
                                     //_.each(data.CompanyContactResponse.CompanyContacts, function (item) {
                                     //    selectedStore().users.push(model.CompanyContact.Create(item));
                                     //});
+                                    orderCount(data.NewOrdersCount);
+                                    userCount(data.NewUsersCount);
                                     _.each(data.Company.ColorPalletes, function (item) {
                                         selectedStore().colorPalette(model.ColorPalette.Create(item));
                                     });
@@ -4912,6 +4918,8 @@ define("stores/stores.viewModel",
                     onEditSmartForm: onEditSmartForm,
                     secondayPageIsDisplayInFooterHandler: secondayPageIsDisplayInFooterHandler,
                     smartFormPager: smartFormPager,
+                    userCount: userCount,
+                    orderCount: orderCount,
                 };
                 //#endregion
             })()

@@ -24,5 +24,10 @@ namespace MPC.Interfaces.Repository
         /// Gets list of Orders for company edit tab
         /// </summary>
         OrdersForCrmResponse GetOrdersForCrm(GetOrdersRequest model);
+
+        /// <summary>
+        /// Gives count of new orders by given number of last dats
+        /// </summary>
+        int GetNewOrdersCount(int noOfLastDays, long companyId);
     }
 }

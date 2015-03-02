@@ -129,6 +129,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName, specifiedCustomCSS, specifiedStoreBackgroundImage, specifiedStoreImagePath
     , specifiedIsDidplayInFooter) {
         var self,
+            storeId = ko.observable(undefined),
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
             name = ko.observable(specifiedName).extend({ required: true }),
             status = ko.observable(specifiedStatus),
@@ -452,6 +453,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isDidplayInFooter: isDidplayInFooter,
             companyId: companyId,
             name: name,
+            storeId:storeId,
             status: status,
             image: image,
             url: url,
@@ -662,6 +664,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.StoreImagePath
         );
         store.isDidplayInFooter(source.isDisplaySecondaryPages != null ? source.isDisplaySecondaryPages : false);
+        store.storeId(source.StoreId);
         store.companyType(CompanyType.Create(source.CompanyType));
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
