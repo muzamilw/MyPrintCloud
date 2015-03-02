@@ -20,7 +20,7 @@
         position:absolute;
         opacity:0.25;
         top:-32%;
-          left:98px;
+        left:98px;
         -webkit-filter: blur(8px);
         -webkit-transition: -webkit-filter .50s;
         visibility:hidden;
@@ -31,7 +31,6 @@
         font-family:Ebrima;
         margin:0px;
         font-size:26px;
-        
     }
     a
     {
@@ -45,10 +44,26 @@
     {
         display:none;
     }
-    .account-anchors a ,.help-details a {
+    .account-anchors a ,.help-details a 
+    {
         display:block;
     }
-   
+    .span-dashboard-widgets 
+    {
+        font-size:13px;
+    }
+    .inner-box
+    {
+
+      padding-left:10px;
+      padding-right:0px;
+
+    }
+    .inner-box-margin
+    {
+        font-size:1em !important;
+    }
+    
 </style>
 
 
@@ -124,55 +139,65 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-3" style="padding-right:0px;">
+                <div class="col-lg-2">
                     <a href="#" style="text-decoration:none">
-                        <div class="main-box infographic-box">
-                            <i class="fa fa-user red-bg"></i>
-                            <span>Attend a Webinar</span>
-                            <span class="value">&nbsp;</span>
+                        <div class="main-box infographic-box inner-box">
+                            <i class="fa fa-user emerald-bg" style="margin-right:4px;"></i>
+                            <span class="span-dashboard-widgets">Attend Webinar</span>
+                            <span class="value inner-box-margin">&nbsp;</span>
                         </div>
                     </a>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     <a href="#" style="text-decoration:none">
-                        <div class="main-box infographic-box">
-                            <i class="fa fa-user red-bg"></i>
-                            <span>Self Paced Tutorial</span>
-                            <span class="value">&nbsp;</span>
+                        <div class="main-box infographic-box inner-box">
+                            <i class="fa fa-adjust emerald-bg"></i>
+                            <span class="span-dashboard-widgets">Tutorials</span>
+                            <span class="value inner-box-margin">&nbsp;</span>
                         </div>
                     </a>
                 </div>
-                <div class="col-lg-3">
-                    <div style="height:47px;padding:10px;">
-                        <a href="#" style="text-decoration:none;">
-                            <span>Create an Estimate/Quote</span>
-                        </a>
-                    </div>
-                    <div style="height:47px;padding:10px;">
-                        <a href=" #" style="text-decoration:none;">
-                            <span>Create a Product</span>
-                        </a>
-                        <div class="product-positioner" style="position:fixed;">
+                <div class="col-lg-2">
+                    <a href="#" style="text-decoration:none">
+                        <div class="main-box infographic-box inner-box">
+                            <i class="fa  fa-anchor emerald-bg" style="margin-right:4px;"></i>
+                            <span class="span-dashboard-widgets">Create Quote</span>
+                            <span class="value inner-box-margin">&nbsp;</span>
                         </div>
-                    </div>
+                    </a>
                 </div>
-
-
-
-                <div class="col-lg-3">
-                    <div style="height:47px;padding:10px;">
-                        <a href="#" style="text-decoration:none;">
-                            <span>Create a Web 2 Print Store</span>
-                        </a>
-                        <div class="web2print-positioner" style="position:fixed;">
+                <div class="col-lg-2">
+                    <a href="#" style="text-decoration:none">
+                        <div class="main-box infographic-box inner-box">
+                            <i class="fa fa-archive emerald-bg" style="margin-right:4px;"></i>
+                            <span class="span-dashboard-widgets">Create Store</span>
+                            <span class="value inner-box-margin">&nbsp;</span>
                         </div>
-                    </div>
-                    <div style="height:47px;padding:10px;">
-                        <a href=" #" style="text-decoration:none;">
-                            <span>Create an Online Template</span>
-                        </a>
-                    </div>
+                    </a>
                 </div>
+                <div class="col-lg-2">
+                    <a href="#" style="text-decoration:none">
+                        <div class="main-box infographic-box inner-box">
+                            <i class="fa fa-cube emerald-bg" style="margin-right:4px;"></i>
+                            <span class="span-dashboard-widgets">Create Product</span>
+                            <span class="value inner-box-margin">&nbsp;</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-2">
+                    <a href="#" style="text-decoration:none">
+                        <div class="main-box infographic-box inner-box">
+                            <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
+                            <span class="span-dashboard-widgets">Create Template</span>
+                            <span class="value inner-box-margin">&nbsp;</span>
+                        </div>
+                    </a>
+                </div>
+                
+
+
+
+                
 
                 <div class="row">
                     <div class="col-md-9 col-lg-10">
@@ -415,223 +440,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div class="main-box small-graph-box red-bg">
-                            <span class="value">2.562</span>
-                            <span class="headline">Users</span>
-                            <div class="progress">
-                                <div style="width: 60%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="60" role="progressbar" class="progress-bar">
-                                    <span class="sr-only">60% Complete</span>
-                                </div>
-                            </div>
-                            <span class="subinfo">
-                                <i class="fa fa-arrow-circle-o-up"></i>10% higher than last week
-                            </span>
-                            <span class="subinfo">
-                                <i class="fa fa-users"></i>29 new users
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div class="main-box small-graph-box emerald-bg">
-                            <span class="value">69.600</span>
-                            <span class="headline">Visits</span>
-                            <div class="progress">
-                                <div style="width: 84%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="84" role="progressbar" class="progress-bar">
-                                    <span class="sr-only">84% Complete</span>
-                                </div>
-                            </div>
-                            <span class="subinfo">
-                                <i class="fa fa-arrow-circle-o-down"></i>22% less than last week
-                            </span>
-                            <span class="subinfo">
-                                <i class="fa fa-globe"></i>84.912 last week
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-12 hidden-sm">
-                        <div class="main-box small-graph-box green-bg">
-                            <span class="value">923</span>
-                            <span class="headline">Orders</span>
-                            <div class="progress">
-                                <div style="width: 42%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="42" role="progressbar" class="progress-bar">
-                                    <span class="sr-only">42% Complete</span>
-                                </div>
-                            </div>
-                            <span class="subinfo">
-                                <i class="fa fa-arrow-circle-o-up"></i>15% higher than last week
-                            </span>
-                            <span class="subinfo">
-                                <i class="fa fa-shopping-cart"></i>8 new orders
-                            </span>
-                        </div>
-                    </div>
-                </div>
+                
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="main-box clearfix">
-                            <header class="main-box-header clearfix">
-                                <h2>Conversation</h2>
-                            </header>
-                            <div class="main-box-body clearfix">
-                                <div class="conversation-wrapper">
-                                    <div class="conversation-content">
-                                        <div class="conversation-inner">
-                                            <div class="conversation-item item-left clearfix">
-                                                <div class="conversation-user">
-                                                    <img src="~/Content/themes/Centaurus/img/samples/ryan.png" alt="" />
-                                                </div>
-                                                <div class="conversation-body">
-                                                    <div class="name">
-                                                        Ryan Gossling
-                                                    </div>
-                                                    <div class="time hidden-xs">
-                                                        September 21, 2013 18:28
-                                                    </div>
-                                                    <div class="text">
-                                                        I don't think they tried to market it to the billionaire, spelunking,
-                                                        base-jumping crowd.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="conversation-item item-right clearfix">
-                                                <div class="conversation-user">
-                                                    <img src="~/Content/themes/Centaurus/img/samples/kunis.png" alt="" />
-                                                </div>
-                                                <div class="conversation-body">
-                                                    <div class="name">
-                                                        Mila Kunis
-                                                    </div>
-                                                    <div class="time hidden-xs">
-                                                        September 21, 2013 12:45
-                                                    </div>
-                                                    <div class="text">
-                                                        The path of the righteous man is beset on all sides by the iniquities of the
-                                                        selfish and the tyranny of evil men. Blessed is he who, in the name of charity and
-                                                        good will.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="conversation-item item-right clearfix">
-                                                <div class="conversation-user">
-                                                    <img src="~/Content/themes/Centaurus/img/samples/kunis.png" alt="" />
-                                                </div>
-                                                <div class="conversation-body">
-                                                    <div class="name">
-                                                        Mila Kunis
-                                                    </div>
-                                                    <div class="time hidden-xs">
-                                                        September 21, 2013 12:45
-                                                    </div>
-                                                    <div class="text">
-                                                        The path of the righteous man is beset on all sides by the iniquities of the
-                                                        selfish and the tyranny of evil men. Blessed is he who, in the name of charity and
-                                                        good will.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="conversation-item item-left clearfix">
-                                                <div class="conversation-user">
-                                                    <img src="~/Content/themes/Centaurus/img/samples/ryan.png" alt="" />
-                                                </div>
-                                                <div class="conversation-body">
-                                                    <div class="name">
-                                                        Ryan Gossling
-                                                    </div>
-                                                    <div class="time hidden-xs">
-                                                        September 21, 2013 18:28
-                                                    </div>
-                                                    <div class="text">
-                                                        I don't think they tried to market it to the billionaire, spelunking,
-                                                        base-jumping crowd.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="conversation-item item-right clearfix">
-                                                <div class="conversation-user">
-                                                    <img src="~/Content/themes/Centaurus/img/samples/kunis.png" alt="" />
-                                                </div>
-                                                <div class="conversation-body">
-                                                    <div class="name">
-                                                        Mila Kunis
-                                                    </div>
-                                                    <div class="time hidden-xs">
-                                                        September 21, 2013 12:45
-                                                    </div>
-                                                    <div class="text">
-                                                        The path of the righteous man is beset on all sides by the iniquities of the
-                                                        selfish and the tyranny of evil men. Blessed is he who, in the name of charity and
-                                                        good will.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="conversation-item item-right clearfix">
-                                                <div class="conversation-user">
-                                                    <img src="~/Content/themes/Centaurus/img/samples/kunis.png" alt="" />
-                                                </div>
-                                                <div class="conversation-body">
-                                                    <div class="name">
-                                                        Mila Kunis
-                                                    </div>
-                                                    <div class="time hidden-xs">
-                                                        September 21, 2013 12:45
-                                                    </div>
-                                                    <div class="text">
-                                                        The path of the righteous man is beset on all sides by the iniquities of the
-                                                        selfish and the tyranny of evil men. Blessed is he who, in the name of charity and
-                                                        good will.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="conversation-item item-left clearfix">
-                                                <div class="conversation-user">
-                                                    <img src="~/Content/themes/Centaurus/img/samples/ryan.png" alt="" />
-                                                </div>
-                                                <div class="conversation-body">
-                                                    <div class="name">
-                                                        Ryan Gossling
-                                                    </div>
-                                                    <div class="time hidden-xs">
-                                                        September 21, 2013 18:28
-                                                    </div>
-                                                    <div class="text">
-                                                        I don't think they tried to market it to the billionaire, spelunking,
-                                                        base-jumping crowd.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="conversation-item item-right clearfix">
-                                                <div class="conversation-user">
-                                                    <img src="~/Content/themes/Centaurus/img/samples/kunis.png" alt="" />
-                                                </div>
-                                                <div class="conversation-body">
-                                                    <div class="name">
-                                                        Mila Kunis
-                                                    </div>
-                                                    <div class="time hidden-xs">
-                                                        September 21, 2013 12:45
-                                                    </div>
-                                                    <div class="text">
-                                                        The path of the righteous man is beset on all sides by the iniquities of the
-                                                        selfish and the tyranny of evil men. Blessed is he who, in the name of charity and
-                                                        good will.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="conversation-new-message">
-                                        <form>
-                                            <div class="form-group">
-                                                <textarea class="form-control" rows="2" placeholder="Enter your message..."></textarea>
-                                            </div>
-                                            <div class="clearfix">
-                                                <button type="submit" class="btn btn-success pull-right">Send message</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
+                           <div class="main-box-body clearfix">
+                               
+                                   <div id="calendar"></div>
+                               
                             </div>
                         </div>
                     </div>
@@ -640,7 +456,6 @@
                             <div class="tabs-wrapper tabs-no-header">
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a href="#tab-users" data-toggle="tab">Users</a></li>
-                                    <li><a href="#tab-products" data-toggle="tab">Products</a></li>
                                     <li><a href="#tab-todo" data-toggle="tab">Todo</a></li>
                                 </ul>
                                 <div class="tab-content tab-content-body clearfix">
@@ -662,35 +477,8 @@
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li class="col-md-6">
-                                                <div class="img">
-                                                    <img src="~/Content/themes/Centaurus/img/samples/kunis.png" alt="" />
-                                                </div>
-                                                <div class="details">
-                                                    <div class="name">
-                                                        <a href="#">Mila Kunis</a>
-                                                    </div>
-                                                    <div class="time online">
-                                                        <i class="fa fa-check-circle"></i>Online
-                                                    </div>
-                                                    <div class="type">
-                                                        <span class="label label-warning">Pending</span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="col-md-6">
-                                                <div class="img">
-                                                    <img src="~/Content/themes/Centaurus/img/samples/ryan.png" alt="" />
-                                                </div>
-                                                <div class="details">
-                                                    <div class="name">
-                                                        <a href="#">Ryan Gossling</a>
-                                                    </div>
-                                                    <div class="time online">
-                                                        <i class="fa fa-check-circle"></i>Online
-                                                    </div>
-                                                </div>
-                                            </li>
+                                            
+                                            
                                             <li class="col-md-6">
                                                 <div class="img">
                                                     <img src="~/Content/themes/Centaurus/img/samples/robert.png" alt="" />
@@ -961,33 +749,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="main-box">
-                            <div class="main-box-body clearfix">
-                                <div id="calendar"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="main-box">
-                            <header class="main-box-header clearfix">
-                                <h2 class="pull-left">Visitors location</h2>
-                                <div class="icon-box pull-right">
-                                    <a href="#" class="btn pull-left">
-                                        <i class="fa fa-refresh"></i>
-                                    </a>
-                                    <a href="#" class="btn pull-left">
-                                        <i class="fa fa-cog"></i>
-                                    </a>
-                                </div>
-                            </header>
-                            <div class="main-box-body clearfix">
-                                <div id="world-map" style="width: 100%; height: 400px"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -1270,7 +1032,7 @@
                 "",
                 "",
                 "",
-                '<br /><a style="font-weight:bold;">Self Paced Tutorials</a><a style="font-weight:bold;">Join in on our Webinars</a><a style="font-weight:bold;">Watch How to Video’s</a><a style="font-weight:bold;">Contact Support Desk</a><a style="font-weight:bold;">Upgrade to Paid Subscription</a>',
+                '<br /><a href=http://blog.myprintcloud.com/tutorials-quickstart/ target="_blank" style="font-weight:bold;">Self Paced Tutorials</a><a href="http://attendee.gotowebinar.com/rt/5254423497307154178" target="_blank" style="font-weight:bold;">Join in on our Webinars</a><a href="http://www.youtube.com/user/myprintcloud" target="_blank" style="font-weight:bold;">Watch How to Video’s</a><a href="http://support.myprintcloud.com" target="_blank" style="font-weight:bold;">Contact Support Desk</a><a href="https://myprintcloud.com/dashboard" target="_blank" style="font-weight:bold;">Upgrade to Paid Subscription</a>',
                 ""
             ]
 
@@ -1378,7 +1140,6 @@
                     top = top + 110;
                 
 
-
                     $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 100);
                     $(".highlight-div").css("visibility", "visible");
                     $(".highlight-div").css("width", "240px");
@@ -1410,7 +1171,8 @@
 
                     $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 100);
 
-                    $(".highlight-div").css("height","30px");
+                    $(".highlight-div").css("height", "30px");
+                  
 
                     $(".help-header-title").html(proceeding[4]);
                     $(".help-header-description").html(proceddingheadertext[4]);
