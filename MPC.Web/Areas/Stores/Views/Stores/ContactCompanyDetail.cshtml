@@ -1037,7 +1037,7 @@
                                                                 <th><span>Title</span></th>
                                                                 <th><span>Page Category</span></th>
                                                                 <th class="text-center"><span>Status</span></th>
-                                                                <th><span>Visible in Footer</span></th>
+                                                                @*<th><span>Visible in Footer</span></th>*@
                                                                 <th>&nbsp;</th>
                                                             </tr>
                                                         </thead>
@@ -1052,7 +1052,7 @@
                                                 <ul class="pagination pull-right">
                                                     <!-- ko with: $root.secondaryPagePager -->
                                                     @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                                                    <!-- /ko -->
+                                                    <!-- /ko -->T
                                                 </ul>
                                             </div>
                                         </div>
@@ -1726,6 +1726,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             <th><a href="#"><span>Variable Scope</span></a></th>
                                                             <th><a href="#"><span>Type</span></a></th>
                                                             <th><a href="#"><span>Tag</span></a></th>
+                                                            <th>&nbsp;</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -1765,6 +1766,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                         <tr>
                                                             <th><a href="#"><span>Name</span></a></th>
                                                             <th><a href="#"><span>Description</span></a></th>
+                                                            <th>&nbsp;</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -1910,11 +1912,11 @@ Public  - allows users to see other users addresses and orders." data-original-t
         </script>
         <script id="secondaryPageItemTemplate" type="text/html">
             <tr>
-                <td>
+                @*<td>
                     <img src="" alt="" data-bind="attr: { src: imageSource }" />
                     <span style="color:#3cdfef;display:block;font-size:1.25em;padding-top:3px;margin-left:60px;" data-bind="text:pageTitle"></span>
                     <span class="user-subhead" data-bind="text:metaTitle"></span>
-                </td>
+                </td>*@
                 <td data-bind="text:categoryName"></td>
                 <!-- ko if: isEnabled -->
                 <td class="text-center">
@@ -1926,14 +1928,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     <span class="label label-default">Inactive</span>
                 </td>
                 <!-- /ko -->
-                <!-- ko if: isDisplay -->
-                <td>
-                    <span>Yes</span>
-                </td>
-                <!-- /ko -->
-                <!-- ko ifnot:isDisplay -->
-                <td><span>No</span></td>
-                <!-- /ko -->
+               
                 <td style="width: 20%;">
                     <a href="#" class="table-link">
                         <span class="fa-stack">

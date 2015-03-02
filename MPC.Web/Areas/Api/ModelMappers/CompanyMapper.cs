@@ -394,7 +394,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
                 CompanyDomains = source.CompanyDomains != null ? source.CompanyDomains.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCostCentres = source.CompanyCostCentres != null ? source.CompanyCostCentres.Select(x => x.CreateFrom()).ToList() : null,
-                FieldVariables = source.FieldVariables != null ? source.FieldVariables.Select(x => x.CreateFrom()).ToList() : null
+                FieldVariables = source.FieldVariables != null ? source.FieldVariables.Select(x => x.CreateFrom()).ToList() : null,
+                SmartForms = source.SmartForms != null ? source.SmartForms.Select(x => x.CreateFrom()).ToList() : null
             };
 
             return company;

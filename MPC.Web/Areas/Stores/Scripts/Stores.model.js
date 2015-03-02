@@ -446,6 +446,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.CmsOffers = [];
                 result.MediaLibraries = [];
                 result.FieldVariables = [];
+                result.SmartForms = [];
                 return result;
             },
             // Reset
@@ -457,7 +458,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isDidplayInFooter: isDidplayInFooter,
             companyId: companyId,
             name: name,
-            storeId:storeId,
+            storeId: storeId,
             status: status,
             image: image,
             url: url,
@@ -2544,7 +2545,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     OrganisationId: organisationId(),
                     BussinessAddressId: bussinessAddressId(),
                     FileName: fileName(),
-                    CompanyContactVariables: []
+                    ScopVariables: []
                     //BussinessAddress: bussinessAddress() != undefined ? bussinessAddress().convertToServerData(): null,
                     //ShippingAddress: shippingAddress() != undefined ? shippingAddress().convertToServerData() : null,
                 };
@@ -3986,7 +3987,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
 
     // #region ______________  Field Variable   _________________
     var FieldVariable = function (specifiedVariableId, specifiedVariableName, specifiedVariableType, specifiedScope, specifiedWaterMark, specifiedDefaultValue,
-          specifiedInputMask, specifiedCompanyId, specifiedVariableTag, specifiedScopeName, specifiedTypeName, specifiedVariableTitle) {
+          specifiedInputMask, specifiedCompanyId, specifiedVariableTag, specifiedVariableTitle) {
         var self,
             id = ko.observable(specifiedVariableId),
             variableName = ko.observable(specifiedVariableName).extend({ required: true }),
@@ -3998,8 +3999,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             inputMask = ko.observable((specifiedInputMask === undefined || specifiedInputMask === null) ? "xxx-xxxxx-xxxxx" : specifiedInputMask),
             companyId = ko.observable(specifiedCompanyId),
             variableTag = ko.observable(specifiedVariableTag),
-            scopeName = ko.observable(specifiedScopeName),
-            typeName = ko.observable(specifiedTypeName),
+            scopeName = ko.observable(),
+            typeName = ko.observable(),
             variableTitle = ko.observable(specifiedVariableTitle),
             fakeId = ko.observable(),
             variableOptions = ko.observableArray([]),
@@ -4334,7 +4335,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             smartFormId = ko.observable(specifiedSmartFormId),
             objectType = ko.observable(specifiedObjectType),
             sortOrder = ko.observable(specifiedSortOrder),
-            isRequired = ko.observable(specifiedIsRequired),
+            isRequired = ko.observable((specifiedIsRequired !== null && specifiedIsRequired !== undefined && specifiedIsRequired === true) ? "1" : "0"),
             variableId = ko.observable(specifiedVariableId),
             captionValue = ko.observable(specifiedCaptionValue),
             html = ko.observable(),
@@ -4345,7 +4346,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             result.SmartFormId = source.smartFormId() === undefined ? 0 : source.smartFormId();
             result.ObjectType = source.objectType() === undefined ? 0 : source.objectType();
             result.SortOrder = source.sortOrder() === undefined ? 0 : source.sortOrder();
-            result.VariableId = source.variableId() === undefined ? 0 : source.variableId();
+            result.VariableId = source.variableId() === undefined ? null : source.variableId();
+            result.IsRequired = source.isRequired() === "1" ? true : false;
             result.CaptionValue = source.captionValue() === undefined ? null : source.captionValue();
             return result;
         };
