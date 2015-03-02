@@ -475,7 +475,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new CompanyResponse
             {
                 Company = source.Company.CreateFrom(),
-
+                NewUsersCount = source.NewUsersCount,
+                NewOrdersCount = source.NewOrdersCount,
                 SecondaryPageResponse = new SecondaryPageResponse
                 {
                     CmsPages =

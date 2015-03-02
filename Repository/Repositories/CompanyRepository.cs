@@ -40,6 +40,15 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        /// <summary>
+        /// USer count in last few days
+        /// </summary>
+        public int UserCount(long? storeId, int numberOfDays)
+        {
+            DateTime currenteDate = DateTime.UtcNow.Date.AddDays(-numberOfDays);
+            return DbSet.Count(company => storeId == company.StoreId && company.CreationDate >= currenteDate);
+        }
+
         public override IEnumerable<Company> GetAll()
         {
             return DbSet.Where(c => c.OrganisationId == OrganisationId).ToList();

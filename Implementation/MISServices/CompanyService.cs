@@ -33,8 +33,9 @@ namespace MPC.Implementation.MISServices
         #region Private
 
         #region Repositories
-
+        
         private readonly ICompanyRepository companyRepository;
+        private readonly IEstimateRepository estimateRepository;
         private readonly ISystemUserRepository systemUserRepository;
         private readonly IRaveReviewRepository raveReviewRepository;
         private readonly ICompanyCMYKColorRepository companyCmykColorRepository;
@@ -2402,11 +2403,12 @@ namespace MPC.Implementation.MISServices
             ICompanyDomainRepository companyDomainRepository, ICostCentreMatrixRepository costCentreMatrixRepositry, ICostCentreQuestionRepository CostCentreQuestionRepository,
             IStockCategoryRepository StockCategoryRepository, IPaperSizeRepository PaperSizeRepository, IMachineRepository MachineRepository, IPhraseFieldRepository PhraseFieldRepository,
             IReportRepository ReportRepository, IFieldVariableRepository fieldVariableRepository, IVariableOptionRepository variableOptionRepository,
-            IScopeVariableRepository scopeVariableRepository, ISmartFormRepository smartFormRepository, ISmartFormDetailRepository smartFormDetailRepository)
+            IScopeVariableRepository scopeVariableRepository, ISmartFormRepository smartFormRepository, ISmartFormDetailRepository smartFormDetailRepository, IEstimateRepository estimateRepository)
         {
             this.companyRepository = companyRepository;
             this.smartFormRepository = smartFormRepository;
             this.smartFormDetailRepository = smartFormDetailRepository;
+            this.estimateRepository = estimateRepository;
             this.systemUserRepository = systemUserRepository;
             this.raveReviewRepository = raveReviewRepository;
             this.companyCmykColorRepository = companyCmykColorRepository;
@@ -2507,7 +2509,15 @@ namespace MPC.Implementation.MISServices
         }
         public CompanyResponse GetCompanyById(long companyId)
         {
-            return companyRepository.GetCompanyById(companyId);
+            CompanyResponse response = companyRepository.GetCompanyById(companyId);
+            int userCount = 0;
+            int newOrdersCount = 0;
+            if (response.Company != null && response.Company.StoreId != null)
+                userCount = companyRepository.UserCount(response.Company.StoreId, 5);
+            newOrdersCount = estimateRepository.GetNewOrdersCount(5, companyId);
+            response.NewOrdersCount = newOrdersCount;
+            response.NewUsersCount = userCount;
+            return response;
         }
 
         public CompanyBaseResponse GetBaseData(long storeId)
