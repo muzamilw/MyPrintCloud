@@ -72,6 +72,7 @@ namespace MPC.Repository.Repositories
         {
             CompanyResponse companyResponse = new CompanyResponse();
             var company = DbSet.Find(companyId);
+            company.RaveReviews=company.RaveReviews.OrderBy(rv => rv.SortOrder).ToList();
             companyResponse.SecondaryPageResponse = new SecondaryPageResponse();
             companyResponse.SecondaryPageResponse.RowCount = company.CmsPages.Count;
             companyResponse.SecondaryPageResponse.CmsPages = company.CmsPages.Take(5).ToList();
