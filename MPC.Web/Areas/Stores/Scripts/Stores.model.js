@@ -244,6 +244,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             //Is Show Google Map
             isShowGoogleMap = ko.observable(specifiedIsShowGoogleMap != undefined ? specifiedIsShowGoogleMap.toString() : "1"),
             customCSS = ko.observable(specifiedCustomCSS),
+            //Company Domain Copy
+            defaultCompanyDomainCopy = ko.observable(),
             // Errors
             errors = ko.validation.group({
                 companyId: companyId,
@@ -259,6 +261,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
 
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
+                //#region Dirty Flag 
                 // ReSharper restore InconsistentNaming
                 companyId: companyId,
                 name: name,
@@ -319,6 +322,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 isDeliveryTaxAble: isDeliveryTaxAble,
                 pickupAddressId: pickupAddressId,
                 storeLayoutChange: storeLayoutChange
+                //#endregion
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -524,6 +528,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             mediaLibraries: mediaLibraries,
             companyCostCenters: companyCostCenters,
             storeLayoutChange: storeLayoutChange,
+            defaultCompanyDomainCopy: defaultCompanyDomainCopy,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -606,9 +611,11 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         _.each(source.companyCostCenters, function (item) {
             result.companyCostCenters.push(CostCenter.CreateFromClientModel(item));
         });
+        result.defaultCompanyDomainCopy = source.defaultCompanyDomainCopy();
         return result;
     };
     Store.Create = function (source) {
+        //#region Store
         var store = new Store(
             source.CompanyId,
             source.Name,
@@ -699,9 +706,11 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             //If first item is pushing then it is the mandatory one
             if (temp.length == 1) {
                 temp[0].isMandatoryDomain(true);
+                store.defaultCompanyDomainCopy(CompanyDomain.Create(item));
             }
         });
         store.companyDomains(temp.reverse());
+        //store.defaultCompanyDomainCopy(temp.reverse()[0]);
         //_.each(source.ContactCompanies, function (item) {
         _.each(source.CompanyContacts, function (item) {
             store.users.push(CompanyContact.Create(item));
@@ -726,6 +735,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         //_.each(source.ItemsResponse.Items, function (item) {
         //    ist.stores.viewModel.products.push(mapper.Create(item));
         //});
+        //#endregion
         return store;
     };
     // #endregion _____________________ S T O R E ______________________________
@@ -3974,7 +3984,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
 
     // #region ______________  Field Variable   _________________
     var FieldVariable = function (specifiedVariableId, specifiedVariableName, specifiedVariableType, specifiedScope, specifiedWaterMark, specifiedDefaultValue,
-          specifiedInputMask, specifiedCompanyId, specifiedVariableTag, specifiedScopeName, specifiedTypeName, specifiedVariableTitle) {
+          specifiedInputMask, specifiedCompanyId, specifiedVariableTag, specifiedVariableTitle) {
         var self,
             id = ko.observable(specifiedVariableId),
             variableName = ko.observable(specifiedVariableName).extend({ required: true }),
@@ -3986,8 +3996,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             inputMask = ko.observable((specifiedInputMask === undefined || specifiedInputMask === null) ? "xxx-xxxxx-xxxxx" : specifiedInputMask),
             companyId = ko.observable(specifiedCompanyId),
             variableTag = ko.observable(specifiedVariableTag),
-            scopeName = ko.observable(specifiedScopeName),
-            typeName = ko.observable(specifiedTypeName),
+            scopeName = ko.observable(),
+            typeName = ko.observable(),
             variableTitle = ko.observable(specifiedVariableTitle),
             fakeId = ko.observable(),
             variableOptions = ko.observableArray([]),

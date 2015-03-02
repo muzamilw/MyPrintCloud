@@ -184,19 +184,45 @@ define("stores/stores.viewModel",
                         if (selectedStore() && selectedStore().webAccessCode() != undefined) {
                             if (selectedStore().companyDomains().length == 0) {
                                 selectedStore().companyDomains.splice(0, 0, new model.CompanyDomain());
-                                //selectedStore().companyDomains()[0].domain(window.location.host + '/' + selectedStore().webAccessCode() + '/login');
                                 selectedStore().companyDomains()[0].domain(window.location.host + '/store/' + selectedStore().webAccessCode());
                                 selectedStore().companyDomains()[0].isMandatoryDomain(true);
+
                             } else if (selectedStore().companyDomains().length > 0) {
-                                _.each(selectedStore().companyDomains(), function (companyDomain) {
-                                    if (companyDomain.isMandatoryDomain()) {
-                                        //companyDomain.domain(window.location.host + '/' + selectedStore().webAccessCode() + '/login');
-                                        companyDomain.domain(window.location.host + '/store/' + selectedStore().webAccessCode());
-                                    }
-                                });
+                                if (!checkCompanyDomainDuplicates(selectedStore().webAccessCode())) {
+                                    _.each(selectedStore().companyDomains(), function (companyDomain) {
+                                        if (companyDomain.isMandatoryDomain()) {
+                                            companyDomain.domain(window.location.host + '/store/' + selectedStore().webAccessCode());
+                                            selectedStore().defaultCompanyDomainCopy().domain(window.location.host + '/store/' + selectedStore().webAccessCode());
+                                        }
+                                    });
+                                } else if (selectedStore().webAccessCode() !== undefined && selectedStore().defaultCompanyDomainCopy() != undefined &&
+                                    selectedStore().webAccessCode() !== selectedStore().defaultCompanyDomainCopy().domain().split('/')[2]) {
+                                    selectedStore().webAccessCode(selectedStore().defaultCompanyDomainCopy().domain().split('/')[2]);
+                                    toastr.error('Company Domain cannot be duplicated');
+                                }
+                                if (selectedStore().companyDomains() != undefined && selectedCompanyDomainItem() != undefined &&
+                                    selectedCompanyDomainItem() != selectedStore().companyDomains()[selectedStore().companyDomains().length - 1]) {
+                                    _.each(selectedStore().companyDomains(), function (companyDomainItem) {
+                                        if (selectedCompanyDomainItem().domain() === companyDomainItem.domain() && selectedCompanyDomainItem() != companyDomainItem) {
+                                            selectedCompanyDomainItem().domain(undefined);
+                                            toastr.error('Company Domain cannot be duplicated');
+                                        }
+                                    });
+                                }
                             }
                         }
                     }),
+                    checkCompanyDomainDuplicates = function (domain) {
+                        var matchFound = false;
+                        _.each(selectedStore().companyDomains(), function (domainItem) {
+                            var tempDomainName = window.location.host + '/store/' + domain;
+                            if (domainItem.domain() == tempDomainName) {
+                                matchFound = true;
+                                return matchFound;
+                            }
+                        });
+                        return matchFound;
+                    },
                     //#endregion
 
                     //#region _________S T O R E ____________________________________
@@ -2881,11 +2907,11 @@ define("stores/stores.viewModel",
                                 errorList.push({ name: "At least one default territory required.", element: searchCompanyTerritoryFilter.domElement });
                                 flag = false;
                             }
-                            if (!haveIsBillingDefaultAddress) {
+                            if (!haveIsBillingDefaultAddress && selectedStore().type() != 4) {
                                 errorList.push({ name: "At least one Territory Default Billing Address required.", element: searchAddressFilter.domElement });
                                 flag = false;
                             }
-                            if (!haveIsShippingDefaultAddress) {
+                            if (!haveIsShippingDefaultAddress && selectedStore().type() != 4) {
                                 errorList.push({ name: "At least one Territory Default Shipping Address required.", element: searchAddressFilter.domElement });
                                 flag = false;
                             }
@@ -4118,12 +4144,13 @@ define("stores/stores.viewModel",
                     //Create New Field Variable
                     onAddVariableDefination = function () {
                         selectedFieldVariable(model.FieldVariable());
+                        selectedFieldOption(undefined );
                         view.showVeriableDefinationDialog();
                     },
                      //Save Field Variable
                     onSaveFieldVariable = function (fieldVariable) {
-                        if (doBeforeSaveFieldVariable()) {
-
+                        if (doBeforeSaveFieldVariable() && (selectedFieldOption() === undefined || selectedFieldOption().isValid())) {
+                            selectedFieldOption(undefined);
                             var selectedScope = _.find(contextTypes(), function (scope) {
                                 return scope.id == fieldVariable.scope();
                             });
@@ -4297,6 +4324,7 @@ define("stores/stores.viewModel",
 
                 //edit Field Variable
                onEditFieldVariable = function (fieldVariable) {
+                   selectedFieldOption(undefined);
                    if (selectedStore().companyId() === undefined) {
                        selectedFieldVariable(fieldVariable);
                        view.showVeriableDefinationDialog();
