@@ -2329,7 +2329,11 @@ namespace MPC.Implementation.MISServices
                     {
                         SmartFormDetail smartFormDetailDbVersion = smartFormDbVersion.SmartFormDetails.FirstOrDefault(
                            sf => sf.SmartFormDetailId == smartFormDetail.SmartFormDetailId);
-                        if (smartFormDetailDbVersion != null) smartFormDetailDbVersion.SortOrder = smartFormDetail.SortOrder;
+                        if (smartFormDetailDbVersion != null)
+                        {
+                            smartFormDetailDbVersion.SortOrder = smartFormDetail.SortOrder;
+                            smartFormDetailDbVersion.IsRequired = smartFormDetail.IsRequired;
+                        }
                     }
                 }
             }

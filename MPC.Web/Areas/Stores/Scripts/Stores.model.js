@@ -458,7 +458,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isDidplayInFooter: isDidplayInFooter,
             companyId: companyId,
             name: name,
-            storeId:storeId,
+            storeId: storeId,
             status: status,
             image: image,
             url: url,
@@ -4335,7 +4335,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             smartFormId = ko.observable(specifiedSmartFormId),
             objectType = ko.observable(specifiedObjectType),
             sortOrder = ko.observable(specifiedSortOrder),
-            isRequired = ko.observable(specifiedIsRequired),
+            isRequired = ko.observable((specifiedIsRequired !== null && specifiedIsRequired !== undefined && specifiedIsRequired === true) ? "1" : "0"),
             variableId = ko.observable(specifiedVariableId),
             captionValue = ko.observable(specifiedCaptionValue),
             html = ko.observable(),
@@ -4347,6 +4347,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             result.ObjectType = source.objectType() === undefined ? 0 : source.objectType();
             result.SortOrder = source.sortOrder() === undefined ? 0 : source.sortOrder();
             result.VariableId = source.variableId() === undefined ? null : source.variableId();
+            result.IsRequired = source.isRequired() === "1" ? true : false;
             result.CaptionValue = source.captionValue() === undefined ? null : source.captionValue();
             return result;
         };

@@ -45,7 +45,7 @@
                                 </div>
                                 <hr />
                             </div>
-                          
+
                         </div>
                         <div class="col-lg-12 form-horizontal">
                             <div data-bind="drop: $root.droppedSmartFormArea" style="min-height: 100px;">
@@ -136,11 +136,45 @@
         </div>
     </li>
     <!-- /ko -->
-    <!-- ko if: (objectType()===2 ||objectType()===3)-->
-    <li style="margin-top: 10px;" >
+    <!-- ko if: objectType()===2-->
+    <li style="margin-top: 10px;">
         <div class="form-group ">
             <div class="col-lg-11">
                 <div data-bind="html:html"></div>
+            </div>
+            <div class="col-lg-1">
+                <a href="#" class="table-link danger" data-bind="click : $root.deleteSmartFormItem" style="float: right">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </li>
+    <!-- /ko -->
+    <!-- ko if: objectType()===3-->
+    <li style="margin-top: 10px;">
+        <div class="form-group ">
+            <div class="col-lg-7">
+                <div data-bind="html:html"></div>
+            </div>
+            <div class="col-lg-4">
+                <div class="col-lg-7">
+                    <div class="col-lg-12">Mandatory</div>
+                    <div class="col-lg-7">
+                        <div class="radio">
+                            <input type="radio"  value="1"  data-bind="checked:isRequired,attr: { id: 'yes' + $index(),name:'mandatory'+ $index() }" />
+                            <label data-bind="attr: { for: 'yes' + $index() }">Yes</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="radio">
+                            <input type="radio"  value="0" data-bind="checked:isRequired,attr: { id: 'no' + $index()+1 ,name:'mandatory'+ $index()}" />
+                            <label data-bind="attr: { for: 'no' + $index()+1 }">No</label>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-lg-1">
                 <a href="#" class="table-link danger" data-bind="click : $root.deleteSmartFormItem" style="float: right">
@@ -159,8 +193,25 @@
 
     <li style="margin-top: 10px;">
         <div class="form-group ">
-            <div class="col-lg-11">
+            <div class="col-lg-7">
                 <div><input type="text" class="form-control" data-bind="value:captionValue" /></div>
+            </div>
+            <div class="col-lg-4">
+                <div class="col-lg-7">
+                    <div class="col-lg-12">Mandatory</div>
+                    <div class="col-lg-5">
+                        <div class="radio">
+                            <input type="radio" name="mandatory" value="1" id="yes" />
+                            <label for="yes">Yes</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="radio">
+                            <input type="radio" name="mandatory" value=2 id="no" />
+                            <label for="no">No</label>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-lg-1">
                 <a href="#" class="table-link danger" data-bind="click : $root.deleteSmartFormItem" style="float: right">
@@ -177,10 +228,10 @@
 </script>
 
 @*<script id="smartFormDetailItemTemplate1" type="text/html">
-    <li style="margin-top: 10px;">
-        <div data-bind="html:html"></div>
-        <div><input type="button" data-bind="click:$root.deleteSmartFormItem" value="Remove" /></div>
-    </li>
-</script>*@
+        <li style="margin-top: 10px;">
+            <div data-bind="html:html"></div>
+            <div><input type="button" data-bind="click:$root.deleteSmartFormItem" value="Remove" /></div>
+        </li>
+    </script>*@
 
 

@@ -4478,13 +4478,13 @@ define("stores/stores.viewModel",
                     view.showSmartFormDialog();
                 },
                 // Returns the item being dragged
-                  draggedVariableField = function (source) {
-                      selectedSmartForm().dropFrom("VariableField");
-                      return {
-                          row: source.$parent,
-                          data: source.$data
-                      };
-                  },
+                draggedVariableField = function (source) {
+                    selectedSmartForm().dropFrom("VariableField");
+                    return {
+                        row: source.$parent,
+                        data: source.$data
+                    };
+                },
                 //Dragged Group Caption
                 draggedGroupCaption = function (source) {
                     selectedSmartForm().dropFrom("GroupCaption");
@@ -4503,33 +4503,35 @@ define("stores/stores.viewModel",
                 },
                 //Smart Form Droped Area
                  droppedSmartFormArea = function (source, target, event) {
-                     var smartFormDetail = model.SmartFormDetail();
-                     smartFormDetail.isRequired("2");
-                     if (source !== undefined && source !== null && source.data.dropFrom === undefined && source.row.dropFrom() === "VariableField") {
-                         smartFormDetail.objectType(3);
-                         smartFormDetail.variableId(source.data.id());
-                         var title = (source.data.title() === (null || undefined)) ? "" : source.data.title();
-                         var defaultValue = (source.data.defaultValue() === (null || undefined)) ? "" : source.data.defaultValue();
-                         var htmlData = "";
-                         if (source.data.variableType() === 1) {
-                             htmlData = "<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-6\"><div class=\"col-lg-6\"><label style=\"margin-left:9px;\">" + title + "</label><input type=\"text\" class=\"form-control\" disabled value=\"" + defaultValue + "\"></div><div class=\"col-lg-6\"><label style=\"margin-top:15px;\"></label><select disabled class=\"form-control\"><option>" + defaultValue + "</option></select></div></div></div>";
+                     if (source !== undefined && source !== null) {
+                         var smartFormDetail = model.SmartFormDetail();
+                         smartFormDetail.isRequired("0");
+                         if (source.data.dropFrom === undefined && source.row.dropFrom() === "VariableField") {
+                             smartFormDetail.objectType(3);
+                             smartFormDetail.variableId(source.data.id());
+                             var title = (source.data.title() === (null || undefined)) ? "" : source.data.title();
+                             var defaultValue = (source.data.defaultValue() === (null || undefined)) ? "" : source.data.defaultValue();
+                             var htmlData = "";
+                             if (source.data.variableType() === 1) {
+                                 htmlData = "<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-12\"><div class=\"col-lg-6\"><label style=\"margin-left:9px;\">" + title + "</label><input type=\"text\" class=\"form-control\" disabled value=\"" + defaultValue + "\"></div><div class=\"col-lg-6\"><label style=\"margin-top:15px;\"></label><select disabled class=\"form-control\"><option>" + defaultValue + "</option></select></div></div></div>";
 
-                         } else {
-                             htmlData = "<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-6\"><label style=\"margin-left:9px;\">" + title + "</label><div><input type=\"text\" disabled class=\"form-control\" value=\"" + defaultValue + "\"></div></div></div>";
+                             } else {
+                                 htmlData = "<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-12\"><label style=\"margin-left:9px;\">" + title + "</label><div><input type=\"text\" disabled class=\"form-control\" value=\"" + defaultValue + "\"></div></div></div>";
+                             }
+                             smartFormDetail.html(htmlData);
+                             selectedSmartForm().smartFormDetails.push(smartFormDetail);
                          }
-                         smartFormDetail.html(htmlData);
-                         selectedSmartForm().smartFormDetails.push(smartFormDetail);
-                     }
-                     else if (source !== undefined && source !== null && source.data.dropFrom !== undefined && source.data.dropFrom() === "GroupCaption") {
-                         smartFormDetail.objectType(1);
-                         //smartFormDetail.html("<span><b>This is a very long long group caption which can be edited in line and can also be deleted. If deleted then the whole content below it will jump</b></span>");
-                         selectedSmartForm().smartFormDetails.push(smartFormDetail);
-                     }
-                     else if (source !== undefined && source !== null && source.data.dropFrom !== undefined && source.data.dropFrom() === "LineSeperator") {
-                         smartFormDetail.objectType(2);
-                         smartFormDetail.html("<hr style=\"height:3px;border:none;color:#333;background-color:black;\" />");
-                         //smartFormDetail.html("<div style=\"float:left\"><hr style=\"height:3px;border:none;color:#333;background-color:black;\" /></div><div><input type=\"button\" data-bind=\"click:$root.deleteSmartFormItem\"/></div>");
-                         selectedSmartForm().smartFormDetails.push(smartFormDetail);
+                         else if (source.data.dropFrom !== undefined && source.data.dropFrom() === "GroupCaption") {
+                             smartFormDetail.objectType(1);
+                             //smartFormDetail.html("<span><b>This is a very long long group caption which can be edited in line and can also be deleted. If deleted then the whole content below it will jump</b></span>");
+                             selectedSmartForm().smartFormDetails.push(smartFormDetail);
+                         }
+                         else if (source.data.dropFrom !== undefined && source.data.dropFrom() === "LineSeperator") {
+                             smartFormDetail.objectType(2);
+                             smartFormDetail.html("<hr style=\"height:3px;border:none;color:#333;background-color:black;\" />");
+                             //smartFormDetail.html("<div style=\"float:left\"><hr style=\"height:3px;border:none;color:#333;background-color:black;\" /></div><div><input type=\"button\" data-bind=\"click:$root.deleteSmartFormItem\"/></div>");
+                             selectedSmartForm().smartFormDetails.push(smartFormDetail);
+                         }
                      }
                  },
                 //Remove Smart Form Item
@@ -4641,10 +4643,10 @@ define("stores/stores.viewModel",
                                     if (item.ObjectType === 3) {
                                         var title = item.Title === null ? "" : item.Title, defaultValue = item.DefaultValue === null ? "" : item.DefaultValue;
                                         if (item.VariableType === 1) {
-                                            smartFormDetail.html("<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-6\"><div class=\"col-lg-6\"><label style=\"margin-left:9px;\">" + title + "</label><input type=\"text\" class=\"form-control\" disabled value=\"" + defaultValue + "\"></div><div class=\"col-lg-6\"><label style=\"margin-top:15px;\"></label><select disabled class=\"form-control\"><option>" + defaultValue + "</option></select></div></div></div>");
+                                            smartFormDetail.html("<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-12\"><div class=\"col-lg-6\"><label style=\"margin-left:9px;\">" + title + "</label><input type=\"text\" class=\"form-control\" disabled value=\"" + defaultValue + "\"></div><div class=\"col-lg-6\"><label style=\"margin-top:15px;\"></label><select disabled class=\"form-control\"><option>" + defaultValue + "</option></select></div></div></div>");
 
                                         } else {
-                                            smartFormDetail.html("<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-6\"><label style=\"margin-left:9px;\">" + title + "</label><div><input type=\"text\" disabled class=\"form-control\" value=\"" + defaultValue + "\"></div></div></div>");
+                                            smartFormDetail.html("<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-12\"><label style=\"margin-left:9px;\">" + title + "</label><div><input type=\"text\" disabled class=\"form-control\" value=\"" + defaultValue + "\"></div></div></div>");
                                         }
                                     }
                                     else if (item.ObjectType === 2) {
