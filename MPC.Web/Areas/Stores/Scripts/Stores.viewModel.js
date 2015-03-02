@@ -2963,16 +2963,23 @@ define("stores/stores.viewModel",
                             //storeToSave.ColorPalletes.push(selectedStore().colorPalette().convertToServerData(selectedStore().colorPalette()));
 
                             //#region Field Variables
-                            if (selectedStore().companyId() === undefined) {
-                                _.each(fieldVariables(), function (fieldVariable) {
-                                    var field = fieldVariable.convertToServerData(fieldVariable);
-                                    _.each(fieldVariable.variableOptions(), function (optionItem, index) {
-                                        optionItem.sortOrder(index + 1);
-                                        field.VariableOptions.push(optionItem.convertToServerData(optionItem));
-                                    });
-                                    storeToSave.FieldVariables.push(field);
+                            _.each(fieldVariables(), function (fieldVariable) {
+                                var field = fieldVariable.convertToServerData(fieldVariable);
+                                _.each(fieldVariable.variableOptions(), function (optionItem, index) {
+                                    optionItem.sortOrder(index + 1);
+                                    field.VariableOptions.push(optionItem.convertToServerData(optionItem));
                                 });
-                            }
+                                storeToSave.FieldVariables.push(field);
+                            });
+                            //Smart Forms
+                            _.each(smartForms(), function (item) {
+                                var smartFormServer = item.convertToServerData(item);
+                                _.each(item.smartFormDetails(), function (smartFormDetail) {
+                                    smartFormServer.SmartFormDetails.push(smartFormDetail.convertToServerData(smartFormDetail));
+                                });
+                                storeToSave.SmartForms.push(smartFormServer);
+                            });
+
                             //endregion
                             //#region Company Territories
                             _.each(newCompanyTerritories(), function (territory) {
@@ -3072,9 +3079,9 @@ define("stores/stores.viewModel",
                             _.each(newCompanyContacts(), function (companyContact) {
 
                                 var contact = companyContact.convertToServerData();
-                                _.each(companyContact.companyContactVariables(), function (contactVariable) {
-                                    contact.CompanyContactVariables.push(contactVariable.convertToServerData(contactVariable));
-                                });
+                                //_.each(companyContact.companyContactVariables(), function (contactVariable) {
+                                //    contact.CompanyContactVariables.push(contactVariable.convertToServerData(contactVariable));
+                                //});
                                 storeToSave.NewAddedCompanyContacts.push(contact);
                             });
                             _.each(edittedCompanyContacts(), function (companyContact) {
@@ -4116,17 +4123,6 @@ define("stores/stores.viewModel",
                      //Save Field Variable
                     onSaveFieldVariable = function (fieldVariable) {
                         if (doBeforeSaveFieldVariable()) {
-                            if (fieldVariable.id() === undefined && fieldVariable.fakeId() < 0) {
-                                var fieldItem = _.find(fieldVariables(), function (item) {
-                                    return item.fakeId() === fieldVariable.fakeId();
-                                });
-                                fieldVariables.remove(fieldItem);
-
-                                var fieldvariableOfContactType = _.find(fieldVariablesOfContactType(), function (item) {
-                                    return item.fakeId() === fieldVariable.fakeId();
-                                });
-                                fieldVariablesOfContactType.remove(fieldvariableOfContactType);
-                            }
 
                             var selectedScope = _.find(contextTypes(), function (scope) {
                                 return scope.id == fieldVariable.scope();
@@ -4138,12 +4134,18 @@ define("stores/stores.viewModel",
                             fieldVariable.typeName(selectedType.name);
                             fieldVariable.companyId(selectedStore().companyId());
 
-                            //In Case of new company added
-                            if (selectedStore().companyId() === undefined) {
+                            if (fieldVariable.id() === undefined && fieldVariable.fakeId() < 0) {
+                                // removeFiedVariable(fieldVariable);
+                                view.hideVeriableDefinationDialog();
+                            }
+                            else if (fieldVariable.id() === undefined && fieldVariable.fakeId() === undefined && selectedStore().companyId() === undefined) {
                                 fieldVariables.splice(0, 0, fieldVariable);
                                 view.hideVeriableDefinationDialog();
                                 fieldVariable.fakeId(fakeIdCounter() - 1);
                                 fakeIdCounter(fakeIdCounter() - 1);
+
+                                //Add to Smart Form Variable List
+                                addToSmartFormVariableList(fieldVariable);
                                 //In Case of Context/Scope Type Contact
                                 if (fieldVariable.scope() === 2) {
                                     var scopeVariable = model.ScopeVariable();
@@ -4157,8 +4159,9 @@ define("stores/stores.viewModel",
                                     });
                                     fieldVariablesOfContactType.push(scopeVariable);
                                 }
+                            }
 
-                            } else {
+                            else if (selectedStore().companyId() !== undefined) {
                                 //In Case of Edit Company 
                                 var field = fieldVariable.convertToServerData(fieldVariable);
                                 _.each(fieldVariable.variableOptions(), function (optionItem, index) {
@@ -4169,53 +4172,89 @@ define("stores/stores.viewModel",
                             }
                         }
                     },
-                    //save Field variabel
-                    saveField = function (fieldVariable) {
-                        dataservice.saveFieldVariable(fieldVariable, {
-                            success: function (data) {
-                                if (selectedFieldVariable().id() === undefined) {
-                                    selectedFieldVariable().id(data);
-                                    fieldVariables.splice(0, 0, selectedFieldVariable());
-                                } else {
-                                    updateFieldVariable();
-                                }
-
-                                view.hideVeriableDefinationDialog();
-                                toastr.success("Successfully save.");
-                            },
-                            error: function (exceptionMessage, exceptionType) {
-
-                                if (exceptionType === ist.exceptionType.MPCGeneralException) {
-
-                                    toastr.error(exceptionMessage);
-
-                                } else {
-
-                                    toastr.error("Failed to save.");
-                                }
-
-                            }
+                    //Remove Edit Field Variable of New Comapny
+                    removeFiedVariable = function (fieldVariable) {
+                        var fieldItem = _.find(fieldVariables(), function (item) {
+                            return item.fakeId() === fieldVariable.fakeId();
                         });
+                        fieldVariables.remove(fieldItem);
+
+                        var fieldvariableOfContactType = _.find(fieldVariablesOfContactType(), function (item) {
+                            return item.fakeId() === fieldVariable.fakeId();
+                        });
+                        fieldVariablesOfContactType.remove(fieldvariableOfContactType);
+
+                        var fieldvariableOfSmartForm = _.find(fieldVariablesForSmartForm(), function (item) {
+                            return item.id() === fieldVariable.fakeId();
+                        });
+                        fieldVariablesForSmartForm.remove(fieldvariableOfSmartForm);
 
                     },
+                     //Add to Smart Form Variable List
+                   addToSmartFormVariableList = function (fieldVariable) {
+                       //Field Variable For Smart Form
+                       var fieldVariableForSmartForm = model.FieldVariableForSmartForm();
+                       if (selectedStore().companyId() === undefined) {
+                           fieldVariableForSmartForm.id(fieldVariable.fakeId());
+                       } else {
+                           fieldVariableForSmartForm.id(fieldVariable.id());
+                       }
+                       fieldVariableForSmartForm.variableName(fieldVariable.variableName());
+                       fieldVariableForSmartForm.variableTag(fieldVariable.variableTag());
+                       fieldVariableForSmartForm.scopeName(fieldVariable.scopeName());
+                       fieldVariableForSmartForm.typeName(fieldVariable.typeName());
+                       fieldVariableForSmartForm.defaultValue(fieldVariable.variableType() === 1 ? fieldVariable.defaultValue() : fieldVariable.defaultValueForInput());
+                       fieldVariableForSmartForm.title(fieldVariable.variableTitle());
+                       fieldVariablesForSmartForm.push(fieldVariableForSmartForm);
+                   }
+                //save Field variabel
+                saveField = function (fieldVariable) {
+                    dataservice.saveFieldVariable(fieldVariable, {
+                        success: function (data) {
+                            if (selectedFieldVariable().id() === undefined) {
+                                selectedFieldVariable().id(data);
+                                fieldVariables.splice(0, 0, selectedFieldVariable());
+                                addToSmartFormVariableList(selectedFieldVariable());
+                            } else {
+                                updateFieldVariable();
+                            }
 
-                    //Update Field variable
-                    updateFieldVariable = function () {
-                        var updatedFieldVariable = _.find(fieldVariables(), function (field) {
-                            return field.id() == selectedFieldVariable().id();
-                        });
-                        var selectedScope = _.find(contextTypes(), function (scope) {
-                            return scope.id == selectedFieldVariable().scope();
-                        });
-                        updatedFieldVariable.scopeName(selectedScope.name);
-                        var selectedType = _.find(varibaleTypes(), function (type) {
-                            return type.id == selectedFieldVariable().variableType();
-                        });
-                        updatedFieldVariable.typeName(selectedType.name);
+                            view.hideVeriableDefinationDialog();
+                            toastr.success("Successfully saved.");
+                        },
+                        error: function (exceptionMessage, exceptionType) {
 
-                        updatedFieldVariable.variableName(selectedFieldVariable().variableName());
-                        updatedFieldVariable.variableTag(selectedFieldVariable().variableTag());
-                    }
+                            if (exceptionType === ist.exceptionType.MPCGeneralException) {
+
+                                toastr.error(exceptionMessage);
+
+                            } else {
+
+                                toastr.error("Failed to saved.");
+                            }
+
+                        }
+                    });
+
+                },
+
+                //Update Field variable
+               updateFieldVariable = function () {
+                   var updatedFieldVariable = _.find(fieldVariables(), function (field) {
+                       return field.id() == selectedFieldVariable().id();
+                   });
+                   var selectedScope = _.find(contextTypes(), function (scope) {
+                       return scope.id == selectedFieldVariable().scope();
+                   });
+                   updatedFieldVariable.scopeName(selectedScope.name);
+                   var selectedType = _.find(varibaleTypes(), function (type) {
+                       return type.id == selectedFieldVariable().variableType();
+                   });
+                   updatedFieldVariable.typeName(selectedType.name);
+
+                   updatedFieldVariable.variableName(selectedFieldVariable().variableName());
+                   updatedFieldVariable.variableTag(selectedFieldVariable().variableTag());
+               }
                 //Do Before Save Field Variable
                 doBeforeSaveFieldVariable = function () {
                     var flag = true;
@@ -4257,14 +4296,14 @@ define("stores/stores.viewModel",
                 },
 
                 //edit Field Variable
-            onEditFieldVariable = function (fieldVariable) {
-                if (selectedStore().companyId() === undefined) {
-                    selectedFieldVariable(fieldVariable);
-                    view.showVeriableDefinationDialog();
-                } else {
-                    getFieldVariableDetail(fieldVariable);
-                }
-            },
+               onEditFieldVariable = function (fieldVariable) {
+                   if (selectedStore().companyId() === undefined) {
+                       selectedFieldVariable(fieldVariable);
+                       view.showVeriableDefinationDialog();
+                   } else {
+                       getFieldVariableDetail(fieldVariable);
+                   }
+               },
                 //variable Scope
                contextTypes = ko.observableArray([{ id: 1, name: "Store" },
                                      { id: 2, name: "Contact" },
@@ -4435,8 +4474,8 @@ define("stores/stores.viewModel",
                      if (source !== undefined && source !== null && source.data.dropFrom === undefined && source.row.dropFrom() === "VariableField") {
                          smartFormDetail.objectType(3);
                          smartFormDetail.variableId(source.data.id());
-                         var title = source.data.title() === null ? "" : source.data.title();
-                         var defaultValue = source.data.defaultValue() === null ? "" : source.data.defaultValue();
+                         var title = (source.data.title() === (null || undefined)) ? "" : source.data.title();
+                         var defaultValue = (source.data.defaultValue() === (null || undefined)) ? "" : source.data.defaultValue();
                          var htmlData = "";
                          if (source.data.variableType() === 1) {
                              htmlData = "<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-6\"><div class=\"col-lg-6\"><label style=\"margin-left:9px;\">" + title + "</label><input type=\"text\" class=\"form-control\" disabled value=\"" + defaultValue + "\"></div><div class=\"col-lg-6\"><label style=\"margin-top:15px;\"></label><select disabled class=\"form-control\"><option>" + defaultValue + "</option></select></div></div></div>";
@@ -4565,8 +4604,8 @@ define("stores/stores.viewModel",
                                 selectedSmartForm(smartForm);
                                 _.each(data, function (item) {
                                     var smartFormDetail = model.SmartFormDetail.Create(item);
-                                    var title = "test", defaultValue="test";
-                                    if (item.ObjectType===3) {
+                                    if (item.ObjectType === 3) {
+                                        var title = item.Title === null ? "" : item.Title, defaultValue = item.DefaultValue === null ? "" : item.DefaultValue;
                                         if (item.VariableType === 1) {
                                             smartFormDetail.html("<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-6\"><div class=\"col-lg-6\"><label style=\"margin-left:9px;\">" + title + "</label><input type=\"text\" class=\"form-control\" disabled value=\"" + defaultValue + "\"></div><div class=\"col-lg-6\"><label style=\"margin-top:15px;\"></label><select disabled class=\"form-control\"><option>" + defaultValue + "</option></select></div></div></div>");
 

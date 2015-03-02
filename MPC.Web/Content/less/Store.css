@@ -1,4 +1,4 @@
-#storesBinding .selectedSection,
+﻿#storesBinding .selectedSection,
 #storesBinding .selectedEmailVariable {
   background: yellow;
 }

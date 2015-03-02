@@ -119,6 +119,13 @@ namespace MPC.Implementation.MISServices
         private Company SaveNewCompany(CompanySavingModel companySaving)
         {
             //companySaving.Company.CmsPages = companySaving.NewAddedCmsPages;
+            if (companySaving.Company.SmartForms != null)
+            {
+                foreach (var smartForm in companySaving.Company.SmartForms)
+                {
+                    smartForm.OrganisationId = companyRepository.OrganisationId;
+                }
+            }
             companyRepository.Add(companySaving.Company);
             companyRepository.SaveChanges();
             var companyId = companySaving.Company.CompanyId;
@@ -991,6 +998,7 @@ namespace MPC.Implementation.MISServices
             SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
             UpdateSecondaryPageImagePath(companySavingModel, companyDbVersion);
             UpdateCampaignImages(companySavingModel.Company.Campaigns, companyDbVersion);
+            UpdateSmartFormVariableIds(companySavingModel.Company.SmartForms, companyDbVersion);
             companyRepository.SaveChanges();
 
             //Call Service to add or remove the IIS Bindings for Store Domains
@@ -998,6 +1006,27 @@ namespace MPC.Implementation.MISServices
             return companySavingModel.Company;
         }
 
+        /// <summary>
+        /// Update Smart Form variable Ids
+        /// </summary>
+        private void UpdateSmartFormVariableIds(IEnumerable<SmartForm> smartForms, Company companyDbVersion)
+        {
+            if (companyDbVersion.SmartForms != null && companyDbVersion.FieldVariables != null)
+            {
+                foreach (var smartForm in companyDbVersion.SmartForms)
+                {
+                    if (smartForm.SmartFormDetails != null)
+                        foreach (var smartFormDetail in smartForm.SmartFormDetails)
+                        {
+                            FieldVariable fieldVariable = companyDbVersion.FieldVariables.FirstOrDefault(
+                                fv => fv.FakeIdVariableId == smartFormDetail.FakeVariableId);
+                            if (fieldVariable != null)
+                                smartFormDetail.VariableId = fieldVariable.VariableId;
+                        }
+
+                }
+            }
+        }
         // ReSharper disable once InconsistentNaming
         private void updateDomainsInIIS(IEnumerable<CompanyDomain> companySavedDomains, IEnumerable<CompanyDomain> companyDbVersion)
         {
@@ -2329,9 +2358,9 @@ namespace MPC.Implementation.MISServices
                 }
                 smartFormDetailRepository.SaveChanges();
             }
-           
+
             #endregion
-           
+
             return smartForm.SmartFormId;
         }
 
@@ -2675,9 +2704,9 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Get Company Contact Varibale By Contact ID
         /// </summary>
-        public IEnumerable<ScopeVariable> GetContactVariableByContactId(long contactId,int scope)
+        public IEnumerable<ScopeVariable> GetContactVariableByContactId(long contactId, int scope)
         {
-            return scopeVariableRepository.GetContactVariableByContactId(contactId,scope);
+            return scopeVariableRepository.GetContactVariableByContactId(contactId, scope);
         }
 
         /// <summary>

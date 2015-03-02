@@ -441,6 +441,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.CmsOffers = [];
                 result.MediaLibraries = [];
                 result.FieldVariables = [];
+                result.SmartForms = [];
                 return result;
             },
             // Reset
