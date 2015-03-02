@@ -2227,7 +2227,7 @@ define("stores/stores.viewModel",
                                 selectedCompanyContact().companyId(selectedStore().companyId());
                                 var companyContact = selectedCompanyContact().convertToServerData();
                                 _.each(selectedCompanyContact().companyContactVariables(), function (contactVariable) {
-                                    companyContact.CompanyContactVariables.push(contactVariable.convertToServerData(contactVariable));
+                                    companyContact.ScopVariables.push(contactVariable.convertToServerData(contactVariable));
                                 });
                                 dataservice.saveCompanyContact(
                                     companyContact,
@@ -2476,7 +2476,7 @@ define("stores/stores.viewModel",
                     //Function Call When create new Product Category 
                     onCreateNewProductCategory = function () {
                         //$('.nav-tabs li:first-child a').tab('show');
-                       
+
                         var productCategory = new model.ProductCategory();
                         //Set Product category value for by default
                         productCategory.isShelfProductCategory(true);
@@ -2492,7 +2492,7 @@ define("stores/stores.viewModel",
                         });
                         isSavingNewProductCategory(true);
                         view.showStoreProductCategoryDialog();
-                       // $('#productCatFirstTab').addClass('active');
+                        // $('#productCatFirstTab').addClass('active');
                         //$('.nav-tabs li:eq(0) a').tab('show');
                         //$('a[href=#productCatFirstTab]').click();
                         $("#categoryTabItems li a").first().trigger("click");
@@ -4146,15 +4146,16 @@ define("stores/stores.viewModel",
                                 fakeIdCounter(fakeIdCounter() - 1);
                                 //In Case of Context/Scope Type Contact
                                 if (fieldVariable.scope() === 2) {
-                                    var contactVariable = model.CompanyContactVariable();
-                                    contactVariable.fakeId(fieldVariable.fakeId());
-                                    contactVariable.value(fieldVariable.variableType() === 1 ? fieldVariable.defaultValue() : fieldVariable.defaultValueForInput());
-                                    contactVariable.type(fieldVariable.variableType());
-                                    contactVariable.title(fieldVariable.variableTitle());
+                                    var scopeVariable = model.ScopeVariable();
+                                    scopeVariable.fakeId(fieldVariable.fakeId());
+                                    scopeVariable.value(fieldVariable.variableType() === 1 ? fieldVariable.defaultValue() : fieldVariable.defaultValueForInput());
+                                    scopeVariable.type(fieldVariable.variableType());
+                                    scopeVariable.title(fieldVariable.variableTitle());
+                                    scopeVariable.scope(2);
                                     _.each(fieldVariable.variableOptions(), function (item) {
-                                        contactVariable.variableOptions.push(item);
+                                        scopeVariable.variableOptions.push(item);
                                     });
-                                    fieldVariablesOfContactType.push(contactVariable);
+                                    fieldVariablesOfContactType.push(scopeVariable);
                                 }
 
                             } else {
@@ -4326,7 +4327,7 @@ define("stores/stores.viewModel",
                     //Company is in edit mode and contact also in open for edit
                     if (selectedCompanyContact().contactId() !== undefined && selectedStore().companyId() !== undefined) {
                         getCompanyContactVariableForEditContact();
-                        
+
                     }
                 },
                 //In Case Company Contact Edit
@@ -4471,7 +4472,7 @@ define("stores/stores.viewModel",
                          selectedSmartForm().companyId(selectedStore().companyId());
                          if (selectedStore().companyId() !== undefined) {
                              var smartFormServer = smartForm.convertToServerData(smartForm);
-                             _.each(smartForm.smartFormDetails(), function (item, index) {
+                             _.each(smartForm.smartFormDetails(), function (item) {
                                  smartFormServer.SmartFormDetails.push(item.convertToServerData(item));
                              });
                              saveSmartForm(smartFormServer);
@@ -4525,12 +4526,7 @@ define("stores/stores.viewModel",
                          selectedSmartForm(smartForm);
                          view.showSmartFormDialog();
                      } else {
-                         if (smartForm.smartFormDetails().length > 0) {
-                             selectedSmartForm(smartForm);
-                             view.showSmartFormDialog();
-                         } else {
-                             getSmartFormDetail(smartForm);
-                         }
+                         getSmartFormDetail(smartForm);
                      }
                  },
                 //Get Smart Forms        
@@ -4568,7 +4564,20 @@ define("stores/stores.viewModel",
                                 smartForm.smartFormDetails.removeAll();
                                 selectedSmartForm(smartForm);
                                 _.each(data, function (item) {
-                                    selectedSmartForm().smartFormDetails.push(model.SmartFormDetail.Create(item));
+                                    var smartFormDetail = model.SmartFormDetail.Create(item);
+                                    var title = "test", defaultValue="test";
+                                    if (item.ObjectType===3) {
+                                        if (item.VariableType === 1) {
+                                            smartFormDetail.html("<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-6\"><div class=\"col-lg-6\"><label style=\"margin-left:9px;\">" + title + "</label><input type=\"text\" class=\"form-control\" disabled value=\"" + defaultValue + "\"></div><div class=\"col-lg-6\"><label style=\"margin-top:15px;\"></label><select disabled class=\"form-control\"><option>" + defaultValue + "</option></select></div></div></div>");
+
+                                        } else {
+                                            smartFormDetail.html("<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-6\"><label style=\"margin-left:9px;\">" + title + "</label><div><input type=\"text\" disabled class=\"form-control\" value=\"" + defaultValue + "\"></div></div></div>");
+                                        }
+                                    }
+                                    else if (item.ObjectType === 2) {
+                                        smartFormDetail.html("<hr style=\"height:3px;border:none;color:#333;background-color:black;\" />");
+                                    }
+                                    selectedSmartForm().smartFormDetails.push(smartFormDetail);
                                 });
                                 view.showSmartFormDialog();
                             }

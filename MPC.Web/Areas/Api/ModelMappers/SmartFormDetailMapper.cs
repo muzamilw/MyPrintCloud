@@ -40,7 +40,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsRequired = source.IsRequired,
                 ObjectType = source.ObjectType,
                 SortOrder = source.SortOrder,
-                VariableId = source.VariableId
+                VariableId = source.VariableId,
+                VariableType = 1
             };
         }
 

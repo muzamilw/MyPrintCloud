@@ -2303,9 +2303,11 @@ namespace MPC.Implementation.MISServices
                     }
                 }
             }
+            smartFormRepository.SaveChanges();
             #endregion
 
             #region Delete SmartForm Detail
+            //missing Items
             List<SmartFormDetail> missingSmartFormDetails = new List<SmartFormDetail>();
             if (smartFormDbVersion.SmartFormDetails != null)
             {
@@ -2323,11 +2325,13 @@ namespace MPC.Implementation.MISServices
 
                 foreach (var missingItem in missingSmartFormDetails)
                 {
-                    smartFormDbVersion.SmartFormDetails.Remove(missingItem);
+                    smartFormDetailRepository.Delete(missingItem);
                 }
+                smartFormDetailRepository.SaveChanges();
             }
+           
             #endregion
-            smartFormRepository.SaveChanges();
+           
             return smartForm.SmartFormId;
         }
 

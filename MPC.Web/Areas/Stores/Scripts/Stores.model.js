@@ -2531,7 +2531,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     OrganisationId: organisationId(),
                     BussinessAddressId: bussinessAddressId(),
                     FileName: fileName(),
-                    CompanyContactVariables: []
+                    ScopVariables: []
                     //BussinessAddress: bussinessAddress() != undefined ? bussinessAddress().convertToServerData(): null,
                     //ShippingAddress: shippingAddress() != undefined ? shippingAddress().convertToServerData() : null,
                 };
@@ -4332,7 +4332,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             result.SmartFormId = source.smartFormId() === undefined ? 0 : source.smartFormId();
             result.ObjectType = source.objectType() === undefined ? 0 : source.objectType();
             result.SortOrder = source.sortOrder() === undefined ? 0 : source.sortOrder();
-            result.VariableId = source.variableId() === undefined ? 0 : source.variableId();
+            result.VariableId = source.variableId() === undefined ? null : source.variableId();
             result.CaptionValue = source.captionValue() === undefined ? null : source.captionValue();
             return result;
         };
