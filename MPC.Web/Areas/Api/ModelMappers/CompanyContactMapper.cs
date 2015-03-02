@@ -103,7 +103,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        canPlaceDirectOrder = source.canPlaceDirectOrder,
                        OrganisationId = source.OrganisationId,
                        FileName = source.FileName,
-                       ScopVariables = source.CompanyContactVariables != null ? source.CompanyContactVariables.Select(ccv => ccv.CreateFrom()).ToList() : null
+                       ScopVariables = source.ScopVariables != null ? source.ScopVariables.Select(ccv => ccv.CreateFrom()).ToList() : null
 
                        //CompanyTerritory = source.BussinessAddress.Territory.CreateFrom(),
                        //Address = source.BussinessAddress != null? source.BussinessAddress.CreateFrom() : null,

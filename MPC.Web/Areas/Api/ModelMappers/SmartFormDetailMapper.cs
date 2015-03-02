@@ -23,7 +23,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsRequired = source.IsRequired,
                 ObjectType = source.ObjectType,
                 SortOrder = source.SortOrder,
-                VariableId = source.VariableId
+                VariableId = source.VariableId < 0 ? null : source.VariableId,
+                FakeVariableId = source.VariableId
             };
         }
 
@@ -40,7 +41,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsRequired = source.IsRequired,
                 ObjectType = source.ObjectType,
                 SortOrder = source.SortOrder,
-                VariableId = source.VariableId
+                VariableId = source.VariableId,
+                VariableType = source.FieldVariable != null ? source.FieldVariable.VariableType : 0,
+                Title = source.FieldVariable != null ? source.FieldVariable.VariableTitle : string.Empty,
+                DefaultValue = source.FieldVariable != null ? source.FieldVariable.DefaultValue : string.Empty
             };
         }
 

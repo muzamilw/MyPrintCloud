@@ -10,7 +10,10 @@
         public int? ObjectType { get; set; }
         public bool? IsRequired { get; set; }
         public int? SortOrder { get; set; }
+        public int? VariableType { get; set; }
         public long? VariableId { get; set; }
         public string CaptionValue { get; set; }
+        public string DefaultValue { get; set; }
+        public string Title { get; set; }
     }
 }

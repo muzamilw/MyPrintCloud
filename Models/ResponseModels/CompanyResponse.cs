@@ -11,6 +11,16 @@ namespace MPC.Models.ResponseModels
         public int RowCount { get; set; }
 
         /// <summary>
+        /// Count of new Orders
+        /// </summary>
+        public int NewOrdersCount { get; set; }
+
+        /// <summary>
+        /// Count of new Users
+        /// </summary>
+        public int NewUsersCount { get; set; }
+
+        /// <summary>
         /// List of Companies
         /// </summary>
         public IEnumerable<Company> Companies{ get; set; }

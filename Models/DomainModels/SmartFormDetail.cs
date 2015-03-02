@@ -1,4 +1,6 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MPC.Models.DomainModels
 {
     /// <summary>
     /// Smart From Detail Domain Model
@@ -15,5 +17,10 @@
 
         public virtual SmartForm SmartForm { get; set; }
         public virtual FieldVariable FieldVariable { get; set; }
+
+        #region Additional Properties
+        [NotMapped]
+        public long? FakeVariableId { get; set; }
+        #endregion
     }
 }
