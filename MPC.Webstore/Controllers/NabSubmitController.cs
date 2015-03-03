@@ -62,9 +62,9 @@
 //            {
 //                sourceOfDate.Add(new DropdownType
 //                {
-//                   // value = i,
+//                    // value = i,
 //                    value = i <= 9 ? "0" + i : i.ToString(),
-//                   Text = i <= 9 ? "0" + i : i.ToString()
+//                    Text = i <= 9 ? "0" + i : i.ToString()
 //                });
 //            }
 //            model.ListDate = new SelectList(sourceOfDate, "value", "Text");
@@ -73,7 +73,7 @@
 //            {
 //                if (i == 1)
 //                {
-//                   // sourceOfYear.Add(new DropdownType() { value = i, Text = DateTime.Now.Year.ToString() });
+//                    // sourceOfYear.Add(new DropdownType() { value = i, Text = DateTime.Now.Year.ToString() });
 //                    sourceOfYear.Add(new DropdownType() { value = DateTime.Now.Year.ToString(), Text = DateTime.Now.Year.ToString() });
 //                }
 //                else
@@ -270,7 +270,7 @@
 //                                        CampaignEmailParams cep = new CampaignEmailParams();
 //                                        string HTMLOfShopReceipt = null;
 //                                        cep.CompanySiteID = 1;
-//                                        cep.ContactId = modelOrder.ContactId  ?? 0; //SessionParameters.ContactID;
+//                                        cep.ContactId = modelOrder.ContactId ?? 0; //SessionParameters.ContactID;
 //                                        cep.CompanyId = modelOrder.CompanyId;
 //                                        //SessionParameters.CustomerID;
 //                                        cep.EstimateID = OrderID; //PageParameters.OrderID;
@@ -282,13 +282,13 @@
 //                                        if (CustomerCompany.IsCustomer == (int)CustomerTypes.Corporate)
 //                                        {
 //                                            modeOfStore = StoreMode.Corp;
-//                                            HTMLOfShopReceipt = _campaignService.GetPinkCardsShopReceiptPage(OrderID, CustomrContact.ContactId); 
-//                                                 // corp
+//                                            HTMLOfShopReceipt = _campaignService.GetPinkCardsShopReceiptPage(OrderID, CustomrContact.ContactId);
+//                                            // corp
 //                                        }
 //                                        else
 //                                        {
 //                                            HTMLOfShopReceipt = _campaignService.GetPinkCardsShopReceiptPage(OrderID, 0);
-//                                                ; // retail
+//                                            ; // retail
 //                                        }
 
 
@@ -296,25 +296,25 @@
 //                                        cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
 //                                        SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(Convert.ToInt32(CustomerCompany.SalesAndOrderManagerId1));
 //                                        cep.StoreID = Convert.ToInt32(modelOrder.CompanyId);
-//                                        cep.AddressID = Convert.ToInt32(modelOrder.CompanyId);    
+//                                        cep.AddressID = Convert.ToInt32(modelOrder.CompanyId);
 //                                        if (CustomerCompany.IsCustomer == (int)CustomerTypes.Corporate)
-//                                            {
-                                                
-//                                                long ManagerID = _CompanyService.GetContactIdByRole(modelOrder.CompanyId, (int)Roles.Manager); 
-//                                                cep.CorporateManagerID = ManagerID;
-//                                                _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactId), Convert.ToInt32(modelOrder.CompanyId), 0, OrderID, 0, Convert.ToInt32(ManagerID), StoreMode.Corp, CustomerCompany, EmailOFSM);
-//                                             }
-//                                            else
-//                                            {
-                                               
-//                                                _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, 0, OrderID, 0, 0, StoreMode.Retail, CustomerCompany, EmailOFSM);
-//                                             }
-                                           
-//                                            //in case of retail <<SalesManagerEmail>> variable should be resolved by organization's sales manager
-//                                            // thats why after getting the sales manager records ew are sending his email as a parameter in email body genetor
+//                                        {
+
+//                                            long ManagerID = _CompanyService.GetContactIdByRole(modelOrder.CompanyId, (int)Roles.Manager);
+//                                            cep.CorporateManagerID = ManagerID;
+//                                            _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactId), Convert.ToInt32(modelOrder.CompanyId), 0, OrderID, 0, Convert.ToInt32(ManagerID), StoreMode.Corp, CustomerCompany, EmailOFSM);
+//                                        }
+//                                        else
+//                                        {
+
+//                                            _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, 0, OrderID, 0, 0, StoreMode.Retail, CustomerCompany, EmailOFSM);
+//                                        }
+
+//                                        //in case of retail <<SalesManagerEmail>> variable should be resolved by organization's sales manager
+//                                        // thats why after getting the sales manager records ew are sending his email as a parameter in email body genetor
 //                                        _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(CustomerCompany.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email);
 //                                        _IPrePaymentService.CreatePrePayment(PaymentMethods.NAB, OrderID, Convert.ToInt32(customerID), 0, transactionID, Convert.ToDouble(orderValue), modeOfStore, ResponseStatusCode + " " + statusResponseMessage);
-                                       
+
 
 
 //                                        Response.Redirect("../Receipt.aspx?OrderID=" + OrderID.ToString());
@@ -352,9 +352,9 @@
 //                    }
 //                    else
 //                    {
-//                        ErrorMEsSummry.Visible = true;
-//                        errorMesgCnt.Visible = true;
-//                        ErrorMEsSummry.Text = "Invalid Order number.";
+//                        //ErrorMEsSummry.Visible = true;
+//                        //errorMesgCnt.Visible = true;
+//                        //ErrorMEsSummry.Text = "Invalid Order number.";
 //                    }
 //                }
 
@@ -490,6 +490,102 @@
 //                return 0;
 //            }
 //        }
-    
+//        public static CreditCardTypeType? GetCardTypeFromNumber(string cardNum)
+//        {
+//            string cardRegex = "^(?:(?<Visa>4\\d{3})|(?<MasterCard>5[1-5]\\d{2})|(?<Discover>6011)|(?<DinersClub>(?:3[68]\\d{2})|(?:30[0-5]\\d))|(?<Amex>3[47]\\d{2}))([ -]?)(?(DinersClub)(?:\\d{6}\\1\\d{4})|(?(Amex)(?:\\d{6}\\1\\d{5})|(?:\\d{4}\\1\\d{4}\\1\\d{4})))$";
+
+//            //Create new instance of Regex comparer with our
+//            //credit card regex pattern
+//            Regex cardTest = new Regex(cardRegex);
+
+//            //Compare the supplied card number with the regex
+//            //pattern and get reference regex named groups
+//            GroupCollection gc = cardTest.Match(cardNum).Groups;
+
+//            //Compare each card type to the named groups to 
+//            //determine which card type the number matches
+//            if (gc[CreditCardTypeType.MasterCard.ToString()].Success)
+//            {
+//                return CreditCardTypeType.MasterCard;
+//            }
+//            else if (gc[CreditCardTypeType.Visa.ToString()].Success)
+//            {
+//                return CreditCardTypeType.Visa;
+//            }
+//            else if (gc[CreditCardTypeType.DinersClub.ToString()].Success)
+//            {
+//                return CreditCardTypeType.DinersClub;
+//            }
+//            else if (gc[CreditCardTypeType.Amex.ToString()].Success)
+//            {
+//                return CreditCardTypeType.Amex;
+//            }
+//            else
+//            {
+//                //Card type is not supported by our system, return null
+//                //(You can modify this code to support more (or less)
+//                // card types as it pertains to your application)
+//                return null;
+//            }
+//        }
+//        public static bool IsValidNumber(string cardNum, CreditCardTypeType? cardType)
+//        {
+//            string cardRegex = "^(?:(?<Visa>4\\d{3})|(?<MasterCard>5[1-5]\\d{2})|(?<Discover>6011)|(?<DinersClub>(?:3[68]\\d{2})|(?:30[0-5]\\d))|(?<Amex>3[47]\\d{2}))([ -]?)(?(DinersClub)(?:\\d{6}\\1\\d{4})|(?(Amex)(?:\\d{6}\\1\\d{5})|(?:\\d{4}\\1\\d{4}\\1\\d{4})))$";
+
+//            //Create new instance of Regex comparer with our 
+//            //credit card regex pattern
+//            Regex cardTest = new Regex(cardRegex);
+
+//            //Make sure the supplied number matches the supplied
+//            //card type
+//            if (cardTest.Match(cardNum).Groups[cardType.ToString()].Success)
+//            {
+//                //If the card type matches the number, then run it
+//                //through Luhn's test to make sure the number appears correct
+//                if (PassesLuhnTest(cardNum))
+//                    return true;
+//                else
+//                    //The card fails Luhn's test
+//                    return false;
+//            }
+//            else
+//                //The card number does not match the card type
+//                return false;
+//        }
+//        public static bool PassesLuhnTest(string cardNumber)
+//        {
+//            //Clean the card number- remove dashes and spaces
+//            cardNumber = cardNumber.Replace("-", "").Replace(" ", "");
+
+//            //Convert card number into digits array
+//            int[] digits = new int[cardNumber.Length];
+//            for (int len = 0; len < cardNumber.Length; len++)
+//            {
+//                digits[len] = Int32.Parse(cardNumber.Substring(len, 1));
+//            }
+
+//            //Luhn Algorithm
+//            //Adapted from code availabe on Wikipedia at
+//            //http://en.wikipedia.org/wiki/Luhn_algorithm
+//            int sum = 0;
+//            bool alt = false;
+//            for (int i = digits.Length - 1; i >= 0; i--)
+//            {
+//                int curDigit = digits[i];
+//                if (alt)
+//                {
+//                    curDigit *= 2;
+//                    if (curDigit > 9)
+//                    {
+//                        curDigit -= 9;
+//                    }
+//                }
+//                sum += curDigit;
+//                alt = !alt;
+//            }
+
+//            //If Mod 10 equals 0, the number is good and this will return true
+//            return sum % 10 == 0;
+//        }
 //    }
 //}

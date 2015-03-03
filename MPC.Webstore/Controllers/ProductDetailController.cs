@@ -882,7 +882,7 @@ namespace MPC.Webstore.Controllers
                         if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
                         {
                             TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
-                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
                             if (OrderID > 0)
                             {
                                 UserCookieManager.OrderId = OrderID;
@@ -897,7 +897,7 @@ namespace MPC.Webstore.Controllers
                         }
                         else 
                         {
-                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
                             if (OrderID > 0)
                             {
                                 UserCookieManager.OrderId = OrderID;
@@ -926,7 +926,7 @@ namespace MPC.Webstore.Controllers
 
                             // create new order
 
-                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
                             if (OrderID > 0)
                             {
                                 UserCookieManager.OrderId = OrderID;

@@ -25,6 +25,7 @@ namespace MigrationUtility.Preview
         public string ReportTitle { get; set; }
         public string BannerAbsolutePath { get; set; }
         public Nullable<bool> isDefault { get; set; }
+        public Nullable<long> OrganisationId { get; set; }
     
         public virtual ReportCategory ReportCategory { get; set; }
     }

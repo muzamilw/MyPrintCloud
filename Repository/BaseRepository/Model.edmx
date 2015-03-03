@@ -3259,7 +3259,7 @@ warning 6002: The table/view 'MPC.dbo.GetCategoryProducts' does not have a prima
           <Property Name="OrganisationId" Type="bigint" />
           <Property Name="WebDescription" Type="varchar(max)" />
           <Property Name="PriceDiscountPercentage" Type="int" />
-          <Property Name="isTemplateDesignMode" Type="bit" />
+          <Property Name="isTemplateDesignMode" Type="int" />
           <Property Name="DefaultItemTax" Type="float" />
           <Property Name="isUploadImage" Type="bit" />
           <Property Name="isMarketingBrief" Type="bit" />
@@ -9749,7 +9749,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="OrganisationId" Type="Int64" />
           <Property Name="WebDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="PriceDiscountPercentage" Type="Int32" />
-          <Property Name="isTemplateDesignMode" Type="Boolean" />
+          <Property Name="isTemplateDesignMode" Type="Int32" />
           <Property Name="DefaultItemTax" Type="Double" />
           <Property Name="isUploadImage" Type="Boolean" />
           <Property Name="isMarketingBrief" Type="Boolean" />
