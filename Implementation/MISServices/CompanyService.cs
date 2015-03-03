@@ -1677,6 +1677,7 @@ namespace MPC.Implementation.MISServices
                             dbItem.Meta_RobotsContent = item.Meta_RobotsContent;
                             dbItem.Meta_Title = item.Meta_Title;
                             dbItem.PageHTML = item.PageHTML;
+                            dbItem.isEnabled = item.isEnabled;
                             dbItem.PageKeywords = item.PageKeywords;
                             dbItem.PageTitle = item.PageTitle;
                             dbItem.PageBanner = item.PageBanner;

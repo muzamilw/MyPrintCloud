@@ -54,6 +54,7 @@ namespace MPC.MIS.Areas.Api.Models
                 Meta_Title = source.Meta_Title,
                 PageHTML = source.PageHTML,
                 IsUserDefined = source.isUserDefined,
+                isEnabled = source.isEnabled,
                 PageKeywords = source.PageKeywords,
                 PageTitle = source.PageTitle,
                 DefaultPageKeyWords = defaultPageKeyWords,
@@ -85,6 +86,7 @@ namespace MPC.MIS.Areas.Api.Models
                 FileName = source.FileName,
                 Bytes = source.Bytes,
                 PageBanner = source.PageBanner,
+                isEnabled = source.isEnabled
             };
         }
 

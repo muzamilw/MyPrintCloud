@@ -2071,6 +2071,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 fileName: fileName,
                 defaultPageKeyWords: defaultPageKeyWords,
                 pageBanner: pageBanner,
+                isEnabled: isEnabled
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -2148,7 +2149,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.ImageSource,
             source.DefaultPageKeyWords,
             source.FileName,
-            source.PageBanner
+            source.PageBanner,
+            source.isEnabled
         );
         obj.isUserDefined(source.IsUserDefined);
         return obj;

@@ -1840,7 +1840,7 @@ define("stores/stores.viewModel",
                     //Delete Secondary Page
                     onDeleteSecondaryPage = function (secondaryPage) {
                         if (secondaryPage.isUserDefined() != true) {
-                            toastr.error("Page can not be deleted!");
+                            toastr.error("System Page can not be deleted!");
                             return;
                         }
                         if (!secondaryPage.pageId()) {
