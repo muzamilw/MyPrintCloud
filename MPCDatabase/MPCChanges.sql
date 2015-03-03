@@ -532,16 +532,3 @@ add foreign key (VariableId)
 references FieldVariable(VariableId)
 
 GO
-
-
-/* Execution Date: 03/03/2015 */
-
-GO
-
-update Items
-set isTemplateDesignMode = 1
-
-alter table Items
-alter column isTemplateDesignMode bit null
-
-GO
