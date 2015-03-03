@@ -242,7 +242,10 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _CompanyContactRepository.GetContactByEmail(Email,OrganisationID);
         }
-
+        public CompanyContact GetContactById(int contactId)
+        {
+            return _CompanyContactRepository.GetContactById(contactId);
+        }
         public long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID)
         {
             return _CompanyContactRepository.CreateContact(Contact, Name, OrganizationID, CustomerType, TwitterScreanName, SaleAndOrderManagerID, StoreID);
@@ -854,6 +857,10 @@ namespace MPC.Implementation.WebStoreServices
         {
            return  _CompanyRepository.UpdateCompanyName(Instance);
         
+        }
+        public Company GetCustomer(int CompanyId)
+        {
+            return _CompanyRepository.GetCustomer(CompanyId);
         }
     }
 

@@ -12,7 +12,7 @@ namespace MPC.Interfaces.Repository
 
         long GetStoreIdFromDomain(string domain);
         CompanyResponse SearchCompanies(CompanyRequestModel request);
-
+        Company GetCustomer(int CompanyId);
         /// <summary>
         /// Get Suppliers For Inventories
         /// </summary>

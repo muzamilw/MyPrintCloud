@@ -104,7 +104,13 @@ namespace MPC.Repository.Repositories
 
             return qry.ToList().FirstOrDefault();
         }
-
+        public CompanyContact GetContactById(int contactId)
+        {
+            return (from c in db.CompanyContacts.Include("CompanyTerritories")
+                    where c.ContactId == contactId
+                    select c).FirstOrDefault();
+          
+        }
         public CompanyContact GetContactByEmail(string Email, long OID)
         {
             var qry = from contacts in db.CompanyContacts
