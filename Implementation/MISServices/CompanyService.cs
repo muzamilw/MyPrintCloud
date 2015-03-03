@@ -33,8 +33,9 @@ namespace MPC.Implementation.MISServices
         #region Private
 
         #region Repositories
-
+        
         private readonly ICompanyRepository companyRepository;
+        private readonly IEstimateRepository estimateRepository;
         private readonly ISystemUserRepository systemUserRepository;
         private readonly IRaveReviewRepository raveReviewRepository;
         private readonly ICompanyCMYKColorRepository companyCmykColorRepository;
@@ -119,6 +120,13 @@ namespace MPC.Implementation.MISServices
         private Company SaveNewCompany(CompanySavingModel companySaving)
         {
             //companySaving.Company.CmsPages = companySaving.NewAddedCmsPages;
+            if (companySaving.Company.SmartForms != null)
+            {
+                foreach (var smartForm in companySaving.Company.SmartForms)
+                {
+                    smartForm.OrganisationId = companyRepository.OrganisationId;
+                }
+            }
             companyRepository.Add(companySaving.Company);
             companyRepository.SaveChanges();
             var companyId = companySaving.Company.CompanyId;
@@ -991,6 +999,7 @@ namespace MPC.Implementation.MISServices
             SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
             UpdateSecondaryPageImagePath(companySavingModel, companyDbVersion);
             UpdateCampaignImages(companySavingModel.Company.Campaigns, companyDbVersion);
+            UpdateSmartFormVariableIds(companySavingModel.Company.SmartForms, companyDbVersion);
             companyRepository.SaveChanges();
 
             //Call Service to add or remove the IIS Bindings for Store Domains
@@ -998,6 +1007,27 @@ namespace MPC.Implementation.MISServices
             return companySavingModel.Company;
         }
 
+        /// <summary>
+        /// Update Smart Form variable Ids
+        /// </summary>
+        private void UpdateSmartFormVariableIds(IEnumerable<SmartForm> smartForms, Company companyDbVersion)
+        {
+            if (companyDbVersion.SmartForms != null && companyDbVersion.FieldVariables != null)
+            {
+                foreach (var smartForm in companyDbVersion.SmartForms)
+                {
+                    if (smartForm.SmartFormDetails != null)
+                        foreach (var smartFormDetail in smartForm.SmartFormDetails)
+                        {
+                            FieldVariable fieldVariable = companyDbVersion.FieldVariables.FirstOrDefault(
+                                fv => fv.FakeIdVariableId == smartFormDetail.FakeVariableId);
+                            if (fieldVariable != null)
+                                smartFormDetail.VariableId = fieldVariable.VariableId;
+                        }
+
+                }
+            }
+        }
         // ReSharper disable once InconsistentNaming
         private void updateDomainsInIIS(IEnumerable<CompanyDomain> companySavedDomains, IEnumerable<CompanyDomain> companyDbVersion)
         {
@@ -2299,13 +2329,19 @@ namespace MPC.Implementation.MISServices
                     {
                         SmartFormDetail smartFormDetailDbVersion = smartFormDbVersion.SmartFormDetails.FirstOrDefault(
                            sf => sf.SmartFormDetailId == smartFormDetail.SmartFormDetailId);
-                        if (smartFormDetailDbVersion != null) smartFormDetailDbVersion.SortOrder = smartFormDetail.SortOrder;
+                        if (smartFormDetailDbVersion != null)
+                        {
+                            smartFormDetailDbVersion.SortOrder = smartFormDetail.SortOrder;
+                            smartFormDetailDbVersion.IsRequired = smartFormDetail.IsRequired;
+                        }
                     }
                 }
             }
+            smartFormRepository.SaveChanges();
             #endregion
 
             #region Delete SmartForm Detail
+            //missing Items
             List<SmartFormDetail> missingSmartFormDetails = new List<SmartFormDetail>();
             if (smartFormDbVersion.SmartFormDetails != null)
             {
@@ -2323,11 +2359,13 @@ namespace MPC.Implementation.MISServices
 
                 foreach (var missingItem in missingSmartFormDetails)
                 {
-                    smartFormDbVersion.SmartFormDetails.Remove(missingItem);
+                    smartFormDetailRepository.Delete(missingItem);
                 }
+                smartFormDetailRepository.SaveChanges();
             }
+
             #endregion
-            smartFormRepository.SaveChanges();
+
             return smartForm.SmartFormId;
         }
 
@@ -2369,11 +2407,12 @@ namespace MPC.Implementation.MISServices
             ICompanyDomainRepository companyDomainRepository, ICostCentreMatrixRepository costCentreMatrixRepositry, ICostCentreQuestionRepository CostCentreQuestionRepository,
             IStockCategoryRepository StockCategoryRepository, IPaperSizeRepository PaperSizeRepository, IMachineRepository MachineRepository, IPhraseFieldRepository PhraseFieldRepository,
             IReportRepository ReportRepository, IFieldVariableRepository fieldVariableRepository, IVariableOptionRepository variableOptionRepository,
-            IScopeVariableRepository scopeVariableRepository, ISmartFormRepository smartFormRepository, ISmartFormDetailRepository smartFormDetailRepository)
+            IScopeVariableRepository scopeVariableRepository, ISmartFormRepository smartFormRepository, ISmartFormDetailRepository smartFormDetailRepository, IEstimateRepository estimateRepository)
         {
             this.companyRepository = companyRepository;
             this.smartFormRepository = smartFormRepository;
             this.smartFormDetailRepository = smartFormDetailRepository;
+            this.estimateRepository = estimateRepository;
             this.systemUserRepository = systemUserRepository;
             this.raveReviewRepository = raveReviewRepository;
             this.companyCmykColorRepository = companyCmykColorRepository;
@@ -2474,7 +2513,15 @@ namespace MPC.Implementation.MISServices
         }
         public CompanyResponse GetCompanyById(long companyId)
         {
-            return companyRepository.GetCompanyById(companyId);
+            CompanyResponse response = companyRepository.GetCompanyById(companyId);
+            int userCount = 0;
+            int newOrdersCount = 0;
+            if (response.Company != null && response.Company.StoreId != null)
+                userCount = companyRepository.UserCount(response.Company.StoreId, 5);
+            newOrdersCount = estimateRepository.GetNewOrdersCount(5, companyId);
+            response.NewOrdersCount = newOrdersCount;
+            response.NewUsersCount = userCount;
+            return response;
         }
 
         public CompanyBaseResponse GetBaseData(long storeId)
@@ -2671,9 +2718,9 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Get Company Contact Varibale By Contact ID
         /// </summary>
-        public IEnumerable<ScopeVariable> GetContactVariableByContactId(long contactId,int scope)
+        public IEnumerable<ScopeVariable> GetContactVariableByContactId(long contactId, int scope)
         {
-            return scopeVariableRepository.GetContactVariableByContactId(contactId,scope);
+            return scopeVariableRepository.GetContactVariableByContactId(contactId, scope);
         }
 
         /// <summary>

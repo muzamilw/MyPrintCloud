@@ -3163,7 +3163,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Cost Centre Factory
     CostCentre.Create = function (source) {
-        return new CostCentre(source.CostCentreId, source.Name, source.TypeName);
+        return new CostCentre(source.CostCentreId, source.Name, source.Type);
     };
 
     // Country Factory

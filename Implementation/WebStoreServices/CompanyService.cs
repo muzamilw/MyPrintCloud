@@ -854,6 +854,20 @@ namespace MPC.Implementation.WebStoreServices
         {
            return  _CompanyRepository.UpdateCompanyName(Instance);
         
+        
+        }
+        public bool VerifyHashSha1(string plainText, string compareWithSalt)
+        {
+            return _CompanyContactRepository.VerifyHashSha1(plainText, compareWithSalt);
+        }
+
+        public string GetPasswordByContactID(long ContactID)
+        {
+            return _CompanyContactRepository.GetPasswordByContactID(ContactID);
+        }
+        public bool SaveResetPassword(long ContactID, string Password)
+        {
+            return _CompanyContactRepository.SaveResetPassword(ContactID, Password);
         }
     }
 

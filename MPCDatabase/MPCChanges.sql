@@ -523,3 +523,13 @@ DROP constraint FK_CompanyContactVariable_CompanyContact
 
 GO
 
+/* Execution Date: 02/03/2015 */
+
+GO
+
+alter table SmartFormDetail
+add foreign key (VariableId)
+references FieldVariable(VariableId)
+
+GO
+
