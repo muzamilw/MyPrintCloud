@@ -1418,6 +1418,13 @@ namespace MPC.Implementation.MISServices
             // Get Db Version
             Item itemTarget = GetById(item.ItemId) ?? CreateNewItem();
             
+            // Check for Code Duplication
+            bool isDuplicateCode = itemRepository.IsDuplicateProductCode(item.ProductCode, item.ItemId);
+            if (isDuplicateCode)
+            {
+                throw new MPCException(LanguageResources.ItemService_ProductCodeDuplicated, itemRepository.OrganisationId);
+            }
+
             // Update
             item.UpdateTo(itemTarget, new ItemMapperActions
             {
@@ -1561,6 +1568,12 @@ namespace MPC.Implementation.MISServices
 
             // Clone
             CloneItem(source, target);
+            
+            // Load Item Full
+            target = itemRepository.GetItemWithDetails(target.ItemId);
+            
+            // Get Updated Minimum Price
+            target.MinPrice = itemRepository.GetMinimumProductValue(target.ItemId);
 
             // Return Product
             return target;

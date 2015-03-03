@@ -105,7 +105,13 @@ namespace MPC.Repository.Repositories
 
             return qry.ToList().FirstOrDefault();
         }
-
+        public CompanyContact GetContactById(int contactId)
+        {
+            return (from c in db.CompanyContacts.Include("CompanyTerritories")
+                    where c.ContactId == contactId
+                    select c).FirstOrDefault();
+          
+        }
         public CompanyContact GetContactByEmail(string Email, long OID)
         {
             var qry = from contacts in db.CompanyContacts
@@ -126,7 +132,7 @@ namespace MPC.Repository.Repositories
             return ComputeHashSHA1(plainText);
         }
 
-        private static bool VerifyHashSha1(string plainText, string compareWithSalt)
+        public bool VerifyHashSha1(string plainText, string compareWithSalt)
         {
             bool result = false;
 
@@ -1062,6 +1068,39 @@ namespace MPC.Repository.Repositories
             
             }
             return Result;
+        }
+
+        public string GetPasswordByContactID(long ContactID)
+        {
+            try
+            {
+                return db.CompanyContacts.Where(c => c.ContactId == ContactID).Select(s => s.Password).FirstOrDefault();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool SaveResetPassword(long ContactID, string Password)
+        {
+            bool result = false;
+            try
+            {
+                    CompanyContact tblContact = db.CompanyContacts.Where(c => c.ContactId == ContactID).FirstOrDefault();
+
+                    if (tblContact != null)
+                    {
+                        tblContact.Password = ComputeHashSHA1(Password);
+                        result = db.SaveChanges() > 0 ? true : false;
+                    }
+                
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
         }
 
        

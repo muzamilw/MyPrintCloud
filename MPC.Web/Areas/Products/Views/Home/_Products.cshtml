@@ -63,9 +63,6 @@
                         <div class="productHeadingsCnt width12Perc">
                             Is Published
                         </div>
-                        <div class="productHeadingsCnt width7Perc">
-                            Is Archived
-                        </div>
                         <table id="ProductListtbl" class="table">
                             <tbody>
                                 <!-- ko template: { name: 'listViewTemplate', foreach: products } -->
@@ -131,7 +128,7 @@
                 <span data-bind="text: productNameForGrid"></span>
             </div>
             <div class="">
-                <span data-bind="text: '$' + miniPrice()"></span>
+                <span data-bind="text: 'Starting From $' + miniPrice()"></span>
             </div>
         </div>
     </script>
@@ -182,9 +179,6 @@
             </td>
             <td class="text-center width12Perc">
                 <span class="label label-success" data-bind="text: isPublishedUi"></span>
-            </td>
-            <td class="text-center width7Perc">
-                <span data-bind="text: isArchivedUi"></span>
             </td>
         </tr>
     </script>

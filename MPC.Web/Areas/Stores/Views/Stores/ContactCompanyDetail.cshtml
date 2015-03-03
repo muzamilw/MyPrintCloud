@@ -96,6 +96,8 @@
                                                         <div class="radio">
                                                             <input type="radio" name="optionsRadiosStoreType" id="optionsRadiosRetail" value="4" data-bind="checked: type">
                                                             <label for="optionsRadiosRetail">
+                                                            <input type="radio" name="optionsRadiosStoreType" id="optionsRadiosRetail" value="4" data-bind="checked: type">
+                                                            <label for="optionsRadiosRetail">
                                                                 Retail
                                                             </label>
                                                         </div>
@@ -106,7 +108,8 @@
                                                             </label>
                                                             <span class="help-block text-right">The Store Type determines how a store will be accessed</span>
                                                         </div>
-                                                    </div>
+                                                        </div>
+
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -1912,11 +1915,11 @@ Public  - allows users to see other users addresses and orders." data-original-t
         </script>
         <script id="secondaryPageItemTemplate" type="text/html">
             <tr>
-                @*<td>
-                    <img src="" alt="" data-bind="attr: { src: imageSource }" />
+                <td>
+                    @*<img src="" alt="" data-bind="attr: { src: imageSource }" />*@
                     <span style="color:#3cdfef;display:block;font-size:1.25em;padding-top:3px;margin-left:60px;" data-bind="text:pageTitle"></span>
-                    <span class="user-subhead" data-bind="text:metaTitle"></span>
-                </td>*@
+                    @*<span class="user-subhead" data-bind="text:metaTitle"></span>*@
+                </td>
                 <td data-bind="text:categoryName"></td>
                 <!-- ko if: isEnabled -->
                 <td class="text-center">
@@ -1927,6 +1930,14 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 <td>
                     <span class="label label-default">Inactive</span>
                 </td>
+                <!-- /ko -->
+                <!-- ko if: isDisplay -->
+                <td>
+                    <span>Yes</span>
+                </td>
+                <!-- /ko -->
+                <!-- ko ifnot:isDisplay -->
+                <td><span>No</span></td>
                 <!-- /ko -->
                
                 <td style="width: 20%;">

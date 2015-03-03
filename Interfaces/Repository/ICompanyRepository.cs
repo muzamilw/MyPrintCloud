@@ -15,7 +15,7 @@ namespace MPC.Interfaces.Repository
         int UserCount(long? storeId, int numberOfDays);
         long GetStoreIdFromDomain(string domain);
         CompanyResponse SearchCompanies(CompanyRequestModel request);
-
+        Company GetCustomer(int CompanyId);
         /// <summary>
         /// Get Suppliers For Inventories
         /// </summary>

@@ -16,6 +16,7 @@ namespace MPC.Interfaces.Repository
         CompanyContact GetContactUser(string email, string password);
         CompanyContact GetContactByFirstName(string Fname);
         CompanyContact GetContactByEmail(string Email, long OID);
+        CompanyContact GetContactById(int contactId);
         long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID);
 
         CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName);
@@ -103,5 +104,12 @@ namespace MPC.Interfaces.Repository
         /// Get All By Company ID
         /// </summary>
         IEnumerable<CompanyContact> GetContactsByCompanyId(long companyId);
+
+        bool VerifyHashSha1(string plainText, string compareWithSalt);
+
+        string GetPasswordByContactID(long ContactID);
+
+        bool SaveResetPassword(long ContactID, string Password);
+
     }
 }

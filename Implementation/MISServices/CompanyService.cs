@@ -104,7 +104,7 @@ namespace MPC.Implementation.MISServices
                         }
                     }
                 }
-
+                
             }
             return true;
             //var commonItem = companySaving.Company.CompanyDomains..Intersect(allCompanyDomains);
@@ -112,7 +112,7 @@ namespace MPC.Implementation.MISServices
             //{
             //    return false;
             //}
-
+           
         }
         /// <summary>
         /// Save Company
@@ -1388,6 +1388,12 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private void UpdateSecondaryPageImagePath(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
+            // Return if no Media is Selected
+            if (companySavingModel == null || companySavingModel.Company == null || companySavingModel.Company.MediaLibraries == null)
+            {
+                return;
+            }
+
             if (companyDbVersion.CmsPages != null)
             {
                 foreach (var itemDbVersion in companyDbVersion.CmsPages)
@@ -2604,7 +2610,7 @@ namespace MPC.Implementation.MISServices
                 }
                 return UpdateCompany(companyModel, companyDbVersion);
             }
-
+           
             return null;
         }
         public long GetOrganisationId()
