@@ -984,26 +984,32 @@
             
         $("#myprintcloud-help").animate({ "top": "-=250" }, 200).delay(500);
         $("#myprintcloud-help").animate({ "top": "+=370" }, 200);
-        $(window).resize(function () {
+        $(window).resize(function () 
+        {
 
             document.getElementById("myprintcloud-help").style.left = "41%";
 
         });
-        $("#btnCloseHelp").click(function () {
+        $("#btnCloseHelp").click(function () 
+        {
+            alert();
 
             $("#myprintcloud-help").hide();
-            $(".disabled-div").css("display", "none");
+            $(".disabled-div").css("display","none");
 
             $('body').css('overflow', 'visible');
-            $('body').css('zoom', '100%');
+          
 
         });
+
+        $("#myprintcloud-help").css("display", "block");
+
     });
 
  
   
-        $("#myprintcloud-help").css("display", "block");
-    });
+       
+    
     </script>
 
     <script>
