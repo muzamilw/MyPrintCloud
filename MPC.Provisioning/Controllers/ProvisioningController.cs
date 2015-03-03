@@ -186,9 +186,9 @@ namespace MPC.Provisioning.Controllers
         /// <param name="domainName">Domain Name Represents new binding in IIS to be created</param>
         /// <returns>return 'true' if successfully adds binding else return 'false'</returns>
         [System.Web.Http.HttpGet]
-        public string AddDomain(string sitePhysicalPath, string siteName, string domainName)
+        public string AddDomain(string siteName, string domainName)
         {
-            string misFolder = sitePhysicalPath + "\\mis";
+            //string misFolder = sitePhysicalPath + "\\mis";
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = @"powershell.exe";
             startInfo.Arguments = @"-File " + HttpContext.Current.Server.MapPath("~/scripts/AddDomain.ps1") + " " + siteName;

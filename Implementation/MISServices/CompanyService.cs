@@ -1019,7 +1019,7 @@ namespace MPC.Implementation.MISServices
                             client.DefaultRequestHeaders.Accept.Clear();
                             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                            string url = "AddDomain?sitePhysicalPath=mpc/mis" + "&siteName=" + item.Domain + "&domainName=" + item.Domain;
+                            string url = "AddDomain?siteName=" + item.Domain + "&domainName=" + item.Domain;
                             string responsestr = "";
                             var response = client.GetAsync(url);
                             if (response.Result.IsSuccessStatusCode)
