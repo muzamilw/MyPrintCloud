@@ -1388,6 +1388,12 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private void UpdateSecondaryPageImagePath(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
+            // Return if no Media is Selected
+            if (companySavingModel == null || companySavingModel.Company == null || companySavingModel.Company.MediaLibraries == null)
+            {
+                return;
+            }
+
             if (companyDbVersion.CmsPages != null)
             {
                 foreach (var itemDbVersion in companyDbVersion.CmsPages)
