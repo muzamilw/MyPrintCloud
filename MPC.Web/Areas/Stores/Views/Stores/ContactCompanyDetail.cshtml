@@ -925,7 +925,7 @@
                                             @* <div class="col-md-3"></div>*@
                                             <div class="col-md-9">
                                                 <div class="form-group pull-left col-xs-4">
-                                                    <select class="form-control" data-bind="options: $root.companyBannerSetList,optionsCaption:'All Set', optionsText: 'setName', optionsValue: 'id',value:$root.filteredCompanySetId"></select>
+                                                    <select class="form-control" data-bind="options: $root.companyBannerSetList,optionsCaption:'All Set', optionsText: 'setName', optionsValue: 'id',value:$root.filteredCompanySetId,event:{ change: $root.onChangeBannerSet}"></select>
                                                 </div>
                                                 <div class="btn btn-primary pull-right" data-bind="click:$root.onCreateBanner">
                                                     <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Banner

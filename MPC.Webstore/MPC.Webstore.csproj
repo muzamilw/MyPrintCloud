@@ -278,6 +278,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APIControllers\GetWidgetDetailController.cs" />
     <Compile Include="APIControllers\SignUpController.cs" />
     <Compile Include="App_GlobalResources\1\1.fr-FR.designer.cs">
       <AutoGen>True</AutoGen>
