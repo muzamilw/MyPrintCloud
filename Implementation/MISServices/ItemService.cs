@@ -1570,7 +1570,7 @@ namespace MPC.Implementation.MISServices
             CloneItem(source, target);
             
             // Load Item Full
-            target = itemRepository.Find(target.ItemId);
+            target = itemRepository.GetItemWithDetails(target.ItemId);
             
             // Get Updated Minimum Price
             target.MinPrice = itemRepository.GetMinimumProductValue(target.ItemId);

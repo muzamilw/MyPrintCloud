@@ -63,7 +63,32 @@ namespace MPC.Repository.Repositories
         #endregion
 
         #region public
-        
+
+        /// <summary>
+        /// Get Item With Details
+        /// </summary>
+        public Item GetItemWithDetails(long itemId)
+        {
+            return 
+                DbSet
+                .Include("ItemSections")
+                .Include("ItemSections.StockItem")
+                .Include("ItemSections.Machine")
+                .Include("ItemStockOptions")
+                .Include("ItemStockOptions.StockItem")
+                .Include("ItemStockOptions.ItemAddonCostCentres")
+                .Include("ItemStockOptions.ItemAddonCostCentres.CostCentre")
+                .Include("ItemStockOptions.ItemAddonCostCentres.CostCentre.CostCentreType")
+                .Include("ProductCategoryItems")
+                .Include("ProductCategoryItems.ProductCategory")
+                .Include("ItemStateTaxes")
+                .Include("ItemStateTaxes.Country")
+                .Include("ItemStateTaxes.State")
+                .Include("ItemRelatedItems")
+                .Include("ItemRelatedItems.RelatedItem")
+                .FirstOrDefault(item => item.ItemId == itemId);
+        }
+
         /// <summary>
         /// Check if product code provided already exists
         /// </summary>
