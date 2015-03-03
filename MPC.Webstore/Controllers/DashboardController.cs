@@ -397,7 +397,7 @@ namespace MPC.Webstore.Controllers
                 else
                 {
                     ViewBag.ErrorMes = 5;
-                    return View("PartialViews/Dashboard");
+                    return PartialView("PartialViews/Dashboard");
                 }
 
             }
@@ -405,7 +405,7 @@ namespace MPC.Webstore.Controllers
             {
                 PopulateDashboard();
                 ViewBag.ErrorMes = 5;
-                return View("PartialViews/Dashboard");
+                return PartialView("PartialViews/Dashboard");
             }
 
            
