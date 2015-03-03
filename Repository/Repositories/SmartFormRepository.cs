@@ -1,8 +1,11 @@
-﻿using Microsoft.Practices.Unity;
+﻿using System.Linq.Expressions;
+using Microsoft.Practices.Unity;
 using MPC.Common;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
 using Newtonsoft.Json;
 using System;
@@ -38,6 +41,7 @@ namespace MPC.Repository.Repositories
 
 
         #endregion
+
         #region public
 
         /// <summary>
@@ -78,7 +82,7 @@ namespace MPC.Repository.Repositories
             {
                 var objList = from p in db.VariableSections
                               join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
-                              where ((es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)) && (es.Scope != (int)FieldVariableScopeType.RealEstate || es.Scope != (int)FieldVariableScopeType.RealEstateImages ))
+                              where ((es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)) && (es.Scope != (int)FieldVariableScopeType.RealEstate || es.Scope != (int)FieldVariableScopeType.RealEstateImages))
                               orderby p.VariableSectionId, es.VariableType, es.SortOrder
                               select new
                               {
@@ -99,7 +103,7 @@ namespace MPC.Repository.Repositories
 
 
             return resultList;
-           // return db.FieldVariables.Take(10).ToList();
+            // return db.FieldVariables.Take(10).ToList();
         }
         public List<TemplateVariablesObj> GetTemplateVariables(long templateId)
         {
@@ -115,9 +119,9 @@ namespace MPC.Repository.Repositories
 
                           };
             List<TemplateVariablesObj> objResult = new List<TemplateVariablesObj>();
-            foreach(var obj in objList.ToList())
+            foreach (var obj in objList.ToList())
             {
-                TemplateVariablesObj objToAdd = new TemplateVariablesObj(obj.VariableTag,obj.VariableID.Value,obj.TemplateID.Value);
+                TemplateVariablesObj objToAdd = new TemplateVariablesObj(obj.VariableTag, obj.VariableID.Value, obj.TemplateID.Value);
 
                 objResult.Add(objToAdd);
             }
@@ -153,10 +157,10 @@ namespace MPC.Repository.Repositories
                         }
                     }
                     db.SaveChanges();
-                    
+
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return false;
             }
@@ -168,20 +172,21 @@ namespace MPC.Repository.Repositories
             db.Configuration.LazyLoadingEnabled = false;
             var currentContact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
             List<SmartFormUserList> objUsers = null;
-            if(currentContact != null)
+            if (currentContact != null)
             {
                 objUsers = new List<SmartFormUserList>();
                 List<CompanyContact> contacts = new List<CompanyContact>();
-                if(currentContact.ContactRoleId == (int)Roles.Adminstrator)
+                if (currentContact.ContactRoleId == (int)Roles.Adminstrator)
                 {
-                     contacts = (from c in db.CompanyContacts//.Include("tbl_ContactCompanyTerritories").Include("tbl_ContactDepartments")
-                                    where c.CompanyId == currentContact.CompanyId
-                                    select c).ToList();
-                } else if(currentContact.ContactRoleId == (int)Roles.Manager)
-                {
-                     contacts  = db.CompanyContacts.Where(i => i.TerritoryId == currentContact.TerritoryId).ToList();
+                    contacts = (from c in db.CompanyContacts//.Include("tbl_ContactCompanyTerritories").Include("tbl_ContactDepartments")
+                                where c.CompanyId == currentContact.CompanyId
+                                select c).ToList();
                 }
-                if(contacts.Count > 0 )
+                else if (currentContact.ContactRoleId == (int)Roles.Manager)
+                {
+                    contacts = db.CompanyContacts.Where(i => i.TerritoryId == currentContact.TerritoryId).ToList();
+                }
+                if (contacts.Count > 0)
                 {
                     foreach (var contact in contacts)
                     {
@@ -192,6 +197,53 @@ namespace MPC.Repository.Repositories
             }
             return objUsers;
         }
+         public SmartForm GetSmartForm(long smartFormId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+
+            return db.SmartForms.Where(g => g.SmartFormId == smartFormId).SingleOrDefault();
+        }
+
+        public List<SmartFormDetail> GetSmartFormObjects(long smartFormId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+
+            return db.SmartFormDetails.Where(g => g.SmartFormId == smartFormId).ToList();
+        }
+
+
+        /// <summary>
+        /// Get Smart Form By Company Id
+        /// </summary>
+        public SmartFormResponse GetSmartForms(SmartFormRequestModel request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            Expression<Func<SmartForm, bool>> query =
+            s =>
+                (s.CompanyId == request.CompanyId);
+
+            int rowCount = DbSet.Count(query);
+            IEnumerable<SmartForm> smartForms = request.IsAsc
+           ? DbSet.Where(query)
+           .OrderByDescending(x => x.Name)
+               .Skip(fromRow)
+               .Take(toRow)
+               .ToList()
+           : DbSet.Where(query)
+           .OrderByDescending(x => x.Name)
+               .Skip(fromRow)
+               .Take(toRow)
+               .ToList();
+            return new SmartFormResponse
+            {
+                RowCount = rowCount,
+                SmartForms = smartForms
+            };
+        }
+
         #endregion
     }
 }

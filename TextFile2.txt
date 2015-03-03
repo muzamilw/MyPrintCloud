@@ -1,0 +1,188 @@
+---------------------------
+
+---------------------------
+AutoMapper.AutoMapperConfigurationException: 
+Unmapped members were found. Review the types and members below.
+Add a custom mapping expression, ignore, add a custom resolver, or modify the source/destination type
+=====================================================================
+tbl_papersize -> PaperSize (Destination member list)
+MigrationUtility.tbl_papersize -> MigrationUtility.Preview.PaperSize (Destination member list)
+
+Unmapped properties:
+OrganisationId
+=====================================================================================
+tbl_stocksubcategories -> StockSubCategory (Destination member list)
+MigrationUtility.tbl_stocksubcategories -> MigrationUtility.Preview.StockSubCategory (Destination member list)
+
+Unmapped properties:
+StockCategory
+StockItems
+========================================================================================
+tbl_stock_cost_and_price -> StockCostAndPrice (Destination member list)
+MigrationUtility.tbl_stock_cost_and_price -> MigrationUtility.Preview.StockCostAndPrice (Destination member list)
+
+Unmapped properties:
+StockItem
+===================================================================================
+tbl_stockitems_colors -> StockItemsColor (Destination member list)
+MigrationUtility.tbl_stockitems_colors -> MigrationUtility.Preview.StockItemsColor (Destination member list)
+
+Unmapped properties:
+StockItem
+===============================================================================================
+tbl_costcentre_instructions -> CostcentreInstruction (Destination member list)
+MigrationUtility.tbl_costcentre_instructions -> MigrationUtility.Preview.CostcentreInstruction (Destination member list)
+
+Unmapped properties:
+CostCentre
+CostcentreWorkInstructionsChoices
+================================================================================
+tbl_costcentretypes -> CostCentreType (Destination member list)
+MigrationUtility.tbl_costcentretypes -> MigrationUtility.Preview.CostCentreType (Destination member list)
+
+Unmapped properties:
+CostCentres
+==========================================================================
+tbl_contactcompanies -> Company (Destination member list)
+MigrationUtility.tbl_contactcompanies -> MigrationUtility.Preview.Company (Destination member list)
+
+Unmapped properties:
+CompanyId
+StoreId
+PhoneNo
+OrganisationId
+includeEmailBrokerArtworkOrderReport
+includeEmailBrokerArtworkOrderXML
+includeEmailBrokerArtworkOrderJobCard
+makeEmailBrokerArtworkOrderProductionReady
+SalesAndOrderManagerId1
+SalesAndOrderManagerId2
+ProductionManagerId1
+ProductionManagerId2
+StockNotificationManagerId1
+StockNotificationManagerId2
+IsDeliveryTaxAble
+IsDisplayDeliveryOnCheckout
+DeliveryPickUpAddressId
+TaxRate
+IsDisplayDiscountVoucherCode
+IsDisplayCorporateBinding
+MapImageURL
+PickupAddressId
+TaxLabel
+isAddCropMarks
+isCalculateTaxByService
+Activities
+Addresses
+Campaigns
+CmsOffers
+CmsPages
+CmsSkinPageWidgets
+ColorPalletes
+CompanyCMYKColors
+CompanyCostCentres
+CompanyDomains
+CompanyBannerSets
+Items
+MediaLibraries
+PaymentGateways
+RaveReviews
+StockItems
+CompanyType
+CompanyContacts
+CompanyTerritories
+Estimates
+ProductCategories
+===================================================================
+tbl_addresses -> Address (Destination member list)
+MigrationUtility.tbl_addresses -> MigrationUtility.Preview.Address (Destination member list)
+
+Unmapped properties:
+CompanyId
+StateId
+CountryId
+OrganisationId
+DisplayOnContactUs
+CompanyContacts
+Company
+CompanyTerritory
+CompanyContacts1
+=========================================================================
+tbl_contacts -> CompanyContact (Destination member list)
+MigrationUtility.tbl_contacts -> MigrationUtility.Preview.CompanyContact (Destination member list)
+
+Unmapped properties:
+CompanyId
+OrganisationId
+Address
+Address1
+Company
+CompanyTerritory
+CompanyContactRole
+RegistrationQuestion
+Estimates
+FavoriteDesigns
+Inquiries
+NewsLetterSubscribers
+=========================================================================
+tbl_report_notes -> ReportNote (Destination member list)
+MigrationUtility.tbl_report_notes -> MigrationUtility.Preview.ReportNote (Destination member list)
+
+Unmapped properties:
+ReportCategory
+=========================================================================================
+tbl_machine_ink_coverage -> MachineInkCoverage (Destination member list)
+MigrationUtility.tbl_machine_ink_coverage -> MigrationUtility.Preview.MachineInkCoverage (Destination member list)
+
+Unmapped properties:
+Machine
+===============================================================
+tbl_phrase -> Phrase (Destination member list)
+MigrationUtility.tbl_phrase -> MigrationUtility.Preview.Phrase (Destination member list)
+
+Unmapped properties:
+Phrase1
+PhraseField
+===========================================================================
+tbl_phrase_fields -> PhraseField (Destination member list)
+MigrationUtility.tbl_phrase_fields -> MigrationUtility.Preview.PhraseField (Destination member list)
+
+Unmapped properties:
+Section
+Phrases
+=================================================================================
+tbl_ProductCategory -> ProductCategory (Destination member list)
+MigrationUtility.tbl_ProductCategory -> MigrationUtility.Preview.ProductCategory (Destination member list)
+
+Unmapped properties:
+CompanyId
+OrganisationId
+SubCategoryDisplayMode1
+SubCategoryDisplayMode2
+SubCategoryDisplayColumns
+CategoryURLText
+MetaOverride
+ShortDescription
+SecondaryDescription
+DefaultSortBy
+ProductsDisplayColumns
+ProductsDisplayRows
+IsDisplayFeaturedproducts
+IsShowAvailablity
+IsShowRewardPoints
+IsShowListPrice
+IsShowSalePrice
+IsShowStockStatus
+IsShowProductDescription
+IsShowProductShortDescription
+Company
+ProductCategoryItems
+ProductCategoryFoldLines
+
+   at AutoMapper.ConfigurationStore.AssertConfigurationIsValid(IEnumerable`1 typeMaps) in c:\dev\AutoMapper\src\AutoMapper\ConfigurationStore.cs:line 523
+   at AutoMapper.ConfigurationStore.AssertConfigurationIsValid() in c:\dev\AutoMapper\src\AutoMapper\ConfigurationStore.cs:line 456
+   at AutoMapper.Mapper.AssertConfigurationIsValid() in c:\dev\AutoMapper\src\AutoMapper\Mapper.cs:line 407
+   at MigrationUtility.Form1.Form1_Load(Object sender, EventArgs e) in e:\Development\MyPrintCloud\MyPrintCloud.Cloud\MyPrintCloud\MigrationUtility\Form1.cs:line 224
+---------------------------
+OK   
+---------------------------

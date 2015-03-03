@@ -125,6 +125,6 @@ namespace MPC.MIS.Areas.Api.Models
             }
         }
 
-        public  List<CompanyContactVariable> CompanyContactVariables { get; set; }
+        public List<ScopeVariable> ScopVariables { get; set; }
     }
 }

@@ -73,6 +73,7 @@ namespace MPC.Implementation.MISServices
         //#region Private Methods
         private ProductCategory Create(ProductCategory productCategory)
         {
+            productCategory.OrganisationId = productCategoryRepository.OrganisationId;
             productCategoryRepository.Add(productCategory);
             productCategoryRepository.SaveChanges();
             SaveProductCategoryThumbNailImage(productCategory);

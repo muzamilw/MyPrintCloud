@@ -534,9 +534,9 @@ namespace MPC.Repository.BaseRepository
         public DbSet<VariableOption> VariableOptions { get; set; }
 
         /// <summary>
-        /// Company Contact Variable DbSet
+        /// Scope Variable DbSet
         /// </summary>
-        public DbSet<CompanyContactVariable> CompanyContactVariables { get; set; }
+        public DbSet<ScopeVariable> ScopeVariables { get; set; }
 
         /// <summary>
         /// Smart Form DbSet
@@ -562,6 +562,11 @@ namespace MPC.Repository.BaseRepository
         /// PayPal Response DbSet
         /// </summary>
         public DbSet<PayPalResponse> PayPalResponses { get; set; }
+
+        /// <summary>
+        /// NAB Transaction DbSet
+        /// </summary>
+        public DbSet<NABTransaction> NABTransactions { get; set; }
 
         /// <summary>
         /// Clone Template Stored Procedure

@@ -171,7 +171,6 @@ namespace MigrationUtility.Preview
         public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
         public virtual DbSet<PaypalPaymentRequest> PaypalPaymentRequests { get; set; }
         public virtual DbSet<PayPalResponse> PayPalResponses { get; set; }
-        public virtual DbSet<Phrase> Phrases { get; set; }
         public virtual DbSet<PhraseField> PhraseFields { get; set; }
         public virtual DbSet<PipelineDeduction> PipelineDeductions { get; set; }
         public virtual DbSet<PipeLineProduct> PipeLineProducts { get; set; }
@@ -266,5 +265,6 @@ namespace MigrationUtility.Preview
         public virtual DbSet<SectionCostCentresFeedback> SectionCostCentresFeedbacks { get; set; }
         public virtual DbSet<StockItemsIssueLog> StockItemsIssueLogs { get; set; }
         public virtual DbSet<WebProductCategoryItemPrice> WebProductCategoryItemPrices { get; set; }
+        public virtual DbSet<Phrase> Phrases { get; set; }
     }
 }

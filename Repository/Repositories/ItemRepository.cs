@@ -65,6 +65,39 @@ namespace MPC.Repository.Repositories
         #region public
 
         /// <summary>
+        /// Get Item With Details
+        /// </summary>
+        public Item GetItemWithDetails(long itemId)
+        {
+            return 
+                DbSet
+                .Include("ItemSections")
+                .Include("ItemSections.StockItem")
+                .Include("ItemSections.Machine")
+                .Include("ItemStockOptions")
+                .Include("ItemStockOptions.StockItem")
+                .Include("ItemStockOptions.ItemAddonCostCentres")
+                .Include("ItemStockOptions.ItemAddonCostCentres.CostCentre")
+                .Include("ItemStockOptions.ItemAddonCostCentres.CostCentre.CostCentreType")
+                .Include("ProductCategoryItems")
+                .Include("ProductCategoryItems.ProductCategory")
+                .Include("ItemStateTaxes")
+                .Include("ItemStateTaxes.Country")
+                .Include("ItemStateTaxes.State")
+                .Include("ItemRelatedItems")
+                .Include("ItemRelatedItems.RelatedItem")
+                .FirstOrDefault(item => item.ItemId == itemId);
+        }
+
+        /// <summary>
+        /// Check if product code provided already exists
+        /// </summary>
+        public bool IsDuplicateProductCode(string productCode, long? itemId)
+        {
+            return DbSet.Any(item => item.ProductCode == productCode && (!itemId.HasValue || item.ItemId != itemId) && item.OrganisationId == OrganisationId);
+        }
+
+        /// <summary>
         /// Get All Items for Current Organisation
         /// </summary>
         public override IEnumerable<Item> GetAll()
@@ -282,23 +315,22 @@ namespace MPC.Repository.Repositories
             // add section of 20 type cost center which is web order cost center
 
 
-            if (db.SaveChanges() > 0)
-            {
-                if (clonedTemplate != null && (newItem.TemplateType == 1 || newItem.TemplateType == 2))
-                {
+             db.SaveChanges();
+             if (clonedTemplate != null && (newItem.TemplateType == 1 || newItem.TemplateType == 2))
+             {
                     newItem.TemplateId = clonedTemplate.ProductId;
                     TemplateID = clonedTemplate.ProductId;
 
                     CopyTemplatePaths(clonedTemplate, OrganisationID);
-                }
+             }
 
-                SaveAdditionalAddonsOrUpdateStockItemType(SelectedAddOnsList, newItem.ItemId, StockID, isCopyProduct, "");
+            SaveAdditionalAddonsOrUpdateStockItemType(SelectedAddOnsList, newItem.ItemId, StockID, isCopyProduct, "");
                     // additional addon required the newly inserted cloneditem
-                newItem.ItemCode = "ITM-0-001-" + newItem.ItemId;
-                db.SaveChanges();
-            }
-            else
-                throw new Exception("Nothing happened");
+            newItem.ItemCode = "ITM-0-001-" + newItem.ItemId;
+            db.SaveChanges();
+            
+            //else
+            //    throw 
 
             return newItem;
         }

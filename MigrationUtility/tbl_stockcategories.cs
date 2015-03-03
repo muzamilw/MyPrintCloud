@@ -17,6 +17,7 @@ namespace MigrationUtility
         public tbl_stockcategories()
         {
             this.tbl_stockitems = new HashSet<tbl_stockitems>();
+            this.tbl_stocksubcategories = new HashSet<tbl_stocksubcategories>();
         }
     
         public int CategoryID { get; set; }
@@ -41,5 +42,6 @@ namespace MigrationUtility
         public int CompanyID { get; set; }
     
         public virtual ICollection<tbl_stockitems> tbl_stockitems { get; set; }
+        public virtual ICollection<tbl_stocksubcategories> tbl_stocksubcategories { get; set; }
     }
 }

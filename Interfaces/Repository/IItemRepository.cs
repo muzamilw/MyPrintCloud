@@ -1,4 +1,5 @@
-﻿using MPC.Models.Common;
+﻿using System.Linq.Expressions;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
@@ -12,6 +13,22 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface IItemRepository : IBaseRepository<Item, long>
     {
+
+        /// <summary>
+        /// Get Items With Details
+        /// </summary>
+        Item GetItemWithDetails(long itemId);
+
+        /// <summary>
+        /// Eager load property
+        /// </summary>
+        void LoadProperty<T>(object entity, Expression<Func<T>> propertyExpression, bool isCollection = false);
+
+        /// <summary>
+        /// Check if Product Code is Duplicate
+        /// </summary>
+        bool IsDuplicateProductCode(string productCode, long? itemId);
+
         /// <summary>
         /// Get Items
         /// </summary>

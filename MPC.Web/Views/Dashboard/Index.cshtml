@@ -20,7 +20,7 @@
         position:absolute;
         opacity:0.25;
         top:-32%;
-          left:98px;
+        left:98px;
         -webkit-filter: blur(8px);
         -webkit-transition: -webkit-filter .50s;
         visibility:hidden;
@@ -31,23 +31,39 @@
         font-family:Ebrima;
         margin:0px;
         font-size:26px;
-        
     }
     a
     {
         cursor:pointer;
     }
+    .account-anchors a:hover,.help-details a:hover{
+         background-color:#FFC0BA !important;
+        text-decoration:none !important;
+    }
     .account-anchors
     {
         display:none;
     }
-    .account-anchors a {
+    .account-anchors a ,.help-details a 
+    {
         display:block;
     }
-    .account-anchors a :hover{
-         background-color:#FFC0BA !important;
-        text-decoration:none !important;
+    .span-dashboard-widgets 
+    {
+        font-size:13px;
     }
+    .inner-box
+    {
+
+      padding-left:10px;
+      padding-right:0px;
+
+    }
+    .inner-box-margin
+    {
+        font-size:1em !important;
+    }
+    
 </style>
 
 
@@ -86,11 +102,11 @@
     </div>
     <div class="help-description">
         <div>
-            <span class="help-header-description" style="font-size:14px;">This is your Dashboard</span>
+            <span class="help-header-description" style="font-size:14px;">This is your dashboard, lets go on a quick tour to familiarize yourself with MyPRINTCloud.  </span>
         </div>
         <div>
-            <span class="help-details">Create Products , Web Stores , Estimates ...</span>
-            <div class="account-anchors"><br /><br /><a style="font-weight:bold;">View Your Live Store</a><a style="font-weight:bold;">Brand Your Store (Logo,Color etc)</a><a style="font-weight:bold;">Create a Product</a><a style="font-weight:bold;">Create a Estimate</a><a style="font-weight:bold;">Configure a Press (Digital or litho)</a></div>
+            <span class="help-details">Once you have had a look around join a webinar or start with the self help guides to get started.</span>
+            <div class="account-anchors"><br /><a style="font-weight:bold;">View your live store</a><a style="font-weight:bold;">Configure your store theme</a><a style="font-weight:bold;">Add products to your store</a><a style="font-weight:bold;">Setup your company details</a><a style="font-weight:bold;">Upgrade your subscription</a></div>
         </div>
     </div>
     <div class="help-description" style="border:none !important;background-color:#F5F6F6; padding-bottom:44px;">
@@ -123,55 +139,65 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-3" style="padding-right:0px;">
+                <div class="col-lg-2">
                     <a href="#" style="text-decoration:none">
-                        <div class="main-box infographic-box">
-                            <i class="fa fa-user red-bg"></i>
-                            <span>Attend a Webinar</span>
-                            <span class="value">&nbsp;</span>
+                        <div class="main-box infographic-box inner-box">
+                            <i class="fa fa-user emerald-bg" style="margin-right:4px;"></i>
+                            <span class="span-dashboard-widgets">Attend Webinar</span>
+                            <span class="value inner-box-margin">&nbsp;</span>
                         </div>
                     </a>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     <a href="#" style="text-decoration:none">
-                        <div class="main-box infographic-box">
-                            <i class="fa fa-user red-bg"></i>
-                            <span>Self Paced Tutorial</span>
-                            <span class="value">&nbsp;</span>
+                        <div class="main-box infographic-box inner-box">
+                            <i class="fa fa-adjust emerald-bg"></i>
+                            <span class="span-dashboard-widgets">Tutorials</span>
+                            <span class="value inner-box-margin">&nbsp;</span>
                         </div>
                     </a>
                 </div>
-                <div class="col-lg-3">
-                    <div style="height:47px;padding:10px;">
-                        <a href="#" style="text-decoration:none;">
-                            <span>Create an Estimate/Quote</span>
-                        </a>
-                    </div>
-                    <div style="height:47px;padding:10px;">
-                        <a href=" #" style="text-decoration:none;">
-                            <span>Create a Product</span>
-                        </a>
-                        <div class="product-positioner" style="position:fixed;">
+                <div class="col-lg-2">
+                    <a href="#" style="text-decoration:none">
+                        <div class="main-box infographic-box inner-box">
+                            <i class="fa  fa-anchor emerald-bg" style="margin-right:4px;"></i>
+                            <span class="span-dashboard-widgets">Create Quote</span>
+                            <span class="value inner-box-margin">&nbsp;</span>
                         </div>
-                    </div>
+                    </a>
                 </div>
-
-
-
-                <div class="col-lg-3">
-                    <div style="height:47px;padding:10px;">
-                        <a href="#" style="text-decoration:none;">
-                            <span>Create a Web 2 Print Store</span>
-                        </a>
-                        <div class="web2print-positioner" style="position:fixed;">
+                <div class="col-lg-2">
+                    <a href="#" style="text-decoration:none">
+                        <div class="main-box infographic-box inner-box">
+                            <i class="fa fa-archive emerald-bg" style="margin-right:4px;"></i>
+                            <span class="span-dashboard-widgets">Create Store</span>
+                            <span class="value inner-box-margin">&nbsp;</span>
                         </div>
-                    </div>
-                    <div style="height:47px;padding:10px;">
-                        <a href=" #" style="text-decoration:none;">
-                            <span>Create an Online Template</span>
-                        </a>
-                    </div>
+                    </a>
                 </div>
+                <div class="col-lg-2">
+                    <a href="#" style="text-decoration:none">
+                        <div class="main-box infographic-box inner-box">
+                            <i class="fa fa-cube emerald-bg" style="margin-right:4px;"></i>
+                            <span class="span-dashboard-widgets">Create Product</span>
+                            <span class="value inner-box-margin">&nbsp;</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-2">
+                    <a href="#" style="text-decoration:none">
+                        <div class="main-box infographic-box inner-box">
+                            <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
+                            <span class="span-dashboard-widgets">Create Template</span>
+                            <span class="value inner-box-margin">&nbsp;</span>
+                        </div>
+                    </a>
+                </div>
+                
+
+
+
+                
 
                 <div class="row">
                     <div class="col-md-9 col-lg-10">
@@ -414,223 +440,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div class="main-box small-graph-box red-bg">
-                            <span class="value">2.562</span>
-                            <span class="headline">Users</span>
-                            <div class="progress">
-                                <div style="width: 60%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="60" role="progressbar" class="progress-bar">
-                                    <span class="sr-only">60% Complete</span>
-                                </div>
-                            </div>
-                            <span class="subinfo">
-                                <i class="fa fa-arrow-circle-o-up"></i>10% higher than last week
-                            </span>
-                            <span class="subinfo">
-                                <i class="fa fa-users"></i>29 new users
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div class="main-box small-graph-box emerald-bg">
-                            <span class="value">69.600</span>
-                            <span class="headline">Visits</span>
-                            <div class="progress">
-                                <div style="width: 84%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="84" role="progressbar" class="progress-bar">
-                                    <span class="sr-only">84% Complete</span>
-                                </div>
-                            </div>
-                            <span class="subinfo">
-                                <i class="fa fa-arrow-circle-o-down"></i>22% less than last week
-                            </span>
-                            <span class="subinfo">
-                                <i class="fa fa-globe"></i>84.912 last week
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-12 hidden-sm">
-                        <div class="main-box small-graph-box green-bg">
-                            <span class="value">923</span>
-                            <span class="headline">Orders</span>
-                            <div class="progress">
-                                <div style="width: 42%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="42" role="progressbar" class="progress-bar">
-                                    <span class="sr-only">42% Complete</span>
-                                </div>
-                            </div>
-                            <span class="subinfo">
-                                <i class="fa fa-arrow-circle-o-up"></i>15% higher than last week
-                            </span>
-                            <span class="subinfo">
-                                <i class="fa fa-shopping-cart"></i>8 new orders
-                            </span>
-                        </div>
-                    </div>
-                </div>
+                
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="main-box clearfix">
-                            <header class="main-box-header clearfix">
-                                <h2>Conversation</h2>
-                            </header>
-                            <div class="main-box-body clearfix">
-                                <div class="conversation-wrapper">
-                                    <div class="conversation-content">
-                                        <div class="conversation-inner">
-                                            <div class="conversation-item item-left clearfix">
-                                                <div class="conversation-user">
-                                                    <img src="~/Content/themes/Centaurus/img/samples/ryan.png" alt="" />
-                                                </div>
-                                                <div class="conversation-body">
-                                                    <div class="name">
-                                                        Ryan Gossling
-                                                    </div>
-                                                    <div class="time hidden-xs">
-                                                        September 21, 2013 18:28
-                                                    </div>
-                                                    <div class="text">
-                                                        I don't think they tried to market it to the billionaire, spelunking,
-                                                        base-jumping crowd.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="conversation-item item-right clearfix">
-                                                <div class="conversation-user">
-                                                    <img src="~/Content/themes/Centaurus/img/samples/kunis.png" alt="" />
-                                                </div>
-                                                <div class="conversation-body">
-                                                    <div class="name">
-                                                        Mila Kunis
-                                                    </div>
-                                                    <div class="time hidden-xs">
-                                                        September 21, 2013 12:45
-                                                    </div>
-                                                    <div class="text">
-                                                        The path of the righteous man is beset on all sides by the iniquities of the
-                                                        selfish and the tyranny of evil men. Blessed is he who, in the name of charity and
-                                                        good will.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="conversation-item item-right clearfix">
-                                                <div class="conversation-user">
-                                                    <img src="~/Content/themes/Centaurus/img/samples/kunis.png" alt="" />
-                                                </div>
-                                                <div class="conversation-body">
-                                                    <div class="name">
-                                                        Mila Kunis
-                                                    </div>
-                                                    <div class="time hidden-xs">
-                                                        September 21, 2013 12:45
-                                                    </div>
-                                                    <div class="text">
-                                                        The path of the righteous man is beset on all sides by the iniquities of the
-                                                        selfish and the tyranny of evil men. Blessed is he who, in the name of charity and
-                                                        good will.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="conversation-item item-left clearfix">
-                                                <div class="conversation-user">
-                                                    <img src="~/Content/themes/Centaurus/img/samples/ryan.png" alt="" />
-                                                </div>
-                                                <div class="conversation-body">
-                                                    <div class="name">
-                                                        Ryan Gossling
-                                                    </div>
-                                                    <div class="time hidden-xs">
-                                                        September 21, 2013 18:28
-                                                    </div>
-                                                    <div class="text">
-                                                        I don't think they tried to market it to the billionaire, spelunking,
-                                                        base-jumping crowd.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="conversation-item item-right clearfix">
-                                                <div class="conversation-user">
-                                                    <img src="~/Content/themes/Centaurus/img/samples/kunis.png" alt="" />
-                                                </div>
-                                                <div class="conversation-body">
-                                                    <div class="name">
-                                                        Mila Kunis
-                                                    </div>
-                                                    <div class="time hidden-xs">
-                                                        September 21, 2013 12:45
-                                                    </div>
-                                                    <div class="text">
-                                                        The path of the righteous man is beset on all sides by the iniquities of the
-                                                        selfish and the tyranny of evil men. Blessed is he who, in the name of charity and
-                                                        good will.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="conversation-item item-right clearfix">
-                                                <div class="conversation-user">
-                                                    <img src="~/Content/themes/Centaurus/img/samples/kunis.png" alt="" />
-                                                </div>
-                                                <div class="conversation-body">
-                                                    <div class="name">
-                                                        Mila Kunis
-                                                    </div>
-                                                    <div class="time hidden-xs">
-                                                        September 21, 2013 12:45
-                                                    </div>
-                                                    <div class="text">
-                                                        The path of the righteous man is beset on all sides by the iniquities of the
-                                                        selfish and the tyranny of evil men. Blessed is he who, in the name of charity and
-                                                        good will.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="conversation-item item-left clearfix">
-                                                <div class="conversation-user">
-                                                    <img src="~/Content/themes/Centaurus/img/samples/ryan.png" alt="" />
-                                                </div>
-                                                <div class="conversation-body">
-                                                    <div class="name">
-                                                        Ryan Gossling
-                                                    </div>
-                                                    <div class="time hidden-xs">
-                                                        September 21, 2013 18:28
-                                                    </div>
-                                                    <div class="text">
-                                                        I don't think they tried to market it to the billionaire, spelunking,
-                                                        base-jumping crowd.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="conversation-item item-right clearfix">
-                                                <div class="conversation-user">
-                                                    <img src="~/Content/themes/Centaurus/img/samples/kunis.png" alt="" />
-                                                </div>
-                                                <div class="conversation-body">
-                                                    <div class="name">
-                                                        Mila Kunis
-                                                    </div>
-                                                    <div class="time hidden-xs">
-                                                        September 21, 2013 12:45
-                                                    </div>
-                                                    <div class="text">
-                                                        The path of the righteous man is beset on all sides by the iniquities of the
-                                                        selfish and the tyranny of evil men. Blessed is he who, in the name of charity and
-                                                        good will.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="conversation-new-message">
-                                        <form>
-                                            <div class="form-group">
-                                                <textarea class="form-control" rows="2" placeholder="Enter your message..."></textarea>
-                                            </div>
-                                            <div class="clearfix">
-                                                <button type="submit" class="btn btn-success pull-right">Send message</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
+                           <div class="main-box-body clearfix">
+                               
+                                   <div id="calendar"></div>
+                               
                             </div>
                         </div>
                     </div>
@@ -639,7 +456,6 @@
                             <div class="tabs-wrapper tabs-no-header">
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a href="#tab-users" data-toggle="tab">Users</a></li>
-                                    <li><a href="#tab-products" data-toggle="tab">Products</a></li>
                                     <li><a href="#tab-todo" data-toggle="tab">Todo</a></li>
                                 </ul>
                                 <div class="tab-content tab-content-body clearfix">
@@ -661,35 +477,8 @@
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li class="col-md-6">
-                                                <div class="img">
-                                                    <img src="~/Content/themes/Centaurus/img/samples/kunis.png" alt="" />
-                                                </div>
-                                                <div class="details">
-                                                    <div class="name">
-                                                        <a href="#">Mila Kunis</a>
-                                                    </div>
-                                                    <div class="time online">
-                                                        <i class="fa fa-check-circle"></i>Online
-                                                    </div>
-                                                    <div class="type">
-                                                        <span class="label label-warning">Pending</span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="col-md-6">
-                                                <div class="img">
-                                                    <img src="~/Content/themes/Centaurus/img/samples/ryan.png" alt="" />
-                                                </div>
-                                                <div class="details">
-                                                    <div class="name">
-                                                        <a href="#">Ryan Gossling</a>
-                                                    </div>
-                                                    <div class="time online">
-                                                        <i class="fa fa-check-circle"></i>Online
-                                                    </div>
-                                                </div>
-                                            </li>
+                                            
+                                            
                                             <li class="col-md-6">
                                                 <div class="img">
                                                     <img src="~/Content/themes/Centaurus/img/samples/robert.png" alt="" />
@@ -960,33 +749,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="main-box">
-                            <div class="main-box-body clearfix">
-                                <div id="calendar"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="main-box">
-                            <header class="main-box-header clearfix">
-                                <h2 class="pull-left">Visitors location</h2>
-                                <div class="icon-box pull-right">
-                                    <a href="#" class="btn pull-left">
-                                        <i class="fa fa-refresh"></i>
-                                    </a>
-                                    <a href="#" class="btn pull-left">
-                                        <i class="fa fa-cog"></i>
-                                    </a>
-                                </div>
-                            </header>
-                            <div class="main-box-body clearfix">
-                                <div id="world-map" style="width: 100%; height: 400px"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -1234,7 +997,7 @@
     });
 
  
-    $(window).load(function () {
+  
         $("#myprintcloud-help").css("display", "block");
     });
     </script>
@@ -1243,13 +1006,39 @@
         $(document).ready(function ()
         {
 
-           
-
             var i = 0;
+            var proceeding =
+            [
+                "Manage your PRINT Cloud",
+                "Add More Products",
+                "Add more Stores",
+                "Estimates & Job Cards",
+                "System Settings",
+                "Your Account Area",
+                "You've got the Basics..."
+            ];
+            var proceddingheadertext =
+            [
+                "This is your dashboard, lets go on a quick tour to familiarize yourself with MyPRINTCloud.  ",
+                "Easily add print and inventory products to the product library, products can be used across retail & private web stores and estimates.",
+                "With MyPRINTCloud you can create many retail and private stores to attract new business.  To upgrade to unlimited stores, simply upgrade your subscription.",
+                "Create accurate estimates for digital, offset, labels and large format.  To configure your estimating module, go to MIS -> Settings.",
+                "Configure your MyPRINTCloud by localizing your regional settings, company information, configure press calculations and cost centres.",
+                "From Here you can access",
+                "What would you like to do next?"
+            ]
+            var proceddingdetails =
+            [
+                "Once you have had a look around join a webinar or start with the self help guides to get started.",
+                "",
+                "",
+                "",
+                "",
+                '<br /><a href=http://blog.myprintcloud.com/tutorials-quickstart/ target="_blank" style="font-weight:bold;">Self Paced Tutorials</a><a href="http://attendee.gotowebinar.com/rt/5254423497307154178" target="_blank" style="font-weight:bold;">Join in on our Webinars</a><a href="http://www.youtube.com/user/myprintcloud" target="_blank" style="font-weight:bold;">Watch How to Video’s</a><a href="http://support.myprintcloud.com" target="_blank" style="font-weight:bold;">Contact Support Desk</a><a href="https://myprintcloud.com/dashboard" target="_blank" style="font-weight:bold;">Upgrade to Paid Subscription</a>',
+                ""
+            ]
 
-            var proceeding = ["Manage your PRINT Cloud", "Add more Products", "Add more Stores", "Estimates & Job Cards", "System Settings", "Your Account Area", "You've got the Basics..."];
-            var proceddingheadertext = ["This is your Dashboard", "Product is an item that appears on your website or estimating module", "A store a Website with own URL Link", "Create accurate estimates for simple digital products to complex multi page brochures ...", "Set Your Region Details,Create Process and configure your delivery method cost centers", "From Here you can access", "What Would you like to do Next ?"]
-            var proceddingdetails = ["Create Products , Web Stores , Estimates ...", "\nCreate products with require templates to personalize or just off the shelf Finished Goods", "Create Website at attract new visitors \n or \n Create private website for large customers who have specific online needs", "", "", "Self Placed Tutorials \n Join us in Regular webinars \n Contact our Support Desk \n Upgrade/ downgrade and cancel your Account", ""]
+            var lastTop = []; var lastLeft = [];
 
             $("#btnPreviousHelp").hide();
             $("#btnCloseHelp").show();
@@ -1271,7 +1060,8 @@
                 var dashh = $("#myprintcloud-help");
                 var positiontophelp = dashh.position().top;
                 var positionlefthelp = dashh.position().left;
-
+                lastLeft.push(positionlefthelp);
+                lastTop.push(positiontophelp);
              
 
                 if (i == 1)
@@ -1283,17 +1073,17 @@
                     top = parseInt(positiontop) - parseInt(positiontophelp);
                     left = parseInt(positionleft) - parseInt(positionlefthelp);
 
-                    top = top + 50;
+                    top = top + 45;
                     left = left - 100;
                    
                     $("#myprintcloud-help").animate({ "top": "+="  + top, "left": "+="+left }, 100);
                     $(".highlight-div").css("visibility", "visible");
                     $(".highlight-div").css("width", "120px");
-                    $(".highlight-div").css("height", "30px");
+                    $(".highlight-div").css("height","30px");
 
-                    $(".help-header-title").text(proceeding[1]);
-                    $(".help-header-description").text(proceddingheadertext[1]);
-                    $(".help-details").text(proceddingdetails[1]);
+                    $(".help-header-title").html(proceeding[1]);
+                    $(".help-header-description").html(proceddingheadertext[1]);
+                    $(".help-details").html(proceddingdetails[1]);
 
 
                     $(".bottom-arrow").hide();
@@ -1326,9 +1116,9 @@
                     $(".highlight-div").css("height","30px");
                     $(".highlight-div").css("left", "75px");
 
-                    $(".help-header-title").text(proceeding[2]);
-                    $(".help-header-description").text(proceddingheadertext[2]);
-                    $(".help-details").text(proceddingdetails[2]);
+                    $(".help-header-title").html(proceeding[2]);
+                    $(".help-header-description").html(proceddingheadertext[2]);
+                    $(".help-details").html(proceddingdetails[2]);
 
                     $("#btnPreviousHelp").show();
 
@@ -1349,9 +1139,8 @@
 
                    
                     left = left - 230;
-                    top = top + 105;
+                    top = top + 110;
                 
-
 
                     $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 100);
                     $(".highlight-div").css("visibility", "visible");
@@ -1363,9 +1152,9 @@
                    
 
 
-                    $(".help-header-title").text(proceeding[3]);
-                    $(".help-header-description").text(proceddingheadertext[3]);
-                    $(".help-details").text(proceddingdetails[3]);
+                    $(".help-header-title").html(proceeding[3]);
+                    $(".help-header-description").html(proceddingheadertext[3]);
+                    $(".help-details").html(proceddingdetails[3]);
 
                     $(".bottom-arrow").hide();
                     $(".left-arrow").hide();
@@ -1380,15 +1169,16 @@
                 if (i == 4)
                 {
                     
-                    top = top - 355;
+                    top = top - 350;
 
                     $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 100);
 
                     $(".highlight-div").css("height", "30px");
+                  
 
-                    $(".help-header-title").text(proceeding[4]);
-                    $(".help-header-description").text(proceddingheadertext[4]);
-                    $(".help-details").text(proceddingdetails[4]);
+                    $(".help-header-title").html(proceeding[4]);
+                    $(".help-header-description").html(proceddingheadertext[4]);
+                    $(".help-details").html(proceddingdetails[4]);
                 }
                 if (i == 5)
                 {
@@ -1407,15 +1197,14 @@
                     $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 100);
                     $(".highlight-div").css("visibility", "visible");
                     $(".highlight-div").css("width","350px");
-                    $(".highlight-div").css("height","50px");
-                    $(".highlight-div").css("top", "-40%");
+                    $(".highlight-div").css("height","45px");
+                    $(".highlight-div").css("top", "-32%");
                     $(".highlight-div").css("left", "0%");
+               
 
-
-
-                    $(".help-header-title").text(proceeding[5]);
-                    $(".help-header-description").text(proceddingheadertext[5]);
-                    $(".help-details").text(proceddingdetails[5]);
+                    $(".help-header-title").html(proceeding[5]);
+                    $(".help-header-description").html(proceddingheadertext[5]);
+                    $(".help-details").html(proceddingdetails[5]);
 
                     $(".bottom-arrow").hide();
                     $(".left-arrow").hide();
@@ -1434,8 +1223,8 @@
                     $("#myprintcloud-help").animate({ "top": "+=45%", "left": "-=35%" }, 100);
                     $(".highlight-div").css("visibility", "hidden");
 
-                    $(".help-header-title").text(proceeding[6]);
-                    $(".help-header-description").text(proceddingheadertext[6]);
+                    $(".help-header-title").html(proceeding[6]);
+                    $(".help-header-description").html(proceddingheadertext[6]);
                     $(".help-details").hide();
                     $(".account-anchors").css("display", "block");
 
@@ -1453,46 +1242,118 @@
             $("#btnPreviousHelp").click(function ()
             {
 
-                i = i - 1;
+              
+                var positiontop = 0;
+                var positionleft = 0;
+                var dashp;
 
-                var dashp = $("#myprintcloud-dashborad");
-                var positiontop = dashp.position().top;
-                var positionleft = dashp.position().left;
+                var top = 0;
+                var left = 0;
+                var addtiontop = 0;
+                var additionleft = 0;
 
                 var dashh = $("#myprintcloud-help");
                 var positiontophelp = dashh.position().top;
                 var positionlefthelp = dashh.position().left;
+              
+                top = parseInt(positiontophelp) - parseInt(lastTop.pop());
+                left = parseInt(positionlefthelp) - parseInt(lastLeft.pop());
+                $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 100);
 
-                var top = parseInt(positiontop) - parseInt(236);
-                var left = parseInt(positionleft) - parseInt(positionlefthelp);
-
-                if (i == 0)
+                if (i == 1)
                 {
-
-                   
-
-                    document.getElementById("myprintcloud-help").style.left = "41%";
-                    document.getElementById("myprintcloud-help").style.top = "120px";
-
-                    $(".help-header-title").text(proceeding[0]);
-                    $(".help-header-description").text(proceddingheadertext[0]);
-                    $(".help-details").text(proceddingdetails[0]);
-
+                    $(".highlight-div").css("visibility", "hidden");
+                    
+                    $(".bottom-arrow").show();
+                    $(".left-arrow").show();
+                    $(".right-arrow").show();
                     $("#btnPreviousHelp").hide();
-                    $("#btnNextHelp").show();
-
                 }
-                if ((i != 0) && (i != 6))
+
+                if (i == 2)
                 {
-                    left = left + 240;
-                    $("#myprintcloud-help").animate({ "top": "-=40", "left": "+=" + left }, 100);
+                    $(".highlight-div").css("visibility", "visible");
+                    $(".highlight-div").css("width","120px");
+                    $(".highlight-div").css("height", "30px");
+                    $(".highlight-div").css("left","90px");
 
-                    $(".help-header-title").text(proceeding[i]);
-                    $(".help-header-description").text(proceddingheadertext[i]);
-                    $(".help-details").text(proceddingdetails[i]);
+                }
+
+                if (i == 3)
+                {
+                    $(".highlight-div").css("top", "-32%");
+                    $(".highlight-div").css("visibility", "visible");
+                    $(".highlight-div").css("width", "190px");
+                    $(".highlight-div").css("height", "30px");
+                    $(".highlight-div").css("left", "75px");
+                    $("#btnPreviousHelp").show();
+
+                    $(".bottom-arrow").hide();
+                    $(".left-arrow").hide();
+                    $(".top-arrow").show();
+                    $(".right-arrow").hide();
+                }
+
+                if (i == 4)
+                {
+    
+                    $(".highlight-div").css("visibility", "visible");
+                    $(".highlight-div").css("width","240px");
+                    $(".highlight-div").css("height","30px");
+                    $(".highlight-div").css("top", "80px");
+
+                    $(".highlight-div").css("left","-80%");
+                    $(".bottom-arrow").hide();
+                    $(".left-arrow").hide();
+                    $(".top-arrow").hide();
+                    $(".right-arrow").show();
+
+                    $("#btnPreviousHelp").show();
+
+                }
+
+                if (i == 5)
+                {
+
+                    $(".highlight-div").css("width", "240px");
+                    $(".highlight-div").css("top","80px");
+                    $(".highlight-div").css("left","-80%");
+                    $(".highlight-div").css("height","30px");
+                    $(".help-details").show();
+
+                    $(".bottom-arrow").hide();
+                    $(".left-arrow").hide();
+                    $(".top-arrow").hide();
+                    $(".right-arrow").show();
+                    $("#btnPreviousHelp").show();
+
+                }
+
+                if (i == 6)
+                {
+
+                    $(".highlight-div").css("visibility", "visible");
+                    $(".highlight-div").css("width", "350px");
+                    $(".highlight-div").css("height", "40px");
+                    $(".highlight-div").css("top", "-30%");
+                    $(".highlight-div").css("left","0%");
+                    $(".help-details").show();
+                    $(".account-anchors").css("display", "none");
+
+                    $(".bottom-arrow").hide();
+                    $(".left-arrow").hide();
+                    $(".top-arrow").show();
+                    $(".right-arrow").hide();
 
                     $("#btnNextHelp").show();
+
                 }
+
+                $(".help-header-title").html(proceeding[i - 1]);
+                $(".help-header-description").html(proceddingheadertext[i - 1]);
+                $(".help-details").html(proceddingdetails[i - 1]);
+                i = i - 1;
+
             });
         });
     </script>

@@ -238,7 +238,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 CostCentreId = source.CostCentreId,
                 Name = source.Name,
-                Type = source.Type
+                Type = source.Type,
+                TypeName = source.CostCentreType != null ? source.CostCentreType.TypeName : string.Empty
             };
         }
         
