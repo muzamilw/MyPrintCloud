@@ -19,5 +19,7 @@ namespace MigrationUtility
         public Nullable<int> SetupSpoilage { get; set; }
         public Nullable<float> RunningSpoilage { get; set; }
         public Nullable<int> NoOfColors { get; set; }
+    
+        public virtual tbl_machines tbl_machines { get; set; }
     }
 }

@@ -124,6 +124,15 @@ namespace MPC.Implementation {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Product Code already exists..
+        /// </summary>
+        internal static string ItemService_ProductCodeDuplicated {
+            get {
+                return ResourceManager.GetString("ItemService_ProductCodeDuplicated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Template with Id {0} not found..
         /// </summary>
         internal static string ItemService_TemplateNotFound {

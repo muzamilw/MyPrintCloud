@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 using System.Web;
 using System.Net.Mime;
 using System.Web;
@@ -19,6 +20,7 @@ using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using Ionic.Zip;
 using System.IO;
+using MPC.Repository.Repositories;
 using Newtonsoft.Json;
 using System.Web.UI.WebControls;
 using System.Net.Http.Headers;
@@ -31,8 +33,9 @@ namespace MPC.Implementation.MISServices
         #region Private
 
         #region Repositories
-
+        
         private readonly ICompanyRepository companyRepository;
+        private readonly IEstimateRepository estimateRepository;
         private readonly ISystemUserRepository systemUserRepository;
         private readonly IRaveReviewRepository raveReviewRepository;
         private readonly ICompanyCMYKColorRepository companyCmykColorRepository;
@@ -79,7 +82,9 @@ namespace MPC.Implementation.MISServices
         private readonly IReportRepository ReportRepository;
         private readonly IFieldVariableRepository fieldVariableRepository;
         private readonly IVariableOptionRepository variableOptionRepository;
-        private readonly ICompanyContactVariableRepository companyContactVariableRepository;
+        private readonly IScopeVariableRepository scopeVariableRepository;
+        private readonly ISmartFormRepository smartFormRepository;
+        private readonly ISmartFormDetailRepository smartFormDetailRepository;
         #endregion
 
         private bool CheckDuplicateExistenceOfCompanyDomains(CompanySavingModel companySaving)
@@ -94,7 +99,7 @@ namespace MPC.Implementation.MISServices
                     {
                         if (domainForSaving.Domain == domain.Domain)
                         {
-                            throw new MPCException("There Exist Another Domain Name Instance in system for:"+ domainForSaving.Domain, organisationRepository.OrganisationId);
+                            throw new MPCException("There Exist Another Domain Name Instance in system for:" + domainForSaving.Domain, organisationRepository.OrganisationId);
                             //return false;
                         }
                     }
@@ -115,6 +120,13 @@ namespace MPC.Implementation.MISServices
         private Company SaveNewCompany(CompanySavingModel companySaving)
         {
             //companySaving.Company.CmsPages = companySaving.NewAddedCmsPages;
+            if (companySaving.Company.SmartForms != null)
+            {
+                foreach (var smartForm in companySaving.Company.SmartForms)
+                {
+                    smartForm.OrganisationId = companyRepository.OrganisationId;
+                }
+            }
             companyRepository.Add(companySaving.Company);
             companyRepository.SaveChanges();
             var companyId = companySaving.Company.CompanyId;
@@ -437,8 +449,8 @@ namespace MPC.Implementation.MISServices
         }
         private void SaveProductCategoryThumbNailImage(ProductCategory productCategory)
         {
-            var thumbNailFileBytes = new byte[] {};
-            var imageFileBytes = new byte[] {};
+            var thumbNailFileBytes = new byte[] { };
+            var imageFileBytes = new byte[] { };
             if (!string.IsNullOrEmpty(productCategory.ThumbNailBytes))
             {
                 string base64 = productCategory.ThumbNailBytes.Substring(productCategory.ThumbNailBytes.IndexOf(',') + 1);
@@ -452,7 +464,7 @@ namespace MPC.Implementation.MISServices
                 imageFileBytes = Convert.FromBase64String(base64Image);
             }
 
-            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + productCategory.ProductCategoryId+"_"+ StringHelper.SimplifyString(productCategory.CategoryName)+"/ProductCategories");
+            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + productCategory.ProductCategoryId + "_" + StringHelper.SimplifyString(productCategory.CategoryName) + "/ProductCategories");
             if (directoryPath != null && !Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath);
@@ -461,7 +473,7 @@ namespace MPC.Implementation.MISServices
             string savePath = directoryPath + "\\" + productCategory.ProductCategoryId + "_Thumbnail.png";
             if ((!string.IsNullOrEmpty(productCategory.ThumbnailPath)) && File.Exists(HttpContext.Current.Server.MapPath("~/" + productCategory.ThumbnailPath)))
             {
-                File.Delete(productCategory.ThumbnailPath);  
+                File.Delete(productCategory.ThumbnailPath);
             }
             File.WriteAllBytes(savePath, thumbNailFileBytes);
             int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
@@ -899,23 +911,23 @@ namespace MPC.Implementation.MISServices
                 {
                     companyDbVersion.CompanyContacts = new Collection<CompanyContact>();
                 }
-                foreach (var companyContacts in companySavingModel.NewAddedCompanyContacts)
-                {
-                    if (companyContacts.CompanyContactVariables != null)
-                    {
-                        foreach (var companyContactVariable in companyContacts.CompanyContactVariables)
-                        {
-                            FieldVariable fieldVariable = companySavingModel.Company.FieldVariables.FirstOrDefault(
-                                f => f.FakeIdVariableId == companyContactVariable.FakeVariableId);
-                            if (fieldVariable != null)
-                                companyContactVariable.VariableId = fieldVariable.VariableId;
-                        }
-                    }
+                //foreach (var companyContacts in companySavingModel.NewAddedCompanyContacts)
+                //{
+                //    if (companyContacts.CompanyContactVariables != null)
+                //    {
+                //        foreach (var companyContactVariable in companyContacts.CompanyContactVariables)
+                //        {
+                //            FieldVariable fieldVariable = companySavingModel.Company.FieldVariables.FirstOrDefault(
+                //                f => f.FakeIdVariableId == companyContactVariable.FakeVariableId);
+                //            if (fieldVariable != null)
+                //                companyContactVariable.VariableId = fieldVariable.VariableId;
+                //        }
+                //    }
 
-                    companyContacts.OrganisationId = companyContactRepository.OrganisationId;
+                //    companyContacts.OrganisationId = companyContactRepository.OrganisationId;
 
-                    companyDbVersion.CompanyContacts.Add(companyContacts);
-                }
+                //    companyDbVersion.CompanyContacts.Add(companyContacts);
+                //}
             }
             //Edit
             if (companySavingModel.EdittedCompanyContacts != null)
@@ -983,17 +995,39 @@ namespace MPC.Implementation.MISServices
             UpdateMediaLibraryFilePath(companySavingModel.Company, companyDbVersion);
 
             UpdateContactProfileImage(companySavingModel, companyDbVersion);
-            SaveCompanyBannerImages(companySavingModel.Company);
+            SaveCompanyBannerImages(companySavingModel.Company, companyDbVersion);
             SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
             UpdateSecondaryPageImagePath(companySavingModel, companyDbVersion);
             UpdateCampaignImages(companySavingModel.Company.Campaigns, companyDbVersion);
+            UpdateSmartFormVariableIds(companySavingModel.Company.SmartForms, companyDbVersion);
             companyRepository.SaveChanges();
 
             //Call Service to add or remove the IIS Bindings for Store Domains
-           // updateDomainsInIIS(companyDomainsDbVersion, companyDbVersion.CompanyDomains);
+            // updateDomainsInIIS(companyDomainsDbVersion, companyDbVersion.CompanyDomains);
             return companySavingModel.Company;
         }
 
+        /// <summary>
+        /// Update Smart Form variable Ids
+        /// </summary>
+        private void UpdateSmartFormVariableIds(IEnumerable<SmartForm> smartForms, Company companyDbVersion)
+        {
+            if (companyDbVersion.SmartForms != null && companyDbVersion.FieldVariables != null)
+            {
+                foreach (var smartForm in companyDbVersion.SmartForms)
+                {
+                    if (smartForm.SmartFormDetails != null)
+                        foreach (var smartFormDetail in smartForm.SmartFormDetails)
+                        {
+                            FieldVariable fieldVariable = companyDbVersion.FieldVariables.FirstOrDefault(
+                                fv => fv.FakeIdVariableId == smartFormDetail.FakeVariableId);
+                            if (fieldVariable != null)
+                                smartFormDetail.VariableId = fieldVariable.VariableId;
+                        }
+
+                }
+            }
+        }
         // ReSharper disable once InconsistentNaming
         private void updateDomainsInIIS(IEnumerable<CompanyDomain> companySavedDomains, IEnumerable<CompanyDomain> companyDbVersion)
         {
@@ -1077,7 +1111,7 @@ namespace MPC.Implementation.MISServices
                 }
             }
             #endregion
-            
+
         }
         public void UpdateCampaignImages(IEnumerable<Campaign> campaigns, Company companyDbVersion)
         {
@@ -1354,6 +1388,12 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private void UpdateSecondaryPageImagePath(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
+            // Return if no Media is Selected
+            if (companySavingModel == null || companySavingModel.Company == null || companySavingModel.Company.MediaLibraries == null)
+            {
+                return;
+            }
+
             if (companyDbVersion.CmsPages != null)
             {
                 foreach (var itemDbVersion in companyDbVersion.CmsPages)
@@ -1406,7 +1446,7 @@ namespace MPC.Implementation.MISServices
                 }
             }
         }
-        
+
         /// <summary>
         /// Update CMS Skin Page Widget
         /// </summary>
@@ -1794,7 +1834,7 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Save Company Banner Images
         /// </summary>
-        private void SaveCompanyBannerImages(Company company)
+        private void SaveCompanyBannerImages(Company company, Company companyDbVersion)
         {
             if (company.CompanyBannerSets != null)
             {
@@ -1805,9 +1845,16 @@ namespace MPC.Implementation.MISServices
                         {
                             foreach (var media in company.MediaLibraries)
                             {
-                                if (media.FakeId == banner.ImageURL)
+                                if (media.FakeId != null && media.FakeId == banner.ImageURL)
                                 {
-                                    banner.ImageURL = media.FilePath;
+                                    CompanyBannerSet companyBannerSetDbVersion = companyDbVersion.CompanyBannerSets.FirstOrDefault(
+                                        cbs => cbs.CompanySetId == item.CompanySetId);
+                                    CompanyBanner companyBannerDbVersion = companyBannerSetDbVersion != null
+                                         ? companyBannerSetDbVersion.CompanyBanners.FirstOrDefault(
+                                             b => b.CompanyBannerId == banner.CompanyBannerId)
+                                         : null;
+                                    if (companyBannerDbVersion != null)
+                                        companyBannerDbVersion.ImageURL = media.FilePath;
                                 }
                             }
                         }
@@ -2112,8 +2159,8 @@ namespace MPC.Implementation.MISServices
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string savePath = 
-                    directoryPath + "\\" + 
+                string savePath =
+                    directoryPath + "\\" +
                     companyContact.ContactId + "_" + StringHelper.SimplifyString(companyContact.FirstName) + "_profile.png";
                 File.WriteAllBytes(savePath, data);
                 int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
@@ -2165,14 +2212,17 @@ namespace MPC.Implementation.MISServices
                 {
                     foreach (var contact in companyContacts)
                     {
-                        CompanyContactVariable contactVariable = new CompanyContactVariable();
+                        ScopeVariable scopeVariable = new ScopeVariable();
 
-                        contactVariable.ContactId = contact.ContactId;
-                        contactVariable.VariableId = fieldVariable.VariableId;
-                        contactVariable.Value = fieldVariable.DefaultValue;
-                        companyContactVariableRepository.Add(contactVariable);
+                        scopeVariable.ScopeVariableId = 0;
+                        scopeVariable.VariableId = fieldVariable.VariableId;
+                        scopeVariable.Scope = fieldVariable.Scope;
+                        scopeVariable.Id = contact.ContactId;
+                        scopeVariable.VariableId = fieldVariable.VariableId;
+                        scopeVariable.Value = fieldVariable.DefaultValue;
+                        scopeVariableRepository.Add(scopeVariable);
                     }
-                    companyContactVariableRepository.SaveChanges();
+                    scopeVariableRepository.SaveChanges();
                 }
             }
 
@@ -2253,6 +2303,87 @@ namespace MPC.Implementation.MISServices
 
             return fieldVariable.VariableId;
         }
+
+        /// <summary>
+        /// Updaten Smart Form
+        /// </summary>
+        private long UpdateSmartForm(SmartForm smartForm, SmartForm smartFormDbVersion)
+        {
+            #region Update Smart Form
+            smartFormDbVersion.Name = smartForm.Name;
+            smartFormDbVersion.Heading = smartForm.Heading;
+            if (smartForm.SmartFormDetails != null)
+            {
+                foreach (SmartFormDetail smartFormDetail in smartForm.SmartFormDetails)
+                {
+                    if (smartFormDetail.SmartFormDetailId == 0)
+                    {
+                        smartFormDbVersion.SmartFormDetails.Add(smartFormDetail);
+                    }
+                    else if (smartFormDetail.SmartFormDetailId > 0 && smartFormDetail.ObjectType == (int)SmartFormDetailFieldType.GroupCaption)
+                    {
+                        SmartFormDetail smartFormDetailDbVersion = smartFormDbVersion.SmartFormDetails.FirstOrDefault(
+                           sf => sf.SmartFormDetailId == smartFormDetail.SmartFormDetailId);
+
+                        if (smartFormDetailDbVersion != null)
+                        {
+                            smartFormDetailDbVersion.CaptionValue = smartFormDetail.CaptionValue;
+                            smartFormDetailDbVersion.SortOrder = smartFormDetail.SortOrder;
+                        }
+                    }
+                    else
+                    {
+                        SmartFormDetail smartFormDetailDbVersion = smartFormDbVersion.SmartFormDetails.FirstOrDefault(
+                           sf => sf.SmartFormDetailId == smartFormDetail.SmartFormDetailId);
+                        if (smartFormDetailDbVersion != null)
+                        {
+                            smartFormDetailDbVersion.SortOrder = smartFormDetail.SortOrder;
+                            smartFormDetailDbVersion.IsRequired = smartFormDetail.IsRequired;
+                        }
+                    }
+                }
+            }
+            smartFormRepository.SaveChanges();
+            #endregion
+
+            #region Delete SmartForm Detail
+            //missing Items
+            List<SmartFormDetail> missingSmartFormDetails = new List<SmartFormDetail>();
+            if (smartFormDbVersion.SmartFormDetails != null)
+            {
+                foreach (var smartFormDetailDbItem in smartFormDbVersion.SmartFormDetails)
+                {
+                    if (smartForm.SmartFormDetails != null && smartForm.SmartFormDetails.All(c => c.SmartFormDetailId != smartFormDetailDbItem.SmartFormDetailId))
+                    {
+                        missingSmartFormDetails.Add(smartFormDetailDbItem);
+                    }
+                    else if (smartForm.SmartFormDetails == null)
+                    {
+                        missingSmartFormDetails.Add(smartFormDetailDbItem);
+                    }
+                }
+
+                foreach (var missingItem in missingSmartFormDetails)
+                {
+                    smartFormDetailRepository.Delete(missingItem);
+                }
+                smartFormDetailRepository.SaveChanges();
+            }
+
+            #endregion
+
+            return smartForm.SmartFormId;
+        }
+
+        /// <summary>
+        /// Add Smart Form
+        /// </summary>
+        private long AddSmartForm(SmartForm smartForm)
+        {
+            smartFormRepository.Add(smartForm);
+            smartFormRepository.SaveChanges();
+            return smartForm.SmartFormId;
+        }
         #endregion
 
         #region Constructor
@@ -2282,9 +2413,12 @@ namespace MPC.Implementation.MISServices
             ICompanyDomainRepository companyDomainRepository, ICostCentreMatrixRepository costCentreMatrixRepositry, ICostCentreQuestionRepository CostCentreQuestionRepository,
             IStockCategoryRepository StockCategoryRepository, IPaperSizeRepository PaperSizeRepository, IMachineRepository MachineRepository, IPhraseFieldRepository PhraseFieldRepository,
             IReportRepository ReportRepository, IFieldVariableRepository fieldVariableRepository, IVariableOptionRepository variableOptionRepository,
-            ICompanyContactVariableRepository companyContactVariableRepository)
+            IScopeVariableRepository scopeVariableRepository, ISmartFormRepository smartFormRepository, ISmartFormDetailRepository smartFormDetailRepository, IEstimateRepository estimateRepository)
         {
             this.companyRepository = companyRepository;
+            this.smartFormRepository = smartFormRepository;
+            this.smartFormDetailRepository = smartFormDetailRepository;
+            this.estimateRepository = estimateRepository;
             this.systemUserRepository = systemUserRepository;
             this.raveReviewRepository = raveReviewRepository;
             this.companyCmykColorRepository = companyCmykColorRepository;
@@ -2332,7 +2466,7 @@ namespace MPC.Implementation.MISServices
             this.ReportRepository = ReportRepository;
             this.fieldVariableRepository = fieldVariableRepository;
             this.variableOptionRepository = variableOptionRepository;
-            this.companyContactVariableRepository = companyContactVariableRepository;
+            this.scopeVariableRepository = scopeVariableRepository;
 
         }
         #endregion
@@ -2385,13 +2519,23 @@ namespace MPC.Implementation.MISServices
         }
         public CompanyResponse GetCompanyById(long companyId)
         {
-            return companyRepository.GetCompanyById(companyId);
+            CompanyResponse response = companyRepository.GetCompanyById(companyId);
+            int userCount = 0;
+            int newOrdersCount = 0;
+            if (response.Company != null && response.Company.StoreId != null)
+                userCount = companyRepository.UserCount(response.Company.StoreId, 5);
+            newOrdersCount = estimateRepository.GetNewOrdersCount(5, companyId);
+            response.NewOrdersCount = newOrdersCount;
+            response.NewUsersCount = userCount;
+            return response;
         }
 
         public CompanyBaseResponse GetBaseData(long storeId)
         {
             FieldVariableRequestModel request = new FieldVariableRequestModel();
+            SmartFormRequestModel smartFormRequest = new SmartFormRequestModel();
             request.CompanyId = storeId;
+            smartFormRequest.CompanyId = storeId;
 
             return new CompanyBaseResponse
                    {
@@ -2408,10 +2552,19 @@ namespace MPC.Implementation.MISServices
                        States = stateRepository.GetAll(),
                        Countries = countryRepository.GetAll(),
                        FieldVariableResponse = fieldVariableRepository.GetFieldVariable(request),
+                       SmartFormResponse = smartFormRepository.GetSmartForms(smartFormRequest),
                        FieldVariablesForSmartForm = fieldVariableRepository.GetFieldVariablesForSmartForm(storeId),
                        CmsPages = cmsPageRepository.GetCmsPagesForOrders()
-                       
+
                    };
+        }
+
+        /// <summary>
+        /// Get Smart Forms
+        /// </summary>
+        public SmartFormResponse GetSmartForms(SmartFormRequestModel request)
+        {
+            return smartFormRepository.GetSmartForms(request);
         }
         public CompanyBaseResponse GetBaseDataForNewCompany()
         {
@@ -2571,9 +2724,9 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Get Company Contact Varibale By Contact ID
         /// </summary>
-        public IEnumerable<CompanyContactVariable> GetContactVariableByContactId(long contactId)
+        public IEnumerable<ScopeVariable> GetContactVariableByContactId(long contactId, int scope)
         {
-            return companyContactVariableRepository.GetContactVariableByContactId(contactId);
+            return scopeVariableRepository.GetContactVariableByContactId(contactId, scope);
         }
 
         /// <summary>
@@ -2583,9 +2736,281 @@ namespace MPC.Implementation.MISServices
         {
             return fieldVariableRepository.GetFieldVariableByCompanyId(companyId);
         }
+
+        /// <summary>
+        /// Save Smart Form
+        /// </summary>
+        public long SaveSmartForm(SmartForm smartForm)
+        {
+            SmartForm smartFormDbVersion = smartFormRepository.Find(smartForm.SmartFormId);
+            if (smartFormDbVersion != null)
+            {
+                return UpdateSmartForm(smartForm, smartFormDbVersion);
+            }
+            else
+            {
+                return AddSmartForm(smartForm);
+            }
+        }
+
+        /// <summary>
+        /// Get Smart Form Detail By Smart Form Id
+        /// </summary>
+        public IEnumerable<SmartFormDetail> GetSmartFormDetailBySmartFormId(long smartFormId)
+        {
+            return smartFormDetailRepository.GetSmartFormDetailsBySmartFormId(smartFormId);
+        }
         #endregion
 
         #region ExportOrganisation
+        public ExportOrganisation exportRoutine1(long OrganisationID)
+        {
+            string DPath = string.Empty;
+            ExportOrganisation ObjExportOrg = new Models.Common.ExportOrganisation();
+            //  Organisation organisation = new Organisation();
+            //  List<CostCentre> costCentre = new List<CostCentre>();
+            List<CostCentreMatrixDetail> costCentreMatrixDetail = new List<CostCentreMatrixDetail>();
+            List<CostCentreAnswer> CostCentreAnswers = new List<CostCentreAnswer>();
+            List<StockCategory> StockCategories = new List<StockCategory>();
+            List<StockSubCategory> StockSubCategories = new List<StockSubCategory>();
+            List<StockItem> StockItems = new List<StockItem>();
+            List<CostCenterChoice> CostCenterChoice = new List<CostCenterChoice>();
+            List<PhraseField> PhraseField = new List<PhraseField>();
+
+
+
+            // get organisation to export
+            // organisation = ;
+            ObjExportOrg.Organisation = organisationRepository.GetOrganizatiobByOrganisationID(OrganisationID);
+
+            // for paper size add organisationid in papersize
+            ObjExportOrg.PaperSizes = PaperSizeRepository.GetPaperByOrganisation(OrganisationID);
+
+            // get costcentres based on organisationid 
+            //costCentre =
+            ObjExportOrg.CostCentre = costCentreRepository.GetCostCentersByOrganisationID(OrganisationID, out CostCenterChoice);
+
+            ObjExportOrg.CostCentreQuestion = CostCentreQuestionRepository.GetCostCentreQuestionsByOID(OrganisationID, out CostCentreAnswers);
+
+            // for cost centre answers
+            ObjExportOrg.CostCentreAnswer = CostCentreAnswers;
+
+
+            // workinstructions based on costcentreid
+            List<CostcentreInstruction> lstInstruction = new List<CostcentreInstruction>();
+            if (ObjExportOrg.CostCentre != null && ObjExportOrg.CostCentre.Count > 0)
+            {
+                foreach (var cost in ObjExportOrg.CostCentre)
+                {
+                    // get instrction for each cost centre
+                    if (cost.CostcentreInstructions != null)
+                    {
+                        List<CostcentreInstruction> instructions = cost.CostcentreInstructions.ToList();
+                        if (instructions != null && instructions.Count > 0)
+                        {
+                            foreach (var ins in instructions)
+                            {
+                                lstInstruction.Add(ins);
+
+                            }
+                        }
+                        ObjExportOrg.CostcentreInstruction = lstInstruction;
+                    }
+
+                }
+
+            }
+
+            // get cost centre matrix based on organisationID
+            ObjExportOrg.CostCentreMatrix = costCentreMatrixRepositry.GetMatrixByOrganisationID(OrganisationID, out costCentreMatrixDetail);
+
+            // cost centre matrix detail for each cost centre
+            ObjExportOrg.CostCentreMatrixDetail = costCentreMatrixDetail;
+
+            List<CostcentreResource> CCR = new List<CostcentreResource>();
+            // set cost centre resources
+            if (ObjExportOrg.CostCentre != null && ObjExportOrg.CostCentre.Count > 0)
+            {
+                foreach (var cost in ObjExportOrg.CostCentre)
+                {
+                    // get CostcentreResources for each cost centre
+                    if (cost.CostcentreResources != null)
+                    {
+                        List<CostcentreResource> resources = cost.CostcentreResources.ToList();
+                        if (resources != null && resources.Count > 0)
+                        {
+                            foreach (var res in resources)
+                            {
+                                CCR.Add(res);
+                            }
+                            ObjExportOrg.CostcentreResource = CCR;
+                        }
+
+                    }
+
+                }
+
+            }
+
+            // set costcentre work instructions choices based on cost centre work instructions
+            List<CostcentreWorkInstructionsChoice> lstCostcentreWorkInstructionsChoice = new List<CostcentreWorkInstructionsChoice>();
+            if (ObjExportOrg.CostCentre != null && ObjExportOrg.CostCentre.Count > 0)
+            {
+                foreach (var cost in ObjExportOrg.CostCentre)
+                {
+                    // get instrction for each cost centre
+                    if (cost.CostcentreInstructions != null)
+                    {
+                        List<CostcentreInstruction> instructions = cost.CostcentreInstructions.ToList();
+                        if (instructions != null && instructions.Count > 0)
+                        {
+                            foreach (var ins in instructions)
+                            {
+                                if (ins.CostcentreWorkInstructionsChoices != null)
+                                {
+                                    List<CostcentreWorkInstructionsChoice> choices = ins.CostcentreWorkInstructionsChoices.ToList();
+
+                                    if (choices != null && choices.Count > 0)
+                                    {
+                                        foreach (var choice in choices)
+                                        {
+                                            lstCostcentreWorkInstructionsChoice.Add(choice);
+                                        }
+                                    }
+                                    ObjExportOrg.CostcentreWorkInstructionsChoice = lstCostcentreWorkInstructionsChoice;
+                                }
+
+                            }
+                        }
+
+                    }
+
+                }
+
+            }
+
+            // cost centre choices is missing
+            ObjExportOrg.CostCenterChoice = CostCenterChoice;
+
+            // get stockcategories based on organisation ID
+            StockCategories = StockCategoryRepository.GetStockCategoriesByOrganisationID(OrganisationID);
+            ObjExportOrg.StockCategory = StockCategories;
+
+
+            List<StockSubCategory> lstSubCategory = new List<StockSubCategory>();
+            // set stock subcategories of stock categories
+            if (StockCategories != null && StockCategories.Count > 0)
+            {
+                foreach (var stock in StockCategories)
+                {
+                    if (stock.StockSubCategories != null && stock.StockSubCategories.Count > 0)
+                    {
+                        foreach (var stockSubCat in stock.StockSubCategories)
+                        {
+
+                            lstSubCategory.Add(stockSubCat);
+                        }
+                        ObjExportOrg.StockSubCategory = lstSubCategory;
+                    }
+                }
+            }
+
+
+            // get stockitems based on organisationID
+            StockItems = stockItemRepository.GetStockItemsByOrganisationID(OrganisationID);
+            ObjExportOrg.StockItem = StockItems;
+
+
+            // set stock sale and price]
+            List<StockCostAndPrice> lstSCP = new List<StockCostAndPrice>();
+            if (StockItems != null)
+            {
+                if (StockItems.Count > 0)
+                {
+                    foreach (var stock in StockItems)
+                    {
+
+                        if (stock.StockCostAndPrices != null)
+                        {
+                            if (stock.StockCostAndPrices.Count > 0)
+                            {
+                                foreach (var costP in stock.StockCostAndPrices)
+                                {
+                                    lstSCP.Add(costP);
+                                }
+                                ObjExportOrg.StockCostAndPrice = lstSCP;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Delivery carriers structure is not defined yet
+
+
+            // reports 
+            ObjExportOrg.Reports = ReportRepository.GetReportsByOrganisationID(OrganisationID);
+
+            ObjExportOrg.ReportNote = ReportRepository.GetReportNotesByOrganisationID(OrganisationID);
+
+            // get prefixes based on organisationID
+            ObjExportOrg.Prefixes = prefixRepository.GetPrefixesByOrganisationID(OrganisationID);
+
+            // get machines by organisation id
+            ObjExportOrg.Machines = MachineRepository.GetMachinesByOrganisationID(OrganisationID);
+
+            // get lookupmethods by organisationid
+            ObjExportOrg.LookupMethods = MachineRepository.getLookupmethodsbyOrganisationID(OrganisationID);
+
+
+            // Phrases of organisation
+            PhraseField = PhraseFieldRepository.GetPhraseFieldsByOrganisationID(OrganisationID);
+            ObjExportOrg.PhraseField = PhraseField;
+
+            // organisationID in phrase fields
+            List<Phrase> lstPhrase = new List<Phrase>();
+            if (PhraseField != null)
+            {
+                foreach (var phrase in PhraseField)
+                {
+
+                    if (phrase.Phrases != null && phrase.Phrases.Count > 0)
+                    {
+                        foreach (var p in phrase.Phrases)
+                        {
+                            lstPhrase.Add(p);
+
+                        }
+                        ObjExportOrg.Phrases = lstPhrase;
+                    }
+                }
+            }
+
+
+            // section flags of organisation
+            ObjExportOrg.SectionFlags = sectionFlagRepository.GetSectionFlagsByOrganisationID(OrganisationID);
+
+            // organisation = null;
+            //  costCentre = null;
+            costCentreMatrixDetail = null;
+            CostCentreAnswers = null;
+
+            StockCategories = null;
+            StockSubCategories = null;
+            StockItems = null;
+            CostCenterChoice = null;
+            PhraseField = null;
+
+            string Json = JsonConvert.SerializeObject(ObjExportOrg, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+            // export json file
+            string sOrgPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/OrganisationJson.txt";
+            System.IO.File.WriteAllText(sOrgPath, Json);
+            // Comapny Entities
+            Json = String.Empty;
+            GC.Collect();
+            return ObjExportOrg;
+
+        }
 
         public void ExportOrganisation(long OrganisationID)
         {
@@ -2594,246 +3019,28 @@ namespace MPC.Implementation.MISServices
                 #region OrganisationEntities
                 string DPath = string.Empty;
                 ExportOrganisation ObjExportOrg = new Models.Common.ExportOrganisation();
-                Organisation organisation = new Organisation();
-                List<CostCentre> costCentre = new List<CostCentre>();
-                List<CostCentreMatrixDetail> costCentreMatrixDetail = new List<CostCentreMatrixDetail>();
-                List<CostCentreAnswer> CostCentreAnswers = new List<CostCentreAnswer>();
-                List<StockCategory> StockCategories = new List<StockCategory>();
-                List<StockSubCategory> StockSubCategories = new List<StockSubCategory>();
-                List<StockItem> StockItems = new List<StockItem>();
-                List<CostCenterChoice> CostCenterChoice = new List<CostCenterChoice>();
-                List<PhraseField> PhraseField = new List<PhraseField>();
-                List<Report> Reports = new List<Report>();
-                List<ItemSection> ItemSections = new List<ItemSection>();
-                List<SectionCostcentre> SectionCostCentre = new List<SectionCostcentre>();
-                List<SectionCostCentreResource> SectionCostCentreResources = new List<SectionCostCentreResource>();
+                ObjExportOrg = exportRoutine1(OrganisationID);
 
-
-                // get organisation to export
-                organisation = organisationRepository.GetOrganizatiobByOrganisationID(OrganisationID);
-                ObjExportOrg.Organisation = organisation;
-
-                // for paper size add organisationid in papersize
-                ObjExportOrg.PaperSizes = PaperSizeRepository.GetPaperByOrganisation(OrganisationID);
-
-                // get costcentres based on organisationid 
-                costCentre = costCentreRepository.GetCostCentersByOrganisationID(OrganisationID, out CostCenterChoice);
-                ObjExportOrg.CostCentre = costCentre;
-
-                ObjExportOrg.CostCentreQuestion = CostCentreQuestionRepository.GetCostCentreQuestionsByOID(OrganisationID, out CostCentreAnswers);
-
-                // for cost centre answers
-                ObjExportOrg.CostCentreAnswer = CostCentreAnswers;
-
-
-                // workinstructions based on costcentreid
-                List<CostcentreInstruction> lstInstruction = new List<CostcentreInstruction>();
-                if (costCentre != null && costCentre.Count > 0)
-                {
-                    foreach (var cost in costCentre)
-                    {
-                        // get instrction for each cost centre
-                        if (cost.CostcentreInstructions != null)
-                        {
-                            List<CostcentreInstruction> instructions = cost.CostcentreInstructions.ToList();
-                            if (instructions != null && instructions.Count > 0)
-                            {
-                                foreach (var ins in instructions)
-                                {
-                                    lstInstruction.Add(ins);
-
-                                }
-                            }
-                            ObjExportOrg.CostcentreInstruction = lstInstruction;
-                        }
-
-                    }
-
-                }
-
-                // get cost centre matrix based on organisationID
-                ObjExportOrg.CostCentreMatrix = costCentreMatrixRepositry.GetMatrixByOrganisationID(OrganisationID, out costCentreMatrixDetail);
-
-                // cost centre matrix detail for each cost centre
-                ObjExportOrg.CostCentreMatrixDetail = costCentreMatrixDetail;
-
-                List<CostcentreResource> CCR = new List<CostcentreResource>();
-                // set cost centre resources
-                if (costCentre != null && costCentre.Count > 0)
-                {
-                    foreach (var cost in costCentre)
-                    {
-                        // get CostcentreResources for each cost centre
-                        if (cost.CostcentreResources != null)
-                        {
-                            List<CostcentreResource> resources = cost.CostcentreResources.ToList();
-                            if (resources != null && resources.Count > 0)
-                            {
-                                foreach (var res in resources)
-                                {
-                                    CCR.Add(res);
-                                }
-                                ObjExportOrg.CostcentreResource = CCR;
-                            }
-
-                        }
-
-                    }
-
-                }
-
-                // set costcentre work instructions choices based on cost centre work instructions
-                List<CostcentreWorkInstructionsChoice> lstCostcentreWorkInstructionsChoice = new List<CostcentreWorkInstructionsChoice>();
-                if (costCentre != null && costCentre.Count > 0)
-                {
-                    foreach (var cost in costCentre)
-                    {
-                        // get instrction for each cost centre
-                        if (cost.CostcentreInstructions != null)
-                        {
-                            List<CostcentreInstruction> instructions = cost.CostcentreInstructions.ToList();
-                            if (instructions != null && instructions.Count > 0)
-                            {
-                                foreach (var ins in instructions)
-                                {
-                                    if (ins.CostcentreWorkInstructionsChoices != null)
-                                    {
-                                        List<CostcentreWorkInstructionsChoice> choices = ins.CostcentreWorkInstructionsChoices.ToList();
-
-                                        if (choices != null && choices.Count > 0)
-                                        {
-                                            foreach (var choice in choices)
-                                            {
-                                                lstCostcentreWorkInstructionsChoice.Add(choice);
-                                            }
-                                        }
-                                        ObjExportOrg.CostcentreWorkInstructionsChoice = lstCostcentreWorkInstructionsChoice;
-                                    }
-
-                                }
-                            }
-
-                        }
-
-                    }
-
-                }
-
-                // cost centre choices is missing
-                ObjExportOrg.CostCenterChoice = CostCenterChoice;
-
-                // get stockcategories based on organisation ID
-                StockCategories = StockCategoryRepository.GetStockCategoriesByOrganisationID(OrganisationID);
-                ObjExportOrg.StockCategory = StockCategories;
-
-
-                List<StockSubCategory> lstSubCategory = new List<StockSubCategory>();
-                // set stock subcategories of stock categories
-                if (StockCategories != null && StockCategories.Count > 0)
-                {
-                    foreach (var stock in StockCategories)
-                    {
-                        if (stock.StockSubCategories != null && stock.StockSubCategories.Count > 0)
-                        {
-                            foreach (var stockSubCat in stock.StockSubCategories)
-                            {
-
-                                lstSubCategory.Add(stockSubCat);
-                            }
-                            ObjExportOrg.StockSubCategory = lstSubCategory;
-                        }
-                    }
-                }
-
-
-                // get stockitems based on organisationID
-                StockItems = stockItemRepository.GetStockItemsByOrganisationID(OrganisationID);
-                ObjExportOrg.StockItem = StockItems;
-
-
-                // set stock sale and price]
-                List<StockCostAndPrice> lstSCP = new List<StockCostAndPrice>();
-                if (StockItems != null)
-                {
-                    if (StockItems.Count > 0)
-                    {
-                        foreach (var stock in StockItems)
-                        {
-
-                            if (stock.StockCostAndPrices != null)
-                            {
-                                if (stock.StockCostAndPrices.Count > 0)
-                                {
-                                    foreach (var costP in stock.StockCostAndPrices)
-                                    {
-                                        lstSCP.Add(costP);
-                                    }
-                                    ObjExportOrg.StockCostAndPrice = lstSCP;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                // Delivery carriers structure is not defined yet
-
-
-                // reports 
-                ObjExportOrg.Reports = ReportRepository.GetReportsByOrganisationID(OrganisationID);
-
-                ObjExportOrg.ReportNote = ReportRepository.GetReportNotesByOrganisationID(OrganisationID);
-
-                // get prefixes based on organisationID
-                ObjExportOrg.Prefixes = prefixRepository.GetPrefixesByOrganisationID(OrganisationID);
-
-                // get machines by organisation id
-                ObjExportOrg.Machines = MachineRepository.GetMachinesByOrganisationID(OrganisationID);
-
-                // get lookupmethods by organisationid
-                ObjExportOrg.LookupMethods = MachineRepository.getLookupmethodsbyOrganisationID(OrganisationID);
-
-
-                // Phrases of organisation
-                PhraseField = PhraseFieldRepository.GetPhraseFieldsByOrganisationID(OrganisationID);
-                ObjExportOrg.PhraseField = PhraseField;
-
-                // organisationID in phrase fields
-                List<Phrase> lstPhrase = new List<Phrase>();
-                if (PhraseField != null)
-                {
-                    foreach (var phrase in PhraseField)
-                    {
-
-                        if (phrase.Phrases != null && phrase.Phrases.Count > 0)
-                        {
-                            foreach (var p in phrase.Phrases)
-                            {
-                                lstPhrase.Add(p);
-
-                            }
-                            ObjExportOrg.Phrases = lstPhrase;
-                        }
-                    }
-                }
-
-
-                // section flags of organisation
-                ObjExportOrg.SectionFlags = sectionFlagRepository.GetSectionFlagsByOrganisationID(OrganisationID);
-
-                // Comapny Entities
-
+                ExportOrganisation ObjExportCorporate = new Models.Common.ExportOrganisation();
                 // Set CompanyData
-                long CompanyID = 2165; // Later it will be changes
+                long CompanyID = companyRepository.GetCorporateCompanyIDbyOrganisationID(OrganisationID);
 
-              
+                long RetailCompanyID = companyRepository.GetRetailCompanyIDbyOrganisationID(OrganisationID);
 
+                // export corporate store
+                ObjExportCorporate = companyRepository.ExportCompany(CompanyID);
+
+
+                string JsonCorp = JsonConvert.SerializeObject(ObjExportCorporate, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
                 // export json file
+                string sCorpPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/CorporateJson.txt";
+                System.IO.File.WriteAllText(sCorpPath, JsonCorp);
 
-                ObjExportOrg = companyRepository.ExportCompany(ObjExportOrg, CompanyID);
-                string Json = JsonConvert.SerializeObject(ObjExportOrg, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
 
-                string sPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/Json.txt";
-                System.IO.File.WriteAllText(sPath, Json);
+                ExportOrganisation ObjExportRetail = new Models.Common.ExportOrganisation();
+                ObjExportRetail = ExportRetailStore(RetailCompanyID, OrganisationID, DPath, null);
+
+
 
 
                 #endregion
@@ -2841,58 +3048,89 @@ namespace MPC.Implementation.MISServices
 
                 #region ExportFiles
 
+                CopyFiles(ObjExportOrg, ObjExportCorporate, ObjExportRetail, DPath, OrganisationID, CompanyID, RetailCompanyID);
 
+                #endregion
+
+
+
+            }
+            catch (Exception ex)
+            {
+                throw new MPCException(ex.ToString(), OrganisationID);
+            }
+
+        }
+
+        public void CopyFiles(ExportOrganisation ObjExportOrg, ExportOrganisation ObjExportCorporate, ExportOrganisation ObjExportRetail, string DPath, long OrganisationID, long CompanyID, long RetailCompanyID)
+        {
+            try
+            {
                 using (ZipFile zip = new ZipFile())
                 {
-                    if (File.Exists(sPath))
+                    string sOrgPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/OrganisationJson.txt";
+                    if (File.Exists(sOrgPath))
                     {
-                        ZipEntry r = zip.AddFile(sPath, "");
+                        ZipEntry r = zip.AddFile(sOrgPath, "");
                         r.Comment = "Json File for an organisation";
                     }
+                    string sCorpPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/CorporateJson.txt";
+                    if (File.Exists(sCorpPath))
+                    {
+                        ZipEntry r = zip.AddFile(sCorpPath, "");
+                        r.Comment = "Json File for a corporate Company";
+                    }
+                    string sRetailPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/RetailJson.txt";
+                    if (File.Exists(sRetailPath))
+                    {
+                        ZipEntry r = zip.AddFile(sRetailPath, "");
+                        r.Comment = "Json File for a corporate Company";
+                    }
+
 
 
                     //export language file for an organisation
 
                     // Add all files in directory
                     string FolderPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Resources/" + OrganisationID;
-                   
+
                     if (Directory.Exists(FolderPath))
                     {
-                       
+
                         foreach (string newPath in Directory.GetFiles(FolderPath, "*.*", SearchOption.AllDirectories))
                         {
                             string Lname = Path.GetFileName(newPath);
-                          
+
 
                             string directoty = Path.GetDirectoryName(newPath);
                             string[] stringSeparators = new string[] { "MPC_Content" };
-                            if(!string.IsNullOrEmpty(directoty))
+                            if (!string.IsNullOrEmpty(directoty))
                             {
                                 string[] result = directoty.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
-                               
+
                                 string FolderName = result[1];
-                                if(!string.IsNullOrEmpty(FolderName))
+                                if (!string.IsNullOrEmpty(FolderName))
                                 {
                                     string[] folder = FolderName.Split('\\');
                                     directoty = "/Resources/" + OrganisationID + "/" + folder[3];
-                                  
+
                                     ZipEntry r = zip.AddFile(newPath, directoty);
                                     r.Comment = "Language File for an organisation";
                                 }
-                               
-                               
+
+
                             }
-                           
+
                         }
                     }
 
                     // export MIS logo in Organisation
-                    if (organisation != null)
+                    if (ObjExportOrg.Organisation != null)
                     {
 
-                        if (organisation.MISLogo != null)
+                        if (ObjExportOrg.Organisation.MISLogo != null)
                         {
-                            string FilePath = HttpContext.Current.Server.MapPath(organisation.MISLogo);
+                            string FilePath = HttpContext.Current.Server.MapPath(ObjExportOrg.Organisation.MISLogo);
                             DPath = "/Organisations/" + OrganisationID;
                             if (File.Exists(FilePath))
                             {
@@ -2902,9 +3140,9 @@ namespace MPC.Implementation.MISServices
                             }
                         }
 
-                        if (organisation.WebsiteLogo != null)
+                        if (ObjExportOrg.Organisation.WebsiteLogo != null)
                         {
-                            string FilePath = HttpContext.Current.Server.MapPath(organisation.WebsiteLogo);
+                            string FilePath = HttpContext.Current.Server.MapPath(ObjExportOrg.Organisation.WebsiteLogo);
                             DPath = "/Organisations/" + OrganisationID;
                             if (File.Exists(FilePath))
                             {
@@ -2916,9 +3154,9 @@ namespace MPC.Implementation.MISServices
                     }
 
                     // export cost centre images
-                    if (costCentre != null && costCentre.Count > 0)
+                    if (ObjExportOrg.CostCentre != null && ObjExportOrg.CostCentre.Count > 0)
                     {
-                        foreach (var objCost in costCentre)
+                        foreach (var objCost in ObjExportOrg.CostCentre)
                         {
                             if (objCost.ThumbnailImageURL != null)
                             {
@@ -2954,23 +3192,24 @@ namespace MPC.Implementation.MISServices
                         {
                             if (report.ReportBanner != null)
                             {
-                               string FilePath = HttpContext.Current.Server.MapPath(report.ReportBanner);
-                               DPath = "/Media/" + OrganisationID;
-                               if (File.Exists(FilePath))
-                               {
-                                   ZipEntry r = zip.AddFile(FilePath, DPath);
-                                   r.Comment = "Media Files for Store";
+                                string FilePath = HttpContext.Current.Server.MapPath(report.ReportBanner);
+                                DPath = "/Media/" + OrganisationID;
+                                if (File.Exists(FilePath))
+                                {
+                                    ZipEntry r = zip.AddFile(FilePath, DPath);
+                                    r.Comment = "Media Files for Store";
 
-                               }
+                                }
                             }
                         }
                     }
-                    //// export company Logo
-                    if (ObjExportOrg.Company != null)
+                    // export corporate company Flow
+                    if (ObjExportCorporate.Company != null)
                     {
-                        if (ObjExportOrg.Company.Image != null)
+                        //// export company Logo
+                        if (ObjExportCorporate.Company.Image != null)
                         {
-                            string FilePath = HttpContext.Current.Server.MapPath(ObjExportOrg.Company.Image);
+                            string FilePath = HttpContext.Current.Server.MapPath(ObjExportCorporate.Company.Image);
                             DPath = "/Assets/" + OrganisationID + "/" + CompanyID;
                             if (File.Exists(FilePath))
                             {
@@ -2979,15 +3218,15 @@ namespace MPC.Implementation.MISServices
 
                             }
                         }
-                     
+
 
                         // export media
 
-                        if (ObjExportOrg.Company.MediaLibraries != null)
+                        if (ObjExportCorporate.Company.MediaLibraries != null)
                         {
-                            if (ObjExportOrg.Company.MediaLibraries.Count > 0)
+                            if (ObjExportCorporate.Company.MediaLibraries.Count > 0)
                             {
-                                foreach (var media in ObjExportOrg.Company.MediaLibraries)
+                                foreach (var media in ObjExportCorporate.Company.MediaLibraries)
                                 {
                                     if (media.FilePath != null)
                                     {
@@ -3003,43 +3242,10 @@ namespace MPC.Implementation.MISServices
                                 }
                             }
                         }
-                        // export company banners
-                        //if (ObjExportOrg.Company.CompanyBannerSets != null)
-                        //{
-                        //    List<CompanyBannerSet> CompanyBannerSet = ObjExportOrg.Company.CompanyBannerSets.ToList();
 
-                        //    if (CompanyBannerSet != null && CompanyBannerSet.Count > 0)
-                        //    {
-                        //        foreach (var banner in CompanyBannerSet)
-                        //        {
-                        //            if (banner.CompanyBanners != null)
-                        //            {
-                        //                if (banner.CompanyBanners.Count > 0)
-                        //                {
-                        //                    foreach (var bann in banner.CompanyBanners)
-                        //                    {
-                        //                        if (bann.ImageURL != null)
-                        //                        {
-                        //                            string FilePath = HttpContext.Current.Server.MapPath(bann.ImageURL);
-                        //                            if (File.Exists(FilePath))
-                        //                            {
-                        //                                ZipEntry r = zip.AddFile(FilePath, bann.ImageURL);
-                        //                                r.Comment = "Banners for Store";
-
-                        //                            }
-                        //                        }
-                        //                    }
-                        //                }
-
-                        //            }
-                        //        }
-                        //    }
-
-
-                        //}
-                        if (ObjExportOrg.ProductCategory != null)
+                        if (ObjExportCorporate.ProductCategory != null)
                         {
-                            foreach (var cat in ObjExportOrg.ProductCategory)
+                            foreach (var cat in ObjExportCorporate.ProductCategory)
                             {
                                 if (cat.ImagePath != null)
                                 {
@@ -3069,11 +3275,11 @@ namespace MPC.Implementation.MISServices
                             }
 
                         }
-                        if (ObjExportOrg.Items != null)
+                        if (ObjExportCorporate.Items != null)
                         {
-                            if (ObjExportOrg.Items.Count > 0)
+                            if (ObjExportCorporate.Items.Count > 0)
                             {
-                                foreach (var item in ObjExportOrg.Items)
+                                foreach (var item in ObjExportCorporate.Items)
                                 {
                                     if (item.ImagePath != null)
                                     {
@@ -3169,11 +3375,11 @@ namespace MPC.Implementation.MISServices
 
                             }
                         }
-                        if(ObjExportOrg.Company.CompanyContacts != null && ObjExportOrg.Company.CompanyContacts.Count > 0)
+                        if (ObjExportCorporate.Company.CompanyContacts != null && ObjExportCorporate.Company.CompanyContacts.Count > 0)
                         {
-                            foreach(var contact in ObjExportOrg.Company.CompanyContacts)
+                            foreach (var contact in ObjExportCorporate.Company.CompanyContacts)
                             {
-                                if(!string.IsNullOrEmpty(contact.image))
+                                if (!string.IsNullOrEmpty(contact.image))
                                 {
                                     string ContactImage = HttpContext.Current.Server.MapPath(contact.image);
                                     string ContactDirectory = "/Assets/" + OrganisationID + "/" + CompanyID + "/Contacts/" + contact.ContactId;
@@ -3187,27 +3393,239 @@ namespace MPC.Implementation.MISServices
                             }
 
                         }
+                        string CSSPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Assets/" + OrganisationID + "/" + CompanyID + "/Site.css";
+                        string pCSSDirectory = "/Assets/" + OrganisationID + "/" + CompanyID;
+                        if (File.Exists(CSSPath))
+                        {
+                            ZipEntry r = zip.AddFile(CSSPath, pCSSDirectory);
+                            r.Comment = "CSS for Store";
+
+                        }
+                        string SpritePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Assets/" + OrganisationID + "/" + CompanyID + "/sprite.png";
+                        string pDirectory = "/Assets/" + OrganisationID + "/" + CompanyID;
+
+                        if (File.Exists(SpritePath))
+                        {
+                            ZipEntry r = zip.AddFile(SpritePath, pDirectory);
+                            r.Comment = "Sprite for Store";
+
+                        }
 
                     }
-                    string CSSPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Assets/" + OrganisationID + "/" + CompanyID + "/Site.css";
-                    string pCSSDirectory = "/Assets/" + OrganisationID + "/" + CompanyID;
-                    if (File.Exists(CSSPath))
+
+
+
+                    if (ObjExportRetail.RetailCompany != null)
                     {
-                        ZipEntry r = zip.AddFile(CSSPath, pCSSDirectory);
-                        r.Comment = "CSS for Store";
+                        if (ObjExportRetail.RetailCompany.Image != null)
+                        {
+                            string FilePath = HttpContext.Current.Server.MapPath(ObjExportRetail.RetailCompany.Image);
+                            DPath = "/Assets/" + OrganisationID + "/" + RetailCompanyID;
+                            if (File.Exists(FilePath))
+                            {
+                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                r.Comment = "Company Logo for Store";
+
+                            }
+                        }
+
+
+                        // export media
+
+                        if (ObjExportRetail.RetailCompany.MediaLibraries != null)
+                        {
+                            if (ObjExportRetail.RetailCompany.MediaLibraries.Count > 0)
+                            {
+                                foreach (var media in ObjExportRetail.RetailCompany.MediaLibraries)
+                                {
+                                    if (media.FilePath != null)
+                                    {
+                                        string FilePath = HttpContext.Current.Server.MapPath(media.FilePath);
+                                        DPath = "/Media/" + OrganisationID + "/" + RetailCompanyID;
+                                        if (File.Exists(FilePath))
+                                        {
+                                            ZipEntry r = zip.AddFile(FilePath, DPath);
+                                            r.Comment = "Media Files for Store";
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (ObjExportRetail.RetailProductCategory != null)
+                        {
+                            foreach (var cat in ObjExportRetail.RetailProductCategory)
+                            {
+                                if (cat.ImagePath != null)
+                                {
+                                    string FilePath = HttpContext.Current.Server.MapPath(cat.ImagePath);
+                                    DPath = "/Assets/" + OrganisationID + "/" + RetailCompanyID + "/ProductCategories";
+                                    if (File.Exists(FilePath))
+                                    {
+                                        ZipEntry r = zip.AddFile(FilePath, DPath);
+                                        r.Comment = "Category Image Path for Store";
+
+                                    }
+                                }
+
+                                if (cat.ThumbnailPath != null)
+                                {
+                                    string FilePath = HttpContext.Current.Server.MapPath(cat.ThumbnailPath);
+                                    DPath = "/Assets/" + OrganisationID + "/" + RetailCompanyID + "/ProductCategories";
+
+                                    if (File.Exists(FilePath))
+                                    {
+                                        ZipEntry r = zip.AddFile(FilePath, DPath);
+                                        r.Comment = "Category Thumbnail Path for Store";
+
+                                    }
+                                }
+
+                            }
+
+                        }
+                        if (ObjExportRetail.RetailItems != null)
+                        {
+                            if (ObjExportRetail.RetailItems.Count > 0)
+                            {
+                                foreach (var item in ObjExportRetail.RetailItems)
+                                {
+                                    if (item.ImagePath != null)
+                                    {
+                                        string FilePath = HttpContext.Current.Server.MapPath(item.ImagePath);
+                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                        if (File.Exists(FilePath))
+                                        {
+                                            ZipEntry r = zip.AddFile(FilePath, DPath);
+                                            r.Comment = "Items Image Path for Store";
+
+                                        }
+                                    }
+
+                                    if (item.ThumbnailPath != null)
+                                    {
+                                        string FilePath = HttpContext.Current.Server.MapPath(item.ThumbnailPath);
+                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                        if (File.Exists(FilePath))
+                                        {
+                                            ZipEntry r = zip.AddFile(FilePath, DPath);
+                                            r.Comment = "Items Thumbnail Path for Store";
+
+                                        }
+                                    }
+
+                                    if (item.GridImage != null)
+                                    {
+                                        string FilePath = HttpContext.Current.Server.MapPath(item.GridImage);
+                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                        if (File.Exists(FilePath))
+                                        {
+                                            ZipEntry r = zip.AddFile(FilePath, DPath);
+                                            r.Comment = "Items Grid image for Store";
+
+                                        }
+                                    }
+                                    if (item.File1 != null)
+                                    {
+                                        string FilePath = HttpContext.Current.Server.MapPath(item.File1);
+                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                        if (File.Exists(FilePath))
+                                        {
+                                            ZipEntry r = zip.AddFile(FilePath, DPath);
+                                            r.Comment = "Items image for Store";
+
+                                        }
+                                    }
+                                    if (item.File2 != null)
+                                    {
+                                        string FilePath = HttpContext.Current.Server.MapPath(item.File2);
+                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                        if (File.Exists(FilePath))
+                                        {
+                                            ZipEntry r = zip.AddFile(FilePath, DPath);
+                                            r.Comment = "Items image for Store";
+
+                                        }
+                                    }
+                                    if (item.File3 != null)
+                                    {
+                                        string FilePath = HttpContext.Current.Server.MapPath(item.File3);
+                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                        if (File.Exists(FilePath))
+                                        {
+                                            ZipEntry r = zip.AddFile(FilePath, DPath);
+                                            r.Comment = "Items image for Store";
+
+                                        }
+                                    }
+                                    if (item.File4 != null)
+                                    {
+                                        string FilePath = HttpContext.Current.Server.MapPath(item.File4);
+                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                        if (File.Exists(FilePath))
+                                        {
+                                            ZipEntry r = zip.AddFile(FilePath, DPath);
+                                            r.Comment = "Items image for Store";
+
+                                        }
+                                    }
+                                    if (item.File5 != null)
+                                    {
+                                        string FilePath = HttpContext.Current.Server.MapPath(item.File5);
+                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                        if (File.Exists(FilePath))
+                                        {
+                                            ZipEntry r = zip.AddFile(FilePath, DPath);
+                                            r.Comment = "Items image for Store";
+
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                        if (ObjExportRetail.RetailCompany.CompanyContacts != null && ObjExportRetail.RetailCompany.CompanyContacts.Count > 0)
+                        {
+                            foreach (var contact in ObjExportRetail.RetailCompany.CompanyContacts)
+                            {
+                                if (!string.IsNullOrEmpty(contact.image))
+                                {
+                                    string ContactImage = HttpContext.Current.Server.MapPath(contact.image);
+                                    string ContactDirectory = "/Assets/" + OrganisationID + "/" + RetailCompanyID + "/Contacts/" + contact.ContactId;
+                                    if (File.Exists(ContactImage))
+                                    {
+                                        ZipEntry r = zip.AddFile(ContactImage, ContactDirectory);
+                                        r.Comment = "Contact images for Store";
+
+                                    }
+                                }
+                            }
+
+                        }
+                        string CSSPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Assets/" + OrganisationID + "/" + RetailCompanyID + "/Site.css";
+                        string pCSSDirectory = "/Assets/" + OrganisationID + "/" + RetailCompanyID;
+                        if (File.Exists(CSSPath))
+                        {
+                            ZipEntry r = zip.AddFile(CSSPath, pCSSDirectory);
+                            r.Comment = "CSS for Store";
+
+                        }
+                        string SpritePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Assets/" + OrganisationID + "/" + RetailCompanyID + "/sprite.png";
+                        string pDirectory = "/Assets/" + OrganisationID + "/" + RetailCompanyID;
+
+                        if (File.Exists(SpritePath))
+                        {
+                            ZipEntry r = zip.AddFile(SpritePath, pDirectory);
+                            r.Comment = "Sprite for Store";
+
+                        }
 
                     }
-                    string SpritePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Assets/" + OrganisationID + "/" + CompanyID + "/sprite.png";
-                    string pDirectory = "/Assets/" + OrganisationID + "/" + CompanyID;
-
-                    if (File.Exists(SpritePath))
-                    {
-                        ZipEntry r = zip.AddFile(SpritePath, pDirectory);
-                        r.Comment = "Sprite for Store";
-
-                    }
+                    //  ExportRetailStore(RetailCompanyID, OrganisationID, DPath, zip);
 
 
+                    // export zip
                     zip.Comment = "This zip archive was created to export complete organisation";
                     string sDirectory = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations";
                     string name = "ExportedZip" + OrganisationID;
@@ -3221,32 +3639,54 @@ namespace MPC.Implementation.MISServices
                         zip.Save(sDirectory + "\\" + sZipFileName);
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
 
 
-                #endregion
 
+        }
 
+        public ExportOrganisation ExportRetailStore(long RetailCompanyID, long OrganisationID, string DPath, ZipFile zip)
+        {
+            try
+            {
+                ExportOrganisation ObjExportRetail = new Models.Common.ExportOrganisation();
+
+                // export retail store
+                ObjExportRetail = companyRepository.ExportRetailCompany(RetailCompanyID);
+
+                //  GC.Collect();
+                string JsonRetail = JsonConvert.SerializeObject(ObjExportRetail, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+                // export json file
+                string sRetailPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/RetailJson.txt";
+                System.IO.File.WriteAllText(sRetailPath, JsonRetail);
+
+                return ObjExportRetail;
 
             }
             catch (Exception ex)
             {
-                throw new MPCException(ex.ToString(), OrganisationID);
+                throw ex;
             }
-
         }
-
         #endregion
 
         #region ImportOrganisation
 
-        public void ImportOrganisation(long OrganisationId,string ZipPath)
+        public void ImportOrganisation(long OrganisationId, string ZipPath, bool isCorpStore)
         {
             try
             {
-                
+                ExportOrganisation objExpOrg = new Models.Common.ExportOrganisation();
+                ExportOrganisation objExpCorp = new Models.Common.ExportOrganisation();
+                ExportOrganisation objExpRetail = new Models.Common.ExportOrganisation();
                 string extractPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportOrganisation");
-               // string ReadPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Organisations/ExportedZip20.zip");
-              //  ZipPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Organisations/ExportedZip20.zip");
+                // string ReadPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Organisations/ExportedZip20.zip");
+                //  ZipPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Organisations/ExportedZip20.zip");
                 if (File.Exists(ZipPath))
                 {
                     //string zipToUnpack = "C1P3SML.zip";
@@ -3259,20 +3699,40 @@ namespace MPC.Implementation.MISServices
                             e.Extract(extractPath, ExtractExistingFileAction.OverwriteSilently);
                         }
                     }
-                            string JsonFilePath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportOrganisation/Json.txt");
-                            if (File.Exists(JsonFilePath))
-                            {
-                                string json = System.IO.File.ReadAllText(JsonFilePath);
+                    // deserialize organisation json file
+                    string JsonFilePath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportOrganisation/OrganisationJson.txt");
+                    if (File.Exists(JsonFilePath))
+                    {
+                        string json = System.IO.File.ReadAllText(JsonFilePath);
 
-                                ExportOrganisation objExpOrg = JsonConvert.DeserializeObject<ExportOrganisation>(json);
+                        objExpOrg = JsonConvert.DeserializeObject<ExportOrganisation>(json);
 
-                                organisationRepository.InsertOrganisation(OrganisationId, objExpOrg);
-                                
+                        json = string.Empty;
+                    }
+                    // deserialize corpoate json file
+                    string JsonCorpFilePath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportOrganisation/CorporateJson.txt");
+                    if (File.Exists(JsonCorpFilePath))
+                    {
+                        string json = System.IO.File.ReadAllText(JsonCorpFilePath);
 
-                            }
+                        objExpCorp = JsonConvert.DeserializeObject<ExportOrganisation>(json);
 
+                        json = string.Empty;
+                    }
+                    // deserialize retail json file
+                    string JsonRetailFilePath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportOrganisation/RetailJson.txt");
+                    if (File.Exists(JsonRetailFilePath))
+                    {
+                        string json = System.IO.File.ReadAllText(JsonRetailFilePath);
+
+                        objExpRetail = JsonConvert.DeserializeObject<ExportOrganisation>(json);
+
+                        json = string.Empty;
+                    }
+
+                    organisationRepository.InsertOrganisation(OrganisationId, objExpOrg, objExpCorp, objExpRetail, isCorpStore);
                 }
-               
+
             }
             catch (Exception ex)
             {

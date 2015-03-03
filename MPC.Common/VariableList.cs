@@ -49,4 +49,5 @@ namespace MPC.Common
             this.ContactName = contactName;
         }
     }
+
 }

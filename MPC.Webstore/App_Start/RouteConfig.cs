@@ -179,6 +179,13 @@ namespace MPC.Webstore
              "CloneItem/{id}",
              new { controller = "Category", action = "CloneItem", id = UrlParameter.Optional }
                );
+
+            routes.MapRoute(
+           "Dashboard/ResetPassword",
+           "Dashboard/ResetPassword/{CurrentPassword}/{NewPassword}",
+           new { controller = "Dashboard", action = "ResetPassword", CurrentPassword = UrlParameter.Optional, NewPassword = UrlParameter.Optional}
+             );
+
             routes.MapRoute(
             "EditDesign",
             "EditDesign/{DesignState}/{EditType}/{ItemID}/{TemplateId}",
@@ -195,6 +202,8 @@ namespace MPC.Webstore
               "PaypalSubmit/{controller}/{action}/{id}",
               new { controller = "Payment", action = "PaypalSubmit", id = UrlParameter.Optional }
            );
+
+              
               routes.MapRoute(
               "NabSubmit",
               "NabSubmit",

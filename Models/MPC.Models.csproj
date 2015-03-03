@@ -51,8 +51,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -68,28 +69,27 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.Helpers.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.2\lib\net45\System.Web.Mvc.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.2\lib\net45\System.Web.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -167,7 +167,7 @@
     <Compile Include="DomainModels\ActivityType.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CmsOffer.cs" />
-    <Compile Include="DomainModels\CompanyContactVariable.cs" />
+    <Compile Include="DomainModels\ScopeVariable.cs" />
     <Compile Include="DomainModels\CompanyVariableIcon.cs" />
     <Compile Include="DomainModels\CostCentreAnswer.cs" />
     <Compile Include="DomainModels\CostCenterChoice.cs" />
@@ -184,6 +184,7 @@
     <Compile Include="DomainModels\CustomCopy.cs" />
     <Compile Include="DomainModels\DeliveryCarrier.cs" />
     <Compile Include="DomainModels\FavoriteDesign.cs" />
+    <Compile Include="DomainModels\NABTransaction.cs" />
     <Compile Include="DomainModels\PaypalPaymentRequest.cs" />
     <Compile Include="DomainModels\PayPalResponse.cs" />
     <Compile Include="DomainModels\SmartForm.cs" />
@@ -363,6 +364,7 @@
     <Compile Include="RequestModels\PhraseLibrarySaveModel.cs" />
     <Compile Include="RequestModels\ProductCategoryRequestModel.cs" />
     <Compile Include="RequestModels\SecondaryPageRequestModel.cs" />
+    <Compile Include="RequestModels\SmartFormRequestModel.cs" />
     <Compile Include="RequestModels\StockItemRequestModel.cs" />
     <Compile Include="RequestModels\StockCategoryRequestModel.cs" />
     <Compile Include="RequestModels\SupplierRequestModelForInventory.cs" />
@@ -402,6 +404,7 @@
     <Compile Include="ResponseModels\MyOrganizationSaveResponse.cs" />
     <Compile Include="ResponseModels\PaymentGatewayResponse.cs" />
     <Compile Include="ResponseModels\SecondaryPageResponse.cs" />
+    <Compile Include="ResponseModels\SmartFormResponse.cs" />
     <Compile Include="ResponseModels\StockCategoryResponse.cs" />
     <Compile Include="ResponseModels\SupplierBaseResponse.cs" />
     <Compile Include="ResponseModels\SupplierSearchResponseForInventory.cs" />

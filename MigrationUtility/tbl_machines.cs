@@ -21,6 +21,8 @@ namespace MigrationUtility
             this.tbl_machine_lookup_methods = new HashSet<tbl_machine_lookup_methods>();
             this.tbl_machine_pagination_profile = new HashSet<tbl_machine_pagination_profile>();
             this.tbl_machine_resource = new HashSet<tbl_machine_resource>();
+            this.tbl_machine_guilotine_ptv = new HashSet<tbl_machine_guilotine_ptv>();
+            this.tbl_machine_spoilage = new HashSet<tbl_machine_spoilage>();
         }
     
         public int MachineID { get; set; }
@@ -89,5 +91,7 @@ namespace MigrationUtility
         public virtual ICollection<tbl_machine_lookup_methods> tbl_machine_lookup_methods { get; set; }
         public virtual ICollection<tbl_machine_pagination_profile> tbl_machine_pagination_profile { get; set; }
         public virtual ICollection<tbl_machine_resource> tbl_machine_resource { get; set; }
+        public virtual ICollection<tbl_machine_guilotine_ptv> tbl_machine_guilotine_ptv { get; set; }
+        public virtual ICollection<tbl_machine_spoilage> tbl_machine_spoilage { get; set; }
     }
 }

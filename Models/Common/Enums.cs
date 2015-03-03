@@ -22,6 +22,12 @@ namespace MPC.Models.Common
         NotSet = 99
 
     }
+    public enum SmartFormDetailFieldType : int
+    {
+        GroupCaption = 1,
+        LineSeperator = 2,
+        VariableField = 3,
+    }
     public enum CreditCardTypeType
     {
         Visa = 1,

@@ -791,8 +791,8 @@ namespace MPC.Models.DomainModels
                 throw new ArgumentException(LanguageResources.ItemClone_InvalidItem, "target");
             }
 
-            target.ProductName = ProductName;
-            target.ProductCode = ProductName + ProductCode;
+            target.ProductName = ProductName + "Copy";
+            target.ProductCode = ProductCode;
             target.ProductSpecification = ProductSpecification;
             target.IsEnabled = IsEnabled;
             target.IsFeatured = IsFeatured;

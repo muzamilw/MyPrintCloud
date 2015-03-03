@@ -3,11 +3,14 @@ using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Webstore.Common;
 using MPC.Webstore.ViewModels;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Formatting;
 using System.Web;
 using System.Web.Mvc;
+
 
 namespace MPC.Webstore.Controllers
 {
@@ -27,8 +30,9 @@ namespace MPC.Webstore.Controllers
         }
         public ActionResult Index()
         {
+            
             int STATUS_TYPE_ID = 2;
-
+            ViewBag.RecordStatus = false;
             SearchOrderViewModel model = new SearchOrderViewModel();
             if (_myClaimHelper.isUserLoggedIn())
             {
@@ -39,8 +43,8 @@ namespace MPC.Webstore.Controllers
         public SearchOrderViewModel BindStatusDropdown(int STATUS_TYPE_ID)
         {
             SearchOrderViewModel SearchOrder = new SearchOrderViewModel();
-            if (_myClaimHelper.loginContactRoleID() ==(int) Roles.Adminstrator)
-            {
+         //   if(_myClaimHelper.loginContactRoleID() == (int)Roles.Adminstrator || _myClaimHelper.loginContactRoleID()==(int)Roles.Manager)
+           // {
                 List<Status> statusList = _StatusService.GetStatusListByStatusTypeID(STATUS_TYPE_ID);
                 if (statusList.Count > 0)
                 {
@@ -48,7 +52,7 @@ namespace MPC.Webstore.Controllers
                 }
 
                 BindGrid(0, _myClaimHelper.loginContactID(),SearchOrder);
-            }
+            //}
             return SearchOrder;
         }
         public void BindGrid(long statusID, long contactID, SearchOrderViewModel model)
@@ -58,10 +62,18 @@ namespace MPC.Webstore.Controllers
             OrderStatus? status = null;
             if (statusID > 0)
                 status = (OrderStatus)statusID;
-            
-            if (UserCookieManager.StoreMode == (int)StoreMode.Corp && _myClaimHelper.loginContactRoleID() == (int)Roles.User)
+
+          //  ViewBag.ContactID = _myClaimHelper.loginContactRoleID();
+
+            //if (UserCookieManager.StoreMode == (int)StoreMode.Corp && _myClaimHelper.loginContactRoleID() == (int)Roles.User)
+            //{
+            //    ordersList = _orderService.GetOrdersListExceptPendingOrdersByContactID(contactID, status, model.FromData, model.ToDate, model.poSearch, 0, 0);
+                
+            //}
+           
+            if (UserCookieManager.StoreMode == (int)StoreMode.Corp && _myClaimHelper.loginContactRoleID()== (int)Roles.Adminstrator)
             {
-                ordersList = _orderService.GetOrdersListExceptPendingOrdersByContactID(contactID, status, model.FromData, model.ToDate, model.poSearch, 0, 0);
+                ordersList = _orderService.GetAllCorpOrders(_myClaimHelper.loginContactCompanyID(), status, model.FromData, model.ToDate, model.poSearch);
             }
             else
             {
@@ -94,14 +106,14 @@ namespace MPC.Webstore.Controllers
                 //lblTxtOfRest.Visible = true;
 
             }
-
-            //grdViewOrderhistory.DataSource = ordersList;
-            //grdViewOrderhistory.DataBind();
-
-            //Do pager Setting
-            //TotalRecordsCount = _totalRcordCount;
-            //ControlPagerSettings(TotalRecordsCount, pageNumber);
-            ViewBag.OrderList = ordersList;
+             if (ordersList == null || ordersList.Count == 0)
+                {
+                    TempData["Status"] = "No Records Found";
+                }
+                else {
+                    TempData["Status"] = ordersList.Count+"    " + " Record Match ";
+                }
+               ViewBag.OrderList = ordersList;
         }
         [HttpPost]
         public ActionResult Index(SearchOrderViewModel model)
@@ -132,14 +144,25 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public JsonResult OrderResult(long OrderId)
         {
+              long UpdatedOrder = _orderService.ReOrder(OrderId, _myClaimHelper.loginContactID(), UserCookieManager.TaxRate, StoreMode.Retail, true, 0);
+              UserCookieManager.OrderId = UpdatedOrder;
+              //JasonResponseObject obj = new JasonResponseObject();
+            //obj.billingAddress = _orderService.GetBillingAddress(159296);
+           
+            //var formatter = new JsonMediaTypeFormatter();
+            //var json = formatter.SerializerSettings;
+            //json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            //json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+           // Response.Write(list);
 
-            long UpdatedOrder = _orderService.ReOrder(OrderId, _myClaimHelper.loginContactID(), UserCookieManager.TaxRate, StoreMode.Retail, true, 0);
-
-            UserCookieManager.OrderId = UpdatedOrder;
-
+           return Json(true,JsonRequestBehavior.DenyGet);
+        }
+        [HttpPost]
+        public JsonResult DownLoadArtWork(long OrderId)
+        {
             return Json(true, JsonRequestBehavior.DenyGet);
         }
-       
+
         //public   ShowPartialView(long OrderId)
         //{
         //    Order order = _orderService.GetOrderAndDetails(OrderId);
@@ -148,6 +171,7 @@ namespace MPC.Webstore.Controllers
         //    ViewBag.BillingAddress = _orderService.GetBillingAddress(order.BillingAddressID);
         //    ViewBag.DeliveryAddress = _orderService.GetdeliveryAddress(order.DeliveryAddressID);
         //}
+
         private ShoppingCart LoadShoppingCart(long orderID)
         {
             ShoppingCart shopCart = null;
@@ -188,7 +212,6 @@ namespace MPC.Webstore.Controllers
 
             {
                 //List<tbl_items> items = context.tbl_items.Where(i => i.EstimateID == OrderID).ToList();
-
                 foreach (var item in order.OrderDetails.CartItemsList)
                 {
 
@@ -212,11 +235,15 @@ namespace MPC.Webstore.Controllers
                // ViewBag.GrandTotal = GrandTotal;
                // ViewBag.SubTotal = Subtotal;
                // ViewBag.Vat = calculate;
-
             }
            
         }
       
     }
-    
+    //public class JasonResponseObject
+    //{
+        
+    //    public Address billingAddress;
+
+    //}
 }

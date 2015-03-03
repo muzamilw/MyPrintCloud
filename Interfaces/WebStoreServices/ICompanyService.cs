@@ -190,5 +190,11 @@ namespace MPC.Interfaces.WebStoreServices
         bool UpdateCompanyContactForRetail(CompanyContact Instance);
         bool  UpdateCompanyContactForCorporate(CompanyContact Instance);
         bool UpdateCompanyName(Company Instance);
+
+        bool VerifyHashSha1(string plainText, string compareWithSalt);
+
+        string GetPasswordByContactID(long ContactID);
+
+        bool SaveResetPassword(long ContactID, string Password);
     }
 }

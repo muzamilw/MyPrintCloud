@@ -79,5 +79,10 @@ namespace MPC.Interfaces.MISServices
         /// <param name="companyId"></param>
         /// <returns></returns>
         IEnumerable<Item> GetItemsByCompanyId(long companyId);
+
+        /// <summary>
+        /// Get Parent Product Categories for Company
+        /// </summary>
+        IEnumerable<ProductCategory> GetProductCategoriesForCompany(long? companyId);
     }
 }
