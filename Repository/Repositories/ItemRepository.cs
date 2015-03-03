@@ -315,23 +315,22 @@ namespace MPC.Repository.Repositories
             // add section of 20 type cost center which is web order cost center
 
 
-            if (db.SaveChanges() > 0)
-            {
-                if (clonedTemplate != null && (newItem.TemplateType == 1 || newItem.TemplateType == 2))
-                {
+             db.SaveChanges();
+             if (clonedTemplate != null && (newItem.TemplateType == 1 || newItem.TemplateType == 2))
+             {
                     newItem.TemplateId = clonedTemplate.ProductId;
                     TemplateID = clonedTemplate.ProductId;
 
                     CopyTemplatePaths(clonedTemplate, OrganisationID);
-                }
+             }
 
-                SaveAdditionalAddonsOrUpdateStockItemType(SelectedAddOnsList, newItem.ItemId, StockID, isCopyProduct, "");
+            SaveAdditionalAddonsOrUpdateStockItemType(SelectedAddOnsList, newItem.ItemId, StockID, isCopyProduct, "");
                     // additional addon required the newly inserted cloneditem
-                newItem.ItemCode = "ITM-0-001-" + newItem.ItemId;
-                db.SaveChanges();
-            }
-            else
-                throw new Exception("Nothing happened");
+            newItem.ItemCode = "ITM-0-001-" + newItem.ItemId;
+            db.SaveChanges();
+            
+            //else
+            //    throw 
 
             return newItem;
         }
