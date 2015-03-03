@@ -9,7 +9,7 @@
 <style>
     body
     {
-        zoom:80%;
+        
         overflow:hidden;
         height:100%;
     }
@@ -22,7 +22,8 @@
         top:-32%;
         left:98px;
         -webkit-filter: blur(8px);
-        -webkit-transition: -webkit-filter .50s;
+      
+        
         visibility:hidden;
     }
     .help-header-title
@@ -1080,8 +1081,8 @@
                    
                     $("#myprintcloud-help").animate({ "top": "+="  + top, "left": "+="+left }, 100);
                     $(".highlight-div").css("visibility","visible");
-                    $(".highlight-div").css("width", "210px");
-                    $(".highlight-div").css("height", "80px");
+                    $(".highlight-div").css("width", "160px");
+                    $(".highlight-div").css("height","80px");
                     $(".highlight-div").css("left", "68px");
                     $(".highlight-div").css("top", "-122px");
                  
@@ -1106,12 +1107,13 @@
                     positiontop = dashp.position().top;
                     positionleft = dashp.position().left;
                    
-                    left = left - 230;
+                    left = left - 205;
 
                     $("#myprintcloud-help").animate({ "top": "+=" + top, "left": "+=" + left }, 100);
                     $(".highlight-div").css("visibility", "visible");
-                    $(".highlight-div").css("width", "220px");
-                    $(".highlight-div").css("height","80px");
+                    $(".highlight-div").css("width", "160px");
+                    $(".highlight-div").css("height", "80px");
+                    $(".highlight-div").css("left", "94px");
                     
 
                     $(".help-header-title").html(proceeding[2]);
@@ -1270,10 +1272,13 @@
 
                 if (i == 2)
                 {
+                    $(".highlight-div").css("top", "-58%");
                     $(".highlight-div").css("visibility", "visible");
-                    $(".highlight-div").css("width","220px");
+                    
+                    $(".highlight-div").css("width","160px");
                     $(".highlight-div").css("height","80px");
-                    $(".highlight-div").css("left", "60px");
+                    $(".highlight-div").css("left", "70px");
+                  
                     
 
                 }
@@ -1282,9 +1287,9 @@
                 {
                     $(".highlight-div").css("top", "-54%");
                     $(".highlight-div").css("visibility", "visible");
-                    $(".highlight-div").css("width", "210px");
-                    $(".highlight-div").css("height", "80px");
-                    $(".highlight-div").css("left", "75px");
+                    $(".highlight-div").css("width","160px");
+                    $(".highlight-div").css("height","80px");
+                    $(".highlight-div").css("left","96px");
                     $("#btnPreviousHelp").show();
 
                     $(".bottom-arrow").hide();
