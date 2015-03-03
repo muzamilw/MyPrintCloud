@@ -43,8 +43,8 @@ namespace MPC.Webstore.Controllers
         public SearchOrderViewModel BindStatusDropdown(int STATUS_TYPE_ID)
         {
             SearchOrderViewModel SearchOrder = new SearchOrderViewModel();
-            if (_myClaimHelper.loginContactRoleID() ==(int) Roles.Adminstrator)
-            {
+         //   if(_myClaimHelper.loginContactRoleID() == (int)Roles.Adminstrator || _myClaimHelper.loginContactRoleID()==(int)Roles.Manager)
+           // {
                 List<Status> statusList = _StatusService.GetStatusListByStatusTypeID(STATUS_TYPE_ID);
                 if (statusList.Count > 0)
                 {
@@ -52,7 +52,7 @@ namespace MPC.Webstore.Controllers
                 }
 
                 BindGrid(0, _myClaimHelper.loginContactID(),SearchOrder);
-            }
+            //}
             return SearchOrder;
         }
         public void BindGrid(long statusID, long contactID, SearchOrderViewModel model)
@@ -62,23 +62,28 @@ namespace MPC.Webstore.Controllers
             OrderStatus? status = null;
             if (statusID > 0)
                 status = (OrderStatus)statusID;
-            
-            if (UserCookieManager.StoreMode == (int)StoreMode.Corp && _myClaimHelper.loginContactRoleID() == (int)Roles.User)
-            {
-                ordersList = _orderService.GetOrdersListExceptPendingOrdersByContactID(contactID, status, model.FromData, model.ToDate, model.poSearch, 0, 0);
+
+          //  ViewBag.ContactID = _myClaimHelper.loginContactRoleID();
+
+            //if (UserCookieManager.StoreMode == (int)StoreMode.Corp && _myClaimHelper.loginContactRoleID() == (int)Roles.User)
+            //{
+            //    ordersList = _orderService.GetOrdersListExceptPendingOrdersByContactID(contactID, status, model.FromData, model.ToDate, model.poSearch, 0, 0);
                 
+            //}
+           
+            if (UserCookieManager.StoreMode == (int)StoreMode.Corp && _myClaimHelper.loginContactRoleID()== (int)Roles.Adminstrator)
+            {
+                ordersList = _orderService.GetAllCorpOrders(_myClaimHelper.loginContactCompanyID(), status, model.FromData, model.ToDate, model.poSearch);
             }
             else
             {
                 ordersList = _orderService.GetOrdersListByContactID(contactID, status, model.FromData, model.ToDate, model.poSearch, 0, 0);
-               
             }
             if (ordersList == null || ordersList.Count == 0)
             {
             }
             else
             {
-               
                 //if ((SessionParameters.StoreMode == StoreMode.Broker) && SessionParameters.IsUserAdmin == true)
                 //{
                 //    if (ddlClientStatus.SelectedIndex != -1 && ddlClientStatus.SelectedIndex != 0)
@@ -99,6 +104,7 @@ namespace MPC.Webstore.Controllers
                 //}
                 //lblTxtOfRest.Text = _totalRcordCount + " matches found"; //CountordersList.Count + " matches found";
                 //lblTxtOfRest.Visible = true;
+
             }
              if (ordersList == null || ordersList.Count == 0)
                 {
@@ -149,9 +155,14 @@ namespace MPC.Webstore.Controllers
             //json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
            // Response.Write(list);
 
-             return Json(true,JsonRequestBehavior.DenyGet);
+           return Json(true,JsonRequestBehavior.DenyGet);
         }
-       
+        [HttpPost]
+        public JsonResult DownLoadArtWork(long OrderId)
+        {
+            return Json(true, JsonRequestBehavior.DenyGet);
+        }
+
         //public   ShowPartialView(long OrderId)
         //{
         //    Order order = _orderService.GetOrderAndDetails(OrderId);
@@ -160,6 +171,7 @@ namespace MPC.Webstore.Controllers
         //    ViewBag.BillingAddress = _orderService.GetBillingAddress(order.BillingAddressID);
         //    ViewBag.DeliveryAddress = _orderService.GetdeliveryAddress(order.DeliveryAddressID);
         //}
+
         private ShoppingCart LoadShoppingCart(long orderID)
         {
             ShoppingCart shopCart = null;
@@ -200,7 +212,6 @@ namespace MPC.Webstore.Controllers
 
             {
                 //List<tbl_items> items = context.tbl_items.Where(i => i.EstimateID == OrderID).ToList();
-
                 foreach (var item in order.OrderDetails.CartItemsList)
                 {
 
@@ -224,7 +235,6 @@ namespace MPC.Webstore.Controllers
                // ViewBag.GrandTotal = GrandTotal;
                // ViewBag.SubTotal = Subtotal;
                // ViewBag.Vat = calculate;
-
             }
            
         }

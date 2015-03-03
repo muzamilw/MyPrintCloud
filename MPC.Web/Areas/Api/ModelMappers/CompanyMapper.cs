@@ -38,7 +38,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 imagePath = HttpContext.Current.Server.MapPath("~/" + source.StoreBackgroundImage);
                 if (File.Exists(imagePath))
                 {
-                    storeBackgroundImageBytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
+                    storeBackgroundImageBytes = source.StoreBackgroundImage != null ? File.ReadAllBytes(imagePath) : null;
                 } 
             }
             byte[] spriteBytes = null;
@@ -154,6 +154,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 UserDefinedSpriteImage = spriteBytes,
                 MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
                 CompanyDomains = source.CompanyDomains != null ? source.CompanyDomains.Select(x => x.CreateFrom()).ToList() : null,
+                CmsOffers = source.CmsOffers != null ? source.CmsOffers.Select(c => c.CreateFrom()).ToList() : null,
                 CompanyCostCentres = source.CompanyCostCentres != null ? (source.CompanyCostCentres.Count != 0 ? source.CompanyCostCentres.FirstOrDefault().CostCentre != null ? source.CompanyCostCentres.Select(x => x.CostCentre).Select(x => x.CostCentreDropDownCreateFrom()).ToList() : null : null) : null
             };
         }

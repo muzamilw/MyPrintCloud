@@ -465,5 +465,11 @@ namespace MPC.Implementation.WebStoreServices
        {
            return _OrderRepository.ReOrder(ExistingOrderId, loggedInContactID, StatTaxVal, mode, isIncludeTax, TaxID);
        }
+
+       public List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber)
+       {
+           return _OrderRepository.GetAllCorpOrders(ContactCompany, orderStatus, fromDate, toDate, orderRefNumber);
+       
+       }
     }
 }

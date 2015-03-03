@@ -1,14 +1,18 @@
 ﻿
 
 @model MPC.Webstore.ViewModels.SearchOrderViewModel
-
+@using MPC.Webstore.Common;
+@using MPC.Models.Common;
 @{
     
     var grid = new WebGrid(source: ViewBag.OrderList,canPage:true, rowsPerPage: 15);
     
     grid.Pager(WebGridPagerModes.NextPrevious);
 }
-
+@{
+    
+    int x = 6;
+}
 
 <div class="content_area container">
     <div class="left_right_padding row">
@@ -19,7 +23,6 @@
          
         </div>
         <div class="clearBoth">
-
         </div>
         <div>
             <div class="Width100Percent">
@@ -124,21 +127,27 @@
     grid.Column("YourRef","Your PO reference"),
     grid.Column("SOrderDate","Order Date	"),
     grid.Column("SOrderDeliveryDate","Estimated Delivery"),
-    grid.Column("StatusName","Status",canSort: true,style:"GridStatusColumnColor"),
+    grid.Column("StatusName","Status",canSort:false,style:"GridStatusColumnColor"),
    // grid.Column("ClientStatusID","Client Status"),
     @*grid.Column("View", format:@<text>@Html.ActionLink("ProductOrderHistory", "ShowPartialView",
                 new { OrderId = item.OrderID }, new { @class = "myclass" }) </text>),*@
-
+   
+    
      grid.Column("View", format:@<text><button id="view" value="View" style="height: 28px; width: 28px; background-image: url('Content/Images/Glass.png');" class="rounded_corners" onclick="ViewOrder(@item.OrderID)" />
-                </text>),
-
-
+     </text>),
+   
+    
+   grid.Column("Download", format:@<text>@if(UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                                         {<button id="view" value="Download" style="height: 28px; width: 28px; background-image: url('Content/Images/Glass.png');" class="rounded_corners" onclick="DownLoad(@item.OrderID)" />
+   
+   }</text>),
+    
     grid.Column("Reorder", format:@<text><button id="view" value="Reorder" style="height: 28px; width: 28px; background-image: url('Content/Images/repeat.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />
-                 </text>),
+   </text>),
     
     }
-    )
     
+    )
     
                         @*<uc8:CustomPagerControl ID="grdViewOrdHistoryPager" runat="server" />
                         <div>
@@ -164,13 +173,11 @@
     <br />
 </div>
 
-
 <div id="Vorder" class="popupInnerContainer rounded_corners" style="height: 530px; overflow: auto; z-index:0; margin-top:10px; visibility:hidden">
     <table border="0" width="100%" cellpadding="4" cellspacing="0" id="Mytable" style="background-color:#F6F6F7;">
         <tbody>
             <tr>
                 <td>
-                    
                         <table border="0" cellpadding="3" cellspacing="0" width="100%">
                             <tbody>
                                 <tr>
@@ -570,6 +577,21 @@
                 success: function (response) {
                 }
             });
+        }
+
+        function DownLoad(orderId)
+        {
+            $.ajax({
+                type: "POST",
+                url: "/ProductOrderHistory/DownLoadArtWork",
+                contentType: "application/json",
+                data: { OrderId: orderId },
+                async: true,
+                success: function (response) {
+                }
+            });
+        
+        
         }
 
         function ViewOrder(orderId) {
