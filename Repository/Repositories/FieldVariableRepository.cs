@@ -71,18 +71,17 @@ namespace MPC.Repository.Repositories
                 (s.CompanyId == request.CompanyId);
 
             int rowCount = DbSet.Count(query);
-            // ReSharper disable once ConditionalTernaryEqualBranch
             IEnumerable<FieldVariable> fieldVariables = request.IsAsc
-                ? DbSet.Where(query)
-                .OrderByDescending(x => x.VariableName)
-                    .Skip(fromRow)
-                    .Take(toRow)
-                    .ToList()
-                : DbSet.Where(query)
-                .OrderByDescending(x => x.VariableName)
-                    .Skip(fromRow)
-                    .Take(toRow)
-                    .ToList();
+           ? DbSet.Where(query)
+           .OrderByDescending(x => x.VariableName)
+               .Skip(fromRow)
+               .Take(toRow)
+               .ToList()
+           : DbSet.Where(query)
+           .OrderByDescending(x => x.VariableName)
+               .Skip(fromRow)
+               .Take(toRow)
+               .ToList();
             return new FieldVariableResponse
             {
                 RowCount = rowCount,
@@ -97,7 +96,7 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(vf => vf.CompanyId == companyId && vf.Scope == (int)FieldVariableScopeType.Contact).ToList();
         }
-       
+
         /// <summary>
         /// Get Field Varibale By Company For Smart Form
         /// </summary>

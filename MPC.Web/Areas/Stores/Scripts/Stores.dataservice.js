@@ -49,6 +49,13 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to Get Smart Form Details By Smart Form Id
+                    amplify.request.define('getSmartFormDetailBySmartFormId', 'ajax', {
+                        url: ist.siteUrl + '/Api/GetSmartFormDetail',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    
                     // Define request to Get Cmpany Contact Varibable ByContact  Id
                     amplify.request.define('getCmpanyContactVaribableByContactId', 'ajax', {
                         url: ist.siteUrl + '/Api/GetCompanyContactVariable',
@@ -61,14 +68,20 @@
                         dataType: 'json',
                         type: 'GET'
                     });
-                    
+
                     // Define request to get Field Variables By CompanyId
                     amplify.request.define('getFieldVariablesByCompanyId', 'ajax', {
                         url: ist.siteUrl + '/Api/FieldVariable',
                         dataType: 'json',
                         type: 'GET'
                     });
-                    
+                    // Define request to get Smart Forms By Company Id
+                    amplify.request.define('getSmartFormsByCompanyId', 'ajax', {
+                        url: ist.siteUrl + '/Api/SmartForm',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
                     // Define request to get Address
                     amplify.request.define('searchAddress', 'ajax', {
                         url: ist.siteUrl + '/Api/Address',
@@ -145,7 +158,7 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
-                    
+
 
                     // Define request to Get Secondry Page By Id
                     amplify.request.define('getSecondryPageById', 'ajax', {
@@ -274,7 +287,7 @@
                     data: params
                 });
             },
-            
+
             //Get Field Variable Detail By Id
             getFieldVariableDetailById = function (params, callbacks) {
                 initialize();
@@ -285,6 +298,17 @@
                     data: params
                 });
             },
+             //Get Smart Form Detail By Smart Form Id
+                getSmartFormDetailBySmartFormId = function (params, callbacks) {
+                    initialize();
+                    return amplify.request({
+                        resourceId: 'getSmartFormDetailBySmartFormId',
+                        success: callbacks.success,
+                        error: callbacks.error,
+                        data: params
+                    });
+                },
+
              // get Campaign Base Data
             getCampaignBaseData = function (callbacks) {
                 initialize();
@@ -315,7 +339,17 @@
                     data: params
                 });
             },
-            
+            // Get Smart Forms By Company Id
+            getSmartFormsByCompanyId = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getSmartFormsByCompanyId',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+
             // search Address
             searchAddress = function (params, callbacks) {
                 initialize();
@@ -529,7 +563,7 @@
                 data: param
             });
         },
-        
+
         // save Store
         saveStore = function (param, callbacks) {
             initialize();
@@ -571,9 +605,11 @@
             deleteCompanyContact: deleteCompanyContact,
             saveFieldVariable: saveFieldVariable,
             getFieldVariableDetailById: getFieldVariableDetailById,
+            getSmartFormDetailBySmartFormId: getSmartFormDetailBySmartFormId,
             getCmpanyContactVaribableByContactId: getCmpanyContactVaribableByContactId,
             getCmpanyContactVaribableByCompanyId: getCmpanyContactVaribableByCompanyId,
             saveSmartForm: saveSmartForm,
+            getSmartFormsByCompanyId: getSmartFormsByCompanyId,
         };
     })();
 

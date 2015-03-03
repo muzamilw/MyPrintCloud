@@ -40,6 +40,15 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        /// <summary>
+        /// USer count in last few days
+        /// </summary>
+        public int UserCount(long? storeId, int numberOfDays)
+        {
+            DateTime currenteDate = DateTime.UtcNow.Date.AddDays(-numberOfDays);
+            return DbSet.Count(company => storeId == company.StoreId && company.CreationDate >= currenteDate);
+        }
+
         public override IEnumerable<Company> GetAll()
         {
             return DbSet.Where(c => c.OrganisationId == OrganisationId).ToList();
@@ -63,6 +72,7 @@ namespace MPC.Repository.Repositories
         {
             CompanyResponse companyResponse = new CompanyResponse();
             var company = DbSet.Find(companyId);
+            company.RaveReviews=company.RaveReviews.OrderBy(rv => rv.SortOrder).ToList();
             companyResponse.SecondaryPageResponse = new SecondaryPageResponse();
             companyResponse.SecondaryPageResponse.RowCount = company.CmsPages.Count;
             companyResponse.SecondaryPageResponse.CmsPages = company.CmsPages.Take(5).ToList();

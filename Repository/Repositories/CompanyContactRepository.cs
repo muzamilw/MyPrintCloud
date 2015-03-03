@@ -38,6 +38,7 @@ namespace MPC.Repository.Repositories
                 return db.CompanyContacts;
             }
         }
+
         /// <summary>
         /// Get All 
         /// </summary>

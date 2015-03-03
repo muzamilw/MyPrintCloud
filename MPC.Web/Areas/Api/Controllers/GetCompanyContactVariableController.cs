@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using MPC.Interfaces.MISServices;
@@ -32,11 +31,11 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Public
 
         /// <summary>
-        /// Get Field variables
+        /// Get Scope variables
         /// </summary>
-        public IEnumerable<CompanyContactVariable> Get([FromUri]long contactId)
+        public IEnumerable<ScopeVariable> Get([FromUri]long contactId, int scope)
         {
-            return companyService.GetContactVariableByContactId(contactId).Select(cv => cv.CreateFrom());
+            return companyService.GetContactVariableByContactId(contactId, scope).Select(cv => cv.CreateFrom());
         }
 
         #endregion

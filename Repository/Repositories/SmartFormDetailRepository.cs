@@ -1,4 +1,7 @@
-﻿using System.Data.Entity;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
@@ -32,6 +35,14 @@ namespace MPC.Repository.Repositories
         #endregion
 
         #region public
+
+        /// <summary>
+        /// Get Smart Form Details By Smart Form Id
+        /// </summary>
+        public IEnumerable<SmartFormDetail> GetSmartFormDetailsBySmartFormId(long smartFormId)
+        {
+            return DbSet.Where(sfd => sfd.SmartFormId == smartFormId).OrderBy(sfd => sfd.SortOrder);
+        }
         #endregion
     }
 }

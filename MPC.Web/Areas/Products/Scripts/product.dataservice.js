@@ -85,6 +85,13 @@ define("product/product.dataservice", function () {
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    
+                    // Define request to get product category childs
+                    amplify.request.define('getProductCategories', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyProductCategory',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
 
                     isInitialized = true;
                 }
@@ -177,6 +184,16 @@ define("product/product.dataservice", function () {
                     error: callbacks.error,
                 });
             },
+            // get ProductCategories
+            getProductCategories = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getProductCategories',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
             // get ProductCategory Childs
             getProductCategoryChilds = function (params, callbacks) {
                 initialize();
@@ -198,7 +215,8 @@ define("product/product.dataservice", function () {
             getProductCategoryChilds: getProductCategoryChilds,
             getBaseDataForDesignerCategory: getBaseDataForDesignerCategory,
             getMachines: getMachines,
-            cloneItem: cloneItem
+            cloneItem: cloneItem,
+            getProductCategories: getProductCategories
         };
     })();
 

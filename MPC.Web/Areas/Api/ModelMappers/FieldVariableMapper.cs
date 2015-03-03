@@ -68,7 +68,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 TypeName = source.VariableType == 1 ? "Dropdown" : "Input",
             };
         }
-         /// <summary>
+        /// <summary>
         /// Create From Web Model
         /// </summary>
         public static FieldVariableForSmartForm CreateFromForSmartForm(this DomainModels.FieldVariable source)
@@ -85,7 +85,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 TypeName = source.VariableType == 1 ? "Dropdown" : "Input",
             };
         }
-        
+
         /// <summary>
         /// Create From Web Model
         /// </summary>
@@ -101,17 +101,18 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Create From Domain Model
         /// </summary>
-        public static CompanyContactVariable CreateFromFieldVariable(this DomainModels.FieldVariable source)
+        public static ScopeVariable CreateFromFieldVariable(this DomainModels.FieldVariable source)
         {
-            return new CompanyContactVariable
+            return new ScopeVariable
             {
 
-                ContactVariableId = 0,
-                ContactId = 0,
+                ScopeVariableId = 0,
+                Id = 0,
                 VariableId = source.VariableId,
                 Value = source.DefaultValue,
                 Type = source.VariableType,
                 Title = source.VariableTitle,
+                Scope = source.Scope,
                 VariableOptions = source.VariableOptions != null ? source.VariableOptions.Select(vo => vo.CreateFrom()).ToList() : null
             };
         }

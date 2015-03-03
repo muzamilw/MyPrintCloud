@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 using System.Web;
 using System.Net.Mime;
 using System.Web;
@@ -19,6 +20,7 @@ using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using Ionic.Zip;
 using System.IO;
+using MPC.Repository.Repositories;
 using Newtonsoft.Json;
 using System.Web.UI.WebControls;
 using System.Net.Http.Headers;
@@ -31,8 +33,9 @@ namespace MPC.Implementation.MISServices
         #region Private
 
         #region Repositories
-
+        
         private readonly ICompanyRepository companyRepository;
+        private readonly IEstimateRepository estimateRepository;
         private readonly ISystemUserRepository systemUserRepository;
         private readonly IRaveReviewRepository raveReviewRepository;
         private readonly ICompanyCMYKColorRepository companyCmykColorRepository;
@@ -79,7 +82,9 @@ namespace MPC.Implementation.MISServices
         private readonly IReportRepository ReportRepository;
         private readonly IFieldVariableRepository fieldVariableRepository;
         private readonly IVariableOptionRepository variableOptionRepository;
-        private readonly ICompanyContactVariableRepository companyContactVariableRepository;
+        private readonly IScopeVariableRepository scopeVariableRepository;
+        private readonly ISmartFormRepository smartFormRepository;
+        private readonly ISmartFormDetailRepository smartFormDetailRepository;
         #endregion
 
         private bool CheckDuplicateExistenceOfCompanyDomains(CompanySavingModel companySaving)
@@ -94,12 +99,12 @@ namespace MPC.Implementation.MISServices
                     {
                         if (domainForSaving.Domain == domain.Domain)
                         {
-                            throw new MPCException("There Exist Another Domain Name Instance in system for:"+ domainForSaving.Domain, organisationRepository.OrganisationId);
+                            throw new MPCException("There Exist Another Domain Name Instance in system for:" + domainForSaving.Domain, organisationRepository.OrganisationId);
                             //return false;
                         }
                     }
                 }
-                
+
             }
             return true;
             //var commonItem = companySaving.Company.CompanyDomains..Intersect(allCompanyDomains);
@@ -107,7 +112,7 @@ namespace MPC.Implementation.MISServices
             //{
             //    return false;
             //}
-           
+
         }
         /// <summary>
         /// Save Company
@@ -115,6 +120,13 @@ namespace MPC.Implementation.MISServices
         private Company SaveNewCompany(CompanySavingModel companySaving)
         {
             //companySaving.Company.CmsPages = companySaving.NewAddedCmsPages;
+            if (companySaving.Company.SmartForms != null)
+            {
+                foreach (var smartForm in companySaving.Company.SmartForms)
+                {
+                    smartForm.OrganisationId = companyRepository.OrganisationId;
+                }
+            }
             companyRepository.Add(companySaving.Company);
             companyRepository.SaveChanges();
             var companyId = companySaving.Company.CompanyId;
@@ -899,23 +911,23 @@ namespace MPC.Implementation.MISServices
                 {
                     companyDbVersion.CompanyContacts = new Collection<CompanyContact>();
                 }
-                foreach (var companyContacts in companySavingModel.NewAddedCompanyContacts)
-                {
-                    if (companyContacts.CompanyContactVariables != null)
-                    {
-                        foreach (var companyContactVariable in companyContacts.CompanyContactVariables)
-                        {
-                            FieldVariable fieldVariable = companySavingModel.Company.FieldVariables.FirstOrDefault(
-                                f => f.FakeIdVariableId == companyContactVariable.FakeVariableId);
-                            if (fieldVariable != null)
-                                companyContactVariable.VariableId = fieldVariable.VariableId;
-                        }
-                    }
+                //foreach (var companyContacts in companySavingModel.NewAddedCompanyContacts)
+                //{
+                //    if (companyContacts.CompanyContactVariables != null)
+                //    {
+                //        foreach (var companyContactVariable in companyContacts.CompanyContactVariables)
+                //        {
+                //            FieldVariable fieldVariable = companySavingModel.Company.FieldVariables.FirstOrDefault(
+                //                f => f.FakeIdVariableId == companyContactVariable.FakeVariableId);
+                //            if (fieldVariable != null)
+                //                companyContactVariable.VariableId = fieldVariable.VariableId;
+                //        }
+                //    }
 
-                    companyContacts.OrganisationId = companyContactRepository.OrganisationId;
+                //    companyContacts.OrganisationId = companyContactRepository.OrganisationId;
 
-                    companyDbVersion.CompanyContacts.Add(companyContacts);
-                }
+                //    companyDbVersion.CompanyContacts.Add(companyContacts);
+                //}
             }
             //Edit
             if (companySavingModel.EdittedCompanyContacts != null)
@@ -987,6 +999,7 @@ namespace MPC.Implementation.MISServices
             SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
             UpdateSecondaryPageImagePath(companySavingModel, companyDbVersion);
             UpdateCampaignImages(companySavingModel.Company.Campaigns, companyDbVersion);
+            UpdateSmartFormVariableIds(companySavingModel.Company.SmartForms, companyDbVersion);
             companyRepository.SaveChanges();
 
             //Call Service to add or remove the IIS Bindings for Store Domains
@@ -994,6 +1007,27 @@ namespace MPC.Implementation.MISServices
             return companySavingModel.Company;
         }
 
+        /// <summary>
+        /// Update Smart Form variable Ids
+        /// </summary>
+        private void UpdateSmartFormVariableIds(IEnumerable<SmartForm> smartForms, Company companyDbVersion)
+        {
+            if (companyDbVersion.SmartForms != null && companyDbVersion.FieldVariables != null)
+            {
+                foreach (var smartForm in companyDbVersion.SmartForms)
+                {
+                    if (smartForm.SmartFormDetails != null)
+                        foreach (var smartFormDetail in smartForm.SmartFormDetails)
+                        {
+                            FieldVariable fieldVariable = companyDbVersion.FieldVariables.FirstOrDefault(
+                                fv => fv.FakeIdVariableId == smartFormDetail.FakeVariableId);
+                            if (fieldVariable != null)
+                                smartFormDetail.VariableId = fieldVariable.VariableId;
+                        }
+
+                }
+            }
+        }
         // ReSharper disable once InconsistentNaming
         private void updateDomainsInIIS(IEnumerable<CompanyDomain> companySavedDomains, IEnumerable<CompanyDomain> companyDbVersion)
         {
@@ -2172,14 +2206,17 @@ namespace MPC.Implementation.MISServices
                 {
                     foreach (var contact in companyContacts)
                     {
-                        CompanyContactVariable contactVariable = new CompanyContactVariable();
+                        ScopeVariable scopeVariable = new ScopeVariable();
 
-                        contactVariable.ContactId = contact.ContactId;
-                        contactVariable.VariableId = fieldVariable.VariableId;
-                        contactVariable.Value = fieldVariable.DefaultValue;
-                        companyContactVariableRepository.Add(contactVariable);
+                        scopeVariable.ScopeVariableId = 0;
+                        scopeVariable.VariableId = fieldVariable.VariableId;
+                        scopeVariable.Scope = fieldVariable.Scope;
+                        scopeVariable.Id = contact.ContactId;
+                        scopeVariable.VariableId = fieldVariable.VariableId;
+                        scopeVariable.Value = fieldVariable.DefaultValue;
+                        scopeVariableRepository.Add(scopeVariable);
                     }
-                    companyContactVariableRepository.SaveChanges();
+                    scopeVariableRepository.SaveChanges();
                 }
             }
 
@@ -2260,6 +2297,87 @@ namespace MPC.Implementation.MISServices
 
             return fieldVariable.VariableId;
         }
+
+        /// <summary>
+        /// Updaten Smart Form
+        /// </summary>
+        private long UpdateSmartForm(SmartForm smartForm, SmartForm smartFormDbVersion)
+        {
+            #region Update Smart Form
+            smartFormDbVersion.Name = smartForm.Name;
+            smartFormDbVersion.Heading = smartForm.Heading;
+            if (smartForm.SmartFormDetails != null)
+            {
+                foreach (SmartFormDetail smartFormDetail in smartForm.SmartFormDetails)
+                {
+                    if (smartFormDetail.SmartFormDetailId == 0)
+                    {
+                        smartFormDbVersion.SmartFormDetails.Add(smartFormDetail);
+                    }
+                    else if (smartFormDetail.SmartFormDetailId > 0 && smartFormDetail.ObjectType == (int)SmartFormDetailFieldType.GroupCaption)
+                    {
+                        SmartFormDetail smartFormDetailDbVersion = smartFormDbVersion.SmartFormDetails.FirstOrDefault(
+                           sf => sf.SmartFormDetailId == smartFormDetail.SmartFormDetailId);
+
+                        if (smartFormDetailDbVersion != null)
+                        {
+                            smartFormDetailDbVersion.CaptionValue = smartFormDetail.CaptionValue;
+                            smartFormDetailDbVersion.SortOrder = smartFormDetail.SortOrder;
+                        }
+                    }
+                    else
+                    {
+                        SmartFormDetail smartFormDetailDbVersion = smartFormDbVersion.SmartFormDetails.FirstOrDefault(
+                           sf => sf.SmartFormDetailId == smartFormDetail.SmartFormDetailId);
+                        if (smartFormDetailDbVersion != null)
+                        {
+                            smartFormDetailDbVersion.SortOrder = smartFormDetail.SortOrder;
+                            smartFormDetailDbVersion.IsRequired = smartFormDetail.IsRequired;
+                        }
+                    }
+                }
+            }
+            smartFormRepository.SaveChanges();
+            #endregion
+
+            #region Delete SmartForm Detail
+            //missing Items
+            List<SmartFormDetail> missingSmartFormDetails = new List<SmartFormDetail>();
+            if (smartFormDbVersion.SmartFormDetails != null)
+            {
+                foreach (var smartFormDetailDbItem in smartFormDbVersion.SmartFormDetails)
+                {
+                    if (smartForm.SmartFormDetails != null && smartForm.SmartFormDetails.All(c => c.SmartFormDetailId != smartFormDetailDbItem.SmartFormDetailId))
+                    {
+                        missingSmartFormDetails.Add(smartFormDetailDbItem);
+                    }
+                    else if (smartForm.SmartFormDetails == null)
+                    {
+                        missingSmartFormDetails.Add(smartFormDetailDbItem);
+                    }
+                }
+
+                foreach (var missingItem in missingSmartFormDetails)
+                {
+                    smartFormDetailRepository.Delete(missingItem);
+                }
+                smartFormDetailRepository.SaveChanges();
+            }
+
+            #endregion
+
+            return smartForm.SmartFormId;
+        }
+
+        /// <summary>
+        /// Add Smart Form
+        /// </summary>
+        private long AddSmartForm(SmartForm smartForm)
+        {
+            smartFormRepository.Add(smartForm);
+            smartFormRepository.SaveChanges();
+            return smartForm.SmartFormId;
+        }
         #endregion
 
         #region Constructor
@@ -2289,9 +2407,12 @@ namespace MPC.Implementation.MISServices
             ICompanyDomainRepository companyDomainRepository, ICostCentreMatrixRepository costCentreMatrixRepositry, ICostCentreQuestionRepository CostCentreQuestionRepository,
             IStockCategoryRepository StockCategoryRepository, IPaperSizeRepository PaperSizeRepository, IMachineRepository MachineRepository, IPhraseFieldRepository PhraseFieldRepository,
             IReportRepository ReportRepository, IFieldVariableRepository fieldVariableRepository, IVariableOptionRepository variableOptionRepository,
-            ICompanyContactVariableRepository companyContactVariableRepository)
+            IScopeVariableRepository scopeVariableRepository, ISmartFormRepository smartFormRepository, ISmartFormDetailRepository smartFormDetailRepository, IEstimateRepository estimateRepository)
         {
             this.companyRepository = companyRepository;
+            this.smartFormRepository = smartFormRepository;
+            this.smartFormDetailRepository = smartFormDetailRepository;
+            this.estimateRepository = estimateRepository;
             this.systemUserRepository = systemUserRepository;
             this.raveReviewRepository = raveReviewRepository;
             this.companyCmykColorRepository = companyCmykColorRepository;
@@ -2339,7 +2460,7 @@ namespace MPC.Implementation.MISServices
             this.ReportRepository = ReportRepository;
             this.fieldVariableRepository = fieldVariableRepository;
             this.variableOptionRepository = variableOptionRepository;
-            this.companyContactVariableRepository = companyContactVariableRepository;
+            this.scopeVariableRepository = scopeVariableRepository;
 
         }
         #endregion
@@ -2392,13 +2513,23 @@ namespace MPC.Implementation.MISServices
         }
         public CompanyResponse GetCompanyById(long companyId)
         {
-            return companyRepository.GetCompanyById(companyId);
+            CompanyResponse response = companyRepository.GetCompanyById(companyId);
+            int userCount = 0;
+            int newOrdersCount = 0;
+            if (response.Company != null && response.Company.StoreId != null)
+                userCount = companyRepository.UserCount(response.Company.StoreId, 5);
+            newOrdersCount = estimateRepository.GetNewOrdersCount(5, companyId);
+            response.NewOrdersCount = newOrdersCount;
+            response.NewUsersCount = userCount;
+            return response;
         }
 
         public CompanyBaseResponse GetBaseData(long storeId)
         {
             FieldVariableRequestModel request = new FieldVariableRequestModel();
+            SmartFormRequestModel smartFormRequest = new SmartFormRequestModel();
             request.CompanyId = storeId;
+            smartFormRequest.CompanyId = storeId;
 
             return new CompanyBaseResponse
                    {
@@ -2415,10 +2546,19 @@ namespace MPC.Implementation.MISServices
                        States = stateRepository.GetAll(),
                        Countries = countryRepository.GetAll(),
                        FieldVariableResponse = fieldVariableRepository.GetFieldVariable(request),
+                       SmartFormResponse = smartFormRepository.GetSmartForms(smartFormRequest),
                        FieldVariablesForSmartForm = fieldVariableRepository.GetFieldVariablesForSmartForm(storeId),
                        CmsPages = cmsPageRepository.GetCmsPagesForOrders()
 
                    };
+        }
+
+        /// <summary>
+        /// Get Smart Forms
+        /// </summary>
+        public SmartFormResponse GetSmartForms(SmartFormRequestModel request)
+        {
+            return smartFormRepository.GetSmartForms(request);
         }
         public CompanyBaseResponse GetBaseDataForNewCompany()
         {
@@ -2464,7 +2604,7 @@ namespace MPC.Implementation.MISServices
                 }
                 return UpdateCompany(companyModel, companyDbVersion);
             }
-           
+
             return null;
         }
         public long GetOrganisationId()
@@ -2578,9 +2718,9 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Get Company Contact Varibale By Contact ID
         /// </summary>
-        public IEnumerable<CompanyContactVariable> GetContactVariableByContactId(long contactId)
+        public IEnumerable<ScopeVariable> GetContactVariableByContactId(long contactId, int scope)
         {
-            return companyContactVariableRepository.GetContactVariableByContactId(contactId);
+            return scopeVariableRepository.GetContactVariableByContactId(contactId, scope);
         }
 
         /// <summary>
@@ -2589,6 +2729,30 @@ namespace MPC.Implementation.MISServices
         public IEnumerable<FieldVariable> GetFieldVariableByCompanyId(long companyId)
         {
             return fieldVariableRepository.GetFieldVariableByCompanyId(companyId);
+        }
+
+        /// <summary>
+        /// Save Smart Form
+        /// </summary>
+        public long SaveSmartForm(SmartForm smartForm)
+        {
+            SmartForm smartFormDbVersion = smartFormRepository.Find(smartForm.SmartFormId);
+            if (smartFormDbVersion != null)
+            {
+                return UpdateSmartForm(smartForm, smartFormDbVersion);
+            }
+            else
+            {
+                return AddSmartForm(smartForm);
+            }
+        }
+
+        /// <summary>
+        /// Get Smart Form Detail By Smart Form Id
+        /// </summary>
+        public IEnumerable<SmartFormDetail> GetSmartFormDetailBySmartFormId(long smartFormId)
+        {
+            return smartFormDetailRepository.GetSmartFormDetailsBySmartFormId(smartFormId);
         }
         #endregion
 
@@ -2849,7 +3013,7 @@ namespace MPC.Implementation.MISServices
                 #region OrganisationEntities
                 string DPath = string.Empty;
                 ExportOrganisation ObjExportOrg = new Models.Common.ExportOrganisation();
-                ObjExportOrg =  exportRoutine1(OrganisationID);
+                ObjExportOrg = exportRoutine1(OrganisationID);
 
                 ExportOrganisation ObjExportCorporate = new Models.Common.ExportOrganisation();
                 // Set CompanyData
@@ -2858,9 +3022,9 @@ namespace MPC.Implementation.MISServices
                 long RetailCompanyID = companyRepository.GetRetailCompanyIDbyOrganisationID(OrganisationID);
 
                 // export corporate store
-                ObjExportCorporate = companyRepository.ExportCompany( CompanyID);
+                ObjExportCorporate = companyRepository.ExportCompany(CompanyID);
 
-               
+
                 string JsonCorp = JsonConvert.SerializeObject(ObjExportCorporate, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
                 // export json file
                 string sCorpPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/CorporateJson.txt";
@@ -2870,8 +3034,8 @@ namespace MPC.Implementation.MISServices
                 ExportOrganisation ObjExportRetail = new Models.Common.ExportOrganisation();
                 ObjExportRetail = ExportRetailStore(RetailCompanyID, OrganisationID, DPath, null);
 
-          
-               
+
+
 
                 #endregion
 
@@ -3477,7 +3641,7 @@ namespace MPC.Implementation.MISServices
             }
 
 
-           
+
         }
 
         public ExportOrganisation ExportRetailStore(long RetailCompanyID, long OrganisationID, string DPath, ZipFile zip)
@@ -3487,9 +3651,9 @@ namespace MPC.Implementation.MISServices
                 ExportOrganisation ObjExportRetail = new Models.Common.ExportOrganisation();
 
                 // export retail store
-                ObjExportRetail = companyRepository.ExportRetailCompany( RetailCompanyID);
+                ObjExportRetail = companyRepository.ExportRetailCompany(RetailCompanyID);
 
-              //  GC.Collect();
+                //  GC.Collect();
                 string JsonRetail = JsonConvert.SerializeObject(ObjExportRetail, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
                 // export json file
                 string sRetailPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/RetailJson.txt";
@@ -3535,9 +3699,9 @@ namespace MPC.Implementation.MISServices
                     {
                         string json = System.IO.File.ReadAllText(JsonFilePath);
 
-                                objExpOrg = JsonConvert.DeserializeObject<ExportOrganisation>(json);
+                        objExpOrg = JsonConvert.DeserializeObject<ExportOrganisation>(json);
 
-                                json = string.Empty;
+                        json = string.Empty;
                     }
                     // deserialize corpoate json file
                     string JsonCorpFilePath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportOrganisation/CorporateJson.txt");
@@ -3558,9 +3722,9 @@ namespace MPC.Implementation.MISServices
                         objExpRetail = JsonConvert.DeserializeObject<ExportOrganisation>(json);
 
                         json = string.Empty;
-                    }   
-                    
-                    organisationRepository.InsertOrganisation(OrganisationId, objExpOrg,objExpCorp,objExpRetail, isCorpStore);
+                    }
+
+                    organisationRepository.InsertOrganisation(OrganisationId, objExpOrg, objExpCorp, objExpRetail, isCorpStore);
                 }
 
             }

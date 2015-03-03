@@ -2256,7 +2256,7 @@
                                 <tr>
                                     <th><a href="#"><span>Cost Center Name</span></a></th>
                                     <th><a href="#"><span>Cost Center Type</span></a></th>
-                                    <th><a href="#"><span>Is Optional</span></a></th>
+                                    <th><a href="#"><span>Is Mandatory</span></a></th>
                                     <th>&nbsp;</th>
                                 </tr>
                             </thead>
@@ -2276,16 +2276,7 @@
         <tr>
             <td data-bind="text: costCentreName"></td>
             <td data-bind="text: costCentreType"></td>
-            <td>
-                <div class="form-group">
-                    <div class="col-md-3 ">
-                        <div class="checkbox-nice">
-                            <input type="checkbox" id="checkbox-20" data-bind="checked: !isMandatory(), enable: false">
-                            <label for="checkbox-20">
-                            </label>
-                        </div>
-                    </div>
-                </div>
+            <td data-bind="text: isMandatory() ? 'Yes' : 'No'">
             </td>
             <td class="text-right">
                 <a class="table-link danger" data-bind="click: $parents[1].onEditItemCostCentre.bind($parent, $parent, $data)">
