@@ -40,5 +40,7 @@ namespace MPC.Models.Common
         //Order Complete Details
         public ShoppingCart OrderDetails { get; set;}
         public double DeliveryCost {get; set;}
+        public string SOrderDate { get; set; }
+        public string SOrderDeliveryDate { get; set; }
     }
 }
