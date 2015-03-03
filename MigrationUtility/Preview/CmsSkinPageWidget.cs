@@ -28,10 +28,10 @@ namespace MigrationUtility.Preview
         public Nullable<long> OrganisationId { get; set; }
     
         public virtual CmsPage CmsPage { get; set; }
-        public virtual Company Company { get; set; }
         public virtual Organisation Organisation { get; set; }
         public virtual Widget Widget { get; set; }
         public virtual ICollection<CmsSkinPageWidgetParam> CmsSkinPageWidgetParams { get; set; }
         public virtual tbl_cmsSkins tbl_cmsSkins { get; set; }
+        public virtual Company Company { get; set; }
     }
 }
