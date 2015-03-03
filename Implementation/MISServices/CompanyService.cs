@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
@@ -946,8 +947,9 @@ namespace MPC.Implementation.MISServices
         private Company UpdateCompany(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
             var productCategories = new List<ProductCategory>();
-            //var companyDomainsDbVersion = ;
-            IEnumerable<CompanyDomain> companyDomainsDbVersion = companyDbVersion.CompanyDomains;
+            var companyDomainsDbVersion = new List<CompanyDomain>();
+            companyDomainsDbVersion = companyDbVersion.CompanyDomains.ToList();
+            //IEnumerable<CompanyDomain> companyDomainsDbVersion = companyDbVersion.CompanyDomains;
             companySavingModel.Company.OrganisationId = companyRepository.OrganisationId;
             var companyToBeUpdated = UpdateRaveReviewsOfUpdatingCompany(companySavingModel.Company);
             companyToBeUpdated = UpdatePaymentGatewaysOfUpdatingCompany(companyToBeUpdated);
@@ -994,7 +996,7 @@ namespace MPC.Implementation.MISServices
             companyRepository.SaveChanges();
 
             //Call Service to add or remove the IIS Bindings for Store Domains
-            // updateDomainsInIIS(companyDomainsDbVersion, companyDbVersion.CompanyDomains);
+            updateDomainsInIIS(companyDbVersion.CompanyDomains, companyDomainsDbVersion);
             return companySavingModel.Company;
         }
 
@@ -1008,7 +1010,8 @@ namespace MPC.Implementation.MISServices
             {
                 foreach (var item in companySavedDomains)
                 {
-                    if (companyDbVersion.All(x => x.CompanyDomainId != item.CompanyDomainId && x.CompanyId != item.CompanyId))
+                    //if (companyDbVersion.CompanyDomains.All(x => x.CompanyDomainId != item.CompanyDomainId && x.CompanyId != item.CompanyId))
+                    if (companyDbVersion.All(x => x.CompanyDomainId != item.CompanyDomainId))// && x.CompanyId != item.CompanyId
                     {
                         using (var client = new HttpClient())
                         {
@@ -1016,7 +1019,7 @@ namespace MPC.Implementation.MISServices
                             client.DefaultRequestHeaders.Accept.Clear();
                             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                            string url = "AddDomain?siteName=" + "sdds" + "&domainName = " + "dsds";
+                            string url = "AddDomain?sitePhysicalPath=mpc/mis" + "&siteName=" + item.Domain + "&domainName=" + item.Domain;
                             string responsestr = "";
                             var response = client.GetAsync(url);
                             if (response.Result.IsSuccessStatusCode)
@@ -1025,8 +1028,6 @@ namespace MPC.Implementation.MISServices
                                 var validationInfo = JsonConvert.DeserializeObject<ValidationInfo>(responsestr);
                             }
                         }
-                        //item.CompanyId = company.CompanyId;
-                        //companyDbVersion.CompanyDomains.Add(item);
                     }
                 }
             }
@@ -1064,12 +1065,7 @@ namespace MPC.Implementation.MISServices
                 //remove missing items
                 foreach (CompanyDomain missingCompanyDomain in missingCompanyDomains)
                 {
-
                     CompanyDomain dbVersionMissingItem = companyDbVersion.First(x => x.CompanyDomainId == missingCompanyDomain.CompanyDomainId && x.CompanyId == missingCompanyDomain.CompanyId);
-
-                    //companyDbVersion.Remove(dbVersionMissingItem);
-                    //companyDomainRepository.Delete(dbVersionMissingItem);
-
                 }
             }
             if (companySavedDomains != null)

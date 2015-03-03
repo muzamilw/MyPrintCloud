@@ -176,16 +176,42 @@ namespace MPC.Provisioning.Controllers
         {
             return HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority;
         }
+
         /// <summary>
         /// //POST: Api/CreateNewDomain
         ///   Method is used to add New Binding for a site in IIS
         /// </summary>
+        /// <param name="sitePhysicalPath"></param>
         /// <param name="siteName"> Site Name represents parent site name eg "mpc"</param>
         /// <param name="domainName">Domain Name Represents new binding in IIS to be created</param>
         /// <returns>return 'true' if successfully adds binding else return 'false'</returns>
-        public bool AddDomain(string siteName, string domainName)
+        [System.Web.Http.HttpGet]
+        public string AddDomain(string sitePhysicalPath, string siteName, string domainName)
         {
-            return true;
+            string misFolder = sitePhysicalPath + "\\mis";
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.FileName = @"powershell.exe";
+            startInfo.Arguments = @"-File " + HttpContext.Current.Server.MapPath("~/scripts/AddDomain.ps1") + " " + siteName;
+            startInfo.RedirectStandardOutput = true;
+            startInfo.RedirectStandardError = true;
+            startInfo.UseShellExecute = false;
+            startInfo.CreateNoWindow = true;
+            Process process = new Process();
+            process.StartInfo = startInfo;
+            process.Start();
+
+            string output = process.StandardOutput.ReadToEnd();
+           
+            if (output.Contains("App Created"))
+            {
+                //string connectionString = ConfigurationManager.AppSettings["connectionString"];
+
+                return "true";
+            }
+            else
+            {
+                return "Please contact support@myprintcloud.com . There were errors in setting up your account : " + output;
+            }
         }
 
         /// <summary>
