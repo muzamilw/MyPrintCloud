@@ -911,23 +911,23 @@ namespace MPC.Implementation.MISServices
                 {
                     companyDbVersion.CompanyContacts = new Collection<CompanyContact>();
                 }
-                //foreach (var companyContacts in companySavingModel.NewAddedCompanyContacts)
-                //{
-                //    if (companyContacts.CompanyContactVariables != null)
-                //    {
-                //        foreach (var companyContactVariable in companyContacts.CompanyContactVariables)
-                //        {
-                //            FieldVariable fieldVariable = companySavingModel.Company.FieldVariables.FirstOrDefault(
-                //                f => f.FakeIdVariableId == companyContactVariable.FakeVariableId);
-                //            if (fieldVariable != null)
-                //                companyContactVariable.VariableId = fieldVariable.VariableId;
-                //        }
-                //    }
+                foreach (var companyContacts in companySavingModel.NewAddedCompanyContacts)
+                {
+                    //if (companyContacts.CompanyContactVariables != null)
+                    //{
+                    //    foreach (var companyContactVariable in companyContacts.CompanyContactVariables)
+                    //    {
+                    //        FieldVariable fieldVariable = companySavingModel.Company.FieldVariables.FirstOrDefault(
+                    //            f => f.FakeIdVariableId == companyContactVariable.FakeVariableId);
+                    //        if (fieldVariable != null)
+                    //            companyContactVariable.VariableId = fieldVariable.VariableId;
+                    //    }
+                    //}
 
-                //    companyContacts.OrganisationId = companyContactRepository.OrganisationId;
+                    companyContacts.OrganisationId = companyContactRepository.OrganisationId;
 
-                //    companyDbVersion.CompanyContacts.Add(companyContacts);
-                //}
+                    companyDbVersion.CompanyContacts.Add(companyContacts);
+                }
             }
             //Edit
             if (companySavingModel.EdittedCompanyContacts != null)
