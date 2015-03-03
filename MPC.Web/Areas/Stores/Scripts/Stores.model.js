@@ -2043,6 +2043,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isEnabled = ko.observable(specifiedisEnabled != null ? specifiedisEnabled : true),
             defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
             pageBanner = ko.observable(specifiedPageBanner),
+            isUserDefined = ko.observable(undefined),
             // Errors
             errors = ko.validation.group({
                 pageTitle: pageTitle,
@@ -2094,6 +2095,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.Bytes = source.imageSrc() === undefined ? null : source.imageSrc();
                 result.PageBanner = source.pageBanner() === undefined ? null : source.pageBanner();
                 result.isEnabled = source.isEnabled();
+                result.IsUserDefined = source.isUserDefined();
                 return result;
             },
             // Reset
@@ -2118,6 +2120,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             defaultPageKeyWords: defaultPageKeyWords,
             pageBanner: pageBanner,
             isValid: isValid,
+            isUserDefined:isUserDefined,
             errors: errors,
             isEnabled: isEnabled,
             dirtyFlag: dirtyFlag,
@@ -2129,7 +2132,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     };
     //CMS Page Create Factory
     CMSPage.Create = function (source) {
-        return new CMSPage(
+        var obj= new CMSPage(
             source.PageId,
             source.PageTitle,
             source.PageKeywords,
@@ -2146,8 +2149,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.DefaultPageKeyWords,
             source.FileName,
             source.PageBanner
-
         );
+        obj.isUserDefined(source.IsUserDefined);
+        return obj;
     };
     // #endregion ______________  CMS Page   _________________
 
@@ -2217,14 +2221,16 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             imageSource = ko.observable(specifiedImageSource),
             isDisplay = ko.observable(specifiedIsDisplay === null ? false : true),
             categoryName = ko.observable(specifiedCategoryName),
-
+            isUserDefined = ko.observable(undefined),
             convertToServerData = function () {
                 return {
                     PageId: pageId(),
-                }
+                    IsUserDefined: isUserDefined()
+                };
             };
         self = {
             pageId: pageId,
+            isUserDefined:isUserDefined,
             pageTitle: pageTitle,
             metaTitle: metaTitle,
             isEnabled: isEnabled,
@@ -2236,8 +2242,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         return self;
     };
     SecondaryPageListView.Create = function (source) {
-        return new SecondaryPageListView(source.PageId, source.PageTitle, source.Meta_Title, source.IsEnabled, source.IsDisplay,
+        var obj= new SecondaryPageListView(source.PageId, source.PageTitle, source.Meta_Title, source.IsEnabled, source.IsDisplay,
             source.CategoryName, source.ImageSource);
+        obj.isUserDefined(source.IsUserDefined);
+        return obj;
     };
     // #endregion ___________  Secondary Page List View ____________________
 

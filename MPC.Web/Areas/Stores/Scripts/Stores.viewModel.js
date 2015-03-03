@@ -1776,7 +1776,9 @@ define("stores/stores.viewModel",
                     nextSecondaryPageIdCounter = ko.observable(0),
                     //Add New Secondary PAge
                     onAddSecondaryPage = function () {
-                        selectedSecondaryPage(model.CMSPage());
+                        var cmsPage = model.CMSPage();
+                        cmsPage.isUserDefined(true);
+                        selectedSecondaryPage(cmsPage);
                         selectedSecondaryPage().metaTitle("");
                         view.showSecondoryPageDialog();
                     },
@@ -1837,6 +1839,10 @@ define("stores/stores.viewModel",
                     },
                     //Delete Secondary Page
                     onDeleteSecondaryPage = function (secondaryPage) {
+                        if (secondaryPage.isUserDefined() != true) {
+                            toastr.error("Page can not be deleted!");
+                            return;
+                        }
                         if (!secondaryPage.pageId()) {
                             //companyBanners.remove(secondaryPage);
                             return;
@@ -1943,6 +1949,7 @@ define("stores/stores.viewModel",
                         target.pageTitle(source.pageTitle());
                         target.metaTitle(source.metaTitle());
                         target.isEnabled(source.isEnabled());
+                        target.isUserDefined(source.isUserDefined());
                         target.isDisplay(false);
                         target.imageSource(source.imageSrc());
                         _.each(pageCategories(), function (item) {
