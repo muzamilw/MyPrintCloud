@@ -8,7 +8,6 @@ using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
-using System;
 using MPC.Models.Common;
 using System.Globalization;
 
@@ -1218,6 +1217,18 @@ namespace MPC.Implementation.WebStoreServices
         
         
         }
+        public CompanyContact GetContactById(int contactId)
+        {
+            return _CompanyContactRepository.GetContactById(contactId);
+        }
+
+
+
+        public Company GetCustomer(int CompanyId)
+        {
+            return _CompanyRepository.GetCustomer(CompanyId);
+        }
+
         public bool VerifyHashSha1(string plainText, string compareWithSalt)
         {
             try
