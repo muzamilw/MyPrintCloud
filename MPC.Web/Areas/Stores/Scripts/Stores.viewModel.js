@@ -632,7 +632,7 @@ define("stores/stores.viewModel",
                                                 edittedCompanyTerritories.push(selectedStore().companyTerritories()[0]);
                                             }
                                         }
-
+                                        
                                     } else { //flag == false
                                         toastr.error("Territory Exist in Address Or Contact. Please delete them first");
                                     }

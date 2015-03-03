@@ -222,7 +222,7 @@
                                                 <div class="profile-details">
                                                     <ul class="fa-ul">
                                                         <li><i class="fa-li fa fa-cloud"></i>Published: <i class="fa" data-bind="css:{ 'fa-check': isPublished, 'fa-times': !isPublished() }"></i>  </li>
-                                                        <li><i class="fa-li fa fa-archive"></i>Enables: <i class="fa" data-bind="css:{ 'fa-check': isEnabled, 'fa-times': !isEnabled() }"></i></li>
+                                                        <li><i class="fa-li fa fa-archive"></i>Enabled: <i class="fa" data-bind="css:{ 'fa-check': isEnabled, 'fa-times': !isEnabled() }"></i></li>
 
                                                     </ul>
                                                 </div>
@@ -2276,7 +2276,10 @@
         <tr>
             <td data-bind="text: costCentreName"></td>
             <td data-bind="text: costCentreType"></td>
-            <td data-bind="text: isMandatory() ? 'Yes' : 'No'">
+            <td>
+                <div class="type">
+                    <span class="label" data-bind="text: isMandatory() ? 'Yes' : 'No' , css: { 'label-success': isMandatory, 'label-danger': !isMandatory() }"></span>
+                </div>
             </td>
             <td class="text-right">
                 <a class="table-link danger" data-bind="click: $parents[1].onEditItemCostCentre.bind($parent, $parent, $data)">
@@ -2285,8 +2288,6 @@
                         <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                     </span>
                 </a>
-            </td>
-            <td class="text-right">
                 <a class="table-link danger" data-bind="click: $parent.removeItemAddonCostCentre.bind($data)">
                     <span class="fa-stack">
                         <i class="fa fa-square fa-stack-2x"></i>
