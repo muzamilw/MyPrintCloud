@@ -30,7 +30,7 @@
         public long? OrganisationId { get; set; }
         public string WebDescription { get; set; }
         public int? PriceDiscountPercentage { get; set; }
-        public int? isTemplateDesignMode { get; set; }
+        public bool? isTemplateDesignMode { get; set; }
         public double? DefaultItemTax { get; set; }
         public bool? isUploadImage { get; set; }
 

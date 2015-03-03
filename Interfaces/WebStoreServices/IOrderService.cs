@@ -10,6 +10,7 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface IOrderService
     {
+        List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber);
         int GetFirstItemIDByOrderId(int orderId);
 
         long ProcessPublicUserOrder(string orderTitle, long OrganisationId, StoreMode storeMode, long CompanyId, long ContactId, ref long TemporaryRetailCompanyId);

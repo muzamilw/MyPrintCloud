@@ -225,14 +225,14 @@
             $("#txtCurPass").focus();
 
             if ($("#hfErrorMes").val() == "1") {
-                alert('1');
+               
             }
             else if ($("#hfErrorMes").val() == "3") {
                 Passwordvalidator();
                 $("#hfErrorMes").val(1);
-                alert('3');
+                
             } else {
-                alert('else');
+           
                 $("#errorMesg").text("Your current password is not valid.");
                 $("#errorMesg").css("display", "block");
                 $("#txtCurPass").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");

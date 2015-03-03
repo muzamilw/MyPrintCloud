@@ -238,15 +238,15 @@ namespace MPC.Implementation.MISServices
 
                 // Set Price Strings
                 if (string.IsNullOrEmpty(costcenter.strPricePlantUnParsed))
-                    sPricePlant = "EstimatedPlantCost = 0";
+                    sPricePlant = "QuotedPlantPrice = 0";
                 else
                     sPricePlant = costcenter.strPricePlantUnParsed;
                 if (string.IsNullOrEmpty(costcenter.strPriceLabourUnParsed))
-                    sPriceLabour = "EstimatedLabourCost = 0";
+                    sPriceLabour = "QuotedLabourPrice = 0";
                 else
                     sPriceLabour = costcenter.strPriceLabourUnParsed;
                 if (string.IsNullOrEmpty(costcenter.strPriceMaterialUnParsed))
-                    sPriceStock = "EstimatedMaterialCost = 0";
+                    sPriceStock = "QuotedMaterialPrice = 0";
                 else
                     sPriceStock = costcenter.strPriceMaterialUnParsed;
                                 

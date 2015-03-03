@@ -1615,7 +1615,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="MetaKeywords" Type="nvarchar(max)" />
           <Property Name="MetaDescription" Type="nvarchar" MaxLength="500" />
           <Property Name="MetaTitle" Type="nvarchar" MaxLength="100" />
-          <Property Name="isTemplateDesignMode" Type="int" />
+          <Property Name="isTemplateDesignMode" Type="bit" />
           <Property Name="XeroAccessCode" Type="varchar" MaxLength="50" />
           <Property Name="DefaultItemTax" Type="float" />
           <Property Name="OrganisationId" Type="bigint" />
@@ -7605,7 +7605,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="MetaKeywords" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="MetaDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="MetaTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="IsTemplateDesignMode" Type="Int32" />
+          <Property Name="IsTemplateDesignMode" Type="Boolean" />
           <Property Name="XeroAccessCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DefaultItemTax" Type="Double" />
           <Property Name="OrganisationId" Type="Int64" />

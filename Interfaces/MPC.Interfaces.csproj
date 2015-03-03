@@ -80,6 +80,7 @@
     <Compile Include="MISServices\IDashboardService.cs" />
     <Compile Include="MISServices\IInvoiceService.cs" />
     <Compile Include="MISServices\IOrderForCrmService.cs" />
+    <Compile Include="Repository\INABTransactionRepository.cs" />
     <Compile Include="Repository\IScopeVariableRepository.cs" />
     <Compile Include="Repository\IDeliveryCarrierRepository.cs" />
     <Compile Include="Repository\IFieldVariableRepository.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="Repository\ICompanyRepository.cs" />
     <Compile Include="Repository\IMarkupRepository.cs" />
     <Compile Include="Repository\ITaxRateRepository.cs" />
+    <Compile Include="WebStoreServices\INABTransactionService.cs" />
     <Compile Include="WebStoreServices\IOrderService.cs" />
     <Compile Include="WebStoreServices\IItemService.cs" />
     <Compile Include="WebStoreServices\IPaymentGatewayService.cs" />
