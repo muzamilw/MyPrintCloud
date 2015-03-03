@@ -1954,6 +1954,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 stockItemId(stockItem.id);
                 stockItemName(stockItem.name);
                 stockItemDescription(stockItem.description);
+                label(stockItem.name);
             },
             // On Select File
             onSelectImage = function (file, data) {
@@ -2944,7 +2945,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Item Addon Cost Centre Factory
     ItemAddonCostCentre.Create = function (source, callbacks) {
         return new ItemAddonCostCentre(source.ProductAddOnId, source.IsMandatory, source.ItemStockOptionId, source.CostCentreId, source.CostCentreName,
-            source.CostCentreType, callbacks);
+            source.CostCentreTypeName, callbacks);
     };
 
     // Item Stock Option Factory
@@ -3163,7 +3164,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Cost Centre Factory
     CostCentre.Create = function (source) {
-        return new CostCentre(source.CostCentreId, source.Name, source.Type);
+        return new CostCentre(source.CostCentreId, source.Name, source.TypeName);
     };
 
     // Country Factory
