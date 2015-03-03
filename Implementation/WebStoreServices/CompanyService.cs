@@ -290,10 +290,6 @@ namespace MPC.Implementation.WebStoreServices
            
         }
 
-        public CompanyContact GetContactById(int contactId)
-        {
-            throw new NotImplementedException();
-        }
 
         public CompanyContact GetContactByEmail(string Email,long OrganisationID)
         {
@@ -955,10 +951,6 @@ namespace MPC.Implementation.WebStoreServices
             }
         }
 
-        public Company GetCustomer(int CompanyId)
-        {
-            throw new NotImplementedException();
-        }
 
         public List<Address> GetAddressByCompanyID(long companyID)
         {
