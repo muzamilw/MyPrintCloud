@@ -153,7 +153,9 @@ namespace MigrationUtility
 
 
 
-                Mapper.CreateMap<tbl_contactcompanies, Company>().ForMember(x => x.AccountManagerId, opt => opt.Ignore());
+                Mapper.CreateMap<tbl_contactcompanies, Company>()
+                    .ForMember(x => x.AccountManagerId, opt => opt.Ignore());
+                   
 
                 Mapper.CreateMap<tbl_addresses, Address>();
                 Mapper.CreateMap<tbl_contacts, CompanyContact>();
@@ -230,6 +232,9 @@ namespace MigrationUtility
                                          .ForMember(x => x.ItemSections, opt => opt.MapFrom(src => src.tbl_item_sections))
                                         .ForMember(x => x.ItemPriceMatrices, opt => opt.MapFrom(src => src.tbl_items_PriceMatrix))
                                          .ForMember(x => x.ItemRelatedItems, opt => opt.Ignore())
+                                         .ForMember(x => x.JobCardPrintedBy, opt => opt.Ignore())
+                                         .ForMember(x => x.JobManagerId, opt => opt.Ignore())
+                                         .ForMember(x => x.JobProgressedBy, opt => opt.Ignore())
                                           .ForMember(x => x.ItemStockOptions, opt => opt.MapFrom(src => src.tbl_ItemStockOptions));
                                           
 
@@ -256,6 +261,9 @@ namespace MigrationUtility
                  Mapper.CreateMap<tbl_cmsPages, CmsPage>();
 
                  Mapper.CreateMap<tbl_cmsSkinPageWidgets, CmsSkinPageWidget>();
+
+
+                 Mapper.CreateMap<tbl_campaigns, Campaign>();
              
 
                     
@@ -725,6 +733,32 @@ namespace MigrationUtility
 
                     MPCContext.Companies.Add(oRetailStore);
 
+
+                    Preview.CompanyTerritory oDefaultTerritory = new CompanyTerritory();
+                    oDefaultTerritory.TerritoryCode = "def";
+                    oDefaultTerritory.TerritoryName = "Default";
+                    oDefaultTerritory.isDefault = true;
+
+
+                    MPCContext.CompanyTerritories.Add(oDefaultTerritory);
+
+                    Address oAddress = new Address();
+                    oAddress.AddressName = "Default";
+                    oAddress.CompanyTerritory = oDefaultTerritory;
+                    oAddress.CountryId = 213;
+
+                    oRetailStore.Addresses.Add(oAddress);
+
+
+                    CompanyContact ocontact = new CompanyContact();
+                    ocontact.FirstName = "Default";
+                    ocontact.LastName = "Contact";
+                    ocontact.Email = "muzamilw@hotmail.com";
+                    ocontact.IsDefaultContact = 1;
+                    ocontact.OrganisationId = OrganizationId;
+
+                    oRetailStore.CompanyContacts.Add(ocontact);
+
                     MPCContext.SaveChanges();
                     long RetailStoreId = oRetailStore.CompanyId;
 
@@ -734,7 +768,7 @@ namespace MigrationUtility
 
 
 
-                    List<tbl_cmsPages> otbl_cmsPages = PCContext.tbl_cmsPages.ToList();
+                    List<tbl_cmsPages> otbl_cmsPages = PCContext.tbl_cmsPages.Where(g=> g.isUserDefined == true).ToList();
 
                     foreach (var item in otbl_cmsPages)
                     {
@@ -754,25 +788,47 @@ namespace MigrationUtility
 
 
 
-                    List<tbl_cmsSkinPageWidgets> otbl_cmsSkinPageWidgets = PCContext.tbl_cmsSkinPageWidgets.Where ( g=> g.SkinID == 6 && g.StoreMode == 1).ToList();
+                    //List<tbl_cmsSkinPageWidgets> otbl_cmsSkinPageWidgets = PCContext.tbl_cmsSkinPageWidgets.Where ( g=> g.SkinID == 6 && g.StoreMode == 1).ToList();
 
-                    foreach (var item in otbl_cmsSkinPageWidgets)
+                    //foreach (var item in otbl_cmsSkinPageWidgets)
+                    //{
+                    //    Preview.CmsSkinPageWidget oCmsSkinPageWidget = Mapper.Map<tbl_cmsSkinPageWidgets, CmsSkinPageWidget>(item);
+
+                    //    var oldPage = PCContext.tbl_cmsPages.Where(g => g.PageID == item.PageID).Single();
+
+                    //    oCmsSkinPageWidget.PageId = MPCContext.CmsPages.Where(g => g.PageName == oldPage.PageName).Single().PageId;
+                    //    oCmsSkinPageWidget.OrganisationId = OrganizationId;
+                    //    oCmsSkinPageWidget.CompanyId = RetailStoreId;
+                    //    MPCContext.CmsSkinPageWidgets.Add(oCmsSkinPageWidget);
+                    //}
+
+                    //MPCContext.SaveChanges();
+                    //output.Text += "Retail Store Pages widgets" + Environment.NewLine;
+
+
+
+                    /////////////////////////////////////////// Retail store Campaigns
+
+
+
+                    List<tbl_campaigns> otbl_campaigns = PCContext.tbl_campaigns.ToList();
+
+                    foreach (var item in otbl_campaigns)
                     {
-                        Preview.CmsSkinPageWidget oCmsSkinPageWidget = Mapper.Map<tbl_cmsSkinPageWidgets, CmsSkinPageWidget>(item);
-
-                        var oldPage = PCContext.tbl_cmsPages.Where(g => g.PageID == item.PageID).Single();
-
-                        oCmsSkinPageWidget.PageId = MPCContext.CmsPages.Where(g => g.PageName == oldPage.PageName).Single().PageId;
-                        oCmsSkinPageWidget.OrganisationId = OrganizationId;
-                        oCmsSkinPageWidget.CompanyId = RetailStoreId;
-                        MPCContext.CmsSkinPageWidgets.Add(oCmsSkinPageWidget);
+                        Preview.Campaign oCampaign = Mapper.Map<tbl_campaigns, Campaign>(item);
+                        oCampaign.OrganisationId = OrganizationId;
+                        oCampaign.CompanyId = RetailStoreId;
+                        oCampaign.EmailEvent = null;
+                        
+                        MPCContext.Campaigns.Add(oCampaign);
                     }
-
                     MPCContext.SaveChanges();
-                    output.Text += "Retail Store Pages widgets" + Environment.NewLine;
-
+                    output.Text += "Campaigns system emails" + Environment.NewLine;
 
                     /////////////////////////////////////////// Retail store CATS
+
+
+
 
 
 
@@ -897,10 +953,33 @@ namespace MigrationUtility
 
                     var catlists = catss.Select(g => g.ProductCategoryID).ToList();
 
-                    List<tbl_items> otbl_items = PCContext.tbl_items.Include("tbl_item_attachments").Include("tbl_itemImages").Include("tbl_item_sections").Include("tbl_item_sections.tbl_section_costcentres").Include("tbl_Items_AddonCostCentres").Include("tbl_items_PriceMatrix").Include("tbl_ItemStockOptions").Where(g => g.EstimateID == null && g.IsEnabled.Value == true && g.IsPublished.Value == true & g.IsArchived.Value == false && catlists.Contains(g.ProductCategoryID)).ToList();
+                    List<tbl_items> otbl_items = PCContext.tbl_items.Include("tbl_item_attachments").Include("tbl_itemImages").Include("tbl_item_sections").Include("tbl_item_sections.tbl_section_costcentres").Include("tbl_Items_AddonCostCentres").Where(g => g.EstimateID == null && g.IsEnabled.Value == true && g.IsPublished.Value == true & g.IsArchived.Value == false && catlists.Contains(g.ProductCategoryID)).ToList();
+
+                    //Include("tbl_ItemStockOptions").Include("tbl_items_PriceMatrix")
+
 
                     foreach (var item in otbl_items)
                     {
+
+                        //deleting the irrelevent matrix
+                        //foreach (var pmatrix in item.tbl_items_PriceMatrix)
+                        //{
+                        //    if (pmatrix.ContactCompanyID != null)
+                        //    {
+                        //        pmatrix.SupplierSequence = 999;
+                        //    }
+                        //}
+
+
+                        //////deleting the irrelevent matrix
+                        ////foreach (var soption in item.tbl_ItemStockOptions)
+                        ////{
+                        ////     if ( soption.ContactCompanyID != null)
+                        ////     {
+                        ////         item.tbl_ItemStockOptions.Remove(soption);
+                        ////     }
+                        ////}
+
 
 
                         Preview.Item oItem = Mapper.Map<tbl_items, Item>(item);
@@ -931,11 +1010,12 @@ namespace MigrationUtility
 
                         }
 
-                        foreach (var oItemStockOptions in oItem.ItemStockOptions)
-                        {
-                            var stock = PCContext.tbl_stockitems.Where(g => g.StockItemID == oItemStockOptions.StockId).Single();
-                            oItemStockOptions.StockId = MPCContext.StockItems.Where(g => g.ItemName == stock.ItemName && g.ItemCode == stock.ItemCode).Single().StockItemId;
-                        }
+                 
+
+
+                      
+
+                 
 
 
                         MPCContext.Items.Add(oItem);
@@ -1036,27 +1116,7 @@ namespace MigrationUtility
 
                         MPCContext.SaveChanges();
 
-                        ///////////ItemAddonCostCentre
-
-                        List<tbl_Items_AddonCostCentres> otbl_Items_AddonCostCentres = PCContext.tbl_Items_AddonCostCentres.Where(g => g.ItemID == item.ItemID).ToList();
-
-                        ItemStockOption oFirstOption = MPCContext.ItemStockOptions.Where(g => g.ItemId == oItem.ItemId).FirstOrDefault();
-
-                        int icount = 1;
-                        foreach (var oaddon in otbl_Items_AddonCostCentres)
-                        {
-
-                            ItemAddonCostCentre oItemAddonCostCentre = Mapper.Map<tbl_Items_AddonCostCentres, ItemAddonCostCentre>(oaddon);
-                            var opcCostCent = PCContext.tbl_costcentres.Where(g => g.CostCentreID == oaddon.CostCentreID).Single();
-                            var oCostCent = MPCContext.CostCentres.Where(g => g.Name == opcCostCent.Name).Single();
-                            oItemAddonCostCentre.CostCentreId = oCostCent.CostCentreId;
-                            oItemAddonCostCentre.Sequence = icount;
-                            oItemAddonCostCentre.IsMandatory = false;
-                            oFirstOption.ItemAddonCostCentres.Add(oItemAddonCostCentre);
-                            icount += 1;
-                        }
-
-                        MPCContext.SaveChanges();
+                       
 
 
                         /////////////////////////////////itemimages
@@ -1087,9 +1147,80 @@ namespace MigrationUtility
 
 
 
+                        ////////////////////////////////////////////////
+                          //Where(g => g.tbl_ItemStockOptions.Any(gg => gg.ContactCompanyID == null) && g.tbl_items_PriceMatrix.Any(gg => gg.ContactCompanyID == null))
+
+                        List<tbl_ItemStockOptions> otbl_ItemStockOptions = PCContext.tbl_ItemStockOptions.Where ( g=> g.ItemID == item.ItemID && g.ContactCompanyID == null).ToList();
+
+                        foreach (var ootbl_ItemStockOptions in otbl_ItemStockOptions)
+	                    {
+		                      ItemStockOption oItemStockOption = Mapper.Map<tbl_ItemStockOptions, ItemStockOption>(ootbl_ItemStockOptions);
+                            oItemStockOption.ItemId = oItem.ItemId;
+
+                      
+                            var stock = PCContext.tbl_stockitems.Where(g => g.StockItemID == ootbl_ItemStockOptions.StockID).Single();
+                            oItemStockOption.StockId = MPCContext.StockItems.Where(g => g.ItemName == stock.ItemName && g.ItemCode == stock.ItemCode).Single().StockItemId;
+                     
+                            MPCContext.ItemStockOptions.Add(oItemStockOption);
+                            
+
+
+                          
+
+	                    }
+                         MPCContext.SaveChanges();
+
+                          ///price matrix
+                            ///
+                             List<tbl_items_PriceMatrix> otbl_items_PriceMatrix = PCContext.tbl_items_PriceMatrix.Where ( g=> g.ItemID == item.ItemID && g.ContactCompanyID == null).ToList();
+                        foreach (var oootbl_items_PriceMatrix in otbl_items_PriceMatrix)
+	                    {
+		                    ItemPriceMatrix oItemPriceMatrix = Mapper.Map<tbl_items_PriceMatrix, ItemPriceMatrix>(oootbl_items_PriceMatrix);
+                            oItemPriceMatrix.ItemId = oItem.ItemId;
+                             MPCContext.ItemPriceMatrices.Add(oItemPriceMatrix);
+                        }
+
+                         MPCContext.SaveChanges();
+
+
+
+                         ///////////ItemAddonCostCentre
+
+                        List<tbl_Items_AddonCostCentres> otbl_Items_AddonCostCentres = PCContext.tbl_Items_AddonCostCentres.Where(g => g.ItemID == item.ItemID).ToList();
+
+                        ItemStockOption oFirstOption = MPCContext.ItemStockOptions.Where(g => g.ItemId == oItem.ItemId).FirstOrDefault();
+
+                        int icount = 1;
+                        foreach (var oaddon in otbl_Items_AddonCostCentres)
+                        {
+
+                            ItemAddonCostCentre oItemAddonCostCentre = Mapper.Map<tbl_Items_AddonCostCentres, ItemAddonCostCentre>(oaddon);
+                            var opcCostCent = PCContext.tbl_costcentres.Where(g => g.CostCentreID == oaddon.CostCentreID).Single();
+                            var oCostCent = MPCContext.CostCentres.Where(g => g.Name == opcCostCent.Name).Single();
+                            oItemAddonCostCentre.CostCentreId = oCostCent.CostCentreId;
+                            oItemAddonCostCentre.Sequence = icount;
+                            oItemAddonCostCentre.IsMandatory = false;
+                            oFirstOption.ItemAddonCostCentres.Add(oItemAddonCostCentre);
+                            icount += 1;
+                        }
+
+                        MPCContext.SaveChanges();
+                        
+
+
+                    output.Text += "Retail Store Items" + Environment.NewLine;
+
+
+
                     }
 
                     output.Text += "Retail Store Items" + Environment.NewLine;
+
+
+
+                    //////////////////////////////////////////////////
+
+                  
 
 
                     var itemlist = otbl_items.Select(g => g.ItemID).ToList();
