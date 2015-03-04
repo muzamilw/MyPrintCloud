@@ -569,6 +569,11 @@ namespace MPC.Repository.BaseRepository
         public DbSet<NABTransaction> NABTransactions { get; set; }
 
         /// <summary>
+        /// vw_SaveDesign DbSet
+        /// </summary>
+        public DbSet<SaveDesignView> SaveDesignViews { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
 // ReSharper disable InconsistentNaming

@@ -900,6 +900,7 @@ namespace MPC.Repository.Repositories
                          string DestinationSpriteFile = string.Empty;
                          string DestinationLanguageDirectory = string.Empty;
                          string DestinationLanguageFilePath = string.Empty;
+                         string DestinationItemAttachmentsPath = string.Empty;
 
                 Company ObjCompany = db.Companies.Where(c => c.CompanyId == oCID).FirstOrDefault();
 
@@ -1562,6 +1563,58 @@ namespace MPC.Repository.Repositories
 
                                 }
                                 item.File5 = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF5Path;
+                            }
+                            // attachments
+                            if (item.ItemAttachments != null && item.ItemAttachments.Count > 0)
+                            {
+                                foreach(var itemAttach in item.ItemAttachments)
+                                {
+                                    string OldAttachPath = string.Empty;
+                                    string NewAttachPath = string.Empty;
+
+                                    string name = Path.GetFileName(itemAttach.FolderPath);
+                                    string[] SplitMain = name.Split('_');
+                                    if (SplitMain[0] != string.Empty)
+                                    {
+                                        ItemID = SplitMain[0];
+
+                                    }
+
+                                    OldAttachPath = Path.GetFileName(item.File5);
+                                    NewAttachPath = OldAttachPath.Replace(ItemID + "_", item.ItemId + "_");
+
+                                    DestinationItemAttachmentsPath = HttpContext.Current.Server.MapPath("/MPC_Content/Attachments/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewAttachPath);
+                                    DestinationsPath.Add(DestinationItemAttachmentsPath);
+                                    string DestinationItemAttachmentDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Attachments/" + ImportIDs.NewOrganisationID + "/" + item.ItemId);
+                                    string AttachmentSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Attachments/" + ImportIDs.OldOrganisationID + "/" + ItemID + "/" + OldAttachPath);
+                                    if (!System.IO.Directory.Exists(DestinationItemAttachmentDirectory))
+                                    {
+                                        Directory.CreateDirectory(DestinationItemAttachmentDirectory);
+                                        if (Directory.Exists(DestinationItemAttachmentDirectory))
+                                        {
+                                            if (File.Exists(AttachmentSourcePath))
+                                            {
+                                                if (!File.Exists(DestinationItemAttachmentsPath))
+                                                    File.Copy(AttachmentSourcePath, DestinationItemAttachmentsPath);
+                                            }
+
+
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        if (File.Exists(AttachmentSourcePath))
+                                        {
+                                            if (!File.Exists(DestinationItemAttachmentsPath))
+                                                File.Copy(AttachmentSourcePath, DestinationItemAttachmentsPath);
+                                        }
+
+                                    }
+                                    item.File5 = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewAttachPath;
+
+                                }
+                               
                             }
 
                         }

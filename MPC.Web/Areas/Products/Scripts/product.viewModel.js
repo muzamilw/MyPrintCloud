@@ -792,6 +792,12 @@ define("product/product.viewModel",
                         // Set Price Matrix to Item against selected Flag
                         selectedProduct().setItemPriceMatrices(itemPriceMatrices);
                     },
+                    // Get Item From list by id
+                    getItemByIdLocal = function(id) {
+                        return products.find(function (item) {
+                            return item.id() === id;
+                        });
+                    },
                     // Get Base Data
                     getBaseData = function () {
                         dataservice.getBaseData({
@@ -953,9 +959,11 @@ define("product/product.viewModel",
                             ItemId: id
                         }, {
                             success: function () {
-                                selectedProduct().isArchived(true);
-                                items.remove(selectedProduct());
-                                selectedProduct(model.Item.Create({}, itemActions, itemStateTaxConstructorParams));
+                                // Remove that product from list
+                                var item = getItemByIdLocal(id);
+                                if (item) {
+                                    items.remove(item);
+                                }
                                 toastr.success("Archived Successfully.");
                             },
                             error: function (response) {
