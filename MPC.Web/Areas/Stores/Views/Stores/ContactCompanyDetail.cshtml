@@ -510,8 +510,9 @@
                                                     <table class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th class="col-lg-5">Territory</th>
-                                                                <th class="col-lg-6">Code</th>
+                                                                <th class="col-lg-4">Name</th>
+                                                                <th class="col-lg-4">Code</th>
+                                                                <th class="col-lg-3">Is Default</th>
                                                                 <th>&nbsp;</th>
                                                             </tr>
                                                         </thead>
@@ -1885,6 +1886,11 @@ Public  - allows users to see other users addresses and orders." data-original-t
             <tr data-bind="click: $root.selectCompanyTerritory, css: { selectedRow: $data === $root.selectedCompanyTerritory}">
                 <td data-bind="text: territoryName"></td>
                 <td data-bind="text: territoryCode"></td>
+                <td>
+                    <div class="type">
+                        <span class="label" data-bind="text: isDefault() == true ? 'Yes' : 'No' , css: { 'label-success': (isDefault() == true),'label-danger': (isDefault() != true)}"></span> 
+                    </div>
+                </td>
                 <td id="actionColumn" class="text-right">
                     <!-- ko template: { name: "actionsCompanyTerritoryTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                     <!-- /ko -->
