@@ -9,7 +9,6 @@
 <style>
     body
     {
-        zoom:80%;
         overflow:hidden;
         height:100%;
     }
@@ -22,12 +21,12 @@
         top:-32%;
         left:98px;
         -webkit-filter: blur(8px);
-        -webkit-transition: -webkit-filter .50s;
         visibility:hidden;
+       
+
     }
     .help-header-title
     {
-
         font-family:Ebrima;
         margin:0px;
         font-size:26px;
@@ -36,9 +35,10 @@
     {
         cursor:pointer;
     }
-    .account-anchors a:hover,.help-details a:hover{
+    .account-anchors a:hover,.help-details a:hover
+    {
          background-color:#FFC0BA !important;
-        text-decoration:none !important;
+         text-decoration:none !important;
     }
     .account-anchors
     {
@@ -54,10 +54,8 @@
     }
     .inner-box
     {
-
       padding-left:10px;
       padding-right:0px;
-
     }
     .inner-box-margin
     {
@@ -88,8 +86,8 @@
 }
 
 <div class="myprintcloud-help" id="myprintcloud-help" style="display:none;">
-    <div class="highlight-div">
-    </div>
+   
+    <div class="highlight-div"></div>
     <div class="left-arrow"></div>
     <div class="right-arrow"></div>
     <div class="top-arrow"></div>
@@ -98,15 +96,15 @@
     </div>
     
     <div class="help-divs">
-        <h2 class="help-header-title">Manage your Print Cloud</h2>
+        <h2 class="help-header-title">Manage your PRINTCloud</h2>
     </div>
     <div class="help-description">
         <div>
-            <span class="help-header-description" style="font-size:14px;">This is your dashboard, lets go on a quick tour to familiarize yourself with MyPRINTCloud.  </span>
+            <span class="help-header-description" style="font-size:12px;">This is your dashboard, lets go on a quick tour to familiarize yourself with MyPRINTCloud.  </span>
         </div>
         <div>
-            <span class="help-details">Once you have had a look around join a webinar or start with the self help guides to get started.</span>
-            <div class="account-anchors"><br /><a style="font-weight:bold;">View your live store</a><a style="font-weight:bold;">Configure your store theme</a><a style="font-weight:bold;">Add products to your store</a><a style="font-weight:bold;">Setup your company details</a><a style="font-weight:bold;">Upgrade your subscription</a></div>
+            <span class="help-details" style="font-size:12px;">Once you have had a look around join a webinar or start with the self help guides to get started.</span>
+            <div class="account-anchors" style="font-size:12px;"><br /><a style="font-weight:bold;">View your live store</a><a style="font-weight:bold;">Configure your store theme</a><a style="font-weight:bold;">Add products to your store</a><a style="font-weight:bold;">Setup your company details</a><a style="font-weight:bold;">Upgrade your subscription</a></div>
         </div>
     </div>
     <div class="help-description" style="border:none !important;background-color:#F5F6F6; padding-bottom:44px;">
@@ -173,6 +171,8 @@
                             <span class="span-dashboard-widgets">Create Store</span>
                             <span class="value inner-box-margin">&nbsp;</span>
                         </div>
+                        <div class="web2print-positioner" style="position:fixed;">
+                        </div>
                     </a>
                 </div>
                 <div class="col-lg-2">
@@ -181,6 +181,8 @@
                             <i class="fa fa-cube emerald-bg" style="margin-right:4px;"></i>
                             <span class="span-dashboard-widgets">Create Product</span>
                             <span class="value inner-box-margin">&nbsp;</span>
+                        </div>
+                        <div class="product-positioner" style="position:fixed;">
                         </div>
                     </a>
                 </div>
@@ -756,7 +758,8 @@
 </div>
 
 @section Scripts {
-
+<script src="~/Scripts/Script/jquery.foggy.js"></script>
+<script src="~/Scripts/Script/jquery.foggy.min.js"></script>
     <script>
         $(document).ready(function () {
 
@@ -977,39 +980,53 @@
     
     $(document).ready(function ()
     {
-            
+          
+        $(".highlight-div").foggy
+        ({
+            blurRadius: 2,          // In pixels.
+            opacity: 7,       // Falls back to a filter for IE.
+            cssFilterSupport: true
+        });
+
         $("#myprintcloud-help").animate({ "top": "-=250" }, 200).delay(500);
         $("#myprintcloud-help").animate({ "top": "+=370" }, 200);
-        $(window).resize(function () {
+        $(window).resize(function () 
+        {
 
             document.getElementById("myprintcloud-help").style.left = "41%";
 
         });
-        $("#btnCloseHelp").click(function () {
+        $("#btnCloseHelp").click(function () 
+        {
+           
 
             $("#myprintcloud-help").hide();
-            $(".disabled-div").css("display", "none");
+            $(".disabled-div").css("display","none");
 
             $('body').css('overflow', 'visible');
-            $('body').css('zoom', '100%');
+          
 
         });
+
+        $("#myprintcloud-help").css("display", "block");
+
     });
 
  
   
-        $("#myprintcloud-help").css("display", "block");
-    });
+       
+    
     </script>
 
     <script>
         $(document).ready(function ()
         {
-
+            
+          
             var i = 0;
             var proceeding =
             [
-                "Manage your PRINT Cloud",
+                "Manage your PRINTCloud",
                 "Add More Products",
                 "Add more Stores",
                 "Estimates & Job Cards",
@@ -1073,13 +1090,16 @@
                     top = parseInt(positiontop) - parseInt(positiontophelp);
                     left = parseInt(positionleft) - parseInt(positionlefthelp);
 
-                    top = top + 45;
-                    left = left - 100;
+                    top = top + 30;
+                    left = left - 70;
                    
                     $("#myprintcloud-help").animate({ "top": "+="  + top, "left": "+="+left }, 100);
-                    $(".highlight-div").css("visibility", "visible");
-                    $(".highlight-div").css("width", "120px");
-                    $(".highlight-div").css("height","30px");
+                    $(".highlight-div").css("visibility","visible");
+                    $(".highlight-div").css("width", "160px");
+                    $(".highlight-div").css("height","80px");
+                    $(".highlight-div").css("left", "68px");
+                    $(".highlight-div").css("top", "-122px");
+                 
 
                     $(".help-header-title").html(proceeding[1]);
                     $(".help-header-description").html(proceddingheadertext[1]);
@@ -1100,21 +1120,15 @@
                     dashp = $(".web2print-positioner");
                     positiontop = dashp.position().top;
                     positionleft = dashp.position().left;
-                    
-                    top = 0;
-                    left = 0;
-
-                    top = parseInt(positiontop) - parseInt(positiontophelp);
-                    left = parseInt(positionleft) - parseInt(positionlefthelp);
-
-                    top = top + 50;
-                    left = left - 83;
+                   
+                    left = left - 205;
 
                     $("#myprintcloud-help").animate({ "top": "+=" + top, "left": "+=" + left }, 100);
                     $(".highlight-div").css("visibility", "visible");
-                    $(".highlight-div").css("width", "190px");
-                    $(".highlight-div").css("height","30px");
-                    $(".highlight-div").css("left", "75px");
+                    $(".highlight-div").css("width", "160px");
+                    $(".highlight-div").css("height", "80px");
+                    $(".highlight-div").css("left", "94px");
+                    
 
                     $(".help-header-title").html(proceeding[2]);
                     $(".help-header-description").html(proceddingheadertext[2]);
@@ -1139,7 +1153,7 @@
 
                    
                     left = left - 230;
-                    top = top + 110;
+                    top = top + 100;
                 
 
                     $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 100);
@@ -1173,7 +1187,7 @@
 
                     $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 100);
 
-                    $(".highlight-div").css("height", "30px");
+                    $(".highlight-div").css("height","30px");
                   
 
                     $(".help-header-title").html(proceeding[4]);
@@ -1190,8 +1204,8 @@
                     top = parseInt(positiontophelp) - parseInt(positiontop);
                     left = parseInt(positionlefthelp) - parseInt(positionleft);
 
-                    top = top - 50;
-                    left = left + 200;
+                    top = top - 40;
+                    left = left + 180;
 
 
                     $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 100);
@@ -1272,20 +1286,24 @@
 
                 if (i == 2)
                 {
+                    $(".highlight-div").css("top", "-67%");
                     $(".highlight-div").css("visibility", "visible");
-                    $(".highlight-div").css("width","120px");
-                    $(".highlight-div").css("height", "30px");
-                    $(".highlight-div").css("left","90px");
+                    
+                    $(".highlight-div").css("width","160px");
+                    $(".highlight-div").css("height","80px");
+                    $(".highlight-div").css("left", "70px");
+                  
+                    
 
                 }
 
                 if (i == 3)
                 {
-                    $(".highlight-div").css("top", "-32%");
+                    $(".highlight-div").css("top", "-67%");
                     $(".highlight-div").css("visibility", "visible");
-                    $(".highlight-div").css("width", "190px");
-                    $(".highlight-div").css("height", "30px");
-                    $(".highlight-div").css("left", "75px");
+                    $(".highlight-div").css("width","160px");
+                    $(".highlight-div").css("height","80px");
+                    $(".highlight-div").css("left","96px");
                     $("#btnPreviousHelp").show();
 
                     $(".bottom-arrow").hide();
@@ -1300,7 +1318,7 @@
                     $(".highlight-div").css("visibility", "visible");
                     $(".highlight-div").css("width","240px");
                     $(".highlight-div").css("height","30px");
-                    $(".highlight-div").css("top", "80px");
+                    $(".highlight-div").css("top","70px");
 
                     $(".highlight-div").css("left","-80%");
                     $(".bottom-arrow").hide();
@@ -1316,7 +1334,7 @@
                 {
 
                     $(".highlight-div").css("width", "240px");
-                    $(".highlight-div").css("top","80px");
+                    $(".highlight-div").css("top","70px");
                     $(".highlight-div").css("left","-80%");
                     $(".highlight-div").css("height","30px");
                     $(".help-details").show();
@@ -1335,7 +1353,7 @@
                     $(".highlight-div").css("visibility", "visible");
                     $(".highlight-div").css("width", "350px");
                     $(".highlight-div").css("height", "40px");
-                    $(".highlight-div").css("top", "-30%");
+                    $(".highlight-div").css("top", "-32%");
                     $(".highlight-div").css("left","0%");
                     $(".help-details").show();
                     $(".account-anchors").css("display", "none");

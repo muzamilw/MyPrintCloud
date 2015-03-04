@@ -27,7 +27,7 @@ namespace MigrationUtility.Preview
         public Nullable<bool> isDefault { get; set; }
         public Nullable<long> CompanyId { get; set; }
     
-        public virtual Company Company { get; set; }
         public virtual tbl_cmsSkins tbl_cmsSkins { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

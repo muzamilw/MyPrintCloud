@@ -105,11 +105,10 @@ namespace MigrationUtility.Preview
         public string XeroAccessCode { get; set; }
         public Nullable<long> OrganisationId { get; set; }
     
-        public virtual Company Company { get; set; }
         public virtual CompanyContact CompanyContact { get; set; }
         public virtual tbl_enquiries tbl_enquiries { get; set; }
-        public virtual Status Status { get; set; }
         public virtual ICollection<Item> Items { get; set; }
         public virtual ICollection<PrePayment> PrePayments { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

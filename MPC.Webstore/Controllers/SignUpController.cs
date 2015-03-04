@@ -82,12 +82,17 @@ namespace MPC.Webstore.Controllers
                 
                 if (ModelState.IsValid)
                 {
-
+                    if (model.Password == "Password")
+                    {
+                        ViewBag.Message = "Please enter Password";
+                        return View("PartialViews/SignUp");
+                    }
                     string isSocial = Request.Form["hfIsSocial"];
                     string ReturnURL = Request.Form["hfReturnURL"];
+          
                     if (_myCompanyService.GetContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId) != null)
                     {
-                        ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.StoreId) + model.Email;
+                        ViewBag.Message = "You indicated that you are a new customer but an account already exist with this email address " + model.Email;
                         return View("PartialViews/SignUp");
                     }
                     else if (isSocial == "1")
@@ -125,7 +130,7 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    return View("PartialViews/Login");
+                    return View("PartialViews/SignUp");
                 }
             }
             catch (Exception ex)
@@ -151,8 +156,8 @@ namespace MPC.Webstore.Controllers
             long OID = 0;
             CompanyContact corpContact = new CompanyContact();
             bool isContactCreate = false;
-            contact.FirstName = model.FirstName;
-            contact.LastName = model.LastName;
+            contact.FirstName = model.FirstName == "First Name" ? "" : model.FirstName;
+            contact.LastName = model.LastName == "Last Name" ? "" : model.LastName;
             contact.Email = model.Email;
             contact.Mobile = model.Phone;
             contact.Password = model.Password;
@@ -187,8 +192,8 @@ namespace MPC.Webstore.Controllers
 
 
                     UserCookieManager.isRegisterClaims = 1;
-                    UserCookieManager.ContactFirstName = model.FirstName;
-                    UserCookieManager.ContactLastName = model.LastName;
+                    UserCookieManager.ContactFirstName = model.FirstName == "First Name" ? "" : model.FirstName;
+                    UserCookieManager.ContactLastName = model.LastName == "Last Name" ? "" : model.LastName;
                     UserCookieManager.ContactCanEditProfile = loginUser.CanUserEditProfile ?? false;
                     UserCookieManager.ShowPriceOnWebstore = loginUser.IsPricingshown ?? true;
 

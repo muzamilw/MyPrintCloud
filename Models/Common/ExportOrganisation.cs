@@ -82,6 +82,7 @@ namespace MPC.Models.Common
         public List<ProductCategory> ProductCategory { get; set; }
 
         public List<Item> Items { get; set; }
+        public List<ItemAttachment> ItemAttachment { get; set; }
         public List<ItemSection> ItemSection { get; set; }
         public List<SectionCostcentre> SectionCostcentre { get; set; }
         public List<SectionCostCentreResource> SectionCostCentreResource { get; set; }

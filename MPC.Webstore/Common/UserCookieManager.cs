@@ -5,6 +5,7 @@ using System.Web.SessionState;
 using MPC.Webstore.SessionModels;
 
 
+
 namespace MPC.Webstore.Common
 {
     public sealed class UserCookieManager

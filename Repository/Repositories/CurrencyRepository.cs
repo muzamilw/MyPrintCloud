@@ -29,5 +29,13 @@ namespace MPC.Repository.Repositories
         {
             return db.Currencies.Where(c => c.CurrencyId == currencyId).Select(n => n.CurrencyCode).FirstOrDefault();
         }
+
+
+        public string GetCurrencySymbolById(long currencyId)
+        {
+            return db.Currencies.Where(c => c.CurrencyId == currencyId).Select(n => n.CurrencySymbol).FirstOrDefault();
+        }
+
+      
     }
 }

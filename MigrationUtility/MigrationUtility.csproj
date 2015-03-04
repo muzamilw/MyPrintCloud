@@ -356,9 +356,6 @@
     <Compile Include="Preview\InquiryItem.cs">
       <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Preview\Invoice.cs">
-      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Preview\InvoiceDetail.cs">
       <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
@@ -702,9 +699,6 @@
       <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Preview\State.cs">
-      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Preview\Status.cs">
       <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Preview\StockCategory.cs">

@@ -391,6 +391,9 @@ namespace MPC.Models.DomainModels
         public bool? allowPdfDownload { get; set; }
         public bool? allowImageDownload { get; set; }
         public long? SmartFormId { get; set; }
+        public bool? IsDigitalDownload { get; set; }
+        public bool? IsRealStateProduct { get; set; }
+        public int? ProductDisplayOptions { get; set; }
 
         [NotMapped]
         public double MinPrice { get; set; }

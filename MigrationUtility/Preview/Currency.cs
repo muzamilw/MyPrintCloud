@@ -22,6 +22,7 @@ namespace MigrationUtility.Preview
         public long CurrencyId { get; set; }
         public string CurrencyCode { get; set; }
         public string CurrencyName { get; set; }
+        public string CurrencySymbol { get; set; }
     
         public virtual ICollection<Organisation> Organisations { get; set; }
     }

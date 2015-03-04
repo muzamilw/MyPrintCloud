@@ -300,6 +300,7 @@
     <Compile Include="Areas\Api\Controllers\CalendarBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\CalendarController.cs" />
     <Compile Include="Areas\Api\Controllers\CampaignBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\CompanyBannerController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactBaseForCrmController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCrmController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />
@@ -2850,6 +2851,8 @@
     <Content Include="Scripts\Script\form-validation.js" />
     <Content Include="Scripts\Script\forms.js" />
     <Content Include="Scripts\Script\jquery.cookie.js" />
+    <Content Include="Scripts\Script\jquery.foggy.js" />
+    <Content Include="Scripts\Script\jquery.foggy.min.js" />
     <Content Include="Scripts\Script\jquery.mousewheel.js" />
     <Content Include="Scripts\Script\main.js" />
     <Content Include="Scripts\Script\support.js" />
