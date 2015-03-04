@@ -273,6 +273,7 @@
         <EntityTypeShape EntityType="DomainModels.ScopeVariable" Width="1.5" PointX="25.625" PointY="52.75" />
         <AssociationConnector Association="DomainModels.FK_CompanyContactVariable_FieldVariable" />
         <AssociationConnector Association="DomainModels.FK__SmartForm__Varia__012C6796" />
+        <EntityTypeShape EntityType="DomainModels.SaveDesignView" Width="1.5" PointX="39.375" PointY="6.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
