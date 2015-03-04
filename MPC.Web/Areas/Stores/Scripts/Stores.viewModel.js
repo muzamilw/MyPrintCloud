@@ -2483,6 +2483,8 @@ define("stores/stores.viewModel",
                     },
                     //Selected Product Category
                     selectedProductCategory = ko.observable(),
+                    // Ttile while add/edit category
+                    productCategoryTitle = ko.observable(),
                     //Selected Product Category For Editting
                     selectedProductCategoryForEditting = ko.observable(),
                     //Deleted Product Categories List
@@ -2555,6 +2557,8 @@ define("stores/stores.viewModel",
                         productCategory.isPublished(true);
                         //Setting Product Category Editting
                         selectedProductCategoryForEditting(productCategory);
+                        productCategoryTitle("New Category");
+                      
                         //Setting drop down list of parent
                         //putting all list of categories
                         populatedParentCategoriesList.removeAll();
@@ -2637,6 +2641,7 @@ define("stores/stores.viewModel",
                                     if (data != null) {
                                         selectedProductCategoryForEditting(model.ProductCategory.Create(data));
                                         updateParentCategoryList(selectedProductCategoryForEditting().productCategoryId());
+                                        productCategoryTitle("Modify Category Settings");
                                         isSavingNewProductCategory(false);
                                         view.showStoreProductCategoryDialog();
                                     }
@@ -5042,6 +5047,7 @@ define("stores/stores.viewModel",
                     orderCount: orderCount,
                     onChangeBannerSet: onChangeBannerSet,
                     ckEditorOpenFrom: ckEditorOpenFrom,
+                    productCategoryTitle: productCategoryTitle,
                 };
                 //#endregion
             })()
