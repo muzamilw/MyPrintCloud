@@ -5046,11 +5046,8 @@ define("stores/stores.viewModel",
                     userCount: userCount,
                     orderCount: orderCount,
                     onChangeBannerSet: onChangeBannerSet,
-<<<<<<< HEAD
-                    productCategoryTitle: productCategoryTitle,
-=======
                     ckEditorOpenFrom: ckEditorOpenFrom,
->>>>>>> 7469a9eee8ae8218889a6fafac8cda8bd15b2a9e
+                    productCategoryTitle: productCategoryTitle,
                 };
                 //#endregion
             })()
