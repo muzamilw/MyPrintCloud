@@ -483,14 +483,14 @@ namespace MPC.Webstore.Controllers
  
         private List<CostCentre> GetDeliveryCostCenterList()
         {
-            if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
-            {
+           if ( UserCookieManager.StoreMode ==  (int)StoreMode.Corp)
+           { 
                 return _ICostCenterService.GetCorporateDeliveryCostCentersList(_myClaimHelper.loginContactCompanyID());
-            }
+           }
             else
-            {
-                return _ICostCenterService.GetDeliveryCostCentersList();
-            }
+           {
+               return _ICostCenterService.GetCorporateDeliveryCostCentersList(UserCookieManager.StoreId);
+           }
         }
 
 
