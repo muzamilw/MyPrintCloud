@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace MPC.Interfaces.WebStoreServices
 {
-    interface INABTransactionService
+    public interface INABTransactionService
     {
+        long NabTransactionSaveRequest(int EstimateId, string Request);
+        bool NabTransactionUpdateRequest(long TransdactionId, string Response);
     }
 }
