@@ -150,12 +150,13 @@ namespace MigrationUtility.Preview
         public Nullable<long> OrganisationId { get; set; }
         public Nullable<int> DeliveryType { get; set; }
         public string DeliveryServiceType { get; set; }
+        public Nullable<long> CarrierId { get; set; }
     
         public virtual ICollection<CompanyCostCentre> CompanyCostCentres { get; set; }
         public virtual ICollection<CostcentreResource> CostcentreResources { get; set; }
-        public virtual CostCentreType CostCentreType { get; set; }
         public virtual ICollection<ItemAddonCostCentre> ItemAddonCostCentres { get; set; }
         public virtual ICollection<SectionCostcentre> SectionCostcentres { get; set; }
         public virtual ICollection<CostcentreInstruction> CostcentreInstructions { get; set; }
+        public virtual CostCentreType CostCentreType { get; set; }
     }
 }

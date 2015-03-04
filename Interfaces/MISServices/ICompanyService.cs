@@ -91,6 +91,8 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         IEnumerable<SmartFormDetail> GetSmartFormDetailBySmartFormId(long smartFormId);
 
+        void DeleteCompanyBanner(long companyBannerId);
+
         #region exportOrganisation
 
         void ExportOrganisation(long OrganisationID);

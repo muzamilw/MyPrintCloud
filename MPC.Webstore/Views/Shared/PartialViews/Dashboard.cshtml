@@ -1,4 +1,5 @@
-﻿@using MPC.Webstore.Common;
+﻿
+@using MPC.Webstore.Common;
 <div class="container content_area">
     <div class="row left_right_padding">
         <div id="BCTitle" class="signin_heading_div col-md-12 col-lg-12 col-xs-12">
@@ -80,23 +81,49 @@
                     @foreach (var item in ViewData["rptRetailDashboardItem"] as List<MPC.Webstore.Models.DashboardViewModel>)
                     {
                         <div class="cntDashboardItems">
-                            <a href="@item.PageNavigateURl">
+                            @if (item.IsChangePassword ?? false)
+                            {
+                                <a onclick="ChangePassPopupShow();">
 
 
-                                <div id="dashIconsrp" class="dashboard_logo_div dashboardIcons contact_log MarginBottom30px">
-                                    @Html.Raw(item.ImageURL)
-                                </div>
-                                <div id="NavigationDiv" class="dashboard_logo_des_div MarginBottom30px">
-                                    <div class="dashboard_item_main_heading">
-                                        <label id="lblName">@item.Name</label>
-                                        <label id="StoreBrandtxt" class="dashboard_item_main_heading">@item.Description</label>
+                                    <div id="dashIconsrp" class="dashboard_logo_div dashboardIcons contact_log MarginBottom30px">
+                                        @Html.Raw(item.ImageURL)
                                     </div>
-                                </div>
-                                <div class="clearBoth">
+                                    <div id="NavigationDiv" class="dashboard_logo_des_div MarginBottom30px">
+                                        <div class="dashboard_item_main_heading">
+                                            <label id="lblName">@item.Name</label>
+                                            <label id="StoreBrandtxt" class="dashboard_item_main_heading">@item.Description</label>
+                                        </div>
+                                    </div>
+                                    <div class="clearBoth">
 
-                                </div>
+                                    </div>
 
-                            </a>
+                                </a>
+
+                            }
+                            else
+                            {
+                                <a href="@item.PageNavigateURl">
+
+
+                                    <div id="dashIconsrp" class="dashboard_logo_div dashboardIcons contact_log MarginBottom30px">
+                                        @Html.Raw(item.ImageURL)
+                                    </div>
+                                    <div id="NavigationDiv" class="dashboard_logo_des_div MarginBottom30px">
+                                        <div class="dashboard_item_main_heading">
+                                            <label id="lblName">@item.Name</label>
+                                            <label id="StoreBrandtxt" class="dashboard_item_main_heading">@item.Description</label>
+                                        </div>
+                                    </div>
+                                    <div class="clearBoth">
+
+                                    </div>
+
+                                </a>
+
+                            }
+                         
                         </div>
                     }
                     <div class="clearBoth">
@@ -115,3 +142,183 @@
     <br />
     <br />
 </div>
+@using (Html.BeginForm())
+{
+        <div id="ResetPassword" style="display:none;">
+            <table id="CurPssCont" class="normalTextStyle tblRestPass">
+                <tr>
+                    <td>
+                        <label id="errorMesg" style="display:none;font-size: 13px;color: red;"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="float_left_simple smallfonAvenior">
+                            <label id="ltrlPss">Current password:</label>
+                        </div>
+                        <div class="float_left_simple cnttxtBox">
+                            @*@Html.TextBoxFor(model => model.CurrentPassword, new { id = "txtCurPass", @class = "newTxtBox", @maxlength="50", @value = "Current Password" }) <br />*@
+                            <input type="password" id="txtCurPass" name="txtCurPass" maxlength="50" class="newTxtBox" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h3 class="headingsAvenior">New password Details</h3>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <div class="float_left_simple smallfonAvenior">
+                            <label id="ltrlnewpass">New Password:</label>
+                        </div>
+                        <div class="float_left_simple cnttxtBox">
+                            @*@Html.TextBoxFor(model => model.NewPassword, new { id = "txtNewPassword", @class = "newTxtBox", @maxlength="50", @value = "New Password" }) <br />*@
+                            <input type="password" id="txtNewPassword" name="txtNewPassword" maxlength="50" class=" newTxtBox" />
+
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" class="H4B">
+                        <div class="float_left_simple smallfonAvenior">
+                            <label id="ltrlconfirmpass">Confirm Password:</label>
+                        </div>
+                        <div class="float_left_simple cnttxtBox">
+                            @*@Html.TextBoxFor(model => model.NewPassword, new { id = "txtConfirmPassword", @class = "newTxtBox", @maxlength="50", @value = "Confirm Password" }) <br />*@
+                            <input type="password" id="txtConfirmPassword" name="txtConfirmPassword" maxlength="50" class="newTxtBox" />
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="float_left_simple smallfonAvenior">
+                            &nbsp;
+                        </div>
+                        <div class="float_left_simple cnttxtBox left_align" style="margin-top: 30px;">
+                            <input type="submit" onclick="ResetPassword();" class="start_creating_btn rounded_corners5" value="Save" />
+                            @*<asp:Button ID="cmdSave" CssClass="start_creating_btn rounded_corners5" OnClientClick="return Passwordvalidator();"
+                                        runat="server" Text="Save" OnClick="cmdSave_Click" />*@
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    <input type="hidden" ID="hfErrorMes"  Value="@ViewBag.ErrorMes" />
+}
+
+@section scripts
+{
+
+    <script src="~/Scripts/PopUp.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#txtCurPass").focus();
+
+            if ($("#hfErrorMes").val() == "1") {
+               
+            }
+            else if ($("#hfErrorMes").val() == "3") {
+                Passwordvalidator();
+                $("#hfErrorMes").val(1);
+                
+            } else {
+           
+                $("#errorMesg").text("Your current password is not valid.");
+                $("#errorMesg").css("display", "block");
+                $("#txtCurPass").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
+                $("#hfErrorMes").val(1);
+                ChangePassPopupShow();
+            }
+        });
+
+
+
+        function ChangePassPopupShow() {
+            
+            var panelHtml = $("#ResetPassword").html();
+
+            ShowResetPassword('Reset Password', panelHtml)
+
+        }
+
+
+        function Passwordvalidator() {
+            var isValid = true;
+            var isDataFilles = 1;
+            var CurrentPass = $("#txtCurPass").val();
+            var passwordnew = $('#txtNewPassword').val();
+           
+            var Confirmpassword = $('#txtConfirmPassword').val();
+          
+            if (CurrentPass.length == 0) {
+                isValid = false; isDataFilles = 0;
+                //$('.EMCurentPass').css("display", "block");
+                $("#txtCurPass").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
+            } else {
+                //$('.EMCurentPass').css("display", "none");
+                $("#txtCurPass").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+            }
+            if (passwordnew.length == 0) {
+                isValid = false; isDataFilles = 0;
+              //  var passwordxreq = "<%= Resources.MyResource.popupPasswordxreq %>";
+                //$('.EMPass').css("display", "block");
+                $("#txtNewPassword").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
+
+            } else {
+                //$('.EMPass').css("display", "none");
+                $("#txtNewPassword").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+            }
+            if (Confirmpassword.length == 0) {
+                //var Cpasswordxreq = "<%= Resources.MyResource.Cpasswordxreq %>";
+                //$('.EMCPass').css("display", "block");
+                $("#txtConfirmPassword").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
+
+                isValid = false; isDataFilles = 0;
+            } else {
+                //$('.EMCPass').css("display", "none");
+                $("#txtConfirmPassword").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+
+            }
+
+            if (passwordnew === Confirmpassword) {
+
+            } else {
+                $("#errorMesg").css("display", "block");
+                $("#errorMesg").text("Password not match.");
+                $("#txtNewPassword").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
+
+                $("#txtConfirmPassword").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
+                isValid = false;
+                isDataFilles = 0;
+            }
+
+            if (isDataFilles == 0) {
+                $("#hfErrorMes").val(3);
+            } else {
+                $("#hfErrorMes").val(1);
+                return true;
+            }
+            return false;
+        }
+
+        function ResetPassword()
+        {
+            var CurrentPass = $("#txtCurPass").val();
+            var passwordnew = $('#txtNewPassword').val();
+            window.location.href = "/Dashboard/ResetPassword/" + CurrentPass + "/" + passwordnew;
+        }
+    </script>
+  
+
+    
+}

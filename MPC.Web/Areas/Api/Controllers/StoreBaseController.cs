@@ -1,11 +1,17 @@
-﻿using System.IO;
+﻿using System;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
+using MPC.Models.Common;
+using Newtonsoft.Json;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -70,6 +76,25 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 defaultCss = File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultCss/Default_CompanyStyles.css"));
             }
+
+            // Get List of Skins 
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ConfigurationManager.AppSettings["MPCThemingPath"]);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                string url = "GET/";
+                string responsestr = "";
+                var response = client.GetAsync(url);
+                if (response.Result.IsSuccessStatusCode)
+                {
+                    responsestr = response.Result.Content.ReadAsStringAsync().Result;
+                    //validationInfo = JsonConvert.DeserializeObject<ValidationInfo>(responsestr);
+                }
+
+            }
+
             return new CompanyBaseResponse
             {
                 SystemUsers = result.SystemUsers != null ? result.SystemUsers.Select(x => x.CreateFrom()) : null,

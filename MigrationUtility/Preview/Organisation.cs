@@ -51,6 +51,8 @@ namespace MigrationUtility.Preview
         public Nullable<bool> isXeroIntegrationRequired { get; set; }
         public string XeroApiId { get; set; }
         public string XeroApiKey { get; set; }
+        public string TaxServiceUrl { get; set; }
+        public string TaxServiceKey { get; set; }
     
         public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }
         public virtual Country Country { get; set; }

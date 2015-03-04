@@ -74,8 +74,8 @@ namespace MigrationUtility.Preview
         public Nullable<bool> IsShowProductDescription { get; set; }
         public Nullable<bool> IsShowProductShortDescription { get; set; }
     
-        public virtual Company Company { get; set; }
         public virtual ICollection<ProductCategoryItem> ProductCategoryItems { get; set; }
         public virtual ICollection<ProductCategoryFoldLine> ProductCategoryFoldLines { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

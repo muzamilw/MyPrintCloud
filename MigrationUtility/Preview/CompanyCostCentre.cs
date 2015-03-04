@@ -22,7 +22,7 @@ namespace MigrationUtility.Preview
         public Nullable<bool> isDisplayToUser { get; set; }
         public Nullable<long> OrganisationId { get; set; }
     
-        public virtual Company Company { get; set; }
         public virtual CostCentre CostCentre { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

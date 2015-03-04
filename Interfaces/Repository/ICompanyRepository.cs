@@ -9,10 +9,13 @@ namespace MPC.Interfaces.Repository
     public interface ICompanyRepository : IBaseRepository<Company, long>
     {
         CompanyResponse GetCompanyById(long companyId);
-
+        /// <summary>
+        /// USer count in last few days
+        /// </summary>
+        int UserCount(long? storeId, int numberOfDays);
         long GetStoreIdFromDomain(string domain);
         CompanyResponse SearchCompanies(CompanyRequestModel request);
-
+        Company GetCustomer(int CompanyId);
         /// <summary>
         /// Get Suppliers For Inventories
         /// </summary>

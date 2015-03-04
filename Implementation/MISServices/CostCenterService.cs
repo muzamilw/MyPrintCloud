@@ -238,15 +238,15 @@ namespace MPC.Implementation.MISServices
 
                 // Set Price Strings
                 if (string.IsNullOrEmpty(costcenter.strPricePlantUnParsed))
-                    sPricePlant = "EstimatedPlantCost = 0";
+                    sPricePlant = "QuotedPlantPrice = 0";
                 else
                     sPricePlant = costcenter.strPricePlantUnParsed;
                 if (string.IsNullOrEmpty(costcenter.strPriceLabourUnParsed))
-                    sPriceLabour = "EstimatedLabourCost = 0";
+                    sPriceLabour = "QuotedLabourPrice = 0";
                 else
                     sPriceLabour = costcenter.strPriceLabourUnParsed;
                 if (string.IsNullOrEmpty(costcenter.strPriceMaterialUnParsed))
-                    sPriceStock = "EstimatedMaterialCost = 0";
+                    sPriceStock = "QuotedMaterialPrice = 0";
                 else
                     sPriceStock = costcenter.strPriceMaterialUnParsed;
                                 
@@ -360,13 +360,14 @@ namespace MPC.Implementation.MISServices
                 oSource += "Imports Microsoft.VisualBasic" + Environment.NewLine;
                 //oSource += System.Configuration.ConfigurationSettings.AppSettings("DALProviderNameSpace") + Environment.NewLine;
                 oSource += "Imports MPC.Implementation.MISServices" + Environment.NewLine;
+                oSource += "Imports MPC.Implementation.WebStoreServices" + Environment.NewLine;
                 oSource += "imports MPC.Models.DomainModels" + Environment.NewLine;
                 oSource += "imports MPC.Models.Common" + Environment.NewLine;
                 oSource += "Imports System.Reflection" + Environment.NewLine;
                 oSource += "Imports Microsoft.Practices.Unity" + Environment.NewLine;
-                oSource += "Imports ICostCentreService = MPC.Interfaces.MISServices.ICostCentersService" + Environment.NewLine;
+                oSource += "Imports ICostCentreService = MPC.Interfaces.WebStoreServices.ICostCentreService" + Environment.NewLine;
                 oSource += "Namespace UserCostCentres" + Environment.NewLine;
-
+                
 
                 if (IsNewCostCentre == true)
                 {
@@ -427,14 +428,14 @@ namespace MPC.Implementation.MISServices
                     CompileBinaries(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\", oSource, OrganisationName);
 
                     //Get CostCentre File Open it in Read Mode
-                    oFileStream = System.IO.File.OpenRead(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\" + OrganisationName + "UserCostCentres.dll");
+                    //oFileStream = System.IO.File.OpenRead(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\" + OrganisationName + "UserCostCentres.dll");
 
                     //Get Byte Array of the file and write it in the db
-                    byte[] CostCentreByte = new byte[Convert.ToInt32(oFileStream.Length - 1) + 1];
+                    //byte[] CostCentreByte = new byte[Convert.ToInt32(oFileStream.Length - 1) + 1];
 
-                    oFileStream.Read(CostCentreByte, 0, Convert.ToInt32(oFileStream.Length - 1));
+                    //oFileStream.Read(CostCentreByte, 0, Convert.ToInt32(oFileStream.Length - 1));
 
-                    CostCentreByte = null;
+                    //CostCentreByte = null;
                 }
                 catch (Exception ex)
                 {

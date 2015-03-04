@@ -423,7 +423,7 @@ function SetMatrixAnswer(Answer, MatrixId)
 }
 
 function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Currency, ItemPrice) {
-    alert(idsToValidate);
+
     var arrayOfIds = idsToValidate.split(",");
     
     var isDisplyEmptyFieldsMesg = 0;
@@ -431,7 +431,6 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
     var isNotValidInput = 0;
 
     var isFormulaValidationError = 0;
-
     for (var i = 0; i < arrayOfIds.length; i++) {
         if (arrayOfIds[i].indexOf("formulaMatrixBox") != -1) {
             
@@ -443,17 +442,22 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
             }
 
         } else {
-
-            if ($("#" + arrayOfIds[i]).val() == "") {
-                $("#" + arrayOfIds[i]).css("border", "1px solid red");
-                isDisplyEmptyFieldsMesg = 1;
-            } else if (isNaN($("#" + arrayOfIds[i]).val())) {
-                isNotValidInput = 1;
-                $("#" + arrayOfIds[i]).css("border", "1px solid red");
-            } else {
+           
+            if ($("#" + arrayOfIds[i]).val() == undefined) {
                 $("#" + arrayOfIds[i]).css("border", "1px solid #a8a8a8");
-            }
+            } else {
+                if ($("#" + arrayOfIds[i]).val() == "") {
+                    $("#" + arrayOfIds[i]).css("border", "1px solid red");
+                    isDisplyEmptyFieldsMesg = 1;
+                } else if (isNaN($("#" + arrayOfIds[i]).val())) {
+                    isNotValidInput = 1;
+                    $("#" + arrayOfIds[i]).css("border", "1px solid red");
+                } else {
+                    $("#" + arrayOfIds[i]).css("border", "1px solid #a8a8a8");
+                }
 
+            }
+            
         }
       
        
@@ -471,6 +475,7 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
            
             $("#CCErrorMesgContainer").html("Please enter in the hightlighted fields.");
         }
+        return;
     } else if (isNotValidInput == 1) {
         $("#CCErrorMesgContainer").css("display", "block");
         $("#CCErrorMesgContainer").html("Please enter numbers only to proceed.");
@@ -478,8 +483,10 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
             var html = $("#CCErrorMesgContainer").text() + "<br/> Please select value formula values also."
             $("#CCErrorMesgContainer").html(html);
         }
+        return;
     } else if (isFormulaValidationError == 1) {
         $("#CCErrorMesgContainer").html("Please select value formula values ");
+        return;
     } else {
         var desriptionOfCostCentre = "";
         $("#CCErrorMesgContainer").css("display", "none");
@@ -533,6 +540,7 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
             contentType: "application/json",
             async: true,
             success: function (response) {
+                
                 ShowLoader();
                 var updatedAddOns = jQuery.parseJSON($('#VMJsonAddOns').val());
                 if (updatedAddOns != null) {
@@ -571,6 +579,7 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
         var returnText = $.ajax(options).responseText;
         
     }
+   
     idsToValidate = "";
 
 }
@@ -626,6 +635,31 @@ function ViewOrderPopUp(Type, panelHtml) {
     document.getElementById("innerLayer").style.top = "0px";
     //730
     document.getElementById("innerLayer").style.width = "883px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+}
+function ShowResetPassword(Type, panelHtml) {
+  
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + panelHtml + '</div></div>';
+
+    var bws = getBrowserHeight();
+
+    var shadow = document.getElementById("innerLayer");
+
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 730) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+
+    document.getElementById("innerLayer").style.left = left + "px";
+    document.getElementById("innerLayer").style.top = "0px";
+
+    document.getElementById("innerLayer").style.width = "730px";
     document.getElementById("innerLayer").style.position = "fixed";
     document.getElementById("innerLayer").style.zIndex = "9999";
 

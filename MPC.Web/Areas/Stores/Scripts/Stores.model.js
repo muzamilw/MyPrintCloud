@@ -129,6 +129,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName, specifiedCustomCSS, specifiedStoreBackgroundImage, specifiedStoreImagePath
     , specifiedIsDidplayInFooter) {
         var self,
+            storeId = ko.observable(undefined),
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
             name = ko.observable(specifiedName).extend({ required: true }),
             status = ko.observable(specifiedStatus),
@@ -445,6 +446,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.CmsOffers = [];
                 result.MediaLibraries = [];
                 result.FieldVariables = [];
+                result.SmartForms = [];
                 return result;
             },
             // Reset
@@ -456,6 +458,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isDidplayInFooter: isDidplayInFooter,
             companyId: companyId,
             name: name,
+            storeId: storeId,
             status: status,
             image: image,
             url: url,
@@ -669,6 +672,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.StoreImagePath
         );
         store.isDidplayInFooter(source.isDisplaySecondaryPages != null ? source.isDisplaySecondaryPages : false);
+        store.storeId(source.StoreId);
         store.companyType(CompanyType.Create(source.CompanyType));
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
@@ -2039,6 +2043,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isEnabled = ko.observable(specifiedisEnabled != null ? specifiedisEnabled : true),
             defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
             pageBanner = ko.observable(specifiedPageBanner),
+            isUserDefined = ko.observable(undefined),
             // Errors
             errors = ko.validation.group({
                 pageTitle: pageTitle,
@@ -2066,6 +2071,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 fileName: fileName,
                 defaultPageKeyWords: defaultPageKeyWords,
                 pageBanner: pageBanner,
+                isEnabled: isEnabled
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -2090,6 +2096,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.Bytes = source.imageSrc() === undefined ? null : source.imageSrc();
                 result.PageBanner = source.pageBanner() === undefined ? null : source.pageBanner();
                 result.isEnabled = source.isEnabled();
+                result.IsUserDefined = source.isUserDefined();
                 return result;
             },
             // Reset
@@ -2114,6 +2121,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             defaultPageKeyWords: defaultPageKeyWords,
             pageBanner: pageBanner,
             isValid: isValid,
+            isUserDefined:isUserDefined,
             errors: errors,
             isEnabled: isEnabled,
             dirtyFlag: dirtyFlag,
@@ -2125,7 +2133,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     };
     //CMS Page Create Factory
     CMSPage.Create = function (source) {
-        return new CMSPage(
+        var obj= new CMSPage(
             source.PageId,
             source.PageTitle,
             source.PageKeywords,
@@ -2141,9 +2149,11 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.ImageSource,
             source.DefaultPageKeyWords,
             source.FileName,
-            source.PageBanner
-
+            source.PageBanner,
+            source.isEnabled
         );
+        obj.isUserDefined(source.IsUserDefined);
+        return obj;
     };
     // #endregion ______________  CMS Page   _________________
 
@@ -2213,14 +2223,16 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             imageSource = ko.observable(specifiedImageSource),
             isDisplay = ko.observable(specifiedIsDisplay === null ? false : true),
             categoryName = ko.observable(specifiedCategoryName),
-
+            isUserDefined = ko.observable(undefined),
             convertToServerData = function () {
                 return {
                     PageId: pageId(),
-                }
+                    IsUserDefined: isUserDefined()
+                };
             };
         self = {
             pageId: pageId,
+            isUserDefined:isUserDefined,
             pageTitle: pageTitle,
             metaTitle: metaTitle,
             isEnabled: isEnabled,
@@ -2232,8 +2244,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         return self;
     };
     SecondaryPageListView.Create = function (source) {
-        return new SecondaryPageListView(source.PageId, source.PageTitle, source.Meta_Title, source.IsEnabled, source.IsDisplay,
+        var obj= new SecondaryPageListView(source.PageId, source.PageTitle, source.Meta_Title, source.IsEnabled, source.IsDisplay,
             source.CategoryName, source.ImageSource);
+        obj.isUserDefined(source.IsUserDefined);
+        return obj;
     };
     // #endregion ___________  Secondary Page List View ____________________
 
@@ -2541,7 +2555,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     OrganisationId: organisationId(),
                     BussinessAddressId: bussinessAddressId(),
                     FileName: fileName(),
-                    CompanyContactVariables: []
+                    ScopVariables: []
                     //BussinessAddress: bussinessAddress() != undefined ? bussinessAddress().convertToServerData(): null,
                     //ShippingAddress: shippingAddress() != undefined ? shippingAddress().convertToServerData() : null,
                 };
@@ -3983,7 +3997,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
 
     // #region ______________  Field Variable   _________________
     var FieldVariable = function (specifiedVariableId, specifiedVariableName, specifiedVariableType, specifiedScope, specifiedWaterMark, specifiedDefaultValue,
-          specifiedInputMask, specifiedCompanyId, specifiedVariableTag, specifiedScopeName, specifiedTypeName, specifiedVariableTitle) {
+          specifiedInputMask, specifiedCompanyId, specifiedVariableTag, specifiedVariableTitle) {
         var self,
             id = ko.observable(specifiedVariableId),
             variableName = ko.observable(specifiedVariableName).extend({ required: true }),
@@ -3995,8 +4009,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             inputMask = ko.observable((specifiedInputMask === undefined || specifiedInputMask === null) ? "xxx-xxxxx-xxxxx" : specifiedInputMask),
             companyId = ko.observable(specifiedCompanyId),
             variableTag = ko.observable(specifiedVariableTag),
-            scopeName = ko.observable(specifiedScopeName),
-            typeName = ko.observable(specifiedTypeName),
+            scopeName = ko.observable(),
+            typeName = ko.observable(),
             variableTitle = ko.observable(specifiedVariableTitle),
             fakeId = ko.observable(),
             variableOptions = ko.observableArray([]),
@@ -4331,7 +4345,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             smartFormId = ko.observable(specifiedSmartFormId),
             objectType = ko.observable(specifiedObjectType),
             sortOrder = ko.observable(specifiedSortOrder),
-            isRequired = ko.observable(specifiedIsRequired),
+            isRequired = ko.observable((specifiedIsRequired !== null && specifiedIsRequired !== undefined && specifiedIsRequired === true) ? "1" : "0"),
             variableId = ko.observable(specifiedVariableId),
             captionValue = ko.observable(specifiedCaptionValue),
             html = ko.observable(),
@@ -4342,7 +4356,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             result.SmartFormId = source.smartFormId() === undefined ? 0 : source.smartFormId();
             result.ObjectType = source.objectType() === undefined ? 0 : source.objectType();
             result.SortOrder = source.sortOrder() === undefined ? 0 : source.sortOrder();
-            result.VariableId = source.variableId() === undefined ? 0 : source.variableId();
+            result.VariableId = source.variableId() === undefined ? null : source.variableId();
+            result.IsRequired = source.isRequired() === "1" ? true : false;
             result.CaptionValue = source.captionValue() === undefined ? null : source.captionValue();
             return result;
         };

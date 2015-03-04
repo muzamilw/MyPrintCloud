@@ -5,7 +5,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                
-                <h4 class="modal-title" data-bind="text: $root.selectedProductCategoryForEditting() != undefined?  $root.selectedProductCategoryForEditting().categoryName(): ''"></h4>
+                <h4 class="modal-title" data-bind="text: $root.productCategoryTitle()"></h4>
                 
             </div>
             <div class="row" id="tabsheadersecondarypage">
@@ -137,7 +137,7 @@
                                                     <div class="profile-status">
 
                                                     </div>
-                                                    <img alt="" class="categoryImage profile-img img-responsive " /> @*center-block*@
+                                                    <img alt="" data-bind="attr: { src: productCategoryThumbnailFileBinary }" class="categoryImage profile-img img-responsive " /> @*center-block*@
                                                     @*<div class="profile-label">
                                                         <span class="label label-danger">Active</span>
                                                     </div>*@

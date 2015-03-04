@@ -53,6 +53,8 @@ namespace MPC.MIS.Areas.Api.Models
                 Meta_RobotsContent = source.Meta_RobotsContent,
                 Meta_Title = source.Meta_Title,
                 PageHTML = source.PageHTML,
+                IsUserDefined = source.isUserDefined,
+                isEnabled = source.isEnabled,
                 PageKeywords = source.PageKeywords,
                 PageTitle = source.PageTitle,
                 DefaultPageKeyWords = defaultPageKeyWords,
@@ -69,6 +71,7 @@ namespace MPC.MIS.Areas.Api.Models
             return new DomainModels.CmsPage
             {
                 PageId = source.PageId,
+                isUserDefined = source.IsUserDefined,
                 CategoryId = source.CategoryId,
                 Meta_AuthorContent = source.Meta_AuthorContent,
                 Meta_CategoryContent = source.Meta_CategoryContent,
@@ -83,6 +86,7 @@ namespace MPC.MIS.Areas.Api.Models
                 FileName = source.FileName,
                 Bytes = source.Bytes,
                 PageBanner = source.PageBanner,
+                isEnabled = source.isEnabled
             };
         }
 
@@ -108,6 +112,7 @@ namespace MPC.MIS.Areas.Api.Models
                 IsDisplay = source.isDisplay,
                 IsEnabled = source.isEnabled,
                 Meta_Title = source.Meta_Title,
+                IsUserDefined= source.isUserDefined,
                 Image = bytes,
                 CategoryName = source.PageCategory != null ? source.PageCategory.CategoryName : string.Empty,
             };
