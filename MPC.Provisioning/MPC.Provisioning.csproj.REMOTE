@@ -29,9 +29,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-
     <PlatformTarget>AnyCPU</PlatformTarget>
-
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -257,7 +255,6 @@
     <Content Include="Scripts\provisionNew.ps1" />
     <None Include="Properties\PublishProfiles\Provisioning.pubxml" />
     <Content Include="Scripts\AddDomain.ps1" />
-
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

@@ -14,6 +14,7 @@ define("stores/stores.viewModel",
                     //selected Current Page Id In Layout Page Tab
                     selectedCurrentPageId = ko.observable(),
                     selectedCurrentPageCopy = ko.observable(),
+                    ckEditorOpenFrom = ko.observable("Campaign"),
                     //Active Widget (use for dynamic controll)
                     selectedWidget = ko.observable(),
                     // Error List
@@ -632,7 +633,7 @@ define("stores/stores.viewModel",
                                                 edittedCompanyTerritories.push(selectedStore().companyTerritories()[0]);
                                             }
                                         }
-                                        
+
                                     } else { //flag == false
                                         toastr.error("Territory Exist in Address Or Contact. Please delete them first");
                                     }
@@ -1005,6 +1006,7 @@ define("stores/stores.viewModel",
                     emailCampaignSections = ko.observableArray([]),
                     //Create One Time Marketing Email
                     onCreateOneTimeMarketingEmail = function () {
+                        ckEditorOpenFrom("Campaign");
                         var campaign = model.Campaign();
                         campaign.campaignType(3);
                         campaign.reset();
@@ -1034,6 +1036,7 @@ define("stores/stores.viewModel",
                     },
                     //Create Interval Marketing Email
                     onCreateIntervalMarketingEmail = function () {
+                        ckEditorOpenFrom("Campaign");
                         var campaign = model.Campaign();
                         campaign.campaignType(2);
                         selectedEmail(campaign);
@@ -1091,6 +1094,7 @@ define("stores/stores.viewModel",
                                 });
                             }
                             if (email.id() === undefined) {
+                                email.id(-1);
                                 emails.splice(0, 0, email);
                             } else {
 
@@ -1109,6 +1113,7 @@ define("stores/stores.viewModel",
                     },
                     //Edit Email
                     onEditEmail = function (campaign) {
+                        ckEditorOpenFrom("Campaign");
                         selectedEmail(campaign);
                         selectedEmail().reset();
                         view.showEmailCamapaignDialog();
@@ -1218,7 +1223,9 @@ define("stores/stores.viewModel",
                                         droppedEmailSection(ui.helper.data('ko.draggable.data'), null, evt);
                                     }
                                 });
-                            }, 10000);
+
+
+                            }, 7000);
 
 
                     },
@@ -1800,6 +1807,7 @@ define("stores/stores.viewModel",
                     nextSecondaryPageIdCounter = ko.observable(0),
                     //Add New Secondary PAge
                     onAddSecondaryPage = function () {
+                        ckEditorOpenFrom("SecondaryPage");
                         var cmsPage = model.CMSPage();
                         cmsPage.isUserDefined(true);
                         selectedSecondaryPage(cmsPage);
@@ -1836,6 +1844,7 @@ define("stores/stores.viewModel",
                     },
                     //Edit Secondary Page
                     onEditSecondaryPage = function (secondaryPage) {
+                        ckEditorOpenFrom("SecondaryPage");
                         //If Newly added item edited i-e It is not save in db yet
                         if (secondaryPage.pageId() < 0) {
                             _.each(newAddedSecondaryPage(), function (item) {
@@ -2474,6 +2483,8 @@ define("stores/stores.viewModel",
                     },
                     //Selected Product Category
                     selectedProductCategory = ko.observable(),
+                    // Ttile while add/edit category
+                    productCategoryTitle = ko.observable(),
                     //Selected Product Category For Editting
                     selectedProductCategoryForEditting = ko.observable(),
                     //Deleted Product Categories List
@@ -2546,6 +2557,8 @@ define("stores/stores.viewModel",
                         productCategory.isPublished(true);
                         //Setting Product Category Editting
                         selectedProductCategoryForEditting(productCategory);
+                        productCategoryTitle("New Category");
+                      
                         //Setting drop down list of parent
                         //putting all list of categories
                         populatedParentCategoriesList.removeAll();
@@ -2628,6 +2641,7 @@ define("stores/stores.viewModel",
                                     if (data != null) {
                                         selectedProductCategoryForEditting(model.ProductCategory.Create(data));
                                         updateParentCategoryList(selectedProductCategoryForEditting().productCategoryId());
+                                        productCategoryTitle("Modify Category Settings");
                                         isSavingNewProductCategory(false);
                                         view.showStoreProductCategoryDialog();
                                     }
@@ -3624,6 +3638,7 @@ define("stores/stores.viewModel",
                         secondaryPagePager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getSecondoryPages));
                         addressPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
                         contactCompanyPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
+                        selectedCompanyDomainItem(undefined);
                         //companyTerritoryPager().totalCount(0);
                     },
                     //#endregion
@@ -3834,6 +3849,7 @@ define("stores/stores.viewModel",
                     },
                     //show Ck Editor Dialog
                     showCkEditorDialog = function (widget) {
+                        ckEditorOpenFrom("StoreLayout");
                         widget.cmsSkinPageWidgetParam().pageWidgetId(widget.pageWidgetId());
                         //widget.cmsSkinPageWidgetParam().editorId("editor" + newAddedWidgetIdCounter());
                         selectedWidget(widget.cmsSkinPageWidgetParam());
@@ -5031,6 +5047,8 @@ define("stores/stores.viewModel",
                     userCount: userCount,
                     orderCount: orderCount,
                     onChangeBannerSet: onChangeBannerSet,
+                    ckEditorOpenFrom: ckEditorOpenFrom,
+                    productCategoryTitle: productCategoryTitle,
                 };
                 //#endregion
             })()

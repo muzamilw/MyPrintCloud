@@ -532,3 +532,18 @@ add foreign key (VariableId)
 references FieldVariable(VariableId)
 
 GO
+
+/* Execution Date: 04/03/2015 */
+
+GO
+
+alter table dbo.Items
+add IsDigitalDownload bit null
+
+alter table Items
+add IsRealStateProduct bit null
+
+alter table Items
+add ProductDisplayOptions int null
+
+GO

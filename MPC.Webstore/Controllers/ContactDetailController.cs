@@ -116,8 +116,8 @@ namespace MPC.Webstore.Controllers
                {
                    ViewBag.Message = "Sorry, no profile updated.";
                }
-           
-                return View("Index");
+
+               return View("PartialViews/ContactDetail", Model);
        }
 
         private string UpdateImage(HttpPostedFileBase Request, CompanyContact Model)

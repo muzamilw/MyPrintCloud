@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
@@ -954,8 +955,9 @@ namespace MPC.Implementation.MISServices
         private Company UpdateCompany(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
             var productCategories = new List<ProductCategory>();
-            //var companyDomainsDbVersion = ;
-            IEnumerable<CompanyDomain> companyDomainsDbVersion = companyDbVersion.CompanyDomains;
+            var companyDomainsDbVersion = new List<CompanyDomain>();
+            companyDomainsDbVersion = companyDbVersion.CompanyDomains.ToList();
+            //IEnumerable<CompanyDomain> companyDomainsDbVersion = companyDbVersion.CompanyDomains;
             companySavingModel.Company.OrganisationId = companyRepository.OrganisationId;
             var companyToBeUpdated = UpdateRaveReviewsOfUpdatingCompany(companySavingModel.Company);
             companyToBeUpdated = UpdatePaymentGatewaysOfUpdatingCompany(companyToBeUpdated);
@@ -1003,7 +1005,7 @@ namespace MPC.Implementation.MISServices
             companyRepository.SaveChanges();
 
             //Call Service to add or remove the IIS Bindings for Store Domains
-            // updateDomainsInIIS(companyDomainsDbVersion, companyDbVersion.CompanyDomains);
+            updateDomainsInIIS(companyDbVersion.CompanyDomains, companyDomainsDbVersion);
             return companySavingModel.Company;
         }
 
@@ -1033,61 +1035,41 @@ namespace MPC.Implementation.MISServices
         {
             //var companyDbVersion = companySavedDomains;
             #region Company Domain
-            //Add Company Domain
+            #region Add Company Domain
             if (companySavedDomains != null)
             {
                 foreach (var item in companySavedDomains)
                 {
-                    if (companyDbVersion.All(x => x.CompanyDomainId != item.CompanyDomainId && x.CompanyId != item.CompanyId))
+                    if (companyDbVersion.All(x => x.CompanyDomainId != item.CompanyDomainId))
                     {
                         using (var client = new HttpClient())
                         {
                             client.BaseAddress = new Uri(ConfigurationManager.AppSettings["AddDomainPath"]);
                             client.DefaultRequestHeaders.Accept.Clear();
                             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                            string url = "AddDomain?siteName=" + "sdds" + "&domainName = " + "dsds";
+                            string mySiteUrl = HttpContext.Current.Request.Url.Host;
+                            string url = "AddDomain?siteName=" + mySiteUrl + "&domainName=" + item.Domain + "&isRemoving=" + false;
                             string responsestr = "";
                             var response = client.GetAsync(url);
                             if (response.Result.IsSuccessStatusCode)
                             {
-                                responsestr = response.Result.Content.ReadAsStringAsync().Result;
-                                var validationInfo = JsonConvert.DeserializeObject<ValidationInfo>(responsestr);
                             }
                         }
-                        //item.CompanyId = company.CompanyId;
-                        //companyDbVersion.CompanyDomains.Add(item);
                     }
                 }
             }
+            #endregion Add Company Domain
             //find missing items
 
             List<CompanyDomain> missingCompanyDomains = new List<CompanyDomain>();
             // ReSharper disable once LoopCanBeConvertedToQuery
             if (companyDbVersion != null)
             {
-
-
                 foreach (CompanyDomain dbversionCompanyDomain in companyDbVersion)
                 {
-                    if (companySavedDomains != null && companySavedDomains.All(x => x.CompanyDomainId != dbversionCompanyDomain.CompanyDomainId && x.CompanyId != dbversionCompanyDomain.CompanyDomainId))
+                    if (companySavedDomains != null && companySavedDomains.All(x => x.CompanyDomainId != dbversionCompanyDomain.CompanyDomainId))// && x.CompanyId != dbversionCompanyDomain.CompanyDomainId
                     {
-                        using (var client = new HttpClient())
-                        {
-                            client.BaseAddress = new Uri(ConfigurationManager.AppSettings["AddDomainPath"]);
-                            client.DefaultRequestHeaders.Accept.Clear();
-                            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                            string url = "AddDomain?siteName=" + "sdds" + "&domainName = " + "dsds";
-                            string responsestr = "";
-                            var response = client.GetAsync(url);
-                            if (response.Result.IsSuccessStatusCode)
-                            {
-                                responsestr = response.Result.Content.ReadAsStringAsync().Result;
-                                var validationInfo = JsonConvert.DeserializeObject<ValidationInfo>(responsestr);
-                            }
-                        }
-                        //missingCompanyDomains.Add(dbversionCompanyDomain);
+                        missingCompanyDomains.Add(dbversionCompanyDomain);
                     }
                 }
 
@@ -1095,19 +1077,20 @@ namespace MPC.Implementation.MISServices
                 foreach (CompanyDomain missingCompanyDomain in missingCompanyDomains)
                 {
 
-                    CompanyDomain dbVersionMissingItem = companyDbVersion.First(x => x.CompanyDomainId == missingCompanyDomain.CompanyDomainId && x.CompanyId == missingCompanyDomain.CompanyId);
-
-                    //companyDbVersion.Remove(dbVersionMissingItem);
-                    //companyDomainRepository.Delete(dbVersionMissingItem);
-
-                }
-            }
-            if (companySavedDomains != null)
-            {
-                //updating Company Domains
-                foreach (var companyDomain in companySavedDomains)
-                {
-                    //companyDomainRepository.Update(companyDomain);
+                    CompanyDomain dbVersionMissingItem = companyDbVersion.First(x => x.CompanyDomainId == missingCompanyDomain.CompanyDomainId );
+                    using (var client = new HttpClient())
+                    {
+                        client.BaseAddress = new Uri(ConfigurationManager.AppSettings["RemoveDomainPath"]);
+                        client.DefaultRequestHeaders.Accept.Clear();
+                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                        string mySiteUrl = HttpContext.Current.Request.Url.Host;
+                        string url = "RemoveDomain?siteName=" + mySiteUrl + "&domainName=" + dbVersionMissingItem.Domain + "&isRemoving=" + true;
+                        string responsestr = "";
+                        var response = client.GetAsync(url);
+                        if (response.Result.IsSuccessStatusCode)
+                        {
+                        }
+                    }
                 }
             }
             #endregion
@@ -3357,6 +3340,23 @@ namespace MPC.Implementation.MISServices
                                             r.Comment = "Items image for Store";
 
                                         }
+                                    }
+                                    if(item.ItemAttachments != null && item.ItemAttachments.Count > 0)
+                                    {
+                                        foreach(var itemAttach in item.ItemAttachments)
+                                        {
+
+                                            string FilePath = HttpContext.Current.Server.MapPath(itemAttach.FolderPath);
+                                            DPath = "/Attachments/" + OrganisationID + "/" + item.ItemId;
+                                            if (File.Exists(FilePath))
+                                            {
+                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                r.Comment = "Items image for Store";
+
+                                            }
+                                        }
+
+
                                     }
                                 }
 
