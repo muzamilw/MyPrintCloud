@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets8AF2A76DB69F37987A51323C1243D0EB55221D7BAAC061EB2F6AED9E584DDF72))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsF8D4680F7E56CEFE78B0111A701756C560929D4625E3D0AE379D9AD8F808C28C))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,19 +17,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets8AF2A76DB69F37987A51323C1243D0EB55221D7BAAC061EB2F6AED9E584DDF72 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsF8D4680F7E56CEFE78B0111A701756C560929D4625E3D0AE379D9AD8F808C28C : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets8AF2A76DB69F37987A51323C1243D0EB55221D7BAAC061EB2F6AED9E584DDF72()
+        public ViewsForBaseEntitySetsF8D4680F7E56CEFE78B0111A701756C560929D4625E3D0AE379D9AD8F808C28C()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "f6c627aa36e20e8447835f0d5eb91d097ff0a4ef3b889405c6ed4ff555ca34e1";
-            this.HashOverAllExtentViews = "2924d2c146ca6f9f74d81bd03093cbdd59294ec310b931014ccac7056571334b";
-            this.ViewCount = 292;
+            this.HashOverMappingClosure = "4ac4adead8f3834215f1f2567d5e42ce2ca5cfb090ea4801608bb663c91311d0";
+            this.HashOverAllExtentViews = "53211b289c36dfc1d358ec7868cb44a038678b7ea4e1f594101e48d20e176b43";
+            this.ViewCount = 294;
         }
         
         /// <Summary>
@@ -1204,6 +1204,14 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 291))
             {
                 return GetView291();
+            }
+            if ((index == 292))
+            {
+                return GetView292();
+            }
+            if ((index == 293))
+            {
+                return GetView293();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -10937,6 +10945,85 @@ namespace Edm_EntityMappingGeneratedViews
             True AS _from0
         FROM DomainModelsStoreContainer.NABTransaction AS T
     ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.vw_SaveDesign
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView292()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2402);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing vw_SaveDesign\r\n        [DomainModels.Store.vw");
+            viewString.Append("_SaveDesign](T1.[vw_SaveDesign.ItemID], T1.[vw_SaveDesign.AttachmentItemId], T1.");
+            viewString.Append("[vw_SaveDesign.AttachmentFileName], T1.[vw_SaveDesign.AttachmentFolderPath], T1.");
+            viewString.Append("[vw_SaveDesign.EstimateID], T1.[vw_SaveDesign.ProductName], T1.[vw_SaveDesign.Pr");
+            viewString.Append("oductCategoryName], T1.[vw_SaveDesign.ProductCategoryID], T1.[vw_SaveDesign.Pare");
+            viewString.Append("ntCategoryID], T1.[vw_SaveDesign.MinPrice], T1.[vw_SaveDesign.IsEnabled], T1.[vw");
+            viewString.Append("_SaveDesign.IsPublished], T1.[vw_SaveDesign.IsArchived], T1.[vw_SaveDesign.Invoi");
+            viewString.Append("ceID], T1.[vw_SaveDesign.ContactID], T1.[vw_SaveDesign.CompanyId], T1.[vw_SaveDe");
+            viewString.Append("sign.IsCustomer], T1.[vw_SaveDesign.RefItemID], T1.[vw_SaveDesign.StatusID], T1.");
+            viewString.Append("[vw_SaveDesign.StatusName], T1.[vw_SaveDesign.IsOrderedItem], T1.[vw_SaveDesign.");
+            viewString.Append("ItemCreationDateTime], T1.[vw_SaveDesign.TemplateID])\r\n    FROM (\r\n        SELEC");
+            viewString.Append("T \r\n            T.ItemID AS [vw_SaveDesign.ItemID], \r\n            T.AttachmentIt");
+            viewString.Append("emId AS [vw_SaveDesign.AttachmentItemId], \r\n            T.AttachmentFileName AS ");
+            viewString.Append("[vw_SaveDesign.AttachmentFileName], \r\n            T.AttachmentFolderPath AS [vw_");
+            viewString.Append("SaveDesign.AttachmentFolderPath], \r\n            T.EstimateID AS [vw_SaveDesign.E");
+            viewString.Append("stimateID], \r\n            T.ProductName AS [vw_SaveDesign.ProductName], \r\n      ");
+            viewString.Append("      T.ProductCategoryName AS [vw_SaveDesign.ProductCategoryName], \r\n          ");
+            viewString.Append("  T.ProductCategoryID AS [vw_SaveDesign.ProductCategoryID], \r\n            T.Pare");
+            viewString.Append("ntCategoryID AS [vw_SaveDesign.ParentCategoryID], \r\n            T.MinPrice AS [v");
+            viewString.Append("w_SaveDesign.MinPrice], \r\n            T.IsEnabled AS [vw_SaveDesign.IsEnabled], ");
+            viewString.Append("\r\n            T.IsPublished AS [vw_SaveDesign.IsPublished], \r\n            T.IsAr");
+            viewString.Append("chived AS [vw_SaveDesign.IsArchived], \r\n            T.InvoiceID AS [vw_SaveDesig");
+            viewString.Append("n.InvoiceID], \r\n            T.ContactID AS [vw_SaveDesign.ContactID], \r\n        ");
+            viewString.Append("    T.CompanyId AS [vw_SaveDesign.CompanyId], \r\n            T.IsCustomer AS [vw_");
+            viewString.Append("SaveDesign.IsCustomer], \r\n            T.RefItemID AS [vw_SaveDesign.RefItemID], ");
+            viewString.Append("\r\n            T.StatusID AS [vw_SaveDesign.StatusID], \r\n            T.StatusName");
+            viewString.Append(" AS [vw_SaveDesign.StatusName], \r\n            T.IsOrderedItem AS [vw_SaveDesign.");
+            viewString.Append("IsOrderedItem], \r\n            T.ItemCreationDateTime AS [vw_SaveDesign.ItemCreat");
+            viewString.Append("ionDateTime], \r\n            T.TemplateID AS [vw_SaveDesign.TemplateID], \r\n      ");
+            viewString.Append("      True AS _from0\r\n        FROM BaseDbContext.SaveDesignViews AS T\r\n    ) AS ");
+            viewString.Append("T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.vw_SaveDesign", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.SaveDesignViews
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView293()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2364);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing SaveDesignViews\r\n        [DomainModels.SaveDe");
+            viewString.Append("signView](T1.SaveDesignView_ItemID, T1.SaveDesignView_AttachmentItemId, T1.SaveD");
+            viewString.Append("esignView_AttachmentFileName, T1.SaveDesignView_AttachmentFolderPath, T1.SaveDes");
+            viewString.Append("ignView_EstimateID, T1.SaveDesignView_ProductName, T1.SaveDesignView_ProductCate");
+            viewString.Append("goryName, T1.SaveDesignView_ProductCategoryID, T1.SaveDesignView_ParentCategoryI");
+            viewString.Append("D, T1.SaveDesignView_MinPrice, T1.SaveDesignView_IsEnabled, T1.SaveDesignView_Is");
+            viewString.Append("Published, T1.SaveDesignView_IsArchived, T1.SaveDesignView_InvoiceID, T1.SaveDes");
+            viewString.Append("ignView_ContactID, T1.SaveDesignView_CompanyId, T1.SaveDesignView_IsCustomer, T1");
+            viewString.Append(".SaveDesignView_RefItemID, T1.SaveDesignView_StatusID, T1.SaveDesignView_StatusN");
+            viewString.Append("ame, T1.SaveDesignView_IsOrderedItem, T1.SaveDesignView_ItemCreationDateTime, T1");
+            viewString.Append(".SaveDesignView_TemplateID)\r\n    FROM (\r\n        SELECT \r\n            T.ItemID A");
+            viewString.Append("S SaveDesignView_ItemID, \r\n            T.AttachmentItemId AS SaveDesignView_Atta");
+            viewString.Append("chmentItemId, \r\n            T.AttachmentFileName AS SaveDesignView_AttachmentFil");
+            viewString.Append("eName, \r\n            T.AttachmentFolderPath AS SaveDesignView_AttachmentFolderPa");
+            viewString.Append("th, \r\n            T.EstimateID AS SaveDesignView_EstimateID, \r\n            T.Pro");
+            viewString.Append("ductName AS SaveDesignView_ProductName, \r\n            T.ProductCategoryName AS S");
+            viewString.Append("aveDesignView_ProductCategoryName, \r\n            T.ProductCategoryID AS SaveDesi");
+            viewString.Append("gnView_ProductCategoryID, \r\n            T.ParentCategoryID AS SaveDesignView_Par");
+            viewString.Append("entCategoryID, \r\n            T.MinPrice AS SaveDesignView_MinPrice, \r\n          ");
+            viewString.Append("  T.IsEnabled AS SaveDesignView_IsEnabled, \r\n            T.IsPublished AS SaveDe");
+            viewString.Append("signView_IsPublished, \r\n            T.IsArchived AS SaveDesignView_IsArchived, \r");
+            viewString.Append("\n            T.InvoiceID AS SaveDesignView_InvoiceID, \r\n            T.ContactID ");
+            viewString.Append("AS SaveDesignView_ContactID, \r\n            T.CompanyId AS SaveDesignView_Company");
+            viewString.Append("Id, \r\n            T.IsCustomer AS SaveDesignView_IsCustomer, \r\n            T.Ref");
+            viewString.Append("ItemID AS SaveDesignView_RefItemID, \r\n            T.StatusID AS SaveDesignView_S");
+            viewString.Append("tatusID, \r\n            T.StatusName AS SaveDesignView_StatusName, \r\n            ");
+            viewString.Append("T.IsOrderedItem AS SaveDesignView_IsOrderedItem, \r\n            T.ItemCreationDat");
+            viewString.Append("eTime AS SaveDesignView_ItemCreationDateTime, \r\n            T.TemplateID AS Save");
+            viewString.Append("DesignView_TemplateID, \r\n            True AS _from0\r\n        FROM DomainModelsSt");
+            viewString.Append("oreContainer.vw_SaveDesign AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.SaveDesignViews", viewString.ToString());
         }
     }
 }
