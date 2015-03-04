@@ -1289,7 +1289,7 @@ namespace MigrationUtility
                 long companyid = Convert.ToInt32( txtStoreId.Text);
 
                 
-                var widgets =  MPCContext.CmsSkinPageWidgets.Include("CmsSkinPageWidgetParams").Where(g => g.CompanyId == companyid).ToList();
+                var widgets =  MPCContext.CmsSkinPageWidgets.Include("CmsSkinPageWidgetParams").Include("CmsPage").Where(g => g.CompanyId == companyid).ToList();
 
                 List<CmsSkinPageWidgetModel> oOutputwidgets = new List<CmsSkinPageWidgetModel>();
 
@@ -1298,6 +1298,8 @@ namespace MigrationUtility
                     var omappedItem = Mapper.Map<CmsSkinPageWidget, CmsSkinPageWidgetModel>(item);
                     if ( item.CmsSkinPageWidgetParams.Count > 0)
                         omappedItem.ParamValue = item.CmsSkinPageWidgetParams.First().ParamValue;
+
+                    omappedItem.PageName = item.CmsPage.PageName;
 
                     oOutputwidgets.Add(omappedItem);
                 }

@@ -2148,9 +2148,18 @@ namespace MPC.Repository.Repositories
 
                     if (isNewSectionCostCenter)
                     {
-                        sectionCC.CostCentreId = 206;
-                        sectionCC.ItemSectionId = FirstItemSection.ItemSectionId;
-                        FirstItemSection.SectionCostcentres.Add(sectionCC);
+                        //29 is the global type of web order cost centre
+                        var oCostCentre = db.CostCentres.Where(g => g.Type == 29).SingleOrDefault();
+                        if (oCostCentre != null)
+                        {
+                            sectionCC.CostCentreId = oCostCentre.CostCentreId;
+                            sectionCC.ItemSectionId = FirstItemSection.ItemSectionId;
+                            FirstItemSection.SectionCostcentres.Add(sectionCC);
+                        }
+                        else
+                        {
+                            throw new Exception("Critcal Error, We have lost our main costcentre.", null);
+                        }
                     }
 
                     if (result)

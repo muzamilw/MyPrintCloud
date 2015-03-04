@@ -20,8 +20,7 @@
                      <div class="col-md-3 col-lg-3 col-xs-12 BD rounded_corners">
                     <div class="pad5">
                         <div class="LCLB">
-                            @if (item.ProductType == (int)ProductType.FinishedGoodWithBanner || item.ProductType == (int)ProductType.FinishedGoodWithImageRotator)
-                            {
+                           
                                 <a id="hlProductDetail" href="#">
                                     <div class="PDTC FI">
                                        
@@ -29,17 +28,7 @@
                                     </div>
                                 </a>
 
-                            }
-                            else
-                            {
-                                <a id="hlProductDetail" href="# ">
-                                    <div class="PDTC FI">
-                     
-                                        <img id="imgThumbnail" class="full_img_ThumbnailPath" src='@Html.GetAppBasePath()@item.ThumbnailPath' />
-                                    </div>
-                                </a>
-
-                            }
+                           
                    
                         </div>
                         <div class="product_detail_image_heading_IRI">
