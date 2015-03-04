@@ -196,5 +196,6 @@ namespace MPC.Interfaces.WebStoreServices
         string GetPasswordByContactID(long ContactID);
 
         bool SaveResetPassword(long ContactID, string Password);
+        List<CmsSkinPageWidget> GetStoreWidgets(long CompanyId);
     }
 }

@@ -12,6 +12,7 @@ using MigrationUtility.Preview;
 using AutoMapper;
 using AutoMapper.Mappers;
 using System.Reflection;
+using Newtonsoft.Json;
 
 namespace MigrationUtility
 {
@@ -88,7 +89,7 @@ namespace MigrationUtility
             return String.Compare(memberName, nameToMatch, StringComparison.OrdinalIgnoreCase) == 0;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void RetailStoreImport(object sender, EventArgs e)
         {
 
             try
@@ -1274,6 +1275,38 @@ namespace MigrationUtility
                 MessageBox.Show(ex.ToString());
             }
 
+        }
+
+        private void btnStoreWidgetExport_Click(object sender, EventArgs e)
+        {
+              Mapper.CreateMap<CmsSkinPageWidget, CmsSkinPageWidgetModel>();
+
+            using (MPCPreviewEntities1 MPCContext = new MPCPreviewEntities1())
+            {
+                
+                MPCContext.Configuration.LazyLoadingEnabled = false;
+
+                long companyid = Convert.ToInt32( txtStoreId.Text);
+
+                
+                var widgets =  MPCContext.CmsSkinPageWidgets.Include("CmsSkinPageWidgetParams").Where(g => g.CompanyId == companyid).ToList();
+
+                List<CmsSkinPageWidgetModel> oOutputwidgets = new List<CmsSkinPageWidgetModel>();
+
+                foreach (var item in widgets)
+                {
+                    var omappedItem = Mapper.Map<CmsSkinPageWidget, CmsSkinPageWidgetModel>(item);
+                    if ( item.CmsSkinPageWidgetParams.Count > 0)
+                        omappedItem.ParamValue = item.CmsSkinPageWidgetParams.First().ParamValue;
+
+                    oOutputwidgets.Add(omappedItem);
+                }
+
+                output.Text = JsonConvert.SerializeObject(oOutputwidgets, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+                
+
+
+            }
         }
 
       

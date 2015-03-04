@@ -458,17 +458,16 @@ namespace MPC.Webstore.Controllers
         //}
         private void BindCategoryData(List<ProductCategory> productCatList)
         {
-            if (productCatList != null)
+            if (productCatList != null && productCatList.Count > 0)
             {
-                if (productCatList.Count > 0)
-                {
-
-                    productCatList = productCatList.OrderBy(c => c.DisplayOrder).ToList();
-
-                }
-
+                productCatList = productCatList.OrderBy(c => c.DisplayOrder).ToList();
+                ViewData["ProductCategory"] = productCatList;
             }
-            ViewData["ProductCategory"] = productCatList;
+            else
+            {
+                ViewData["ProductCategory"] = null;
+            }
+            
         }
 
     }

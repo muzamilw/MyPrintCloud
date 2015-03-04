@@ -2853,8 +2853,6 @@
     <Content Include="Scripts\Script\form-validation.js" />
     <Content Include="Scripts\Script\forms.js" />
     <Content Include="Scripts\Script\jquery.cookie.js" />
-    <Content Include="Scripts\Script\jquery.foggy.js" />
-    <Content Include="Scripts\Script\jquery.foggy.min.js" />
     <Content Include="Scripts\Script\jquery.mousewheel.js" />
     <Content Include="Scripts\Script\main.js" />
     <Content Include="Scripts\Script\support.js" />

@@ -2512,6 +2512,8 @@ define("stores/stores.viewModel",
                 },
                 //Selected Product Category
                 selectedProductCategory = ko.observable(),
+                    // Ttile while add/edit category
+                    productCategoryTitle = ko.observable(),
                 //Selected Product Category For Editting
                 selectedProductCategoryForEditting = ko.observable(),
                 //Deleted Product Categories List
@@ -2584,6 +2586,8 @@ define("stores/stores.viewModel",
                     productCategory.isPublished(true);
                     //Setting Product Category Editting
                     selectedProductCategoryForEditting(productCategory);
+                        productCategoryTitle("New Category");
+                      
                     //Setting drop down list of parent
                     //putting all list of categories
                     populatedParentCategoriesList.removeAll();
@@ -2666,6 +2670,7 @@ define("stores/stores.viewModel",
                                 if (data != null) {
                                     selectedProductCategoryForEditting(model.ProductCategory.Create(data));
                                     updateParentCategoryList(selectedProductCategoryForEditting().productCategoryId());
+                                        productCategoryTitle("Modify Category Settings");
                                     isSavingNewProductCategory(false);
                                     view.showStoreProductCategoryDialog();
                                 }
@@ -3667,6 +3672,7 @@ define("stores/stores.viewModel",
                     secondaryPagePager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getSecondoryPages));
                     addressPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
                     contactCompanyPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
+                        selectedCompanyDomainItem(undefined);
                     //companyTerritoryPager().totalCount(0);
                 },
                 //#endregion
@@ -5077,6 +5083,7 @@ define("stores/stores.viewModel",
                     onChangeBannerSet: onChangeBannerSet,
                     ckEditorOpenFrom: ckEditorOpenFrom,
                     themes: themes,
+                    productCategoryTitle: productCategoryTitle,
                     selectedTheme: selectedTheme,
                     onApplyTheme: onApplyTheme,
                 };

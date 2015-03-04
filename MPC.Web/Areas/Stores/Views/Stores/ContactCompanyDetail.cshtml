@@ -455,7 +455,7 @@
                                             <header class="main-box-header clearfix">
                                                 <h2>Categories</h2>
                                                 <a data-bind="click: $root.onCreateNewProductCategory" class="btn btn-primary pull-right">
-                                                    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Category
+                                                    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
                                                 </a>
                                             </header>
                                             <div style="padding-right: 5px;" id="nestable2">
@@ -493,14 +493,16 @@
                                         <h3 class="group-header">Territories</h3>
                                         <div class="col-lg-12 clearfix">
                                             <header class="main-box-header clearfix">
-                                                <div class="filter-block pull-right">
-                                                    <div class="form-group pull-left">
-                                                        <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchCompanyTerritoryFilter, validationOnElement: $root.searchCompanyTerritoryFilter">
-                                                        <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyTerritory"></i>
+                                                <div class="filter-block">
+                                                    <div class="filter-block pull-right col-xs-5">
+                                                        <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
+                                                            <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchCompanyTerritoryFilter, validationOnElement: $root.searchCompanyTerritoryFilter">
+                                                            <i class="fa fa-search search-icon" data-bind="click:$root.searchAddress"></i>
+                                                        </div>
+                                                        <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyTerritory" class="btn btn-primary pull-right">
+                                                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
+                                                        </a>
                                                     </div>
-                                                    <a data-toggle="modal" class="btn btn-primary pull-right" data-bind="click: $root.onCreateNewCompanyTerritory">
-                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
-                                                    </a>
                                                 </div>
                                             </header>
                                             <div class="main-box-body clearfix">
@@ -593,14 +595,16 @@
                                                     <select class="form-control col-lg-4" data-bind="options:$root.contactCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Select Territory...', value: $root.contactCompanyTerritoryFilter"></select>
                                                 </div>
                                                 <!--/ko-->
-                                                <div class="filter-block pull-right">
-                                                    <div class="form-group pull-left">
-                                                        <input type="text" class="form-control" placeholder="Search ..." data-bind="value: $root.searchCompanyContactFilter, validationOnElement: $root.searchCompanyContactFilter">
-                                                        <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyContact"></i>
+                                                <div class="filter-block">
+                                                    <div class="filter-block pull-right col-xs-5">
+                                                        <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
+                                                            <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchCompanyContactFilter, validationOnElement: $root.searchCompanyContactFilter">
+                                                            <i class="fa fa-search search-icon" data-bind="click:$root.searchAddress"></i>
+                                                        </div>
+                                                        <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyContact" class="btn btn-primary pull-right">
+                                                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
+                                                        </a>
                                                     </div>
-                                                    <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyContact" class="btn btn-primary pull-right">
-                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
-                                                    </a>
                                                 </div>
                                             </header>
                                             <div class="main-box-body clearfix">
@@ -966,7 +970,7 @@
                                                     <select class="form-control" data-bind="options: $root.companyBannerSetList,optionsCaption:'All Set', optionsText: 'setName', optionsValue: 'id',value:$root.filteredCompanySetId,event:{ change: $root.onChangeBannerSet}"></select>
                                                 </div>
                                                 <div class="btn btn-primary pull-right" data-bind="click:$root.onCreateBanner">
-                                                    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Banner
+                                                    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
                                                 </div>
                                                 @*Banners Grid Starts here*@
                                                 <div class="clearfix">
@@ -1065,7 +1069,7 @@
                                                 </div>
                                             </div>
                                             <div data-bind="click:$root.onAddSecondaryPage" style="margin-right:17px;" class="btn btn-primary pull-right">
-                                                <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Secondary Page
+                                                <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
                                             </div>
                                             <div class="main-box-body clearfix">
                                                 <div class="table-responsive">
@@ -1190,7 +1194,7 @@
                                     <h3 class="group-header">One time Marketing Emails</h3>
                                     <div class="pull-right">
                                         <a href="#" class="btn btn-primary" data-bind="click:$root.onCreateOneTimeMarketingEmail">
-                                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Email
+                                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
                                         </a>
                                     </div>
                                     <div class="main-box-body clearfix">
@@ -1214,7 +1218,7 @@
                                     <h3 class="group-header">Interval Marketing Emails</h3>
                                     <div class="pull-right">
                                         <a href="#" class="btn btn-primary" data-bind="click:$root.onCreateIntervalMarketingEmail">
-                                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Email
+                                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
                                         </a>
                                     </div>
                                     <div class="main-box-body clearfix">
@@ -1481,7 +1485,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                         <i class="fa fa-search search-icon"></i>
                                                     </div>
                                                     <a data-toggle="modal" class="btn btn-primary pull-right" data-bind="click:$root.onCreateNewPaymentGateway">
-                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Gateway
+                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
                                                     </a>
                                                 </div>
                                             </header>
@@ -1702,7 +1706,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 </div>
                                                 <div class="filter-block pull-right col-xs-5">
                                                     <a class="btn btn-primary pull-right" data-bind="click: $root.onCreateNewCompanyCMYKColor">
-                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add CMYK
+                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
                                                     </a>
                                                 </div>
                                             </div>
@@ -1750,7 +1754,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 </div>
                                                 <div class="filter-block pull-right col-xs-5" data-bind="click:$root.onAddVariableDefination">
                                                     <a class="btn btn-primary pull-right">
-                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Variable
+                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add 
                                                     </a>
                                                 </div>
                                             </div>
@@ -1792,7 +1796,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 </div>
                                                 <div class="filter-block pull-right col-xs-5">
                                                     <a class="btn btn-primary pull-right" data-bind="click:$root.addSmartForm">
-                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add New Smart Form
+                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
                                                     </a>
                                                 </div>
                                             </div>
