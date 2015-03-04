@@ -300,6 +300,7 @@
     <Compile Include="Areas\Api\Controllers\CalendarBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\CalendarController.cs" />
     <Compile Include="Areas\Api\Controllers\CampaignBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\CompanyBannerController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactBaseForCrmController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCrmController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />

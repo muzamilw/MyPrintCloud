@@ -137,6 +137,12 @@
                         dataType: 'json',
                         type: 'Delete'
                     });
+                    // Define request to delete Banner
+                    amplify.request.define('deleteCompanyBanner', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyBanner',
+                        dataType: 'json',
+                        type: 'Delete'
+                    });
                     // Define request to save Store
                     amplify.request.define('saveStore', 'ajax', {
                         url: ist.siteUrl + '/Api/Company',
@@ -441,6 +447,17 @@
                     data: params
                 });
             },
+             // delete Banner
+            deleteCompanyBanner = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteCompanyBanner',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            
               // Get Secondry Page By Id
             getSecondryPageById = function (params, callbacks) {
                 initialize();
@@ -610,6 +627,7 @@
             getCmpanyContactVaribableByCompanyId: getCmpanyContactVaribableByCompanyId,
             saveSmartForm: saveSmartForm,
             getSmartFormsByCompanyId: getSmartFormsByCompanyId,
+            deleteCompanyBanner: deleteCompanyBanner,
         };
     })();
 

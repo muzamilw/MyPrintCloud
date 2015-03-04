@@ -16,11 +16,11 @@ namespace MigrationUtility.Preview
     {
         public StockItem()
         {
-            this.ItemSections = new HashSet<ItemSection>();
             this.ItemStockOptions = new HashSet<ItemStockOption>();
             this.SectionCostCentreDetails = new HashSet<SectionCostCentreDetail>();
             this.StockCostAndPrices = new HashSet<StockCostAndPrice>();
             this.StockItemsColors = new HashSet<StockItemsColor>();
+            this.ItemSections = new HashSet<ItemSection>();
         }
     
         public long StockItemId { get; set; }
@@ -92,13 +92,13 @@ namespace MigrationUtility.Preview
         public Nullable<int> ThresholdProductionQuantity { get; set; }
         public Nullable<bool> isAllowBackOrder { get; set; }
     
-        public virtual Company Company { get; set; }
-        public virtual ICollection<ItemSection> ItemSections { get; set; }
         public virtual ICollection<ItemStockOption> ItemStockOptions { get; set; }
         public virtual ICollection<SectionCostCentreDetail> SectionCostCentreDetails { get; set; }
         public virtual StockCategory StockCategory { get; set; }
         public virtual ICollection<StockCostAndPrice> StockCostAndPrices { get; set; }
         public virtual ICollection<StockItemsColor> StockItemsColors { get; set; }
         public virtual StockSubCategory StockSubCategory { get; set; }
+        public virtual Company Company { get; set; }
+        public virtual ICollection<ItemSection> ItemSections { get; set; }
     }
 }

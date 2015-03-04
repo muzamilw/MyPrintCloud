@@ -55,8 +55,8 @@ namespace MigrationUtility.Preview
         public virtual Country Country { get; set; }
         public virtual State State { get; set; }
         public virtual ICollection<CompanyContact> CompanyContacts { get; set; }
-        public virtual Company Company { get; set; }
         public virtual CompanyTerritory CompanyTerritory { get; set; }
         public virtual ICollection<CompanyContact> CompanyContacts1 { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

@@ -122,8 +122,8 @@ namespace MPC.Implementation.WebStoreServices
                     oStore.Organisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
                     oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
                     oStore.Banners = _companyBannerRepository.GetCompanyBannersById(oCompany.CompanyId);
-                    oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
-                    oStore.SecondaryPages = AllPages.Where(s => s.CompanyId == oCompany.CompanyId).ToList();
+                oStore.SystemPages = AllPages.Where(s => s.isUserDefined == false).ToList();
+                oStore.SecondaryPages = AllPages.Where(s => s.isUserDefined == true).ToList();
                     oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
                     oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oStore.Organisation.CurrencyId));
                     oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
@@ -151,8 +151,8 @@ namespace MPC.Implementation.WebStoreServices
                         oStore.Organisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
                         oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
                         oStore.Banners = _companyBannerRepository.GetCompanyBannersById(oCompany.CompanyId);
-                        oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
-                        oStore.SecondaryPages = AllPages.Where(s => s.CompanyId == oCompany.CompanyId).ToList();
+                    oStore.SystemPages = AllPages.Where(s => s.isUserDefined == false).ToList();
+                    oStore.SecondaryPages = AllPages.Where(s => s.isUserDefined == true).ToList();
                         oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
                         oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oCompany.OrganisationId));
                         oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
@@ -210,8 +210,8 @@ namespace MPC.Implementation.WebStoreServices
                     oStore.Organisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
                     oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
                     oStore.Banners = _companyBannerRepository.GetCompanyBannersById(oCompany.CompanyId);
-                    oStore.SystemPages = AllPages.Where(s => s.CompanyId == null).ToList();
-                    oStore.SecondaryPages = AllPages.Where(s => s.CompanyId == oCompany.CompanyId).ToList();
+                oStore.SystemPages = AllPages.Where(s => s.isUserDefined == false).ToList();
+                oStore.SecondaryPages = AllPages.Where(s => s.isUserDefined == true).ToList();
                     oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
                     oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oStore.Organisation.CurrencyId));
                     oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
@@ -289,6 +289,7 @@ namespace MPC.Implementation.WebStoreServices
             }
            
         }
+
 
         public CompanyContact GetContactByEmail(string Email,long OrganisationID)
         {
@@ -949,6 +950,7 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
+
 
         public List<Address> GetAddressByCompanyID(long companyID)
         {

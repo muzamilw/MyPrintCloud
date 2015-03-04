@@ -532,4 +532,3 @@ add foreign key (VariableId)
 references FieldVariable(VariableId)
 
 GO
-
