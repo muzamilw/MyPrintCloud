@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
@@ -76,7 +77,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 defaultCss = File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultCss/Default_CompanyStyles.css"));
             }
-
+            List<SkinForTheme> themes = new List<SkinForTheme>();
             // Get List of Skins 
             using (var client = new HttpClient())
             {
@@ -87,10 +88,11 @@ namespace MPC.MIS.Areas.Api.Controllers
                 string url = "GET/";
                 string responsestr = "";
                 var response = client.GetAsync(url);
+
                 if (response.Result.IsSuccessStatusCode)
                 {
                     responsestr = response.Result.Content.ReadAsStringAsync().Result;
-                    //validationInfo = JsonConvert.DeserializeObject<ValidationInfo>(responsestr);
+                    themes = JsonConvert.DeserializeObject<List<SkinForTheme>>(responsestr);
                 }
 
             }
@@ -110,7 +112,8 @@ namespace MPC.MIS.Areas.Api.Controllers
                 Countries = result.Countries != null ? result.Countries.Select(x => x.CreateFromDropDown()) : null,
                 States = result.States != null ? result.States.Select(x => x.CreateFromDropDown()) : null,
                 SectionFlags = result.SectionFlags.Select(flag => flag.CreateFromDropDown()),
-                CmsPageDropDownList = result.CmsPages.Select(cmspage => cmspage.CreateFromForDropDown())
+                CmsPageDropDownList = result.CmsPages.Select(cmspage => cmspage.CreateFromForDropDown()),
+                Themes = themes
             };
         }
         #endregion

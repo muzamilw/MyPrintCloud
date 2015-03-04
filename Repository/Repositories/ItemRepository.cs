@@ -1354,14 +1354,14 @@ namespace MPC.Repository.Repositories
             //return db.Items.Include("ItemPriceMatrices").Include("ItemSections").Where(i => i.IsPublished == true && i.ItemId == itemId && i.EstimateId == null).FirstOrDefault();
 
         }
-        public Item GetItemByIdDesigner(long RefitemId)
+        public Item GetItemByIdDesigner(long ItemId)
         {
             try
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
 
-                return db.Items.Where(i => i.IsPublished == true && i.ItemId == RefitemId && i.EstimateId == null).FirstOrDefault();
+                return db.Items.Where(i => i.ItemId == ItemId).FirstOrDefault();
             }
             catch (Exception ex)
             {
