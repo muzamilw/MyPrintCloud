@@ -21,8 +21,15 @@ namespace MigrationUtility.Preview
         public Nullable<long> CompanyId { get; set; }
         public Nullable<int> PaymentMethodId { get; set; }
         public string SecureHash { get; set; }
+        public string CancelPurchaseUrl { get; set; }
+        public string ReturnUrl { get; set; }
+        public string NotifyUrl { get; set; }
+        public Nullable<bool> SendToReturnURL { get; set; }
+        public Nullable<bool> UseSandbox { get; set; }
+        public string LiveApiUrl { get; set; }
+        public string TestApiUrl { get; set; }
     
-        public virtual Company Company { get; set; }
         public virtual PaymentMethod PaymentMethod { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

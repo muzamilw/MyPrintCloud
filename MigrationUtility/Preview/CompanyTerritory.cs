@@ -28,8 +28,8 @@ namespace MigrationUtility.Preview
         public Nullable<bool> isDefault { get; set; }
     
         public virtual ICollection<Address> Addresses { get; set; }
-        public virtual Company Company { get; set; }
         public virtual ICollection<CompanyContact> CompanyContacts { get; set; }
         public virtual ICollection<TerritoryItem> TerritoryItems { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

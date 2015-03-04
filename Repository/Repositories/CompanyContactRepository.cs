@@ -121,7 +121,13 @@ namespace MPC.Repository.Repositories
             }
           
         }
-
+        public CompanyContact GetContactById(int contactId)
+        {
+            return (from c in db.CompanyContacts.Include("CompanyTerritories")
+                    where c.ContactId == contactId
+                    select c).FirstOrDefault();
+          
+        }
         public CompanyContact GetContactByEmail(string Email, long OID)
         {
             try

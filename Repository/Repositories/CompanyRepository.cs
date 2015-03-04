@@ -76,7 +76,19 @@ namespace MPC.Repository.Repositories
             }
             
         }
+        public Company GetCustomer(int CompanyId)
+        {
+            try
+            {
+                //Create Customer
+                return db.Companies.Include("Address").Include("CompanyContact").Where(customer => customer.CompanyId == CompanyId).FirstOrDefault<Company>();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
+        }
         public CompanyResponse GetCompanyById(long companyId)
         {
             try
@@ -151,6 +163,8 @@ namespace MPC.Repository.Repositories
                 throw ex;
 
             }
+           
+
            
         }
 

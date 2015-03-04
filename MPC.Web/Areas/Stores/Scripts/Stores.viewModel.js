@@ -864,11 +864,13 @@ define("stores/stores.viewModel",
                     //Save Company Banner
                     onSaveCompanyBanner = function (companyBanner) {
                         if (doBeforeSaveCompanyBanner()) {
-                            _.each(companyBannerSetList(), function (item) {
-                                if (item.id() === companyBanner.companySetId()) {
-                                    companyBanner.setName(item.setName());
-                                }
+
+                            var companyBannerSet = _.find(companyBannerSetList(), function (item) {
+                                return item.id() === companyBanner.companySetId();
                             });
+                            if (companyBannerSet !== undefined && companyBannerSet !== null) {
+                                companyBanner.setName(companyBannerSet.setName());
+                            }
                             if (companyBanner.id() === undefined) {
                                 companyBanner.id(addBannerCount() - 1);
                                 if (companyBanner.companySetId() === filteredCompanySetId() || filteredCompanySetId() === undefined) {
@@ -878,20 +880,26 @@ define("stores/stores.viewModel",
                                     companyBanners.splice(0, 0, companyBanner);
                                 }
                             } else {
-                                _.each(companyBanners(), function (item) {
-                                    if (item.id() === companyBanner.id()) {
-                                        item.heading(companyBanner.heading());
-                                        item.description(companyBanner.description());
-                                        item.itemURL(companyBanner.itemURL());
-                                        item.buttonURL(companyBanner.buttonURL());
-                                        item.companySetId(companyBanner.companySetId());
-                                        item.fileBinary(companyBanner.fileBinary());
-                                        item.imageSource(companyBanner.fileBinary());
-                                        item.filename(companyBanner.filename());
-
-                                    }
+                                var item = _.find(companyBanners(), function (banner) {
+                                    return banner.id() === companyBanner.id();
                                 });
+                                //Banner set Change In Edit banner
+                                if (filteredCompanySetId() !== undefined && companyBanner.companySetId() !== filteredCompanySetId()) {
+                                    filteredCompanyBanners.remove(companyBanner);
+                                }
+                                if (item) {
+                                    item.heading(companyBanner.heading());
+                                    item.description(companyBanner.description());
+                                    item.itemURL(companyBanner.itemURL());
+                                    item.buttonURL(companyBanner.buttonURL());
+                                    item.companySetId(companyBanner.companySetId());
+                                    item.fileBinary(companyBanner.fileBinary());
+                                    item.imageSource(companyBanner.fileBinary());
+                                    item.filename(companyBanner.filename());
+                                }
+
                             }
+                            selectedStore().storeLayoutChange("change");
                             view.hideEditBannerDialog();
                         }
                     },
@@ -899,7 +907,9 @@ define("stores/stores.viewModel",
                     onSaveBannerSet = function (bannerSet) {
                         if (doBeforeSaveCompanyBannerSet()) {
                             bannerSet.id(addBannerSetCount() - 1);
+                            addBannerSetCount(addBannerSetCount() - 1);
                             companyBannerSetList.push(bannerSet);
+                            selectedStore().storeLayoutChange("change");
                             view.hideSetBannerDialog();
                         }
                     },
@@ -936,23 +946,19 @@ define("stores/stores.viewModel",
                         }
                     },
                     //Filter Banners based on banner set id
-                    // ReSharper disable once UnusedLocals
-                    filterBannerSet = ko.computed(function () {
-                        if (filteredCompanySetId() !== undefined) {
-                            filteredCompanyBanners.removeAll();
-                            _.each(companyBanners(), function (item) {
-                                if (item.companySetId() === filteredCompanySetId()) {
-                                    filteredCompanyBanners.push(item);
-                                }
-                            });
-                        } else {
-                            filteredCompanyBanners.removeAll();
-                            ko.utils.arrayPushAll(filteredCompanyBanners(), companyBanners());
-                            filteredCompanyBanners.valueHasMutated();
-                        }
-
-
-                    }, this),
+                     onChangeBannerSet = function () {
+                         filteredCompanyBanners.removeAll();
+                         if (filteredCompanySetId() !== undefined) {
+                             _.each(companyBanners(), function (item) {
+                                 if (item.companySetId() === filteredCompanySetId()) {
+                                     filteredCompanyBanners.push(item);
+                                 }
+                             });
+                         } else {
+                             ko.utils.arrayPushAll(filteredCompanyBanners(), companyBanners());
+                             filteredCompanyBanners.valueHasMutated();
+                         }
+                     },
                     //Dalete company Banner
                     onDeleteCompanyBanner = function (banner) {
                         if (!banner.id()) {
@@ -964,11 +970,29 @@ define("stores/stores.viewModel",
                             _.each(companyBanners(), function (item) {
                                 if (item.id() === banner.id()) {
                                     companyBanners.remove(item);
+                                    selectedStore().storeLayoutChange("change");
                                 }
                             });
+                            selectedStore().storeLayoutChange("change");
+                            if (banner.id() > 0) {
+                                deleteBanner(banner);
+                            }
                             filteredCompanyBanners.remove(banner);
+
                         });
                         confirmation.show();
+                    },
+                     //Delete Banner
+                    deleteBanner = function (banner) {
+
+                        dataservice.deleteCompanyBanner(banner.convertToServerData(banner), {
+                            success: function () {
+                                toastr.success("Deleted Successfully");
+                            },
+                            error: function () {
+                                toastr.error("Failed to remove.");
+                            }
+                        });
                     },
                     //#endregion 
 
@@ -1776,7 +1800,9 @@ define("stores/stores.viewModel",
                     nextSecondaryPageIdCounter = ko.observable(0),
                     //Add New Secondary PAge
                     onAddSecondaryPage = function () {
-                        selectedSecondaryPage(model.CMSPage());
+                        var cmsPage = model.CMSPage();
+                        cmsPage.isUserDefined(true);
+                        selectedSecondaryPage(cmsPage);
                         selectedSecondaryPage().metaTitle("");
                         view.showSecondoryPageDialog();
                     },
@@ -1837,6 +1863,10 @@ define("stores/stores.viewModel",
                     },
                     //Delete Secondary Page
                     onDeleteSecondaryPage = function (secondaryPage) {
+                        if (secondaryPage.isUserDefined() != true) {
+                            toastr.error("System Page can not be deleted!");
+                            return;
+                        }
                         if (!secondaryPage.pageId()) {
                             //companyBanners.remove(secondaryPage);
                             return;
@@ -1863,7 +1893,7 @@ define("stores/stores.viewModel",
                             if (secondaryPage.pageId() !== undefined && secondaryPage.pageId() > 0) {
                                 deletedSecondaryPage.push(secondaryPage);
                             }
-
+                            selectedStore().storeLayoutChange("change");
                         });
                         confirmation.show();
                     },
@@ -1916,6 +1946,7 @@ define("stores/stores.viewModel",
                                 nextSecondaryPageIdCounter(nextId);
                             }
                             //Hide Dialog
+                            selectedStore().storeLayoutChange("change");
                             view.hideSecondoryPageDialog();
                         }
                     },
@@ -1943,6 +1974,7 @@ define("stores/stores.viewModel",
                         target.pageTitle(source.pageTitle());
                         target.metaTitle(source.metaTitle());
                         target.isEnabled(source.isEnabled());
+                        target.isUserDefined(source.isUserDefined());
                         target.isDisplay(false);
                         target.imageSource(source.imageSrc());
                         _.each(pageCategories(), function (item) {
@@ -4513,7 +4545,7 @@ define("stores/stores.viewModel",
                              var defaultValue = (source.data.defaultValue() === (null || undefined)) ? "" : source.data.defaultValue();
                              var htmlData = "";
                              if (source.data.variableType() === 1) {
-                                 htmlData = "<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-12\"><div class=\"col-lg-6\"><label style=\"margin-left:9px;\">" + title + "</label><input type=\"text\" class=\"form-control\" disabled value=\"" + defaultValue + "\"></div><div class=\"col-lg-6\"><label style=\"margin-top:15px;\"></label><select disabled class=\"form-control\"><option>" + defaultValue + "</option></select></div></div></div>";
+                                 htmlData = "<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-12\"><div class=\"col-lg-6\"><label style=\"margin-left:9px;\">" + title + "</label><div class=\"col-lg-12\"><select disabled class=\"form-control\"><option>" + defaultValue + "</option></select></div></div></div>";
 
                              } else {
                                  htmlData = "<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-12\"><label style=\"margin-left:9px;\">" + title + "</label><div><input type=\"text\" disabled class=\"form-control\" value=\"" + defaultValue + "\"></div></div></div>";
@@ -4643,7 +4675,7 @@ define("stores/stores.viewModel",
                                     if (item.ObjectType === 3) {
                                         var title = item.Title === null ? "" : item.Title, defaultValue = item.DefaultValue === null ? "" : item.DefaultValue;
                                         if (item.VariableType === 1) {
-                                            smartFormDetail.html("<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-12\"><div class=\"col-lg-6\"><label style=\"margin-left:9px;\">" + title + "</label><input type=\"text\" class=\"form-control\" disabled value=\"" + defaultValue + "\"></div><div class=\"col-lg-6\"><label style=\"margin-top:15px;\"></label><select disabled class=\"form-control\"><option>" + defaultValue + "</option></select></div></div></div>");
+                                            smartFormDetail.html("<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-12\"><div class=\"col-lg-6\"><label style=\"margin-left:9px;\">" + title + "</label><div class=\"col-lg-12\"><select disabled class=\"form-control\"><option>" + defaultValue + "</option></select></div></div></div>");
 
                                         } else {
                                             smartFormDetail.html("<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-12\"><label style=\"margin-left:9px;\">" + title + "</label><div><input type=\"text\" disabled class=\"form-control\" value=\"" + defaultValue + "\"></div></div></div>");
@@ -4998,6 +5030,7 @@ define("stores/stores.viewModel",
                     smartFormPager: smartFormPager,
                     userCount: userCount,
                     orderCount: orderCount,
+                    onChangeBannerSet: onChangeBannerSet,
                 };
                 //#endregion
             })()

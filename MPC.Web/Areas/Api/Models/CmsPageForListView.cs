@@ -28,6 +28,11 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsEnabled { get; set; }
 
         /// <summary>
+        /// Is user defined or system
+        /// </summary>
+        public bool? IsUserDefined { get; set; }
+
+        /// <summary>
         /// Is Display
         /// </summary>
         public bool? IsDisplay { get; set; }

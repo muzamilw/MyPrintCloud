@@ -17,7 +17,7 @@ namespace MPC.Models.Common
 
     public enum StoreMode : int
     {
-        Retail = 1,
+        Retail = 4,
         Corp = 3,
         NotSet = 99
 
