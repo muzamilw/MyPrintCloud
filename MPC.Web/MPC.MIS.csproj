@@ -316,6 +316,7 @@
     <Compile Include="Areas\Api\Controllers\GetOrderStatusesController.cs" />
     <Compile Include="Areas\Api\Controllers\GetPhraseFiledsBySectionController.cs" />
     <Compile Include="Areas\Api\Controllers\GetSmartFormDetailController.cs" />
+    <Compile Include="Areas\Api\Controllers\GetThemeDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\InvoiceController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseController.cs" />
@@ -588,6 +589,7 @@
     <Compile Include="Areas\Api\Models\SectionCostCentreResource.cs" />
     <Compile Include="Areas\Api\Models\SectionFlag.cs" />
     <Compile Include="Areas\Api\Models\SectionForPhraseLibrary.cs" />
+    <Compile Include="Areas\Api\Models\SkinForTheme.cs" />
     <Compile Include="Areas\Api\Models\SmartForm.cs" />
     <Compile Include="Areas\Api\Models\SmartFormDetail.cs" />
     <Compile Include="Areas\Api\Models\SmartFormForListView.cs" />
