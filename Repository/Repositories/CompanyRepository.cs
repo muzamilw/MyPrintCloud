@@ -248,6 +248,7 @@ namespace MPC.Repository.Repositories
                 List<ItemSection> ItemSections = new List<ItemSection>();
                 List<SectionCostcentre> SectionCostCentre = new List<SectionCostcentre>();
                 List<SectionCostCentreResource> SectionCostCentreResources = new List<SectionCostCentreResource>();
+                List<ItemAttachment> ItemAttachments = new List<ItemAttachment>();
 
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
@@ -379,13 +380,23 @@ namespace MPC.Repository.Repositories
                                         }
                                     }
                                 }
-
+                                if (item.ItemAttachments != null)
+                                {
+                                    if(item.ItemAttachments.Count > 0)
+                                    {
+                                        foreach(var itemAttach in item.ItemAttachments.Where(c => c.CompanyId == CompanyId))
+                                        {
+                                            ItemAttachments.Add(itemAttach);
+                                        }
+                                    }
+                                }
 
                             }
                         }
                         ObjExportOrg.ItemSection = ItemSections;
                         ObjExportOrg.SectionCostcentre = SectionCostCentre;
                         ObjExportOrg.SectionCostCentreResource = SectionCostCentreResources;
+                        ObjExportOrg.ItemAttachment = ItemAttachments;
                     }
 
 
