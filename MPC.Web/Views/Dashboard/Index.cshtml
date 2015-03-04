@@ -17,11 +17,11 @@
         height:50px;
         background-color:white;
         position:absolute;
-        opacity:0.25;
         top:-32%;
         left:98px;
         -webkit-filter: blur(8px);
         visibility:hidden;
+        opacity:0.2;
        
 
     }
@@ -978,15 +978,9 @@
     </script>
     <script>
     
-    $(document).ready(function ()
+    $(document).ready(function()
     {
-          
-        $(".highlight-div").foggy
-        ({
-            blurRadius: 2,          // In pixels.
-            opacity: 7,       // Falls back to a filter for IE.
-            cssFilterSupport: true
-        });
+      
 
         $("#myprintcloud-help").animate({ "top": "-=250" }, 200).delay(500);
         $("#myprintcloud-help").animate({ "top": "+=370" }, 200);
