@@ -21,8 +21,9 @@
         top:-32%;
         left:98px;
         -webkit-filter: blur(8px);
-        filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='5');
         visibility:hidden;
+       
+
     }
     .help-header-title
     {
@@ -85,8 +86,8 @@
 }
 
 <div class="myprintcloud-help" id="myprintcloud-help" style="display:none;">
-    <div class="highlight-div">
-    </div>
+   
+    <div class="highlight-div"></div>
     <div class="left-arrow"></div>
     <div class="right-arrow"></div>
     <div class="top-arrow"></div>
@@ -757,7 +758,8 @@
 </div>
 
 @section Scripts {
-
+<script src="~/Scripts/Script/jquery.foggy.js"></script>
+<script src="~/Scripts/Script/jquery.foggy.min.js"></script>
     <script>
         $(document).ready(function () {
 
@@ -978,7 +980,14 @@
     
     $(document).ready(function ()
     {
-            
+          
+        $(".highlight-div").foggy
+        ({
+            blurRadius: 2,          // In pixels.
+            opacity: 7,       // Falls back to a filter for IE.
+            cssFilterSupport: true
+        });
+
         $("#myprintcloud-help").animate({ "top": "-=250" }, 200).delay(500);
         $("#myprintcloud-help").animate({ "top": "+=370" }, 200);
         $(window).resize(function () 
@@ -1012,7 +1021,8 @@
     <script>
         $(document).ready(function ()
         {
-
+            
+          
             var i = 0;
             var proceeding =
             [
