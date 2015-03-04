@@ -1360,9 +1360,10 @@ define("stores/stores.viewModel",
                 selectBussinessAddress = ko.computed(function () {
                     if (selectedCompanyContact() != undefined && selectedCompanyContact().addressId() != undefined) {
                     }
-                    if (selectedBussinessAddressId() != undefined) {
+                        //if (selectedBussinessAddressId() != undefined) {
+                        if (selectedCompanyContact() != undefined && selectedCompanyContact().bussinessAddressId() != undefined) {
                         _.each(allCompanyAddressesList(), function (item) {
-                            if (item.addressId() == selectedBussinessAddressId()) {
+                                if (item.addressId() == selectedCompanyContact().bussinessAddressId()) {
                                 selectedBussinessAddress(item);
                                 if (item.city() == null) {
                                     selectedBussinessAddress().city(undefined);
@@ -1373,19 +1374,15 @@ define("stores/stores.viewModel",
                                 if (selectedCompanyContact() != undefined) {
                                     selectedCompanyContact().bussinessAddressId(item.addressId());
                                     selectedCompanyContact().addressId(item.addressId());
-                                    _.each(states(), function (state) {
-                                        if (state.StateId == item.state()) {
-                                            selectedBussinessAddress().stateName(state.StateName);
-                                        }
-                                    });
+                                        selectedBussinessAddress().stateName(item.stateName());
                                 }
                             }
                         });
                     }
-                    if (selectedBussinessAddressId() == undefined) {
+                        if (selectedCompanyContact() != undefined && selectedCompanyContact().bussinessAddressId() == undefined) {
                         selectedBussinessAddress(undefined);
                         if (selectedCompanyContact() != undefined) {
-                            //selectedCompanyContact().bussinessAddressId(undefined);
+                                selectedCompanyContact().bussinessAddressId(undefined);
                         }
                     }
                     //if (isSavingNewCompanyContact != undefined && isSavingNewCompanyContact() && selectedStore().companyId() == undefined) {
@@ -1415,11 +1412,7 @@ define("stores/stores.viewModel",
                                 }
                                 if (selectedCompanyContact() != undefined) {
                                     selectedCompanyContact().shippingAddressId(item.addressId());
-                                    _.each(states(), function (state) {
-                                        if (state.StateId == item.state()) {
-                                            selectedShippingAddress().stateName(state.StateName);
-                                        }
-                                    });
+                                        selectedShippingAddress().stateName(item.stateName());
                                 }
                             }
                         });
@@ -1712,13 +1705,10 @@ define("stores/stores.viewModel",
                                                         }
                                                     }
                                                 }
-
                                             });
                                             if (selectedAddress().addressId() <= 0 || selectedAddress().addressId() == undefined) {
                                                 selectedStore().addresses.splice(0, 0, savedAddress);
                                             }
-
-
                                             _.each(selectedStore().addresses(), function (item) {
                                                 if (savedAddress.isDefaultTerrorityBilling()) {
                                                     if (item.isDefaultTerrorityBilling() == true && item.territoryId() == savedAddress().territoryId()) {
@@ -1736,8 +1726,12 @@ define("stores/stores.viewModel",
                                                     }
                                                 }
                                             });
+                                                //Adding saved address in address lists on client side
+                                                bussinessAddresses.push(savedAddress);
+                                                shippingAddresses.push(savedAddress);
+                                                allCompanyAddressesList.push(savedAddress);
+
                                             toastr.success("Saved Successfully");
-                                            //view.hideCompanyTerritoryDialog();
                                         }
                                     },
                                     error: function (response) {
@@ -1747,6 +1741,7 @@ define("stores/stores.viewModel",
                                 });
                         }
                             //#endregion
+
                             //#region New Company Case 
 
                         else {
@@ -2320,6 +2315,7 @@ define("stores/stores.viewModel",
                     return flag;
                 },
                 onSaveCompanyContact = function () {
+
                     if (doBeforeSaveCompanyContact()) {
                         //#region Editting Company Case companyid > 0
                         if (selectedStore().companyId() > 0) {
