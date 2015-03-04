@@ -1726,7 +1726,14 @@ define("stores/stores.viewModel",
                                                     }
                                                 }
                                             });
-                                                //Adding saved address in address lists on client side
+                                            //Adding saved address in address lists on client side
+                                            _.each(allCompanyAddressesList(), function(address) {
+                                                if (address.addressId() == savedAddress.addressId()) {
+                                                    bussinessAddresses.remove(address);
+                                                    shippingAddresses.remove(address);
+                                                    allCompanyAddressesList.remove(address);
+                                                }
+                                            });
                                                 bussinessAddresses.push(savedAddress);
                                                 shippingAddresses.push(savedAddress);
                                                 allCompanyAddressesList.push(savedAddress);
@@ -1742,7 +1749,7 @@ define("stores/stores.viewModel",
                         }
                             //#endregion
 
-                            //#region New Company Case 
+                        //#region New Company Case 
 
                         else {
                             if (selectedAddress().addressId() < 0) {
