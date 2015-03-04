@@ -1529,7 +1529,8 @@ namespace MPC.Repository.Repositories
 
                     //Section cost centeres
                     //tblItem.ItemSections.ToList().ForEach(itemSection => itemSection.SectionCostcentres.ToList().ForEach(sectCost => db.SectionCostcentres.Remove(sectCost)));
-                    tblItem.ItemSections.ToList().ForEach(itemSection =>
+                    List<ItemSection> listOfSections = db.ItemSections.Where(s => s.ItemId == tblItem.ItemId).ToList();
+                    foreach (var itemSection in listOfSections)
                     {
                         List<SectionCostcentre> listOfSectionCC =
                             db.SectionCostcentres.Where(sec => sec.ItemSectionId == itemSection.ItemSectionId).ToList();
@@ -1540,9 +1541,12 @@ namespace MPC.Repository.Repositories
                                 db.SectionCostcentres.Remove(SectionCC);
                             });
                         }
-                    });
+
+                        db.ItemSections.Remove(itemSection);
+                    }
+                
                     //Item Section
-                    tblItem.ItemSections.ToList().ForEach(itemsect => db.ItemSections.Remove(itemsect));
+                  //  tblItem.ItemSections.ToList().ForEach(itemsect => db.ItemSections.Remove(itemsect));
                     //Finally the item
                     db.Items.Remove(tblItem);
 
@@ -1830,11 +1834,22 @@ namespace MPC.Repository.Repositories
 
                 bool isNewSectionCostCenter = false;
 
-                SectionCostcentre sectionCC =
-                    FirstItemSection.SectionCostcentres.Where(c => c.CostCentre.Type == 29).FirstOrDefault();
 
+                List<SectionCostcentre> listOfSectionCostCentres = db.SectionCostcentres.Where(c => c.ItemSectionId == FirstItemSection.ItemSectionId).ToList();
 
-
+                SectionCostcentre sectionCC = null;
+                foreach (var ccItem in listOfSectionCostCentres)
+                {
+                    if (ccItem.CostCentre != null)
+                    {
+                        if (ccItem.CostCentre.Type == 29)
+                        {
+                            sectionCC = ccItem;
+                        }
+                    }
+                }
+             
+              
                 if (sectionCC == null)
                 {
                     sectionCC = new SectionCostcentre();
@@ -2020,7 +2035,7 @@ namespace MPC.Repository.Repositories
                             order.StatusId == (short) OrderStatus.ShoppingCart && order.isEstimate == false)
                         .FirstOrDefault();
 
-                if (ActualOrder != null)
+                if (ActualOrder != null && TemporaryOrder != null)
                 {
                     ActualOrder.CreationTime = DateTime.Now;
                     ActualOrder.SectionFlagId = 3;
