@@ -87,6 +87,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ZoomFactor = source.ZoomFactor,
                 Scalar = source.Scalar,
                 DesignerCategoryId = source.DesignerCategoryId,
+                ProductDisplayOptions = source.ProductDisplayOptions,
+                IsRealStateProduct = source.IsRealStateProduct,
+                IsUploadImage = source.IsUploadImage,
+                IsDigitalDownload = source.IsDigitalDownload,
                 ItemProductDetail = source.ItemProductDetails != null && source.ItemProductDetails.Count > 0 ?
                 source.ItemProductDetails.FirstOrDefault().CreateFrom() : null,
                 Template = source.Template != null ? source.Template.CreateFrom() : new Template(),
@@ -98,7 +102,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemPriceMatrices = source.ItemPriceMatrices != null ? source.ItemPriceMatrices.Select(vdp => vdp.CreateFrom()) : new List<ItemPriceMatrix>(),
                 ProductCategoryItems = source.ProductCategoryItems != null ? source.ProductCategoryItems.Select(pci => pci.CreateFrom()) : new List<ProductCategoryItem>(),
                 ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFrom()) :
-                new List<ItemSection>()
+                new List<ItemSection>(),
+                ItemImages = source.ItemImages != null ? source.ItemImages.Select(pci => pci.CreateFrom()) : new List<ItemImage>()
             };
 
             // Load Thumbnail Image
@@ -245,6 +250,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 TemplateTypeMode = source.TemplateTypeMode,
                 DesignerCategoryId = source.DesignerCategoryId,
                 CompanyId = source.CompanyId,
+                ProductDisplayOptions = source.ProductDisplayOptions,
+                IsRealStateProduct = source.IsRealStateProduct,
+                IsUploadImage = source.IsUploadImage,
+                IsDigitalDownload = source.IsDigitalDownload,
                 Template = source.Template != null ? source.Template.CreateFrom() : new DomainModels.Template(),
                 ItemVdpPrices = source.ItemVdpPrices != null ? source.ItemVdpPrices.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVdpPrice>(),
                 ItemVideos = source.ItemVideos != null ? source.ItemVideos.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVideo>(),
@@ -277,7 +286,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ProductCategoryCustomItems = source.ProductCategoryItems != null ? source.ProductCategoryItems.Select(pci => pci.CreateFrom()).ToList() :
                 new List<DomainModels.ProductCategoryItemCustom>(),
                 ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFrom()).ToList() :
-                new List<DomainModels.ItemSection>()
+                new List<DomainModels.ItemSection>(),
+                ItemImages = source.ItemImages != null ? source.ItemImages.Select(pci => pci.CreateFrom()).ToList() :
+                new List<DomainModels.ItemImage>()
             };
         }
 
