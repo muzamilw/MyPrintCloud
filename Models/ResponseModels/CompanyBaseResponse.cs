@@ -27,6 +27,7 @@ namespace MPC.Models.ResponseModels
         public IEnumerable<FieldVariable> FieldVariablesForSmartForm { get; set; }
 
         public FieldVariableResponse FieldVariableResponse { get; set; }
+        public SmartFormResponse SmartFormResponse { get; set; }
 
         // public IEnumerable<Department> Departments { get; set; }
         // public IEnumerable<AccountManager> AccountManagers { get; set; }

@@ -499,3 +499,36 @@ GO
 COMMIT
 
 GO
+
+/* Execution Date: 28/02/2015 */
+
+GO
+
+sp_rename 'CompanyContactVariable', 'ScopeVariable'
+GO
+
+GO
+sp_rename 'ScopeVariable.ContactId', 'Id'
+
+GO
+
+GO
+sp_rename 'ScopeVariable.ContactVariableId', 'ScopeVariableId'
+
+alter table ScopeVariable
+add Scope int null
+
+alter table ScopeVariable
+DROP constraint FK_CompanyContactVariable_CompanyContact
+
+GO
+
+/* Execution Date: 02/03/2015 */
+
+GO
+
+alter table SmartFormDetail
+add foreign key (VariableId)
+references FieldVariable(VariableId)
+
+GO

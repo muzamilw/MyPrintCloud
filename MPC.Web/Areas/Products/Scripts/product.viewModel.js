@@ -207,6 +207,20 @@ define("product/product.viewModel",
                         view.showBasicDetailsTab();
                         // Show Details
                         isProductDetailsVisible(true);
+                        
+                        // WIre up tab shown event
+                        view.wireUpTabShownEvent();
+                        
+                        // Wire Up Navigation Control - If has Changes and user navigates to another page
+                        shared.initialize(selectedProduct, function(navigateCallback) {
+                            onSaveProduct(null, null, navigateCallback);
+                        });
+                        
+                        // Initialize Label Popovers
+                        view.initializeLabelPopovers();
+                    },
+                    // Initialize Product Category Dialog
+                    initializeProductCategoryDialog = function() {
                         // Set Product Category true/false for popup
                         productCategories.each(function (productCategory) {
                             var productCategoryItem = selectedProduct().productCategoryItems.find(function (pci) {
@@ -220,19 +234,9 @@ define("product/product.viewModel",
                                 productCategory.isSelected(false);
                             }
                         });
+                        
                         // Update Input Checked States in Bindings
                         view.updateInputCheckedStates();
-                        
-                        // WIre up tab shown event
-                        view.wireUpTabShownEvent();
-                        
-                        // Wire Up Navigation Control - If has Changes and user navigates to another page
-                        shared.initialize(selectedProduct, function(navigateCallback) {
-                            onSaveProduct(null, null, navigateCallback);
-                        });
-                        
-                        // Initialize Label Popovers
-                        view.initializeLabelPopovers();
                     },
                     // On Close Editor
                     onCloseProductEditor = function () {
@@ -403,7 +407,10 @@ define("product/product.viewModel",
                     },
                     // open Product Category Dialog
                     openProductCategoryDialog = function () {
-                        view.showProductCategoryDialog();
+                        getProductCategories(selectedCompany(), function() {
+                            initializeProductCategoryDialog();
+                            view.showProductCategoryDialog();
+                        });
                     },
                     // open Product Category Dialog
                     closeProductCategoryDialog = function () {
@@ -785,6 +792,12 @@ define("product/product.viewModel",
                         // Set Price Matrix to Item against selected Flag
                         selectedProduct().setItemPriceMatrices(itemPriceMatrices);
                     },
+                    // Get Item From list by id
+                    getItemByIdLocal = function(id) {
+                        return products.find(function (item) {
+                            return item.id() === id;
+                        });
+                    },
                     // Get Base Data
                     getBaseData = function () {
                         dataservice.getBaseData({
@@ -794,7 +807,6 @@ define("product/product.viewModel",
                                 states.removeAll();
                                 sectionFlags.removeAll();
                                 suppliers.removeAll();
-                                productCategories.removeAll();
                                 templateCategories.removeAll();
                                 categoryRegions.removeAll();
                                 categoryTypes.removeAll();
@@ -813,9 +825,6 @@ define("product/product.viewModel",
 
                                     // Map Suppliers
                                     mapSuppliers(data.Suppliers);
-
-                                    // Map Product Categories
-                                    mapProductCategories(data.ProductCategories);
                                     
                                     // Map Product Categories
                                     mapDesignerCategories(data.TemplateCategories);
@@ -945,12 +954,16 @@ define("product/product.viewModel",
                         });
                     },
                     // archive Product
-                    archiveProduct = function () {
+                    archiveProduct = function (id) {
                         dataservice.archiveItem({
-                            ItemId: selectedProduct().id()
+                            ItemId: id
                         }, {
                             success: function () {
-                                selectedProduct().isArchived(true);
+                                // Remove that product from list
+                                var item = getItemByIdLocal(id);
+                                if (item) {
+                                    items.remove(item);
+                                }
                                 toastr.success("Archived Successfully.");
                             },
                             error: function (response) {
@@ -1058,7 +1071,7 @@ define("product/product.viewModel",
                             }
                         });
                     },
-                    //Get Category Child List Items
+                    // Get Category Child List Items
                     getChildCategories = function (id, event) {
                         dataservice.getProductCategoryChilds({
                             id: id,
@@ -1079,11 +1092,33 @@ define("product/product.viewModel",
                                         }
                                         productCategories.push(category);
                                         view.appendChildCategory(event, category);
+                                        initializeProductCategoryDialog();
                                     });
                                 }
                             },
                             error: function (response) {
                                 isLoadingStores(false);
+                                toastr.error("Error: Failed To load Categories " + response);
+                            }
+                        });
+                    },
+                    // Get Product Categories
+                    getProductCategories = function (id, callback) {
+                        dataservice.getProductCategories({
+                            id: id ? id : 0,
+                        }, {
+                            success: function (data) {
+                                productCategories.removeAll();
+                                if (data != null) {
+                                    // Map Product Categories
+                                    mapProductCategories(data);
+                                }
+
+                                if (callback && typeof callback === "function") {
+                                    callback();
+                                }
+                            },
+                            error: function (response) {
                                 toastr.error("Error: Failed To load Categories " + response);
                             }
                         });

@@ -50,7 +50,6 @@ namespace MigrationUtility.Preview
         public virtual DbSet<CmsSkinPageWidgetParam> CmsSkinPageWidgetParams { get; set; }
         public virtual DbSet<CmsTag> CmsTags { get; set; }
         public virtual DbSet<ColorPallete> ColorPalletes { get; set; }
-        public virtual DbSet<Company> Companies { get; set; }
         public virtual DbSet<CompanyBanner> CompanyBanners { get; set; }
         public virtual DbSet<CompanyBannerSet> CompanyBannerSets { get; set; }
         public virtual DbSet<CompanyCMYKColor> CompanyCMYKColors { get; set; }
@@ -68,13 +67,11 @@ namespace MigrationUtility.Preview
         public virtual DbSet<CostCentreGroup> CostCentreGroups { get; set; }
         public virtual DbSet<CostcentreGroupDetail> CostcentreGroupDetails { get; set; }
         public virtual DbSet<CostcentreInstruction> CostcentreInstructions { get; set; }
-        public virtual DbSet<CostCentreMatrix> CostCentreMatrices { get; set; }
         public virtual DbSet<CostCentreMatrixDetail> CostCentreMatrixDetails { get; set; }
         public virtual DbSet<CostCentreQuestion> CostCentreQuestions { get; set; }
         public virtual DbSet<CostcentreResource> CostcentreResources { get; set; }
         public virtual DbSet<CostcentreSystemType> CostcentreSystemTypes { get; set; }
         public virtual DbSet<CostCentreTemplate> CostCentreTemplates { get; set; }
-        public virtual DbSet<CostCentreType> CostCentreTypes { get; set; }
         public virtual DbSet<CostCentreVariable> CostCentreVariables { get; set; }
         public virtual DbSet<CostCentreVariableType> CostCentreVariableTypes { get; set; }
         public virtual DbSet<CostcentreWorkInstructionsChoice> CostcentreWorkInstructionsChoices { get; set; }
@@ -109,7 +106,6 @@ namespace MigrationUtility.Preview
         public virtual DbSet<Inquiry> Inquiries { get; set; }
         public virtual DbSet<InquiryAttachment> InquiryAttachments { get; set; }
         public virtual DbSet<InquiryItem> InquiryItems { get; set; }
-        public virtual DbSet<Invoice> Invoices { get; set; }
         public virtual DbSet<InvoiceDetail> InvoiceDetails { get; set; }
         public virtual DbSet<ItemAddonCostCentre> ItemAddonCostCentres { get; set; }
         public virtual DbSet<ItemAttachment> ItemAttachments { get; set; }
@@ -118,7 +114,6 @@ namespace MigrationUtility.Preview
         public virtual DbSet<ItemProductDetail> ItemProductDetails { get; set; }
         public virtual DbSet<ItemRelatedItem> ItemRelatedItems { get; set; }
         public virtual DbSet<Item> Items { get; set; }
-        public virtual DbSet<ItemSection> ItemSections { get; set; }
         public virtual DbSet<ItemSectionCostCentreGroup> ItemSectionCostCentreGroups { get; set; }
         public virtual DbSet<ItemStateTax> ItemStateTaxes { get; set; }
         public virtual DbSet<ItemStockControl> ItemStockControls { get; set; }
@@ -138,7 +133,6 @@ namespace MigrationUtility.Preview
         public virtual DbSet<ListingLink> ListingLinks { get; set; }
         public virtual DbSet<ListingOFI> ListingOFIs { get; set; }
         public virtual DbSet<ListingVendor> ListingVendors { get; set; }
-        public virtual DbSet<LookupMethod> LookupMethods { get; set; }
         public virtual DbSet<Machine> Machines { get; set; }
         public virtual DbSet<MachineCategory> MachineCategories { get; set; }
         public virtual DbSet<MachineClickChargeLookup> MachineClickChargeLookups { get; set; }
@@ -171,7 +165,6 @@ namespace MigrationUtility.Preview
         public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
         public virtual DbSet<PaypalPaymentRequest> PaypalPaymentRequests { get; set; }
         public virtual DbSet<PayPalResponse> PayPalResponses { get; set; }
-        public virtual DbSet<Phrase> Phrases { get; set; }
         public virtual DbSet<PhraseField> PhraseFields { get; set; }
         public virtual DbSet<PipelineDeduction> PipelineDeductions { get; set; }
         public virtual DbSet<PipeLineProduct> PipeLineProducts { get; set; }
@@ -219,7 +212,6 @@ namespace MigrationUtility.Preview
         public virtual DbSet<ShippingInformation> ShippingInformations { get; set; }
         public virtual DbSet<SoftwareUpdate> SoftwareUpdates { get; set; }
         public virtual DbSet<State> States { get; set; }
-        public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<StockCategory> StockCategories { get; set; }
         public virtual DbSet<StockCostAndPrice> StockCostAndPrices { get; set; }
         public virtual DbSet<StockItem> StockItems { get; set; }
@@ -266,5 +258,11 @@ namespace MigrationUtility.Preview
         public virtual DbSet<SectionCostCentresFeedback> SectionCostCentresFeedbacks { get; set; }
         public virtual DbSet<StockItemsIssueLog> StockItemsIssueLogs { get; set; }
         public virtual DbSet<WebProductCategoryItemPrice> WebProductCategoryItemPrices { get; set; }
+        public virtual DbSet<Phrase> Phrases { get; set; }
+        public virtual DbSet<Company> Companies { get; set; }
+        public virtual DbSet<CostCentreMatrix> CostCentreMatrices { get; set; }
+        public virtual DbSet<CostCentreType> CostCentreTypes { get; set; }
+        public virtual DbSet<ItemSection> ItemSections { get; set; }
+        public virtual DbSet<LookupMethod> LookupMethods { get; set; }
     }
 }

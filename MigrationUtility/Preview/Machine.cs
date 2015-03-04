@@ -16,12 +16,12 @@ namespace MigrationUtility.Preview
     {
         public Machine()
         {
-            this.ItemSections = new HashSet<ItemSection>();
             this.MachineCostCentreGroups = new HashSet<MachineCostCentreGroup>();
             this.MachineInkCoverages = new HashSet<MachineInkCoverage>();
             this.MachineLookupMethods = new HashSet<MachineLookupMethod>();
             this.MachinePaginationProfiles = new HashSet<MachinePaginationProfile>();
             this.MachineResources = new HashSet<MachineResource>();
+            this.ItemSections = new HashSet<ItemSection>();
         }
     
         public int MachineId { get; set; }
@@ -87,11 +87,11 @@ namespace MigrationUtility.Preview
         public Nullable<long> LookupMethodId { get; set; }
         public Nullable<long> OrganisationId { get; set; }
     
-        public virtual ICollection<ItemSection> ItemSections { get; set; }
         public virtual ICollection<MachineCostCentreGroup> MachineCostCentreGroups { get; set; }
         public virtual ICollection<MachineInkCoverage> MachineInkCoverages { get; set; }
         public virtual ICollection<MachineLookupMethod> MachineLookupMethods { get; set; }
         public virtual ICollection<MachinePaginationProfile> MachinePaginationProfiles { get; set; }
         public virtual ICollection<MachineResource> MachineResources { get; set; }
+        public virtual ICollection<ItemSection> ItemSections { get; set; }
     }
 }

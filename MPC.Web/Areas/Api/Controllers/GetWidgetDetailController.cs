@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Configuration;
 using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
 using MPC.Interfaces.MISServices;
+using MPC.Models.Common;
+using Newtonsoft.Json;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -13,7 +17,7 @@ namespace MPC.MIS.Areas.Api.Controllers
     public class GetWidgetDetailController : ApiController
     {
         #region Private
-        
+
         private readonly ICompanyService companyService;
 
         #endregion
@@ -37,28 +41,29 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <returns></returns>
         public string Get([FromUri]string widgetControlName)
         {
-            //string mySiteUrl = HttpContext.Current.Request.Url.Host;
-            //string webStoreWidgetsPath = ConfigurationManager.AppSettings["WebStoreWidgetsPath"];
-            switch (widgetControlName)
-            {
+            string mySiteUrl = HttpContext.Current.Request.Url.Host;
+            //  string webStoreWidgetsPath = ConfigurationManager.AppSettings["WebStoreWidgetsPath"];
 
-                case "SavedDesignsWidget.ascx":
-                    return File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_HomeWidget.cshtml"));
-                case "LoginBar.ascx":
-                    return File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_AboutUs.cshtml"));
-                case "HomePageBannerS4.ascx":
-                    return File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_AboutUs.cshtml"));
-            }
-
-            return string.Empty;
-            //if (string.IsNullOrEmpty(widgetControlName))
+            //using (var client = new HttpClient())
             //{
-            //    return string.Empty;
-            //}
 
-            //// Get Widget From WebStore by Control Name
-            //return File.Exists(mySiteUrl + "//" + webStoreWidgetsPath + widgetControlName) ? 
-            //    File.ReadAllText(mySiteUrl + "//" + webStoreWidgetsPath + widgetControlName) : string.Empty;
+
+            //    client.BaseAddress = new Uri("http://" + mySiteUrl);
+            //    client.DefaultRequestHeaders.Accept.Clear();
+            //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            //    string url = "/APIControllers/GetWidgetDetail/GET?widgetControlName=\"" + widgetControlName + "\"";
+            //    string responsestr = "";
+            //    var response = client.GetAsync(url);
+            //    if (response.Result.IsSuccessStatusCode)
+            //    {
+            //        responsestr = response.Result.Content.ReadAsStringAsync().Result;
+
+            //    }
+
+            //}
+            return File.ReadAllText(HttpContext.Current.Server.MapPath("~/Areas/Stores/Views/Shared/_Default.cshtml"));
+
         }
 
         #endregion

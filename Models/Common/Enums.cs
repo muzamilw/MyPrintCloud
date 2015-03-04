@@ -17,10 +17,16 @@ namespace MPC.Models.Common
 
     public enum StoreMode : int
     {
-        Retail = 1,
+        Retail = 4,
         Corp = 3,
         NotSet = 99
 
+    }
+    public enum SmartFormDetailFieldType : int
+    {
+        GroupCaption = 1,
+        LineSeperator = 2,
+        VariableField = 3,
     }
     public enum CreditCardTypeType
     {

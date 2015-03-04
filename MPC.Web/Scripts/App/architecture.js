@@ -1,4 +1,5 @@
-﻿// Global Variable
+﻿
+// Global Variable
 var ist = {
     datePattern: "DD/MM/YY",
     shortDatePattern: "dd-M-yy",
@@ -57,6 +58,7 @@ function hideProgress() {
         spinner.stop();
         spinner.fadeOut("fast");
         $.unblockUI(spinner);
+        $("#myprintcloud-help").css("display", "block");  // show tips menu in dashboard
     }
 };
 
@@ -271,8 +273,18 @@ require(["ko", "knockout-validation"], function (ko) {
             if (myinstance !== undefined) {
                 CKEDITOR.remove(myinstance);
             }
+            if (allBindingsAccessor().openFrom() === "Campaign" || allBindingsAccessor().openFrom() === "SecondaryPage") {
+                CKEDITOR.config.toolbar = [
+                    ['Bold', 'Italic', 'Underline', 'SpellChecker', 'TextColor', 'BGColor', 'Undo', 'Redo', 'Link', 'Unlink', '-', 'Format'],
+                    '/', ['NumberedList', 'BulletedList', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'Font', 'FontSize']
+                ];
+            } else {
+                CKEDITOR.config.toolbar = 'Full';
+            }
+
             CKEDITOR.replace(element).setData(valueUnwrapped || $element.html());
 
+            //CKEDITOR.instances
             //CKEDITOR.appendTo(element).setData(valueUnwrapped || $element.html());
             if (ko.isObservable(value)) {
                 var isSubscriberChange = false;

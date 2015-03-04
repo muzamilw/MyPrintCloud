@@ -98,6 +98,16 @@ namespace MPC.Repository.Repositories
         }
 
         /// <summary>
+        /// Gives count of new orders by given number of last dats
+        /// </summary>
+        public int GetNewOrdersCount(int noOfLastDays, long companyId)
+        {
+           DateTime currenteDate  = DateTime.UtcNow.Date.AddDays(-noOfLastDays);
+          return  DbSet.Count(estimate => estimate.isEstimate == false && companyId==estimate.CompanyId  && estimate.CreationDate >= currenteDate);
+        }
+
+
+        /// <summary>
         /// Get Order Statuses Response
         /// </summary>
         public OrderStatusesResponse GetOrderStatusesCount()

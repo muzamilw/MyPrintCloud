@@ -28,6 +28,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
             itemAddOnCostCentre.CostCentreName = source.CostCentre.Name;
             itemAddOnCostCentre.CostCentreType = source.CostCentre.Type;
+            itemAddOnCostCentre.CostCentreTypeName = source.CostCentre.CostCentreType != null ? source.CostCentre.CostCentreType.TypeName : string.Empty;
 
             return itemAddOnCostCentre;
         }

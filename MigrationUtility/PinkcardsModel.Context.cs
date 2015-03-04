@@ -12,6 +12,8 @@ namespace MigrationUtility
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class pinkcardsEntities : DbContext
     {
@@ -175,7 +177,6 @@ namespace MigrationUtility
         public virtual DbSet<tbl_pipeline_source> tbl_pipeline_source { get; set; }
         public virtual DbSet<tbl_prefixes> tbl_prefixes { get; set; }
         public virtual DbSet<tbl_PrePayments> tbl_PrePayments { get; set; }
-        public virtual DbSet<tbl_ProductCategory> tbl_ProductCategory { get; set; }
         public virtual DbSet<tbl_ProductCategoryFoldLines> tbl_ProductCategoryFoldLines { get; set; }
         public virtual DbSet<tbl_ProductMarketBriefAnswers> tbl_ProductMarketBriefAnswers { get; set; }
         public virtual DbSet<tbl_ProductMarketBriefQuestions> tbl_ProductMarketBriefQuestions { get; set; }
@@ -257,5 +258,20 @@ namespace MigrationUtility
         public virtual DbSet<tbl_customer_users_rolespages> tbl_customer_users_rolespages { get; set; }
         public virtual DbSet<tbl_section_costcentres_feedback> tbl_section_costcentres_feedback { get; set; }
         public virtual DbSet<tbl_stockitems_issue_log> tbl_stockitems_issue_log { get; set; }
+        public virtual DbSet<tbl_ProductCategory> tbl_ProductCategory { get; set; }
+    
+        public virtual ObjectResult<sp_CorporateCategoryTree_Result> sp_CorporateCategoryTree(Nullable<int> contactCompanyID)
+        {
+            var contactCompanyIDParameter = contactCompanyID.HasValue ?
+                new ObjectParameter("ContactCompanyID", contactCompanyID) :
+                new ObjectParameter("ContactCompanyID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_CorporateCategoryTree_Result>("sp_CorporateCategoryTree", contactCompanyIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_PublicCategoryTree_Result> sp_PublicCategoryTree()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_PublicCategoryTree_Result>("sp_PublicCategoryTree");
+        }
     }
 }

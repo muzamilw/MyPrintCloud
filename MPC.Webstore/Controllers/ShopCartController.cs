@@ -442,6 +442,7 @@ namespace MPC.Webstore.Controllers
 
                 if (Result == true)
                 {
+                    
                     Estimate RecordOfOrderIfDiscuntApplied = _OrderService.CheckDiscountApplied(OrderID);
                     if (RecordOfOrderIfDiscuntApplied.DiscountVoucherID.HasValue && RecordOfOrderIfDiscuntApplied.VoucherDiscountRate > 0)
                     {

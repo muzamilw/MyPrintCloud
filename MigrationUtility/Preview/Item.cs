@@ -29,9 +29,9 @@ namespace MigrationUtility.Preview
             this.ItemVDPPrices = new HashSet<ItemVDPPrice>();
             this.ItemVideos = new HashSet<ItemVideo>();
             this.ProductCategoryItems = new HashSet<ProductCategoryItem>();
-            this.ItemSections = new HashSet<ItemSection>();
             this.TerritoryItems = new HashSet<TerritoryItem>();
             this.ItemStockOptions = new HashSet<ItemStockOption>();
+            this.ItemSections = new HashSet<ItemSection>();
         }
     
         public long ItemId { get; set; }
@@ -243,12 +243,17 @@ namespace MigrationUtility.Preview
         public Nullable<double> ItemWidth { get; set; }
         public Nullable<double> ItemHeight { get; set; }
         public Nullable<double> ItemWeight { get; set; }
+        public Nullable<bool> printCropMarks { get; set; }
+        public Nullable<bool> drawBleedArea { get; set; }
+        public Nullable<bool> isMultipagePDF { get; set; }
+        public Nullable<bool> drawWaterMarkTxt { get; set; }
+        public Nullable<bool> allowPdfDownload { get; set; }
+        public Nullable<bool> allowImageDownload { get; set; }
+        public Nullable<long> SmartFormId { get; set; }
     
-        public virtual Company Company { get; set; }
         public virtual ICollection<DeliveryNoteDetail> DeliveryNoteDetails { get; set; }
         public virtual Estimate Estimate { get; set; }
         public virtual ICollection<FavoriteDesign> FavoriteDesigns { get; set; }
-        public virtual Invoice Invoice { get; set; }
         public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; }
         public virtual ICollection<ItemAttachment> ItemAttachments { get; set; }
         public virtual ICollection<ItemImage> ItemImages { get; set; }
@@ -261,9 +266,9 @@ namespace MigrationUtility.Preview
         public virtual ICollection<ItemVDPPrice> ItemVDPPrices { get; set; }
         public virtual ICollection<ItemVideo> ItemVideos { get; set; }
         public virtual ICollection<ProductCategoryItem> ProductCategoryItems { get; set; }
-        public virtual ICollection<ItemSection> ItemSections { get; set; }
-        public virtual Status Status1 { get; set; }
         public virtual ICollection<TerritoryItem> TerritoryItems { get; set; }
         public virtual ICollection<ItemStockOption> ItemStockOptions { get; set; }
+        public virtual Company Company { get; set; }
+        public virtual ICollection<ItemSection> ItemSections { get; set; }
     }
 }

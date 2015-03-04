@@ -27,7 +27,8 @@ namespace MPC.Models.DomainModels
         public string VariableTitle { get; set; }
         public virtual Company Company { get; set; }
         public virtual ICollection<VariableOption> VariableOptions { get; set; }
-        public virtual ICollection<CompanyContactVariable> CompanyContactVariables { get; set; }
+        public virtual ICollection<ScopeVariable> ScopeVariables { get; set; }
+        public virtual ICollection<SmartFormDetail> SmartFormDetails { get; set; }
 
         [NotMapped]
         public long? FakeIdVariableId { get; set; }

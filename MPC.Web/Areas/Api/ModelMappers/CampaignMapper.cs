@@ -57,7 +57,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new DomainModels.Campaign
             {
-                CampaignId = source.CampaignId,
+                CampaignId = source.CampaignId < 0 ? 0 : source.CampaignId,
                 CampaignName = source.CampaignName,
                 Description = source.Description,
                 CampaignType = source.CampaignType,
