@@ -3638,6 +3638,7 @@ define("stores/stores.viewModel",
                         secondaryPagePager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getSecondoryPages));
                         addressPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
                         contactCompanyPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
+                        selectedCompanyDomainItem(undefined);
                         //companyTerritoryPager().totalCount(0);
                     },
                     //#endregion

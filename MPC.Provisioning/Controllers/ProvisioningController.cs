@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Http;
@@ -176,28 +177,55 @@ namespace MPC.Provisioning.Controllers
         {
             return HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority;
         }
+
         /// <summary>
         /// //POST: Api/CreateNewDomain
         ///   Method is used to add New Binding for a site in IIS
         /// </summary>
         /// <param name="siteName"> Site Name represents parent site name eg "mpc"</param>
         /// <param name="domainName">Domain Name Represents new binding in IIS to be created</param>
+        /// <param name="isRemoving"></param>
         /// <returns>return 'true' if successfully adds binding else return 'false'</returns>
-        public bool AddDomain(string siteName, string domainName)
+        [System.Web.Http.HttpGet]
+        public string AddDomain(string siteName, string domainName, bool isRemoving)
         {
-            return true;
+            try
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                startInfo.FileName = @"powershell.exe";
+                if (!isRemoving)
+                {
+                    startInfo.Arguments = @"-File " + HttpContext.Current.Server.MapPath("~/scripts/AddDomain.ps1") + " " + siteName + " " + domainName;
+                }
+                else
+                {
+                    startInfo.Arguments = @"-File " + HttpContext.Current.Server.MapPath("~/scripts/RemoveDomain.ps1") + " " + siteName + " " + domainName;
+                }
+                
+                startInfo.RedirectStandardOutput = true;
+                startInfo.RedirectStandardError = true;
+                startInfo.UseShellExecute = false;
+                startInfo.CreateNoWindow = true;
+                Process process = new Process();
+                process.StartInfo = startInfo;
+                process.Start();
+
+                string output = process.StandardOutput.ReadToEnd();
+                if (!isRemoving && output.Contains("Domain Created"))
+                {
+                    return "true";
+                }
+                if (isRemoving && output.Contains("Domain Removed"))
+                {
+                    return "true";
+                }
+                return "Please contact support@myprintcloud.com . There were errors in setting up domain bindings" + output;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Please contact support@myprintcloud.com . There were errors in setting up domain bindings: " + ex);
+            }
         }
 
-        /// <summary>
-        /// //Delete: Api/CreateNewDomain
-        ///   Method is used to Delete Binding for a site in IIS
-        /// </summary>
-        /// <param name="siteName"> Site Name represents parent site name eg "mpc"</param>
-        /// <param name="domainName">Domain Name Represents binding in IIS to be removed</param>
-        /// <returns>return 'true' if successfully Deletes binding else return 'false'</returns>
-        public bool DeleteDomain(string siteName, string domainName)
-        {
-            return true;
-        }
     }
 }

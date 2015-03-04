@@ -12,5 +12,6 @@ namespace MPC.Interfaces.Repository
     {
 
         long NabTransactionSaveRequest(int EstimateId, string Request);
+        bool NabTransactionUpdateRequest(long TransdactionId, string Response);
     }
 }
