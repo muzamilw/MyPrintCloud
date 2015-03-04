@@ -3358,6 +3358,23 @@ namespace MPC.Implementation.MISServices
 
                                         }
                                     }
+                                    if(item.ItemAttachments != null && item.ItemAttachments.Count > 0)
+                                    {
+                                        foreach(var itemAttach in item.ItemAttachments)
+                                        {
+
+                                            string FilePath = HttpContext.Current.Server.MapPath(itemAttach.FolderPath);
+                                            DPath = "/Attachments/" + OrganisationID + "/" + item.ItemId;
+                                            if (File.Exists(FilePath))
+                                            {
+                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                r.Comment = "Items image for Store";
+
+                                            }
+                                        }
+
+
+                                    }
                                 }
 
                             }

@@ -365,6 +365,7 @@
     <Compile Include="Controllers\ReceiptController.cs" />
     <Compile Include="Controllers\pagesController.cs" />
     <Compile Include="Controllers\RequestQuoteController.cs" />
+    <Compile Include="Controllers\SavedDesignsController.cs" />
     <Compile Include="Controllers\ShopCartAddressSelectController.cs" />
     <Compile Include="Controllers\ShopCartController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
@@ -779,6 +780,7 @@
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
     <Folder Include="Views\NabSubmit\" />
+    <Folder Include="Views\SavedDesigns\" />
     <Folder Include="Views\SlidingBanner\" />
   </ItemGroup>
   <ItemGroup>
