@@ -43,6 +43,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<Activity> GetActivitiesByUserId(DateTime? startDateTime, DateTime? endDateTime)
         {
+            
             return DbSet.Where(a => a.SystemUserId == LoggedInUserId && a.ActivityStartTime >= startDateTime && a.ActivityEndTime < endDateTime).ToList();
         }
         #endregion
