@@ -9,7 +9,7 @@
         <div class="padding_top_bottom_topheader">
             <div class="company_logo col-md-3 col-lg-3 col-xs-12 col-sm-4">
                 <a href='@ViewBag.DefaultUrl'>
-                    <img src="@Html.GetAppBasePath()@Model.Image" class="pink_company_top_logo LOgo_ImgeP" />
+                    <img src="/@Model.Image" class="pink_company_top_logo LOgo_ImgeP" />
                 </a>
                 <a id="lbl_PoweredBy" class="MLF top_header" target="_blank" href="http://www.myprintcloud.com/">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlPoweredBy", UserCookieManager.StoreId))</a>
 

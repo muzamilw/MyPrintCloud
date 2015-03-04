@@ -19,7 +19,7 @@ namespace MigrationUtility.Preview
         public string Description { get; set; }
         public int RowsCount { get; set; }
         public int ColumnsCount { get; set; }
-        public int CompanyId { get; set; }
+        public int OrganisationId { get; set; }
         public int SystemSiteId { get; set; }
     }
 }

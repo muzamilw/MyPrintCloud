@@ -113,9 +113,13 @@ namespace MPC.Webstore.Controllers
                 
                 return allPageWidgets.Where(widget => widget.PageId == Page.PageId).OrderBy(s => s.Sequence).ToList();
             }
-            else
+            else        //this is default page being fired.
             {
-                return allPageWidgets.Where(widget => widget.PageId == 1).OrderBy(s => s.Sequence).ToList();
+                MPC.Models.Common.CmsPageModel Page = pageList.Where(p => p.PageName.ToLower() == "home").FirstOrDefault();
+
+                SetPageMEtaTitle(Page, DefaultAddress, CompanyName);
+
+                return allPageWidgets.Where(widget => widget.PageId == Page.PageId).OrderBy(s => s.Sequence).ToList();
             }
         }
                 /// <summary>

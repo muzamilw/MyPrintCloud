@@ -1615,7 +1615,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="MetaKeywords" Type="nvarchar(max)" />
           <Property Name="MetaDescription" Type="nvarchar" MaxLength="500" />
           <Property Name="MetaTitle" Type="nvarchar" MaxLength="100" />
-          <Property Name="isTemplateDesignMode" Type="bit" />
+          <Property Name="isTemplateDesignMode" Type="int" />
           <Property Name="XeroAccessCode" Type="varchar" MaxLength="50" />
           <Property Name="DefaultItemTax" Type="float" />
           <Property Name="OrganisationId" Type="bigint" />
@@ -3259,7 +3259,7 @@ warning 6002: The table/view 'MPC.dbo.GetCategoryProducts' does not have a prima
           <Property Name="OrganisationId" Type="bigint" />
           <Property Name="WebDescription" Type="varchar(max)" />
           <Property Name="PriceDiscountPercentage" Type="int" />
-          <Property Name="isTemplateDesignMode" Type="bit" />
+          <Property Name="isTemplateDesignMode" Type="int" />
           <Property Name="DefaultItemTax" Type="float" />
           <Property Name="isUploadImage" Type="bit" />
           <Property Name="isMarketingBrief" Type="bit" />
@@ -3317,6 +3317,42 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="CategoryName" Type="varchar" MaxLength="50" />
           <Property Name="CompanyId" Type="bigint" />
           <Property Name="DefaultItemTax" Type="float" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_SaveDesign">
+          <Key>
+            <PropertyRef Name="ItemID" />
+            <PropertyRef Name="ProductCategoryID" />
+            <PropertyRef Name="MinPrice" />
+            <PropertyRef Name="ContactID" />
+            <PropertyRef Name="CompanyId" />
+            <PropertyRef Name="IsCustomer" />
+            <PropertyRef Name="StatusID" />
+          </Key>
+          <Property Name="ItemID" Type="bigint" Nullable="false" />
+          <Property Name="AttachmentItemId" Type="bigint" />
+          <Property Name="AttachmentFileName" Type="text" />
+          <Property Name="AttachmentFolderPath" Type="text" />
+          <Property Name="EstimateID" Type="bigint" />
+          <Property Name="ProductName" Type="nvarchar" MaxLength="500" />
+          <Property Name="ProductCategoryName" Type="varchar" MaxLength="50" />
+          <Property Name="ProductCategoryID" Type="bigint" Nullable="false" />
+          <Property Name="ParentCategoryID" Type="int" />
+          <Property Name="MinPrice" Type="float" Nullable="false" />
+          <Property Name="IsEnabled" Type="bit" />
+          <Property Name="IsPublished" Type="bit" />
+          <Property Name="IsArchived" Type="bit" />
+          <Property Name="InvoiceID" Type="bigint" />
+          <Property Name="ContactID" Type="bigint" Nullable="false" />
+          <Property Name="CompanyId" Type="bigint" Nullable="false" />
+          <Property Name="IsCustomer" Type="smallint" Nullable="false" />
+          <Property Name="RefItemID" Type="bigint" />
+          <Property Name="StatusID" Type="smallint" Nullable="false" />
+          <Property Name="StatusName" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsOrderedItem" Type="bit" />
+          <Property Name="ItemCreationDateTime" Type="datetime" />
+          <Property Name="TemplateID" Type="bigint" />
         </EntityType>
         <Association Name="FK__Activity__Compan__2D3FF3FE">
           <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
@@ -5053,6 +5089,33 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
     [ProductCategoriesView].[DefaultItemTax] AS [DefaultItemTax]
     FROM [dbo].[ProductCategoriesView] AS [ProductCategoriesView]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_SaveDesign" EntityType="Self.vw_SaveDesign" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_SaveDesign].[ItemID] AS [ItemID], 
+    [vw_SaveDesign].[AttachmentItemId] AS [AttachmentItemId], 
+    [vw_SaveDesign].[AttachmentFileName] AS [AttachmentFileName], 
+    [vw_SaveDesign].[AttachmentFolderPath] AS [AttachmentFolderPath], 
+    [vw_SaveDesign].[EstimateID] AS [EstimateID], 
+    [vw_SaveDesign].[ProductName] AS [ProductName], 
+    [vw_SaveDesign].[ProductCategoryName] AS [ProductCategoryName], 
+    [vw_SaveDesign].[ProductCategoryID] AS [ProductCategoryID], 
+    [vw_SaveDesign].[ParentCategoryID] AS [ParentCategoryID], 
+    [vw_SaveDesign].[MinPrice] AS [MinPrice], 
+    [vw_SaveDesign].[IsEnabled] AS [IsEnabled], 
+    [vw_SaveDesign].[IsPublished] AS [IsPublished], 
+    [vw_SaveDesign].[IsArchived] AS [IsArchived], 
+    [vw_SaveDesign].[InvoiceID] AS [InvoiceID], 
+    [vw_SaveDesign].[ContactID] AS [ContactID], 
+    [vw_SaveDesign].[CompanyId] AS [CompanyId], 
+    [vw_SaveDesign].[IsCustomer] AS [IsCustomer], 
+    [vw_SaveDesign].[RefItemID] AS [RefItemID], 
+    [vw_SaveDesign].[StatusID] AS [StatusID], 
+    [vw_SaveDesign].[StatusName] AS [StatusName], 
+    [vw_SaveDesign].[IsOrderedItem] AS [IsOrderedItem], 
+    [vw_SaveDesign].[ItemCreationDateTime] AS [ItemCreationDateTime], 
+    [vw_SaveDesign].[TemplateID] AS [TemplateID]
+    FROM [dbo].[vw_SaveDesign] AS [vw_SaveDesign]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK__Activity__Compan__2D3FF3FE" Association="Self.FK__Activity__Compan__2D3FF3FE">
             <End Role="Company" EntitySet="Company" />
             <End Role="Activity" EntitySet="Activity" />
@@ -6226,6 +6289,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
             <End Role="FieldVariable" EntitySet="FieldVariables" />
             <End Role="SmartFormDetail" EntitySet="SmartFormDetails" />
           </AssociationSet>
+          <EntitySet Name="SaveDesignViews" EntityType="DomainModels.SaveDesignView" />
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -7605,7 +7669,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="MetaKeywords" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="MetaDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="MetaTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="IsTemplateDesignMode" Type="Boolean" />
+          <Property Name="IsTemplateDesignMode" Type="Int32" />
           <Property Name="XeroAccessCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DefaultItemTax" Type="Double" />
           <Property Name="OrganisationId" Type="Int64" />
@@ -9749,7 +9813,7 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="OrganisationId" Type="Int64" />
           <Property Name="WebDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="PriceDiscountPercentage" Type="Int32" />
-          <Property Name="isTemplateDesignMode" Type="Boolean" />
+          <Property Name="isTemplateDesignMode" Type="Int32" />
           <Property Name="DefaultItemTax" Type="Double" />
           <Property Name="isUploadImage" Type="Boolean" />
           <Property Name="isMarketingBrief" Type="Boolean" />
@@ -11293,6 +11357,40 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SaveDesignView">
+          <Key>
+            <PropertyRef Name="ItemID" />
+            <PropertyRef Name="ProductCategoryID" />
+            <PropertyRef Name="MinPrice" />
+            <PropertyRef Name="ContactID" />
+            <PropertyRef Name="CompanyId" />
+            <PropertyRef Name="IsCustomer" />
+            <PropertyRef Name="StatusID" />
+          </Key>
+          <Property Name="ItemID" Type="Int64" Nullable="false" />
+          <Property Name="AttachmentItemId" Type="Int64" />
+          <Property Name="AttachmentFileName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AttachmentFolderPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="EstimateID" Type="Int64" />
+          <Property Name="ProductName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ProductCategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProductCategoryID" Type="Int64" Nullable="false" />
+          <Property Name="ParentCategoryID" Type="Int32" />
+          <Property Name="MinPrice" Type="Double" Nullable="false" />
+          <Property Name="IsEnabled" Type="Boolean" />
+          <Property Name="IsPublished" Type="Boolean" />
+          <Property Name="IsArchived" Type="Boolean" />
+          <Property Name="InvoiceID" Type="Int64" />
+          <Property Name="ContactID" Type="Int64" Nullable="false" />
+          <Property Name="CompanyId" Type="Int64" Nullable="false" />
+          <Property Name="IsCustomer" Type="Int16" Nullable="false" />
+          <Property Name="RefItemID" Type="Int64" />
+          <Property Name="StatusID" Type="Int16" Nullable="false" />
+          <Property Name="StatusName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsOrderedItem" Type="Boolean" />
+          <Property Name="ItemCreationDateTime" Type="DateTime" Precision="3" />
+          <Property Name="TemplateID" Type="Int64" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -14800,6 +14898,35 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
                 <ScalarProperty Name="VariableId" ColumnName="VariableId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ScopeVariableId" ColumnName="ScopeVariableId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SaveDesignViews">
+            <EntityTypeMapping TypeName="DomainModels.SaveDesignView">
+              <MappingFragment StoreEntitySet="vw_SaveDesign">
+                <ScalarProperty Name="TemplateID" ColumnName="TemplateID" />
+                <ScalarProperty Name="ItemCreationDateTime" ColumnName="ItemCreationDateTime" />
+                <ScalarProperty Name="IsOrderedItem" ColumnName="IsOrderedItem" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="RefItemID" ColumnName="RefItemID" />
+                <ScalarProperty Name="IsCustomer" ColumnName="IsCustomer" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="ContactID" ColumnName="ContactID" />
+                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
+                <ScalarProperty Name="IsArchived" ColumnName="IsArchived" />
+                <ScalarProperty Name="IsPublished" ColumnName="IsPublished" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="MinPrice" ColumnName="MinPrice" />
+                <ScalarProperty Name="ParentCategoryID" ColumnName="ParentCategoryID" />
+                <ScalarProperty Name="ProductCategoryID" ColumnName="ProductCategoryID" />
+                <ScalarProperty Name="ProductCategoryName" ColumnName="ProductCategoryName" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="EstimateID" ColumnName="EstimateID" />
+                <ScalarProperty Name="AttachmentFolderPath" ColumnName="AttachmentFolderPath" />
+                <ScalarProperty Name="AttachmentFileName" ColumnName="AttachmentFileName" />
+                <ScalarProperty Name="AttachmentItemId" ColumnName="AttachmentItemId" />
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

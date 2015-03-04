@@ -118,10 +118,6 @@ namespace MigrationUtility.Preview
         public Nullable<bool> IsMakeReadyUsed { get; set; }
         public Nullable<bool> isWorknTurn { get; set; }
         public Nullable<bool> isWorkntumble { get; set; }
-        public byte[] QuestionQueue { get; set; }
-        public byte[] StockQueue { get; set; }
-        public byte[] InputQueue { get; set; }
-        public byte[] CostCentreQueue { get; set; }
         public Nullable<int> PressSpeed1 { get; set; }
         public Nullable<int> PressSpeed2 { get; set; }
         public Nullable<int> PressSpeed3 { get; set; }
@@ -183,6 +179,10 @@ namespace MigrationUtility.Preview
         public Nullable<int> InkColorType { get; set; }
         public Nullable<int> PlateInkId { get; set; }
         public Nullable<int> SimilarSections { get; set; }
+        public string QuestionQueue { get; set; }
+        public string InputQueue { get; set; }
+        public string StockQueue { get; set; }
+        public string CostCentreQueue { get; set; }
     
         public virtual Item Item { get; set; }
         public virtual Machine Machine { get; set; }

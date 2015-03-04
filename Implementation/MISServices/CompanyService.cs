@@ -911,23 +911,23 @@ namespace MPC.Implementation.MISServices
                 {
                     companyDbVersion.CompanyContacts = new Collection<CompanyContact>();
                 }
-                //foreach (var companyContacts in companySavingModel.NewAddedCompanyContacts)
-                //{
-                //    if (companyContacts.CompanyContactVariables != null)
-                //    {
-                //        foreach (var companyContactVariable in companyContacts.CompanyContactVariables)
-                //        {
-                //            FieldVariable fieldVariable = companySavingModel.Company.FieldVariables.FirstOrDefault(
-                //                f => f.FakeIdVariableId == companyContactVariable.FakeVariableId);
-                //            if (fieldVariable != null)
-                //                companyContactVariable.VariableId = fieldVariable.VariableId;
-                //        }
-                //    }
+                foreach (var companyContacts in companySavingModel.NewAddedCompanyContacts)
+                {
+                    //if (companyContacts.CompanyContactVariables != null)
+                    //{
+                    //    foreach (var companyContactVariable in companyContacts.CompanyContactVariables)
+                    //    {
+                    //        FieldVariable fieldVariable = companySavingModel.Company.FieldVariables.FirstOrDefault(
+                    //            f => f.FakeIdVariableId == companyContactVariable.FakeVariableId);
+                    //        if (fieldVariable != null)
+                    //            companyContactVariable.VariableId = fieldVariable.VariableId;
+                    //    }
+                    //}
 
-                //    companyContacts.OrganisationId = companyContactRepository.OrganisationId;
+                    companyContacts.OrganisationId = companyContactRepository.OrganisationId;
 
-                //    companyDbVersion.CompanyContacts.Add(companyContacts);
-                //}
+                    companyDbVersion.CompanyContacts.Add(companyContacts);
+                }
             }
             //Edit
             if (companySavingModel.EdittedCompanyContacts != null)
@@ -1677,6 +1677,7 @@ namespace MPC.Implementation.MISServices
                             dbItem.Meta_RobotsContent = item.Meta_RobotsContent;
                             dbItem.Meta_Title = item.Meta_Title;
                             dbItem.PageHTML = item.PageHTML;
+                            dbItem.isEnabled = item.isEnabled;
                             dbItem.PageKeywords = item.PageKeywords;
                             dbItem.PageTitle = item.PageTitle;
                             dbItem.PageBanner = item.PageBanner;
@@ -3356,6 +3357,23 @@ namespace MPC.Implementation.MISServices
                                             r.Comment = "Items image for Store";
 
                                         }
+                                    }
+                                    if(item.ItemAttachments != null && item.ItemAttachments.Count > 0)
+                                    {
+                                        foreach(var itemAttach in item.ItemAttachments)
+                                        {
+
+                                            string FilePath = HttpContext.Current.Server.MapPath(itemAttach.FolderPath);
+                                            DPath = "/Attachments/" + OrganisationID + "/" + item.ItemId;
+                                            if (File.Exists(FilePath))
+                                            {
+                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                r.Comment = "Items image for Store";
+
+                                            }
+                                        }
+
+
                                     }
                                 }
 
