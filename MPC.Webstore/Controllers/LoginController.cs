@@ -118,65 +118,60 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index(AccountViewModel model)
         {
+
+
+
+            string returnUrl = string.Empty;
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
-            // MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
-            string Path = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Organisations/ExportedZip9.zip");
-            _CompanyService.ImportOrganisation(5, Path,false);
-            return View();
 
+            if (ModelState.IsValid)
+            {
+                CompanyContact user = null;
+                //MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+                if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate))
+                {
+                    user = _myCompanyService.GetCorporateUserByEmailAndPassword(model.Email, model.Password, UserCookieManager.StoreId);
+                }
+                else
+                {
+                    user = _myCompanyService.GetRetailUser(model.Email, model.Password);
+                }
 
-            //string returnUrl = string.Empty;
-            //string CacheKeyName = "CompanyBaseResponse";
-            //ObjectCache cache = MemoryCache.Default;
+                StoreBaseResopnse = null;
+                if (user != null)
+                {
+                    if (model.KeepMeLoggedIn)
+                        UserCookieManager.isWritePresistentCookie = true;
+                    else
+                        UserCookieManager.isWritePresistentCookie = false;
+                    string ReturnURL = Request.Form["hfReturnURL"];
+                    return VerifyUser(user, returnUrl);
+                }
+                else
+                {
+                    ViewBag.Message = "Invalid login attempt.";
+                    return View("PartialViews/Login");
+                }
+            }
+            else
+            {
 
-            //if (ModelState.IsValid)
-            //{
-            //    CompanyContact user = null;
-            //    //MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-            //    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
-            //    if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate))
-            //    {
-            //        user = _myCompanyService.GetCorporateUserByEmailAndPassword(model.Email, model.Password, UserCookieManager.StoreId);
-            //    }
-            //    else
-            //    {
-            //        user = _myCompanyService.GetRetailUser(model.Email, model.Password);
-            //    }
+                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
 
-            //    StoreBaseResopnse = null;
-            //    if (user != null)
-            //    {
-            //        if (model.KeepMeLoggedIn)
-            //            UserCookieManager.isWritePresistentCookie = true;
-            //        else
-            //            UserCookieManager.isWritePresistentCookie = false;
-            //        string ReturnURL = Request.Form["hfReturnURL"];
-            //        return VerifyUser(user, returnUrl);
-            //    }
-            //    else
-            //    {
-            //        ViewBag.Message = "Invalid login attempt.";
-            //        return View("PartialViews/Login");
-            //    }
-            //}
-            //else
-            //{
-              
-            //    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+                if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate && StoreBaseResopnse.Company.isAllowRegistrationFromWeb == true) || (StoreBaseResopnse.Company.IsCustomer == 1))
+                {
+                    ViewBag.AllowRegisteration = 1;
+                }
+                else
+                {
+                    ViewBag.AllowRegisteration = 1;
+                }
 
-            //    if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate && StoreBaseResopnse.Company.isAllowRegistrationFromWeb == true) || (StoreBaseResopnse.Company.IsCustomer == 1))
-            //    {
-            //        ViewBag.AllowRegisteration = 1;
-            //    }
-            //    else
-            //    {
-            //        ViewBag.AllowRegisteration = 1;
-            //    }
-
-            //    ViewBag.CompanyName = StoreBaseResopnse.Company.Name;
-            //    return View("PartialViews/Login");
-            //}
+                ViewBag.CompanyName = StoreBaseResopnse.Company.Name;
+                return View("PartialViews/Login");
+            }
 
         }
 
