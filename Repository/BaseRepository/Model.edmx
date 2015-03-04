@@ -1637,6 +1637,9 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="allowPdfDownload" Type="bit" />
           <Property Name="allowImageDownload" Type="bit" />
           <Property Name="SmartFormId" Type="bigint" />
+          <Property Name="IsDigitalDownload" Type="bit" />
+          <Property Name="IsRealStateProduct" Type="bit" />
+          <Property Name="ProductDisplayOptions" Type="int" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -7712,6 +7715,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="allowPdfDownload" Type="Boolean" />
           <Property Name="allowImageDownload" Type="Boolean" />
           <Property Name="SmartFormId" Type="Int64" />
+          <Property Name="IsDigitalDownload" Type="Boolean" />
+          <Property Name="IsRealStateProduct" Type="Boolean" />
+          <Property Name="ProductDisplayOptions" Type="Int32" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -12292,6 +12298,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Items">
             <EntityTypeMapping TypeName="DomainModels.Item">
               <MappingFragment StoreEntitySet="Items">
+                <ScalarProperty Name="ProductDisplayOptions" ColumnName="ProductDisplayOptions" />
+                <ScalarProperty Name="IsRealStateProduct" ColumnName="IsRealStateProduct" />
+                <ScalarProperty Name="IsDigitalDownload" ColumnName="IsDigitalDownload" />
                 <ScalarProperty Name="SmartFormId" ColumnName="SmartFormId" />
                 <ScalarProperty Name="allowImageDownload" ColumnName="allowImageDownload" />
                 <ScalarProperty Name="allowPdfDownload" ColumnName="allowPdfDownload" />
