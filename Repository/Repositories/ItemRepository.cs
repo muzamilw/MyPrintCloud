@@ -1354,14 +1354,14 @@ namespace MPC.Repository.Repositories
             //return db.Items.Include("ItemPriceMatrices").Include("ItemSections").Where(i => i.IsPublished == true && i.ItemId == itemId && i.EstimateId == null).FirstOrDefault();
 
         }
-        public Item GetItemByIdDesigner(long RefitemId)
+        public Item GetItemByIdDesigner(long ItemId)
         {
             try
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
 
-                return db.Items.Where(i => i.IsPublished == true && i.ItemId == RefitemId && i.EstimateId == null).FirstOrDefault();
+                return db.Items.Where(i => i.ItemId == ItemId).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -2148,9 +2148,18 @@ namespace MPC.Repository.Repositories
 
                     if (isNewSectionCostCenter)
                     {
-                        sectionCC.CostCentreId = 206;
-                        sectionCC.ItemSectionId = FirstItemSection.ItemSectionId;
-                        FirstItemSection.SectionCostcentres.Add(sectionCC);
+                        //29 is the global type of web order cost centre
+                        var oCostCentre = db.CostCentres.Where(g => g.Type == 29).SingleOrDefault();
+                        if (oCostCentre != null)
+                        {
+                            sectionCC.CostCentreId = oCostCentre.CostCentreId;
+                            sectionCC.ItemSectionId = FirstItemSection.ItemSectionId;
+                            FirstItemSection.SectionCostcentres.Add(sectionCC);
+                        }
+                        else
+                        {
+                            throw new Exception("Critcal Error, We have lost our main costcentre.", null);
+                        }
                     }
 
                     if (result)

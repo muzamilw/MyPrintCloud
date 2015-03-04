@@ -931,7 +931,8 @@
                                                             <label for="ddbussinessAddress" class="control-label text-right tooltip-float">Bussiness Address</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <select class="form-control " id="ddTerritory" data-bind="options:$root.bussinessAddresses,optionsText:'addressName',optionsValue:'addressId',value: $root.selectedBussinessAddressId, validationToolTip: bussinessAddressId"></select> @*,optionsCaption: 'Choose...'*@
+                                                            @*<select class="form-control " id="ddTerritory" data-bind="options:$root.bussinessAddresses,optionsText:'addressName',optionsValue:'addressId',value: $root.selectedBussinessAddressId, validationToolTip: bussinessAddressId"></select>*@ @*,optionsCaption: 'Choose...'*@
+                                                            <select class="form-control " id="ddTerritory" data-bind="options:$root.bussinessAddresses,optionsText:'addressName',optionsValue:'addressId',value: bussinessAddressId, validationToolTip: bussinessAddressId"></select> @*,optionsCaption: 'Choose...'*@
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -972,7 +973,7 @@
                                                             <label for="txtBAddState" class="control-label text-right tooltip-float">State</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtBAddState" disabled="disabled" data-bind="value: $root.selectedBussinessAddress()!= undefined && $root.selectedBussinessAddress().state() != undefined ? $root.selectedBussinessAddress().stateName():''">
+                                                            <input type="text" class="form-control" id="txtBAddState" disabled="disabled" data-bind="value: $root.selectedBussinessAddress()!= undefined && $root.selectedBussinessAddress().stateName() != undefined ? $root.selectedBussinessAddress().stateName():''">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1040,7 +1041,7 @@
                                                             <label for="txtShippAddState" class="control-label text-right tooltip-float">State</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtShippAddState" disabled="disabled" data-bind="value: $root.selectedShippingAddress()!= undefined && $root.selectedShippingAddress().state() != undefined ? $root.selectedShippingAddress().stateName():''">
+                                                            <input type="text" class="form-control" id="txtShippAddState" disabled="disabled" data-bind="value: $root.selectedShippingAddress()!= undefined && $root.selectedShippingAddress().stateName() != undefined ? $root.selectedShippingAddress().stateName():''">
                                                         </div>
                                                     </div>
                                                 </div>

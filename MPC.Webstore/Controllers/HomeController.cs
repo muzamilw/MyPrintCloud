@@ -83,23 +83,38 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index()
         {
             SetUserClaim(UserCookieManager.OrganisationID);
-
+            List<MPC.Models.DomainModels.CmsSkinPageWidget> model = null;
 
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+
+
+
+            //iqra to fix the route of error page, consult khurram if required to get it propper.
+            if (UserCookieManager.StoreId != 0)
+            {
+                Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse> domainResponse = (cache.Get(CacheKeyName)) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>;
+                if (domainResponse.ContainsKey(UserCookieManager.StoreId))
+                {
+                    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = domainResponse[UserCookieManager.StoreId];
+                    string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
+                    model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse.Company.Name);
+                    StoreBaseResopnse = null;
+                }
+                else
+                {
+                    //domain not found;
+                    return RedirectToAction("Index", "Error", new { code="DomainNotFound"});
+                }
+            }
+            else
+            {
+                //domain not found;
+                return RedirectToAction("Index", "Error", new { code = "DomainNotFound" });
+            }
+
+           
             ViewBag.StyleSheet = "/mpc_content/Assets/" + UserCookieManager.OrganisationID + "/" + UserCookieManager.StoreId + "/Site.css";  
-
-            List<MPC.Models.DomainModels.CmsSkinPageWidget> model = null;
-
-            string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
-
-         
-
-
-            model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse.Company.Name);
-
-            StoreBaseResopnse = null;
             return View(model);
         }
 

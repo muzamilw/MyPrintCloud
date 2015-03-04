@@ -130,13 +130,22 @@ namespace MPC.Models.Common
     }
     public enum ProductType
     {
-        FinishedGoodWithImageRotator = 1,
-        TemplateProductWithImage = 2,
-        TemplateProductWithBanner = 3,
-        FinishedGoodWithBanner = 4,
-        InventoryItem = 5,
-        RealEstate = 6
+        PrintProduct = 1,
+        MarketingBrief = 2,
+        NonPrintProduct = 3
+
     }
+
+
+    public enum ProductDisplayOption
+    {
+        ThumbAndBanner = 1,
+        ThumbWithMultipleBanners = 2
+        
+
+    }
+
+
     public enum PaymentMethods
     {
         PayPal = 1,
