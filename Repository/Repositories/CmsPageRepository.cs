@@ -105,7 +105,7 @@ namespace MPC.Repository.Repositories
             try
             {
                 var query = from page in db.CmsPages
-                            where (page.CompanyId == CompanyId || page.CompanyId == null) && page.isEnabled == true
+                         where (page.CompanyId == CompanyId) && page.isEnabled == true
                             select new CmsPageModel
                             {
                                 PageId = page.PageId,

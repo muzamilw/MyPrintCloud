@@ -69,12 +69,11 @@ namespace MPC.Repository.Repositories
                     return 0;
                 }
             }
-            catch(Exception ex)
+             catch(Exception ex)
             {
                 throw ex;
 
             }
-            
         }
         public Company GetCustomer(int CompanyId)
         {
@@ -87,8 +86,9 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-
+            
         }
+       
         public CompanyResponse GetCompanyById(long companyId)
         {
             try
@@ -136,9 +136,8 @@ namespace MPC.Repository.Repositories
                 long type = request.CustomerType ?? 0;
                 Expression<Func<Company, bool>> query =
                     s =>
-                        (isStringSpecified && (s.Name.Contains(request.SearchString)) && (isTypeSpecified && s.TypeId == type || !isTypeSpecified) && s.OrganisationId == OrganisationId && s.isArchived != true ||
-                         !isStringSpecified && s.OrganisationId == OrganisationId && s.isArchived != true
-                         );
+                    ((!isStringSpecified || s.Name.Contains(request.SearchString)) && (isTypeSpecified && s.TypeId == type || !isTypeSpecified)) && 
+                    (s.OrganisationId == OrganisationId && s.isArchived != true) && (s.IsCustomer == 3 || s.IsCustomer == 4);
 
                 int rowCount = DbSet.Count(query);
                 IEnumerable<Company> companies = request.IsAsc
@@ -238,6 +237,8 @@ namespace MPC.Repository.Repositories
            // return db.Companies.Include("CompanyDomains").Include("CmsOffers").Include("MediaLibraries").Include("CompanyBannerSets").Include("CompanyBannerSets.CompanyBanners").Include("CmsPages").Include("RaveReviews").Include("CompanyTerritories").Include("Addresses").Include("CompanyContacts").Include("ProductCategories").Include("Items").Include("Items.ItemSections").Include("Items.ItemSections.SectionCostcentres").Include("Items.ItemSections.SectionCostcentres.SectionCostCentreResources").Include("PaymentGateways").Include("CmsSkinPageWidgets").Include("CompanyCostCentres").Include("CompanyCMYKColors").FirstOrDefault(c => c.CompanyId == companyId);
          
         }
+       
+        
         public ExportOrganisation ExportCompany( long CompanyId)
         {
           
