@@ -1005,75 +1005,62 @@ namespace MPC.Implementation.MISServices
         {
             //var companyDbVersion = companySavedDomains;
             #region Company Domain
-            //Add Company Domain
+            #region Add Company Domain
             if (companySavedDomains != null)
             {
                 foreach (var item in companySavedDomains)
                 {
-                    //if (companyDbVersion.CompanyDomains.All(x => x.CompanyDomainId != item.CompanyDomainId && x.CompanyId != item.CompanyId))
-                    if (companyDbVersion.All(x => x.CompanyDomainId != item.CompanyDomainId))// && x.CompanyId != item.CompanyId
+                    if (companyDbVersion.All(x => x.CompanyDomainId != item.CompanyDomainId))
                     {
                         using (var client = new HttpClient())
                         {
                             client.BaseAddress = new Uri(ConfigurationManager.AppSettings["AddDomainPath"]);
                             client.DefaultRequestHeaders.Accept.Clear();
                             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                            string url = "AddDomain?siteName=" + item.Domain + "&domainName=" + item.Domain;
+                            string mySiteUrl = HttpContext.Current.Request.Url.Host;
+                            string url = "AddDomain?siteName=" + mySiteUrl + "&domainName=" + item.Domain + "&isRemoving=" + false;
                             string responsestr = "";
                             var response = client.GetAsync(url);
                             if (response.Result.IsSuccessStatusCode)
                             {
-                                responsestr = response.Result.Content.ReadAsStringAsync().Result;
-                                var validationInfo = JsonConvert.DeserializeObject<ValidationInfo>(responsestr);
                             }
                         }
                     }
                 }
             }
+            #endregion Add Company Domain
             //find missing items
 
             List<CompanyDomain> missingCompanyDomains = new List<CompanyDomain>();
             // ReSharper disable once LoopCanBeConvertedToQuery
             if (companyDbVersion != null)
             {
-
-
                 foreach (CompanyDomain dbversionCompanyDomain in companyDbVersion)
                 {
-                    if (companySavedDomains != null && companySavedDomains.All(x => x.CompanyDomainId != dbversionCompanyDomain.CompanyDomainId && x.CompanyId != dbversionCompanyDomain.CompanyDomainId))
+                    if (companySavedDomains != null && companySavedDomains.All(x => x.CompanyDomainId != dbversionCompanyDomain.CompanyDomainId))// && x.CompanyId != dbversionCompanyDomain.CompanyDomainId
                     {
-                        using (var client = new HttpClient())
-                        {
-                            client.BaseAddress = new Uri(ConfigurationManager.AppSettings["AddDomainPath"]);
-                            client.DefaultRequestHeaders.Accept.Clear();
-                            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                            string url = "AddDomain?siteName=" + "sdds" + "&domainName = " + "dsds";
-                            string responsestr = "";
-                            var response = client.GetAsync(url);
-                            if (response.Result.IsSuccessStatusCode)
-                            {
-                                responsestr = response.Result.Content.ReadAsStringAsync().Result;
-                                var validationInfo = JsonConvert.DeserializeObject<ValidationInfo>(responsestr);
-                            }
-                        }
-                        //missingCompanyDomains.Add(dbversionCompanyDomain);
+                        missingCompanyDomains.Add(dbversionCompanyDomain);
                     }
                 }
 
                 //remove missing items
                 foreach (CompanyDomain missingCompanyDomain in missingCompanyDomains)
                 {
-                    CompanyDomain dbVersionMissingItem = companyDbVersion.First(x => x.CompanyDomainId == missingCompanyDomain.CompanyDomainId && x.CompanyId == missingCompanyDomain.CompanyId);
-                }
-            }
-            if (companySavedDomains != null)
-            {
-                //updating Company Domains
-                foreach (var companyDomain in companySavedDomains)
-                {
-                    //companyDomainRepository.Update(companyDomain);
+
+                    CompanyDomain dbVersionMissingItem = companyDbVersion.First(x => x.CompanyDomainId == missingCompanyDomain.CompanyDomainId );
+                    using (var client = new HttpClient())
+                    {
+                        client.BaseAddress = new Uri(ConfigurationManager.AppSettings["RemoveDomainPath"]);
+                        client.DefaultRequestHeaders.Accept.Clear();
+                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                        string mySiteUrl = HttpContext.Current.Request.Url.Host;
+                        string url = "RemoveDomain?siteName=" + mySiteUrl + "&domainName=" + dbVersionMissingItem.Domain + "&isRemoving=" + true;
+                        string responsestr = "";
+                        var response = client.GetAsync(url);
+                        if (response.Result.IsSuccessStatusCode)
+                        {
+                        }
+                    }
                 }
             }
             #endregion
