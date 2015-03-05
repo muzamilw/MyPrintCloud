@@ -39,4 +39,10 @@ namespace MPC.Webstore.ViewModels
         public String value { get; set; }
         public String Text { get; set; }
     }
+    public class DropdownCardType
+    {
+       
+        public int value { get; set; }
+        public String Text { get; set; }
+    }
 }
