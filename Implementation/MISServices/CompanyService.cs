@@ -3011,8 +3011,6 @@ namespace MPC.Implementation.MISServices
                 ObjExportRetail = ExportRetailStore(RetailCompanyID, OrganisationID, DPath, null);
 
 
-
-
                 #endregion
 
 
@@ -3567,6 +3565,58 @@ namespace MPC.Implementation.MISServices
                                             r.Comment = "Items image for Store";
 
                                         }
+                                    }
+                                    if(item.TemplateId != null && item.TemplateId > 0)
+                                    {
+                                        if(item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
+                                        {
+                                            if(ObjExportRetail.TemplateFonts != null && ObjExportRetail.TemplateFonts.Count > 0)
+                                            {
+                                                foreach(var tempFont in ObjExportRetail.TemplateFonts)
+                                                {
+                                                    if(!string.IsNullOrEmpty(tempFont.FontPath))
+                                                    {
+                                                        string F1 = "/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot";
+
+                                                        string F2 = "/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf";
+
+                                                        string F3 = "/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff";
+
+                                                        DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot";
+
+                                                        string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf";
+
+                                                        string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff";
+
+                                                        if (File.Exists(F1))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(F1, DPath);
+                                                            r.Comment = "template font";
+                                                        }
+
+                                                        if (File.Exists(F2))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(F2, Dpath2);
+                                                            r.Comment = "template font";
+                                                        }
+
+                                                        if (File.Exists(F3))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(F3, DPath3);
+                                                            r.Comment = "template font";
+                                                        }
+
+                                                        
+                                                    }else
+                                                    {
+
+                                                    }
+
+                                                }
+
+                                            }
+                                        }
+                                        
                                     }
                                 }
 
