@@ -437,13 +437,12 @@
           <Property Name="isDisplaySiteFooter" Type="bit" />
           <Property Name="RedirectWebstoreURL" Type="varchar" MaxLength="500" />
           <Property Name="defaultPalleteId" Type="int" />
-          <Property Name="isDisplaylBrokerBanners" Type="bit" />
-          <Property Name="isBrokerCanLaminate" Type="bit" />
-          <Property Name="isBrokerCanRoundCorner" Type="bit" />
+          <Property Name="isLaminate" Type="bit" />
+          <Property Name="isRoundCorner" Type="bit" />
           <Property Name="isBrokerCanDeliverSameDay" Type="bit" />
-          <Property Name="isBrokerCanAcceptPaymentOnline" Type="bit" />
-          <Property Name="isBrokerOrderApprovalRequired" Type="bit" />
-          <Property Name="isBrokerPaymentRequired" Type="bit" />
+          <Property Name="isAcceptPaymentOnline" Type="bit" />
+          <Property Name="isOrderApprovalRequired" Type="bit" />
+          <Property Name="isPaymentRequired" Type="bit" />
           <Property Name="isWhiteLabel" Type="bit" />
           <Property Name="TwitterURL" Type="varchar" MaxLength="100" />
           <Property Name="FacebookURL" Type="varchar" MaxLength="200" />
@@ -455,7 +454,6 @@
           <Property Name="WatermarkText" Type="varchar" MaxLength="100" />
           <Property Name="CoreCustomerId" Type="int" />
           <Property Name="StoreBackgroundImage" Type="varchar" MaxLength="200" />
-          <Property Name="isDisplayBrokerSecondaryPages" Type="bit" />
           <Property Name="PriceFlagId" Type="int" />
           <Property Name="isIncludeVAT" Type="bit" />
           <Property Name="isAllowRegistrationFromWeb" Type="bit" />
@@ -472,10 +470,10 @@
           <Property Name="canUserPlaceOrderWithoutApproval" Type="bit" />
           <Property Name="CanUserEditProfile" Type="bit" />
           <Property Name="OrganisationId" Type="bigint" />
-          <Property Name="includeEmailBrokerArtworkOrderReport" Type="bit" />
-          <Property Name="includeEmailBrokerArtworkOrderXML" Type="bit" />
-          <Property Name="includeEmailBrokerArtworkOrderJobCard" Type="bit" />
-          <Property Name="makeEmailBrokerArtworkOrderProductionReady" Type="bit" />
+          <Property Name="includeEmailArtworkOrderReport" Type="bit" />
+          <Property Name="includeEmailArtworkOrderXML" Type="bit" />
+          <Property Name="includeEmailArtworkOrderJobCard" Type="bit" />
+          <Property Name="makeEmailArtworkOrderProductionReady" Type="bit" />
           <Property Name="SalesAndOrderManagerId1" Type="uniqueidentifier" />
           <Property Name="SalesAndOrderManagerId2" Type="uniqueidentifier" />
           <Property Name="ProductionManagerId1" Type="uniqueidentifier" />
@@ -6345,13 +6343,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="isDisplaySiteFooter" Type="Boolean" />
           <Property Name="RedirectWebstoreURL" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="defaultPalleteId" Type="Int32" />
-          <Property Name="isDisplaylBrokerBanners" Type="Boolean" />
-          <Property Name="isBrokerCanLaminate" Type="Boolean" />
-          <Property Name="isBrokerCanRoundCorner" Type="Boolean" />
           <Property Name="isBrokerCanDeliverSameDay" Type="Boolean" />
-          <Property Name="isBrokerCanAcceptPaymentOnline" Type="Boolean" />
-          <Property Name="isBrokerOrderApprovalRequired" Type="Boolean" />
-          <Property Name="isBrokerPaymentRequired" Type="Boolean" />
           <Property Name="isWhiteLabel" Type="Boolean" />
           <Property Name="TwitterURL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="FacebookURL" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
@@ -6363,7 +6355,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="WatermarkText" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="CoreCustomerId" Type="Int32" />
           <Property Name="StoreBackgroundImage" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="isDisplayBrokerSecondaryPages" Type="Boolean" />
           <Property Name="PriceFlagId" Type="Int32" />
           <Property Name="isIncludeVAT" Type="Boolean" />
           <Property Name="isAllowRegistrationFromWeb" Type="Boolean" />
@@ -6380,10 +6371,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="canUserPlaceOrderWithoutApproval" Type="Boolean" />
           <Property Name="CanUserEditProfile" Type="Boolean" />
           <Property Name="OrganisationId" Type="Int64" />
-          <Property Name="includeEmailBrokerArtworkOrderReport" Type="Boolean" />
-          <Property Name="includeEmailBrokerArtworkOrderXML" Type="Boolean" />
-          <Property Name="includeEmailBrokerArtworkOrderJobCard" Type="Boolean" />
-          <Property Name="makeEmailBrokerArtworkOrderProductionReady" Type="Boolean" />
           <Property Name="SalesAndOrderManagerId1" Type="Guid" />
           <Property Name="SalesAndOrderManagerId2" Type="Guid" />
           <Property Name="ProductionManagerId1" Type="Guid" />
@@ -6425,6 +6412,15 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="Invoices" Relationship="DomainModels.FK_Invoice_Company" FromRole="Company" ToRole="Invoice" />
           <NavigationProperty Name="SmartForms" Relationship="DomainModels.FK_SmartForm_Company" FromRole="Company" ToRole="SmartForm" />
           <NavigationProperty Name="FieldVariables" Relationship="DomainModels.FK_FieldVariable_Company" FromRole="Company" ToRole="FieldVariable" />
+          <Property Name="isLaminate" Type="Boolean" />
+          <Property Name="isRoundCorner" Type="Boolean" />
+          <Property Name="isAcceptPaymentOnline" Type="Boolean" />
+          <Property Name="isOrderApprovalRequired" Type="Boolean" />
+          <Property Name="isPaymentRequired" Type="Boolean" />
+          <Property Name="includeEmailArtworkOrderReport" Type="Boolean" />
+          <Property Name="includeEmailArtworkOrderXML" Type="Boolean" />
+          <Property Name="includeEmailArtworkOrderJobCard" Type="Boolean" />
+          <Property Name="makeEmailArtworkOrderProductionReady" Type="Boolean" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -11406,6 +11402,15 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="DomainModels.Company">
               <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="makeEmailArtworkOrderProductionReady" ColumnName="makeEmailArtworkOrderProductionReady" />
+                <ScalarProperty Name="includeEmailArtworkOrderJobCard" ColumnName="includeEmailArtworkOrderJobCard" />
+                <ScalarProperty Name="includeEmailArtworkOrderXML" ColumnName="includeEmailArtworkOrderXML" />
+                <ScalarProperty Name="includeEmailArtworkOrderReport" ColumnName="includeEmailArtworkOrderReport" />
+                <ScalarProperty Name="isPaymentRequired" ColumnName="isPaymentRequired" />
+                <ScalarProperty Name="isOrderApprovalRequired" ColumnName="isOrderApprovalRequired" />
+                <ScalarProperty Name="isAcceptPaymentOnline" ColumnName="isAcceptPaymentOnline" />
+                <ScalarProperty Name="isRoundCorner" ColumnName="isRoundCorner" />
+                <ScalarProperty Name="isLaminate" ColumnName="isLaminate" />
                 <ScalarProperty Name="isCalculateTaxByService" ColumnName="isCalculateTaxByService" />
                 <ScalarProperty Name="isAddCropMarks" ColumnName="isAddCropMarks" />
                 <ScalarProperty Name="StoreId" ColumnName="StoreId" />
@@ -11423,10 +11428,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="ProductionManagerId1" ColumnName="ProductionManagerId1" />
                 <ScalarProperty Name="SalesAndOrderManagerId2" ColumnName="SalesAndOrderManagerId2" />
                 <ScalarProperty Name="SalesAndOrderManagerId1" ColumnName="SalesAndOrderManagerId1" />
-                <ScalarProperty Name="makeEmailBrokerArtworkOrderProductionReady" ColumnName="makeEmailBrokerArtworkOrderProductionReady" />
-                <ScalarProperty Name="includeEmailBrokerArtworkOrderJobCard" ColumnName="includeEmailBrokerArtworkOrderJobCard" />
-                <ScalarProperty Name="includeEmailBrokerArtworkOrderXML" ColumnName="includeEmailBrokerArtworkOrderXML" />
-                <ScalarProperty Name="includeEmailBrokerArtworkOrderReport" ColumnName="includeEmailBrokerArtworkOrderReport" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="CanUserEditProfile" ColumnName="CanUserEditProfile" />
                 <ScalarProperty Name="canUserPlaceOrderWithoutApproval" ColumnName="canUserPlaceOrderWithoutApproval" />
@@ -11443,7 +11444,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="isAllowRegistrationFromWeb" ColumnName="isAllowRegistrationFromWeb" />
                 <ScalarProperty Name="isIncludeVAT" ColumnName="isIncludeVAT" />
                 <ScalarProperty Name="PriceFlagId" ColumnName="PriceFlagId" />
-                <ScalarProperty Name="isDisplayBrokerSecondaryPages" ColumnName="isDisplayBrokerSecondaryPages" />
                 <ScalarProperty Name="StoreBackgroundImage" ColumnName="StoreBackgroundImage" />
                 <ScalarProperty Name="CoreCustomerId" ColumnName="CoreCustomerId" />
                 <ScalarProperty Name="WatermarkText" ColumnName="WatermarkText" />
@@ -11455,13 +11455,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="FacebookURL" ColumnName="FacebookURL" />
                 <ScalarProperty Name="TwitterURL" ColumnName="TwitterURL" />
                 <ScalarProperty Name="isWhiteLabel" ColumnName="isWhiteLabel" />
-                <ScalarProperty Name="isBrokerPaymentRequired" ColumnName="isBrokerPaymentRequired" />
-                <ScalarProperty Name="isBrokerOrderApprovalRequired" ColumnName="isBrokerOrderApprovalRequired" />
-                <ScalarProperty Name="isBrokerCanAcceptPaymentOnline" ColumnName="isBrokerCanAcceptPaymentOnline" />
                 <ScalarProperty Name="isBrokerCanDeliverSameDay" ColumnName="isBrokerCanDeliverSameDay" />
-                <ScalarProperty Name="isBrokerCanRoundCorner" ColumnName="isBrokerCanRoundCorner" />
-                <ScalarProperty Name="isBrokerCanLaminate" ColumnName="isBrokerCanLaminate" />
-                <ScalarProperty Name="isDisplaylBrokerBanners" ColumnName="isDisplaylBrokerBanners" />
                 <ScalarProperty Name="defaultPalleteId" ColumnName="defaultPalleteId" />
                 <ScalarProperty Name="RedirectWebstoreURL" ColumnName="RedirectWebstoreURL" />
                 <ScalarProperty Name="isDisplaySiteFooter" ColumnName="isDisplaySiteFooter" />

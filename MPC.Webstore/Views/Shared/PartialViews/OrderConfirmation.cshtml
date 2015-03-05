@@ -185,7 +185,7 @@
                                              }
                                              else
                                              {
-                                                 if (prod.ProductType == (int)ProductType.FinishedGoodWithBanner || prod.ProductType == (int)ProductType.FinishedGoodWithImageRotator)
+                                                 if (prod.ProductType == (int)ProductType.NonPrintProduct)
                                                  {
                                                      string completeImgPath = Html.GetAppBasePath() + prod.ThumbnailPath;
                                                      pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
@@ -196,7 +196,7 @@
                                                         <a id="lnkPdfFile" href=@pdfLinkBtn><img id="imgToShow" class="image_stretcher" src="@imgToShowURL"></a>
                                                     </div>
                                                     <div class="BtnTemplateModifyContainer">
-                                                        @if (prod.ProductType == (int)ProductType.TemplateProductWithBanner || prod.ProductType == (int)ProductType.TemplateProductWithImage)
+                                                        @if (prod.ProductType == (int)ProductType.PrintProduct)
                                                         {
                                                             <input type="submit" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('@prod.TemplateID','@prod.ProductCategoryID','@prod.ItemID');" value="Modify" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
                                                         }

@@ -111,6 +111,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<ISmartFormDetailRepository, SmartFormDetailRepository>();
             unityContainer.RegisterType<IPayPalResponseRepository, PayPalResponseRepository>();
             unityContainer.RegisterType<INABTransactionRepository, NABTransactionRepository>();
+            unityContainer.RegisterType<IItemImageRepository, ItemImageRepository>();
         }
     }
 }
