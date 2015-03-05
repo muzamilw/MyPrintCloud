@@ -372,10 +372,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval();
                 result.isIncludeVAT = source.isIncludeVAT();
                 // result.StoreBackgroundImage = source.storeBackgroudImagePath();
-                result.includeEmailArtworkOrderReport = source.includeEmailArtworkOrderReport();
-                result.includeEmailArtworkOrderXML = source.includeEmailArtworkOrderXML();
-                result.includeEmailArtworkOrderJobCard = source.includeEmailArtworkOrderJobCard();
-                result.makeEmailArtworkOrderProductionReady = source.makeEmailArtworkOrderProductionReady();
+                result.includeEmailArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport();
+                result.includeEmailArtworkOrderXML = source.includeEmailBrokerArtworkOrderXML();
+                result.includeEmailArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard();
+                result.makeEmailArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady();
                 result.isDisplayBanners = source.isDisplayBanners();
                 result.IsDeliveryTaxAble = source.isDeliveryTaxAble() === 2 ? false : true;
                 result.PickupAddressId = source.pickupAddressId();
