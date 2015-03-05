@@ -211,13 +211,13 @@ namespace MPC.Webstore.Controllers
                     cep.StoreID = loginUser.CompanyId;
                     cep.AddressID = loginUser.CompanyId;
 
-                    SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(Convert.ToInt32(loginUserCompany.SalesAndOrderManagerId1));
+                    SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(loginUserCompany.SalesAndOrderManagerId1.Value);
 
 
 
-                    //_campaignService.emailBodyGenerator(RegistrationCampaign, cep, loginUser, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
+                    _campaignService.emailBodyGenerator(RegistrationCampaign, cep, loginUser, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
 
-                   // _campaignService.SendEmailToSalesManager((int)Events.NewRegistrationToSalesManager, (int)loginUser.ContactId, (int)loginUser.CompanyId, 0, 0, 0, 0, StoreMode.Retail, loginUserCompany, EmailOFSM);
+                    _campaignService.SendEmailToSalesManager((int)Events.NewRegistrationToSalesManager, (int)loginUser.ContactId, (int)loginUser.CompanyId, 0, UserCookieManager.OrganisationID, 0, StoreMode.Retail, UserCookieManager.StoreId, EmailOFSM);
 
                     if (OrderId > 0)
                     {
@@ -258,7 +258,7 @@ namespace MPC.Webstore.Controllers
 
                 Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.CorpUserRegistration);
 
-                SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(Convert.ToInt32(StoreBaseResopnse.Company.SalesAndOrderManagerId1));
+                SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
 
                 _campaignService.emailBodyGenerator(RegistrationCampaign, cep, CorpContact, StoreMode.Corp, (int)StoreBaseResopnse.Company.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
 

@@ -54,7 +54,7 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public int GetFirstItemIDByOrderId(int orderId)
+        public int GetFirstItemIDByOrderId(long orderId)
         {
 
             try
@@ -76,7 +76,7 @@ namespace MPC.Repository.Repositories
             }
 
         }
-        public List<Item> GetOrderItems(int OrderId)
+        public List<Item> GetOrderItems(long OrderId)
         {
             db.Configuration.LazyLoadingEnabled = false;
             return (from r in db.Items

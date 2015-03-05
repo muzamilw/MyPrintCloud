@@ -36,7 +36,7 @@
                             {
                                 if (child.ParentCategoryId == subCats.ProductCategoryId)
                                 {
-                                    <ul>
+                                    <ul class="allproducts_col_cat_ul">
                                         <li>
                                             <a href="/Category?CategoryId=@child.ProductCategoryId">@child.CategoryName</a>
                                         </li>
@@ -45,11 +45,11 @@
                             }
                         </div>
                     }
-                    if (counter == 4)
-                    {
-                        counter = 0;
-                        break;
-                    }
+                    //if (counter == 4)
+                    //{
+                    //    counter = 0;
+                    //    break;
+                    //}
                 }
                 <div class="clearBoth">
                 </div>
