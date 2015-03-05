@@ -25,7 +25,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         private readonly ICostCentreService _CostCentreService;
 
         private readonly IItemService _ItemService;
-
+        private readonly ICompanyService _companyservice;
         #endregion
         #region Constructor
 
@@ -34,11 +34,12 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         /// </summary>
         /// <param name="companyService"></param>
         private readonly IOrderService _orderService;
-        public CostCenterController(ICostCentreService CostCentreService, IItemService ItemService, IOrderService _orderService)
+        public CostCenterController(ICostCentreService CostCentreService, IItemService ItemService, IOrderService _orderService, ICompanyService _companyservice)
         {
             this._CostCentreService = CostCentreService;
             this._ItemService = ItemService;
             this._orderService = _orderService;
+            this._companyservice = _companyservice;
         }
 
         #endregion
@@ -311,6 +312,21 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, "");
         }
 
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public HttpResponseMessage FillAddresses(long AddressId)
+        {
+            JsonAddressClass obj = new JsonAddressClass();
+            Address Address=_companyservice.GetAddressByID(AddressId);
+            obj.Address = Address;
+            obj.StateId = Address.StateId??0;
+            obj.CountryId = Address.CountryId??0;
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, obj, formatter);
+        }
     }
       public class JasonResponseObject
           {
@@ -325,5 +341,12 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
           public string OrderDateValue;
           public string DeliveryDateValue;
          }
+      public class JsonAddressClass
+      {
+         public Address Address;
+         public long StateId;
+         public long CountryId;
+      }
+    
 }
          

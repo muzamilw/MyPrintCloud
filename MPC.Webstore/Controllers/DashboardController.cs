@@ -116,7 +116,7 @@ namespace MPC.Webstore.Controllers
                     Detail.Name = "Address Manager";// (string)GetGlobalResourceObject("MyResource", "anchorAddressMgr");
                     Detail.Description = "Create and modify your default addresses";
                     Detail.ImageURL = "<i class='fa fa-rocket'></i>";
-                    Detail.PageNavigateURl = "#";
+                    Detail.PageNavigateURl = "/BillingShippingAddressManager";
                     Detail.IsChangePassword = false;
                     DashBordItems.Add(Detail);
 
@@ -280,7 +280,7 @@ namespace MPC.Webstore.Controllers
                             BCDetail.Name = "Shipping Address Manager"; //(string)GetGlobalResourceObject("MyResource", "anchorAddressMgr");
                             BCDetail.Description = "Create and modify your default addresses";
                             BCDetail.ImageURL = "<i class='fa fa-truck'></i>";
-                            BCDetail.PageNavigateURl = "/ShippingAddressManager.aspx";
+                            BCDetail.PageNavigateURl = "/BillingShippingAddressManager";
                             StorePrefDashBordItems.Add(BCDetail);
                             BCDetail = new DashboardViewModel(10);
                         }
@@ -488,7 +488,7 @@ namespace MPC.Webstore.Controllers
                     Detail.Name = "Address Manager";// (string)GetGlobalResourceObject("MyResource", "anchorAddressMgr");
                     Detail.Description = "Create and modify your default addresses";
                     Detail.ImageURL = "<i class='fa fa-rocket'></i>";
-                    Detail.PageNavigateURl = "#";
+                    Detail.PageNavigateURl = "/BillingShippingAddressManager";
                     Detail.IsChangePassword = false;
                     DashBordItems.Add(Detail);
 
@@ -652,7 +652,7 @@ namespace MPC.Webstore.Controllers
                             BCDetail.Name = "Shipping Address Manager"; //(string)GetGlobalResourceObject("MyResource", "anchorAddressMgr");
                             BCDetail.Description = "Create and modify your default addresses";
                             BCDetail.ImageURL = "<i class='fa fa-truck'></i>";
-                            BCDetail.PageNavigateURl = "/ShippingAddressManager.aspx";
+                            BCDetail.PageNavigateURl = "/BillingShippingAddressManager";
                             StorePrefDashBordItems.Add(BCDetail);
                             BCDetail = new DashboardViewModel(10);
                         }
