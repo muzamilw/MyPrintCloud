@@ -471,5 +471,14 @@ namespace MPC.Implementation.WebStoreServices
            return _OrderRepository.GetAllCorpOrders(ContactCompany, orderStatus, fromDate, toDate, orderRefNumber);
        
        }
+       public long GetOrderID(long CompanyID,long ContactID,string orderTitle,long OrganisationId)
+       {
+           return _OrderRepository.GetOrderID(CompanyID, ContactID, orderTitle, OrganisationId);
+       }
+       public long CreateNewOrder(long CompanyId, long ContactId, long OrganisationId, string orderTitle = null)
+       {
+
+           return _OrderRepository.CreateNewOrder(CompanyId, ContactId, OrganisationId, orderTitle);
+       }
     }
 }

@@ -311,7 +311,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         {
             List<CmsSkinPageWidget> oStoreWidgets = _companyService.GetStoreWidgets(Convert.ToInt64(StoreId));
             var objSer = JsonConvert.SerializeObject(oStoreWidgets, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
-            return Request.CreateResponse(HttpStatusCode.OK, "");
+            return Request.CreateResponse(HttpStatusCode.OK, objSer);
         }
 
     }

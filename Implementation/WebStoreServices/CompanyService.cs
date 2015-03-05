@@ -1271,7 +1271,7 @@ namespace MPC.Implementation.WebStoreServices
         {
             try
             {
-                return _widgetRepository.GetDomainWidgetsById(CompanyId);
+                return _widgetRepository.GetDomainWidgetsById2(CompanyId);
             }
             catch (Exception ex)
             {

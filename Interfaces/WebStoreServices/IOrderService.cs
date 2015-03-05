@@ -83,5 +83,9 @@ namespace MPC.Interfaces.WebStoreServices
         Address GetdeliveryAddress(long ShippingAddressId);
         long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID);
 
+        long GetOrderID(long CompanyID, long ContactID, string orderTitle, long OrganisationId);
+
+        long CreateNewOrder(long CompanyId, long ContactId, long OrganisationId, string orderTitle = null);
+
     }
 }

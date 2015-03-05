@@ -46,12 +46,11 @@ namespace MPC.Implementation.WebStoreServices
             return _CampaignRepository.emailBodyGenerator(oCampaign, CompOrganisation, variablValues, userRecord, ModeOfStore, password, shopReceiptHtml, emailOfSubscribedUsers, emailOfSalesManager, ReceiverName, secondEmail, AttachmentsList, PostCodes, SubscriptionEndDate, PayyPalGatwayEmail, brokerCompanyName, SubscriptionPath, MarkBreifSumm, Email1, UnOrderedTotalItems, UnOrderedItemsTotal, SavedDesignsCount);
         }
 
-        public void SendEmailToSalesManager(int Event, int ContactId, int CompanyId, int brokerid, int OrderId, int BrokerAdminContactID, int CorporateManagerID, StoreMode Mode, Company company, SystemUser SaleManager, string NameOfBrokerComp = "", string MarketingBreifMesgSummry = "", int RFQId = 0)
+        public void SendEmailToSalesManager(int Event, long ContactId, long CompanyId, long OrderId, long OrganisationId, int CorporateManagerID, StoreMode Mode, long StoreId, SystemUser SaleManager, string NameOfBrokerComp = "", string MarketingBreifMesgSummry = "", int RFQId = 0)
         {
-            SystemUser SaleManagerParam = _UserManagerRepository.GetSalesManagerDataByID(Convert.ToInt32(company.SalesAndOrderManagerId1));
             int ItemIDs = _OrderRepository.GetFirstItemIDByOrderId(OrderId);
-            Organisation CompOrganisation = _organisationRepsoitory.GetOrganizatiobByID((int)company.OrganisationId);
-            _CampaignRepository.SendEmailToSalesManager(Event, ContactId, CompanyId, brokerid, OrderId, CompOrganisation, BrokerAdminContactID, CorporateManagerID, Mode, company, SaleManager, ItemIDs, NameOfBrokerComp, MarketingBreifMesgSummry, RFQId);
+            Organisation CompOrganisation = _organisationRepsoitory.GetOrganizatiobByID(OrganisationId);
+            _CampaignRepository.SendEmailToSalesManager(Event, ContactId, CompanyId, OrderId, CompOrganisation, OrganisationId, CorporateManagerID, Mode, StoreId, SaleManager, ItemIDs, NameOfBrokerComp, MarketingBreifMesgSummry, RFQId);
 
         }
 

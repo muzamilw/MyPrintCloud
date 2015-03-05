@@ -794,7 +794,7 @@ namespace MPC.Models.DomainModels
                 throw new ArgumentException(LanguageResources.ItemClone_InvalidItem, "target");
             }
 
-            target.ProductName = ProductName + "Copy";
+            target.ProductName = ProductName + " Copy";
             target.ProductCode = ProductCode;
             target.ProductSpecification = ProductSpecification;
             target.IsEnabled = IsEnabled;
@@ -826,6 +826,10 @@ namespace MPC.Models.DomainModels
             target.File3 = File3;
             target.File4 = File4;
             target.File5 = File5;
+            target.ProductDisplayOptions = ProductDisplayOptions;
+            target.IsUploadImage = IsUploadImage;
+            target.IsDigitalDownload = IsDigitalDownload;
+            target.IsRealStateProduct = IsRealStateProduct;
             
             // Copy Internal Descriptions
             CloneInternalDescriptions(target);

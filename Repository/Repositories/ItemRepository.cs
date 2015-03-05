@@ -1354,14 +1354,14 @@ namespace MPC.Repository.Repositories
             //return db.Items.Include("ItemPriceMatrices").Include("ItemSections").Where(i => i.IsPublished == true && i.ItemId == itemId && i.EstimateId == null).FirstOrDefault();
 
         }
-        public Item GetItemByIdDesigner(long RefitemId)
+        public Item GetItemByIdDesigner(long ItemId)
         {
             try
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
 
-                return db.Items.Where(i => i.IsPublished == true && i.ItemId == RefitemId && i.EstimateId == null).FirstOrDefault();
+                return db.Items.Where(i => i.ItemId == ItemId).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -2148,9 +2148,18 @@ namespace MPC.Repository.Repositories
 
                     if (isNewSectionCostCenter)
                     {
-                        sectionCC.CostCentreId = 206;
-                        sectionCC.ItemSectionId = FirstItemSection.ItemSectionId;
-                        FirstItemSection.SectionCostcentres.Add(sectionCC);
+                        //29 is the global type of web order cost centre
+                        var oCostCentre = db.CostCentres.Where(g => g.Type == 29).SingleOrDefault();
+                        if (oCostCentre != null)
+                        {
+                            sectionCC.CostCentreId = oCostCentre.CostCentreId;
+                            sectionCC.ItemSectionId = FirstItemSection.ItemSectionId;
+                            FirstItemSection.SectionCostcentres.Add(sectionCC);
+                        }
+                        else
+                        {
+                            throw new Exception("Critcal Error, We have lost our main costcentre.", null);
+                        }
                     }
 
                     if (result)
@@ -3004,7 +3013,7 @@ namespace MPC.Repository.Repositories
                     //special working for attaching the PDF
                     List<ArtWorkAttatchment> uplodedArtWorkList = new List<ArtWorkAttatchment>();
                     ArtWorkAttatchment attatcment = null;
-                    string folderPath = "/mpc_content/Attachments/Organisation" + organisationId + "/" + customerID +
+                    string folderPath = "/mpc_content/Attachments/" + organisationId + "/" + customerID +
                                         "/";
                         //Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
                     string virtualFolderPth = "";
@@ -3136,7 +3145,7 @@ namespace MPC.Repository.Repositories
                 }
                 else // attachment alredy exists hence we need to updat the existing artwork.
                 {
-                    string folderPath = "/mpc_content/Attachments/Organisation" + organisationId + "/" + customerID;
+                    string folderPath = "/mpc_content/Attachments/" + organisationId + "/" + customerID;
                         // Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
                     string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("/" + folderPath);
                     if (!System.IO.Directory.Exists(virtualFolderPth))
@@ -3927,6 +3936,75 @@ namespace MPC.Repository.Repositories
             //    }
             //  }
         }
+
+        public List<SaveDesignView> GetSavedDesigns(long ContactID)
+        {
+            long sameItem = 0;
+
+            List<SaveDesignView> NewList = new List<SaveDesignView>();
+                List<SaveDesignView> ListsavedDesign = (from savedDesign in db.SaveDesignViews
+                                                        where savedDesign.ContactID == ContactID
+                                                       select savedDesign).ToList();
+
+                foreach (var s in ListsavedDesign)
+                {
+                    if (sameItem > 0 && s.ItemID == sameItem)
+                    {
+
+                    }
+                    else
+                    {
+                        sameItem = s.ItemID;
+                        NewList.Add(s);
+                    }
+                }
+
+                return NewList;
+           
+        }
+        public void RemoveItemAttacmentPhysically(List<ArtWorkAttatchment> attatchmentList)
+        {
+            string completePath = string.Empty;
+            //@Server.MapPath(folderPath);
+            try
+            {
+                if (attatchmentList != null)
+                {
+                    foreach (ArtWorkAttatchment itemAtt in attatchmentList)
+                    {
+                        completePath = HttpContext.Current.Server.MapPath(itemAtt.FolderPath + itemAtt.FileName);
+                        if (itemAtt.UploadFileType == UploadFileTypes.Artwork)
+                        {
+                          
+                            //delete the thumb nails as well.
+                           DeleteFile(completePath.Replace(itemAtt.FileExtention, "Thumb.png"));
+                        }
+                        DeleteFile(completePath); //
+                    }
+                }
+                //System.Web
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public void DeleteFile(string completePath)
+        {
+            try
+            {
+                if (System.IO.File.Exists(completePath))
+                {
+                    System.IO.File.Delete(completePath);
+                }
+            }
+            catch (Exception)
+            { }
+        }
+      
+
         //public void GenerateThumbnailForPdf(byte[] PDFFile, string sideThumbnailPath, bool insertCuttingMargin)
         //{
         //    using (Doc theDoc = new Doc())

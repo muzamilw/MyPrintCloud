@@ -27,7 +27,7 @@ namespace MPC.Implementation.WebStoreServices
 
         #endregion
 
-        public SystemUser GetSalesManagerDataByID(int ManagerId)
+        public SystemUser GetSalesManagerDataByID(Guid ManagerId)
         {
             return _UserRepository.GetSalesManagerDataByID(ManagerId);
            
