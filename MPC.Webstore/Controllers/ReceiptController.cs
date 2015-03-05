@@ -62,6 +62,7 @@ namespace MPC.Webstore.Controllers
                 ViewBag.Currency = "";
             }
 
+            ViewBag.TaxLabel = StoreBaseResopnse.Company.TaxLabel;
            OrderDetail order =  _OrderService.GetOrderReceipt(Convert.ToInt64(OrderId));
 
            ViewBag.Organisation = StoreBaseResopnse.Organisation;

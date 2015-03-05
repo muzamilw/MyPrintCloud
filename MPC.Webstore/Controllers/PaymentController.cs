@@ -220,7 +220,7 @@ namespace MPC.Webstore.Controllers
                             Company CustomerCompany = _myCompanyService.GetCompanyByCompanyID(modelOrder.CompanyId);
                             CompanyContact CustomrContact = _myCompanyService.GetContactByID(cep.ContactId);
                             _OrderService.SetOrderCreationDateAndCode(orderID);
-                            SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(Convert.ToInt32(CustomerCompany.SalesAndOrderManagerId1));
+                            SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(CustomerCompany.SalesAndOrderManagerId1.Value);
 
                             if (CustomerCompany.IsCustomer == (int)CustomerTypes.Corporate)
                             {
@@ -240,11 +240,11 @@ namespace MPC.Webstore.Controllers
                             cep.CorporateManagerID = ManagerID;
                             if (CustomerCompany.StoreId != null) ///Retail Mode
                             {
-                                _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, 0, orderID, 0, 0, StoreMode.Retail, CustomerCompany, EmailOFSM);
+                                _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, orderID,  UserCookieManager.OrganisationID, 0, StoreMode.Retail,UserCookieManager.StoreId, EmailOFSM);
                             }
                             else
                             {
-                                _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactId), Convert.ToInt32(modelOrder.CompanyId), 0, orderID, 0, Convert.ToInt32(ManagerID), StoreMode.Corp, CustomerCompany, EmailOFSM);
+                                _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactId), Convert.ToInt32(modelOrder.CompanyId), orderID, UserCookieManager.OrganisationID, Convert.ToInt32(ManagerID), StoreMode.Corp, UserCookieManager.StoreId,EmailOFSM);
                            
                             }
                             
