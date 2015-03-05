@@ -3912,6 +3912,75 @@ namespace MPC.Repository.Repositories
             //    }
             //  }
         }
+
+        public List<SaveDesignView> GetSavedDesigns(long ContactID)
+        {
+            long sameItem = 0;
+
+            List<SaveDesignView> NewList = new List<SaveDesignView>();
+                List<SaveDesignView> ListsavedDesign = (from savedDesign in db.SaveDesignViews
+                                                        where savedDesign.ContactID == ContactID
+                                                       select savedDesign).ToList();
+
+                foreach (var s in ListsavedDesign)
+                {
+                    if (sameItem > 0 && s.ItemID == sameItem)
+                    {
+
+                    }
+                    else
+                    {
+                        sameItem = s.ItemID;
+                        NewList.Add(s);
+                    }
+                }
+
+                return NewList;
+           
+        }
+        public void RemoveItemAttacmentPhysically(List<ArtWorkAttatchment> attatchmentList)
+        {
+            string completePath = string.Empty;
+            //@Server.MapPath(folderPath);
+            try
+            {
+                if (attatchmentList != null)
+                {
+                    foreach (ArtWorkAttatchment itemAtt in attatchmentList)
+                    {
+                        completePath = HttpContext.Current.Server.MapPath(itemAtt.FolderPath + itemAtt.FileName);
+                        if (itemAtt.UploadFileType == UploadFileTypes.Artwork)
+                        {
+                          
+                            //delete the thumb nails as well.
+                           DeleteFile(completePath.Replace(itemAtt.FileExtention, "Thumb.png"));
+                        }
+                        DeleteFile(completePath); //
+                    }
+                }
+                //System.Web
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public void DeleteFile(string completePath)
+        {
+            try
+            {
+                if (System.IO.File.Exists(completePath))
+                {
+                    System.IO.File.Delete(completePath);
+                }
+            }
+            catch (Exception)
+            { }
+        }
+      
+
         //public void GenerateThumbnailForPdf(byte[] PDFFile, string sideThumbnailPath, bool insertCuttingMargin)
         //{
         //    using (Doc theDoc = new Doc())
