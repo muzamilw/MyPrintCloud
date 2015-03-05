@@ -188,7 +188,7 @@ namespace MPC.Webstore.Controllers
             else
             {
                 string Email = string.Empty;
-                SystemUser SalesMagerRec = _IUserManagerService.GetSalesManagerDataByID(Convert.ToInt32(StoreBaseResopnse.Company.SalesAndOrderManagerId1));
+                SystemUser SalesMagerRec = _IUserManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
                 if (SalesMagerRec != null)
                 {
                     EmailParams.SystemUserID = SalesMagerRec.SystemUserId;

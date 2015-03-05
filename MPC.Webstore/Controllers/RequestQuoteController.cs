@@ -87,10 +87,19 @@ namespace MPC.Webstore.Controllers
                     cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
                     cep.StoreID = UserCookieManager.OrganisationID;
 
-                    SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(Convert.ToInt32(loginUserCompany.SalesAndOrderManagerId1));
+                    SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(loginUserCompany.SalesAndOrderManagerId1.Value);
 
-                    _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.ContactCompanyId, 0, 0, 0, 0, 0, loginUserCompany, EmailOFSM);
+                    if (UserCookieManager.StoreMode == (int) StoreMode.Retail)
+                    {
+                        _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.ContactCompanyId, 0, UserCookieManager.OrganisationID, 0, StoreMode.Retail, UserCookieManager.StoreId, EmailOFSM);
 
+                    }
+                    else
+                    {
+                        _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.ContactCompanyId, 0, UserCookieManager.OrganisationID, 0, StoreMode.Corp, UserCookieManager.StoreId, EmailOFSM);
+
+                    }
+                    
 
                     _campaignService.emailBodyGenerator(RegistrationCampaignn, cep, UserContact, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
 
@@ -129,7 +138,7 @@ namespace MPC.Webstore.Controllers
                 cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
                 cep.StoreID = UserCookieManager.StoreId;
 
-                SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(Convert.ToInt32(loginUserCompany.SalesAndOrderManagerId1));
+                SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(loginUserCompany.SalesAndOrderManagerId1.Value);
                 
                 if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
                 {
@@ -137,17 +146,16 @@ namespace MPC.Webstore.Controllers
                     long MID = _companyContact.GetContactIdByRole(_webstoreAuthorizationChecker.loginContactCompanyID(), (int)Roles.Manager);
                     cep.CorporateManagerID = MID;
                     int ManagerID = (int)MID;
-                    // em.SendEmailToSalesManager((int)EmailEvents.NewQuoteToSalesManager, (int)inquiry.ContactID, (int)inquiry.ContactCompanyID, 0, 0, SessionParameters.CompanySite, 0, ManagerID, StoreMode.Corp);
-
-                    _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.ContactCompanyId, 0, 0, 0, ManagerID, StoreMode.Corp, loginUserCompany, EmailOFSM);
+                   
+                    _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.ContactCompanyId, 0, UserCookieManager.OrganisationID, ManagerID, StoreMode.Corp, UserCookieManager.StoreId, EmailOFSM);
                 }
                 else
                 {
-                    //  em.SendEmailToSalesManager((int)EmailEvents.NewQuoteToSalesManager, (int)inquiry.ContactID, (int)inquiry.ContactCompanyID, 0, 0, SessionParameters.CompanySite, 0, 0, StoreMode.Retail, "", "", result);
-                    _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.ContactCompanyId, 0, 0, 0, 0, StoreMode.Retail, loginUserCompany, EmailOFSM);
+                   
+                    _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.ContactCompanyId, 0,UserCookieManager.OrganisationID,0, StoreMode.Retail, UserCookieManager.StoreId, EmailOFSM);
 
                 }
-                //emailBodyGenerator(Campaign oCampaign, CampaignEmailParams variablValues, CompanyContact userRecord, StoreMode ModeOfStore, int OrganisationId, string password = "", string shopReceiptHtml = "", string emailOfSubscribedUsers = "", string emailOfSalesManager = "", string ReceiverName = "", string secondEmail = "", List<string> AttachmentsList = null, string PostCodes = "", DateTime? SubscriptionEndDate = null, string PayyPalGatwayEmail = "", string brokerCompanyName = "", string SubscriptionPath = "", string MarkBreifSumm = "", string Email1 = "", int UnOrderedTotalItems = 0, string UnOrderedItemsTotal = "", int SavedDesignsCount = 0);
+                
                 _campaignService.emailBodyGenerator(RegistrationCampaign, cep, UserContact, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
             }
             return View("PartialViews/RequestQuote", Model);

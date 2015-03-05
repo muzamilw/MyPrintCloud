@@ -163,7 +163,7 @@ namespace MPC.Webstore.Controllers
             else
             {
                 PaymentGateway oGateWay = null;
-                if (StoreBaseResopnse.Company.isBrokerCanAcceptPaymentOnline == true)
+                if (StoreBaseResopnse.Company.isAcceptPaymentOnline == true)
                 {
                     oGateWay = _PaymentGatewayService.GetPaymentGatewayRecord(StoreBaseResopnse.Company.CompanyId);
                 }
@@ -325,7 +325,7 @@ namespace MPC.Webstore.Controllers
 
                                         Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder);
                                         cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
-                                        SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(Convert.ToInt32(CustomerCompany.SalesAndOrderManagerId1));
+                                        SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(CustomerCompany.SalesAndOrderManagerId1.Value);
                                         cep.StoreID = Convert.ToInt32(modelOrder.CompanyId);
                                         cep.AddressID = Convert.ToInt32(modelOrder.CompanyId);
                                         if (CustomerCompany.IsCustomer == (int)CustomerTypes.Corporate)
@@ -333,12 +333,12 @@ namespace MPC.Webstore.Controllers
 
                                             long ManagerID = _CompanyService.GetContactIdByRole(modelOrder.CompanyId, (int)Roles.Manager);
                                             cep.CorporateManagerID = ManagerID;
-                                            _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactId), Convert.ToInt32(modelOrder.CompanyId), 0, OrderID, 0, Convert.ToInt32(ManagerID), StoreMode.Corp, CustomerCompany, EmailOFSM);
+                                            _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactId), Convert.ToInt32(modelOrder.CompanyId), OrderID, UserCookieManager.OrganisationID, Convert.ToInt32(ManagerID), StoreMode.Corp, UserCookieManager.StoreId, EmailOFSM);
                                         }
                                         else
                                         {
 
-                                            _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, 0, OrderID, 0, 0, StoreMode.Retail, CustomerCompany, EmailOFSM);
+                                            _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, OrderID, UserCookieManager.OrganisationID, 0, StoreMode.Retail, UserCookieManager.StoreId, EmailOFSM);
                                         }
 
                                         //in case of retail <<SalesManagerEmail>> variable should be resolved by organization's sales manager

@@ -252,12 +252,12 @@ namespace MPC.Webstore.Controllers
                         }
                         else
                         {
-                            customerAddresses = _myCompanyService.GetAddressByCompanyID(_myClaimHelper.loginContactCompanyID());
+                            customerAddresses = _myCompanyService.GetAddressByCompanyID(UserCookieManager.StoreId);
                         }
                     }
                     else
                     {
-                        customerAddresses = _myCompanyService.GetContactCompanyAddressesList(UserCookieManager.StoreId);
+                        customerAddresses = _myCompanyService.GetContactCompanyAddressesList(_myClaimHelper.loginContactCompanyID());
                     }
                     if (customerAddresses != null && customerAddresses.Count > 0)
                     {
@@ -629,7 +629,7 @@ namespace MPC.Webstore.Controllers
         }
         private void BindDeliveryCostCenterDropDown(List<CostCentre> costCenterList,long OrderID,ShopCartAddressSelectViewModel Model)
         {
-            if (costCenterList != null && costCenterList.Count > 0)
+            if (costCenterList != null)
             {
                 Model.DeliveryCostCenters = costCenterList;
                 Model.DDDeliveryCostCenters = new SelectList(costCenterList, "CostCentreId", "Name");
@@ -658,6 +658,7 @@ namespace MPC.Webstore.Controllers
            
 
             }
+
         }
         
 
