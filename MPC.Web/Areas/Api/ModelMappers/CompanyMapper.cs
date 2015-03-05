@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -288,7 +289,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         }
 
         /// <summary>
-        /// Crete From Web Model
+        /// Crete From Web Model 
         /// </summary>
         public static DomainModels.Company CreateFrom(this Company source)
         {
@@ -338,7 +339,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 RedirectWebstoreURL = source.RedirectWebstoreURL,
                 isShowGoogleMap = source.isShowGoogleMap,
                 isTextWatermark = source.isTextWatermark == "true" ? true : false,
-                WatermarkText = source.WatermarkText,
+                WatermarkText = source.isTextWatermark == "true" ? source.WatermarkText :source.StoreWorkflowImageBytes,
+                StoreWorkflowImageName = source.StoreWorkflowImageName,
                 facebookAppId = source.facebookAppId,
                 facebookAppKey = source.facebookAppKey,
                 twitterAppId = source.twitterAppId,
@@ -531,6 +533,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 URL = source.URL,
             };
         }
+
+       
         #endregion
     }
 }

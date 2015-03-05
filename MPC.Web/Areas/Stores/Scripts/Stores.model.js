@@ -114,7 +114,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // #endregion _________ S T O R E   L I S T    V I E W____________________
 
     // #region _____________________ S T O R E ______________________________
-
+    
     //WebMasterTag WebAnalyticCode
     // ReSharper disable once InconsistentNaming
     var Store = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
@@ -200,6 +200,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             //store Image
             storeImageFileBinary = ko.observable(specifiedStoreImageFileBinary),
             storeImageName = ko.observable(),
+            storeWorkflowImageBinary = ko.observable(),
+            storeWorkflowImageName = ko.observable(),
             //company type
             companyType = ko.observable(),
             //type = ko.observable(),
@@ -266,6 +268,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 // ReSharper restore InconsistentNaming
                 companyId: companyId,
                 name: name,
+                storeWorkflowImageName: storeWorkflowImageName,
+                storeWorkflowImageBinary:storeWorkflowImageBinary,
                 status: status,
                 image: image,
                 url: url,
@@ -381,6 +385,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.PickupAddressId = source.pickupAddressId();
                 result.CompanyType = source.companyType() != undefined ? CompanyType().convertToServerData(source.companyType()) : null;
                 result.CustomCSS = source.customCSS();
+                result.StoreWorkflowImageName  = source.storeWorkflowImageName();
+                result.StoreWorkflowImageBytes = source.storeWorkflowImageBinary();
                 result.RaveReviews = [];
                 result.PaymentGateways = [];
                 result.CompanyContacts = [];
@@ -501,6 +507,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isDisplayBanners: isDisplayBanners,
             storeImageFileBinary: storeImageFileBinary,
             storeImageName: storeImageName,
+            storeWorkflowImageName:storeWorkflowImageName,
             type: type,
             raveReviews: raveReviews,
             companyTerritories: companyTerritories,
@@ -536,7 +543,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,
-            reset: reset
+            reset: reset,
+            storeWorkflowImageBinary:storeWorkflowImageBinary
             //#endregion
         };
         return self;
@@ -674,6 +682,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         store.isDidplayInFooter(source.isDisplaySecondaryPages != null ? source.isDisplaySecondaryPages : false);
         store.storeId(source.StoreId);
         store.companyType(CompanyType.Create(source.CompanyType));
+        store.storeWorkflowImageName(source.StoreWorkflowImageName);
+        store.storeWorkflowImageBinary(source.StoreWorkflowImageBytes);
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
         //}

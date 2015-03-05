@@ -233,6 +233,8 @@ namespace MPC.MIS.Areas.Api.Models
 
         #endregion
 
+
+
         #region Backgroud Image
         public string StoreBackgroundFile { get; set; }
 
@@ -329,6 +331,16 @@ namespace MPC.MIS.Areas.Api.Models
         /// Company Logo Name
         /// </summary>
         public string CompanyLogoName { get; set; }
+        #endregion
+
+        #region Stack Overflow Image
+
+        // client to server
+        public string StoreWorkflowImageBytes { get; set; }
+
+        // client to server
+        public string StoreWorkflowImageName { get; set; }
+
         #endregion
         #endregion
     }

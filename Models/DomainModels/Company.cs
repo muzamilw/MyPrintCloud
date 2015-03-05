@@ -193,6 +193,50 @@ namespace MPC.Models.DomainModels
         /// </summary>
          [NotMapped]
         public string CompanyLogoName { get; set; }
+
+         /// <summary>
+         /// store work flow File Name
+         /// </summary>
+         [NotMapped]
+         public string StoreWorkflowImageName { get; set; }
+
+         /// <summary>
+         /// File Source Bytes - byte[] representation of Base64 string FileSource
+         /// </summary>
+         [NotMapped]
+         public byte[] StoreWorkFlowFileSourceBytes
+         {
+             get
+             {
+                 if (string.IsNullOrEmpty(WatermarkText))
+                 {
+                     return null;
+                 }
+
+                 int firtsAppearingCommaIndex = WatermarkText.IndexOf(',');
+
+                 if (firtsAppearingCommaIndex < 0)
+                 {
+                     return null;
+                 }
+
+                 if (WatermarkText.Length < firtsAppearingCommaIndex + 1)
+                 {
+                     return null;
+                 }
+
+                 string sourceSubString = WatermarkText.Substring(firtsAppearingCommaIndex + 1);
+
+                 try
+                 {
+                     return Convert.FromBase64String(sourceSubString.Trim('\0'));
+                 }
+                 catch (FormatException)
+                 {
+                     return null;
+                 }
+             }
+         }
         #endregion
     }
 }
