@@ -37,24 +37,71 @@ namespace MPC.Webstore.Controllers
             this._IPrePaymentService = _IPrePaymentService;
             this._INABTransactionService = _INABTransactionService;
         }
-        public ActionResult Index()
+        public ActionResult Index(ErrorSummary? Message)
         {
 
-            NABViewModel model = new NABViewModel();
-            List<DropdownType> sourceOfType = new List<DropdownType>();
-            sourceOfType.Add(new DropdownType
+            switch (Message)
             {
-                value = "0",
+                case ErrorSummary.InvalidCardTypeNumber:
+                    {
+                        ViewBag.ErrorMessage = "Sorry, your credit Card Type and Number is not valid";
+                        break;
+                    }
+                case ErrorSummary.InvalidCardType:
+                    {
+                        ViewBag.ErrorMessage = "Sorry, Please Select Valid Card Type.";
+                        break;
+                    }
+                case ErrorSummary.InvalidCardNumber:
+                    {
+                        ViewBag.ErrorMessage = "Sorry, Please Enter a Valid Card Number.";
+                        break;
+                    }
+                case ErrorSummary.InvalidPaymentGateway:
+                    {
+                        ViewBag.ErrorMessage = "Payment Gateway is not set.";
+                        break;
+                    }
+                case ErrorSummary.InvalidOrder:
+                    {
+                        ViewBag.ErrorMessage = "Invalid Order";
+                        break;
+                    }
+                case ErrorSummary.statusResponseMessage:
+                    {
+                        ViewBag.ErrorMessage = "statusResponseMessage.";
+                        break;
+                    }
+                case ErrorSummary.Error:
+                    {
+                        ViewBag.ErrorMessage = "Error occurred while processing.";
+                        break;
+                    }
+                default:
+                    {
+                        ViewBag.ErrorMessage = "null";
+                        break;
+                    }
+
+            
+
+            }
+
+            NABViewModel model = new NABViewModel();
+            List<DropdownCardType> sourceOfType = new List<DropdownCardType>();
+            sourceOfType.Add(new DropdownCardType
+            {
+                value = 0,
                 Text = "Select credit card type"
             });
-            sourceOfType.Add(new DropdownType
+            sourceOfType.Add(new DropdownCardType
             {
-                value = "1",
+                value = 1,
                 Text = "Visa"
             });
-            sourceOfType.Add(new DropdownType
+            sourceOfType.Add(new DropdownCardType
             {
-                value = "2",
+                value = 2,
                 Text = "Master"
             });
 
@@ -88,9 +135,10 @@ namespace MPC.Webstore.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(NABViewModel model, int OrderID)
+        public ActionResult Index(NABViewModel model)
         {
 
+            int OrderID = 16633;
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
 
@@ -101,44 +149,32 @@ namespace MPC.Webstore.Controllers
 
             if (model.SelectedCardType != typeid && result == false)
             {
-                //ErrorMEsSummry.Visible = true;
-                //ErrorMEsSummry.Text = "Sorry, your credit card type and number is not valid.";
-                //errorMesgCnt.Visible = true;
+                return RedirectToAction("Index", new { Message = ErrorSummary.InvalidCardTypeNumber });
             }
             else if (model.SelectedCardType != typeid)
             {
-                //ErrorMEsSummry.Visible = true;
-                //ErrorMEsSummry.Text = "Sorry, Please select valid card type.";
-                //errorMesgCnt.Visible = true;
+                return RedirectToAction("Index", new { Message = ErrorSummary.InvalidCardType });
+               
             }
             else if (result == false)
             {
-                //ErrorMEsSummry.Visible = true;
-                //ErrorMEsSummry.Text = "Sorry, Please enter a valid card number.";
-                //errorMesgCnt.Visible = true;
-            }
+                return RedirectToAction("Index", new { Message = ErrorSummary.InvalidCardNumber });
+                      }
             else
             {
                 PaymentGateway oGateWay = null;
-
-                if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
-                {
-                    oGateWay = _PaymentGatewayService.GetPaymentGatewayRecord();
-                }
-                else if (UserCookieManager.StoreMode == (int)StoreMode.Corp && StoreBaseResopnse.Company.isBrokerCanAcceptPaymentOnline == true)
+                if (StoreBaseResopnse.Company.isBrokerCanAcceptPaymentOnline == true)
                 {
                     oGateWay = _PaymentGatewayService.GetPaymentGatewayRecord(StoreBaseResopnse.Company.CompanyId);
                 }
-                else if (UserCookieManager.StoreMode == (int)StoreMode.Corp && StoreBaseResopnse.Company.isBrokerCanAcceptPaymentOnline == false)
-                {
-                    oGateWay = _PaymentGatewayService.GetPaymentGatewayRecord();
-                }
+                
 
                 if (oGateWay == null)
                 {
-                    //ErrorMEsSummry.Visible = true;
-                    //errorMesgCnt.Visible = true;
-                    //ErrorMEsSummry.Text = "Payment Gateway is not set.";
+                   // Response.Redirect("/");
+                    return View("PartialViews/Dashboard");
+                //    return RedirectToAction("Index", new { Message = ErrorSummary.InvalidPaymentGateway });
+              
                 }
                 else
                 {
@@ -149,8 +185,6 @@ namespace MPC.Webstore.Controllers
                         Estimate modelOrder = _OrderService.GetOrderByID(OrderID);
                         ShoppingCart shopCart = _OrderService.GetShopCartOrderAndDetails(OrderID, OrderStatus.ShoppingCart);
 
-                        //ErrorMEsSummry.Visible = false;
-                        //errorMesgCnt.Visible = false;
 
                         string orderValue = Math.Round(Convert.ToDouble(modelOrder.Estimate_Total ?? 0), 2).ToString();
                         string xmlFormate = OrderXmlData(OrderID, model.CardNumber, model.SelectedDate, model.SelectedYear.Substring(2), orderValue, modelOrder.Order_Code, oGateWay.BusinessEmail, oGateWay.IdentityToken);
@@ -257,11 +291,6 @@ namespace MPC.Webstore.Controllers
                                         {
                                             transactionID = TransNode[0].InnerText;
                                         }
-
-
-                                        // BLL.EmailManager emailMgr = new EmailManager();
-                                        // CompanySiteManager CSM = new CompanySiteManager();
-                                        //  tbl_company_sites Serversettingss = CompanySiteManager.GetCompanySite();
                                         int? customerID = null;
                                         StoreMode modeOfStore = StoreMode.Retail;
 
@@ -274,9 +303,9 @@ namespace MPC.Webstore.Controllers
                                         cep.CompanySiteID = 1;
                                         cep.ContactId = modelOrder.ContactId ?? 0; //SessionParameters.ContactID;
                                         cep.CompanyId = modelOrder.CompanyId;
-                                        //SessionParameters.CustomerID;
+                                       
                                         cep.EstimateID = OrderID; //PageParameters.OrderID;
-                                        //Company BrokerCompany = null;
+                                        
                                         Company CustomerCompany = _CompanyService.GetCustomer(Convert.ToInt32(modelOrder.CompanyId));
                                         CompanyContact CustomrContact = _CompanyService.GetContactById(Convert.ToInt32(modelOrder.ContactId));
                                         _OrderService.SetOrderCreationDateAndCode(OrderID);
@@ -290,7 +319,7 @@ namespace MPC.Webstore.Controllers
                                         else
                                         {
                                             HTMLOfShopReceipt = _campaignService.GetPinkCardsShopReceiptPage(OrderID, 0);
-                                            ; // retail
+                                             // retail
                                         }
 
 
@@ -317,19 +346,21 @@ namespace MPC.Webstore.Controllers
                                         _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(CustomerCompany.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email);
                                         _IPrePaymentService.CreatePrePayment(PaymentMethods.NAB, OrderID, Convert.ToInt32(customerID), 0, transactionID, Convert.ToDouble(orderValue), modeOfStore, ResponseStatusCode + " " + statusResponseMessage);
 
+                                        return Redirect(Url.Action("Index", "Receipt", new { OrderId = OrderID.ToString() }));
 
-
-                                        Response.Redirect("../Receipt.aspx?OrderID=" + OrderID.ToString());
+                                      
                                     }
                                     else
                                     {
-                                        //ErrorMEsSummry.Visible = true;
-                                        //errorMesgCnt.Visible = true;
-                                        //ErrorMEsSummry.Text = "invalid Order.";
+                                        return RedirectToAction("Index", new { Message = ErrorSummary.InvalidOrder });
+                                        
+                                       
                                     }
                                 }
                                 else
                                 {
+                                    return RedirectToAction("Index", new { Message = ErrorSummary.statusResponseMessage });
+                                    
                                     //ErrorMEsSummry.Visible = true;
                                     //errorMesgCnt.Visible = true;
                                     //ErrorMEsSummry.Text = statusResponseMessage;
@@ -337,9 +368,8 @@ namespace MPC.Webstore.Controllers
                             }
                             else
                             {
-                                //ErrorMEsSummry.Visible = true;
-                                //errorMesgCnt.Visible = true;
-                                //ErrorMEsSummry.Text = "Error occurred while processing.";
+                                return RedirectToAction("Index", new { Message = ErrorSummary.Error });
+                               
                             }
                         }
                         catch
@@ -354,14 +384,13 @@ namespace MPC.Webstore.Controllers
                     }
                     else
                     {
-                        //ErrorMEsSummry.Visible = true;
-                        //errorMesgCnt.Visible = true;
-                        //ErrorMEsSummry.Text = "Invalid Order number.";
+                        return RedirectToAction("Index", new { Message = ErrorSummary.InvalidOrder });
+                        
                     }
                 }
 
             }
-            return View("Index");
+            
         }
 
         private string OrderXmlData(int orderID, string ccNumber, string ccDate, string ccYear, string OrderAmount,
@@ -588,6 +617,18 @@ namespace MPC.Webstore.Controllers
 
             //If Mod 10 equals 0, the number is good and this will return true
             return sum % 10 == 0;
+        }
+
+
+        public enum ErrorSummary
+        {
+            InvalidCardTypeNumber,
+            InvalidCardType,
+            InvalidCardNumber,
+            InvalidPaymentGateway,
+            InvalidOrder,
+            statusResponseMessage,
+            Error
         }
     }
 }

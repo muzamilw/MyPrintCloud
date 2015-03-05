@@ -198,6 +198,24 @@ namespace MPC.Webstore
               );
 
               routes.MapRoute(
+            "RemoveSaveDesign",
+            "RemoveSaveDesign/{ItemID}",
+            new { controller = "SavedDesigns", action = "SavedDesigns", ItemID = UrlParameter.Optional}
+              );
+
+              routes.MapRoute(
+             "SavedDesigns",
+             "SavedDesigns",
+             new { controller = "Home", action = "Index"}
+               );
+
+              routes.MapRoute(
+            "ReOrder",
+            "ReOrder/{ItemID}",
+            new { controller = "SavedDesigns", action = "ReOrder", ItemID = UrlParameter.Optional }
+              );
+
+              routes.MapRoute(
               "PaypalSubmit",
               "PaypalSubmit/{controller}/{action}/{id}",
               new { controller = "Payment", action = "PaypalSubmit", id = UrlParameter.Optional }

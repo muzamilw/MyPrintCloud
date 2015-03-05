@@ -327,6 +327,7 @@
     <Compile Include="ModelMappers\ItemRelatedItemMapper.cs" />
     <Compile Include="ModelMappers\ItemAddonCostCentreMapper.cs" />
     <Compile Include="ModelMappers\ItemStateTaxMapper.cs" />
+    <Compile Include="ModelMappers\ItemImageMapper.cs" />
     <Compile Include="ModelMappers\ItemStockOptionMapper.cs" />
     <Compile Include="ModelMappers\ItemProductDetailMapper.cs" />
     <Compile Include="ModelMappers\ItemSectionMapper.cs" />

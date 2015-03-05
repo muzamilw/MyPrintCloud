@@ -154,5 +154,9 @@ namespace MPC.Interfaces.WebStoreServices
         long GetCartItemsCount(long ContactId, long TemporaryCustomerId);
 
         List<CmsSkinPageWidget> GetStoreWidgets();
+
+        List<SaveDesignView> GetSavedDesigns(long ContactID);
+
+        void RemoveItemAttacmentPhysically(List<ArtWorkAttatchment> attatchmentList);
     }
 }

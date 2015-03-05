@@ -174,7 +174,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return db.Addesses.Where(a => a.CompanyId == customerID && a.isArchived == false).ToList();
+                return db.Addesses.Where(a => a.CompanyId == customerID && a.isArchived != true ).ToList();
             }
             catch (Exception ex)
             {
