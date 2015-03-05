@@ -252,7 +252,7 @@ namespace MPC.Webstore.Controllers
                         }
                         else
                         {
-                            customerAddresses = _myCompanyService.GetAddressByCompanyID(UserCookieManager.StoreId);
+                            customerAddresses = _myCompanyService.GetAddressByCompanyID(_myClaimHelper.loginContactCompanyID());
                         }
                     }
                     else
