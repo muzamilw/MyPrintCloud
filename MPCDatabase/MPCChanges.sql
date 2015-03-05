@@ -581,3 +581,25 @@ insert into CmsSkinPageWidget values (4,41,6,0,2205,1)
 insert into CmsSkinPageWidget values (4,50100,6,0,2205,1)
 insert into CmsSkinPageWidget values (4,28,6,0,2205,1)
 insert into CmsSkinPageWidget values (4,78,6,0,2205,1)
+
+/* Execution Date: 05/03/2015 */
+
+GO
+
+exec sp_rename 'Company.isBrokerCanLaminate', 'isLaminate'
+exec sp_rename 'Company.isBrokerCanRoundCorner', 'isRoundCorner'
+exec sp_rename 'Company.isBrokerCanAcceptPaymentOnline', 'isAcceptPaymentOnline'
+exec sp_rename 'Company.isBrokerOrderApprovalRequired', 'isOrderApprovalRequired'
+exec sp_rename 'Company.isBrokerPaymentRequired', 'isPaymentRequired'
+exec sp_rename 'Company.includeEmailBrokerArtworkOrderReport', 'includeEmailArtworkOrderReport'
+exec sp_rename 'Company.includeEmailBrokerArtworkOrderXML', 'includeEmailArtworkOrderXML'
+exec sp_rename 'Company.includeEmailBrokerArtworkOrderJobCard', 'includeEmailArtworkOrderJobCard'
+exec sp_rename 'Company.makeEmailBrokerArtworkOrderProductionReady', 'makeEmailArtworkOrderProductionReady'
+
+alter table Company
+drop column isDisplaylBrokerBanners
+
+alter table Company
+drop column isDisplayBrokerSecondaryPages
+
+GO

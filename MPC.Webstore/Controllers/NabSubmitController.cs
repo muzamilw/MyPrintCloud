@@ -125,11 +125,11 @@ namespace MPC.Webstore.Controllers
                 {
                     oGateWay = _PaymentGatewayService.GetPaymentGatewayRecord();
                 }
-                else if (UserCookieManager.StoreMode == (int)StoreMode.Corp && StoreBaseResopnse.Company.isBrokerCanAcceptPaymentOnline == true)
+                else if (UserCookieManager.StoreMode == (int)StoreMode.Corp && StoreBaseResopnse.Company.isAcceptPaymentOnline == true)
                 {
                     oGateWay = _PaymentGatewayService.GetPaymentGatewayRecord(StoreBaseResopnse.Company.CompanyId);
                 }
-                else if (UserCookieManager.StoreMode == (int)StoreMode.Corp && StoreBaseResopnse.Company.isBrokerCanAcceptPaymentOnline == false)
+                else if (UserCookieManager.StoreMode == (int)StoreMode.Corp && StoreBaseResopnse.Company.isAcceptPaymentOnline == false)
                 {
                     oGateWay = _PaymentGatewayService.GetPaymentGatewayRecord();
                 }
