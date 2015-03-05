@@ -332,6 +332,7 @@
     <Compile Include="Common\EmailBackgroundTask.cs" />
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BillingShippingAddressManagerController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CategoryHeaderController.cs" />
     <Compile Include="Controllers\ContactDetailController.cs" />
@@ -770,6 +771,7 @@
     <Content Include="Views\Payment\NabSubmitww.cshtml" />
     <Content Include="Views\Shared\PartialViews\SlidingBanner.cshtml" />
     <Content Include="Views\Shared\PartialViews\NabSubmit.cshtml" />
+    <Content Include="Views\Shared\PartialViews\BillingShippingAddressManager.cshtml" />
     <Content Include="Views\Shared\PartialViews\SavedDesigns.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -779,6 +781,7 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
+    <Folder Include="Views\BillingShippingAddressManager\" />
     <Folder Include="Views\NabSubmit\" />
     <Folder Include="Views\SavedDesigns\" />
     <Folder Include="Views\SlidingBanner\" />

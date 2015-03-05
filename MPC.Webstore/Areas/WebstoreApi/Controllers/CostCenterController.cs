@@ -314,6 +314,21 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, objSer);
         }
 
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public HttpResponseMessage FillAddresses(long AddressId)
+        {
+            JsonAddressClass obj = new JsonAddressClass();
+            Address Address=_companyService.GetAddressByID(AddressId);
+            obj.Address = Address;
+            obj.StateId = Address.StateId??0;
+            obj.CountryId = Address.CountryId??0;
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, obj, formatter);
+        }
     }
       public class JasonResponseObject
           {
@@ -328,5 +343,12 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
           public string OrderDateValue;
           public string DeliveryDateValue;
          }
+      public class JsonAddressClass
+      {
+         public Address Address;
+         public long StateId;
+         public long CountryId;
+      }
+    
 }
          

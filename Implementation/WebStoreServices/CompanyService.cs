@@ -1278,6 +1278,55 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
+
+        public List<Address> GetAddressesListByContactCompanyID(long contactCompanyId)
+        {
+            return _addressRepository.GetAddressesListByContactCompanyID(contactCompanyId);
+        }
+        public List<Address> GetsearchedAddress(long CompanyId, String searchtxt)
+        {
+            return _addressRepository.GetsearchedAddress(CompanyId, searchtxt);
+        }
+        
+        public void UpdateBillingShippingAdd(Address Model)
+        {
+            _addressRepository.UpdateBillingShippingAdd(Model);
+           
+        }
+        public bool AddressNameExist(Address address)
+        {
+            return _addressRepository.AddressNameExist(address);
+        }
+        public void AddAddBillingShippingAdd(Address Address)
+        {
+            _addressRepository.AddAddBillingShippingAdd(Address);
+        }
+        public void ResetDefaultShippingAddress(Address address)
+        {
+            _addressRepository.ResetDefaultShippingAddress(address);
+        
+        }
+        public List<State> GetCountryStates(long CountryId)
+        {
+            return _addressRepository.GetCountryStates(CountryId);
+        
+        }
+        public Country GetCountryByCountryID(long CountryID)
+        {
+            return _addressRepository.GetCountryByCountryID(CountryID);
+        }
+        public State GetStateByStateID(long StateID)
+        {
+            return _addressRepository.GetStateByStateID(StateID);
+        }
+        public List<Country> GetAllCountries()
+        {
+            return _addressRepository.GetAllCountries();
+        }
+        public List<State> GetAllStates()
+        {
+            return _addressRepository.GetAllStates();
+        }
     }
 
 
