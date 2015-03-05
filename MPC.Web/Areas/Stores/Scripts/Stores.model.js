@@ -367,15 +367,15 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.isTextWatermark = source.isTextWatermark();
                 result.isShowGoogleMap = source.isShowGoogleMap();
                 result.WatermarkText = source.watermarkText();
-                result.isBrokerPaymentRequired = source.isBrokerPaymentRequired();
-                result.isBrokerCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline();
+                result.isPaymentRequired = source.isBrokerPaymentRequired();
+                result.isCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline();
                 result.canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval();
                 result.isIncludeVAT = source.isIncludeVAT();
                 // result.StoreBackgroundImage = source.storeBackgroudImagePath();
-                result.includeEmailBrokerArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport();
-                result.includeEmailBrokerArtworkOrderXML = source.includeEmailBrokerArtworkOrderXML();
-                result.includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard();
-                result.makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady();
+                result.includeEmailArtworkOrderReport = source.includeEmailArtworkOrderReport();
+                result.includeEmailArtworkOrderXML = source.includeEmailArtworkOrderXML();
+                result.includeEmailArtworkOrderJobCard = source.includeEmailArtworkOrderJobCard();
+                result.makeEmailArtworkOrderProductionReady = source.makeEmailArtworkOrderProductionReady();
                 result.isDisplayBanners = source.isDisplayBanners();
                 result.IsDeliveryTaxAble = source.isDeliveryTaxAble() === 2 ? false : true;
                 result.PickupAddressId = source.pickupAddressId();
@@ -651,16 +651,16 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.isStoreModePrivate,
             source.isTextWatermark,
             source.WatermarkText,
-            source.isBrokerPaymentRequired,
-            source.isBrokerCanAcceptPaymentOnline,
+            source.isPaymentRequired,
+            source.isCanAcceptPaymentOnline,
             source.canUserPlaceOrderWithoutApproval,
             source.isIncludeVAT,
-            source.includeEmailBrokerArtworkOrderReport,
-            source.includeEmailBrokerArtworkOrderXML,
-            source.includeEmailBrokerArtworkOrderJobCard,
+            source.includeEmailArtworkOrderReport,
+            source.includeEmailArtworkOrderXML,
+            source.includeEmailArtworkOrderJobCard,
             source.IsDeliveryTaxAble,
             source.PickupAddressId,
-            source.makeEmailBrokerArtworkOrderProductionReady,
+            source.makeEmailArtworkOrderProductionReady,
             source.ImageSource,
             source.StoreBackgroudImageSource,
             source.isShowGoogleMap,
