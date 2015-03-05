@@ -25,7 +25,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         private readonly ICostCentreService _CostCentreService;
 
         private readonly IItemService _ItemService;
-
+        private readonly ICompanyService _companyService;
         #endregion
         #region Constructor
 
@@ -34,11 +34,12 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         /// </summary>
         /// <param name="companyService"></param>
         private readonly IOrderService _orderService;
-        public CostCenterController(ICostCentreService CostCentreService, IItemService ItemService, IOrderService _orderService)
+        public CostCenterController(ICostCentreService CostCentreService, IItemService ItemService, IOrderService _orderService, ICompanyService companyService)
         {
             this._CostCentreService = CostCentreService;
             this._ItemService = ItemService;
             this._orderService = _orderService;
+            this._companyService = companyService;
         }
 
         #endregion
@@ -304,11 +305,13 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 return string.Empty;
         }
 
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
         public HttpResponseMessage WidgetJson(string StoreId)
         {
-            List<CmsSkinPageWidget> oStoreWidgets = _ItemService.GetStoreWidgets();
-            var objSer = JsonConvert.SerializeObject(oStoreWidgets);
-            return Request.CreateResponse(HttpStatusCode.OK, "");
+            List<CmsSkinPageWidget> oStoreWidgets = _companyService.GetStoreWidgets(Convert.ToInt64(StoreId));
+            var objSer = JsonConvert.SerializeObject(oStoreWidgets, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+            return Request.CreateResponse(HttpStatusCode.OK, objSer);
         }
 
     }

@@ -95,13 +95,13 @@
                                         <div class="LCLB">
                                           
                                            @* condition for marketing brief*@
-                                           @if (item.isMarketingBrief == true)
+                                           @if (item.ProductType  == (int)ProductType.MarketingBrief)
                                            {
                                             
                                                    RedirectURL = "/MarketingBrief/" + item.ProductName + "/" + item.ItemId;
                                             
                                            }
-                                           else if (item.ProductType == (int)ProductType.TemplateProductWithBanner || item.ProductType == (int)ProductType.TemplateProductWithImage)
+                                           else if (item.ProductType == (int)ProductType.PrintProduct)
                                            {
                                                if (item.isUploadImage == true)
                                                {
@@ -116,10 +116,13 @@
                                                }
 
                                            }
-                                           else if (item.ProductType == (int)ProductType.FinishedGoodWithBanner || item.ProductType == (int)ProductType.FinishedGoodWithImageRotator) // for non print product
+                                           else if (item.ProductType == (int)ProductType.NonPrintProduct) // for non print product
                                            {
                                                RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/UploadDesign";
                                            }
+                                           
+
+
                                             @if (isUploadImage == false)
                                             {
                                                 <a id="hlProductDetail" href="@Url.Action("CloneItem", "Category", new { id = item.ItemId })" onclick="ShowLoader();">
@@ -242,7 +245,7 @@
                                         }
 
 
-                                        if (item.ProductType == (int)ProductType.TemplateProductWithBanner || item.ProductType == (int)ProductType.TemplateProductWithImage)
+                                        if (item.ProductType == (int)ProductType.PrintProduct)
                                         {
 
                                             if (item.TemplateId > 0) 

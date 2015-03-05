@@ -97,7 +97,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public bool IsDuplicateProductCode(string productCode, long? itemId)
         {
-            return DbSet.Any(item => item.ProductCode == productCode && (!itemId.HasValue || item.ItemId != itemId) && item.OrganisationId == OrganisationId);
+            return DbSet.Any(item => item.ProductCode == productCode && (!itemId.HasValue || item.ItemId != itemId) && item.OrganisationId == OrganisationId && item.EstimateId == null);
         }
 
         /// <summary>
@@ -1354,14 +1354,14 @@ namespace MPC.Repository.Repositories
             //return db.Items.Include("ItemPriceMatrices").Include("ItemSections").Where(i => i.IsPublished == true && i.ItemId == itemId && i.EstimateId == null).FirstOrDefault();
 
         }
-        public Item GetItemByIdDesigner(long RefitemId)
+        public Item GetItemByIdDesigner(long ItemId)
         {
             try
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
 
-                return db.Items.Where(i => i.IsPublished == true && i.ItemId == RefitemId && i.EstimateId == null).FirstOrDefault();
+                return db.Items.Where(i => i.ItemId == ItemId).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -1769,7 +1769,8 @@ namespace MPC.Repository.Repositories
 
                     //Section cost centeres
                     //tblItem.ItemSections.ToList().ForEach(itemSection => itemSection.SectionCostcentres.ToList().ForEach(sectCost => db.SectionCostcentres.Remove(sectCost)));
-                    tblItem.ItemSections.ToList().ForEach(itemSection =>
+                    List<ItemSection> listOfSections = db.ItemSections.Where(s => s.ItemId == tblItem.ItemId).ToList();
+                    foreach (var itemSection in listOfSections)
                     {
                         List<SectionCostcentre> listOfSectionCC =
                             db.SectionCostcentres.Where(sec => sec.ItemSectionId == itemSection.ItemSectionId).ToList();
@@ -1780,9 +1781,12 @@ namespace MPC.Repository.Repositories
                                 db.SectionCostcentres.Remove(SectionCC);
                             });
                         }
-                    });
+
+                        db.ItemSections.Remove(itemSection);
+                    }
+                
                     //Item Section
-                    tblItem.ItemSections.ToList().ForEach(itemsect => db.ItemSections.Remove(itemsect));
+                  //  tblItem.ItemSections.ToList().ForEach(itemsect => db.ItemSections.Remove(itemsect));
                     //Finally the item
                     db.Items.Remove(tblItem);
 
@@ -2111,11 +2115,22 @@ namespace MPC.Repository.Repositories
 
                     bool isNewSectionCostCenter = false;
 
-                    SectionCostcentre sectionCC =
-                        FirstItemSection.SectionCostcentres.Where(c => c.CostCentre.Type == 29).FirstOrDefault();
 
+                List<SectionCostcentre> listOfSectionCostCentres = db.SectionCostcentres.Where(c => c.ItemSectionId == FirstItemSection.ItemSectionId).ToList();
 
-
+                SectionCostcentre sectionCC = null;
+                foreach (var ccItem in listOfSectionCostCentres)
+                {
+                    if (ccItem.CostCentre != null)
+                    {
+                        if (ccItem.CostCentre.Type == 29)
+                        {
+                            sectionCC = ccItem;
+                        }
+                    }
+                }
+             
+              
                     if (sectionCC == null)
                     {
                         sectionCC = new SectionCostcentre();
@@ -2133,9 +2148,18 @@ namespace MPC.Repository.Repositories
 
                     if (isNewSectionCostCenter)
                     {
-                        sectionCC.CostCentreId = 206;
-                        sectionCC.ItemSectionId = FirstItemSection.ItemSectionId;
-                        FirstItemSection.SectionCostcentres.Add(sectionCC);
+                        //29 is the global type of web order cost centre
+                        var oCostCentre = db.CostCentres.Where(g => g.Type == 29).SingleOrDefault();
+                        if (oCostCentre != null)
+                        {
+                            sectionCC.CostCentreId = oCostCentre.CostCentreId;
+                            sectionCC.ItemSectionId = FirstItemSection.ItemSectionId;
+                            FirstItemSection.SectionCostcentres.Add(sectionCC);
+                        }
+                        else
+                        {
+                            throw new Exception("Critcal Error, We have lost our main costcentre.", null);
+                        }
                     }
 
                     if (result)
@@ -2333,7 +2357,7 @@ namespace MPC.Repository.Repositories
                             order.StatusId == (short) OrderStatus.ShoppingCart && order.isEstimate == false)
                         .FirstOrDefault();
 
-                if (ActualOrder != null)
+                if (ActualOrder != null && TemporaryOrder != null)
                 {
                     ActualOrder.CreationTime = DateTime.Now;
                     ActualOrder.SectionFlagId = 3;

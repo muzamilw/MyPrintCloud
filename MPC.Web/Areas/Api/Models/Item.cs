@@ -383,6 +383,19 @@ namespace MPC.MIS.Areas.Api.Models
         public double? Scalar { get; set; }
         public double? ZoomFactor { get; set; }
         public bool? IsAddCropMarks { get; set; }
+        public double? ItemLength { get; set; }
+        public double? ItemWidth { get; set; }
+        public double? ItemHeight { get; set; }
+        public double? ItemWeight { get; set; }
+        public bool? PrintCropMarks { get; set; }
+        public bool? DrawBleedArea { get; set; }
+        public bool? IsMultipagePdf { get; set; }
+        public bool? DrawWaterMarkTxt { get; set; }
+        public bool? AllowPdfDownload { get; set; }
+        public bool? AllowImageDownload { get; set; }
+        public bool? IsDigitalDownload { get; set; }
+        public bool? IsRealStateProduct { get; set; }
+        public int? ProductDisplayOptions { get; set; }
 
         /// <summary>
         /// Being used for Template Service generateTemplateFromPdf method, if mode is 2 then preserves
@@ -875,6 +888,8 @@ namespace MPC.MIS.Areas.Api.Models
         public IEnumerable<ProductCategoryItem> ProductCategoryItems { get; set; }
 
         public IEnumerable<ItemSection> ItemSections { get; set; }
+
+        public IEnumerable<ItemImage> ItemImages { get; set; }
 
         #endregion
     }
