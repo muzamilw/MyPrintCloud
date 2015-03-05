@@ -24,7 +24,7 @@ namespace MigrationUtility.Preview
         public Nullable<long> CompanyId { get; set; }
         public Nullable<long> OrganisationId { get; set; }
     
-        public virtual Company Company { get; set; }
         public virtual ICollection<CompanyBanner> CompanyBanners { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

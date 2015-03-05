@@ -278,6 +278,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APIControllers\GetWidgetDetailController.cs" />
     <Compile Include="APIControllers\SignUpController.cs" />
     <Compile Include="App_GlobalResources\1\1.fr-FR.designer.cs">
       <AutoGen>True</AutoGen>
@@ -365,6 +366,7 @@
     <Compile Include="Controllers\ReceiptController.cs" />
     <Compile Include="Controllers\pagesController.cs" />
     <Compile Include="Controllers\RequestQuoteController.cs" />
+    <Compile Include="Controllers\SavedDesignsController.cs" />
     <Compile Include="Controllers\ShopCartAddressSelectController.cs" />
     <Compile Include="Controllers\ShopCartController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
@@ -770,6 +772,7 @@
     <Content Include="Views\Shared\PartialViews\SlidingBanner.cshtml" />
     <Content Include="Views\Shared\PartialViews\NabSubmit.cshtml" />
     <Content Include="Views\Shared\PartialViews\BillingShippingAddressManager.cshtml" />
+    <Content Include="Views\Shared\PartialViews\SavedDesigns.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -780,6 +783,7 @@
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
     <Folder Include="Views\BillingShippingAddressManager\" />
     <Folder Include="Views\NabSubmit\" />
+    <Folder Include="Views\SavedDesigns\" />
     <Folder Include="Views\SlidingBanner\" />
   </ItemGroup>
   <ItemGroup>

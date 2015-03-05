@@ -72,8 +72,8 @@ namespace MPC.Webstore.Controllers
             UserCookieManager.ContactCanEditProfile = false;
             UserCookieManager.ShowPriceOnWebstore = true;
             UserCookieManager.isRegisterClaims = 2;
-          //  UserCookieManager.removeAllCookies();
-           // _webstoreclaimHelper.removeAuthenticationClaim();
+            UserCookieManager.OrderId = 0;
+        
             if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
             {
                 Response.Redirect("/Login");

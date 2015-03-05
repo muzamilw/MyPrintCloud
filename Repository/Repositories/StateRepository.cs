@@ -50,7 +50,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return db.States.ToList();
+                return db.States.OrderBy(s => s.StateName).ToList();
 
             }
             catch(Exception ex)

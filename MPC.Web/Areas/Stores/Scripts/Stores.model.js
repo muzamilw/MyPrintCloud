@@ -367,15 +367,15 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.isTextWatermark = source.isTextWatermark();
                 result.isShowGoogleMap = source.isShowGoogleMap();
                 result.WatermarkText = source.watermarkText();
-                result.isBrokerPaymentRequired = source.isBrokerPaymentRequired();
-                result.isBrokerCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline();
+                result.isPaymentRequired = source.isBrokerPaymentRequired();
+                result.isCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline();
                 result.canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval();
                 result.isIncludeVAT = source.isIncludeVAT();
                 // result.StoreBackgroundImage = source.storeBackgroudImagePath();
-                result.includeEmailBrokerArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport();
-                result.includeEmailBrokerArtworkOrderXML = source.includeEmailBrokerArtworkOrderXML();
-                result.includeEmailBrokerArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard();
-                result.makeEmailBrokerArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady();
+                result.includeEmailArtworkOrderReport = source.includeEmailArtworkOrderReport();
+                result.includeEmailArtworkOrderXML = source.includeEmailArtworkOrderXML();
+                result.includeEmailArtworkOrderJobCard = source.includeEmailArtworkOrderJobCard();
+                result.makeEmailArtworkOrderProductionReady = source.makeEmailArtworkOrderProductionReady();
                 result.isDisplayBanners = source.isDisplayBanners();
                 result.IsDeliveryTaxAble = source.isDeliveryTaxAble() === 2 ? false : true;
                 result.PickupAddressId = source.pickupAddressId();
@@ -651,16 +651,16 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.isStoreModePrivate,
             source.isTextWatermark,
             source.WatermarkText,
-            source.isBrokerPaymentRequired,
-            source.isBrokerCanAcceptPaymentOnline,
+            source.isPaymentRequired,
+            source.isCanAcceptPaymentOnline,
             source.canUserPlaceOrderWithoutApproval,
             source.isIncludeVAT,
-            source.includeEmailBrokerArtworkOrderReport,
-            source.includeEmailBrokerArtworkOrderXML,
-            source.includeEmailBrokerArtworkOrderJobCard,
+            source.includeEmailArtworkOrderReport,
+            source.includeEmailArtworkOrderXML,
+            source.includeEmailArtworkOrderJobCard,
             source.IsDeliveryTaxAble,
             source.PickupAddressId,
-            source.makeEmailBrokerArtworkOrderProductionReady,
+            source.makeEmailArtworkOrderProductionReady,
             source.ImageSource,
             source.StoreBackgroudImageSource,
             source.isShowGoogleMap,
@@ -2043,6 +2043,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isEnabled = ko.observable(specifiedisEnabled != null ? specifiedisEnabled : true),
             defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
             pageBanner = ko.observable(specifiedPageBanner),
+            isUserDefined = ko.observable(undefined),
             // Errors
             errors = ko.validation.group({
                 pageTitle: pageTitle,
@@ -2070,6 +2071,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 fileName: fileName,
                 defaultPageKeyWords: defaultPageKeyWords,
                 pageBanner: pageBanner,
+                isEnabled: isEnabled
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -2094,6 +2096,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.Bytes = source.imageSrc() === undefined ? null : source.imageSrc();
                 result.PageBanner = source.pageBanner() === undefined ? null : source.pageBanner();
                 result.isEnabled = source.isEnabled();
+                result.IsUserDefined = source.isUserDefined();
                 return result;
             },
             // Reset
@@ -2118,6 +2121,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             defaultPageKeyWords: defaultPageKeyWords,
             pageBanner: pageBanner,
             isValid: isValid,
+            isUserDefined:isUserDefined,
             errors: errors,
             isEnabled: isEnabled,
             dirtyFlag: dirtyFlag,
@@ -2129,7 +2133,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     };
     //CMS Page Create Factory
     CMSPage.Create = function (source) {
-        return new CMSPage(
+        var obj= new CMSPage(
             source.PageId,
             source.PageTitle,
             source.PageKeywords,
@@ -2145,9 +2149,11 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.ImageSource,
             source.DefaultPageKeyWords,
             source.FileName,
-            source.PageBanner
-
+            source.PageBanner,
+            source.isEnabled
         );
+        obj.isUserDefined(source.IsUserDefined);
+        return obj;
     };
     // #endregion ______________  CMS Page   _________________
 
@@ -2217,14 +2223,16 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             imageSource = ko.observable(specifiedImageSource),
             isDisplay = ko.observable(specifiedIsDisplay === null ? false : true),
             categoryName = ko.observable(specifiedCategoryName),
-
+            isUserDefined = ko.observable(undefined),
             convertToServerData = function () {
                 return {
                     PageId: pageId(),
-                }
+                    IsUserDefined: isUserDefined()
+                };
             };
         self = {
             pageId: pageId,
+            isUserDefined:isUserDefined,
             pageTitle: pageTitle,
             metaTitle: metaTitle,
             isEnabled: isEnabled,
@@ -2236,8 +2244,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         return self;
     };
     SecondaryPageListView.Create = function (source) {
-        return new SecondaryPageListView(source.PageId, source.PageTitle, source.Meta_Title, source.IsEnabled, source.IsDisplay,
+        var obj= new SecondaryPageListView(source.PageId, source.PageTitle, source.Meta_Title, source.IsEnabled, source.IsDisplay,
             source.CategoryName, source.ImageSource);
+        obj.isUserDefined(source.IsUserDefined);
+        return obj;
     };
     // #endregion ___________  Secondary Page List View ____________________
 

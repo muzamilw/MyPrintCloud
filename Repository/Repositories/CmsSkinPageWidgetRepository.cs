@@ -41,7 +41,17 @@ namespace MPC.Repository.Repositories
 
         public List<CmsSkinPageWidget> GetDomainWidgetsById(long companyId)
         {
+
             var widgets = (from result in db.PageWidgets.Include("CmsSkinPageWidgetParams").Include("Widget")
+                           select result).Where(g => g.CompanyId == companyId).OrderBy(c => c.Sequence).ToList();
+
+            return widgets.ToList();
+        }
+
+        public List<CmsSkinPageWidget> GetDomainWidgetsById2(long companyId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            var widgets = (from result in db.PageWidgets.Include("CmsSkinPageWidgetParams")
                            select result).Where(g => g.CompanyId == companyId).OrderBy(c => c.Sequence).ToList();
 
             return widgets.ToList();

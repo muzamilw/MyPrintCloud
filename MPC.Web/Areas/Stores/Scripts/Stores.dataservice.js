@@ -25,6 +25,7 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                   
                     // Define request to get product category childs
                     amplify.request.define('getProductCategoryChilds', 'ajax', {
                         url: ist.siteUrl + '/Api/ProductCategory',
@@ -55,7 +56,7 @@
                         dataType: 'json',
                         type: 'GET'
                     });
-                    
+
                     // Define request to Get Cmpany Contact Varibable ByContact  Id
                     amplify.request.define('getCmpanyContactVaribableByContactId', 'ajax', {
                         url: ist.siteUrl + '/Api/GetCompanyContactVariable',
@@ -106,6 +107,12 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to Get Theme Detail By Full Zip Path
+                    amplify.request.define('getThemeDetail', 'ajax', {
+                        url: ist.siteUrl + '/Api/GetThemeDetail',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to get Page Layout widgets
                     amplify.request.define('getCmsPageLayoutWidget', 'ajax', {
                         url: ist.siteUrl + '/Api/CmsPageLayoutDetail',
@@ -134,6 +141,12 @@
                     // Define request to delete Store
                     amplify.request.define('deleteStore', 'ajax', {
                         url: ist.siteUrl + '/Api/Company',
+                        dataType: 'json',
+                        type: 'Delete'
+                    });
+                    // Define request to delete Banner
+                    amplify.request.define('deleteCompanyBanner', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyBanner',
                         dataType: 'json',
                         type: 'Delete'
                     });
@@ -390,6 +403,16 @@
                     data: params
                 });
             },
+             //Get Theme Detail By full path
+            getThemeDetail = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getThemeDetail',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
              // get CMS Page Layout Widget
             getCmsPageLayoutWidget = function (params, callbacks) {
                 initialize();
@@ -441,6 +464,17 @@
                     data: params
                 });
             },
+             // delete Banner
+            deleteCompanyBanner = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteCompanyBanner',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+
               // Get Secondry Page By Id
             getSecondryPageById = function (params, callbacks) {
                 initialize();
@@ -531,6 +565,7 @@
                     data: param
                 });
             },
+            
             // Delete Company Contact
             deleteCompanyContact = function (param, callbacks) {
                 initialize();
@@ -610,6 +645,8 @@
             getCmpanyContactVaribableByCompanyId: getCmpanyContactVaribableByCompanyId,
             saveSmartForm: saveSmartForm,
             getSmartFormsByCompanyId: getSmartFormsByCompanyId,
+            deleteCompanyBanner: deleteCompanyBanner,
+            getThemeDetail: getThemeDetail,
         };
     })();
 

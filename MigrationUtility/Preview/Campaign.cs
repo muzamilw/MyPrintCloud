@@ -120,8 +120,8 @@ namespace MigrationUtility.Preview
         public Nullable<long> CompanyId { get; set; }
         public string UnsubscribeEmailAddress { get; set; }
     
-        public virtual Company Company { get; set; }
         public virtual EmailEvent EmailEvent1 { get; set; }
         public virtual ICollection<CampaignImage> CampaignImages { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

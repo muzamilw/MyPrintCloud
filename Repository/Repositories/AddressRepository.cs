@@ -31,50 +31,87 @@ namespace MPC.Repository.Repositories
 
         public List<Address> GetAddressesByTerritoryID(Int64 TerritoryID)
         {
-            return db.Addesses.Where(a => a.TerritoryId == TerritoryID && (a.isArchived == null || a.isArchived.Value == false) && (a.isPrivate == false || a.isPrivate == null)).ToList();
+            try
+            {
+                return db.Addesses.Where(a => a.TerritoryId == TerritoryID && (a.isArchived == null || a.isArchived.Value == false) && (a.isPrivate == false || a.isPrivate == null)).ToList();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+
+            }
+            
         }
 
         public Models.ResponseModels.AddressResponse GetAddress(Models.RequestModels.AddressRequestModel request)
         {
-            int fromRow = (request.PageNo - 1) * request.PageSize;
-            int toRow = request.PageSize;
-            bool isSearchFilterSpecified = !string.IsNullOrEmpty(request.SearchFilter);
-            bool isTerritoryInSearch = request.TerritoryId != 0;
-            Expression<Func<Address, bool>> query =
-                s =>
-                    (isSearchFilterSpecified && (s.Email.Contains(request.SearchFilter)) ||
-                     (s.AddressName.Contains(request.SearchFilter)) ||
-                     !isSearchFilterSpecified)
-                     && (isTerritoryInSearch && (s.TerritoryId == request.TerritoryId) && (s.CompanyId == request.CompanyId)) || !isTerritoryInSearch && (s.CompanyId == request.CompanyId)
-                     ;
+            try
+            {
+                int fromRow = (request.PageNo - 1) * request.PageSize;
+                int toRow = request.PageSize;
+                bool isSearchFilterSpecified = !string.IsNullOrEmpty(request.SearchFilter);
+                bool isTerritoryInSearch = request.TerritoryId != 0;
+                Expression<Func<Address, bool>> query =
+                    s =>
+                        (isSearchFilterSpecified && (s.Email.Contains(request.SearchFilter)) ||
+                         (s.AddressName.Contains(request.SearchFilter)) ||
+                         !isSearchFilterSpecified)
+                         && (isTerritoryInSearch && (s.TerritoryId == request.TerritoryId) && (s.CompanyId == request.CompanyId)) || !isTerritoryInSearch && (s.CompanyId == request.CompanyId)
+                         ;
 
-            int rowCount = DbSet.Count(query);
-            // ReSharper disable once ConditionalTernaryEqualBranch
-            IEnumerable<Address> addresses = request.IsAsc
-                ? DbSet.Where(query)
-                    .OrderByDescending(x => x.CompanyId)
-                    .Skip(fromRow)
-                    .Take(toRow)
-                    .ToList()
-                : DbSet.Where(query)
-                    .OrderByDescending(x => x.CompanyId)
-                    .Skip(fromRow)
-                    .Take(toRow)
-                    .ToList();
-            return new AddressResponse
-                   {
-                       RowCount = rowCount,
-                       Addresses = addresses
-                   };
+                int rowCount = DbSet.Count(query);
+                // ReSharper disable once ConditionalTernaryEqualBranch
+                IEnumerable<Address> addresses = request.IsAsc
+                    ? DbSet.Where(query)
+                        .OrderByDescending(x => x.CompanyId)
+                        .Skip(fromRow)
+                        .Take(toRow)
+                        .ToList()
+                    : DbSet.Where(query)
+                        .OrderByDescending(x => x.CompanyId)
+                        .Skip(fromRow)
+                        .Take(toRow)
+                        .ToList();
+                return new AddressResponse
+                {
+                    RowCount = rowCount,
+                    Addresses = addresses
+                };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+           
         }
 
         public Address GetDefaultAddressByStoreID(Int64 StoreID)
         {
-            return db.Addesses.Where(s => s.CompanyId == StoreID && s.IsDefaultAddress == true).FirstOrDefault();
+            try
+            {
+                return db.Addesses.Where(s => s.CompanyId == StoreID && s.IsDefaultAddress == true).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+           
         }
         public IEnumerable<Address> GetAllDefaultAddressByStoreID(Int64 StoreID)
         {
-            return db.Addesses.Where(s => s.CompanyId == StoreID && s.IsDefaultAddress == true);
+            try
+            {
+                return db.Addesses.Where(s => s.CompanyId == StoreID && s.IsDefaultAddress == true);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+           
+            
         }
         public IEnumerable<Address> GetAllAddressByStoreId(long storeId)
         {
@@ -138,7 +175,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return db.Addesses.Where(a => a.CompanyId == customerID && a.isArchived == false).ToList();
+                return db.Addesses.Where(a => a.CompanyId == customerID && a.isArchived != true ).ToList();
             }
             catch (Exception ex)
             {
@@ -213,25 +250,33 @@ namespace MPC.Repository.Repositories
 
         internal static void PopulateAddress(Address tblAddress, Address address)
         {
-            tblAddress.AddressName = address.AddressName;
-            tblAddress.Address1 = address.Address1;
-            tblAddress.Address2 = address.Address2;
-            tblAddress.City = address.City;
-            tblAddress.State = address.State;
-            tblAddress.PostCode = address.PostCode;
-            tblAddress.Tel1 = address.Tel1;
-            tblAddress.Country = address.Country;
-            tblAddress.CountryId = address.CountryId;
-            tblAddress.StateId = address.StateId;
-            tblAddress.CompanyId = address.CompanyId > 0 ? address.CompanyId : tblAddress.CompanyId;
-            if (tblAddress.AddressId == 0)
+            try
             {
-                tblAddress.isPrivate = address.isPrivate;
-                tblAddress.ContactId = address.ContactId;
-                tblAddress.TerritoryId = address.TerritoryId;
+                tblAddress.AddressName = address.AddressName;
+                tblAddress.Address1 = address.Address1;
+                tblAddress.Address2 = address.Address2;
+                tblAddress.City = address.City;
+                tblAddress.State = address.State;
+                tblAddress.PostCode = address.PostCode;
+                tblAddress.Tel1 = address.Tel1;
+                tblAddress.Country = address.Country;
+                tblAddress.CountryId = address.CountryId;
+                tblAddress.StateId = address.StateId;
+                tblAddress.CompanyId = address.CompanyId > 0 ? address.CompanyId : tblAddress.CompanyId;
+                if (tblAddress.AddressId == 0)
+                {
+                    tblAddress.isPrivate = address.isPrivate;
+                    tblAddress.ContactId = address.ContactId;
+                    tblAddress.TerritoryId = address.TerritoryId;
+                }
+                tblAddress.IsDefaultAddress = address.IsDefaultAddress;
+                tblAddress.IsDefaultShippingAddress = address.IsDefaultShippingAddress;
             }
-            tblAddress.IsDefaultAddress = address.IsDefaultAddress;
-            tblAddress.IsDefaultShippingAddress = address.IsDefaultShippingAddress;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
         }
 
 
@@ -245,20 +290,27 @@ namespace MPC.Repository.Repositories
         /// <returns></returns>
         public List<Address> GetContactCompanyAddressesList(long BillingAddressId, long ShippingAddressid, long PickUpAddressId)
         {
-
-            List<Address> oAddressList = new List<Address>();
-
-            oAddressList.Add(db.Addesses.Where(estm => estm.AddressId == ShippingAddressid).FirstOrDefault());
-            oAddressList.Add(db.Addesses.Where(estm => estm.AddressId == BillingAddressId).FirstOrDefault());
-            if (PickUpAddressId > 0)
+            try
             {
-                oAddressList.Add(db.Addesses.Where(estm => estm.AddressId == PickUpAddressId).FirstOrDefault());
+                List<Address> oAddressList = new List<Address>();
+
+                oAddressList.Add(db.Addesses.Where(estm => estm.AddressId == ShippingAddressid).FirstOrDefault());
+                oAddressList.Add(db.Addesses.Where(estm => estm.AddressId == BillingAddressId).FirstOrDefault());
+                if (PickUpAddressId > 0)
+                {
+                    oAddressList.Add(db.Addesses.Where(estm => estm.AddressId == PickUpAddressId).FirstOrDefault());
+                }
+                else
+                {
+                    oAddressList.Add(null);
+                }
+                return oAddressList;
             }
-            else
+            catch (Exception ex)
             {
-                oAddressList.Add(null);
+                throw ex;
             }
-            return oAddressList;
+           
         }
 
         public  List<Address> GetAddressesListByContactCompanyID(long contactCompanyId)

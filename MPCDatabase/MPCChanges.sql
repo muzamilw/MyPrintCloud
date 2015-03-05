@@ -532,4 +532,74 @@ add foreign key (VariableId)
 references FieldVariable(VariableId)
 
 GO
+/* Execution Date: 04/03/2015 */
 
+GO
+
+alter table dbo.Items
+add IsDigitalDownload bit null
+
+alter table Items
+add IsRealStateProduct bit null
+
+alter table Items
+add ProductDisplayOptions int null
+
+GO
+
+/* alter for saved designs */
+ALTER VIEW [dbo].[vw_SaveDesign]
+AS
+ SELECT  item.ItemID, ItemAttach.ItemID AS AttachmentItemId,ItemAttach.FileName AS AttachmentFileName, 
+ (case when est.StatusID = 6 or est.StatusID = 7 or est.StatusID = 10 or est.StatusID = 36 then 'MPC_Content/Attachments/' else ItemAttach.FolderPath  end) AS AttachmentFolderPath, 
+item.EstimateID, item.ProductName, PCat.CategoryName AS ProductCategoryName, PCat.ProductCategoryID, PCat.ParentCategoryID, 
+                      ISNULL(dbo.funGetMiniumProductValue(item.RefItemID), 0.0) AS MinPrice,  
+                      item.IsEnabled, item.IsPublished,item.IsArchived, item.InvoiceID, contact.ContactID, contact.CompanyId, company.IsCustomer ,item.RefItemID, status_Check.StatusID, status_Check.StatusName,
+                       item.IsOrderedItem, item.ItemCreationDateTime,item.TemplateID
+FROM         dbo.items AS item Inner JOIN
+				      dbo.ItemAttachment AS ItemAttach ON ItemAttach.ItemID = item.ItemID INNER JOIN
+                      dbo.Template AS temp ON temp.ProductID = item.TemplateID INNER JOIN
+                      dbo.Estimate AS est ON item.EstimateID = est.EstimateID INNER JOIN
+                      dbo.Status AS status_Check ON item.Status = status_Check.StatusID INNER JOIN
+                      dbo.CompanyContact AS contact ON contact.ContactID = est.ContactID INNER JOIN
+                      dbo.Company As company ON contact.CompanyId = company.CompanyId
+					  inner join dbo.ProductCategoryItem pc2 on item.ItemId = pc2.ItemId
+					  inner join dbo.ProductCategory PCat on pc2.CategoryId = pcat.ProductCategoryId
+
+GO
+
+/* INSERT into cmsskinpagewidgets */
+
+
+update CmsPage set PageName = 'SavedDesigns', Companyid = NULL where pageid = 4
+
+insert into widgets values (80,'SavedDesigns','SavedDesigns')
+
+insert into CmsSkinPageWidget values (4,45,6,0,2205,1)
+insert into CmsSkinPageWidget values (4,27,6,0,2205,1)
+insert into CmsSkinPageWidget values (4,41,6,0,2205,1)
+insert into CmsSkinPageWidget values (4,50100,6,0,2205,1)
+insert into CmsSkinPageWidget values (4,28,6,0,2205,1)
+insert into CmsSkinPageWidget values (4,78,6,0,2205,1)
+
+/* Execution Date: 05/03/2015 */
+
+GO
+
+exec sp_rename 'Company.isBrokerCanLaminate', 'isLaminate'
+exec sp_rename 'Company.isBrokerCanRoundCorner', 'isRoundCorner'
+exec sp_rename 'Company.isBrokerCanAcceptPaymentOnline', 'isAcceptPaymentOnline'
+exec sp_rename 'Company.isBrokerOrderApprovalRequired', 'isOrderApprovalRequired'
+exec sp_rename 'Company.isBrokerPaymentRequired', 'isPaymentRequired'
+exec sp_rename 'Company.includeEmailBrokerArtworkOrderReport', 'includeEmailArtworkOrderReport'
+exec sp_rename 'Company.includeEmailBrokerArtworkOrderXML', 'includeEmailArtworkOrderXML'
+exec sp_rename 'Company.includeEmailBrokerArtworkOrderJobCard', 'includeEmailArtworkOrderJobCard'
+exec sp_rename 'Company.makeEmailBrokerArtworkOrderProductionReady', 'makeEmailArtworkOrderProductionReady'
+
+alter table Company
+drop column isDisplaylBrokerBanners
+
+alter table Company
+drop column isDisplayBrokerSecondaryPages
+
+GO

@@ -16,6 +16,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string Meta_CategoryContent { get; set; }
         public string Meta_RobotsContent { get; set; }
         public string Meta_AuthorContent { get; set; }
+        public bool? IsUserDefined { get; set; }
         public string Meta_LanguageContent { get; set; }
         public string Meta_RevisitAfterContent { get; set; }
         public long? CategoryId { get; set; }
@@ -23,6 +24,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string FileName { get; set; }
         public string DefaultPageKeyWords { get; set; }
         public string PageBanner { get; set; }
+        public bool? isEnabled { get; set; }
 
         /// <summary>
         /// File Bytes

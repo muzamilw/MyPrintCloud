@@ -335,11 +335,12 @@ namespace MPC.Webstore.Controllers
             long CompanyID = _myClaimHelper.loginContactCompanyID();
             if (UserCookieManager.OrderId == 0)
             {
+                long OrderID = 0;
                 long TemporaryRetailCompanyId = 0;
                 if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
                 {
                     TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
-                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
                     if (OrderID > 0)
                     {
                         UserCookieManager.OrderId = OrderID;
@@ -354,7 +355,7 @@ namespace MPC.Webstore.Controllers
                 }
                 else 
                 {
-                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
                     if (OrderID > 0)
                     {
                         UserCookieManager.OrderId = OrderID;
@@ -364,7 +365,7 @@ namespace MPC.Webstore.Controllers
                 // create new order
 
 
-                Item item = _IItemService.CloneItem(id, 0, UserCookieManager.OrderId, CompanyID, 0, 0, null, false, false, ContactID, StoreBaseResopnse.Organisation.OrganisationId);
+                Item item = _IItemService.CloneItem(id, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, StoreBaseResopnse.Organisation.OrganisationId);
 
                     if (item != null)
                     {
@@ -383,7 +384,7 @@ namespace MPC.Webstore.Controllers
 
                     // create new order
 
-                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
                     if (OrderID > 0)
                     {
                         UserCookieManager.OrderId = OrderID;
@@ -458,17 +459,16 @@ namespace MPC.Webstore.Controllers
         //}
         private void BindCategoryData(List<ProductCategory> productCatList)
         {
-            if (productCatList != null)
+            if (productCatList != null && productCatList.Count > 0)
             {
-                if (productCatList.Count > 0)
-                {
-
-                    productCatList = productCatList.OrderBy(c => c.DisplayOrder).ToList();
-
-                }
-
+                productCatList = productCatList.OrderBy(c => c.DisplayOrder).ToList();
+                ViewData["ProductCategory"] = productCatList;
             }
-            ViewData["ProductCategory"] = productCatList;
+            else
+            {
+                ViewData["ProductCategory"] = null;
+            }
+            
         }
 
     }

@@ -95,7 +95,7 @@ namespace MPC.Webstore.Controllers
                     // LayoutGrid
 
 
-                    if (ItemRecord.ProductType == (int)ProductType.FinishedGoodWithBanner || ItemRecord.ProductType == (int)ProductType.FinishedGoodWithImageRotator)
+                    if (ItemRecord.ProductDisplayOptions == (int)ProductDisplayOption.ThumbWithMultipleBanners )
                     {
 
                         // ProductrightContainter.Style.Add("display", "none");
@@ -402,7 +402,8 @@ namespace MPC.Webstore.Controllers
                     }
                 }
                 string html = "";
-                if (RecItem.ProductType == (int)ProductType.TemplateProductWithBanner)
+
+                if (RecItem.ProductDisplayOptions == (int)ProductDisplayOption.ThumbAndBanner)
                 {
                     ViewBag.IsTemplateProductWithBanner = true;
                  
@@ -882,7 +883,7 @@ namespace MPC.Webstore.Controllers
                         if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
                         {
                             TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
-                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
                             if (OrderID > 0)
                             {
                                 UserCookieManager.OrderId = OrderID;
@@ -897,7 +898,7 @@ namespace MPC.Webstore.Controllers
                         }
                         else 
                         {
-                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
                             if (OrderID > 0)
                             {
                                 UserCookieManager.OrderId = OrderID;
@@ -926,7 +927,7 @@ namespace MPC.Webstore.Controllers
 
                             // create new order
 
-                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (int)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
                             if (OrderID > 0)
                             {
                                 UserCookieManager.OrderId = OrderID;

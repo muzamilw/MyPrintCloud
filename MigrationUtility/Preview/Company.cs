@@ -133,7 +133,6 @@ namespace MigrationUtility.Preview
         public Nullable<System.Guid> StockNotificationManagerId2 { get; set; }
         public Nullable<bool> IsDeliveryTaxAble { get; set; }
         public Nullable<bool> IsDisplayDeliveryOnCheckout { get; set; }
-        public Nullable<long> DeliveryPickUpAddressId { get; set; }
         public Nullable<double> TaxRate { get; set; }
         public Nullable<bool> IsDisplayDiscountVoucherCode { get; set; }
         public Nullable<bool> IsDisplayCorporateBinding { get; set; }

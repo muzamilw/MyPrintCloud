@@ -23,5 +23,13 @@ namespace MigrationUtility.Preview
         public Nullable<int> SortOrder { get; set; }
         public string KeyField { get; set; }
         public Nullable<int> VariableType { get; set; }
+        public Nullable<long> CompanyId { get; set; }
+        public Nullable<int> Scope { get; set; }
+        public string WaterMark { get; set; }
+        public string DefaultValue { get; set; }
+        public string InputMask { get; set; }
+        public Nullable<long> OrganisationId { get; set; }
+        public Nullable<bool> IsSystem { get; set; }
+        public string VariableTitle { get; set; }
     }
 }

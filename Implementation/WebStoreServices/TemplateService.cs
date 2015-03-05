@@ -348,7 +348,7 @@ namespace MPC.Implementation.WebStoreServices
                 {
 
                     oPdf.Transform.Reset();
-                    oPdf.Transform.Rotate(360 - ooBject.RotationAngle.Value, OPosX + (OWidth / 2), oPdf.MediaBox.Height - OPosY);
+                    oPdf.Transform.Rotate(360 - ooBject.RotationAngle.Value, OPosX + (OWidth / 2), oPdf.MediaBox.Height - OPosY+ (OHeight/2));
                 }
                 List<objTextStyles> styles = new List<objTextStyles>();
                 if (ooBject.textStyles != null)
@@ -549,17 +549,7 @@ namespace MPC.Implementation.WebStoreServices
 
                 if (bFileExists)
                 {
-                    img = new Bitmap(System.Drawing.Image.FromFile(FilePath, true));
-
-                    if (oObject.Opacity != null)
-                    {
-                        // float opacity =float.Parse( oObject.Tint.ToString()) /100;
-                        if (oObject.Opacity != 1)
-                        {
-                            img = DesignerUtils.ChangeOpacity(img, float.Parse(oObject.Opacity.ToString()));
-                        }
-                    }
-                    oImg.SetData(DesignerSvgParser.ImageToByteArraybyImageConverter(img));
+                   
                     //  oImg.SetFile(FilePath);
 
                     var posY = oObject.PositionY + oObject.MaxHeight;
@@ -581,10 +571,29 @@ namespace MPC.Implementation.WebStoreServices
 
 
                     }
+                    if (oObject.Opacity != null && oObject.Opacity != 1)
+                    {
+                        img = new Bitmap(System.Drawing.Image.FromFile(FilePath, true));
 
+                        if (oObject.Opacity != null)
+                        {
+                            // float opacity =float.Parse( oObject.Tint.ToString()) /100;
+                            if (oObject.Opacity != 1)
+                            {
+                                img = DesignerUtils.ChangeOpacity(img, float.Parse(oObject.Opacity.ToString()));
+                            }
+                        }
+                        oImg.SetData(DesignerSvgParser.ImageToByteArraybyImageConverter(img));
+                        int id = oPdf.AddImageObject(oImg, true);
+                    } else
+                    {
+                       // XImage oImgx = new XImage();
+                        oImg.SetFile(FilePath);
+                        oPdf.AddImageObject(oImg, true);
+                    }
                     //oPdf.FrameRect();
 
-                    int id = oPdf.AddImageObject(oImg, true);
+                 
                     //if (oObject.Tint != null)
                     //{
                     //    ImageLayer im = (ImageLayer)oPdf.ObjectSoup[id];
@@ -642,15 +651,7 @@ namespace MPC.Implementation.WebStoreServices
                 //}
                 if (bFileExists)
                 {
-                    img = new Bitmap(System.Drawing.Image.FromFile(FilePath, true));
-                    if (oObject.Opacity != null)
-                    {
-                        if (oObject.Opacity != 1)
-                        {
-                            img = DesignerUtils.ChangeOpacity(img, float.Parse(oObject.Opacity.ToString()));
-                        }
-                    }
-                    oImg.SetData(DesignerSvgParser.ImageToByteArraybyImageConverter(img));
+                    
 
                     var posY = oObject.PositionY + oObject.MaxHeight;
                     oPdf.Rect.Position(oObject.PositionX.Value, posY.Value);
@@ -679,7 +680,24 @@ namespace MPC.Implementation.WebStoreServices
                         oImg.Selection.Height = sheight;
                         oImg.Selection.Width = swidth;
                     }
-                    int id = oPdf.AddImageObject(oImg, true);
+                    if (oObject.Opacity != null && oObject.Opacity != 1)
+                    {
+                        img = new Bitmap(System.Drawing.Image.FromFile(FilePath, true));
+                        if (oObject.Opacity != null)
+                        {
+                            if (oObject.Opacity != 1)
+                            {
+                                img = DesignerUtils.ChangeOpacity(img, float.Parse(oObject.Opacity.ToString()));
+                            }
+                        }
+                        oImg.SetData(DesignerSvgParser.ImageToByteArraybyImageConverter(img));
+                        int id = oPdf.AddImageObject(oImg, true);
+                    }
+                    else
+                    {
+                        oPdf.AddImageFile(FilePath);
+                    }
+                    
                     oPdf.Transform.Reset();
                 }
 

@@ -82,7 +82,19 @@ namespace MPC.Models.Common
         public List<ProductCategory> ProductCategory { get; set; }
 
         public List<Item> Items { get; set; }
+        public List<ItemAttachment> ItemAttachment { get; set; }
         public List<ItemSection> ItemSection { get; set; }
+        public Template ItemTemplate { get; set; }
+
+        public List<TemplatePage> TemplatePages { get; set; }
+        public List<TemplateObject> TemplateObjects { get; set; }
+        public List<TemplateFont> TemplateFonts { get; set; }
+
+        public List<TemplateColorStyle> TemplateColorStyle { get; set; }
+
+        public List<TemplateBackgroundImage> TemplateBackgroundImage { get; set; }
+
+        public List<ImagePermission> ImagePermission { get; set; }
         public List<SectionCostcentre> SectionCostcentre { get; set; }
         public List<SectionCostCentreResource> SectionCostCentreResource { get; set; }
 
@@ -129,6 +141,18 @@ namespace MPC.Models.Common
         public List<SectionCostcentre> RetailSectionCostcentre { get; set; }
         public List<SectionCostCentreResource> RetailSectionCostCentreResource { get; set; }
 
+        public List<ItemAttachment> RetailItemAttachment { get; set; }
+        public Template RetailItemTemplate { get; set; }
+
+        public List<TemplatePage> RetailTemplatePages { get; set; }
+        public List<TemplateObject> RetailTemplateObjects { get; set; }
+        public List<TemplateFont> RetailTemplateFonts { get; set; }
+
+        public List<TemplateColorStyle> RetailTemplateColorStyle { get; set; }
+
+        public List<TemplateBackgroundImage> RetailTemplateBackgroundImage { get; set; }
+
+        public List<ImagePermission> RetailImagePermission { get; set; }
         public List<PaymentGateway> RetailPaymentGateways { get; set; }
 
         public List<CmsSkinPageWidget> RetailCmsSkinPageWidget { get; set; }
