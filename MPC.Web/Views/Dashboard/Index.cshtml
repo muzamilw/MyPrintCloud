@@ -104,7 +104,7 @@
         </div>
         <div>
             <span class="help-details" style="font-size:12px;">Once you have had a look around join a webinar or start with the self help guides to get started.</span>
-            <div class="account-anchors" style="font-size:12px;"><br /><a style="font-weight:bold;">View your live store</a><a style="font-weight:bold;">Configure your store theme</a><a style="font-weight:bold;">Add products to your store</a><a style="font-weight:bold;">Setup your company details</a><a style="font-weight:bold;">Upgrade your subscription</a></div>
+            <div class="account-anchors" style="font-size:12px;"><br /><a style="font-weight:bold;">View your live store</a><a style="font-weight:bold;">Configure your store theme</a><a style="font-weight:bold;">Add products to your store</a><a style="font-weight:bold;">Setup your company details</a><a style="font-weight:bold;" href="https://myprintcloud.com/dashboard">Upgrade your subscription</a></div>
         </div>
     </div>
     <div class="help-description" style="border:none !important;background-color:#F5F6F6; padding-bottom:44px;">
@@ -122,7 +122,7 @@
 
 </div>
 
-<div class="disabled-div">
+<div class="disabled-div" style="display:none">
 </div>
 <div>
     <div class="row" id="dashboardBindingRoot" style="z-index:0;">
@@ -978,18 +978,32 @@
     </script>
     <script>
     
-    $(document).ready(function()
-    {
-      
-
-        $("#myprintcloud-help").animate({ "top": "-=250" }, 200).delay(500);
-        $("#myprintcloud-help").animate({ "top": "+=370" }, 200);
-        $(window).resize(function () 
+   
+       
+        function openTourInit()
         {
 
-            document.getElementById("myprintcloud-help").style.left = "41%";
+            var tourcookie = readCookie("tourviewed");
+            //
+            if (tourcookie != "1") {
+                createCookie("tourviewed", "1", 10);
 
-        });
+                $("#myprintcloud-help").css("top", "-250");
+                $("#myprintcloud-help").css("display", "block");
+                $(".disabled-div").css("display", "block");
+                $("#myprintcloud-help").animate({ "top": "370" }, 500, 'linear');
+
+
+                $(window).resize(function () {
+
+
+                    document.getElementById("myprintcloud-help").style.left = "41%";
+
+                });
+            }
+        }
+
+
         $("#btnCloseHelp").click(function () 
         {
            
@@ -1002,32 +1016,47 @@
 
         });
 
-        $("#myprintcloud-help").css("display", "block");
-
-
         
 
-    });
-
-
-
     function openTour() {
-        $("#myprintcloud-help").show();
+        $("#myprintcloud-help").css("top", "-250");
+        $("#myprintcloud-help").css("display", "block");
         $(".disabled-div").css("display", "block");
+        $("#myprintcloud-help").animate({ "top": "370" }, 500, 'linear');
 
         $('body').css('overflow', 'hidden');
 
     }
  
-  
-       
-    
-    </script>
+    function createCookie(name, value, days) {
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            var expires = "; expires=" + date.toGMTString();
+        }
+        else var expires = "";
+        document.cookie = name + "=" + value + expires + "; path=/";
+    }
 
-    <script>
+    function readCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    function eraseCookie(name) {
+        createCookie(name, "", -1);
+    }
+  
+
         $(document).ready(function ()
         {
-            
+           
           
             var i = 0;
             var proceeding =
@@ -1099,7 +1128,7 @@
                     top = top + 30;
                     left = left - 70;
                    
-                    $("#myprintcloud-help").animate({ "top": "+="  + top, "left": "+="+left }, 100);
+                    $("#myprintcloud-help").animate({ "top": "+="  + top, "left": "+="+left }, 500);
                     $(".highlight-div").css("visibility","visible");
                     $(".highlight-div").css("width", "160px");
                     $(".highlight-div").css("height","80px");
@@ -1129,7 +1158,7 @@
                    
                     left = left - 205;
 
-                    $("#myprintcloud-help").animate({ "top": "+=" + top, "left": "+=" + left }, 100);
+                    $("#myprintcloud-help").animate({ "top": "+=" + top, "left": "+=" + left }, 500);
                     $(".highlight-div").css("visibility", "visible");
                     $(".highlight-div").css("width", "160px");
                     $(".highlight-div").css("height", "80px");
@@ -1162,7 +1191,7 @@
                     top = top + 100;
                 
 
-                    $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 100);
+                    $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 500);
                     $(".highlight-div").css("visibility", "visible");
                     $(".highlight-div").css("width", "240px");
                     $(".highlight-div").css("height", "30px");
@@ -1191,7 +1220,7 @@
                     
                     top = top - 350;
 
-                    $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 100);
+                    $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 500);
 
                     $(".highlight-div").css("height","30px");
                   
@@ -1214,7 +1243,7 @@
                     left = left + 180;
 
 
-                    $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 100);
+                    $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 500);
                     $(".highlight-div").css("visibility", "visible");
                     $(".highlight-div").css("width","350px");
                     $(".highlight-div").css("height","45px");
@@ -1240,7 +1269,7 @@
                 {
 
 
-                    $("#myprintcloud-help").animate({ "top": "+=45%", "left": "-=35%" }, 100);
+                    $("#myprintcloud-help").animate({ "top": "+=45%", "left": "-=35%" }, 500);
                     $(".highlight-div").css("visibility", "hidden");
 
                     $(".help-header-title").html(proceeding[6]);
@@ -1259,6 +1288,7 @@
               
                
             });
+
             $("#btnPreviousHelp").click(function ()
             {
 
@@ -1278,7 +1308,7 @@
               
                 top = parseInt(positiontophelp) - parseInt(lastTop.pop());
                 left = parseInt(positionlefthelp) - parseInt(lastLeft.pop());
-                $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 100);
+                $("#myprintcloud-help").animate({ "top": "-=" + top, "left": "-=" + left }, 500);
 
                 if (i == 1)
                 {
