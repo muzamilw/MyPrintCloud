@@ -163,7 +163,7 @@ namespace MPC.Webstore.Controllers
             else
             {
                 PaymentGateway oGateWay = null;
-                if (StoreBaseResopnse.Company.isBrokerCanAcceptPaymentOnline == true)
+                if (StoreBaseResopnse.Company.isAcceptPaymentOnline == true)
                 {
                     oGateWay = _PaymentGatewayService.GetPaymentGatewayRecord(StoreBaseResopnse.Company.CompanyId);
                 }
