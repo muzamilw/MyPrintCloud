@@ -6635,3 +6635,23 @@ font-size: 18px;
     font-size: 12px;
     font-weight: bold;
 }
+.smartFormHeading 
+{
+    text-align: center;
+    margin-bottom:10px;
+}
+.smartFormHeading p {
+    font-family: 'Helvetica';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 134.16666666666669%;
+    color: auto;
+}
+.smartFormLineSeperator {
+height: 1px;
+background: #FFFFFF;
+border-bottom: 1px solid #FFFFFF;
+opacity: 0.4;
+margin-top: 5px;
+margin-bottom: 5px;
+}

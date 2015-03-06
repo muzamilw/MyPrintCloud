@@ -3721,6 +3721,25 @@ function pcl40(xdata) {
         cursor: 'move'
     });
 }
-function pcl41() {
-    alert(item.SmartFormId);
+function pcl41(xdata) {
+
+    smartFormData = xdata;
+    console.log(smartFormData);
+   // $("#SmartFormContainer").html("");
+    
+}
+function pcl40_addDropDown() {
+
+}
+function pcl40_addTxtControl(title, varId, placeHolder, Value, IsRequired, InputMask) {
+    var html = '<div class="QtextData"><label class="lblQData" id="lblQName">' + title + '</label><br>' +
+        '<textarea id="txtSmart' + varId + '" maxlength="500" class="qTextInput" style="" placeholder="' + placeHolder + '">' + Value + '</textarea></div>';
+    return html;
+}
+function pcl40_addCaption(caption) {
+    var html = '<div class="smartFormHeading"><p class="ThemeColor">' + caption + '</p></div>';
+    return html;
+}
+function pcl40_addLineSeperator() {
+    return ' <div class="smartFormLineSeperator"></div>';
 }

@@ -203,7 +203,8 @@ namespace MPC.Repository.Repositories
             db.Configuration.ProxyCreationEnabled = false;
 
             SmartForm smartFormObj =  db.SmartForms.Where(g => g.SmartFormId == smartFormId).SingleOrDefault();
-            smartFormObj.SmartFormDetails = null;
+            if(smartFormObj != null)
+             smartFormObj.SmartFormDetails = null;
             return smartFormObj;
         }
 
@@ -221,14 +222,14 @@ namespace MPC.Repository.Repositories
         {
             List<ScopeVariable> result = new List<ScopeVariable>();
             hasContactVariables = false;
-
+            var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
             foreach(SmartFormDetail obj in smartFormDetails)
             {
                 if(obj.ObjectType == (int)SmartFormDetailFieldType.VariableField)
                 {
                     if(obj.FieldVariable.IsSystem == true)
                     {
-                        var contact = db.CompanyContacts.Where(g=>g.ContactId == contactId).SingleOrDefault();
+                        
                         var fieldValue = "";
                         if (contact != null)
                         {
@@ -359,15 +360,15 @@ namespace MPC.Repository.Repositories
                                     //childType = "conAgent";
                                     //listingConAgentCount++;
                                     break;
-                                case "tbl_contacts":
+                                case "CompanyContact":
                                     hasContactVariables = true;
                                     fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, contactId);
                                     break;
-                                case "tbl_contactcompanies":
+                                case "Company":
                                     //   keyValue = SessionParameters.ContactCompany.ContactCompanyID;
                                     fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, contact.CompanyId);
                                     break;
-                                case "tbl_addresses":
+                                case "Address":
                                     //  keyValue = SessionParameters.CustomerContact.AddressID;
                                     fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, contact.AddressId);
                                     break;
@@ -418,7 +419,7 @@ namespace MPC.Repository.Repositories
                             }
                             else if (scope == (int)FieldVariableScopeType.Territory)
                             {
-                                var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
+                               // var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
                                 if (contact != null)
                                 {
                                     var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contact.TerritoryId).SingleOrDefault();

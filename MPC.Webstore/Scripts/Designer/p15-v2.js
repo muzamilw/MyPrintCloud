@@ -119,7 +119,14 @@ function fu04() {
           function (result) {
               item = result;
               if (item.SmartFormId != null) {
-                  pcl41();
+                  if (item.SmartFormId != 0)
+                  {
+                      $.getJSON("/designerapi/SmartForm/GetSmartFormData/" + ContactID + "/" + item.SmartFormId,
+                        function (DT) {
+                            pcl41(DT);
+                        });
+                  }
+                  
               } else {
                   $(".QuickTxt").css("visibility", "hidden");
               }
