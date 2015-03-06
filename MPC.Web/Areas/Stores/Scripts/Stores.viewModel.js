@@ -15,6 +15,8 @@ define("stores/stores.viewModel",
                     selectedCurrentPageId = ko.observable(),
                     selectedCurrentPageCopy = ko.observable(),
                     ckEditorOpenFrom = ko.observable("Campaign"),
+                    storeStatus = ko.observable(),
+                    productStatus = ko.observable(),
                     //Active Widget (use for dynamic controll)
                     selectedWidget = ko.observable(),
                     // Error List
@@ -82,7 +84,7 @@ define("stores/stores.viewModel",
                     companyBanners = ko.observableArray([]),
                     //Cms Pages For Store Layout DropDown
                     cmsPagesForStoreLayout = ko.observableArray([]),
-                     //Cms Pages for basedata
+                    //Cms Pages for basedata
                     cmsPagesBaseData = ko.observableArray([]),
                     //Roles
                     roles = ko.observableArray([]),
@@ -134,7 +136,7 @@ define("stores/stores.viewModel",
                     //#region _________C O M P A N Y   D O M A I N___________________
 
                     //Template To Use
-                    templateToUse = function (store) {
+                    templateToUse = function(store) {
                         return (store === selectedStore() ? 'itemStoreTemplate' : 'itemStoreTemplate');
                     },
                     //app = sammy(function () {
@@ -146,13 +148,13 @@ define("stores/stores.viewModel",
                     //}),
 
                     // Select Company Domain
-                    selectCompanyDomain = function (companyDomain) {
+                    selectCompanyDomain = function(companyDomain) {
                         if (selectedCompanyDomainItem() !== companyDomain) {
                             selectedCompanyDomainItem(companyDomain);
                         }
                     },
                     // Template Chooser
-                    templateToUseCompanyDomain = function (companyDomain) {
+                    templateToUseCompanyDomain = function(companyDomain) {
 
                         if (selectedStore().companyDomains().length > 0 && selectedStore().companyDomains()[selectedStore().companyDomains().length - 1] == companyDomain) {
                             return 'itemCompanyDomainTemplate';
@@ -160,20 +162,20 @@ define("stores/stores.viewModel",
                         return (companyDomain === selectedCompanyDomainItem() ? 'editCompanyDomainTemplate' : 'itemCompanyDomainTemplate');
                     },
                     //Delete Company Domain
-                    onDeleteCompanyDomainItem = function (companyDomain) {
+                    onDeleteCompanyDomainItem = function(companyDomain) {
                         if (selectedStore().companyDomains().length > 0 && selectedStore().companyDomains()[selectedStore().companyDomains().length - 1] == companyDomain) {
                             toastr.error("Default Company Domain cannot be deleted");
                             return;
                         }
                         // Ask for confirmation
-                        confirmation.afterProceed(function () {
+                        confirmation.afterProceed(function() {
                             selectedStore().companyDomains.remove(companyDomain);
                         });
                         confirmation.show();
 
                     },
                     //Create New Company Domain
-                    createCompanyDomainItem = function () {
+                    createCompanyDomainItem = function() {
 
                         //if (selectedStore().companyDomains().length > 0) {
                         var companyDomain = new model.CompanyDomain();
@@ -189,7 +191,7 @@ define("stores/stores.viewModel",
 
                     },
                     //Function to maintain check that first company domain is correct as Web Access Code
-                    maintainCompanyDomain = ko.computed(function () {
+                    maintainCompanyDomain = ko.computed(function() {
                         if (selectedStore() && selectedStore().webAccessCode() != undefined) {
                             if (selectedStore().companyDomains().length == 0) {
                                 selectedStore().companyDomains.splice(0, 0, new model.CompanyDomain());
@@ -198,7 +200,7 @@ define("stores/stores.viewModel",
 
                             } else if (selectedStore().companyDomains().length > 0) {
                                 if (!checkCompanyDomainDuplicates(selectedStore().webAccessCode())) {
-                                    _.each(selectedStore().companyDomains(), function (companyDomain) {
+                                    _.each(selectedStore().companyDomains(), function(companyDomain) {
                                         if (companyDomain.isMandatoryDomain()) {
                                             companyDomain.domain(window.location.host + '/store/' + selectedStore().webAccessCode());
                                             selectedStore().defaultCompanyDomainCopy().domain(window.location.host + '/store/' + selectedStore().webAccessCode());
@@ -211,7 +213,7 @@ define("stores/stores.viewModel",
                                 }
                                 if (selectedStore().companyDomains() != undefined && selectedCompanyDomainItem() != undefined &&
                                     selectedCompanyDomainItem() != selectedStore().companyDomains()[selectedStore().companyDomains().length - 1]) {
-                                    _.each(selectedStore().companyDomains(), function (companyDomainItem) {
+                                    _.each(selectedStore().companyDomains(), function(companyDomainItem) {
                                         if (selectedCompanyDomainItem().domain() === companyDomainItem.domain() && selectedCompanyDomainItem() != companyDomainItem) {
                                             selectedCompanyDomainItem().domain(undefined);
                                             toastr.error('Company Domain cannot be duplicated');
@@ -221,9 +223,9 @@ define("stores/stores.viewModel",
                             }
                         }
                     }),
-                    checkCompanyDomainDuplicates = function (domain) {
+                    checkCompanyDomainDuplicates = function(domain) {
                         var matchFound = false;
-                        _.each(selectedStore().companyDomains(), function (domainItem) {
+                        _.each(selectedStore().companyDomains(), function(domainItem) {
                             var tempDomainName = window.location.host + '/store/' + domain;
                             if (domainItem.domain() == tempDomainName) {
                                 matchFound = true;
@@ -233,7 +235,32 @@ define("stores/stores.viewModel",
                         return matchFound;
                     },
                     //#endregion
+                    storeHeading = ko.computed(function () {
+                        if (ist.product.viewModel.selectedProduct() == undefined) {
+                            productStatus('');
+                            if (selectedStore() != null && selectedStore().companyId() > 0) {
+                                storeStatus("Modify Store Details");
+                            } else {
+                                storeStatus("Store Details");
+                            }
+                            var value1 = selectedStore().name() != '' && selectedStore().name() != undefined ? selectedStore().name() : '';
+                            var value2 = selectedStore().webAccessCode() != '' && selectedStore().webAccessCode() != undefined ? '-' + selectedStore().webAccessCode() : '';
+                            return value1 + value2;
+                        }
+                        else {
+                            var storename = selectedStore().name() != '' && selectedStore().name() != undefined ? selectedStore().name() : '';
+                            storeStatus(storename);
+                            if (ist.product.viewModel.selectedProduct().id() > 0) {
+                                productStatus("Modify Product Details");
+                            } else {
+                                productStatus("Product Details");
+                            }
 
+                            var val1 = ist.product.viewModel.selectedProduct().productName() != '' && ist.product.viewModel.selectedProduct().productName() != undefined ? ist.product.viewModel.selectedProduct().productName() : '';
+                            var val2 = ist.product.viewModel.selectedProduct().productCode() != '' && ist.product.viewModel.selectedProduct().productCode() != undefined ? '-' + ist.product.viewModel.selectedProduct().productCode() : '';
+                            return val1 + val2;
+                        }
+                    }),
                     //#region _________S T O R E ____________________________________
 
                     //getItemsForWidgets
@@ -2528,10 +2555,16 @@ define("stores/stores.viewModel",
                 },
                 //Selected Product Category
                 selectedProductCategory = ko.observable(),
-                    // Ttile while add/edit category
-                    productCategoryTitle = ko.observable(),
-                //Selected Product Category For Editting
+                 //Selected Product Category For Editting
                 selectedProductCategoryForEditting = ko.observable(),
+                 // Ttile while add/edit category
+                 productCategoryTitle = ko.computed(function () {
+                     if (selectedProductCategoryForEditting() != undefined) {
+                         var val = selectedProductCategoryForEditting().categoryName() != '' && selectedProductCategoryForEditting().categoryName() != undefined ? selectedProductCategoryForEditting().categoryName() : '';
+                        return  productCategoryStatus() + ' ' + val;
+                     }
+                 }),
+                 productCategoryStatus = ko.observable(''),
                 //Deleted Product Categories List
                 deletedProductCategories = ko.observableArray([]),
                 //Editted Product Categories List
@@ -2602,7 +2635,7 @@ define("stores/stores.viewModel",
                     productCategory.isPublished(true);
                     //Setting Product Category Editting
                     selectedProductCategoryForEditting(productCategory);
-                        productCategoryTitle("New Category");
+                    productCategoryStatus("Category Details");
                       
                     //Setting drop down list of parent
                     //putting all list of categories
@@ -2686,7 +2719,7 @@ define("stores/stores.viewModel",
                                 if (data != null) {
                                     selectedProductCategoryForEditting(model.ProductCategory.Create(data));
                                     updateParentCategoryList(selectedProductCategoryForEditting().productCategoryId());
-                                        productCategoryTitle("Modify Category Settings");
+                                    productCategoryStatus("Modify Category Details");
                                     isSavingNewProductCategory(false);
                                     view.showStoreProductCategoryDialog();
                                 }
@@ -3297,6 +3330,7 @@ define("stores/stores.viewModel",
                 },
                 //Open Store Dialog
                 openEditDialog = function () {
+                    storeStatus("Modify Stores");
                     isEditorVisible(true);
                     getStoreForEditting();
                     view.initializeForm();
@@ -3643,6 +3677,7 @@ define("stores/stores.viewModel",
                     selectedSecondaryPage().fileName(file.name);
                 },
                 resetObservableArrays = function () {
+                    storeStatus("Stores Details");
                     isUserAndAddressesTabOpened(false);
                     companyTerritoryCounter = -1,
                     selectedStore().addresses.removeAll();
@@ -5107,6 +5142,9 @@ define("stores/stores.viewModel",
                     storeWorkflowImageLoadedCallback: storeWorkflowImageLoadedCallback,
                     selectedTheme: selectedTheme,
                     onApplyTheme: onApplyTheme,
+                    storeStatus: storeStatus,
+                    storeHeading: storeHeading,
+                    productStatus: productStatus,
                 };
                 //#endregion
             })()
