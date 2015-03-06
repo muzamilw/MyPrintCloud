@@ -1267,6 +1267,17 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
+        public List<CmsSkinPageWidget> GetStoreWidgets(long CompanyId)
+        {
+            try
+            {
+                return _widgetRepository.GetDomainWidgetsById2(CompanyId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 
 

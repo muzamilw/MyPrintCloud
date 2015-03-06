@@ -59,13 +59,12 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? isDisplaySiteFooter { get; set; }
         public string RedirectWebstoreURL { get; set; }
         public int? defaultPalleteId { get; set; }
-        public bool? isDisplaylBrokerBanners { get; set; }
-        public bool? isBrokerCanLaminate { get; set; }
-        public bool? isBrokerCanRoundCorner { get; set; }
+        public bool? isCanLaminate { get; set; }
+        public bool? isCanRoundCorner { get; set; }
         public bool? isBrokerCanDeliverSameDay { get; set; }
-        public bool? isBrokerCanAcceptPaymentOnline { get; set; }
-        public bool? isBrokerOrderApprovalRequired { get; set; }
-        public string isBrokerPaymentRequired { get; set; }
+        public bool? isCanAcceptPaymentOnline { get; set; }
+        public bool? isOrderApprovalRequired { get; set; }
+        public string isPaymentRequired { get; set; }
         public bool? isWhiteLabel { get; set; }
         public string TwitterURL { get; set; }
         public string FacebookURL { get; set; }
@@ -77,7 +76,6 @@ namespace MPC.MIS.Areas.Api.Models
         public string WatermarkText { get; set; }
         public int? CoreCustomerId { get; set; }
         public string StoreBackgroundImage { get; set; }
-        public bool? isDisplayBrokerSecondaryPages { get; set; }
         public int? PriceFlagId { get; set; }
         public string isIncludeVAT { get; set; }
         public bool? isAllowRegistrationFromWeb { get; set; }
@@ -95,10 +93,10 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? canUserPlaceOrderWithoutApproval { get; set; }
         public bool? CanUserEditProfile { get; set; }
         public long? OrganisationId { get; set; }
-        public bool? includeEmailBrokerArtworkOrderReport { get; set; }
-        public bool? includeEmailBrokerArtworkOrderXML { get; set; }
-        public bool? includeEmailBrokerArtworkOrderJobCard { get; set; }
-        public bool? makeEmailBrokerArtworkOrderProductionReady { get; set; }
+        public bool? includeEmailArtworkOrderReport { get; set; }
+        public bool? includeEmailArtworkOrderXML { get; set; }
+        public bool? includeEmailArtworkOrderJobCard { get; set; }
+        public bool? makeEmailArtworkOrderProductionReady { get; set; }
         public Guid? SalesAndOrderManagerId1 { get; set; }
         public Guid? SalesAndOrderManagerId2 { get; set; }
         public Guid? ProductionManagerId1 { get; set; }
@@ -333,13 +331,32 @@ namespace MPC.MIS.Areas.Api.Models
         public string CompanyLogoName { get; set; }
         #endregion
 
-        #region Stack Overflow Image
+        #region Store Overflow Image
 
         // client to server
         public string StoreWorkflowImageBytes { get; set; }
 
         // client to server
         public string StoreWorkflowImageName { get; set; }
+
+        public byte[] WorkflowS2CBytes { get; set; }
+
+        /// <summary>
+        /// Store Backgroud Image Source
+        /// </summary>
+        public string WorkflowS2CBytesConverter
+        {
+            get
+            {
+                if (WorkflowS2CBytes == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(WorkflowS2CBytes);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
 
         #endregion
         #endregion

@@ -587,7 +587,9 @@ namespace MPC.Implementation.WebStoreServices
                         int id = oPdf.AddImageObject(oImg, true);
                     } else
                     {
-                        oPdf.AddImageFile(FilePath);
+                       // XImage oImgx = new XImage();
+                        oImg.SetFile(FilePath);
+                        oPdf.AddImageObject(oImg, true);
                     }
                     //oPdf.FrameRect();
 
