@@ -49,5 +49,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// Items/ Products
         /// </summary>
         public ItemSearchResponse Items { get; set; }
+
+        public IEnumerable<SkinForTheme> Themes { get; set; }
     }
 }

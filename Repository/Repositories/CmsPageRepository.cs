@@ -41,11 +41,11 @@ namespace MPC.Repository.Repositories
             {
                 return db.CmsPages.Where(p => (p.CompanyId == CompanyId || p.CompanyId == null) && p.isEnabled == true).ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
-           
+
 
         }
 
@@ -65,7 +65,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-       
+
         }
         /// <summary>
         /// Get CMS Pages
@@ -92,7 +92,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-         
+
         }
         /// <summary>
         /// Get System pages and User defined secondary pages by company id
@@ -105,7 +105,7 @@ namespace MPC.Repository.Repositories
             try
             {
                 var query = from page in db.CmsPages
-                         where (page.CompanyId == CompanyId) && page.isEnabled == true
+                            where (page.CompanyId == CompanyId) && page.isEnabled == true
                             select new CmsPageModel
                             {
                                 PageId = page.PageId,
@@ -133,7 +133,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-         
+
 
         }
 
@@ -143,12 +143,20 @@ namespace MPC.Repository.Repositories
             {
                 return db.CmsPages.Where(p => p.PageId == PageID).FirstOrDefault();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
-          
-           
+
+
+        }
+
+        /// <summary>
+        /// Get Cms Pages By Company Id
+        /// </summary>
+        public List<CmsPage> GetCmsPagesByCompanyId(long companyId)
+        {
+            return DbSet.Where(cp => cp.CompanyId == companyId).ToList();
         }
     }
 }

@@ -12,10 +12,11 @@
                     <ol class="breadcrumb">
                         <li><a href="~/Dashboard/Index" class="my-navigator">Home</a></li>
                         <li><a href="~/Stores/Stores/Index" class="my-navigator">Stores</a></li>
-                        <li class="active"><span>Store Detail</span></li>
+                        <li class="active"><span data-bind="text:$root.storeStatus"></span></li>
+                        <li class="active"><span data-bind="text:$root.productStatus"></span></li>
                     </ol>
                     <div class="tab-content dynamicNameHeading" data-bind="with: $root.selectedStore()">
-                        <h1 data-bind="text: name()"></h1>
+                        <h1 data-bind="text:$root.storeHeading()!='undefined-undefined' ?$root.storeHeading():'' "></h1>
                     </div>
                 </div>
             </div>
@@ -56,7 +57,7 @@
                                 <li><a href="#tab-mailseries" data-toggle="tab">Emails</a></li>
                                 <li><a href="#tab-approvalPolicies" data-toggle="tab">Store Workflow</a></li>
                                 <li><a href="#tab-pageeditor" data-toggle="tab">Store Layout</a></li>
-                                <li><a href="#tab-DelvAddOns" data-toggle="tab">Delivery Add Ons</a></li>
+                                <li><a href="#tab-DelvAddOns" data-toggle="tab" data-bind="click: $root.userAndAddressesTabSelected">Delivery Add Ons</a></li>
                                 <li><a href="#tab-specialoffer" data-toggle="tab">Discount Policies</a></li>
                                 <li><a href="#tab-loyaltyPoints" data-toggle="tab">Loyalty Points</a></li>
                                 <li><a href="#tab-CMYKColors" data-toggle="tab">CMYK Colors</a></li>
@@ -764,7 +765,7 @@
                                                     <select class="form-control" data-bind="options: $root.themes, optionsText: 'Name', optionsValue: 'SkinId',value:$root.selectedTheme"></select>
                                                 </div>
                                                 <div class="col-lg-3">
-                                                    <div class="btn btn-primary" data-bind="click:$root.onApplyTheme">Apply</div>
+                                                    <div class="btn btn-primary" data-bind="click:$root.onApplyTheme,visible:$root.selectedStore().companyId()!==undefined">Apply</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1774,7 +1775,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 </div>
                                                 <div class="filter-block pull-right col-xs-5" data-bind="click:$root.onAddVariableDefination">
                                                     <a class="btn btn-primary pull-right">
-                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add 
+                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
                                                     </a>
                                                 </div>
                                             </div>
@@ -1944,7 +1945,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 <td data-bind="text: territoryCode"></td>
                 <td>
                     <div class="type">
-                        <span class="label" data-bind="text: isDefault() == true ? 'Yes' : 'No' , css: { 'label-success': (isDefault() == true),'label-danger': (isDefault() != true)}"></span> 
+                        <span class="label" data-bind="text: isDefault() == true ? 'Yes' : 'No' , css: { 'label-success': (isDefault() == true),'label-danger': (isDefault() != true)}"></span>
                     </div>
                 </td>
                 <td id="actionColumn" class="text-right">
