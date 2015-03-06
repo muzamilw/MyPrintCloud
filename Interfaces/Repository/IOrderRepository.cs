@@ -18,7 +18,7 @@ namespace MPC.Interfaces.Repository
         string GetAttachmentFileName(string ProductCode, string OrderCode, string ItemCode, string SideCode, string VirtualFolderPath, string extension, DateTime OrderCreationDate);
         string GetTemplateAttachmentFileName(string ProductCode, string OrderCode, string ItemCode, string SideCode, string VirtualFolderPath, string extension, DateTime CreationDate);
         bool RollBackDiscountedItemsWithdbContext(List<Item> clonedItems, double StateTax);
-        int GetFirstItemIDByOrderId(int orderId);
+        int GetFirstItemIDByOrderId(long orderId);
 
         long CreateNewOrder(long CompanyId, long ContactId, long OrganisationId, string orderTitle = null);
 

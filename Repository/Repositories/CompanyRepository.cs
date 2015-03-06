@@ -249,6 +249,12 @@ namespace MPC.Repository.Repositories
                 List<SectionCostcentre> SectionCostCentre = new List<SectionCostcentre>();
                 List<SectionCostCentreResource> SectionCostCentreResources = new List<SectionCostCentreResource>();
                 List<ItemAttachment> ItemAttachments = new List<ItemAttachment>();
+                List<TemplatePage> TemplatePages = new List<TemplatePage>();
+                List<TemplateObject> TemplateObjects = new List<TemplateObject>();
+                List<TemplateFont> TemplateFonts = new List<TemplateFont>();
+                List<TemplateColorStyle> TemplateColorStyle = new List<TemplateColorStyle>();
+                List<TemplateBackgroundImage> TemplateBackGroundImages = new List<TemplateBackgroundImage>();
+                List<ImagePermission> ImagePermission = new List<ImagePermission>();
 
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
@@ -390,6 +396,71 @@ namespace MPC.Repository.Repositories
                                         }
                                     }
                                 }
+                                if(item.Template != null)
+                                {
+
+                                    ObjExportOrg.ItemTemplate = item.Template;
+
+                                    long TemplateID = item.Template.ProductId;
+
+                                    if (TemplateID > 0)
+                                    {
+                                        // template pages
+                                        List<TemplatePage> lstTemplatePage = db.TemplatePages.Where(t => t.ProductId == TemplateID).ToList();
+                                        if (lstTemplatePage != null && lstTemplatePage.Count > 0)
+                                        {
+                                            foreach(var tempPage in lstTemplatePage)
+                                            {
+                                                TemplatePages.Add(tempPage);
+                                            }
+                                           
+                                        }
+
+
+                                        // template objects
+                                        List<TemplateObject> lstTemplateObjects = db.TemplateObjects.Where(c => c.ProductId == TemplateID).ToList();
+                                        if (lstTemplateObjects != null && lstTemplateObjects.Count > 0)
+                                        {
+                                            foreach (var tempObjects in lstTemplateObjects)
+                                            {
+                                               TemplateObjects.Add(tempObjects);
+                                            }
+
+                                        }
+
+                                        // template fonts
+                                        List<TemplateFont> lstTemplateFont = db.TemplateFonts.Where(c => c.ProductId == TemplateID).ToList();
+                                        if (lstTemplateFont != null && lstTemplateFont.Count > 0)
+                                        {
+                                            foreach (var tempFonts in lstTemplateFont)
+                                            {
+                                                TemplateFonts.Add(tempFonts);
+                                            }
+
+                                        }
+                                       // template background images
+
+                                        List<TemplateBackgroundImage> lstTemplateBackgroundImages = db.TemplateBackgroundImages.Where(c => c.ProductId == TemplateID && c.ContactCompanyId == CompanyId).ToList();
+                                        if (lstTemplateBackgroundImages != null && lstTemplateBackgroundImages.Count > 0)
+                                        {
+                                            foreach (var tempBackImages in lstTemplateBackgroundImages)
+                                            {
+                                                TemplateBackGroundImages.Add(tempBackImages);
+                                                if(tempBackImages.ImagePermissions != null && tempBackImages.ImagePermissions.Count > 0)
+                                                {
+                                                    foreach (var img in tempBackImages.ImagePermissions)
+                                                    {
+                                                        ImagePermission.Add(img);
+                                                    }
+                                                }
+                                            }
+
+                                        }
+
+                                       
+                                    }
+
+                                }
 
                             }
                         }
@@ -397,6 +468,11 @@ namespace MPC.Repository.Repositories
                         ObjExportOrg.SectionCostcentre = SectionCostCentre;
                         ObjExportOrg.SectionCostCentreResource = SectionCostCentreResources;
                         ObjExportOrg.ItemAttachment = ItemAttachments;
+                        ObjExportOrg.TemplatePages = TemplatePages;
+                        ObjExportOrg.TemplateObjects = TemplateObjects;
+                        ObjExportOrg.TemplateFonts = TemplateFonts;
+                        ObjExportOrg.TemplateBackgroundImage = TemplateBackGroundImages;
+                        ObjExportOrg.ImagePermission = ImagePermission;
                     }
 
 
@@ -427,6 +503,32 @@ namespace MPC.Repository.Repositories
                // company cmyk colors
                 ObjExportOrg.CompanyCMYKColor = db.CompanyCmykColors.Where(c => c.CompanyId == CompanyId).ToList();
 
+                // company cost centres
+                ObjExportOrg.CompanyCostCentre = db.CompanyCostCentres.Where(c => c.CompanyId == CompanyId).ToList();
+
+                // template color style
+                List<TemplateColorStyle> lstTemplateColorStyle = db.TemplateColorStyles.Where(c => c.CustomerId == CompanyId).ToList();
+                if (lstTemplateColorStyle != null && lstTemplateColorStyle.Count > 0)
+                {
+                    foreach (var tempStyle in lstTemplateColorStyle)
+                    {
+                        TemplateColorStyle.Add(tempStyle);
+                    }
+
+                }
+
+                ObjExportOrg.TemplateColorStyle = TemplateColorStyle;
+
+                ItemSections = null;
+                SectionCostCentre = null;
+                SectionCostCentreResources = null;
+                ItemAttachments = null;
+                TemplatePages = null;
+                TemplateObjects = null;
+                TemplateFonts = null;
+                TemplateColorStyle = null;
+                TemplateBackGroundImages = null;
+                ImagePermission = null;
 
                 return ObjExportOrg;
 
@@ -446,6 +548,13 @@ namespace MPC.Repository.Repositories
                 List<ItemSection> ItemSections = new List<ItemSection>();
                 List<SectionCostcentre> SectionCostCentre = new List<SectionCostcentre>();
                 List<SectionCostCentreResource> SectionCostCentreResources = new List<SectionCostCentreResource>();
+                List<ItemAttachment> ItemAttachments = new List<ItemAttachment>();
+                List<TemplatePage> TemplatePages = new List<TemplatePage>();
+                List<TemplateObject> TemplateObjects = new List<TemplateObject>();
+                List<TemplateFont> TemplateFonts = new List<TemplateFont>();
+                List<TemplateColorStyle> TemplateColorStyle = new List<TemplateColorStyle>();
+                List<TemplateBackgroundImage> TemplateBackGroundImages = new List<TemplateBackgroundImage>();
+                List<ImagePermission> ImagePermission = new List<ImagePermission>();
 
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
@@ -577,6 +686,81 @@ namespace MPC.Repository.Repositories
                                     }
                                 }
                             }
+                            if (item.ItemAttachments != null)
+                            {
+                                if (item.ItemAttachments.Count > 0)
+                                {
+                                    foreach (var itemAttach in item.ItemAttachments.Where(c => c.CompanyId == CompanyId))
+                                    {
+                                        ItemAttachments.Add(itemAttach);
+                                    }
+                                }
+                            }
+                            if (item.Template != null)
+                            {
+
+                                ObjExportOrg.ItemTemplate = item.Template;
+
+                                long TemplateID = item.Template.ProductId;
+
+                                if (TemplateID > 0)
+                                {
+                                    // template pages
+                                    List<TemplatePage> lstTemplatePage = db.TemplatePages.Where(t => t.ProductId == TemplateID).ToList();
+                                    if (lstTemplatePage != null && lstTemplatePage.Count > 0)
+                                    {
+                                        foreach (var tempPage in lstTemplatePage)
+                                        {
+                                            TemplatePages.Add(tempPage);
+                                        }
+
+                                    }
+
+
+                                    // template objects
+                                    List<TemplateObject> lstTemplateObjects = db.TemplateObjects.Where(c => c.ProductId == TemplateID).ToList();
+                                    if (lstTemplateObjects != null && lstTemplateObjects.Count > 0)
+                                    {
+                                        foreach (var tempObjects in lstTemplateObjects)
+                                        {
+                                            TemplateObjects.Add(tempObjects);
+                                        }
+
+                                    }
+
+                                    // template fonts
+                                    List<TemplateFont> lstTemplateFont = db.TemplateFonts.Where(c => c.ProductId == TemplateID).ToList();
+                                    if (lstTemplateFont != null && lstTemplateFont.Count > 0)
+                                    {
+                                        foreach (var tempFonts in lstTemplateFont)
+                                        {
+                                            TemplateFonts.Add(tempFonts);
+                                        }
+
+                                    }
+                                    // template background images
+
+                                    List<TemplateBackgroundImage> lstTemplateBackgroundImages = db.TemplateBackgroundImages.Where(c => c.ProductId == TemplateID && c.ContactCompanyId == CompanyId).ToList();
+                                    if (lstTemplateBackgroundImages != null && lstTemplateBackgroundImages.Count > 0)
+                                    {
+                                        foreach (var tempBackImages in lstTemplateBackgroundImages)
+                                        {
+                                            TemplateBackGroundImages.Add(tempBackImages);
+                                            if (tempBackImages.ImagePermissions != null && tempBackImages.ImagePermissions.Count > 0)
+                                            {
+                                                foreach (var img in tempBackImages.ImagePermissions)
+                                                {
+                                                    ImagePermission.Add(img);
+                                                }
+                                            }
+                                        }
+
+                                    }
+
+
+                                }
+
+                            }
 
 
                         }
@@ -584,11 +768,13 @@ namespace MPC.Repository.Repositories
                     ObjExportOrg.RetailItemSection = ItemSections;
                     ObjExportOrg.RetailSectionCostcentre = SectionCostCentre;
                     ObjExportOrg.RetailSectionCostCentreResource = SectionCostCentreResources;
+                    ObjExportOrg.RetailItemAttachment = ItemAttachments;
+                    ObjExportOrg.RetailTemplatePages = TemplatePages;
+                    ObjExportOrg.RetailTemplateObjects = TemplateObjects;
+                    ObjExportOrg.RetailTemplateFonts = TemplateFonts;
+                    ObjExportOrg.RetailTemplateBackgroundImage = TemplateBackGroundImages;
+                    ObjExportOrg.RetailImagePermission = ImagePermission;
                 }
-
-
-
-
 
                 //  campaigns
 
@@ -611,9 +797,30 @@ namespace MPC.Repository.Repositories
                 // company cmyk colors
                 ObjExportOrg.RetailCompanyCMYKColor = db.CompanyCmykColors.Where(c => c.CompanyId == CompanyId).ToList();
 
-                 ItemSections = null;
-                 SectionCostCentre = null;
-                 SectionCostCentreResources = null;
+
+                // template color style
+                List<TemplateColorStyle> lstTemplateColorStyle = db.TemplateColorStyles.Where(c => c.CustomerId == CompanyId).ToList();
+                if (lstTemplateColorStyle != null && lstTemplateColorStyle.Count > 0)
+                {
+                    foreach (var tempStyle in lstTemplateColorStyle)
+                    {
+                        TemplateColorStyle.Add(tempStyle);
+                    }
+
+                }
+
+                ObjExportOrg.TemplateColorStyle = TemplateColorStyle;
+
+                ItemSections = null;
+                SectionCostCentre = null;
+                SectionCostCentreResources = null;
+                ItemAttachments = null;
+                TemplatePages = null;
+                TemplateObjects = null;
+                TemplateFonts = null;
+                TemplateColorStyle = null;
+                TemplateBackGroundImages = null;
+                ImagePermission = null;
 
                 return ObjExportOrg;
 

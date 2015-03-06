@@ -119,6 +119,7 @@ namespace MPC.Repository.Repositories
         }
         public Address GetAddressByID(long AddressID)
         {
+            db.Configuration.LazyLoadingEnabled = false;
             try
             {
                 return db.Addesses.Where(a => a.AddressId == AddressID).FirstOrDefault();
@@ -310,6 +311,150 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
            
+        }
+
+        public  List<Address> GetAddressesListByContactCompanyID(long contactCompanyId)
+        {
+            try
+            {
+                    return db.Addesses.Where(c => c.CompanyId == contactCompanyId && (c.isArchived == null || c.isArchived.Value == false) && (c.isPrivate == false || c.isPrivate == null)).OrderBy(ad => ad.AddressName).ToList();
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public  List<Address> GetsearchedAddress(long CompanyId, String searchtxt)
+        {
+            try
+            {
+                return db.Addesses.Where(c => c.CompanyId == CompanyId && c.AddressName.Contains(searchtxt) && (c.isArchived == null || c.isArchived.Value == false)).OrderBy(ad => ad.AddressName).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public Address GetAddressByAddressID(long AddressID)
+        {
+            return db.Addesses.Where(i => i.AddressId == AddressID).FirstOrDefault();
+        }
+      
+          
+        public void UpdateBillingShippingAdd(Address Model)
+        {
+            try
+            {
+                Address Address = new Address();
+                Address.Address1 = Model.Address1;
+                Address.Address2 = Model.Address2;
+                Address.Address3 = Model.Address3;
+                Address.AddressName = Model.AddressName;
+                Address.City = Model.City;
+                Address.FAO = Model.FAO;
+                Address.Fax = Model.Fax;
+                Address.PostCode = Model.PostCode;
+                Address.Reference = Model.Reference;
+                Address.Tel1 = Model.Tel1;
+                Address.Tel2 = Model.Tel2;
+                Address.Extension1 = Model.Extension1;
+                Address.Extension2 = Model.Extension2;
+                Address.GeoLatitude = Model.GeoLatitude;
+                Address.GeoLongitude = Model.GeoLongitude;
+                Address.Country = Model.Country;
+                Address.CountryId = Model.CountryId;
+                Address.State = Model.State;
+                Address.StateId = Model.StateId;
+
+                db.Addesses.Attach(Address);
+                db.Entry(Address).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public bool AddressNameExist(Address address)
+        {
+          
+                    Address alreadyAddress = db.Addesses.Where(c => c.AddressId != address.AddressId && c.CompanyId == address.CompanyId && c.AddressName == address.AddressName).FirstOrDefault();
+                    if (alreadyAddress != null)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+        }
+        public void AddAddBillingShippingAdd(Address Address)
+        {
+            try
+            {
+                Address AddAddress = new Address();
+                AddAddress.Address1 = Address.Address1;
+                AddAddress.Address2 = Address.Address2;
+                AddAddress.Address3 = Address.Address3;
+                AddAddress.AddressName = Address.AddressName;
+                AddAddress.City = Address.City;
+                AddAddress.FAO = Address.FAO;
+                AddAddress.Fax = Address.Fax;
+                AddAddress.PostCode = Address.PostCode;
+                AddAddress.Reference = Address.Reference;
+                AddAddress.Tel1 = Address.Tel1;
+                AddAddress.Tel2 = Address.Tel2;
+                AddAddress.Extension1 = Address.Extension1;
+                AddAddress.Extension2 = Address.Extension2;
+                AddAddress.GeoLatitude = Address.GeoLatitude;
+                AddAddress.GeoLongitude = Address.GeoLongitude;
+                AddAddress.Country = Address.Country;
+                AddAddress.CountryId = Address.CountryId;
+                AddAddress.State = Address.State;
+                AddAddress.StateId = Address.StateId;
+                db.Addesses.Add(AddAddress);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        public  void ResetDefaultShippingAddress( Address address)
+        {
+            db.Addesses.Where(c => c.CompanyId == address.CompanyId && c.AddressId != address.AddressId).ToList().ForEach(add => add.IsDefaultShippingAddress = false);
+        }
+
+        public List<State> GetCountryStates(long CountryId)
+        {
+           db.Configuration.LazyLoadingEnabled = false;
+           List<State> state = db.States.Where(i => i.CountryId == CountryId).ToList();
+           return state;
+        }
+        public List<Country> GetAllCountries()
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            return db.Countries.ToList();
+        }
+        public List<State> GetAllStates()
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            return db.States.ToList();
+        }
+        public State GetStateByStateID(long StateID)
+        {
+            return db.States.Where(i => i.StateId == StateID).FirstOrDefault();
+        }
+        public Country GetCountryByCountryID(long CountryID)
+        {
+            return db.Countries.Where(i => i.CountryId == CountryID).FirstOrDefault();
         }
     }
 }

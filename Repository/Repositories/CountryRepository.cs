@@ -49,7 +49,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-              return db.Countries.ToList();
+              return db.Countries.OrderBy(i => i.CountryName).ToList();
             }
             catch(Exception ex)
             {

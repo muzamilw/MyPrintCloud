@@ -261,7 +261,7 @@ namespace MPC.Repository.Repositories
                 return null;
             }
         }
-        public void SendEmailToSalesManager(int Event, int ContactId, int CompanyId, int brokerid, int OrderId, Organisation ServerSettings, int BrokerAdminContactID, int CorporateManagerID, StoreMode Mode,Company company,SystemUser SalesManager, int ItemID, string NameOfBrokerComp = "", string MarketingBreifMesgSummry = "", int RFQId = 0)
+        public void SendEmailToSalesManager(int Event, long ContactId, long CompanyId, long OrderId, Organisation ServerSettings, long OrganisationId, int CorporateManagerID, StoreMode Mode,long StoreId,SystemUser SalesManager, int ItemID, string NameOfComp = "", string MarketingBreifMesgSummry = "", int RFQId = 0)
         {
             try
             {
@@ -289,24 +289,24 @@ namespace MPC.Repository.Repositories
                     }
 
                     EmailParams.SalesManagerContactID = ContactId;
-                    if (brokerid > 0)
-                    {
-                        EmailParams.CompanyId = brokerid;
-                        EmailParams.BrokerID = brokerid;
-                        EmailParams.BrokerContactID = BrokerAdminContactID;
-                        EmailParams.SalesManagerContactID = BrokerAdminContactID;
-                        EmailParams.StoreID = brokerid;
-                        EmailParams.AddressID = brokerid;
-                        int admin = Convert.ToInt32(Roles.Adminstrator);
-                        int Manager = Convert.ToInt32(Roles.Manager);
+                    //if (brokerid > 0)
+                    //{
+                    //    EmailParams.CompanyId = brokerid;
+                    //    EmailParams.BrokerID = brokerid;
+                    //    EmailParams.BrokerContactID = BrokerAdminContactID;
+                    //    EmailParams.SalesManagerContactID = BrokerAdminContactID;
+                    //    EmailParams.StoreID = brokerid;
+                    //    EmailParams.AddressID = brokerid;
+                    //    int admin = Convert.ToInt32(Roles.Adminstrator);
+                    //    int Manager = Convert.ToInt32(Roles.Manager);
 
 
-                        listOfApprovers = (from c in db.CompanyContacts
-                                           join cc in db.Companies on brokerid equals cc.CompanyId
-                                           where (c.ContactRoleId == admin || c.ContactRoleId == Manager) && cc.IsCustomer == (int)CustomerTypes.Broker && c.CompanyId == brokerid
-                                           select c).ToList();
+                    //    listOfApprovers = (from c in db.CompanyContacts
+                    //                       join cc in db.Companies on brokerid equals cc.CompanyId
+                    //                       where (c.ContactRoleId == admin || c.ContactRoleId == Manager) && cc.IsCustomer == (int)CustomerTypes.Broker && c.CompanyId == brokerid
+                    //                       select c).ToList();
 
-                    }
+                    //}
                     if (CorporateManagerID > 0)
                     {
                         EmailParams.CorporateManagerID = CorporateManagerID;
@@ -321,32 +321,32 @@ namespace MPC.Repository.Repositories
                     if (!string.IsNullOrEmpty(MarketingBreifMesgSummry))
                     {
                         EmailParams.MarketingID = 1;
-                        emailBodyGenerator(EventCampaign, ServerSettings, EmailParams, null, Mode, "", "", "", SalesManager.Email, SalesManager.FullName, "", null, "", null, "", NameOfBrokerComp, null, "", MarketingBreifMesgSummry);
+                        emailBodyGenerator(EventCampaign, ServerSettings, EmailParams, null, Mode, "", "", "", SalesManager.Email, SalesManager.FullName, "", null, "", null, "", NameOfComp, null, "", MarketingBreifMesgSummry);
                     }
                     else
                     {
-                        emailBodyGenerator(EventCampaign, ServerSettings, EmailParams, null, Mode, "", "", "", SalesManager.Email, SalesManager.FullName, "", null, "", null, "", NameOfBrokerComp);
+                        emailBodyGenerator(EventCampaign, ServerSettings, EmailParams, null, Mode, "", "", "", SalesManager.Email, SalesManager.FullName, "", null, "", null, "", NameOfComp);
                     }
-                    if (brokerid > 0 && OrderId == 0)
-                    {
-                        if (listOfApprovers != null)
-                        {
-                            foreach (var approver in listOfApprovers)
-                            {
-                                //EmailParams.SystemUserID = 0;
-                                EmailParams.ApprovarID = (int)approver.ContactId;
-                                if (!string.IsNullOrEmpty(MarketingBreifMesgSummry))
-                                {
-                                    EmailParams.MarketingID = 1;
-                                    emailBodyGenerator(EventCampaign, ServerSettings, EmailParams, null, Mode, "", "", "", approver.Email, approver.FirstName, "", null, "", null, "", NameOfBrokerComp, null, "", MarketingBreifMesgSummry);
-                                }
-                                else
-                                {
-                                    emailBodyGenerator(EventCampaign, ServerSettings, EmailParams, null, Mode, "", "", "", approver.Email, approver.FirstName, "", null, "", null, "", NameOfBrokerComp);
-                                }
-                            }
-                        }
-                    }
+                    //if (OrderId == 0)
+                    //{
+                    //    if (listOfApprovers != null)
+                    //    {
+                    //        foreach (var approver in listOfApprovers)
+                    //        {
+                    //            //EmailParams.SystemUserID = 0;
+                    //            EmailParams.ApprovarID = (int)approver.ContactId;
+                    //            if (!string.IsNullOrEmpty(MarketingBreifMesgSummry))
+                    //            {
+                    //                EmailParams.MarketingID = 1;
+                    //                emailBodyGenerator(EventCampaign, ServerSettings, EmailParams, null, Mode, "", "", "", approver.Email, approver.FirstName, "", null, "", null, "", NameOfBrokerComp, null, "", MarketingBreifMesgSummry);
+                    //            }
+                    //            else
+                    //            {
+                    //                emailBodyGenerator(EventCampaign, ServerSettings, EmailParams, null, Mode, "", "", "", approver.Email, approver.FirstName, "", null, "", null, "", NameOfBrokerComp);
+                    //            }
+                    //        }
+                    //    }
+                    //}
                 }
             }
             catch (Exception ex)

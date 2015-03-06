@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Runtime.Remoting.Messaging;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web.Http;
 
 namespace MPC.Theming.Controllers
@@ -54,10 +56,23 @@ namespace MPC.Theming.Controllers
         }
         // GET api/values
         [HttpGet]
-        public string ApplyTheme([FromUri] string fullZipPath)
+        public HttpResponseMessage ApplyTheme([FromUri] string fullZipPath)
         {
+            // FileStream fs = new FileStream(System.Web.HttpContext.Current.Server.MapPath("~/MPC_Themes/classic.zip"), FileMode.Open, FileAccess.Read);
+            //  return fs;
 
-            return fullZipPath;
+            var path = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Themes/classic.zip");
+            var result = new HttpResponseMessage(HttpStatusCode.OK);
+            var stream = new FileStream(path, FileMode.Open);
+            result.Content = new StreamContent(stream);
+            result.Content.Headers.ContentType =
+                new MediaTypeHeaderValue("application/octet-stream");
+            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+            {
+                FileName = "file.zip"
+            };
+            return result;
+            //  return "test";
         }
     }
 }
