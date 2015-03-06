@@ -252,14 +252,6 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="themes\classic\banners\10063_pcbanner2.png" />
-    <Content Include="themes\classic\banners\10064_pcbanner1.png" />
-    <Content Include="themes\classic\fonts\avenirnextltpro-bold.svg" />
-    <Content Include="themes\classic\fonts\avenirnextltpro-demi.svg" />
-    <Content Include="themes\classic\fonts\avenirnextltpro-regular.svg" />
-    <Content Include="themes\classic\site.css" />
-    <Content Include="themes\classic\sprite.png" />
-    <Content Include="themes\classic\widgets.txt" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -288,19 +280,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="themes\classic\fonts\avenirnextltpro-bold.eot" />
-    <Content Include="themes\classic\fonts\avenirnextltpro-bold.ttf" />
-    <Content Include="themes\classic\fonts\avenirnextltpro-bold.woff" />
-    <Content Include="themes\classic\fonts\avenirnextltpro-boldd41d.eot" />
-    <Content Include="themes\classic\fonts\avenirnextltpro-demi.eot" />
-    <Content Include="themes\classic\fonts\avenirnextltpro-demi.ttf" />
-    <Content Include="themes\classic\fonts\avenirnextltpro-demi.woff" />
-    <Content Include="themes\classic\fonts\avenirnextltpro-demid41d.eot" />
-    <Content Include="themes\classic\fonts\avenirnextltpro-regular.eot" />
-    <Content Include="themes\classic\fonts\avenirnextltpro-regular.ttf" />
-    <Content Include="themes\classic\fonts\avenirnextltpro-regular.woff" />
-    <Content Include="themes\classic\fonts\avenirnextltpro-regulard41d.eot" />
     <Content Include="themes\classic.zip" />
+    <Content Include="themes\summer.zip" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
