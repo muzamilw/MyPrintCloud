@@ -401,6 +401,19 @@ define("product/product.view",
                         isSliderInitialized = true;
                     });
                 },
+                // Edit Template
+                editTemplate = function (product) {
+                    var host = window.location.host;
+                    var templateId = product.template() ? product.template().id() : 0;
+                    var uri = encodeURI("http://" + host + "/Designer/" + product.productName() + "/0/" + templateId + "/" + product.id() +
+                        "/" + product.companyId() + "/" + 0 + "/2/" + product.organisationId() + "/" + product.printCropMarks() + "/" + product.drawWatermarkText()
+                        + "/false");
+                    openUrlInNewWindow(uri);
+                },
+                // Open url in new window
+                openUrlInNewWindow = function(url) {
+                    window.open(url, "_blank");
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -435,7 +448,8 @@ define("product/product.view",
                 showPressDialog: showPressDialog,
                 hidePressDialog: hidePressDialog,
                 initializeLabelPopovers: initializeLabelPopovers,
-                initializeProductMinMaxSlider: initializeProductMinMaxSlider
+                initializeProductMinMaxSlider: initializeProductMinMaxSlider,
+                editTemplate: editTemplate
             };
         })(productViewModel);
 
