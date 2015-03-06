@@ -973,9 +973,9 @@ namespace MPC.Implementation.MISServices
             //UpdateCompanyContactOfUpdatingCompany(companySavingModel);
             UpdateProductCategoriesOfUpdatingCompany(companySavingModel, productCategories);
 
-            UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);
+            UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);//todo have savechanges
             UpdateCampaigns(companySavingModel.Company.Campaigns, companyDbVersion);
-            UpdateCmsSkinPageWidget(companySavingModel.CmsPageWithWidgetList, companyDbVersion);
+            UpdateCmsSkinPageWidget(companySavingModel.CmsPageWithWidgetList, companyDbVersion);//todo have savechanges
             UpdateColorPallete(companySavingModel.Company, companyDbVersion);
             if (companyToBeUpdated.ImageBytes != null)
             {
@@ -986,23 +986,23 @@ namespace MPC.Implementation.MISServices
             UpdateCmsOffers(companySavingModel.Company, companyDbVersion);
             UpdateMediaLibrary(companySavingModel.Company, companyDbVersion);
             BannersUpdate(companySavingModel.Company, companyDbVersion);
-            companyRepository.SaveChanges();
+            companyRepository.SaveChanges();//todo second external savechanges
             //Update products
             UpdateProductsOfUpdatingCompany(companySavingModel);
             //Save Files
-            companyToBeUpdated.ProductCategories = productCategories;
+            companyToBeUpdated.ProductCategories = productCategories;//todo have savechanges while adding new for images saving
             //SaveFilesOfProductCategories(companyToBeUpdated);
             SaveSpriteImage(companySavingModel.Company);
             SaveCompanyCss(companySavingModel.Company);
-            UpdateMediaLibraryFilePath(companySavingModel.Company, companyDbVersion);
-
+            UpdateMediaLibraryFilePath(companySavingModel.Company, companyDbVersion);//todo have savechanges 
             UpdateContactProfileImage(companySavingModel, companyDbVersion);
+            UpdateStoreWorkflowImage(companySavingModel, companyDbVersion); // under work
             SaveCompanyBannerImages(companySavingModel.Company, companyDbVersion);
             SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
             UpdateSecondaryPageImagePath(companySavingModel, companyDbVersion);
             UpdateCampaignImages(companySavingModel.Company.Campaigns, companyDbVersion);
             UpdateSmartFormVariableIds(companySavingModel.Company.SmartForms, companyDbVersion);
-            companyRepository.SaveChanges();
+            companyRepository.SaveChanges();//todo third external savechanges
 
             //Call Service to add or remove the IIS Bindings for Store Domains
             updateDomainsInIIS(companyDbVersion.CompanyDomains, companyDomainsDbVersion);
@@ -1166,6 +1166,13 @@ namespace MPC.Implementation.MISServices
                 //    }
                 //    companyContact.image = SaveCompanyContactProfileImage(companyContact, companyDbVersion);
                 //}
+            }
+        }
+        private void UpdateStoreWorkflowImage(CompanySavingModel companySavingModel, Company companyDbVersion)
+        {
+            if (companySavingModel.Company.isTextWatermark == false )
+            {
+                companyDbVersion.WatermarkText = SaveStoreWorkflowImage(companySavingModel);
             }
         }
         /// <summary>
@@ -2128,6 +2135,39 @@ namespace MPC.Implementation.MISServices
             }
             return null;
         }
+
+        /// <summary>
+        /// Save Images for Company Contact Profile Image
+        /// </summary>
+        private string SaveStoreWorkflowImage(CompanySavingModel companyContact)
+        {
+            if (companyContact.Company.StoreWorkFlowFileSourceBytes != null)
+            {
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyContact.Company.CompanyId + "/Contacts");
+
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                else
+                {
+                    DirectoryInfo dir = new DirectoryInfo(directoryPath);
+                    foreach (FileInfo fi in dir.GetFiles())
+                    {
+                        fi.IsReadOnly = false;
+                        fi.Delete();
+                    } 
+                }
+                
+                string savePath = directoryPath + "\\" + companyContact.Company.CompanyId + "_Watermark.png";
+                File.WriteAllBytes(savePath, companyContact.Company.StoreWorkFlowFileSourceBytes);
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
+                companyContact.Company.WatermarkText = savePath;
+                return savePath;
+            }
+            return null;
+        }
         private string SaveCompanyProfileImage(Company company)
         {
             if (company.ImageBytes != null)
@@ -2498,22 +2538,22 @@ namespace MPC.Implementation.MISServices
 
             return new CompanyBaseResponse
                    {
-                       SystemUsers = systemUserRepository.GetAll(),
+                       //SystemUsers = systemUserRepository.GetAll(),
                        CompanyTerritories = companyTerritoryRepository.GetAllCompanyTerritories(storeId),
-                       CompanyContactRoles = companyContactRoleRepository.GetAll(),
-                       PageCategories = pageCategoryRepository.GetCmsSecondaryPageCategories(),
-                       RegistrationQuestions = registrationQuestionRepository.GetAll(),
+                       //CompanyContactRoles = companyContactRoleRepository.GetAll(),
+                      // PageCategories = pageCategoryRepository.GetCmsSecondaryPageCategories(),
+                      // RegistrationQuestions = registrationQuestionRepository.GetAll(),
                        Addresses = addressRepository.GetAllAddressByStoreId(storeId),
-                       PaymentMethods = paymentMethodRepository.GetAll().ToList(),
-                       EmailEvents = emailEventRepository.GetAll(),
-                       Widgets = widgetRepository.GetAll(),
-                       CostCentres = costCentreRepository.GetAllCompanyCentersByOrganisationId().ToList(),//GetAllCompanyCentersByCompanyId
-                       States = stateRepository.GetAll(),
-                       Countries = countryRepository.GetAll(),
+                      // PaymentMethods = paymentMethodRepository.GetAll().ToList(),
+                       //EmailEvents = emailEventRepository.GetAll(),
+                       //Widgets = widgetRepository.GetAll(),
+                      // CostCentres = costCentreRepository.GetAllCompanyCentersByOrganisationId().ToList(),//GetAllCompanyCentersByCompanyId
+                      // States = stateRepository.GetAll(),
+                      // Countries = countryRepository.GetAll(),
                        FieldVariableResponse = fieldVariableRepository.GetFieldVariable(request),
                        SmartFormResponse = smartFormRepository.GetSmartForms(smartFormRequest),
                        FieldVariablesForSmartForm = fieldVariableRepository.GetFieldVariablesForSmartForm(storeId),
-                       CmsPages = cmsPageRepository.GetCmsPagesForOrders()
+                      // CmsPages = cmsPageRepository.GetCmsPagesForOrders()
 
                    };
         }
@@ -3009,8 +3049,6 @@ namespace MPC.Implementation.MISServices
 
                 ExportOrganisation ObjExportRetail = new Models.Common.ExportOrganisation();
                 ObjExportRetail = ExportRetailStore(RetailCompanyID, OrganisationID, DPath, null);
-
-
 
 
                 #endregion
@@ -3567,6 +3605,87 @@ namespace MPC.Implementation.MISServices
                                             r.Comment = "Items image for Store";
 
                                         }
+                                    }
+                                    if(item.TemplateId != null && item.TemplateId > 0)
+                                    {
+                                        if(item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
+                                        {
+                                            if(ObjExportRetail.TemplateFonts != null && ObjExportRetail.TemplateFonts.Count > 0)
+                                            {
+                                                foreach(var tempFont in ObjExportRetail.TemplateFonts)
+                                                {
+                                                    if(!string.IsNullOrEmpty(tempFont.FontPath))
+                                                    {
+                                                        string F1 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot");
+
+                                                        string F2 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf");
+
+                                                        string F3 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff");
+
+                                                        DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot";
+
+                                                        string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf";
+
+                                                        string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff";
+
+                                                        if (File.Exists(F1))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(F1, DPath);
+                                                            r.Comment = "template font";
+                                                        }
+
+                                                        if (File.Exists(F2))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(F2, Dpath2);
+                                                            r.Comment = "template font";
+                                                        }
+
+                                                        if (File.Exists(F3))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(F3, DPath3);
+                                                            r.Comment = "template font";
+                                                        }
+
+                                                        
+                                                    }else
+                                                    {
+
+                                                        string F1 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot");
+
+                                                        string F2 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf");
+
+                                                        string F3 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff");
+
+                                                        DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot";
+
+                                                        string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf";
+
+                                                        string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff";
+
+                                                        if (File.Exists(F1))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(F1, DPath);
+                                                            r.Comment = "template font";
+                                                        }
+
+                                                        if (File.Exists(F2))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(F2, Dpath2);
+                                                            r.Comment = "template font";
+                                                        }
+
+                                                        if (File.Exists(F3))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(F3, DPath3);
+                                                            r.Comment = "template font";
+                                                        }
+                                                    }
+
+                                                }
+
+                                            }
+                                        }
+                                        
                                     }
                                 }
 

@@ -167,6 +167,7 @@
     <Compile Include="DomainModels\ActivityType.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CmsOffer.cs" />
+    <Compile Include="DomainModels\NewsLetterSubscriber.cs" />
     <Compile Include="DomainModels\SaveDesignView.cs" />
     <Compile Include="DomainModels\ScopeVariable.cs" />
     <Compile Include="DomainModels\CompanyVariableIcon.cs" />

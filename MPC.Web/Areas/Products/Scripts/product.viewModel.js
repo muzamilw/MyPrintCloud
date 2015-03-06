@@ -503,6 +503,10 @@ define("product/product.viewModel",
                             return category.id === categoryId;
                         });
                     },
+                    // Edit Template
+                    editTemplate = function(product) {
+                        view.editTemplate(product);
+                    },
                     // Initialize the view model
                     initialize = function (specifiedView) {
                         view = specifiedView;
@@ -642,7 +646,23 @@ define("product/product.viewModel",
                             return;
                         }
 
-                        saveProduct(closeProductEditor, navigateCallback);
+                        var callback =  closeProductEditor;
+                        if (selectedProduct().isFinishedGoodsUi() === '1') {
+                            callback = function () {
+                                promptForDesigner(selectedProduct());
+                                closeProductEditor();
+                            };
+                        }
+                        saveProduct(callback, navigateCallback);
+                    },
+                    // Prompt for Designer
+                    promptForDesigner = function(product) {
+                        confirmation.messageText("Do you want to open designer?");
+                        confirmation.afterProceed(function() {
+                            editTemplate(product);
+                        });
+                        confirmation.afterCancel();
+                        confirmation.show();
                     },
                     // Do Before Save
                     doBeforeSave = function () {
@@ -1020,10 +1040,12 @@ define("product/product.viewModel",
                                     mapProducts(data.Items);
                                 }
                                 isLoadingProducts(false);
+                                view.initializeProductMinMaxSlider();
                             },
                             error: function (response) {
                                 isLoadingProducts(false);
                                 toastr.error("Failed to load items" + response);
+                                view.initializeProductMinMaxSlider();
                             }
                         });
                     },
@@ -1161,6 +1183,7 @@ define("product/product.viewModel",
                     pressDialogPager: pressDialogPager,
                     pressItems: pressItems,
                     paperSizes: paperSizes,
+                    selectedCompany: selectedCompany,
                     // Utility Methods
                     initialize: initialize,
                     resetFilter: resetFilter,
@@ -1198,6 +1221,7 @@ define("product/product.viewModel",
                     editSectionSignature: editSectionSignature,
                     closeSignatureDialog: closeSignatureDialog,
                     onCloneProduct: onCloneProduct,
+                    editTemplate: editTemplate,
                     // For Store
                     initializeForStore: initializeForStore
                     // For Store

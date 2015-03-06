@@ -207,7 +207,7 @@ namespace MPC.Repository.Repositories
             {
                 long Orderid = orderID;
 
-                tblOrder = db.Estimates.Where(estm => estm.EstimateId == Orderid).FirstOrDefault();
+                tblOrder = db.Estimates.Where(estm => estm.EstimateId == Orderid && estm.StatusId == (int)OrderStatus.ShoppingCart).FirstOrDefault();
                 if (tblOrder != null)
                 {
 

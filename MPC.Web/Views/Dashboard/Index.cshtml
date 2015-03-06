@@ -137,7 +137,10 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-2">
+
+@if (ViewBag.Istrial == true)
+{ 
+               <div class="col-lg-2">
                     <a href="#" style="text-decoration:none">
                         <div class="main-box infographic-box inner-box">
                             <i class="fa fa-user emerald-bg" style="margin-right:4px;"></i>
@@ -155,6 +158,9 @@
                         </div>
                     </a>
                 </div>
+}
+
+    
                 <div class="col-lg-2">
                     <a href="#" style="text-decoration:none">
                         <div class="main-box infographic-box inner-box">
