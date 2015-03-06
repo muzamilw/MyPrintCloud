@@ -3706,7 +3706,6 @@ define("stores/stores.viewModel",
                 getProducts = function () {
                     if (!isProductTabVisited()) {
                         isProductTabVisited(true);
-                        //ist.storeProduct.viewModel.initialize(selectedStore().companyId());
                         ist.product.viewModel.initializeForStore(selectedStore().companyId());
                     }
                 },
@@ -4343,7 +4342,7 @@ define("stores/stores.viewModel",
                    fieldVariableForSmartForm.defaultValue(fieldVariable.variableType() === 1 ? fieldVariable.defaultValue() : fieldVariable.defaultValueForInput());
                    fieldVariableForSmartForm.title(fieldVariable.variableTitle());
                    fieldVariablesForSmartForm.push(fieldVariableForSmartForm);
-               }
+                   },
                 //save Field variabel
                 saveField = function (fieldVariable) {
                     dataservice.saveFieldVariable(fieldVariable, {
@@ -4391,7 +4390,7 @@ define("stores/stores.viewModel",
 
                    updatedFieldVariable.variableName(selectedFieldVariable().variableName());
                    updatedFieldVariable.variableTag(selectedFieldVariable().variableTag());
-               }
+               },
                 //Do Before Save Field Variable
                 doBeforeSaveFieldVariable = function () {
                     var flag = true;
@@ -4446,10 +4445,10 @@ define("stores/stores.viewModel",
                contextTypes = ko.observableArray([{ id: 1, name: "Store" },
                                      { id: 2, name: "Contact" },
                                      { id: 3, name: "Address" },
-                                     { id: 4, name: "Territory" }]);
+                                     { id: 4, name: "Territory" }]),
                 //Varibale Types
                 varibaleTypes = ko.observableArray([{ id: 1, name: "Dropdown" },
-                        { id: 2, name: "Input" }]);
+                        { id: 2, name: "Input" }]),
 
                 //Get FieldV ariables        
                 getFieldVariables = function () {
@@ -4688,86 +4687,90 @@ define("stores/stores.viewModel",
 
                         }
                     });
-                }
+                },
                 //Do Before Save Smart Form
-                doBeforeSaveSmartForm = function () {
-                    var flag = true;
-                    if (!selectedSmartForm().isValid()) {
-                        selectedSmartForm().errors.showAllMessages();
-                        flag = false;
-                    }
-                    return flag;
-                },
-
-                //Edit Smart Form
-                 onEditSmartForm = function (smartForm) {
-                     if (smartForm.id() === undefined) {
-                         selectedSmartForm(smartForm);
-                         view.showSmartFormDialog();
-                     } else {
-                         getSmartFormDetail(smartForm);
-                     }
-                 },
-                //Get Smart Forms        
-                getSmartForms = function () {
-                    dataservice.getSmartFormsByCompanyId({
-                        CompanyId: selectedStore().companyId(),
-                        PageSize: smartFormPager().pageSize(),
-                        PageNo: smartFormPager().currentPage(),
-                        SortBy: sortOn(),
-                        IsAsc: sortIsAsc()
-                    }, {
-                        success: function (data) {
-
-                            smartForms.removeAll();
-                            _.each(data.SmartFormResponse.SmartForms, function (item) {
-                                var smartForm = model.SmartForm();
-                                smartForm.id(item.SmartFormId);
-                                smartForm.name(item.Name);
-                                smartForm.heading(item.Heading);
-                                smartForms.push(smartForm);
-                            });
-                        },
-                        error: function (response) {
-                            toastr.error("Failed To Load Smart Forms.");
+                doBeforeSaveSmartForm = function() {
+                        var flag = true;
+                        if (!selectedSmartForm().isValid()) {
+                            selectedSmartForm().errors.showAllMessages();
+                            flag = false;
                         }
-                    });
-                },
-                //Get Smart Form Detail
-                getSmartFormDetail = function (smartForm) {
-                    dataservice.getSmartFormDetailBySmartFormId({
-                        smartFormId: smartForm.id(),
-                    }, {
-                        success: function (data) {
-                            if (data != null) {
-                                smartForm.smartFormDetails.removeAll();
-                                selectedSmartForm(smartForm);
-                                _.each(data, function (item) {
-                                    var smartFormDetail = model.SmartFormDetail.Create(item);
-                                    if (item.ObjectType === 3) {
-                                        var title = item.Title === null ? "" : item.Title, defaultValue = item.DefaultValue === null ? "" : item.DefaultValue;
-                                        if (item.VariableType === 1) {
-                                            smartFormDetail.html("<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-12\"><div class=\"col-lg-6\"><label style=\"margin-left:9px;\">" + title + "</label><div class=\"col-lg-12\"><select disabled class=\"form-control\"><option>" + defaultValue + "</option></select></div></div></div>");
+                        return flag;
+                    },
 
-                                        } else {
-                                            smartFormDetail.html("<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-12\"><label style=\"margin-left:9px;\">" + title + "</label><div><input type=\"text\" disabled class=\"form-control\" value=\"" + defaultValue + "\"></div></div></div>");
-                                        }
-                                    }
-                                    else if (item.ObjectType === 2) {
-                                        smartFormDetail.html("<hr style=\"height:3px;border:none;color:#333;background-color:black;\" />");
-                                    }
-                                    selectedSmartForm().smartFormDetails.push(smartFormDetail);
+                    //Edit Smart Form
+                    onEditSmartForm = function(smartForm) {
+                        if (smartForm.id() === undefined) {
+                            selectedSmartForm(smartForm);
+                            view.showSmartFormDialog();
+                        } else {
+                            getSmartFormDetail(smartForm);
+                        }
+                    },
+                    //Get Smart Forms        
+                    getSmartForms = function() {
+                        dataservice.getSmartFormsByCompanyId({
+                            CompanyId: selectedStore().companyId(),
+                            PageSize: smartFormPager().pageSize(),
+                            PageNo: smartFormPager().currentPage(),
+                            SortBy: sortOn(),
+                            IsAsc: sortIsAsc()
+                        }, {
+                            success: function(data) {
+
+                                smartForms.removeAll();
+                                _.each(data.SmartFormResponse.SmartForms, function(item) {
+                                    var smartForm = model.SmartForm();
+                                    smartForm.id(item.SmartFormId);
+                                    smartForm.name(item.Name);
+                                    smartForm.heading(item.Heading);
+                                    smartForms.push(smartForm);
                                 });
-                                view.showSmartFormDialog();
+                            },
+                            error: function(response) {
+                                toastr.error("Failed To Load Smart Forms.");
                             }
-                        },
-                        error: function (response) {
-                            toastr.error("Failed to load Detail.");
-                        }
-                    });
-                },
-                //#endregion ________ Smart Form___________
+                        });
+                    },
+                    //Get Smart Form Detail
+                    getSmartFormDetail = function(smartForm) {
+                        dataservice.getSmartFormDetailBySmartFormId({
+                            smartFormId: smartForm.id(),
+                        }, {
+                            success: function(data) {
+                                if (data != null) {
+                                    smartForm.smartFormDetails.removeAll();
+                                    selectedSmartForm(smartForm);
+                                    _.each(data, function(item) {
+                                        var smartFormDetail = model.SmartFormDetail.Create(item);
+                                        if (item.ObjectType === 3) {
+                                            var title = item.Title === null ? "" : item.Title, defaultValue = item.DefaultValue === null ? "" : item.DefaultValue;
+                                            if (item.VariableType === 1) {
+                                                smartFormDetail.html("<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-12\"><div class=\"col-lg-6\"><label style=\"margin-left:9px;\">" + title + "</label><div class=\"col-lg-12\"><select disabled class=\"form-control\"><option>" + defaultValue + "</option></select></div></div></div>");
 
+                                            } else {
+                                                smartFormDetail.html("<div style=\"border:2px dotted silver;height:80px\"><div class=\"col-lg-12\"><label style=\"margin-left:9px;\">" + title + "</label><div><input type=\"text\" disabled class=\"form-control\" value=\"" + defaultValue + "\"></div></div></div>");
+                                            }
+                                        } else if (item.ObjectType === 2) {
+                                            smartFormDetail.html("<hr style=\"height:3px;border:none;color:#333;background-color:black;\" />");
+                                        }
+                                        selectedSmartForm().smartFormDetails.push(smartFormDetail);
+                                    });
+                                    view.showSmartFormDialog();
+                                }
+                            },
+                            error: function(response) {
+                                toastr.error("Failed to load Detail.");
+                            }
+                        });
+                    },
+                    //#endregion ________ Smart Form___________
+
+                //Store workflow Image Files Loaded Callback
+                    storeWorkflowImageLoadedCallback = function (file, data) {
+                        selectedStore().storeWorkflowImageBinary(data);
+                        selectedStore().storeWorkflowImageName(file.name);
+                    };
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
                 initialize = function (specifiedView) {
@@ -5105,9 +5108,10 @@ define("stores/stores.viewModel",
                     userCount: userCount,
                     orderCount: orderCount,
                     onChangeBannerSet: onChangeBannerSet,
-                    ckEditorOpenFrom: ckEditorOpenFrom,
                     themes: themes,
                     productCategoryTitle: productCategoryTitle,
+                    ckEditorOpenFrom: ckEditorOpenFrom,
+                    storeWorkflowImageLoadedCallback: storeWorkflowImageLoadedCallback,
                     selectedTheme: selectedTheme,
                     onApplyTheme: onApplyTheme,
                 };

@@ -2606,8 +2606,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     PriceMatrixId: id(),
                     ItemId: itemId(),
                     Quantity: quantity(),
-                    QtyRangedFrom: qtyRangedFrom(),
-                    QtyRangedTo: qtyRangedTo(),
+                    QtyRangeFrom: qtyRangedFrom(),
+                    QtyRangeTo: qtyRangedTo(),
                     FlagId: flagId(),
                     SupplierId: supplierId(),
                     SupplierSequence: supplierSequence(),
@@ -3115,7 +3115,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Item Price Matrix Factory
     ItemPriceMatrix.Create = function (source) {
-        return new ItemPriceMatrix(source.PriceMatrixId, source.Quantity, source.QtyRangedFrom, source.QtyRangedTo, source.PricePaperType1, source.PricePaperType2,
+        return new ItemPriceMatrix(source.PriceMatrixId, source.Quantity, source.QtyRangeFrom, source.QtyRangeTo, source.PricePaperType1, source.PricePaperType2,
             source.PricePaperType3, source.PriceStockType4, source.PriceStockType5, source.PriceStockType6, source.PriceStockType7, source.PriceStockType8,
             source.PriceStockType9, source.PriceStockType10, source.PriceStockType11, source.FlagId, source.SupplierId, source.SupplierSequence, source.ItemId);
     };

@@ -358,6 +358,49 @@ define("product/product.view",
                     $('.bs-example-tooltips a').popover();
 // ReSharper restore UnknownCssClass
                 },
+                // Is Slider Initialized
+                isSliderInitialized = false,
+                // Initialize Product Min-Max Slider
+                initializeProductMinMaxSlider = function () {
+                    $(document).ready(function () {
+                        if (!viewModel.selectedCompany() || isSliderInitialized) {
+                            return;
+                        }
+                        $('.slider-minmax').noUiSlider({
+                            range: [0, 100],
+                            start: [100],
+                            handles: 1,
+                            connect: 'upper',
+                            slide: function () {
+
+
+                            },
+                            set: function () {
+                                var val = $(this).val();
+                                if (val >= 60) {
+
+                                    $('.Top_Cat_Body').css("width", "22%");
+                                    $('.FI_TL').css("height", "210px");
+                                    $('.productListIcons').css("width", "239px");
+                                } else if (val >= 40) {
+
+                                    $('.Top_Cat_Body').css("width", "18%");
+                                    $('.FI_TL').css("height", "210px");
+                                    $('.productListIcons').css("width", "194px");
+                                } else if (val <= 20) {
+
+                                    $('.Top_Cat_Body').css("width", "13%");
+                                    $('.FI_TL').css("height", "140px");
+                                    $('.productListIcons').css("width", "139px");
+                                }
+                            }
+
+                        });
+                        $('.slider-minmax').val(100, true);
+
+                        isSliderInitialized = true;
+                    });
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -391,7 +434,8 @@ define("product/product.view",
                 hideSignatureDialog: hideSignatureDialog,
                 showPressDialog: showPressDialog,
                 hidePressDialog: hidePressDialog,
-                initializeLabelPopovers: initializeLabelPopovers
+                initializeLabelPopovers: initializeLabelPopovers,
+                initializeProductMinMaxSlider: initializeProductMinMaxSlider
             };
         })(productViewModel);
 

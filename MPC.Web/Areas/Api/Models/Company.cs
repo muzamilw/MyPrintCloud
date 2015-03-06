@@ -231,6 +231,8 @@ namespace MPC.MIS.Areas.Api.Models
 
         #endregion
 
+
+
         #region Backgroud Image
         public string StoreBackgroundFile { get; set; }
 
@@ -327,6 +329,35 @@ namespace MPC.MIS.Areas.Api.Models
         /// Company Logo Name
         /// </summary>
         public string CompanyLogoName { get; set; }
+        #endregion
+
+        #region Store Overflow Image
+
+        // client to server
+        public string StoreWorkflowImageBytes { get; set; }
+
+        // client to server
+        public string StoreWorkflowImageName { get; set; }
+
+        public byte[] WorkflowS2CBytes { get; set; }
+
+        /// <summary>
+        /// Store Backgroud Image Source
+        /// </summary>
+        public string WorkflowS2CBytesConverter
+        {
+            get
+            {
+                if (WorkflowS2CBytes == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(WorkflowS2CBytes);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
+
         #endregion
         #endregion
     }

@@ -995,8 +995,8 @@ namespace MPC.Implementation.MISServices
             SaveSpriteImage(companySavingModel.Company);
             SaveCompanyCss(companySavingModel.Company);
             UpdateMediaLibraryFilePath(companySavingModel.Company, companyDbVersion);//todo have savechanges 
-
             UpdateContactProfileImage(companySavingModel, companyDbVersion);
+            UpdateStoreWorkflowImage(companySavingModel, companyDbVersion); // under work
             SaveCompanyBannerImages(companySavingModel.Company, companyDbVersion);
             SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
             UpdateSecondaryPageImagePath(companySavingModel, companyDbVersion);
@@ -1166,6 +1166,13 @@ namespace MPC.Implementation.MISServices
                 //    }
                 //    companyContact.image = SaveCompanyContactProfileImage(companyContact, companyDbVersion);
                 //}
+            }
+        }
+        private void UpdateStoreWorkflowImage(CompanySavingModel companySavingModel, Company companyDbVersion)
+        {
+            if (companySavingModel.Company.isTextWatermark == false )
+            {
+                companyDbVersion.WatermarkText = SaveStoreWorkflowImage(companySavingModel);
             }
         }
         /// <summary>
@@ -2124,6 +2131,39 @@ namespace MPC.Implementation.MISServices
                 File.WriteAllBytes(savePath, data);
                 int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
                 savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
+                return savePath;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Save Images for Company Contact Profile Image
+        /// </summary>
+        private string SaveStoreWorkflowImage(CompanySavingModel companyContact)
+        {
+            if (companyContact.Company.StoreWorkFlowFileSourceBytes != null)
+            {
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyContact.Company.CompanyId + "/Contacts");
+
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                else
+                {
+                    DirectoryInfo dir = new DirectoryInfo(directoryPath);
+                    foreach (FileInfo fi in dir.GetFiles())
+                    {
+                        fi.IsReadOnly = false;
+                        fi.Delete();
+                    } 
+                }
+                
+                string savePath = directoryPath + "\\" + companyContact.Company.CompanyId + "_Watermark.png";
+                File.WriteAllBytes(savePath, companyContact.Company.StoreWorkFlowFileSourceBytes);
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
+                companyContact.Company.WatermarkText = savePath;
                 return savePath;
             }
             return null;

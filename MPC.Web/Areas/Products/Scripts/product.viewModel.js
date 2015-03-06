@@ -1020,10 +1020,12 @@ define("product/product.viewModel",
                                     mapProducts(data.Items);
                                 }
                                 isLoadingProducts(false);
+                                view.initializeProductMinMaxSlider();
                             },
                             error: function (response) {
                                 isLoadingProducts(false);
                                 toastr.error("Failed to load items" + response);
+                                view.initializeProductMinMaxSlider();
                             }
                         });
                     },
@@ -1161,6 +1163,7 @@ define("product/product.viewModel",
                     pressDialogPager: pressDialogPager,
                     pressItems: pressItems,
                     paperSizes: paperSizes,
+                    selectedCompany: selectedCompany,
                     // Utility Methods
                     initialize: initialize,
                     resetFilter: resetFilter,
