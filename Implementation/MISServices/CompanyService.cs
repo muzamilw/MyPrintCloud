@@ -132,7 +132,7 @@ namespace MPC.Implementation.MISServices
                 }
             }
             companyRepository.Add(companySaving.Company);
-            companyRepository.SaveChanges();
+            companyRepository.SaveChanges(); // TODO: Remove it from here
             var companyId = companySaving.Company.CompanyId;
             UpdateCompany(companySaving, companySaving.Company);
             return companySaving.Company;
@@ -976,30 +976,30 @@ namespace MPC.Implementation.MISServices
             //UpdateCompanyContactOfUpdatingCompany(companySavingModel);
             UpdateProductCategoriesOfUpdatingCompany(companySavingModel, productCategories);
 
-            UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);
+            UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);//todo have savechanges
             UpdateCampaigns(companySavingModel.Company.Campaigns, companyDbVersion);
-            UpdateCmsSkinPageWidget(companySavingModel.CmsPageWithWidgetList, companyDbVersion);
+            UpdateCmsSkinPageWidget(companySavingModel.CmsPageWithWidgetList, companyDbVersion);//todo have savechanges
             UpdateColorPallete(companySavingModel.Company, companyDbVersion);
             if (companyToBeUpdated.ImageBytes != null)
             {
                 companySavingModel.Company.Image = SaveCompanyProfileImage(companySavingModel.Company);
             }
-            companyRepository.Update(companyToBeUpdated);
+            companyRepository.Update(companyToBeUpdated); // TODO: Remove it
             companyRepository.Update(companySavingModel.Company);
             UpdateCmsOffers(companySavingModel.Company, companyDbVersion);
             UpdateMediaLibrary(companySavingModel.Company, companyDbVersion);
             BannersUpdate(companySavingModel.Company, companyDbVersion);
-            companyRepository.SaveChanges();
+            //companyRepository.SaveChanges();//todo second external savechanges
             //Update products
-            UpdateProductsOfUpdatingCompany(companySavingModel);
+            //UpdateProductsOfUpdatingCompany(companySavingModel);
             //Save Files
-            companyToBeUpdated.ProductCategories = productCategories;
+            companyToBeUpdated.ProductCategories = productCategories;//todo have savechanges while adding new for images saving
             //SaveFilesOfProductCategories(companyToBeUpdated);
             SaveSpriteImage(companySavingModel.Company);
             SaveCompanyCss(companySavingModel.Company);
-            UpdateMediaLibraryFilePath(companySavingModel.Company, companyDbVersion);
-
+            UpdateMediaLibraryFilePath(companySavingModel.Company, companyDbVersion);//todo have savechanges 
             UpdateContactProfileImage(companySavingModel, companyDbVersion);
+            UpdateStoreWorkflowImage(companySavingModel, companyDbVersion); // under work
             SaveCompanyBannerImages(companySavingModel.Company, companyDbVersion);
             SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
             UpdateSecondaryPageImagePath(companySavingModel, companyDbVersion);
@@ -1171,6 +1171,13 @@ namespace MPC.Implementation.MISServices
                 //}
             }
         }
+        private void UpdateStoreWorkflowImage(CompanySavingModel companySavingModel, Company companyDbVersion)
+        {
+            if (companySavingModel.Company.isTextWatermark == false )
+            {
+                companyDbVersion.WatermarkText = SaveStoreWorkflowImage(companySavingModel);
+            }
+        }
         /// <summary>
         /// Update Media Library File Path
         /// </summary>
@@ -1210,7 +1217,7 @@ namespace MPC.Implementation.MISServices
                         }
                     }
                 }
-                companyRepository.SaveChanges();
+              //  companyRepository.SaveChanges();
             }
         }
 
@@ -1507,7 +1514,7 @@ namespace MPC.Implementation.MISServices
                     if (dbVersionMissingItem != null && dbVersionMissingItem.PageWidgetId > 0)
                     {
                         cmsSkinPageWidgetRepository.Delete(dbVersionMissingItem);
-                        cmsSkinPageWidgetRepository.SaveChanges();
+                        //cmsSkinPageWidgetRepository.SaveChanges();
                     }
                 }
                 #endregion
@@ -1677,10 +1684,10 @@ namespace MPC.Implementation.MISServices
                 foreach (var item in companySavingModel.DeletedCmsPages)
                 {
                     cmsPageRepository.Delete(cmsPageRepository.Find(item.PageId));
-                    cmsPageRepository.SaveChanges();
+                    //cmsPageRepository.SaveChanges();
                 }
             }
-            companyRepository.SaveChanges();
+           // companyRepository.SaveChanges();
 
             //Update Page Category List Items
             if (companySavingModel.PageCategories != null)
@@ -1695,7 +1702,7 @@ namespace MPC.Implementation.MISServices
                         }
                     }
                 }
-                pageCategoryRepository.SaveChanges();
+                //pageCategoryRepository.SaveChanges();
             }
         }
 
@@ -2131,6 +2138,39 @@ namespace MPC.Implementation.MISServices
             }
             return null;
         }
+
+        /// <summary>
+        /// Save Images for Company Contact Profile Image
+        /// </summary>
+        private string SaveStoreWorkflowImage(CompanySavingModel companyContact)
+        {
+            if (companyContact.Company.StoreWorkFlowFileSourceBytes != null)
+            {
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyContact.Company.CompanyId + "/Contacts");
+
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                else
+                {
+                    DirectoryInfo dir = new DirectoryInfo(directoryPath);
+                    foreach (FileInfo fi in dir.GetFiles())
+                    {
+                        fi.IsReadOnly = false;
+                        fi.Delete();
+                    } 
+                }
+                
+                string savePath = directoryPath + "\\" + companyContact.Company.CompanyId + "_Watermark.png";
+                File.WriteAllBytes(savePath, companyContact.Company.StoreWorkFlowFileSourceBytes);
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
+                companyContact.Company.WatermarkText = savePath;
+                return savePath;
+            }
+            return null;
+        }
         private string SaveCompanyProfileImage(Company company)
         {
             if (company.ImageBytes != null)
@@ -2162,7 +2202,7 @@ namespace MPC.Implementation.MISServices
             fieldVariable.OrganisationId = fieldVariableRepository.OrganisationId;
             long companyId = (long)(fieldVariable.CompanyId ?? 0);
             fieldVariableRepository.Add(fieldVariable);
-            fieldVariableRepository.SaveChanges();
+            //fieldVariableRepository.SaveChanges();
 
 
 
@@ -2184,7 +2224,7 @@ namespace MPC.Implementation.MISServices
                         scopeVariable.Value = fieldVariable.DefaultValue;
                         scopeVariableRepository.Add(scopeVariable);
                     }
-                    scopeVariableRepository.SaveChanges();
+                   // scopeVariableRepository.SaveChanges();
                 }
             }
 
@@ -2255,12 +2295,12 @@ namespace MPC.Implementation.MISServices
                     if (dbVersionMissingItem.VariableOptionId > 0)
                     {
                         variableOptionRepository.Delete(dbVersionMissingItem);
-                        variableOptionRepository.SaveChanges();
+                        //variableOptionRepository.SaveChanges();
                     }
                 }
                 #endregion
 
-                fieldVariableRepository.SaveChanges();
+                //fieldVariableRepository.SaveChanges();
             }
 
             return fieldVariable.VariableId;
@@ -2501,22 +2541,22 @@ namespace MPC.Implementation.MISServices
 
             return new CompanyBaseResponse
                    {
-                       SystemUsers = systemUserRepository.GetAll(),
+                       //SystemUsers = systemUserRepository.GetAll(),
                        CompanyTerritories = companyTerritoryRepository.GetAllCompanyTerritories(storeId),
-                       CompanyContactRoles = companyContactRoleRepository.GetAll(),
-                       PageCategories = pageCategoryRepository.GetCmsSecondaryPageCategories(),
-                       RegistrationQuestions = registrationQuestionRepository.GetAll(),
+                       //CompanyContactRoles = companyContactRoleRepository.GetAll(),
+                      // PageCategories = pageCategoryRepository.GetCmsSecondaryPageCategories(),
+                      // RegistrationQuestions = registrationQuestionRepository.GetAll(),
                        Addresses = addressRepository.GetAllAddressByStoreId(storeId),
-                       PaymentMethods = paymentMethodRepository.GetAll().ToList(),
-                       EmailEvents = emailEventRepository.GetAll(),
-                       Widgets = widgetRepository.GetAll(),
-                       CostCentres = costCentreRepository.GetAllCompanyCentersByOrganisationId().ToList(),//GetAllCompanyCentersByCompanyId
-                       States = stateRepository.GetAll(),
-                       Countries = countryRepository.GetAll(),
+                      // PaymentMethods = paymentMethodRepository.GetAll().ToList(),
+                       //EmailEvents = emailEventRepository.GetAll(),
+                       //Widgets = widgetRepository.GetAll(),
+                      // CostCentres = costCentreRepository.GetAllCompanyCentersByOrganisationId().ToList(),//GetAllCompanyCentersByCompanyId
+                      // States = stateRepository.GetAll(),
+                      // Countries = countryRepository.GetAll(),
                        FieldVariableResponse = fieldVariableRepository.GetFieldVariable(request),
                        SmartFormResponse = smartFormRepository.GetSmartForms(smartFormRequest),
                        FieldVariablesForSmartForm = fieldVariableRepository.GetFieldVariablesForSmartForm(storeId),
-                       CmsPages = cmsPageRepository.GetCmsPagesForOrders()
+                      // CmsPages = cmsPageRepository.GetCmsPagesForOrders()
 
                    };
         }

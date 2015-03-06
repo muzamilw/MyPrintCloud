@@ -574,6 +574,11 @@ namespace MPC.Repository.BaseRepository
         public DbSet<SaveDesignView> SaveDesignViews { get; set; }
 
         /// <summary>
+        /// NewsLetter Subscriber DbSet
+        /// </summary>
+        public DbSet<NewsLetterSubscriber> NewsLetterSubscribers { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
 // ReSharper disable InconsistentNaming

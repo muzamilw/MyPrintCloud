@@ -91,6 +91,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsRealStateProduct = source.IsRealStateProduct,
                 IsUploadImage = source.IsUploadImage,
                 IsDigitalDownload = source.IsDigitalDownload,
+                PrintCropMarks = source.printCropMarks,
+                DrawWaterMarkTxt = source.drawWaterMarkTxt,
+                CompanyId = source.CompanyId,
                 ItemProductDetail = source.ItemProductDetails != null && source.ItemProductDetails.Count > 0 ?
                 source.ItemProductDetails.FirstOrDefault().CreateFrom() : null,
                 Template = source.Template != null ? source.Template.CreateFrom() : new Template(),
