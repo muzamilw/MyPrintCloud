@@ -19,5 +19,7 @@ namespace MPC.Interfaces.WebStoreServices
         SmartForm GetSmartForm(long smartFormId);
 
         List<SmartFormDetail> GetSmartFormObjects(long smartFormId);
+
+        List<ScopeVariable> GetScopeVariables(List<SmartFormDetail> smartFormDetails, out bool hasContactVariables, long contactId);
     }
 }

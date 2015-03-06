@@ -49,7 +49,7 @@
                                 <li class="active" id="generalInfoTab"><a href="#tab-generalinfo" data-toggle="tab">General Info</a></li>
                                 <li><a href="#tab-widgets" data-toggle="tab">Themes & Widgets</a></li>
                                 <li><a href="#tab-SEO" data-toggle="tab">SEO & Rave Reviews</a></li>
-                                <li><a href="#tab-territory" data-toggle="tab">Users & Addresses</a></li>
+                                <li><a href="#tab-territory" data-toggle="tab" data-bind="click: $root.userAndAddressesTabSelected">Users & Addresses</a></li>
                                 <!--ko if: $root.selectedStore() != undefined && $root.selectedStore().companyId()!== undefined -->
                                 <li><a data-bind="click: $root.getProducts" href="#tab-products" data-toggle="tab">Products & Categories</a></li>
                                 <!--/ko -->
@@ -277,7 +277,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="datepickerDate" data-bind="datetimepicker: accountOpenDate, format: 'DD MMM YYYY'">
-                                                    <span class="help-block text-right"></span>
+                                                    <span class="help-block text-right">&nbsp;</span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -292,7 +292,7 @@
                                                 <div class="col-lg-6">
 
                                                     <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'userName',optionsValue:'systemUserId', value: $root.selectedStore().accountManagerId"></select>   @*,value: $root.selectedClaimFilterListitem*@
-                                                    <span class="help-block text-right"></span>
+                                                    <span class="help-block text-right">&nbsp;</span>
 
                                                 </div>
                                             </div>
@@ -306,12 +306,11 @@
                                                     <label for="txtGSTRegNo" class="control-label text-right tooltip-float">GST Reg. No.</label>
                                                 </div>
                                                 <div class="col-lg-6">
-
                                                     <input type="text" class="form-control" id="txtGSTRegNo" placeholder="Enter GST Registration Number" data-bind="value: avatRegNumber">
                                                     <span class="help-block text-right">GST registration number</span>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group" >
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter your customers ABN, VAT ID, PST or Tax reference number" data-original-title="" title="">
@@ -1295,8 +1294,28 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                         </label>
                                                     </div>
                                                     <br />
+                                                    <!--ko if: $root.selectedStore().isTextWatermark() == 'true' -->
+                                                   
                                                     <input type="text" class="form-control" id="txtWaterMArk" placeholder="Enter Watermark Text" data-bind="value: $root.selectedStore().watermarkText">
                                                     <br />
+                                                    <!-- /ko -->
+                                                   
+                                                    <!--ko if: $root.selectedStore().isTextWatermark() == 'false' -->
+                                                    <div class="form-group">
+                                                        <div class="col-lg-6">
+                                                            <img width="200" height="150" data-bind="attr: { src: $root.selectedStore().storeWorkflowImageBinary }" />
+                                                        </div>
+                                                        <div class="col-lg-1">
+                                                            <div class="fileUpload btn btn-primary" >
+                                                                <span>....</span>
+                                                                <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeWorkflowImageLoadedCallback, fileFilter: 'image.*'}" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /ko -->
+                                                    
+
+
                                                     <div id="WaterMarkImageUploadCnt" style="display: none;" class="col-lg-6">
                                                         <div id="dropzoneWaterMarkImg" class="dropzonepl">
                                                             <form id="demo-uploadMarkImg" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
@@ -1455,7 +1474,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             No
                                                         </label>
                                                     </div>
-                                                    <span class="help-block text-right">Would you like to include VAT/GST accros store prices?</span>
+                                                    <span class="help-block text-right">Would you like to include VAT/GST across store prices?</span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
