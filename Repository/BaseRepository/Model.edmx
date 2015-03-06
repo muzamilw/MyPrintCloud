@@ -2242,6 +2242,22 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="Response" Type="nvarchar(max)" />
           <Property Name="datetime" Type="datetime" />
         </EntityType>
+        <EntityType Name="NewsLetterSubscriber">
+          <Key>
+            <PropertyRef Name="SubscriberId" />
+          </Key>
+          <Property Name="SubscriberId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="150" />
+          <Property Name="FirstName" Type="varchar" MaxLength="150" />
+          <Property Name="LastName" Type="varchar" MaxLength="150" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="SubscriptionCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SubscribeDate" Type="datetime" Nullable="false" />
+          <Property Name="UnSubscribeDate" Type="datetime" />
+          <Property Name="ContactId" Type="bigint" />
+          <Property Name="ContactCompanyID" Type="int" />
+          <Property Name="FlagId" Type="int" />
+        </EntityType>
         <EntityType Name="Organisation">
           <Key>
             <PropertyRef Name="OrganisationId" />
@@ -4533,6 +4549,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbl_NewsLetterSubscribers_tbl_Contacts">
+          <End Role="CompanyContact" Type="Self.CompanyContact" Multiplicity="0..1" />
+          <End Role="NewsLetterSubscriber" Type="Self.NewsLetterSubscriber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyContact">
+              <PropertyRef Name="ContactId" />
+            </Principal>
+            <Dependent Role="NewsLetterSubscriber">
+              <PropertyRef Name="ContactId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_PaymentGateways_tbl_PaymentMethods">
           <End Role="PaymentMethod" Type="Self.PaymentMethod" Multiplicity="0..1" />
           <End Role="PaymentGateway" Type="Self.PaymentGateway" Multiplicity="*" />
@@ -4953,6 +4981,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="Markup" EntityType="Self.Markup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MediaLibrary" EntityType="Self.MediaLibrary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NABTransaction" EntityType="Self.NABTransaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NewsLetterSubscriber" EntityType="Self.NewsLetterSubscriber" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Organisation" EntityType="Self.Organisation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PageCategory" EntityType="Self.PageCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaperBasisArea" EntityType="Self.PaperBasisArea" Schema="dbo" store:Type="Tables" />
@@ -5504,6 +5533,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_tbl_machines_tbl_machine_resource" Association="Self.FK_tbl_machines_tbl_machine_resource">
             <End Role="Machine" EntitySet="Machine" />
             <End Role="MachineResource" EntitySet="MachineResource" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_NewsLetterSubscribers_tbl_Contacts" Association="Self.FK_tbl_NewsLetterSubscribers_tbl_Contacts">
+            <End Role="CompanyContact" EntitySet="CompanyContact" />
+            <End Role="NewsLetterSubscriber" EntitySet="NewsLetterSubscriber" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_PaymentGateways_tbl_PaymentMethods" Association="Self.FK_tbl_PaymentGateways_tbl_PaymentMethods">
             <End Role="PaymentMethod" EntitySet="PaymentMethod" />
@@ -6291,6 +6324,11 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="SmartFormDetail" EntitySet="SmartFormDetails" />
           </AssociationSet>
           <EntitySet Name="SaveDesignViews" EntityType="DomainModels.SaveDesignView" />
+          <EntitySet Name="NewsLetterSubscribers" EntityType="DomainModels.NewsLetterSubscriber" />
+          <AssociationSet Name="FK_tbl_NewsLetterSubscribers_tbl_Contacts" Association="DomainModels.FK_tbl_NewsLetterSubscribers_tbl_Contacts">
+            <End Role="CompanyContact" EntitySet="CompanyContacts" />
+            <End Role="NewsLetterSubscriber" EntitySet="NewsLetterSubscribers" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -7150,6 +7188,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="FavoriteDesigns" Relationship="DomainModels.FK_tbl_FavoriteDesign_tbl_contacts" FromRole="CompanyContact" ToRole="FavoriteDesign" />
           <NavigationProperty Name="ShippingAddress" Relationship="DomainModels.FK_CompanyContact_ShippingAddress" FromRole="CompanyContact" ToRole="Address" />
           <NavigationProperty Name="Invoices" Relationship="DomainModels.FK_Invoice_CompanyContact" FromRole="CompanyContact" ToRole="Invoice" />
+          <NavigationProperty Name="NewsLetterSubscribers" Relationship="DomainModels.FK_tbl_NewsLetterSubscribers_tbl_Contacts" FromRole="CompanyContact" ToRole="NewsLetterSubscriber" />
         </EntityType>
         <EntityType Name="CompanyContactRole">
           <Key>
@@ -11393,6 +11432,35 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ItemCreationDateTime" Type="DateTime" Precision="3" />
           <Property Name="TemplateID" Type="Int64" />
         </EntityType>
+        <EntityType Name="NewsLetterSubscriber">
+          <Key>
+            <PropertyRef Name="SubscriberId" />
+          </Key>
+          <Property Name="SubscriberId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="FirstName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="SubscriptionCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SubscribeDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UnSubscribeDate" Type="DateTime" Precision="3" />
+          <Property Name="ContactId" Type="Int64" />
+          <Property Name="ContactCompanyID" Type="Int32" />
+          <Property Name="FlagId" Type="Int32" />
+          <NavigationProperty Name="CompanyContact" Relationship="DomainModels.FK_tbl_NewsLetterSubscribers_tbl_Contacts" FromRole="NewsLetterSubscriber" ToRole="CompanyContact" />
+        </EntityType>
+        <Association Name="FK_tbl_NewsLetterSubscribers_tbl_Contacts">
+          <End Type="DomainModels.CompanyContact" Role="CompanyContact" Multiplicity="0..1" />
+          <End Type="DomainModels.NewsLetterSubscriber" Role="NewsLetterSubscriber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyContact">
+              <PropertyRef Name="ContactId" />
+            </Principal>
+            <Dependent Role="NewsLetterSubscriber">
+              <PropertyRef Name="ContactId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -14930,6 +14998,23 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="AttachmentFileName" ColumnName="AttachmentFileName" />
                 <ScalarProperty Name="AttachmentItemId" ColumnName="AttachmentItemId" />
                 <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NewsLetterSubscribers">
+            <EntityTypeMapping TypeName="DomainModels.NewsLetterSubscriber">
+              <MappingFragment StoreEntitySet="NewsLetterSubscriber">
+                <ScalarProperty Name="FlagId" ColumnName="FlagId" />
+                <ScalarProperty Name="ContactCompanyID" ColumnName="ContactCompanyID" />
+                <ScalarProperty Name="ContactId" ColumnName="ContactId" />
+                <ScalarProperty Name="UnSubscribeDate" ColumnName="UnSubscribeDate" />
+                <ScalarProperty Name="SubscribeDate" ColumnName="SubscribeDate" />
+                <ScalarProperty Name="SubscriptionCode" ColumnName="SubscriptionCode" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="SubscriberId" ColumnName="SubscriberId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

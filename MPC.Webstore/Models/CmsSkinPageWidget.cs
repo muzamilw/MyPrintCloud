@@ -9,12 +9,12 @@ namespace MPC.Webstore.Models
     public class CmsSkinPageWidget
     {
         public long PageWidgetId { get; set; }
-        public Nullable<long> PageId { get; set; }
-        public Nullable<long> WidgetId { get; set; }
-        public Nullable<long> SkinId { get; set; }
-        public Nullable<short> Sequence { get; set; }
-        public Nullable<long> CompanyId { get; set; }
-        public Nullable<long> OrganisationId { get; set; }
+        public long? PageId { get; set; }
+        public long? WidgetId { get; set; }
+        public long? SkinId { get; set; }
+        public short? Sequence { get; set; }
+        public long? CompanyId { get; set; }
+        public long? OrganisationId { get; set; }
 
         public virtual Company Company { get; set; }
         public virtual Organisation Organisation { get; set; }

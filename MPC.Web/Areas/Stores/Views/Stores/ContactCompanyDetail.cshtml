@@ -52,12 +52,12 @@
                                 <li><a href="#tab-SEO" data-toggle="tab">SEO & Rave Reviews</a></li>
                                 <li><a href="#tab-territory" data-toggle="tab" data-bind="click: $root.userAndAddressesTabSelected">Users & Addresses</a></li>
                                 <!--ko if: $root.selectedStore() != undefined && $root.selectedStore().companyId()!== undefined -->
-                                <li><a data-bind="click: $root.getProducts" href="#tab-products" data-toggle="tab">Products</a></li>
+                                <li><a data-bind="click: $root.getProducts" href="#tab-products" data-toggle="tab">Products & Categories</a></li>
                                 <!--/ko -->
                                 <li><a href="#tab-mailseries" data-toggle="tab">Emails</a></li>
                                 <li><a href="#tab-approvalPolicies" data-toggle="tab">Store Workflow</a></li>
                                 <li><a href="#tab-pageeditor" data-toggle="tab">Store Layout</a></li>
-                                <li><a href="#tab-DelvAddOns" data-toggle="tab">Delivery Add Ons</a></li>
+                                <li><a href="#tab-DelvAddOns" data-toggle="tab" data-bind="click: $root.userAndAddressesTabSelected">Delivery Add Ons</a></li>
                                 <li><a href="#tab-specialoffer" data-toggle="tab">Discount Policies</a></li>
                                 <li><a href="#tab-loyaltyPoints" data-toggle="tab">Loyalty Points</a></li>
                                 <li><a href="#tab-CMYKColors" data-toggle="tab">CMYK Colors</a></li>
@@ -245,7 +245,7 @@
                                                         <span class="label label-success">Active</span>
                                                         <!-- /ko -->
                                                         <!-- ko if: status() != 1 -->
-                                                        <span class="label label-danger">DeActive</span>
+                                                        <span class="label label-danger">In-Active</span>
                                                         <!-- /ko -->
 
                                                     </div>
@@ -765,7 +765,7 @@
                                                     <select class="form-control" data-bind="options: $root.themes, optionsText: 'Name', optionsValue: 'SkinId',value:$root.selectedTheme"></select>
                                                 </div>
                                                 <div class="col-lg-3">
-                                                    <div class="btn btn-primary" data-bind="click:$root.onApplyTheme">Apply</div>
+                                                    <div class="btn btn-primary" data-bind="click:$root.onApplyTheme,visible:$root.selectedStore().companyId()!==undefined">Apply</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1775,7 +1775,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 </div>
                                                 <div class="filter-block pull-right col-xs-5" data-bind="click:$root.onAddVariableDefination">
                                                     <a class="btn btn-primary pull-right">
-                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add 
+                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
                                                     </a>
                                                 </div>
                                             </div>
@@ -1891,7 +1891,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
             <tr data-bind="click: $root.selectRaveReview, css: { selectedRow: $data === $root.selectedRaveReview}">
                 <td data-bind="text: reviewBy"></td>
                 <td data-bind="text: review"></td>
-                <td data-bind="text: isDisplay()==true ? 'YES' : 'NO'"></td>
+                <td data-bind="text: isDisplay() ? 'YES' : 'NO', css: { 'label-success': isDisplay, 'label-danger': !isDisplay() }"></td>
                 <td id="actionColumn">
                     <!-- ko template: { name: "actionsRaveReviewTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                     <!-- /ko -->
@@ -1945,7 +1945,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 <td data-bind="text: territoryCode"></td>
                 <td>
                     <div class="type">
-                        <span class="label" data-bind="text: isDefault() == true ? 'Yes' : 'No' , css: { 'label-success': (isDefault() == true),'label-danger': (isDefault() != true)}"></span> 
+                        <span class="label" data-bind="text: isDefault() == true ? 'Yes' : 'No' , css: { 'label-success': (isDefault() == true),'label-danger': (isDefault() != true)}"></span>
                     </div>
                 </td>
                 <td id="actionColumn" class="text-right">

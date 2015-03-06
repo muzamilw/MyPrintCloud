@@ -156,46 +156,12 @@
         $(function () {
             
             $('#listores').addClass('active');
-        //    $('#ligeneralsettings').addClass('active');
-          //  $('#listore').addClass('active');
         });
         
         $(document).ready(function () {
-
-            
+                       
             //min/max slider
             $('.bs-example-tooltips a').popover();
-            $('.slider-minmax').noUiSlider({
-                range: [0, 100],
-                start: [100],
-                handles: 1,
-                connect: 'upper',
-                slide: function () {
-
-
-                },
-                set: function () {
-                    var val = $(this).val();
-                    if (val >= 60) {
-
-                        $('.Top_Cat_Body').css("width", "22%");
-                        $('.FI_TL').css("height", "210px");
-                        $('.productListIcons').css("width", "239px");
-                    } else if (val >= 40) {
-
-                        $('.Top_Cat_Body').css("width", "18%");
-                        $('.FI_TL').css("height", "210px");
-                        $('.productListIcons').css("width", "194px");
-                    } else if (val <= 20) {
-
-                        $('.Top_Cat_Body').css("width", "13%");
-                        $('.FI_TL').css("height", "140px");
-                        $('.productListIcons').css("width", "139px");
-                    }
-                }
-
-            });
-            $('.slider-minmax').val(100, true);
         });
 
     </script>
