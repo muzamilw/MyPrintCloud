@@ -973,9 +973,9 @@ namespace MPC.Implementation.MISServices
             //UpdateCompanyContactOfUpdatingCompany(companySavingModel);
             UpdateProductCategoriesOfUpdatingCompany(companySavingModel, productCategories);
 
-            UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);
+            UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);//todo have savechanges
             UpdateCampaigns(companySavingModel.Company.Campaigns, companyDbVersion);
-            UpdateCmsSkinPageWidget(companySavingModel.CmsPageWithWidgetList, companyDbVersion);
+            UpdateCmsSkinPageWidget(companySavingModel.CmsPageWithWidgetList, companyDbVersion);//todo have savechanges
             UpdateColorPallete(companySavingModel.Company, companyDbVersion);
             if (companyToBeUpdated.ImageBytes != null)
             {
@@ -986,15 +986,15 @@ namespace MPC.Implementation.MISServices
             UpdateCmsOffers(companySavingModel.Company, companyDbVersion);
             UpdateMediaLibrary(companySavingModel.Company, companyDbVersion);
             BannersUpdate(companySavingModel.Company, companyDbVersion);
-            companyRepository.SaveChanges();
+            companyRepository.SaveChanges();//todo second external savechanges
             //Update products
             UpdateProductsOfUpdatingCompany(companySavingModel);
             //Save Files
-            companyToBeUpdated.ProductCategories = productCategories;
+            companyToBeUpdated.ProductCategories = productCategories;//todo have savechanges while adding new for images saving
             //SaveFilesOfProductCategories(companyToBeUpdated);
             SaveSpriteImage(companySavingModel.Company);
             SaveCompanyCss(companySavingModel.Company);
-            UpdateMediaLibraryFilePath(companySavingModel.Company, companyDbVersion);
+            UpdateMediaLibraryFilePath(companySavingModel.Company, companyDbVersion);//todo have savechanges 
 
             UpdateContactProfileImage(companySavingModel, companyDbVersion);
             SaveCompanyBannerImages(companySavingModel.Company, companyDbVersion);
@@ -1002,7 +1002,7 @@ namespace MPC.Implementation.MISServices
             UpdateSecondaryPageImagePath(companySavingModel, companyDbVersion);
             UpdateCampaignImages(companySavingModel.Company.Campaigns, companyDbVersion);
             UpdateSmartFormVariableIds(companySavingModel.Company.SmartForms, companyDbVersion);
-            companyRepository.SaveChanges();
+            companyRepository.SaveChanges();//todo third external savechanges
 
             //Call Service to add or remove the IIS Bindings for Store Domains
             updateDomainsInIIS(companyDbVersion.CompanyDomains, companyDomainsDbVersion);
@@ -2498,22 +2498,22 @@ namespace MPC.Implementation.MISServices
 
             return new CompanyBaseResponse
                    {
-                       SystemUsers = systemUserRepository.GetAll(),
+                       //SystemUsers = systemUserRepository.GetAll(),
                        CompanyTerritories = companyTerritoryRepository.GetAllCompanyTerritories(storeId),
-                       CompanyContactRoles = companyContactRoleRepository.GetAll(),
-                       PageCategories = pageCategoryRepository.GetCmsSecondaryPageCategories(),
-                       RegistrationQuestions = registrationQuestionRepository.GetAll(),
+                       //CompanyContactRoles = companyContactRoleRepository.GetAll(),
+                      // PageCategories = pageCategoryRepository.GetCmsSecondaryPageCategories(),
+                      // RegistrationQuestions = registrationQuestionRepository.GetAll(),
                        Addresses = addressRepository.GetAllAddressByStoreId(storeId),
-                       PaymentMethods = paymentMethodRepository.GetAll().ToList(),
-                       EmailEvents = emailEventRepository.GetAll(),
-                       Widgets = widgetRepository.GetAll(),
-                       CostCentres = costCentreRepository.GetAllCompanyCentersByOrganisationId().ToList(),//GetAllCompanyCentersByCompanyId
-                       States = stateRepository.GetAll(),
-                       Countries = countryRepository.GetAll(),
+                      // PaymentMethods = paymentMethodRepository.GetAll().ToList(),
+                       //EmailEvents = emailEventRepository.GetAll(),
+                       //Widgets = widgetRepository.GetAll(),
+                      // CostCentres = costCentreRepository.GetAllCompanyCentersByOrganisationId().ToList(),//GetAllCompanyCentersByCompanyId
+                      // States = stateRepository.GetAll(),
+                      // Countries = countryRepository.GetAll(),
                        FieldVariableResponse = fieldVariableRepository.GetFieldVariable(request),
                        SmartFormResponse = smartFormRepository.GetSmartForms(smartFormRequest),
                        FieldVariablesForSmartForm = fieldVariableRepository.GetFieldVariablesForSmartForm(storeId),
-                       CmsPages = cmsPageRepository.GetCmsPagesForOrders()
+                      // CmsPages = cmsPageRepository.GetCmsPagesForOrders()
 
                    };
         }
