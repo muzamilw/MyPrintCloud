@@ -44,7 +44,7 @@ namespace MPC.Interfaces.Repository
         Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID);
 
         Item GetItemById(long RefitemId);
-        Item GetItemByIdDesigner(long RefitemId);
+        Item GetItemByIdDesigner(long ItemId);
 
         ProductItem GetItemAndDetailsByItemID(long itemId);
 
@@ -134,5 +134,9 @@ namespace MPC.Interfaces.Repository
         long GetCartItemsCount(long ContactId, long TemporaryCustomerId);
 
         List<CmsSkinPageWidget> GetStoreWidgets();
+
+        List<SaveDesignView> GetSavedDesigns(long ContactID);
+
+        void RemoveItemAttacmentPhysically(List<ArtWorkAttatchment> attatchmentList);
     }
 }

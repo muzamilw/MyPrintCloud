@@ -45,6 +45,9 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -354,9 +357,6 @@
       <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Preview\InquiryItem.cs">
-      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Preview\Invoice.cs">
       <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Preview\InvoiceDetail.cs">
@@ -702,9 +702,6 @@
       <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Preview\State.cs">
-      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Preview\Status.cs">
       <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Preview\StockCategory.cs">
@@ -1525,6 +1522,7 @@
     <Compile Include="TemplatePage.cs">
       <DependentUpon>PinkcardsModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="WidgetCustomModel.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

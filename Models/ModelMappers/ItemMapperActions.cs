@@ -120,6 +120,16 @@ namespace MPC.Models.ModelMappers
         /// </summary>
         public Action<ItemSection> DeleteItemSection { get; set; }
 
+        /// <summary>
+        /// Action to create a Item Image
+        /// </summary>
+        public Func<ItemImage> CreateItemImage { get; set; }
+
+        /// <summary>
+        /// Action to delete a Item Image
+        /// </summary>
+        public Action<ItemImage> DeleteItemImage { get; set; }
+
         #endregion
     }
 }

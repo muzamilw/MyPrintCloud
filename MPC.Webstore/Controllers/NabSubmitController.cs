@@ -20,30 +20,88 @@ namespace MPC.Webstore.Controllers
     {
         private readonly IPaymentGatewayService _PaymentGatewayService;
         private readonly IOrderService _OrderService;
+        private readonly ICompanyService _CompanyService;
+        private readonly ICampaignService _campaignService;
+        private readonly IUserManagerService _usermanagerService;
+        private readonly IPrePaymentService _IPrePaymentService;
+        private readonly INABTransactionService _INABTransactionService;
+
         // GET: NabSubmit
-        public NabSubmitController(IPaymentGatewayService PaymentGatewayService, IOrderService OrderService)
+        public NabSubmitController(IPaymentGatewayService PaymentGatewayService, IOrderService OrderService, ICompanyService _CompanyService, ICampaignService _campaignService, IUserManagerService _usermanagerService, IPrePaymentService _IPrePaymentService, INABTransactionService _INABTransactionService)
         {
             this._PaymentGatewayService = PaymentGatewayService;
             this._OrderService = OrderService;
+            this._CompanyService = _CompanyService;
+            this._campaignService = _campaignService;
+            this._usermanagerService = _usermanagerService;
+            this._IPrePaymentService = _IPrePaymentService;
+            this._INABTransactionService = _INABTransactionService;
         }
-        public ActionResult Index()
+        public ActionResult Index(ErrorSummary? Message)
         {
 
-            NABViewModel model = new NABViewModel();
-            List<DropdownType> sourceOfType = new List<DropdownType>();
-            sourceOfType.Add(new DropdownType
+            switch (Message)
             {
-                value = "Select credit card type",
+                case ErrorSummary.InvalidCardTypeNumber:
+                    {
+                        ViewBag.ErrorMessage = "Sorry, your credit Card Type and Number is not valid";
+                        break;
+                    }
+                case ErrorSummary.InvalidCardType:
+                    {
+                        ViewBag.ErrorMessage = "Sorry, Please Select Valid Card Type.";
+                        break;
+                    }
+                case ErrorSummary.InvalidCardNumber:
+                    {
+                        ViewBag.ErrorMessage = "Sorry, Please Enter a Valid Card Number.";
+                        break;
+                    }
+                case ErrorSummary.InvalidPaymentGateway:
+                    {
+                        ViewBag.ErrorMessage = "Payment Gateway is not set.";
+                        break;
+                    }
+                case ErrorSummary.InvalidOrder:
+                    {
+                        ViewBag.ErrorMessage = "Invalid Order";
+                        break;
+                    }
+                case ErrorSummary.statusResponseMessage:
+                    {
+                        ViewBag.ErrorMessage = "statusResponseMessage.";
+                        break;
+                    }
+                case ErrorSummary.Error:
+                    {
+                        ViewBag.ErrorMessage = "Error occurred while processing.";
+                        break;
+                    }
+                default:
+                    {
+                        ViewBag.ErrorMessage = "null";
+                        break;
+                    }
+
+            
+
+            }
+
+            NABViewModel model = new NABViewModel();
+            List<DropdownCardType> sourceOfType = new List<DropdownCardType>();
+            sourceOfType.Add(new DropdownCardType
+            {
+                value = 0,
                 Text = "Select credit card type"
             });
-            sourceOfType.Add(new DropdownType
+            sourceOfType.Add(new DropdownCardType
             {
-                value = "Visa",
+                value = 1,
                 Text = "Visa"
             });
-            sourceOfType.Add(new DropdownType
+            sourceOfType.Add(new DropdownCardType
             {
-                value = "Master",
+                value = 2,
                 Text = "Master"
             });
 
@@ -53,9 +111,9 @@ namespace MPC.Webstore.Controllers
             {
                 sourceOfDate.Add(new DropdownType
                 {
-                   // value = i,
+                    // value = i,
                     value = i <= 9 ? "0" + i : i.ToString(),
-                   Text = i <= 9 ? "0" + i : i.ToString()
+                    Text = i <= 9 ? "0" + i : i.ToString()
                 });
             }
             model.ListDate = new SelectList(sourceOfDate, "value", "Text");
@@ -64,7 +122,7 @@ namespace MPC.Webstore.Controllers
             {
                 if (i == 1)
                 {
-                   // sourceOfYear.Add(new DropdownType() { value = i, Text = DateTime.Now.Year.ToString() });
+                    // sourceOfYear.Add(new DropdownType() { value = i, Text = DateTime.Now.Year.ToString() });
                     sourceOfYear.Add(new DropdownType() { value = DateTime.Now.Year.ToString(), Text = DateTime.Now.Year.ToString() });
                 }
                 else
@@ -77,343 +135,271 @@ namespace MPC.Webstore.Controllers
         }
 
         [HttpPost]
-        //public ActionResult Index(NABViewModel model, int OrderID)
-        //{
+        public ActionResult Index(NABViewModel model)
+        {
 
-        //    string CacheKeyName = "CompanyBaseResponse";
-        //    ObjectCache cache = MemoryCache.Default;
+            int OrderID = 16633;
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
 
-        //    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
 
-        //    int typeid = GetCardTypeIdFromNumber(model.CardNumber);
-        //    bool result = IsValidNumber(model.CardNumber);
+            int typeid = GetCardTypeIdFromNumber(model.CardNumber);
+            bool result = IsValidNumber(model.CardNumber);
 
-        //    if (model.SelectedCardType != typeid && result == false)
-        //    {
-        //        //ErrorMEsSummry.Visible = true;
-        //        //ErrorMEsSummry.Text = "Sorry, your credit card type and number is not valid.";
-        //        //errorMesgCnt.Visible = true;
-        //    }
-        //    else if (model.SelectedCardType != typeid)
-        //    {
-        //        //ErrorMEsSummry.Visible = true;
-        //        //ErrorMEsSummry.Text = "Sorry, Please select valid card type.";
-        //        //errorMesgCnt.Visible = true;
-        //    }
-        //    else if (result == false)
-        //    {
-        //        //ErrorMEsSummry.Visible = true;
-        //        //ErrorMEsSummry.Text = "Sorry, Please enter a valid card number.";
-        //        //errorMesgCnt.Visible = true;
-        //    }
-        //    else
-        //    {
-        //        PaymentGateway oGateWay = null;
+            if (model.SelectedCardType != typeid && result == false)
+            {
+                return RedirectToAction("Index", new { Message = ErrorSummary.InvalidCardTypeNumber });
+            }
+            else if (model.SelectedCardType != typeid)
+            {
+                return RedirectToAction("Index", new { Message = ErrorSummary.InvalidCardType });
+               
+            }
+            else if (result == false)
+            {
+                return RedirectToAction("Index", new { Message = ErrorSummary.InvalidCardNumber });
+                      }
+            else
+            {
+                PaymentGateway oGateWay = null;
+                if (StoreBaseResopnse.Company.isAcceptPaymentOnline == true)
+                {
+                    oGateWay = _PaymentGatewayService.GetPaymentGatewayRecord(StoreBaseResopnse.Company.CompanyId);
+                }
+                
 
-        //        if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
-        //        {
-        //            oGateWay = _PaymentGatewayService.GetPaymentGatewayRecord();
-        //        }
-        //        else if (UserCookieManager.StoreMode == (int)StoreMode.Corp && StoreBaseResopnse.Company.isBrokerCanAcceptPaymentOnline == true)
-        //        {
-        //            oGateWay = _PaymentGatewayService.GetPaymentGatewayRecord(StoreBaseResopnse.Company.CompanyId);
-        //        }
-        //        else if (UserCookieManager.StoreMode == (int)StoreMode.Corp && StoreBaseResopnse.Company.isBrokerCanAcceptPaymentOnline == false)
-        //        {
-        //            oGateWay = _PaymentGatewayService.GetPaymentGatewayRecord();
-        //        }
+                if (oGateWay == null)
+                {
+                   // Response.Redirect("/");
+                    return View("PartialViews/Dashboard");
+                //    return RedirectToAction("Index", new { Message = ErrorSummary.InvalidPaymentGateway });
+              
+                }
+                else
+                {
 
-        //        if (oGateWay == null)
-        //        {
-        //            //ErrorMEsSummry.Visible = true;
-        //            //errorMesgCnt.Visible = true;
-        //            //ErrorMEsSummry.Text = "Payment Gateway is not set.";
-        //        }
-        //        else
-        //        {
+                    if (OrderID > 0)
+                    {
 
-        //            if (OrderID > 0)
-        //            {
+                        Estimate modelOrder = _OrderService.GetOrderByID(OrderID);
+                        ShoppingCart shopCart = _OrderService.GetShopCartOrderAndDetails(OrderID, OrderStatus.ShoppingCart);
 
-        //                Estimate modelOrder = _OrderService.GetOrderByID(OrderID);
-        //                ShoppingCart shopCart = _OrderService.GetShopCartOrderAndDetails(OrderID, OrderStatus.ShoppingCart);
 
-        //                //ErrorMEsSummry.Visible = false;
-        //                //errorMesgCnt.Visible = false;
+                        string orderValue = Math.Round(Convert.ToDouble(modelOrder.Estimate_Total ?? 0), 2).ToString();
+                        string xmlFormate = OrderXmlData(OrderID, model.CardNumber, model.SelectedDate, model.SelectedYear.Substring(2), orderValue, modelOrder.Order_Code, oGateWay.BusinessEmail, oGateWay.IdentityToken);
+                        WebRequest request = null;
+                        WebResponse response = null;
 
-        //                string orderValue = Math.Round(Convert.ToDouble(modelOrder.Estimate_Total ?? 0), 2).ToString();
-        //                string xmlFormate = OrderXmlData(OrderID, model.CardNumber, model.SelectedDate, model.SelectedYear.Substring(2), orderValue, modelOrder.Order_Code, oGateWay.BusinessEmail, oGateWay.IdentityToken);
-        //                WebRequest request = null;
-        //                WebResponse response = null;
+                        string ResponseStatusCode = "515";
+                        string statusResponseMessage = "";
+                        try
+                        {
 
-        //                string ResponseStatusCode = "515";
-        //                string statusResponseMessage = "";
-        //                try
-        //                {
+                            long NabTransactionid = 0;
+                            string apiURL = "";
 
-        //                    long NabTransactionid = 0;
-        //                    string apiURL = "";
-                            
-        //                    if (oGateWay.UseSandbox.HasValue && oGateWay.UseSandbox.Value )
-        //                    {
-        //                        apiURL = oGateWay.TestApiUrl;
-        //                    }
-        //                    else
-        //                    {
-        //                        apiURL = oGateWay.LiveApiUrl;
-        //                    }
-                            
+                            if (oGateWay.UseSandbox.HasValue && oGateWay.UseSandbox.Value)
+                            {
+                                apiURL = oGateWay.TestApiUrl;
+                            }
+                            else
+                            {
+                                apiURL = oGateWay.LiveApiUrl;
+                            }
 
-        //                    request = WebRequest.Create(apiURL);
-        //                    // Set the Method property of the request to POST.
-        //                    request.Method = "POST";
+
+                            request = WebRequest.Create(apiURL);
+                            // Set the Method property of the request to POST.
+                            request.Method = "POST";
 
 
 
 
-        //                    NabTransactionid = PaymentsManager.NabTransactionSaveRequest(Convert.ToInt32(OrderID), xmlFormate);
-        //                    byte[] byteArray = Encoding.UTF8.GetBytes(xmlFormate);
+                            NabTransactionid = _INABTransactionService.NabTransactionSaveRequest(Convert.ToInt32(OrderID), xmlFormate);
+                            byte[] byteArray = Encoding.UTF8.GetBytes(xmlFormate);
 
-        //                    request.ContentType = "text/xml; encoding='utf-8'";
+                            request.ContentType = "text/xml; encoding='utf-8'";
 
-        //                    request.ContentLength = byteArray.Length;
+                            request.ContentLength = byteArray.Length;
 
-        //                    Stream dataStream = request.GetRequestStream();
+                            Stream dataStream = request.GetRequestStream();
 
-        //                    dataStream.Write(byteArray, 0, byteArray.Length);
-
-
-
-
-        //                    dataStream.Close();
+                            dataStream.Write(byteArray, 0, byteArray.Length);
 
 
 
-        //                    response = request.GetResponse();
+
+                            dataStream.Close();
 
 
-        //                    dataStream = response.GetResponseStream();
 
-        //                    StreamReader reader = new StreamReader(dataStream);
-
-        //                    string responseFromServer = reader.ReadToEnd();
-        //                    PaymentsManager.NabTransactionUpdateRequest(NabTransactionid, responseFromServer);
-        //                    if (!string.IsNullOrEmpty(responseFromServer))
-        //                    {
-        //                        var xmlDoc2 = new XmlDocument();
-        //                        xmlDoc2.LoadXml(responseFromServer);
-
-        //                        XmlNodeList statusNode = xmlDoc2.GetElementsByTagName("responseCode");
-
-        //                        if (statusNode[0] != null)
-        //                        {
-        //                            ResponseStatusCode = statusNode[0].InnerText;
-        //                        }
-        //                        else
-        //                        {
-        //                            statusNode = xmlDoc2.GetElementsByTagName("statusCode");
-        //                            if (statusNode[0] != null)
-        //                            {
-        //                                ResponseStatusCode = statusNode[0].InnerText;
-        //                            }
-        //                        }
-        //                        XmlNodeList descNode = xmlDoc2.GetElementsByTagName("responseText");
-        //                        if (descNode[0] != null)
-        //                        {
-        //                            statusResponseMessage = descNode[0].InnerText;
-        //                        }
-        //                        else
-        //                        {
-        //                            XmlNodeList descTransNode = xmlDoc2.GetElementsByTagName("statusDescription");
-        //                            if (descTransNode[0] != null)
-        //                            {
-        //                                statusResponseMessage = statusResponseMessage + descTransNode[0].InnerText;
-        //                            }
-        //                        }
-        //                        reader.Close();
-        //                        dataStream.Close();
-        //                        response.Close();
-
-        //                        if (ResponseStatusCode == "00" || ResponseStatusCode == "08")
-        //                        {
-
-        //                            if (modelOrder.StatusId == 3)
-        //                            {
-
-        //                                XmlNodeList TransNode = xmlDoc2.GetElementsByTagName("txnID");
-        //                                string transactionID = "";
-        //                                if (TransNode[0] != null)
-        //                                {
-        //                                    transactionID = TransNode[0].InnerText;
-        //                                }
+                            response = request.GetResponse();
 
 
-        //                               // BLL.EmailManager emailMgr = new EmailManager();
-        //                               // CompanySiteManager CSM = new CompanySiteManager();
-        //                              //  tbl_company_sites Serversettingss = CompanySiteManager.GetCompanySite();
-        //                                int? customerID = null;
-        //                                StoreMode modeOfStore = StoreMode.Retail;
+                            dataStream = response.GetResponseStream();
 
-        //                                if (modelOrder != null)
-        //                                    customerID = modelOrder.ContactId;
+                            StreamReader reader = new StreamReader(dataStream);
 
-        //                                // order code and order creation date
-        //                                CampaignEmailParams cep = new CampaignEmailParams();
-        //                                string HTMLOfShopReceipt = null;
-        //                                cep.CompanySiteID = 1;
-        //                                cep.ContactID = modelOrder.ContactUserID ?? 0; //SessionParameters.ContactID;
-        //                                cep.ContactCompanyID = modelOrder.CustomerID ?? 0;
-        //                                //SessionParameters.CustomerID;
-        //                                cep.EstimateID = PageParameters.OrderID; //PageParameters.OrderID;
-        //                                tbl_contactcompanies BrokerCompany = null;
-        //                                tbl_contactcompanies CustomerCompany =
-        //                                    CustomerManager.GetCustomer(Convert.ToInt32(modelOrder.CustomerID));
-        //                                tbl_contacts CustomrContact =
-        //                                    ContactManager.GetContactById(Convert.ToInt32(modelOrder.ContactUserID));
-        //                                (new BLL.OrderManager()).SetOrderCreationDateAndCode(PageParameters.OrderID);
+                            string responseFromServer = reader.ReadToEnd();
+                            _INABTransactionService.NabTransactionUpdateRequest(NabTransactionid, responseFromServer);
+                            if (!string.IsNullOrEmpty(responseFromServer))
+                            {
+                                var xmlDoc2 = new XmlDocument();
+                                xmlDoc2.LoadXml(responseFromServer);
 
-        //                                if (modelOrder.BrokerID != null)
-        //                                {
-        //                                    modeOfStore = StoreMode.Broker;
-        //                                    HTMLOfShopReceipt =
-        //                                        (new BLL.EmailManager()).GetPinkCardsShopReceiptPage(
-        //                                            PageParameters.OrderID, modelOrder.BrokerID ?? 0, 0);
-        //                                }
-        //                                else if (CustomerCompany.IsCustomer == (int)CustomerTypes.Corporate)
-        //                                {
-        //                                    modeOfStore = StoreMode.Corp;
-        //                                    HTMLOfShopReceipt =
-        //                                        (new BLL.EmailManager()).GetPinkCardsShopReceiptPage(
-        //                                            PageParameters.OrderID, 0, 1); // corp
-        //                                }
-        //                                else
-        //                                {
-        //                                    HTMLOfShopReceipt =
-        //                                        (new BLL.EmailManager()).GetPinkCardsShopReceiptPage(
-        //                                            PageParameters.OrderID, 0, 0); // retail
-        //                                }
+                                XmlNodeList statusNode = xmlDoc2.GetElementsByTagName("responseCode");
 
+                                if (statusNode[0] != null)
+                                {
+                                    ResponseStatusCode = statusNode[0].InnerText;
+                                }
+                                else
+                                {
+                                    statusNode = xmlDoc2.GetElementsByTagName("statusCode");
+                                    if (statusNode[0] != null)
+                                    {
+                                        ResponseStatusCode = statusNode[0].InnerText;
+                                    }
+                                }
+                                XmlNodeList descNode = xmlDoc2.GetElementsByTagName("responseText");
+                                if (descNode[0] != null)
+                                {
+                                    statusResponseMessage = descNode[0].InnerText;
+                                }
+                                else
+                                {
+                                    XmlNodeList descTransNode = xmlDoc2.GetElementsByTagName("statusDescription");
+                                    if (descTransNode[0] != null)
+                                    {
+                                        statusResponseMessage = statusResponseMessage + descTransNode[0].InnerText;
+                                    }
+                                }
+                                reader.Close();
+                                dataStream.Close();
+                                response.Close();
 
-        //                                tbl_campaigns OnlineOrderCampaign =
-        //                                    (new BLL.EmailManager()).GetCampaignRecordByEmailEvent(
-        //                                        (int)BLL.Events.OnlineOrder);
-        //                                if (modelOrder.BrokerID != null)
-        //                                {
-        //                                    cep.ContactCompanyID =
-        //                                        SessionParameters.BrokerContactCompany.ContactCompanyID;
-        //                                    BrokerCompany = CustomerManager.GetCustomer(modelOrder.BrokerID ?? 0);
-        //                                    cep.BrokerID = modelOrder.BrokerID ?? 0;
-        //                                    int AdminIDOfBroker =
-        //                                        ContactManager.GetBrokerByRole(BrokerCompany.ContactCompanyID,
-        //                                            Convert.ToInt32(Roles.Adminstrator));
-        //                                    cep.BrokerContactID = AdminIDOfBroker;
-        //                                    cep.SalesManagerContactID = AdminIDOfBroker;
-        //                                    cep.StoreID = modelOrder.BrokerID ?? 0;
-        //                                    cep.AddressID = modelOrder.BrokerID ?? 0;
-        //                                    emailMgr.emailBodyGenerator(OnlineOrderCampaign, Serversettingss, cep,
-        //                                        CustomrContact, StoreMode.Broker, "", HTMLOfShopReceipt, "", "", "", "",
-        //                                        null, "", null, "", BrokerCompany.Name);
-        //                                    emailMgr.SendEmailToSalesManager((int)EmailEvents.NewOrderToSalesManager,
-        //                                        Convert.ToInt32(modelOrder.ContactUserID),
-        //                                        Convert.ToInt32(modelOrder.CustomerID), modelOrder.BrokerID ?? 0,
-        //                                        PageParameters.OrderID, Serversettingss, AdminIDOfBroker, 0,
-        //                                        StoreMode.Broker, BrokerCompany.Name);
-        //                                }
-        //                                else
-        //                                {
-        //                                    cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactUserID);
+                                if (ResponseStatusCode == "00" || ResponseStatusCode == "08")
+                                {
 
-        //                                    if (CustomerCompany.IsCustomer == (int)CustomerTypes.Corporate)
-        //                                    {
-        //                                        cep.StoreID = Convert.ToInt32(modelOrder.CustomerID);
-        //                                        cep.AddressID = Convert.ToInt32(modelOrder.CustomerID);
-        //                                        int ManagerID =
-        //                                            ContactManager.GetBrokerByRole(
-        //                                                Convert.ToInt32(modelOrder.CustomerID),
-        //                                                (int)Roles.Manager);
-        //                                        //ContactManager.GetBrokerByRole(SessionParameters.BrokerContactCompany.ContactCompanyID, Convert.ToInt32(Roles.Adminstrator));
-        //                                        cep.CorporateManagerID = ManagerID;
-        //                                        emailMgr.SendEmailToSalesManager(
-        //                                            (int)EmailEvents.NewOrderToSalesManager,
-        //                                            Convert.ToInt32(modelOrder.ContactUserID),
-        //                                            Convert.ToInt32(modelOrder.CustomerID), 0, PageParameters.OrderID,
-        //                                            Serversettingss, 0, ManagerID, StoreMode.Corp);
-        //                                    }
-        //                                    else
-        //                                    {
-        //                                        cep.AddressID = Convert.ToInt32(modelOrder.CustomerID);
-        //                                        cep.StoreID = Serversettingss.CompanySiteID;
-        //                                        emailMgr.SendEmailToSalesManager(
-        //                                            (int)EmailEvents.NewOrderToSalesManager,
-        //                                            Convert.ToInt32(modelOrder.ContactUserID),
-        //                                            Convert.ToInt32(modelOrder.CustomerID), 0, PageParameters.OrderID,
-        //                                            Serversettingss, 0, 0, StoreMode.Retail);
-        //                                    }
-        //                                    UsersManager usermgr = new UsersManager();
-        //                                    //in case of retail <<SalesManagerEmail>> variable should be resolved by organization's sales manager
-        //                                    // thats why after getting the sales manager records ew are sending his email as a parameter in email body genetor
-        //                                    tbl_systemusers EmailOFSM =
-        //                                        usermgr.GetSalesManagerDataByID(
-        //                                            Convert.ToInt32(Serversettingss.SalesManagerID));
-        //                                    emailMgr.emailBodyGenerator(OnlineOrderCampaign, Serversettingss, cep,
-        //                                        CustomrContact, StoreMode.Retail, "", HTMLOfShopReceipt, "",
-        //                                        EmailOFSM.Email);
+                                    if (modelOrder.StatusId == 3)
+                                    {
 
-        //                                }
-        //                                BLL.PaymentsManager payManager = new BLL.PaymentsManager();
-        //                                payManager.CreatePrePayment(Model.PaymentMethods.NAB, PageParameters.OrderID,
-        //                                    customerID, 0, transactionID, Convert.ToDouble(orderValue),
-        //                                    modeOfStore, ResponseStatusCode + " " + statusResponseMessage);
+                                        XmlNodeList TransNode = xmlDoc2.GetElementsByTagName("txnID");
+                                        string transactionID = "";
+                                        if (TransNode[0] != null)
+                                        {
+                                            transactionID = TransNode[0].InnerText;
+                                        }
+                                        int? customerID = null;
+                                        StoreMode modeOfStore = StoreMode.Retail;
+
+                                        if (modelOrder != null)
+                                            customerID = Convert.ToInt32(modelOrder.ContactId);
+
+                                        // order code and order creation date
+                                        CampaignEmailParams cep = new CampaignEmailParams();
+                                        string HTMLOfShopReceipt = null;
+                                        cep.CompanySiteID = 1;
+                                        cep.ContactId = modelOrder.ContactId ?? 0; //SessionParameters.ContactID;
+                                        cep.CompanyId = modelOrder.CompanyId;
+                                       
+                                        cep.EstimateID = OrderID; //PageParameters.OrderID;
+                                        
+                                        Company CustomerCompany = _CompanyService.GetCustomer(Convert.ToInt32(modelOrder.CompanyId));
+                                        CompanyContact CustomrContact = _CompanyService.GetContactById(Convert.ToInt32(modelOrder.ContactId));
+                                        _OrderService.SetOrderCreationDateAndCode(OrderID);
+
+                                        if (CustomerCompany.IsCustomer == (int)CustomerTypes.Corporate)
+                                        {
+                                            modeOfStore = StoreMode.Corp;
+                                            HTMLOfShopReceipt = _campaignService.GetPinkCardsShopReceiptPage(OrderID, CustomrContact.ContactId);
+                                            // corp
+                                        }
+                                        else
+                                        {
+                                            HTMLOfShopReceipt = _campaignService.GetPinkCardsShopReceiptPage(OrderID, 0);
+                                             // retail
+                                        }
 
 
-        //                                Response.Redirect("../Receipt.aspx?OrderID=" + PageParameters.OrderID.ToString());
-        //                            }
-        //                            else
-        //                            {
-        //                                ErrorMEsSummry.Visible = true;
-        //                                errorMesgCnt.Visible = true;
-        //                                ErrorMEsSummry.Text = "invalid Order.";
-        //                            }
-        //                        }
-        //                        else
-        //                        {
-        //                            ErrorMEsSummry.Visible = true;
-        //                            errorMesgCnt.Visible = true;
-        //                            ErrorMEsSummry.Text = statusResponseMessage;
-        //                        }
-        //                    }
-        //                    else
-        //                    {
-        //                        ErrorMEsSummry.Visible = true;
-        //                        errorMesgCnt.Visible = true;
-        //                        ErrorMEsSummry.Text = "Error occurred while processing.";
-        //                    }
-        //                }
-        //                catch
-        //                {
-        //                    throw;
-        //                }
-        //                finally
-        //                {
-        //                    if (request != null) request.GetRequestStream().Close();
-        //                    if (response != null) response.GetResponseStream().Close();
-        //                }
-        //            }
-        //            else
-        //            {
-        //                ErrorMEsSummry.Visible = true;
-        //                errorMesgCnt.Visible = true;
-        //                ErrorMEsSummry.Text = "Invalid Order number.";
-        //            }
-        //        }
+                                        Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder);
+                                        cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
+                                        SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(CustomerCompany.SalesAndOrderManagerId1.Value);
+                                        cep.StoreID = Convert.ToInt32(modelOrder.CompanyId);
+                                        cep.AddressID = Convert.ToInt32(modelOrder.CompanyId);
+                                        if (CustomerCompany.IsCustomer == (int)CustomerTypes.Corporate)
+                                        {
 
-        //    }
-        //    return view();
-        //}
+                                            long ManagerID = _CompanyService.GetContactIdByRole(modelOrder.CompanyId, (int)Roles.Manager);
+                                            cep.CorporateManagerID = ManagerID;
+                                            _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactId), Convert.ToInt32(modelOrder.CompanyId), OrderID, UserCookieManager.OrganisationID, Convert.ToInt32(ManagerID), StoreMode.Corp, UserCookieManager.StoreId, EmailOFSM);
+                                        }
+                                        else
+                                        {
+
+                                            _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, OrderID, UserCookieManager.OrganisationID, 0, StoreMode.Retail, UserCookieManager.StoreId, EmailOFSM);
+                                        }
+
+                                        //in case of retail <<SalesManagerEmail>> variable should be resolved by organization's sales manager
+                                        // thats why after getting the sales manager records ew are sending his email as a parameter in email body genetor
+                                        _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(CustomerCompany.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email);
+                                        _IPrePaymentService.CreatePrePayment(PaymentMethods.NAB, OrderID, Convert.ToInt32(customerID), 0, transactionID, Convert.ToDouble(orderValue), modeOfStore, ResponseStatusCode + " " + statusResponseMessage);
+
+                                        return Redirect(Url.Action("Index", "Receipt", new { OrderId = OrderID.ToString() }));
+
+                                      
+                                    }
+                                    else
+                                    {
+                                        return RedirectToAction("Index", new { Message = ErrorSummary.InvalidOrder });
+                                        
+                                       
+                                    }
+                                }
+                                else
+                                {
+                                    return RedirectToAction("Index", new { Message = ErrorSummary.statusResponseMessage });
+                                    
+                                    //ErrorMEsSummry.Visible = true;
+                                    //errorMesgCnt.Visible = true;
+                                    //ErrorMEsSummry.Text = statusResponseMessage;
+                                }
+                            }
+                            else
+                            {
+                                return RedirectToAction("Index", new { Message = ErrorSummary.Error });
+                               
+                            }
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                        finally
+                        {
+                            if (request != null) request.GetRequestStream().Close();
+                            if (response != null) response.GetResponseStream().Close();
+                        }
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", new { Message = ErrorSummary.InvalidOrder });
+                        
+                    }
+                }
+
+            }
+            
+        }
 
         private string OrderXmlData(int orderID, string ccNumber, string ccDate, string ccYear, string OrderAmount,
             string PONumber, string marchantID, string Password)
         {
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+
             int indexOdDecimal = OrderAmount.IndexOf(".");
             if (indexOdDecimal >= 0)
             {
@@ -461,14 +447,14 @@ namespace MPC.Webstore.Controllers
             xml = xml.Replace("#PONumber", PONumber);
             xml = xml.Replace("#merchantID", marchantID);
             xml = xml.Replace("#merchantPassword", Password);
-            //if (ConfigurationSettings.AppSettings["CurrencyNAB"] != null)
-            //{
-            //    xml = xml.Replace("#CurrencyNAB", ConfigurationSettings.AppSettings["CurrencyNAB"]);
-            //}
-            //else
-            //{
-            //    xml = xml.Replace("#CurrencyNAB", "AUD");
-            //}
+            if (StoreBaseResopnse.Currency != null)
+            {
+                xml = xml.Replace("#CurrencyNAB", StoreBaseResopnse.Currency);
+            }
+            else
+            {
+                xml = xml.Replace("#CurrencyNAB", "AUD");
+            }
 
             xml = xml.Replace("#ExpiryDate", ccDate + "/" + ccYear);
 
@@ -480,22 +466,22 @@ namespace MPC.Webstore.Controllers
             return xml;
         }
 
-        //public bool IsValidNumber(string cardNum)
-        //{
-        //    string cardRegex = "^(?:(?<Visa>4\\d{3})|(?<MasterCard>5[1-5]\\d{2})|(?<Discover>6011)|(?<DinersClub>(?:3[68]\\d{2})|(?:30[0-5]\\d))|(?<Amex>3[47]\\d{2}))([ -]?)(?(DinersClub)(?:\\d{6}\\1\\d{4})|(?(Amex)(?:\\d{6}\\1\\d{5})|(?:\\d{4}\\1\\d{4}\\1\\d{4})))$";
+        public bool IsValidNumber(string cardNum)
+        {
+            string cardRegex = "^(?:(?<Visa>4\\d{3})|(?<MasterCard>5[1-5]\\d{2})|(?<Discover>6011)|(?<DinersClub>(?:3[68]\\d{2})|(?:30[0-5]\\d))|(?<Amex>3[47]\\d{2}))([ -]?)(?(DinersClub)(?:\\d{6}\\1\\d{4})|(?(Amex)(?:\\d{6}\\1\\d{5})|(?:\\d{4}\\1\\d{4}\\1\\d{4})))$";
 
-        //    Regex cardTest = new Regex(cardRegex);
+            Regex cardTest = new Regex(cardRegex);
 
-        //    //Determine the card type based on the number
-        //    CreditCardTypeType? cardType = GetCardTypeFromNumber(cardNum);
+            //Determine the card type based on the number
+            CreditCardTypeType? cardType = GetCardTypeFromNumber(cardNum);
 
-        //    //Call the base version of IsValidNumber and pass the 
-        //    //number and card type
-        //    if (IsValidNumber(cardNum, cardType))
-        //        return true;
-        //    else
-        //        return false;
-        //}
+            //Call the base version of IsValidNumber and pass the 
+            //number and card type
+            if (IsValidNumber(cardNum, cardType))
+                return true;
+            else
+                return false;
+        }
         public int GetCardTypeIdFromNumber(string cardNum)
         {
             string cardRegex = "^(?:(?<Visa>4\\d{3})|(?<MasterCard>5[1-5]\\d{2})|(?<Discover>6011)|(?<DinersClub>(?:3[68]\\d{2})|(?:30[0-5]\\d))|(?<Amex>3[47]\\d{2}))([ -]?)(?(DinersClub)(?:\\d{6}\\1\\d{4})|(?(Amex)(?:\\d{6}\\1\\d{5})|(?:\\d{4}\\1\\d{4}\\1\\d{4})))$";
@@ -535,6 +521,114 @@ namespace MPC.Webstore.Controllers
                 return 0;
             }
         }
-    
+        public static CreditCardTypeType? GetCardTypeFromNumber(string cardNum)
+        {
+            string cardRegex = "^(?:(?<Visa>4\\d{3})|(?<MasterCard>5[1-5]\\d{2})|(?<Discover>6011)|(?<DinersClub>(?:3[68]\\d{2})|(?:30[0-5]\\d))|(?<Amex>3[47]\\d{2}))([ -]?)(?(DinersClub)(?:\\d{6}\\1\\d{4})|(?(Amex)(?:\\d{6}\\1\\d{5})|(?:\\d{4}\\1\\d{4}\\1\\d{4})))$";
+
+            //Create new instance of Regex comparer with our
+            //credit card regex pattern
+            Regex cardTest = new Regex(cardRegex);
+
+            //Compare the supplied card number with the regex
+            //pattern and get reference regex named groups
+            GroupCollection gc = cardTest.Match(cardNum).Groups;
+
+            //Compare each card type to the named groups to 
+            //determine which card type the number matches
+            if (gc[CreditCardTypeType.MasterCard.ToString()].Success)
+            {
+                return CreditCardTypeType.MasterCard;
+            }
+            else if (gc[CreditCardTypeType.Visa.ToString()].Success)
+            {
+                return CreditCardTypeType.Visa;
+            }
+            else if (gc[CreditCardTypeType.DinersClub.ToString()].Success)
+            {
+                return CreditCardTypeType.DinersClub;
+            }
+            else if (gc[CreditCardTypeType.Amex.ToString()].Success)
+            {
+                return CreditCardTypeType.Amex;
+            }
+            else
+            {
+                //Card type is not supported by our system, return null
+                //(You can modify this code to support more (or less)
+                // card types as it pertains to your application)
+                return null;
+            }
+        }
+        public static bool IsValidNumber(string cardNum, CreditCardTypeType? cardType)
+        {
+            string cardRegex = "^(?:(?<Visa>4\\d{3})|(?<MasterCard>5[1-5]\\d{2})|(?<Discover>6011)|(?<DinersClub>(?:3[68]\\d{2})|(?:30[0-5]\\d))|(?<Amex>3[47]\\d{2}))([ -]?)(?(DinersClub)(?:\\d{6}\\1\\d{4})|(?(Amex)(?:\\d{6}\\1\\d{5})|(?:\\d{4}\\1\\d{4}\\1\\d{4})))$";
+
+            //Create new instance of Regex comparer with our 
+            //credit card regex pattern
+            Regex cardTest = new Regex(cardRegex);
+
+            //Make sure the supplied number matches the supplied
+            //card type
+            if (cardTest.Match(cardNum).Groups[cardType.ToString()].Success)
+            {
+                //If the card type matches the number, then run it
+                //through Luhn's test to make sure the number appears correct
+                if (PassesLuhnTest(cardNum))
+                    return true;
+                else
+                    //The card fails Luhn's test
+                    return false;
+            }
+            else
+                //The card number does not match the card type
+                return false;
+        }
+        public static bool PassesLuhnTest(string cardNumber)
+        {
+            //Clean the card number- remove dashes and spaces
+            cardNumber = cardNumber.Replace("-", "").Replace(" ", "");
+
+            //Convert card number into digits array
+            int[] digits = new int[cardNumber.Length];
+            for (int len = 0; len < cardNumber.Length; len++)
+            {
+                digits[len] = Int32.Parse(cardNumber.Substring(len, 1));
+            }
+
+            //Luhn Algorithm
+            //Adapted from code availabe on Wikipedia at
+            //http://en.wikipedia.org/wiki/Luhn_algorithm
+            int sum = 0;
+            bool alt = false;
+            for (int i = digits.Length - 1; i >= 0; i--)
+            {
+                int curDigit = digits[i];
+                if (alt)
+                {
+                    curDigit *= 2;
+                    if (curDigit > 9)
+                    {
+                        curDigit -= 9;
+                    }
+                }
+                sum += curDigit;
+                alt = !alt;
+            }
+
+            //If Mod 10 equals 0, the number is good and this will return true
+            return sum % 10 == 0;
+        }
+
+
+        public enum ErrorSummary
+        {
+            InvalidCardTypeNumber,
+            InvalidCardType,
+            InvalidCardNumber,
+            InvalidPaymentGateway,
+            InvalidOrder,
+            statusResponseMessage,
+            Error
+        }
     }
 }

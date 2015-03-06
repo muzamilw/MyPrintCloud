@@ -167,6 +167,7 @@
     <Compile Include="DomainModels\ActivityType.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CmsOffer.cs" />
+    <Compile Include="DomainModels\SaveDesignView.cs" />
     <Compile Include="DomainModels\ScopeVariable.cs" />
     <Compile Include="DomainModels\CompanyVariableIcon.cs" />
     <Compile Include="DomainModels\CostCentreAnswer.cs" />
@@ -326,6 +327,7 @@
     <Compile Include="ModelMappers\ItemRelatedItemMapper.cs" />
     <Compile Include="ModelMappers\ItemAddonCostCentreMapper.cs" />
     <Compile Include="ModelMappers\ItemStateTaxMapper.cs" />
+    <Compile Include="ModelMappers\ItemImageMapper.cs" />
     <Compile Include="ModelMappers\ItemStockOptionMapper.cs" />
     <Compile Include="ModelMappers\ItemProductDetailMapper.cs" />
     <Compile Include="ModelMappers\ItemSectionMapper.cs" />

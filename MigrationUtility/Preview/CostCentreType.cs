@@ -23,7 +23,7 @@ namespace MigrationUtility.Preview
         public string TypeName { get; set; }
         public short IsSystem { get; set; }
         public short IsExternal { get; set; }
-        public Nullable<int> CompanyId { get; set; }
+        public Nullable<long> OrganisationId { get; set; }
     
         public virtual ICollection<CostCentre> CostCentres { get; set; }
     }

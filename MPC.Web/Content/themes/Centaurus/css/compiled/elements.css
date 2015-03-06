@@ -1213,11 +1213,13 @@ input[type="radio"] {
     right: 0px;
 }
 
-.infographic-box {
+.infographic-box 
+{
     padding: 20px;
 }
 
-    .infographic-box i {
+    .infographic-box i 
+    {
         font-size: 1em;
         display: block;
         float: left;

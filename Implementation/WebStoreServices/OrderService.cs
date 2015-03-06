@@ -50,14 +50,14 @@ namespace MPC.Implementation.WebStoreServices
         }
 
         // if user order cookie is null the we process the order
-        public long ProcessPublicUserOrder(string orderTitle, long OrganisationId, int storeMode, long CompanyId, long ContactId, ref long TemporaryRetailCompanyId)
+        public long ProcessPublicUserOrder(string orderTitle, long OrganisationId, StoreMode storeMode, long CompanyId, long ContactId, ref long TemporaryRetailCompanyId)
         {
             long orderID = 0;
             if (!IsUserLoggedIn())
             {
                 if (TemporaryRetailCompanyId == 0) // temporary customer doesn't exists in cookie
                 {
-                    if (storeMode == 1) // retail
+                    if (storeMode ==  StoreMode.Retail) // retail
                     {
                         TemporaryRetailCompanyId = CreateTemporaryCustomer(OrganisationId);
                         long TemporaryContactId = _myCompanyContact.GetContactIdByCustomrID(TemporaryRetailCompanyId);
@@ -470,6 +470,15 @@ namespace MPC.Implementation.WebStoreServices
        {
            return _OrderRepository.GetAllCorpOrders(ContactCompany, orderStatus, fromDate, toDate, orderRefNumber);
        
+       }
+       public long GetOrderID(long CompanyID,long ContactID,string orderTitle,long OrganisationId)
+       {
+           return _OrderRepository.GetOrderID(CompanyID, ContactID, orderTitle, OrganisationId);
+       }
+       public long CreateNewOrder(long CompanyId, long ContactId, long OrganisationId, string orderTitle = null)
+       {
+
+           return _OrderRepository.CreateNewOrder(CompanyId, ContactId, OrganisationId, orderTitle);
        }
     }
 }

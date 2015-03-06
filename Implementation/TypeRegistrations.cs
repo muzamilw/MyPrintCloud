@@ -74,7 +74,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<IPayPalResponseService, PayPalResponseService>();
             unityContainer.RegisterType<IPrePaymentService, PrePaymentService>();
             unityContainer.RegisterType<IPaymentGatewayService, PaymentGatewayService>();
-            
+            unityContainer.RegisterType<INABTransactionService, NABTransactionService>();
             
         }
     }

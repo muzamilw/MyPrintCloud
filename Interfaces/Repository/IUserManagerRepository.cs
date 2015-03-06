@@ -9,7 +9,7 @@ namespace MPC.Interfaces.Repository
 {
     public interface IUserManagerRepository : IBaseRepository<SystemUser, long>
     {
-        SystemUser GetSalesManagerDataByID(int ManagerId);
+        SystemUser GetSalesManagerDataByID(Guid ManagerId);
 
 
         string GetMarketingRoleIDByName();

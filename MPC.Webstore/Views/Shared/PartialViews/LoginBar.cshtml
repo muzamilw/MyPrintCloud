@@ -1,5 +1,6 @@
 ﻿@using MPC.Webstore.Common;
-@if ((UserCookieManager.StoreMode == 3 && ViewBag.isUserLoggedIn == true) || UserCookieManager.StoreMode == 1)
+@using MPC.Models.Common;
+@if ((UserCookieManager.StoreMode == 3 && ViewBag.isUserLoggedIn == true) || UserCookieManager.StoreMode == (int)StoreMode.Retail)
 {
     <div class="LoginBarContainer">
         <div class="container content_area">

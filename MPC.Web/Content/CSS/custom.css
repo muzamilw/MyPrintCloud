@@ -168,11 +168,11 @@ z-index:1000000011;
         {
 
              border-bottom:1px solid #dedede;
-             padding:20px;
+             padding:10px;
         
         }
-        
-       #header {
+       #header 
+       {
            text-align: center;
        }
        

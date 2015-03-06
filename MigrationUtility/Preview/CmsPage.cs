@@ -53,7 +53,7 @@ namespace MigrationUtility.Preview
     
         public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }
         public virtual PageCategory PageCategory { get; set; }
-        public virtual Company Company { get; set; }
         public virtual ICollection<CmsPageTag> CmsPageTags { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

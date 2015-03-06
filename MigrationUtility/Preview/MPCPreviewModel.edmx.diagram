@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="637a7410d2814bc69f2231a0843d78f0" Name="Diagram1" ZoomLevel="200">
+      <Diagram DiagramId="637a7410d2814bc69f2231a0843d78f0" Name="Diagram1" ZoomLevel="11">
         <EntityTypeShape EntityType="MPCPreviewModel.AccessRight" Width="1.5" PointX="3.75" PointY="23.875" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.AccountDefault" Width="1.5" PointX="8.75" PointY="2.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.AccountType" Width="1.5" PointX="5.75" PointY="16.125" IsExpanded="true" />
@@ -30,7 +30,6 @@
         <EntityTypeShape EntityType="MPCPreviewModel.CmsSkinPageWidgetParam" Width="1.5" PointX="10.25" PointY="101" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.CmsTag" Width="1.5" PointX="8.75" PointY="20.625" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.ColorPallete" Width="1.5" PointX="17" PointY="70.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="MPCPreviewModel.Company" Width="1.5" PointX="0.75" PointY="30" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.CompanyBanner" Width="1.5" PointX="5.25" PointY="18.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.CompanyBannerSet" Width="1.5" PointX="3" PointY="19.5" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.CompanyCMYKColor" Width="1.5" PointX="3" PointY="30.125" IsExpanded="true" />
@@ -48,13 +47,11 @@
         <EntityTypeShape EntityType="MPCPreviewModel.CostCentreGroup" Width="1.5" PointX="26.75" PointY="16.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.CostcentreGroupDetail" Width="1.5" PointX="26.75" PointY="2.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.CostcentreInstruction" Width="1.5" PointX="19.5" PointY="47.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="MPCPreviewModel.CostCentreMatrix" Width="1.5" PointX="26.75" PointY="19.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.CostCentreMatrixDetail" Width="1.5" PointX="26.75" PointY="23.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.CostCentreQuestion" Width="1.5" PointX="26.75" PointY="26.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.CostcentreResource" Width="1.5" PointX="19.5" PointY="34.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.CostcentreSystemType" Width="1.5" PointX="26.75" PointY="29.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.CostCentreTemplate" Width="1.5" PointX="28.75" PointY="10.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="MPCPreviewModel.CostCentreType" Width="1.5" PointX="15" PointY="34.5" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.CostCentreVariable" Width="1.5" PointX="28.75" PointY="13.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.CostCentreVariableType" Width="1.5" PointX="28.75" PointY="2.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.CostcentreWorkInstructionsChoice" Width="1.5" PointX="21.75" PointY="47.375" IsExpanded="true" />
@@ -89,7 +86,6 @@
         <EntityTypeShape EntityType="MPCPreviewModel.Inquiry" Width="1.5" PointX="3.75" PointY="135" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.InquiryAttachment" Width="1.5" PointX="6" PointY="134.625" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.InquiryItem" Width="1.5" PointX="6" PointY="137.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="MPCPreviewModel.Invoice" Width="1.5" PointX="0.75" PointY="102.375" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.InvoiceDetail" Width="1.5" PointX="8.25" PointY="59.5" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.ItemAddonCostCentre" Width="1.5" PointX="16.5" PointY="62.25" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.ItemAttachment" Width="1.5" PointX="5.25" PointY="64.75" IsExpanded="true" />
@@ -98,7 +94,6 @@
         <EntityTypeShape EntityType="MPCPreviewModel.ItemProductDetail" Width="1.5" PointX="5.25" PointY="79.5" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.ItemRelatedItem" Width="1.875" PointX="5.25" PointY="83.5" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.Item" Width="1.5" PointX="3" PointY="44" IsExpanded="true" />
-        <EntityTypeShape EntityType="MPCPreviewModel.ItemSection" Width="1.5" PointX="14.25" PointY="49.875" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.ItemSectionCostCentreGroup" Width="1.5" PointX="16.5" PointY="65.625" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.ItemStateTax" Width="1.5" PointX="8.25" PointY="69.25" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.ItemStockControl" Width="1.5" PointX="32.75" PointY="8.125" IsExpanded="true" />
@@ -118,7 +113,6 @@
         <EntityTypeShape EntityType="MPCPreviewModel.ListingLink" Width="1.5" PointX="34.75" PointY="18.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.ListingOFI" Width="1.5" PointX="34.75" PointY="21.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.ListingVendor" Width="1.5" PointX="34.75" PointY="25.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="MPCPreviewModel.LookupMethod" Width="1.5" PointX="19.75" PointY="23.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.Machine" Width="1.5" PointX="12" PointY="46.375" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.MachineCategory" Width="1.5" PointX="34.75" PointY="29.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.MachineClickChargeLookup" Width="1.5" PointX="22" PointY="4.375" IsExpanded="true" />
@@ -198,7 +192,6 @@
         <EntityTypeShape EntityType="MPCPreviewModel.ShippingInformation" Width="1.5" PointX="40.75" PointY="24.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.SoftwareUpdate" Width="1.5" PointX="40.75" PointY="28.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.State" Width="1.5" PointX="1.5" PointY="166" IsExpanded="true" />
-        <EntityTypeShape EntityType="MPCPreviewModel.Status" Width="1.5" PointX="1.5" PointY="23.5" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.StockCategory" Width="1.5" PointX="9.75" PointY="76.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.StockCostAndPrice" Width="1.5" PointX="14.25" PointY="84.625" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.StockItem" Width="1.5" PointX="12" PointY="73.125" IsExpanded="true" />
@@ -246,44 +239,23 @@
         <EntityTypeShape EntityType="MPCPreviewModel.StockItemsIssueLog" Width="1.5" PointX="44.75" PointY="39.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MPCPreviewModel.WebProductCategoryItemPrice" Width="1.5" PointX="38.75" PointY="46.125" IsExpanded="true" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_rolerights_tbl_rights" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK__Activity__Compan__46FFC601" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK__Address__Country__1765C178" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK__Address__StateId__1859E5B1" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_CompanyContact_ShippingAddress" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_tbl_addresses_tbl_contactcompanies" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_addresses_tbl_CustomerTerritory" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_contacts_tbl_addresses" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_Company_Campaign" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_EventEmail_Campaign" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_CampaignImages_tbl_campaigns" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_CampaignEmailVariable_Section" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_CmsOffer_Company" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK__CmsSkinPa__PageI__194E09EA" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_PageCategory_CmsPage" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_webcmsPages_tbl_cmsPageCategory" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_webcmsPageTags_webcmsPages" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_webcmsPageTags_webcmsTags" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_Company_CmsSkinPageWidget" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_cmsPageWidgets_tbl_cmsPages" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_cmsPageWidgets_tbl_cmsWidgets" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_cmsSkinPageWidgetParams_tbl_cmsSkinPageWidgets" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_cmsSkinPageWidgets_tbl_cmsSkins" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_ColorPallete_Company" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_cmsSkins_tbl_cmsColorPalletes" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_CompanyCMYKColor_Company" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_CompanyCostCentre_Company" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_CompanyDomain_Company" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_CompanySet_Company" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_Items_Company" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_MediaLibrary_Company" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_PaymentGateway_Company" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_RaveReview_Company" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_StockItem_Company" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_tbl_contactcompanies_tbl_contactcompanytypes" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_tbl_contacts_tbl_contactcompanies" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_tbl_CustomerTerritory_tbl_contactcompanies" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_tbl_estimates_tbl_contactcompanies" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_tbl_ProductCategory_tbl_contactcompanies" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_CompanyBanner_CompanySet" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_contacts_tbl_ContactCompanyTerritories" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_contacts_tbl_contactcompanyuserroles" ManuallyRouted="false" />
@@ -295,7 +267,6 @@
         <AssociationConnector Association="MPCPreviewModel.FK_CompanyCostCentre_CostCentre" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_TerritoryItems_tbl_ContactCompanyTerritories" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_costcentre_resources_tbl_costcentres" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_tbl_costcentres_tbl_costcentretypes" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_Items_AddonCostCentres_tbl_costcentres" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_section_costcentres_tbl_costcentres" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.tbl_costcentres_tbl_costcentre_instructions" ManuallyRouted="false" />
@@ -306,7 +277,6 @@
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_deliverynote_details_tbl_deliverynotes" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_deliverynote_details_tbl_items" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_estimates_tbl_enquiries" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_tbl_estimates_tbl_Statuses" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_items_tbl_estimates" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_PrePayments_tbl_estimates" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_FavoriteDesign_tbl_items" ManuallyRouted="false" />
@@ -316,8 +286,6 @@
         <AssociationConnector Association="MPCPreviewModel.FK__ImagePerm__Image__60D4A69D" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_Inquiry_Attachments_tbl_Inquiry" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_Inquiry_Items_tbl_Inquiry" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_tbl_invoicedetails_tbl_invoices" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_tbl_items_tbl_invoices" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_invoicedetails_tbl_items" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_ItemStockOption_ItemAddonCostCentre" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_item_attachments_tbl_items" ManuallyRouted="false" />
@@ -331,23 +299,11 @@
         <AssociationConnector Association="MPCPreviewModel.FK_ItemVDPPrice_Items" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_ItemVideo_Items" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_ProductCategoryItem_Items" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_tbl_item_sections_tbl_items" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_tbl_items_tbl_Statuses" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_TerritoryItems_tbl_items" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.itemmidfk" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_ItemSection_Machine" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_ItemSection_StockItem" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_tbl_item_sections_tbl_costcentre_groups" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_tbl_section_costcentres_tbl_item_sections" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_ItemStateTax_State" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_StockItem_ItemStockOption" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_Organisation_LengthUnit" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_tbl_lookup_methods_tbl_machine_clickchargelookup" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_tbl_lookup_methods_tbl_machine_clickchargezone" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_tbl_lookup_methods_tbl_machine_guillotinecalc" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_tbl_lookup_methods_tbl_machine_meterperhourlookup" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_tbl_lookup_methods_tbl_machine_perhourlookup" ManuallyRouted="false" />
-        <AssociationConnector Association="MPCPreviewModel.FK_tbl_lookup_methods_tbl_machine_speedweightlookup" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_machines_tbl_machine_costcentre_groups" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_machines_tbl_machine_ink_coverage" ManuallyRouted="false" />
         <AssociationConnector Association="MPCPreviewModel.FK_tbl_machines_tbl_machine_lookup_methods" ManuallyRouted="false" />
@@ -384,6 +340,44 @@
         <AssociationConnector Association="MPCPreviewModel.FK__TemplateO__Produ__574B3C63" ManuallyRouted="false" />
         <EntityTypeShape EntityType="MPCPreviewModel.Phrase" Width="1.5" PointX="5.25" PointY="8.25" />
         <AssociationConnector Association="MPCPreviewModel.FK_Phrase_PhraseField" />
+        <EntityTypeShape EntityType="MPCPreviewModel.Company" Width="1.5" PointX="3.75" PointY="171.125" />
+        <AssociationConnector Association="MPCPreviewModel.FK__Activity__Compan__46FFC601" />
+        <AssociationConnector Association="MPCPreviewModel.FK_tbl_addresses_tbl_contactcompanies" />
+        <AssociationConnector Association="MPCPreviewModel.FK_Company_Campaign" />
+        <AssociationConnector Association="MPCPreviewModel.FK_CmsOffer_Company" />
+        <AssociationConnector Association="MPCPreviewModel.FK_webcmsPages_tbl_cmsPageCategory" />
+        <AssociationConnector Association="MPCPreviewModel.FK_Company_CmsSkinPageWidget" />
+        <AssociationConnector Association="MPCPreviewModel.FK_ColorPallete_Company" />
+        <AssociationConnector Association="MPCPreviewModel.FK_CompanyCMYKColor_Company" />
+        <AssociationConnector Association="MPCPreviewModel.FK_CompanyCostCentre_Company" />
+        <AssociationConnector Association="MPCPreviewModel.FK_CompanyDomain_Company" />
+        <AssociationConnector Association="MPCPreviewModel.FK_CompanySet_Company" />
+        <AssociationConnector Association="MPCPreviewModel.FK_Items_Company" />
+        <AssociationConnector Association="MPCPreviewModel.FK_MediaLibrary_Company" />
+        <AssociationConnector Association="MPCPreviewModel.FK_PaymentGateway_Company" />
+        <AssociationConnector Association="MPCPreviewModel.FK_RaveReview_Company" />
+        <AssociationConnector Association="MPCPreviewModel.FK_StockItem_Company" />
+        <AssociationConnector Association="MPCPreviewModel.FK_tbl_contactcompanies_tbl_contactcompanytypes" />
+        <AssociationConnector Association="MPCPreviewModel.FK_tbl_contacts_tbl_contactcompanies" />
+        <AssociationConnector Association="MPCPreviewModel.FK_tbl_CustomerTerritory_tbl_contactcompanies" />
+        <AssociationConnector Association="MPCPreviewModel.FK_tbl_estimates_tbl_contactcompanies" />
+        <AssociationConnector Association="MPCPreviewModel.FK_tbl_ProductCategory_tbl_contactcompanies" />
+        <EntityTypeShape EntityType="MPCPreviewModel.CostCentreMatrix" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MPCPreviewModel.CostCentreType" Width="1.5" PointX="15.375" PointY="34.5" />
+        <AssociationConnector Association="MPCPreviewModel.FK_tbl_costcentres_tbl_costcentretypes" />
+        <EntityTypeShape EntityType="MPCPreviewModel.ItemSection" Width="1.5" PointX="14.25" PointY="50.5" />
+        <AssociationConnector Association="MPCPreviewModel.FK_tbl_item_sections_tbl_items" />
+        <AssociationConnector Association="MPCPreviewModel.FK_ItemSection_Machine" />
+        <AssociationConnector Association="MPCPreviewModel.FK_ItemSection_StockItem" />
+        <AssociationConnector Association="MPCPreviewModel.FK_tbl_item_sections_tbl_costcentre_groups" />
+        <AssociationConnector Association="MPCPreviewModel.FK_tbl_section_costcentres_tbl_item_sections" />
+        <EntityTypeShape EntityType="MPCPreviewModel.LookupMethod" Width="1.5" PointX="19.75" PointY="23.25" />
+        <AssociationConnector Association="MPCPreviewModel.FK_tbl_lookup_methods_tbl_machine_clickchargelookup" />
+        <AssociationConnector Association="MPCPreviewModel.FK_tbl_lookup_methods_tbl_machine_clickchargezone" />
+        <AssociationConnector Association="MPCPreviewModel.FK_tbl_lookup_methods_tbl_machine_guillotinecalc" />
+        <AssociationConnector Association="MPCPreviewModel.FK_tbl_lookup_methods_tbl_machine_meterperhourlookup" />
+        <AssociationConnector Association="MPCPreviewModel.FK_tbl_lookup_methods_tbl_machine_perhourlookup" />
+        <AssociationConnector Association="MPCPreviewModel.FK_tbl_lookup_methods_tbl_machine_speedweightlookup" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

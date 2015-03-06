@@ -39,9 +39,12 @@ define("dashboard.viewModel",
                             if (data != null) {
                                 setOrderStatusesCount(data);
                             }
+                            //load the tour
+                            openTourInit();
                         },
                         error: function () {
                             toastr.error("Error: Failed To load orders statues!!");
+                            openTourInit();
                         }
                     });
                 },

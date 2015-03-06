@@ -11,7 +11,16 @@ namespace MPC.Interfaces.WebStoreServices
     /// My Organization Service Interface
     /// </summary>
     public interface ICompanyService
+    
     {
+        Country GetCountryByCountryID(long CountryID);
+        void ResetDefaultShippingAddress(Address address);
+        List<State> GetAllStates();
+        List<State> GetCountryStates(long CountryId);
+        void AddAddBillingShippingAdd(Address Address);
+        bool AddressNameExist(Address address);
+        void UpdateBillingShippingAdd(Address Model);
+        List<Address> GetsearchedAddress(long CompanyId, String searchtxt);
         MyCompanyDomainBaseReponse GetStoreFromCache(long companyId);
         long GetStoreIdFromDomain(string domain);
         List<ProductCategory> GetCompanyParentCategoriesById(long companyId, long OrganisationId);
@@ -19,7 +28,7 @@ namespace MPC.Interfaces.WebStoreServices
         CompanyContact GetUserByEmailAndPassword(string email, string password);
 
         CompanyContact GetContactByFirstName(string FName);
-
+        CompanyContact GetContactById(int contactId);
         CompanyContact GetContactByEmail(string Email, long OID);
 
         long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID);
@@ -79,7 +88,7 @@ namespace MPC.Interfaces.WebStoreServices
         Address GetAddressByID(long AddressID);
 
         CompanyContact GetCorporateAdmin(long contactCompanyId);
-
+        Company GetCustomer(int CompanyId);
         List<Address> GetAddressByCompanyID(long companyID);
 
         CompanyTerritory GetTerritoryById(long territoryId);
@@ -196,5 +205,9 @@ namespace MPC.Interfaces.WebStoreServices
         string GetPasswordByContactID(long ContactID);
 
         bool SaveResetPassword(long ContactID, string Password);
+        List<Address> GetAddressesListByContactCompanyID(long contactCompanyId);
+        List<CmsSkinPageWidget> GetStoreWidgets(long CompanyId);
+        State GetStateByStateID(long StateID);
+        List<Country> GetAllCountries();
     }
 }

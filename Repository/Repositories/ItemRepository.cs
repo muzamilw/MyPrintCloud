@@ -69,24 +69,27 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public Item GetItemWithDetails(long itemId)
         {
-            return 
-                DbSet
-                .Include("ItemSections")
-                .Include("ItemSections.StockItem")
-                .Include("ItemSections.Machine")
-                .Include("ItemStockOptions")
-                .Include("ItemStockOptions.StockItem")
-                .Include("ItemStockOptions.ItemAddonCostCentres")
-                .Include("ItemStockOptions.ItemAddonCostCentres.CostCentre")
-                .Include("ItemStockOptions.ItemAddonCostCentres.CostCentre.CostCentreType")
-                .Include("ProductCategoryItems")
-                .Include("ProductCategoryItems.ProductCategory")
-                .Include("ItemStateTaxes")
-                .Include("ItemStateTaxes.Country")
-                .Include("ItemStateTaxes.State")
-                .Include("ItemRelatedItems")
-                .Include("ItemRelatedItems.RelatedItem")
-                .FirstOrDefault(item => item.ItemId == itemId);
+           
+                return
+                              DbSet
+                              .Include("ItemSections")
+                              .Include("ItemSections.StockItem")
+                              .Include("ItemSections.Machine")
+                              .Include("ItemStockOptions")
+                              .Include("ItemStockOptions.StockItem")
+                              .Include("ItemStockOptions.ItemAddonCostCentres")
+                              .Include("ItemStockOptions.ItemAddonCostCentres.CostCentre")
+                              .Include("ItemStockOptions.ItemAddonCostCentres.CostCentre.CostCentreType")
+                              .Include("ProductCategoryItems")
+                              .Include("ProductCategoryItems.ProductCategory")
+                              .Include("ItemStateTaxes")
+                              .Include("ItemStateTaxes.Country")
+                              .Include("ItemStateTaxes.State")
+                              .Include("ItemRelatedItems")
+                              .Include("ItemRelatedItems.RelatedItem")
+                              .FirstOrDefault(item => item.ItemId == itemId);
+          
+              
         }
 
         /// <summary>
@@ -94,7 +97,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public bool IsDuplicateProductCode(string productCode, long? itemId)
         {
-            return DbSet.Any(item => item.ProductCode == productCode && (!itemId.HasValue || item.ItemId != itemId) && item.OrganisationId == OrganisationId);
+            return DbSet.Any(item => item.ProductCode == productCode && (!itemId.HasValue || item.ItemId != itemId) && item.OrganisationId == OrganisationId && item.EstimateId == null);
         }
 
         /// <summary>
@@ -135,204 +138,238 @@ namespace MPC.Repository.Repositories
 
         public List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(long ProductCategoryID)
         {
+            try
+            {
+                List<GetCategoryProduct> recordds =
+              db.GetCategoryProducts.Where(
+                  g => g.IsPublished == true && g.EstimateId == null && g.ProductCategoryId == ProductCategoryID)
+                  .OrderBy(g => g.ProductName)
+                  .ToList();
+                recordds = recordds.OrderBy(s => s.SortOrder).ToList();
+                return recordds;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
 
-            List<GetCategoryProduct> recordds =
-                db.GetCategoryProducts.Where(
-                    g => g.IsPublished == true && g.EstimateId == null && g.ProductCategoryId == ProductCategoryID)
-                    .OrderBy(g => g.ProductName)
-                    .ToList();
-            recordds = recordds.OrderBy(s => s.SortOrder).ToList();
-            return recordds;
+            }
+          
         }
 
         public ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId)
         {
-            if (CompanyId > 0)
+            try
             {
-                return
-                    db.ItemStockOptions.Where(
-                        i => i.ItemId == ItemId && i.CompanyId == CompanyId && i.OptionSequence == 1).FirstOrDefault();
+                if (CompanyId > 0)
+                {
+                    return
+                        db.ItemStockOptions.Where(
+                            i => i.ItemId == ItemId && i.CompanyId == CompanyId && i.OptionSequence == 1).FirstOrDefault();
+                }
+                else
+                {
+                    return
+                        db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.CompanyId == null && i.OptionSequence == 1)
+                            .FirstOrDefault();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return
-                    db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.CompanyId == null && i.OptionSequence == 1)
-                        .FirstOrDefault();
+                throw ex;
+
             }
         }
 
         public List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId)
         {
 
-            return db.ItemPriceMatrices.Where(i => i.ItemId == ItemId && i.SupplierId == null).ToList();
+            try
+            {
+                 return db.ItemPriceMatrices.Where(i => i.ItemId == ItemId && i.SupplierId == null).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
         }
 
         public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID,
             List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID,
             long OrganisationID)
         {
-            Template clonedTemplate = null;
-
-            ItemSection tblItemSectionCloned = new ItemSection();
-
-            ItemAttachment Attacments = new ItemAttachment();
-
-            SectionCostcentre tblISectionCostCenteresCloned = new SectionCostcentre();
-
-            Item newItem = new Item();
-
-
-            Item ActualItem = GetItemToClone(itemID);
-            //******************new item*********************
-            newItem = Clone<Item>(ActualItem);
-
-            newItem.ItemId = 0;
-
-            newItem.IsPublished = false;
-
-            newItem.IsEnabled = false;
-
-            newItem.EstimateId = OrderID;
-
-            newItem.StatusId = (short) ItemStatuses.ShoppingCart; //tblStatuses.StatusID; //shopping cart
-
-            newItem.Qty1 = 0; //qty
-
-            newItem.Qty1BaseCharge1 = 0; //productSelection.PriceTotal + productSelection.AddonTotal; //item price
-
-            newItem.Qty1Tax1Value = 0; // say vat
-
-            newItem.Qty1NetTotal = 0;
-
-            newItem.Qty1GrossTotal = 0;
-
-            newItem.ProductType = 0;
-
-            newItem.InvoiceId = null;
-
-            newItem.EstimateProductionTime = ActualItem.EstimateProductionTime;
-
-            newItem.DefaultItemTax = ActualItem.DefaultItemTax;
-
-            newItem.DesignerCategoryId = ActualItem.DesignerCategoryId;
-            if (isCopyProduct)
+            try
             {
-                newItem.IsOrderedItem = true;
-                newItem.Qty1 = ActualItem.Qty1; //qty
+                Template clonedTemplate = null;
 
-                newItem.Qty1BaseCharge1 = ActualItem.Qty1BaseCharge1;
+                ItemSection tblItemSectionCloned = new ItemSection();
+
+                ItemAttachment Attacments = new ItemAttachment();
+
+                SectionCostcentre tblISectionCostCenteresCloned = new SectionCostcentre();
+
+                Item newItem = new Item();
+
+
+                Item ActualItem = GetItemToClone(itemID);
+                //******************new item*********************
+                newItem = Clone<Item>(ActualItem);
+
+                newItem.ItemId = 0;
+
+                newItem.IsPublished = false;
+
+                newItem.IsEnabled = false;
+
+                newItem.EstimateId = OrderID;
+
+                newItem.StatusId = (short)ItemStatuses.ShoppingCart; //tblStatuses.StatusID; //shopping cart
+
+                newItem.Qty1 = 0; //qty
+
+                newItem.Qty1BaseCharge1 = 0; //productSelection.PriceTotal + productSelection.AddonTotal; //item price
+
+                newItem.Qty1Tax1Value = 0; // say vat
+
+                newItem.Qty1NetTotal = 0;
+
+                newItem.Qty1GrossTotal = 0;
+
+                newItem.ProductType = 0;
+
+                newItem.InvoiceId = null;
+
+                newItem.EstimateProductionTime = ActualItem.EstimateProductionTime;
+
+                newItem.DefaultItemTax = ActualItem.DefaultItemTax;
+
+                newItem.DesignerCategoryId = ActualItem.DesignerCategoryId;
+                if (isCopyProduct)
+                {
+                    newItem.IsOrderedItem = true;
+                    newItem.Qty1 = ActualItem.Qty1; //qty
+
+                    newItem.Qty1BaseCharge1 = ActualItem.Qty1BaseCharge1;
                     //productSelection.PriceTotal + productSelection.AddonTotal; //item price
 
-                newItem.Qty1Tax1Value = ActualItem.Qty1Tax1Value; // say vat
+                    newItem.Qty1Tax1Value = ActualItem.Qty1Tax1Value; // say vat
 
-                newItem.Qty1NetTotal = ActualItem.Qty1NetTotal;
+                    newItem.Qty1NetTotal = ActualItem.Qty1NetTotal;
 
-                newItem.Qty1GrossTotal = ActualItem.Qty1GrossTotal;
-                newItem.ProductType = ActualItem.ProductType;
-            }
-            else
-            {
-                newItem.IsOrderedItem = false;
-
-                newItem.RefItemId = (int) itemID;
-            }
-
-
-
-            // Default Mark up rate will be always 0 ...
-            // when updating clone item we are getting markups from organisation ask sir naveed to change needed here also 
-            //Markup markup = (from c in db.Markups
-            //                 where c.MarkUpId == 1 && c.MarkUpRate == 0
-            //                 select c).FirstOrDefault();
-
-            //if (markup.MarkUpId != null)
-            //    newItem.Qty1MarkUpId1 = (int)markup.MarkUpId;  //markup id
-            //newItem.Qty1MarkUp1Value = markup.MarkUpRate;
-
-            db.Items.Add(newItem); //dbcontext added
-
-            //*****************Existing item Sections and cost Centeres*********************************
-            foreach (ItemSection tblItemSection in ActualItem.ItemSections.ToList())
-            {
-                tblItemSectionCloned = Clone<ItemSection>(tblItemSection);
-                tblItemSectionCloned.ItemSectionId = 0;
-                tblItemSectionCloned.ItemId = newItem.ItemId;
-                db.ItemSections.Add(tblItemSectionCloned); //ContextAdded
-
-                //*****************Section Cost Centeres*********************************
-                if (tblItemSection.SectionCostcentres.Count > 0)
-                {
-                    foreach (SectionCostcentre tblSectCostCenter in tblItemSection.SectionCostcentres.ToList())
-                    {
-                        tblISectionCostCenteresCloned = Clone<SectionCostcentre>(tblSectCostCenter);
-                        tblISectionCostCenteresCloned.SectionCostcentreId = 0;
-                        tblISectionCostCenteresCloned.ItemSectionId = tblItemSectionCloned.ItemSectionId;
-                        db.SectionCostcentres.Add(tblISectionCostCenteresCloned);
-                    }
-
+                    newItem.Qty1GrossTotal = ActualItem.Qty1GrossTotal;
+                    newItem.ProductType = ActualItem.ProductType;
                 }
-                else // add web order section Cost center to item
+                else
                 {
-                    tblISectionCostCenteresCloned.SectionCostcentreId = 0;
-                    tblISectionCostCenteresCloned.ItemSectionId = tblItemSectionCloned.ItemSectionId;
-                    tblISectionCostCenteresCloned.CostCentre =
-                        db.CostCentres.Where(c => c.CostCentreId == 206).FirstOrDefault();
-                    db.SectionCostcentres.Add(tblISectionCostCenteresCloned);
+                    newItem.IsOrderedItem = false;
+
+                    newItem.RefItemId = (int)itemID;
                 }
-            }
-            //Copy Template if it does exists
 
-            if (newItem.TemplateId.HasValue && newItem.TemplateId.Value > 0)
-            {
-                clonedTemplate = new Template();
-                if (newItem.TemplateType == 1 || newItem.TemplateType == 2)
+
+
+                // Default Mark up rate will be always 0 ...
+                // when updating clone item we are getting markups from organisation ask sir naveed to change needed here also 
+                //Markup markup = (from c in db.Markups
+                //                 where c.MarkUpId == 1 && c.MarkUpRate == 0
+                //                 select c).FirstOrDefault();
+
+                //if (markup.MarkUpId != null)
+                //    newItem.Qty1MarkUpId1 = (int)markup.MarkUpId;  //markup id
+                //newItem.Qty1MarkUp1Value = markup.MarkUpRate;
+
+                db.Items.Add(newItem); //dbcontext added
+
+                //*****************Existing item Sections and cost Centeres*********************************
+                foreach (ItemSection tblItemSection in ActualItem.ItemSections.ToList())
                 {
-                    long result = db.sp_cloneTemplate((int) newItem.TemplateId.Value, 0, "");
+                    tblItemSectionCloned = Clone<ItemSection>(tblItemSection);
+                    tblItemSectionCloned.ItemSectionId = 0;
+                    tblItemSectionCloned.ItemId = newItem.ItemId;
+                    db.ItemSections.Add(tblItemSectionCloned); //ContextAdded
 
-                    long? clonedTemplateID = result;
-                    clonedTemplate = db.Templates.Where(g => g.ProductId == clonedTemplateID).Single();
-
-                    var oCutomer = db.Companies.Where(i => i.CompanyId == CustomerID).FirstOrDefault();
-
-                    if (oCutomer != null)
+                    //*****************Section Cost Centeres*********************************
+                    if (tblItemSection.SectionCostcentres.Count > 0)
                     {
-                        clonedTemplate.TempString = oCutomer.WatermarkText;
-                        clonedTemplate.isWatermarkText = oCutomer.isTextWatermark;
-                        if (oCutomer.isTextWatermark == false)
+                        foreach (SectionCostcentre tblSectCostCenter in tblItemSection.SectionCostcentres.ToList())
                         {
-                            clonedTemplate.TempString = HttpContext.Current.Server.MapPath(oCutomer.WatermarkText);
+                            tblISectionCostCenteresCloned = Clone<SectionCostcentre>(tblSectCostCenter);
+                            tblISectionCostCenteresCloned.SectionCostcentreId = 0;
+                            tblISectionCostCenteresCloned.ItemSectionId = tblItemSectionCloned.ItemSectionId;
+                            db.SectionCostcentres.Add(tblISectionCostCenteresCloned);
                         }
 
                     }
-                    // here 
+                    else // add web order section Cost center to item
+                    {
+                        tblISectionCostCenteresCloned.SectionCostcentreId = 0;
+                        tblISectionCostCenteresCloned.ItemSectionId = tblItemSectionCloned.ItemSectionId;
+                        tblISectionCostCenteresCloned.CostCentre =
+                            db.CostCentres.Where(c => c.CostCentreId == 206).FirstOrDefault();
+                        db.SectionCostcentres.Add(tblISectionCostCenteresCloned);
+                    }
+                }
+                //Copy Template if it does exists
 
-                    VariablesResolve(itemID, clonedTemplate.ProductId, objContactID);
+                if (newItem.TemplateId.HasValue && newItem.TemplateId.Value > 0)
+                {
+                    clonedTemplate = new Template();
+                    if (newItem.TemplateType == 1 || newItem.TemplateType == 2)
+                    {
+                        long result = db.sp_cloneTemplate((int)newItem.TemplateId.Value, 0, "");
+
+                        long? clonedTemplateID = result;
+                        clonedTemplate = db.Templates.Where(g => g.ProductId == clonedTemplateID).Single();
+
+                        var oCutomer = db.Companies.Where(i => i.CompanyId == CustomerID).FirstOrDefault();
+
+                        if (oCutomer != null)
+                        {
+                            clonedTemplate.TempString = oCutomer.WatermarkText;
+                            clonedTemplate.isWatermarkText = oCutomer.isTextWatermark;
+                            if (oCutomer.isTextWatermark == false)
+                            {
+                                clonedTemplate.TempString = HttpContext.Current.Server.MapPath(oCutomer.WatermarkText);
+                            }
+
+                        }
+                        // here 
+
+                        VariablesResolve(itemID, clonedTemplate.ProductId, objContactID);
+                    }
+
                 }
 
-            }
+
+                // add section of 20 type cost center which is web order cost center
 
 
-            // add section of 20 type cost center which is web order cost center
-
-
-             db.SaveChanges();
-             if (clonedTemplate != null && (newItem.TemplateType == 1 || newItem.TemplateType == 2))
-             {
+                db.SaveChanges();
+                if (clonedTemplate != null && (newItem.TemplateType == 1 || newItem.TemplateType == 2))
+                {
                     newItem.TemplateId = clonedTemplate.ProductId;
                     TemplateID = clonedTemplate.ProductId;
 
                     CopyTemplatePaths(clonedTemplate, OrganisationID);
-             }
+                }
 
-            SaveAdditionalAddonsOrUpdateStockItemType(SelectedAddOnsList, newItem.ItemId, StockID, isCopyProduct, "");
-                    // additional addon required the newly inserted cloneditem
-            newItem.ItemCode = "ITM-0-001-" + newItem.ItemId;
-            db.SaveChanges();
+                SaveAdditionalAddonsOrUpdateStockItemType(SelectedAddOnsList, newItem.ItemId, StockID, isCopyProduct, "");
+                // additional addon required the newly inserted cloneditem
+                newItem.ItemCode = "ITM-0-001-" + newItem.ItemId;
+                db.SaveChanges();
+
+                //else
+                //    throw 
+
+                return newItem;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
             
-            //else
-            //    throw 
-
-            return newItem;
         }
 
         // resolve c
@@ -360,33 +397,40 @@ namespace MPC.Repository.Repositories
         // gettting field variables by itemid
         public List<FieldVariable> GeyFieldVariablesByItemID(long itemId)
         {
-
-            var tempID = (from i in db.Items
-                where i.ItemId == itemId
-                select i.TemplateId).FirstOrDefault();
-
-            int templateID = Convert.ToInt32(tempID);
-
-            var IDs = (from v in db.TemplateVariables
-                where v.TemplateId == templateID
-                select v.VariableId).ToList();
-
-            List<FieldVariable> lstFieldVariables = new List<FieldVariable>();
-
-            foreach (int item in IDs)
+            try
             {
-                FieldVariable objFieldVariable = (from FV in db.FieldVariables
-                    where FV.VariableId == item
-                    orderby FV.VariableSectionId
-                    select FV).FirstOrDefault();
+                var tempID = (from i in db.Items
+                              where i.ItemId == itemId
+                              select i.TemplateId).FirstOrDefault();
 
-                lstFieldVariables.Add(objFieldVariable);
+                int templateID = Convert.ToInt32(tempID);
+
+                var IDs = (from v in db.TemplateVariables
+                           where v.TemplateId == templateID
+                           select v.VariableId).ToList();
+
+                List<FieldVariable> lstFieldVariables = new List<FieldVariable>();
+
+                foreach (int item in IDs)
+                {
+                    FieldVariable objFieldVariable = (from FV in db.FieldVariables
+                                                      where FV.VariableId == item
+                                                      orderby FV.VariableSectionId
+                                                      select FV).FirstOrDefault();
+
+                    lstFieldVariables.Add(objFieldVariable);
+                }
+
+                List<FieldVariable> finalList =
+                    (List<FieldVariable>)lstFieldVariables.OrderBy(item => item.VariableSectionId).ToList();
+
+                return finalList;
             }
-
-            List<FieldVariable> finalList =
-                (List<FieldVariable>) lstFieldVariables.OrderBy(item => item.VariableSectionId).ToList();
-
-            return finalList;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
 
         }
 
@@ -394,59 +438,74 @@ namespace MPC.Repository.Repositories
         public List<Models.Common.TemplateVariable> ResolveVariables(List<FieldVariable> lstFieldVariabes,
             CompanyContact objContact)
         {
-            List<Models.Common.TemplateVariable> templateVariables = new List<Models.Common.TemplateVariable>();
-            if (lstFieldVariabes != null && lstFieldVariabes.Count > 0)
+            try
             {
-                foreach (var item in lstFieldVariabes)
+                List<Models.Common.TemplateVariable> templateVariables = new List<Models.Common.TemplateVariable>();
+                if (lstFieldVariabes != null && lstFieldVariabes.Count > 0)
                 {
-                    int sectionId = Convert.ToInt32(item.VariableSectionId);
-
-                    //add controls to current section
-                    var keyValue = 0;
-                    string fieldValue = string.Empty;
-
-                    switch (item.RefTableName)
+                    foreach (var item in lstFieldVariabes)
                     {
+                        int sectionId = Convert.ToInt32(item.VariableSectionId);
 
-                        case "CompanyContacts":
-                            keyValue = (int) objContact.ContactId;
-                            fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName,
-                                item.KeyField, keyValue);
-                            break;
-                        case "Company":
-                            keyValue = (int) objContact.CompanyId;
-                            fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName,
-                                item.KeyField, keyValue);
-                            break;
-                        case "Address":
-                            keyValue = (int) objContact.AddressId;
-                            fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName,
-                                item.KeyField, keyValue);
-                            break;
-                        default:
-                            break;
+                        //add controls to current section
+                        var keyValue = 0;
+                        string fieldValue = string.Empty;
+
+                        switch (item.RefTableName)
+                        {
+
+                            case "CompanyContacts":
+                                keyValue = (int)objContact.ContactId;
+                                fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName,
+                                    item.KeyField, keyValue);
+                                break;
+                            case "Company":
+                                keyValue = (int)objContact.CompanyId;
+                                fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName,
+                                    item.KeyField, keyValue);
+                                break;
+                            case "Address":
+                                keyValue = (int)objContact.AddressId;
+                                fieldValue = DynamicQueryToGetRecord(item.CriteriaFieldName, item.RefTableName,
+                                    item.KeyField, keyValue);
+                                break;
+                            default:
+                                break;
+                        }
+
+                        Models.Common.TemplateVariable imgTempVar =
+                            new Models.Common.TemplateVariable(Convert.ToString(keyValue), fieldValue);
+
+                        templateVariables.Add(imgTempVar);
+
                     }
-
-                    Models.Common.TemplateVariable imgTempVar =
-                        new Models.Common.TemplateVariable(Convert.ToString(keyValue), fieldValue);
-
-                    templateVariables.Add(imgTempVar);
-
                 }
+                return templateVariables;
             }
-            return templateVariables;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
         }
 
         public string DynamicQueryToGetRecord(string feildname, string tblname, string keyName, int keyValue)
         {
-
-            string oResult = null;
-            System.Data.Entity.Infrastructure.DbRawSqlQuery<string> result =
-                db.Database.SqlQuery<string>(
-                    "select top 1 cast(" + feildname + " as varchar(1000)) from " + tblname + " where " + keyName + "= " +
-                    keyValue + "", "");
-            oResult = result.FirstOrDefault();
-            return oResult;
+            try
+            {
+                string oResult = null;
+                System.Data.Entity.Infrastructure.DbRawSqlQuery<string> result =
+                    db.Database.SqlQuery<string>(
+                        "select top 1 cast(" + feildname + " as varchar(1000)) from " + tblname + " where " + keyName + "= " +
+                        keyValue + "", "");
+                oResult = result.FirstOrDefault();
+                return oResult;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
 
         }
 
@@ -611,13 +670,20 @@ namespace MPC.Repository.Repositories
 
         public Item GetItemToClone(long itemID)
         {
-            Item productItem = null;
-            db.Configuration.LazyLoadingEnabled = false;
-            productItem =
-                db.Items.Include("ItemSections.SectionCostcentres")
-                    .Where(item => item.ItemId == itemID)
-                    .FirstOrDefault<Item>();
-            return productItem;
+            try
+            {
+                Item productItem = null;
+                db.Configuration.LazyLoadingEnabled = false;
+                productItem =
+                    db.Items.Include("ItemSections.SectionCostcentres")
+                        .Where(item => item.ItemId == itemID)
+                        .FirstOrDefault<Item>();
+                return productItem;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
         }
 
@@ -748,9 +814,7 @@ namespace MPC.Repository.Repositories
             }
             catch (Exception ex)
             {
-                throw new Exception("Copy Template Paths", ex);
-                //AppCommon.LogException(ex);
-                //throw ex;
+                throw ex;
             }
 
             return result;
@@ -758,35 +822,62 @@ namespace MPC.Repository.Repositories
 
         public T Clone<T>(T source)
         {
-            db.Configuration.LazyLoadingEnabled = false;
-            object item = Activator.CreateInstance(typeof (T));
-            List<PropertyInfo> itemPropertyInfoCollection = source.GetType().GetProperties().ToList<PropertyInfo>();
-            foreach (PropertyInfo propInfo in itemPropertyInfoCollection)
+            try
             {
-                if (propInfo.CanRead &&
-                    (propInfo.PropertyType.IsValueType || propInfo.PropertyType.FullName == "System.String"))
+                db.Configuration.LazyLoadingEnabled = false;
+                object item = Activator.CreateInstance(typeof(T));
+                List<PropertyInfo> itemPropertyInfoCollection = source.GetType().GetProperties().ToList<PropertyInfo>();
+                foreach (PropertyInfo propInfo in itemPropertyInfoCollection)
                 {
-                    PropertyInfo newProp = item.GetType().GetProperty(propInfo.Name);
-                    if (newProp != null && newProp.CanWrite)
+                    if (propInfo.CanRead &&
+                        (propInfo.PropertyType.IsValueType || propInfo.PropertyType.FullName == "System.String"))
                     {
-                        object va = propInfo.GetValue(source, null);
-                        newProp.SetValue(item, va, null);
+                        PropertyInfo newProp = item.GetType().GetProperty(propInfo.Name);
+                        if (newProp != null && newProp.CanWrite)
+                        {
+                            object va = propInfo.GetValue(source, null);
+                            newProp.SetValue(item, va, null);
+                        }
                     }
                 }
+
+                return (T)item;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
 
-            return (T) item;
+          
         }
 
         public double GrossTotalCalculation(double netTotal, double stateTaxValue)
         {
-            return netTotal + CalculatePercentage(netTotal, stateTaxValue);
+            try 
+            {
+                return netTotal + CalculatePercentage(netTotal, stateTaxValue);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+          
 
         }
 
         public  double CalculatePercentage(double itemValue, double percentageValue)
         {
-            return itemValue*(percentageValue/100);
+            try
+            {
+                return itemValue * (percentageValue / 100);
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
 
         }
 
@@ -797,371 +888,389 @@ namespace MPC.Repository.Repositories
         public bool ResolveTemplateVariables(long productID, CompanyContact objContact,
             List<Models.Common.TemplateVariable> lstPageControls)
         {
-
-            string CompanyLogo = "";
-            string ContactLogo = "";
-            string LocalCompanyLogo = "";
-            string LocalContactLogo = "";
-
-            if (lstPageControls != null && lstPageControls.Count != 0)
+            try
             {
-                List<TemplateObject> tempObjs = new List<TemplateObject>();
-                tempObjs = db.TemplateObjects.Where(g => g.ProductId == productID).ToList();
-                foreach (var obj in tempObjs)
+                string CompanyLogo = "";
+                string ContactLogo = "";
+                string LocalCompanyLogo = "";
+                string LocalContactLogo = "";
+
+                if (lstPageControls != null && lstPageControls.Count != 0)
                 {
-                    if (obj.ObjectType == 2)
+                    List<TemplateObject> tempObjs = new List<TemplateObject>();
+                    tempObjs = db.TemplateObjects.Where(g => g.ProductId == productID).ToList();
+                    foreach (var obj in tempObjs)
                     {
-                        List<InlineTextStyles> styles = new List<InlineTextStyles>();
-                        List<InlineTextStyles> stylesCopy = new List<InlineTextStyles>();
-                        if (obj.textStyles != null)
+                        if (obj.ObjectType == 2)
                         {
-                            styles = JsonConvert.DeserializeObject<List<InlineTextStyles>>(obj.textStyles);
-                            stylesCopy = JsonConvert.DeserializeObject<List<InlineTextStyles>>(obj.textStyles);
-                        }
-                        foreach (var objVariable in lstPageControls)
-                        {
-                            if (objVariable.Value != null && objVariable.Value != "")
+                            List<InlineTextStyles> styles = new List<InlineTextStyles>();
+                            List<InlineTextStyles> stylesCopy = new List<InlineTextStyles>();
+                            if (obj.textStyles != null)
                             {
-                                if (obj.ContentString.Contains(objVariable.Name))
+                                styles = JsonConvert.DeserializeObject<List<InlineTextStyles>>(obj.textStyles);
+                                stylesCopy = JsonConvert.DeserializeObject<List<InlineTextStyles>>(obj.textStyles);
+                            }
+                            foreach (var objVariable in lstPageControls)
+                            {
+                                if (objVariable.Value != null && objVariable.Value != "")
                                 {
-                                    if (styles.Count > 0)
+                                    if (obj.ContentString.Contains(objVariable.Name))
                                     {
-                                        string[] objs = obj.ContentString.Split(new string[] {objVariable.Name},
-                                            StringSplitOptions.None);
-                                        int variableLength = objVariable.Name.Length;
-                                        int lengthCount = 0;
-                                        string content = "";
-                                        for (int i = 0; i < objs.Length; i++)
+                                        if (styles.Count > 0)
                                         {
-                                            stylesCopy = new List<InlineTextStyles>(styles);
-                                            content += objs[i];
-                                            if ((i + 1) != objs.Length)
+                                            string[] objs = obj.ContentString.Split(new string[] { objVariable.Name },
+                                                StringSplitOptions.None);
+                                            int variableLength = objVariable.Name.Length;
+                                            int lengthCount = 0;
+                                            string content = "";
+                                            for (int i = 0; i < objs.Length; i++)
                                             {
-                                                content += objVariable.Value;
-                                            }
-                                            lengthCount += objs[i].Length;
-                                            int toMove = (i + 1)*variableLength;
-                                            int toCopy = lengthCount;
-                                            bool styleExist = false;
-                                            int stylesRemoved = 0;
-                                            InlineTextStyles StyleToCopy = null;
-                                            foreach (var objStyle in styles)
-                                            {
-                                                if (Convert.ToInt32(objStyle.characterIndex) == toCopy)
+                                                stylesCopy = new List<InlineTextStyles>(styles);
+                                                content += objs[i];
+                                                if ((i + 1) != objs.Length)
                                                 {
-                                                    styleExist = true;
-                                                    StyleToCopy = objStyle;
+                                                    content += objVariable.Value;
                                                 }
-                                                if (Convert.ToInt32(objStyle.characterIndex) <=
-                                                    (lengthCount + variableLength) &&
-                                                    Convert.ToInt32(objStyle.characterIndex) >= lengthCount)
+                                                lengthCount += objs[i].Length;
+                                                int toMove = (i + 1) * variableLength;
+                                                int toCopy = lengthCount;
+                                                bool styleExist = false;
+                                                int stylesRemoved = 0;
+                                                InlineTextStyles StyleToCopy = null;
+                                                foreach (var objStyle in styles)
                                                 {
-                                                    InlineTextStyles objToRemove =
-                                                        stylesCopy.Where(
-                                                            g => g.characterIndex == objStyle.characterIndex)
-                                                            .SingleOrDefault();
-                                                    stylesCopy.Remove(objToRemove);
-                                                    stylesRemoved++;
+                                                    if (Convert.ToInt32(objStyle.characterIndex) == toCopy)
+                                                    {
+                                                        styleExist = true;
+                                                        StyleToCopy = objStyle;
+                                                    }
+                                                    if (Convert.ToInt32(objStyle.characterIndex) <=
+                                                        (lengthCount + variableLength) &&
+                                                        Convert.ToInt32(objStyle.characterIndex) >= lengthCount)
+                                                    {
+                                                        InlineTextStyles objToRemove =
+                                                            stylesCopy.Where(
+                                                                g => g.characterIndex == objStyle.characterIndex)
+                                                                .SingleOrDefault();
+                                                        stylesCopy.Remove(objToRemove);
+                                                        stylesRemoved++;
+                                                    }
                                                 }
-                                            }
 
-                                            int diff = objVariable.Value.Length - (variableLength);
-                                            foreach (var objStyle in stylesCopy)
-                                            {
-                                                if (Convert.ToInt32(objStyle.characterIndex) >
-                                                    (lengthCount + objVariable.Name.Length))
-                                                    objStyle.characterIndex =
-                                                        Convert.ToString((Convert.ToInt32(objStyle.characterIndex) +
-                                                                          diff));
-                                            }
-                                            if (styleExist)
-                                            {
-                                                for (int z = 0; z < objVariable.Value.Length; z++)
+                                                int diff = objVariable.Value.Length - (variableLength);
+                                                foreach (var objStyle in stylesCopy)
                                                 {
-                                                    InlineTextStyles objToAdd = new InlineTextStyles();
-                                                    objToAdd.fontName = StyleToCopy.fontName;
-                                                    objToAdd.fontSize = StyleToCopy.fontSize;
-                                                    objToAdd.fontStyle = StyleToCopy.fontStyle;
-                                                    objToAdd.fontWeight = StyleToCopy.fontWeight;
-                                                    objToAdd.textColor = StyleToCopy.textColor;
-                                                    objToAdd.textCMYK = StyleToCopy.textCMYK;
-                                                    objToAdd.characterIndex = Convert.ToString(lengthCount + z);
-                                                    stylesCopy.Add(objToAdd);
-
+                                                    if (Convert.ToInt32(objStyle.characterIndex) >
+                                                        (lengthCount + objVariable.Name.Length))
+                                                        objStyle.characterIndex =
+                                                            Convert.ToString((Convert.ToInt32(objStyle.characterIndex) +
+                                                                              diff));
                                                 }
+                                                if (styleExist)
+                                                {
+                                                    for (int z = 0; z < objVariable.Value.Length; z++)
+                                                    {
+                                                        InlineTextStyles objToAdd = new InlineTextStyles();
+                                                        objToAdd.fontName = StyleToCopy.fontName;
+                                                        objToAdd.fontSize = StyleToCopy.fontSize;
+                                                        objToAdd.fontStyle = StyleToCopy.fontStyle;
+                                                        objToAdd.fontWeight = StyleToCopy.fontWeight;
+                                                        objToAdd.textColor = StyleToCopy.textColor;
+                                                        objToAdd.textCMYK = StyleToCopy.textCMYK;
+                                                        objToAdd.characterIndex = Convert.ToString(lengthCount + z);
+                                                        stylesCopy.Add(objToAdd);
+
+                                                    }
+                                                }
+                                                styles = new List<InlineTextStyles>(stylesCopy);
+                                                lengthCount += objVariable.Value.Length;
                                             }
-                                            styles = new List<InlineTextStyles>(stylesCopy);
-                                            lengthCount += objVariable.Value.Length;
+                                            obj.ContentString = content;
+
                                         }
-                                        obj.ContentString = content;
+                                        else
+                                        {
+                                            obj.ContentString = obj.ContentString.Replace(objVariable.Name,
+                                                objVariable.Value);
+                                        }
 
                                     }
-                                    else
-                                    {
-                                        obj.ContentString = obj.ContentString.Replace(objVariable.Name,
-                                            objVariable.Value);
-                                    }
-
                                 }
+                                else
+                                {
+                                    if (obj.ContentString.Contains(objVariable.Name))
+                                    {
+                                        if (styles.Count > 0)
+                                        {
+                                            objVariable.Value = "";
+                                            string[] objs = obj.ContentString.Split(new string[] { objVariable.Name },
+                                                StringSplitOptions.None);
+                                            int variableLength = objVariable.Name.Length;
+                                            int lengthCount = 0;
+                                            string content = "";
+                                            for (int i = 0; i < objs.Length; i++)
+                                            {
+                                                stylesCopy = new List<InlineTextStyles>(styles);
+                                                content += objs[i];
+                                                if ((i + 1) != objs.Length)
+                                                {
+                                                    content += objVariable.Value;
+                                                }
+                                                lengthCount += objs[i].Length;
+                                                int toMove = (i + 1) * variableLength;
+                                                int toCopy = lengthCount;
+                                                bool styleExist = false;
+                                                int stylesRemoved = 0;
+                                                InlineTextStyles StyleToCopy = null;
+                                                foreach (var objStyle in styles)
+                                                {
+                                                    if (Convert.ToInt32(objStyle.characterIndex) == toCopy)
+                                                    {
+                                                        styleExist = true;
+                                                        StyleToCopy = objStyle;
+                                                    }
+                                                    if (Convert.ToInt32(objStyle.characterIndex) <=
+                                                        (lengthCount + variableLength) &&
+                                                        Convert.ToInt32(objStyle.characterIndex) >= lengthCount)
+                                                    {
+                                                        InlineTextStyles objToRemove =
+                                                            stylesCopy.Where(
+                                                                g => g.characterIndex == objStyle.characterIndex)
+                                                                .SingleOrDefault();
+                                                        stylesCopy.Remove(objToRemove);
+                                                        stylesRemoved++;
+                                                    }
+                                                }
+
+                                                int diff = objVariable.Value.Length - (variableLength);
+                                                foreach (var objStyle in stylesCopy)
+                                                {
+                                                    if (Convert.ToInt32(objStyle.characterIndex) >
+                                                        (lengthCount + objVariable.Name.Length))
+                                                        objStyle.characterIndex =
+                                                            Convert.ToString((Convert.ToInt32(objStyle.characterIndex) +
+                                                                              diff));
+                                                }
+                                                if (styleExist)
+                                                {
+                                                    for (int z = 0; z < objVariable.Value.Length; z++)
+                                                    {
+                                                        InlineTextStyles objToAdd = new InlineTextStyles();
+                                                        objToAdd.fontName = StyleToCopy.fontName;
+                                                        objToAdd.fontSize = StyleToCopy.fontSize;
+                                                        objToAdd.fontStyle = StyleToCopy.fontStyle;
+                                                        objToAdd.fontWeight = StyleToCopy.fontWeight;
+                                                        objToAdd.textColor = StyleToCopy.textColor;
+                                                        objToAdd.textCMYK = StyleToCopy.textCMYK;
+                                                        objToAdd.characterIndex = Convert.ToString(lengthCount + z);
+                                                        stylesCopy.Add(objToAdd);
+
+                                                    }
+                                                }
+                                                styles = new List<InlineTextStyles>(stylesCopy);
+                                                lengthCount += objVariable.Value.Length;
+                                            }
+                                            obj.ContentString = content;
+
+                                        }
+                                        else
+                                        {
+                                            obj.ContentString = obj.ContentString.Replace(objVariable.Name, "");
+                                        }
+
+                                    }
+                                }
+                            }
+                            if (styles != null && styles.Count != 0)
+                            {
+                                obj.textStyles = JsonConvert.SerializeObject(styles, Formatting.Indented);
+                            }
+                        }
+                        else if (obj.ObjectType == 8 || obj.ObjectType == 12)
+                        {
+                            string filePath = "";
+                            string localFilePath = "";
+                            if (obj.ObjectType == 8)
+                            {
+                                filePath = CompanyLogo;
+                                localFilePath = LocalCompanyLogo;
                             }
                             else
                             {
-                                if (obj.ContentString.Contains(objVariable.Name))
+                                filePath = ContactLogo;
+                                localFilePath = LocalContactLogo;
+                            }
+                            obj.ContentString = filePath;
+
+                            try
+                            {
+                                if (System.IO.File.Exists(HttpContext.Current.Server.MapPath(localFilePath)))
                                 {
-                                    if (styles.Count > 0)
+                                    System.Drawing.Image objImage =
+                                        System.Drawing.Image.FromFile(HttpContext.Current.Server.MapPath(localFilePath));
+                                    int ImageWidth = objImage.Width;
+                                    int ImageHeight = objImage.Height;
+                                    if (ImageWidth > ImageHeight)
                                     {
-                                        objVariable.Value = "";
-                                        string[] objs = obj.ContentString.Split(new string[] {objVariable.Name},
-                                            StringSplitOptions.None);
-                                        int variableLength = objVariable.Name.Length;
-                                        int lengthCount = 0;
-                                        string content = "";
-                                        for (int i = 0; i < objs.Length; i++)
-                                        {
-                                            stylesCopy = new List<InlineTextStyles>(styles);
-                                            content += objs[i];
-                                            if ((i + 1) != objs.Length)
-                                            {
-                                                content += objVariable.Value;
-                                            }
-                                            lengthCount += objs[i].Length;
-                                            int toMove = (i + 1)*variableLength;
-                                            int toCopy = lengthCount;
-                                            bool styleExist = false;
-                                            int stylesRemoved = 0;
-                                            InlineTextStyles StyleToCopy = null;
-                                            foreach (var objStyle in styles)
-                                            {
-                                                if (Convert.ToInt32(objStyle.characterIndex) == toCopy)
-                                                {
-                                                    styleExist = true;
-                                                    StyleToCopy = objStyle;
-                                                }
-                                                if (Convert.ToInt32(objStyle.characterIndex) <=
-                                                    (lengthCount + variableLength) &&
-                                                    Convert.ToInt32(objStyle.characterIndex) >= lengthCount)
-                                                {
-                                                    InlineTextStyles objToRemove =
-                                                        stylesCopy.Where(
-                                                            g => g.characterIndex == objStyle.characterIndex)
-                                                            .SingleOrDefault();
-                                                    stylesCopy.Remove(objToRemove);
-                                                    stylesRemoved++;
-                                                }
-                                            }
-
-                                            int diff = objVariable.Value.Length - (variableLength);
-                                            foreach (var objStyle in stylesCopy)
-                                            {
-                                                if (Convert.ToInt32(objStyle.characterIndex) >
-                                                    (lengthCount + objVariable.Name.Length))
-                                                    objStyle.characterIndex =
-                                                        Convert.ToString((Convert.ToInt32(objStyle.characterIndex) +
-                                                                          diff));
-                                            }
-                                            if (styleExist)
-                                            {
-                                                for (int z = 0; z < objVariable.Value.Length; z++)
-                                                {
-                                                    InlineTextStyles objToAdd = new InlineTextStyles();
-                                                    objToAdd.fontName = StyleToCopy.fontName;
-                                                    objToAdd.fontSize = StyleToCopy.fontSize;
-                                                    objToAdd.fontStyle = StyleToCopy.fontStyle;
-                                                    objToAdd.fontWeight = StyleToCopy.fontWeight;
-                                                    objToAdd.textColor = StyleToCopy.textColor;
-                                                    objToAdd.textCMYK = StyleToCopy.textCMYK;
-                                                    objToAdd.characterIndex = Convert.ToString(lengthCount + z);
-                                                    stylesCopy.Add(objToAdd);
-
-                                                }
-                                            }
-                                            styles = new List<InlineTextStyles>(stylesCopy);
-                                            lengthCount += objVariable.Value.Length;
-                                        }
-                                        obj.ContentString = content;
-
+                                        obj.MaxHeight = obj.MaxWidth * Convert.ToDouble(ImageHeight / ImageWidth);
                                     }
                                     else
                                     {
-                                        obj.ContentString = obj.ContentString.Replace(objVariable.Name, "");
+                                        obj.MaxWidth = obj.MaxHeight * Convert.ToDouble(ImageWidth / ImageHeight);
                                     }
-
+                                    objImage.Dispose();
                                 }
+
+                            }
+                            catch (Exception e)
+                            {
+                                throw e;
                             }
                         }
-                        if (styles != null && styles.Count != 0)
+                        else if (obj.ObjectType == 13) //type added for smartform
                         {
-                            obj.textStyles = JsonConvert.SerializeObject(styles, Formatting.Indented);
-                        }
-                    }
-                    else if (obj.ObjectType == 8 || obj.ObjectType == 12)
-                    {
-                        string filePath = "";
-                        string localFilePath = "";
-                        if (obj.ObjectType == 8)
-                        {
+                            string filePath = "";
+                            string localFilePath = "";
+
                             filePath = CompanyLogo;
                             localFilePath = LocalCompanyLogo;
-                        }
-                        else
-                        {
-                            filePath = ContactLogo;
-                            localFilePath = LocalContactLogo;
-                        }
-                        obj.ContentString = filePath;
 
-                        try
-                        {
-                            if (System.IO.File.Exists(HttpContext.Current.Server.MapPath(localFilePath)))
+                            obj.ContentString = filePath;
+
+                            try
                             {
-                                System.Drawing.Image objImage =
-                                    System.Drawing.Image.FromFile(HttpContext.Current.Server.MapPath(localFilePath));
-                                int ImageWidth = objImage.Width;
-                                int ImageHeight = objImage.Height;
-                                if (ImageWidth > ImageHeight)
+                                if (System.IO.File.Exists(HttpContext.Current.Server.MapPath(localFilePath)))
                                 {
-                                    obj.MaxHeight = obj.MaxWidth*Convert.ToDouble(ImageHeight/ImageWidth);
+
+                                    System.Drawing.Image objImage =
+                                        System.Drawing.Image.FromFile(HttpContext.Current.Server.MapPath(localFilePath));
+                                    int ImageWidth = objImage.Width;
+                                    int ImageHeight = objImage.Height;
+                                    if (ImageWidth > ImageHeight)
+                                    {
+                                        obj.MaxHeight = obj.MaxWidth * Convert.ToDouble(ImageHeight / ImageWidth);
+                                    }
+                                    else
+                                    {
+                                        obj.MaxWidth = obj.MaxHeight * Convert.ToDouble(ImageWidth / ImageHeight);
+                                    }
+                                    objImage.Dispose();
                                 }
-                                else
-                                {
-                                    obj.MaxWidth = obj.MaxHeight*Convert.ToDouble(ImageWidth/ImageHeight);
-                                }
-                                objImage.Dispose();
+
                             }
-
-                        }
-                        catch (Exception e)
-                        {
-                            throw e;
-                        }
-                    }
-                    else if (obj.ObjectType == 13) //type added for smartform
-                    {
-                        string filePath = "";
-                        string localFilePath = "";
-
-                        filePath = CompanyLogo;
-                        localFilePath = LocalCompanyLogo;
-
-                        obj.ContentString = filePath;
-
-                        try
-                        {
-                            if (System.IO.File.Exists(HttpContext.Current.Server.MapPath(localFilePath)))
+                            catch (Exception e)
                             {
-
-                                System.Drawing.Image objImage =
-                                    System.Drawing.Image.FromFile(HttpContext.Current.Server.MapPath(localFilePath));
-                                int ImageWidth = objImage.Width;
-                                int ImageHeight = objImage.Height;
-                                if (ImageWidth > ImageHeight)
-                                {
-                                    obj.MaxHeight = obj.MaxWidth*Convert.ToDouble(ImageHeight/ImageWidth);
-                                }
-                                else
-                                {
-                                    obj.MaxWidth = obj.MaxHeight*Convert.ToDouble(ImageWidth/ImageHeight);
-                                }
-                                objImage.Dispose();
+                                throw e;
                             }
+                        }
 
-                        }
-                        catch (Exception e)
-                        {
-                            throw e;
-                        }
                     }
-
+                    db.SaveChanges();
                 }
-                db.SaveChanges();
+
+
+                //}
+                //sessionparameters
+
+                return true;
+
             }
-
-
-            //}
-            //sessionparameters
-
-            return true;
-
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        
         }
 
         private bool SaveAdditionalAddonsOrUpdateStockItemType(List<AddOnCostsCenter> selectedAddonsList, long newItemID,
             long stockID, bool isCopyProduct, string updateMode)
         {
-            bool result = false;
-            ItemSection SelectedtblItemSectionOne = null;
+            try
+            {
+                bool result = false;
+                ItemSection SelectedtblItemSectionOne = null;
 
-            //Create A new Item Section #1 to pass to the cost center
+                //Create A new Item Section #1 to pass to the cost center
 
-            SelectedtblItemSectionOne =
-                db.ItemSections.Where(itemSect => itemSect.SectionNo == 1 && itemSect.ItemId == newItemID)
-                    .FirstOrDefault();
+                SelectedtblItemSectionOne =
+                    db.ItemSections.Where(itemSect => itemSect.SectionNo == 1 && itemSect.ItemId == newItemID)
+                        .FirstOrDefault();
                 //this.PopulateTblItemSections(newItem.ItemID, productSelection.Quantity, productSelection.CurrentTotal, 1);
-            if (isCopyProduct == true)
-            {
-                result = this.SaveAdditionalAddonsOrUpdateStockItemType(selectedAddonsList,
-                    Convert.ToInt64(SelectedtblItemSectionOne.StockItemID1), SelectedtblItemSectionOne, updateMode);
+                if (isCopyProduct == true)
+                {
+                    result = this.SaveAdditionalAddonsOrUpdateStockItemType(selectedAddonsList,
+                        Convert.ToInt64(SelectedtblItemSectionOne.StockItemID1), SelectedtblItemSectionOne, updateMode);
+                }
+                else
+                {
+                    result = this.SaveAdditionalAddonsOrUpdateStockItemType(selectedAddonsList, stockID,
+                        SelectedtblItemSectionOne, updateMode);
+                }
+
+                return result;
             }
-            else
+            catch (Exception ex)
             {
-                result = this.SaveAdditionalAddonsOrUpdateStockItemType(selectedAddonsList, stockID,
-                    SelectedtblItemSectionOne, updateMode);
+                throw ex;
             }
 
-            return result;
+          
         }
 
         private bool SaveAdditionalAddonsOrUpdateStockItemType(List<AddOnCostsCenter> selectedAddonsList, long stockID,
             ItemSection SelectedtblItemSectionOne, string updateMode)
         {
-            SectionCostcentre SelectedtblISectionCostCenteres = null;
-
-            if (SelectedtblItemSectionOne != null)
+            try
             {
-                //Set or Update the paper Type stockid in the section #1
-                if (stockID > 0)
-                    this.UpdateStockItemType(SelectedtblItemSectionOne, stockID);
+                SectionCostcentre SelectedtblISectionCostCenteres = null;
 
-                if (selectedAddonsList != null)
+                if (SelectedtblItemSectionOne != null)
                 {
-                    //if (updateMode == "Modify")
-                    //{
-                    //    List<SectionCostcentre> listOfCostCentres = db.SectionCostcentres.Where(c => c.ItemSectionId == SelectedtblItemSectionOne.ItemSectionId && c.IsOptionalExtra == 1).ToList();
+                    //Set or Update the paper Type stockid in the section #1
+                    if (stockID > 0)
+                        this.UpdateStockItemType(SelectedtblItemSectionOne, stockID);
 
-                    //    foreach(var ccItem in listOfCostCentres)
-                    //    {
-                    //         for (int i = 0; i < selectedAddonsList.Count; i++)
-                    //         {
-                    //             AddOnCostsCenter addonCostCenter = selectedAddonsList[i];
-                    //             if(addonCostCenter.CostCenterID == ccItem.CostCentreId)
-                    //             {
-                    //                 ccItem.Qty1NetTotal = addonCostCenter.ActualPrice;
-                    //                 if(!string.IsNullOrEmpty(addonCostCenter.CostCentreJsonData))
-                    //                 {
-                    //                     ccItem.Qty2WorkInstructions = addonCostCenter.CostCentreJsonData;
-                    //                 }
+                    if (selectedAddonsList != null)
+                    {
+                        //if (updateMode == "Modify")
+                        //{
+                        //    List<SectionCostcentre> listOfCostCentres = db.SectionCostcentres.Where(c => c.ItemSectionId == SelectedtblItemSectionOne.ItemSectionId && c.IsOptionalExtra == 1).ToList();
 
-                    //                 if(!string.IsNullOrEmpty(addonCostCenter.CostCentreDescription))
-                    //                 {
-                    //                     ccItem.Qty1WorkInstructions = addonCostCenter.CostCentreDescription;
+                        //    foreach(var ccItem in listOfCostCentres)
+                        //    {
+                        //         for (int i = 0; i < selectedAddonsList.Count; i++)
+                        //         {
+                        //             AddOnCostsCenter addonCostCenter = selectedAddonsList[i];
+                        //             if(addonCostCenter.CostCenterID == ccItem.CostCentreId)
+                        //             {
+                        //                 ccItem.Qty1NetTotal = addonCostCenter.ActualPrice;
+                        //                 if(!string.IsNullOrEmpty(addonCostCenter.CostCentreJsonData))
+                        //                 {
+                        //                     ccItem.Qty2WorkInstructions = addonCostCenter.CostCentreJsonData;
+                        //                 }
 
-                    //                 }
-                    //             }
-                    //         }
-                    //    }
+                        //                 if(!string.IsNullOrEmpty(addonCostCenter.CostCentreDescription))
+                        //                 {
+                        //                     ccItem.Qty1WorkInstructions = addonCostCenter.CostCentreDescription;
 
-                    //}
-                    //else 
-                    //{
-                    // Remove previous Addons
-                    db.SectionCostcentres.Where(
-                        c => c.ItemSectionId == SelectedtblItemSectionOne.ItemSectionId && c.IsOptionalExtra == 1)
-                        .ToList()
-                        .ForEach(sc =>
-                        {
-                            db.SectionCostcentres.Remove(sc);
+                        //                 }
+                        //             }
+                        //         }
+                        //    }
 
-                        });
-                    //Create Additional Addons Data
+                        //}
+                        //else 
+                        //{
+                        // Remove previous Addons
+                        db.SectionCostcentres.Where(
+                            c => c.ItemSectionId == SelectedtblItemSectionOne.ItemSectionId && c.IsOptionalExtra == 1)
+                            .ToList()
+                            .ForEach(sc =>
+                            {
+                                db.SectionCostcentres.Remove(sc);
+
+                            });
+                        //Create Additional Addons Data
                         //Create Additional Addons Data
                         for (int i = 0; i < selectedAddonsList.Count; i++)
                         {
@@ -1173,34 +1282,57 @@ namespace MPC.Repository.Repositories
                             SelectedtblItemSectionOne.SectionCostcentres.Add(SelectedtblISectionCostCenteres);
 
                         }
-                    // }
+                        // }
 
+                    }
                 }
-            }
 
-            return true;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
         }
 
         public void UpdateStockItemType(ItemSection itemSection, long stockID)
         {
-            itemSection.StockItemID1 = (int) stockID; //always set into the first column
-            itemSection.StockItemID2 = null;
-            itemSection.StockItemID3 = null;
+            try
+            {
+                itemSection.StockItemID1 = (int)stockID; //always set into the first column
+                itemSection.StockItemID2 = null;
+                itemSection.StockItemID3 = null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+           
         }
 
         private SectionCostcentre PopulateTblSectionCostCenteres(AddOnCostsCenter addOn)
         {
-            SectionCostcentre tblISectionCostCenteres = new SectionCostcentre
+            try
             {
-                CostCentreId = addOn.CostCenterID,
-                IsOptionalExtra = 1,
-                Qty1Charge = addOn.ActualPrice,
-                Qty1NetTotal = addOn.Qty1NetTotal,
-                Qty1WorkInstructions = addOn.CostCentreDescription,
-                Qty2WorkInstructions = addOn.CostCentreJsonData
-            };
+                SectionCostcentre tblISectionCostCenteres = new SectionCostcentre
+                {
+                    CostCentreId = addOn.CostCenterID,
+                    IsOptionalExtra = 1,
+                    Qty1Charge = addOn.ActualPrice,
+                    Qty1NetTotal = addOn.Qty1NetTotal,
+                    Qty1WorkInstructions = addOn.CostCentreDescription,
+                    Qty2WorkInstructions = addOn.CostCentreJsonData
+                };
 
-            return tblISectionCostCenteres;
+                return tblISectionCostCenteres;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+          
         }
 
         #endregion
@@ -1208,206 +1340,282 @@ namespace MPC.Repository.Repositories
 
         public Item GetItemById(long itemId)
         {
-            return
-                db.Items.Include("ItemPriceMatrices")
-                    .Where(i => i.IsPublished == true && i.ItemId == itemId && i.EstimateId == null)
-                    .FirstOrDefault();
+            try
+            {
+                return db.Items.Include("ItemPriceMatrices")
+                                   .Where(i => i.IsPublished == true && i.ItemId == itemId && i.EstimateId == null)
+                                   .FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
             //return db.Items.Include("ItemPriceMatrices").Include("ItemSections").Where(i => i.IsPublished == true && i.ItemId == itemId && i.EstimateId == null).FirstOrDefault();
 
         }
-        public Item GetItemByIdDesigner(long RefitemId)
+        public Item GetItemByIdDesigner(long ItemId)
         {
-            db.Configuration.LazyLoadingEnabled = false;
-            db.Configuration.ProxyCreationEnabled = false;
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
 
-            return db.Items.Where(i => i.IsPublished == true && i.ItemId == RefitemId && i.EstimateId == null).FirstOrDefault();
+                return db.Items.Where(i => i.ItemId == ItemId).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+         
         }
         public ProductItem GetItemAndDetailsByItemID(long itemId)
         {
+            try
+            {
+                var query =
+             from item in db.Items
+             join productCatItem in db.ProductCategoryItems on item.ItemId equals productCatItem.ItemId
+             join category in db.ProductCategories on productCatItem.CategoryId equals category.ProductCategoryId
+             join ItemDetail in db.ItemProductDetails on item.ItemId equals (long)ItemDetail.ItemId
+             where item.ItemId == itemId
+             select new ProductItem
+             {
 
-            var query =
-                from item in db.Items
-                join productCatItem in db.ProductCategoryItems on item.ItemId equals productCatItem.ItemId
-                join category in db.ProductCategories on productCatItem.CategoryId equals category.ProductCategoryId
-                join ItemDetail in db.ItemProductDetails on item.ItemId equals (long) ItemDetail.ItemId
-                where item.ItemId == itemId
-                select new ProductItem
-                {
+                 ProductName = item.ProductName,
+                 ThumbnailPath = item.ThumbnailPath,
+                 ProductCategoryName = category.CategoryName,
+                 ProductSpecification = item.ProductSpecification,
+                 AllowBriefAttachments = ItemDetail.isAllowMarketBriefAttachment ?? false,
+                 BriefSuccessMessage = ItemDetail.MarketBriefSuccessMessage
 
-                    ProductName = item.ProductName,
-                    ThumbnailPath = item.ThumbnailPath,
-                    ProductCategoryName = category.CategoryName,
-                    ProductSpecification = item.ProductSpecification,
-                    AllowBriefAttachments = ItemDetail.isAllowMarketBriefAttachment ?? false,
-                    BriefSuccessMessage = ItemDetail.MarketBriefSuccessMessage
+             };
+                return query.FirstOrDefault<ProductItem>();
 
-                };
-            return query.FirstOrDefault<ProductItem>();
-
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+         
         }
 
         public List<ProductMarketBriefQuestion> GetMarketingInquiryQuestionsByItemID(int itemID)
         {
-
-            return db.ProductMarketBriefQuestions.Where(i => i.ItemId == itemID).ToList();
+            try
+            {
+                return db.ProductMarketBriefQuestions.Where(i => i.ItemId == itemID).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+         
 
         }
 
         public List<ProductMarketBriefAnswer> GetMarketingInquiryAnswersByQID(int QID)
         {
-
-            return db.ProductMarketBriefAnswers.Where(i => i.MarketBriefQuestionId == QID).ToList();
+            try
+            {
+                return db.ProductMarketBriefAnswers.Where(i => i.MarketBriefQuestionId == QID).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
 
         }
 
         public void CopyAttachments(int itemID, Item NewItem, string OrderCode, bool CopyTemplate,
             DateTime OrderCreationDate)
         {
-            int sideNumber = 1;
-            List<ItemAttachment> attchmentRes = GetItemAttactchments(itemID);
-            List<ItemAttachment> Newattchments = new List<ItemAttachment>();
-            ItemAttachment obj = null;
-
-            foreach (ItemAttachment attachment in attchmentRes)
+            try
             {
-                obj = new ItemAttachment();
+                int sideNumber = 1;
+                List<ItemAttachment> attchmentRes = GetItemAttactchments(itemID);
+                List<ItemAttachment> Newattchments = new List<ItemAttachment>();
+                ItemAttachment obj = null;
 
-                obj.ApproveDate = attachment.ApproveDate;
-                obj.Comments = attachment.Comments;
-                obj.ContactId = attachment.ContactId;
-                obj.ContentType = attachment.ContentType;
-                obj.CompanyId = attachment.CompanyId;
-                obj.FileTitle = attachment.FileTitle;
-                obj.FileType = attachment.FileType;
-                obj.FolderPath = attachment.FolderPath;
-                obj.IsApproved = attachment.IsApproved;
-                obj.isFromCustomer = attachment.isFromCustomer;
-                obj.Parent = attachment.Parent;
-                obj.Type = attachment.Type;
-                obj.UploadDate = attachment.UploadDate;
-                obj.Version = attachment.Version;
-                obj.ItemId = NewItem.ItemId;
-                if (NewItem.TemplateId > 0)
+                foreach (ItemAttachment attachment in attchmentRes)
                 {
-                    obj.FileName = GetTemplateAttachmentFileName(NewItem.ProductCode, OrderCode, NewItem.ItemCode,
-                        "Side" + sideNumber.ToString(), attachment.FolderPath, attachment.FileType, OrderCreationDate);
-                        //NewItemID + " Side" + sideNumber + attachment.FileType;
-                }
-                else
-                {
-                    obj.FileName = GetAttachmentFileName(NewItem.ProductCode, OrderCode, NewItem.ItemCode,
-                        sideNumber.ToString() + "Copy", attachment.FolderPath, attachment.FileType, OrderCreationDate);
-                        //NewItemID + " Side" + sideNumber + attachment.FileType;
-                }
-                sideNumber += 1;
-                db.ItemAttachments.Add(obj);
-                Newattchments.Add(obj);
+                    obj = new ItemAttachment();
 
-                // Copy physical file
-                string sourceFileName = null;
-                string destFileName = null;
-                if (NewItem.TemplateId > 0 && CopyTemplate == true)
-                {
-                    sourceFileName =
-                        HttpContext.Current.Server.MapPath(attachment.FolderPath +
-                                                           System.IO.Path.GetFileNameWithoutExtension(
-                                                               attachment.FileName) + "Thumb.png");
-                    destFileName = HttpContext.Current.Server.MapPath(obj.FolderPath + obj.FileName);
-                }
-                else
-                {
-                    sourceFileName = HttpContext.Current.Server.MapPath(attachment.FolderPath + attachment.FileName);
-                    destFileName = HttpContext.Current.Server.MapPath(obj.FolderPath + obj.FileName);
-                }
-
-                if (File.Exists(sourceFileName))
-                {
-                    File.Copy(sourceFileName, destFileName);
-
-                    // Generate the thumbnail
-
-                    byte[] fileData = File.ReadAllBytes(destFileName);
-
-                    if (obj.FileType == ".pdf" || obj.FileType == ".TIF" || obj.FileType == ".TIFF")
+                    obj.ApproveDate = attachment.ApproveDate;
+                    obj.Comments = attachment.Comments;
+                    obj.ContactId = attachment.ContactId;
+                    obj.ContentType = attachment.ContentType;
+                    obj.CompanyId = attachment.CompanyId;
+                    obj.FileTitle = attachment.FileTitle;
+                    obj.FileType = attachment.FileType;
+                    obj.FolderPath = attachment.FolderPath;
+                    obj.IsApproved = attachment.IsApproved;
+                    obj.isFromCustomer = attachment.isFromCustomer;
+                    obj.Parent = attachment.Parent;
+                    obj.Type = attachment.Type;
+                    obj.UploadDate = attachment.UploadDate;
+                    obj.Version = attachment.Version;
+                    obj.ItemId = NewItem.ItemId;
+                    if (NewItem.TemplateId > 0)
                     {
-                        GenerateThumbnailForPdf(fileData, destFileName, false);
+                        obj.FileName = GetTemplateAttachmentFileName(NewItem.ProductCode, OrderCode, NewItem.ItemCode,
+                            "Side" + sideNumber.ToString(), attachment.FolderPath, attachment.FileType, OrderCreationDate);
+                        //NewItemID + " Side" + sideNumber + attachment.FileType;
                     }
                     else
                     {
-                        MemoryStream ms = new MemoryStream();
-                        ms.Write(fileData, 0, fileData.Length);
-
-                        CreatAndSaveThumnail(ms, destFileName);
+                        obj.FileName = GetAttachmentFileName(NewItem.ProductCode, OrderCode, NewItem.ItemCode,
+                            sideNumber.ToString() + "Copy", attachment.FolderPath, attachment.FileType, OrderCreationDate);
+                        //NewItemID + " Side" + sideNumber + attachment.FileType;
                     }
+                    sideNumber += 1;
+                    db.ItemAttachments.Add(obj);
+                    Newattchments.Add(obj);
+
+                    // Copy physical file
+                    string sourceFileName = null;
+                    string destFileName = null;
+                    if (NewItem.TemplateId > 0 && CopyTemplate == true)
+                    {
+                        sourceFileName =
+                            HttpContext.Current.Server.MapPath(attachment.FolderPath +
+                                                               System.IO.Path.GetFileNameWithoutExtension(
+                                                                   attachment.FileName) + "Thumb.png");
+                        destFileName = HttpContext.Current.Server.MapPath(obj.FolderPath + obj.FileName);
+                    }
+                    else
+                    {
+                        sourceFileName = HttpContext.Current.Server.MapPath(attachment.FolderPath + attachment.FileName);
+                        destFileName = HttpContext.Current.Server.MapPath(obj.FolderPath + obj.FileName);
+                    }
+
+                    if (File.Exists(sourceFileName))
+                    {
+                        File.Copy(sourceFileName, destFileName);
+
+                        // Generate the thumbnail
+
+                        byte[] fileData = File.ReadAllBytes(destFileName);
+
+                        if (obj.FileType == ".pdf" || obj.FileType == ".TIF" || obj.FileType == ".TIFF")
+                        {
+                            GenerateThumbnailForPdf(fileData, destFileName, false);
+                        }
+                        else
+                        {
+                            MemoryStream ms = new MemoryStream();
+                            ms.Write(fileData, 0, fileData.Length);
+
+                            CreatAndSaveThumnail(ms, destFileName);
+                        }
+                    }
+
                 }
 
+                db.SaveChanges();
             }
-
-            db.SaveChanges();
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
         }
 
         public List<ItemAttachment> GetItemAttactchments(int itemID)
         {
+            try
+            {
 
-            return (from Attachment in db.ItemAttachments
-                where Attachment.ItemId == itemID
-                select Attachment).ToList();
+                return (from Attachment in db.ItemAttachments
+                        where Attachment.ItemId == itemID
+                        select Attachment).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+          
         }
 
         public List<ArtWorkAttatchment> GetItemAttactchments(long itemID, string fileExtionsion,
             UploadFileTypes uploadedFileType)
         {
+            try
+            {
+                string uploadFiType = uploadedFileType.ToString();
+                List<ArtWorkAttatchment> itemAttactchments = new List<ArtWorkAttatchment>();
 
-            string uploadFiType = uploadedFileType.ToString();
-            List<ArtWorkAttatchment> itemAttactchments = new List<ArtWorkAttatchment>();
+                db.Configuration.LazyLoadingEnabled = false;
+                var query = from Attachment in db.ItemAttachments
+                            where Attachment.ItemId == itemID &&
+                                  string.Compare(Attachment.Type, uploadFiType, true) == 0 &&
+                                  string.Compare(Attachment.FileType, fileExtionsion, true) == 0
+                            select new ArtWorkAttatchment()
+                            {
+                                FileName = Attachment.FileName,
+                                FileTitle = Attachment.FileTitle,
+                                FileExtention = Attachment.FileType,
+                                FolderPath = Attachment.FolderPath,
+                            };
 
-            db.Configuration.LazyLoadingEnabled = false;
-            var query = from Attachment in db.ItemAttachments
-                where Attachment.ItemId == itemID &&
-                      string.Compare(Attachment.Type, uploadFiType, true) == 0 &&
-                      string.Compare(Attachment.FileType, fileExtionsion, true) == 0
-                select new ArtWorkAttatchment()
-                {
-                    FileName = Attachment.FileName,
-                    FileTitle = Attachment.FileTitle,
-                    FileExtention = Attachment.FileType,
-                    FolderPath = Attachment.FolderPath,
-                };
-
-            itemAttactchments = query.ToList<ArtWorkAttatchment>();
-
-
-
-            if (itemAttactchments != null && itemAttactchments.Count > 0)
-                itemAttactchments.ForEach(att => att.UploadFileType = uploadedFileType);
+                itemAttactchments = query.ToList<ArtWorkAttatchment>();
 
 
-            return itemAttactchments;
+
+                if (itemAttactchments != null && itemAttactchments.Count > 0)
+                    itemAttactchments.ForEach(att => att.UploadFileType = uploadedFileType);
+
+
+                return itemAttactchments;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+          
+          
         }
 
         public static string GetTemplateAttachmentFileName(string ProductCode, string OrderCode, string ItemCode,
             string SideCode, string VirtualFolderPath, string extension, DateTime CreationDate)
         {
-            string FileName = CreationDate.Year.ToString() + CreationDate.ToString("MMMM") + CreationDate.Day.ToString() +
-                              "-" + ProductCode + "-" + OrderCode + "-" + ItemCode + "-" + SideCode + extension;
+            try
+            {
+                string FileName = CreationDate.Year.ToString() + CreationDate.ToString("MMMM") + CreationDate.Day.ToString() +
+                             "-" + ProductCode + "-" + OrderCode + "-" + ItemCode + "-" + SideCode + extension;
 
-            return FileName;
+                return FileName;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
         }
 
         public static string GetAttachmentFileName(string ProductCode, string OrderCode, string ItemCode,
             string SideCode, string VirtualFolderPath, string extension, DateTime OrderCreationDate)
         {
-            string FileName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") +
-                              OrderCreationDate.Day.ToString() + "-" + ProductCode + "-" + OrderCode + "-" + ItemCode +
-                              "-" + SideCode + extension;
-            //checking whether file exists or not
-            while (System.IO.File.Exists(VirtualFolderPath + FileName))
+            try
             {
-                string fileName1 = System.IO.Path.GetFileNameWithoutExtension(FileName);
-                fileName1 += "a";
-                FileName = fileName1 + extension;
+                string FileName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") +
+                             OrderCreationDate.Day.ToString() + "-" + ProductCode + "-" + OrderCode + "-" + ItemCode +
+                             "-" + SideCode + extension;
+                //checking whether file exists or not
+                while (System.IO.File.Exists(VirtualFolderPath + FileName))
+                {
+                    string fileName1 = System.IO.Path.GetFileNameWithoutExtension(FileName);
+                    fileName1 += "a";
+                    FileName = fileName1 + extension;
+                }
+                return FileName;
             }
-            return FileName;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
         }
 
         public void GenerateThumbnailForPdf(byte[] PDFFile, string sideThumbnailPath, bool insertCuttingMargin)
@@ -1561,7 +1769,8 @@ namespace MPC.Repository.Repositories
 
                     //Section cost centeres
                     //tblItem.ItemSections.ToList().ForEach(itemSection => itemSection.SectionCostcentres.ToList().ForEach(sectCost => db.SectionCostcentres.Remove(sectCost)));
-                    tblItem.ItemSections.ToList().ForEach(itemSection =>
+                    List<ItemSection> listOfSections = db.ItemSections.Where(s => s.ItemId == tblItem.ItemId).ToList();
+                    foreach (var itemSection in listOfSections)
                     {
                         List<SectionCostcentre> listOfSectionCC =
                             db.SectionCostcentres.Where(sec => sec.ItemSectionId == itemSection.ItemSectionId).ToList();
@@ -1572,9 +1781,12 @@ namespace MPC.Repository.Repositories
                                 db.SectionCostcentres.Remove(SectionCC);
                             });
                         }
-                    });
+
+                        db.ItemSections.Remove(itemSection);
+                    }
+                
                     //Item Section
-                    tblItem.ItemSections.ToList().ForEach(itemsect => db.ItemSections.Remove(itemsect));
+                  //  tblItem.ItemSections.ToList().ForEach(itemsect => db.ItemSections.Remove(itemsect));
                     //Finally the item
                     db.Items.Remove(tblItem);
 
@@ -1593,145 +1805,176 @@ namespace MPC.Repository.Repositories
 
         public Template RemoveTemplates(int? templateID)
         {
-            Template clonedTemplate = null;
-
-            if (templateID.HasValue && templateID.Value > 0)
+            try
             {
-                Template tblTemplate =
-                    db.Templates.Where(template => template.ProductId == templateID.Value).FirstOrDefault();
+                Template clonedTemplate = null;
 
-                if (tblTemplate != null)
+                if (templateID.HasValue && templateID.Value > 0)
                 {
-                    if (tblTemplate.TemplateColorStyles != null)
+                    Template tblTemplate =
+                        db.Templates.Where(template => template.ProductId == templateID.Value).FirstOrDefault();
+
+                    if (tblTemplate != null)
                     {
-                        if (tblTemplate.TemplateColorStyles.Count > 0)
+                        if (tblTemplate.TemplateColorStyles != null)
                         {
-                            tblTemplate.TemplateColorStyles.ToList()
-                                .ForEach(tempColorStyle => db.TemplateColorStyles.Remove(tempColorStyle));
+                            if (tblTemplate.TemplateColorStyles.Count > 0)
+                            {
+                                tblTemplate.TemplateColorStyles.ToList()
+                                    .ForEach(tempColorStyle => db.TemplateColorStyles.Remove(tempColorStyle));
+                            }
                         }
-                    }
-                    //backgourd
-                    if (tblTemplate.TemplateBackgroundImages != null)
-                    {
-                        if (tblTemplate.TemplateBackgroundImages.Count > 0)
+                        //backgourd
+                        if (tblTemplate.TemplateBackgroundImages != null)
                         {
-                            tblTemplate.TemplateBackgroundImages.ToList()
-                                .ForEach(tempBGImages => db.TemplateBackgroundImages.Remove(tempBGImages));
+                            if (tblTemplate.TemplateBackgroundImages.Count > 0)
+                            {
+                                tblTemplate.TemplateBackgroundImages.ToList()
+                                    .ForEach(tempBGImages => db.TemplateBackgroundImages.Remove(tempBGImages));
+                            }
+
+
                         }
-
-
-                    }
-                    //font
-                    if (tblTemplate.TemplateFonts != null)
-                    {
-                        if (tblTemplate.TemplateFonts.Count > 0)
+                        //font
+                        if (tblTemplate.TemplateFonts != null)
                         {
-                            tblTemplate.TemplateFonts.ToList().ForEach(tempFonts => db.TemplateFonts.Remove(tempFonts));
-                        }
+                            if (tblTemplate.TemplateFonts.Count > 0)
+                            {
+                                tblTemplate.TemplateFonts.ToList().ForEach(tempFonts => db.TemplateFonts.Remove(tempFonts));
+                            }
 
-                    }
-                    //object
-                    if (tblTemplate.TemplateObjects != null)
-                    {
-                        if (tblTemplate.TemplateObjects.Count > 0)
+                        }
+                        //object
+                        if (tblTemplate.TemplateObjects != null)
                         {
-                            tblTemplate.TemplateObjects.ToList().ForEach(tempObj => db.TemplateObjects.Remove(tempObj));
-                        }
+                            if (tblTemplate.TemplateObjects.Count > 0)
+                            {
+                                tblTemplate.TemplateObjects.ToList().ForEach(tempObj => db.TemplateObjects.Remove(tempObj));
+                            }
 
-                    }
-                    //Page
-                    if (tblTemplate.TemplatePages != null)
-                    {
-                        if (tblTemplate.TemplatePages.Count > 0)
+                        }
+                        //Page
+                        if (tblTemplate.TemplatePages != null)
                         {
-                            tblTemplate.TemplatePages.ToList().ForEach(tempPage => db.TemplatePages.Remove(tempPage));
+                            if (tblTemplate.TemplatePages.Count > 0)
+                            {
+                                tblTemplate.TemplatePages.ToList().ForEach(tempPage => db.TemplatePages.Remove(tempPage));
+                            }
+
                         }
 
+                        // the template to remove the files in web.ui
+                        clonedTemplate = Clone<Template>(tblTemplate);
+
+                        //finally template it self
+                        db.Templates.Remove(tblTemplate);
                     }
-
-                    // the template to remove the files in web.ui
-                    clonedTemplate = Clone<Template>(tblTemplate);
-
-                    //finally template it self
-                    db.Templates.Remove(tblTemplate);
                 }
-            }
 
-            return clonedTemplate;
+                return clonedTemplate;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
 
         }
 
         public ArtWorkAttatchment PopulateUploadedAttactchment(ItemAttachment attatchment)
         {
-
-            UploadFileTypes resultUploadedFileType;
-
-            ArtWorkAttatchment itemAttactchment = new ArtWorkAttatchment()
+            try
             {
-                FileName = attatchment.FileName,
-                FileTitle = attatchment.FileTitle,
-                FileExtention = attatchment.FileType,
-                FolderPath = attatchment.FolderPath,
-                UploadFileType =
-                    Enum.TryParse(attatchment.Type, true, out resultUploadedFileType)
-                        ? resultUploadedFileType
-                        : UploadFileTypes.None
-            };
+
+                UploadFileTypes resultUploadedFileType;
+
+                ArtWorkAttatchment itemAttactchment = new ArtWorkAttatchment()
+                {
+                    FileName = attatchment.FileName,
+                    FileTitle = attatchment.FileTitle,
+                    FileExtention = attatchment.FileType,
+                    FolderPath = attatchment.FolderPath,
+                    UploadFileType =
+                        Enum.TryParse(attatchment.Type, true, out resultUploadedFileType)
+                            ? resultUploadedFileType
+                            : UploadFileTypes.None
+                };
 
 
-            return itemAttactchment;
+                return itemAttactchment;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
         }
 
         private bool ValidateIfTemplateIDIsAlreadyBooked(long itemID, long? templateID)
         {
-            bool result = false;
-
-            if (templateID.HasValue && templateID > 0)
+            try
             {
-                int bookedCount =
-                    db.Items.Where(item => item.ItemId != itemID && item.TemplateId == templateID.Value).Count();
-                if (bookedCount > 0)
-                    result = true;
-            }
+                bool result = false;
 
-            return result;
+                if (templateID.HasValue && templateID > 0)
+                {
+                    int bookedCount =
+                        db.Items.Where(item => item.ItemId != itemID && item.TemplateId == templateID.Value).Count();
+                    if (bookedCount > 0)
+                        result = true;
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
         }
 
         // Get Related Items List
         public List<ProductItem> GetRelatedItemsList()
         {
+            try
+            {
+                var query = from productsList in db.GetCategoryProducts
+                            join tblRelItems in db.ItemRelatedItems on productsList.ItemId
+                                equals tblRelItems.ItemId into tblRelatedGroupJoin
+                            where
+                                productsList.IsPublished == true && productsList.EstimateId == null &&
+                                productsList.IsEnabled == true
 
-            var query = from productsList in db.GetCategoryProducts
-                join tblRelItems in db.ItemRelatedItems on productsList.ItemId
-                    equals tblRelItems.ItemId into tblRelatedGroupJoin
-                where
-                    productsList.IsPublished == true && productsList.EstimateId == null &&
-                    productsList.IsEnabled == true
-
-                from JTble in tblRelatedGroupJoin.DefaultIfEmpty()
-                select new ProductItem
-                {
-                    ItemID = productsList.ItemId,
-                    RelatedItemID = JTble.RelatedItemId.HasValue ? JTble.RelatedItemId.Value : 0,
-                    EstimateID = productsList.EstimateId,
-                    ProductName = productsList.ProductName,
-                    ProductCategoryName = productsList.ProductCategoryName,
-                    ProductCategoryID = productsList.ProductCategoryId,
-                    MinPrice = productsList.MinPrice,
-                    ImagePath = productsList.ImagePath,
-                    ThumbnailPath = productsList.ThumbnailPath,
-                    IconPath = productsList.IconPath,
-                    IsEnabled = productsList.IsEnabled,
-                    IsSpecialItem = productsList.IsSpecialItem,
-                    IsPopular = productsList.IsPopular,
-                    IsFeatured = productsList.IsFeatured,
-                    IsPromotional = productsList.IsPromotional,
-                    IsPublished = productsList.IsPublished,
-                    ProductSpecification = productsList.ProductSpecification,
-                    CompleteSpecification = productsList.CompleteSpecification,
-                    ProductType = productsList.ProductType
-                };
-            return query.ToList<ProductItem>();
+                            from JTble in tblRelatedGroupJoin.DefaultIfEmpty()
+                            select new ProductItem
+                            {
+                                ItemID = productsList.ItemId,
+                                RelatedItemID = JTble.RelatedItemId.HasValue ? JTble.RelatedItemId.Value : 0,
+                                EstimateID = productsList.EstimateId,
+                                ProductName = productsList.ProductName,
+                                ProductCategoryName = productsList.ProductCategoryName,
+                                ProductCategoryID = productsList.ProductCategoryId,
+                                MinPrice = productsList.MinPrice,
+                                ImagePath = productsList.ImagePath,
+                                ThumbnailPath = productsList.ThumbnailPath,
+                                IconPath = productsList.IconPath,
+                                IsEnabled = productsList.IsEnabled,
+                                IsSpecialItem = productsList.IsSpecialItem,
+                                IsPopular = productsList.IsPopular,
+                                IsFeatured = productsList.IsFeatured,
+                                IsPromotional = productsList.IsPromotional,
+                                IsPublished = productsList.IsPublished,
+                                ProductSpecification = productsList.ProductSpecification,
+                                CompleteSpecification = productsList.CompleteSpecification,
+                                ProductType = productsList.ProductType
+                            };
+                return query.ToList<ProductItem>();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
         }
 
         /// <summary>
@@ -1742,9 +1985,17 @@ namespace MPC.Repository.Repositories
         /// <returns></returns>
         public Item GetItemByOrderAndItemID(long ItemID, long OrderID)
         {
-            return
-                db.Items.Where(g => g.RefItemId == ItemID && g.EstimateId == OrderID && g.IsOrderedItem == false)
-                    .FirstOrDefault();
+            try
+            {
+                return
+              db.Items.Where(g => g.RefItemId == ItemID && g.EstimateId == OrderID && g.IsOrderedItem == false)
+                  .FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+          
         }
 
         /// <summary>
@@ -1783,137 +2034,182 @@ namespace MPC.Repository.Repositories
             long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId,
             double TaxRate, string ItemMode, int CountOfUploads = 0, string QuestionQueuItem = "")
         {
-            bool result = false;
-
-            ItemSection FirstItemSection = null;
-
-            double currentTotal = 0;
-            double netTotal = 0;
-            double grossTotal = 0;
-            double? markupRate = 0;
-
             try
             {
-                Item clonedItem = null;
+                bool result = false;
 
-                clonedItem = db.Items.Where(i => i.ItemId == clonedItemID).FirstOrDefault();
-                // markup id is not mapped
-                //long? markupid = db.Organisations.Where(o => o.OrganisationId == OrganisationId).Select(m => m.MarkupId).FirstOrDefault();
+                ItemSection FirstItemSection = null;
 
-                //if (markupid != null || markupid > 0)
-                //{
-                //    markupRate = db.Markups.Where(m => m.MarkUpId == markupid).Select(r => r.MarkUpRate).FirstOrDefault();
-                //}
+                double currentTotal = 0;
+                double netTotal = 0;
+                double grossTotal = 0;
+                double? markupRate = 0;
 
-                if (CountOfUploads > 0)
+                try
                 {
-                    clonedItem.ProductName = clonedItem.ProductName + " " + CountOfUploads + " file(s) uploaded";
-                }
+                    Item clonedItem = null;
 
-                clonedItem.Qty1 = (int) orderedQuantity;
+                    clonedItem = db.Items.Where(i => i.ItemId == clonedItemID).FirstOrDefault();
+                    // markup id is not mapped
+                    //long? markupid = db.Organisations.Where(o => o.OrganisationId == OrganisationId).Select(m => m.MarkupId).FirstOrDefault();
 
-                clonedItem.IsOrderedItem = true;
-
-
-                netTotal = itemPrice + addonsPrice;
-
-                netTotal = netTotal + markupRate ?? 0;
-
-                if (clonedItem.DefaultItemTax != null)
-                {
-                    grossTotal = netTotal + CalculatePercentage(netTotal, Convert.ToDouble(clonedItem.DefaultItemTax));
-                    clonedItem.Qty1Tax1Value = GetTaxPercentage(netTotal, Convert.ToDouble(clonedItem.DefaultItemTax));
-                }
-                else
-                {
-                    grossTotal = netTotal + CalculatePercentage(netTotal, TaxRate);
-                    clonedItem.Qty1Tax1Value = GetTaxPercentage(netTotal, TaxRate);
-                }
-
-                //******************Existing item update*********************
-
-                clonedItem.Qty1BaseCharge1 = itemPrice + addonsPrice;
-
-                clonedItem.Qty1NetTotal = netTotal;
-
-                clonedItem.Qty1GrossTotal = grossTotal;
-
-                FirstItemSection =
-                    clonedItem.ItemSections.Where(sec => sec.SectionNo == 1 && sec.ItemId == clonedItem.ItemId)
-                        .FirstOrDefault();
-
-                result = SaveAdditionalAddonsOrUpdateStockItemType(newlyAddedCostCenters, stockItemID, FirstItemSection,
-                    ItemMode); // additional addon required the newly inserted cloneditem
-
-                FirstItemSection.Qty1 = clonedItem.Qty1;
-
-                FirstItemSection.BaseCharge1 = clonedItem.Qty1BaseCharge1;
-
-
-                //if (markupid != null || markupid > 0)
-                //{
-                //    FirstItemSection.Qty1MarkUpID = (int)markupid;
-                //}
-                //else
-                //{
-                FirstItemSection.Qty1MarkUpID = 1;
-                FirstItemSection.QuestionQueue = QuestionQueuItem;
-                //}
-
-                bool isNewSectionCostCenter = false;
-
-                SectionCostcentre sectionCC =
-                    FirstItemSection.SectionCostcentres.Where(c => c.CostCentre.Type == 29).FirstOrDefault();
-
-
-
-                if (sectionCC == null)
-                {
-                    sectionCC = new SectionCostcentre();
                     //if (markupid != null || markupid > 0)
                     //{
-                    //    sectionCC.Qty1MarkUpID = (int)markupid;
+                    //    markupRate = db.Markups.Where(m => m.MarkUpId == markupid).Select(r => r.MarkUpRate).FirstOrDefault();
+                    //}
+
+                    if (CountOfUploads > 0)
+                    {
+                        clonedItem.ProductName = clonedItem.ProductName + " " + CountOfUploads + " file(s) uploaded";
+                    }
+
+                    clonedItem.Qty1 = (int)orderedQuantity;
+
+                    clonedItem.IsOrderedItem = true;
+
+
+                    netTotal = itemPrice + addonsPrice;
+
+                    netTotal = netTotal + markupRate ?? 0;
+
+                    if (clonedItem.DefaultItemTax != null)
+                    {
+                        grossTotal = netTotal + CalculatePercentage(netTotal, Convert.ToDouble(clonedItem.DefaultItemTax));
+                        clonedItem.Qty1Tax1Value = GetTaxPercentage(netTotal, Convert.ToDouble(clonedItem.DefaultItemTax));
+                    }
+                    else
+                    {
+                        grossTotal = netTotal + CalculatePercentage(netTotal, TaxRate);
+                        clonedItem.Qty1Tax1Value = GetTaxPercentage(netTotal, TaxRate);
+                    }
+
+                    //******************Existing item update*********************
+
+                    clonedItem.Qty1BaseCharge1 = itemPrice + addonsPrice;
+
+                    clonedItem.Qty1NetTotal = netTotal;
+
+                    clonedItem.Qty1GrossTotal = grossTotal;
+
+                    FirstItemSection =
+                        clonedItem.ItemSections.Where(sec => sec.SectionNo == 1 && sec.ItemId == clonedItem.ItemId)
+                            .FirstOrDefault();
+
+                    result = SaveAdditionalAddonsOrUpdateStockItemType(newlyAddedCostCenters, stockItemID, FirstItemSection,
+                        ItemMode); // additional addon required the newly inserted cloneditem
+
+                    FirstItemSection.Qty1 = clonedItem.Qty1;
+
+                    FirstItemSection.BaseCharge1 = clonedItem.Qty1BaseCharge1;
+
+
+                    //if (markupid != null || markupid > 0)
+                    //{
+                    //    FirstItemSection.Qty1MarkUpID = (int)markupid;
                     //}
                     //else
                     //{
-                    sectionCC.Qty1MarkUpID = 1;
-                    // }
+                    FirstItemSection.Qty1MarkUpID = 1;
+                    FirstItemSection.QuestionQueue = QuestionQueuItem;
+                    //}
 
-                    isNewSectionCostCenter = true;
-                }
+                    bool isNewSectionCostCenter = false;
 
-                if (isNewSectionCostCenter)
+
+                List<SectionCostcentre> listOfSectionCostCentres = db.SectionCostcentres.Where(c => c.ItemSectionId == FirstItemSection.ItemSectionId).ToList();
+
+                SectionCostcentre sectionCC = null;
+                foreach (var ccItem in listOfSectionCostCentres)
                 {
-                    sectionCC.CostCentreId = 206;
-                    sectionCC.ItemSectionId = FirstItemSection.ItemSectionId;
-                    FirstItemSection.SectionCostcentres.Add(sectionCC);
+                    if (ccItem.CostCentre != null)
+                    {
+                        if (ccItem.CostCentre.Type == 29)
+                        {
+                            sectionCC = ccItem;
+                        }
+                    }
+                }
+             
+              
+                    if (sectionCC == null)
+                    {
+                        sectionCC = new SectionCostcentre();
+                        //if (markupid != null || markupid > 0)
+                        //{
+                        //    sectionCC.Qty1MarkUpID = (int)markupid;
+                        //}
+                        //else
+                        //{
+                        sectionCC.Qty1MarkUpID = 1;
+                        // }
+
+                        isNewSectionCostCenter = true;
+                    }
+
+                    if (isNewSectionCostCenter)
+                    {
+                        //29 is the global type of web order cost centre
+                        var oCostCentre = db.CostCentres.Where(g => g.Type == 29).SingleOrDefault();
+                        if (oCostCentre != null)
+                        {
+                            sectionCC.CostCentreId = oCostCentre.CostCentreId;
+                            sectionCC.ItemSectionId = FirstItemSection.ItemSectionId;
+                            FirstItemSection.SectionCostcentres.Add(sectionCC);
+                        }
+                        else
+                        {
+                            throw new Exception("Critcal Error, We have lost our main costcentre.", null);
+                        }
+                    }
+
+                    if (result)
+                        result = db.SaveChanges() > 0 ? true : false;
+
+                }
+                catch (Exception)
+                {
+                    result = false;
+                    throw;
                 }
 
-                if (result)
-                    result = db.SaveChanges() > 0 ? true : false;
-
+                return result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                result = false;
-                throw;
+                throw ex;
             }
-
-            return result;
+           
 
         }
 
         private double GetTaxPercentage(double netTotal, double TaxRate)
         {
-            return (netTotal*TaxRate)/100;
+            try
+            {
+                return (netTotal * TaxRate) / 100;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
         }
 
         public Item GetClonedItemByOrderId(long OrderId, long ReferenceItemId)
         {
-            return
-                db.Items.Where(
-                    i => i.EstimateId == OrderId && i.RefItemId == ReferenceItemId && i.IsOrderedItem == false)
-                    .FirstOrDefault();
+            try
+            {
+                return
+               db.Items.Where(
+                   i => i.EstimateId == OrderId && i.RefItemId == ReferenceItemId && i.IsOrderedItem == false)
+                   .FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
+           
         }
 
 
@@ -1922,7 +2218,16 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public double GetMinimumProductValue(long itemId)
         {
-            return db.GetMinimumProductValue(itemId);
+            try
+            {
+                return db.GetMinimumProductValue(itemId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
+           
         }
 
         public List<ProductItem> GetRelatedItemsByItemID(long ItemID)
@@ -2052,7 +2357,7 @@ namespace MPC.Repository.Repositories
                             order.StatusId == (short) OrderStatus.ShoppingCart && order.isEstimate == false)
                         .FirstOrDefault();
 
-                if (ActualOrder != null)
+                if (ActualOrder != null && TemporaryOrder != null)
                 {
                     ActualOrder.CreationTime = DateTime.Now;
                     ActualOrder.SectionFlagId = 3;
@@ -2285,11 +2590,19 @@ namespace MPC.Repository.Repositories
 
         public List<usp_GetRealEstateProducts_Result> GetRealEstateProductsByCompanyID(long CompanyId)
         {
-            List<usp_GetRealEstateProducts_Result> lstProducts = new List<usp_GetRealEstateProducts_Result>();
+            try
+            {
+                List<usp_GetRealEstateProducts_Result> lstProducts = new List<usp_GetRealEstateProducts_Result>();
 
-            lstProducts = db.usp_GetRealEstateProducts(Convert.ToInt32(CompanyId)).ToList();
+                lstProducts = db.usp_GetRealEstateProducts(Convert.ToInt32(CompanyId)).ToList();
 
-            return lstProducts;
+                return lstProducts;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+          
         }
 
         public Item GetItemByOrderID(long OrderID)
@@ -2328,170 +2641,31 @@ namespace MPC.Repository.Repositories
 
         public List<Item> GetListOfDeliveryItemByOrderID(long OID)
         {
-
-            return db.Items.Where(i => i.EstimateId == OID && i.ItemType == (int) ItemTypes.Delivery).ToList();
+            try
+            {
+                return db.Items.Where(i => i.EstimateId == OID && i.ItemType == (int)ItemTypes.Delivery).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
 
         }
 
 
         public bool RemoveListOfDeliveryItemCostCenter(long OrderId)
         {
-
-            List<Item> DItem =
-                db.Items.Where(i => i.EstimateId == OrderId && i.ItemType == (int) ItemTypes.Delivery).ToList();
-
-            foreach (var item in DItem)
+            try
             {
-                db.Items.Remove(item);
-            }
+                List<Item> DItem =
+             db.Items.Where(i => i.EstimateId == OrderId && i.ItemType == (int)ItemTypes.Delivery).ToList();
 
-            if (db.SaveChanges() > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
-        }
-
-        //}
-
-        public bool AddUpdateItemFordeliveryCostCenter(long orderId, long DeliveryCostCenterId, double DeliveryCost,
-            long customerID, string DeliveryName, StoreMode Mode, bool isDeliveryTaxable, bool IstaxONService,
-            double GetServiceTAX, double TaxRate)
-        {
-
-            ItemSection NewtblItemSection = null;
-            SectionCostcentre NewtblISectionCostCenteres = null;
-            Item newItem = null;
-
-            Organisation organisation = null;
-            // CompanySiteManager compSiteManager = new CompanySiteManager();
-
-            double netTotal = 0;
-            double grossTotal = 0;
-
-            long OID =
-                db.Companies.Where(c => c.CompanyId == customerID).Select(s => s.OrganisationId ?? 0).FirstOrDefault();
-            organisation = db.Organisations.Where(o => o.OrganisationId == OID).FirstOrDefault();
-            Item Record =
-                db.Items.Where(c => c.EstimateId == orderId && c.ItemType == (int) ItemTypes.Delivery).FirstOrDefault();
-            if (Record != null)
-            {
-
-
-                netTotal = DeliveryCost;
-
-                if (Mode == StoreMode.Corp)
+                foreach (var item in DItem)
                 {
-                    if (IstaxONService == true)
-                    {
-                        if (isDeliveryTaxable)
-                        {
-                            Record.Tax1 = 0;
-                            grossTotal = Math.Round(ServiceGrossTotalCalculation(netTotal, GetServiceTAX), 2);
-                            Record.Qty1Tax1Value = Math.Round(ServiceTotalTaxCalculation(netTotal, GetServiceTAX), 2);
-                        }
-                        else
-                        {
-                            grossTotal = GrossTotalCalculation(netTotal, 0);
-                            Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
-                        }
-                    }
-                    else
-                    {
-                        if (isDeliveryTaxable == true)
-                        {
-
-                            grossTotal = GrossTotalCalculation(netTotal, TaxRate);
-                            Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, Convert.ToInt32(TaxRate));
-
-                        }
-                        else
-                        {
-                            grossTotal = GrossTotalCalculation(netTotal, 0);
-                            Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
-                        }
-
-                    }
-
-                }
-                else
-                {
-                    if (IstaxONService == true)
-                    {
-                        if (isDeliveryTaxable)
-                        {
-                            Record.Tax1 = 0;
-                            grossTotal = Math.Round(ServiceGrossTotalCalculation(netTotal, GetServiceTAX), 2);
-                            Record.Qty1Tax1Value = Math.Round(ServiceTotalTaxCalculation(netTotal, GetServiceTAX), 2);
-                        }
-                        else
-                        {
-                            Record.Tax1 = 0;
-                            grossTotal = GrossTotalCalculation(netTotal, 0);
-                            Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
-                        }
-                    }
-                    else
-                    {
-                        if (isDeliveryTaxable)
-                        {
-                            Record.Tax1 = 0;
-                            grossTotal = GrossTotalCalculation(netTotal, TaxRate);
-                            Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, TaxRate);
-                        }
-                        else
-                        {
-                            Record.Tax1 = 0;
-                            grossTotal = GrossTotalCalculation(netTotal, 0);
-                            Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
-                        }
-                    }
-
+                    db.Items.Remove(item);
                 }
 
-
-                //******************existing item*********************
-
-                Record.IsPublished = false;
-                Record.ProductName = DeliveryName;
-                Record.EstimateId = orderId; //orderid
-                Record.CompanyId = customerID; //customerid
-                Record.ItemType = (int) ItemTypes.Delivery;
-                Record.Qty1BaseCharge1 = netTotal;
-                Record.Qty1NetTotal = netTotal;
-                Record.Qty1GrossTotal = grossTotal;
-                Record.InvoiceId = null;
-                Record.IsOrderedItem = true;
-
-                Markup zeroMarkup = db.Markups.Where(m => m.MarkUpRate == 0).FirstOrDefault();
-
-
-
-                //*****************Existing item Sections and cost Centeres*********************************
-                ItemSection ExistingItemSect = db.ItemSections.Where(i => i.ItemId == Record.ItemId).FirstOrDefault();
-                ExistingItemSect.SectionName = DeliveryName;
-                ExistingItemSect.BaseCharge1 = DeliveryCost;
-
-
-                //*****************Existing Section Cost Centeres*********************************
-                SectionCostcentre ExistingSectCostCentre =
-                    db.SectionCostcentres.Where(e => e.ItemSectionId == ExistingItemSect.ItemSectionId).FirstOrDefault();
-
-                if (zeroMarkup != null)
-                {
-                    ExistingSectCostCentre.Qty1MarkUpID = (int) zeroMarkup.MarkUpId;
-                }
-                else
-                {
-                    ExistingSectCostCentre.Qty1MarkUpID = 1;
-                }
-                ExistingSectCostCentre.CostCentreId = DeliveryCostCenterId;
-                ExistingSectCostCentre.Qty1Charge = DeliveryCost;
-                ExistingSectCostCentre.Qty1NetTotal = DeliveryCost;
                 if (db.SaveChanges() > 0)
                 {
                     return true;
@@ -2501,36 +2675,173 @@ namespace MPC.Repository.Repositories
                     return false;
                 }
             }
-            else
+            catch (Exception ex)
             {
+                throw ex;
+            }
+         
 
-                newItem = new Item();
-                netTotal = DeliveryCost;
-                if (Mode == StoreMode.Corp)
+        }
+
+        //}
+
+        public bool AddUpdateItemFordeliveryCostCenter(long orderId, long DeliveryCostCenterId, double DeliveryCost,
+            long customerID, string DeliveryName, StoreMode Mode, bool isDeliveryTaxable, bool IstaxONService,
+            double GetServiceTAX, double TaxRate)
+        {
+            try
+            {
+                ItemSection NewtblItemSection = null;
+                SectionCostcentre NewtblISectionCostCenteres = null;
+                Item newItem = null;
+
+                Organisation organisation = null;
+                // CompanySiteManager compSiteManager = new CompanySiteManager();
+
+                double netTotal = 0;
+                double grossTotal = 0;
+
+                long OID =
+                    db.Companies.Where(c => c.CompanyId == customerID).Select(s => s.OrganisationId ?? 0).FirstOrDefault();
+                organisation = db.Organisations.Where(o => o.OrganisationId == OID).FirstOrDefault();
+                Item Record =
+                    db.Items.Where(c => c.EstimateId == orderId && c.ItemType == (int)ItemTypes.Delivery).FirstOrDefault();
+                if (Record != null)
                 {
-                    if (IstaxONService == true)
+
+
+                    netTotal = DeliveryCost;
+
+                    if (Mode == StoreMode.Corp)
                     {
-                        if (isDeliveryTaxable)
+                        if (IstaxONService == true)
                         {
-                            grossTotal = ServiceGrossTotalCalculation(netTotal, GetServiceTAX);
-                            newItem.Qty1Tax1Value = ServiceTotalTaxCalculation(netTotal, GetServiceTAX);
+                            if (isDeliveryTaxable)
+                            {
+                                Record.Tax1 = 0;
+                                grossTotal = Math.Round(ServiceGrossTotalCalculation(netTotal, GetServiceTAX), 2);
+                                Record.Qty1Tax1Value = Math.Round(ServiceTotalTaxCalculation(netTotal, GetServiceTAX), 2);
+                            }
+                            else
+                            {
+                                grossTotal = GrossTotalCalculation(netTotal, 0);
+                                Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
+                            }
                         }
                         else
                         {
-                            grossTotal = GrossTotalCalculation(netTotal, 0);
-                            newItem.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
+                            if (isDeliveryTaxable == true)
+                            {
+
+                                grossTotal = GrossTotalCalculation(netTotal, TaxRate);
+                                Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, Convert.ToInt32(TaxRate));
+
+                            }
+                            else
+                            {
+                                grossTotal = GrossTotalCalculation(netTotal, 0);
+                                Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
+                            }
+
                         }
 
                     }
                     else
                     {
-                        if (isDeliveryTaxable)
+                        if (IstaxONService == true)
                         {
-
-                            if (TaxRate != null && TaxRate > 0)
+                            if (isDeliveryTaxable)
                             {
+                                Record.Tax1 = 0;
+                                grossTotal = Math.Round(ServiceGrossTotalCalculation(netTotal, GetServiceTAX), 2);
+                                Record.Qty1Tax1Value = Math.Round(ServiceTotalTaxCalculation(netTotal, GetServiceTAX), 2);
+                            }
+                            else
+                            {
+                                Record.Tax1 = 0;
+                                grossTotal = GrossTotalCalculation(netTotal, 0);
+                                Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
+                            }
+                        }
+                        else
+                        {
+                            if (isDeliveryTaxable)
+                            {
+                                Record.Tax1 = 0;
                                 grossTotal = GrossTotalCalculation(netTotal, TaxRate);
-                                newItem.Qty1Tax1Value = calculateTaxPercentage(netTotal, Convert.ToInt32(TaxRate));
+                                Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, TaxRate);
+                            }
+                            else
+                            {
+                                Record.Tax1 = 0;
+                                grossTotal = GrossTotalCalculation(netTotal, 0);
+                                Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
+                            }
+                        }
+
+                    }
+
+
+                    //******************existing item*********************
+
+                    Record.IsPublished = false;
+                    Record.ProductName = DeliveryName;
+                    Record.EstimateId = orderId; //orderid
+                    Record.CompanyId = customerID; //customerid
+                    Record.ItemType = (int)ItemTypes.Delivery;
+                    Record.Qty1BaseCharge1 = netTotal;
+                    Record.Qty1NetTotal = netTotal;
+                    Record.Qty1GrossTotal = grossTotal;
+                    Record.InvoiceId = null;
+                    Record.IsOrderedItem = true;
+
+                    Markup zeroMarkup = db.Markups.Where(m => m.MarkUpRate == 0).FirstOrDefault();
+
+
+
+                    //*****************Existing item Sections and cost Centeres*********************************
+                    ItemSection ExistingItemSect = db.ItemSections.Where(i => i.ItemId == Record.ItemId).FirstOrDefault();
+                    ExistingItemSect.SectionName = DeliveryName;
+                    ExistingItemSect.BaseCharge1 = DeliveryCost;
+
+
+                    //*****************Existing Section Cost Centeres*********************************
+                    SectionCostcentre ExistingSectCostCentre =
+                        db.SectionCostcentres.Where(e => e.ItemSectionId == ExistingItemSect.ItemSectionId).FirstOrDefault();
+
+                    if (zeroMarkup != null)
+                    {
+                        ExistingSectCostCentre.Qty1MarkUpID = (int)zeroMarkup.MarkUpId;
+                    }
+                    else
+                    {
+                        ExistingSectCostCentre.Qty1MarkUpID = 1;
+                    }
+                    ExistingSectCostCentre.CostCentreId = DeliveryCostCenterId;
+                    ExistingSectCostCentre.Qty1Charge = DeliveryCost;
+                    ExistingSectCostCentre.Qty1NetTotal = DeliveryCost;
+                    if (db.SaveChanges() > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+
+                    newItem = new Item();
+                    netTotal = DeliveryCost;
+                    if (Mode == StoreMode.Corp)
+                    {
+                        if (IstaxONService == true)
+                        {
+                            if (isDeliveryTaxable)
+                            {
+                                grossTotal = ServiceGrossTotalCalculation(netTotal, GetServiceTAX);
+                                newItem.Qty1Tax1Value = ServiceTotalTaxCalculation(netTotal, GetServiceTAX);
                             }
                             else
                             {
@@ -2541,100 +2852,123 @@ namespace MPC.Repository.Repositories
                         }
                         else
                         {
-                            grossTotal = GrossTotalCalculation(netTotal, 0);
-                            newItem.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
-                        }
-                    }
+                            if (isDeliveryTaxable)
+                            {
 
-                }
-                else
-                {
-                    if (IstaxONService == true)
-                    {
-                        if (isDeliveryTaxable)
-                        {
-                            grossTotal = ServiceGrossTotalCalculation(netTotal, GetServiceTAX);
-                            newItem.Qty1Tax1Value = ServiceTotalTaxCalculation(netTotal, GetServiceTAX);
-                        }
-                        else
-                        {
-                            grossTotal = ServiceGrossTotalCalculation(netTotal, 0);
-                            newItem.Qty1Tax1Value = ServiceTotalTaxCalculation(netTotal, 0);
+                                if (TaxRate != null && TaxRate > 0)
+                                {
+                                    grossTotal = GrossTotalCalculation(netTotal, TaxRate);
+                                    newItem.Qty1Tax1Value = calculateTaxPercentage(netTotal, Convert.ToInt32(TaxRate));
+                                }
+                                else
+                                {
+                                    grossTotal = GrossTotalCalculation(netTotal, 0);
+                                    newItem.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
+                                }
 
+                            }
+                            else
+                            {
+                                grossTotal = GrossTotalCalculation(netTotal, 0);
+                                newItem.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
+                            }
                         }
+
                     }
                     else
                     {
-                        if (isDeliveryTaxable)
+                        if (IstaxONService == true)
                         {
-                            grossTotal = GrossTotalCalculation(netTotal, TaxRate);
-                            newItem.Qty1Tax1Value = calculateTaxPercentage(netTotal, (int) TaxRate);
+                            if (isDeliveryTaxable)
+                            {
+                                grossTotal = ServiceGrossTotalCalculation(netTotal, GetServiceTAX);
+                                newItem.Qty1Tax1Value = ServiceTotalTaxCalculation(netTotal, GetServiceTAX);
+                            }
+                            else
+                            {
+                                grossTotal = ServiceGrossTotalCalculation(netTotal, 0);
+                                newItem.Qty1Tax1Value = ServiceTotalTaxCalculation(netTotal, 0);
+
+                            }
                         }
                         else
                         {
-                            grossTotal = GrossTotalCalculation(netTotal, 0);
-                            newItem.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
+                            if (isDeliveryTaxable)
+                            {
+                                grossTotal = GrossTotalCalculation(netTotal, TaxRate);
+                                newItem.Qty1Tax1Value = calculateTaxPercentage(netTotal, (int)TaxRate);
+                            }
+                            else
+                            {
+                                grossTotal = GrossTotalCalculation(netTotal, 0);
+                                newItem.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
 
+                            }
                         }
+
                     }
 
-                }
-
-                //******************new item*********************
+                    //******************new item*********************
 
 
 
-                newItem.IsPublished = false;
-                newItem.ProductName = DeliveryName;
-                newItem.EstimateId = orderId; //orderid
-                newItem.CompanyId = customerID; //customerid
-                newItem.ItemType = (int) ItemTypes.Delivery;
-                newItem.Qty1BaseCharge1 = netTotal;
-                newItem.Qty1NetTotal = netTotal;
-                newItem.Qty1GrossTotal = grossTotal;
-                newItem.InvoiceId = null;
-                newItem.IsOrderedItem = true;
-                Markup zeroMarkup = db.Markups.Where(m => m.MarkUpRate == 0).FirstOrDefault();
+                    newItem.IsPublished = false;
+                    newItem.ProductName = DeliveryName;
+                    newItem.EstimateId = orderId; //orderid
+                    newItem.CompanyId = customerID; //customerid
+                    newItem.ItemType = (int)ItemTypes.Delivery;
+                    newItem.Qty1BaseCharge1 = netTotal;
+                    newItem.Qty1NetTotal = netTotal;
+                    newItem.Qty1GrossTotal = grossTotal;
+                    newItem.InvoiceId = null;
+                    newItem.IsOrderedItem = true;
+                    Markup zeroMarkup = db.Markups.Where(m => m.MarkUpRate == 0).FirstOrDefault();
 
 
 
-                //*****************NEw item Sections and cost Centeres*********************************
-                NewtblItemSection = new ItemSection();
-                NewtblItemSection.ItemId = newItem.ItemId;
-                NewtblItemSection.SectionName = DeliveryName;
-                NewtblItemSection.BaseCharge1 = DeliveryCost;
+                    //*****************NEw item Sections and cost Centeres*********************************
+                    NewtblItemSection = new ItemSection();
+                    NewtblItemSection.ItemId = newItem.ItemId;
+                    NewtblItemSection.SectionName = DeliveryName;
+                    NewtblItemSection.BaseCharge1 = DeliveryCost;
 
-                //dbContext.tbl_item_sections.AddObject(NewtblItemSection); //ContextAdded
+                    //dbContext.tbl_item_sections.AddObject(NewtblItemSection); //ContextAdded
 
-                //*****************Section Cost Centeres*********************************
-                NewtblISectionCostCenteres = new SectionCostcentre();
+                    //*****************Section Cost Centeres*********************************
+                    NewtblISectionCostCenteres = new SectionCostcentre();
 
-                if (zeroMarkup != null)
-                {
-                    NewtblISectionCostCenteres.Qty1MarkUpID = (int) zeroMarkup.MarkUpId;
-                }
-                else
-                {
-                    NewtblISectionCostCenteres.Qty1MarkUpID = 1;
-                }
+                    if (zeroMarkup != null)
+                    {
+                        NewtblISectionCostCenteres.Qty1MarkUpID = (int)zeroMarkup.MarkUpId;
+                    }
+                    else
+                    {
+                        NewtblISectionCostCenteres.Qty1MarkUpID = 1;
+                    }
 
-                NewtblISectionCostCenteres.CostCentreId = DeliveryCostCenterId;
-                NewtblISectionCostCenteres.ItemSectionId = NewtblItemSection.ItemSectionId;
-                NewtblISectionCostCenteres.Qty1Charge = DeliveryCost;
-                NewtblISectionCostCenteres.Qty1NetTotal = DeliveryCost;
-                NewtblItemSection.SectionCostcentres.Add(NewtblISectionCostCenteres);
-                newItem.ItemSections.Add(NewtblItemSection);
-                db.Items.Add(newItem);
+                    NewtblISectionCostCenteres.CostCentreId = DeliveryCostCenterId;
+                    NewtblISectionCostCenteres.ItemSectionId = NewtblItemSection.ItemSectionId;
+                    NewtblISectionCostCenteres.Qty1Charge = DeliveryCost;
+                    NewtblISectionCostCenteres.Qty1NetTotal = DeliveryCost;
+                    NewtblItemSection.SectionCostcentres.Add(NewtblISectionCostCenteres);
+                    newItem.ItemSections.Add(NewtblItemSection);
+                    db.Items.Add(newItem);
 
-                if (db.SaveChanges() > 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
+                    if (db.SaveChanges() > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
 
         }
 
@@ -2679,7 +3013,7 @@ namespace MPC.Repository.Repositories
                     //special working for attaching the PDF
                     List<ArtWorkAttatchment> uplodedArtWorkList = new List<ArtWorkAttatchment>();
                     ArtWorkAttatchment attatcment = null;
-                    string folderPath = "/mpc_content/Attachments/Organisation" + organisationId + "/" + customerID +
+                    string folderPath = "/mpc_content/Attachments/" + organisationId + "/" + customerID +
                                         "/";
                         //Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
                     string virtualFolderPth = "";
@@ -2811,7 +3145,7 @@ namespace MPC.Repository.Repositories
                 }
                 else // attachment alredy exists hence we need to updat the existing artwork.
                 {
-                    string folderPath = "/mpc_content/Attachments/Organisation" + organisationId + "/" + customerID;
+                    string folderPath = "/mpc_content/Attachments/" + organisationId + "/" + customerID;
                         // Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
                     string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("/" + folderPath);
                     if (!System.IO.Directory.Exists(virtualFolderPth))
@@ -2954,8 +3288,17 @@ namespace MPC.Repository.Repositories
 
         public static double ServiceGrossTotalCalculation(double QuantityBastotal, double Taxvalue)
         {
-            double gross = QuantityBastotal + ServiceTotalTaxCalculation(QuantityBastotal, Taxvalue);
-            return gross;
+            try
+            {
+                double gross = QuantityBastotal + ServiceTotalTaxCalculation(QuantityBastotal, Taxvalue);
+                return gross;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+           
         }
 
         public static double ServiceTotalTaxCalculation(double QuantityBastotal, double Taxvalue)
@@ -2967,114 +3310,171 @@ namespace MPC.Repository.Repositories
 
         public static double GrossTotalCalculationDelivery(double netTotal, double stateTaxValue)
         {
-            double stateTaxPice = 0;
+            try
+            {
+                double stateTaxPice = 0;
 
-            stateTaxPice = netTotal + CalculatePercentageDelivery(netTotal, stateTaxValue);
+                stateTaxPice = netTotal + CalculatePercentageDelivery(netTotal, stateTaxValue);
 
-            return stateTaxPice;
+                return stateTaxPice;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+           
 
         }
 
         public static double CalculatePercentageDelivery(double itemValue, double percentageValue)
         {
-            double percentValue = 0;
+            
+            try
+            {
+                double percentValue = 0;
 
-            percentValue = itemValue*(percentageValue/100);
+                percentValue = itemValue * (percentageValue / 100);
 
-            return percentValue;
+                return percentValue;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+          
         }
 
         public  double calculateTaxPercentage(double netTotal, double MarkupRate)
         {
-            double PercentageVal = (netTotal*MarkupRate)/100;
-            return PercentageVal;
+            try
+            {
+                double PercentageVal = (netTotal * MarkupRate) / 100;
+                return PercentageVal;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+           
         }
 
         private bool UpdateItemName(long ItemID, string ProductName)
         {
-            db.Configuration.LazyLoadingEnabled = false;
-            Item oItem = db.Items.Where(g => g.ItemId == ItemID).Single();
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                Item oItem = db.Items.Where(g => g.ItemId == ItemID).Single();
 
-            oItem.ProductName = ProductName;
+                oItem.ProductName = ProductName;
 
-            db.SaveChanges();
-            return true;
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+          
         }
 
         public void GenerateThumbnailForPdf(string sideThumbnailPath, bool insertCuttingMargin)
         {
-            using (Doc theDoc = new Doc())
+            try
             {
-                theDoc.Read(sideThumbnailPath);
-                theDoc.PageNumber = 1;
-                theDoc.Rect.String = theDoc.CropBox.String;
-
-                if (insertCuttingMargin)
+                using (Doc theDoc = new Doc())
                 {
-                    theDoc.Rect.Inset(14.173228345, 14.173228345);
+                    theDoc.Read(sideThumbnailPath);
+                    theDoc.PageNumber = 1;
+                    theDoc.Rect.String = theDoc.CropBox.String;
+
+                    if (insertCuttingMargin)
+                    {
+                        theDoc.Rect.Inset(14.173228345, 14.173228345);
+                    }
+
+                    Stream oImgstream = new MemoryStream();
+
+                    theDoc.Rendering.DotsPerInch = 300;
+                    theDoc.Rendering.Save("tmp.png", oImgstream);
+
+                    theDoc.Clear();
+                    theDoc.Dispose();
+
+                    CreatAndSaveThumnail(oImgstream, sideThumbnailPath);
+
                 }
-
-                Stream oImgstream = new MemoryStream();
-
-                theDoc.Rendering.DotsPerInch = 300;
-                theDoc.Rendering.Save("tmp.png", oImgstream);
-
-                theDoc.Clear();
-                theDoc.Dispose();
-
-                CreatAndSaveThumnail(oImgstream, sideThumbnailPath);
-
             }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+           
         }
 
         public bool CreateUploadYourArtWork(long itemID, long customerID, List<ArtWorkAttatchment> yourDesignList)
         {
-            bool result = false;
-
-            db.Configuration.LazyLoadingEnabled = false;
-
-            Company customer =
-                db.Companies.Include("CompanyContacts").Where(c => c.CompanyId == customerID).FirstOrDefault();
-            ItemAttachment tblAttatch = null;
-            long contactID = 0;
-            CompanyContact contact = null;
-
             try
             {
-                if (yourDesignList.Count > 0)
+                bool result = false;
+
+                db.Configuration.LazyLoadingEnabled = false;
+
+                Company customer =
+                    db.Companies.Include("CompanyContacts").Where(c => c.CompanyId == customerID).FirstOrDefault();
+                ItemAttachment tblAttatch = null;
+                long contactID = 0;
+                CompanyContact contact = null;
+
+                try
                 {
-                    if (customer != null && customer.CompanyContacts.ToList().Count > 0)
+                    if (yourDesignList.Count > 0)
                     {
-                        contact = customer.CompanyContacts.ToList()[0];
-                        contactID = contact.ContactId;
+                        if (customer != null && customer.CompanyContacts.ToList().Count > 0)
+                        {
+                            contact = customer.CompanyContacts.ToList()[0];
+                            contactID = contact.ContactId;
+                        }
+
+                        string folderPath = string.Empty;
+                        //Create Additional cost Centeres
+                        foreach (ArtWorkAttatchment attatchment in yourDesignList)
+                        {
+                            folderPath = attatchment.FolderPath.Replace("\\", "//").Replace("//", "/");
+
+                            tblAttatch = this.PopulateAttachment(itemID, customerID, contactID, attatchment.FileTitle,
+                                attatchment.FileName, attatchment.UploadFileType, attatchment.FileExtention, folderPath);
+                            db.ItemAttachments.Add(tblAttatch);
+                        }
+
+                        db.SaveChanges();
+                        result = true;
+
                     }
-
-                    string folderPath = string.Empty;
-                    //Create Additional cost Centeres
-                    foreach (ArtWorkAttatchment attatchment in yourDesignList)
-                    {
-                        folderPath = attatchment.FolderPath.Replace("\\", "//").Replace("//", "/");
-
-                        tblAttatch = this.PopulateAttachment(itemID, customerID, contactID, attatchment.FileTitle,
-                            attatchment.FileName, attatchment.UploadFileType, attatchment.FileExtention, folderPath);
-                        db.ItemAttachments.Add(tblAttatch);
-                    }
-
-                    db.SaveChanges();
-                    result = true;
-
                 }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+                return result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
-            return result;
+           
         }
 
         public bool UpdateTemplateIdInItem(long itemID, long templateID)
         {
+        
+           
             bool result = false;
             Item tblItemProduct = null;
 
@@ -3104,24 +3504,32 @@ namespace MPC.Repository.Repositories
         private ItemAttachment PopulateAttachment(long itemID, long customerID, long contactId, string fileTitle,
             string fileName, UploadFileTypes type, string fileExtention, string folderPath)
         {
-            ItemAttachment attchment = new ItemAttachment
+            try
             {
-                ItemId = itemID,
-                FileTitle = fileTitle,
-                FileType = fileExtention,
-                Type = type.ToString(),
-                FileName = fileName,
-                FolderPath = folderPath,
-                CompanyId = customerID,
-                ContactId = contactId,
-                IsApproved = 1,
-                UploadDate = DateTime.Now,
-                UploadTime = DateTime.Now,
-                isFromCustomer = 1
+                ItemAttachment attchment = new ItemAttachment
+                {
+                    ItemId = itemID,
+                    FileTitle = fileTitle,
+                    FileType = fileExtention,
+                    Type = type.ToString(),
+                    FileName = fileName,
+                    FolderPath = folderPath,
+                    CompanyId = customerID,
+                    ContactId = contactId,
+                    IsApproved = 1,
+                    UploadDate = DateTime.Now,
+                    UploadTime = DateTime.Now,
+                    isFromCustomer = 1
 
-            };
+                };
 
-            return attchment;
+                return attchment;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
 
         }
 
@@ -3132,12 +3540,19 @@ namespace MPC.Repository.Repositories
         /// <returns></returns>
         public Item GetClonedItemById(long itemId)
         {
-            db.Configuration.LazyLoadingEnabled = false;
-            return
-                db.Items.Include("ItemAttachments")
-                    .Include("ItemSections")
-                    .Where(i => i.ItemId == itemId && i.EstimateId != null)
-                    .FirstOrDefault();
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                return
+                    db.Items.Include("ItemAttachments")
+                        .Include("ItemSections")
+                        .Where(i => i.ItemId == itemId && i.EstimateId != null)
+                        .FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             //return db.Items.Include("ItemPriceMatrices").Include("ItemSections").Where(i => i.IsPublished == true && i.ItemId == itemId && i.EstimateId == null).FirstOrDefault();
 
         }
@@ -3190,48 +3605,80 @@ namespace MPC.Repository.Repositories
 
         public bool isTemporaryOrder(long orderId, long customerId, long contactId)
         {
-            Estimate Order =
-                db.Estimates.Where(
-                    o =>
-                        o.EstimateId == orderId && o.StatusId == (short) OrderStatus.ShoppingCart &&
-                        o.isEstimate == false).FirstOrDefault();
+            try
+            {
+                Estimate Order =
+             db.Estimates.Where(
+                 o =>
+                     o.EstimateId == orderId && o.StatusId == (short)OrderStatus.ShoppingCart &&
+                     o.isEstimate == false).FirstOrDefault();
 
-            if (Order != null && Order.CompanyId == customerId && Order.ContactId == contactId)
-            {
-                return false; // order is real
+                if (Order != null && Order.CompanyId == customerId && Order.ContactId == contactId)
+                {
+                    return false; // order is real
+                }
+                else
+                {
+                    return true; // order is dummy
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return true; // order is dummy
+                throw ex;
             }
+         
         }
 
         public ItemSection GetItemFirstSectionByItemId(long ItemId)
         {
-            db.Configuration.LazyLoadingEnabled = false;
-            db.Configuration.ProxyCreationEnabled = false;
-            ItemSection oresult = db.ItemSections.Where(o => o.ItemId == ItemId && o.SectionNo == 1).FirstOrDefault();
-            return oresult;
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
+                ItemSection oresult = db.ItemSections.Where(o => o.ItemId == ItemId && o.SectionNo == 1).FirstOrDefault();
+                return oresult;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
         }
 
         public ItemSection UpdateItemFirstSectionByItemId(long ItemId, int Quantity)
         {
-            db.Configuration.LazyLoadingEnabled = false;
-            db.Configuration.ProxyCreationEnabled = false;
-            ItemSection oresult = db.ItemSections.Where(o => o.ItemId == ItemId && o.SectionNo == 1).FirstOrDefault();
-            if (oresult != null)
+            try
             {
-                oresult.Qty1 = Quantity;
-                db.SaveChanges();
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
+                ItemSection oresult = db.ItemSections.Where(o => o.ItemId == ItemId && o.SectionNo == 1).FirstOrDefault();
+                if (oresult != null)
+                {
+                    oresult.Qty1 = Quantity;
+                    db.SaveChanges();
+                }
+                return oresult;
             }
-            return oresult;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+          
         }
 
         public IEnumerable<Item> GetItemsByCompanyId(long companyId)
         {
-            return
-                DbSet.Where(i => i.CompanyId.HasValue && i.CompanyId == companyId && i.OrganisationId == OrganisationId)
-                    .ToList();
+            try
+            {
+                return
+               DbSet.Where(i => i.CompanyId.HasValue && i.CompanyId == companyId && i.OrganisationId == OrganisationId)
+                   .ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
         }
 
         /// <summary>
@@ -3317,6 +3764,7 @@ namespace MPC.Repository.Repositories
        
         public Item CloneReOrderItem(long orderID, Item ExistingItem, long loggedInContactID, string order_code)
         {
+           
             bool result = false;
             Template clonedTemplate = null;
              ItemSection tblItemSectionCloned = null;
@@ -3415,39 +3863,47 @@ namespace MPC.Repository.Repositories
         private void SaveItemAttathmentPaths(ItemAttachment clonedItemAttachment, int sideNumber, string ordercode)
         {
             // Existing file to copy ..
-            string[] ordercodearr = ordercode.Split('-');
-            string fileCompleteAddress = string.Format("{0}{1}", clonedItemAttachment.FolderPath, clonedItemAttachment.FileName);
-            string[] arrs = fileCompleteAddress.Split('-');
-            string previousitemId = arrs[8];
-            string today = DateTime.Now.Year.ToString() + DateTime.Now.ToString("MMMM") + DateTime.Now.Day.ToString();
-            clonedItemAttachment.FileName = clonedItemAttachment.FileName.Replace(previousitemId, clonedItemAttachment.ItemId.ToString());
-            clonedItemAttachment.FileName = clonedItemAttachment.FileName.Replace(arrs[4], ordercodearr[2]);
-            clonedItemAttachment.FileName = clonedItemAttachment.FileName.Replace(arrs[0], today);
-            string destFileCompletePath = string.Format("{0}{1}", clonedItemAttachment.FolderPath, clonedItemAttachment.FileName);
-
-            fileCompleteAddress = HttpContext.Current.Server.MapPath(fileCompleteAddress);
-            destFileCompletePath = HttpContext.Current.Server.MapPath(destFileCompletePath);
-
-            File.Copy(fileCompleteAddress, destFileCompletePath, false);
-
-            string ext = clonedItemAttachment.FileType;
-
-            // Generate the thumbnail
-
-            byte[] fileData = null;
-            FileStream file = File.OpenRead(destFileCompletePath);
-            MemoryStream ms = new MemoryStream();
-            file.CopyTo(ms);
-            fileData = ms.ToArray();
-
-            if (ext == ".pdf" || ext == ".TIF" || ext == ".TIFF")
+            try
             {
-                GenerateThumbnailForPdf(fileData,destFileCompletePath,false);
+                string[] ordercodearr = ordercode.Split('-');
+                string fileCompleteAddress = string.Format("{0}{1}", clonedItemAttachment.FolderPath, clonedItemAttachment.FileName);
+                string[] arrs = fileCompleteAddress.Split('-');
+                string previousitemId = arrs[8];
+                string today = DateTime.Now.Year.ToString() + DateTime.Now.ToString("MMMM") + DateTime.Now.Day.ToString();
+                clonedItemAttachment.FileName = clonedItemAttachment.FileName.Replace(previousitemId, clonedItemAttachment.ItemId.ToString());
+                clonedItemAttachment.FileName = clonedItemAttachment.FileName.Replace(arrs[4], ordercodearr[2]);
+                clonedItemAttachment.FileName = clonedItemAttachment.FileName.Replace(arrs[0], today);
+                string destFileCompletePath = string.Format("{0}{1}", clonedItemAttachment.FolderPath, clonedItemAttachment.FileName);
+
+                fileCompleteAddress = HttpContext.Current.Server.MapPath(fileCompleteAddress);
+                destFileCompletePath = HttpContext.Current.Server.MapPath(destFileCompletePath);
+
+                File.Copy(fileCompleteAddress, destFileCompletePath, false);
+
+                string ext = clonedItemAttachment.FileType;
+
+                // Generate the thumbnail
+
+                byte[] fileData = null;
+                FileStream file = File.OpenRead(destFileCompletePath);
+                MemoryStream ms = new MemoryStream();
+                file.CopyTo(ms);
+                fileData = ms.ToArray();
+
+                if (ext == ".pdf" || ext == ".TIF" || ext == ".TIFF")
+                {
+                    GenerateThumbnailForPdf(fileData, destFileCompletePath, false);
+                }
+                else
+                {
+                    CreatAndSaveThumnail(ms, destFileCompletePath);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                CreatAndSaveThumnail(ms, destFileCompletePath);
+                throw ex;
             }
+          
             //if (clonedItemAttachment.FileName.IndexOf(' ') > 0)
             //{
             //    string previousitemId = clonedItemAttachment.FileName.Substring(0, clonedItemAttachment.FileName.IndexOf(' '));
@@ -3480,6 +3936,75 @@ namespace MPC.Repository.Repositories
             //    }
             //  }
         }
+
+        public List<SaveDesignView> GetSavedDesigns(long ContactID)
+        {
+            long sameItem = 0;
+
+            List<SaveDesignView> NewList = new List<SaveDesignView>();
+                List<SaveDesignView> ListsavedDesign = (from savedDesign in db.SaveDesignViews
+                                                        where savedDesign.ContactID == ContactID
+                                                       select savedDesign).ToList();
+
+                foreach (var s in ListsavedDesign)
+                {
+                    if (sameItem > 0 && s.ItemID == sameItem)
+                    {
+
+                    }
+                    else
+                    {
+                        sameItem = s.ItemID;
+                        NewList.Add(s);
+                    }
+                }
+
+                return NewList;
+           
+        }
+        public void RemoveItemAttacmentPhysically(List<ArtWorkAttatchment> attatchmentList)
+        {
+            string completePath = string.Empty;
+            //@Server.MapPath(folderPath);
+            try
+            {
+                if (attatchmentList != null)
+                {
+                    foreach (ArtWorkAttatchment itemAtt in attatchmentList)
+                    {
+                        completePath = HttpContext.Current.Server.MapPath(itemAtt.FolderPath + itemAtt.FileName);
+                        if (itemAtt.UploadFileType == UploadFileTypes.Artwork)
+                        {
+                          
+                            //delete the thumb nails as well.
+                           DeleteFile(completePath.Replace(itemAtt.FileExtention, "Thumb.png"));
+                        }
+                        DeleteFile(completePath); //
+                    }
+                }
+                //System.Web
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public void DeleteFile(string completePath)
+        {
+            try
+            {
+                if (System.IO.File.Exists(completePath))
+                {
+                    System.IO.File.Delete(completePath);
+                }
+            }
+            catch (Exception)
+            { }
+        }
+      
+
         //public void GenerateThumbnailForPdf(byte[] PDFFile, string sideThumbnailPath, bool insertCuttingMargin)
         //{
         //    using (Doc theDoc = new Doc())

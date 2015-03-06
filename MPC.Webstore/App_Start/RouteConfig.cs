@@ -29,6 +29,16 @@ namespace MPC.Webstore
               , "ProductOrderHistory"
               , new { controller = "Home", action = "Index", name = "" });
 
+            routes.MapRoute("BillingShippingAddressManager"
+              , "BillingShippingAddressManager"
+              , new { controller = "Home", action = "Index", name = "" });
+
+            routes.MapRoute(
+           "BillingShipping",
+           "BillingShippingAddressManager/FillAddresses",
+           new { controller = "BillingShippingAddressManager", action = "FillAddresses", id = UrlParameter.Optional }
+           );
+
             routes.MapRoute("store"
                  , "store/{name}"
                  , new { controller = "Domain", action = "Index", name = "" });
@@ -55,8 +65,35 @@ namespace MPC.Webstore
      //   "CostCenter/GetData",
      //   new { controller = "CostCenter", action = "GetData", id = UrlParameter.Optional }
      //);
+            routes.MapRoute(
+       "ContryList",
+       "BillingShippingAddressManager/LoadCountriesList",
+       new { controller = "BillingShippingAddressManager", action = "LoadCountriesList", id = UrlParameter.Optional }
+       );
 
+           routes.MapRoute(
+                 "StateList",
+                 "BillingShippingAddressManager/LoadAllStates",
+                 new { controller = "BillingShippingAddressManager", action = "LoadAllStates", id = UrlParameter.Optional }
+              );
 
+           routes.MapRoute(
+                "LoadStatesByCountryID",
+                "BillingShippingAddressManager/LoadStatesByCountryID",
+                new { controller = "BillingShippingAddressManager", action = "LoadStatesByCountryID", id = UrlParameter.Optional }
+             );
+            
+        routes.MapRoute(
+                "UpdateAddress",
+                "BillingShippingAddressManager/UpdateAddress",
+                new { controller = "BillingShippingAddressManager", action = "UpdateAddress", id = UrlParameter.Optional }
+             );
+
+        routes.MapRoute(
+            "AddAddress",
+            "BillingShippingAddressManager/AddNewAddress",
+            new { controller = "BillingShippingAddressManager", action = "AddNewAddress", id = UrlParameter.Optional }
+         );
 
             routes.MapRoute(
        "orderview",
@@ -195,6 +232,24 @@ namespace MPC.Webstore
             "RemoveProduct",
             "RemoveProduct/{ItemID}/{OrderID}",
             new { controller = "ShopCart", action = "RemoveProduct",ItemID = UrlParameter.Optional, OrderID = UrlParameter.Optional }
+              );
+
+              routes.MapRoute(
+            "RemoveSaveDesign",
+            "RemoveSaveDesign/{ItemID}",
+            new { controller = "SavedDesigns", action = "SavedDesigns", ItemID = UrlParameter.Optional}
+              );
+
+              routes.MapRoute(
+             "SavedDesigns",
+             "SavedDesigns",
+             new { controller = "Home", action = "Index"}
+               );
+
+              routes.MapRoute(
+            "ReOrder",
+            "ReOrder/{ItemID}",
+            new { controller = "SavedDesigns", action = "ReOrder", ItemID = UrlParameter.Optional }
               );
 
               routes.MapRoute(

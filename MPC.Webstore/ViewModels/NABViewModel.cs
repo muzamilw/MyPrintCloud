@@ -24,7 +24,7 @@ namespace MPC.Webstore.ViewModels
          [Display(Name = "Email Address(optional)")]
          public string EmailAddress { get; set; }
         [Display(Name = "Card Type  ")]
-         public string SelectedCardType { get; set; }
+         public int SelectedCardType { get; set; }
         [Display(Name = "Expiry")]
         public string SelectedDate { get; set; }
         public string SelectedYear { get; set; }
@@ -37,6 +37,12 @@ namespace MPC.Webstore.ViewModels
     {
         //public DropdownType(int val, string )
         public String value { get; set; }
+        public String Text { get; set; }
+    }
+    public class DropdownCardType
+    {
+       
+        public int value { get; set; }
         public String Text { get; set; }
     }
 }

@@ -118,8 +118,8 @@ namespace MigrationUtility.Preview
         public Nullable<double> PricePerUnitQty { get; set; }
     
         public virtual CostCentre CostCentre { get; set; }
-        public virtual ItemSection ItemSection { get; set; }
         public virtual ICollection<SectionCostCentreDetail> SectionCostCentreDetails { get; set; }
         public virtual ICollection<SectionCostCentreResource> SectionCostCentreResources { get; set; }
+        public virtual ItemSection ItemSection { get; set; }
     }
 }

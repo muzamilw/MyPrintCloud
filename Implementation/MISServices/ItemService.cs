@@ -53,6 +53,7 @@ namespace MPC.Implementation.MISServices
         private readonly IMachineRepository machineRepository;
         private readonly IPaperSizeRepository paperSizeRepository;
         private readonly IItemSectionRepository itemSectionRepository;
+        private readonly IItemImageRepository itemImageRepository;
 
         /// <summary>
         /// Create Item Vdp Price
@@ -307,6 +308,25 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
+        /// Create Item Image
+        /// </summary>
+        private ItemImage CreateItemImage()
+        {
+            ItemImage line = itemImageRepository.Create();
+            itemImageRepository.Add(line);
+
+            return line;
+        }
+
+        /// <summary>
+        /// Delete Item Image
+        /// </summary>
+        private void DeleteItemImage(ItemImage line)
+        {
+            itemImageRepository.Delete(line);
+        }
+
+        /// <summary>
         /// Save Product Images
         /// </summary>
         private void SaveProductImages(Item target)
@@ -335,6 +355,9 @@ namespace MPC.Implementation.MISServices
 
             // Files 1,2,3,4,5
             SaveItemFiles(target, mapPath);
+
+            // Item Images
+            SaveItemImages(target, mapPath);
 
             // Save Changes
             itemRepository.SaveChanges();
@@ -366,6 +389,35 @@ namespace MPC.Implementation.MISServices
             if (imageUrl != null)
             {
                 itemStockOption.ImageURL = imageUrl;
+            }
+        }
+
+        /// <summary>
+        /// Saves Item Images
+        /// </summary>
+        private void SaveItemImages(Item target, string mapPath)
+        {
+            foreach (ItemImage itemImage in target.ItemImages)
+            {
+                // Write Image
+                SaveItemImage(mapPath, itemImage);
+            }
+        }
+
+        /// <summary>
+        /// Save Item Image
+        /// </summary>
+        private void SaveItemImage(string mapPath, ItemImage itemImage)
+        {
+            string imageUrl = SaveImage(mapPath, itemImage.ImageURL,
+                itemImage.ProductImageId + "_ItemImage_",
+                itemImage.FileName,
+                itemImage.FileSource,
+                itemImage.FileSourceBytes);
+
+            if (imageUrl != null)
+            {
+                itemImage.ImageURL = imageUrl;
             }
         }
 
@@ -756,6 +808,32 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
+        /// Copy Item Image Items
+        /// </summary>
+        private void CloneItemImageItems(Item source, Item target)
+        {
+            if (source.ItemImages == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.ItemImages == null)
+            {
+                target.ItemImages = new List<ItemImage>();
+            }
+
+            foreach (ItemImage itemImage in source.ItemImages)
+            {
+                ItemImage targetItemImage = itemImageRepository.Create();
+                itemImageRepository.Add(targetItemImage);
+                targetItemImage.ItemId = target.ItemId;
+                target.ItemImages.Add(targetItemImage);
+                itemImage.Clone(targetItemImage);
+            }
+        }
+
+        /// <summary>
         /// Copy Item Price Matrices
         /// </summary>
         private void CloneItemPriceMatrices(Item source, Item target)
@@ -917,6 +995,41 @@ namespace MPC.Implementation.MISServices
             if (imageUrl != null)
             {
                 itemStockOption.ImageURL = imageUrl;
+            }
+        }
+
+        /// <summary>
+        /// Clone Item Images
+        /// </summary>
+        private void CloneItemImages(Item target, string mapPath)
+        {
+            foreach (ItemImage itemImage in target.ItemImages)
+            {
+                // Write Image
+                CloneItemImage(mapPath, itemImage);
+            }
+        }
+
+        /// <summary>
+        /// Clone Item Image
+        /// </summary>
+        private void CloneItemImage(string mapPath, ItemImage itemImage)
+        {
+            if (string.IsNullOrEmpty((itemImage.ImageURL)) || !File.Exists(itemImage.ImageURL))
+            {
+                return;
+            }
+
+            byte[] fileBytes = File.ReadAllBytes(itemImage.ImageURL);
+            string imageUrl = SaveImage(mapPath, string.Empty,
+                itemImage.ProductImageId + "_ItemImage_",
+                "image.png",
+                "Image",
+                fileBytes);
+
+            if (imageUrl != null)
+            {
+                itemImage.ImageURL = imageUrl;
             }
         }
 
@@ -1118,6 +1231,9 @@ namespace MPC.Implementation.MISServices
 
             // Files 1,2,3,4,5
             CloneItemFiles(target, mapPath);
+
+            // Item Images
+            CloneItemImages(target, mapPath);
         }
 
         /// <summary>
@@ -1151,6 +1267,9 @@ namespace MPC.Implementation.MISServices
 
             // Clone Item Related Items
             CloneItemRelatedItems(source, target);
+
+            // Clone Item Image Items
+            CloneItemImageItems(source, target);
 
             // Save Changes
             itemRepository.SaveChanges();
@@ -1187,7 +1306,8 @@ namespace MPC.Implementation.MISServices
             IStateRepository stateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyRepository companyRepository,
             IItemProductDetailRepository itemProductDetailRepository, IProductCategoryItemRepository productCategoryItemRepository,
             IProductCategoryRepository productCategoryRepository, ITemplatePageService templatePageService, ITemplateService templateService,
-            IMachineRepository machineRepository, IPaperSizeRepository paperSizeRepository, IItemSectionRepository itemSectionRepository)
+            IMachineRepository machineRepository, IPaperSizeRepository paperSizeRepository, IItemSectionRepository itemSectionRepository, 
+            IItemImageRepository itemImageRepository)
         {
             if (itemRepository == null)
             {
@@ -1293,6 +1413,10 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("itemSectionRepository");
             }
+            if (itemImageRepository == null)
+            {
+                throw new ArgumentNullException("itemImageRepository");
+            }
 
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
@@ -1320,6 +1444,7 @@ namespace MPC.Implementation.MISServices
             this.machineRepository = machineRepository;
             this.paperSizeRepository = paperSizeRepository;
             this.itemSectionRepository = itemSectionRepository;
+            this.itemImageRepository = itemImageRepository;
         }
 
         #endregion
@@ -1449,7 +1574,9 @@ namespace MPC.Implementation.MISServices
                 DeleteProductCategoryItem = DeleteProductCategoryItem,
                 CreateItemSection = CreateItemSection,
                 SetDefaultsForItemSection = SetNonPrintItemSection,
-                DeleteItemSection = DeleteItemSection
+                DeleteItemSection = DeleteItemSection,
+                CreateItemImage = CreateItemImage,
+                DeleteItemImage = DeleteItemImage
             });
 
             // Save Changes

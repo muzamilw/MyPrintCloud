@@ -54,6 +54,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0-alpha1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -300,6 +303,7 @@
     <Compile Include="Areas\Api\Controllers\CalendarBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\CalendarController.cs" />
     <Compile Include="Areas\Api\Controllers\CampaignBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\CompanyBannerController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactBaseForCrmController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCrmController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />
@@ -315,6 +319,7 @@
     <Compile Include="Areas\Api\Controllers\GetOrderStatusesController.cs" />
     <Compile Include="Areas\Api\Controllers\GetPhraseFiledsBySectionController.cs" />
     <Compile Include="Areas\Api\Controllers\GetSmartFormDetailController.cs" />
+    <Compile Include="Areas\Api\Controllers\GetThemeDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\InvoiceController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseController.cs" />
@@ -340,6 +345,7 @@
     <Compile Include="Areas\Api\ModelMappers\CmsOfferMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ColorPalleteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CategoryRegionMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ItemImageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ScopeVariableMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyCostCenterMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyDomainMapper.cs" />
@@ -399,6 +405,7 @@
     <Compile Include="Areas\Api\Models\CompanyContactDeleteModel.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDownForOrder.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDown.cs" />
+    <Compile Include="Areas\Api\Models\ItemImage.cs" />
     <Compile Include="Areas\Api\Models\ScopeVariable.cs" />
     <Compile Include="Areas\Api\Models\CompanyCostCentre.cs" />
     <Compile Include="Areas\Api\Models\CompanyDomain.cs" />
@@ -587,6 +594,7 @@
     <Compile Include="Areas\Api\Models\SectionCostCentreResource.cs" />
     <Compile Include="Areas\Api\Models\SectionFlag.cs" />
     <Compile Include="Areas\Api\Models\SectionForPhraseLibrary.cs" />
+    <Compile Include="Areas\Api\Models\SkinForTheme.cs" />
     <Compile Include="Areas\Api\Models\SmartForm.cs" />
     <Compile Include="Areas\Api\Models\SmartFormDetail.cs" />
     <Compile Include="Areas\Api\Models\SmartFormForListView.cs" />
@@ -1814,6 +1822,7 @@
     <Content Include="RichTextEditor\samples\plugins\htmlwriter\assets\outputforflash\outputforflash.fla" />
     <Content Include="RichTextEditor\skins\moono\readme.md" />
     <None Include="Properties\PublishProfiles\mvcMISpublish.pubxml" />
+    <None Include="Properties\PublishProfiles\MZ MIS Publish.pubxml" />
     <None Include="Scripts\amplify-vsdoc.js" />
     <Content Include="Scripts\amplify.js" />
     <Content Include="Scripts\amplify.min.js" />

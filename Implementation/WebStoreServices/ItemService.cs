@@ -414,7 +414,7 @@ namespace MPC.Implementation.WebStoreServices
         /// Remove Item Attachments
         /// </summary>
         /// <param name="attatchmentList"></param>
-        private void RemoveItemAttacmentPhysically(List<ArtWorkAttatchment> attatchmentList)
+        public void RemoveItemAttacmentPhysically(List<ArtWorkAttatchment> attatchmentList)
         {
             string completePath = string.Empty;
             try
@@ -762,5 +762,27 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
+        public List<SaveDesignView> GetSavedDesigns(long ContactID)
+        {
+            try
+            {
+                return _ItemRepository.GetSavedDesigns(ContactID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        //public void RemoveItemAttacmentPhysically(List<ArtWorkAttatchment> attatchmentList)
+        //{
+        //    try
+        //    {
+        //        _ItemRepository.RemoveItemAttacmentPhysically(attatchmentList);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
     }
 }

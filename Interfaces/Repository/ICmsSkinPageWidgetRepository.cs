@@ -15,5 +15,7 @@ namespace MPC.Interfaces.Repository
         /// Get By Page Id
         /// </summary>
         IEnumerable<CmsSkinPageWidget> GetByPageId(long pageId,long companyId);
+
+        List<CmsSkinPageWidget> GetDomainWidgetsById2(long companyId);
     }
 }

@@ -28,7 +28,7 @@ namespace MigrationUtility.Preview
         public string Name { get; set; }
         public Nullable<long> Type { get; set; }
         public Nullable<int> LockedBy { get; set; }
-        public int CompanyId { get; set; }
+        public int OrganisationID { get; set; }
         public Nullable<int> FlagId { get; set; }
         public int SystemSiteId { get; set; }
     
