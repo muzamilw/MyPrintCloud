@@ -49,7 +49,7 @@
                                 <li class="active" id="generalInfoTab"><a href="#tab-generalinfo" data-toggle="tab">General Info</a></li>
                                 <li><a href="#tab-widgets" data-toggle="tab">Themes & Widgets</a></li>
                                 <li><a href="#tab-SEO" data-toggle="tab">SEO & Rave Reviews</a></li>
-                                <li><a href="#tab-territory" data-toggle="tab">Users & Addresses</a></li>
+                                <li><a href="#tab-territory" data-toggle="tab" data-bind="click: $root.userAndAddressesTabSelected">Users & Addresses</a></li>
                                 <!--ko if: $root.selectedStore() != undefined && $root.selectedStore().companyId()!== undefined -->
                                 <li><a data-bind="click: $root.getProducts" href="#tab-products" data-toggle="tab">Products</a></li>
                                 <!--/ko -->
