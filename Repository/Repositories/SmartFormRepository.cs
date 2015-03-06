@@ -202,7 +202,9 @@ namespace MPC.Repository.Repositories
             db.Configuration.LazyLoadingEnabled = false;
             db.Configuration.ProxyCreationEnabled = false;
 
-            return db.SmartForms.Where(g => g.SmartFormId == smartFormId).SingleOrDefault();
+            SmartForm smartFormObj =  db.SmartForms.Where(g => g.SmartFormId == smartFormId).SingleOrDefault();
+            smartFormObj.SmartFormDetails = null;
+            return smartFormObj;
         }
 
         public List<SmartFormDetail> GetSmartFormObjects(long smartFormId)
@@ -210,10 +212,77 @@ namespace MPC.Repository.Repositories
             db.Configuration.LazyLoadingEnabled = false;
             db.Configuration.ProxyCreationEnabled = false;
 
-            return db.SmartFormDetails.Where(g => g.SmartFormId == smartFormId).ToList();
+            List<SmartFormDetail> objs =  db.SmartFormDetails.Include("FieldVariable").Where(g => g.SmartFormId == smartFormId).ToList();
+            foreach (var obj in objs) { obj.SmartForm = null; };
+            return objs;
         }
 
+        public List<ScopeVariable> GetScopeVariables(List<SmartFormDetail> smartFormDetails, out bool hasContactVariables,long contactId)
+        {
+            List<ScopeVariable> result = new List<ScopeVariable>();
+            hasContactVariables = false;
 
+            foreach(SmartFormDetail obj in smartFormDetails)
+            {
+                if(obj.ObjectType == (int)SmartFormDetailFieldType.VariableField)
+                {
+                    if(obj.FieldVariable.IsSystem == true)
+                    {
+
+                    }
+                    else
+                    {
+
+                        if (obj.FieldVariable != null && obj.FieldVariable.Scope.HasValue)
+                        {
+                            int scope = obj.FieldVariable.Scope.Value;
+                            if (scope == (int)FieldVariableScopeType.Address)
+                            {
+                                // address logic will go here
+                            }
+                            else if (scope == (int)FieldVariableScopeType.Contact)
+                            {
+                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contactId).SingleOrDefault();
+                                if (scopeObj != null)
+                                {
+                                    result.Add(scopeObj);
+                                    hasContactVariables = true;
+                                }
+                            }
+                            else if (scope == (int)FieldVariableScopeType.RealEstate)
+                            {
+                                // realestate logic 
+                            }
+                            else if (scope == (int)FieldVariableScopeType.RealEstateImages)
+                            {
+                                // realestate logic 
+                            }
+                            else if (scope == (int)FieldVariableScopeType.Store)
+                            {
+                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == obj.FieldVariable.CompanyId).SingleOrDefault();
+                                if (scopeObj != null)
+                                {
+                                    result.Add(scopeObj);
+                                }
+                            }
+                            else if (scope == (int)FieldVariableScopeType.Territory)
+                            {
+                                var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
+                                if (contact != null)
+                                {
+                                    var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contact.TerritoryId).SingleOrDefault();
+                                    if (scopeObj != null)
+                                    {
+                                        result.Add(scopeObj);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return result;
+        }
         /// <summary>
         /// Get Smart Form By Company Id
         /// </summary>
@@ -243,7 +312,14 @@ namespace MPC.Repository.Repositories
                 SmartForms = smartForms
             };
         }
+        public string DynamicQueryToGetRecord(string feildname, string tblname, string keyName, int keyValue)
+        {
 
+            string oResult = null;
+            System.Data.Entity.Infrastructure.DbRawSqlQuery<string> result = db.Database.SqlQuery<string>("select top 1 cast(" + feildname + " as varchar(1000)) from " + tblname + " where " + keyName + "= " + keyValue + "", "");
+            oResult = result.FirstOrDefault();
+            return oResult;
+        }
         #endregion
     }
 }
