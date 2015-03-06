@@ -228,7 +228,158 @@ namespace MPC.Repository.Repositories
                 {
                     if(obj.FieldVariable.IsSystem == true)
                     {
+                        var contact = db.CompanyContacts.Where(g=>g.ContactId == contactId).SingleOrDefault();
+                        var fieldValue = "";
+                        if (contact != null)
+                        {
 
+
+                            switch (obj.FieldVariable.RefTableName)
+                            {
+                                case "tbl_Listing":
+                                    //   fieldValue = Convert.ToString(listing.GetType().GetProperty(item.CriteriaFieldName).GetValue(listing, null));
+                                    break;
+                                case "tbl_ListingImage":
+
+                                    //if (listingImages.Count > listingImageCount)
+                                    //{
+                                    //    fieldValue = Convert.ToString(listingImages[listingImageCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingImages[listingImageCount], null));
+                                    //}
+                                    //else
+                                    //{
+                                    //    listingImageCount++;
+                                    //    listingOverflow = true;
+                                    //    childType = "image";
+                                    //    break;
+                                    //}
+
+                                    //isChildList = true;
+                                    //childType = "image";
+                                    //listingImageCount++;
+                                    break;
+                                case "tbl_ListingAgent":
+
+                                    //if (listingAgents.Count > listingAgentCount)
+                                    //{
+                                    //    fieldValue = Convert.ToString(listingAgents[listingAgentCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingAgents[listingAgentCount], null));
+                                    //}
+                                    //else
+                                    //{
+                                    //    listingAgentCount++;
+                                    //    listingOverflow = true;
+                                    //    break;
+                                    //}
+
+                                    //isChildList = true;
+                                    //childType = "agent";
+                                    //listingAgentCount++;
+                                    break;
+                                case "tbl_ListingOFID":
+
+                                    //if (listingOFIDs.Count > listingOFIDCount)
+                                    //{
+                                    //    fieldValue = Convert.ToString(listingOFIDs[listingOFIDCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingOFIDs[listingOFIDCount], null));
+                                    //}
+                                    //else
+                                    //{
+                                    //    listingOFIDCount++;
+                                    //    listingOverflow = true;
+                                    //    break;
+                                    //}
+
+                                    //isChildList = true;
+                                    //childType = "ofi";
+                                    //listingOFIDCount++;
+                                    break;
+                                case "tbl_ListingVendor":
+
+                                    //if (listingVendors.Count > listingVendrosCount)
+                                    //{
+                                    //    fieldValue = Convert.ToString(listingVendors[listingVendrosCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingVendors[listingVendrosCount], null));
+                                    //}
+                                    //else
+                                    //{
+                                    //    listingVendrosCount++;
+                                    //    listingOverflow = true;
+                                    //    break;
+                                    //}
+
+                                    //isChildList = true;
+                                    //childType = "vendor";
+                                    //listingVendrosCount++;
+                                    break;
+                                case "tbl_ListingLink":
+
+                                    //if (listingLinks.Count > listingLinkCount)
+                                    //{
+                                    //    fieldValue = Convert.ToString(listingLinks[listingLinkCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingLinks[listingLinkCount], null));
+                                    //}
+                                    //else
+                                    //{
+                                    //    listingLinkCount++;
+                                    //    listingOverflow = true;
+                                    //    break;
+                                    //}
+
+                                    //isChildList = true;
+                                    //childType = "link";
+                                    //listingLinkCount++;
+                                    break;
+                                case "tbl_ListingFloorPlan":
+
+                                    //if (listingFloorPlans.Count > listingFloorPlansCount)
+                                    //{
+                                    //    fieldValue = Convert.ToString(listingFloorPlans[listingFloorPlansCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingFloorPlans[listingFloorPlansCount], null));
+                                    //}
+                                    //else
+                                    //{
+                                    //    listingFloorPlansCount++;
+                                    //    listingOverflow = true;
+                                    //    break;
+                                    //}
+
+                                    //isChildList = true;
+                                    //childType = "floor";
+                                    //listingFloorPlansCount++;
+                                    break;
+                                case "tbl_ListingConjunctionAgent":
+
+                                    //if (listingConjuctionAgents.Count > listingConAgentCount)
+                                    //{
+                                    //    fieldValue = Convert.ToString(listingConjuctionAgents[listingConAgentCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingConjuctionAgents[listingConAgentCount], null));
+                                    //}
+                                    //else
+                                    //{
+                                    //    listingConAgentCount++;
+                                    //    listingOverflow = true;
+                                    //    break;
+                                    //}
+
+                                    //isChildList = true;
+                                    //childType = "conAgent";
+                                    //listingConAgentCount++;
+                                    break;
+                                case "tbl_contacts":
+                                    hasContactVariables = true;
+                                    fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, contactId);
+                                    break;
+                                case "tbl_contactcompanies":
+                                    //   keyValue = SessionParameters.ContactCompany.ContactCompanyID;
+                                    fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, contact.CompanyId);
+                                    break;
+                                case "tbl_addresses":
+                                    //  keyValue = SessionParameters.CustomerContact.AddressID;
+                                    fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, contact.AddressId);
+                                    break;
+                                default:
+                                    break;
+                            }
+                            ScopeVariable objScopeVariable = new ScopeVariable();
+                            objScopeVariable.Scope = 0;
+                            objScopeVariable.VariableId = obj.FieldVariable.VariableId;
+                            objScopeVariable.Value = fieldValue;
+                            result.Add(objScopeVariable);
+                        }
                     }
                     else
                     {
@@ -312,7 +463,7 @@ namespace MPC.Repository.Repositories
                 SmartForms = smartForms
             };
         }
-        public string DynamicQueryToGetRecord(string feildname, string tblname, string keyName, int keyValue)
+        public string DynamicQueryToGetRecord(string feildname, string tblname, string keyName, long keyValue)
         {
 
             string oResult = null;
