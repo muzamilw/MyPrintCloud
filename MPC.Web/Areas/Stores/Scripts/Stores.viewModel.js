@@ -16,7 +16,7 @@ define("stores/stores.viewModel",
                     selectedCurrentPageCopy = ko.observable(),
                     ckEditorOpenFrom = ko.observable("Campaign"),
                     storeStatus = ko.observable(),
-                    productStatus = ko.observable(),
+                    productStatus = ko.observable(''),
                     //Active Widget (use for dynamic controll)
                     selectedWidget = ko.observable(),
                     // Error List
@@ -241,9 +241,9 @@ define("stores/stores.viewModel",
                         if (ist.product.viewModel.selectedProduct() == undefined) {
                             productStatus('');
                             if (selectedStore() != null && selectedStore().companyId() > 0) {
-                                storeStatus("Modify Store Details");
+                                storeStatus("Modify Stores");
                             } else {
-                                storeStatus("Store Details");
+                                storeStatus("Stores Details");
                             }
                             var value1 = selectedStore().name() != '' && selectedStore().name() != undefined ? selectedStore().name() : '';
                             var value2 = selectedStore().webAccessCode() != '' && selectedStore().webAccessCode() != undefined ? '-' + selectedStore().webAccessCode() : '';

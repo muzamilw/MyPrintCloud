@@ -12,8 +12,10 @@
                     <ol class="breadcrumb">
                         <li><a href="~/Dashboard/Index" class="my-navigator">Home</a></li>
                         <li><a href="~/Stores/Stores/Index" class="my-navigator">Stores</a></li>
-                        <li class="active"><span data-bind="text:$root.storeStatus"></span></li>
+                        <li data-bind="css: $root.productStatus() != '' ?  '' : 'active'" ><span data-bind="text:$root.storeStatus"></span></li>
+                        <!-- if ko if : $root.productStatus()!='' -->
                         <li class="active"><span data-bind="text:$root.productStatus"></span></li>
+                        <!-- /ko -->
                     </ol>
                     <div class="tab-content dynamicNameHeading" data-bind="with: $root.selectedStore()">
                         <h1 data-bind="text:$root.storeHeading()!='undefined-undefined' ?$root.storeHeading():'' "></h1>
