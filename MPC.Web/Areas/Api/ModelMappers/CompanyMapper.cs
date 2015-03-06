@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -19,6 +20,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static Company CreateFrom(this DomainModels.Company source)
         {
             byte[] bytes = null;
+            byte[] workflowbytes = null;
             //if (source.Image != null && File.Exists(source.Image))
             //{
             //    bytes = source.Image != null ? File.ReadAllBytes(source.Image) : null;
@@ -32,6 +34,19 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                     bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
                 } 
             }
+
+            // store work flow image
+            if (source.isTextWatermark ==false && !string.IsNullOrEmpty(source.WatermarkText))
+            {
+                imagePath = HttpContext.Current.Server.MapPath("~/" + source.WatermarkText);
+                if (File.Exists(imagePath))
+                {
+                    workflowbytes = source.WatermarkText != null ? File.ReadAllBytes(imagePath) : null;
+                    source.WatermarkText = null; 
+                }
+            }
+
+
             byte[] storeBackgroundImageBytes = null;
             if (!string.IsNullOrEmpty(source.StoreBackgroundImage))
             {
@@ -133,7 +148,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 WebMasterTag = source.WebMasterTag,
                 FacebookURL = source.FacebookURL,
                 LinkedinURL = source.LinkedinURL,
-                
+                WorkflowS2CBytes=workflowbytes,  // workflow image                
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCmykColors =
@@ -284,7 +299,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         }
 
         /// <summary>
-        /// Crete From Web Model
+        /// Crete From Web Model 
         /// </summary>
         public static DomainModels.Company CreateFrom(this Company source)
         {
@@ -332,7 +347,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 RedirectWebstoreURL = source.RedirectWebstoreURL,
                 isShowGoogleMap = source.isShowGoogleMap,
                 isTextWatermark = source.isTextWatermark == "true" ? true : false,
-                WatermarkText = source.WatermarkText,
+                WatermarkText = source.isTextWatermark == "true" ? source.WatermarkText :source.StoreWorkflowImageBytes,
+                StoreWorkflowImageName = source.StoreWorkflowImageName,
                 facebookAppId = source.facebookAppId,
                 facebookAppKey = source.facebookAppKey,
                 twitterAppId = source.twitterAppId,

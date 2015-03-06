@@ -274,6 +274,8 @@
         <AssociationConnector Association="DomainModels.FK_CompanyContactVariable_FieldVariable" />
         <AssociationConnector Association="DomainModels.FK__SmartForm__Varia__012C6796" />
         <EntityTypeShape EntityType="DomainModels.SaveDesignView" Width="1.5" PointX="39.375" PointY="6.75" />
+        <EntityTypeShape EntityType="DomainModels.NewsLetterSubscriber" Width="1.5" PointX="15.5" PointY="79.25" />
+        <AssociationConnector Association="DomainModels.FK_tbl_NewsLetterSubscribers_tbl_Contacts" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
