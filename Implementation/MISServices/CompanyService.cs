@@ -129,7 +129,7 @@ namespace MPC.Implementation.MISServices
                 }
             }
             companyRepository.Add(companySaving.Company);
-            companyRepository.SaveChanges();
+            companyRepository.SaveChanges(); // TODO: Remove it from here
             var companyId = companySaving.Company.CompanyId;
             UpdateCompany(companySaving, companySaving.Company);
             return companySaving.Company;
@@ -981,14 +981,14 @@ namespace MPC.Implementation.MISServices
             {
                 companySavingModel.Company.Image = SaveCompanyProfileImage(companySavingModel.Company);
             }
-            companyRepository.Update(companyToBeUpdated);
+            companyRepository.Update(companyToBeUpdated); // TODO: Remove it
             companyRepository.Update(companySavingModel.Company);
             UpdateCmsOffers(companySavingModel.Company, companyDbVersion);
             UpdateMediaLibrary(companySavingModel.Company, companyDbVersion);
             BannersUpdate(companySavingModel.Company, companyDbVersion);
-            companyRepository.SaveChanges();//todo second external savechanges
+            //companyRepository.SaveChanges();//todo second external savechanges
             //Update products
-            UpdateProductsOfUpdatingCompany(companySavingModel);
+            //UpdateProductsOfUpdatingCompany(companySavingModel);
             //Save Files
             companyToBeUpdated.ProductCategories = productCategories;//todo have savechanges while adding new for images saving
             //SaveFilesOfProductCategories(companyToBeUpdated);
@@ -1002,7 +1002,7 @@ namespace MPC.Implementation.MISServices
             UpdateSecondaryPageImagePath(companySavingModel, companyDbVersion);
             UpdateCampaignImages(companySavingModel.Company.Campaigns, companyDbVersion);
             UpdateSmartFormVariableIds(companySavingModel.Company.SmartForms, companyDbVersion);
-            companyRepository.SaveChanges();//todo third external savechanges
+            companyRepository.SaveChanges();
 
             //Call Service to add or remove the IIS Bindings for Store Domains
             updateDomainsInIIS(companyDbVersion.CompanyDomains, companyDomainsDbVersion);
@@ -1214,7 +1214,7 @@ namespace MPC.Implementation.MISServices
                         }
                     }
                 }
-                companyRepository.SaveChanges();
+              //  companyRepository.SaveChanges();
             }
         }
 
@@ -1511,7 +1511,7 @@ namespace MPC.Implementation.MISServices
                     if (dbVersionMissingItem != null && dbVersionMissingItem.PageWidgetId > 0)
                     {
                         cmsSkinPageWidgetRepository.Delete(dbVersionMissingItem);
-                        cmsSkinPageWidgetRepository.SaveChanges();
+                        //cmsSkinPageWidgetRepository.SaveChanges();
                     }
                 }
                 #endregion
@@ -1681,10 +1681,10 @@ namespace MPC.Implementation.MISServices
                 foreach (var item in companySavingModel.DeletedCmsPages)
                 {
                     cmsPageRepository.Delete(cmsPageRepository.Find(item.PageId));
-                    cmsPageRepository.SaveChanges();
+                    //cmsPageRepository.SaveChanges();
                 }
             }
-            companyRepository.SaveChanges();
+           // companyRepository.SaveChanges();
 
             //Update Page Category List Items
             if (companySavingModel.PageCategories != null)
@@ -1699,7 +1699,7 @@ namespace MPC.Implementation.MISServices
                         }
                     }
                 }
-                pageCategoryRepository.SaveChanges();
+                //pageCategoryRepository.SaveChanges();
             }
         }
 
@@ -2199,7 +2199,7 @@ namespace MPC.Implementation.MISServices
             fieldVariable.OrganisationId = fieldVariableRepository.OrganisationId;
             long companyId = (long)(fieldVariable.CompanyId ?? 0);
             fieldVariableRepository.Add(fieldVariable);
-            fieldVariableRepository.SaveChanges();
+            //fieldVariableRepository.SaveChanges();
 
 
 
@@ -2221,7 +2221,7 @@ namespace MPC.Implementation.MISServices
                         scopeVariable.Value = fieldVariable.DefaultValue;
                         scopeVariableRepository.Add(scopeVariable);
                     }
-                    scopeVariableRepository.SaveChanges();
+                   // scopeVariableRepository.SaveChanges();
                 }
             }
 
@@ -2292,12 +2292,12 @@ namespace MPC.Implementation.MISServices
                     if (dbVersionMissingItem.VariableOptionId > 0)
                     {
                         variableOptionRepository.Delete(dbVersionMissingItem);
-                        variableOptionRepository.SaveChanges();
+                        //variableOptionRepository.SaveChanges();
                     }
                 }
                 #endregion
 
-                fieldVariableRepository.SaveChanges();
+                //fieldVariableRepository.SaveChanges();
             }
 
             return fieldVariable.VariableId;
