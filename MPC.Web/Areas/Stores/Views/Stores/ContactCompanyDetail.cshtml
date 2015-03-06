@@ -51,7 +51,7 @@
                                 <li><a href="#tab-SEO" data-toggle="tab">SEO & Rave Reviews</a></li>
                                 <li><a href="#tab-territory" data-toggle="tab">Users & Addresses</a></li>
                                 <!--ko if: $root.selectedStore() != undefined && $root.selectedStore().companyId()!== undefined -->
-                                <li><a data-bind="click: $root.getProducts" href="#tab-products" data-toggle="tab">Products</a></li>
+                                <li><a data-bind="click: $root.getProducts" href="#tab-products" data-toggle="tab">Products & Categories</a></li>
                                 <!--/ko -->
                                 <li><a href="#tab-mailseries" data-toggle="tab">Emails</a></li>
                                 <li><a href="#tab-approvalPolicies" data-toggle="tab">Store Workflow</a></li>
@@ -1871,7 +1871,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
             <tr data-bind="click: $root.selectRaveReview, css: { selectedRow: $data === $root.selectedRaveReview}">
                 <td data-bind="text: reviewBy"></td>
                 <td data-bind="text: review"></td>
-                <td data-bind="text: isDisplay()==true ? 'YES' : 'NO'"></td>
+                <td data-bind="text: isDisplay() ? 'YES' : 'NO', css: { 'label-success': isDisplay, 'label-danger': !isDisplay() }"></td>
                 <td id="actionColumn">
                     <!-- ko template: { name: "actionsRaveReviewTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                     <!-- /ko -->

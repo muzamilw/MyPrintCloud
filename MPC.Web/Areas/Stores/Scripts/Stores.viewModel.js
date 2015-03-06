@@ -3686,7 +3686,6 @@ define("stores/stores.viewModel",
                 getProducts = function () {
                     if (!isProductTabVisited()) {
                         isProductTabVisited(true);
-                        //ist.storeProduct.viewModel.initialize(selectedStore().companyId());
                         ist.product.viewModel.initializeForStore(selectedStore().companyId());
                     }
                 },
