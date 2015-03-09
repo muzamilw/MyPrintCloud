@@ -174,10 +174,11 @@ namespace MPC.Repository.Repositories
             List<SmartFormUserList> objUsers = null;
             if (currentContact != null)
             {
-                objUsers = new List<SmartFormUserList>();
+               
                 List<CompanyContact> contacts = new List<CompanyContact>();
                 if (currentContact.ContactRoleId == (int)Roles.Adminstrator)
                 {
+
                     contacts = (from c in db.CompanyContacts//.Include("tbl_ContactCompanyTerritories").Include("tbl_ContactDepartments")
                                 where c.CompanyId == currentContact.CompanyId
                                 select c).ToList();
@@ -186,8 +187,13 @@ namespace MPC.Repository.Repositories
                 {
                     contacts = db.CompanyContacts.Where(i => i.TerritoryId == currentContact.TerritoryId).ToList();
                 }
+                else
+                {
+                 //   contacts.Add(currentContact);
+                }
                 if (contacts.Count > 0)
                 {
+                    objUsers = new List<SmartFormUserList>();
                     foreach (var contact in contacts)
                     {
                         SmartFormUserList objUser = new SmartFormUserList(contact.ContactId, (contact.FirstName + contact.LastName));
@@ -213,8 +219,9 @@ namespace MPC.Repository.Repositories
             db.Configuration.LazyLoadingEnabled = false;
             db.Configuration.ProxyCreationEnabled = false;
 
-            List<SmartFormDetail> objs =  db.SmartFormDetails.Include("FieldVariable").Where(g => g.SmartFormId == smartFormId).ToList();
+            List<SmartFormDetail> objs = db.SmartFormDetails.Include("FieldVariable.VariableOptions").Where(g => g.SmartFormId == smartFormId).OrderBy(g => g.SortOrder).ToList();
             foreach (var obj in objs) { obj.SmartForm = null; };
+            
             return objs;
         }
 
@@ -227,7 +234,7 @@ namespace MPC.Repository.Repositories
             {
                 if(obj.ObjectType == (int)SmartFormDetailFieldType.VariableField)
                 {
-                    if(obj.FieldVariable.IsSystem == true)
+                    if(obj.FieldVariable.IsSystem.HasValue && obj.FieldVariable.IsSystem.Value == true)
                     {
                         
                         var fieldValue = "";
@@ -384,7 +391,16 @@ namespace MPC.Repository.Repositories
                     }
                     else
                     {
-
+                        //if(obj.FieldVariable != null )
+                        //{
+                        //    if(obj.FieldVariable.VariableType == 1)
+                        //    {
+                        //        //dropdown
+                        //    }else if(obj.FieldVariable.VariableType == 2)
+                        //    {
+                        //        // imput
+                        //    }
+                        //}
                         if (obj.FieldVariable != null && obj.FieldVariable.Scope.HasValue)
                         {
                             int scope = obj.FieldVariable.Scope.Value;

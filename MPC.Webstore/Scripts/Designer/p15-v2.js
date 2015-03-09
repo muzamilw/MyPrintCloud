@@ -165,14 +165,13 @@ function fu05_Clload() {
        });
 }
 function fu05() {
-    //CustomerID = parent.CustomerID;
-    //ContactID = parent.ContactID;
-    $(".QuickTextFields").html("");
-    //  $(".QuickTextFields").append('<li><a class="add addTxtSubtitle ThemeColor" style="" data-style="title">Update your Quick text Profile</a></li>');
-    $.getJSON("/designerapi/template/getQuickText/" + CustomerID + "/" + ContactID,
-        function (xdata) {
-            fu05_SvcCallback(xdata);
-        });
+
+    //$(".QuickTextFields").html("");
+
+    //$.getJSON("/designerapi/template/getQuickText/" + CustomerID + "/" + ContactID,
+    //    function (xdata) {
+    //        fu05_SvcCallback(xdata);
+    //    });
 }
 function fu09() {
     if (tcAllcc) return;
