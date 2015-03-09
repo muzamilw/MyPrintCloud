@@ -1416,9 +1416,10 @@ define("stores/stores.viewModel",
                     if (selectedCompanyContact() != undefined && selectedCompanyContact().bussinessAddressId() == undefined) {
                         selectedBussinessAddress(undefined);
                         if (selectedCompanyContact() != undefined) {
-                            selectedCompanyContact().bussinessAddressId(undefined);
+                            //selectedCompanyContact().bussinessAddressId(undefined);
                         }
                     }
+
                     //if (isSavingNewCompanyContact != undefined && isSavingNewCompanyContact() && selectedStore().companyId() == undefined) {
 
                     //    _.each(newAddresses(), function (address) {
