@@ -12,6 +12,7 @@ using MPC.Repository.BaseRepository;
 using System.Data.Entity;
 using System.Security.Cryptography;
 using System.Text;
+using Newtonsoft.Json;
 
 
 namespace MPC.Repository.Repositories
@@ -80,7 +81,7 @@ namespace MPC.Repository.Repositories
             try
             {
                 //Create Customer
-                return db.Companies.Include("Address").Include("CompanyContact").Where(customer => customer.CompanyId == CompanyId).FirstOrDefault<Company>();
+                return db.Companies.Include("Addresses").Include("CompanyContacts").Where(customer => customer.CompanyId == CompanyId).FirstOrDefault<Company>();
             }
             catch (Exception ex)
             {
@@ -396,69 +397,72 @@ namespace MPC.Repository.Repositories
                                         }
                                     }
                                 }
-                                if(item.Template != null)
+                                if(item.TemplateId != null && item.TemplateId > 0)
                                 {
-
-                                    ObjExportOrg.ItemTemplate = item.Template;
-
-                                    long TemplateID = item.Template.ProductId;
-
-                                    if (TemplateID > 0)
+                                    if(item.DesignerCategoryId == null && item.DesignerCategoryId > 0)
                                     {
-                                        // template pages
-                                        List<TemplatePage> lstTemplatePage = db.TemplatePages.Where(t => t.ProductId == TemplateID).ToList();
-                                        if (lstTemplatePage != null && lstTemplatePage.Count > 0)
+                                        ObjExportOrg.ItemTemplate = item.Template;
+
+                                        long TemplateID = item.Template.ProductId;
+
+                                        if (TemplateID > 0)
                                         {
-                                            foreach(var tempPage in lstTemplatePage)
+                                            // template pages
+                                            List<TemplatePage> lstTemplatePage = db.TemplatePages.Where(t => t.ProductId == TemplateID).ToList();
+                                            if (lstTemplatePage != null && lstTemplatePage.Count > 0)
                                             {
-                                                TemplatePages.Add(tempPage);
-                                            }
-                                           
-                                        }
-
-
-                                        // template objects
-                                        List<TemplateObject> lstTemplateObjects = db.TemplateObjects.Where(c => c.ProductId == TemplateID).ToList();
-                                        if (lstTemplateObjects != null && lstTemplateObjects.Count > 0)
-                                        {
-                                            foreach (var tempObjects in lstTemplateObjects)
-                                            {
-                                               TemplateObjects.Add(tempObjects);
-                                            }
-
-                                        }
-
-                                        // template fonts
-                                        List<TemplateFont> lstTemplateFont = db.TemplateFonts.Where(c => c.ProductId == TemplateID).ToList();
-                                        if (lstTemplateFont != null && lstTemplateFont.Count > 0)
-                                        {
-                                            foreach (var tempFonts in lstTemplateFont)
-                                            {
-                                                TemplateFonts.Add(tempFonts);
-                                            }
-
-                                        }
-                                       // template background images
-
-                                        List<TemplateBackgroundImage> lstTemplateBackgroundImages = db.TemplateBackgroundImages.Where(c => c.ProductId == TemplateID && c.ContactCompanyId == CompanyId).ToList();
-                                        if (lstTemplateBackgroundImages != null && lstTemplateBackgroundImages.Count > 0)
-                                        {
-                                            foreach (var tempBackImages in lstTemplateBackgroundImages)
-                                            {
-                                                TemplateBackGroundImages.Add(tempBackImages);
-                                                if(tempBackImages.ImagePermissions != null && tempBackImages.ImagePermissions.Count > 0)
+                                                foreach (var tempPage in lstTemplatePage)
                                                 {
-                                                    foreach (var img in tempBackImages.ImagePermissions)
+                                                    TemplatePages.Add(tempPage);
+                                                }
+
+                                            }
+
+
+                                            // template objects
+                                            List<TemplateObject> lstTemplateObjects = db.TemplateObjects.Where(c => c.ProductId == TemplateID).ToList();
+                                            if (lstTemplateObjects != null && lstTemplateObjects.Count > 0)
+                                            {
+                                                foreach (var tempObjects in lstTemplateObjects)
+                                                {
+                                                    TemplateObjects.Add(tempObjects);
+                                                }
+
+                                            }
+
+                                            // template fonts
+                                            List<TemplateFont> lstTemplateFont = db.TemplateFonts.Where(c => c.ProductId == TemplateID).ToList();
+                                            if (lstTemplateFont != null && lstTemplateFont.Count > 0)
+                                            {
+                                                foreach (var tempFonts in lstTemplateFont)
+                                                {
+                                                    TemplateFonts.Add(tempFonts);
+                                                }
+
+                                            }
+                                            // template background images
+
+                                            List<TemplateBackgroundImage> lstTemplateBackgroundImages = db.TemplateBackgroundImages.Where(c => c.ProductId == TemplateID && c.ContactCompanyId == CompanyId).ToList();
+                                            if (lstTemplateBackgroundImages != null && lstTemplateBackgroundImages.Count > 0)
+                                            {
+                                                foreach (var tempBackImages in lstTemplateBackgroundImages)
+                                                {
+                                                    TemplateBackGroundImages.Add(tempBackImages);
+                                                    if (tempBackImages.ImagePermissions != null && tempBackImages.ImagePermissions.Count > 0)
                                                     {
-                                                        ImagePermission.Add(img);
+                                                        foreach (var img in tempBackImages.ImagePermissions)
+                                                        {
+                                                            ImagePermission.Add(img);
+                                                        }
                                                     }
                                                 }
+
                                             }
 
-                                        }
 
-                                       
+                                        }
                                     }
+                                   
 
                                 }
 
@@ -539,27 +543,17 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        // export retail company 
-         public ExportOrganisation ExportRetailCompany( long CompanyId)
+        public ExportOrganisation ExportRetailCompany1(long CompanyId, ExportSets Sets)
         {
             try
             {
                 ExportOrganisation ObjExportOrg = new ExportOrganisation();
-                List<ItemSection> ItemSections = new List<ItemSection>();
-                List<SectionCostcentre> SectionCostCentre = new List<SectionCostcentre>();
-                List<SectionCostCentreResource> SectionCostCentreResources = new List<SectionCostCentreResource>();
-                List<ItemAttachment> ItemAttachments = new List<ItemAttachment>();
-                List<TemplatePage> TemplatePages = new List<TemplatePage>();
-                List<TemplateObject> TemplateObjects = new List<TemplateObject>();
-                List<TemplateFont> TemplateFonts = new List<TemplateFont>();
-                List<TemplateColorStyle> TemplateColorStyle = new List<TemplateColorStyle>();
-                List<TemplateBackgroundImage> TemplateBackGroundImages = new List<TemplateBackgroundImage>();
-                List<ImagePermission> ImagePermission = new List<ImagePermission>();
-
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
 
                 ObjExportOrg.RetailCompany = db.Companies.Where(c => c.CompanyId == CompanyId).FirstOrDefault();
+
+
 
                 // set Company Domain
 
@@ -606,178 +600,303 @@ namespace MPC.Repository.Repositories
 
                 ObjExportOrg.RetailSecondaryPages = db.CmsPages.Where(c => c.CompanyId == CompanyId).ToList();
 
+                //ObjExportOrg.RetailSecondaryPages.ForEach(s => s.CmsSkinPageWidgets = null);
+                //ObjExportOrg.RetailSecondaryPages.ForEach(s => s.PageCategory = null);
+                ObjExportOrg.RetailSecondaryPages.ForEach(s => s.Company.CmsPages = null);
+                ObjExportOrg.RetailSecondaryPages.ForEach(s => s.Company.CustomCSS = null);
+                //ObjExportOrg.RetailSecondaryPages.ForEach(s => s.Company = null);
 
+                string JsonRetail = JsonConvert.SerializeObject(ObjExportOrg, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+                // export json file
+                string sRetailPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/RetailJson1.txt";
+                System.IO.File.WriteAllText(sRetailPath, JsonRetail);
+                Sets.ExportRetailStore1 = ObjExportOrg;
+                ObjExportOrg = null;
+                JsonRetail = string.Empty;
+                GC.Collect();
+                return Sets.ExportRetailStore1;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
-                // Rave Reviews
+        public ExportOrganisation ExportRetailCompany2(long CompanyId, ExportSets Sets)
+        {
+            try
+            {
+                ExportOrganisation ObjExportOrg = new ExportOrganisation();
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
+
+                 //Rave Reviews
 
                 ObjExportOrg.RetailRaveReview = db.RaveReviews.Where(r => r.CompanyId == CompanyId).ToList();
 
 
 
-                // CompanyTerritories
+                //  CompanyTerritories
 
 
                 ObjExportOrg.RetailCompanyTerritory = db.CompanyTerritories.Where(c => c.CompanyId == CompanyId).ToList();
 
 
-                // Addresses
+                //  Addresses
 
 
                 ObjExportOrg.RetailAddress = db.Addesses.Where(a => a.CompanyId == CompanyId).ToList();
 
 
-                // contacts
+                //  contacts
 
 
                 ObjExportOrg.RetailCompanyContact = db.CompanyContacts.Where(c => c.CompanyId == CompanyId).ToList();
 
 
+                string JsonRetail = JsonConvert.SerializeObject(ObjExportOrg, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+                // export json file
+                string sRetailPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/RetailJson2.txt";
+                System.IO.File.WriteAllText(sRetailPath, JsonRetail);
+                Sets.ExportRetailStore2 = ObjExportOrg;
+                ObjExportOrg = null;
+                JsonRetail = string.Empty;
+                GC.Collect();
+                return Sets.ExportRetailStore2;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
+        }
+        public ExportOrganisation ExportRetailCompany3(long CompanyId, ExportSets Sets)
+        {
+
+            try
+            {
                 // product Categories
+                ExportOrganisation ObjExportOrg = new ExportOrganisation();
 
-                ObjExportOrg.RetailProductCategory = db.ProductCategories.Where(s => s.isPublished == true && s.isArchived == false && s.CompanyId == CompanyId).ToList();
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
 
+                ObjExportOrg.RetailProductCategory = db.ProductCategories.Where(s => s.isArchived != true && s.CompanyId == CompanyId).ToList();
+
+                db.Configuration.LazyLoadingEnabled = true;
+                db.Configuration.ProxyCreationEnabled = true;
 
                 // items
 
-                List<Item> items = db.Items.Where(i => i.IsPublished == true && i.IsArchived == false && i.CompanyId == CompanyId).ToList();
-                items = items.ToList();
+                List<Item> items = db.Items.Where(i => i.IsArchived != true && i.CompanyId == CompanyId).ToList();
+
+                items.ToList().ForEach(a => a.Company = null);
 
                 ObjExportOrg.RetailItems = items;
 
-                if (items != null)
-                {
-                    if (items.Count > 0)
-                    {
-                        foreach (var item in items)
-                        {
-                            // itemSections
-                            if (item.ItemSections != null)
-                            {
+                ObjExportOrg.RetailItems.ForEach(s => s.Company = null);
 
-                                if (item.ItemSections != null && item.ItemSections.Count > 0)
-                                {
-                                    // add item sections
-                                    foreach (var sec in item.ItemSections)
-                                    {
-                                        if (sec.SectionCostcentres != null)
-                                        {
-                                            if (sec.SectionCostcentres.Count > 0)
-                                            {
-                                                // add section Costcentre
-                                                foreach (var ss in sec.SectionCostcentres)
-                                                {
-                                                    if (ss.SectionCostCentreResources != null)
-                                                    {
-                                                        if (ss.SectionCostCentreResources.Count > 0)
-                                                        {
-                                                            foreach (var res in ss.SectionCostCentreResources)
-                                                            {
-                                                                SectionCostCentreResources.Add(res);
-                                                            }
+                ObjExportOrg.RetailItems.ForEach(s => s.ItemAttachments = null);
 
-                                                        }
-                                                    }
+                // ObjExportOrg.RetailItems.ForEach(s => s.ItemSections.f = null);
 
-                                                    SectionCostCentre.Add(ss);
-                                                }
-                                            }
-                                        }
-                                        ItemSections.Add(sec);
-                                    }
-                                }
-                            }
-                            if (item.ItemAttachments != null)
-                            {
-                                if (item.ItemAttachments.Count > 0)
-                                {
-                                    foreach (var itemAttach in item.ItemAttachments.Where(c => c.CompanyId == CompanyId))
-                                    {
-                                        ItemAttachments.Add(itemAttach);
-                                    }
-                                }
-                            }
-                            if (item.Template != null)
-                            {
-
-                                ObjExportOrg.ItemTemplate = item.Template;
-
-                                long TemplateID = item.Template.ProductId;
-
-                                if (TemplateID > 0)
-                                {
-                                    // template pages
-                                    List<TemplatePage> lstTemplatePage = db.TemplatePages.Where(t => t.ProductId == TemplateID).ToList();
-                                    if (lstTemplatePage != null && lstTemplatePage.Count > 0)
-                                    {
-                                        foreach (var tempPage in lstTemplatePage)
-                                        {
-                                            TemplatePages.Add(tempPage);
-                                        }
-
-                                    }
+                ObjExportOrg.RetailItems.ForEach(s => s.ProductCategoryCustomItems = null);
+                //ObjExportOrg.RetailItems.ForEach(s => s.ItemVdpPrices = null);
+                //  ObjExportOrg.RetailItems.ForEach(s => s.ItemVideos = null);
+                ObjExportOrg.RetailItems.ForEach(s => s.Estimate = null);
+                ObjExportOrg.RetailItems.ForEach(s => s.FavoriteDesigns = null);
+                // ObjExportOrg.RetailItems.ForEach(s => s.ItemImages = null);
+                // ObjExportOrg.RetailItems.ForEach(s => s.ItemProductDetails = null);
+                //ObjExportOrg.RetailItems.ForEach(s => s.ItemStateTaxes = null);
+                // ObjExportOrg.RetailItems.ForEach(s => s.ItemStockOptions = null);
 
 
-                                    // template objects
-                                    List<TemplateObject> lstTemplateObjects = db.TemplateObjects.Where(c => c.ProductId == TemplateID).ToList();
-                                    if (lstTemplateObjects != null && lstTemplateObjects.Count > 0)
-                                    {
-                                        foreach (var tempObjects in lstTemplateObjects)
-                                        {
-                                            TemplateObjects.Add(tempObjects);
-                                        }
+                string JsonRetail = JsonConvert.SerializeObject(ObjExportOrg, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+                // export json file
+                string sRetailPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/RetailJson3.txt";
+                System.IO.File.WriteAllText(sRetailPath, JsonRetail);
+                Sets.ExportRetailStore3 = ObjExportOrg;
+                ObjExportOrg = null;
+                JsonRetail = string.Empty;
+                GC.Collect();
+                return Sets.ExportRetailStore3;
 
-                                    }
+                //if (items != null)
+                //{
+                //    if (items.Count > 0)
+                //    {
+                //        foreach (var item in items)
+                //        {
+                //            // itemSections
+                //            if (item.ItemSections != null)
+                //            {
 
-                                    // template fonts
-                                    List<TemplateFont> lstTemplateFont = db.TemplateFonts.Where(c => c.ProductId == TemplateID).ToList();
-                                    if (lstTemplateFont != null && lstTemplateFont.Count > 0)
-                                    {
-                                        foreach (var tempFonts in lstTemplateFont)
-                                        {
-                                            TemplateFonts.Add(tempFonts);
-                                        }
+                //                if (item.ItemSections != null && item.ItemSections.Count > 0)
+                //                {
+                //                    // add item sections
+                //                    foreach (var sec in item.ItemSections)
+                //                    {
+                //                        if (sec.SectionCostcentres != null)
+                //                        {
+                //                            if (sec.SectionCostcentres.Count > 0)
+                //                            {
+                //                                // add section Costcentre
+                //                                foreach (var ss in sec.SectionCostcentres)
+                //                                {
+                //                                    if (ss.SectionCostCentreResources != null)
+                //                                    {
+                //                                        if (ss.SectionCostCentreResources.Count > 0)
+                //                                        {
+                //                                            foreach (var res in ss.SectionCostCentreResources)
+                //                                            {
+                //                                                SectionCostCentreResources.Add(res);
+                //                                            }
 
-                                    }
-                                    // template background images
+                //                                        }
+                //                                    }
 
-                                    List<TemplateBackgroundImage> lstTemplateBackgroundImages = db.TemplateBackgroundImages.Where(c => c.ProductId == TemplateID && c.ContactCompanyId == CompanyId).ToList();
-                                    if (lstTemplateBackgroundImages != null && lstTemplateBackgroundImages.Count > 0)
-                                    {
-                                        foreach (var tempBackImages in lstTemplateBackgroundImages)
-                                        {
-                                            TemplateBackGroundImages.Add(tempBackImages);
-                                            if (tempBackImages.ImagePermissions != null && tempBackImages.ImagePermissions.Count > 0)
-                                            {
-                                                foreach (var img in tempBackImages.ImagePermissions)
-                                                {
-                                                    ImagePermission.Add(img);
-                                                }
-                                            }
-                                        }
+                //                                    SectionCostCentre.Add(ss);
+                //                                }
+                //                            }
+                //                        }
+                //                        ItemSections.Add(sec);
+                //                    }
+                //                }
+                //            }
+                //            if (item.ItemAttachments != null)
+                //            {
+                //                if (item.ItemAttachments.Count > 0)
+                //                {
+                //                    foreach (var itemAttach in item.ItemAttachments.Where(c => c.CompanyId == CompanyId))
+                //                    {
+                //                        ItemAttachments.Add(itemAttach);
+                //                    }
+                //                }
+                //            }
+                //            if (item.Template != null)
+                //            {
 
-                                    }
+                //                ObjExportOrg.ItemTemplate = item.Template;
+
+                //                long TemplateID = item.Template.ProductId;
+
+                //                if (TemplateID > 0)
+                //                {
+                //                    // template pages
+                //                    List<TemplatePage> lstTemplatePage = db.TemplatePages.Where(t => t.ProductId == TemplateID).ToList();
+                //                    if (lstTemplatePage != null && lstTemplatePage.Count > 0)
+                //                    {
+                //                        foreach (var tempPage in lstTemplatePage)
+                //                        {
+                //                            TemplatePages.Add(tempPage);
+                //                        }
+
+                //                    }
 
 
-                                }
+                //                    // template objects
+                //                    List<TemplateObject> lstTemplateObjects = db.TemplateObjects.Where(c => c.ProductId == TemplateID).ToList();
+                //                    if (lstTemplateObjects != null && lstTemplateObjects.Count > 0)
+                //                    {
+                //                        foreach (var tempObjects in lstTemplateObjects)
+                //                        {
+                //                            TemplateObjects.Add(tempObjects);
+                //                        }
 
-                            }
+                //                    }
+
+                //                    // template fonts
+                //                    List<TemplateFont> lstTemplateFont = db.TemplateFonts.Where(c => c.ProductId == TemplateID).ToList();
+                //                    if (lstTemplateFont != null && lstTemplateFont.Count > 0)
+                //                    {
+                //                        foreach (var tempFonts in lstTemplateFont)
+                //                        {
+                //                            TemplateFonts.Add(tempFonts);
+                //                        }
+
+                //                    }
+                //                    // template background images
+
+                //                    List<TemplateBackgroundImage> lstTemplateBackgroundImages = db.TemplateBackgroundImages.Where(c => c.ProductId == TemplateID && c.ContactCompanyId == CompanyId).ToList();
+                //                    if (lstTemplateBackgroundImages != null && lstTemplateBackgroundImages.Count > 0)
+                //                    {
+                //                        foreach (var tempBackImages in lstTemplateBackgroundImages)
+                //                        {
+                //                            TemplateBackGroundImages.Add(tempBackImages);
+                //                            if (tempBackImages.ImagePermissions != null && tempBackImages.ImagePermissions.Count > 0)
+                //                            {
+                //                                foreach (var img in tempBackImages.ImagePermissions)
+                //                                {
+                //                                    ImagePermission.Add(img);
+                //                                }
+                //                            }
+                //                        }
+
+                //                    }
 
 
-                        }
-                    }
-                    ObjExportOrg.RetailItemSection = ItemSections;
-                    ObjExportOrg.RetailSectionCostcentre = SectionCostCentre;
-                    ObjExportOrg.RetailSectionCostCentreResource = SectionCostCentreResources;
-                    ObjExportOrg.RetailItemAttachment = ItemAttachments;
-                    ObjExportOrg.RetailTemplatePages = TemplatePages;
-                    ObjExportOrg.RetailTemplateObjects = TemplateObjects;
-                    ObjExportOrg.RetailTemplateFonts = TemplateFonts;
-                    ObjExportOrg.RetailTemplateBackgroundImage = TemplateBackGroundImages;
-                    ObjExportOrg.RetailImagePermission = ImagePermission;
-                }
+                //                }
 
+                //            }
+
+
+                //        }
+                //    }
+                //    ObjExportOrg.RetailItemSection = ItemSections;
+                //    ObjExportOrg.RetailSectionCostcentre = SectionCostCentre;
+                //    ObjExportOrg.RetailSectionCostCentreResource = SectionCostCentreResources;
+                //    ObjExportOrg.RetailItemAttachment = ItemAttachments;
+                //    ObjExportOrg.RetailTemplatePages = TemplatePages;
+                //    ObjExportOrg.RetailTemplateObjects = TemplateObjects;
+                //    ObjExportOrg.RetailTemplateFonts = TemplateFonts;
+                //    ObjExportOrg.RetailTemplateBackgroundImage = TemplateBackGroundImages;
+                //    ObjExportOrg.RetailImagePermission = ImagePermission;
+
+
+
+
+                //    // ObjExportOrg.retai.ForEach(s => s.com.CmsPages = null);
+
+                //}
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        // export retail company 
+        public ExportSets ExportRetailCompany(long CompanyId)
+        {
+            try
+            {
+                
+                //List<ItemSection> ItemSections = new List<ItemSection>();
+                //List<SectionCostcentre> SectionCostCentre = new List<SectionCostcentre>();
+                //List<SectionCostCentreResource> SectionCostCentreResources = new List<SectionCostCentreResource>();
+                
+                List<TemplatePage> TemplatePages = new List<TemplatePage>();
+                List<TemplateObject> TemplateObjects = new List<TemplateObject>();
+                List<TemplateFont> TemplateFonts = new List<TemplateFont>();
+                List<TemplateColorStyle> TemplateColorStyle = new List<TemplateColorStyle>();
+                List<TemplateBackgroundImage> TemplateBackGroundImages = new List<TemplateBackgroundImage>();
+                List<ImagePermission> ImagePermission = new List<ImagePermission>();
+
+
+                ExportSets sets = new ExportSets();
+
+                sets.ExportRetailStore1 =  ExportRetailCompany1(CompanyId, sets);
+                sets.ExportRetailStore2 = ExportRetailCompany2(CompanyId, sets);
+                sets.ExportRetailStore3 =  ExportRetailCompany3(CompanyId, sets);
+
+
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
                 //  campaigns
-
+                ExportOrganisation ObjExportOrg = new ExportOrganisation();
                 ObjExportOrg.RetailCampaigns = db.Campaigns.Where(c => c.CompanyId == CompanyId).ToList();
 
                 // payment gateways
@@ -788,6 +907,8 @@ namespace MPC.Repository.Repositories
 
                 ObjExportOrg.RetailCmsSkinPageWidget = db.PageWidgets.Where(c => c.CompanyId == CompanyId).ToList();
 
+
+               
 
                 // company cost centre
 
@@ -811,10 +932,7 @@ namespace MPC.Repository.Repositories
 
                 ObjExportOrg.TemplateColorStyle = TemplateColorStyle;
 
-                ItemSections = null;
-                SectionCostCentre = null;
-                SectionCostCentreResources = null;
-                ItemAttachments = null;
+               
                 TemplatePages = null;
                 TemplateObjects = null;
                 TemplateFonts = null;
@@ -822,7 +940,15 @@ namespace MPC.Repository.Repositories
                 TemplateBackGroundImages = null;
                 ImagePermission = null;
 
-                return ObjExportOrg;
+                string JsonRetail = JsonConvert.SerializeObject(ObjExportOrg, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+                // export json file
+                string sRetailPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/RetailJson4.txt";
+                System.IO.File.WriteAllText(sRetailPath, JsonRetail);
+
+                sets.ExportRetailStore4 = ObjExportOrg;
+
+
+                return sets;
 
 
             }

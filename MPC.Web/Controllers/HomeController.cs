@@ -257,7 +257,8 @@ namespace MPC.MIS.Controllers
             Thread.CurrentPrincipal = null;
             HttpContext.User = null;
             AuthenticationManager.SignOut(new[] { DefaultAuthenticationTypes.ApplicationCookie });
-            return Redirect(ConfigurationManager.AppSettings["MPCDashboardPath"]);
+            return Redirect(ConfigurationManager.AppSettings["MPCDashboardPath"] + "/logout");
+
         }
 
         /// <summary>

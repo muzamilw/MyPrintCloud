@@ -255,7 +255,7 @@ namespace MPC.Webstore.Controllers
                                         }
                                     case 6:
                                         {
-                                            Response.Redirect("payments/SumbitNAB/" + OrderId);
+                                            Response.Redirect("payments/NabSubmit/" + OrderId);
                                             break;
                                         }
                                     case 7:
@@ -390,7 +390,8 @@ namespace MPC.Webstore.Controllers
                                     }
                                 case 6:
                                     {
-                                        Response.Redirect("payments/SumbitNAB/" + OrderId);
+                                        Response.Redirect("/NabSubmit/" + OrderId);
+                                        
                                         break;
                                     }
                                 case 7:
