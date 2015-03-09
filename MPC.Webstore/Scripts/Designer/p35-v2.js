@@ -2079,3 +2079,11 @@ $("#BtnAllowOnlyTxtChange").click(function () {
     g1(D1AO);
     //animatedcollapse.toggle('textPropertPanel');
 });
+$("#optionsRadioYourProfile,#optionRadioOtherProfile").change(function () {
+    if ($("#optionRadioOtherProfile").attr("checked")) {
+        $("#otherProfileContainer").css("display", "inline-block");
+    }
+    else {
+        $("#otherProfileContainer").css("display", "none");
+    }
+});
