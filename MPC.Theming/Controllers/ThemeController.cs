@@ -11,10 +11,11 @@ using System.Web.Http;
 namespace MPC.Theming.Controllers
 {
     /// <summary>
-    /// Theme Controller Api
+    /// Theme Api Controller 
     /// </summary>
     public class ThemeController : ApiController
     {
+        #region Public
         // GET api/values
         public ArrayList Get()
         {
@@ -54,25 +55,27 @@ namespace MPC.Theming.Controllers
 
             return null;
         }
+
         // GET api/values
         [HttpGet]
         public HttpResponseMessage ApplyTheme([FromUri] string fullZipPath)
         {
-            // FileStream fs = new FileStream(System.Web.HttpContext.Current.Server.MapPath("~/MPC_Themes/classic.zip"), FileMode.Open, FileAccess.Read);
-            //  return fs;
-
-            var path = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Themes/classic.zip");
-            var result = new HttpResponseMessage(HttpStatusCode.OK);
-            var stream = new FileStream(path, FileMode.Open);
-            result.Content = new StreamContent(stream);
-            result.Content.Headers.ContentType =
-                new MediaTypeHeaderValue("application/octet-stream");
-            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+            HttpResponseMessage result = null;
+            if (File.Exists(fullZipPath))
             {
-                FileName = "file.zip"
-            };
+                result = new HttpResponseMessage(HttpStatusCode.OK);
+                FileStream stream = new FileStream(fullZipPath, FileMode.Open);
+                result.Content = new StreamContent(stream);
+                result.Content.Headers.ContentType =
+                    new MediaTypeHeaderValue("application/octet-stream");
+                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = "Theme.zip"
+                };
+            }
+
             return result;
-            //  return "test";
         }
+        #endregion
     }
 }

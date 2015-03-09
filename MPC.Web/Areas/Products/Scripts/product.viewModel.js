@@ -262,6 +262,7 @@ define("product/product.viewModel",
                         selectedCategoryTypeId(undefined);
                         errorList.removeAll();
                         shared.reset();
+                        selectedProduct(undefined);
                     },
                     // On Archive
                     onArchiveProduct = function (item) {

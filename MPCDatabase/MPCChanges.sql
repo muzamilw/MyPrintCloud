@@ -603,3 +603,8 @@ alter table Company
 drop column isDisplayBrokerSecondaryPages
 
 GO
+
+
+/* Execution Date: 06/03/2015 */
+
+Insert into PaymentMethod (PaymentMethodId, MethodName, IsActive) values (6, 'NAB', 'True')

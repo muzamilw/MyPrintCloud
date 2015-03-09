@@ -65,17 +65,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
-            var result = companyService.GetBaseDataForNewCompany();
-            byte[] bytes = null;
-            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png")))
-            {
-                bytes = File.ReadAllBytes(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png"));
-            }
-            string defaultCss = string.Empty;
-            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultCss/Default_CompanyStyles.css")))
-            {
-                defaultCss = File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultCss/Default_CompanyStyles.css"));
-            }
+
             List<SkinForTheme> themes = new List<SkinForTheme>();
             // Get List of Skins 
             using (var client = new HttpClient())
@@ -95,6 +85,19 @@ namespace MPC.MIS.Areas.Api.Controllers
                 }
 
             }
+
+            var result = companyService.GetBaseDataForNewCompany();
+            byte[] bytes = null;
+            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png")))
+            {
+                bytes = File.ReadAllBytes(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png"));
+            }
+            string defaultCss = string.Empty;
+            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultCss/Default_CompanyStyles.css")))
+            {
+                defaultCss = File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultCss/Default_CompanyStyles.css"));
+            }
+           
 
             return new CompanyBaseResponse
             {

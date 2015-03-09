@@ -261,8 +261,8 @@ namespace MPC.Webstore
               
               routes.MapRoute(
               "NabSubmit",
-              "NabSubmit",
-              new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+              "NabSubmit/{OrderID}",
+              new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
            );
               
             routes.MapRoute(
