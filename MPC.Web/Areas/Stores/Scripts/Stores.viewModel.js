@@ -17,7 +17,7 @@ define("stores/stores.viewModel",
                     selectedCurrentPageCopy = ko.observable(),
                     ckEditorOpenFrom = ko.observable("Campaign"),
                     storeStatus = ko.observable(),
-                    productStatus = ko.observable(),
+                    productStatus = ko.observable(''),
                     //Active Widget (use for dynamic controll)
                     selectedWidget = ko.observable(),
                     // Error List
@@ -242,9 +242,9 @@ define("stores/stores.viewModel",
                         if (productViewModel.selectedProduct() == undefined) {
                             productStatus('');
                             if (selectedStore() != null && selectedStore().companyId() > 0) {
-                                storeStatus("Modify Store Details");
+                                storeStatus("Modify Stores");
                             } else {
-                                storeStatus("Store Details");
+                                storeStatus("Stores Details");
                             }
                             var value1 = selectedStore().name() != '' && selectedStore().name() != undefined ? selectedStore().name() : '';
                             var value2 = selectedStore().webAccessCode() != '' && selectedStore().webAccessCode() != undefined ? ' - ' + selectedStore().webAccessCode() : '';
@@ -438,6 +438,24 @@ define("stores/stores.viewModel",
                             }
                         });
                     },
+                    vatHandler = function (data) {
+                        var vat = selectedStore().isIncludeVAT();
+                            if (vat == 'true') {
+                                selectedStore().isCalculateTaxByService('false');
+                            } else {
+                                selectedStore().isCalculateTaxByService('true');
+                            }
+                            return true;
+                    },
+                     calculateTaxByServiceHandler = function (data) {
+                         var tax = selectedStore().isCalculateTaxByService();
+                         if (tax == 'true') {
+                             selectedStore().isIncludeVAT('false');
+                         } else {
+                             selectedStore().isIncludeVAT('true');
+                         }
+                         return true;
+                     },
                 //#endregion _____________________  S T O R E ____________________
 
                 // #region _________R A V E   R E V I E W_________________________
@@ -3442,10 +3460,7 @@ define("stores/stores.viewModel",
                                     selectedStore().mediaLibraries.push(model.MediaLibrary.Create(item));
                                 });
 
-                                //Themes 
-                                themes.removeAll();
-                                ko.utils.arrayPushAll(themes(), data.Themes);
-                                themes.valueHasMutated();
+                                
                             }
                             allPagesWidgets.removeAll();
                             pageSkinWidgets.removeAll();
@@ -3587,6 +3602,21 @@ define("stores/stores.viewModel",
                                     fieldVariablesForSmartForm.push(model.FieldVariableForSmartForm.Create(item));
                                 });
 
+                                //Themes 
+                                themes.removeAll();
+                                ko.utils.arrayPushAll(themes(), data.Themes);
+                                themes.valueHasMutated();
+
+                                cmsPagesForStoreLayout.removeAll();
+                                if (data.CmsPageDropDownList !== null) {
+                                    ko.utils.arrayPushAll(cmsPagesForStoreLayout(), data.CmsPageDropDownList);
+                                    cmsPagesForStoreLayout.valueHasMutated();
+
+                                    //_.each(cmsPagesBaseData(), function (item) {
+                                    //    cmsPagesForStoreLayout.push(item);
+                                    //});
+                                }
+
                                 ////Countries 
                                 //countries.removeAll();
                                 //ko.utils.arrayPushAll(countries(), data.Countries);
@@ -3663,10 +3693,6 @@ define("stores/stores.viewModel",
                                     ko.utils.arrayPushAll(states(), data.States);
                                     states.valueHasMutated();
 
-                                    //Themes 
-                                    themes.removeAll();
-                                    ko.utils.arrayPushAll(themes(), data.Themes);
-                                    themes.valueHasMutated();
 
                                     _.each(data.Widgets, function (item) {
                                         widgets.push(model.Widget.Create(item));
@@ -3680,15 +3706,7 @@ define("stores/stores.viewModel",
                                     selectedStore().userDefinedSpriteImageFileName("default.jpg");
                                     selectedStore().defaultSpriteImageSource(data.DefaultSpriteImageSource);
                                     selectedStore().customCSS(data.DefaultCompanyCss);
-                                    cmsPagesForStoreLayout.removeAll();
-                                    if (data.CmsPageDropDownList !== null) {
-                                        ko.utils.arrayPushAll(cmsPagesForStoreLayout(), data.CmsPageDropDownList);
-                                        cmsPagesForStoreLayout.valueHasMutated();
-
-                                        _.each(cmsPagesBaseData(), function (item) {
-                                            cmsPagesForStoreLayout.push(item);
-                                        });
-                                    }
+                                   
                                     isBaseDataLoaded(true);
                                 }
                                 isLoadingStores(false);
@@ -3729,6 +3747,8 @@ define("stores/stores.viewModel",
                     edittedCompanyContacts.removeAll();
                     newCompanyContacts.removeAll();
                     parentCategories.removeAll();
+                    themes.removeAll();
+                    cmsPagesForStoreLayout.removeAll();
 
                     newAddedSecondaryPage.removeAll();
                     editedSecondaryPage.removeAll();
@@ -5200,7 +5220,9 @@ define("stores/stores.viewModel",
                     storeHeading: storeHeading,
                     productStatus: productStatus,
                     storeHasChanges: storeHasChanges,
-                    hasChangesOnStore: hasChangesOnStore
+                    hasChangesOnStore: hasChangesOnStore,
+                    calculateTaxByServiceHandler: calculateTaxByServiceHandler,
+                    vatHandler: vatHandler,
                 };
                 //#endregion
             })()

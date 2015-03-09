@@ -138,5 +138,13 @@ namespace MPC.Interfaces.Repository
         List<SaveDesignView> GetSavedDesigns(long ContactID);
 
         void RemoveItemAttacmentPhysically(List<ArtWorkAttatchment> attatchmentList);
+
+        /// <summary>
+        /// get all published products against a store
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <param name="OrganisationId"></param>
+        /// <returns></returns>
+        List<Item> GetProductsList(long CompanyId, long OrganisationId);
     }
 }

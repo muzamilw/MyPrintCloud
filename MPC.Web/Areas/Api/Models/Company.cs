@@ -39,7 +39,7 @@ namespace MPC.MIS.Areas.Api.Models
         public short? IsGeneral { get; set; }
         public int? SalesPerson { get; set; }
         public string StoreImagePath { get; set; }
-
+        public bool? isCalculateTaxByService { get; set; }
         public string ImageName { get; set; }
         public string WebAccessCode { get; set; }
         public bool? isArchived { get; set; }

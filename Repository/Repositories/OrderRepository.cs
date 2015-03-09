@@ -28,7 +28,7 @@ namespace MPC.Repository.Repositories
         private readonly IPrefixRepository _prefixrepository;
         private readonly IItemRepository _ItemRepository;
         private readonly IPrefixService _PrefixService;
-      //  public OrderRepository(IUnityContainer container, IWebstoreClaimsHelperService myClaimHelper, IPrefixService _PrefixService)
+        //  public OrderRepository(IUnityContainer container, IWebstoreClaimsHelperService myClaimHelper, IPrefixService _PrefixService)
         private readonly IItemAttachmentRepository _ItemAttachmentRepository;
         private readonly IOrganisationRepository _Organisationrepository;
 
@@ -298,20 +298,20 @@ namespace MPC.Repository.Repositories
                 //shopCart.ItemsSelectedAddonsList = childrenRecordsAllProductItemAddons;
 
                 //3. Extract company address if any
-               // shopCart.AddressesList = this.GetOrderCompanyAllAddresses(tblEstimate); //this.GetOrderCompanyBillingShipingAddresses(tblEstimate);
+                // shopCart.AddressesList = this.GetOrderCompanyAllAddresses(tblEstimate); //this.GetOrderCompanyBillingShipingAddresses(tblEstimate);
 
 
                 //4. Set Order Level Fields
-               // shopCart.DiscountVoucherID = (tblEstimate.DiscountVoucherID.HasValue && tblEstimate.DiscountVoucherID.Value > 0) ? tblEstimate.DiscountVoucherID.Value : 0;
-               // shopCart.VoucherDiscountRate = (tblEstimate.VoucherDiscountRate.HasValue && tblEstimate.VoucherDiscountRate.Value > 0) ? tblEstimate.VoucherDiscountRate.Value : 0;
+                // shopCart.DiscountVoucherID = (tblEstimate.DiscountVoucherID.HasValue && tblEstimate.DiscountVoucherID.Value > 0) ? tblEstimate.DiscountVoucherID.Value : 0;
+                // shopCart.VoucherDiscountRate = (tblEstimate.VoucherDiscountRate.HasValue && tblEstimate.VoucherDiscountRate.Value > 0) ? tblEstimate.VoucherDiscountRate.Value : 0;
                 //shopCart.DeliveryCostCenterID = (tblEstimate.DeliveryCostCenterId.HasValue && tblEstimate.DeliveryCostCenterId.Value > 0) ? tblEstimate.DeliveryCostCenterId.Value : 0;
-               // shopCart.DeliveryCost = (tblEstimate.DeliveryCost.HasValue && tblEstimate.DeliveryCost.Value > 0) ? tblEstimate.DeliveryCost.Value : 0;
+                // shopCart.DeliveryCost = (tblEstimate.DeliveryCost.HasValue && tblEstimate.DeliveryCost.Value > 0) ? tblEstimate.DeliveryCost.Value : 0;
                 //5. get delivery item 
-              //  Item DeliveryItemOfOrder = GetDeliveryOrderItem(tblEstimate.EstimateId);
-               // if (DeliveryItemOfOrder != null)
-               // {
+                //  Item DeliveryItemOfOrder = GetDeliveryOrderItem(tblEstimate.EstimateId);
+                // if (DeliveryItemOfOrder != null)
+                // {
                 //    shopCart.DeliveryTaxValue = DeliveryItemOfOrder.Qty1Tax1Value ?? 0;
-               // }
+                // }
 
             }
             catch (Exception ex)
@@ -518,7 +518,7 @@ namespace MPC.Repository.Repositories
                     {
                         tblContactCompanyAddList = tblOrder.Company.Addresses.ToList();
                     }
-                    
+
 
                     if (tblContactCompanyAddList != null && tblContactCompanyAddList.Count > 0)
                     {
@@ -599,7 +599,7 @@ namespace MPC.Repository.Repositories
             return true;
 
         }
-            
+
         public bool IsVoucherValid(string voucherCode)
         {
 
@@ -861,7 +861,7 @@ namespace MPC.Repository.Repositories
                         {
                             result = true;
                             dbContextTransaction.Commit();
-                            
+
                         }
                     }
                 }
@@ -1000,11 +1000,11 @@ namespace MPC.Repository.Repositories
 
                     userOrder.BillingAdress = db.Addesses.Where(i => i.AddressId == Order.BillingAddressId).FirstOrDefault();
                     userOrder.ShippingAddress = db.Addesses.Where(i => i.AddressId == Order.AddressId).FirstOrDefault();
-                    if (Order.DeliveryCostCenterId !=null )
+                    if (Order.DeliveryCostCenterId != null)
                     {
                         userOrder.DeliveryMethod = db.CostCentres.Where(c => c.CostCentreId == Order.DeliveryCostCenterId).Select(n => n.Name).FirstOrDefault();
                     }
-                    
+
                 }
 
             }
@@ -1858,10 +1858,10 @@ namespace MPC.Repository.Repositories
                         && tblOrd.StatusId != (int)OrderStatus.ShoppingCart // Not Shopping Cart
                         && tblOrd.StatusId != (int)OrderStatus.ArchivedOrder // Not Archived
                         && tblOrd.StatusId == (orderStatusID > 0 ? (short?)orderStatusID : tblOrd.StatusId)
-                           // && (tblOrd.CustomerPO.Contains(orderRefNumber)) //== ((orderRefNumber == null || orderRefNumber == "") ? tblOrd.CustomerPO : orderRefNumber) || tblcompany.Name.Contains(orderRefNumber) || tblContacts.FirstName.Contains(orderRefNumber) || tblContacts.LastName.Contains(orderRefNumber)) 
+                            // && (tblOrd.CustomerPO.Contains(orderRefNumber)) //== ((orderRefNumber == null || orderRefNumber == "") ? tblOrd.CustomerPO : orderRefNumber) || tblcompany.Name.Contains(orderRefNumber) || tblContacts.FirstName.Contains(orderRefNumber) || tblContacts.LastName.Contains(orderRefNumber)) 
                         && (actualFromDate.HasValue ? tblOrd.Order_Date >= actualFromDate : true)
                         && (actualToDate.HasValue ? tblOrd.StartDeliveryDate <= actualToDate : true)
-                            && (tblOrd.CustomerPO == ((orderRefNumber == null || orderRefNumber == "") ? tblOrd.CustomerPO : orderRefNumber) )
+                            && (tblOrd.CustomerPO == ((orderRefNumber == null || orderRefNumber == "") ? tblOrd.CustomerPO : orderRefNumber))
                         select new Order()
                         {
                             OrderID = tblOrd.EstimateId,
@@ -1872,13 +1872,13 @@ namespace MPC.Repository.Repositories
                             StatusTypeID = tblStatuses.StatusType,
                             ContactUserID = tblOrd.ContactId,
                             CustomerID = tblOrd.CompanyId,
-                            OrderDate =tblOrd.Order_Date,
+                            OrderDate = tblOrd.Order_Date,
                             DeliveryDate = tblOrd.StartDeliveryDate,
                             YourRef = tblOrd.CustomerPO,
                             ClientStatusID = tblOrd.ClientStatus,
-                           // SOrderDate =tblOrd.Order_Date.HasValue?tblOrd.Order_Date.Value.ToString("MMMM dd, yyyy"):string.Empty, // FormatDateValue(tblOrd.Order_Date),
-                           // SOrderDeliveryDate = tblOrd.StartDeliveryDate.HasValue? tblOrd.StartDeliveryDate.Value.ToString("MMMM dd, yyyy") : string.Empty,
-                           // ClientStatusName=tblStatuses.StatusName;
+                            // SOrderDate =tblOrd.Order_Date.HasValue?tblOrd.Order_Date.Value.ToString("MMMM dd, yyyy"):string.Empty, // FormatDateValue(tblOrd.Order_Date),
+                            // SOrderDeliveryDate = tblOrd.StartDeliveryDate.HasValue? tblOrd.StartDeliveryDate.Value.ToString("MMMM dd, yyyy") : string.Empty,
+                            // ClientStatusName=tblStatuses.StatusName;
                         };
             //query.ToList().ForEach(o => o.SOrderDate = o.DeliveryDate != null ? o.OrderDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
             //query.ToList().ForEach(o => o.SOrderDeliveryDate = o.DeliveryDate != null ? o.DeliveryDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
@@ -1899,7 +1899,7 @@ namespace MPC.Repository.Repositories
         }
         public Order GetOrderAndDetails(long orderID)
         {
-          //  db.Configuration.LazyLoadingEnabled = false;
+            //  db.Configuration.LazyLoadingEnabled = false;
             Estimate tblOrd = null;
             CompanyContact tblCC = null;
             //Model.ShoppingCart shopCart = null;
@@ -1931,28 +1931,28 @@ namespace MPC.Repository.Repositories
                     OrderDate = tblOrd.Order_Date,
                     DeliveryDate = tblOrd.StartDeliveryDate, //estimated Delivery date
                     DeliveryAddressID = tblOrd.AddressId,
-                    BillingAddressID =(long) tblOrd.BillingAddressId,
+                    BillingAddressID = (long)tblOrd.BillingAddressId,
                     YourRef = tblOrd.CustomerPO,
                     SpecialInstNotes = tblOrd.UserNotes,
                     PlacedBy = string.Format("{0} {1}", tblOrd.CompanyContact.FirstName, tblOrd.CompanyContact.LastName),
                     // CompanyName = tblCC.Name,
-                     OrderTotal = tblOrd.Estimate_Total ?? 0,
-                     DeliveryCost = tblOrd.DeliveryCost ??0,
-                     CompanyName = tblOrd.Company.Name
+                    OrderTotal = tblOrd.Estimate_Total ?? 0,
+                    DeliveryCost = tblOrd.DeliveryCost ?? 0,
+                    CompanyName = tblOrd.Company.Name
                 };
-               
-                    //userOrder.OrderDetails = this.ExtractShoppingCart(tblOrd);
-                    userOrder.OrderDetails = ExtractShoppingCartForOrder(tblOrd);
 
-                
-                
-                
+                //userOrder.OrderDetails = this.ExtractShoppingCart(tblOrd);
+                userOrder.OrderDetails = ExtractShoppingCartForOrder(tblOrd);
+
+
+
+
             }
             return userOrder;
         }
-        public Address GetAddress( long AddressId)
+        public Address GetAddress(long AddressId)
         {
-              
+
             return db.Addesses.Where(i => i.AddressId == AddressId).FirstOrDefault();
         }
         public long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID)
@@ -1960,7 +1960,7 @@ namespace MPC.Repository.Repositories
             Estimate ExistingOrder = null;
             Estimate shopCartOrder = null;
             bool result = false;
-           // DbTransaction transaction = null;
+            // DbTransaction transaction = null;
             List<Item> ClonedItems = new List<Item>();
             long OrderIdOfReorderItems = 0;
             using (var dbContextTransaction = db.Database.BeginTransaction())
@@ -2014,7 +2014,7 @@ namespace MPC.Repository.Repositories
                             Item item = _ItemRepository.CloneReOrderItem(OrderIdOfReorderItems, orderITem, loggedInContactID, shopCartOrder.Order_Code);
                             ClonedItems.Add(item);
                             CopyAttachments(orderITem.ItemId, item, shopCartOrder.Order_Code, false, shopCartOrder.CreationDate ?? DateTime.Now);
-                            
+
                         });
 
                         if (ExistingOrder.DiscountVoucherID.HasValue && ExistingOrder.VoucherDiscountRate > 0)
@@ -2029,7 +2029,7 @@ namespace MPC.Repository.Repositories
                         }
                         else if (isIncludeTax)// apply the new state Tax Value to the cloned item 
                         {
-                             ApplyCurrentTax(ClonedItems, StatTaxVal,TaxID);
+                            ApplyCurrentTax(ClonedItems, StatTaxVal, TaxID);
                         }
                         result = true;
                     }
@@ -2058,20 +2058,20 @@ namespace MPC.Repository.Repositories
                 return OrderIdOfReorderItems;
             }
         }
-        public  string GetTemplateAttachmentFileName(string ProductCode, string OrderCode, string ItemCode, string SideCode, string VirtualFolderPath, string extension, DateTime CreationDate)
+        public string GetTemplateAttachmentFileName(string ProductCode, string OrderCode, string ItemCode, string SideCode, string VirtualFolderPath, string extension, DateTime CreationDate)
         {
             string FileName = CreationDate.Year.ToString() + CreationDate.ToString("MMMM") + CreationDate.Day.ToString() + "-" + ProductCode + "-" + OrderCode + "-" + ItemCode + "-" + SideCode + extension;
 
             return FileName;
         }
 
-        public  bool RollBackDiscountedItemsWithdbContext( List<Item> clonedItems, double StateTax)
+        public bool RollBackDiscountedItemsWithdbContext(List<Item> clonedItems, double StateTax)
         {
             double QtyNewTotal = 0;
             double QtyTaxVal = 0;
-            Organisation  vwCompanySite = null;
-         //   CompanySiteManager compSiteManager = new CompanySiteManager();
-          //  vwCompanySite = compSiteManager.GetCompanySiteDataWithTaxes();
+            Organisation vwCompanySite = null;
+            //   CompanySiteManager compSiteManager = new CompanySiteManager();
+            //  vwCompanySite = compSiteManager.GetCompanySiteDataWithTaxes();
             if (clonedItems != null)
             {
                 foreach (var item in clonedItems.Where(i => i.ItemType != Convert.ToInt32(ItemTypes.Delivery)))
@@ -2255,7 +2255,7 @@ namespace MPC.Repository.Repositories
             }
 
         }
-      
+
         public bool CreatAndSaveThumnail(Stream oImgstream, string sideThumbnailPath)
         {
             try
@@ -2300,10 +2300,10 @@ namespace MPC.Repository.Repositories
                 return false;
             }
         }
-        public  bool ApplyCurrentTax(List<Item> ClonedITem, double TaxValue,int TaxID)
+        public bool ApplyCurrentTax(List<Item> ClonedITem, double TaxValue, int TaxID)
         {
             Organisation vwCompanySite = null;
-           // CompanySiteManager compSiteManager = new CompanySiteManager();
+            // CompanySiteManager compSiteManager = new CompanySiteManager();
             vwCompanySite = _Organisationrepository.GetCompanySiteDataWithTaxes();
             if (ClonedITem != null)
             {
@@ -2311,7 +2311,7 @@ namespace MPC.Repository.Repositories
                 {
                     item.Tax1 = TaxID;
                     item.Qty1GrossTotal = _ItemRepository.GrossTotalCalculation(item.Qty1NetTotal ?? 0, TaxValue);
-                    item.Qty1Tax1Value =  _ItemRepository.CalculatePercentage(item.Qty1NetTotal ?? 0, TaxValue);
+                    item.Qty1Tax1Value = _ItemRepository.CalculatePercentage(item.Qty1NetTotal ?? 0, TaxValue);
                 }
                 if (db.SaveChanges() > 0)
                 {
@@ -2334,7 +2334,7 @@ namespace MPC.Repository.Repositories
             List<ItemAttachment> attchmentRes = _ItemAttachmentRepository.GetItemAttactchments(itemID);
             List<ItemAttachment> Newattchments = new List<ItemAttachment>();
             ItemAttachment obj = null;
-           // MPCEntities dbContext = new MPCEntities();
+            // MPCEntities dbContext = new MPCEntities();
             foreach (ItemAttachment attachment in attchmentRes)
             {
                 obj = new ItemAttachment();
@@ -2343,7 +2343,7 @@ namespace MPC.Repository.Repositories
                 obj.Comments = attachment.Comments;
                 obj.ContactId = attachment.ContactId;
                 obj.ContentType = attachment.ContentType;
-              //  obj.custome = attachment.cu
+                //  obj.custome = attachment.cu
                 obj.FileTitle = attachment.FileTitle;
                 obj.FileType = attachment.FileType;
                 obj.FolderPath = attachment.FolderPath;
@@ -2363,7 +2363,7 @@ namespace MPC.Repository.Repositories
                     obj.FileName = GetAttachmentFileName(NewItem.ProductCode, OrderCode, NewItem.ItemCode, sideNumber.ToString() + "Copy", attachment.FolderPath, attachment.FileType, OrderCreationDate); //NewItemID + " Side" + sideNumber + attachment.FileType;
                 }
                 sideNumber += 1;
-                
+
                 db.ItemAttachments.Add(obj);
                 Newattchments.Add(obj);
 
@@ -2407,7 +2407,7 @@ namespace MPC.Repository.Repositories
             db.SaveChanges();
         }
 
-        public  List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber)
+        public List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber)
         {
 
             List<Order> ordersList = null;
@@ -2436,88 +2436,133 @@ namespace MPC.Repository.Repositories
 
             //}
 
-                var query = from tblOrd in db.Estimates
-                            join tblStatuses in db.Statuses on tblOrd.StatusId equals tblStatuses.StatusId
-                            join tblContacts in db.CompanyContacts on tblOrd.ContactId equals tblContacts.ContactId
-                            join tblcompany in db.Companies on tblContacts.CompanyId equals tblcompany.CompanyId
-                            orderby tblOrd.Order_Date descending
-                            where tblOrd.CompanyId == ContactCompany //|| tblOrd.ContactID == contactUserID// only that specific user
-                            && tblOrd.isEstimate == false
-                            && tblStatuses.StatusType == 2 //The status type should be 2 only for orders
-                            && tblOrd.StatusId != (int)OrderStatus.ShoppingCart // Not Shopping Cart
-                            && tblOrd.StatusId != (int)OrderStatus.ArchivedOrder // Not Archived
-                            //  && tblOrd.StatusID == (orderStatusID > 0 ? (short?)orderStatusID : tblOrd.StatusID)
-                            //  && tblOrd.CustomerPO.Contains(((orderRefNumber == null || orderRefNumber == "") ? tblOrd.CustomerPO : orderRefNumber)) //|| tblcompany.Name.Contains(orderRefNumber) || tblContacts.FirstName.Contains(orderRefNumber) || tblContacts.LastName.Contains(orderRefNumber) || tblOrd.Order_Code.Contains(orderRefNumber))
-                            // && (actualFromDate.HasValue ? tblOrd.Order_Date >= actualFromDate : true)
-                            //    && (actualToDate.HasValue ? tblOrd.Order_Date <= actualToDate : true)
+            var query = from tblOrd in db.Estimates
+                        join tblStatuses in db.Statuses on tblOrd.StatusId equals tblStatuses.StatusId
+                        join tblContacts in db.CompanyContacts on tblOrd.ContactId equals tblContacts.ContactId
+                        join tblcompany in db.Companies on tblContacts.CompanyId equals tblcompany.CompanyId
+                        orderby tblOrd.Order_Date descending
+                        where tblOrd.CompanyId == ContactCompany //|| tblOrd.ContactID == contactUserID// only that specific user
+                        && tblOrd.isEstimate == false
+                        && tblStatuses.StatusType == 2 //The status type should be 2 only for orders
+                        && tblOrd.StatusId != (int)OrderStatus.ShoppingCart // Not Shopping Cart
+                        && tblOrd.StatusId != (int)OrderStatus.ArchivedOrder // Not Archived
+                        //  && tblOrd.StatusID == (orderStatusID > 0 ? (short?)orderStatusID : tblOrd.StatusID)
+                        //  && tblOrd.CustomerPO.Contains(((orderRefNumber == null || orderRefNumber == "") ? tblOrd.CustomerPO : orderRefNumber)) //|| tblcompany.Name.Contains(orderRefNumber) || tblContacts.FirstName.Contains(orderRefNumber) || tblContacts.LastName.Contains(orderRefNumber) || tblOrd.Order_Code.Contains(orderRefNumber))
+                        // && (actualFromDate.HasValue ? tblOrd.Order_Date >= actualFromDate : true)
+                        //    && (actualToDate.HasValue ? tblOrd.Order_Date <= actualToDate : true)
 
-                            select new Order()
-                            {
-                                OrderID = tblOrd.EstimateId,
-                                OrderCode = tblOrd.Order_Code,
-                                ProductName = tblOrd.Estimate_Name,
-                                StatusID = tblOrd.StatusId,
-                                StatusName = tblStatuses.StatusName,
-                                StatusTypeID = tblStatuses.StatusType,
-                                ContactUserID = tblOrd.ContactId,
-                                CustomerID = tblOrd.CompanyId,
-                                OrderDate = tblOrd.Order_Date,
-                                DeliveryDate = tblOrd.StartDeliveryDate,
-                                YourRef = tblOrd.CustomerPO,
-                                CustomerName = tblContacts.FirstName,
-                                
-                                CompanyName = tblcompany.Name
-                            };
+                        select new Order()
+                        {
+                            OrderID = tblOrd.EstimateId,
+                            OrderCode = tblOrd.Order_Code,
+                            ProductName = tblOrd.Estimate_Name,
+                            StatusID = tblOrd.StatusId,
+                            StatusName = tblStatuses.StatusName,
+                            StatusTypeID = tblStatuses.StatusType,
+                            ContactUserID = tblOrd.ContactId,
+                            CustomerID = tblOrd.CompanyId,
+                            OrderDate = tblOrd.Order_Date,
+                            DeliveryDate = tblOrd.StartDeliveryDate,
+                            YourRef = tblOrd.CustomerPO,
+                            CustomerName = tblContacts.FirstName,
 
-                // filter list by status
-                List<Order> resultData = new List<Order>();
-                resultData = query.ToList<Order>();
-                if (orderStatusID > 0)
-                {
-                    resultData = resultData.Where(st => st.StatusID == orderStatusID).ToList();
-                }
-                // filter list by PO
-                if (!string.IsNullOrEmpty(orderRefNumber))
-                {
-                    resultData = resultData.Where(po => po.YourRef != null && po.YourRef.Contains(orderRefNumber)).ToList();
-                    // resultData = resultData.Where(po => po.YourRef == null ? po.YourRef != orderRefNumber : po.YourRef.Contains(orderRefNumber)).ToList();
-                }
+                            CompanyName = tblcompany.Name
+                        };
 
-                if (actualFromDate != null && actualToDate != null)
-                {
-                    resultData = resultData.Where(date => date.OrderDate >= actualFromDate && date.OrderDate <= actualToDate).ToList();
-                }
-                else if (actualFromDate != null)
-                {
-                    resultData = resultData.Where(fromdate => fromdate.OrderDate >= actualFromDate).ToList();
-                }
-                else if (actualToDate != null)
-                {
-                    resultData = resultData.Where(todate => todate.OrderDate <= actualToDate).ToList();
-                }
-
-                //resultsCount = resultData.Count();
-                //if (resultsCount > 0 && resultsCount > pageSize)
-                //{
-                //    startIndex = OrderManager.GetStartPageIndex(pageNumber, pageSize);
-                //    ordersList = resultData.Skip(startIndex).Take(pageSize).ToList(); //all records
-                //}
-                //else
-                //{
-                //    ordersList = resultData;
-                //}
-
-                resultData.ForEach(o => o.SOrderDate = o.DeliveryDate != null ? o.OrderDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
-                resultData.ForEach(o => o.SOrderDeliveryDate = o.DeliveryDate != null ? o.DeliveryDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
-                return resultData;
+            // filter list by status
+            List<Order> resultData = new List<Order>();
+            resultData = query.ToList<Order>();
+            if (orderStatusID > 0)
+            {
+                resultData = resultData.Where(st => st.StatusID == orderStatusID).ToList();
+            }
+            // filter list by PO
+            if (!string.IsNullOrEmpty(orderRefNumber))
+            {
+                resultData = resultData.Where(po => po.YourRef != null && po.YourRef.Contains(orderRefNumber)).ToList();
+                // resultData = resultData.Where(po => po.YourRef == null ? po.YourRef != orderRefNumber : po.YourRef.Contains(orderRefNumber)).ToList();
             }
 
-           // totalRecordsCount = resultsCount;
-            
+            if (actualFromDate != null && actualToDate != null)
+            {
+                resultData = resultData.Where(date => date.OrderDate >= actualFromDate && date.OrderDate <= actualToDate).ToList();
+            }
+            else if (actualFromDate != null)
+            {
+                resultData = resultData.Where(fromdate => fromdate.OrderDate >= actualFromDate).ToList();
+            }
+            else if (actualToDate != null)
+            {
+                resultData = resultData.Where(todate => todate.OrderDate <= actualToDate).ToList();
+            }
+
+            //resultsCount = resultData.Count();
+            //if (resultsCount > 0 && resultsCount > pageSize)
+            //{
+            //    startIndex = OrderManager.GetStartPageIndex(pageNumber, pageSize);
+            //    ordersList = resultData.Skip(startIndex).Take(pageSize).ToList(); //all records
+            //}
+            //else
+            //{
+            //    ordersList = resultData;
+            //}
+
+            resultData.ForEach(o => o.SOrderDate = o.DeliveryDate != null ? o.OrderDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
+            resultData.ForEach(o => o.SOrderDeliveryDate = o.DeliveryDate != null ? o.DeliveryDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
+            return resultData;
         }
-       
-    
+
+        /// <summary>
+        /// gets cart order by company id
+        /// </summary>
+        /// <param name="ContactId"></param>
+        /// <param name="TemporaryCustomerId"></param>
+        /// <returns></returns>
+        public long GetOrderIdByCompanyId(long CompanyId, OrderStatus orderStatus)
+        {
+            try
+            {
+                int orderStatusID = (int)orderStatus;
+
+                if (CompanyId > 0)
+                {
+                    db.Configuration.LazyLoadingEnabled = false;
+                    Estimate Order =
+                        db.Estimates
+                            .Where(
+                                order =>
+                                    order.CompanyId == CompanyId && order.StatusId == orderStatusID &&
+                                    order.isEstimate == false)
+                            .FirstOrDefault();
+                    if (Order != null)
+                    {
+                        return Order.EstimateId;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+
+                }
+                else
+                {
+                    return 0;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                return 0;
+            }
+        }
+
+
+
     }
+
+
+}
 
 
 

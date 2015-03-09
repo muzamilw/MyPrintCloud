@@ -148,7 +148,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 WebMasterTag = source.WebMasterTag,
                 FacebookURL = source.FacebookURL,
                 LinkedinURL = source.LinkedinURL,
-                WorkflowS2CBytes=workflowbytes,  // workflow image                
+                WorkflowS2CBytes=workflowbytes,
+                isCalculateTaxByService = source.isCalculateTaxByService,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCmykColors =
@@ -294,8 +295,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 UserDefinedSpriteImage = spriteBytes,
                 MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
                 CompanyContactCount = source.CompanyContacts != null ? source.CompanyContacts.Count : 0,
-                CompanyAddressesCount= source.Addresses != null ? source.Addresses.Count : 0
+                CompanyAddressesCount= source.Addresses != null ? source.Addresses.Count : 0,
+                isCalculateTaxByService = source.isCalculateTaxByService, 
                 };
+
         }
 
         /// <summary>
@@ -379,6 +382,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 FacebookURL = source.FacebookURL,
                 TwitterURL = source.TwitterURL,
                 LinkedinURL = source.LinkedinURL,
+                isCalculateTaxByService = source.isCalculateTaxByService ,  
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCMYKColors =

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
 using DomainReponseModels = MPC.Models.ResponseModels;
@@ -61,7 +62,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new SmartFormResponse
             {
-                SmartForms = source.SmartForms.Select(sf => sf.CreateFromForListView()).ToList(),
+                SmartForms = source.SmartForms!=null?source.SmartForms.Select(sf => sf.CreateFromForListView()).ToList():new List<SmartFormForListView>(),
                 TotalCount = source.RowCount,
             };
         }

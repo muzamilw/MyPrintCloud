@@ -199,21 +199,19 @@ namespace MPC.Webstore.Controllers
 
                     long Orderid = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.OrderId, user.CompanyId, user.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.OrganisationID);
 
+                    if (Orderid > 0)
+                        {
+                            UserCookieManager.TemporaryCompanyId = 0;
+                            Response.Redirect("/ShopCart/" + Orderid);
+                        }
                     if (ReturnUrl == "Social")
                     {
                         RedirectToLocal(ReturnUrl);
                     }
                     else
                     {
-                        if (Orderid > 0)
-                        {
-                            UserCookieManager.TemporaryCompanyId = 0;
-                            Response.Redirect("/ShopCart/" + Orderid);
-                        }
-                        else
-                        {
-                            Response.Redirect("/");
-                        }
+                        Response.Redirect("/");
+                        
                     }
                     return null;
                 }
