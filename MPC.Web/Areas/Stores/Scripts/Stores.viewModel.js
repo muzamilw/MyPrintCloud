@@ -3434,10 +3434,7 @@ define("stores/stores.viewModel",
                                     selectedStore().mediaLibraries.push(model.MediaLibrary.Create(item));
                                 });
 
-                                //Themes 
-                                themes.removeAll();
-                                ko.utils.arrayPushAll(themes(), data.Themes);
-                                themes.valueHasMutated();
+                                
                             }
                             allPagesWidgets.removeAll();
                             pageSkinWidgets.removeAll();
@@ -3579,6 +3576,11 @@ define("stores/stores.viewModel",
                                     fieldVariablesForSmartForm.push(model.FieldVariableForSmartForm.Create(item));
                                 });
 
+                                //Themes 
+                                themes.removeAll();
+                                ko.utils.arrayPushAll(themes(), data.Themes);
+                                themes.valueHasMutated();
+
                                 cmsPagesForStoreLayout.removeAll();
                                 if (data.CmsPageDropDownList !== null) {
                                     ko.utils.arrayPushAll(cmsPagesForStoreLayout(), data.CmsPageDropDownList);
@@ -3665,10 +3667,6 @@ define("stores/stores.viewModel",
                                     ko.utils.arrayPushAll(states(), data.States);
                                     states.valueHasMutated();
 
-                                    //Themes 
-                                    themes.removeAll();
-                                    ko.utils.arrayPushAll(themes(), data.Themes);
-                                    themes.valueHasMutated();
 
                                     _.each(data.Widgets, function (item) {
                                         widgets.push(model.Widget.Create(item));
@@ -3725,6 +3723,8 @@ define("stores/stores.viewModel",
                     edittedCompanyContacts.removeAll();
                     newCompanyContacts.removeAll();
                     parentCategories.removeAll();
+                    themes.removeAll();
+                    cmsPagesForStoreLayout.removeAll();
 
                     newAddedSecondaryPage.removeAll();
                     editedSecondaryPage.removeAll();
