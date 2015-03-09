@@ -537,7 +537,7 @@ define("stores/stores.viewModel",
                 searchCompanyTerritoryFilter = ko.observable(),
                 //Search Company Territory
                 searchCompanyTerritory = function () {
-                    if (isUserAndAddressesTabOpened() && selectedStore().companyId() != undefined) {
+                    if (isUserAndAddressesTabOpened() && selectedStore().companyId() != undefined && isEditorVisible()) {
                         dataservice.searchCompanyTerritory({
                             SearchFilter: searchCompanyTerritoryFilter(),
                             CompanyId: selectedStore().companyId(),
@@ -1485,7 +1485,7 @@ define("stores/stores.viewModel",
                 searchAddressFilter = ko.observable(),
                 //Search Address
                 searchAddress = function () {
-                    if (isUserAndAddressesTabOpened() && selectedStore().companyId() != undefined) {
+                    if (isUserAndAddressesTabOpened() && selectedStore().companyId() != undefined && isEditorVisible()) {
                         dataservice.searchAddress({
                             SearchFilter: searchAddressFilter(),
                             CompanyId: selectedStore().companyId(),
@@ -2134,7 +2134,7 @@ define("stores/stores.viewModel",
                 searchCompanyContactFilter = ko.observable(),
                 //Search Company Contact        
                 searchCompanyContact = function () {
-                    if (isUserAndAddressesTabOpened() && selectedStore().companyId() != undefined) {
+                    if (isUserAndAddressesTabOpened() && selectedStore().companyId() != undefined && isEditorVisible()) {
                         dataservice.searchCompanyContact({
                             SearchFilter: searchCompanyContactFilter(),
                             CompanyId: selectedStore().companyId(),
@@ -2246,6 +2246,11 @@ define("stores/stores.viewModel",
                         if (newAddresses != undefined && newAddresses().length == 0) {
                             if (newCompanyTerritories.length > 0) {
                                 selectedCompanyContact().territoryId(newCompanyTerritories()[0].territoryId());
+                            }
+                        }
+                        if (selectedStore().companyId() > 0) {
+                            if (selectedStore().companyTerritories().length > 0) {
+                                selectedCompanyContact().territoryId(selectedStore().companyTerritories()[0].territoryId());
                             }
                         }
                         //Updating role of user as "user", if is retail store
@@ -3303,6 +3308,8 @@ define("stores/stores.viewModel",
                         dataservice.saveStore(
                             storeToSave, {
                                 success: function (data) {
+                                    isStoreEditorVisible(false);
+                                    isEditorVisible(false);
                                     //new store adding
                                     if (selectedStore().companyId() == undefined || selectedStore().companyId() == 0) {
                                         selectedStore().companyId(data.CompanyId);
@@ -3328,8 +3335,8 @@ define("stores/stores.viewModel",
                                         });
                                     }
                                     //selectedStore().storeId(data.StoreId);
-                                    isStoreEditorVisible(false);
-                                    isEditorVisible(false);
+                                    
+                                    
                                     toastr.success("Successfully saved.");
                                     resetObservableArrays();
                                     if (callback && typeof callback === "function") {
@@ -3703,13 +3710,11 @@ define("stores/stores.viewModel",
                 resetObservableArrays = function () {
                     storeStatus("Stores Details");
                     isUserAndAddressesTabOpened(false);
+                    pickUpLocationValue(undefined);
                     companyTerritoryCounter = -1,
                     selectedStore().addresses.removeAll();
                     selectedStore().mediaLibraries.removeAll();
-                    //allCompanyAddressesList().removeAll();
-                    //bussinessAddresses().removeAll();
-                    //shippingAddresses().removeAll();
-                    
+                    allCompanyAddressesList.removeAll();
                     deletedAddresses.removeAll();
                     edittedAddresses.removeAll();
                     newAddresses.removeAll();
