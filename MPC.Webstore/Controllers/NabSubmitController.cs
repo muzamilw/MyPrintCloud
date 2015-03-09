@@ -338,12 +338,12 @@ namespace MPC.Webstore.Controllers
 
                                             long ManagerID = _CompanyService.GetContactIdByRole(modelOrder.CompanyId, (int)Roles.Manager);
                                             cep.CorporateManagerID = ManagerID;
-                                            _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactId), Convert.ToInt32(modelOrder.CompanyId), OrderID, UserCookieManager.OrganisationID, Convert.ToInt32(ManagerID), StoreMode.Corp, UserCookieManager.StoreId, EmailOFSM);
+                                            _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactId), Convert.ToInt32(modelOrder.CompanyId), model.OrderId, UserCookieManager.OrganisationID, Convert.ToInt32(ManagerID), StoreMode.Corp, UserCookieManager.StoreId, EmailOFSM);
                                         }
                                         else
                                         {
 
-                                            _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, OrderID, UserCookieManager.OrganisationID, 0, StoreMode.Retail, UserCookieManager.StoreId, EmailOFSM);
+                                            _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, model.OrderId, UserCookieManager.OrganisationID, 0, StoreMode.Retail, UserCookieManager.StoreId, EmailOFSM);
                                         }
 
                                         //in case of retail <<SalesManagerEmail>> variable should be resolved by organization's sales manager
