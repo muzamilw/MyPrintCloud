@@ -53,6 +53,11 @@ namespace MPC.Webstore.Controllers
                         OrderId = _OrderService.GetOrderIdByContactId(_myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID());
                         UserCookieManager.OrderId = OrderId;
                     }
+                    else if (UserCookieManager.TemporaryCompanyId > 0 && UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                    {
+                        OrderId = _OrderService.GetOrderIdByCompanyId(UserCookieManager.TemporaryCompanyId, OrderStatus.ShoppingCart);
+                        UserCookieManager.OrderId = OrderId;
+                    }
                 }
                 else
                 {

@@ -132,7 +132,7 @@
                             <br />
                             <br />
 
-                            <div class="clearBoth mainHeadingAveniorCheckout col-md-12 col-lg-12 col-xs-12">
+                            <div class="clearBoth mainHeadingAveniorCheckout">
                                 <label ID="Label1" >Choose Delivery Option</label>
                             </div>
                             <div>
@@ -206,7 +206,7 @@
                             <br />
                             <br />
                             @*<%--  shipping address panel --%>*@
-                            <div class="clearBoth mainHeadingAveniorCheckout col-md-12 col-lg-12 col-xs-12">
+                            <div class="clearBoth mainHeadingAveniorCheckout">
                                 <label ID="Label6" >Shipping Address</label>
                             </div>
                             <div id="divDeliveryAddress">
@@ -478,10 +478,10 @@
                                                 {
                                                     VatTotal += shopcart.Qty1Tax1Value ?? 0;
                                                     <tr class="gridViewCheckoutRowStyle" align="top">
-                                                        <td class="PaddingToCells" align="left">
+                                                        <td class="PaddingToCells" align="left" valign="top">
                                                             <span id="lblTotalItemQuantity" class="Fsize14" style="font-weight:bold;">@shopcart.Qty1</span>
                                                         </td>
-                                                        <td class="PaddingToCells" align="left">
+                                                        <td class="PaddingToCells" align="left" valign="top">
                                                             <span id="lblItemProductName" class="Fsize14" style="font-weight:bold;">@shopcart.ProductName</span>
                                                             <br>
                                                             <span id="lblPapErName">@shopcart.PaperType</span>
@@ -498,7 +498,7 @@
                                                         </td>
                                                         @if (UserCookieManager.ShowPriceOnWebstore)
                                                         {
-                                                            <td class="PaddingToCells" align="right">
+                                                            <td class="PaddingToCells" align="right" valign="top">
                                                                 @{
                                                             lblPrice = Convert.ToString(shopcart.Qty1BaseCharge1 ?? 0);
 
@@ -546,7 +546,7 @@
 
                                                                 <td align="right" width="20%">
                                                                     <label id="lblSubTotal" class="Fsize15 colorBlack"
-                                                                           style="margin-right: 13px;">@Model.Currency@SubTotal</label>
+                                                                           style="margin-right: 13px;">@Utils.FormatDecimalValueToTwoDecimal(@SubTotal.ToString(), @ViewBag.Currency)</label>
                                                                     </td>
                                                                 </tr>
                                                                 @if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
