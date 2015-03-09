@@ -323,6 +323,7 @@
     <Compile Include="Areas\Api\Controllers\GetThemeDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\InvoiceController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductCategoryController.cs" />
+    <Compile Include="Areas\Api\Controllers\LookupMethodController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseForCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemCloneController.cs" />
@@ -407,6 +408,7 @@
     <Compile Include="Areas\Api\Models\CompanyContactDropDownForOrder.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDown.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
+    <Compile Include="Areas\Api\Models\LookupMethodResponse.cs" />
     <Compile Include="Areas\Api\Models\ScopeVariable.cs" />
     <Compile Include="Areas\Api\Models\CompanyCostCentre.cs" />
     <Compile Include="Areas\Api\Models\CompanyDomain.cs" />
@@ -739,6 +741,10 @@
     <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.view.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventory.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethod.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethod.model.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethod.view.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethod.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\machine.dataservice.js" />
     <Content Include="Areas\Settings\Scripts\MIS\machine.model.js" />
     <Content Include="Areas\Settings\Scripts\MIS\machine.view.js" />
@@ -2989,6 +2995,7 @@
     <Folder Include="Areas\Api\Views\Customer\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
     <Folder Include="Areas\Api\Views\Invoice\" />
+    <Folder Include="Areas\Api\Views\LookupMethod\" />
     <Folder Include="Areas\Api\Views\Machine\" />
     <Folder Include="Areas\Api\Views\OrderRetailStore\" />
     <Folder Include="Areas\Api\Views\OrdersForCrm\" />
