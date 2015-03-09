@@ -123,7 +123,7 @@ namespace MPC.Repository.Repositories
         }
         public CompanyContact GetContactById(int contactId)
         {
-            return (from c in db.CompanyContacts.Include("CompanyTerritories")
+            return (from c in db.CompanyContacts.Include("CompanyTerritory")
                     where c.ContactId == contactId
                     select c).FirstOrDefault();
           
