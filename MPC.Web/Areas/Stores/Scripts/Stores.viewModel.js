@@ -3579,6 +3579,16 @@ define("stores/stores.viewModel",
                                     fieldVariablesForSmartForm.push(model.FieldVariableForSmartForm.Create(item));
                                 });
 
+                                cmsPagesForStoreLayout.removeAll();
+                                if (data.CmsPageDropDownList !== null) {
+                                    ko.utils.arrayPushAll(cmsPagesForStoreLayout(), data.CmsPageDropDownList);
+                                    cmsPagesForStoreLayout.valueHasMutated();
+
+                                    //_.each(cmsPagesBaseData(), function (item) {
+                                    //    cmsPagesForStoreLayout.push(item);
+                                    //});
+                                }
+
                                 ////Countries 
                                 //countries.removeAll();
                                 //ko.utils.arrayPushAll(countries(), data.Countries);
@@ -3672,15 +3682,7 @@ define("stores/stores.viewModel",
                                     selectedStore().userDefinedSpriteImageFileName("default.jpg");
                                     selectedStore().defaultSpriteImageSource(data.DefaultSpriteImageSource);
                                     selectedStore().customCSS(data.DefaultCompanyCss);
-                                    cmsPagesForStoreLayout.removeAll();
-                                    if (data.CmsPageDropDownList !== null) {
-                                        ko.utils.arrayPushAll(cmsPagesForStoreLayout(), data.CmsPageDropDownList);
-                                        cmsPagesForStoreLayout.valueHasMutated();
-
-                                        _.each(cmsPagesBaseData(), function (item) {
-                                            cmsPagesForStoreLayout.push(item);
-                                        });
-                                    }
+                                   
                                     isBaseDataLoaded(true);
                                 }
                                 isLoadingStores(false);

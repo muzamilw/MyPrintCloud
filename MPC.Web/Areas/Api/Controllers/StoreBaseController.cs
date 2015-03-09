@@ -56,7 +56,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                        FieldVariableResponse = result.FieldVariableResponse.CreateFrom(),
                        SmartFormResponse = result.SmartFormResponse.CreateFrom(),
                        FieldVariableForSmartForms = result.FieldVariablesForSmartForm.Select(fv => fv.CreateFromForSmartForm()),
-                      // CmsPageDropDownList = result.CmsPages != null ? result.CmsPages.Select(x => x.CreateFromForDropDown()) : null
+                       CmsPageDropDownList = result.CmsPages != null ? result.CmsPages.Select(x => x.CreateFromForDropDown()) : null
                    };
         }
         public CompanyBaseResponse Get()
@@ -115,7 +115,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                 Countries = result.Countries != null ? result.Countries.Select(x => x.CreateFromDropDown()) : new List<CountryDropDown>(),
                 States = result.States != null ? result.States.Select(x => x.CreateFromDropDown()) : new List<StateDropDown>(),
                 SectionFlags = result.SectionFlags != null ? result.SectionFlags.Select(flag => flag.CreateFromDropDown()) : new List<SectionFlagDropDown>(),
-                CmsPageDropDownList = result.CmsPages != null ? result.CmsPages.Select(cmspage => cmspage.CreateFromForDropDown()) : new List<CmsPageDropDown>(),
+               // CmsPageDropDownList = result.CmsPages != null ? result.CmsPages.Select(cmspage => cmspage.CreateFromForDropDown()) : new List<CmsPageDropDown>(),
                 Themes = themes,
                 PaymentMethods = result.PaymentMethods != null ? result.PaymentMethods.Select(pm => pm.CreateFrom()) : new List<PaymentMethod>()
             };
