@@ -125,7 +125,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" name="Web Access Code" class="form-control" id="txtWebAccessCode" placeholder="Enter Web Access Code" data-bind="value: webAccessCode, validationTooltip: webAccessCode, validationOnElement: webAccessCode">
-                                                    <span class="help-block text-right">URL http://pinkcards.com/corporatedemo/login</span>
+                                                    <span class="help-block text-right">URL http://pinkcards.com/store/corporatedemo</span>
                                                 </div>
                                             </div>
                                             @*<div class="form-group">
@@ -1453,8 +1453,33 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         </div>
                                     </div>
                                     <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Price Settings</h3>
+                                        <h3 class="group-header">Tax Settings</h3>
                                         <div class="col-lg-12 clearfix">
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Choose to show prices including or excluding local taxes." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Calculate Tax By Service</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="radio">
+                                                        <input type="radio" name="optionsRadios1" id="optionYes1" value="true" data-bind="checked: $root.selectedStore().isCalculateTaxByService, event:{click:$root.calculateTaxByServiceHandler}">
+                                                        <label for="optionYes1">
+                                                            Yes
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <input type="radio" name="optionsRadios1" id="optionNo1" value="false" data-bind="checked: $root.selectedStore().isCalculateTaxByService, event:{click:$root.calculateTaxByServiceHandler}">
+                                                        <label for="optionNo1">
+                                                            No
+                                                        </label>
+                                                    </div>
+                                                    <span class="help-block text-right">[No description provided!] </span>
+                                                </div>
+                                            </div>
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
@@ -1466,13 +1491,13 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadios" id="optionYes" value="true" data-bind="checked: $root.selectedStore().isIncludeVAT">
+                                                        <input type="radio" name="optionsRadios" id="optionYes" value="true" data-bind="checked: $root.selectedStore().isIncludeVAT, event:{click:$root.vatHandler}">
                                                         <label for="optionYes">
                                                             Yes
                                                         </label>
                                                     </div>
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadios" id="optionNo" value="false" data-bind="checked: $root.selectedStore().isIncludeVAT">
+                                                        <input type="radio" name="optionsRadios" id="optionNo" value="false" data-bind="checked: $root.selectedStore().isIncludeVAT, event:{click:$root.vatHandler}">
                                                         <label for="optionNo">
                                                             No
                                                         </label>

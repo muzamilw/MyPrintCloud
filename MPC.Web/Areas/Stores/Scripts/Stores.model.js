@@ -167,7 +167,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             productionManagerId1 = ko.observable(specifiedProductionManagerId1),
             productionManagerId2 = ko.observable(specifiedProductionManagerId2),
             stockNotificationManagerId1 = ko.observable(specifiedStockNotificationManagerId1),
-            stockNotificationManagerId2 = ko.observable(specifiedStockNotificationManagerId2), /////
+            stockNotificationManagerId2 = ko.observable(specifiedStockNotificationManagerId2),
             isStoreModePrivate = ko.observable(specifiedisStoreModePrivate),
             isTextWatermark = ko.observable(specifiedisTextWatermark),
             watermarkText = ko.observable(specifiedWatermarkText),
@@ -175,6 +175,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isBrokerCanAcceptPaymentOnline = ko.observable(specifiedisBrokerCanAcceptPaymentOnline),
             canUserPlaceOrderWithoutApproval = ko.observable(specifiedcanUserPlaceOrderWithoutApproval),
             isIncludeVAT = ko.observable(specifiedisIncludeVAT),
+            isCalculateTaxByService = ko.observable(undefined),   
             includeEmailBrokerArtworkOrderReport = ko.observable(specifiedincludeEmailBrokerArtworkOrderReport),
             includeEmailBrokerArtworkOrderXML = ko.observable(specifiedincludeEmailBrokerArtworkOrderXML),
             includeEmailBrokerArtworkOrderJobCard = ko.observable(specifiedincludeEmailBrokerArtworkOrderJobCard),
@@ -278,6 +279,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 avatRegNumber: avatRegNumber,
                 avatRegReference: avatRegReference,
                 phoneNo: phoneNo,
+                isCalculateTaxByService:isCalculateTaxByService,
                 isCustomer: isCustomer,
                 notes: notes,
                 webAccessCode: webAccessCode,
@@ -385,8 +387,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.PickupAddressId = source.pickupAddressId();
                 result.CompanyType = source.companyType() != undefined ? CompanyType().convertToServerData(source.companyType()) : null;
                 result.CustomCSS = source.customCSS();
-                result.StoreWorkflowImageName  = source.storeWorkflowImageName(); //here
+                result.StoreWorkflowImageName  = source.storeWorkflowImageName(); 
                 result.StoreWorkflowImageBytes = source.storeWorkflowImageBinary();
+                result.isCalculateTaxByService = source.isCalculateTaxByService();
                 result.RaveReviews = [];
                 result.PaymentGateways = [];
                 result.CompanyContacts = [];
@@ -472,6 +475,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             accountManagerId: accountManagerId,
             avatRegNumber: avatRegNumber,
             avatRegReference: avatRegReference,
+            isCalculateTaxByService:isCalculateTaxByService,
             phoneNo: phoneNo,
             isCustomer: isCustomer,
             notes: notes,
@@ -684,6 +688,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         store.companyType(CompanyType.Create(source.CompanyType));
         store.storeWorkflowImageName(source.StoreWorkflowImageName);
         store.storeWorkflowImageBinary(source.WorkflowS2CBytesConverter);
+        store.isCalculateTaxByService(source.isCalculateTaxByService==true ? 'true': 'false');
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
         //}

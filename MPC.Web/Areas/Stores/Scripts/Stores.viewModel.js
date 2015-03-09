@@ -439,6 +439,24 @@ define("stores/stores.viewModel",
                             }
                         });
                     },
+                    vatHandler = function (data) {
+                        var vat = selectedStore().isIncludeVAT();
+                            if (vat == 'true') {
+                                selectedStore().isCalculateTaxByService('false');
+                            } else {
+                                selectedStore().isCalculateTaxByService('true');
+                            }
+                            return true;
+                    },
+                     calculateTaxByServiceHandler = function (data) {
+                         var tax = selectedStore().isCalculateTaxByService();
+                         if (tax == 'true') {
+                             selectedStore().isIncludeVAT('false');
+                         } else {
+                             selectedStore().isIncludeVAT('true');
+                         }
+                         return true;
+                     },
                 //#endregion _____________________  S T O R E ____________________
 
                 // #region _________R A V E   R E V I E W_________________________
@@ -5158,6 +5176,8 @@ define("stores/stores.viewModel",
                     storeStatus: storeStatus,
                     storeHeading: storeHeading,
                     productStatus: productStatus,
+                    calculateTaxByServiceHandler: calculateTaxByServiceHandler,
+                    vatHandler: vatHandler,
                 };
                 //#endregion
             })()
